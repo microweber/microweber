@@ -292,7 +292,7 @@
                                         <h5 class="text-primary text-break-line-2">Around the world</h5>
                                     </div>
 
-                                    <div class="col-12 col-sm text-right">5 minutes ago</div>
+                                    <div class="col-12 col-sm text-end">5 minutes ago</div>
                                 </div>
                                 <div class="collapse" id="comments-1">
                                     <div class="row mt-3">
@@ -349,7 +349,7 @@
                                                         <div class="form-group">
                                                             <textarea></textarea>
                                                         </div>
-                                                        <div class="text-right">
+                                                        <div class="text-end">
                                                             <a href="dashboard.html" class="btn btn-outline-secondary btn-sm">Post Comment</a>
                                                         </div>
                                                     </div>

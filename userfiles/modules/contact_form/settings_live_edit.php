@@ -18,7 +18,7 @@ if (isset($params['for_module_id'])) {
         <div class="col">
             <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
         </div>
-        <div class="col text-right">
+        <div class="col text-end">
             <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
     </div>

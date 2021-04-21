@@ -102,7 +102,7 @@ if (!isset($tn[1])) {
                                 <?php endif; ?>
                             </div>
 
-                            <div class="col-6 text-right">
+                            <div class="col-6 text-end">
                                 <?php if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields))): ?>
                                     <a href="javascript:;" onclick="mw.cart.add('.shop-products .item-<?php print $item['id'] ?>');" class="btn btn-primary"><i class="material-icons">shopping_cart</i> Add to cart</a>
                                 <?php endif; ?>

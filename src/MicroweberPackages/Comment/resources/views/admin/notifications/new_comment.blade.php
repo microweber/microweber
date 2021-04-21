@@ -19,7 +19,7 @@
                 <?php endif; ?>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php _e(mw('format')->ago($notification['created_at'])); ?></div>
+            <div class="col-12 col-sm text-end"><?php _e(mw('format')->ago($notification['created_at'])); ?></div>
         </div>
         <div class="collapse" id="notif-item-<?php print $id ?>">
             <?php if (isset($article['full_url'])): ?>
@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     <textarea></textarea>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-end">
                                     <a href="dashboard.html" class="btn btn-outline-secondary btn-sm">Post Comment</a>
                                 </div>
                             </div>
