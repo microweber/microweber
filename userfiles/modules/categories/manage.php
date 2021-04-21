@@ -38,9 +38,28 @@
                 if (isset($params['page-id']) and $params['page-id'] != false) {
                     $mainFilterTree['rel_id'] = intval($params['page-id']);
                 }
+                $more_link_params_txt = '';
+                if(isset($params['show_add_post_to_category_button'])){
+                    $more_link_params_txt   =$more_link_params_txt. "<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_add_post_to_category_from_modal({id})'>  <span>". _e("Add to category", true) . "</span> </span>";
+                }
+
+
+
+
+
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
+
+                    if(isset($params['show_add_post_to_category_button'])){
+                        $more_link_params_txt   =$more_link_params_txt. "<span class=\"mr-1 btn btn-outline-primary mdi mdi-folder-edit btn-sm\"  onclick='mw.quick_cat_edit({id})'>  </span>  <span class=\" mr-1 btn btn-outline-danger mdi mdi-delete btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>"."</span></span>";
+
+                    } else {
+                        $more_link_params_txt   =$more_link_params_txt. "<span class=\"mr-1 btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
+
+                    }
+
+
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title} {$more_link_params_txt}  ";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
@@ -169,8 +188,12 @@
                     }
 
                 }
+                mw.quick_cat_add_post_to_category_from_modal = function (id) {
+                     mw.top().trigger("mwSelectToAddCategoryToContent", id);
 
 
+
+                }
                 mw.quick_cat_edit = function (id) {
                     if (!!id) {
                         var modalTitle = '<?php _e('Edit category'); ?>';

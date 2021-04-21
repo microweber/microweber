@@ -309,6 +309,20 @@
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
         this.append = function (el) {
 
             if (el) {

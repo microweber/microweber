@@ -35,13 +35,40 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
+$allPackages = [];
+$localPackages = mw()->update->collect_local_data();
+foreach($localPackages['modules'] as $package) {
+    $allPackages[] = $package;
+}
+foreach($localPackages['templates'] as $package) {
+    $allPackages[] = $package;
+}
+
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
 foreach($composerClient->search() as $packageName=>$versions) {
     foreach($versions as $version) {
+
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
         $version['versions'] = $versions;
+
+        if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
+            continue;
+        }
+
+        $currentInstall = false;
+        foreach($allPackages as $module) {
+            if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+                $currentInstall = [];
+                $currentInstall['composer_type'] = $version['type'];
+                $currentInstall['local_type'] = $version['type'];
+                $currentInstall['module'] = $module['name'];
+                break;
+            }
+        }
+        $version['current_install'] = $currentInstall;
+
         $search_packages[$packageName] = $version;
     }
 }
@@ -82,8 +109,13 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 }
 
+$packages_by_type_reorder = $packages_by_type;
+
+$packages_by_type = [];
+$packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
+$packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
-// dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
@@ -274,13 +306,16 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <script>
             $(document).ready(function () {
                 $('.mw-sel-item-key-install').change(function () {
+
                     var val = $("option:selected", this).val();
                     var vkey = $(this).data('vkey');
                     var holder = mw.tools.firstParentOrCurrentWithClass(this, 'js-package-install-content');
+
                     $('.js-package-install-btn', holder).html("Install " + val);
-                    $('.js-package-install-btn', holder).data('vkey', val);
+                    $('.js-package-install-btn', holder).attr('vkey', val);
                     $('.js-package-install-btn', holder).show();
                     $('.js-package-install-btn-help-text', holder).hide();
+
                 });
             });
         </script>
