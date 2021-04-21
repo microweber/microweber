@@ -156,8 +156,6 @@ class MicroweberComposerClient {
 
     public function install($package)
     {
-        $done = false;
-
         $type = 'microweber-module';
             if (isset($package['type'])) {
                 $type = $package['type'];
@@ -178,7 +176,7 @@ class MicroweberComposerClient {
         $done = rename($package['unzipped_files_location'],$packageFileDestination);
 
         if ($done) {
-            
+
             $response = array();
             $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
             $response['log'] = 'Done!';
