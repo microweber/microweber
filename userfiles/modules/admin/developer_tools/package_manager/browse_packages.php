@@ -109,8 +109,13 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 }
 
+$packages_by_type_reorder = $packages_by_type;
+
+$packages_by_type = [];
+$packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
+$packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
-// dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
