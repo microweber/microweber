@@ -181,8 +181,8 @@ class MicroweberComposerClient {
             $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
             $response['log'] = 'Done!';
 
-            app()->update->post_update();
-            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+          //  app()->update->post_update();
+           // scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
             return $response;
         }
