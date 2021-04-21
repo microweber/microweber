@@ -175,7 +175,7 @@ class MicroweberComposerClient {
             return false;
         }
 
-        rename($package['unzipped_files_location'],$packageFileDestination);
+        $done = rename($package['unzipped_files_location'],$packageFileDestination);
 
         if ($done) {
             $response = array();
