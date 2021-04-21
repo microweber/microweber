@@ -36,7 +36,14 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
+$allPackages = [];
 $localPackages = mw()->update->collect_local_data();
+foreach($localPackages['modules'] as $package) {
+    $allPackages[] = $package;
+}
+foreach($localPackages['templates'] as $package) {
+    $allPackages[] = $package;
+}
 
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
@@ -51,7 +58,7 @@ foreach($composerClient->search() as $packageName=>$versions) {
         }
 
         $currentInstall = false;
-        foreach($localPackages['modules'] as $module) {
+        foreach($allPackages as $module) {
             if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
                 $currentInstall = [];
                 $currentInstall['composer_type'] = $version['type'];
