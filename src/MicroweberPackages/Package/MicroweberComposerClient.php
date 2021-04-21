@@ -122,7 +122,7 @@ class MicroweberComposerClient {
             $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
 
             $this->_removeFilesFromPath($packageFileDestination); // remove dir
-            mkdir_recursive($packageFileDestination); // make new dir 
+            mkdir_recursive($packageFileDestination); // make new dir
 
             $this->log('Downloading the package file..');
 
