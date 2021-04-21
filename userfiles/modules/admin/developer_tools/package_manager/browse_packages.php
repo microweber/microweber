@@ -307,13 +307,16 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <script>
             $(document).ready(function () {
                 $('.mw-sel-item-key-install').change(function () {
+
                     var val = $("option:selected", this).val();
                     var vkey = $(this).data('vkey');
                     var holder = mw.tools.firstParentOrCurrentWithClass(this, 'js-package-install-content');
+
                     $('.js-package-install-btn', holder).html("Install " + val);
-                    $('.js-package-install-btn', holder).data('vkey', val);
+                    $('.js-package-install-btn', holder).attr('vkey', val);
                     $('.js-package-install-btn', holder).show();
                     $('.js-package-install-btn-help-text', holder).hide();
+
                 });
             });
         </script>
