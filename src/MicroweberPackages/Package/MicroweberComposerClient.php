@@ -121,8 +121,8 @@ class MicroweberComposerClient {
             $packageFileName = 'last-package.zip';
             $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
 
-            rmdir_recursive($packageFileDestination); // remove dir
-            mkdir_recursive($packageFileDestination); // make new dir
+            $this->_removeFilesFromPath($packageFileDestination); // remove dir
+            mkdir_recursive($packageFileDestination); // make new dir 
 
             $this->log('Downloading the package file..');
 
@@ -188,7 +188,7 @@ class MicroweberComposerClient {
             return false;
         }
 
-        rmdir_recursive($packageFileDestination); // remove dir
+        $this->_removeFilesFromPath($packageFileDestination); // remove dir
 
         @rename($package['unzipped_files_location'],$packageFileDestination);
 
@@ -200,6 +200,29 @@ class MicroweberComposerClient {
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
         return $response;
+    }
+
+    /**
+     * Remove dir recursive
+     * @param string $dir
+     */
+    private function _removeFilesFromPath($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        try {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($files as $fileinfo) {
+                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+                @$todo($fileinfo->getRealPath());
+            }
+        } catch (\Exception $e) {
+            // Cant remove files from this path
+        }
+
+        @rmdir($dir);
     }
 
     public function newLog($log)
