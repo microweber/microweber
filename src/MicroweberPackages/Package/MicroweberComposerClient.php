@@ -70,32 +70,27 @@ class MicroweberComposerClient {
             return array('error' => 'Error. Cannot find any packages.');
         }
 
-        $needConfirm = true;
         $confirmKey = 'composer-confirm-key-' . rand();
         if (isset($params['confirm_key'])) {
             $isConfirmed = cache_get($params['confirm_key'], 'composer');
             if ($isConfirmed) {
-                $needConfirm = false;
+                $search[0]['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
+                return $this->install($search[0]);
             }
         }
 
-        if ($needConfirm) {
+        $this->downloadPackage($search[0], $confirmKey);
+        $this->clearLog();
 
-            $this->downloadPackage($search[0], $confirmKey);
-            $this->clearLog();
-
-            return array(
-                'error' => 'Please confirm installation',
-                'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
-                'form_data_module_params' => array(
-                    'confirm_key' => $confirmKey,
-                    'require_name' => $params['require_name'],
-                    'require_version' => $params['require_version']
-                )
-            );
-        }
-
-       // $this->install($search[0]);
+        return array(
+            'error' => 'Please confirm installation',
+            'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
+            'form_data_module_params' => array(
+                'confirm_key' => $confirmKey,
+                'require_name' => $params['require_name'],
+                'require_version' => $params['require_version']
+            )
+        );
     }
 
     public function downloadPackage($package, $confirmKey)
@@ -108,8 +103,8 @@ class MicroweberComposerClient {
                 return false;
             }
 
-            $packageFileName = str_slug($package['name']).'.zip';
-            $packageFileDestination = storage_path() .'/cache/composer/';
+            $packageFileName = 'last-package.zip';
+            $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
 
             if (!is_dir($packageFileDestination)) {
                 mkdir_recursive($packageFileDestination);
@@ -136,6 +131,8 @@ class MicroweberComposerClient {
                 $composerConfirm = array();
                 $composerConfirm['user'] = $scanDestination;
                 $composerConfirm['packages'] = $scanDestination;
+                $composerConfirm['unzipped_files_location'] = $packageFileDestination;
+
                 cache_save($composerConfirm, $confirmKey, 'composer');
 
                 return true;
@@ -161,7 +158,6 @@ class MicroweberComposerClient {
     {
         $done = false;
 
-      /*
         $type = 'microweber-module';
             if (isset($package['type'])) {
                 $type = $package['type'];
@@ -173,8 +169,13 @@ class MicroweberComposerClient {
 
         if ($type == 'microweber-template') {
             $packageFileDestination = userfiles_path() .'/templates/'.$package['target-dir'].'/';
-        }*/
+        }
 
+        if (!isset($package['unzipped_files_location'])) {
+            return false;
+        }
+
+        rename($package['unzipped_files_location'],$packageFileDestination);
 
         if ($done) {
             $response = array();
