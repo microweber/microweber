@@ -499,7 +499,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <hr class="thin"/>
 
-                    <div class="text-end">
+                    <div class="text-right">
                         <button class="btn btn-success btn-sm" id="saveData">Save</button>
                     </div>
                 </div>

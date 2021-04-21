@@ -217,7 +217,7 @@ if (!isset($data['client_company'])) {
                 </div>
             </div>
 
-            <div class="mw-ui-field-holder text-end">
+            <div class="mw-ui-field-holder text-right">
                 <input type="submit" name="submit" value="Save" class="btn btn-success btn-sm"/>
             </div>
         </div>

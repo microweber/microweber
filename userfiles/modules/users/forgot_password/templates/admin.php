@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group text-end">
+        <div class="form-group text-right">
             <button type="submit" id="submit" class="btn btn-outline-primary btn-sm"><?php print $form_btn_title; ?></button>
         </div>
     </form>

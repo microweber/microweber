@@ -306,7 +306,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         </div>
 
-        <div class="text-end">
+        <div class="text-right">
             <a href="javascript:;" onclick="mw.show_licenses_modal();">My Licenses</a>
             <script>
                 mw.show_licenses_modal = function () {
