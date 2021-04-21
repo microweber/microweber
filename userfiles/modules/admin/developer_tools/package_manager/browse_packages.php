@@ -43,6 +43,11 @@ foreach($composerClient->search() as $packageName=>$versions) {
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
         $version['versions'] = $versions;
+        
+        if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
+            continue;
+        }
+
         $search_packages[$packageName] = $version;
     }
 }
