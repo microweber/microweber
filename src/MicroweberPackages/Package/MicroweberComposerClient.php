@@ -106,13 +106,13 @@ class MicroweberComposerClient {
             $packageFileName = 'last-package.zip';
             $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
 
-            if (!is_dir($packageFileDestination)) {
-                mkdir_recursive($packageFileDestination);
-            }
+            rmdir_recursive($packageFileDestination); // remove dir
+            mkdir_recursive($packageFileDestination); // make new dir
 
             $this->log('Downloading the package file..');
 
             $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName, $this->logfile);
+
             if ($downloadStatus) {
 
                 $this->log('Extract the package file..');
@@ -173,19 +173,18 @@ class MicroweberComposerClient {
             return false;
         }
 
-        $done = @rename($package['unzipped_files_location'],$packageFileDestination);
+        rmdir_recursive($packageFileDestination); // remove dir
 
-        if ($done) {
+        @rename($package['unzipped_files_location'],$packageFileDestination);
 
-            $response = array();
-            $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
-            $response['log'] = 'Done!';
+        $response = array();
+        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
+        $response['log'] = 'Done!';
 
-            //app()->update->post_update();
-            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+        //app()->update->post_update();
+        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
-            return $response;
-        }
+        return $response;
     }
 
     public function newLog($log)

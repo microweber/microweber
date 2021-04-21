@@ -49,6 +49,7 @@ $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
 foreach($composerClient->search() as $packageName=>$versions) {
     foreach($versions as $version) {
+
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
         $version['versions'] = $versions;
