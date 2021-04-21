@@ -45,7 +45,7 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-start">
                         <h5 class="text-primary text-break-line-2"><?php print content_title($content['rel_id']); ?></h5>
                     </div>
 
