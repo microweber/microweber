@@ -206,20 +206,6 @@ ul.mw-default-layout-background-text {
     border: 1px solid rgba(51, 51, 51, 0.1);
     padding: 0.8em;
 }
-/*END LIVE EDIT STATIC LAYOUTS*/
-
-/*
-*    <div class="mw-module-container">
-*        <module type=".....
-*    </div>
-*/
-.mw-module-container{
-    display: flex;
-}
-.mw-module-container-center{
-    display: flex;
-    justify-content: center;
-}
 
 
 
