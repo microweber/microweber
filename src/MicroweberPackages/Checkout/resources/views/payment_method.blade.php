@@ -13,7 +13,11 @@
             <ul>
                 @foreach ($errors as $fields)
                     @foreach ($fields as $field)
+                        @if (is_string($field))
                         <li>{!! $field !!}</li>
+                        @else
+                            <li>  {{_e('Error when trying to finish the payment')}}</li>
+                        @endif
                     @endforeach
                 @endforeach
             </ul>
