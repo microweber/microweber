@@ -34,6 +34,9 @@
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
+            if (this.settings.className) {
+                el.className = this.settings.className;
+            }
 
             if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
@@ -42,12 +45,14 @@
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
                         scope.append(el);
                     });
                 } else {
+
                     this.append(this.settings.content);
                 }
             }
@@ -175,6 +180,7 @@
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) return this;
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -324,7 +330,6 @@
             return res;
         };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));
@@ -450,8 +455,7 @@
                 props: {}
             };
 
-            this.settings = $.extend({}, defaults, options);
-
+            this.settings = mw.object.extend({}, defaults, options);
             if(this._asElement) return;
             this.create();
             this.setProps();

@@ -4856,7 +4856,16 @@ mw.cart = {
 
     },
 
-    checkout: function (selector, callback) {
+    checkout: function (selector, callback, beforeRedirect) {
+
+        if (!beforeRedirect) {
+            beforeRedirect = function () {
+                return new Promise(function (){
+                    resolve();
+                });
+            };
+        }
+
         var form = mw.$(selector);
         $(document).trigger("checkoutBeforeProcess", form);
 
@@ -4932,8 +4941,10 @@ mw.cart = {
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
-                                    window.location.href = data2.redirect;
-                                }, 100)
+                                    beforeRedirect().then(function (){
+                                        window.location.href = data2.redirect;
+                                    });
+                                }, 100);
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);
@@ -9214,9 +9225,6 @@ var domHelp = {
         return final;
     },
 
-    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
-        return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
-    },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
         while (curr && curr !== document.body) {
@@ -10019,6 +10027,9 @@ mw.dropdown = mw.tools.dropdown;
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
+            if (this.settings.className) {
+                el.className = this.settings.className;
+            }
 
             if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
@@ -10027,12 +10038,14 @@ mw.dropdown = mw.tools.dropdown;
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
                         scope.append(el);
                     });
                 } else {
+
                     this.append(this.settings.content);
                 }
             }
@@ -10160,6 +10173,7 @@ mw.dropdown = mw.tools.dropdown;
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) return this;
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -10294,8 +10308,21 @@ mw.dropdown = mw.tools.dropdown;
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));
@@ -10421,8 +10448,7 @@ mw.dropdown = mw.tools.dropdown;
                 props: {}
             };
 
-            this.settings = $.extend({}, defaults, options);
-
+            this.settings = mw.object.extend({}, defaults, options);
             if(this._asElement) return;
             this.create();
             this.setProps();
@@ -15283,6 +15309,10 @@ mw.storage = {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
                     if(e.newValue === null){
+                        return;
+                    }
+
+                    if(e.oldValue === null){
                         return;
                     }
                    

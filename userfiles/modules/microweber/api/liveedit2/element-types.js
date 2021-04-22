@@ -117,12 +117,11 @@ export class ElementAnalyzerServiceBase {
 
 export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  {
 
-    #tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
-    #dropableElements;
 
     constructor(settings) {
         super();
         this.settings = settings;
+        this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
         this.init();
     }
 
@@ -167,7 +166,7 @@ export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  
     }
 
     dropableElements (){
-        return #dropableElements;
+        return this._dropableElements;
     }
 
     getTarget (node) {
@@ -180,7 +179,7 @@ export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  
     }
 
     init () {
-        this.#dropableElements = [
+        this._dropableElements = [
             this.settings.elementClass,
             this.settings.cloneableClass,
             this.settings.editClass,
