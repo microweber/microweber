@@ -68,7 +68,8 @@ if ($module_template != false) {
         </div>
     <?php else: ?>
 
-        <div class="mw-ui-box m-t-20">
+     <?php
+        /*   <div class="mw-ui-box m-t-20">
             <div class="mw-ui-box-header">
                 <i class="mw-icon-gear mr-1"></i>
                 <label claas="control-label font-weight-bold"><?php _e("Skin settings"); ?></label>
@@ -84,7 +85,8 @@ if ($module_template != false) {
                 <module type="btn" template="bootstrap_settings"/>
             </div>
         </div>
-
+*/
+        ?>
     <?php endif; ?>
 </div>
 
