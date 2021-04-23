@@ -31,6 +31,7 @@ class ProductControllerTest extends TestCase
         $categoryIds[] = $category->id;
 
         $title = 'Iphone and spire 4ever! - '. rand();
+        $title2 = 'Iphone and spire 4ever! 2 - '. rand();
         $contentBody = 'This is my cool product descriotion.';
 
         $price = rand(111,999);
@@ -61,11 +62,72 @@ class ProductControllerTest extends TestCase
         );
 
         $productDataSaved = $response->getData()->data;
-
+        $this->assertEquals($productDataSaved->title, $title);
         $this->assertEquals($productDataSaved->price, $price);
         $this->assertEquals($productDataSaved->qty, $qty);
         $this->assertEquals($productDataSaved->sku, $sku);
 
+
+
+        $response = $this->call(
+            'PUT',
+            route('api.product.update', [
+                'product' => $productDataSaved->id,
+                'title' => $title2,
+            ])
+
+        );
+
+        $this->assertEquals(200, $response->status());
+        $productDataSaved = $response->getData()->data;
+
+        $this->assertEquals($productDataSaved->title, $title2);
+        $this->assertEquals($productDataSaved->price, $price);
+        $this->assertEquals($productDataSaved->qty, $qty);
+        $this->assertEquals($productDataSaved->sku, $sku);
+
+
+        $response = $this->call(
+            'PUT',
+            route('api.product.update', [
+                'product' => $productDataSaved->id,
+                'price' => '',
+            ])
+
+        );
+        $this->assertEquals(200, $response->status());
+
+        $productDataSaved = $response->getData()->data;
+        $this->assertEquals($productDataSaved->price, null);
+
+
+        $response = $this->call(
+            'PUT',
+            route('api.product.update', [
+                'product' => $productDataSaved->id,
+                'price' => '0',
+            ])
+
+        );
+        $this->assertEquals(200, $response->status());
+
+        $productDataSaved = $response->getData()->data;
+        $this->assertEquals($productDataSaved->price, 0);
+
+
+
+        $response = $this->call(
+            'PUT',
+            route('api.product.update', [
+                'product' => $productDataSaved->id,
+                'price' => $price,
+            ])
+
+        );
+        $this->assertEquals(200, $response->status());
+
+        $productDataSaved = $response->getData()->data;
+        $this->assertEquals($productDataSaved->price, $price);
     }
 
     public function testSaveProductFromController()

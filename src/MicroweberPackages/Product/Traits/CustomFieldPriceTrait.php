@@ -7,7 +7,6 @@ use MicroweberPackages\Product\Models\ProductPrice;
 trait CustomFieldPriceTrait
 {
 
-    private $_addCustomFields = [];
     private $_addPriceField = null;
     private $_removePriceField = null;
     private $_addSpecialPriceField = null;
