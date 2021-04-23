@@ -10,6 +10,7 @@ namespace MicroweberPackages\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
@@ -17,6 +18,7 @@ use MicroweberPackages\Order\Models\Order;
 
 class CheckoutController extends Controller {
 
+    use LiveEditTrait;
     use ContactInformationTrait;
     use ShippingTrait;
     use PaymentTrait;
@@ -61,12 +63,14 @@ class CheckoutController extends Controller {
             return redirect(site_url());
         }
 
-        $findOrder = Order::where('id', $id)->where('created_by', user_id())->first();
+        $findOrder = Order::where('id', $id)->first();
         if ($findOrder == null) {
             return redirect(site_url());
         }
 
-        return $this->_renderView('checkout::finish', ['order'=>$findOrder->toArray()]);
+        return $this->_renderView('checkout::finish', ['order'=>[
+            'id'=>$findOrder->id
+        ]]);
     }
 
     public function _renderView($view, $data = [])
@@ -76,6 +80,8 @@ class CheckoutController extends Controller {
         // Append api js
         $html = app()->template->append_api_js_to_layout($html);
 
+        $html = $this->appendLiveEdit($html);
+
         return app()->parser->process($html);
     }
 
@@ -83,10 +89,9 @@ class CheckoutController extends Controller {
      * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
      * @param Request $request
      * @return bool[]
-
+    */
     public function validate(Request $request)
     {
-
         $rules = [];
 
         if (get_option('shop_require_first_name', 'website') == 1) {
@@ -101,32 +106,8 @@ class CheckoutController extends Controller {
             $rules['email'] = 'required|email';
         }
 
-        if (get_option('shop_require_state', 'website') == 1) {
-            $rules['state'] = 'required';
-        }
-
-        if (get_option('shop_require_country', 'website') == 1) {
-            $rules['country'] = 'required';
-        }
-
         if (get_option('shop_require_phone', 'website') == 1) {
             $rules['phone'] = 'required';
-        }
-
-        if (get_option('shop_require_address', 'website') == 1) {
-            $rules['address'] = 'required';
-        }
-
-        if (get_option('shop_require_city', 'website') == 1) {
-            $rules['city'] = 'required';
-        }
-
-        if (get_option('shop_require_zip', 'website') == 1) {
-            $rules['zip'] = 'required';
-        }
-
-        if (get_option('shop_require_state', 'website') == 1) {
-            $rules['state'] = 'required';
         }
 
         if (empty($rules)) {
@@ -135,19 +116,11 @@ class CheckoutController extends Controller {
 
         $validator = \Validator::make($request->all(), $rules);
 
-        session_set('checkout', [
+        session_append_array('checkout', [
             'first_name'=> $request->get('first_name'),
             'last_name'=> $request->get('last_name'),
             'email'=> $request->get('email'),
-            'phone'=> $request->get('phone'),
-            'shipping_gw'=> $request->get('shipping_gw'),
-            'payment_gw'=> $request->get('payment_gw'),
-            'city'=> $request->get('city'),
-            'address'=> $request->get('address'),
-            'country'=> $request->get('country'),
-            'state'=> $request->get('state'),
-            'zip'=> $request->get('zip'),
-            'other_info'=> $request->get('other_info'),
+            'phone'=> $request->get('phone')
         ]);
 
         if ($validator->fails()) {
@@ -158,6 +131,6 @@ class CheckoutController extends Controller {
             return $response;
         }
 
-    }*/
+    }
 
 }

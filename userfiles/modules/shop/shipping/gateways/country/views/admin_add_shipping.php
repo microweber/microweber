@@ -5,7 +5,6 @@
         mw.shipping_country = {};
     }
     mw.require('forms.js');
-    mw.require('<?php print $config['url_to_module'] ?>country.js');
     if (window.thismodal) {
         thismodal.width(1000);
         thismodal.center(1000);
@@ -13,7 +12,7 @@
 </script>
 
 <script type="text/javascript">
-    mw.shipping_country.url = "<?php print $config['module_api']; ?>";
+
     $(document).ready(function () {
         mw.$(".shipping_to_country_holder").sortable({
             items: '.shipping-country-holder',

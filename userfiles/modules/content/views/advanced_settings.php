@@ -210,7 +210,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <label><?php _e("OG Images"); ?></label>
                             <small class="text-muted d-block mb-2">
                                 <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
-                                <?php _e("If you want to attach a og images, you must upload them to gallery from 'Add media'"); ?>.
+                                <?php _e("If you want to attach og images, you must upload them to gallery from 'Add media'"); ?>.
                             </small>
                         </div>
                     </div>
@@ -223,11 +223,11 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
-            <div class="collapse" id="advenced-settings">
+            <div class="collapse" id="advanced-settings">
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -344,9 +344,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <label class="control-label mt-3"><?php _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                        <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+
                     </div>
+
+
+
+
                 </div>
 
                 <?php endif; ?>

@@ -195,9 +195,28 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                      <a onclick="mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
 
-                    </div>
+                        <script>
+                            function manage_cats_for_add_post() {
+
+                                var manage_cats_for_add_post_opts = {};
+                                // opts.width = '900';
+                                // opts.height = '800';
+
+                              //  opts.liveedit = true;
+                              //  opts.mode = 'modal';
+
+                                var additional_params = {};
+                                additional_params.show_add_post_to_category_button = 'true';
+
+
+
+                                manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
+                            }
+                        </script>
+
+                        <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
+                     </div>
                 <?php endif; ?>
             </div>
 
@@ -207,6 +226,49 @@
                     <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                         <script>
                             $(document).ready(function () {
+
+                                mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
+
+
+                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                        mw.notification.success('The content is added to category');
+
+                                        var all = [];
+                                        all.push({
+                                            type: 'category',
+                                            id: catId
+                                        })
+
+
+                                        mw.adminPagesTree.select(all);
+                                        if (typeof(categorySelector) != 'undefined') {
+                                        categorySelector.tree.select(catId, 'category')
+                                        }
+
+                                        if (typeof(thismodal) != 'undefined') {
+                                        thismodal.remove()
+                                        }
+
+                                        if (typeof(manage_cats_for_add_post_dialog) != 'undefined') {
+                                            manage_cats_for_add_post_dialog.remove()
+                                        }
+
+
+
+                                        //
+                                       // if( mw.dialog.get(event.target)){
+                                       //     mw.dialog.get(event.target).remove()
+                                       // }
+
+
+
+
+                                    }
+
+                                });
+
+
+
                                 $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function (e) {
                                     if (e.target.nodeName === 'DIV') {
                                         setTimeout(function () {

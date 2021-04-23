@@ -7,7 +7,7 @@
     </div>
 @endsection
 
-@section('content')
+@section('steps_content')
 
-    <module type="users/forgot_password" template="checkout_v2" />
+    <module type="users/forgot_password" class="no-settings" template="checkout_v2" />
 @endsection

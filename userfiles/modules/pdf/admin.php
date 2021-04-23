@@ -36,7 +36,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="form-group">
                 <label class="control-label"><?php _e('Set border color to PDF view'); ?></label>
-                <input class="mw_option_field form-control" name="border" id="border" placeholder="<?php _e('Eneter color hex..'); ?>">
+                <input class="mw_option_field form-control" name="border" id="border" placeholder="<?php _e('Enter color hex..'); ?>">
             </div>
 
             <div class="form-group">

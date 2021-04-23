@@ -1,5 +1,5 @@
 @extends('checkout::layout')
 
-@section('content')
-    <module type="users/login" template="checkout_v2" />
+@section('steps_content')
+    <module type="users/login" class="no-settings" template="checkout_v2" />
 @endsection

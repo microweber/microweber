@@ -7,6 +7,18 @@ if (!user_can_access('module.marketplace.index')) {
 
 include(__DIR__ . '/package_data.php');
 
+
+if(!$item){
+    return;
+}
+
+if(!isset($key)){
+    return;
+}
+if(!isset($item['type'] )){
+    return;
+}
+
 ?>
 <?php $tooltipid = uniqid('tooltip'); ?>
 
@@ -33,7 +45,7 @@ include(__DIR__ . '/package_data.php');
 
                     <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                         <p class="mt-3 text-success">
-                            <?php
+                            <?php 
                             $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'] . '/admin');
                             ?>
                             <a href="<?php print $href_open_mod ?>" class="btn btn-sm btn-info"><?php _e('Open'); ?></a
@@ -110,7 +122,7 @@ include(__DIR__ . '/package_data.php');
         <div class="card style-1 bg-light">
             <div class="card-body pb-3">
                 <?php if ($item['type'] != 'microweber-core-update'): ?>
-                    <?php if ($screenshot): ?>
+                    <?php if (isset($screenshot) and $screenshot): ?>
                         <a target="_blank" href="<?php print $item['homepage']; ?>"
                            class="package-image package-<?php print $item['type'] ?>"
                            style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">

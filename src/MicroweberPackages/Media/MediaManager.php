@@ -1289,6 +1289,7 @@ class MediaManager
     private function _thumbnails_path()
     {
         $userfiles_dir = userfiles_path();
+       // $userfiles_dir = media_base_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . $this->thumbnails_path_in_userfiles);
 
         // media_base_path() . 'thumbnail' . DS;

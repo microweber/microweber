@@ -360,3 +360,8 @@ div.form-control {
 .copyright .text-muted a {
     color: var(--gray);
 }
+
+
+#quick-parent-selector-tree .mw-tree-nav-skin-default .mw-tree-item-title{
+    padding-right: 0;
+}

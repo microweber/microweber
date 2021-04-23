@@ -137,7 +137,7 @@ if (!function_exists('mkdir_recursive')) {
 	}
 }
 
-if (!function_exists('rmdir_recursive')) { 
+if (!function_exists('rmdir_recursive')) {
 	function rmdir_recursive($directory, $empty = true)
 	{
 		// if the path has a slash at the end we remove it here

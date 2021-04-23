@@ -77,16 +77,21 @@ $total = cart_total();
 
    <?php if (is_array($data) and $data) : ?>
        <div class="checkout-modal-amount-holder form-row mt-4">
+
            <div class="col-sm-6 checkout-modal-promocode-holder">
+
                <?php if (get_option('enable_coupons', 'shop') == 1): ?>
                    <?php
                    $discountData = app()->cart_manager->totals('discount');
                    ?>
-                   <module type="shop/coupons" template="modal" />
+                   <module type="shop/coupons" template="modal" class="no-settings" />
                <?php endif; ?>
+
+               <module type="shop/shipping" template="quick_setup" class="no-settings" />
+
            </div>
            <div class="col-sm-6 checkout-modal-total-holder my-3">
-                   <module type="shop/cart" template="totals" />
+                   <module type="shop/cart" template="totals" class="no-settings" />
            </div>
 
            <div class="w-100 mt-md-3 justify-content-center text-md-left text-center">
