@@ -54,7 +54,7 @@ if ($module_template != false) {
             <div class="mw-ui-box-header">
                 <i class="mw-icon-gear mr-1"></i>
                 <label claas="control-label font-weight-bold"><?php _e("Skin settings"); ?></label>
-                <small class="text-muted d-block mb-3"><?php _e('Manipulate your button design from here.');?></small>
+                <small class="text-muted d-block mb-3"><?php _e('Edit your design from here.');?></small>
             </div>
             <div class="mw-ui-box-content">
                 <style>
