@@ -14,7 +14,7 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --no-dev
       
     - name: Dump autoload dependecies
-      run: composer dump-autoload --optimize --classmap-authoritative --no-dev
+      run: composer dump-autoload --optimize --no-dev
       
     - name: Get the current branch name
       shell: bash
