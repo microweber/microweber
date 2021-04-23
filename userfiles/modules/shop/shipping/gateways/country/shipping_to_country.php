@@ -400,10 +400,13 @@ class shipping_to_country
         if ($shipping_fields_vals_session) {
             session_set('checkout', $shipping_fields_vals_session);
         }
-        session_set('shipping_country', $active['shipping_country']);
-        $selected_country_from_session = session_get('shipping_country');
 
-        //   session_set('shipping_country_data', $active);
+        if (isset($active['shipping_country'])) {
+            session_set('shipping_country', $active['shipping_country']);
+            $selected_country_from_session = session_get('shipping_country');
+
+            //   session_set('shipping_country_data', $active);
+        }
 
         return $active;
 

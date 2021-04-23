@@ -665,6 +665,19 @@ span.mw-powered-by {
   max-width: 100%;
   overflow: auto;
 }
+/*END LIVE EDIT STATIC LAYOUTS*/
+/*
+*    <div class="mw-module-container">
+*        <module type=".....
+*    </div>
+*/
+.mw-module-container {
+  display: flex;
+}
+.mw-module-container-center {
+  display: flex;
+  justify-content: center;
+}
 /****************************
     Variables
 *****************************/

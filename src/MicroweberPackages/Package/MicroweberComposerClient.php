@@ -70,16 +70,31 @@ class MicroweberComposerClient {
             return array('error' => 'Error. Cannot find any packages.');
         }
 
+        $package = $search[0];
+
         $confirmKey = 'composer-confirm-key-' . rand();
         if (isset($params['confirm_key'])) {
             $isConfirmed = cache_get($params['confirm_key'], 'composer');
             if ($isConfirmed) {
-                $search[0]['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
-                return $this->install($search[0]);
+                $package['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
+                return $this->install($package);
             }
         }
 
-        $this->downloadPackage($search[0], $confirmKey);
+        if ($package['dist']['type'] == 'license_key') {
+            return array(
+                'error' => _e('You need license key to install this package', true),
+                'message' => _e('This package is premium and you must have a license key to install it', true),
+                // 'form_data_required' => 'license_key',
+                'form_data_module' => 'settings/group/license_edit',
+                'form_data_module_params' => array(
+                    'require_name' => $params['require_name'],
+                    'require_version' => _e('You need license key', true)
+                )
+            );
+        }
+
+        $this->downloadPackage($package, $confirmKey);
         $this->clearLog();
 
         return array(
@@ -106,13 +121,13 @@ class MicroweberComposerClient {
             $packageFileName = 'last-package.zip';
             $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
 
-            if (!is_dir($packageFileDestination)) {
-                mkdir_recursive($packageFileDestination);
-            }
+            $this->_removeFilesFromPath($packageFileDestination); // remove dir
+            mkdir_recursive($packageFileDestination); // make new dir
 
             $this->log('Downloading the package file..');
 
             $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName, $this->logfile);
+
             if ($downloadStatus) {
 
                 $this->log('Extract the package file..');
@@ -173,19 +188,41 @@ class MicroweberComposerClient {
             return false;
         }
 
-        $done = rename($package['unzipped_files_location'],$packageFileDestination);
+        $this->_removeFilesFromPath($packageFileDestination); // remove dir
 
-        if ($done) {
+        @rename($package['unzipped_files_location'],$packageFileDestination);
 
-            $response = array();
-            $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
-            $response['log'] = 'Done!';
+        $response = array();
+        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
+        $response['log'] = 'Done!';
 
-          //  app()->update->post_update();
-           // scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+        // app()->update->post_update();
+        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
-            return $response;
+        return $response;
+    }
+
+    /**
+     * Remove dir recursive
+     * @param string $dir
+     */
+    private function _removeFilesFromPath($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
         }
+
+        try {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($files as $fileinfo) {
+                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+                @$todo($fileinfo->getRealPath());
+            }
+        } catch (\Exception $e) {
+            // Cant remove files from this path
+        }
+
+        @rmdir($dir);
     }
 
     public function newLog($log)

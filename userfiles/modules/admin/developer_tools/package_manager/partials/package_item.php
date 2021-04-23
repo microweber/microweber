@@ -45,7 +45,7 @@ if(!isset($item['type'] )){
 
                     <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                         <p class="mt-3 text-success">
-                            <?php
+                            <?php 
                             $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'] . '/admin');
                             ?>
                             <a href="<?php print $href_open_mod ?>" class="btn btn-sm btn-info"><?php _e('Open'); ?></a

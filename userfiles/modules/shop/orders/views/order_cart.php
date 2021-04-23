@@ -129,7 +129,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 <th><?php _e("Price"); ?></th>
                 <th class="text-center"><?php _e("Qty"); ?></th>
                 <th><?php _e("Total"); ?></th>
-                <th><?php _e(""); ?></th>
+                <!--<th><?php /*_e(""); */?></th>-->
             </tr>
             </thead>
             <tbody>
@@ -180,10 +180,10 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                     <td class="mw-order-item-qty text-center"><?php print $item['qty'] ?></td>
                     <td class="mw-order-item-total-amount"
                         width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
-                    <td class="mw-order-item-action" style="width: 10px">
+                   <!-- <td class="mw-order-item-action" style="width: 10px">
                         <a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i
                                     class="mdi mdi-trash-can-outline mdi-20px"></i></a>
-                    </td>
+                    </td>-->
                 </tr>
             <?php endforeach; ?>
             </tbody>

@@ -83,10 +83,10 @@ $total = cart_total();
                <?php
                $discountData = app()->cart_manager->totals('discount');
                ?>
-               <module type="shop/coupons" template="modal" />
+               <module type="shop/coupons" template="modal" class="no-settings" />
                <hr />
            <?php endif; ?>
        </div>
 
 
-        <module type="shop/cart" template="totals" />
+        <module type="shop/cart" template="totals" class="no-settings" />
