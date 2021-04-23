@@ -1,24 +1,26 @@
-name: Laravel
+name: Microweber build & upload
 
 on:
   push:
 
 jobs:
   microweber-build-and-upload:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: shivammathur/setup-php@b7d1d9c9a92d8d8463ce36d7f60da34d461724f8
-      with:
-        php-version: '8.0'
     - uses: actions/checkout@v2
     
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      
+    - name: Get the current branch name
+      shell: bash
+      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+      id: currentBranchName
+      
     - name: Zip the files
       run: |
         rm -rf .git
         rm -rf .github
-        zip -r microweber-${GITHUB_REF#refs/heads/}.zip `ls`
-        curl -T microweber-${GITHUB_REF#refs/heads/}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+        zip -r microweber-${{ steps.currentBranchName.outputs.branch }}.zip `ls`
+        curl -T microweber-${{ steps.currentBranchName.outputs.branch }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
