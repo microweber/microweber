@@ -9,7 +9,7 @@ trait CustomFieldPriceTrait
 
     private $_addCustomFields = [];
     private $_addPriceField = null;
-    private $_removePriceField = null;
+   // private $_removePriceField = null;
     private $_addSpecialPriceField = null;
 
     public function initializeCustomFieldPriceTrait()
@@ -27,7 +27,7 @@ trait CustomFieldPriceTrait
                 if (isset($model->attributes['price'])) {
                     $model->_addPriceField = $model->attributes['price'];
                 } else {
-                    $model->_removePriceField = true;
+                 //   $model->_removePriceField = true;
                 }
                 unset($model->attributes['price']);
 
@@ -62,13 +62,13 @@ trait CustomFieldPriceTrait
                 $price->save();
             }
 
-            if (isset($model->_removePriceField) and $model->_removePriceField) {
-                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
-                if($price){
-                    $price->delete();
-                }
-
-            }
+//            if (isset($model->_removePriceField) and $model->_removePriceField) {
+//                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
+//                if($price){
+//                    $price->delete();
+//                }
+//
+//            }
 
         });
     }
