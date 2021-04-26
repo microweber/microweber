@@ -1,0 +1,29 @@
+name: Microweber build & upload
+
+on:
+  push:
+
+jobs:
+  microweber-build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install Dependencies
+      run: composer install
+      
+    - name: Dump autoload dependecies
+      run: composer dump-autoload
+      
+    - name: Get the current branch name
+      shell: bash
+      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+      id: currentBranchName
+      
+    - name: Zip the files
+      run: |
+        rm -rf .git
+        rm -rf .github
+        zip -r microweber-${{ steps.currentBranchName.outputs.branch }}.zip `ls`
+        curl -T microweber-${{ steps.currentBranchName.outputs.branch }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}

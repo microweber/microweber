@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e('Seo Settings'); ?></h5>
-                    <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
+                    <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -53,7 +53,7 @@
 
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Name"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines.") . ' '; ?><?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines."); ?> <?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
                                         <?php
                                         echo $formBuilder->textOption('website_title', 'website')->attribute('autocomplete', 'off');
                                         ?>
