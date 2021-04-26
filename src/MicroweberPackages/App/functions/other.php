@@ -116,6 +116,10 @@ function load_module($module_name, $attrs = array())
 {
     return mw()->module_manager->load($module_name, $attrs);
 }
+function element_display($element_filename, $attrs = array())
+{
+    return mw()->layouts_manager->element_display($element_filename, $attrs);
+}
 
 function module_css_class($module_name)
 {
