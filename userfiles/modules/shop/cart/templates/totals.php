@@ -17,10 +17,10 @@ description:  Show cart totals
                <div class="form-row text-right justify-content-end">
                    <label class="control-label font-weight-bold float-right text-right"><?php _lang("Total amount" ); ?></label>
                    <?php foreach ($cart_totals as $cart_total_key => $cart_total): ?>
-                            <p class="col-12 mb-1">
+                            <p class="mw-paragraph-totals col-12 mb-1">
                                 <?php if ($cart_total_key != 'total' and $cart_total and is_array($cart_total) and !empty($cart_total) and isset($cart_total['value']) and $cart_total['value']): ?>
                            </p>
-                            <p class="col-12 mb-1">
+                            <p class="mw-paragraph-totals col-12 mb-1">
                                 <?php _lang($cart_total['label']); ?>: <?php print currency_format($cart_total['value']); ?>
                             </p>
                        <?php endif; ?>
