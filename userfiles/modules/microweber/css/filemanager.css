@@ -9,6 +9,9 @@
 
 }
 
+.mw-file-manager-template-default .mw-fml-tbody{
+    overflow: auto;
+}
 .mw-file-manager-template-default {
     color: #2b2b2b;
     overflow: auto;
@@ -19,17 +22,21 @@
     height: 43px;
 }
 
+.mw-file-manager-template-default .mw-fml-root .mw-fml-thead .mw-fml-object{
+    border-top: 1px solid #dbdcdd;
+    border-bottom: 1px solid #dbdcdd;
+}
 .mw-file-manager-template-default .mw-fml-root .mw-fml-th{
     white-space: nowrap;
     font-size: 12px;
     font-weight: normal;
-    border-top: 1px solid #dbdcdd;
-    border-bottom: 1px solid #dbdcdd;
     position: sticky;
     top: 0;
     background: #fff;
     z-index: 1;
     text-align: left;
+    flex: 1;
+    padding: 10px;
 
 }
 .mw-file-manager-template-default .mw-file-manager-list-item-thumb-image{
@@ -39,6 +46,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' /%3E%3C/svg%3E");
 }
 
+
 .mw-file-manager-template-default .mw-fml-object{
     display: flex;
     width: 100%;
@@ -47,20 +55,23 @@
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
+    transition: background-color .2s;
 }
 .mw-file-manager-template-default .mw-fml-object-item{
     padding: 10px;
+    flex: 1;
 }
 .mw-file-manager-template-default .selected{
     background: #eee !important;
 }
 
-.mw-file-manager-template-default .mw-fml-object:last-child{
+.mw-file-manager-template-default .mw-fml-th:last-child,
+.mw-file-manager-template-default .mw-fml-object-item:last-child{
     width: 40px;
     text-align: right;
 }
 
-.mw-file-manager-template-default .mw-fml-object:hover{
+.mw-file-manager-template-default .mw-fml-tbody .mw-fml-object:hover{
     background-color: #fafafa;
 }
 
@@ -90,6 +101,7 @@
 
 .mw-file-manager-template-default .mw-file-manager-list-item-options{
     position: relative;
+    display: inline-block;
 }
 
 .mw-file-manager-template-default .mw-file-manager-list-item-options-list{

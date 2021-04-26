@@ -118,7 +118,8 @@
             var el = mw.element({
                 content: option.label
             });
-            el.on('click', function (){
+            el.on('click', function (e){
+                e.stopPropagation();
                 option.action(item);
             }).addClass('mw-file-manager-list-item-options-list-option');
             return el;
@@ -132,7 +133,8 @@
             var el = mw.element().addClass('mw-file-manager-list-item-options');
             el.append(mw.element({tag: 'span', content: '...'}).addClass('mw-file-manager-list-item-options-button'));
 
-            el.on('click', function (){
+            el.on('click', function (e){
+                e.stopPropagation();
                 var all = scope.root.get(0).querySelectorAll('.mw-file-manager-list-item-options.active');
                 for(var i = 0; i < all.length; i++ ) {
                     if (all[i] !== this) {
@@ -217,7 +219,7 @@
                 params, cb, err
             );
         };
-        
+
         var userDate = function (date) {
             var dt = new Date(date);
             return dt.toLocaleString();
@@ -232,7 +234,7 @@
 
             var cellmodified = mw.element({ className: 'mw-fml-object-item', content: userDate(item.modified)  });
 
-            row.on('mousedown touchstart', function (){
+            row.on('click', function (){
                 scope.selectToggle(item);
             });
             if( scope.settings.multiSelect) {
