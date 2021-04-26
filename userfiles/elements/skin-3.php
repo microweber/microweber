@@ -1,14 +1,3 @@
-<style>
-    .background-image-holder.mw-elements-parallax {
-        position: relative;
-        height: 600px;
-        max-height: 100vh;
-        background-repeat: no-repeat;
-        background-position: center center;
-
-    }
-</style>
-
 <div data-parallax="" data-background-position="center"">
     <div class="row background-image-holder mw-elements-parallax text-center rounded text-white d-flex"
          style="background-image: url('<?php print elements_url() ?>images/image-for-layouts.png');">
