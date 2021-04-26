@@ -4,6 +4,7 @@
 
         var scope = this;
         var rows = [];
+        var globalcheck;
 
         options = options || {};
 
@@ -228,11 +229,11 @@
 
         var defaultRenderProvider = function (item) {
             var row = mw.element({ className: 'mw-fml-object' });
-            var cellImage = mw.element({ className: 'mw-fml-object-item', content: _image(item)  });
-            var cellName = mw.element({ className: 'mw-fml-object-item', content: item.name  });
-            var cellSize = mw.element({ className: 'mw-fml-object-item', content: _size(item) });
+            var cellImage = mw.element({ className: 'mw-fml-object-item mw-fml-object-item-image', content: _image(item)  });
+            var cellName = mw.element({ className: 'mw-fml-object-item mw-fml-object-item-name', content: item.name  });
+            var cellSize = mw.element({ className: 'mw-fml-object-item mw-fml-object-item-size', content: _size(item) });
 
-            var cellmodified = mw.element({ className: 'mw-fml-object-item', content: userDate(item.modified)  });
+            var cellmodified = mw.element({ className: 'mw-fml-object-item mw-fml-object-item-modified', content: userDate(item.modified)  });
 
             row.on('click', function (){
                 scope.selectToggle(item);
@@ -240,9 +241,9 @@
             if( scope.settings.multiSelect) {
                 if(item.type === 'file' || (item.type === 'folder' && scope.settings.folderSelect)){
                     var check =  _check(true);
-                    row.append( mw.element({ className: 'mw-fml-object-item', content: check }));
+                    row.append( mw.element({ className: 'mw-fml-object-item mw-fml-object-item-select', content: check }));
                 }  else {
-                    row.append( mw.element({ className: 'mw-fml-object-item'}));
+                    row.append( mw.element({ className: 'mw-fml-object-item mw-fml-object-item-select'}));
                 }
             }
             row
@@ -291,6 +292,9 @@
         var allSelected = function (){
             return scope._selected.length === rows.length;
         };
+        var noneSelected = function (){
+            return scope._selected.length === 0;
+        };
 
         this.selectAll = function () {
             this.select(rows.map(function (row){ return row.data}));
@@ -317,6 +321,13 @@
                       item.row.removeClass('selected');
                   }
              }
+             if(allSelected() || noneSelected()) {
+                 globalcheck.removeClass('mw-check-partial');
+             } else {
+                 globalcheck.addClass('mw-check-partial');
+             }
+
+             globalcheck.prop('checked', allSelected());
              if (dispatch) {
                  scope.dispatch('selectionChange', scope._selected);
              }
@@ -372,17 +383,17 @@
         var listViewHeaderDefaultRender = function () {
             var thCheck;
             if (scope.settings.multiSelect) {
-                var globalcheck = _check();
+                globalcheck = _check();
                 globalcheck.on('input', function () {
                     scope.selectAllToggle();
                 });
-                thCheck = mw.element({ className: 'mw-fml-th', content: globalcheck  }).addClass('mw-file-manager-select-all-heading');
+                thCheck = mw.element({ className: 'mw-fml-th mw-fml-object-item-select mw-file-manager-select-all-heading', content: globalcheck  });
             }
-            var thImage = mw.element({ className: 'mw-fml-th', content: ''  });
-            var thName = mw.element({ className: 'mw-fml-th', content: '<span>Name</span>'  }).addClass('mw-file-manager-sortable-table-header');
-            var thSize = mw.element({ className: 'mw-fml-th', content: '<span>Size</span>'  }).addClass('mw-file-manager-sortable-table-header');
-            var thModified = mw.element({ className: 'mw-fml-th', content: '<span>Last modified</span>'  }).addClass('mw-file-manager-sortable-table-header');
-            var thOptions = mw.element({ className: 'mw-fml-th', content: ''  });
+            var thImage = mw.element({ className: 'mw-fml-th mw-fml-object-item-image', content: ''  });
+            var thName = mw.element({ className: 'mw-fml-th mw-fml-object-item-name', content: '<span>Name</span>'  }).addClass('mw-file-manager-sortable-table-header');
+            var thSize = mw.element({ className: 'mw-fml-th mw-fml-object-item-size', content: '<span>Size</span>'  }).addClass('mw-file-manager-sortable-table-header');
+            var thModified = mw.element({ className: 'mw-fml-th mw-fml-object-item-modified', content: '<span>Last modified</span>'  }).addClass('mw-file-manager-sortable-table-header');
+            var thOptions = mw.element({ className: 'mw-fml-th mw-fml-object-item-options', content: ''  });
             var tr = mw.element({
                 className: 'mw-fml-object',
                 content: [thCheck, thImage, thName, thSize, thModified, thOptions]

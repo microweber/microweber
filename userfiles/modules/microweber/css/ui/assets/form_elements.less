@@ -346,12 +346,38 @@ div.mw-ui-field:after {
           font-size: 11px;
       }
     }
-      &:checked + span {
-          &:after {
-              transform: scale(1);
-          }
+    &:checked + span {
+      &:after {
+          transform: scale(1);
       }
+    }
   }
+
+    &.mw-ui-check-partial{
+        input + span ,
+        input:checked + span {
+            &:after {
+                background-image: none !important;
+                content: '-';
+                font-weight: bold;
+                font-size: 22px;
+                line-height: 17px;
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1);
+            }
+        }
+        input + span{
+            &:after {
+                color: @info;
+            }
+        }
+        input:checked + span{
+            &:after {
+                color: #fff;
+            }
+        }
+    }
 }
 
 .mw-disabled,

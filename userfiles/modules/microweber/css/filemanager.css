@@ -47,6 +47,9 @@
 }
 
 
+.mw-file-manager-template-default .mw-fml-object-item-select{ max-width: 20px;}
+.mw-file-manager-template-default .mw-fml-object-item-image{ max-width: 50px;}
+
 .mw-file-manager-template-default .mw-fml-object{
     display: flex;
     width: 100%;

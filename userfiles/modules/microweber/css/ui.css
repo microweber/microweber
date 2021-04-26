@@ -4379,6 +4379,23 @@ div.mw-ui-field:after {
 .mw-ui-check input[type="checkbox"]:checked + span:after {
   transform: scale(1);
 }
+.mw-ui-check.mw-ui-check-partial input + span:after,
+.mw-ui-check.mw-ui-check-partial input:checked + span:after {
+  background-image: none !important;
+  content: '-';
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 17px;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.mw-ui-check.mw-ui-check-partial input + span:after {
+  color: #4592ff;
+}
+.mw-ui-check.mw-ui-check-partial input:checked + span:after {
+  color: #fff;
+}
 .mw-disabled,
 .mw-ui-field:disabled,
 .mw-ui-field[disabled] {
