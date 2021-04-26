@@ -36,7 +36,7 @@ class ShippingToCountry implements ShippingDriverInterface
 
     public function quickSetup()
     {
-        return '<module type="shop/shipping/gateways/country" template="select_bootstrap4" />';
+        return '<module type="shop/shipping/gateways/country" class="no-settings" template="select_bootstrap4" />';
     }
 
     public function getCountries()

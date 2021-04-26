@@ -197,11 +197,11 @@ $data = $products;
             </div>
     <!-- My cart's content -->
     <div class="mw-ui-box-content" style="display: block;">
-        <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default">
+        <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default" class="no-settings">
     </div>
     <!-- Checkout -->
     <div class="mw-ui-box-content" style="display: none;">
-        <module type="shop/checkout" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
+        <module type="shop/checkout" class="no-settings" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
             <button type="button" class="btn btn btn-primary pull-right m-auto" onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"><?php _e("Complete order"); ?></button>
     </div>
 </div>
