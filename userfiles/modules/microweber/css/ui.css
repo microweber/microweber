@@ -678,6 +678,27 @@ span.mw-powered-by {
   display: flex;
   justify-content: center;
 }
+div.mw-elements-number {
+  font-size: 24px;
+}
+.background-image.mw-elements-bg-image {
+  position: relative;
+  width: 100%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: block;
+}
+i.mw-elements-layout-icon {
+  font-size: 40px;
+}
+.background-image-holder.mw-elements-parallax {
+  position: relative;
+  height: 600px;
+  max-height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 /****************************
     Variables
 *****************************/
