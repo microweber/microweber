@@ -1,6 +1,6 @@
 <style>
 
-    .background-image.bg-image {
+    .background-image.mw-elements-bg-image {
         position: relative;
         width: 100%;
         background-position: center center;
@@ -16,7 +16,7 @@
 </style>
 
 <div class="container">
-    <div class="row background-image bg-image text-center rounded text-white"
+    <div class="row background-image mw-elements-bg-image text-center rounded text-white"
          style="background-image: url('<?php print elements_url() ?>images/image-for-layouts.png'); height:100vh;">
         <div class="h-100 d-flex align-items-center element">
             <div class="col-12">
