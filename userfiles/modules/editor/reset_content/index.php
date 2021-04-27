@@ -32,7 +32,7 @@
         background: white;
         box-shadow: 0 -2px 2px rgba(0, 0, 0, .2);
         padding: 10px;
-        text-align: right;
+
         z-index: 1;
         width: 100%;
 
@@ -77,9 +77,17 @@
         <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1">
            <?php _e('Also reset modules?'); ?>
     </label>
-
+&nbsp; &nbsp;
 
     <button onclick="handle_reset_content_btn_click();"
             class="mw-ui-btn mw-ui-btn-invert"><?php _e('Reset content'); ?></button>
+
+
+
+    <div class="mw-ui-box mw-ui-box-content mw-color-important">
+
+        This will reset the content of your page and you will lose all changes.
+
+    </div>
 </div>
 

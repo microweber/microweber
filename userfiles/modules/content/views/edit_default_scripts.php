@@ -218,7 +218,16 @@
 
         }
 
-        //
+         var has_menu_edit = document.getElementById('menu-selector-item');
+         if (has_menu_edit !== null &&  !data['add_content_to_menu[]'] ) {
+              data['add_content_to_menu[]'] = [0];
+         }
+
+
+
+
+
+         //
         // if (data.tag_names.length) {
         //     data.tag_names  = data.tag_names.join(',')
         // } else {
