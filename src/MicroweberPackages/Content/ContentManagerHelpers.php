@@ -1216,7 +1216,8 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
-        $table_drafts = $this->tables['content_fields_drafts'];
+     //    $table_drafts = $this->tables['content_fields_drafts'];
+        $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
             return false;
@@ -1226,13 +1227,13 @@ class ContentManagerHelpers extends ContentManagerCrud
             $data = array();
         }
 
-        if (isset($data['is_draft'])) {
+        if (isset($data['is_draft']) and $data['is_draft']) {
             $table = $table_drafts;
         }
 
         $data = $this->app->format->strip_unsafe($data);
 
-        if (isset($data['is_draft']) and isset($data['url'])) {
+        if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
             $draft_url = $this->app->database_manager->escape_string($data['url']);
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-1 week'));
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-5 min'));
@@ -1332,7 +1333,35 @@ class ContentManagerHelpers extends ContentManagerCrud
         $filter['one'] = 1;
         $filter['no_cache'] = true;
 
-        $find = $this->app->database_manager->get('content_fields', $filter);
+         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
+
+          //   $find = $this->app->database_manager->get($table, $filter);
+
+
+             $find = false;
+             //delete old drafts
+             $old = \DB::table($table)
+                 ->where('rel_type', $data['rel_type'])
+                 ->where('rel_id', $data['rel_id'])
+                 ->where('field', $data['field'])
+                 ->where('url', $data['url'])
+                 ->take(1000)
+                 ->skip(1000)
+                 ->get();
+             if (!empty($old)){
+                 foreach ($old as $item) {
+                     \DB::table($table)->where('id', $item->id)->delete();
+                 }
+             }
+
+         }  else {
+
+
+
+              $find = $this->app->database_manager->get($table, $filter);
+
+         }
+
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
         }
