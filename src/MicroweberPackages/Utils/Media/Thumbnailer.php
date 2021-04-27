@@ -24,6 +24,7 @@ class Thumbnailer
         if (!$src) {
             return;
         }
+
         $width = 0;
         $height = 0;
         $crop = 0;

@@ -882,11 +882,19 @@ class MediaManager
         $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
 
         $ext = strtolower(get_file_extension($base_src));
+
+
+
         $cache = ($base_src . $width . $height) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
 
         $ext = strtolower(get_file_extension($src));
+
+
+        if($this->_is_webp_supported()){
+            $ext ='webp';
+        }
         $is_remote = false;
         if (!stristr($src, $surl)) {
             if (strstr($src, 'http://')) {
@@ -902,9 +910,10 @@ class MediaManager
             $cache_id_data['mtime'] = filemtime($base_src);
         }
         $cache_id_data['base_src'] = $base_src;
+        $cache_id_data['ext'] = $ext;
 
 
-        $src_for_db  = $src;
+        $src_for_db = $src;
         if (!$is_remote) {
             $src_for_db = str_replace(site_url(), '{SITE_URL}', $src);
         }
@@ -1061,13 +1070,20 @@ class MediaManager
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
+        if($ext == 'webp'){
+            if(!$this->_is_webp_supported()){
+                $ext = strtolower(get_file_extension($src));
+
+            }
+        }
+
         // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
 
-        $cache = str_replace('..','',$cache);
+        $cache = str_replace('..', '', $cache);
 
         if (isset($cache_id)) {
-            $cache = str_replace('..','',$cache_id);
+            $cache = str_replace('..', '', $cache_id);
 
             // $cache = url_title($cache_id);
         }
@@ -1116,7 +1132,7 @@ class MediaManager
                     $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
                 } else {
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
+                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp' || $ext == 'webp') {
 
                         if (!$height) {
                             $height = $width;
@@ -1137,7 +1153,7 @@ class MediaManager
 //                       delete_option($params['cache_id'], 'media_tn_temp');
 //                        }
 
-//dd($cache_path);
+
                         if (!defined('MW_NO_OUTPUT_CACHE')) {
                             define('MW_NO_OUTPUT_CACHE', true);
                         }
@@ -1257,20 +1273,22 @@ class MediaManager
         return $resp;
     }
 
-    public function tn_cache_id($params){
+    public function tn_cache_id($params)
+    {
 
         $tnhash = crc32(json_encode($params));
-        if(isset($params['src'])){
+        if (isset($params['src'])) {
             $src = basename($params['src']);
             $src = no_ext($src);
-            if($src){
+            if ($src) {
                 $src = str_slug($src);
-                $tnhash = $src.'-'.$tnhash;
+                $tnhash = $src . '-' . $tnhash;
             }
         }
 
         return $tnhash;
     }
+
     public function relative_media_start_path()
     {
 
@@ -1286,10 +1304,17 @@ class MediaManager
     }
 
 
+    private function _is_webp_supported()
+    {
+        if ($_SERVER and isset($_SERVER['HTTP_ACCEPT']) and is_string($_SERVER['HTTP_ACCEPT']) and strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
+            return true;
+        }
+    }
+
     private function _thumbnails_path()
     {
         $userfiles_dir = userfiles_path();
-       // $userfiles_dir = media_base_path();
+        // $userfiles_dir = media_base_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . $this->thumbnails_path_in_userfiles);
 
         // media_base_path() . 'thumbnail' . DS;
