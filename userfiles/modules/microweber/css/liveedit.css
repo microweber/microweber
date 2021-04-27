@@ -2189,7 +2189,7 @@ body.dragStart .empty-element {
     color: black;
 }
 
-#live-edit-dropdown-actions-content {
+.live-edit-dropdown-actions-content {
     right: -20px;
     left: auto;
     top: 30px;
@@ -2199,7 +2199,7 @@ body.dragStart .empty-element {
     padding-top: 12px;
 }
 
-#live-edit-dropdown-actions-content a {
+.live-edit-dropdown-actions-content a {
     text-decoration: none;
     line-height: 18px;
     height: auto;
@@ -2209,21 +2209,21 @@ body.dragStart .empty-element {
     font-size: 12px;
 }
 
-#live-edit-dropdown-actions-content [class*='mw-icon-'] {
+.live-edit-dropdown-actions-content [class*='mw-icon-'] {
     width: 12px;
     text-align: center;
     font-size: 16px;
 }
 
-#live-edit-dropdown-actions-content .mw-icon-css {
+.live-edit-dropdown-actions-content .mw-icon-css {
     font-size: 13px;
 }
 
-#live-edit-dropdown-actions-content .mw-ui-box {
+.live-edit-dropdown-actions-content .mw-ui-box {
     border-radius: 0;
 }
 
-#live-edit-dropdown-actions-content .mw-icon-arrowleft {
+.live-edit-dropdown-actions-content .mw-icon-arrowleft {
     font-size: 11px;
 }
 
@@ -2365,32 +2365,29 @@ body.dragStart .empty-element {
     justify-content: center;
 }
 
-#toolbar-dropdown-actions {
+.toolbar-dropdown-actions .mw-ui-box.mw-ui-navigation{
+    border: none;
+}
+.toolbar-dropdown-actions .mdi{
+    font-size: 18px;
+}
+.toolbar-dropdown-actions .mw-dropdown-content a{
+    color: #212121;
+    text-decoration: none;
+}
+.toolbar-dropdown-actions .mw-dropdown-content{
+    left: auto;
+    right: 0;
+    top: 40px;
+}
+.toolbar-dropdown-actions {
     display: inline-block;
-    width: 40px;
+    padding: 0 10px;
+}
+.toolbar-dropdown-action + .toolbar-dropdown-action{
+    padding-right: 20px;
 }
 
-/*.mw_edit_delete {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    color: #000;
-    cursor: pointer;
-    font-size: 11px;
-    text-align: center;
-    background: #C7C7C7;
-    position: relative;
-    z-index: 9;
-    border-radius: 3px;
-    text-decoration: none;
-    position: absolute;
-    right: 0 !important;
-    top: 0;
-}*/
 
 .mw_edit_delete {
     display: inline-block;
@@ -2405,7 +2402,6 @@ body.dragStart .empty-element {
     font-size: 11px;
     text-align: center !important;
     background: #fff;
-    position: relative;
     z-index: 9;
     border-radius: 14px;
     text-decoration: none;
@@ -2438,7 +2434,7 @@ body.dragStart .empty-element {
 }
 
 #main-save-btn {
-    margin: 0 0 0 4px;
+    margin: 0 10px 0 4px;
     border-color: #3dc47e;
     background-color: #3dc47e;
     color: white;
@@ -2935,7 +2931,7 @@ div[id*='SSDIVEL'] {
 }
 
 .toolbar-sections-tabs > ul,
-#live-edit-dropdown-actions-content ul,
+.live-edit-dropdown-actions-content ul,
 #mw_history_files {
     padding-left: 0;
 }
@@ -3307,6 +3303,7 @@ body.touchscreen-device .module-item-module {
     background: url(../img/les_planet.svg) no-repeat center;
     background-size: contain;
     vertical-align: middle;
+    margin-inline-start: 15px;
 
 }
 

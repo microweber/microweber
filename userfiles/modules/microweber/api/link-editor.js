@@ -169,7 +169,7 @@ console.log( mw.top().settings, this, this.settings );
             this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {
-                this.dialog = mw.dialog({
+                this.dialog = mw.top().dialog({
                     content: this.root,
                     height: 'auto',
                     title: this.settings.title,
