@@ -117,7 +117,7 @@ class CategoryTreeData
         if (isset($params['for_page']) and $params['for_page'] != false) {
             $page = $this->app->content_manager->get_by_id($params['for_page']);
 
-            if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
+            if ($page and isset($page['subtype']) and isset($page['subtype_value']) and $page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
                 $params['rel_type'] = 'content';

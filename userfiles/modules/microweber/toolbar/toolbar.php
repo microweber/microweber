@@ -206,7 +206,14 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
 
 
+
         mw.on('liveEditSettingsReady', function () {
+
+
+
+
+
+
 
             //     $('a','#live_edit_toolbar_holder').off('click')
 
@@ -310,6 +317,45 @@ if (isset($_COOKIE['mw_exp'])) {
 
             }, 1000)
         })
+
+
+
+        mw.open_content_revisions_dialog = function(cont_id) {
+
+            if(typeof(cont_id) === 'undefined'){
+                return;
+            }
+
+
+
+
+            var opts = {};
+            opts.title = 'Content versions';
+            opts.width = '800';
+            opts.height =  '480';
+            opts.liveedit = true;
+            opts.autoHeight = true;
+            opts.maxHeightWindowScroll = '800px';
+
+            opts.overlay = false;
+            opts.mode = 'modal';
+
+            var additional_params = {};
+            additional_params.content_id = cont_id;
+            additional_params.show_btn_for_find_element = true;
+            additional_params.from_url_string = '<?php print url_string() ?>';
+
+            mw.tools.open_global_module_settings_modal('editor/content_revisions/list_for_content', '#mw_admin_content_revisions_list_for_content_popup_modal_module', opts, additional_params);
+
+
+
+
+
+
+
+
+        };
+
 
 
     </script>
@@ -492,7 +538,8 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <ul>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
-                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Api Clear Cache"); ?></a></li>
+                                            <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mw-icon-code"></span><?php _e("Content versions"); ?></a></li>
+                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
                                         </ul>
                                     </li>
 
