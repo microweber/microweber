@@ -472,12 +472,12 @@ if (isset($_COOKIE['mw_exp'])) {
                             <i class="mdi mdi-arrow-left"></i>
                             <?php _e("Admin"); ?>
                         </a>
-                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
+                        <button disabled class="mw-ui-btn mw-ui-btn-small" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
 
-                        <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
-                            <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
-                                    class="mw-icon-dropdown"></span></span>
-                            <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
+
+                        <div class="mw-dropdown toolbar-dropdown-actions" >
+                             <span class="mdi mdi-cog tip" data-tip="<?php _e('Settings'); ?>" data-tipposition="bottom-center"></span>
+                            <div class="mw-dropdown-content" id="live-edit-dropdown-actions-content">
                                 <ul class="mw-ui-box mw-ui-navigation">
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
 
@@ -503,19 +503,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                         </a>
                                     </li>
 
-                                    <?php /* <li style="display: nonex">
-                                        <script>mw.userCanSwitchMode = false;</script>
-                                        <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
-                                            <script>mw.userCanSwitchMode = true;</script>
-                                        <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
-                                            <a href="javascript:;" onclick="mw.setMode('simple');"
-                                               style="display:none"><?php _e("Simple Mode"); ?></a>
-                                        <?php } else { ?>
-                                            <a href="javascript:;" onclick="mw.setMode('advanced');"
-                                               style="display:none"><?php _e("Advanced Mode"); ?></a>
-                                        <?php } ?>
-                                        <?php } ?>
-                                    </li> */ ?>
+
 
                                     <li>
                                         <a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a>
@@ -533,15 +521,6 @@ if (isset($_COOKIE['mw_exp'])) {
 
                                     <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
 
-                                    <li>
-                                        <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
-                                        <ul>
-                                            <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
-                                            <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
-                                            <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mw-icon-code"></span><?php _e("Content versions"); ?></a></li>
-                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
-                                        </ul>
-                                    </li>
 
                                     <?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] == '1'): ?>
                                         <li><a href="javascript:;" onclick="mw.cookie.set('mw_basic_mode', '0'); window.location.reload();"><span><?php _e("Advanced Mode"); ?></span></a></li>
@@ -551,6 +530,17 @@ if (isset($_COOKIE['mw_exp'])) {
 
                                     <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><i class="mw-icon-off"></i><span><?php _e("Logout"); ?></span></a></li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mw-dropdown toolbar-dropdown-actions">
+                            <span class="mdi mdi-wrench tip" data-tip="<?php _e('Tools'); ?>" data-tipposition="bottom-center"></span>
+                            <div class="mw-dropdown-content">
+                                <ul class="mw-ui-box mw-ui-navigation">
+                                    <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mdi mdi-code-braces"></span><?php _e("CSS Editor"); ?></a></li>
+                                    <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+                                    <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mdi mdi-history"></span><?php _e("Content versions"); ?></a></li>
+                                    <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
                                 </ul>
                             </div>
                         </div>
