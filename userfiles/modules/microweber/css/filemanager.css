@@ -127,6 +127,7 @@
     display: block;
     cursor: pointer;
     padding: 10px;
+    white-space: nowrap;
 }
 .mw-file-manager-template-default .mw-file-manager-list-item-options-list-option:hover{
     background-color: whitesmoke;

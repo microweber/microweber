@@ -62,27 +62,30 @@
         var table, tableHeader, tableBody;
 
 
-
         var _check = function (disabled) {
             disabled = disabled || false;
-            return  mw.element({
+            var checkbox = mw.element({
+                tag: 'input',
+                props: {
+                    type: 'checkbox',
+                    disabled: disabled
+                }
+            });
+
+            var label = mw.element({
                 tag: 'label',
                 props: {
                     className: 'mw-ui-check',
                 },
                 content: [
-                    mw.element({
-                        tag: 'input',
-                        props: {
-                            type: 'checkbox',
-                            disabled: disabled
-                        }
-                    }),
+                    checkbox,
                     mw.element({
                         tag: 'span'
                     })
                 ]
             });
+
+            return {label: label, checkbox: checkbox};
         };
 
         var _size = function (item, dc) {
@@ -241,7 +244,7 @@
             if( scope.settings.multiSelect) {
                 if(item.type === 'file' || (item.type === 'folder' && scope.settings.folderSelect)){
                     var check =  _check(true);
-                    row.append( mw.element({ className: 'mw-fml-object-item mw-fml-object-item-select', content: check }));
+                    row.append( mw.element({ className: 'mw-fml-object-item mw-fml-object-item-select', content: check.label }));
                 }  else {
                     row.append( mw.element({ className: 'mw-fml-object-item mw-fml-object-item-select'}));
                 }
@@ -321,13 +324,20 @@
                       item.row.removeClass('selected');
                   }
              }
-             if(allSelected() || noneSelected()) {
-                 globalcheck.removeClass('mw-check-partial');
+             var all = allSelected();
+             var none = noneSelected();
+             if(all || none) {
+                 globalcheck.label.removeClass('mw-ui-check-partial');
+
              } else {
-                 globalcheck.addClass('mw-check-partial');
+                 globalcheck.label.addClass('mw-ui-check-partial');
              }
 
-             globalcheck.prop('checked', allSelected());
+            if (none) {
+                globalcheck.checkbox.prop('checked', false);
+            } else {
+                globalcheck.checkbox.prop('checked', true);
+            }
              if (dispatch) {
                  scope.dispatch('selectionChange', scope._selected);
              }
@@ -383,11 +393,11 @@
         var listViewHeaderDefaultRender = function () {
             var thCheck;
             if (scope.settings.multiSelect) {
-                globalcheck = _check();
-                globalcheck.on('input', function () {
+                globalcheck = _check(true);
+                globalcheck.label.on('click', function () {
                     scope.selectAllToggle();
                 });
-                thCheck = mw.element({ className: 'mw-fml-th mw-fml-object-item-select mw-file-manager-select-all-heading', content: globalcheck  });
+                thCheck = mw.element({ className: 'mw-fml-th mw-fml-object-item-select mw-file-manager-select-all-heading', content: globalcheck.label  });
             }
             var thImage = mw.element({ className: 'mw-fml-th mw-fml-object-item-image', content: ''  });
             var thName = mw.element({ className: 'mw-fml-th mw-fml-object-item-name', content: '<span>Name</span>'  }).addClass('mw-file-manager-sortable-table-header');
