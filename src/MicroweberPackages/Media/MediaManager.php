@@ -1306,7 +1306,7 @@ class MediaManager
 
     private function _is_webp_supported()
     {
-        if ($_SERVER and isset($_SERVER['HTTP_ACCEPT']) and is_string($_SERVER['HTTP_ACCEPT']) and strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
+        if (function_exists('imagewebp') and $_SERVER and isset($_SERVER['HTTP_ACCEPT']) and is_string($_SERVER['HTTP_ACCEPT']) and strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
             return true;
         }
     }
