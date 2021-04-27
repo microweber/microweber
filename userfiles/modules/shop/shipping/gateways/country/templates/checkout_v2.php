@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Default
+name: Checkout V2
 
-description: Default
+description: Checkout V2
 
 */
 ?>
