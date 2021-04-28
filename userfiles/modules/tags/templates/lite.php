@@ -11,37 +11,29 @@ description: Lite
 */
 ?>
 
+<?php include modules_path() . 'editor' . DS . 'template_settings' . DS . 'generated_vars.php'; ?>
+
 <style>
-    .tag a {
-        background-color: #f5f5f5;
-        border: 1px solid #f5f5f5;
-        color: #656565;
-        font-size: 14px;
-        padding: 10px 20px;
-        text-decoration: none;
-        float: left;
-        display: block;
-        margin-bottom: 10px;
-        margin-right: 10px;
+    .mw-tags-button.btn-outline-light {
+        background-color: <?php echo $less_primary; ?>;
+        border: 1px solid <?php echo $less_primary; ?>;
+        color: <?php echo $less_textLight; ?>;
     }
 
-    .tag a:hover {
-        background-color: #fff;
-        border: 1px solid #3b3b3b;
-        color: #656565;
+    .mw-active-tag-lite {
+        background-color: <?php echo $less_dark; ?>!important;
+        border: 1px solid <?php echo $less_dark; ?>!important;
+        color: <?php echo $less_textLight; ?>!important;
     }
 </style>
+<?php $current_tag = url_param('tags'); ?>
 
-
-
-<div class="tag">
-    <?php foreach ($content_tags_data as $tag_item): ?>
-        <a  class="tag__link"   href="<?php print $tags_url_base ?>/tags:<?php print $tag_item['tag_slug']; ?>">
-           <?php print $tag_item['tag_name']; ?>
+<?php foreach ($content_tags_data as $tag_item): ?>
+    <div class="btn-group tag tag-xs m-1">
+        <a href="<?php print $tags_url_base ?><?php print $current_tag == $tag_item['tag_slug'] ? '' : '/tags:'. $tag_item['tag_slug'] ?>">
+            <span class="btn mw-tags-button btn-outline-light btn-sm icon-left no-hover px-3 <?php print $current_tag == $tag_item['tag_slug'] ? 'mw-active-tag-lite' : '' ?>"> <?php print $tag_item['tag_name']; ?></span>
         </a>
-    <?php endforeach; ?>
-</div>
-
-
+    </div>
+<?php endforeach; ?>
 
 
