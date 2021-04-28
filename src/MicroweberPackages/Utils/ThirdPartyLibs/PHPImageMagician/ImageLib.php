@@ -163,10 +163,9 @@ class ImageLib
     {
 
 
-        if(php_can_use_func('ini_set')){
-            ini_set('memory_limit','1280M');
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '1280M');
         }
-
 
 
         if (!$this->testGDInstalled()) {
@@ -2185,11 +2184,17 @@ class ImageLib
                 break;
 
 
-                case '.webp':
+            case '.webp':
 
-                    imagewebp($this->imageResized, $savePath, 100);
+                if ($this->fileExtension and strtolower($this->fileExtension) == '.png') {
+                    imagealphablending($this->imageResized, true);
+                    imagesavealpha($this->imageResized, true);
+                }
 
-                    break;
+
+                imagewebp($this->imageResized, $savePath, 100);
+
+                break;
             // ... etc
             default:
                 // *** No extension - No save.
@@ -2234,9 +2239,9 @@ class ImageLib
                 break;
 
 
-                case 'webp':
+            case 'webp':
                 header('Content-type: image/webp');
-                    imagewebp($this->imageResized);
+                imagewebp($this->imageResized);
                 break;
             case 'png':
                 header('Content-type: image/png');
