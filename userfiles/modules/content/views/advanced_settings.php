@@ -393,6 +393,85 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php /* PAGES ONLY  */ ?>
                 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 
+
+                <?php if (isset($data['id']) and $data['id'] != 0): ?>
+
+
+
+                    <?php if (isset($data['id'])): ?>
+                        <div class="row  mt-3">
+                        <div class="col-md-12">
+                            <div>
+                                <small>
+                                    <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+                                </small>
+                            </div>
+                        </div>
+
+<?php /*        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+*/ ?>
+                        </div>
+                    <?php endif; ?>
+
+
+
+
+
+                    <div class="row  ">
+
+
+
+
+                        <div class="col-12">
+
+
+
+
+
+
+
+                            <div     id="set-a-specific-publish-date">
+                                <div class="row">
+                                    <script>mw.lib.require('bootstrap_datetimepicker');</script>
+                                    <script>
+                                        $(function () {
+                                            $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
+                                            $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
+                                        });
+                                    </script>
+
+
+                                    <?php if (isset($data['created_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
+                                                <small>
+                                                    <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if (isset($data['updated_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
+                                                <small>
+                                                    <?php _e("Updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+
+
+
+
                 <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
                     <div class="row mb-3">
                         <div class="col-12">
@@ -438,6 +517,12 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
                 <?php endif; ?>
+
+
+
+
+
+
             </div>
         </div>
     </div>
