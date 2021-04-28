@@ -2187,7 +2187,7 @@ class ImageLib
 
                 case '.webp':
 
-                    imagewebp($this->imageResized, $savePath, $imageQuality);
+                    imagewebp($this->imageResized, $savePath, 100);
 
                     break;
             // ... etc
