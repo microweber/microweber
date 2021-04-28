@@ -59,7 +59,7 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
             var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
             if (confirmUser == true) {
                 $.ajax({
-                    url: '<?php print route('offer.delete');?>',
+                    url: '<?php print route('api.offer.delete');?>',
                     data: 'offer_id=' + offer_id,
                     type: 'POST',
                     dataType: 'json',
