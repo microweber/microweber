@@ -357,7 +357,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
                 <?php if ($show_page_settings != false): ?>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
@@ -404,12 +404,12 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div>
                                 <small>
                                     <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+
                                 </small>
                             </div>
                         </div>
 
-<?php /*        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
-*/ ?>
+
                         </div>
                     <?php endif; ?>
 
@@ -425,12 +425,13 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-12">
 
 
+                            <button type="button" class="btn btn-sm btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
 
 
 
 
-                            <div     id="set-a-specific-publish-date">
+                            <div  class="collapse"   id="set-a-specific-publish-date">
                                 <div class="row">
                                     <script>mw.lib.require('bootstrap_datetimepicker');</script>
                                     <script>
