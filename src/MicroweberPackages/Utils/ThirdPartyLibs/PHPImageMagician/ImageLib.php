@@ -2183,12 +2183,20 @@ class ImageLib
             case '.bmp':
                 file_put_contents($savePath, $this->GD2BMPstring($this->imageResized));
                 break;
+
+
+                case '.webp':
+
+                    imagewebp($this->imageResized, $savePath, $imageQuality);
+
+                    break;
             // ... etc
             default:
                 // *** No extension - No save.
                 $this->errorArray[] = 'This file type (' . $extension . ') is not supported. File not saved.';
                 break;
         }
+
         //imagedestroy($this->imageResized);
         // *** Display error if a file type is not supported.
         if ($error != '') {
@@ -2223,6 +2231,12 @@ class ImageLib
             case 'gif':
                 header('Content-type: image/gif');
                 imagegif($this->imageResized);
+                break;
+
+
+                case 'webp':
+                header('Content-type: image/webp');
+                    imagewebp($this->imageResized);
                 break;
             case 'png':
                 header('Content-type: image/png');
