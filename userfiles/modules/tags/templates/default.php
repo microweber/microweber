@@ -13,7 +13,8 @@ description: Default
 
 <style>
     .mw-active-tag {
-        background-color: blue;
+        background-color: #5c98ff;
+        border-color: #5c98ff;
     }
 </style>
 
