@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $.post("/configure-whmcs-connection-status")
+        $.post("<?php echo api_url('whitelabel/whmcs_status'); ?>")
             .done(function(data) {
                 if (data.success) {
                     $('.js-connection-status').html('<div class="alert alert-success"><i class="fa fa-check"></i> '+data.success+'</div>');
