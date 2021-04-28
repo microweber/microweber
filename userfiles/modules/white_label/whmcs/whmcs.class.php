@@ -4,17 +4,47 @@
  * WHMCS PHP
  * @author Kay Leacock
  */
-class WHMCS {
+class WHMCS
+{
+
     public $url;
     public $username;
     public $password;
     public $accesskey;
+    public $secret;
+    public $identifier;
 
-    public function __construct($url = 'http://whmcs.com/include/api.php', $username = 'username', $password = 'password', $accesskey = ''){
+    public function __construct($url = 'http://whmcs.com/include/api.php', $username = 'username', $password = 'password', $accesskey = '')
+    {
         $this->url = $url;
         $this->username = $username;
         $this->password = $password;
         $this->accesskey = $accesskey;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
+    }
+
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
     }
 
     /**
@@ -23,9 +53,10 @@ class WHMCS {
      * @param string $password
      * @return boolean
      */
-    public function authenticate($username, $password){
+    public function authenticate($username, $password)
+    {
         $response = $this->api("validatelogin", array("email" => $username, "password2" => $password));
-        if($response->userid){
+        if ($response->userid) {
             return true;
         }
 
@@ -43,30 +74,31 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Clients_Domains
      */
-    public function getDomains($uid = 0, $domainId = 0, $domain = '', $start = 0, $limit = 0){
-        if($limit <= 0){
+    public function getDomains($uid = 0, $domainId = 0, $domain = '', $start = 0, $limit = 0)
+    {
+        if ($limit <= 0) {
             $limit = 9999;
         }
 
         $params['limitnum'] = $limit;
         $params['limitstart'] = $start;
 
-        if($uid > 0){
+        if ($uid > 0) {
             $params['clientid'] = $uid;
         }
 
-        if($domainId > 0){
+        if ($domainId > 0) {
             $params['domainid'] = $domainId;
         }
 
-        if($domain){
+        if ($domain) {
             $params['domain'] = $domain;
         }
 
         $response = $this->api("getclientsdomains", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -79,12 +111,13 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Domain_Nameservers
      */
-    public function getDomainNameservers($domainId){
+    public function getDomainNameservers($domainId)
+    {
         $params['domainid'] = $domainId;
         $response = $this->api("domaingetnameservers", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -97,12 +130,13 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Domain_Locking_Status
      */
-    public function getDomainLock($domainId){
+    public function getDomainLock($domainId)
+    {
         $params['domainid'] = $domainId;
         $response = $this->api("domaingetlockingstatus", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -115,12 +149,13 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Domain_WHOIS
      */
-    public function getDomainWHOIS($domainId){
+    public function getDomainWHOIS($domainId)
+    {
         $params['domainid'] = $domainId;
         $response = $this->api("domaingetwhoisinfo", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -135,26 +170,27 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Products
      */
-    public function getProducts($pid = 0, $gid = 0, $module = null){
+    public function getProducts($pid = 0, $gid = 0, $module = null)
+    {
 
         $params = [];
 
-        if($pid > 0){
+        if ($pid > 0) {
             $params['pid'] = $pid;
         }
 
-        if($gid > 0){
+        if ($gid > 0) {
             $params['gid'] = $gid;
         }
 
-        if($module != null){
+        if ($module != null) {
             $params['module'] = $module;
         }
 
         $response = $this->api("getproducts", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -173,38 +209,39 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Clients_Products
      */
-    public function getServices($uid = 0, $serviceId = 0, $domain = '', $productId = 0, $serviceUsername = '', $start = 0, $limit = 0){
-        if($limit <= 0){
+    public function getServices($uid = 0, $serviceId = 0, $domain = '', $productId = 0, $serviceUsername = '', $start = 0, $limit = 0)
+    {
+        if ($limit <= 0) {
             $limit = 9999;
         }
 
         $params['limitnum'] = $limit;
         $params['limitstart'] = $limitstart;
 
-        if($uid > 0){
+        if ($uid > 0) {
             $params['clientid'] = $uid;
         }
 
-        if($serviceId > 0){
+        if ($serviceId > 0) {
             $params['serviceid'] = $serviceId;
         }
 
-        if($domain){
+        if ($domain) {
             $params['domain'] = $domain;
         }
 
-        if($productId){
+        if ($productId) {
             $params['pid'] = $productId;
         }
 
-        if($serviceUsername){
+        if ($serviceUsername) {
             $params['username2'] = $serviceUsername;
         }
 
         $response = $this->api("getclientsproducts", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -219,23 +256,24 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Transactions
      */
-    public function getTransactions($uid = 0, $invoiceId = 0, $transactionId = 0){
-        if($uid > 0){
+    public function getTransactions($uid = 0, $invoiceId = 0, $transactionId = 0)
+    {
+        if ($uid > 0) {
             $params['clientid'] = $uid;
         }
 
-        if($invoiceId > 0){
+        if ($invoiceId > 0) {
             $params['invoiceid'] = $invoiceId;
         }
 
-        if($transactionId > 0){
+        if ($transactionId > 0) {
             $params['transid'] = $transactionId;
         }
 
         $response = $this->api("gettransactions", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -252,18 +290,19 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Emails
      */
-    public function getEmails($uid, $filter = '', $filterdate = '', $start = 0, $limit = 0){
+    public function getEmails($uid, $filter = '', $filterdate = '', $start = 0, $limit = 0)
+    {
         $params['clientid'] = $uid;
 
-        if($filter){
+        if ($filter) {
             $params['subject'] = $filter;
         }
 
-        if($filterdate){
+        if ($filterdate) {
             $params['date'] = $filterdate;
         }
 
-        if(!$limit <= 0){
+        if (!$limit <= 0) {
             $limit = 9999;
         }
 
@@ -272,8 +311,8 @@ class WHMCS {
 
         $response = $this->api("getemails", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -286,21 +325,22 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Credit
      */
-    public function addCredit($data){
+    public function addCredit($data)
+    {
         $attributes = array("clientid", "description", "amount");
 
-        foreach($attributes as $k){
+        foreach ($attributes as $k) {
             $credit[$k] = $data[$k];
         }
 
-        if(!$credit['clientid'] || !$credit['description'] || !$credit['amount']){
+        if (!$credit['clientid'] || !$credit['description'] || !$credit['amount']) {
             throw new WhmcsException("Required fields missing.");
         }
 
         $response = $this->api("addcredit", $credit);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -312,7 +352,8 @@ class WHMCS {
      * @return object
      * @link http://docs.whmcs.com/API:Get_Credits
      */
-    public function getCredits($uid){
+    public function getCredits($uid)
+    {
         return $this->api("getcredits", array("clientid" => $uid));
     }
 
@@ -324,11 +365,12 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Update_Client
      */
-    public function updateClient($uid = 0, $update){
+    public function updateClient($uid = 0, $update)
+    {
         $attributes = array("firstname", "lastname", "companyname", "email", "address1", "address2", "city", "state", "postcode", "country", "phonenumber", "password2", "credit", "taxexempt", "notes", "cardtype", "cardnum", "expdate", "startdate", "issuenumber", "language", "customfields", "status", "latefeeoveride", "overideduenotices", "disableautocc");
 
-        foreach($attributes as $k){
-            if(isset($update[$k])){
+        foreach ($attributes as $k) {
+            if (isset($update[$k])) {
                 $params[$k] = $update[$k];
             }
         }
@@ -337,8 +379,8 @@ class WHMCS {
 
         $response = $this->api("updateclient", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -351,23 +393,24 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Client
      */
-    public function addClient($data){
+    public function addClient($data)
+    {
         $attributes = array("firstname", "lastname", "companyname", "email", "address1", "address2", "city", "state", "postcode", "country", "phonenumber", "password2", "currency", "clientip", "language", "groupid", "securityqid", "securityqans", "notes", "cctype", "cardnum", "expdate", "startdate", "issuenumber", "customfields", "noemail", "skipvalidation");
 
-        foreach($attributes as $k){
+        foreach ($attributes as $k) {
             $customer[$k] = $data[$k];
         }
 
-        if($customer['skipvalidation'] != true){
-            if(!$customer['firstname'] || !$customer['lastname'] || !$customer['email'] || !$customer['address1'] || !$customer['city'] || !$customer['state'] || !$customer['postcode'] || !$customer['country'] || !$customer['phonenumber'] || !$customer['password2']){
+        if ($customer['skipvalidation'] != true) {
+            if (!$customer['firstname'] || !$customer['lastname'] || !$customer['email'] || !$customer['address1'] || !$customer['city'] || !$customer['state'] || !$customer['postcode'] || !$customer['country'] || !$customer['phonenumber'] || !$customer['password2']) {
                 throw new WhmcsException("Required fields missing.");
             }
         }
 
         $response = $this->api("addclient", $customer);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -381,12 +424,13 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Clients_Details
      */
-    public function getClient($uid = 0, $email = ''){
-        if($uid > 0){
+    public function getClient($uid = 0, $email = '')
+    {
+        if ($uid > 0) {
             $params = array("clientid" => $uid);
-        }elseif($email){
+        } elseif ($email) {
             $params = array("email" => $email);
-        }else{
+        } else {
             return false;
         }
 
@@ -394,8 +438,8 @@ class WHMCS {
 
         $response = $this->api("getclientsdetails", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -408,23 +452,24 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Contacts
      */
-    public function addContact($data){
+    public function addContact($data)
+    {
         $attributes = array("clientid", "firstname", "lastname", "companyname", "email", "address1", "address2", "city", "state", "postcode", "country", "phonenumber", "password2", "permissions", "generalemails", "productemails", "domainemails", "invoiceemails", "supportemails", "skipvalidation");
 
-        foreach($attributes as $k){
+        foreach ($attributes as $k) {
             $contact[$k] = $data[$k];
         }
 
-        if($contact['skipvalidation'] != true){
-            if(!$contact['clientid'] || !$contact['firstname'] || !$contact['lastname'] || !$contact['email'] || !$contact['address1'] || !$contact['city'] || !$contact['state'] || !$contact['postcode'] || !$contact['country'] || !$contact['phonenumber'] || !$contact['password2']){
+        if ($contact['skipvalidation'] != true) {
+            if (!$contact['clientid'] || !$contact['firstname'] || !$contact['lastname'] || !$contact['email'] || !$contact['address1'] || !$contact['city'] || !$contact['state'] || !$contact['postcode'] || !$contact['country'] || !$contact['phonenumber'] || !$contact['password2']) {
                 throw new WhmcsException("Required fields missing.");
             }
         }
 
         $response = $this->api("addcontact", $contact);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -436,7 +481,8 @@ class WHMCS {
      * @return object
      * @link http://docs.whmcs.com/API:Get_Invoice
      */
-    public function getInvoice($invoiceid){
+    public function getInvoice($invoiceid)
+    {
         return $this->api("getinvoice", array("invoiceid" => $invoiceid));
     }
 
@@ -450,16 +496,17 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Invoices
      */
-    public function getInvoices($uid = 0, $status = '', $start = 0, $limit = 0){
-        if($uid > 0){
+    public function getInvoices($uid = 0, $status = '', $start = 0, $limit = 0)
+    {
+        if ($uid > 0) {
             $params['userid'] = $uid;
         }
 
-        if($status == "Unpaid" || $status == "Paid" || $status == "Refunded" || $status == "Cancelled" || $status == "Collections"){
+        if ($status == "Unpaid" || $status == "Paid" || $status == "Refunded" || $status == "Cancelled" || $status == "Collections") {
             $params['status'] = $status;
         }
 
-        if(!$limit <= 0){
+        if (!$limit <= 0) {
             $limit = 9999;
         }
 
@@ -468,8 +515,8 @@ class WHMCS {
 
         $response = $this->api("getinvoices", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -482,20 +529,21 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Create_Invoice
      */
-    public function createInvoice($data){
+    public function createInvoice($data)
+    {
         $attributes = array("userid", "date", "duedate", "paymentmethod",
             "sendinvoice",
             // optional
             "taxrate", "taxrate2", "notes", "sendinvoice",
             "autoapplycredit");
 
-        foreach($attributes as $a){
-            if(!empty($params[$a])){
+        foreach ($attributes as $a) {
+            if (!empty($params[$a])) {
                 $params[$a] = $data[$a];
             }
         }
 
-        for($i = 0; $i < count($data['items']); $i++){
+        for ($i = 0; $i < count($data['items']); $i++) {
             $params['itemdescription' . $i] = $data['items'][$i]['description'];
             $params['itemamount' . $i] = $data['items'][$i]['amount'];
             $params['itemtaxed' . $i] = $data['items'][$i]['taxed'];
@@ -503,8 +551,8 @@ class WHMCS {
 
         $response = $this->api("createinvoice", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -521,12 +569,13 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Invoice_Payment
      */
-    public function addInvoicePayment($invoiceid, $txid, $amount = 0, $gateway, $date = ''){
-        if($amount > 0){
+    public function addInvoicePayment($invoiceid, $txid, $amount = 0, $gateway, $date = '')
+    {
+        if ($amount > 0) {
             $params['amount'] = $amount;
         }
 
-        if($date){
+        if ($date) {
             $params['date'] = $date;
         }
 
@@ -536,8 +585,8 @@ class WHMCS {
 
         $response = $this->api("addinvoicepayment", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -554,20 +603,21 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Orders
      */
-    public function getOrders($uid = 0, $orderId = 0, $status = '', $start = 0, $limit = 0){
-        if($uid > 0){
+    public function getOrders($uid = 0, $orderId = 0, $status = '', $start = 0, $limit = 0)
+    {
+        if ($uid > 0) {
             $params['userid'] = $uid;
         }
 
-        if($orderId > 0){
+        if ($orderId > 0) {
             $params['id'] = $invoiceId;
         }
 
-        if($status == "Pending" || $status == "Active" || $status == "Fraud" || $status == "Cancelled"){
+        if ($status == "Pending" || $status == "Active" || $status == "Fraud" || $status == "Cancelled") {
             $params['status'] = $status;
         }
 
-        if(!$limit <= 0){
+        if (!$limit <= 0) {
             $limit = 9999;
         }
 
@@ -576,8 +626,8 @@ class WHMCS {
 
         $response = $this->api("getorders", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -599,20 +649,21 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Order
      */
-    public function addOrder($uid, $productdata, $paymentmethod, $clientip, $promocode = null, $affid = null, $noemail = false, $noinvoice = false, $noinvoiceemail = false, $otherparams = null){
-        if($promocode){
+    public function addOrder($uid, $productdata, $paymentmethod, $clientip, $promocode = null, $affid = null, $noemail = false, $noinvoice = false, $noinvoiceemail = false, $otherparams = null)
+    {
+        if ($promocode) {
             $params['promocode'] = $promocode;
         }
-        if($affid){
+        if ($affid) {
             $params['affid'] = $affid;
         }
-        if($noemail){
+        if ($noemail) {
             $params['noemail'] = "true";
         }
-        if($noinvoice){
+        if ($noinvoice) {
             $params['noinvoice'] = "true";
         }
-        if($noinvoiceemail){
+        if ($noinvoiceemail) {
             $params['noinvoiceemail'] = "true";
         }
 
@@ -621,26 +672,26 @@ class WHMCS {
         $params['clientip'] = $clientip;
 
         $i = 0;
-        foreach($productdata as $product){
-            foreach($product as $key => $val){
-                if($key == "customfields" || $key == "configoptions" || $key == "domainfields"){
+        foreach ($productdata as $product) {
+            foreach ($product as $key => $val) {
+                if ($key == "customfields" || $key == "configoptions" || $key == "domainfields") {
                     $val = base64_encode(serialize($val));
                 }
-                $params[$key.'['.$i.']'] = $val;
+                $params[$key . '[' . $i . ']'] = $val;
             }
             $i++;
         }
 
-        if(isset($otherparams)){
-            foreach($otherparams as $key => $val){
+        if (isset($otherparams)) {
+            foreach ($otherparams as $key => $val) {
                 $params[$key] = $val;
             }
         }
 
         $response = $this->api('addorder', $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -660,23 +711,24 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Accept_Order
      */
-    public function acceptOrder($orderid, $serverid = null, $serviceusername = null, $servicepassword = null, $registrar = null, $autosetup = null, $sendregistrar = null, $sendemail = null){
-        if($serverid){
+    public function acceptOrder($orderid, $serverid = null, $serviceusername = null, $servicepassword = null, $registrar = null, $autosetup = null, $sendregistrar = null, $sendemail = null)
+    {
+        if ($serverid) {
             $params['serverid'] = $serverid;
         }
-        if($serviceusername){
+        if ($serviceusername) {
             $params['serviceusername'] = $serviceusername;
         }
-        if($servicepassword){
+        if ($servicepassword) {
             $params['servicepassword'] = $servicepassword;
         }
-        if($registrar){
+        if ($registrar) {
             $params['registrar'] = $registrar;
         }
-        if($autosetup){
+        if ($autosetup) {
             $params['autosetup'] = $autosetup;
         }
-        if($sendemail){
+        if ($sendemail) {
             $params['sendemail'] = $sendemail;
         }
 
@@ -684,8 +736,8 @@ class WHMCS {
 
         $response = $this->api('acceptorder', $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -697,11 +749,12 @@ class WHMCS {
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Get_Stats
      */
-    public function getStats(){
+    public function getStats()
+    {
         $response = $this->api("getstats", $params);
 
-        if($response->result == 'error'){
-            throw new WhmcsException("WHMCS complained: ".$response->message);
+        if ($response['result'] == 'error') {
+            throw new WhmcsException("WHMCS complained: " . $response->message);
         }
 
         return $response;
@@ -714,19 +767,31 @@ class WHMCS {
      * @return object
      * @throws Exception
      */
-    private function api($action, $params){
+    private function api($action, $params)
+    {
+
         $postfields = array();
-        $postfields['username'] = $this->username;
-        $postfields['password'] = md5($this->password);
         $postfields['responsetype'] = 'json';
         $postfields['action'] = $action;
 
-        if($this->accesskey != ''){
-            $postfields['accesskey'] = $this->accesskey;
+        if ($this->username) {
+            $postfields['username'] = $this->username;
         }
 
-        if(isset($params)){
-            foreach($params as $k => $v){
+        if ($this->password) {
+            $postfields['password'] = md5($this->password);
+        }
+
+        if ($this->identifier) {
+            $postfields['identifier'] = $this->identifier;
+        }
+
+        if ($this->secret) {
+            $postfields['secret'] = $this->secret;
+        }
+
+        if (isset($params)) {
+            foreach ($params as $k => $v) {
                 $postfields[$k] = $v;
             }
         }
@@ -743,13 +808,16 @@ class WHMCS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
         $response = curl_exec($ch);
-        if(curl_error($ch)){ throw new Exception(curl_error($ch)); }
+        if (curl_error($ch)) {
+            throw new Exception(curl_error($ch));
+        }
         curl_close($ch);
 
-        return(json_decode($response));
+        return (json_decode($response, true));
     }
 }
 
-class WhmcsException extends Exception {
+class WhmcsException extends Exception
+{
 
 }
