@@ -302,6 +302,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
+                    <module type="white_label/whmcs" />
+
                 </form>
             </div>
         </div>
