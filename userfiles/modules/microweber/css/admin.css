@@ -359,3 +359,11 @@ div.form-control {
 #quick-parent-selector-tree .mw-tree-nav-skin-default .mw-tree-item-title{
     padding-right: 0;
 }
+
+.mw-btn-icon{
+    padding: 6px 10px;
+  font-size: 20px;
+ margin: 0 10px;
+ border-radius: 3px;
+ cursor: pointer;
+}
