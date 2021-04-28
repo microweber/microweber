@@ -2057,23 +2057,31 @@ class ImageLib
             }
         };
         $img = false;
-        $info = getimagesize($file);
-        switch ($info[2]) {
-            case IMAGETYPE_JPEG:
-                $img = @imagecreatefromjpeg($file);
-                break;
-            case IMAGETYPE_PNG:
-                $img = @imagecreatefrompng($file);
-                break;
-            case IMAGETYPE_GIF:
-                $img = @imagecreatefromgif($file);
-                break;
-            case IMAGETYPE_WBMP:
-                $img = @$this->imagecreatefrombmp($file);
-                break;
-            default:
-                $img = false;
-                break;
+
+
+        if ($this->fileExtension and strtolower($this->fileExtension) == '.webp' and function_exists('imagecreatefromwebp')) {
+            $img = @imagecreatefromwebp($file);
+        } else {
+            $info = getimagesize($file);
+
+            switch ($info[2]) {
+                case IMAGETYPE_JPEG:
+                    $img = @imagecreatefromjpeg($file);
+                    break;
+                case IMAGETYPE_PNG:
+                    $img = @imagecreatefrompng($file);
+                    break;
+                case IMAGETYPE_GIF:
+                    $img = @imagecreatefromgif($file);
+                    break;
+                case IMAGETYPE_WBMP:
+                    $img = @$this->imagecreatefrombmp($file);
+                    break;
+
+                default:
+                    $img = false;
+                    break;
+            }
         }
         if (!$img) {
             // *** Get extension
@@ -2186,7 +2194,7 @@ class ImageLib
 
             case '.webp':
 
-                if ($this->fileExtension and strtolower($this->fileExtension) == '.png') {
+                if ($this->fileExtension and (strtolower($this->fileExtension) == '.png' or strtolower($this->fileExtension) == '.webp')) {
                     imagealphablending($this->imageResized, true);
                     imagesavealpha($this->imageResized, true);
                 }
