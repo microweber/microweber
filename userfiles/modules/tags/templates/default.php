@@ -11,12 +11,20 @@ description: Default
 */
 ?>
 
-<div class="tag">
-    <?php foreach ($content_tags_data as $tag_item): ?>
-        <a href="<?php print $tags_url_base ?>/tags:<?php print $tag_item['tag_slug']; ?>" class="tag__link">
-            <span class="label label-warning label-md">
-                <?php print $tag_item['tag_name']; ?>
-            </span>
+<style>
+    .mw-active-tag {
+        background-color: #5c98ff;
+        border-color: #5c98ff;
+    }
+</style>
+
+<?php $current_tag = url_param('tags'); ?>
+
+<?php foreach ($content_tags_data as $tag_item): ?>
+    <div class="btn-group tag tag-xs m-1">
+        <a href="<?php print $tags_url_base ?><?php print $current_tag == $tag_item['tag_slug'] ? '' : '/tags:'. $tag_item['tag_slug'] ?>">
+            <span class="btn btn-primary btn-sm icon-left no-hover <?php print $current_tag == $tag_item['tag_slug'] ? 'mw-active-tag' : '' ?>"><i class="mdi mdi-tag"></i> <?php print $tag_item['tag_name']; ?></span>
         </a>
-    <?php endforeach; ?>
-</div>
+    </div>
+<?php endforeach; ?>
+
