@@ -37,9 +37,8 @@ if ($all_existing_tags == null) {
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             local: data
         });
-        tags.initialize();
-        console.log(tags)
 
+        tags.initialize();
         var node = document.querySelector('#content-tags-block');
         var tagsData = <?php print json_encode($tags_str) ?>.map(function (tag){
             return {title: tag}
