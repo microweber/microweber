@@ -32,32 +32,59 @@ if ($all_existing_tags == null) {
     $(document).ready(function () {
         var data = <?php print $all_existing_tags; ?>;
 
-        var tags = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: data
-        });
 
-        tags.initialize();
         var node = document.querySelector('#content-tags-block');
+        var nodesearch = document.querySelector('#content-tags-search-block');
+
         var tagsData = <?php print json_encode($tags_str) ?>.map(function (tag){
             return {title: tag}
         });
-         $(new mw.tags({
-             element: node,
-             data: tagsData,
-             color: 'primary',
-             size:  'sm',
-             inputField: true,
-         }))
+        var tags = new mw.tags({
+            element: node,
+            data: tagsData,
+            color: 'primary',
+            size:  'sm',
+            inputField: false,
+        })
+      $(tags)
          .on('change', function(e, item, data){
             mw.element('[name="tag_names"]').val(data.map(function (c) {  return c.title }).join(',')).trigger('change')
         });
+
+
+        var tagsSelect = mw.select({
+            element: nodesearch,
+            multiple: false,
+            autocomplete: true,
+            tags: false,
+            placeholder: 'Select or create new tag',
+            ajaxMode: {
+                paginationParam: 'page',
+                searchParam: 'keyword',
+                endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
+                method: 'get'
+            }
+        });
+
+
+        $(tagsSelect).on("change", function (event, tag) {
+            tags.addTag(tag)
+            setTimeout(function () {tagsSelect.element.querySelector('input').value = '';})
+        });
+
+        $(tagsSelect).on('enterOrComma', function (e, node){
+            tags.addTag({title: node.value});
+            setTimeout(function () {node.value = '';})
+        })
+
+
+
     });
 </script>
 <div class="row">
     <div class="col-12">
-        <div id="content-tags-block" class="form-control"></div>
+        <div id="content-tags-block"></div>
+        <div id="content-tags-search-block"></div>
         <input type="hidden" name="tag_names" value="<?php print implode(',', $tags_str); ?>" id="tags"/>
     </div>
 </div>

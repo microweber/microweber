@@ -51,23 +51,38 @@ mw.tags = mw.chips = function(options){
     this.addInputField = function () {
         this._field = document.createElement('input');
         this._field.className = 'mw-ui-invisible-field mw-ui-field-' + this.options.size;
+
         this._field.onkeydown = function (e) {
+            var val = scope._field.value.trim();
             if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
                 e.preventDefault();
-                var val = scope._field.value.trim();
+
                 if(val) {
                     scope.addTag({
                         title: val
                     });
                 }
             } else if (mw.event.is.backSpace(e)) {
-                if(!scope._field.value.trim()) {
-                    scope.removeTag(scope.options.data[scope.options.data.length - 1]);
+                if(!val) {
+                    var last = scope.options.data[scope.options.data.length - 1];
+                    scope.removeTag(scope.options.data.length - 1);
+                    scope._field.value = scope.dataTitle(last) + ' ';
                     scope._field.focus();
+
                 }
             }
+            scope.handleAutocomplete(val, e)
+
+
         };
         return this._field;
+    };
+    this.handleAutocomplete = function (val, e) {
+        if(this.options.autocomplete){
+
+
+
+        }
     };
 
 
@@ -173,7 +188,10 @@ mw.tags = mw.chips = function(options){
         this.options.data.splice( index, 0, data );
         this.unique();
         this.refresh();
-        this._field.focus();
+        if (this._field) {
+            this._field.focus();
+        }
+
         mw.$(scope).trigger('tagAdded', [data, this.options.data]);
         mw.$(scope).trigger('change', [data, this.options.data]);
     };
