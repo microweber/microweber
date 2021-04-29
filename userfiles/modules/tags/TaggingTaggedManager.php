@@ -73,7 +73,7 @@ function tagging_tagged_add($params) {
             // Save tag post
             $saveTaggingTagged = db_save('tagging_tagged', [
                 'taggable_id' => $taggableId,
-                'taggable_type' => 'Content',
+                'taggable_type' => 'content',
                 'tag_name' => $getGlobalTag['name'],
                 'tag_slug' => $getGlobalTag['slug'],
                 'tag_description' => $getGlobalTag['description'],
