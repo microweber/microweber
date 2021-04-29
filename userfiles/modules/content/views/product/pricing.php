@@ -21,7 +21,7 @@
                     $('.js-product-price').on('input', function () {
                         mw.on.stopWriting(this, function () {
                             var textPrice = $('.js-product-price').val();
-                            var formatPrice = textPrice.replace(",", "");
+                            var formatPrice = textPrice.replaceAll(",", "");
                             $('.js-product-price').val(formatPrice);
                         });
                     });
