@@ -57,7 +57,7 @@ if ($all_existing_tags == null) {
             multiple: false,
             autocomplete: true,
             tags: false,
-            placeholder: 'Select or create new tag',
+            placeholder: '<?php _ejs('Add tag') ?>',
             ajaxMode: {
                 paginationParam: 'page',
                 searchParam: 'keyword',
