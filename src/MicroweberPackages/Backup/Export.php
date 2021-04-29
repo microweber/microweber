@@ -313,6 +313,8 @@ class Export
 		$this->skipTables[] = 'sessions';
 		$this->skipTables[] = 'global';
 		$this->skipTables[] = 'migrations';
+		$this->skipTables[] = 'translation_keys';
+		$this->skipTables[] = 'translation_texts';
 
 		return $this->skipTables;
 	}

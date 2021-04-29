@@ -492,6 +492,10 @@ function lnotif($text, $class = 'success')
     if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
         $editmode_sess = true;
     }
+
+//    if(!$editmode_sess){
+//    $editmode_sess = is_live_edit();
+//        }
     //}
 
     if ($editmode_sess == true) {

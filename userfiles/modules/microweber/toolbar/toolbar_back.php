@@ -27,6 +27,6 @@
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode:y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
+ print $u ?>?editmode=y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 
