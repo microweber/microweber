@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Category\tests;
 
 use Illuminate\Support\Facades\Auth;
@@ -13,22 +14,19 @@ class OffersControllerTest extends TestCase
 {
 
 
-
-
-
     public function testSaveOfferFromController()
     {
         $categoryIds = [];
 
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
 
-
-        $title = 'Product with offer price test! - '. rand();
+        $title = 'Product with offer price test! - ' . rand();
         $contentBody = 'Product with offer price.';
 
-        $price = rand(111,999);
+        $price = rand(111, 999);
+        $price_discounted = rand(1, 10);
 
         $response = $this->call(
             'POST',
@@ -37,20 +35,40 @@ class OffersControllerTest extends TestCase
                 'title' => $title,
                 'content_body' => $contentBody,
                 'content' => '',
-                'price'=>$price,
+                'price' => $price,
+            ]
+        );
+        $productDataSaved = $response->getData()->data;
+
+        $prod_id = $productDataSaved->id;
+
+        $prices = get_product_prices($prod_id, true);
+        $this->assertEquals(!empty($prices), true);
+        $this->assertEquals($prices[0]['value'], $price);
+
+
+        //add offer price
+        $response = $this->call(
+            'POST',
+            route('api.offer.store'),
+            [
+                'product_id_with_price_id' => $productDataSaved->id.'|'.$prices[0]['id'],
+                'offer_price' => $price_discounted,
+
             ]
         );
 
-        var_dump($response);
 
 
-//        $productDataSaved = $response->getData()->data;
-//        $this->assertEquals($productDataSaved->title, $title);
-//        $this->assertEquals($productDataSaved->price, $price);
-//        $this->assertEquals($productDataSaved->qty, $qty);
-//        $this->assertEquals($productDataSaved->sku, $sku);
+        $productDataSaved = $response->getData()->data;
+        $this->assertEquals(isset($productDataSaved->offer_id), true);
+        $this->assertEquals(isset($productDataSaved->success_edit), true);
+
+        $prices = get_product_prices($prod_id, true);
+        $this->assertEquals(!empty($prices), true);
+        $this->assertEquals($prices[0]['value'], $price_discounted);
+
 //
-
 
 
     }

@@ -52,12 +52,18 @@ mw.tags = mw.chips = function(options){
         this._field = document.createElement('input');
         this._field.className = 'mw-ui-invisible-field mw-ui-field-' + this.options.size;
         this._field.onkeydown = function (e) {
-            if(mw.event.is.enter(e)) {
+            if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                e.preventDefault();
                 var val = scope._field.value.trim();
                 if(val) {
                     scope.addTag({
                         title: val
                     });
+                }
+            } else if (mw.event.is.backSpace(e)) {
+                if(!scope._field.value.trim()) {
+                    scope.removeTag(scope.options.data[scope.options.data.length - 1]);
+                    scope._field.focus();
                 }
             }
         };
@@ -136,10 +142,38 @@ mw.tags = mw.chips = function(options){
         mw.$(scope).trigger('change', [item, this.options.data]);
      };
 
+
+
+
+
+
+     this.unique = function () {
+        var first = this.options.data[0];
+        if(!first) return;
+        var id = this.options.map.value;
+        if(!first[id]) {
+            id = this.options.map.title;
+        }
+        var i = 0, curr = first;
+        var _findIndex = function (tag) {
+            return tag[id].toLowerCase() === curr[id].toLowerCase();
+        };
+        while (curr) {
+            if (this.options.data.findIndex(_findIndex) === i) {
+                i++;
+            } else {
+                this.options.data.splice(i, 1);
+            }
+            curr = this.options.data[i];
+        }
+     };
+
     this.addTag = function(data, index){
         index = typeof index === 'number' ? index : this.options.data.length;
         this.options.data.splice( index, 0, data );
+        this.unique();
         this.refresh();
+        this._field.focus();
         mw.$(scope).trigger('tagAdded', [data, this.options.data]);
         mw.$(scope).trigger('change', [data, this.options.data]);
     };

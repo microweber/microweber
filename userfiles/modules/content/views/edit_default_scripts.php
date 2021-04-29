@@ -341,9 +341,11 @@
                 $(window).trigger('adminSaveContentCompleted');
 
                 if (self !== parent) {
+
+
+
                     if ((data.id) == 0) {
                         var nid = typeof this === "number" ? this : this.id;
-
 
 
                         mw.$("#<?php print $module_id ?>").attr("content-id", nid);

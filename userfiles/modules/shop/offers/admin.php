@@ -42,6 +42,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
             }
 
+            function deleteOffer(offer_id) {
+                var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
+                if (confirmUser == true) {
+                    $.ajax({
+                        url: '<?php print route('api.offer.delete');?>',
+                        data: 'offer_id=' + offer_id,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            mw.notification.success('Price is deleted')
+                            if (typeof(reload_offer_after_save) != 'undefined') {
+                                reload_offer_after_save();
+                            }
+                            mw.reload_module('#<?php print $params['id'] ?>')
+                            mw.reload_module_parent('custom_fields')
+
+                        }
+                    });
+                }
+            }
+
+
             $(document).ready(function () {
 
                 $(".js-add-new-offer").click(function () {
