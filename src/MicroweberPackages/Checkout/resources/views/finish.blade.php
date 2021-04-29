@@ -13,18 +13,20 @@
         <div class="shop-cart text-center">
             {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
-            <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
-            <h4><?php _e("Thank you"); ?>!</h4>
+
+            <div class="edit" field="checkout_finish_message" rel="global">
+                <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
+                <h4><?php _e("Thank you"); ?>!</h4>
+            </div>
 
             <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
             <h4><?php print($order['id']); ?></h4>
 
-            <div class="edit" field="checkout_finish" rel="global">
+            <div class="edit" field="checkout_finish_button" rel="global">
                 <div class="mt-4">
                     <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection
