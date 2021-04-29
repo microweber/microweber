@@ -281,6 +281,15 @@ class Export
 			return;
 		}
 
+
+		if($table == 'media'){
+
+            $exportFilter['media_type_without_media_tn_temp'] =  function($query){
+                $query->where('media_type' ,'!=','media_tn_temp');
+                return $query;
+            };
+
+        }
 		$dbGet = db_get($table, $exportFilter);
 
 		return $dbGet;
