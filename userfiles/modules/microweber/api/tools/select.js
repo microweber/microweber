@@ -199,18 +199,25 @@ mw.Select = function(options) {
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
 
             if(scope.settings.autocomplete){
-                oh.innerHTML = '<input class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
+                oh.innerHTML = '<input type="text" class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
             } else {
                 oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
             }
 
             if(scope.settings.autocomplete){
                 $('input', oh)
-                    .on('input focus', function () {
+                    .on('input focus', function (e) {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
-                            $(scope.element).trigger('input change')
+
+                        }
+                    })
+                    .on('keydown', function (e) {
+                        if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                            e.preventDefault();
+                            $(scope).trigger('enterOrComma', [this, e]);
+                            $(this).val('adsadasd')
                         }
                     })
                     .on('focus', function () {
