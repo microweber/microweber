@@ -1,4 +1,7 @@
 <?php
+
+use Composer\Semver\Comparator;
+
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
@@ -53,6 +56,21 @@ foreach($composerClient->search() as $packageName=>$versions) {
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
         $version['versions'] = $versions;
+
+        $version['has_update'] = false;
+        if (isset($localPackages[$version['type']])) {
+            $localPackageItem = $localPackages[$version['type']];
+            if ($localPackageItem) {
+                $v1 = trim($version['latest_version']['version']);
+                $v2 = trim($localPackageItem['version']);
+
+                if ($v1 != $v2) {
+                    if (Comparator::greaterThan($v1, $v2)) {
+                        $version['has_update'] = true;
+                    }
+                }
+            }
+        }
 
         if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
             continue;
