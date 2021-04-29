@@ -11,13 +11,6 @@ description: Skin-1
 */
 ?>
 
-
-<style>
-    .mw-active-tag-skin-1 {
-        text-decoration: underline;
-    }
-
-</style>
 <?php $current_tag = url_param('tags'); ?>
 
 <?php foreach ($content_tags_data as $tag_item): ?>
