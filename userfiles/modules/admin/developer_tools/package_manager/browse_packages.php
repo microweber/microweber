@@ -50,27 +50,12 @@ foreach($localPackages['templates'] as $package) {
 
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
-foreach($composerClient->search() as $packageName=>$versions) {
+foreach($composerSearch = $composerClient->search() as $packageName=>$versions) {
     foreach($versions as $version) {
 
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
         $version['versions'] = $versions;
-
-        $version['has_update'] = false;
-        if (isset($localPackages[$version['type']])) {
-            $localPackageItem = $localPackages[$version['type']];
-            if ($localPackageItem) {
-                $v1 = trim($version['latest_version']['version']);
-                $v2 = trim($localPackageItem['version']);
-
-                if ($v1 != $v2) {
-                    if (Comparator::greaterThan($v1, $v2)) {
-                        $version['has_update'] = true;
-                    }
-                }
-            }
-        }
 
         if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
             continue;
@@ -83,6 +68,18 @@ foreach($composerClient->search() as $packageName=>$versions) {
                 $currentInstall['composer_type'] = $version['type'];
                 $currentInstall['local_type'] = $version['type'];
                 $currentInstall['module'] = $module['name'];
+
+                $version['has_update'] = false;
+                
+                $v1 = trim($version['latest_version']['version']);
+                $v2 = trim($module['version']);
+
+                if ($v1 != $v2) {
+                    if (Comparator::greaterThan($v1, $v2)) {
+                        $version['has_update'] = true;
+                    }
+                }
+
                 break;
             }
         }
