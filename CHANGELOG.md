@@ -2,13 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.2.6] - 2021-04-29
+- Fixes on the checkout module
+- Fixes on the tags module
+- Fixes on offers module
+- Fixes on the package manager
+- Fixes on link editor
+- Added content revisions module for live edit
+- Added webp support
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.5...1.2.6 "")
+
+
 ## [1.2.5] - 2021-04-15
 - Fixes on the shipping module
 - Fixes on the checkout module
 - Fixes bug where needed to delete bootstrap/cache folder
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.4...1.2.5 "")
-
 
 
 ## [1.2.4] - 2021-04-12
