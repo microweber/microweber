@@ -3,12 +3,40 @@ if (!is_admin()) {
     return;
 }
 $data = false;
+
+$db_get_params = [];
+
+$db_get_params['table'] = 'content_revisions_history';
+$db_get_params['no_cache'] = true;
+$db_get_params['limit'] = 100;
+$db_get_params['order_by'] = 'id desc';
+
 if (isset($params['content_id'])) {
 
-
     if (isset($params['from_url_string'])) {
-        $data = db_get('no_cache=true&limit=100&order_by=id desc&table=content_revisions_history&url=' . $params['from_url_string']);
-        $data_content_fields_curr = db_get('no_cache=true&limit=100&order_by=id desc&table=content_fields&url=' . $params['from_url_string']);
+        $db_get_params2 = $db_get_params;
+        $db_get_params2['url'] = $params['from_url_string'];
+
+        $data = db_get($db_get_params2);
+        $db_get_params2['table'] = 'content_fields';
+
+        $data_content_fields_curr = db_get($db_get_params2);
+
+    } else  if (isset($params['from_url_string_home'])) {
+
+        $db_get_params2 = $db_get_params;
+        $db_get_params2['__query_from_url_string_home'] = function ($query_filter) {
+            $query_filter->where('url',   '')->orWhereNull('url');
+            return $query_filter;
+        };
+        $db_get_params3 = $db_get_params2;
+        $data = db_get($db_get_params2);
+        $db_get_params2['table'] = 'content_fields';
+
+        $data_content_fields_curr = db_get($db_get_params3);
+
+ 
+
 
     } else {
         $data = db_get('no_cache=true&limit=100&order_by=id desc&table=content_revisions_history&rel_type=content&rel_id=' . $params['content_id']);
@@ -53,7 +81,6 @@ if (isset($params['content_id'])) {
                                 if ($data_item_from_history['rel_type'] == $data_item['rel_type']) {
                                     if ($data_item_from_history['rel_id'] == $data_item['rel_id']) {
                                         $data_item['value_original'] = $data_item_from_history['value'];
-
                                     }
                                 }
                             }

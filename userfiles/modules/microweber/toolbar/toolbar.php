@@ -344,6 +344,9 @@ if (isset($_COOKIE['mw_exp'])) {
             additional_params.content_id = cont_id;
             additional_params.show_btn_for_find_element = true;
             additional_params.from_url_string = '<?php print url_string() ?>';
+            if(additional_params.from_url_string === ''){
+                additional_params.from_url_string_home = 1;
+            }
 
             mw.tools.open_global_module_settings_modal('editor/content_revisions/list_for_content', '#mw_admin_content_revisions_list_for_content_popup_modal_module', opts, additional_params);
 
