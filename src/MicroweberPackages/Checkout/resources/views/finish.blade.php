@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="col-6 d-flex justify-content-center align-items-center">
+    <div class="col-lg-6 col-12 d-flex justify-content-center align-items-center">
         <div class="shop-cart text-center">
             {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
