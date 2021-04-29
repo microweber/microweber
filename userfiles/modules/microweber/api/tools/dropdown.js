@@ -75,7 +75,7 @@ mw.tools.dropdown = function (root) {
                 mw.$(this).removeClass("hover");
                 mw.$(this).removeClass('other-action');
             })
-            .on('mousedown touchstart', 'li[value]', function (event) {
+            .on('mousedown', 'li[value]', function (event) {
                 mw.$(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             })
@@ -86,7 +86,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(document.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on('mousedown', function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();

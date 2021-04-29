@@ -15,6 +15,9 @@ trait LiveEditTrait {
     {
         if (is_admin()) {
             if (is_live_edit()) {
+                if (!defined('IN_EDIT')) {
+                    define('IN_EDIT',true);
+                }
                 $html = $this->liveEditToolbar($html);
             } else {
                 $html = $this->liveEditToolbarBack($html);

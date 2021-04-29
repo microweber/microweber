@@ -253,6 +253,17 @@ function is_live_edit()
         return false;
     }
 
+
+    $editModeParam = app()->url_manager->param('editmode');
+    if ($editModeParam == 'y') {
+        return true;
+    }
+
+    $editModeParam2 = app()->url_manager->param('editmode',true);
+    if ($editModeParam2 == 'y') {
+        return true;
+    }
+
     $editModeSession = mw()->user_manager->session_get('editmode');
     if ($editModeSession == true and !defined('IN_EDIT')) {
         define('IN_EDIT', true);
