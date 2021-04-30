@@ -13,18 +13,24 @@
         <div class="shop-cart text-center">
             {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
-
-            <div class="edit" field="checkout_finish_message" rel="global">
-                <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
-                <h4><?php _e("Thank you"); ?>!</h4>
-            </div>
-
-            <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
-            <h4><?php print($order['id']); ?></h4>
+            <?php
+              $order_completed_message = get_option('shop_order_completed_message', 'shop');
+              if($order_completed_message != '') {
+              ?>
+                <h4><?php _e("Your order number");?> <?php print ($order['id']);?> <?php _e("is completed"); ?></h4>
+              <?php
+                print $order_completed_message;
+              } else {
+            ?>
+                <label class="control-label mb-0"><?php _e("Your order number");?> <strong><?php print ($order['id']);?></strong> <?php _e("is completed"); ?></label>
+                <h4><?php _e("Thank you for your order!"); ?></h4>
+            <?php
+              }
+            ?>
 
             <div class="edit" field="checkout_finish_button" rel="global">
                 <div class="mt-4">
-                    <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
+                    <a href="{{ site_url() }}"><?php _e("Back to website"); ?></a>
                 </div>
             </div>
         </div>

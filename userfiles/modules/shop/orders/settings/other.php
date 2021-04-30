@@ -5,6 +5,45 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 }
 ?>
 
+<script>mw.require('editor.js')</script>
+<script>
+    $(document).ready(function () {
+        mweditor = mw.Editor({
+            selector: '#editorOCM',
+            mode: 'div',
+            smallEditor: false,
+            minHeight: 250,
+            maxHeight: '70vh',
+            controls: [
+                [
+                    'undoRedo', '|', 'image', '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-bold',
+                            controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                        }
+                    },
+                    '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-align-left',
+                            controls: ['align']
+                        }
+                    },
+                    '|', 'format', 'fontSize', 'textColor',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-list-bulleted-square',
+                            controls: ['ul', 'ol']
+                        }
+                    },
+                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                ],
+            ]
+        });
+    });
+</script>
+
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
@@ -80,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
 
 
- <div class="custom-control custom-checkbox">
+            <div class="custom-control custom-checkbox">
                 <input type="checkbox" name="shop_require_phone" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_phone" <?php if (get_option('shop_require_phone', 'website') == 1): ?> checked="checked" <?php endif; ?>>
                 <label class="custom-control-label" for="check-shop_require_phone"></label> <?php _e("Phone"); ?>
             </div>
@@ -109,6 +148,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <hr class="thin"/>
 
         <module type="shop/shipping/set_units" id="mw_set_shipping_units"/>
+
+        <hr class="thin"/>
+
+        <div class="form-group">
+            <label class="control-label d-block"><?php _e("Order completed message"); ?></label>
+            <small class="text-muted d-block mb-4">Edit the checkout order completed message</small>
+			<div class="form-group mb-4">
+				<textarea id="editorOCM" name="shop_order_completed_message" class="mw_option_field form-control" option-group="shop"><?php print get_option('shop_order_completed_message', 'shop'); ?></textarea>
+			</div>
+        </div>
+
     </div>
 </div>
 
