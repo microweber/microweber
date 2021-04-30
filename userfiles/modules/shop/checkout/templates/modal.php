@@ -30,11 +30,10 @@ description: Checkout
                <?php } ?>
 
            </div>
-
            <div class="modal-body">
                <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                <?php if ($cart_show_enanbled != 'n'): ?>
-                   <module type="shop/cart" template="modal" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
+                   <module type="shop/cart" template="modal" class="no-settings" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
                <?php endif; ?>
            </div>
    </form>

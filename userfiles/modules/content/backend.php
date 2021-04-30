@@ -269,10 +269,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module, callback) {
-        var spinner =  mw.spinner({
-            element: '#mw-content-backend',
-            size:40
-        })
+
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
         if (n == 'true') {
             var slide = false;
@@ -284,17 +281,26 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
 
-        var time = !action ? 300 : 0;
+        var time = !action ? 500 : 500;
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
-        setTimeout(function () {
-            mw.load_module(module, holder, function () {
 
+         edit_content_load_admin_spinner =  mw.spinner({
+            element: '#mw-content-backend',
+            size:40
+        })
+
+
+        setTimeout(function () {
+
+            mw.load_module(module, holder, function () {
                 mw.$('.fade-window').addClass('active')
+
                 if (callback) callback.call();
-                spinner.remove()
+
             });
+            edit_content_load_admin_spinner.remove()
         }, time)
 
 

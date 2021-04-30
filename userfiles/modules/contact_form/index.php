@@ -107,6 +107,12 @@ $(document).ready(function(){
 		  $('#msg<?php print $form_id; ?>').hide();
 	   }
 	});
+	mw.element('[data-custom-field-error-text][required]').each(function (){
+        this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        mw.element(this).on('input', function (e) {
+             this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        })
+    })
 });
 </script>
 

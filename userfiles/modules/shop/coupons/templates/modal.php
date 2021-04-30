@@ -43,7 +43,7 @@ $applied_code = '';
                                     <div class="js-coupon-code-messages-<?php echo $params['id']; ?> text-danger mt-2"></div>
                                 </div>
                                 <div class="col-xs-6">
-                                    <button type="button" class="btn btn-outline-primary js-apply-coupon-code-<?php echo $params['id']; ?> px-4"><?php _e("Apply"); ?></button>
+                                    <button type="button" class="btn btn-outline-primary checkout-v2-coupon-code-button js-apply-coupon-code-<?php echo $params['id']; ?> px-4"><?php _e("Apply"); ?></button>
                                 </div>
                             </div>
                     </div>

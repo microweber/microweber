@@ -86,7 +86,6 @@ if (isset($item['has_update']) and $item['has_update']) {
     $has_update = true;
 }
 
-
 if (!isset($box_class)) {
     $box_class = '';
 }

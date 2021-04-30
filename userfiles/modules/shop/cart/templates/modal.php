@@ -37,7 +37,7 @@ $total = cart_total();
     <?php if (is_array($data) and $data) : ?>
         <?php foreach ($data as $item) :?>
             <div class="form-row checkout-modal-product-list-item align-items-center py-4 pl-4">
-                <div class="col-md-1 col-4">
+                <div class="col-md-2 col-4">
                     <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                         <?php $p = $item['item_image']; ?>
                     <?php else: ?>
@@ -48,7 +48,7 @@ $total = cart_total();
                     <?php endif; ?>
                 </div>
 
-                <div class="col-md-6 col-8 ml-md-3">
+                <div class="col-md-5 col-8">
                     <h6 class="mb-1"><?php _e($item['title']) ?></h6>
                     <small class="text-muted mw-order-custom-fields">
                         <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
@@ -60,13 +60,13 @@ $total = cart_total();
                 <div class="col-md-2 col-3 ml-md-0 ml-5">
                     <h6><?php print currency_format($item['price']); ?></h6>
                 </div>
-                <div class="col-md-1 col-3 mw-qty-field">
-                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
+                <div class="col-md-2 col-3 mw-qty-field">
+                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)"/>
                 </div>
 
 
                 <div class="col-md-1 col-4 checkout-v2-remove-icon">
-                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
+                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end mr-2"></i></a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -84,14 +84,14 @@ $total = cart_total();
                    <?php
                    $discountData = app()->cart_manager->totals('discount');
                    ?>
-                   <module type="shop/coupons" template="modal" />
+                   <module type="shop/coupons" template="modal" class="no-settings" />
                <?php endif; ?>
 
-               <module type="shop/shipping" template="quick_setup" />
+               <module type="shop/shipping" template="quick_setup" class="no-settings" />
 
            </div>
            <div class="col-sm-6 checkout-modal-total-holder my-3">
-                   <module type="shop/cart" template="totals" />
+                   <module type="shop/cart" template="totals" class="no-settings" />
            </div>
 
            <div class="w-100 mt-md-3 justify-content-center text-md-left text-center">

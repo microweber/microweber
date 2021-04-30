@@ -2971,6 +2971,7 @@ mw.linkTip = {
                 .then(function (result){
                     node.href = result.url;
                     node.innerHTML = result.text;
+                    mw.wysiwyg.change(node)
                 });
             mw.$('.mw-link-tip').remove();
             return false;

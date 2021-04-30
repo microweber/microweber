@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Package\ComposerUpdate;
+use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -1273,7 +1274,7 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-        try {
+       /* try {
             return $this->composer_update->installPackageByName($params);
         }catch (\Exception $e) {
             return array(
@@ -1282,7 +1283,9 @@ class UpdateManager
                 'line' => $e->getLine(),
                 'trace' => $e->getTrace()
             );
-        }
+        }*/
+        $mw = new MicroweberComposerClient();
+        return $mw->requestInstall($params);
     }
 
     public function composer_merge($composer_patch_path)

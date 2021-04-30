@@ -280,14 +280,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             <?php else: ?>
                 <div class="mw-no-posts-foot">
-                    <?php if (isset($params['subtype']) and $params['content_type'] == 'product') : ?>
+                    <?php if ((isset($params['subtype']) and $params['content_type'] == 'product') OR (isset($params['is_shop']) and $params['is_shop'] == 'y')) : ?>
                         <h2><?php _e("No Products Here"); ?></h2>
                     <?php else: ?>
-                        <h2><?php _e("No Posts Here"); ?></h2>
+                        <h2><?php _e("No Content Here"); ?></h2>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
-
     </div>
 </div>

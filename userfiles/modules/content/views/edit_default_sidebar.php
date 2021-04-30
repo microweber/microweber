@@ -139,44 +139,7 @@
                         </div>
                     </div>
                 </div>
-                <?php if (isset($data['id']) and $data['id'] != 0): ?>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
-                        <div class="collapse" id="set-a-specific-publish-date">
-                            <div class="row pb-3">
-                                <script>mw.lib.require('bootstrap_datetimepicker');</script>
-                                <script>
-                                    $(function () {
-                                        $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
-                                        $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
-                                    });
-                                </script>
-                                <?php if (isset($data['created_at'])): ?>
-                                    <div class="col-md-12">
-                                        <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
-                                            <small>
-                                                <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
-                                            </small>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if (isset($data['updated_at'])): ?>
-                                    <div class="col-md-12 mt-2">
-                                        <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
-                                            <small>
-                                                <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
-                                            </small>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -195,9 +158,28 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                      <a onclick="mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
 
-                    </div>
+                        <script>
+                            function manage_cats_for_add_post() {
+
+                                var manage_cats_for_add_post_opts = {};
+                                // opts.width = '900';
+                                // opts.height = '800';
+
+                              //  opts.liveedit = true;
+                              //  opts.mode = 'modal';
+
+                                var additional_params = {};
+                                additional_params.show_add_post_to_category_button = 'true';
+
+
+
+                                manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
+                            }
+                        </script>
+
+                        <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
+                     </div>
                 <?php endif; ?>
             </div>
 
@@ -207,6 +189,49 @@
                     <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                         <script>
                             $(document).ready(function () {
+
+                                mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
+
+
+                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                        mw.notification.success('The content is added to category');
+
+                                        var all = [];
+                                        all.push({
+                                            type: 'category',
+                                            id: catId
+                                        })
+
+
+                                        mw.adminPagesTree.select(all);
+                                        if (typeof(categorySelector) != 'undefined') {
+                                        categorySelector.tree.select(catId, 'category')
+                                        }
+
+                                        if (typeof(thismodal) != 'undefined') {
+                                        thismodal.remove()
+                                        }
+
+                                        if (typeof(manage_cats_for_add_post_dialog) != 'undefined') {
+                                            manage_cats_for_add_post_dialog.remove()
+                                        }
+
+
+
+                                        //
+                                       // if( mw.dialog.get(event.target)){
+                                       //     mw.dialog.get(event.target).remove()
+                                       // }
+
+
+
+
+                                    }
+
+                                });
+
+
+
                                 $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function (e) {
                                     if (e.target.nodeName === 'DIV') {
                                         setTimeout(function () {

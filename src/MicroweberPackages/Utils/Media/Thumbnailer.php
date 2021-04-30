@@ -24,6 +24,7 @@ class Thumbnailer
         if (!$src) {
             return;
         }
+
         $width = 0;
         $height = 0;
         $crop = 0;
@@ -50,7 +51,7 @@ class Thumbnailer
 
         $magicianObj->resizeImage($width, $height, $magicianObj_mode);
 
-        if ($ext == 'png') {
+        if ($ext == 'png' or $ext == 'webp') {
             $imgQuality = $pngQuality;
         } else {
             $imgQuality = $restQuality;

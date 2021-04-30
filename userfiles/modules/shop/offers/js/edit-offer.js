@@ -32,13 +32,14 @@ $(document).ready(function () {
 						dataType: "json",
 						url: url,
 						data: form.serialize(),
-						success: function(data) {
-							if (typeof(data.error_message) !== "undefined") {
+						success: function(msg) {
+
+							if (typeof(msg.data.error_message) !== "undefined") {
 								// mw.notification.error(data.error_message);
-								$(".js-validation-messages").html(errorMessage(data.error_message));
+								$(".js-validation-messages").html(errorMessage(msg.data.error_message));
 								//scrollTopModal();
 							}
-							if (typeof(data.success_edit) !== "undefined") {
+							if (typeof(msg.data.success_edit) !== "undefined") {
 								mw.notification.success(TEXT_SUCCESS_SAVE);
 								if (typeof(reload_offer_after_save) != 'undefined') {
 									reload_offer_after_save();

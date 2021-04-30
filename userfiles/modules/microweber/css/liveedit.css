@@ -370,11 +370,11 @@ body.mw-column-resizing * {
 }
 
 .mw-sorthandle-parent-outline {
-    outline: 1px solid #358BC3;
+    outline: 1px solid #333;
 }
 
 .moveit-hover, .moveit-hover:hover {
-    outline: 1px solid #5CA1CC;
+    outline: 1px solid #333;
 }
 
 .mw_delete_element {
@@ -421,7 +421,7 @@ body.mw-column-resizing * {
 .mw_dropable {
     position: absolute !important;
     height: 3px;
-    background: #0088CC;
+    background: #333;
     z-index: 997;
     visibility: visible;
     transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
@@ -1589,8 +1589,12 @@ body.has-opened-sidebar #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    /*max-height: 30px;*/
+    max-height: 30px;
     margin-bottom: 0;
+}
+
+#modules-and-layouts-sidebar .modules-list.list-elements img{
+    max-height: unset;
 }
 
 .mw_module_image img[src*=".svg"] {

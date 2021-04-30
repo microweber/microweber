@@ -116,6 +116,10 @@ function load_module($module_name, $attrs = array())
 {
     return mw()->module_manager->load($module_name, $attrs);
 }
+function element_display($element_filename, $attrs = array())
+{
+    return mw()->layouts_manager->element_display($element_filename, $attrs);
+}
 
 function module_css_class($module_name)
 {
@@ -488,6 +492,10 @@ function lnotif($text, $class = 'success')
     if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
         $editmode_sess = true;
     }
+
+//    if(!$editmode_sess){
+//    $editmode_sess = is_live_edit();
+//        }
     //}
 
     if ($editmode_sess == true) {

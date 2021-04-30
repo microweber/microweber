@@ -453,7 +453,6 @@ MWEditor.api = function (scope) {
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
-            console.log(this.cleanHTML(html))
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {

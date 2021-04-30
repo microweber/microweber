@@ -43,7 +43,6 @@
         }
 
         .checkout-v2-radio input[type=radio] {
-            width: 20px;
             height: 20px;
         }
 
@@ -96,7 +95,7 @@
         .checkout-v2-right-column-title {
             margin-top: 7rem;
         }
-        
+
 
          .checkout-modal-products-wrapper .checkout-modal-product-list-item {
             font-size: 14px;
@@ -255,7 +254,7 @@
                         </div>
 
                         <div class="mt-3">
-                            <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
+                            <module type="shop/cart" class="no-settings" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
                         </div>
                     </div>
                 </div>
@@ -285,7 +284,7 @@
                 </div>
 
                 <div class="mt-3">
-                    <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
+                    <module type="shop/cart" class="no-settings" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
                 </div>
             </div>
         </div>
