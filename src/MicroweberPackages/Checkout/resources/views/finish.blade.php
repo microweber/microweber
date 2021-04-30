@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="col-lg-6 col-12 d-flex justify-content-center align-items-center">
+    <div class="col-6 d-flex justify-content-center align-items-center">
         <div class="shop-cart text-center">
             {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
@@ -28,10 +28,8 @@
               }
             ?>
 
-            <div class="edit" field="checkout_finish_button" rel="global">
-                <div class="mt-4">
-                    <a href="{{ site_url() }}"><?php _e("Back to website"); ?></a>
-                </div>
+            <div class="mt-4">
+                <a href="{{ site_url() }}"><?php _e("Back to website"); ?></a>
             </div>
         </div>
     </div>
