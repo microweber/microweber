@@ -128,17 +128,9 @@ if ($id == 0) {
             </div>
 
 
-            <div class="row">
-
-                <div class="d-flex justify-content-between">
-                    <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-secondary btn-sm"><?php _e("Cancel"); ?></button>
-                    <button class="btn btn-success btn-sm" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
-                </div>
-
-            </div>
 
             <?php if ($data['id'] != 0): ?>
-                <div id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
+                <div>
                     <?php
                     /*  <br>
                       <div  class="mw-ui-field-holder">
@@ -152,7 +144,7 @@ if ($id == 0) {
                       </div>*/
                     ?>
 
-                    <div class="row">
+                    <div class="row" id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
                         <div class="col-sm-6">
                             <?php
                             if (!isset($data['url_target'])) {

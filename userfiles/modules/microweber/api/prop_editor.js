@@ -582,7 +582,7 @@ mw.propEditor = {
             };
             this.id = config.id;
         },
-        file:function(proto, config){
+        file: function(proto, config){
             if(config.multiple === true){
                 config.multiple = 99;
             }
@@ -606,18 +606,36 @@ mw.propEditor = {
                     el.style.backgroundImage = 'url(' + imageUrl + ')';
                 }
                 btn.onclick = function(){
-                    mw.top().fileWindow({
-                        types:'images',
-                        change:function(url){
-                            if(!url) return;
+                    var dialog;
+                    var picker = new (mw.top()).filePicker({
+                        type: 'images',
+                        label: false,
+                        autoSelect: false,
+                        footer: true,
+                        _frameMaxHeight: true,
+
+                        onResult: function (res) {
+                            var url = res.src ? res.src : res;
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;
                             el.style.backgroundImage = 'url(' + url + ')';
                             btn._value = url;
                             scope.refactor();
+                            dialog.remove()
+                        },
+                        cancel: function () {
+                            dialog.remove()
                         }
                     });
+                    dialog = mw.top().dialog({
+                        content: picker.root,
+                        title: mw.lang('Select image'),
+                        footer: false,
+                        width: 1200
+                    })
+
+
                 };
                 var close = document.createElement('span');
                 close.className = 'mw-badge mw-badge-important';
@@ -643,8 +661,12 @@ mw.propEditor = {
                 scope.refactor();
             };
 
+            this.hasMultiple = function () {
+                return config.multiple && config.multiple > 1;
+            }
+
             this.addImageButton = function(){
-                if(config.multiple){
+                if(this.hasMultiple()){
                     this.addBtn = document.createElement('div');
                     this.addBtn.className = 'mw-ui-link';
                     //this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
@@ -658,8 +680,11 @@ mw.propEditor = {
             };
 
             this.manageAddImageButton = function(){
-                var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
-                this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+                if(this.hasMultiple()) {
+                    var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
+                    this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+                }
+
             };
 
             var btn = createButton(undefined, 0, proto);
@@ -674,7 +699,7 @@ mw.propEditor = {
             this.addImageButton();
             this.manageAddImageButton();
 
-            if($.fn.sortable){
+            if($.fn.sortable && this.hasMultiple()){
                 $(el).sortable({
                     update:function(){
                         scope.refactor();
