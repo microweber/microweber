@@ -1,4 +1,59 @@
+
+var i18n = {
+    "Rename": "Rename",
+    "Download": "Download",
+    "Copy url": "Copy url",
+    "Delete": "Delete",
+    "OK": "OK",
+};
+
+
+
 (function (){
+
+    var lang = function (key) {
+        return  i18n[key] || key;
+    };
+
+    var rename = function (row) {
+      var dialog;
+      var ok = mw.element({tag: 'button'}).addClass('mw-ui-btn').html(lang('OK'));
+
+      ok.on('click', function (){
+          dialog.remove();
+      });
+
+      dialog = mw.dialog({
+          footer: ok.get(0),
+          title: lang('Rename')
+      });
+
+      var name = row.name;
+      var input = mw.element({tag: 'input'}).val(name);
+
+      dialog.dialogContainer.appendChild(mw.element({content: input}).addClass('mw-field').width('100%').get(0));
+      input.focus();
+
+    };
+
+
+    var download = function (row) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = row.url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
+    var defaultActions = [
+        { label: lang('Rename'), action: rename, visible: function (rowObject) { return !!rowObject; } },
+        { label: lang('Download'), action: download, visible: function (rowObject) { return rowObject.type === 'file'; } },
+        { label: lang('Copy url'), action: function (rowObject) {}, visible: function (rowObject) { return !!rowObject; } },
+        { label: lang('Delete'), action: function (rowObject) {}, visible: function (rowObject) { return !!rowObject; } },
+    ];
+
     mw.require('filemanager.css');
     var FileManager = function (options) {
 
@@ -40,12 +95,7 @@
             url: null,
             template: 'default',
             height: 'auto',
-            contextMenu: [
-                { label: 'Rename', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
-                { label: 'Download', action: function (rowObject) {}, match: function (rowObject) { return rowObject.type === 'file'; } },
-                { label: 'Copy url', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
-                { label: 'Delete', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
-            ],
+            contextMenu: defaultActions,
             document: document,
             renderProvider: null,
             viewHeaderRenderProvider: null,
@@ -116,7 +166,7 @@
         };
 
         var createOption = function (item, option) {
-            if(!option.match(item)) {
+            if(!option.visible(item)) {
                 return '';
             }
             var el = mw.element({
@@ -198,6 +248,12 @@
 
         var setData = function (data) {
             scope._data = data;
+            scope._files = [];
+            scope._folders = [];
+            var i = 0, l = data.data.length;
+            for ( ; i < l; i++) {
+                scope['_' + data.data[i].type + 's'].push(data.data[i]);
+            }
         };
 
         this.updateData = function (data) {
@@ -292,8 +348,13 @@
         };
 
 
+
+
         var allSelected = function (){
-            return scope._selected.length === rows.length;
+            console.log( scope._selected.length , scope._files, scope)
+            return scope._selected.length === rows.length ||
+                (!scope.settings.folderSelect && scope._selected.length === scope._files.length);
+
         };
         var noneSelected = function (){
             return scope._selected.length === 0;
@@ -343,6 +404,9 @@
              }
         };
         var selectCore = function (obj) {
+            if (obj.type === 'folder' && !scope.settings.folderSelect) {
+                return false;
+            }
             if (!scope.settings.selectable) {
                 return false;
             }

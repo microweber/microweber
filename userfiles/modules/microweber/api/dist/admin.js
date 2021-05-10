@@ -2567,6 +2567,10 @@ mw.event = {
         return this.keyCode(e) === code;
     },
     is: {
+      comma: function (e) {
+          e = mw.event.get(e);
+          return e.keyCode === 188;
+              },
       enter: function (e) {
         e = mw.event.get(e);
         return e.key === "Enter" || mw.event.isKeyCode(e, 13);
@@ -9879,6 +9883,12 @@ mw.tools.dropdown = function (root) {
     if (root === null) {
         return;
     }
+
+    var isMobile = ('ontouchstart' in document.documentElement && /mobi/i.test(navigator.userAgent));
+    mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown';
+    if(isMobile){
+        mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown touchstart';
+    }
     var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
     for (; i < l; i++) {
         var el = items[i];
@@ -9888,6 +9898,9 @@ mw.tools.dropdown = function (root) {
         }
         el.mwDropdownActivated = true;
         el.hasInput = el.querySelector('input.mw-dropdown-field') !== null;
+
+
+
         if (el.hasInput) {
             var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
@@ -9951,7 +9964,7 @@ mw.tools.dropdown = function (root) {
                 mw.$(this).removeClass("hover");
                 mw.$(this).removeClass('other-action');
             })
-            .on('mousedown touchstart', 'li[value]', function (event) {
+            .on(mw.tools.dropdownActivatedBindOnEventsNames, 'li[value]', function (event) {
                 mw.$(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             })
@@ -9962,7 +9975,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(document.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on(mw.tools.dropdownActivatedBindOnEventsNames, function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();
@@ -10059,6 +10072,7 @@ mw.dropdown = mw.tools.dropdown;
             }
         };
 
+
         this.setProps = function(){
             for(var i in this.settings.props) {
                 if (i === 'dataset') {
@@ -10134,6 +10148,10 @@ mw.dropdown = mw.tools.dropdown;
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus();
+            return this;
+        }
         this.dataset = function(prop, val){
             if(typeof val === 'undefined') {
                 return this._active()[prop];
@@ -10374,11 +10392,11 @@ mw.dropdown = mw.tools.dropdown;
         this.trigger = function(event, data){
             data = data || {};
             this.each(function (){
-                /*this.dispatchEvent(new CustomEvent(event, {
+                this.dispatchEvent(new CustomEvent(event, {
                     detail: data,
                     cancelable: true,
                     bubbles: true
-                }));*/
+                }));
                 if(scope._on[event]) {
                     scope._on[event].forEach(function(cb){
                         cb.call(this, event, data);
@@ -10452,7 +10470,7 @@ mw.dropdown = mw.tools.dropdown;
             if(this._asElement) return;
             this.create();
             this.setProps();
-         };
+          };
         this.init();
     };
     mw.element = function(options){
@@ -10461,6 +10479,8 @@ mw.dropdown = mw.tools.dropdown;
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;
     };
+
+
 
 })();
 
@@ -13877,7 +13897,7 @@ mw.colorPicker = function (o) {
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.$(document).on('keydown', function (e) {
+            mw.element(document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -13924,7 +13944,7 @@ mw.colorPicker = function (o) {
         };
 
         this.title = function (title) {
-            var root = mw.$('.mw-dialog-title', this.dialogHeader);
+            var root = mw.element('.mw-dialog-title', this.dialogHeader);
             if (typeof title === 'undefined') {
                 return root.html();
             } else {
@@ -14140,9 +14160,9 @@ mw.colorPicker = function (o) {
             var dtop, css = {};
 
             if (this.options.centerMode === 'intuitive' && this._prevHeight < holderHeight) {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             } else if (this.options.centerMode === 'center') {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             }
 
             if (!scope._dragged) {
@@ -14925,18 +14945,25 @@ mw.Select = function(options) {
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
 
             if(scope.settings.autocomplete){
-                oh.innerHTML = '<input class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
+                oh.innerHTML = '<input type="text" class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
             } else {
                 oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
             }
 
             if(scope.settings.autocomplete){
                 $('input', oh)
-                    .on('input focus', function () {
+                    .on('input focus', function (e) {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
-                            $(scope.element).trigger('input change')
+
+                        }
+                    })
+                    .on('keydown', function (e) {
+                        if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                            e.preventDefault();
+                            $(scope).trigger('enterOrComma', [this, e]);
+                            $(this).val('adsadasd')
                         }
                     })
                     .on('focus', function () {
@@ -17342,6 +17369,7 @@ mw.require('widgets.css');
  
 
     mw.LinkEditor = function(options) {
+
         var scope = this;
         var defaults = {
             mode: 'dialog',
@@ -17383,11 +17411,9 @@ mw.require('widgets.css');
 
             return this;
         };
-console.log( mw.top().settings, this, this.settings );
 
         this.settings =  mw.object.extend({}, defaults, options || {});
 
-        console.log( mw.top().settings );
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
@@ -17506,7 +17532,7 @@ console.log( mw.top().settings, this, this.settings );
             this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {
-                this.dialog = mw.dialog({
+                this.dialog = mw.top().dialog({
                     content: this.root,
                     height: 'auto',
                     title: this.settings.title,
@@ -17605,17 +17631,38 @@ mw.tags = mw.chips = function(options){
     this.addInputField = function () {
         this._field = document.createElement('input');
         this._field.className = 'mw-ui-invisible-field mw-ui-field-' + this.options.size;
+
         this._field.onkeydown = function (e) {
-            if(mw.event.is.enter(e)) {
-                var val = scope._field.value.trim();
+            var val = scope._field.value.trim();
+            if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                e.preventDefault();
+
                 if(val) {
                     scope.addTag({
                         title: val
                     });
                 }
+            } else if (mw.event.is.backSpace(e)) {
+                if(!val) {
+                    var last = scope.options.data[scope.options.data.length - 1];
+                    scope.removeTag(scope.options.data.length - 1);
+                    scope._field.value = scope.dataTitle(last) + ' ';
+                    scope._field.focus();
+
+                }
             }
+            scope.handleAutocomplete(val, e)
+
+
         };
         return this._field;
+    };
+    this.handleAutocomplete = function (val, e) {
+        if(this.options.autocomplete){
+
+
+
+        }
     };
 
 
@@ -17690,10 +17737,41 @@ mw.tags = mw.chips = function(options){
         mw.$(scope).trigger('change', [item, this.options.data]);
      };
 
+
+
+
+
+
+     this.unique = function () {
+        var first = this.options.data[0];
+        if(!first) return;
+        var id = this.options.map.value;
+        if(!first[id]) {
+            id = this.options.map.title;
+        }
+        var i = 0, curr = first;
+        var _findIndex = function (tag) {
+            return tag[id].toLowerCase() === curr[id].toLowerCase();
+        };
+        while (curr) {
+            if (this.options.data.findIndex(_findIndex) === i) {
+                i++;
+            } else {
+                this.options.data.splice(i, 1);
+            }
+            curr = this.options.data[i];
+        }
+     };
+
     this.addTag = function(data, index){
         index = typeof index === 'number' ? index : this.options.data.length;
         this.options.data.splice( index, 0, data );
+        this.unique();
         this.refresh();
+        if (this._field) {
+            this._field.focus();
+        }
+
         mw.$(scope).trigger('tagAdded', [data, this.options.data]);
         mw.$(scope).trigger('change', [data, this.options.data]);
     };

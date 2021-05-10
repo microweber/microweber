@@ -250,6 +250,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
         $this->app->register(ShippingManagerServiceProvider::class);
+        $this->app->register(OfferServiceProvider::class);
 
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);

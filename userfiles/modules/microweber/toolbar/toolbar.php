@@ -23,7 +23,7 @@ if (isset($_COOKIE['mw_exp'])) {
     <script type="text/javascript">
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
-     //   mw.require("events.js");
+        //   mw.require("events.js");
         mw.require("url.js");
         //mw.require("tools.js");
         mw.require("wysiwyg.js");
@@ -176,28 +176,28 @@ if (isset($_COOKIE['mw_exp'])) {
             }
 
 
-     /*       function mw_live_edit_opensidebar() {
-                if (mw.liveEditSettings.active) {
-                } else {
-                    $('#live_edit_side_holder').addClass('sidebar_opened');
-                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                    mw.cookie.set("show-sidebar-layouts", '1');
-                }
-            }
+            /*       function mw_live_edit_opensidebar() {
+                       if (mw.liveEditSettings.active) {
+                       } else {
+                           $('#live_edit_side_holder').addClass('sidebar_opened');
+                           $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                           mw.cookie.set("show-sidebar-layouts", '1');
+                       }
+                   }
 
-            var $li = $("#sidebar-hidden-area").hover(
-                function () {
-                    var self = this;
-                    hovertimer = setTimeout(function () {
+                   var $li = $("#sidebar-hidden-area").hover(
+                       function () {
+                           var self = this;
+                           hovertimer = setTimeout(function () {
 
-                        mw_live_edit_opensidebar();
+                               mw_live_edit_opensidebar();
 
-                    }, 1700);
-                },
-                function () {
-                    clearTimeout(hovertimer);
-                }
-            );*/
+                           }, 1700);
+                       },
+                       function () {
+                           clearTimeout(hovertimer);
+                       }
+                   );*/
         });
 
     </script>
@@ -344,6 +344,9 @@ if (isset($_COOKIE['mw_exp'])) {
             additional_params.content_id = cont_id;
             additional_params.show_btn_for_find_element = true;
             additional_params.from_url_string = '<?php print url_string() ?>';
+            if(additional_params.from_url_string === ''){
+                additional_params.from_url_string_home = 1;
+            }
 
             mw.tools.open_global_module_settings_modal('editor/content_revisions/list_for_content', '#mw_admin_content_revisions_list_for_content_popup_modal_module', opts, additional_params);
 
@@ -447,10 +450,10 @@ if (isset($_COOKIE['mw_exp'])) {
                     <div class="wysiwyg-undo-redo">
                         <div class="wysiwyg-cell-undo-redo">
             <span
-                class="liveedit_wysiwyg_prev"
-                id="liveedit_wysiwyg_main_prev"
-                title="<?php _e("Previous"); ?>"
-                onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
+                    class="liveedit_wysiwyg_prev"
+                    id="liveedit_wysiwyg_main_prev"
+                    title="<?php _e("Previous"); ?>"
+                    onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
 
 
 
@@ -461,10 +464,10 @@ if (isset($_COOKIE['mw_exp'])) {
                 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
                 <div id="mw-toolbar-right" class="mw-defaults">
         <span
-            class="liveedit_wysiwyg_next"
-            id="liveedit_wysiwyg_main_next"
-            title="<?php _e("Next"); ?>"
-            onclick="mw.liveedit.toolbar.editor.slideRight();"></span>
+                class="liveedit_wysiwyg_next"
+                id="liveedit_wysiwyg_main_next"
+                title="<?php _e("Next"); ?>"
+                onclick="mw.liveedit.toolbar.editor.slideRight();"></span>
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
@@ -472,12 +475,12 @@ if (isset($_COOKIE['mw_exp'])) {
                             <i class="mdi mdi-arrow-left"></i>
                             <?php _e("Admin"); ?>
                         </a>
-                        <button disabled class="mw-ui-btn mw-ui-btn-small" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
+                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
 
-
-                        <div class="mw-dropdown toolbar-dropdown-actions" >
-                             <span class="mdi mdi-cog tip" data-tip="<?php _e('Settings'); ?>" data-tipposition="bottom-center"></span>
-                            <div class="mw-dropdown-content" id="live-edit-dropdown-actions-content">
+                        <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
+                            <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
+                                        class="mw-icon-dropdown"></span></span>
+                            <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
                                 <ul class="mw-ui-box mw-ui-navigation">
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
 
@@ -503,7 +506,19 @@ if (isset($_COOKIE['mw_exp'])) {
                                         </a>
                                     </li>
 
-
+                                    <?php /* <li style="display: nonex">
+                                        <script>mw.userCanSwitchMode = false;</script>
+                                        <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
+                                            <script>mw.userCanSwitchMode = true;</script>
+                                        <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
+                                            <a href="javascript:;" onclick="mw.setMode('simple');"
+                                               style="display:none"><?php _e("Simple Mode"); ?></a>
+                                        <?php } else { ?>
+                                            <a href="javascript:;" onclick="mw.setMode('advanced');"
+                                               style="display:none"><?php _e("Advanced Mode"); ?></a>
+                                        <?php } ?>
+                                        <?php } ?>
+                                    </li> */ ?>
 
                                     <li>
                                         <a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a>
@@ -519,8 +534,18 @@ if (isset($_COOKIE['mw_exp'])) {
                                         </li>
                                     <?php endif; ?>
 
-                                    <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
 
+                                    <li>
+                                        <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
+                                        <ul>
+                                            <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mw-icon-code"></span><?php _e("Content versions"); ?></a></li>
+                                            <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
+
+                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
+                                        </ul>
+                                    </li>
 
                                     <?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] == '1'): ?>
                                         <li><a href="javascript:;" onclick="mw.cookie.set('mw_basic_mode', '0'); window.location.reload();"><span><?php _e("Advanced Mode"); ?></span></a></li>
@@ -533,22 +558,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                 </ul>
                             </div>
                         </div>
-                        <div class="mw-dropdown toolbar-dropdown-actions">
-                            <span class="mdi mdi-wrench tip" data-tip="<?php _e('Tools'); ?>" data-tipposition="bottom-center"></span>
-                            <div class="mw-dropdown-content">
-                                <ul class="mw-ui-box mw-ui-navigation">
-                                    <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mdi mdi-code-braces"></span><?php _e("CSS Editor"); ?></a></li>
-                                    <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
-                                    <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mdi mdi-history"></span><?php _e("Content versions"); ?></a></li>
-                                    <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
-                                </ul>
-                            </div>
-                        </div>
                         <a
-                            class="view-website-button tip"
-                            href="<?php print mw()->url_manager->current(); ?>?editmode=n"
-                            data-tip="<?php _e('View Website'); ?>"
-                            data-tipposition="bottom-right"></i>
+                                class="view-website-button tip"
+                                href="<?php print mw()->url_manager->current(); ?>?editmode=n"
+                                data-tip="<?php _e('View Website'); ?>"
+                                data-tipposition="bottom-right"></i>
                         </a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
@@ -598,8 +612,8 @@ if (isset($_COOKIE['mw_exp'])) {
 
                 edl.css({
                     maxWidth: 'calc(100% - '
-                    + ((edl.offset().left + mw.$('#mw-toolbar-right').width()) + 20 )
-                    + 'px)'
+                        + ((edl.offset().left + mw.$('#mw-toolbar-right').width()) + 20 )
+                        + 'px)'
                 });
                 mw.liveedit.toolbar.editor.buttons();
 
@@ -643,13 +657,13 @@ if (isset($_COOKIE['mw_exp'])) {
                 if (typeof(el[0]) == 'undefined') {
                     return;
                 }
-                 el.addClass("over");
+                el.addClass("over");
             }, function () {
                 var el = $(this);
                 el.removeClass("over");
                 setTimeout(function () {
                     if (!el.hasClass("over")) {
-                         if (typeof mw.wysiwyg.show_drag_handles == 'function') {
+                        if (typeof mw.wysiwyg.show_drag_handles == 'function') {
                             mw.wysiwyg.show_drag_handles();
                         }
                     }

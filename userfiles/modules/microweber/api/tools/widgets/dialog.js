@@ -174,7 +174,7 @@
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.$(document).on('keydown', function (e) {
+            mw.element(document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -221,7 +221,7 @@
         };
 
         this.title = function (title) {
-            var root = mw.$('.mw-dialog-title', this.dialogHeader);
+            var root = mw.element('.mw-dialog-title', this.dialogHeader);
             if (typeof title === 'undefined') {
                 return root.html();
             } else {
@@ -437,9 +437,9 @@
             var dtop, css = {};
 
             if (this.options.centerMode === 'intuitive' && this._prevHeight < holderHeight) {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             } else if (this.options.centerMode === 'center') {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             }
 
             if (!scope._dragged) {

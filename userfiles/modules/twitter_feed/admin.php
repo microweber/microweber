@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings module-twitter-feed-settings">
                     <div class="form-group">
                         <label class="control-label"><?php _e('Search string'); ?> <a href="https://dev.twitter.com/rest/public/search" target="_blank">[?]</a></label>
-                        <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
+                        <input type="text" class="mw_option_field form-control" placeholder="Example: technology" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
                     </div>
 
                     <div class="form-group">

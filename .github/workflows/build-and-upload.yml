@@ -15,15 +15,13 @@ jobs:
       
     - name: Dump autoload dependecies
       run: composer dump-autoload
-      
-    - name: Get the current branch name
-      shell: bash
-      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-      id: currentBranchName
-      
+
+    - name: Inject slug/short variables
+      uses: rlespinasse/github-slug-action@v3.x
+
     - name: Zip the files
       run: |
         rm -rf .git
         rm -rf .github
-        zip -r microweber-${{ steps.currentBranchName.outputs.branch }}.zip `ls`
-        curl -T microweber-${{ steps.currentBranchName.outputs.branch }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+        zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls`
+        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}

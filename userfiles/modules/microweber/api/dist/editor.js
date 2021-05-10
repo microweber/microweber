@@ -1294,7 +1294,6 @@ MWEditor.api = function (scope) {
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
-            console.log(this.cleanHTML(html))
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
@@ -2131,7 +2130,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(val)
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -2149,7 +2147,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(e, val)
                 api.execCommand('backcolor', false, val);
             });
             return el;

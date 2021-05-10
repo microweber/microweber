@@ -3,6 +3,7 @@ mw.require('widgets.css');
  
 
     mw.LinkEditor = function(options) {
+
         var scope = this;
         var defaults = {
             mode: 'dialog',
@@ -44,11 +45,9 @@ mw.require('widgets.css');
 
             return this;
         };
-console.log( mw.top().settings, this, this.settings );
 
         this.settings =  mw.object.extend({}, defaults, options || {});
 
-        console.log( mw.top().settings );
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {

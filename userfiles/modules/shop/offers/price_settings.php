@@ -39,7 +39,7 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: '<?php print api_url('offer_save'); ?>',
+                url: '<?php print route('offer.save');?>',
                 data: data,
                 success: function (data) {
                     mw.notification.success('Price is saved')

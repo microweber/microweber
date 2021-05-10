@@ -1,6 +1,8 @@
 <?php must_have_access(); ?>
 
 <?php
+
+
 $date_format = get_date_format();
 //$products = offers_get_products();
 
@@ -83,7 +85,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
 <div class="js-validation-messages"></div>
 
-<form class="js-edit-offer-form" action="<?php print api_url('offer_save'); ?>">
+<form class="js-edit-offer-form" action="<?php print route('api.offer.store');?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
     <?php if ($addNew) { ?>
         <input type="hidden" name="created_by" value="<?php print user_id() ?>"/>

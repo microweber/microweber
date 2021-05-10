@@ -66,6 +66,7 @@
             }
         };
 
+
         this.setProps = function(){
             for(var i in this.settings.props) {
                 if (i === 'dataset') {
@@ -141,6 +142,10 @@
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus();
+            return this;
+        }
         this.dataset = function(prop, val){
             if(typeof val === 'undefined') {
                 return this._active()[prop];
@@ -381,11 +386,11 @@
         this.trigger = function(event, data){
             data = data || {};
             this.each(function (){
-                /*this.dispatchEvent(new CustomEvent(event, {
+                this.dispatchEvent(new CustomEvent(event, {
                     detail: data,
                     cancelable: true,
                     bubbles: true
-                }));*/
+                }));
                 if(scope._on[event]) {
                     scope._on[event].forEach(function(cb){
                         cb.call(this, event, data);
@@ -459,7 +464,7 @@
             if(this._asElement) return;
             this.create();
             this.setProps();
-         };
+          };
         this.init();
     };
     mw.element = function(options){
@@ -468,5 +473,7 @@
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;
     };
+
+
 
 })();
