@@ -78,14 +78,15 @@ class MenuManager
 
     public function menu_item_save($data_to_save)
     {
-        $id = $this->app->user_manager->is_admin();
-        if ($id == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+//        $id = $this->app->user_manager->is_admin();
+//        if ($id == false) {
+         // moved check for admin to router
+//            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+//        }
 
         if (isset($data_to_save['menu_id'])) {
-            $data_to_save['id'] = intval($data_to_save['menu_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
+            $data_to_save['parent_id'] = intval($data_to_save['menu_id']);
+            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
 
         if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
@@ -454,8 +455,11 @@ class MenuManager
             $li_submenu_a_link = $params_o['li_submenu_a_link'];
 
         }
+        $cur_content_id_data = [];
+        if(defined('CONTENT_ID')){
+            $cur_content_id_data = get_content_by_id(CONTENT_ID);
 
-        $cur_content_id_data = get_content_by_id(CONTENT_ID);
+        }
 
 
 
