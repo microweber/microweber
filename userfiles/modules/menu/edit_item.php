@@ -117,9 +117,24 @@ if ($id == 0) {
                     <label class="control-label d-block">&nbsp;</label>
                     <button type="button" class="btn btn-outline-primary" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
 
-                     <button class="btn btn-success " onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
-
                 </div>
+
+
+
+
+
+
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="d-flex justify-content-between">
+                    <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-secondary btn-sm"><?php _e("Cancel"); ?></button>
+                    <button class="btn btn-success btn-sm" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
+                </div>
+
             </div>
 
             <?php if ($data['id'] != 0): ?>
