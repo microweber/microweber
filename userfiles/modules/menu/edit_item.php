@@ -116,6 +116,9 @@ if ($id == 0) {
                 <div class="col-auto">
                     <label class="control-label d-block">&nbsp;</label>
                     <button type="button" class="btn btn-outline-primary" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
+
+                     <button class="btn btn-success " onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
+
                 </div>
             </div>
 
