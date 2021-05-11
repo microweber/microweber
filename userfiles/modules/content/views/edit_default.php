@@ -216,10 +216,27 @@ if (isset($params['quick_edit'])) {
         <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>
         <input type="hidden" name="subtype" id="mw-content-subtype" value="<?php print $data['subtype']; ?>"/>
         <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>" value="<?php print $data['subtype_value']; ?>"/>
-        <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>" value="<?php print $data['content_type']; ?>"/>
+        <input type="hidden" name="content_type" id="mw-content-type mw-content-type-value-<?php print $rand; ?>" value="<?php print $data['content_type']; ?>"/>
         <input type="hidden" name="parent" id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class=""/>
         <input type="hidden" name="layout_file" id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"/>
         <input type="hidden" name="active_site_template" id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"/>
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+           $('.mw-edit-page-layout-selector').change(function() {
+              if ($(this).val() == 'layouts__blog.php') {
+                  $('#mw-content-subtype').val('dynamic');
+                  $('#mw-content-type').val('page');
+              }
+              if ($(this).val() == 'layouts__shop.php') {
+                    $('#mw-content-subtype').val('dynamic');
+                    $('#mw-content-type').val('page');
+                    $('#is_shop').attr('checked','checked');
+                    $('#is_shop').trigger('change');
+              }
+           });
+        });
+        </script>
 
         <div class="row">
             <div class="col-md-8 manage-content-body">
