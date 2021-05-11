@@ -44,9 +44,10 @@ class Page extends Content
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
+/*
+ * This will broke when you carete blog or shop dynamic pages
         $this->attributes['content_type'] = 'page';
-        $this->attributes['subtype'] = 'static';
+        $this->attributes['subtype'] = 'static';*/
     }
 
     /**
