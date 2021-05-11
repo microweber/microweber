@@ -216,8 +216,10 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     }
 
     $(mwd).ready(function () {
+        if(window.thismodal){
         thismodal.width('800px');
         resizeModal()
+        }
     });
 </script>
 
