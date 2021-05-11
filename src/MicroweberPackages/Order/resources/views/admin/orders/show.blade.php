@@ -300,10 +300,10 @@
                 <div class="mb-2">
                     <select name="order_status" class="selectpicker" data-style="btn-sm" data-width="100%">
                         <option value="pending" <?php if ($order['order_status'] == 'pending'): ?>selected<?php endif; ?>>Pending
-                            <small class="text-muted"><?php _e('(the order is not finished yet)'); ?></small>
+                            <small class="text-muted">(<?php _e('the order is not completed yet'); ?>)</small>
                         </option>
-                        <option value="completed" <?php if ($order['order_status'] == 'completed' or $order['order_status'] == null or $order['order_status'] == ''): ?>selected<?php endif; ?>><?php _e('Back to orders'); ?>Completed
-                            <small class="text-muted"><?php _e('(the order is finished)'); ?></small>
+                        <option value="completed" <?php if ($order['order_status'] == 'completed' or $order['order_status'] == null or $order['order_status'] == ''): ?>selected<?php endif; ?>><?php _e('Completed'); ?>
+                            <small class="text-muted">(<?php _e('the order is completed'); ?>)</small>
                         </option>
                     </select>
                 </div>
