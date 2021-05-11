@@ -1184,7 +1184,12 @@ class MediaManager
 //            return $cache_path;
 //        }
 
-            header('Content-Type: image/' . $ext);
+            if($ext=='svg'){
+                header('Content-Type: image/svg+xml');
+            } else {
+                header('Content-Type: image/' . $ext);
+            }
+
             header('Content-Length: ' . filesize($cache_path));
             readfile($cache_path);
             exit;
