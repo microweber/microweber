@@ -882,8 +882,9 @@ class DatabaseManager extends DbUtils
 
                 //    $model::boot();
             } else if ($table == 'categories') {
-                //   $model = new Category();
-                $model = app()->make(Category::class);
+                 $model = new Category($params);
+
+              //  $model = app()->make(Category::class);
 
             }
 

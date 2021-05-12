@@ -4,12 +4,22 @@ namespace MicroweberPackages\Category\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
+use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
+use MicroweberPackages\Database\Traits\HasSlugTrait;
+use MicroweberPackages\Database\Traits\MaxPositionTrait;
+use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Category extends Model
 {
     use CacheableQueryBuilderTrait;
     use Filterable;
+    use ContentDataTrait;
+    use HasCreatedByFieldsTrait;
+    use MaxPositionTrait;
+    use MediaTrait;
+    use HasSlugTrait;
 
     protected $table = 'categories';
 
@@ -25,6 +35,7 @@ class Category extends Model
     ];
 
     public $fillable = [
+
         "rel_type",
         "rel_id",
         "data_type",
@@ -32,9 +43,9 @@ class Category extends Model
         "title",
         "content",
         "description",
-        "category-parent-selector",
+       // "category-parent-selector",
         "position",
-        "thumbnail",
+      //  "thumbnail",
         "url",
         "users_can_create_content",
         "category_subtype",
@@ -43,7 +54,7 @@ class Category extends Model
         "category_meta_keywords"
     ];
 
-    public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'categories'];
+    public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'content_data', 'categories'];
 
     public $translatable = ['title','url','description','content'];
 
@@ -73,6 +84,12 @@ class Category extends Model
 //
 //        return $allCategories;
 //    }
+
+    public function getMorphClass()
+    {
+        return 'category';
+    }
+
 
     public static function hasActiveProductInSubcategories($category)
     {
