@@ -50,7 +50,13 @@ foreach($localPackages['templates'] as $package) {
 
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
-foreach($composerSearch = $composerClient->search() as $packageName=>$versions) {
+$composerSearch = $composerClient->search();
+
+if(!$composerSearch){
+    print '<h4>Error: Package manager did not return any results</h4>';
+    return;
+}
+foreach( $composerSearch as $packageName=>$versions) {
     foreach($versions as $version) {
 
         $version['release_date'] = date('Y-m-d H:i:s');
@@ -126,7 +132,6 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
 }
 
 $packages_by_type_reorder = $packages_by_type;
-
 $packages_by_type = [];
 $packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
 $packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
