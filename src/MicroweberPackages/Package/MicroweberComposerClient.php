@@ -246,9 +246,14 @@ class MicroweberComposerClient {
 
         @rename($package['unzipped_files_location'],$packageFileDestination);
 
+        $moduleName = $package['name'];
+        $moduleName = str_replace('microweber-modules/', '', $moduleName);
+        $moduleName = str_replace('microweber-templates/', '', $moduleName);
+
         $response = array();
-        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' ';
-        $response['log'] = 'Done!';
+        $response['success'] = 'Success. You have installed: ' . $moduleName;
+        $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+        $response['log'] = 'Done!'; 
 
         // app()->update->post_update();
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
