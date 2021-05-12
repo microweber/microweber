@@ -50,6 +50,11 @@ event_bind('mw.pageview', function ($params = false) {
 //
 //        return $src;
 
+
+        if(is_admin()){
+            return;
+        }
+
         $src_code = '$(document).ready(function () {
             setTimeout(function () {
                 $.ajax({
