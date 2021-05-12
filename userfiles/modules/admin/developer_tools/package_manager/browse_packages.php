@@ -133,8 +133,16 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
 
 $packages_by_type_reorder = $packages_by_type;
 $packages_by_type = [];
-$packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
-$packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+$packages_by_type['microweber-template'] = [];
+if(isset($packages_by_type_reorder['microweber-template'])){
+    $packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
+}
+
+
+$packages_by_type['microweber-module'] = [];
+if(isset($packages_by_type_reorder['microweber-module'])){
+    $packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+}
 
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 ?>
