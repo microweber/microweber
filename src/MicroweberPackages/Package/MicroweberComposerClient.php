@@ -193,11 +193,12 @@ class MicroweberComposerClient {
         @rename($package['unzipped_files_location'],$packageFileDestination);
 
         $response = array();
-        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
+        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' ';
         $response['log'] = 'Done!';
 
         // app()->update->post_update();
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+        scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
         return $response;
     }
