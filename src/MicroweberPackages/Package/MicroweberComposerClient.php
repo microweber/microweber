@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Package;
 
+use Composer\Semver\Comparator;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\Traits\FileDownloader;
 use MicroweberPackages\Utils\Zip\Unzip;
@@ -25,6 +26,59 @@ class MicroweberComposerClient {
         }
 
         $this->logfile = userfiles_path() . 'install_item_log.txt';
+    }
+
+    public function countNewUpdates() {
+
+        $searchPackages = $this->search();
+
+        $allPackages = [];
+        $localPackages = mw()->update->collect_local_data();
+        foreach($localPackages['modules'] as $package) {
+            $allPackages[] = $package;
+        }
+        foreach($localPackages['templates'] as $package) {
+            $allPackages[] = $package;
+        }
+
+        $readyPackages = [];
+        foreach($searchPackages as $packageName=>$versions) {
+            foreach ($versions as $version) {
+
+                $version['latest_version'] = $version;
+
+                if (!empty($allPackages)) {
+                    foreach ($allPackages as $module) {
+
+                        if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+
+                            $version['has_update'] = false;
+
+                            $v1 = trim($version['latest_version']['version']);
+                            $v2 = trim($module['version']);
+
+                            if ($v1 != $v2) {
+                                if (Comparator::greaterThan($v1, $v2)) {
+                                    $version['has_update'] = true;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                $readyPackages[$packageName] = $version;
+            }
+        }
+
+        $newUpdates = 0;
+
+        foreach($readyPackages as $package) {
+            if (isset($package['has_update']) && $package['has_update']) {
+                $newUpdates++;
+            }
+        }
+
+        return $newUpdates;
     }
 
     public function search($filter = array())

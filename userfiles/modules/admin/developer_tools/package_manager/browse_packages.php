@@ -76,7 +76,7 @@ foreach( $composerSearch as $packageName=>$versions) {
                 $currentInstall['module'] = $module['name'];
 
                 $version['has_update'] = false;
-                
+
                 $v1 = trim($version['latest_version']['version']);
                 $v2 = trim($module['version']);
 
@@ -410,7 +410,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                                 $count = count($pkitems);
                                 $total += $count;
-                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a>';
+                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-success badge-sm badge-pill">' . $count . '</sup></a>';
                             endforeach;
                             ?>
                             <?php print $items; ?>
