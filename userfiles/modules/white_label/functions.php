@@ -30,7 +30,7 @@ function get_white_label_config()
     $file_local = MW_WHITE_LABEL_SETTINGS_FILE_LOCAL;
 
     if (is_file($file_local)) {
-        $cont = file_get_contents($file);
+        $cont = file_get_contents($file_local);
         return json_decode($cont, true);
     }
 
