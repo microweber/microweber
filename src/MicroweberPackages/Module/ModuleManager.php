@@ -617,12 +617,6 @@ class ModuleManager
                 foreach ($data as $k => $v) {
                     if (isset($v['settings']) and !is_array($v['settings'])) {
                         $v['settings'] = @json_decode($v['settings'], true);
-
-                        // Skip modules when whitelabel run
-                        if (isset($v['settings']['hide_on_whitelabel_run']) && $v['settings']['hide_on_whitelabel_run']) {
-                            continue;
-                        }
-
                         $data[$k] = $v;
                     }
                 }
