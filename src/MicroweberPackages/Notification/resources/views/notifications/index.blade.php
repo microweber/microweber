@@ -275,7 +275,7 @@
                         <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                     </div>
 
-                    <div class="d-inline-flex">
+                    <div class="d-inline-flex"><strong>Calendar</strong>
                         <div class="js-show-options" style="display: none;">
                             <a href="javascript:mw.notif_read_selected();"
                                class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i
