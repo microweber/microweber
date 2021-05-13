@@ -51,11 +51,13 @@
                     this.settings.content.forEach(function (el){
                         scope.append(el);
                     });
-                } else {
-
+                } else if(this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(mw.element(this.settings.content));
                 }
             }
+
             this.$node = $(el);
         };
 
