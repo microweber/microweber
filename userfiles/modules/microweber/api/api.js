@@ -803,10 +803,8 @@ mw.getScripts = function (array, callback) {
                     +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
         var data = {};
         $(fields, el).each(function(){
-            if(!this.name){
-                console.warn('Name attribute missing on ' + this.outerHTML);
-            }
-            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name != 'undefined'){
+
+            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name !== 'undefined'){
               var el = this, _el = $(el);
               var val = _el.val();
               var name = el.name;
