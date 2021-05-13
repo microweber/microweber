@@ -215,9 +215,11 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         });
     }
 
-    $(document).ready(function () {
+    $(mwd).ready(function () {
+        if(window.thismodal){
         thismodal.width('800px');
         resizeModal()
+        }
     });
 </script>
 

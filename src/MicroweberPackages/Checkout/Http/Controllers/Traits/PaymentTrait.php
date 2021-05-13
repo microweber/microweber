@@ -65,6 +65,10 @@ trait PaymentTrait {
             return redirect(route('checkout.payment_method'));
         }
 
+        if (isset($sendCheckout['success']) and !empty($sendCheckout['success'])) {
+            return $sendCheckout['success'];
+        }
+
         // Payment error
         if (isset($sendCheckout['error'])) {
             session_set('errors', [

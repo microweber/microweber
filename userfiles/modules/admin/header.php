@@ -475,9 +475,26 @@ $user = get_user_by_id($user_id);
 
                 <?php if (user_can_access('module.marketplace.index')): ?>
                     <?php if (mw()->ui->disable_marketplace != true): ?>
+
+                        <?php
+                        //$composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+                       // $countNewUpdates = $composerClient->countNewUpdates();
+                    // @todo move to backgroud job
+                        $countNewUpdates = 0;
+                        ?>
+
                         <li class="nav-item">
                             <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                                 <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+                                <?php
+                                if ($countNewUpdates > 0):
+                                ?>
+                                <span class="badge-holder">
+                                    <span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;"><?php echo $countNewUpdates; ?></span>
+                                </span>
+                                <?php
+                                endif;
+                                ?>
                             </a>
                         </li>
                     <?php endif; ?>

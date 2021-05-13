@@ -19,13 +19,28 @@ trait ContentDataTrait
     public static function bootContentDataTrait()
     {
         static::saving(function ($model)  {
+
             if (isset($model->attributes['content_data'])) {
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
             }
         });
 
+
+
+//        if ($model->attributes and array_key_exists("price", $model->attributes)) {
+//            if (isset($model->attributes['price'])) {
+//                $model->_addPriceField = $model->attributes['price'];
+//            } else {
+//                $model->_removePriceField = true;
+//            }
+//            unset($model->attributes['price']);
+//
+//        }
+
+
         static::saved(function($model) {
+
             $model->setContentData($model->_addContentData);
         });
     }

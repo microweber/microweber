@@ -78,14 +78,15 @@ class MenuManager
 
     public function menu_item_save($data_to_save)
     {
-        $id = $this->app->user_manager->is_admin();
-        if ($id == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+//        $id = $this->app->user_manager->is_admin();
+//        if ($id == false) {
+         // moved check for admin to router
+//            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+//        }
 
         if (isset($data_to_save['menu_id'])) {
-            $data_to_save['id'] = intval($data_to_save['menu_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
+            $data_to_save['parent_id'] = intval($data_to_save['menu_id']);
+            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
 
         if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
@@ -255,19 +256,19 @@ class MenuManager
         }
 
         $cache_group = 'menus/global';
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
-        if (defined('PAGE_ID')) {
-            $function_cache_id = $function_cache_id . PAGE_ID;
-        }
-        if (defined('CATEGORY_ID')) {
-            $function_cache_id = $function_cache_id . CATEGORY_ID;
-        }
+//        $function_cache_id = false;
+//        $args = func_get_args();
+//        foreach ($args as $k => $v) {
+//            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//        }
+//
+//        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
+//        if (defined('PAGE_ID')) {
+//            $function_cache_id = $function_cache_id . PAGE_ID;
+//        }
+//        if (defined('CATEGORY_ID')) {
+//            $function_cache_id = $function_cache_id . CATEGORY_ID;
+//        }
 
         if (!isset($depth) or $depth == false) {
             $depth = 0;
@@ -280,7 +281,12 @@ class MenuManager
 //            if (!isset($no_cache) and ($cache_content) != false) {
 //                //  return $cache_content;
 //            }
-//        }
+//        }\
+
+
+
+        $data_to_return = [];
+
         $params = array();
         $params['item_parent'] = $menu_id;
         $menu_id = intval($menu_id);
@@ -424,6 +430,11 @@ class MenuManager
             $show_images = $params['show_images'];
         }
 
+        $return_data = false;
+        if (isset($params_o['return_data']) != false) {
+            $return_data = $params_o['return_data'];
+        }
+
         if (isset($params['maxdepth']) != false) {
             $maxdepth = $params['maxdepth'];
         }
@@ -444,8 +455,11 @@ class MenuManager
             $li_submenu_a_link = $params_o['li_submenu_a_link'];
 
         }
+        $cur_content_id_data = [];
+        if(defined('CONTENT_ID')){
+            $cur_content_id_data = get_content_by_id(CONTENT_ID);
 
-        $cur_content_id_data = get_content_by_id(CONTENT_ID);
+        }
 
 
 
@@ -823,6 +837,9 @@ class MenuManager
                             if (isset($li_class_deep)) {
                                 $menu_params['li_class_deep'] = $li_class_deep;
                             }
+ if (isset($return_data) and $return_data) {
+                                $menu_params['return_data'] = $return_data;
+                            }
 
                             if (isset($li_submenu_a_class)) {
 
@@ -834,27 +851,34 @@ class MenuManager
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
-                            $test1 = $this->menu_tree($menu_params);
+
+
+
+                            $menu_items_render = $this->menu_tree($menu_params);
 
                             //   }
                         } else {
 
-                            $test1 = $this->menu_tree($item['id']);
+                            $menu_items_render = $this->menu_tree($item['id']);
                         }
                     } else {
 
                         if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
                             if (isset($params) and is_array($params)) {
-                                $test1 = $this->menu_tree($menu_params);
+                                $menu_items_render = $this->menu_tree($menu_params);
                             } else {
 
-                                $test1 = $this->menu_tree($item['id']);
+                                $menu_items_render = $this->menu_tree($item['id']);
                             }
                         }
                     }
                 }
 
-                if (isset($li_class_empty) and isset($test1) and trim($test1) == '') {
+                if(isset($menu_items_render) and $return_data){
+                    $item['children'] = $menu_items_render;
+                }
+
+                if (isset($li_class_empty) and isset($menu_items_render) and trim($menu_items_render) == '') {
                     if ($depth > 0) {
                         $li_class = $li_class_empty;
                     }
@@ -895,12 +919,16 @@ class MenuManager
                 }
 */
 
-                if (isset($test1) and strval($test1) != '') {
-                    $to_print .= strval($test1);
+                if (isset($menu_items_render) and is_string($menu_items_render) and  strval($menu_items_render) != '') {
+                    $to_print .= strval($menu_items_render);
                     ++$res_count;
                 }
 
                 $to_print .= '</' . $li_tag . '>';
+            }
+
+            if($return_data){
+                $data_to_return[] = $item;
             }
 
             ++$cur_depth;
@@ -912,6 +940,10 @@ class MenuManager
         }
 
         if ($has_items) {
+            if($return_data){
+                return $data_to_return;
+            }
+
             return $to_print;
         } else {
             return false;

@@ -116,11 +116,21 @@ if ($id == 0) {
                 <div class="col-auto">
                     <label class="control-label d-block">&nbsp;</label>
                     <button type="button" class="btn btn-outline-primary" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
+
                 </div>
+
+
+
+
+
+
+
             </div>
 
+
+
             <?php if ($data['id'] != 0): ?>
-                <div id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
+                <div>
                     <?php
                     /*  <br>
                       <div  class="mw-ui-field-holder">
@@ -134,7 +144,7 @@ if ($id == 0) {
                       </div>*/
                     ?>
 
-                    <div class="row">
+                    <div class="row" id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
                         <div class="col-sm-6">
                             <?php
                             if (!isset($data['url_target'])) {

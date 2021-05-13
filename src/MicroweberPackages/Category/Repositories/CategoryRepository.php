@@ -15,6 +15,7 @@ class CategoryRepository extends BaseRepository
 {
     public function __construct(Category $model)
     {
+
         $this->model = $model;
     }
 
@@ -33,6 +34,9 @@ class CategoryRepository extends BaseRepository
     {
         $category = $this->model->find($id);
 
+        if(!$category){
+            return;
+        }
         event($event = new CategoryIsUpdating($category, $data));
 
         $category->update($data);

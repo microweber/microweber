@@ -737,8 +737,12 @@ class UpdateManager
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
-            scan_for_modules(['no_cache'=>true]);
-            scan_for_elements();
+          //  scan_for_modules(['no_cache'=>true]);
+         //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+            scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+
+            scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+
             mw()->layouts_manager->scan();
             mw()->template->clear_cached_custom_css();
             mw()->template->clear_cached_apijs_assets();

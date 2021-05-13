@@ -748,7 +748,7 @@ use MicroweberPackages\Assets\Facades\Assets;
                                                                     <label class="custom-control-label" for="subscribe_for_update_notification"><?php _e('Update nofitication'); ?></label>
                                                                 </div>
 
-                                                                <small class="text-muted d-block mb-2"><?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?></small>
+                                                                <small class="text-muted d-block mb-2"><?php _e('If checked, you will get update notifications when new version is avaiable.'); ?></small>
                                                             </div>
                                                         </div>
                                                     </div>

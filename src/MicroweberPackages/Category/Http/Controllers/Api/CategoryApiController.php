@@ -8,7 +8,7 @@
 namespace MicroweberPackages\Category\Http\Controllers\Api;
 
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Category\Http\Requests\CategoryRequest;
+use   MicroweberPackages\Category\Http\Requests\CategoryRequest ;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 
 class CategoryApiController extends AdminDefaultController
@@ -17,7 +17,11 @@ class CategoryApiController extends AdminDefaultController
 
     public function __construct(CategoryRepository $category)
     {
+
+
         $this->category = $category;
+
+        parent::__construct();
     }
 
     /**
@@ -62,6 +66,7 @@ class CategoryApiController extends AdminDefaultController
      */
     public function update(CategoryRequest $request, $id)
     {
+
         return $this->category->update($request->all(), $id);
     }
 

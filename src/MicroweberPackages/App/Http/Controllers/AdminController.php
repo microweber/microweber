@@ -131,8 +131,7 @@ class AdminController extends Controller
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
         $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
-
-        $layout = new MicroweberView($view);
+         $layout = new MicroweberView($view);
 
         if ($this->render_content) {
             $layout->assign('render_content', $this->render_content);
@@ -198,9 +197,9 @@ class AdminController extends Controller
 
     private function hasNoAdmin()
     {
-        if (!$this->checkServiceConfig()) {
-            $this->registerMwClient();
-        }
+//        if (!$this->checkServiceConfig()) {
+//            $this->registerMwClient();
+//        }
         if (mw()->url_manager->param('mw_install_create_user')) {
             $this->execCreateAdmin();
         }
@@ -219,8 +218,11 @@ class AdminController extends Controller
         return false;
     }
 
+
     private function registerMwClient()
     {
+        return;
+
         $key = Config::get('app.key');
 
         $client = new \Guzzle\Service\Client('https://login.microweber.com/api/v1/client/');
@@ -259,7 +261,7 @@ class AdminController extends Controller
 
     private function execCreateAdmin()
     {
-        $input = Input::only(['admin_username', 'admin_email', 'admin_password']);
+        $input = \Request::only(['admin_username', 'admin_email', 'admin_password']);
         $adminUser = new User();
         if (strlen(trim(implode('', $input)))) {
             $adminUser->username = $input['admin_username'];

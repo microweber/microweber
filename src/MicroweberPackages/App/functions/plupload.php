@@ -508,7 +508,7 @@ if (!$chunks || $chunk == $chunks - 1) {
             finfo_close($finfo);
         }
 
-        if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png') {
+        if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png'|| $ext == 'svg') {
 
             $valid = false;
             if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
@@ -523,6 +523,18 @@ if (!$chunks || $chunk == $chunks - 1) {
                 if (@imagecreatefromgif($filePath)) {
                     $valid = true;
                 }
+            }else if ($ext === 'svg') {
+
+                if (is_file($filePath)) {
+                    $svg_clean = new \MicroweberPackages\Utils\ThirdPartyLibs\SvgSanitizer();
+                    $svg_clean->load($filePath);
+                    $svg_clean->sanitize();
+                    $svg_clean = $svg_clean->saveSVG();
+                    file_put_contents($filePath,$svg_clean);
+
+                }
+               $valid = true;
+
             } else {
                 $valid = false;
             }

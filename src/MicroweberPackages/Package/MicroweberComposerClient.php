@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Package;
 
+use Composer\Semver\Comparator;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\Traits\FileDownloader;
 use MicroweberPackages\Utils\Zip\Unzip;
@@ -25,6 +26,59 @@ class MicroweberComposerClient {
         }
 
         $this->logfile = userfiles_path() . 'install_item_log.txt';
+    }
+
+    public function countNewUpdates() {
+
+        $searchPackages = $this->search();
+
+        $allPackages = [];
+        $localPackages = mw()->update->collect_local_data();
+        foreach($localPackages['modules'] as $package) {
+            $allPackages[] = $package;
+        }
+        foreach($localPackages['templates'] as $package) {
+            $allPackages[] = $package;
+        }
+
+        $readyPackages = [];
+        foreach($searchPackages as $packageName=>$versions) {
+            foreach ($versions as $version) {
+
+                $version['latest_version'] = $version;
+
+                if (!empty($allPackages)) {
+                    foreach ($allPackages as $module) {
+
+                        if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+
+                            $version['has_update'] = false;
+
+                            $v1 = trim($version['latest_version']['version']);
+                            $v2 = trim($module['version']);
+
+                            if ($v1 != $v2) {
+                                if (Comparator::greaterThan($v1, $v2)) {
+                                    $version['has_update'] = true;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                $readyPackages[$packageName] = $version;
+            }
+        }
+
+        $newUpdates = 0;
+
+        foreach($readyPackages as $package) {
+            if (isset($package['has_update']) && $package['has_update']) {
+                $newUpdates++;
+            }
+        }
+
+        return $newUpdates;
     }
 
     public function search($filter = array())
@@ -192,12 +246,18 @@ class MicroweberComposerClient {
 
         @rename($package['unzipped_files_location'],$packageFileDestination);
 
+        $moduleName = $package['name'];
+        $moduleName = str_replace('microweber-modules/', '', $moduleName);
+        $moduleName = str_replace('microweber-templates/', '', $moduleName);
+
         $response = array();
-        $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
-        $response['log'] = 'Done!';
+        $response['success'] = 'Success. You have installed: ' . $moduleName;
+        $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+        $response['log'] = 'Done!'; 
 
         // app()->update->post_update();
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+        scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
         return $response;
     }

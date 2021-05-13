@@ -27,7 +27,7 @@ class CategoryServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Category\Category    $category_manager
+         * @property \MicroweberPackages\Category\CategoryManager    $category_manager
          */
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();

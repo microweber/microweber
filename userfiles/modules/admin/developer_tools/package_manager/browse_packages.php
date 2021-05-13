@@ -49,7 +49,13 @@ foreach($localPackages['templates'] as $package) {
 
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
-foreach($composerSearch = $composerClient->search() as $packageName=>$versions) {
+$composerSearch = $composerClient->search();
+
+if(!$composerSearch){
+    print '<h4>Error: Package manager did not return any results</h4>';
+    return;
+}
+foreach( $composerSearch as $packageName=>$versions) {
     foreach($versions as $version) {
 
         $version['release_date'] = date('Y-m-d H:i:s');
@@ -67,9 +73,10 @@ foreach($composerSearch = $composerClient->search() as $packageName=>$versions) 
                 $currentInstall['composer_type'] = $version['type'];
                 $currentInstall['local_type'] = $version['type'];
                 $currentInstall['module'] = $module['name'];
+                $currentInstall['module_details'] = $module;
 
                 $version['has_update'] = false;
-                
+
                 $v1 = trim($version['latest_version']['version']);
                 $v2 = trim($module['version']);
 
@@ -125,10 +132,17 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
 }
 
 $packages_by_type_reorder = $packages_by_type;
-
 $packages_by_type = [];
-$packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
-$packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+$packages_by_type['microweber-template'] = [];
+if(isset($packages_by_type_reorder['microweber-template'])){
+    $packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
+}
+
+
+$packages_by_type['microweber-module'] = [];
+if(isset($packages_by_type_reorder['microweber-module'])){
+    $packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+}
 
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 ?>
@@ -395,7 +409,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                                 $count = count($pkitems);
                                 $total += $count;
-                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a>';
+                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-success badge-sm badge-pill">' . $count . '</sup></a>';
                             endforeach;
                             ?>
                             <?php print $items; ?>
