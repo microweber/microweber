@@ -262,11 +262,11 @@
         <?php $periods_printed = array(); ?>
         <div class="toolbar row mb-3">
             <div class="col-12 text-center text-sm-left">
-                <h5><strong><?php _e("All Activities"); ?></strong></h5>
-                <p><?php _e("List of all notifications of your website."); ?>{{-- <a href="javascript:;"
+                <h5 class="mb-0"><strong><?php _e("All Activities"); ?></strong></h5>
+                <small class="text-muted"><?php _e("List of all notifications of your website."); ?>{{-- <a href="javascript:;"
                                                                  onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');"
                                                                  class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>--}}
-                </p>
+                </small>
             </div>
             <div class="col-12 d-sm-flex align-items-center justify-content-between">
                 <div class="text-center text-md-left my-2">
