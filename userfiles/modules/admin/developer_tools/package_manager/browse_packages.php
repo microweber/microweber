@@ -74,6 +74,7 @@ foreach( $composerSearch as $packageName=>$versions) {
                 $currentInstall['composer_type'] = $version['type'];
                 $currentInstall['local_type'] = $version['type'];
                 $currentInstall['module'] = $module['name'];
+                $currentInstall['module_details'] = $module;
 
                 $version['has_update'] = false;
 

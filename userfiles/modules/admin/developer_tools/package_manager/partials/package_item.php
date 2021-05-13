@@ -38,21 +38,44 @@ if(!isset($item['type'] )){
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
-                        class="btn btn-md btn-link text-dark p-0 font-weight-bold"><?php print $item['description'] ?></a>
-                    <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
-                          data-trigger="click"><i class="mdi mdi-information-outline"></i></span>
+                    <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
+                    <?php
+                    $href_open_mod = module_admin_url($item['current_install']['module_details']['module']);
+                    ?>
+                    <a href="<?php echo $href_open_mod; ?>" class="btn btn-md btn-link text-dark p-0 font-weight-bold">
+                        <?php print $item['description'] ?>
+                    </a>
+                    <?php else: ?>
+                        <span class="text-dark p-0 font-weight-bold">
+                            <?php print $item['description'] ?>
+                        </span>
+                    <?php endif; ?>
 
+                    <!---
+                    <?php if (isset($item['homepage'])): ?>
+                    <a href="<?php echo $item['homepage'];?>" class="btn btn-link btn-sm p-0 text-muted tip">
+                        <i class="mdi mdi-home-outline"></i>
+                    </a>
+                    <?php endif; ?>
+-->
+                    <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click">
+                        <i class="mdi mdi-information-outline"></i>
+                    </span>
+
+                    <!---
                     <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                         <p class="mt-3 text-success">
-                            <?php 
-                            $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'] . '/admin');
+                            <?php
+                            $href_open_mod = module_admin_url($item['current_install']['module_details']['module']);
                             ?>
-                            <a href="<?php print $href_open_mod ?>" class="btn btn-sm btn-info"><?php _e('Open'); ?></a
+                            <a href="<?php print $href_open_mod ?>" class="btn btn-sm btn-info">
+                                <?php _e('Open'); ?>
+                            </a>
                         </p>
                     <?php else : ?>
                         <p class="mt-3"></p>
                     <?php endif; ?>
+                    -->
                 </div>
 
                 <div class="package-item-footer">
