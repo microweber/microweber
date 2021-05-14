@@ -630,7 +630,6 @@ class ModuleManager
 
         if ($this->modules_register) {
             $return = array_merge($return, $this->modules_register);
-
         }
 
         return $return;

@@ -92,12 +92,26 @@ mw.form = {
         $.when(when()).then(function() {
             setTimeout(function () {
                 var obj = mw.form.serialize(selector, ignorenopost);
+
+
+
+
                 var req = {
                     url: url_to_post,
                     data: before_send ? before_send(obj) : obj,
                     method: 'post',
                     dataType: "json",
-
+                    statusCode: {
+                        201: function(data){
+                            // copy of success
+                            mw.session.checkPause = false;
+                            if(typeof callback === 'function'){
+                                callback.call(data, mw.$(selector)[0]);
+                            } else {
+                                return data;
+                            }
+                        }
+                    },
                     success: function(data){
 /*
                        if(typeof (data.error) != 'undefined' && data.error){
