@@ -35,7 +35,8 @@ class MicroweberComposerClient {
 
     public function countNewUpdatesCached() {
 
-        $count = \Cache::get('countNewUpdates');
+        $count = \Cache::tags('updates')->get('countNewUpdates');
+        //$count = \Cache::get('countNewUpdates');
         if ($count) {
             return $count;
         }
@@ -112,6 +113,9 @@ class MicroweberComposerClient {
             foreach($getRepositories as $packageName=>$packageVersions) {
 
                 if (isset($filter['require_version'])) {
+                    if(!is_array($packageVersions)){
+                        continue;
+                    }
                     foreach ($packageVersions as $packageVersion => $packageVersionData) {
                         if (($filter['require_version'] == $packageVersion) &&
                             ($filter['require_name'] == $packageName)) {
