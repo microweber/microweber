@@ -96,6 +96,7 @@ foreach( $composerSearch as $packageName=>$versions) {
     }
 }
 
+$new_updates_count = 0;
 $packages_by_type = array();
 $packages_by_type_with_update = array();
 
@@ -106,6 +107,7 @@ if ($search_packages and is_array($search_packages)) {
         //if ($item['type'] != 'microweber-core-update') {
         if (isset($item['has_update']) and $item['has_update']) {
             $package_has_update = true;
+            $new_updates_count++;
         }
 
         if ($package_has_update) {
@@ -124,6 +126,8 @@ if ($search_packages and is_array($search_packages)) {
         }
     }
 }
+
+\Cache::put('countNewUpdates', $new_updates_count, now()->addMinutes(30));
 
 if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
     $core_update = $packages_by_type_with_update['microweber-core-update'];
