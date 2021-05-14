@@ -1,13 +1,21 @@
 <?php
 include "whmcs.class.php";
 
-api_expose_admin('whitelabel/whmcs_status', function() {
+api_expose_admin('whitelabel/whmcs_status', function () {
 
     $settings = get_whitelabel_whmcs_settings();
-
-    if(!isset($settings['whmcs_url'] ) or (isset($settings['whmcs_url']) and !$settings['whmcs_url'])){
-        return ['warning'=> 'WHMCS connection is not set'];
+    $whmcs_is_not_set_up = false;
+    if (!isset($settings['whmcs_url']) or (isset($settings['whmcs_url']) and !$settings['whmcs_url'])) {
+        $whmcs_is_not_set_up = true;
     }
+    if (!isset($settings['whmcs_auth_type']) or (isset($settings['whmcs_auth_type']) and !$settings['whmcs_auth_type'])) {
+        $whmcs_is_not_set_up = true;
+    }
+
+    if ($whmcs_is_not_set_up) {
+        return ['warning' => 'WHMCS connection is not set'];
+    }
+
 
     try {
         $whmcs = new WHMCS();
@@ -23,22 +31,23 @@ api_expose_admin('whitelabel/whmcs_status', function() {
 
         $status = $whmcs->getProducts();
     } catch (\Exception $e) {
-        return ['error'=> $e->getMessage()];
+        return ['error' => $e->getMessage()];
     }
 
     if (empty($status)) {
-        return ['error'=>'Something went wrong. Can\'t connect to the WHMCS.'];
+        return ['error' => 'Something went wrong. Can\'t connect to the WHMCS.'];
     }
 
     if (isset($status['result']) && $status['result'] == 'error') {
-        return ['error'=>$status['message']];
+        return ['error' => $status['message']];
     }
 
-    return ['success'=>'Connection with WHMCS is successfully.'];
+    return ['success' => 'Connection with WHMCS is successfully.'];
 
 });
 
-function get_whitelabel_whmcs_settings() {
+function get_whitelabel_whmcs_settings()
+{
 
     $whmcs_url = false;
     $whmcs_auth_type = false;
@@ -68,11 +77,11 @@ function get_whitelabel_whmcs_settings() {
     }
 
     return [
-          'whmcs_url'=>$whmcs_url,
-          'whmcs_auth_type'=>$whmcs_auth_type,
-          'whmcs_api_identifier'=>$whmcs_api_identifier,
-          'whmcs_api_secret'=>$whmcs_api_secret,
-          'whmcs_username'=>$whmcs_username,
-          'whmcs_password'=>$whmcs_password
+        'whmcs_url' => $whmcs_url,
+        'whmcs_auth_type' => $whmcs_auth_type,
+        'whmcs_api_identifier' => $whmcs_api_identifier,
+        'whmcs_api_secret' => $whmcs_api_secret,
+        'whmcs_username' => $whmcs_username,
+        'whmcs_password' => $whmcs_password
     ];
 }
