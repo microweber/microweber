@@ -85,32 +85,41 @@ if ($id != false) {
             min-height: 140px;
             cursor: pointer;
         }
+        
+        .mw-modules-badge.cog-badge {
+
+         background-color: #d5f3e4;
+        }
+
+        .mw-modules-badge.cog-settings {
+
+            background-color: #f6d9da;
+        }
+
     </style>
 
 
     <?php
     $badge = '';
     if (isset($data['ui']) && $data['ui']) {
-        $badge .='<span class="badge badge-sm badge-success" data-help="'._e('Live edit', true).'"><i class="mdi mdi-eye-outline"></i></span>';
+        $badge .='<span class="mw-modules-badge badge badge-info rounded-circle p-2 mr-1 tip" data-tip="'._e('Live edit', true).'"><i class="mdi mdi-eye text-primary"></i></span>';
     }
     if (isset($data['ui_admin']) && $data['ui_admin']) {
-        $badge .='<span class="badge badge-sm badge-warning" data-help="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
+        $badge .='<span class="mw-modules-badge badge badge-secondary rounded-circle p-2 mr-1 tip" data-tip="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
     }
     if (isset($data['is_system']) && $data['is_system']) {
-        $badge .='<span class="badge badge-sm badge-primary" data-help="'._e('System', true).'"><i class="mdi mdi-cogs"></i></span>';
+        $badge .='<span class="mw-modules-badge cog-badge badge rounded-circle p-2 mr-1 tip" data-tip="'._e('System', true).'"><i class="mdi mdi-cog text-success"></i></span>';
     }
     if ((isset($data['is_system']) && $data['is_system'] == 0) &&
         (isset($data['ui_admin']) && $data['ui_admin'] == 0) &&
         (isset($data['ui']) && $data['ui'] == 0)) {
-        $badge .='<span class="badge badge-sm badge-danger" data-help="'._e('Integration', true).'"><i class="mdi mdi-wrench"></i></span>';
+        $badge .='<span class="mw-modules-badge cog-settings badge badge-danger rounded-circle p-2 mr-1 tip" data-tip="'._e('Integration', true).'"><i class="mdi mdi-wrench text-danger"></i></span>';
     }
     ?>
 
-    <div class="card style-1 mw-modules-module-holder">
-
-        <div class="card-body" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
-
-            <div class="text-left pb-4">
+    <div class="card mw-modules-module-holder p-1">
+        <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+            <div class="text-left pb-3">
             <?php echo $badge; ?>
             </div>
 
