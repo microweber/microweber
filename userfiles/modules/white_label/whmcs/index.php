@@ -9,6 +9,9 @@
                 if (data.error) {
                     $('.js-connection-status').html('<div class="alert alert-danger"><i class="fa fa-times"></i> '+data.error+'</div>');
                 }
+                if (data.warning) {
+                    $('.js-connection-status').html('<div class="alert alert-warning"><i class="fa fa-wave-square"></i> '+data.warning+'</div>');
+                }
             });
 
         $('.js-whmcs-auth-type').change(function() {

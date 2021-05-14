@@ -5,6 +5,10 @@ api_expose_admin('whitelabel/whmcs_status', function() {
 
     $settings = get_whitelabel_whmcs_settings();
 
+    if(!isset($settings['whmcs_url'] ) or (isset($settings['whmcs_url']) and !$settings['whmcs_url'])){
+        return ['warning'=> 'WHMCS connection is not set'];
+    }
+
     try {
         $whmcs = new WHMCS();
         $whmcs->setUrl($settings['whmcs_url'] . '/includes/api.php');

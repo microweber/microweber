@@ -66,36 +66,43 @@ if ($load_module == true): ?>
         if (!user_can_view_module($mod)) {
             continue;
         }
+        // Skip modules when  run
+        $should_skip = false;
+
+
         if (isset($mod['settings'])) {
            if (!is_array($mod['settings'])) {
                $mod['settings'] = json_decode($mod['settings'], true);
            }
 
-           // Skip modules when whitelabel run
-            $should_skip = false;
+
             if (isset($mod['settings']['hide_from_modules_list']) && $mod['settings']['hide_from_modules_list']) {
                 $should_skip = true;
 
             }
 
-            if (isset($mod['module']) && $mod['module'] == 'white_label') {
 
-                $whitelabel = [];
-                if (function_exists('get_white_label_config')) {
-                    $whitelabel = get_white_label_config();
-                }
-                if (!empty($whitelabel['hide_white_label_module_from_list']) and intval($whitelabel['hide_white_label_module_from_list']) != 0) {
 
-                    $should_skip = true;
-                }
+        }
+        if (isset($mod['module']) && $mod['module'] == 'white_label') {
+
+            $whitelabel = [];
+            if (function_exists('get_white_label_config')) {
+                $whitelabel = get_white_label_config();
             }
+            if (!empty($whitelabel['hide_white_label_module_from_list']) and intval($whitelabel['hide_white_label_module_from_list']) != 0) {
 
-
-            if ($should_skip)  {
-                continue;
-
+                $should_skip = true;
             }
         }
+
+
+        if ($should_skip)  {
+            continue;
+
+        }
+
+
         $allowMods[] = $mod;
     }
     $mods = $allowMods;
