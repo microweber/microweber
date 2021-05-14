@@ -23,7 +23,7 @@
 	<?php } ?>
 
     <script type="text/javascript">
-      
+
         mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
         mw.lib.require("bootstrap3");
     </script>
@@ -33,10 +33,10 @@
     <?php print $custom_head; ?>
     <?php else : ?>
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="all">
-    <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
+    <script src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
 
-    
+
     </head>
     <body>
 <div id="header" class="clearfix">
@@ -62,5 +62,5 @@
         </div>
   </div>
     </div>
- 
+
 

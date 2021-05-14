@@ -15,7 +15,7 @@
 
 </style>
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 <script type="text/javascript">
 
     live_edit_css_code_area_editor_value = '';

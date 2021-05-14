@@ -4,7 +4,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta charset="UTF-8">
 
-      <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+      <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
 
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>

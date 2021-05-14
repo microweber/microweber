@@ -1,8 +1,4 @@
-<?php
-
-use MicroweberPackages\Assets\Facades\Assets;
-
-?><!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
     <title><?php _e('Installation'); ?></title>
@@ -10,42 +6,19 @@ use MicroweberPackages\Assets\Facades\Assets;
     <meta http-equiv="Content-Language" Content="en">
     <meta name="robots" content="noindex">
 
-   <?php
-
-   /* <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-    <script type="text/javascript" src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
-    <script type="text/javascript" src="<?php print mw()->template->get_apijs_url(); ?>"></script>
-
-
-    <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
+    <script src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
+    <script src="<?php print mw()->template->get_apijs_url(); ?>"></script>
+    <script src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
 
-
-
    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
-   <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
-*/
-
-   ?>
-
-
-    <script type="text/javascript" src="<?php print mw()->template->get_apijs_combined_url(); ?>"></script>
-
-    <?php
-     Assets::add(['admin']);
-
-     print Assets::all();
-
-
-
-
-    ?>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
+        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
 
     <?php
     $rand = uniqid();

@@ -1,56 +1,91 @@
-<?php
-
-
-
-print \Illuminate\Support\Facades\View::make('admin::partials.header', [])->render();
-
-
-?>
-
-<script>
-   // mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
-  //  mw.require("<?php print mw_includes_url(); ?>css/components.css");
-
-    mw.lib.require('flag_icons', true);
- //   mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
-
-
-    <?php if(_lang_is_rtl()){ ?>
-   // mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
-    <?php } ?>
-</script>
-<?php if (!isset($_REQUEST['no_toolbar'])): ?>
+<!DOCTYPE html>
+<html <?php print lang_attributes(); ?>>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex">
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.mw-lazy-load-module').reload_module();
+        if (!window.CanvasRenderingContext2D) {
+            var h = "<div id='UnsupportedBrowserMSG'> </div>"
+                + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
+                + "<a id='u__ie' target='_blank' href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'></a>"
+                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'>x</a>"
+                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'>x</a>"
+                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'>x</a>"
+                + "</p></div>";
+            document.write(h);
+            document.body.id = 'UnsupportedBrowser';
+            document.body.className = 'UnsupportedBrowser';
+        }
+        mwAdmin = true;
+        admin_url = '<?php print admin_url(); ?>';
+    </script>
 
-            if (self === top) {
-                window.onhashchange = function () {
+    <script type="text/javascript">
+        mw.lib.require('jqueryui');
+        mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
+        mw.require("liveadmin.js");
+        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+        mw.require("<?php print mw_includes_url(); ?>css/components.css");
+        mw.require("wysiwyg.js");
+        mw.require("url.js");
+        mw.require("options.js");
+        mw.require("events.js");
+        mw.require("admin.js");
+        mw.require("editor_externals.js");
+        mw.require("keys.js");
+        mw.require("css_parser.js");
+        mw.require("custom_fields.js");
+        mw.require("session.js");
+        mw.require("content.js");
+        mw.require("upgrades.js");
+        mw.require("tree.js");
+
+        mw.lib.require('mwui');
+        mw.lib.require('mwui_init');
+        mw.lib.require('flag_icons', true);
+        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+
+        <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
+        mw.require("helpinfo.js");*/ ?>
+        <?php if(_lang_is_rtl()){ ?>
+        mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
+        <?php } ?>
+    </script>
+    <?php if (!isset($_REQUEST['no_toolbar'])): ?>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.mw-lazy-load-module').reload_module();
+
+                if (self === top) {
+                    window.onhashchange = function () {
+                        mw.cookie.set('back_to_admin', location.href);
+                    }
                     mw.cookie.set('back_to_admin', location.href);
                 }
-                mw.cookie.set('back_to_admin', location.href);
-            }
 
-            mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
-                if (mw.helpinfo != undefined) {
-                    mw.cookie.set('helpinfo', false, 4380);
-                    $(".helpinfo_helper").fadeOut();
+                mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
+                    if (mw.helpinfo != undefined) {
+                        mw.cookie.set('helpinfo', false, 4380);
+                        $(".helpinfo_helper").fadeOut();
+                    }
+                });
+            });
+            // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+            mw.require("fonts.js");
+
+            $(window).load(function () {
+                if ($(".bootstrap3ns").size() > 0) {
+                    mw.lib.require("bootstrap3ns");
                 }
             });
-        });
-        // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+        </script>
+    <?php endif; ?>
+    <?php event_trigger('admin_head'); ?>
+</head>
 
-        $(window).on('load', function () {
-            if ($(".bootstrap3ns").size() > 0) {
-                mw.lib.require("bootstrap3ns");
-            }
-        });
-    </script>
-<?php endif; ?>
-
-
-
-
+<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 
@@ -185,7 +220,8 @@ $user = get_user_by_id($user_id);
                                     <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
                                 <?php endif; ?>
                             </h5>
-                            <script>SVGtoCode();</script>
+                            <script>mw.lib.require('mwui_init')</script>
+                           <!-- <script>SVGtoCode();</script>-->
                         </a>
                     </li>
 
@@ -477,10 +513,8 @@ $user = get_user_by_id($user_id);
                     <?php if (mw()->ui->disable_marketplace != true): ?>
 
                         <?php
-                        //$composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
-                       // $countNewUpdates = $composerClient->countNewUpdates();
-                    // @todo move to backgroud job
-                        $countNewUpdates = 0;
+                        $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+                        $countNewUpdates = $composerClient->countNewUpdatesCached();
                         ?>
 
                         <li class="nav-item">
