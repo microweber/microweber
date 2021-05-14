@@ -472,15 +472,18 @@ $user = get_user_by_id($user_id);
                                 </a>
                             <?php endif; ?>
 
-                            <!--
-                            <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
-                                <?php /*_e("Clients"); */ ?>
-                            </a>-->
-
                             <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                            <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
+                                <?php  _e("Clients");   ?>
+                            </a>
+
+                            <?php
+
+                                /*
                                 <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
-                                </a>
+                                </a>*/
+                                ?>
                             <?php endif; ?>
 
                             <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
