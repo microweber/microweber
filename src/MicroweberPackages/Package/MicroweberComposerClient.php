@@ -35,7 +35,7 @@ class MicroweberComposerClient {
 
     public function countNewUpdatesCached() {
 
-        $count = Cache::get('countNewUpdates');
+        $count = \Cache::get('countNewUpdates');
         if ($count) {
             return $count;
         }
