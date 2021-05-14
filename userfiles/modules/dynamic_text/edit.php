@@ -96,6 +96,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="mb-3">
                     <a class="btn btn-primary btn-rounded js-toggle-form" id="save-dynamic-text-form-add-btn" onclick="$('.js-toggle-form').toggle();" href="#"><?php _e('Add new'); ?></a>
                 </div>
+                <br>
+                <module type="dynamic_text/list" />
+
             </div>
 
             <?php if ($from_live_edit) : ?>
