@@ -31,7 +31,7 @@ class Base
             'ui_admin_iframe' => 'integer',
             'is_system' => 'integer',
             'is_integration' => 'integer',
-            'version' => 'string', 
+            'version' => 'string',
             'notifications' => 'integer',
             'settings' => 'text',
             'categories' => 'text',
