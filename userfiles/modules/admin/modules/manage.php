@@ -116,6 +116,7 @@ if ($load_module == true): ?>
             <?php endif; ?>
 
             <?php foreach ($mods as $k => $item): ?>
+
                 <?php if (!isset($item['id'])): ?>
                     <div class="col-xl-3 col-md-4 col-6 mb-3">
                         <div class="mw-admin-module-list-item mw-module-not-installed h-100" id="module-remote-id-<?php print $item['id'] ?>">

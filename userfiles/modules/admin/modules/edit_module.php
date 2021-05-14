@@ -87,8 +87,26 @@ if ($id != false) {
         }
     </style>
 
-    <div class="card style-1 h-100 mw-modules-module-holder">
-        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+
+    <?php
+    $badge = '';
+    if (isset($data['ui']) && $data['ui']) {
+        $badge .='<span class="badge badge-sm badge-success" data-help="'._e('Live edit', true).'"><i class="mdi mdi-eye-outline"></i></span>';
+    }
+    if (isset($data['ui_admin']) && $data['ui_admin']) {
+        $badge .='<span class="badge badge-sm badge-warning" data-help="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
+    }
+    ?>
+
+    <div class="card style-1 mw-modules-module-holder">
+
+        <div class="card-body" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+
+            <div class="text-left pb-4">
+            <?php echo $badge; ?>
+            </div>
+
+            <div class="h-100 d-flex align-items-center justify-content-center flex-column">
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
                 print 'module-installed';
             } else {
@@ -126,6 +144,7 @@ if ($id != false) {
                 <?php endif; ?>
 
             </form>
+            </div>
         </div>
     </div>
 <?php endif; ?>
