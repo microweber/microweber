@@ -9,7 +9,6 @@
         <?php if (isset($params['live_edit'])): ?>
         <module type="dynamic_text/select" />
         <?php endif; ?>
-
         <module type="dynamic_text/edit" />
     </div>
 </div>
