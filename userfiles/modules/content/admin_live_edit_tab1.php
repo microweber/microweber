@@ -173,7 +173,7 @@ $rand = uniqid(); ?>
                     var nodesearch = document.querySelector('#content-tags-search-block');
 
                     var tagsData = <?php print  json_encode($tags_val_arr) ?>.map(function (tag){
-                        return {title: tag}
+                        return {title: tag, id: tag}
                     });
                     var tags = new mw.tags({
                         element: node,
@@ -209,7 +209,7 @@ $rand = uniqid(); ?>
                     });
 
                     $(tagsSelect).on('enterOrComma', function (e, node){
-                        tags.addTag({title: node.value});
+                        tags.addTag({title: node.value, id: node.value});
                         setTimeout(function () {node.value = '';})
                     })
 
