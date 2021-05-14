@@ -28,6 +28,7 @@ if(!isset($item['type'] )){
             <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
                 <div>
                     <?php if ($item['type'] != 'microweber-core-update'): ?>
+
                         <?php if ($screenshot): ?>
                             <img src="<?php print thumbnail($screenshot, 70, 70); ?>" style="width: 65px;"
                                  class="pl-2 pb-2 float-right"/>
