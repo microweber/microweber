@@ -40,11 +40,7 @@ class MicroweberComposerClient {
             return $count;
         }
 
-        $count = $this->countNewUpdates();
-
-        \Cache::put('countNewUpdates', $count, now()->addMinutes(30));
-
-        return $count;
+        return 0;
     }
 
     public function countNewUpdates() {
