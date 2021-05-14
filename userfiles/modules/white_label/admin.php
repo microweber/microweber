@@ -115,6 +115,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             if (isset($settings['marketplace_repositories_urls']) and $settings['marketplace_repositories_urls'] != false) {
                 $marketplace_repositories_urls = $settings['marketplace_repositories_urls'];
+                if (is_array($marketplace_repositories_urls)) {
+                    $marketplace_repositories_urls = implode(',', $marketplace_repositories_urls);
+                }
             }
             ?>
 

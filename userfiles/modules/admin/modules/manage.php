@@ -110,7 +110,7 @@ if ($load_module == true): ?>
             opacity: 0.6;
         }
         .mw-modules-module-holder .mw-modules-badge{
-            opacity: 0.3;
+            opacity: 0;
         }
         .mw-modules-module-holder:hover .mw-modules-badge{
             opacity: 1;

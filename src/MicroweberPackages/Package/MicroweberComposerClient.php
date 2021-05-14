@@ -29,7 +29,7 @@ class MicroweberComposerClient {
 
         $settings = get_white_label_config();
         if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
-            $this->packageServers = $settings['marketplace_repositories_urls'];
+            $this->packageServers[] = $settings['marketplace_repositories_urls'];
         }
     }
 
