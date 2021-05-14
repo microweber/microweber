@@ -137,6 +137,13 @@
                                                 <?php
                                             endif;
                                             ?>
+                                            <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
+
+                                            <?php else: ?>
+                                                <span class="badge badge-warning font-weight-normal">Unpublished</span>
+                                            <?php endif; ?>
+
+
                                         </div>
                                     </div>
 
@@ -144,14 +151,17 @@
                                         <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
-                                    <div class="col manage-post-item-col-5" style="max-width: 130px;">
+                                   <?php
+
+                                   /* <div class="col manage-post-item-col-5" style="max-width: 130px;">
                                         <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
                                             <!--                                            <span class="badge badge-success">Published</span>-->
                                         <?php else: ?>
                                             <span class="badge badge-warning font-weight-normal">Unpublished</span>
                                         <?php endif; ?>
                                     </div>
-
+*/
+                                   ?>
 
                                     <div class="col item-comments manage-post-item-col-5 d-none" style="max-width: 100px;">
                                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
