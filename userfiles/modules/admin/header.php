@@ -221,7 +221,7 @@ $user = get_user_by_id($user_id);
                                 <?php endif; ?>
                             </h5>
                             <script>mw.lib.require('mwui_init')</script>
-                            <script>SVGtoCode();</script>
+                           <!-- <script>SVGtoCode();</script>-->
                         </a>
                     </li>
 

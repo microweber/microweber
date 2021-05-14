@@ -85,7 +85,7 @@ if ($id != false) {
             min-height: 140px;
             cursor: pointer;
         }
-        
+
         .mw-modules-badge.cog-badge {
 
          background-color: #d5f3e4;
@@ -95,7 +95,6 @@ if ($id != false) {
 
             background-color: #f6d9da;
         }
-
     </style>
 
 
@@ -110,9 +109,9 @@ if ($id != false) {
     if (isset($data['is_system']) && $data['is_system']) {
         $badge .='<span class="mw-modules-badge cog-badge badge rounded-circle p-2 mr-1 tip" data-tip="'._e('System', true).'"><i class="mdi mdi-cog text-success"></i></span>';
     }
-    if ((isset($data['is_system']) && $data['is_system'] == 0) &&
+    if (((isset($data['is_system']) && $data['is_system'] == 0) &&
         (isset($data['ui_admin']) && $data['ui_admin'] == 0) &&
-        (isset($data['ui']) && $data['ui'] == 0)) {
+        (isset($data['ui']) && $data['ui'] == 0)) || (isset($data['is_integration']) && $data['is_integration'])) {
         $badge .='<span class="mw-modules-badge cog-settings badge badge-danger rounded-circle p-2 mr-1 tip" data-tip="'._e('Integration', true).'"><i class="mdi mdi-wrench text-danger"></i></span>';
     }
     ?>
