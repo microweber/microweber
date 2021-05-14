@@ -132,10 +132,13 @@ if (isset($params['live_edit'])) {
             });
 
             mw.$('#admin_edit_category_form').submit(function () {
+
+
                 var form = this;
                 if (mw.category_is_saving) {
                     return false;
                 }
+
                 mw.notification.success("Saving...", 3000);
                 mw.category_is_saving = true;
                 $('.mw-cat-save-submit').addClass('disabled');
@@ -150,11 +153,18 @@ if (isset($params['live_edit'])) {
 
 
                 mw.form.post(mw.$('#admin_edit_category_form'), catSaveUrl, function (val) {
+                    var showmsg = '';
+                    var savedcatid = 0;
+
+                    if(this.data){
+                        savedcatid = this.data.id;
+                    }
 
                     //todo: move method to separate service
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                     if(dialog) {
-                        dialog.result(this.toString())
+                        dialog.result(savedcatid)
+                       // dialog.result(this.toString())
                     }
                     if (typeof(this.error) != "undefined") {
                         mw.notification.msg(this);
@@ -164,9 +174,9 @@ if (isset($params['live_edit'])) {
 
                     mw.$('#mw-notifications-holder').empty();
                     mw.notification.success("Category changes are saved");
-                    var v = this.toString();
-                    mw.$('#mw_admin_edit_cat_id').val(v);
-                    mw.$('#mw-cat-pics-admin').attr("for-id", v);
+                    var v = savedcatid;
+                    mw.$('#mw_admin_edit_cat_id').val(savedcatid);
+                    mw.$('#mw-cat-pics-admin').attr("for-id", savedcatid);
                     //mw.reload_module('[data-type="categories"]');
                     // if (self !== parent && !!parent.mw) {
                     //     parent.mw.reload_module('categories');
@@ -196,8 +206,7 @@ if (isset($params['live_edit'])) {
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-
-                    mw.url.windowHashParam('action', 'editcategory:' + this)
+                    mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                 });
 
                 return false;

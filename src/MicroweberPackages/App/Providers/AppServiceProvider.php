@@ -585,6 +585,13 @@ class AppServiceProvider extends ServiceProvider
 
 
         // <<< MW Kernel add
+
+
+        $this->app->terminating(function () {
+            // possible fix of mysql error https://github.com/laravel/framework/issues/18471
+            // user already has more than 'max_user_connections' active connections
+             DB::disconnect();
+        });
     }
 
     public function autoloadModules($className)

@@ -59,10 +59,28 @@ if ($load_module == true): ?>
         $mods = mw()->module_manager->get($mod_params);
     }
 
+
+    $whitelabel = [];
+
+    if (function_exists('get_white_label_config')) {
+        $whitelabel = get_white_label_config();
+    }
+
     $allowMods = [];
     foreach ($mods as $mod) {
         if (!user_can_view_module($mod)) {
             continue;
+        }
+        if (isset($mod['settings'])) {
+           if (!is_array($mod['settings'])) {
+               $mod['settings'] = json_decode($mod['settings'], true);
+           }
+           // Skip modules when whitelabel run
+            if (!empty($whitelabel['brand_name'])) {
+                if (isset($mod['settings']['hide_on_whitelabel_run']) && $mod['settings']['hide_on_whitelabel_run']) {
+                    continue;
+                }
+            }
         }
         $allowMods[] = $mod;
     }

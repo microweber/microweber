@@ -14,6 +14,24 @@
             {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
 
+            @if (\Session::has('success'))
+                <div class="row" >
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action list-group-item-success">{!! \Session::get('success') !!}</li>
+                    </ul>
+                </div>
+            @endif
+
+
+            @if (\Session::has('error'))
+                <div class="row" >
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action list-group-item-danger">{!! \Session::get('error') !!}</li>
+                    </ul>
+                </div>
+            @endif
+
+
             <div class="edit" field="checkout_finish_message" rel="global">
                 <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
                 <h4><?php _e("Thank you"); ?>!</h4>

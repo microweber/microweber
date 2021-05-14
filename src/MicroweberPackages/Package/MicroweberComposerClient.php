@@ -26,6 +26,11 @@ class MicroweberComposerClient {
         }
 
         $this->logfile = userfiles_path() . 'install_item_log.txt';
+
+        $settings = get_white_label_config();
+        if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
+            $this->packageServers = $settings['marketplace_repositories_urls'];
+        }
     }
 
     public function countNewUpdates() {
@@ -253,7 +258,7 @@ class MicroweberComposerClient {
         $response = array();
         $response['success'] = 'Success. You have installed: ' . $moduleName;
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
-        $response['log'] = 'Done!'; 
+        $response['log'] = 'Done!';
 
         // app()->update->post_update();
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');

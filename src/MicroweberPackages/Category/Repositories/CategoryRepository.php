@@ -27,7 +27,7 @@ class CategoryRepository extends BaseRepository
 
         event(new CategoryWasCreated($category, $data));
 
-        return $category->id;
+        return $category;
     }
 
     public function update($data, $id)
@@ -43,7 +43,7 @@ class CategoryRepository extends BaseRepository
 
         event(new CategoryWasUpdated($category, $data));
 
-        return $category->id;
+        return $category;
     }
 
     public function delete($id)
