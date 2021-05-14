@@ -96,6 +96,14 @@ if ($id != false) {
     if (isset($data['ui_admin']) && $data['ui_admin']) {
         $badge .='<span class="badge badge-sm badge-warning" data-help="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
     }
+    if (isset($data['is_system']) && $data['is_system']) {
+        $badge .='<span class="badge badge-sm badge-primary" data-help="'._e('System', true).'"><i class="mdi mdi-cogs"></i></span>';
+    }
+    if ((isset($data['is_system']) && $data['is_system'] == 0) &&
+        (isset($data['ui_admin']) && $data['ui_admin'] == 0) &&
+        (isset($data['ui']) && $data['ui'] == 0)) {
+        $badge .='<span class="badge badge-sm badge-danger" data-help="'._e('Integration', true).'"><i class="mdi mdi-wrench"></i></span>';
+    }
     ?>
 
     <div class="card style-1 mw-modules-module-holder">
