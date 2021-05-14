@@ -36,7 +36,8 @@
         });
     });
 </script>
-<h3>Select group for calendar</h3>
+<label class="control-label"><?php _e("Group"); ?></label>
+<small class="text-muted d-block mb-2"> <?php _e("Select group for calendar"); ?></small>
 <module type="calendar/group_select" calendar-group-module-id="<?php print $params['id'] ?>"/>
 <hr>
 
