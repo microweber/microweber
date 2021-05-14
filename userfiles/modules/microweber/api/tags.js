@@ -176,11 +176,9 @@ mw.tags = mw.chips = function(options){
         }
         var i = 0, curr = first;
         var _findIndex = function (tag) {
-            if(!curr[id]) {
-                tag[scope.options.map.title].toLowerCase() === curr[scope.options.map.title].toLowerCase();
-            } else {
-                return tag[id].toLowerCase() === curr[id].toLowerCase();
-            }
+            var tagId = isNaN(tag[id]) ? tag[id].toLowerCase() : tag[id];
+            var currId = isNaN(curr[id]) ? curr[id].toLowerCase() : curr[id];
+            return tagId == currId;
         };
         while (curr) {
             if (this.options.data.findIndex(_findIndex) === i) {
