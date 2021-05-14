@@ -57,6 +57,9 @@ if(!$composerSearch){
     return;
 }
 foreach( $composerSearch as $packageName=>$versions) {
+    if(!is_array($versions)){
+        continue;
+    }
     foreach($versions as $version) {
 
         $version['release_date'] = date('Y-m-d H:i:s');
