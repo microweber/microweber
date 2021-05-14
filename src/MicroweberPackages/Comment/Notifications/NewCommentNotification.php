@@ -92,7 +92,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
             $user_picture = user_picture($notification['created_by']);
         }
 
-        if(!$user_picture){
+        if(!isset($user_picture)){
             $user_picture = $picture;
         }
 
