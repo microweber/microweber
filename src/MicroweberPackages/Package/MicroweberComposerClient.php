@@ -59,6 +59,9 @@ class MicroweberComposerClient {
         $readyPackages = [];
         foreach($searchPackages as $packageName=>$versions) {
             foreach ($versions as $version) {
+                if(!is_array($version)){
+                    continue;
+                }
 
                 $version['latest_version'] = $version;
 
