@@ -2,35 +2,33 @@
 /* globals: mw */
 
 export const InteractionService = function (settings, rootNode) {
-        this.settings = settings;
+    this.settings = settings;
 
-        rootNode = rootNode || document.body;
+    rootNode = rootNode || document.body;
 
-        var doc = rootNode.ownerDocument;
+    var doc = rootNode.ownerDocument;
 
-        var _e = {};
-        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
-
-
-        var handleMove = function (e) {
-            var tartet = e.target;
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
 
-        };
-
-        this.init = function () {
-            rootNode.addEventListener("mousemove", function (event){
-                handleMove(event);
-            });
-            rootNode.addEventListener("touchmove", function (event){
-                handleMove(event);
-            });
-        };
-
-        this.init();
-
+    var handleMove = function (e) {
+        var tartet = e.target;
     };
+
+    this.init = function () {
+        rootNode.addEventListener("mousemove", function (event){
+            handleMove(event);
+        });
+        rootNode.addEventListener("touchmove", function (event){
+            handleMove(event);
+        });
+    };
+
+    this.init();
+
+};
 
 var DropIndicator = function (options) {
 
@@ -81,7 +79,7 @@ var DropIndicator = function (options) {
 
     this.make = function () {
         this._indicator = mw.element();
-        this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>')
+        this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
         this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
         this.hide();
         document.body.appendChild(this._indicator.get(0));

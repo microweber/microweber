@@ -85,9 +85,6 @@ export const LiveEdit = function (options) {
     this.observe = new GetPointerTargets();
 
 
-
-
-
     this.init = function () {
         mw.element(root).on('mousemove touchmove', function (e) {
             if (e.pageX % 2 === 0) {
