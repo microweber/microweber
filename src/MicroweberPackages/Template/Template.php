@@ -363,19 +363,19 @@ class Template
 
 
         $( document ).ready(function() {
-            
-         
+
+
             var _csrf_from_local_storage = null;
-            
+
             if(typeof(mw.storage) != \'undefined\'  && mw.storage.get){
                 csrf_from_local_storage_data = mw.storage.get("csrf-token-data")
-                
+
                 if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
                      _csrf_from_local_storage = csrf_from_local_storage_data.value
                 }
- 
+
             }
-            
+
             if(_csrf_from_local_storage){
                 $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
                      $.ajaxSetup({
@@ -383,25 +383,25 @@ class Template
                             \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
                         }
                     });
-                
-                
+
+
                 return;
             }
-            
-            
+
+
             setTimeout(function () {
                     $.get( "' . route('csrf') . '", function( data ) {
                     $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
                     if(typeof(mw.storage) != \'undefined\'  && mw.storage.set){
 
-                         var csrf_from_local_storage_ttl = 900000; // 15 minutes 
+                         var csrf_from_local_storage_ttl = 900000; // 15 minutes
                          var item = {
                             value: data.token,
                             expiry: (new Date()).getTime() + csrf_from_local_storage_ttl,
                         }
                         mw.storage.set("csrf-token-data", item)
-                     
-                     
+
+
                      }
                      $.ajaxSetup({
                         headers: {
@@ -410,12 +410,12 @@ class Template
                     });
               })
                 }, 1337);
-                    
-                    
+
+
          });
-            
-            
-        </script> 
+
+
+        </script>
        ';
         $ajax = $ajax . ' <meta name="csrf-token" content="" />';
 
@@ -528,17 +528,17 @@ class Template
              //Bootswatch variables
              //@import 'bootswatch/_variables';
              @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
-         
+
              //UI Variables
              @import 'bootstrap_variables';
-        
+
              //Bootstrap
              @import '../../bootstrap/scss/bootstrap';
-            
+
              //Bootswatch structure
              //@import 'bootswatch/_bootswatch';
              @import 'bootswatch/themes/{$theme_file_rel_path}';
-             
+
              //UI
              //@import '_ui';
              //@import '_mw';
@@ -622,7 +622,7 @@ class Template
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                                    .= '<script src="' . $header . '"></script>' . "\n";
                                 break;
 
                             default:
@@ -665,7 +665,7 @@ class Template
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                                    .= '<script src="' . $header . '"></script>' . "\n";
                                 break;
 
                             default:
@@ -724,7 +724,7 @@ class Template
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $footer . '"></script>' . "\n";
+                                    .= '<script src="' . $footer . '"></script>' . "\n";
                                 break;
 
                             default:
