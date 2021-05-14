@@ -64,12 +64,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <?php endif; ?>
         </nav>
 
-
         <div class="tab-content py-3">
-            <div class="tab-pane fade show active" id="list">
-                <label class="control-label"><?php _e("Add your calendar event"); ?></label>
-                <small class="text-muted d-block mb-3"><?php _e("After creating the event, you should go to the live edit and drop the Calendar module in your chosen page."); ?></small>
 
+            <div class="tab-pane fade show active" id="list">
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-calendar-settings">
                     <module type="calendar/edit_events"/>
@@ -90,7 +87,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
         <?php if (!$from_live_edit): ?>
-            <small><a href="javascript:openEventsImportModal()"><?php _e("Import / Export"); ?></a></small>
+            <small><a href="javascript:openEventsImportModal()">Import / Export</a></small>
         <?php endif; ?>
     </div>
 </div>
