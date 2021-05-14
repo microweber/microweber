@@ -33,6 +33,20 @@ class MicroweberComposerClient {
         }
     }
 
+    public function countNewUpdatesCached() {
+
+        $count = \Cache::get('countNewUpdates');
+        if ($count) {
+            return $count;
+        }
+
+        $count = $this->countNewUpdates();
+
+        \Cache::put('countNewUpdates', $count, now()->addMinutes(30));
+
+        return $count;
+    }
+
     public function countNewUpdates() {
 
         $searchPackages = $this->search();

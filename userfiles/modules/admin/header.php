@@ -513,10 +513,8 @@ $user = get_user_by_id($user_id);
                     <?php if (mw()->ui->disable_marketplace != true): ?>
 
                         <?php
-                        //$composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
-                       // $countNewUpdates = $composerClient->countNewUpdates();
-                    // @todo move to backgroud job
-                        $countNewUpdates = 0;
+                        $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+                        $countNewUpdates = $composerClient->countNewUpdatesCached();
                         ?>
 
                         <li class="nav-item">
