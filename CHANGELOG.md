@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.7] - 2021-05-14
+- Fixes on checkout module
+- Fixes on marketplace module
+- Fixes on categories module
+- Fixes database connection not being closed sometimes
+- Added content revisions module for live edit
+- Added ability for menu module to return data
+- Added svg support
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.6...1.2.7 "")
+
+
 ## [1.2.6] - 2021-04-29
 - Fixes on the checkout module
 - Fixes on the tags module
