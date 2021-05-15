@@ -34,7 +34,6 @@ if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['ex
     //$author_icon = $item['extra']['_meta']['avatar'];
 }
 
-
 $screenshot = false;
 $changelog = false;
 
@@ -56,10 +55,8 @@ if ($item['name'] == 'microweber/update') {
     $is_core_update = true;
 }
 
-if (!$screenshot) {
-    if (isset($item['latest_version']['extra']['_meta'][$package_name])) {
-        $screenshot = $item['latest_version']['extra']['_meta'][$package_name];
-    }
+if (isset($item['latest_version']['extra']['_meta'][$package_name])) {
+    $screenshot = $item['latest_version']['extra']['_meta'][$package_name];
 }
 
 $key = $item['name'];

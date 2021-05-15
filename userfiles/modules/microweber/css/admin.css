@@ -372,3 +372,15 @@ div.form-control {
 #content-tags-search-block .mw-select{
     width: 100%;
 }
+
+
+
+@media screen and (max-width: 1024px) and (min-width: 768px){
+
+    .manage-posts-holder-inner > .card-product-holder .item-author {
+        display: none;
+    }
+
+ 
+
+}

@@ -29,7 +29,7 @@ class MicroweberComposerClient {
 
         $settings = get_white_label_config();
         if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
-            $this->packageServers = $settings['marketplace_repositories_urls'];
+            $this->packageServers[] = $settings['marketplace_repositories_urls'];
         }
     }
 
@@ -40,11 +40,7 @@ class MicroweberComposerClient {
             return $count;
         }
 
-        $count = $this->countNewUpdates();
-
-        \Cache::put('countNewUpdates', $count, now()->addMinutes(30));
-
-        return $count;
+        return 0;
     }
 
     public function countNewUpdates() {
@@ -63,6 +59,9 @@ class MicroweberComposerClient {
         $readyPackages = [];
         foreach($searchPackages as $packageName=>$versions) {
             foreach ($versions as $version) {
+                if(!is_array($version)){
+                    continue;
+                }
 
                 $version['latest_version'] = $version;
 

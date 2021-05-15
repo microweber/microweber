@@ -17,7 +17,12 @@ mw.tags = mw.chips = function(options){
     options.size = options.size || 'sm';
 
     this.options = options;
-    this.options.map = this.options.map || { title: 'title', value: 'id', image: 'image', icon: 'icon' };
+    this.options.map = this.options.map || {
+        title: 'title',
+        value: 'id',
+        image: 'image',
+        icon: 'icon'
+    };
     this.map = this.options.map;
     var scope = this;
     /*
@@ -171,7 +176,9 @@ mw.tags = mw.chips = function(options){
         }
         var i = 0, curr = first;
         var _findIndex = function (tag) {
-            return tag[id].toLowerCase() === curr[id].toLowerCase();
+            var tagId = isNaN(tag[id]) ? tag[id].toLowerCase() : tag[id];
+            var currId = isNaN(curr[id]) ? curr[id].toLowerCase() : curr[id];
+            return tagId == currId;
         };
         while (curr) {
             if (this.options.data.findIndex(_findIndex) === i) {

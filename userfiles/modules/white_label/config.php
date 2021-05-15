@@ -11,4 +11,4 @@ $config['ui_admin'] = true;
 $config['settings'] = [];
 
 // This will hide this module when its a whitelabel website run
-$config['settings']['hide_on_whitelabel_run'] = true;
+//$config['settings']['hide_from_modules_list'] = true;
