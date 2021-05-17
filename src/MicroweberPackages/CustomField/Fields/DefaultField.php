@@ -112,17 +112,13 @@ class DefaultField
     {
         $this->preparePreview();
 
-        try {
-            $parseView = new View($this->getTempalteFile());
-            $parseView->assign('data', $this->renderData);
-            $parseView->assign('settings', $this->renderSettings);
+        $parseView = new View($this->getTempalteFile());
+        $parseView->assign('data', $this->renderData);
+        $parseView->assign('settings', $this->renderSettings);
 
-            $customFieldHtml = $parseView->__toString();
+        $customFieldHtml = $parseView->__toString();
 
-            return $customFieldHtml;
-        } catch (\Exception $e) {
-            // bvs
-        }
+        return $customFieldHtml; 
     }
 
     public function getTempalteFile()
