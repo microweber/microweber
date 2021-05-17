@@ -90,7 +90,7 @@
         "geoip2/geoip2": "~2.0",
         "whitecube/lingua": "1.1.0",
         "predis/predis": "2.0.x-dev",
-        "fisharebest/laravel-assets": "2.0"
+        "fisharebest/laravel-assets": "dev-master"
 
 
     },
