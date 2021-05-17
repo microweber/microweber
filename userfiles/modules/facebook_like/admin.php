@@ -48,7 +48,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Color cheme"); ?></label>
+                        <label class="control-label"><?php _e("Color scheme"); ?></label>
                         <select name="color" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                             <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
                             <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>

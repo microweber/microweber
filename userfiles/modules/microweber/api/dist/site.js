@@ -22,10 +22,6 @@ if (window.top === window){
     };
 }
 
-$(document).ready(function (){
-    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
-})
-
 
 window.mwd = document;
 window.mww  = window;
@@ -1659,6 +1655,10 @@ mw.event = {
         return this.keyCode(e) === code;
     },
     is: {
+      comma: function (e) {
+          e = mw.event.get(e);
+          return e.keyCode === 188;
+              },
       enter: function (e) {
         e = mw.event.get(e);
         return e.key === "Enter" || mw.event.isKeyCode(e, 13);
@@ -3948,7 +3948,16 @@ mw.cart = {
 
     },
 
-    checkout: function (selector, callback) {
+    checkout: function (selector, callback, beforeRedirect) {
+
+        if (!beforeRedirect) {
+            beforeRedirect = function () {
+                return new Promise(function (){
+                    resolve();
+                });
+            };
+        }
+
         var form = mw.$(selector);
         $(document).trigger("checkoutBeforeProcess", form);
 
@@ -4024,8 +4033,10 @@ mw.cart = {
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
-                                    window.location.href = data2.redirect;
-                                }, 100)
+                                    beforeRedirect().then(function (){
+                                        window.location.href = data2.redirect;
+                                    });
+                                }, 100);
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);
@@ -7683,18 +7694,23 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            if(!data.active || (!data.active.target && !data.active.action)) {
+            var target = data.active.target;
+            if(typeof target === 'string'){
+                target = document.querySelector(data.active.target);
+            }
+
+            if(!data.active || (!target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
                 mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
             if(data.active.action) {
                 data.active.action();
-            } else if(document.body.contains(data.active.target)) {
-                mw.$(data.active.target).html(data.active.value);
+            } else if(document.body.contains(target)) {
+                mw.$(target).html(data.active.value);
             } else{
-                if(data.active.target.id) {
-                    mw.$(document.getElementById(data.active.target.id)).html(data.active.value);
+                if(target.id) {
+                    mw.$(document.getElementById(target.id)).html(data.active.value);
                 }
             }
             if(data.active.prev) {
@@ -8301,9 +8317,6 @@ var domHelp = {
         return final;
     },
 
-    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
-        return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
-    },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
         while (curr && curr !== document.body) {
@@ -8958,6 +8971,12 @@ mw.tools.dropdown = function (root) {
     if (root === null) {
         return;
     }
+
+    var isMobile = ('ontouchstart' in document.documentElement && /mobi/i.test(navigator.userAgent));
+    mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown';
+    if(isMobile){
+        mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown touchstart';
+    }
     var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
     for (; i < l; i++) {
         var el = items[i];
@@ -8967,6 +8986,9 @@ mw.tools.dropdown = function (root) {
         }
         el.mwDropdownActivated = true;
         el.hasInput = el.querySelector('input.mw-dropdown-field') !== null;
+
+
+
         if (el.hasInput) {
             var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
@@ -9030,7 +9052,7 @@ mw.tools.dropdown = function (root) {
                 mw.$(this).removeClass("hover");
                 mw.$(this).removeClass('other-action');
             })
-            .on('mousedown touchstart', 'li[value]', function (event) {
+            .on(mw.tools.dropdownActivatedBindOnEventsNames, 'li[value]', function (event) {
                 mw.$(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             })
@@ -9041,7 +9063,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(document.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on(mw.tools.dropdownActivatedBindOnEventsNames, function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();
@@ -9106,6 +9128,9 @@ mw.dropdown = mw.tools.dropdown;
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
+            if (this.settings.className) {
+                el.className = this.settings.className;
+            }
 
             if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
@@ -9114,12 +9139,14 @@ mw.dropdown = mw.tools.dropdown;
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
                         scope.append(el);
                     });
                 } else {
+
                     this.append(this.settings.content);
                 }
             }
@@ -9132,6 +9159,7 @@ mw.dropdown = mw.tools.dropdown;
                 return true;
             }
         };
+
 
         this.setProps = function(){
             for(var i in this.settings.props) {
@@ -9208,6 +9236,10 @@ mw.dropdown = mw.tools.dropdown;
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus();
+            return this;
+        }
         this.dataset = function(prop, val){
             if(typeof val === 'undefined') {
                 return this._active()[prop];
@@ -9247,6 +9279,7 @@ mw.dropdown = mw.tools.dropdown;
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) return this;
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -9381,8 +9414,21 @@ mw.dropdown = mw.tools.dropdown;
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));
@@ -9434,11 +9480,11 @@ mw.dropdown = mw.tools.dropdown;
         this.trigger = function(event, data){
             data = data || {};
             this.each(function (){
-                /*this.dispatchEvent(new CustomEvent(event, {
+                this.dispatchEvent(new CustomEvent(event, {
                     detail: data,
                     cancelable: true,
                     bubbles: true
-                }));*/
+                }));
                 if(scope._on[event]) {
                     scope._on[event].forEach(function(cb){
                         cb.call(this, event, data);
@@ -9508,12 +9554,11 @@ mw.dropdown = mw.tools.dropdown;
                 props: {}
             };
 
-            this.settings = $.extend({}, defaults, options);
-
+            this.settings = mw.object.extend({}, defaults, options);
             if(this._asElement) return;
             this.create();
             this.setProps();
-         };
+          };
         this.init();
     };
     mw.element = function(options){
@@ -9522,6 +9567,8 @@ mw.dropdown = mw.tools.dropdown;
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;
     };
+
+
 
 })();
 

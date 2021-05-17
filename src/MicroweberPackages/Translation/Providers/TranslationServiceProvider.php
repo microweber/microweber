@@ -26,7 +26,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
         /*
          * This is an example how to add namespace to your package
-         * andd how to call it with trans function
+         * and how to call it with trans function
          *
          * Example:
          *  trans('translation::all.name')
@@ -38,12 +38,36 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
         if (mw_is_installed()) {
 
+//            $dbDriver = \Config::get('database.default');
+//            if ($dbDriver == 'sqlite') {
+//                $pdo = DB::connection('sqlite')->getPdo();
+//                $pdo->sqliteCreateFunction('regexp',
+//                    function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+//                        if (isset($pattern, $data) === true) {
+//                            return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+//                        }
+//
+//                        return;
+//                    }
+//                );
+//                $pdo->sqliteCreateFunction('md5', 'md5');
+//
+//            }
+
+
+
             // If you are import old database we must run migrations
-            if (!Schema::hasTable('translations_keys')) {
-                app()->mw_migrator->run([
-                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
-                ]);
-            }
+//            if (!Schema::hasTable('translations_keys')) {
+//                app()->mw_migrator->run([
+//                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
+//                ]);
+//            }
+
+
+
+
+
+
 
             $this->app->terminating(function () {
                 $getNewKeys = app()->translator->getNewKeys();
@@ -64,7 +88,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
                         $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
                             ->where('translation_group', $newKey['translation_group'])
-                            ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                           // ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                            ->where('translation_key', $newKey['translation_key'])
                             ->limit(1)
                             ->first();
                         //   \Log::debug($findTranslationKey);
@@ -91,7 +116,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                         }
                         // all good
                     } catch (\Exception $e) {
-                        DB::rollback();
+                         DB::rollback();
                         // something went wrong
                     }
                 }

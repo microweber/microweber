@@ -6,7 +6,7 @@
 </div>
 @endsection
 
-@section('content')
+@section('steps_content')
 
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
     <form method="post" action="{{ route('checkout.contact_information_save') }}">
@@ -32,6 +32,7 @@
             <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control @if(isset($errors['email'])) is-invalid @endif">
             @if(isset($errors['email']))<span class="invalid-feedback">{{$errors['email'][0]}}</span>@endif
         </div>
+        
         <div class="form-group @if(isset($errors['phone'])) has-danger @endif">
             <label><?php _e("Phone"); ?></label>
             <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control @if(isset($errors['phone'])) is-invalid @endif">

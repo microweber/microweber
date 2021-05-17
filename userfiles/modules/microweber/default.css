@@ -15,9 +15,7 @@
 
 @import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
 
-.mw-filepicker-component-section:hover .dro\pable-zone button{
-    text-decoration: underline;
-}
+
 .mw-filepicker-component-section:hover .dropable-zone{
     border-color: #4592ff;
     background-color: rgba(69, 146, 255, 0.1);
@@ -208,7 +206,6 @@ ul.mw-default-layout-background-text {
     border: 1px solid rgba(51, 51, 51, 0.1);
     padding: 0.8em;
 }
-/*END LIVE EDIT STATIC LAYOUTS*/
 
 
 

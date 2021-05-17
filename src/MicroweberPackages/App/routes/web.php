@@ -142,9 +142,7 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
 });
 
 Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-
     Route::any('/userfiles/{path}', ['uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles'])->where('path', '.*');
-
 });
 
 

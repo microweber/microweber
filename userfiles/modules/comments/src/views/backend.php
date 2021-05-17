@@ -26,7 +26,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade show active" id="list">
                 <script type="text/javascript">
                     mw.require('<?php print modules_url() ?>comments/style.css');
-                 </script>
+                    mw.require('<?php print modules_url() ?>comments/edit_comments.js');
+                    mw.require('color.js', true);
+                </script>
 
                 <script type="text/javascript">
                     mw.on.hashParam("search", function (pval) {
@@ -96,7 +98,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                 </script>
 
-
+                <script type="text/javascript">
+                    mw.require("forms.js", true);
+                </script>
 
                 <script type="text/javascript">
                     mw.adminComments = {
@@ -197,7 +201,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                             </div>
 
-                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup=" mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
+                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
                         </div>
                     </div>
                 </div>

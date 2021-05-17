@@ -79,10 +79,13 @@
 
     </style>
 
+    <script>mw.require("files.js");</script>
 
     <script type="text/javascript">
+        mw.require('options.js', true);
         mw.require('<?php print $config['url_to_module'] ?>style.css');
-
+        mw.require('color.js', true);
+        mw.require('files.js');
     </script>
 
     <script type="text/javascript">

@@ -4,10 +4,11 @@ namespace MicroweberPackages\Product\Traits;
 
 use MicroweberPackages\Product\Models\ProductPrice;
 
-trait CustomFieldPriceTrait {
+trait CustomFieldPriceTrait
+{
 
-    private $_addCustomFields = [];
     private $_addPriceField = null;
+    private $_removePriceField = null;
     private $_addSpecialPriceField = null;
 
     public function initializeCustomFieldPriceTrait()
@@ -18,22 +19,30 @@ trait CustomFieldPriceTrait {
 
     public static function bootCustomFieldPriceTrait()
     {
-        static::saving(function ($model)  {
-            if (isset($model->attributes['price'])) {
-                $model->_addPriceField = $model->attributes['price'];
+
+        static::saving(function ($model) {
+
+            if ($model->attributes and array_key_exists("price", $model->attributes)) {
+                if (isset($model->attributes['price'])) {
+                    $model->_addPriceField = $model->attributes['price'];
+                } else {
+                    $model->_removePriceField = true;
+                }
                 unset($model->attributes['price']);
+
             }
-            if (isset($model->attributes['special_price'])) {
-                $model->_addSpecialPriceField = $model->attributes['special_price'];
+            if ($model->attributes and array_key_exists("special_price", $model->attributes)) {
+                if (isset($model->attributes['special_price'])) {
+                    $model->_addSpecialPriceField = $model->attributes['special_price'];
+                }
                 unset($model->attributes['special_price']);
             }
         });
 
-        static::saved(function($model) {
-
+        static::saved(function ($model) {
             if (isset($model->_addPriceField)) {
 
-                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type',$model->getMorphClass())->first();
+                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
 
                 if (!$price) {
                     $price = new ProductPrice();
@@ -42,7 +51,7 @@ trait CustomFieldPriceTrait {
                 }
 
                 $priceInputVal = trim($model->_addPriceField);
-                if(is_numeric($priceInputVal)) {
+                if (is_numeric($priceInputVal)) {
                     $price->value = $priceInputVal;
                 } else {
                     $price->value = floatval($priceInputVal);
@@ -50,6 +59,14 @@ trait CustomFieldPriceTrait {
 
                 $price->rel_id = $model->id;
                 $price->save();
+            }
+
+            if (isset($model->_removePriceField) and $model->_removePriceField) {
+                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
+                if($price){
+                    $price->delete();
+                }
+
             }
 
         });

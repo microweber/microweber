@@ -28,14 +28,16 @@ if(typeof mw.rotator === 'undefined'){
             active.removeClass('active');
             next.addClass('active');
             rotator.setactive($(holder).children().index(next));
-        },
+        };
+
         rotator.prev = function(){
             var active = $(holder).children('.active');
             var prev = active.prev('.mw-gallery-item').length>0 ? active.prev('.mw-gallery-item') : $(holder).children('.mw-gallery-item:last');
             active.removeClass('active');
             prev.addClass('active');
             rotator.setactive($(holder).children().index(prev));
-        },
+        };
+
         rotator.normalize = function(rotator){
            var img = mw.$('.active img:first', rotator)[0].src;
            mw.image.preload(img, function(w,h){
@@ -45,7 +47,8 @@ if(typeof mw.rotator === 'undefined'){
              }
              mw.$('.mw-gallery-holder', rotator).height(mw.$('.active img:first', rotator)[0].offsetHeight)
            });
-        },
+        };
+
         rotator.setactive = function(i){ //for paging
            var paging = $(rotator).find('.rotator-index-control').eq(0);
            rotator.normalize(rotator);
@@ -71,7 +74,8 @@ if(typeof mw.rotator === 'undefined'){
              var formula = formula > 0 ? 0 : formula;
              scrl.animate({left: formula});
            }
-        }
+        };
+
         rotator.goto = function(index){
           var _index = $(holder).children().eq(index);
           if(!_index.hasClass('active')){
@@ -79,7 +83,8 @@ if(typeof mw.rotator === 'undefined'){
            _index.addClass('active');
            rotator.setactive(index);
           }
-        }
+        };
+
         rotator.paging = function(selector, mode, reflection){
           var mode = mode || 'numbers';
           var l = items.length, i = 0, paging_holder = $(selector);
@@ -99,9 +104,6 @@ if(typeof mw.rotator === 'undefined'){
             well.className = 'mw-rotator-thumbnail-scroller';
 
             if(!reflection){
-
-
-
 
                 for( ; i<l; i++){
                   var a = document.createElement('a');
@@ -285,15 +287,15 @@ if(typeof mw.rotator === 'undefined'){
 
     mw._popupZoom = {
       api: function(el, selector){
-          var jqel = $(el);
+          var jqel = mw.element(el);
               if(!jqel.hasClass("active")){
-                 if($(selector+".active").length == 0){
+                 if(mw.element(selector+".active").length === 0){
 
                   mw.tools.image_info(el.getElementsByTagName('img')[0], function(){
                         var w = this.width;
                         var h = this.height;
-                        var w = w > 700 ? 700 : w;
-                        var h = h > 400 ? 400 : h;
+                        w = w > 700 ? 700 : w;
+                        h = h > 400 ? 400 : h;
                        // if(w > $(window).width()){var w = $(window).width()}
                       //  if(h > $(window).height()){var h = $(window).height()}
                         var l =  - w/2 + $(el.parentNode).width()/2;

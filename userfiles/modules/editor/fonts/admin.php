@@ -79,6 +79,9 @@
 
 
     });
+
+
+
     mw_fonts_preview_loaded_stylesheets = [];
     mw_fonts_preview_load_stylesheet = function (family) {
         if (mw_fonts_preview_loaded_stylesheets.indexOf(family) === -1) {
@@ -89,7 +92,25 @@
             fileref.setAttribute("rel", "stylesheet")
             fileref.setAttribute("type", "text/css")
             fileref.setAttribute("href", filename)
-            mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
+
+
+            var fileref2 = document.createElement("link")
+            fileref2.setAttribute("rel", "stylesheet")
+            fileref2.setAttribute("type", "text/css")
+            fileref2.setAttribute("href", filename)
+
+
+
+
+            if(self !== top){
+
+                mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
+                document.getElementsByTagName("head")[0].appendChild(fileref2)
+
+            } else {
+                mw.document.getElementsByTagName("head")[0].appendChild(fileref)
+
+            }
 
 
         }
@@ -248,7 +269,7 @@ if ($is_load_more) {
                         <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"
                             onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label
                                     for="custom-font-select-<?php print $i; ?>"
-                                    style="font-size:14px; font-display: swap; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
+                                    style="font-size:14px;  font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
                         </td>
                     </tr>
                     <?php $i++; ?>

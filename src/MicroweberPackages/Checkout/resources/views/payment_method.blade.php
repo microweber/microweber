@@ -7,13 +7,17 @@
     </div>
 @endsection
 
-@section('content')
+@section('steps_content')
     @if (isset($errors))
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors as $fields)
                     @foreach ($fields as $field)
+                        @if (is_string($field))
                         <li>{!! $field !!}</li>
+                        @else
+                            <li>  {{_e('Error when trying to finish the payment')}}</li>
+                        @endif
                     @endforeach
                 @endforeach
             </ul>
@@ -32,12 +36,17 @@
 
             <div class="card mb-3">
                 <div class="card-body d-flex p-3">
-                    <div class="col-10">
+                    <div class="col-8">
                         <?php
                         if (!empty($checkout_session['shipping_gw'])) {
                         $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
                         ?>
-                            <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+
+                                <?php if (isset($shippingGatewayModuleInfo['settings']['icon_class'])): ?>
+                            <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>
+                            <?php endif; ?>
+
+                            <?php echo $shippingGatewayModuleInfo['name'];?>
 
                             <?php
                             $instructions = app()->shipping_manager->driver($checkout_session['shipping_gw'])->instructions($checkout_session);
@@ -48,7 +57,7 @@
 
                         <?php } ?>
                         <?php if(!empty($checkout_session['country'])):?>
-                            <hr />
+                            <br><br>
                             <?php if (!empty($checkout_session['country'])) { echo $checkout_session['country']; } ?>
                             <?php if (!empty($checkout_session['city'])) {  echo ', ' . $checkout_session['city']; } ?>
                             <?php if (!empty($checkout_session['address'])) { echo  ', ' .  $checkout_session['address']; } ?>
@@ -59,17 +68,17 @@
                         <?php endif; ?>
                     </div>
 
-                    <div class="col-2 justify-content-end text-right align-self-top px-0">
-                        <a href="{{ route('checkout.shipping_method') }}" class="btn btn-link text-right">{{ _e('Edit') }}</a>
+                    <div class="col-4 justify-content-end text-right align-self-top px-0">
+                        <a href="{{ route('checkout.shipping_method') }}" class="btn btn-link px-0">{{ _e('Edit') }}</a>
                     </div>
                 </div>
             </div>
 
             <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
 
-            <module type="shop/checkout/terms" template="checkout_v2" />
+            <module type="shop/checkout/terms" template="checkout_v2" class="no-settings" />
         </div>
-        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"> {{ _e('Finish your order') }}</button>
+        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"> {{ _e('Complete your order') }}</button>
     </form>
 
 @endsection

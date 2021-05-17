@@ -244,14 +244,33 @@ function is_admin()
 
 function is_live_edit()
 {
-    $editmode_sess = mw()->user_manager->session_get('editmode');
-    if ($editmode_sess == true and !defined('IN_EDIT')) {
-        define('IN_EDIT', true);
+    if (!is_admin()) {
+        return false;
+    }
 
+    $editModeParam = app()->url_manager->param('editmode');
+    if ($editModeParam == 'n') {
+        return false;
+    }
+
+
+    $editModeParam = app()->url_manager->param('editmode');
+    if ($editModeParam == 'y') {
         return true;
     }
 
-    return $editmode_sess;
+    $editModeParam2 = app()->url_manager->param('editmode',true);
+    if ($editModeParam2 == 'y') {
+        return true;
+    }
+
+    $editModeSession = mw()->user_manager->session_get('editmode');
+    if ($editModeSession == true and !defined('IN_EDIT')) {
+        define('IN_EDIT', true);
+        return true;
+    }
+
+    return $editModeSession;
 }
 
 /**

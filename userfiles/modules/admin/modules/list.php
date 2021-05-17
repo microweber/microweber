@@ -17,7 +17,9 @@ if (isset($template_config['elements_mode']) and $template_config['elements_mode
 if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
     $hide_dynamic_layouts = true;
 }
-
+if (isset($template_config['use_dynamic_layouts_for_posts']) and $template_config['use_dynamic_layouts_for_posts']) {
+    $hide_dynamic_layouts = false;
+}
 if (isset($is_elements) and $is_elements == true) {
     $mod_obj_str = 'elements';
     $el_params = array();

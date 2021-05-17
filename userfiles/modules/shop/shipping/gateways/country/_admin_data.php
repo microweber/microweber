@@ -1,14 +1,9 @@
 <?php
-
-
 use MicroweberPackages\View\View;
-
 
 must_have_access();
 
-
 $shipping_to_country = mw('shop\shipping\gateways\country\shipping_to_country');
-
 
 $data = $data_orig = $shipping_to_country->get();
 if ($data == false) {
@@ -16,19 +11,10 @@ if ($data == false) {
 }
 
 $countries_used = array();
-//$data[] = array();
 
-$countries = mw()->forms_manager->countries_list();
+$countries = mw()->forms_manager->countries_list_from_json();
 
-if (is_array($countries)) {
-    asort($countries);
-}
-if (!is_array($countries)) {
-    $countries = mw()->forms_manager->countries_list(1);
-} else {
-    array_unshift($countries, "Worldwide");
-}
-
+asort($countries);
 
 $data_active = array();
 $data_disabled = array();

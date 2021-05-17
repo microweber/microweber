@@ -25,6 +25,9 @@ trait ShippingTrait {
     }
 
     public function shippingMethodChange(Request $request) {
+
+        app()->shipping_manager->setDefaultDriver($request->get('shipping_gw'));
+
         session_append_array('checkout_v2', [
             'shipping_gw'=> $request->get('shipping_gw')
         ]);
@@ -55,7 +58,7 @@ trait ShippingTrait {
         $validate = $this->_validateShippingMethod();
         if ($validate['valid'] == false) {
             session_set('errors', $validate['errors']);
-            return redirect()->back();
+            return redirect(route('checkout.shipping_method'));
         }
 
         // Success
@@ -66,6 +69,12 @@ trait ShippingTrait {
     {
         $checkout_session = session_get('checkout_v2');
 
-        return app()->shipping_manager->driver($checkout_session['shipping_gw'])->validate($checkout_session);
+        try {
+            return app()->shipping_manager->driver($checkout_session['shipping_gw'])->validate($checkout_session);
+        } catch (\Exception $e) {
+            return ['valid' => false, 'errors' => [
+                'payment_errors'=>['error'=>_e('Must select shipping method', true)]
+            ]];
+        }
     }
 }

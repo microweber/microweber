@@ -595,10 +595,10 @@ mw._initHandles = {
             mw.handleElement.positionedAt = 'top';
             var posTop = o.top - 30;
             var elHeight = el.height();
-            if (originalEvent.pageY > (o.top + elHeight/2)) {
+            /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
                 mw.handleElement.positionedAt = 'bottom';
-            }
+            }*/
 
             mw.$(mw.handleElement.wrapper).css({
                 top: posTop,
@@ -706,6 +706,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -714,7 +720,13 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function(){
+                            mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
+
                         mw.handleModule.hide();
                     }
                 },
@@ -780,6 +792,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -788,7 +806,12 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function (){
+                             mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
                         mw.handleModule.hide();
                     }
                 },
@@ -975,10 +998,10 @@ mw._initHandles = {
             var elHeight = el.height();
 
             handle.positionedAt = 'top';
-            if (event.pageY > (o.top + elHeight/2)) {
+            /*if (event.pageY > (o.top + elHeight/2)) {
                 topPosFinal += elHeight;
                 handle.positionedAt = 'bottom';
-            }
+            }*/
              if (element.dataset.type === 'layouts') {
                 topPosFinal = o.top + 10;
                  handleLeft = handleLeft + 10;

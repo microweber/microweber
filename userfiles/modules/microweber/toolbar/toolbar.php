@@ -14,24 +14,69 @@ if (isset($_COOKIE['mw_exp'])) {
 
 ?>
 <?php if (!isset($_GET['preview'])) { ?>
-    <script>
-        mw.settings.liveEdit = true;
-    </script>
-
-
-    <?php
-
-    /* <script src="<?php print mw_includes_url(); ?>api/webpack/dist/liveedit.js"></script>
-
-    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-    <?php if (_lang_is_rtl()) { ?>
-        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
-    <?php } ?>*/
-    ?>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
+    <script type="text/javascript">mw.lib.require("jqueryui");</script>
 
     <script type="text/javascript">
-        $(window).on('load', function () {
+        mw.settings.liveEdit = true;
+        mw.require("liveadmin.js");
+        //   mw.require("events.js");
+        mw.require("url.js");
+        //mw.require("tools.js");
+        mw.require("wysiwyg.js");
+        mw.require("css_parser.js");
+        mw.require("filepicker.js");
+
+        mw.require("forms.js");
+        mw.require("files.js");
+        mw.require("content.js");
+        mw.require("session.js");
+        mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
+        mw.require("upgrades.js");
+
+
+    </script>
+
+    <?php if (config('app.debug')) { ?>
+
+        <script type="text/javascript">
+            window.__onerror_alert_shown = false;
+            window.onerror = function (msg, url, lineNo, columnNo, error) {
+                if ((typeof(msg) != 'undefined') && !msg.contains('ResizeObserver') && !window.__onerror_alert_shown) {
+                    var string = msg.toLowerCase();
+                    var substring = "script error";
+                    if (string.indexOf(substring) > -1) {
+                        alert('Script Error: See Browser Console for Detail');
+                    } else {
+                        var message = [
+                            'Message: ' + msg,
+                            'URL: ' + url,
+                            'Line: ' + lineNo,
+                            'Column: ' + columnNo,
+                            'Error object: ' + JSON.stringify(error)
+                        ].join(' \n ');
+
+                        console.log(message);
+                    }
+
+                    return false;
+                }
+                window.__onerror_alert_shown = true;
+
+
+            };
+
+        </script>
+    <?php } ?>
+
+
+    <script type="text/javascript">
+        $(window).bind('load', function () {
+
+
             $(window).on('saveStart adminSaveStart', function () {
                 mw.$("#main-save-btn,.btn-save").html('<?php _e("Saving"); ?>...');
             });
@@ -39,10 +84,16 @@ if (isset($_COOKIE['mw_exp'])) {
                 mw.$("#main-save-btn,.btn-save").html('<?php _e("Save"); ?>');
                 mw.notification.success('<?php _ejs("All changes are saved"); ?>.')
             });
+
+
         });
 
     </script>
-
+    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+    <?php if (_lang_is_rtl()) { ?>
+        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
+    <?php } ?>
     <?php
 
     $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
@@ -117,11 +168,55 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script>
         $(document).ready(function () {
+
+
+
             if (!mw.cookie.get('mw-back-to-live-edit')) {
                 mw.cookie.set('mw-back-to-live-edit', true)
             }
+
+
+            /*       function mw_live_edit_opensidebar() {
+                       if (mw.liveEditSettings.active) {
+                       } else {
+                           $('#live_edit_side_holder').addClass('sidebar_opened');
+                           $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                           mw.cookie.set("show-sidebar-layouts", '1');
+                       }
+                   }
+
+                   var $li = $("#sidebar-hidden-area").hover(
+                       function () {
+                           var self = this;
+                           hovertimer = setTimeout(function () {
+
+                               mw_live_edit_opensidebar();
+
+                           }, 1700);
+                       },
+                       function () {
+                           clearTimeout(hovertimer);
+                       }
+                   );*/
         });
+
+    </script>
+
+
+    <script>
+
+
+
         mw.on('liveEditSettingsReady', function () {
+
+
+
+
+
+
+
+            //     $('a','#live_edit_toolbar_holder').off('click')
+
 
             mw.drag.init();
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
@@ -155,7 +250,7 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).on("load", function () {
             mw.liveEditSettings = new mw.controlBox({
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
-                position: 'right',
+                position: !mw.tools.isRtl() ? 'right' : 'right',
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
@@ -222,6 +317,48 @@ if (isset($_COOKIE['mw_exp'])) {
 
             }, 1000)
         })
+
+
+
+        mw.open_content_revisions_dialog = function(cont_id) {
+
+            if(typeof(cont_id) === 'undefined'){
+                return;
+            }
+
+
+
+
+            var opts = {};
+            opts.title = 'Content versions';
+            opts.width = '800';
+            opts.height =  '480';
+            opts.liveedit = true;
+            opts.autoHeight = true;
+            opts.maxHeightWindowScroll = '800px';
+
+            opts.overlay = false;
+            opts.mode = 'modal';
+
+            var additional_params = {};
+            additional_params.content_id = cont_id;
+            additional_params.show_btn_for_find_element = true;
+            additional_params.from_url_string = '<?php print url_string() ?>';
+            if(additional_params.from_url_string === ''){
+                additional_params.from_url_string_home = 1;
+            }
+
+            mw.tools.open_global_module_settings_modal('editor/content_revisions/list_for_content', '#mw_admin_content_revisions_list_for_content_popup_modal_module', opts, additional_params);
+
+
+
+
+
+
+
+
+        };
+
 
 
     </script>
@@ -313,10 +450,10 @@ if (isset($_COOKIE['mw_exp'])) {
                     <div class="wysiwyg-undo-redo">
                         <div class="wysiwyg-cell-undo-redo">
             <span
-                class="liveedit_wysiwyg_prev"
-                id="liveedit_wysiwyg_main_prev"
-                title="<?php _e("Previous"); ?>"
-                onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
+                    class="liveedit_wysiwyg_prev"
+                    id="liveedit_wysiwyg_main_prev"
+                    title="<?php _e("Previous"); ?>"
+                    onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
 
 
 
@@ -327,10 +464,10 @@ if (isset($_COOKIE['mw_exp'])) {
                 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
                 <div id="mw-toolbar-right" class="mw-defaults">
         <span
-            class="liveedit_wysiwyg_next"
-            id="liveedit_wysiwyg_main_next"
-            title="<?php _e("Next"); ?>"
-            onclick="mw.liveedit.toolbar.editor.slideRight();"></span>
+                class="liveedit_wysiwyg_next"
+                id="liveedit_wysiwyg_main_next"
+                title="<?php _e("Next"); ?>"
+                onclick="mw.liveedit.toolbar.editor.slideRight();"></span>
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
@@ -342,7 +479,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
                         <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
-                                    class="mw-icon-dropdown"></span></span>
+                                        class="mw-icon-dropdown"></span></span>
                             <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
                                 <ul class="mw-ui-box mw-ui-navigation">
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
@@ -397,14 +534,16 @@ if (isset($_COOKIE['mw_exp'])) {
                                         </li>
                                     <?php endif; ?>
 
-                                    <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
 
                                     <li>
                                         <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
                                         <ul>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
-                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Api Clear Cache"); ?></a></li>
+                                            <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mw-icon-code"></span><?php _e("Content versions"); ?></a></li>
+                                            <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
+
+                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Clear Cache"); ?></a></li>
                                         </ul>
                                     </li>
 
@@ -420,10 +559,10 @@ if (isset($_COOKIE['mw_exp'])) {
                             </div>
                         </div>
                         <a
-                            class="view-website-button tip"
-                            href="<?php print mw()->url_manager->current(); ?>?editmode=n"
-                            data-tip="<?php _e('View Website'); ?>"
-                            data-tipposition="bottom-right"></i>
+                                class="view-website-button tip"
+                                href="<?php print mw()->url_manager->current(); ?>?editmode=n"
+                                data-tip="<?php _e('View Website'); ?>"
+                                data-tipposition="bottom-right"></i>
                         </a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
@@ -473,8 +612,8 @@ if (isset($_COOKIE['mw_exp'])) {
 
                 edl.css({
                     maxWidth: 'calc(100% - '
-                    + ((edl.offset().left + mw.$('#mw-toolbar-right').width()) + 20 )
-                    + 'px)'
+                        + ((edl.offset().left + mw.$('#mw-toolbar-right').width()) + 20 )
+                        + 'px)'
                 });
                 mw.liveedit.toolbar.editor.buttons();
 
@@ -518,13 +657,13 @@ if (isset($_COOKIE['mw_exp'])) {
                 if (typeof(el[0]) == 'undefined') {
                     return;
                 }
-                 el.addClass("over");
+                el.addClass("over");
             }, function () {
                 var el = $(this);
                 el.removeClass("over");
                 setTimeout(function () {
                     if (!el.hasClass("over")) {
-                         if (typeof mw.wysiwyg.show_drag_handles == 'function') {
+                        if (typeof mw.wysiwyg.show_drag_handles == 'function') {
                             mw.wysiwyg.show_drag_handles();
                         }
                     }
@@ -560,8 +699,10 @@ if (isset($_COOKIE['mw_exp'])) {
 <?php } ?>
 
 <script>
+    mw.require("plus.js");
+    mw.require("columns.js");
 
-    $(window).on('load', function () {
+    $(window).load(function () {
 
         <?php if (!isset($_COOKIE['mw_basic_mode']) or $_COOKIE['mw_basic_mode'] != '1'): ?>
         mw.drag.plus.init('.edit');

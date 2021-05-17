@@ -178,7 +178,16 @@ mw.cart = {
 
     },
 
-    checkout: function (selector, callback) {
+    checkout: function (selector, callback, beforeRedirect) {
+
+        if (!beforeRedirect) {
+            beforeRedirect = function () {
+                return new Promise(function (){
+                    resolve();
+                });
+            };
+        }
+
         var form = mw.$(selector);
         $(document).trigger("checkoutBeforeProcess", form);
 
@@ -254,8 +263,10 @@ mw.cart = {
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
-                                    window.location.href = data2.redirect;
-                                }, 100)
+                                    beforeRedirect().then(function (){
+                                        window.location.href = data2.redirect;
+                                    });
+                                }, 100);
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);

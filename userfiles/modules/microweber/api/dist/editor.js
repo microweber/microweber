@@ -255,7 +255,7 @@ window.MWEditor = function (options) {
                 }
             });
         }
-    }
+    };
 
     this.initInteraction = function () {
         var ait = 100,
@@ -367,6 +367,11 @@ window.MWEditor = function (options) {
     };
 
     this._syncTextArea = function (content) {
+
+        if(scope.$editArea){
+            $('[contenteditable]', scope.$editArea).removeAttr('contenteditable');
+        }
+
         content = content || scope.$editArea.html();
         if (scope.settings.isTextArea) {
             $(scope.settings.selectorNode).val(content);
@@ -407,9 +412,9 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = $(this.document.body);
+        this.$editArea = mw.element(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
-        mw.$(this.document.body).append(this.wrapper)[0].mwEditor = this;
+        this.$editArea.append(this.wrapper)[0].mwEditor = this;
         $(scope).trigger('ready');
     };
 
@@ -769,7 +774,7 @@ mw.require('control_box.js');*/
             document: document,
             register: null
         };
-        this.settings = $.extend({}, defaults, options);
+        this.settings = mw.object.extend({}, defaults, options);
         this.document = this.settings.document || document;
 
         this.register = [];
@@ -1289,7 +1294,6 @@ MWEditor.api = function (scope) {
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
-            console.log(this.cleanHTML(html))
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
@@ -1373,7 +1377,7 @@ MWEditor.core = {
         if (config.props && config.props.className){
             config.props.className = defaults.props.className + ' ' + config.props.className;
         }
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
         return mw.element(settings);
     },
     colorPicker: function(config) {
@@ -1383,7 +1387,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
 
         var el = MWEditor.core.button(settings);
         el.addClass('mw-editor-color-picker')
@@ -1412,7 +1416,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
         var el = mw.element(settings);
         el.on('mousedown touchstart', function (e) {
             e.preventDefault();
@@ -1521,7 +1525,7 @@ MWEditor.core = {
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
         this.root = MWEditor.core.element();
-        this.root.$node.addClass('mw-editor-state-component mw-editor-state-component-align');
+        this.root.addClass('mw-editor-state-component mw-editor-state-component-align');
         this.buttons = [];
 
         var arr = [
@@ -2126,7 +2130,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(val)
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -2144,7 +2147,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(e, val)
                 api.execCommand('backcolor', false, val);
             });
             return el;

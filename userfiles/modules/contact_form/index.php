@@ -94,7 +94,7 @@ if(typeof  processContactForm !== 'object'){
 }
 
 $(document).ready(function(){
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php _e($params['module']); ?>" />');
+	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print($params['module']); ?>" />');
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
 		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
 		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
@@ -105,6 +105,12 @@ $(document).ready(function(){
 		  $('#msg<?php print $form_id; ?>').hide();
 	   }
 	});
+	mw.element('[data-custom-field-error-text][required]').each(function (){
+        this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        mw.element(this).on('input', function (e) {
+             this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        })
+    })
 });
 </script>
 

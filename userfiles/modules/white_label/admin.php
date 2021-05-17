@@ -68,6 +68,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $enable_service_links = true;
             $admin_logo_login_link = false;
             $marketplace_repositories_urls = false;
+            $hide_white_label_module_from_list = false;
 
             $settings = get_white_label_config();
             if (isset($settings['logo_admin'])) {
@@ -107,8 +108,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 $custom_support_url = $settings['custom_support_url'];
             }
 
+
+            if (isset($settings['hide_white_label_module_from_list']) and $settings['hide_white_label_module_from_list'] != false) {
+                $hide_white_label_module_from_list = $settings['hide_white_label_module_from_list'];
+            }
+
             if (isset($settings['marketplace_repositories_urls']) and $settings['marketplace_repositories_urls'] != false) {
                 $marketplace_repositories_urls = $settings['marketplace_repositories_urls'];
+                if (is_array($marketplace_repositories_urls)) {
+                    $marketplace_repositories_urls = implode(',', $marketplace_repositories_urls);
+                }
             }
             ?>
 
@@ -286,10 +295,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
+                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="disable_marketplace"><?php _e('Microweber Marketplace'); ?></label>
                                 </div>
                                 <small class="text-muted d-block mb-2"><?php _e('Allow users to see Microweber Marketplace'); ?></small>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" name="hide_white_label_module_from_list" id="hide_white_label_module_from_list" class="custom-control-input" <?php if ($hide_white_label_module_from_list and $hide_white_label_module_from_list == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
+                                    <label class="custom-control-label" for="hide_white_label_module_from_list"><?php _e('Hide white label module from list'); ?></label>
+                                </div>
+                                <small class="text-muted d-block mb-2"><?php _e('Hide the white label module from list of modules'); ?></small>
+
                             </div>
 
                             <div class="form-group">
@@ -298,6 +317,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
                     </div>
+
+                    <module type="white_label/whmcs" />
 
                 </form>
             </div>

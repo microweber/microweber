@@ -196,7 +196,6 @@ mw.dropables = {
     module: function(ev){
         targetFrom = ev ? ev.target :  mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
-        //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
             //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {

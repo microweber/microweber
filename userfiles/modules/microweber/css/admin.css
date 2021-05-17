@@ -355,3 +355,32 @@ div.form-control {
 .copyright .text-muted a {
     color: var(--gray);
 }
+
+
+#quick-parent-selector-tree .mw-tree-nav-skin-default .mw-tree-item-title{
+    padding-right: 0;
+}
+
+.mw-btn-icon{
+    padding: 6px 10px;
+  font-size: 20px;
+ margin: 0 10px;
+ border-radius: 3px;
+ cursor: pointer;
+}
+
+#content-tags-search-block .mw-select{
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 1024px) and (min-width: 768px){
+
+    .manage-posts-holder-inner > .card-product-holder .item-author {
+        display: none;
+    }
+
+ 
+
+}

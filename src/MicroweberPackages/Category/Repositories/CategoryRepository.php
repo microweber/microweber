@@ -15,6 +15,7 @@ class CategoryRepository extends BaseRepository
 {
     public function __construct(Category $model)
     {
+
         $this->model = $model;
     }
 
@@ -26,20 +27,23 @@ class CategoryRepository extends BaseRepository
 
         event(new CategoryWasCreated($category, $data));
 
-        return $category->id;
+        return $category;
     }
 
     public function update($data, $id)
     {
         $category = $this->model->find($id);
 
+        if(!$category){
+            return;
+        }
         event($event = new CategoryIsUpdating($category, $data));
 
         $category->update($data);
 
         event(new CategoryWasUpdated($category, $data));
 
-        return $category->id;
+        return $category;
     }
 
     public function delete($id)

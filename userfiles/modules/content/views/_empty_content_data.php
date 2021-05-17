@@ -43,7 +43,7 @@ if (!isset($title_placeholder)) {
 if (isset($params['content-type'])) {
 	$params['content_type'] = $params['content-type'];
 }
- 
+
 
 
 if (isset($params['content_type'])) {
@@ -69,4 +69,4 @@ if ($title_placeholder == false and isset($params['content_type'])) {
         $title_placeholder = "New page title";
     }
 }
- 
+

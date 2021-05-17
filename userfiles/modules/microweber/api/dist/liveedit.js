@@ -22,10 +22,6 @@ if (window.top === window){
     };
 }
 
-$(document).ready(function (){
-    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
-})
-
 
 window.mwd = document;
 window.mww  = window;
@@ -1659,6 +1655,10 @@ mw.event = {
         return this.keyCode(e) === code;
     },
     is: {
+      comma: function (e) {
+          e = mw.event.get(e);
+          return e.keyCode === 188;
+              },
       enter: function (e) {
         e = mw.event.get(e);
         return e.key === "Enter" || mw.event.isKeyCode(e, 13);
@@ -3948,7 +3948,16 @@ mw.cart = {
 
     },
 
-    checkout: function (selector, callback) {
+    checkout: function (selector, callback, beforeRedirect) {
+
+        if (!beforeRedirect) {
+            beforeRedirect = function () {
+                return new Promise(function (){
+                    resolve();
+                });
+            };
+        }
+
         var form = mw.$(selector);
         $(document).trigger("checkoutBeforeProcess", form);
 
@@ -4024,8 +4033,10 @@ mw.cart = {
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
-                                    window.location.href = data2.redirect;
-                                }, 100)
+                                    beforeRedirect().then(function (){
+                                        window.location.href = data2.redirect;
+                                    });
+                                }, 100);
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);
@@ -5853,7 +5864,7 @@ mw.drag = {
                     } else {
                         mw.ea.data.currentGrabbed = mw.dragCurrent;
                         mw.tools.removeClass(this, 'isTyping');
-                        mw.ea.interactionAnalizer(event);
+                        mw.ea.interactionAnalyzer(event);
                         mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
                         mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                     }
@@ -6012,7 +6023,7 @@ mw.drag = {
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
 
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-                        var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
+                        var moduleEl = mw.tools.firstMatchesOnNodeOrParent(target, ['.module:not(.no-settings)']);
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
@@ -7465,11 +7476,11 @@ mw.AfterDrop = function(){
             scope.loadNewModules()
             mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
 
-        }, 78)
-    }
+        }, 78);
+    };
 
 
-}
+};
 
 
 /*************************************************************
@@ -7489,7 +7500,7 @@ mw.AfterDrop = function(){
 
 
 
-    mw.analizer = new mw.ElementAnalizer(Options);
+    mw.analyzer = new mw.ElementAnalyzer(Options);
 
 
 
@@ -7855,7 +7866,7 @@ mw.ElementAnalyzer = function(options){
         return this.getTarget(node.parentNode);
     };
 
-    this.interactionAnalizer = function(e){
+    this.interactionAnalyzer = function(e){
 
         var scope = this;
         mw.dropable.hide();
@@ -7917,7 +7928,7 @@ mw.ElementAnalyzer = function(options){
     this.whenMove = function(){
         var scope = this;
         this.on('mousemove touchmove', function(e){
-            scope.interactionAnalizer(e)
+            scope.interactionAnalyzer(e)
         });
     };
     this.init = function(){
@@ -8131,8 +8142,6 @@ mw.liveedit.handleEvents = function() {
             }
         }
     });
-    mw.$("#live-edit-dropdown-actions-content a").off('click');
-
     mw.$(document).on('mousedown touchstart', function(e){
         if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
             mw.$(".element-current").removeClass("element-current");
@@ -9065,10 +9074,10 @@ mw._initHandles = {
             mw.handleElement.positionedAt = 'top';
             var posTop = o.top - 30;
             var elHeight = el.height();
-            if (originalEvent.pageY > (o.top + elHeight/2)) {
+            /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
                 mw.handleElement.positionedAt = 'bottom';
-            }
+            }*/
 
             mw.$(mw.handleElement.wrapper).css({
                 top: posTop,
@@ -9176,6 +9185,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -9184,7 +9199,13 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function(){
+                            mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
+
                         mw.handleModule.hide();
                     }
                 },
@@ -9250,6 +9271,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -9258,7 +9285,12 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function (){
+                             mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
                         mw.handleModule.hide();
                     }
                 },
@@ -9445,10 +9477,10 @@ mw._initHandles = {
             var elHeight = el.height();
 
             handle.positionedAt = 'top';
-            if (event.pageY > (o.top + elHeight/2)) {
+            /*if (event.pageY > (o.top + elHeight/2)) {
                 topPosFinal += elHeight;
                 handle.positionedAt = 'bottom';
-            }
+            }*/
              if (element.dataset.type === 'layouts') {
                 topPosFinal = o.top + 10;
                  handleLeft = handleLeft + 10;
@@ -10847,7 +10879,6 @@ mw.dropables = {
     module: function(ev){
         targetFrom = ev ? ev.target :  mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
-        //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
             //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
@@ -15429,6 +15460,7 @@ mw.linkTip = {
                 .then(function (result){
                     node.href = result.url;
                     node.innerHTML = result.text;
+                    mw.wysiwyg.change(node)
                 });
             mw.$('.mw-link-tip').remove();
             return false;
@@ -18486,18 +18518,23 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            if(!data.active || (!data.active.target && !data.active.action)) {
+            var target = data.active.target;
+            if(typeof target === 'string'){
+                target = document.querySelector(data.active.target);
+            }
+
+            if(!data.active || (!target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
                 mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
             if(data.active.action) {
                 data.active.action();
-            } else if(document.body.contains(data.active.target)) {
-                mw.$(data.active.target).html(data.active.value);
+            } else if(document.body.contains(target)) {
+                mw.$(target).html(data.active.value);
             } else{
-                if(data.active.target.id) {
-                    mw.$(document.getElementById(data.active.target.id)).html(data.active.value);
+                if(target.id) {
+                    mw.$(document.getElementById(target.id)).html(data.active.value);
                 }
             }
             if(data.active.prev) {
@@ -19104,9 +19141,6 @@ var domHelp = {
         return final;
     },
 
-    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
-        return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
-    },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
         while (curr && curr !== document.body) {
@@ -19761,6 +19795,12 @@ mw.tools.dropdown = function (root) {
     if (root === null) {
         return;
     }
+
+    var isMobile = ('ontouchstart' in document.documentElement && /mobi/i.test(navigator.userAgent));
+    mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown';
+    if(isMobile){
+        mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown touchstart';
+    }
     var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
     for (; i < l; i++) {
         var el = items[i];
@@ -19770,6 +19810,9 @@ mw.tools.dropdown = function (root) {
         }
         el.mwDropdownActivated = true;
         el.hasInput = el.querySelector('input.mw-dropdown-field') !== null;
+
+
+
         if (el.hasInput) {
             var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
@@ -19833,7 +19876,7 @@ mw.tools.dropdown = function (root) {
                 mw.$(this).removeClass("hover");
                 mw.$(this).removeClass('other-action');
             })
-            .on('mousedown touchstart', 'li[value]', function (event) {
+            .on(mw.tools.dropdownActivatedBindOnEventsNames, 'li[value]', function (event) {
                 mw.$(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             })
@@ -19844,7 +19887,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(document.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on(mw.tools.dropdownActivatedBindOnEventsNames, function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();
@@ -19909,6 +19952,9 @@ mw.dropdown = mw.tools.dropdown;
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
+            if (this.settings.className) {
+                el.className = this.settings.className;
+            }
 
             if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
@@ -19917,12 +19963,14 @@ mw.dropdown = mw.tools.dropdown;
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
                         scope.append(el);
                     });
                 } else {
+
                     this.append(this.settings.content);
                 }
             }
@@ -19935,6 +19983,7 @@ mw.dropdown = mw.tools.dropdown;
                 return true;
             }
         };
+
 
         this.setProps = function(){
             for(var i in this.settings.props) {
@@ -20011,6 +20060,10 @@ mw.dropdown = mw.tools.dropdown;
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus();
+            return this;
+        }
         this.dataset = function(prop, val){
             if(typeof val === 'undefined') {
                 return this._active()[prop];
@@ -20050,6 +20103,7 @@ mw.dropdown = mw.tools.dropdown;
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) return this;
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -20184,8 +20238,21 @@ mw.dropdown = mw.tools.dropdown;
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));
@@ -20237,11 +20304,11 @@ mw.dropdown = mw.tools.dropdown;
         this.trigger = function(event, data){
             data = data || {};
             this.each(function (){
-                /*this.dispatchEvent(new CustomEvent(event, {
+                this.dispatchEvent(new CustomEvent(event, {
                     detail: data,
                     cancelable: true,
                     bubbles: true
-                }));*/
+                }));
                 if(scope._on[event]) {
                     scope._on[event].forEach(function(cb){
                         cb.call(this, event, data);
@@ -20311,12 +20378,11 @@ mw.dropdown = mw.tools.dropdown;
                 props: {}
             };
 
-            this.settings = $.extend({}, defaults, options);
-
+            this.settings = mw.object.extend({}, defaults, options);
             if(this._asElement) return;
             this.create();
             this.setProps();
-         };
+          };
         this.init();
     };
     mw.element = function(options){
@@ -20325,6 +20391,8 @@ mw.dropdown = mw.tools.dropdown;
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;
     };
+
+
 
 })();
 
@@ -23741,7 +23809,7 @@ mw.colorPicker = function (o) {
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.$(document).on('keydown', function (e) {
+            mw.element(document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -23788,7 +23856,7 @@ mw.colorPicker = function (o) {
         };
 
         this.title = function (title) {
-            var root = mw.$('.mw-dialog-title', this.dialogHeader);
+            var root = mw.element('.mw-dialog-title', this.dialogHeader);
             if (typeof title === 'undefined') {
                 return root.html();
             } else {
@@ -24004,9 +24072,9 @@ mw.colorPicker = function (o) {
             var dtop, css = {};
 
             if (this.options.centerMode === 'intuitive' && this._prevHeight < holderHeight) {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             } else if (this.options.centerMode === 'center') {
-                dtop = $window.height() / 2 - holderHeight / 2;
+                dtop = innerHeight / 2 - holderHeight / 2;
             }
 
             if (!scope._dragged) {
@@ -24319,7 +24387,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
         this.createSingle = function (item, i) {
             var el = document.createElement('div');
-            el.className = 'mw-gallery-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
+            el.className = 'mw-gallery-fullscreen-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
             var desc = !item.description ? '' : '<div class="mw-gallery-item-description">'+item.description+'</div>';
             el.innerHTML = '<div class="mw-gallery-item-image"><img src="'+(item.image || item.url || item.src)+'"></div>' + desc;
             this.container.appendChild(el);
@@ -24789,18 +24857,25 @@ mw.Select = function(options) {
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
 
             if(scope.settings.autocomplete){
-                oh.innerHTML = '<input class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
+                oh.innerHTML = '<input type="text" class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
             } else {
                 oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
             }
 
             if(scope.settings.autocomplete){
                 $('input', oh)
-                    .on('input focus', function () {
+                    .on('input focus', function (e) {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
-                            $(scope.element).trigger('input change')
+
+                        }
+                    })
+                    .on('keydown', function (e) {
+                        if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                            e.preventDefault();
+                            $(scope).trigger('enterOrComma', [this, e]);
+                            $(this).val('adsadasd')
                         }
                     })
                     .on('focus', function () {
@@ -25172,6 +25247,14 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
+                    if(e.newValue === null){
+                        return;
+                    }
+
+                    if(e.oldValue === null){
+                        return;
+                    }
+                   
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);
@@ -27198,6 +27281,7 @@ mw.require('widgets.css');
  
 
     mw.LinkEditor = function(options) {
+
         var scope = this;
         var defaults = {
             mode: 'dialog',
@@ -27239,11 +27323,9 @@ mw.require('widgets.css');
 
             return this;
         };
-console.log( mw.top().settings, this, this.settings );
 
         this.settings =  mw.object.extend({}, defaults, options || {});
 
-        console.log( mw.top().settings );
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
@@ -27362,7 +27444,7 @@ console.log( mw.top().settings, this, this.settings );
             this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {
-                this.dialog = mw.dialog({
+                this.dialog = mw.top().dialog({
                     content: this.root,
                     height: 'auto',
                     title: this.settings.title,
@@ -27461,17 +27543,38 @@ mw.tags = mw.chips = function(options){
     this.addInputField = function () {
         this._field = document.createElement('input');
         this._field.className = 'mw-ui-invisible-field mw-ui-field-' + this.options.size;
+
         this._field.onkeydown = function (e) {
-            if(mw.event.is.enter(e)) {
-                var val = scope._field.value.trim();
+            var val = scope._field.value.trim();
+            if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                e.preventDefault();
+
                 if(val) {
                     scope.addTag({
                         title: val
                     });
                 }
+            } else if (mw.event.is.backSpace(e)) {
+                if(!val) {
+                    var last = scope.options.data[scope.options.data.length - 1];
+                    scope.removeTag(scope.options.data.length - 1);
+                    scope._field.value = scope.dataTitle(last) + ' ';
+                    scope._field.focus();
+
+                }
             }
+            scope.handleAutocomplete(val, e)
+
+
         };
         return this._field;
+    };
+    this.handleAutocomplete = function (val, e) {
+        if(this.options.autocomplete){
+
+
+
+        }
     };
 
 
@@ -27546,10 +27649,41 @@ mw.tags = mw.chips = function(options){
         mw.$(scope).trigger('change', [item, this.options.data]);
      };
 
+
+
+
+
+
+     this.unique = function () {
+        var first = this.options.data[0];
+        if(!first) return;
+        var id = this.options.map.value;
+        if(!first[id]) {
+            id = this.options.map.title;
+        }
+        var i = 0, curr = first;
+        var _findIndex = function (tag) {
+            return tag[id].toLowerCase() === curr[id].toLowerCase();
+        };
+        while (curr) {
+            if (this.options.data.findIndex(_findIndex) === i) {
+                i++;
+            } else {
+                this.options.data.splice(i, 1);
+            }
+            curr = this.options.data[i];
+        }
+     };
+
     this.addTag = function(data, index){
         index = typeof index === 'number' ? index : this.options.data.length;
         this.options.data.splice( index, 0, data );
+        this.unique();
         this.refresh();
+        if (this._field) {
+            this._field.focus();
+        }
+
         mw.$(scope).trigger('tagAdded', [data, this.options.data]);
         mw.$(scope).trigger('change', [data, this.options.data]);
     };

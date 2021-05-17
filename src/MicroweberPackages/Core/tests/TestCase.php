@@ -14,6 +14,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
 
+        ini_set('memory_limit', '4024M');
 
 
         if (!defined('MW_UNIT_TEST')) {
@@ -25,6 +26,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
 
         $config_folder = __DIR__ . '/../../../../config/';
+
 
         if ($testEnvironment == 'testing') {
             $config_folder = $config_folder . 'testing/';
@@ -52,7 +54,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
-            file_put_contents($mw_file_database, "");
+            @unlink($mw_file_database);
             file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0, 
             'compile_assets' => 0,
@@ -62,7 +64,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             );
 
 
-            rmdir_recursive($config_folder, 1);
+         //   rmdir_recursive($config_folder, 1);
         }
 
 

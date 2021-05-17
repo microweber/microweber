@@ -98,7 +98,7 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip" title="<?php print mw('format')->ago($item['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($item['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?><span class="text-success"><?php _e("h"); ?></span><br/></small>
+                        <small class="text-muted"><?php print date('H:s', strtotime($item['created_at'])); ?>  </small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">

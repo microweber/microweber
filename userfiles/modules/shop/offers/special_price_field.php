@@ -27,7 +27,7 @@ if (!isset($offer['price']['offer_price'])) {
         $(specialPriceElement).on('input', function () {
             mw.on.stopWriting(this, function () {
                 var textPrice = $(specialPriceElement).val();
-                var formatPrice = textPrice.replace(",", "");
+                var formatPrice = textPrice.replaceAll(",", "");
                 $(specialPriceElement).val(formatPrice);
             });
         });

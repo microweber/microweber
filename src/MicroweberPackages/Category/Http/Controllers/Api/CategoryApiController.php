@@ -7,8 +7,9 @@
  */
 namespace MicroweberPackages\Category\Http\Controllers\Api;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Category\Http\Requests\CategoryRequest;
+use   MicroweberPackages\Category\Http\Requests\CategoryRequest ;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 
 class CategoryApiController extends AdminDefaultController
@@ -17,19 +18,31 @@ class CategoryApiController extends AdminDefaultController
 
     public function __construct(CategoryRepository $category)
     {
+
+
         $this->category = $category;
+
+        parent::__construct();
     }
 
     /**
      * Display a listing of the product.\
      *
      * @param CategoryRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(CategoryRequest $request)
     {
-        return $this->category->all();
-    }
+        return (new JsonResource(
+            $this->category
+                ->filter($request->all())
+                ->paginate($request->get('limit', 30))
+                ->appends($request->except('page'))
+
+        ))->response();
+
+
+     }
 
     /**
      * Store product in database
@@ -38,18 +51,23 @@ class CategoryApiController extends AdminDefaultController
      */
     public function store(CategoryRequest $request)
     {
-        return $this->category->create($request->all());
+        $result = $this->category->create($request->all());
+
+        return (new JsonResource($result))->response();
+
     }
 
     /**
      * Display the specified resource.show
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        return $this->category->find($id);
+        $result = $this->category->find($id);
+        return (new JsonResource($result))->response();
+
     }
 
 
@@ -58,11 +76,15 @@ class CategoryApiController extends AdminDefaultController
      *
      * @param  CategoryRequest $request
      * @param  string $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(CategoryRequest $request, $id)
     {
-        return $this->category->update($request->all(), $id);
+
+        $result =  $this->category->update($request->all(), $id);
+
+        return (new JsonResource($result))->response();
+
     }
 
     /**
@@ -73,18 +95,23 @@ class CategoryApiController extends AdminDefaultController
      */
     public function delete($id)
     {
-        return $this->category->delete($id);
+
+        $result =  $this->category->delete($id);
+
+        return (new JsonResource($result))->response();
+
     }
 
     /**
      * Delete resources by given ids.
      *
      * @param string $ids
-     * @return void
-     */
+      */
     public function destroy($ids)
     {
-        return $this->category->destroy($ids);
+        $result =  $this->category->destroy($ids);
+
+
     }
 
 }

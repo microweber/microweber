@@ -29,7 +29,7 @@
     width: 100vw;
 }
 
-.mw-gallery-item{
+.mw-gallery-fullscreen-item{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,19 +38,19 @@
     opacity: 0;
     visibility: hidden;
 }
-.mw-gallery-item.active{
+.mw-gallery-fullscreen-item.active{
     transform: translate(-50%,-50%) scale(1);
     opacity: 1;
     visibility: visible;
 }
-.mw-gallery-item-image img{
+.mw-gallery-fullscreen-item-image img{
     display: block;
     max-width: 100%;
     max-height: 78vh;
     width: auto;
     height: auto;
 }
-.mw-gallery-item-description{
+.mw-gallery-fullscreen-item-description{
     max-height: 20vh;
     color: white;
     padding: 10px;

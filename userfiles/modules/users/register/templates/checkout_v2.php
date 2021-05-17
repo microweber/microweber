@@ -34,7 +34,7 @@ description: Default register template
         });
     </script>
 
-    <div class="mt-5" id="register_form_holder">
+    <div class="mt-5 col-12" id="register_form_holder">
         <div class="d-flex pb-4">
             <h4><?php _e("Registration"); ?></h4>
             <a class="ml-auto align-self-center" href="<?php print route('checkout.login'); ?>">

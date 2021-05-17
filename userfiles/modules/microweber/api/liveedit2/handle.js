@@ -1,4 +1,7 @@
-var Draggable = function (options) {
+/* jshint esversion: 6 */
+/* globals: mw */
+
+const Draggable = function (options) {
     var defaults = {
         handle: null,
         element: null,
@@ -17,7 +20,9 @@ var Draggable = function (options) {
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
-        this.element = node;
+        this.element = mw.element(node).prop('draggable', true).css({
+            userSelect: 'none'
+        }).get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -37,18 +42,32 @@ var Draggable = function (options) {
         this.draggable();
     };
 
-    this.helper = function (e) {
+    this.helper2 = function (e) {
         if (e === 'create') {
             var el = mw.element(this.element.outerHTML);
             el.removeAttr('id').find('[id]').removeAttr('id');
             document.body.appendChild(el.get(0));
-            this._helper = el.get(0);
+
+            this._helper = el.css({position:'absolute', zIndex: 100}).get(0);
         } else if(e === 'remove' && this._helper) {
             this._helper.remove();
             this._helper = null;
         } else if(this.settings.helper && this._helper && e) {
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
+        }
+        return this._helper;
+    };
+
+
+    this.helper = function (e) {
+        if (e === 'create') {
+
+        } else if(e === 'remove' && this._helper) {
+
+        } else if(this.settings.helper && e) {
+            this.element.style.top = e.pageY + 'px';
+            this.element.style.left = e.pageX + 'px';
         }
         return this._helper;
     };
@@ -96,9 +115,9 @@ var Draggable = function (options) {
     this.init();
 };
 
+window.Draggable = Draggable
 
-
-var Handle = function (options) {
+export const Handle = function (options) {
 
     var defaults = {
 

@@ -65,13 +65,30 @@ trait PaymentTrait {
             return redirect(route('checkout.payment_method'));
         }
 
+        if (isset($sendCheckout['redirect'])) {
+            return redirect($sendCheckout['redirect']);
+        }
+
+
+
+        if (isset($sendCheckout['success']) and !empty($sendCheckout['success'])) {
+            if(is_ajax()) {
+                return $sendCheckout['success'];
+            } else {
+                return redirect(route('checkout.finish', $sendCheckout['id']))->with('success',$sendCheckout['success']);
+
+            }
+
+        }
+
         // Payment error
         if (isset($sendCheckout['error'])) {
             session_set('errors', [
                 'payment_errors'=>['error'=>$sendCheckout['error']]
             ]);
-            return redirect(route('checkout.payment_method'));
+            return redirect(route('checkout.payment_method'))->with('error',$sendCheckout['error']);
         }
+
 
         // Cart is empty
         if (isset($sendCheckout['error']['cart_empty'])) {

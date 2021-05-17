@@ -51,9 +51,6 @@ var domHelp = {
         return final;
     },
 
-    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
-        return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
-    },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
         while (curr && curr !== document.body) {

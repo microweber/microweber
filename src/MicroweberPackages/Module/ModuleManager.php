@@ -408,6 +408,12 @@ class ModuleManager
                         $config['is_system'] = 0;
                     }
 
+                    if (isset($config['is_integration'])) {
+                        $config['is_integration'] = intval($config['is_integration']);
+                    } else {
+                        $config['is_integration'] = 0;
+                    }
+
                     if (isset($config['ui_admin'])) {
                         $config['ui_admin'] = intval($config['ui_admin']);
                     } else {
@@ -630,7 +636,6 @@ class ModuleManager
 
         if ($this->modules_register) {
             $return = array_merge($return, $this->modules_register);
-
         }
 
         return $return;

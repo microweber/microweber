@@ -6,7 +6,7 @@
     </div>
 @endsection
 
-@section('content')
+@section('steps_content')
 
     @if (isset($errors))
         <div class="alert alert-danger">
@@ -29,7 +29,7 @@
             @include('checkout::contact_information_card')
 
             <div class="shop-cart-shipping mb-3">
-                 <module type="shop/shipping" @if(isset($checkout_session['shipping_gw'])) selected_provider="{{$checkout_session['shipping_gw']}}" @endif template="checkout_v2" data-store-values="true" />
+                 <module type="shop/shipping" class="no-settings" @if(isset($checkout_session['shipping_gw'])) selected_provider="{{$checkout_session['shipping_gw']}}" @endif template="checkout_v2" data-store-values="true" />
             </div>
         </div>
 

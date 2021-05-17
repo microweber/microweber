@@ -62,7 +62,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _lang('Instagram Username', "modules/instagram_feed"); ?></label>
-                        <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="username" value="<?php print $username; ?>">
+                        <input type="text" class="mw_option_field form-control" placeholder="Example: technology" name="username" value="<?php print $username; ?>">
                     </div>
 
                     <div class="form-group">

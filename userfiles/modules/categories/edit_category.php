@@ -132,20 +132,39 @@ if (isset($params['live_edit'])) {
             });
 
             mw.$('#admin_edit_category_form').submit(function () {
+
+
                 var form = this;
                 if (mw.category_is_saving) {
                     return false;
                 }
+
                 mw.notification.success("Saving...", 3000);
                 mw.category_is_saving = true;
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
-                mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
+                var catSaveUrl = '<?php print route('api.category.store'); ?>';
+                var catSaveUrlMethod = 'POST';
+                <?php if(isset($data['id']) and intval($data['id']) != 0): ?>
+                var catSaveUrl = '<?php print route('api.category.update',['category'=>$data['id']]); ?>';
+                var catSaveUrlMethod = 'PATCH';
+
+                <?php endif; ?>
+
+
+                mw.form.post(mw.$('#admin_edit_category_form'), catSaveUrl, function (val) {
+                    var showmsg = '';
+                    var savedcatid = 0;
+
+                    if(this.data){
+                        savedcatid = this.data.id;
+                    }
 
                     //todo: move method to separate service
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                     if(dialog) {
-                        dialog.result(this.toString())
+                        dialog.result(savedcatid)
+                       // dialog.result(this.toString())
                     }
                     if (typeof(this.error) != "undefined") {
                         mw.notification.msg(this);
@@ -155,9 +174,9 @@ if (isset($params['live_edit'])) {
 
                     mw.$('#mw-notifications-holder').empty();
                     mw.notification.success("Category changes are saved");
-                    var v = this.toString();
-                    mw.$('#mw_admin_edit_cat_id').val(v);
-                    mw.$('#mw-cat-pics-admin').attr("for-id", v);
+                    var v = savedcatid;
+                    mw.$('#mw_admin_edit_cat_id').val(savedcatid);
+                    mw.$('#mw-cat-pics-admin').attr("for-id", savedcatid);
                     //mw.reload_module('[data-type="categories"]');
                     // if (self !== parent && !!parent.mw) {
                     //     parent.mw.reload_module('categories');
@@ -187,8 +206,7 @@ if (isset($params['live_edit'])) {
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-
-                    mw.url.windowHashParam('action', 'editcategory:' + this)
+                    mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                 });
 
                 return false;
@@ -278,6 +296,15 @@ if (isset($params['live_edit'])) {
                     <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
                     <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
                     <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
+
+
+                    <?php if ($data['id'] > 0): ?>
+                        <input name="_method" type="hidden" value="PATCH">
+                    <?php endif; ?>
+
+
+
+
 
                     <?php
                     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
@@ -417,7 +444,9 @@ if (isset($params['live_edit'])) {
                                         skip: skip
                                     });
                                     if (selectedData.length) {
-                                        mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
+                                        if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {
+                                           mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
+                                        }
                                     }
                                     $(categoryParentSelector).on("selectionChange", function (e, selected) {
                                         document.querySelector('.btn-save').disabled = false;

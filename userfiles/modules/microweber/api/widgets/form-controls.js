@@ -814,6 +814,7 @@ mw.emitter = {
              var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
             mw.require('tree.js')
             $.getJSON(url, function (res){
+
                 scope.tree = new mw.tree({
                     data: res,
                     element: treeEl,
@@ -821,6 +822,10 @@ mw.emitter = {
                     selectable: true,
                     singleSelect: true
                 });
+                var dialog = mw.dialog.get(treeEl);
+                if(dialog) {
+                    dialog.center();
+                }
                 scope.tree.on("selectionChange", function(selection){
                     if (textField && selection && selection[0]) {
                         textField.value = selection[0].title;
@@ -829,8 +834,6 @@ mw.emitter = {
                         scope._onChange.forEach(function (f){
                             f(scope.getValue());
                         });
-
-
                     }
                 });
             });

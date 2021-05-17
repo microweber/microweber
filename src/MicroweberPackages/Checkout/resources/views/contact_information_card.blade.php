@@ -1,10 +1,10 @@
 <div class="card my-3">
     <div class="card-body d-flex p-3">
 
-        <div class="col-10">
+        <div class="col-8">
             <?php if (is_logged()):  $user = get_user();  ?>
             <?php _e("You are logged as"); ?> <?php echo $user['username']; ?>
-            <hr />
+                <br><br>
             <?php endif; ?>
 
             <?php if (empty($checkout_session['email']) || empty($checkout_session['email'])):  ?>
@@ -17,8 +17,8 @@
             <?php if (!empty($checkout_session['email'])) { echo $checkout_session['email'] . '<br />'; } ?>
         </div>
 
-        <div class="col-2 justify-content-end text-right align-self-top px-0">
-            <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-right">{{ _e('Edit') }}</a>
+        <div class="col-4 justify-content-end text-right align-self-top px-0">
+            <a href="{{ route('checkout.contact_information') }}" class="btn btn-link px-0">{{ _e('Edit') }}</a>
         </div>
 
     </div>

@@ -1,5 +1,5 @@
 <?php include(__DIR__ . DS . 'header.php'); ?>
-<meta http-equiv="Content-Language" Content="en">
+
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
@@ -11,7 +11,8 @@
             <form action="<?php echo admin_url('mw_install_create_user') ?>" method="post" class="mw_install_create_user">
 
                 <div style="text-align: center"><img width="100%" src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo" align="center"></div>
-                <h2 class="center"><?php _e('Create Admin Account'); ?></h2>
+
+                <h2><?php _e('Create Admin Account'); ?></h2>
                 <div class="hr"></div>
 
                 <div class="mw-ui-field-holder">

@@ -490,7 +490,7 @@ mw.drag = {
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
 
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-                        var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
+                        var moduleEl = mw.tools.firstMatchesOnNodeOrParent(target, ['.module:not(.no-settings)']);
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);

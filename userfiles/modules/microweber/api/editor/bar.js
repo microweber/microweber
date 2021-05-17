@@ -6,7 +6,7 @@
             document: document,
             register: null
         };
-        this.settings = $.extend({}, defaults, options);
+        this.settings = mw.object.extend({}, defaults, options);
         this.document = this.settings.document || document;
 
         this.register = [];

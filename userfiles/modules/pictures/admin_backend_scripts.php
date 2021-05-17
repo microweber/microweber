@@ -113,6 +113,7 @@
             boxed: <?php print isset($params['boxed']) ? $params['boxed'] : 'false'; ?>,
             dropDownTargetMode: 'dialog',
             label: mw.lang('Media'),
+            _frameMaxHeight: true,
             hideHeader: <?php print isset($params['hideHeader']) ? $params['hideHeader'] : 'true'; ?>,
             uploaderType: <?php print isset($params['uploaderType']) ? '"' . $params['uploaderType'] . '"' : '"big"'; ?>,
             multiple: true,

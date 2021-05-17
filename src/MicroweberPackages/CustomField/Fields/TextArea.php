@@ -13,6 +13,7 @@ class TextArea extends DefaultField
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
+    public $hasShowLabelOptions = true;
 
     public $defaultSettings = [
         'required'=>false,
@@ -23,6 +24,8 @@ class TextArea extends DefaultField
         'field_size_desktop'=>12,
         'field_size_tablet'=>12,
         'field_size_mobile'=>12,
+        'rows'=>3,
+        'cols'=>2,
     ];
 
     public function preparePreview()
@@ -34,6 +37,14 @@ class TextArea extends DefaultField
 
         if (isset($this->data['required'])) {
             $this->renderSettings['required'] = $this->data['required'];
+        }
+
+        if (isset($this->data['options']['rows'])) {
+            $this->renderSettings['rows'] = $this->data['options']['rows'];
+        }
+
+        if (isset($this->data['options']['cols'])) {
+            $this->renderSettings['cols'] = $this->data['options']['cols'];
         }
     }
 }

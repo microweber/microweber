@@ -141,7 +141,7 @@ if ($last_page_front != false) {
     }
     ?>
 
-    <div class="card-header d-flex justify-content-between px-md-4 px-0">
+    <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
         <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
             <h5>
                 <i class="mdi text-primary mr-2 <?php if ($type == 'shop'): ?>mdi-shopping<?php else: ?><?php print $type; ?><?php endif; ?>"></i>
@@ -163,35 +163,46 @@ if ($last_page_front != false) {
                 </h5>
             </div>
         <?php elseif ($act == 'pages'): ?>
-            <h5 class="d-md-inline-block d-flex align-items-center">
-                <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1"></i>
-                <strong><?php _e("Pages"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
-            </h5>
+            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+                <h5 class="mb-0">
+                    <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                    <strong class="d-xl-flex d-none"><?php _e("Add Page"); ?></strong>
+                </h5>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Post"); ?></a>
+            </div>
         <?php elseif ($act == 'posts'): ?>
-            <h5 class="d-md-inline-block d-flex align-items-center">
-                <i class="mdi mdi-text text-primary mr-md-3 mr-1"></i>
-                <strong><?php _e("Posts"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Post"); ?></a>
-            </h5>
+            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+                <h5 class="mb-0">
+                    <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                    <strong class="d-xl-flex d-none"><?php _e("Posts"); ?></strong>
+                </h5>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Post"); ?></a>
+            </div>
+
         <?php elseif ($act == 'products'): ?>
-            <h5 class="d-md-inline-block d-flex align-items-center">
-                <i class="mdi mdi-shopping text-primary mr-md-3 mr-1"></i>
-                <strong><?php _e("Products"); ?></strong>
+            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+                 <h5 class="mb-0">
+                    <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                    <strong class="d-xl-flex d-none"><?php _e("Products"); ?></strong>
+                </h5>
                 <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
-            </h5>
+            </div>
         <?php elseif (isset($params['is_shop'])): ?>
-            <h5 class="d-md-inline-block d-flex align-items-center">
-                <span class="mdi mdi-shopping text-primary mr-md-3 mr-1"></span>
-                <strong><?php _e("My Shop"); ?></strong>
+            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+                <h5 class="mb-0">
+                    <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                    <strong class="d-xl-flex d-none"><?php _e("My Shop"); ?></strong>
+                </h5>
                 <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
-            </h5>
+            </div>
         <?php else: ?>
-            <h5 class="d-md-inline-block d-flex align-items-center">
-                <i class="mdi mdi-earth text-primary mr-md-3 mr-1"></i>
-                <strong><?php _e("Website"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
-            </h5>
+            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+                <h5 class="mb-0">
+                    <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                    <strong class="d-xl-flex d-none"><?php _e("Website"); ?></strong>
+                </h5>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Page"); ?></a>
+            </div>
         <?php endif; ?>
 
         <?php
@@ -220,7 +231,8 @@ if ($last_page_front != false) {
         $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
         ?>
 
-        <div class="js-hide-when-no-items">
+
+        <div class="js-hide-when-no-items col-5 d-flex justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -302,7 +314,7 @@ if ($last_page_front != false) {
                                     <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                                 </div>
 
-                                <input type="text" class="form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
+                                <input type="text" class="js-search-by-keywords-input   form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
                             </div>
 
                             <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>

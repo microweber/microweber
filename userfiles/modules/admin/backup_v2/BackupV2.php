@@ -255,6 +255,16 @@ class BackupV2
             $manager->setExportOnlyTemplate(template_name());
         }
 
+        if (isset($query['items']) && $query['items'] == 'template_default_content') {
+            $manager->setExportMedia(true);
+            $manager->setExportAllData(true);
+            $manager->addSkipTable('login_attempts');
+            $manager->addSkipTable('multilanguage_translations');
+            $manager->addSkipTable('multilanguage_supported_locales');
+            $manager->addSkipTable('translation_keys');
+            $manager->addSkipTable('translation_texts');
+        }
+
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {

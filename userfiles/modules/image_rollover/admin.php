@@ -187,11 +187,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             });
         </script>
 
+        <?php if (!isset($params['menu_rollover'])) { ?>
+
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _lang('Settings', "modules/image_rollover"); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _lang('Templates', "modules/image_rollover"); ?></a>
         </nav>
-
+        <?php } ?>
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="settings">
                 <!-- Settings Content -->
@@ -252,10 +254,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
                 <!-- Settings Content - End -->
             </div>
-
+            <?php if (!isset($params['menu_rollover'])) { ?>
             <div class="tab-pane fade" id="templates">
                 <module type="admin/modules/templates"/>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

@@ -865,6 +865,7 @@ class CategoryManager
 
     public function reorder($data)
     {
+
         $table = $this->tables['categories'];
         $res = array();
         foreach ($data as $value) {
@@ -879,7 +880,7 @@ class CategoryManager
                 $res[] = $this->app->database_manager->update_position_field($table, $indx);
             }
         }
-
+        $this->app->cache_manager->clear('categories');
         return $res;
     }
 

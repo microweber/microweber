@@ -208,7 +208,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <label><?php _e("OG Images"); ?></label>
                             <small class="text-muted d-block mb-2">
                                 <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
-                                <?php _e("If you want to attach a og images, you must upload them to gallery from 'Add media'"); ?>.
+                                <?php _e("If you want to attach og images, you must upload them to gallery from 'Add media'"); ?>.
                             </small>
                         </div>
                     </div>
@@ -221,11 +221,11 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
-            <div class="collapse" id="advenced-settings">
+            <div class="collapse" id="advanced-settings">
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -341,15 +341,20 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <label class="control-label mt-3"><?php _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                        <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+
                     </div>
+
+
+
+
                 </div>
 
                 <?php endif; ?>
 
                 <?php if ($show_page_settings != false): ?>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
@@ -384,6 +389,86 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                 <?php /* PAGES ONLY  */ ?>
                 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
+
+
+                <?php if (isset($data['id']) and $data['id'] != 0): ?>
+
+
+
+                    <?php if (isset($data['id'])): ?>
+                        <div class="row  mt-3">
+                        <div class="col-md-12">
+                            <div>
+                                <small>
+                                    <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+
+                                </small>
+                            </div>
+                        </div>
+
+
+                        </div>
+                    <?php endif; ?>
+
+
+
+
+
+                    <div class="row  ">
+
+
+
+
+                        <div class="col-12">
+
+
+                            <button type="button" class="btn btn-sm btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+
+
+
+
+
+                            <div  class="collapse"   id="set-a-specific-publish-date">
+                                <div class="row">
+                                    <script>mw.lib.require('bootstrap_datetimepicker');</script>
+                                    <script>
+                                        $(function () {
+                                            $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
+                                            $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
+                                        });
+                                    </script>
+
+
+                                    <?php if (isset($data['created_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
+                                                <small>
+                                                    <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if (isset($data['updated_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
+                                                <small>
+                                                    <?php _e("Updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+
+
+
 
                 <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
                     <div class="row mb-3">
@@ -430,6 +515,12 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
                 <?php endif; ?>
+
+
+
+
+
+
             </div>
         </div>
     </div>

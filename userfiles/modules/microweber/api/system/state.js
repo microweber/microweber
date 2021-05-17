@@ -233,18 +233,23 @@
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            if(!data.active || (!data.active.target && !data.active.action)) {
+            var target = data.active.target;
+            if(typeof target === 'string'){
+                target = document.querySelector(data.active.target);
+            }
+
+            if(!data.active || (!target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
                 mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
             if(data.active.action) {
                 data.active.action();
-            } else if(document.body.contains(data.active.target)) {
-                mw.$(data.active.target).html(data.active.value);
+            } else if(document.body.contains(target)) {
+                mw.$(target).html(data.active.value);
             } else{
-                if(data.active.target.id) {
-                    mw.$(document.getElementById(data.active.target.id)).html(data.active.value);
+                if(target.id) {
+                    mw.$(document.getElementById(target.id)).html(data.active.value);
                 }
             }
             if(data.active.prev) {

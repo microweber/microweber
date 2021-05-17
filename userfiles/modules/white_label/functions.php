@@ -28,9 +28,12 @@ function get_white_label_config()
 {
     $file = MW_WHITE_LABEL_SETTINGS_FILE;
     $file_local = MW_WHITE_LABEL_SETTINGS_FILE_LOCAL;
-    if (!is_file($file)) {
-        $file = $file_local;
+
+    if (is_file($file_local)) {
+        $cont = file_get_contents($file_local);
+        return json_decode($cont, true);
     }
+
     if (is_file($file)) {
         $cont = file_get_contents($file);
         $params = json_decode($cont, true);
@@ -43,7 +46,6 @@ event_bind('mw.init', 'make_white_label');
 
 function make_white_label()
 {
-
     $settings = get_white_label_config();
 
     if (isset($settings['logo_admin']) and trim($settings['logo_admin']) != '') {

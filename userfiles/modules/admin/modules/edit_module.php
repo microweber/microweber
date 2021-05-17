@@ -84,10 +84,44 @@ if ($id != false) {
             min-height: 140px;
             cursor: pointer;
         }
+
+        .mw-modules-badge.cog-badge {
+
+         background-color: #d5f3e4;
+        }
+
+        .mw-modules-badge.cog-settings {
+
+            background-color: #f6d9da;
+        }
     </style>
 
-    <div class="card style-1 h-100 mw-modules-module-holder">
-        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+
+    <?php
+    $badge = '';
+    if (isset($data['ui']) && $data['ui']) {
+        $badge .='<span class="mw-modules-badge badge badge-info rounded-circle p-2 mr-1 tip" data-tip="'._e('Live edit', true).'"><i class="mdi mdi-eye text-primary"></i></span>';
+    }
+    if (isset($data['ui_admin']) && $data['ui_admin']) {
+        $badge .='<span class="mw-modules-badge badge badge-secondary rounded-circle p-2 mr-1 tip" data-tip="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
+    }
+    if (isset($data['is_system']) && $data['is_system']) {
+        $badge .='<span class="mw-modules-badge cog-badge badge rounded-circle p-2 mr-1 tip" data-tip="'._e('System', true).'"><i class="mdi mdi-cog text-success"></i></span>';
+    }
+    if (((isset($data['is_system']) && $data['is_system'] == 0) &&
+        (isset($data['ui_admin']) && $data['ui_admin'] == 0) &&
+        (isset($data['ui']) && $data['ui'] == 0)) || (isset($data['is_integration']) && $data['is_integration'])) {
+        $badge .='<span class="mw-modules-badge cog-settings badge badge-danger rounded-circle p-2 mr-1 tip" data-tip="'._e('Integration', true).'"><i class="mdi mdi-wrench text-danger"></i></span>';
+    }
+    ?>
+
+    <div class="card mw-modules-module-holder p-1">
+        <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+            <div class="text-left pb-3">
+            <?php echo $badge; ?>
+            </div>
+
+            <div class="h-100 d-flex align-items-center justify-content-center flex-column">
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
                 print 'module-installed';
             } else {
@@ -125,6 +159,7 @@ if ($id != false) {
                 <?php endif; ?>
 
             </form>
+            </div>
         </div>
     </div>
 <?php endif; ?>

@@ -78,7 +78,7 @@ if ($screenshots) {
     $(document).ready(function () {
         mw.options.form('.mw-mod-template-settings-holder', function () {
             if (mw.notification != undefined) {
-                mw.notification.success('<?php _ejs("Module template is changed"); ?>');
+                mw.notification.success('<?php _ejs("Module template has changed"); ?>');
             }
 
             <?php if ($screenshots): ?>

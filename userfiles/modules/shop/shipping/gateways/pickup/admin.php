@@ -7,6 +7,7 @@ must_have_access();
 
 <script type="text/javascript">
     mw.require('options.js');
+    mw.require('editor.js');
 
     __shipping_options_save_msg = function () {
         if (mw.notification != undefined) {
@@ -29,6 +30,16 @@ must_have_access();
     }
 
     $(document).ready(function () {
+
+        mw.Editor({
+            selector: '.js-shipping-instructions',
+            mode: 'div',
+            smallEditor: false,
+            minHeight: 150,
+            maxHeight: '70vh',
+            controls: [['bold', 'italic', 'underline', 'strikeThrough', 'link','unlink']]
+        });
+
         mw.options.form('.mw-set-shipping-options-swticher', __shipping_options_save_msg);
     });
 </script>
@@ -52,6 +63,7 @@ must_have_access();
 <div class="form-group">
     <label class="control-label"><?php _e('Shipping instructions'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Display message to the customer when they select this shipping method.'); ?></small>
-    <textarea name="shipping_pickup_instructions" placeholder="<?php _e('Ex.: Your order will be delivered to our office on address: ...'); ?>" class="mw_option_field form-control" data-option-group="shipping"><?php print get_option('shipping_pickup_instructions', 'shipping') ?></textarea>
+    <textarea name="shipping_pickup_instructions" placeholder="<?php _e('Ex.: Your order will be delivered to our office on address: ...'); ?>"
+              class="mw_option_field form-control js-shipping-instructions" data-option-group="shipping"><?php print get_option('shipping_pickup_instructions', 'shipping') ?></textarea>
 </div>
 

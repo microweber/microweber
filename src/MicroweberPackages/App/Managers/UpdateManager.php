@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Package\ComposerUpdate;
+use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -736,8 +737,12 @@ class UpdateManager
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
-            scan_for_modules(['no_cache'=>true]);
-            scan_for_elements();
+          //  scan_for_modules(['no_cache'=>true]);
+         //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+            scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+
+            scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+
             mw()->layouts_manager->scan();
             mw()->template->clear_cached_custom_css();
             mw()->template->clear_cached_apijs_assets();
@@ -1273,7 +1278,7 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-        try {
+       /* try {
             return $this->composer_update->installPackageByName($params);
         }catch (\Exception $e) {
             return array(
@@ -1282,7 +1287,9 @@ class UpdateManager
                 'line' => $e->getLine(),
                 'trace' => $e->getTrace()
             );
-        }
+        }*/
+        $mw = new MicroweberComposerClient();
+        return $mw->requestInstall($params);
     }
 
     public function composer_merge($composer_patch_path)
