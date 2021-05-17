@@ -121,7 +121,7 @@ class DefaultField
 
             return $customFieldHtml;
         } catch (\Exception $e) {
-            //
+            // bvs
         }
     }
 
