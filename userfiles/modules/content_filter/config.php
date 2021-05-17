@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Filter";
+$config['name'] = "Content Filter";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = false;
