@@ -1,0 +1,12 @@
+<?php
+
+$config = array();
+$config['name'] = "Blog";
+$config['author'] = "Microweber";
+$config['no_cache'] = false;
+$config['ui'] = true;
+$config['ui_admin'] = true;
+$config['is_system'] = true;
+$config['position'] = 7;
+$config['version'] = 0.1;
+$config['categories'] = "recommended,navigation";
