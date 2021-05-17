@@ -27,9 +27,54 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </nav>
 
         <div class="tab-content py-3">
+
             <div class="tab-pane fade show active" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
 
+                    <div class="form-group">
+                        <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
+                        <select name="content_from_id" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <option>Select..</option>
+
+                            <?php
+                            $pageTreeFilter = array();
+                            $pageTreeFilter['link'] = "{title}";
+                            $pageTreeFilter['list_tag'] = " ";
+                            $pageTreeFilter['list_item_tag'] = "option";
+                            $pageTreeFilter['active_code_tag'] = ' selected="selected" ';
+
+                            pages_tree($pageTreeFilter);
+                            ?>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
+                        <div class="custom-control custom-switch pl-0">
+                            <label class="d-inline-block mr-5" for="filtering_the_results"><?php _e('No'); ?></label>
+                            <input class="mw_option_field custom-control-input" id="filtering_the_results" type="checkbox"
+                                   autocomplete="off" name="filtering_the_results" <?php if (get_option('filtering_the_results', 'xax') == 'y'): ?>checked<?php endif; ?> option-group="xax" data-value-checked="y" data-value-unchecked="n">
+                            <label class="custom-control-label" for="filtering_the_results"><?php _e('Yes'); ?></label>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#filtering_the_results').change(function() {
+                                if ($(this).prop('checked')) {
+                                    $('.js-blog-filtering-the-results').fadeIn();
+                                } else {
+                                    $('.js-blog-filtering-the-results').fadeOut();
+                                }
+                            });
+                        });
+                    </script>
+
+                    <div class="js-blog-filtering-the-results">
+
+                        
+                    </div>
 
                 </div>
             </div>
