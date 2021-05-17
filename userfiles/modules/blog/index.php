@@ -1,5 +1,17 @@
 <?php
 
+
+$contentFromId = get_option('content_from_id', $params['id']);
+
+$contentQuery = \MicroweberPackages\Content\Content::query();
+$contentQuery->where('parent', $contentFromId);
+$contentResults = $contentQuery->get()->toArray();
+
+foreach($contentResults as $content) {
+    echo $content['title'] . '<hr />';
+}
+
+/*
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
@@ -15,4 +27,4 @@ if (is_file($template_file) != false) {
     include($template_file);
 } else {
     print lnotif("No template found. Please choose template.");
-}
+}*/
