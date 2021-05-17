@@ -50,6 +50,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </select>
                     </div>
 
+
+                    <div class="form-group">
+                        <label class="control-label d-block"><?php echo _e("Pagination", true); ?></label>
+                        <div class="custom-control custom-switch pl-0">
+                            <label class="d-inline-block mr-5" for="pagination_the_results"><?php _e('No'); ?></label>
+                            <input class="mw_option_field custom-control-input" id="pagination_the_results" type="checkbox"
+                                   autocomplete="off" name="pagination_the_results" <?php if (get_option('pagination_the_results', $params['id']) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $params['id'];?>" data-value-checked="1" data-value-unchecked="0">
+                            <label class="custom-control-label" for="pagination_the_results"><?php _e('Yes'); ?></label>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                         <div class="custom-control custom-switch pl-0">
