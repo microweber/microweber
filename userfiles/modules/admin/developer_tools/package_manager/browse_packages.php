@@ -129,7 +129,11 @@ if ($search_packages and is_array($search_packages)) {
     }
 }
 
-\Cache::put('countNewUpdates', $new_updates_count, now()->addMinutes(30));
+\Cache::tags('updates')->put('countNewUpdates',$new_updates_count);
+
+
+
+// \Cache::put('countNewUpdates', $new_updates_count, now()->addMinutes(30));
 
 if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
     $core_update = $packages_by_type_with_update['microweber-core-update'];

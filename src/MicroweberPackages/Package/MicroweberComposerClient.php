@@ -7,14 +7,15 @@ use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\Traits\FileDownloader;
 use MicroweberPackages\Utils\Zip\Unzip;
 
-class MicroweberComposerClient {
+class MicroweberComposerClient
+{
 
     use FileDownloader;
 
     public $logfile = false;
     public $licenses = [];
     public $packageServers = [
-         'https://packages-satis.microweberapi.com/packages.json',
+        'https://packages-satis.microweberapi.com/packages.json',
     ];
 
     public function __construct()
@@ -27,15 +28,20 @@ class MicroweberComposerClient {
 
         $this->logfile = userfiles_path() . 'install_item_log.txt';
 
-        $settings = get_white_label_config();
-        if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
-            $this->packageServers[] = $settings['marketplace_repositories_urls'];
+        if (function_exists('get_white_label_config')) {
+            $settings = get_white_label_config();
+
+            if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
+                $this->packageServers[] = $settings['marketplace_repositories_urls'];
+            }
         }
     }
 
-    public function countNewUpdatesCached() {
+    public function countNewUpdatesCached()
+    {
 
-        $count = \Cache::get('countNewUpdates');
+        $count = \Cache::tags('updates')->get('countNewUpdates');
+        //$count = \Cache::get('countNewUpdates');
         if ($count) {
             return $count;
         }
@@ -43,23 +49,24 @@ class MicroweberComposerClient {
         return 0;
     }
 
-    public function countNewUpdates() {
+    public function countNewUpdates()
+    {
 
         $searchPackages = $this->search();
 
         $allPackages = [];
         $localPackages = mw()->update->collect_local_data();
-        foreach($localPackages['modules'] as $package) {
+        foreach ($localPackages['modules'] as $package) {
             $allPackages[] = $package;
         }
-        foreach($localPackages['templates'] as $package) {
+        foreach ($localPackages['templates'] as $package) {
             $allPackages[] = $package;
         }
 
         $readyPackages = [];
-        foreach($searchPackages as $packageName=>$versions) {
+        foreach ($searchPackages as $packageName => $versions) {
             foreach ($versions as $version) {
-                if(!is_array($version)){
+                if (!is_array($version)) {
                     continue;
                 }
 
@@ -90,7 +97,7 @@ class MicroweberComposerClient {
 
         $newUpdates = 0;
 
-        foreach($readyPackages as $package) {
+        foreach ($readyPackages as $package) {
             if (isset($package['has_update']) && $package['has_update']) {
                 $newUpdates++;
             }
@@ -102,16 +109,19 @@ class MicroweberComposerClient {
     public function search($filter = array())
     {
         $packages = [];
-        foreach($this->packageServers as $package) {
+        foreach ($this->packageServers as $package) {
             $getRepositories = $this->getPackageFile($package);
 
             if (empty($filter)) {
                 return $getRepositories;
             }
 
-            foreach($getRepositories as $packageName=>$packageVersions) {
+            foreach ($getRepositories as $packageName => $packageVersions) {
 
                 if (isset($filter['require_version'])) {
+                    if (!is_array($packageVersions)) {
+                        continue;
+                    }
                     foreach ($packageVersions as $packageVersion => $packageVersionData) {
                         if (($filter['require_version'] == $packageVersion) &&
                             ($filter['require_name'] == $packageName)) {
@@ -131,11 +141,11 @@ class MicroweberComposerClient {
     {
         $this->newLog('Request install...');
 
-        $this->log('Searching for '. $params['require_name'] . ' for version ' . $params['require_version']);
+        $this->log('Searching for ' . $params['require_name'] . ' for version ' . $params['require_version']);
 
         $search = $this->search([
-            'require_version'=>$params['require_version'],
-            'require_name'=>$params['require_name'],
+            'require_version' => $params['require_version'],
+            'require_name' => $params['require_name'],
         ]);
 
         if (!$search) {
@@ -191,7 +201,7 @@ class MicroweberComposerClient {
             }
 
             $packageFileName = 'last-package.zip';
-            $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] .'/';
+            $packageFileDestination = storage_path() . '/cache/composer-download/' . $package['target-dir'] . '/';
 
             $this->_removeFilesFromPath($packageFileDestination); // remove dir
             mkdir_recursive($packageFileDestination); // make new dir
@@ -229,7 +239,8 @@ class MicroweberComposerClient {
         return false;
     }
 
-    public function recursiveScan($dir){
+    public function recursiveScan($dir)
+    {
 
         $directory = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
 
@@ -244,16 +255,16 @@ class MicroweberComposerClient {
     public function install($package)
     {
         $type = 'microweber-module';
-            if (isset($package['type'])) {
-                $type = $package['type'];
-            }
+        if (isset($package['type'])) {
+            $type = $package['type'];
+        }
 
-       if ($type == 'microweber-module') {
-            $packageFileDestination = userfiles_path() .'/modules/'.$package['target-dir'].'/';
+        if ($type == 'microweber-module') {
+            $packageFileDestination = userfiles_path() . '/modules/' . $package['target-dir'] . '/';
         }
 
         if ($type == 'microweber-template') {
-            $packageFileDestination = userfiles_path() .'/templates/'.$package['target-dir'].'/';
+            $packageFileDestination = userfiles_path() . '/templates/' . $package['target-dir'] . '/';
         }
 
         if (!isset($package['unzipped_files_location'])) {
@@ -262,7 +273,7 @@ class MicroweberComposerClient {
 
         $this->_removeFilesFromPath($packageFileDestination); // remove dir
 
-        @rename($package['unzipped_files_location'],$packageFileDestination);
+        @rename($package['unzipped_files_location'], $packageFileDestination);
 
         $moduleName = $package['name'];
         $moduleName = str_replace('microweber-modules/', '', $moduleName);
@@ -276,6 +287,14 @@ class MicroweberComposerClient {
         // app()->update->post_update();
         scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
         scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
+
+
+        mw()->cache_manager->delete('db');
+        mw()->cache_manager->delete('update');
+        mw()->cache_manager->delete('elements');
+
+        mw()->cache_manager->delete('templates');
+        mw()->cache_manager->delete('modules');
 
         return $response;
     }
@@ -342,7 +361,7 @@ class MicroweberComposerClient {
         curl_close($curl);
 
         if ($err) {
-            return ["error"=>"cURL Error #:" . $err];
+            return ["error" => "cURL Error #:" . $err];
         } else {
             $getPackages = json_decode($response, true);
             if (isset($getPackages['packages']) && is_array($getPackages['packages'])) {
