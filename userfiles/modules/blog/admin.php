@@ -70,20 +70,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 }
                             });
 
-                            $('.js-blog-filtering-form').change(function() {
-
-                                var saveOption = {};
-                                saveOption.option_value = $(this).serialize();
-                                saveOption.option_key = 'filtering_by';
-                                saveOption.option_group = '<?php echo $params['id']; ?>';
-
-                                $.post( "<?php echo api_url();?>save_option", saveOption)
-                                .done(function(data) { 
-
-                                });
-
-                            });
-
                         });
                     </script>
 
@@ -93,38 +79,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="card-body">
                                 <strong>Filter by</strong>
 
-                                <?php
-                                $filteringBy = [];
-                                $getFilteringBy = get_option('filtering_by', $params['id']);
+                                <div class="custom-control custom-checkbox mt-3">
+                                    <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $params['id'])): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
+                                    <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
+                                </div>
 
-                                dump($getFilteringBy);
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $params['id'])): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
+                                    <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
+                                </div>
 
-                                if (is_array($getFilteringBy)) {
-                                    $filteringBy = $getFilteringBy;
-                                }
-                                ?>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_custom_fields', $params['id'])): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
+                                    <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
+                                </div>
 
-                                <form method="post" class="js-blog-filtering-form">
-                                    <div class="custom-control custom-checkbox mt-3">
-                                        <input type="checkbox" <?php if (in_array('tags', $filteringBy)): ?>checked="checked"<?php endif; ?> class="custom-control-input" name="filtering_by[tags]" value="1" id="filter_by_tags">
-                                        <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
-                                    </div>
-
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" <?php if (in_array('categories', $filteringBy)): ?>checked="checked"<?php endif; ?> class="custom-control-input" name="filtering_by[categories]" value="1" id="filter_by_categories">
-                                        <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
-                                    </div>
-
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" <?php if (in_array('custom_fields', $filteringBy)): ?>checked="checked"<?php endif; ?> class="custom-control-input" name="filtering_by[custom_fields]" value="1" id="filter_by_custom_fields">
-                                        <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
-                                    </div>
-
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" <?php if (in_array('template_fields', $filteringBy)): ?>checked="checked"<?php endif; ?> class="custom-control-input" name="filtering_by[template_fields]" value="1" id="filter_by_template_fields">
-                                        <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
-                                    </div>
-                                </form>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $params['id'])): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
+                                    <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
+                                </div>
 
                             </div>
                         </div>
