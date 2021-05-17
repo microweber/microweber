@@ -27,7 +27,7 @@
                 }
                 @endphp
 
-                <div class="form-check">
+                <div class="form-check"> 
                     <input class="form-check-input" @if ($checked) checked @endif type="checkbox" name="customFields[{{$filterKey}}][]" value="{{$options['value']}}" id="customFieldFilterCheck{{$options['id']}}">
                     <label class="form-check-label" for="customFieldFilterCheck{{ $options['id'] }}">
                         {{ $options['value'] }}

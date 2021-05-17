@@ -26,7 +26,7 @@ class ContentFilterController
             $queryContent->where('parent', $pageId);
         }
 
-        $getContents = $queryContent->get(); 
+        $getContents = $queryContent->get();
 
         if (!empty($getContents)) {
             foreach ($getContents as $content) {
