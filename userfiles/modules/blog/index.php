@@ -1,6 +1,7 @@
 <?php
 
 $content_from_id = get_option('content_from_id', $params['id']);
+$filtering_the_results = get_option('filtering_the_results', $params['id']);
 
 /*
 $contentQuery = \MicroweberPackages\Content\Content::query();
@@ -33,4 +34,13 @@ if (is_file($template_file) != false) {
 <br />
 <br />
 <br />
+
+<?php
+if ($filtering_the_results):
+?>
+    <module type="content_filter" data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
+<?php
+endif;
+?>
+
 <module type="posts" data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
