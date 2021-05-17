@@ -3,6 +3,7 @@
 namespace MicroweberPackages\ContentFilter\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Content\Content;
 
 class ContentFilterController
 {
@@ -16,23 +17,21 @@ class ContentFilterController
         $pageId = $request->get('content-id');
         $orderBy = $request->get('orderBy','');
         $limit = $request->get('limit','');
-        $priceBetween = $request->get('priceBetween','');
         $customFields = $request->get('customFields','');
 
         $filters = [];
-        $productPrices = [];
-        $queryProduct = \MicroweberPackages\Content\Models\Content::query();
+        $queryContent = Content::query();
 
         if ($pageId > 0) {
-            $queryProduct->where('parent', $pageId);
+            $queryContent->where('parent', $pageId);
         }
 
-        $getProducts = $queryProduct->get();
+        $getContents = $queryContent->get();
 
-        if (!empty($getProducts)) {
-            foreach ($getProducts as $product) {
-                $productPrices[] = $product->price;
-                $productCustomFields = $product->customField()->with('fieldValue')->get();
+        if (!empty($getContents)) {
+            foreach ($getContents as $content) {
+
+                $productCustomFields = $content->customField()->with('fieldValue')->get();
                 foreach ($productCustomFields as $productCustomField) {
                     $customFieldValues = $productCustomField->fieldValue()->get();
                     if (empty($customFieldValues)) {
@@ -47,40 +46,15 @@ class ContentFilterController
                     }
                     $filters[$productCustomField->name_key] = [
                         'type'=>$productCustomField->type,
-                        'name'=>$productCustomField->name,
+                        'name'=>$productCustomField->name, 
                         'options'=>$filterOptions
                     ];
                 }
             }
         }
 
-
-        $productsMinPrice = 0;
-        $productsMaxPrice = 0;
-        if (isset($productPrices[0])) {
-            asort($productPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-            $productsMinPrice = $productPrices[0];
-            $productsMaxPrice = end($productPrices);
-        }
-
-        $getMinPrice = $priceBetween;
-        $getMaxPrice = false;
-        if (strpos($priceBetween, ',') !== false) {
-            $priceRange = explode(',', $priceBetween);
-            $getMinPrice = $priceRange[0];
-            $getMaxPrice = $priceRange[1];
-        }
-
-        $getMinPrice = intval($getMinPrice);
-        $getMaxPrice = intval($getMaxPrice);
-
         return view('contentFilter::index', [
             'currencySymbol'=>mw()->shop_manager->currency_symbol(),
-            'getMinPrice'=>$getMinPrice,
-            'getMaxPrice'=>$getMaxPrice,
-            'priceBetween'=>$priceBetween,
-            'productsMinPriceRounded'=>round($productsMinPrice),
-            'productsMaxPriceRounded'=>round($productsMaxPrice),
             'filters'=>$filters,
             'orderBy'=>$orderBy,
             'customFields'=>$customFields,

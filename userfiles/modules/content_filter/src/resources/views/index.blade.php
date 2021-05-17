@@ -2,7 +2,6 @@
     <form method="get" action="" class="form-horizontal">
         <div class="row">
 
-            @include('contentFilter::filters/price')
             @include('contentFilter::filters/limit')
             @include('contentFilter::filters/order')
 
