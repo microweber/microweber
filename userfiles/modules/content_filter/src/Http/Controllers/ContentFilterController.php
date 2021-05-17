@@ -26,7 +26,7 @@ class ContentFilterController
             $queryContent->where('parent', $pageId);
         }
 
-        $getContents = $queryContent->get();
+        $getContents = $queryContent->get(); 
 
         if (!empty($getContents)) {
             foreach ($getContents as $content) {
@@ -46,7 +46,7 @@ class ContentFilterController
                     }
                     $filters[$productCustomField->name_key] = [
                         'type'=>$productCustomField->type,
-                        'name'=>$productCustomField->name, 
+                        'name'=>$productCustomField->name,
                         'options'=>$filterOptions
                     ];
                 }

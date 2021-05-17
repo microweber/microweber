@@ -38,7 +38,7 @@ if (is_file($template_file) != false) {
 <?php
 if ($filtering_the_results):
 ?>
-    <module type="content_filter" data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
+    <module type="content_filter" content-id="<?php echo $content_from_id; ?>" class="no-settings" />
 <?php
 endif;
 ?>
