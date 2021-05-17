@@ -55,7 +55,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="custom-control custom-switch pl-0">
                             <label class="d-inline-block mr-5" for="filtering_the_results"><?php _e('No'); ?></label>
                             <input class="mw_option_field custom-control-input" id="filtering_the_results" type="checkbox"
-                                   autocomplete="off" name="filtering_the_results" <?php if (get_option('filtering_the_results', $params['id']) == 'y'): ?>checked<?php endif; ?> option-group="<?php echo $params['id'];?>" data-value-checked="y" data-value-unchecked="n">
+                                   autocomplete="off" name="filtering_the_results" <?php if (get_option('filtering_the_results', $params['id']) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $params['id'];?>" data-value-checked="1" data-value-unchecked="0">
                             <label class="custom-control-label" for="filtering_the_results"><?php _e('Yes'); ?></label>
                         </div>
                     </div>
@@ -72,8 +72,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     </script>
 
-                    <div class="js-blog-filtering-the-results">
+                    <div class="js-blog-filtering-the-results" <?php if (get_option('filtering_the_results', $params['id']) != '1'): ?>style="display:none"<?php endif; ?>>
 
+                        FILTER
 
                     </div>
 
