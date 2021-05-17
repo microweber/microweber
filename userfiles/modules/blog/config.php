@@ -1,9 +1,7 @@
 <?php
-
 $config = array();
 $config['name'] = "Blog";
 $config['author'] = "Microweber";
-$config['no_cache'] = false;
 $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['is_system'] = true;

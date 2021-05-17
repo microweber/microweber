@@ -1,6 +1,5 @@
 <?php
 
-
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
@@ -16,3 +15,4 @@ if (is_file($template_file) != false) {
     include($template_file);
 } else {
     print lnotif("No template found. Please choose template.");
+}
