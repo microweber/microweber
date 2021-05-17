@@ -72,8 +72,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             $('.js-blog-filtering-form').change(function() {
 
-                                $.post( "<?php echo api_url();?>/save_option", $(this).serialize())
-                                .done(function(data) {
+                                var saveOption = {};
+                                saveOption.option_value = $(this).serialize();
+                                saveOption.option_key = 'filtering_by';
+                                saveOption.option_group = '<?php echo $params['id']; ?>';
+
+                                $.post( "<?php echo api_url();?>save_option", saveOption)
+                                .done(function(data) { 
 
                                 });
 
@@ -91,10 +96,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <?php
                                 $filteringBy = [];
                                 $getFilteringBy = get_option('filtering_by', $params['id']);
+
+                                dump($getFilteringBy);
+
                                 if (is_array($getFilteringBy)) {
                                     $filteringBy = $getFilteringBy;
                                 }
-                                dump($filteringBy); 
                                 ?>
 
                                 <form method="post" class="js-blog-filtering-form">
