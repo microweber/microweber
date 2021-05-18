@@ -56,10 +56,12 @@ if (is_file($template_file) != false) {
     <?php if ($filtering_the_results):?>
         <module type="content_filter" enable_sort="<?php echo $sort_the_results; ?>" enable_limit="<?php echo $limit_the_results; ?>"  content-id="<?php echo $content_from_id; ?>" class="no-settings" />
     <?php endif; ?>
+<!--
+     <module type="posts" <?php /*if ($limit): */?>limit="<?php /*echo $limit; */?>"<?php /*endif;*/?> data-page-id="<?php /*echo $content_from_id; */?>" class="no-settings" />
+-->
+        <?php echo $content_from_id; ?>
 
-    <module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
-
-    <module type="pagination" />
+        <module type="pagination" />
 
     </div>
 </section>
