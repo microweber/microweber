@@ -17,7 +17,7 @@ mw.dropables = {
         mw.dropable.show = function(){
             return mw.$(this).removeClass('mw_dropable_hidden');
         };
-        mw.dropable.hide()
+        mw.dropable.hide();
     },
     userInteractionClasses:function(){
         var bgHolders = document.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");

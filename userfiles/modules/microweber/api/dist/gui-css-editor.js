@@ -4454,6 +4454,7 @@ mw.emitter = {
              var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
             mw.require('tree.js')
             $.getJSON(url, function (res){
+
                 scope.tree = new mw.tree({
                     data: res,
                     element: treeEl,
@@ -4461,6 +4462,10 @@ mw.emitter = {
                     selectable: true,
                     singleSelect: true
                 });
+                var dialog = mw.dialog.get(treeEl);
+                if(dialog) {
+                    dialog.center();
+                }
                 scope.tree.on("selectionChange", function(selection){
                     if (textField && selection && selection[0]) {
                         textField.value = selection[0].title;
@@ -4469,8 +4474,6 @@ mw.emitter = {
                         scope._onChange.forEach(function (f){
                             f(scope.getValue());
                         });
-
-
                     }
                 });
             });
@@ -5097,7 +5100,12 @@ mw.tags = mw.chips = function(options){
     options.size = options.size || 'sm';
 
     this.options = options;
-    this.options.map = this.options.map || { title: 'title', value: 'id', image: 'image', icon: 'icon' };
+    this.options.map = this.options.map || {
+        title: 'title',
+        value: 'id',
+        image: 'image',
+        icon: 'icon'
+    };
     this.map = this.options.map;
     var scope = this;
     /*
@@ -5251,7 +5259,9 @@ mw.tags = mw.chips = function(options){
         }
         var i = 0, curr = first;
         var _findIndex = function (tag) {
-            return tag[id].toLowerCase() === curr[id].toLowerCase();
+            var tagId = isNaN(tag[id]) ? tag[id].toLowerCase() : tag[id];
+            var currId = isNaN(curr[id]) ? curr[id].toLowerCase() : curr[id];
+            return tagId == currId;
         };
         while (curr) {
             if (this.options.data.findIndex(_findIndex) === i) {

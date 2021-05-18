@@ -306,7 +306,7 @@ mw.ElementAnalyzer = function(options){
         getBlockElements:function(selector, root){
             root = root || document.body;
             selector = selector || '*';
-            var all = root.querySelectorAll(selector), i = 0; final = [];
+            var all = root.querySelectorAll(selector), i = 0, final = [];
             for( ; i<all.length; i++){
                 if(this.scope.helpers.isBlockLevel(all[i])){
                     final.push(all[i])
@@ -317,7 +317,7 @@ mw.ElementAnalyzer = function(options){
         getElementsLike:function(selector, root){
             root = root || document.body;
             selector = selector || '*';
-            var all = root.querySelectorAll(selector), i = 0; final = [];
+            var all = root.querySelectorAll(selector), i = 0, final = [];
             for( ; i<all.length; i++){
                 if(!this.scope.helpers.isColLike(all[i]) &&
                     !this.scope.helpers.isRowLike(all[i]) &&

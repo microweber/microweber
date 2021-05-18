@@ -37,5 +37,14 @@
     "build": "webpack --mode=development && gulp mwui",
     "dev": "webpack --watch --mode=development && gulp watch",
     "prod": "webpack --mode=production"
-  }
+  },
+    "jshintConfig": {
+        "undef": true,
+        "unused": true,
+        "esversion": 6,
+        "globals": {
+            "mw": true,
+            "$": true
+        }
+    }
 }

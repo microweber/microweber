@@ -1,7 +1,4 @@
-/* jshint esversion: 6 */
-/* globals: mw */
-
-export const GetPointerTargets = function (options) {
+export const GetPointerTargets = (options) => {
 
     options = options || {};
 
