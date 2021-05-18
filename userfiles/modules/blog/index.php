@@ -3,6 +3,11 @@
 $content_from_id = get_option('content_from_id', $params['id']);
 $filtering_the_results = get_option('filtering_the_results', $params['id']);
 
+$limit = 10;
+if (isset($_GET['limit'])) {
+    $limit = (int) $_GET['limit'];
+}
+
 /*
 $contentQuery = \MicroweberPackages\Content\Content::query();
 $contentQuery->where('parent', $contentFromId);
@@ -43,4 +48,4 @@ if ($filtering_the_results):
 endif;
 ?>
 
-<module type="posts" data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
+<module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
