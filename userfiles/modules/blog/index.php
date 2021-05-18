@@ -2,6 +2,8 @@
 
 $content_from_id = get_option('content_from_id', $params['id']);
 $filtering_the_results = get_option('filtering_the_results', $params['id']);
+$limit_the_results = get_option('limit_the_results', $params['id']);
+$sort_the_results = get_option('sort_the_results', $params['id']);
 
 $limit = 10;
 if (isset($_GET['page'][$content_from_id]['limit'])) {
@@ -45,8 +47,8 @@ if (is_file($template_file) != false) {
     <div class="container">
 
     <?php if ($filtering_the_results):?>
-        <module type="content_filter" enable_sort="0" enable_limit="0"  content-id="<?php echo $content_from_id; ?>" class="no-settings" />
-    <?php endif; ?>
+        <module type="content_filter" enable_sort="<?php echo $sort_the_results; ?>" enable_limit="<?php echo $limit_the_results; ?>"  content-id="<?php echo $content_from_id; ?>" class="no-settings" />
+    <?php endif; ?> 
 
     <module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
 
