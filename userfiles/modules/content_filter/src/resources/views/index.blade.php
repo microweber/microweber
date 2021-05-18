@@ -3,11 +3,11 @@
         <div class="row">
 
             @if ($enableLimit)
-            @include('contentFilter::filters/limit')
+                @include('contentFilter::filters/limit')
             @endif
 
             @if ($enableSort)
-            @include('contentFilter::filters/order')
+                @include('contentFilter::filters/order')
             @endif
 
             @foreach($filters as $filterKey=>$filter)
