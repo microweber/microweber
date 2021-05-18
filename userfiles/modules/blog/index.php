@@ -39,15 +39,27 @@ if (is_file($template_file) != false) {
 <br />
 <br />
 <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<?php
-if ($filtering_the_results):
-?>
+<?php if ($filtering_the_results):?>
     <module type="content_filter" content-id="<?php echo $content_from_id; ?>" class="no-settings" />
-<?php
-endif;
-?>
+<?php endif; ?>
 
 <module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
 
 <module type="pagination" />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
