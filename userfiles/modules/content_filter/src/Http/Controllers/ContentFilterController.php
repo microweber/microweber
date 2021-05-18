@@ -15,7 +15,10 @@ class ContentFilterController
     public function index(Request $request)
     {
         $pageId = $request->get('content-id');
+        $enableSort = $request->get('enable_sort',1);
+        $enableLimit = $request->get('enable_limit',1);
         $pageData = $request->get('page',[]);
+
 
         if (isset($pageData[$pageId])) {
             $pageData = $pageData[$pageId];
@@ -73,6 +76,8 @@ class ContentFilterController
         return view('contentFilter::index', [
             'currencySymbol'=>mw()->shop_manager->currency_symbol(),
             'pageId'=>$pageId,
+            'enableSort'=>$enableSort,
+            'enableLimit'=>$enableLimit,
             'filters'=>$filters,
             'orderBy'=>$orderBy,
             'customFields'=>$customFields,

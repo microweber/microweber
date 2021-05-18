@@ -30,14 +30,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="tab-pane fade show active" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
-
+                    <div class="form-row row">
                     <?php
                     $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
                                 ->where('subtype','dynamic')
                                 ->get();
                     ?>
 
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
                         <select name="content_from_id" option-group="<?php echo $params['id'];?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
                             <?php
@@ -50,8 +50,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </select>
                     </div>
 
-
-                    <div class="form-group">
+                    <div class="form-group col-4">
                         <label class="control-label d-block"><?php echo _e("Pagination", true); ?></label>
                         <div class="custom-control custom-switch pl-0">
                             <label class="d-inline-block mr-5" for="pagination_the_results"><?php _e('No'); ?></label>
@@ -61,7 +60,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-group">
+
+                    <div class="form-group col-4">
+                        <label class="control-label d-block"><?php echo _e("Limit", true); ?></label>
+                        <div class="custom-control custom-switch pl-0">
+                            <label class="d-inline-block mr-5" for="limit_the_results"><?php _e('No'); ?></label>
+                            <input class="mw_option_field custom-control-input" id="limit_the_results" type="checkbox"
+                                   autocomplete="off" name="limit_the_results" <?php if (get_option('limit_the_results', $params['id']) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $params['id'];?>" data-value-checked="1" data-value-unchecked="0">
+                            <label class="custom-control-label" for="limit_the_results"><?php _e('Yes'); ?></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-4">
+                        <label class="control-label d-block"><?php echo _e("Sort", true); ?></label>
+                        <div class="custom-control custom-switch pl-0">
+                            <label class="d-inline-block mr-5" for="sort_the_results"><?php _e('No'); ?></label>
+                            <input class="mw_option_field custom-control-input" id="sort_the_results" type="checkbox"
+                                   autocomplete="off" name="sort_the_results" <?php if (get_option('sort_the_results', $params['id']) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $params['id'];?>" data-value-checked="1" data-value-unchecked="0">
+                            <label class="custom-control-label" for="sort_the_results"><?php _e('Yes'); ?></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12">
                         <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                         <div class="custom-control custom-switch pl-0">
                             <label class="d-inline-block mr-5" for="filtering_the_results"><?php _e('No'); ?></label>
@@ -84,7 +104,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     </script>
 
-                    <div class="js-blog-filtering-the-results" <?php if (get_option('filtering_the_results', $params['id']) != '1'): ?>style="display:none"<?php endif; ?>>
+                    <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('filtering_the_results', $params['id']) != '1'): ?>style="display:none"<?php endif; ?>>
 
                         <div class="card">
                             <div class="card-body">
@@ -114,7 +134,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                     </div>
-
+                    </div>
                 </div>
             </div>
 

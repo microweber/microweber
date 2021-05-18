@@ -7,8 +7,13 @@
             <script type="text/javascript" src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
             <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+            @if ($enableLimit)
             @include('contentFilter::filters/limit')
+            @endif
+
+            @if ($enableSort)
             @include('contentFilter::filters/order')
+            @endif
 
             @foreach($filters as $filterKey=>$filter)
 
@@ -35,7 +40,9 @@
 
                @if ($filter['type'] == 'dropdown' || $filter['type'] == 'radio')
 
+               @if(!empty($filter['options']))
                 <b>{{$filter['name']}}</b>
+                @endif
 
                 @foreach($filter['options'] as $options)
                 @php
