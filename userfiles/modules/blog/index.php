@@ -49,3 +49,5 @@ endif;
 ?>
 
 <module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
+
+<module type="pagination" />
