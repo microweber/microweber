@@ -41,25 +41,16 @@ if (is_file($template_file) != false) {
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<br />
+<section class="section section-filter edit safe-mode nodrop" field="layout-filter-skin-1-" rel="content">
+    <div class="container">
 
-<?php if ($filtering_the_results):?>
-    <module type="content_filter" content-id="<?php echo $content_from_id; ?>" class="no-settings" />
-<?php endif; ?>
+    <?php if ($filtering_the_results):?>
+        <module type="content_filter" content-id="<?php echo $content_from_id; ?>" class="no-settings" />
+    <?php endif; ?>
 
-<module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
+    <module type="posts" <?php if ($limit): ?>limit="<?php echo $limit; ?>"<?php endif;?> data-page-id="<?php echo $content_from_id; ?>" class="no-settings" />
 
-<module type="pagination" />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+    <module type="pagination" />
+
+    </div>
+</section>
