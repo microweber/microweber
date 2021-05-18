@@ -70,10 +70,6 @@ class CheckoutTest extends TestCase
         $data['option_group'] = 'orders';
         $save = save_option($data);
 
-
-
-
-
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'client@microweber.com';
         $checkoutDetails['first_name'] = 'Client';

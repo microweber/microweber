@@ -118,7 +118,7 @@ class DefaultField
 
         $customFieldHtml = $parseView->__toString();
 
-        return $customFieldHtml;
+        return $customFieldHtml; 
     }
 
     public function getTempalteFile()
