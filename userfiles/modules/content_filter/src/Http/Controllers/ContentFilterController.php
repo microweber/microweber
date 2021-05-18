@@ -15,9 +15,20 @@ class ContentFilterController
     public function index(Request $request)
     {
         $pageId = $request->get('content-id');
-        $orderBy = $request->get('orderBy','');
-        $limit = $request->get('limit','');
-        $customFields = $request->get('customFields','');
+        $pageData = $request->get('page',[]);
+
+        $orderBy = '';
+        if (isset($pageData['orderBy'])) {
+            $orderBy = $pageData['orderBy'];
+        }
+        $limit = '';
+        if (isset($pageData['limit'])) {
+            $limit = $pageData['limit'];
+        }
+        $customFields= [];
+        if (isset($pageData['customFields'])) {
+            $customFields = $pageData['customFields'];
+        }
 
         $filters = [];
         $queryContent = Content::query();
@@ -34,9 +45,11 @@ class ContentFilterController
                 $productCustomFields = $content->customField()->with('fieldValue')->get();
                 foreach ($productCustomFields as $productCustomField) {
                     $customFieldValues = $productCustomField->fieldValue()->get();
+
                     if (empty($customFieldValues)) {
                         continue;
                     }
+
                     $filterOptions = [];
                     foreach ($customFieldValues as $customFieldValue) {
                         $filterOptions[] = [
@@ -55,6 +68,7 @@ class ContentFilterController
 
         return view('contentFilter::index', [
             'currencySymbol'=>mw()->shop_manager->currency_symbol(),
+            'pageId'=>$pageId,
             'filters'=>$filters,
             'orderBy'=>$orderBy,
             'customFields'=>$customFields,

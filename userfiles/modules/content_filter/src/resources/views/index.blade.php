@@ -1,6 +1,11 @@
-<div class="js-content-filter">
+<div class="js-content-filter-{{$pageId}}">
     <form method="get" action="" class="form-horizontal">
         <div class="row">
+
+            <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+            <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type="text/javascript" src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
             @include('contentFilter::filters/limit')
             @include('contentFilter::filters/order')
@@ -8,6 +13,24 @@
             @foreach($filters as $filterKey=>$filter)
 
             <div class="col-md-12 pb-3">
+                <b>{{$filter['name']}}</b>
+               @if ($filter['type'] == 'date')
+                    <div class="form-check">
+                        <input type="text" name="page[{{$pageId}}][dateRange]" class="form-control" value="" />
+                    </div>
+                    <script>
+                        $(function() {
+                            $('input[name="page[{{$pageId}}][dateRange]"]').daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true,
+                                minYear: 1901,
+                                maxYear: parseInt(moment().format('YYYY'),10)
+                            }, function(start, end, label) {
+
+                            });
+                        });
+                    </script>
+               @endif
 
                @if ($filter['type'] == 'dropdown' || $filter['type'] == 'radio')
 
@@ -28,7 +51,7 @@
                 @endphp
 
                 <div class="form-check">
-                    <input class="form-check-input" @if ($checked) checked @endif type="checkbox" name="customFields[{{$filterKey}}][]" value="{{$options['value']}}" id="customFieldFilterCheck{{$options['id']}}">
+                    <input class="form-check-input" @if ($checked) checked @endif type="checkbox" name="page[{{$pageId}}][customFields][{{$filterKey}}][]" value="{{$options['value']}}" id="customFieldFilterCheck{{$options['id']}}">
                     <label class="form-check-label" for="customFieldFilterCheck{{ $options['id'] }}">
                         {{ $options['value'] }}
                     </label>
