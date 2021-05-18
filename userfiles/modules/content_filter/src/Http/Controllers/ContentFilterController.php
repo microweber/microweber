@@ -15,7 +15,7 @@ class ContentFilterController
     public function index(Request $request)
     {
         $pageId = $request->get('content-id');
-        $pageData = $request->get('page',[]);
+        $pageData = $request->get('page',[])[$pageId];
 
         $orderBy = '';
         if (isset($pageData['orderBy'])) {
