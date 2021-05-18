@@ -22,6 +22,12 @@ function template_field_size_options()
 		}
 	}
 
+	if ($css_framework == 'bootstrap5') {
+		for ($i = 2; $i <= 12; $i ++) {
+			$options[$i] = 'col-' . $i;
+		}
+	}
+
 	return $options;
 }
 
