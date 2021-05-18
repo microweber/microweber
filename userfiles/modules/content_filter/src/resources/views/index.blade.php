@@ -10,7 +10,7 @@
                 @include('contentFilter::filters/order')
             @endif
 
-            @foreach($filters as $filterKey=>$filter)
+            @foreach($filters as $filterKey=>$filter) 
 
             <div class="col-md-12 pb-3">
                 <b>{{$filter['name']}}</b>
