@@ -16,11 +16,11 @@
                 <b>{{$filter['name']}}</b>
                @if ($filter['type'] == 'date')
                     <div class="form-check">
-                        <input type="text" name="page[{{$pageId}}][dateRange]" class="form-control" value="" />
+                        <input type="text" name="page[{{$pageId}}][customFields][dateRange]" class="form-control" value="" />
                     </div>
                     <script>
                         $(function() {
-                            $('input[name="page[{{$pageId}}][dateRange]"]').daterangepicker({
+                            $('input[name="page[{{$pageId}}][customFields][dateRange]"]').daterangepicker({
                                 singleDatePicker: true,
                                 showDropdowns: true,
                                 minYear: 1901,
