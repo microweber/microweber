@@ -15,8 +15,9 @@
             <div class="col-md-12 pb-3">
                 <b>{{$filter['name']}}</b>
                @if ($filter['type'] == 'date')
+
                     <div class="form-check">
-                        <input type="text" name="page[{{$pageId}}][customFields][dateRange]" class="form-control" value="" />
+                        <input type="text" name="page[{{$pageId}}][customFields][dateRange]" class="form-control" value="@if (!empty($customFields['dateRange'])){{$customFields['dateRange']}}@endif" />
                     </div>
                     <script>
                         $(function() {
