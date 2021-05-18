@@ -14,7 +14,7 @@ class ContentFilterController
      */
     public function index(Request $request)
     {
-        $pageId = $request->get('content-id');
+        $pageId = $request->get('content-id', 'main');
         $enableSort = $request->get('enable_sort',1);
         $enableLimit = $request->get('enable_limit',1);
         $pageData = $request->get('page',[]);
