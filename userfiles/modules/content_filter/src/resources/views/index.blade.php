@@ -2,11 +2,6 @@
     <form method="get" action="" class="form-horizontal">
         <div class="row">
 
-            <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-            <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-            <script type="text/javascript" src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-            <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
             @if ($enableLimit)
             @include('contentFilter::filters/limit')
             @endif
@@ -20,7 +15,6 @@
             <div class="col-md-12 pb-3">
                 <b>{{$filter['name']}}</b>
                @if ($filter['type'] == 'date')
-
                     <div class="form-check">
                         <input type="text" name="page[{{$pageId}}][customFields][dateRange]" class="form-control" value="@if (!empty($customFields['dateRange'])){{$customFields['dateRange']}}@endif" />
                     </div>
@@ -36,6 +30,9 @@
                             });
                         });
                     </script>
+                   @php
+                       $enableDateRangePicker = true;
+                   @endphp
                @endif
 
                @if ($filter['type'] == 'dropdown' || $filter['type'] == 'radio')
@@ -75,4 +72,12 @@
             </div>
         </div>
     </form>
+
+    @if(isset($enableDateRangePicker) && $enableDateRangePicker)
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    @endif
+
 </div>
