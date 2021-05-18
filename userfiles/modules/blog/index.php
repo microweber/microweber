@@ -4,8 +4,8 @@ $content_from_id = get_option('content_from_id', $params['id']);
 $filtering_the_results = get_option('filtering_the_results', $params['id']);
 
 $limit = 10;
-if (isset($_GET['limit'])) {
-    $limit = (int) $_GET['limit'];
+if (isset($_GET['page'][$content_from_id]['limit'])) {
+    $limit = (int) $_GET['page'][$content_from_id]['limit'];
 }
 
 /*
