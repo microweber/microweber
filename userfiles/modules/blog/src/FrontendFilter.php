@@ -78,12 +78,11 @@ class FrontendFilter
     public function apply()
     {
         $limit = \Request::get('limit', false);
-
         if ($limit) {
             $queryParams['limit'] = $limit;
         }
 
-        $this->pagination = $this->model->paginate($limit);
+        $this->pagination = $this->model->paginate($limit)->withQueryString();
 
         return $this;
     }
