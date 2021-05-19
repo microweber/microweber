@@ -14,10 +14,24 @@ class BlogController
      */
     public function index(Request $request)
     {
+        $moduleId = $request->get('id');
+        $contentFromId = get_option('content_from_id', $moduleId);
+        $filteringTheResults = get_option('filtering_the_results', $moduleId);
+        $limitTheResults = get_option('limit_the_results', $moduleId);
+        $sortTheResults = get_option('sort_the_results', $moduleId);
 
+        $contentQuery = \MicroweberPackages\Content\Content::query();
+        $contentQuery->where('parent', $contentFromId);
+        $postResults = $contentQuery->get()->toArray();
 
+        //dd($postResults);
 
-        return 1;
+        return view('blog::index', [
+            'posts'=>$postResults
+        ]);
+    }
+
+    public function maiko() {
 
         $pageId = $request->get('content-id');
         $enableSort = $request->get('enable_sort',1);
