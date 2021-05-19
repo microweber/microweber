@@ -61,9 +61,16 @@ class FrontendFilter
             $buildLink['limit'] = $limit;
             $buildLink = http_build_query($buildLink);
 
+            $isActive = 0;
+            if (\Request::get('limit') == $limit) {
+                $isActive = 1;
+            }
+
             $pageLimit = new \stdClass;
+            $pageLimit->active = $isActive;
             $pageLimit->link = $fullUrl .'?'. $buildLink;
             $pageLimit->name = $limit;
+
             $options[] = $pageLimit;
         }
 
