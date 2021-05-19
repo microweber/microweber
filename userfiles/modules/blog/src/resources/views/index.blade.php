@@ -2,6 +2,7 @@
     <div class="container">
 
 
+
         @foreach($posts as $post)
         <div class="post">
             <h3>{{$post->title}}</h3>
@@ -15,6 +16,10 @@
         @endforeach
 
         {!! $posts->links('pagination::bootstrap-4-flex') !!}
+
+        <p>
+            Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+        </p>
 
     </div>
 </section>

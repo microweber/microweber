@@ -24,6 +24,8 @@ class BlogController
         $contentQuery->where('parent', $contentFromId);
         $contentResults = $contentQuery->paginate(1);
 
+        $contentResults->appends(['sort' => 'id','direction'=>'asc']);
+
         return view('blog::index', [
             'posts'=>$contentResults,
         ]);
