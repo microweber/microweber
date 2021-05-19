@@ -2,7 +2,8 @@
     <div class="container">
 
 
-        @foreach($posts as $post)
+
+        @foreach($posts->items() as $post)
         <div class="post">
             <h3>{{$post->title}}</h3>
             <p>{{$post->content_text}}</p>
@@ -14,7 +15,18 @@
         </div>
         @endforeach
 
-        {!! $posts->links('pagination::bootstrap-4-flex') !!}
+        {!! $posts->pagination() !!}
+
+        {!! $posts->limit(); !!}
+
+        {!! $posts->sort(); !!}
+
+      {{--  {!! $posts->links('blog::sort') !!}
+        {!! $posts->links('blog::limit') !!}--}}
+
+        <p>
+            Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+        </p>
 
     </div>
 </section>
