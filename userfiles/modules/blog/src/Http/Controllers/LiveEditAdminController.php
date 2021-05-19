@@ -10,7 +10,14 @@ class LiveEditAdminController
     {
 
 
-        return view('blog::admin.live_edit', []);
+
+
+
+
+
+        return view('blog::admin.live_edit', [
+            'moduleId'=>$request->get('id')
+        ]);
     }
 
 }
