@@ -1,7 +1,7 @@
 <?php
 
 
-$controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\ContentFilter\Http\Controllers\BlogController::class);
+$controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Blog\Http\Controllers\BlogController::class);
 
 $request = new \Illuminate\Http\Request();
 $request->merge($params);
