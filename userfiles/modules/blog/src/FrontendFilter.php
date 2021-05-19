@@ -3,9 +3,11 @@
 
 namespace MicroweberPackages\Blog;
 
+use Illuminate\Support\Facades\URL;
 
 class FrontendFilter
 {
+    public $queryParams = array();
     protected $pagination;
     protected $model;
 
@@ -36,19 +38,53 @@ class FrontendFilter
 
     public function sort()
     {
-
+        return view('blog::sort');
     }
 
     public function limit()
     {
+        $options =[];
 
+        $pageLimits = [
+            1,
+            2,
+            3,
+            4,
+            5,
+        ];
+
+        $fullUrl = URL::current();
+
+        foreach ($pageLimits as $limit) {
+
+            $buildLink = $this->queryParams;
+            $buildLink['limit'] = $limit;
+            $buildLink = http_build_query($buildLink);
+
+            $pageLimit = new \stdClass;
+            $pageLimit->link = $fullUrl .'?'. $buildLink;
+            $pageLimit->name = $limit;
+            $options[] = $pageLimit;
+        }
+
+        return view('blog::limit',compact('options'));
+    }
+
+    public function results()
+    {
+        return $this->pagination->items();
     }
 
     public function apply()
     {
-        $this->pagination = $this->model->paginate(1);
+        $limit = \Request::get('limit', false);
+
+        if ($limit) {
+            $queryParams['limit'] = $limit;
+        }
+
+        $this->pagination = $this->model->paginate($limit);
 
         return $this;
     }
-
 }
