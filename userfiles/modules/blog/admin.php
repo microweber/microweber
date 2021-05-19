@@ -6,8 +6,16 @@
 
 <?php
 if (isset($params["live_edit"]) and $params["live_edit"]) {
-    include 'admin_live_edit.php';
+
+    $controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Blog\Http\Controllers\LiveEditAdminController::class);
+
+    $request = new \Illuminate\Http\Request();
+    $request->merge($params);
+    $request->merge($_REQUEST);
+
+    echo $controller->index($request);
+
 } else {
-    include 'admin_backend.php';
+
 }
 ?>
