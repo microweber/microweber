@@ -1,4 +1,4 @@
-export class ElementDomNestingService {
+export class DomService {
 
     static firstWithBackgroundImage (node) {
         if (!node) {

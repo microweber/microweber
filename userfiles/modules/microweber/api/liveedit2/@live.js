@@ -6,7 +6,8 @@ import {GetPointerTargets} from "./neighbours";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
 import {Draggable} from "./draggable";
-import "./css/liveedit.scss";
+import {ObjectService} from "./object.service";
+// import "./css/liveedit.scss";
 
 
 export class LiveEdit {
@@ -40,9 +41,9 @@ export class LiveEdit {
             root: document.body
         };
 
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = ObjectService.extend({}, defaults, options);
 
-        var root = this.settings.root;
+        this.root = this.settings.root;
 
         this.elementAnalyzer = new ElementAnalyzer(this.settings);
         this.handles = new Handles({
@@ -50,12 +51,13 @@ export class LiveEdit {
             handleModule: new Handle(),
             handleLayout: new Handle()
         });
+
         this.observe = new GetPointerTargets();
-        this.init();
+         this.init();
     }
 
     init() {
-        mw.element(root).on('mousemove touchmove', function (e) {
+        mw.element(this.root).on('mousemove touchmove', function (e) {
             if (e.pageX % 2 === 0) {
                 var elements = scope.observe.fromPoint(e.pageX, e.pageY);
 

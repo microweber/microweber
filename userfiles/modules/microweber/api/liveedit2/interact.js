@@ -1,6 +1,8 @@
 /* jshint esversion: 6 */
 /* globals: mw */
 
+import {ObjectService} from "./object.service";
+
 export const InteractionService = function (settings, rootNode) {
     this.settings = settings;
 
@@ -38,7 +40,7 @@ var DropIndicator = function (options) {
         template: 'default'
     };
 
-    this.settings = mw.object.extend({}, defaults, options);
+    this.settings = ObjectService.extend({}, defaults, options);
 
     this._indicator = null;
 

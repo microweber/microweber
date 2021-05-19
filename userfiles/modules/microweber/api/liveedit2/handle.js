@@ -1,3 +1,4 @@
+import {ObjectService} from "./object.service";
 
 export const Handle = function (options) {
 
@@ -8,7 +9,7 @@ export const Handle = function (options) {
 
     var scope = this;
 
-    this.settings = mw.object.extend({}, defaults, options);
+    this.settings = ObjectService.extend({}, defaults, options);
 
     var _visible = true;
     var _currentTarget = null;

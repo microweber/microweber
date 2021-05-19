@@ -1,4 +1,7 @@
-export const GetPointerTargets = (options) => {
+import {ObjectService} from './object.service';
+
+export const GetPointerTargets = function(options)  {
+
 
     options = options || {};
 
@@ -8,7 +11,7 @@ export const GetPointerTargets = (options) => {
         document: document
     };
 
-    this.settings = mw.object.extend({}, defaults, options);
+    this.settings = ObjectService.extend({}, defaults, options);
 
     this.document = this.settings.document;
     this.body = this.document.body;

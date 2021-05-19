@@ -1,8 +1,11 @@
+
+import {DomService} from './dom';
+
 export class ElementAnalyzerServiceBase {
 
     constructor(settings) {
         this.settings = settings;
-        this.tools = ElementDomNestingService;
+        this.tools = DomService;
     }
 
     isRow (node) {

@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./userfiles/modules/microweber/api/liveedit2/@live.js":
@@ -7,7 +8,6 @@
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LiveEdit": () => (/* binding */ LiveEdit)
@@ -18,8 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mode_auto__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mode-auto */ "./userfiles/modules/microweber/api/liveedit2/mode-auto.js");
 /* harmony import */ var _handles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./handles */ "./userfiles/modules/microweber/api/liveedit2/handles.js");
 /* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
-/* harmony import */ var _css_liveedit_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./css/liveedit.scss */ "./userfiles/modules/microweber/api/liveedit2/css/liveedit.scss");
-/* harmony import */ var _css_liveedit_scss__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_css_liveedit_scss__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 
 
 
@@ -29,6 +28,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// import "./css/liveedit.scss";
 
 
 class LiveEdit {
@@ -62,9 +62,9 @@ class LiveEdit {
             root: document.body
         };
 
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = _object_service__WEBPACK_IMPORTED_MODULE_6__.ObjectService.extend({}, defaults, options);
 
-        var root = this.settings.root;
+        this.root = this.settings.root;
 
         this.elementAnalyzer = new _element_types__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_4__.Handles({
@@ -72,12 +72,13 @@ class LiveEdit {
             handleModule: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
             handleLayout: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle()
         });
+
         this.observe = new _neighbours__WEBPACK_IMPORTED_MODULE_2__.GetPointerTargets();
-        this.init();
+         this.init();
     }
 
     init() {
-        mw.element(root).on('mousemove touchmove', function (e) {
+        mw.element(this.root).on('mousemove touchmove', function (e) {
             if (e.pageX % 2 === 0) {
                 var elements = scope.observe.fromPoint(e.pageX, e.pageY);
 
@@ -105,13 +106,100 @@ globalThis.LiveEdit = LiveEdit;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/liveedit2/css/liveedit.scss":
-/*!**********************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/css/liveedit.scss ***!
-  \**********************************************************************/
-/***/ (() => {
+/***/ "./userfiles/modules/microweber/api/liveedit2/dom.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/dom.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module parse failed: Unexpected character '@' (1:0)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n> @import \"drop-indicator\";\n| ");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DomService": () => (/* binding */ DomService)
+/* harmony export */ });
+class DomService {
+
+    static firstWithBackgroundImage (node) {
+        if (!node) {
+            return null;
+        }
+        while(node && node.nodeName !== 'BODY') {
+            if (!!node.style.backgroundImage) {
+                return node;
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
+    static hasAnyOfClassesOnNodeOrParent(node, arr) {
+        while (node && node.nodeName !== 'BODY') {
+            let i = 0, l = arr.length;
+            for ( ; i < l ; i++ ) {
+                if (node.classList.has(arr[i])) {
+                    return true;
+                }
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
+    static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.has(arr[0]);
+            const h2 = curr.classList.has(curr, arr[1]);
+            if (h1 && h2) {
+                return false;
+            } else {
+                if (h1) {
+                    return true;
+                } else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return true;
+    }
+
+    static hasAnyOfClasses (node, arr) {
+        if (!node) return;
+        let i = 0, l = arr.length;
+        for (; i < l; i++) {
+            if (node.classList.has(arr[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static parentsOrder (node, arr) {
+        var only_first = [];
+        var obj = {}, l = arr.length, i = 0, count = -1;
+        for (; i < l; i++) {
+            obj[arr[i]] = -1;
+        }
+        if (!node) return obj;
+
+        var curr = node.parentNode;
+        while (curr && curr.nodeName !== 'BODY') {
+            count++;
+            i = 0;
+            for ( ; i < l; i++) {
+                if (curr.classList.includes(arr[i]) && only_first.indexOf(arr[i]) === -1) {
+                    obj[arr[i]] = count;
+                    only_first.push(arr[i]);
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return obj;
+    }
+
+
+}
+
 
 /***/ }),
 
@@ -121,11 +209,14 @@ throw new Error("Module parse failed: Unexpected character '@' (1:0)\nYou may ne
   \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Draggable": () => (/* binding */ Draggable)
 /* harmony export */ });
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
+
+
 const Draggable = function (options) {
     var defaults = {
         handle: null,
@@ -141,7 +232,7 @@ const Draggable = function (options) {
     this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
     this.config = function () {
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
@@ -249,16 +340,19 @@ const Draggable = function (options) {
   \********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ElementAnalyzerServiceBase": () => (/* binding */ ElementAnalyzerServiceBase)
 /* harmony export */ });
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
+
+
 class ElementAnalyzerServiceBase {
 
     constructor(settings) {
         this.settings = settings;
-        this.tools = ElementDomNestingService;
+        this.tools = _dom__WEBPACK_IMPORTED_MODULE_0__.DomService;
     }
 
     isRow (node) {
@@ -312,7 +406,6 @@ class ElementAnalyzerServiceBase {
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DroppableElementAnalyzerService": () => (/* binding */ DroppableElementAnalyzerService),
@@ -403,7 +496,6 @@ const ElementAnalyzer = function (options) {
     this.settings = options;
 
     this.dropableService = new DroppableElementAnalyzerService(this.settings);
-    this.moveService = new ElementAnalyzerService(this.settings);
 
     this.getTargets = function (targets) {
 
@@ -494,11 +586,12 @@ const MenuItems = {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Handle": () => (/* binding */ Handle)
 /* harmony export */ });
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
 
 const Handle = function (options) {
 
@@ -509,7 +602,7 @@ const Handle = function (options) {
 
     var scope = this;
 
-    this.settings = mw.object.extend({}, defaults, options);
+    this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
 
     var _visible = true;
     var _currentTarget = null;
@@ -582,7 +675,6 @@ const Handle = function (options) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Handles": () => (/* binding */ Handles)
@@ -630,7 +722,6 @@ const Handles = function (handles) {
   \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ModeAuto": () => (/* binding */ ModeAuto)
@@ -702,25 +793,28 @@ const ModeAuto = (root, selector, config, domService, dropableService) => {
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "GetPointerTargets": () => (/* binding */ GetPointerTargets)
 /* harmony export */ });
-const GetPointerTargets = (options) => {
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
+
+const GetPointerTargets = function(options)  {
+
 
     options = options || {};
 
-    var scope = undefined;
+    var scope = this;
 
     var defaults = {
         document: document
     };
 
-    undefined.settings = mw.object.extend({}, defaults, options);
+    this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
 
-    undefined.document = undefined.settings.document;
-    undefined.body = undefined.document.body;
+    this.document = this.settings.document;
+    this.body = this.document.body;
 
 
     var distanceMax = 20;
@@ -783,10 +877,10 @@ const GetPointerTargets = (options) => {
         }
         return res;
     };
-    undefined.getParents = getParents;
-    undefined.getBelow = getBelow;
+    this.getParents = getParents;
+    this.getBelow = getBelow;
 
-    undefined.getNeighbours = function (event) {
+    this.getNeighbours = function (event) {
         var target = event.target;
         return [].concat(getParents(target), getAbove(target), getBelow(target), getChildren(target, target));
     };
@@ -818,7 +912,7 @@ const GetPointerTargets = (options) => {
         }
     };
 
-    undefined.fromPoint = function (x, y) {
+    this.fromPoint = function (x, y) {
         var res = [];
         var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
@@ -832,6 +926,50 @@ const GetPointerTargets = (options) => {
 };
 
 
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/object.service.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/object.service.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ObjectService": () => (/* binding */ ObjectService)
+/* harmony export */ });
+class ObjectService {
+    static extend () {
+        const extended = {};
+        let deep = false;
+        let i = 0;
+        const l = arguments.length;
+
+        if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+            deep = arguments[0];
+            i++;
+        }
+        const merge = function (obj) {
+            for ( const prop in obj ) {
+                if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                        extended[prop] = ObjectService.extend( true, extended[prop], obj[prop] );
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+        for ( ; i < l; i++ ) {
+            const obj = arguments[i];
+            merge(obj);
+        }
+        return extended;
+
+    }
+}
 
 
 /***/ })
@@ -862,18 +1000,6 @@ const GetPointerTargets = (options) => {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports

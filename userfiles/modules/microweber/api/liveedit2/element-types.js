@@ -80,7 +80,6 @@ export const ElementAnalyzer = function (options) {
     this.settings = options;
 
     this.dropableService = new DroppableElementAnalyzerService(this.settings);
-    this.moveService = new ElementAnalyzerService(this.settings);
 
     this.getTargets = function (targets) {
 

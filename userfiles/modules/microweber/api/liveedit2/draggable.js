@@ -1,3 +1,6 @@
+
+import {ObjectService} from './object.service';
+
 export const Draggable = function (options) {
     var defaults = {
         handle: null,
@@ -13,7 +16,7 @@ export const Draggable = function (options) {
     this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
     this.config = function () {
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = ObjectService.extend({}, defaults, options);
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
