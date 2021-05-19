@@ -1,5 +1,16 @@
 <?php
 
+
+$controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\ContentFilter\Http\Controllers\BlogController::class);
+
+$request = new \Illuminate\Http\Request();
+$request->merge($params);
+$request->merge($_REQUEST);
+
+echo $controller->index($request);
+
+/*
+
 $content_from_id = get_option('content_from_id', $params['id']);
 $filtering_the_results = get_option('filtering_the_results', $params['id']);
 $limit_the_results = get_option('limit_the_results', $params['id']);
@@ -8,7 +19,7 @@ $sort_the_results = get_option('sort_the_results', $params['id']);
 $limit = 10;
 if (isset($_GET['page'][$content_from_id]['limit'])) {
     $limit = (int) $_GET['page'][$content_from_id]['limit'];
-}
+}*/
 
 /*
 $contentQuery = \MicroweberPackages\Content\Content::query();
@@ -37,17 +48,3 @@ if (is_file($template_file) != false) {
     print lnotif("No template found. Please choose template.");
 }*/
 ?>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<section class="section section-filter edit safe-mode nodrop" field="layout-filter-skin-1-" rel="content">
-    <div class="container">
-
-
-        
-
-    </div>
-</section>
