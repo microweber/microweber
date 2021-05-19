@@ -2,11 +2,13 @@
     <div class="container">
 
 
-        @foreach($posts as $post):
+        @foreach($posts as $post)
         <div class="post">
             <h3>{{$post['title']}}</h3>
-            <p></p>
+            <p>{{$post['content_text']}}</p>
+            <br />
             <small>Posted At:{{$post['posted_at']}}</small>
+            <br />
             <a href="{{site_url($post['url'])}}">View</a>
             <hr />
 

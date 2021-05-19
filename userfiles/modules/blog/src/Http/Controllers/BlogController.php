@@ -22,9 +22,16 @@ class BlogController
 
         $contentQuery = \MicroweberPackages\Content\Content::query();
         $contentQuery->where('parent', $contentFromId);
-        $postResults = $contentQuery->get()->toArray();
+        $contentResults = $contentQuery->get()->toArray();
 
-        //dd($postResults);
+        $postResults = [];
+        foreach ($contentResults as $content) {
+
+            $content['content_text'] = strip_tags($content['content']);
+
+            $postResults[] = $content;
+        }
+
 
         return view('blog::index', [
             'posts'=>$postResults
