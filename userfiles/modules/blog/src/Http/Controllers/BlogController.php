@@ -4,6 +4,7 @@ namespace MicroweberPackages\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Post\Models\Post;
 
 class BlogController
 {
@@ -16,18 +17,16 @@ class BlogController
     {
         $moduleId = $request->get('id');
         $contentFromId = get_option('content_from_id', $moduleId);
-        $filteringTheResults = get_option('filtering_the_results', $moduleId);
-        $limitTheResults = get_option('limit_the_results', $moduleId);
-        $sortTheResults = get_option('sort_the_results', $moduleId);
+      //  $filteringTheResults = get_option('filtering_the_results', $moduleId);
+       // $limitTheResults = get_option('limit_the_results', $moduleId);
+       // $sortTheResults = get_option('sort_the_results', $moduleId);
 
-        $contentQuery = \MicroweberPackages\Content\Content::query();
-        $contentQuery->where('parent', $contentFromId);
-        $contentResults = $contentQuery->paginate(1);
-
-        $contentResults->appends(['sort' => 'id','direction'=>'asc']);
+        $postQuery = Post::query();
+        $postQuery->where('parent', $contentFromId);
+        $postResults = $postQuery->frontendFilter();
 
         return view('blog::index', [
-            'posts'=>$contentResults,
+            'posts'=>$postResults,
         ]);
     }
 
