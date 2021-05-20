@@ -23,6 +23,12 @@ class BlogController
 
         $postQuery = Post::query();
         $postQuery->where('parent', $contentFromId);
+
+        $search = $request->get('search');
+        if (!empty($search)) {
+            $postQuery->whereLike(['title'], $search);
+        }
+
         $postResults = $postQuery->frontendFilter();
 
         return view('blog::index', [
