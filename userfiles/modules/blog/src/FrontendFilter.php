@@ -61,13 +61,18 @@ class FrontendFilter
         foreach($this->model->sortable as $field) {
             foreach($directions as $direction=>$directionName) {
 
+                $isActive = 0;
+                if ((\Request::get('order') == $direction) && \Request::get('sort') == $field) {
+                    $isActive = 1;
+                }
+
                 $buildLink = $this->queryParams;
                 $buildLink['sort'] = $field;
                 $buildLink['order'] = $direction;
                 $buildLink = http_build_query($buildLink);
 
                 $pageSort = new \stdClass;
-                $pageSort->active = 0;
+                $pageSort->active = $isActive;
                 $pageSort->link = $fullUrl . '?' . $buildLink;
                 $pageSort->name = '' . $field .' '. $directionName;
 
@@ -154,7 +159,12 @@ class FrontendFilter
         // Sort & Order
         $sort = \Request::get('sort', false);
         $order = \Request::get('order', false);
+
         if ($sort && $order) {
+
+            $this->queryParams['sort'] = $sort;
+            $this->queryParams['order'] = $order;
+
             $this->query->orderBy($sort, $order);
         }
 
