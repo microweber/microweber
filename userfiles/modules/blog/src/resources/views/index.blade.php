@@ -6,7 +6,7 @@
             {!! $posts->tags('blog::partials.tags'); !!}
 
             @if (!empty($_GET))
-            <a href="{{ URL::current() }}" class="btn btn-outline-primary"><?php _e('Reset tags'); ?></a>
+                <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>
             @endif
         </div>
 
