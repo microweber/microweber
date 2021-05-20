@@ -83,6 +83,13 @@ class FrontendFilter
         return view($template,compact('options'));
     }
 
+    public function tags($template = false)
+    {
+        $options = [];
+
+        return view($template, compact('options'));
+    }
+
     public function limit($template = false)
     {
         $options =[];

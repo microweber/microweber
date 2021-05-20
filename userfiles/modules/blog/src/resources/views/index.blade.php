@@ -1,24 +1,22 @@
-<section class="section section-blog edit safe-mode nodrop">
+<section class="section section-blog">
     <div class="container">
     <div class="row">
 
         <div class="col-md-3">
-            <div class="row">
-
-            </div>
+            {!! $posts->tags('blog::partials.tags'); !!}
         </div>
 
         <div class="col-md-9">
 
             <div class="row">
                 <div class="col-md-8">
-                    {!! $posts->search('blog::search'); !!}
+                    {!! $posts->search('blog::partials.search'); !!}
                 </div>
                 <div class="col-md-2 ">
-                    {!! $posts->limit('blog::limit'); !!}
+                    {!! $posts->limit('blog::partials.limit'); !!}
                 </div>
                 <div class="col-md-2">
-                    {!! $posts->sort('blog::sort'); !!}
+                    {!! $posts->sort('blog::partials.sort'); !!}
                 </div>
             </div>
 
