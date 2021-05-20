@@ -85,7 +85,9 @@ class FrontendFilter
         $searchUri['search'] = '';
         $searchUri = $fullUrl . '?'. http_build_query($searchUri);
 
-        return view('blog::search', compact('searchUri'));
+        $search = \Request::get('search', false);
+
+        return view('blog::search', compact('searchUri', 'search'));
     }
 
     public function results()

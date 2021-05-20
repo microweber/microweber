@@ -26,10 +26,10 @@ class BlogController
 
         $search = $request->get('search');
         if (!empty($search)) {
-            $postQuery->whereLike(['title'], $search);
+            $postQuery->where('title','LIKE','%'.$search.'%');
         }
 
-        $postResults = $postQuery->frontendFilter();
+        $postResults = $postQuery->frontendFilter(); 
 
         return view('blog::index', [
             'posts'=>$postResults,
