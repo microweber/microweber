@@ -91,7 +91,7 @@
         ],
         bootstrap5: [
             function () {
-                mw.require(mw.settings.libs_url + 'bootstrap5' + '/bootstrap.min.css');
+                mw.require(mw.settings.libs_url + 'bootstrap5' + '/bootstrap.' + (document.documentElement.dir==='rtl' ? 'rtl.' : '') + 'min.css');
                 mw.require(mw.settings.libs_url + 'bootstrap5' + '/bootstrap.bundle.min.js');
             }
         ],
