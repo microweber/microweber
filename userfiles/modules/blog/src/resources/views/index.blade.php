@@ -1,6 +1,16 @@
 <section class="section section-blog edit safe-mode nodrop">
     <div class="container">
+    <div class="row">
 
+        <div class="col-md-4">
+
+
+            {!! $posts->limit(); !!}
+            {!! $posts->sort(); !!}
+
+        </div>
+
+        <div class="col-md-8">
         @foreach($posts->results() as $post)
 
         <div class="post">
@@ -14,16 +24,14 @@
         </div>
         @endforeach
 
-        {!! $posts->pagination() !!}
+            <p>
+                Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+            </p>
+        </div>
+        <div class="col-md-12">
+            {!! $posts->pagination() !!}
+        </div>
 
-
-        {!! $posts->limit(); !!}
-        {!! $posts->sort(); !!}
-
-
-        <p>
-            Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
-        </p>
-
+    </div>
     </div>
 </section>
