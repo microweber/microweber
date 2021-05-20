@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Blog;
 
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Category\Models\Category;
 
 class FrontendFilter
 {
@@ -83,11 +84,29 @@ class FrontendFilter
         return view($template,compact('options'));
     }
 
+    public function categories($template = false)
+    {
+        $categories = Category::where('parent_id',0)->get();
+
+        return view($template, compact('categories'));
+    }
+
     public function tags($template = false)
     {
-        $options = [];
+        $tags = [];
 
-        return view($template, compact('options'));
+        $query = $this->model::query();
+        $query->with('tagged');
+        $results = $query->get();
+        if (!empty($results)) {
+            foreach($results as $result) {
+                foreach($result->tags as $tag) {
+                    $tags[$tag->slug] = $tag;
+                }
+            }
+        }
+
+        return view($template, compact('tags'));
     }
 
     public function limit($template = false)

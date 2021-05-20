@@ -22,6 +22,7 @@
                         <?php
                         $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
                             ->where('subtype','dynamic')
+                            ->where('is_shop', 0)
                             ->get();
                         ?>
 
