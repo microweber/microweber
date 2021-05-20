@@ -31,10 +31,10 @@ description: Default register template
     </script>
 
     <div id="register_form_holder">
-        <h2  class="text-center p-t-10">
+        <h4  class="text-center pt-3">
             <?php _e('Register new account.'); ?>
-        </h2>
-        <h4 class="text-center p-t-10"><?php _e('We are glad to welcome you in our community.'); ?></h4>
+        </h4>
+        <h6 class="text-center pb-4"><?php _e('We are glad to welcome you in our community.'); ?></h6>
         <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
@@ -53,18 +53,18 @@ description: Default register template
                 <input class="form-control input-lg" type="email" name="email" placeholder="E-mail">
             </div>
 
-            <div class="form-group m-t-20">
+            <div class="form-group">
                 <input class="form-control input-lg" type="password" name="password" placeholder="Password">
             </div>
 
             <?php if ($form_show_password_confirmation): ?>
-                <div class="form-group m-t-20">
+                <div class="form-group">
                     <input class="form-control input-lg" type="password" name="password2" placeholder="<?php _e("Confirm Password"); ?>">
                 </div>
             <?php endif; ?>
 
             <?php if (!$captcha_disabled): ?>
-                <module type="captcha" template="skin-1"/>
+                <module type="captcha"/>
             <?php endif; ?>
 
 
@@ -76,7 +76,7 @@ description: Default register template
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-default btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
+            <button type="submit" class="btn btn-outline-dark btn-lg btn-block my-3 text-center justify-content-center"><?php print $form_btn_title ?></button>
         </form>
     </div>
 <?php else: ?>
