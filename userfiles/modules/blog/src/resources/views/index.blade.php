@@ -1,29 +1,48 @@
 <section class="section section-blog edit safe-mode nodrop">
     <div class="container">
+    <div class="row">
 
-        @foreach($posts->results() as $post)
+        <div class="col-md-3">
+            <div class="row">
 
-        <div class="post">
-            <h3>{{$post->title}}</h3>
-            <p>{{$post->content_text}}</p>
-            <br />
-            <small>Posted At:{{$post->posted_at}}</small>
-            <br />
-            <a href="{{site_url($post->url)}}">View</a>
-            <hr />
+            </div>
         </div>
-        @endforeach
 
-        {!! $posts->pagination() !!}
+        <div class="col-md-9">
 
+            <div class="row">
+                <div class="col-md-8">
+                    {!! $posts->search(); !!}
+                </div>
+                <div class="col-md-2 ">
+                    {!! $posts->limit(); !!}
+                </div>
+                <div class="col-md-2">
+                    {!! $posts->sort(); !!}
+                </div>
+            </div>
 
-        {!! $posts->limit(); !!}
-        {!! $posts->sort(); !!}
+            @foreach($posts->results() as $post)
 
+            <div class="post">
+                <h3>{{$post->title}}</h3>
+                <p>{{$post->content_text}}</p>
+                <br />
+                <small>Posted At:{{$post->posted_at}}</small>
+                <br />
+                <a href="{{site_url($post->url)}}">View</a>
+                <hr />
+            </div>
+            @endforeach
 
-        <p>
-            Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
-        </p>
+            {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
 
+            <br />
+            <p>
+                Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+            </p>
+        </div>
+
+    </div>
     </div>
 </section>
