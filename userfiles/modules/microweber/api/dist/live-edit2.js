@@ -57,7 +57,7 @@ class LiveEdit {
                 '[type="template_settings"]'
             ],
             frameworksClasses: {
-                col: []
+                col: ['col', 'mw-col']
             },
             root: document.body
         };
@@ -78,10 +78,9 @@ class LiveEdit {
     }
 
     init() {
-        mw.element(this.root).on('mousemove touchmove', function (e) {
+        mw.element(this.root).on('mousemove touchmove', (e) => {
             if (e.pageX % 2 === 0) {
-                var elements = scope.observe.fromPoint(e.pageX, e.pageY);
-
+                var elements = this.observe.fromPoint(e.pageX, e.pageY);
             }
          });
     };
