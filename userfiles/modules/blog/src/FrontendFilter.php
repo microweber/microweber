@@ -105,7 +105,7 @@ class FrontendFilter
             foreach($results as $result) {
                 foreach($result->tags as $tag) {
 
-                    if (!isseT($tag->slug)) {
+                    if (!isset($tag->slug)) {
                         continue;
                     }
 
