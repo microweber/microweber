@@ -95,12 +95,24 @@ class FrontendFilter
     {
         $tags = [];
 
+        $fullUrl = URL::current();
+        $category = \Request::get('category');
+
         $query = $this->model::query();
         $query->with('tagged');
         $results = $query->get();
         if (!empty($results)) {
             foreach($results as $result) {
                 foreach($result->tags as $tag) {
+
+                    $buildLink = [];
+                    if (!empty($category)) {
+                        $buildLink['category'] = $category;
+                    }
+                    $buildLink['tags'] = $tag->slug;
+                    $buildLink = http_build_query($buildLink);
+
+                    $tag->url = $fullUrl .'?'. $buildLink;
                     $tags[$tag->slug] = $tag;
                 }
             }
