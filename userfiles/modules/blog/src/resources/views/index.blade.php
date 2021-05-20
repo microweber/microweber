@@ -9,6 +9,8 @@
             {!! $posts->categories('blog::partials.categories'); !!}
 
             @if (!empty($_GET))
+                <br />
+                <br />
                 <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>
             @endif
         </div>
