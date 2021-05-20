@@ -3,7 +3,10 @@
     <div class="row">
 
         <div class="col-md-3">
+
             {!! $posts->tags('blog::partials.tags'); !!}
+
+            {!! $posts->categories('blog::partials.categories'); !!}
 
             @if (!empty($_GET))
                 <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>

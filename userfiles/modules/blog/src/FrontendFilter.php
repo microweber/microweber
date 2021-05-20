@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Blog;
 
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Category\Models\Category;
 
 class FrontendFilter
 {
@@ -81,6 +82,13 @@ class FrontendFilter
         }
 
         return view($template,compact('options'));
+    }
+
+    public function categories($template = false)
+    {
+        $categories = Category::where('parent_id',0)->get();
+
+        return view($template, compact('categories'));
     }
 
     public function tags($template = false)
