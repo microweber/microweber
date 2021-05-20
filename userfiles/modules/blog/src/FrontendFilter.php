@@ -175,6 +175,15 @@ class FrontendFilter
             $this->query->orderBy($sort, $order);
         }
 
+        // Tags
+        $this->query->with('tagged');
+        $tags = \Request::get('tags', false);
+
+        if (!empty($tags)) {
+            $this->queryParams['tags'] = $tags;
+            $this->query->withAllTags($tags);
+        }
+
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 
         return $this;

@@ -30,6 +30,9 @@
                 <br />
                 <a href="{{site_url($post->url)}}">View</a>
                 <hr />
+                @foreach($post->tags as $tag)
+                   <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
+                @endforeach
             </div>
             @endforeach
 
