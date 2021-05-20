@@ -85,9 +85,20 @@ class FrontendFilter
 
     public function tags($template = false)
     {
-        $options = [];
+        $tags = [];
 
-        return view($template, compact('options'));
+        $query = $this->model::query();
+        $query->with('tagged');
+        $results = $query->get();
+        if (!empty($results)) {
+            foreach($results as $result) {
+                foreach($result->tags as $tag) {
+                    $tags[$tag->slug] = $tag;
+                }
+            }
+        }
+
+        return view($template, compact('tags'));
     }
 
     public function limit($template = false)
