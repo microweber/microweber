@@ -5,9 +5,11 @@ namespace MicroweberPackages\Blog;
 
 use Illuminate\Support\Facades\URL;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Page\Models\Page;
 
 class FrontendFilter
 {
+    public $params = array();
     public $queryParams = array();
     protected $pagination;
     protected $query;
@@ -18,6 +20,11 @@ class FrontendFilter
         $this->model = $model;
     }
 
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
+
     public function setQuery($query)
     {
         $this->query = $query;
@@ -25,6 +32,8 @@ class FrontendFilter
 
     public function pagination($theme = false)
     {
+        //$filteringTheResults = get_option('filtering_the_results', $this->params['moduleId']);
+
         return $this->pagination->links($theme);
     }
 
@@ -45,6 +54,10 @@ class FrontendFilter
 
     public function sort($template = false)
     {
+        $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
+        if (!$sortTheResults) {
+            return false;
+        }
 
         if (!isset($this->model->sortable)) {
             return false;
@@ -86,7 +99,10 @@ class FrontendFilter
 
     public function categories($template = false)
     {
-        $categories = Category::where('parent_id',0)->get();
+        $categoryQuery = Category::query();
+        $categoryQuery->where('rel_id', $this->getMainPageId());
+
+        $categories = $categoryQuery->where('parent_id',0)->get();
 
         return view($template, compact('categories'));
     }
@@ -127,6 +143,11 @@ class FrontendFilter
 
     public function limit($template = false)
     {
+        $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
+        if (!$limitTheResults) {
+            return false;
+        }
+
         $options =[];
 
         $pageLimits = [
@@ -179,6 +200,25 @@ class FrontendFilter
         return $this->pagination->items();
     }
 
+    public function getMainPageId()
+    {
+        $contentFromId = get_option('content_from_id', $this->params['moduleId']);
+        if ($contentFromId) {
+            return $contentFromId;
+        }
+
+        $findFirtBlog = Page::where('content_type', 'page')
+            ->where('subtype','dynamic')
+            ->where('is_shop', 0)
+            ->first();
+
+        if ($findFirtBlog) {
+            return $findFirtBlog->id;
+        }
+        
+        return 0;
+    }
+
     public function apply()
     {
         $limit = \Request::get('limit', false);
@@ -191,6 +231,7 @@ class FrontendFilter
             $this->queryParams['page'] = $page;
         }
 
+        $this->query->where('parent', $this->getMainPageId());
 
         // Search
         $search = \Request::get('search');

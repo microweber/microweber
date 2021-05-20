@@ -60,11 +60,12 @@ class Post extends Content
         static::addGlobalScope(new PostScope());
     }
 
-    public function scopeFrontendFilter($query)
+    public function scopeFrontendFilter($query, $params)
     {
         $filter = new FrontendFilter();
         $filter->setModel($this);
         $filter->setQuery($query);
+        $filter->setParams($params);
 
         return $filter->apply();
     }
