@@ -2,7 +2,7 @@
 <label><?php _e('Tags'); ?></label>
     <div class="tags">
 @foreach($tags as $tag)
-    <a href="?tags={{$tag->slug}}">{{$tag->name}}</a>
+    <a href="{{$tag->url}}">{{$tag->name}}</a>
 @endforeach
 </div>
 </div>
