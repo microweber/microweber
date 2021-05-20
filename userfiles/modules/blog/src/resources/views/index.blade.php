@@ -5,7 +5,9 @@
         <div class="col-md-3">
             {!! $posts->tags('blog::partials.tags'); !!}
 
-            <a href="{{ URL::current() }}" class="btn btn-success"><?php _e('Reset tags'); ?></a>
+            @if (!empty($_GET))
+            <a href="{{ URL::current() }}" class="btn btn-outline-primary"><?php _e('Reset tags'); ?></a>
+            @endif
         </div>
 
         <div class="col-md-9">
