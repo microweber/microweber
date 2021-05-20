@@ -16,9 +16,9 @@ class FrontendFilter
         $this->model = $model;
     }
 
-    public function pagination()
+    public function pagination($theme = false)
     {
-        return $this->pagination;
+        return $this->pagination->links($theme);
     }
 
     public function total()
