@@ -215,7 +215,7 @@ class FrontendFilter
         if ($findFirtBlog) {
             return $findFirtBlog->id;
         }
-        
+
         return 0;
     }
 
