@@ -23,6 +23,7 @@ class BlogController
 
         $postQuery = Post::query();
         $postQuery->where('parent', $contentFromId);
+
         $postResults = $postQuery->frontendFilter();
 
         return view('blog::index', [

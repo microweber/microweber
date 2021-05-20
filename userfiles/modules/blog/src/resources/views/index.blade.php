@@ -1,24 +1,22 @@
-<section class="section section-blog edit safe-mode nodrop">
+<section class="section section-blog">
     <div class="container">
     <div class="row">
 
         <div class="col-md-3">
-            <div class="row">
-
-            </div>
+            {!! $posts->tags('blog::partials.tags'); !!}
         </div>
 
         <div class="col-md-9">
 
             <div class="row">
                 <div class="col-md-8">
-                    {!! $posts->search(); !!}
+                    {!! $posts->search('blog::partials.search'); !!}
                 </div>
                 <div class="col-md-2 ">
-                    {!! $posts->limit(); !!}
+                    {!! $posts->limit('blog::partials.limit'); !!}
                 </div>
                 <div class="col-md-2">
-                    {!! $posts->sort(); !!}
+                    {!! $posts->sort('blog::partials.sort'); !!}
                 </div>
             </div>
 
@@ -32,6 +30,9 @@
                 <br />
                 <a href="{{site_url($post->url)}}">View</a>
                 <hr />
+                @foreach($post->tags as $tag)
+                   <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
+                @endforeach
             </div>
             @endforeach
 
@@ -39,7 +40,7 @@
 
             <br />
             <p>
-                Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+                Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
             </p>
         </div>
 

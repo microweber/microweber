@@ -36,6 +36,12 @@ class Post extends Content
 
     public $translatable = ['title','url','description','content','content_body'];
 
+    public $sortable = [
+        'id',
+        'name',
+        'posted_at'
+    ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -54,10 +60,11 @@ class Post extends Content
         static::addGlobalScope(new PostScope());
     }
 
-    public function scopeFrontendFilter()
+    public function scopeFrontendFilter($query)
     {
         $filter = new FrontendFilter();
         $filter->setModel($this);
+        $filter->setQuery($query);
 
         return $filter->apply();
     }

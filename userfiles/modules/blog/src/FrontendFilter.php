@@ -9,11 +9,17 @@ class FrontendFilter
 {
     public $queryParams = array();
     protected $pagination;
+    protected $query;
     protected $model;
 
     public function setModel($model)
     {
         $this->model = $model;
+    }
+
+    public function setQuery($query)
+    {
+        $this->query = $query;
     }
 
     public function pagination($theme = false)
@@ -36,12 +42,55 @@ class FrontendFilter
         return $this->pagination->items();
     }
 
-    public function sort()
+    public function sort($template = false)
     {
-        return view('blog::sort');
+
+        if (!isset($this->model->sortable)) {
+            return false;
+        }
+
+        $options = [];
+
+        $fullUrl = URL::current();
+
+        $directions = [
+          'desc'=>'NEWEST',
+          'asc'=>'OLDEST',
+        ];
+
+        foreach($this->model->sortable as $field) {
+            foreach($directions as $direction=>$directionName) {
+
+                $isActive = 0;
+                if ((\Request::get('order') == $direction) && \Request::get('sort') == $field) {
+                    $isActive = 1;
+                }
+
+                $buildLink = $this->queryParams;
+                $buildLink['sort'] = $field;
+                $buildLink['order'] = $direction;
+                $buildLink = http_build_query($buildLink);
+
+                $pageSort = new \stdClass;
+                $pageSort->active = $isActive;
+                $pageSort->link = $fullUrl . '?' . $buildLink;
+                $pageSort->name = '' . $field .' '. $directionName;
+
+                $options[] = $pageSort;
+            }
+        }
+
+        return view($template,compact('options'));
     }
 
-    public function limit()
+    public function tags($template = false)
+    {
+        $options = [];
+
+        return view($template, compact('options'));
+    }
+
+    public function limit($template = false)
     {
         $options =[];
 
@@ -74,7 +123,7 @@ class FrontendFilter
             $options[] = $pageLimit;
         }
 
-        return view('blog::limit',compact('options'));
+        return view($template, compact('options'));
     }
 
     public function search($template = false)
@@ -85,7 +134,9 @@ class FrontendFilter
         $searchUri['search'] = '';
         $searchUri = $fullUrl . '?'. http_build_query($searchUri);
 
-        return view('blog::search', compact('searchUri'));
+        $search = \Request::get('search', false);
+
+        return view($template, compact('searchUri', 'search'));
     }
 
     public function results()
@@ -105,7 +156,35 @@ class FrontendFilter
             $this->queryParams['page'] = $page;
         }
 
-        $this->pagination = $this->model->paginate($limit)->withQueryString();
+
+        // Search
+        $search = \Request::get('search');
+        if (!empty($search)) {
+            $this->query->where('title','LIKE','%'.$search.'%');
+        }
+
+        // Sort & Order
+        $sort = \Request::get('sort', false);
+        $order = \Request::get('order', false);
+
+        if ($sort && $order) {
+
+            $this->queryParams['sort'] = $sort;
+            $this->queryParams['order'] = $order;
+
+            $this->query->orderBy($sort, $order);
+        }
+
+        // Tags
+        $this->query->with('tagged');
+        $tags = \Request::get('tags', false);
+
+        if (!empty($tags)) {
+            $this->queryParams['tags'] = $tags;
+            $this->query->withAllTags($tags);
+        }
+
+        $this->pagination = $this->query->paginate($limit)->withQueryString();
 
         return $this;
     }
