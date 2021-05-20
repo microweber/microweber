@@ -1,5 +1,5 @@
 @foreach($categories as $category)
-    <ul>
+    <ul style="margin-top:15px;">
         <li>
             <a href="">{{$category->title}}</a>
         </li>
