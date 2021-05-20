@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Login default
+name: Checkout default
 
-description: Login default
+description: Checkout default
 
 */
 

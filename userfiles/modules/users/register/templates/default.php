@@ -34,36 +34,42 @@ description: Default register template
         <h4  class="text-center pt-3">
             <?php _e('Register new account.'); ?>
         </h4>
-        <h6 class="text-center pb-4"><?php _e('We are glad to welcome you in our community.'); ?></h6>
+        <p class="text-center pb-4"><?php _e('We are glad to welcome you in our community.'); ?></p>
         <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
                 <div class="form-group">
+                    <label class="control-label"><?php _e('First Name'); ?></label>
                     <input class="form-control input-lg" type="text" name="first_name" placeholder="<?php _e('First Name'); ?>">
                 </div>
             <?php endif; ?>
 
             <?php if ($form_show_last_name): ?>
                 <div class="form-group">
+                    <label class="control-label"><?php _e('Last Name'); ?></label>
                     <input class="form-control input-lg" type="text" name="last_name" placeholder="<?php _e('Last Name'); ?>">
                 </div>
             <?php endif; ?>
 
             <div class="form-group">
-                <input class="form-control input-lg" type="email" name="email" placeholder="E-mail">
+                <label class="control-label"><?php _e('E-mail'); ?></label>
+                <input class="form-control input-lg" type="email" name="email" placeholder="<?php _e('E-mail'); ?>">
             </div>
 
             <div class="form-group">
-                <input class="form-control input-lg" type="password" name="password" placeholder="Password">
+                <label class="control-label"><?php _e('Password'); ?></label>
+                <input class="form-control input-lg" type="password" name="password" placeholder="<?php _e('Password'); ?>">
             </div>
 
             <?php if ($form_show_password_confirmation): ?>
                 <div class="form-group">
+                    <label class="control-label"><?php _e('Confirm Password'); ?></label>
                     <input class="form-control input-lg" type="password" name="password2" placeholder="<?php _e("Confirm Password"); ?>">
                 </div>
             <?php endif; ?>
 
             <?php if (!$captcha_disabled): ?>
+                <label class="control-label"><?php _e('Security code'); ?></label>
                 <module type="captcha"/>
             <?php endif; ?>
 
@@ -76,7 +82,7 @@ description: Default register template
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-outline-dark btn-lg btn-block my-3 text-center justify-content-center"><?php print $form_btn_title ?></button>
+            <button type="submit" class="btn btn-outline-primary btn-lg btn-block my-3 text-center justify-content-center"><?php print $form_btn_title ?></button>
         </form>
     </div>
 <?php else: ?>
