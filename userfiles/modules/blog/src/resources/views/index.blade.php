@@ -12,13 +12,13 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    {!! $posts->search(); !!}
+                    {!! $posts->search('blog::search'); !!}
                 </div>
                 <div class="col-md-2 ">
-                    {!! $posts->limit(); !!}
+                    {!! $posts->limit('blog::limit'); !!}
                 </div>
                 <div class="col-md-2">
-                    {!! $posts->sort(); !!}
+                    {!! $posts->sort('blog::sort'); !!}
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
 
             <br />
             <p>
-                Displaying {{$posts->count()}} of {{ $posts->total() }} product(s).
+                Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
             </p>
         </div>
 

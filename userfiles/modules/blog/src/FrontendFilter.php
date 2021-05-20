@@ -42,7 +42,7 @@ class FrontendFilter
         return $this->pagination->items();
     }
 
-    public function sort()
+    public function sort($template = false)
     {
 
         if (!isset($this->model->sortable)) {
@@ -80,10 +80,10 @@ class FrontendFilter
             }
         }
 
-        return view('blog::sort',compact('options'));
+        return view($template,compact('options'));
     }
 
-    public function limit()
+    public function limit($template = false)
     {
         $options =[];
 
@@ -116,7 +116,7 @@ class FrontendFilter
             $options[] = $pageLimit;
         }
 
-        return view('blog::limit',compact('options'));
+        return view($template, compact('options'));
     }
 
     public function search($template = false)
@@ -129,7 +129,7 @@ class FrontendFilter
 
         $search = \Request::get('search', false);
 
-        return view('blog::search', compact('searchUri', 'search'));
+        return view($template, compact('searchUri', 'search'));
     }
 
     public function results()
