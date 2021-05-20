@@ -9,11 +9,17 @@ class FrontendFilter
 {
     public $queryParams = array();
     protected $pagination;
+    protected $query;
     protected $model;
 
     public function setModel($model)
     {
         $this->model = $model;
+    }
+
+    public function setQuery($query)
+    {
+        $this->query = $query;
     }
 
     public function pagination($theme = false)
@@ -107,7 +113,12 @@ class FrontendFilter
             $this->queryParams['page'] = $page;
         }
 
-        $this->pagination = $this->model->paginate($limit)->withQueryString();
+        $search = \Request::get('search');
+        if (!empty($search)) {
+            $this->query->where('title','LIKE','%'.$search.'%');
+        }
+
+        $this->pagination = $this->query->paginate($limit)->withQueryString();
 
         return $this;
     }
