@@ -105,6 +105,10 @@ class FrontendFilter
             foreach($results as $result) {
                 foreach($result->tags as $tag) {
 
+                    if (!isseT($tag->slug)) {
+                        continue;
+                    }
+
                     $buildLink = [];
                     if (!empty($category)) {
                         $buildLink['category'] = $category;
