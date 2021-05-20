@@ -77,6 +77,17 @@ class FrontendFilter
         return view('blog::limit',compact('options'));
     }
 
+    public function search($template = false)
+    {
+        $fullUrl = URL::current();
+
+        $searchUri = $this->queryParams;
+        $searchUri['search'] = '';
+        $searchUri = $fullUrl . '?'. http_build_query($searchUri);
+
+        return view('blog::search', compact('searchUri'));
+    }
+
     public function results()
     {
         return $this->pagination->items();
@@ -86,7 +97,12 @@ class FrontendFilter
     {
         $limit = \Request::get('limit', false);
         if ($limit) {
-            $queryParams['limit'] = $limit;
+            $this->queryParams['limit'] = $limit;
+        }
+
+        $page = \Request::get('page', false);
+        if ($page) {
+            $this->queryParams['page'] = $page;
         }
 
         $this->pagination = $this->model->paginate($limit)->withQueryString();

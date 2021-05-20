@@ -3,23 +3,37 @@
     <div class="row">
 
         <div class="col-md-3">
-            {!! $posts->limit(); !!}
-            {!! $posts->sort(); !!}
+            <div class="row">
+
+            </div>
         </div>
 
         <div class="col-md-9">
-        @foreach($posts->results() as $post)
 
-        <div class="post">
-            <h3>{{$post->title}}</h3>
-            <p>{{$post->content_text}}</p>
-            <br />
-            <small>Posted At:{{$post->posted_at}}</small>
-            <br />
-            <a href="{{site_url($post->url)}}">View</a>
-            <hr />
-        </div>
-        @endforeach
+            <div class="row">
+                <div class="col-md-8">
+                    {!! $posts->search(); !!}
+                </div>
+                <div class="col-md-2 ">
+                    {!! $posts->limit(); !!}
+                </div>
+                <div class="col-md-2">
+                    {!! $posts->sort(); !!}
+                </div>
+            </div>
+
+            @foreach($posts->results() as $post)
+
+            <div class="post">
+                <h3>{{$post->title}}</h3>
+                <p>{{$post->content_text}}</p>
+                <br />
+                <small>Posted At:{{$post->posted_at}}</small>
+                <br />
+                <a href="{{site_url($post->url)}}">View</a>
+                <hr />
+            </div>
+            @endforeach
 
             {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
 
