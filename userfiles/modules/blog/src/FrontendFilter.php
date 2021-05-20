@@ -203,6 +203,15 @@ class FrontendFilter
             $this->query->withAllTags($tags);
         }
 
+        // Categories
+        $category = \Request::get('category');
+        if (!empty($category)) {
+            $this->queryParams['category'] = $category;
+            $this->query->whereHas('categoryItems', function ($query) use($category) {
+                $query->where('parent_id', '=', $category);
+            });
+        }
+
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 
         return $this;
