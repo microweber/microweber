@@ -4,6 +4,8 @@
 
         <div class="col-md-3">
             {!! $posts->tags('blog::partials.tags'); !!}
+
+            <a href="{{ URL::current() }}" class="btn btn-success"><?php _e('Reset tags'); ?></a>
         </div>
 
         <div class="col-md-9">
