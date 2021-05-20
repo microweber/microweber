@@ -44,7 +44,38 @@ class FrontendFilter
 
     public function sort()
     {
-        return view('blog::sort');
+
+        if (!isset($this->model->sortable)) {
+            return false;
+        }
+
+        $options = [];
+
+        $fullUrl = URL::current();
+
+        $directions = [
+          'desc'=>'NEWEST',
+          'asc'=>'OLDEST',
+        ];
+
+        foreach($this->model->sortable as $field) {
+            foreach($directions as $direction=>$directionName) {
+
+                $buildLink = $this->queryParams;
+                $buildLink['sort'] = $field;
+                $buildLink['order'] = $direction;
+                $buildLink = http_build_query($buildLink);
+
+                $pageSort = new \stdClass;
+                $pageSort->active = 0;
+                $pageSort->link = $fullUrl . '?' . $buildLink;
+                $pageSort->name = '' . $field .' '. $directionName;
+
+                $options[] = $pageSort;
+            }
+        }
+
+        return view('blog::sort',compact('options'));
     }
 
     public function limit()
@@ -113,9 +144,18 @@ class FrontendFilter
             $this->queryParams['page'] = $page;
         }
 
+
+        // Search
         $search = \Request::get('search');
         if (!empty($search)) {
             $this->query->where('title','LIKE','%'.$search.'%');
+        }
+
+        // Sort & Order
+        $sort = \Request::get('sort', false);
+        $order = \Request::get('order', false);
+        if ($sort && $order) {
+            $this->query->orderBy($sort, $order);
         }
 
         $this->pagination = $this->query->paginate($limit)->withQueryString();

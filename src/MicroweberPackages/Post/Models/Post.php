@@ -36,6 +36,12 @@ class Post extends Content
 
     public $translatable = ['title','url','description','content','content_body'];
 
+    public $sortable = [
+        'id',
+        'name',
+        'posted_at'
+    ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
