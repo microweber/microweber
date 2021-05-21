@@ -336,6 +336,12 @@ class FrontendFilter
 
         $this->buildFilter();
 
+        // filters
+        $filters = \Request::get('filters');
+        if (!empty($filters)) {
+            $this->query->whereCustomField($filters);
+        }
+
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 
         return $this;
