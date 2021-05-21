@@ -270,7 +270,7 @@ class FrontendFilter
 
                     $filterOption->id = $customFieldValue->id;
                     $filterOption->value = $customFieldValue->value;
-                    $filterOptions[$result['customField']->name_key][] = $filterOption;
+                    $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $filterOption;
                 }
             }
             foreach ($this->allCustomFieldsForResults as $result) {
@@ -343,6 +343,7 @@ class FrontendFilter
         // filters
         $filters = \Request::get('filters');
         if (!empty($filters)) {
+            $this->queryParams['filters'] = $filters;
             $this->query->whereCustomField($filters);
         }
 
