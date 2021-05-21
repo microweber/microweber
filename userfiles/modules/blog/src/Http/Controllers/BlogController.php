@@ -16,15 +16,12 @@ class BlogController
     public function index(Request $request)
     {
         $moduleId = $request->get('id');
-        $contentFromId = get_option('content_from_id', $moduleId);
-      //  $filteringTheResults = get_option('filtering_the_results', $moduleId);
-       // $limitTheResults = get_option('limit_the_results', $moduleId);
-       // $sortTheResults = get_option('sort_the_results', $moduleId);
 
         $postQuery = Post::query();
-        $postQuery->where('parent', $contentFromId);
 
-        $postResults = $postQuery->frontendFilter();
+        $postResults = $postQuery->frontendFilter([
+            'moduleId'=>$moduleId
+        ]);
 
         return view('blog::index', [
             'posts'=>$postResults,

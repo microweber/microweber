@@ -31,6 +31,8 @@
 
             @foreach($posts->results() as $post)
 
+            <img src="{{$post->media()->first()->filename}}" alt="" width="400px">
+
             <div class="post">
                 <h3>{{$post->title}}</h3>
                 <p>{{$post->content_text}}</p>
