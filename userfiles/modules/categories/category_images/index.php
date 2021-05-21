@@ -188,7 +188,10 @@ if ($results) {
     if (!empty($cats)) {
 
         usort($cats, function($a, $b) {
-            return $a['position'] - $b['position'];
+            if (isset($a['position']) && isset($b['position'])) {
+                return $a['position'] - $b['position'];
+            }
+            return 0;
         });
 
         foreach ($cats as $k => $cat) {

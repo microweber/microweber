@@ -177,5 +177,3 @@ if ($formHasUpload) {
 if ($template_file != false and is_file($template_file) != false) {
     include($template_file);
 }
-
-//echo 1; die();

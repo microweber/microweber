@@ -22,12 +22,14 @@
                         <?php
                         $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
                             ->where('subtype','dynamic')
+                            ->where('is_shop', 0)
                             ->get();
                         ?>
 
                         <div class="form-group col-12">
                             <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                                <option value=""><?php echo _e("Select", true); ?></option>
                                 <?php
                                 foreach ($pages as $page):
                                     ?>

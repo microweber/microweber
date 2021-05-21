@@ -4505,6 +4505,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     line-height: 28px;
 }
 
+#mw-sidebar-modules-and-layouts-holder  ul{
+    margin: 0;
+    padding:0;
+
+}
 .mw-live-edit-tab-title {
     position: sticky;
     top: 0;
