@@ -75,9 +75,10 @@
 
             @foreach($posts->results() as $post)
 
-            <img src="{{$post->media()->first()->filename}}" alt="" width="400px">
+            <div class="post" style="margin-top:25px;">
 
-            <div class="post">
+                <img src="{{$post->media()->first()->filename}}" alt="" width="400px">
+
                 <h3>{{$post->title}}</h3>
                 <p>{{$post->content_text}}</p>
                 <br />
@@ -93,9 +94,9 @@
                     $resultCustomFields = $post->customField()->with('fieldValue')->get();
                 @endphp
                 @foreach ($resultCustomFields as $resultCustomField)
-                    @if ($resultCustomField->type !== 'date')
+                    {{--@if ($resultCustomField->type !== 'date')
                         @continue
-                    @endif
+                    @endif--}}
                     {{$resultCustomField->name}}:
                     @php
                         $customFieldValues = $resultCustomField->fieldValue()->get();
