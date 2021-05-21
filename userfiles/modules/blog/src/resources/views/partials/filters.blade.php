@@ -8,7 +8,7 @@
 
             @foreach($filter->options as $options)
                 <div class="form-check">
-                    <input class="form-check-input js-filter-option-select" @if ($options->active) checked @endif type="checkbox" name="customFields[{{$filterKey}}][]" value="{{$options->value}}">
+                    <input class="form-check-input js-filter-option-select" @if ($options->active) checked @endif type="checkbox" name="filters[{{$filterKey}}][]" value="{{$options->value}}">
                     <label class="form-check-label">
                         {{ $options->value }}
                     </label>
