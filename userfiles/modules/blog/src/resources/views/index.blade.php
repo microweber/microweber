@@ -2,7 +2,6 @@
     <div class="container">
     <div class="row">
 
-
             <script type="text/javascript">
                 function getUrlAsArray() {
                     let url = window.location.href;
@@ -19,9 +18,11 @@
                     }
                     return request;
                 }
+
                 encodeDataToURL = (data) => {
                     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
                 };
+
                 $(document).ready(function () {
                     $('.js-filter-option-select').change(function () {
                         var redirectFilterUrl = getUrlAsArray();
@@ -86,6 +87,23 @@
                 <hr />
                 @foreach($post->tags as $tag)
                    <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
+                @endforeach
+
+                @php
+                    $resultCustomFields = $post->customField()->with('fieldValue')->get();
+                @endphp
+                @foreach ($resultCustomFields as $resultCustomField)
+                    @if ($resultCustomField->type !== 'date')
+                        @continue
+                    @endif
+                    {{$resultCustomField->name}}:
+                    @php
+                        $customFieldValues = $resultCustomField->fieldValue()->get();
+                    @endphp
+                    @foreach($customFieldValues as $customFieldValue)
+                        {{$customFieldValue->value}};
+                    @endforeach
+
                 @endforeach
             </div>
             @endforeach
