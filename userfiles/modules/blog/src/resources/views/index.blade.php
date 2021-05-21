@@ -2,7 +2,39 @@
     <div class="container">
     <div class="row">
 
-        <div class="col-md-3">
+
+            <script type="text/javascript">
+                function getUrlAsArray() {
+                    let url = window.location.href;
+                    var request = {};
+                    var pairs = url.substring(url.indexOf('?') + 1).split('&');
+                    for (var i = 0; i < pairs.length; i++) {
+                        if(!pairs[i])
+                            continue;
+                        var pair = pairs[i].split('=');
+                        request[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                    }
+                    return request;
+                }
+                encodeDataToURL = (data) => {
+                    return Object
+                        .keys(data)
+                        .map(value => `${value}=${encodeURIComponent(data[value])}`)
+                        .join('&');
+                };
+                $(document).ready(function () {
+                    $('.js-filter-option-select').change(function () {
+                        var redirectFilterUrl = getUrlAsArray();
+                        $.each($(this).serializeArray(), function(k,filter) {
+                            redirectFilterUrl[filter.name] = filter.value;
+                        });
+                        window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+                    });
+                });
+            </script>
+
+
+            <div class="col-md-3">
 
             {!! $posts->tags('blog::partials.tags'); !!}
 

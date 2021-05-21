@@ -249,6 +249,7 @@ class FrontendFilter
             $filterOptions = [];
             foreach ($result['customFieldValues'] as $customFieldValue) {
                 $filterOption = new \stdClass();
+                $filterOption->active = 0;
                 $filterOption->id = $customFieldValue->id;
                 $filterOption->value = $customFieldValue->value;
                 $filterOptions[] = $filterOption;
