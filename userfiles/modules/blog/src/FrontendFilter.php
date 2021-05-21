@@ -243,23 +243,46 @@ class FrontendFilter
 
     public function filters($template = false)
     {
+        $requestFilters = \Request::get('filters', false);
+
         $filters = [];
-        foreach($this->allCustomFieldsForResults as $result) {
 
+        if (!empty($this->allCustomFieldsForResults)) {
             $filterOptions = [];
-            foreach ($result['customFieldValues'] as $customFieldValue) {
-                $filterOption = new \stdClass();
-                $filterOption->id = $customFieldValue->id;
-                $filterOption->value = $customFieldValue->value;
-                $filterOptions[] = $filterOption;
+            foreach ($this->allCustomFieldsForResults as $result) {
+                foreach ($result['customFieldValues'] as $customFieldValue) {
+
+                    $filterOption = new \stdClass();
+                    $filterOption->active = 0;
+
+                    // Mark as active
+                    if (!empty($requestFilters)) {
+                        foreach ($requestFilters as $requestFilterKey => $requestFilterValues) {
+                            if ($requestFilterKey == $result['customField']->name_key) {
+                                foreach ($requestFilterValues as $requestFilterValue) {
+                                    if ($requestFilterValue == $customFieldValue->value) {
+                                        $filterOption->active = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $filterOption->id = $customFieldValue->id;
+                    $filterOption->value = $customFieldValue->value;
+                    $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $filterOption;
+                }
             }
+            foreach ($this->allCustomFieldsForResults as $result) {
+                if (isset($filterOptions[$result['customField']->name_key])) {
+                    $filter = new \stdClass();
+                    $filter->type = $result['customField']->type;
+                    $filter->name = $result['customField']->name;
+                    $filter->options = $filterOptions[$result['customField']->name_key];
 
-            $filter = new \stdClass();
-            $filter->type = $result['customField']->type;
-            $filter->name = $result['customField']->name;
-            $filter->options = $filterOptions;
-
-            $filters[$result['customField']->name_key] = $filter;
+                    $filters[$result['customField']->name_key] = $filter;
+                }
+            }
         }
 
         return view($template, compact( 'filters'));
@@ -316,6 +339,13 @@ class FrontendFilter
         }
 
         $this->buildFilter();
+
+        // filters
+        $filters = \Request::get('filters');
+        if (!empty($filters)) {
+            $this->queryParams['filters'] = $filters;
+            $this->query->whereCustomField($filters);
+        }
 
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 
