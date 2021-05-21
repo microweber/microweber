@@ -1,0 +1,82 @@
+.mw-drop-indicator {
+  position: absolute;
+  pointer-events: none !important;
+  z-index: 1001;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@keyframes mwLiveEditDropIndicatorAnimationUp {
+  0%, 100% {
+    top: 30px;
+    opacity: 1;
+  }
+  50% {
+    top: 40px;
+    opacity: 0.6;
+  }
+}
+@keyframes mwLiveEditDropIndicatorAnimationDown {
+  0%, 100% {
+    top: -30px;
+    opacity: 1;
+  }
+  50% {
+    top: -40px;
+    opacity: 0.6;
+  }
+}
+.mw-drop-indicator-template-default .mw-drop-indicator-pin {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z' /%3E%3C/svg%3E");
+  bottom: 0;
+  transition: transform 0.2s;
+  transform: rotate(180deg);
+  top: 30px;
+  display: inline-block;
+}
+.mw-drop-indicator-template-default .mw-drop-indicator-block {
+  transition: 0.3s;
+  transform: scale(1);
+  pointer-events: none !important;
+  background-color: #111;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  visibility: hidden !important;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-before-bottom .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-block {
+  height: 5px;
+  width: 100%;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-before-bottom .mw-drop-indicator-pin {
+  animation: mwLiveEditDropIndicatorAnimationDown 2s linear infinite;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-pin {
+  animation: mwLiveEditDropIndicatorAnimationUp 2s linear infinite;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-before-left .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-right .mw-drop-indicator-block {
+  width: 5px;
+  height: 100%;
+}
+
+.mw-handle-item {
+  position: absolute;
+  z-index: 9;
+  cursor: grab;
+  border: 2px solid #0a53be;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.mw-handle-item.mw-handle-item-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=live-edit2.css.css.map*/

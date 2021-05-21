@@ -4,6 +4,7 @@
   "devDependencies": {
     "@mdi/font": "^5.9.55",
     "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.2.5",
     "file-loader": "^6.2.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
@@ -15,9 +16,11 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
+    "mini-css-extract-plugin": "^1.6.0",
     "resolve-url-loader": "^3.1.2",
-    "sass": "^1.32.7",
-    "webpack": "^5.3.0",
+    "sass": "^1.33.0",
+    "sass-loader": "^11.1.1",
+    "webpack": "^5.37.1",
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
@@ -38,13 +41,13 @@
     "dev": "webpack --watch --mode=development && gulp watch",
     "prod": "webpack --mode=production"
   },
-    "jshintConfig": {
-        "undef": true,
-        "unused": true,
-        "esversion": 6,
-        "globals": {
-            "mw": true,
-            "$": true
-        }
+  "jshintConfig": {
+    "undef": true,
+    "unused": true,
+    "esversion": 6,
+    "globals": {
+      "mw": true,
+      "$": true
     }
+  }
 }

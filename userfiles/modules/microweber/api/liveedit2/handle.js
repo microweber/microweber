@@ -1,4 +1,5 @@
 import {ObjectService} from "./object.service";
+import {Draggable} from "./draggable";
 
 export const Handle = function (options) {
 
@@ -66,8 +67,11 @@ export const Handle = function (options) {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
 
-        document.body.appendChild(this.wrapper);
+        document.body.appendChild(this.wrapper.get(0));
     };
+
+    this.createWrapper()
+    this.initDraggable()
 
 
 

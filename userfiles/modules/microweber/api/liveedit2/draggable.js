@@ -6,6 +6,7 @@ export const Draggable = function (options) {
         handle: null,
         element: null,
         target: document.body,
+        targetDocument: document,
         helper: true
     };
     var scope = this;

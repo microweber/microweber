@@ -2,109 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./userfiles/modules/microweber/api/liveedit2/@live.js":
-/*!*************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/@live.js ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "LiveEdit": () => (/* binding */ LiveEdit)
-/* harmony export */ });
-/* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
-/* harmony import */ var _handle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handle */ "./userfiles/modules/microweber/api/liveedit2/handle.js");
-/* harmony import */ var _neighbours__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./neighbours */ "./userfiles/modules/microweber/api/liveedit2/neighbours.js");
-/* harmony import */ var _mode_auto__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mode-auto */ "./userfiles/modules/microweber/api/liveedit2/mode-auto.js");
-/* harmony import */ var _handles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./handles */ "./userfiles/modules/microweber/api/liveedit2/handles.js");
-/* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
-/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
-
-
-
-
-
-
-
-
-
-// import "./css/liveedit.scss";
-
-
-class LiveEdit {
-
-    constructor(options) {
-
-        const scope = this;
-        const _e = {};
-        this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-        this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
-
-        var defaults = {
-            elementClass: 'element',
-            backgroundImageHolder: 'background-image-holder',
-            cloneableClass: 'cloneable',
-            editClass: 'edit',
-            moduleClass: 'module',
-            rowClass: 'mw-row',
-            colClass: 'mw-col',
-            safeElementClass: 'safe-element',
-            plainElementClass: 'plain-text',
-            emptyElementClass: 'empty-element',
-            nodrop: 'nodrop',
-            allowDrop: 'allow-drop',
-            unEditableModules: [
-                '[type="template_settings"]'
-            ],
-            frameworksClasses: {
-                col: ['col', 'mw-col']
-            },
-            root: document.body
-        };
-
-        this.settings = _object_service__WEBPACK_IMPORTED_MODULE_6__.ObjectService.extend({}, defaults, options);
-
-        this.root = this.settings.root;
-
-        this.elementAnalyzer = new _element_types__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
-        this.handles = new _handles__WEBPACK_IMPORTED_MODULE_4__.Handles({
-            handleElement: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
-            handleModule: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
-            handleLayout: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle()
-        });
-
-        this.observe = new _neighbours__WEBPACK_IMPORTED_MODULE_2__.GetPointerTargets();
-         this.init();
-    }
-
-    init() {
-        mw.element(this.root).on('mousemove touchmove', (e) => {
-            if (e.pageX % 2 === 0) {
-                var elements = this.observe.fromPoint(e.pageX, e.pageY);
-            }
-         });
-    };
-
-    // action: append, prepend, before, after
-    insertElement (candidate, target, action) {
-        this.dispatch('beforeElementInsert', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementInsert', {candidate: candidate, target: target, action: action});
-    };
-
-    moveElement (candidate, target, action) {
-        this.dispatch('beforeElementMove', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementMove', {candidate: candidate, target: target, action: action});
-    };
-
-}
-
-globalThis.LiveEdit = LiveEdit;
-
-
-/***/ }),
-
 /***/ "./userfiles/modules/microweber/api/liveedit2/dom.js":
 /*!***********************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/dom.js ***!
@@ -221,6 +118,7 @@ const Draggable = function (options) {
         handle: null,
         element: null,
         target: document.body,
+        targetDocument: document,
         helper: true
     };
     var scope = this;
@@ -590,6 +488,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Handle": () => (/* binding */ Handle)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+/* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
+
 
 
 const Handle = function (options) {
@@ -620,7 +520,7 @@ const Handle = function (options) {
     };
 
     this.initDraggable = function () {
-      this.draggable = new Draggable({
+      this.draggable = new _draggable__WEBPACK_IMPORTED_MODULE_1__.Draggable({
           handle: this.wrapper
       });
     };
@@ -658,8 +558,11 @@ const Handle = function (options) {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
 
-        document.body.appendChild(this.wrapper);
+        document.body.appendChild(this.wrapper.get(0));
     };
+
+    this.createWrapper()
+    this.initDraggable()
 
 
 
@@ -683,33 +586,41 @@ const Handles = function (handles) {
     this.handles = handles;
     var scope = this;
 
+    this.get = function (handle) {
+        return this.handles[handle];
+    }
+
+    this.set = function (handle, target){
+        this.get(handle).set(target)
+    }
+
     this.hide = function(handle) {
         if(handle && this.handles[handle]) {
             this.handles[handle].hide();
+        } else {
+            this.each(function (handle){
+                handle.hide()
+            });
         }
-        this.each(function (handle){
-            handle.hide()
-        });
 
     };
     this.show = function(handle) {
-        if(handle && this.handles[handle]) {
+        if (handle && this.handles[handle]) {
             this.handles[handle].show();
+        } else {
+            this.each(function (handle){
+                handle.show();
+            });
         }
-        this.each(function (handle){
-            handle.show();
-        });
-
     };
 
     this.each = function (c) {
         if(!c) return;
         var i;
         for (i in this.handles) {
-            c.call(scope, this.handles[i])
+            c.call(scope, this.handles[i]);
         }
     };
-
 };
 
 
@@ -786,10 +697,54 @@ const ModeAuto = (root, selector, config, domService, dropableService) => {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/liveedit2/neighbours.js":
-/*!******************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/neighbours.js ***!
-  \******************************************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit2/object.service.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/object.service.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ObjectService": () => (/* binding */ ObjectService)
+/* harmony export */ });
+class ObjectService {
+    static extend () {
+        const extended = {};
+        let deep = false;
+        let i = 0;
+        const l = arguments.length;
+
+        if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+            deep = arguments[0];
+            i++;
+        }
+        const merge = function (obj) {
+            for ( const prop in obj ) {
+                if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                        extended[prop] = ObjectService.extend( true, extended[prop], obj[prop] );
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+        for ( ; i < l; i++ ) {
+            const obj = arguments[i];
+            merge(obj);
+        }
+        return extended;
+
+    }
+}
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/pointer.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/pointer.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -927,50 +882,6 @@ const GetPointerTargets = function(options)  {
 
 
 
-/***/ }),
-
-/***/ "./userfiles/modules/microweber/api/liveedit2/object.service.js":
-/*!**********************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/object.service.js ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ObjectService": () => (/* binding */ ObjectService)
-/* harmony export */ });
-class ObjectService {
-    static extend () {
-        const extended = {};
-        let deep = false;
-        let i = 0;
-        const l = arguments.length;
-
-        if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
-            deep = arguments[0];
-            i++;
-        }
-        const merge = function (obj) {
-            for ( const prop in obj ) {
-                if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
-                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
-                        extended[prop] = ObjectService.extend( true, extended[prop], obj[prop] );
-                    } else {
-                        extended[prop] = obj[prop];
-                    }
-                }
-            }
-        };
-        for ( ; i < l; i++ ) {
-            const obj = arguments[i];
-            merge(obj);
-        }
-        return extended;
-
-    }
-}
-
-
 /***/ })
 
 /******/ 	});
@@ -981,8 +892,9 @@ class ObjectService {
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -1028,10 +940,114 @@ class ObjectService {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	// startup
-/******/ 	// Load entry module
-/******/ 	__webpack_require__("./userfiles/modules/microweber/api/liveedit2/@live.js");
-/******/ 	// This entry module used 'exports' so it can't be inlined
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/@live.js ***!
+  \*************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LiveEdit": () => (/* binding */ LiveEdit)
+/* harmony export */ });
+/* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
+/* harmony import */ var _handle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handle */ "./userfiles/modules/microweber/api/liveedit2/handle.js");
+/* harmony import */ var _pointer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pointer */ "./userfiles/modules/microweber/api/liveedit2/pointer.js");
+/* harmony import */ var _mode_auto__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mode-auto */ "./userfiles/modules/microweber/api/liveedit2/mode-auto.js");
+/* harmony import */ var _handles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./handles */ "./userfiles/modules/microweber/api/liveedit2/handles.js");
+/* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
+
+
+
+
+
+
+
+
+// import "./css/liveedit.scss";
+
+
+class LiveEdit {
+
+    constructor(options) {
+
+        const scope = this;
+        const _e = {};
+        this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
+
+        var defaults = {
+            elementClass: 'element',
+            backgroundImageHolder: 'background-image-holder',
+            cloneableClass: 'cloneable',
+            editClass: 'edit',
+            moduleClass: 'module',
+            rowClass: 'mw-row',
+            colClass: 'mw-col',
+            safeElementClass: 'safe-element',
+            plainElementClass: 'plain-text',
+            emptyElementClass: 'empty-element',
+            nodrop: 'nodrop',
+            allowDrop: 'allow-drop',
+            unEditableModules: [
+                '[type="template_settings"]'
+            ],
+            frameworksClasses: {
+                col: ['col', 'mw-col']
+            },
+            root: document.body
+        };
+
+        this.settings = _object_service__WEBPACK_IMPORTED_MODULE_6__.ObjectService.extend({}, defaults, options);
+
+        this.root = this.settings.root;
+
+        this.elementAnalyzer = new _element_types__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
+
+        this.handles = new _handles__WEBPACK_IMPORTED_MODULE_4__.Handles({
+            handleElement: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
+            handleModule: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
+            handleLayout: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle()
+        });
+
+        this.observe = new _pointer__WEBPACK_IMPORTED_MODULE_2__.GetPointerTargets();
+        this.init();
+    }
+
+    init() {
+        mw.element(this.root).on('mousemove touchmove', (e) => {
+            if (e.pageX % 2 === 0) {
+                var elements = this.observe.fromPoint(e.pageX, e.pageY);
+                this.handles.hide();
+                if(elements[0]) {
+                    this.handles.set('handleElement', elements[0])
+                }
+
+            }
+         });
+    };
+
+    // action: append, prepend, before, after
+    insertElement (candidate, target, action) {
+        this.dispatch('beforeElementInsert', {candidate: candidate, target: target, action: action});
+        mw.element(target)[action](candidate);
+        this.dispatch('elementInsert', {candidate: candidate, target: target, action: action});
+    };
+
+    moveElement (candidate, target, action) {
+        this.dispatch('beforeElementMove', {candidate: candidate, target: target, action: action});
+        mw.element(target)[action](candidate);
+        this.dispatch('elementMove', {candidate: candidate, target: target, action: action});
+    };
+
+}
+
+globalThis.LiveEdit = LiveEdit;
+
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=live-edit2.js.map

@@ -2,7 +2,7 @@
 
 import {ElementAnalyzer} from './element-types';
 import {Handle} from "./handle";
-import {GetPointerTargets} from "./neighbours";
+import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
 import {Draggable} from "./draggable";
@@ -46,6 +46,7 @@ export class LiveEdit {
         this.root = this.settings.root;
 
         this.elementAnalyzer = new ElementAnalyzer(this.settings);
+
         this.handles = new Handles({
             handleElement: new Handle(),
             handleModule: new Handle(),
@@ -53,13 +54,18 @@ export class LiveEdit {
         });
 
         this.observe = new GetPointerTargets();
-         this.init();
+        this.init();
     }
 
     init() {
         mw.element(this.root).on('mousemove touchmove', (e) => {
             if (e.pageX % 2 === 0) {
                 var elements = this.observe.fromPoint(e.pageX, e.pageY);
+                this.handles.hide();
+                if(elements[0]) {
+                    this.handles.set('handleElement', elements[0])
+                }
+
             }
          });
     };

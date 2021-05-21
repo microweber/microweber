@@ -13,6 +13,9 @@ const output = `${dir}/dist`;
 const input = `${dir}`;
 const css = `${dir}/../css`;
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+
 
 const core = [
     'tools',
@@ -60,7 +63,9 @@ const config = {
         'site-libs.js': input + '/entrylibs/site-libs.js',
         'liveedit-libs.js': input + '/entrylibs/liveedit.js',
         'admin-libs.js': input + '/entrylibs/admin.js',
+
         'live-edit2.js': `${input}/liveedit2/@live.js`,
+        'live-edit2.css': `${input}/liveedit2/css/liveedit.scss`,
 
         'site.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
         'liveedit.js': [].concat(glob.sync(path.resolve(`${input}/{${liveeditCore.join(',')}}/*.js`)), glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`))),
@@ -82,13 +87,28 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        })
     ],
     output: {
         filename: '[name]',
         path: path.resolve(output)
     },
+    module: {
+        rules: [
 
+            {
+                test: /\.s?css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
+                ]
+            }
+        ]
+    },
 };
 
 module.exports = (env, argv) => {

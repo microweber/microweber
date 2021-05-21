@@ -35,7 +35,7 @@
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
 
-            if (this.settings.encapsulate) {
+            if (this.settings.encapsulate === true) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
                 el.attachShadow({
                     mode: mode
@@ -415,7 +415,11 @@
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else {
+                } else if(this.settings.content instanceof MWElement) {
+                    this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(new MWElement(this.settings.content));
+                }else {
                     var el = this._asdom(options);
 
                     this.nodes = [].slice.call(el.children);

@@ -1,4 +1,6 @@
 /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/gui-css-editor/domtree.js ***!
@@ -308,6 +310,7 @@ mw.DomTree = function (options) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!******************************************************************************!*\
   !*** ./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js ***!
@@ -424,6 +427,7 @@ mw.liveeditCSSEditor = function (config) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!***********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/system-tools/base64.js ***!
@@ -534,6 +538,7 @@ mw.tools.base64 = {
 }
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!****************************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/system-tools/image-tools.js ***!
@@ -846,6 +851,7 @@ mw.image.settings = function () {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!********************************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js ***!
@@ -1068,6 +1074,7 @@ mw.image.settings = function () {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!***********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/colorpicker.js ***!
@@ -1259,6 +1266,7 @@ mw.colorPicker = function (o) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/dialog.js ***!
@@ -1905,6 +1913,7 @@ mw.colorPicker = function (o) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!***********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/elementedit.js ***!
@@ -1976,6 +1985,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/gallery.js ***!
@@ -2116,6 +2126,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!************************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/iframe-tools.js ***!
@@ -2243,6 +2254,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!**********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/responsive.js ***!
@@ -2267,6 +2279,7 @@ mw.responsive = {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/select.js ***!
@@ -2738,6 +2751,7 @@ mw.select = function(options) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/spinner.js ***!
@@ -2823,6 +2837,7 @@ mw.spinner = function(options){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/storage.js ***!
@@ -2900,6 +2915,7 @@ mw.storage.init();
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!***********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/widgets/uiaccordion.js ***!
@@ -3106,6 +3122,7 @@ mw.tabAccordion = function (options, accordion) {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/autocomplete.js ***!
@@ -3379,6 +3396,7 @@ mw.autoComplete = function(options){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!****************************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/block-edit.js ***!
@@ -3554,6 +3572,7 @@ mw.registerComponent('block-edit-editButton', function(el){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*****************************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/control_box.js ***!
@@ -3634,6 +3653,7 @@ mw.controlBox = function(options){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/form-controls.js ***!
@@ -4866,6 +4886,7 @@ mw.emitter = {
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!*****************************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/link-editor.js ***!
@@ -5077,6 +5098,7 @@ mw.require('widgets.css');
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!**********************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/tags.js ***!
@@ -5409,6 +5431,7 @@ mw.treeTags = mw.treeChips = function(options){
 
 })();
 
+// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
 /*!**********************************************************!*\
   !*** ./userfiles/modules/microweber/api/widgets/tree.js ***!

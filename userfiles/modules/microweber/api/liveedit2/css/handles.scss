@@ -1,0 +1,12 @@
+.mw-handle-item{
+    position: absolute;
+    z-index: 9;
+    cursor: grab;
+    border: 2px solid #0a53be;
+    transition: opacity .2s;
+    pointer-events: none;
+    &.mw-handle-item-hidden{
+        opacity: 0;
+        visibility: hidden;
+    }
+}

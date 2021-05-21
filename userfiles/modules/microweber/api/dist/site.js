@@ -6072,12 +6072,20 @@ mw.filePicker = function (options) {
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
                     var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Icon size</label></div>');
-                    var sizeinput = mw.element('<input type="range" min="8" max="200">');
+                    var sizeinput = mw.element('<input class="mw-ui-field" type="number" min="8" max="200">');
+                    var sizeinput2 = mw.element('<input type="range" min="8" max="200">');
                     actionNodes.size = sizeinput;
                     sizeinput.on('input', function () {
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
+                        sizeinput2.val(sizeinput.get(0).value);
                     });
+                    sizeinput2.on('input', function () {
+                        sizeinput.val(sizeinput2.get(0).value);
+                        scope.dispatch('sizeChange', sizeinput.get(0).value);
+                    });
+
                     sizeel.append(sizeinput);
+                    sizeel.append(sizeinput2);
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
@@ -6343,6 +6351,9 @@ mw.filePicker = function (options) {
                 }
                 this._tooltip.style.display = 'block';
             }
+            console.log(target)
+            var size = getComputedStyle(target);
+            $('[type="number"],[type="range"]').val(Number(size.fontSize));
             mw.components._init();
             return this._tooltip;
         };
@@ -9154,7 +9165,7 @@ mw.dropdown = mw.tools.dropdown;
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
 
-            if (this.settings.encapsulate) {
+            if (this.settings.encapsulate === true) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
                 el.attachShadow({
                     mode: mode
@@ -9534,7 +9545,11 @@ mw.dropdown = mw.tools.dropdown;
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else {
+                } else if(this.settings.content instanceof MWElement) {
+                    this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(new MWElement(this.settings.content));
+                }else {
                     var el = this._asdom(options);
 
                     this.nodes = [].slice.call(el.children);
@@ -11952,8 +11967,9 @@ mw.tabs = function (obj, element, model) {
 
 /******/ 	});
 /************************************************************************/
+/******/ 	
 /******/ 	// startup
-/******/ 	// Load entry module
+/******/ 	// Load entry module and return exports
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/@core.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/ajax.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/common.js"]();
@@ -12001,7 +12017,9 @@ mw.tabs = function (obj, element, model) {
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/objects.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tabs.js"]();
+/******/ 	var __webpack_exports__ = {};
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tooltip.js"]();
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=site.js.map
