@@ -6,27 +6,36 @@
             <script type="text/javascript">
                 function getUrlAsArray() {
                     let url = window.location.href;
-                    var request = {};
+                    if (url.indexOf('?') === -1) {
+                        return [];
+                    }
+                    var request = [];
                     var pairs = url.substring(url.indexOf('?') + 1).split('&');
                     for (var i = 0; i < pairs.length; i++) {
                         if(!pairs[i])
                             continue;
                         var pair = pairs[i].split('=');
-                        request[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                        request.push({key:decodeURIComponent(pair[0]), value: decodeURIComponent(pair[1])});
                     }
                     return request;
                 }
                 encodeDataToURL = (data) => {
-                    return Object
-                        .keys(data)
-                        .map(value => `${value}=${encodeURIComponent(data[value])}`)
-                        .join('&');
+                    return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
                 };
                 $(document).ready(function () {
                     $('.js-filter-option-select').change(function () {
                         var redirectFilterUrl = getUrlAsArray();
+                        if (!this.checked) {
+                            var currentElement = this;
+                            for (var i=0; i< redirectFilterUrl.length; i++) {
+                                if ((redirectFilterUrl[i].key === currentElement.name) &&(redirectFilterUrl[i].value === currentElement.value)) {
+                                    redirectFilterUrl.splice(i,1);
+                                    break;
+                                }
+                            }
+                        }
                         $.each($(this).serializeArray(), function(k,filter) {
-                            redirectFilterUrl[filter.name] = filter.value;
+                            redirectFilterUrl.push({key:filter.name, value:filter.value});
                         });
                         window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
                     });
