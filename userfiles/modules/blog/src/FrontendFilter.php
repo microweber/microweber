@@ -9,6 +9,11 @@ use MicroweberPackages\Page\Models\Page;
 
 class FrontendFilter
 {
+
+    public $allCustomFieldsForResults = [];
+    //public $allCategoriesForResults = [];
+    public $allTagsForResults = [];
+
     public $params = array();
     public $queryParams = array();
     protected $pagination;
@@ -114,28 +119,16 @@ class FrontendFilter
         $fullUrl = URL::current();
         $category = \Request::get('category');
 
-        $query = $this->model::query();
-        $query->with('tagged');
-        $results = $query->get();
-        if (!empty($results)) {
-            foreach($results as $result) {
-                foreach($result->tags as $tag) {
-
-                    if (!isset($tag->slug)) {
-                        continue;
-                    }
-
-                    $buildLink = [];
-                    if (!empty($category)) {
-                        $buildLink['category'] = $category;
-                    }
-                    $buildLink['tags'] = $tag->slug;
-                    $buildLink = http_build_query($buildLink);
-
-                    $tag->url = $fullUrl .'?'. $buildLink;
-                    $tags[$tag->slug] = $tag;
-                }
+       foreach ($this->allTagsForResults as $tag) {
+            $buildLink = [];
+            if (!empty($category)) {
+                $buildLink['category'] = $category;
             }
+            $buildLink['tags'] = $tag->slug;
+            $buildLink = http_build_query($buildLink);
+
+            $tag->url = $fullUrl .'?'. $buildLink;
+            $tags[$tag->slug] = $tag;
         }
 
         return view($template, compact('tags'));
@@ -219,6 +212,59 @@ class FrontendFilter
         return 0;
     }
 
+    public function buildFilter()
+    {
+        $query = $this->model::query();
+        $query->with('tagged');
+        $results = $query->get();
+        if (!empty($results)) {
+            foreach ($results as $result) {
+                foreach ($result->tags as $tag) {
+                    if (isset($tag->slug)) {
+                        $this->allTagsForResults[$tag->slug] = $tag;
+                    }
+                }
+
+                $resultCustomFields = $result->customField()->with('fieldValue')->get();
+                foreach ($resultCustomFields as $resultCustomField) {
+                    $customFieldValues = $resultCustomField->fieldValue()->get();
+                    if (!empty($customFieldValues)) {
+                        $this->allCustomFieldsForResults[$resultCustomField->id] = [
+                            'customField'=>$resultCustomField,
+                            'customFieldValues'=>$customFieldValues,
+                        ];
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    public function filters($template = false)
+    {
+        $filters = [];
+        foreach($this->allCustomFieldsForResults as $result) {
+
+            $filterOptions = [];
+            foreach ($result['customFieldValues'] as $customFieldValue) {
+                $filterOption = new \stdClass();
+                $filterOption->id = $customFieldValue->id;
+                $filterOption->value = $customFieldValue->value;
+                $filterOptions[] = $filterOption;
+            }
+
+            $filter = new \stdClass();
+            $filter->type = $result['customField']->type;
+            $filter->name = $result['customField']->name;
+            $filter->options = $filterOptions;
+
+            $filters[$result['customField']->name_key] = $filter;
+        }
+
+        return view($template, compact( 'filters'));
+    }
+
     public function apply()
     {
         $limit = \Request::get('limit', false);
@@ -268,6 +314,8 @@ class FrontendFilter
                 $query->where('parent_id', '=', $category);
             });
         }
+
+        $this->buildFilter();
 
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 

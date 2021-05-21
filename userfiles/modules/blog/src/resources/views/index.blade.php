@@ -8,6 +8,8 @@
 
             {!! $posts->categories('blog::partials.categories'); !!}
 
+            {!! $posts->filters('blog::partials.filters'); !!}
+
             @if (!empty($_GET))
                 <br />
                 <br />
