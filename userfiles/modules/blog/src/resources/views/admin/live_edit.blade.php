@@ -1,4 +1,6 @@
-
+<script type="text/javascript">
+    mw.top().dialog.get().resize(1000);
+</script>
 <div class="card style-1 mb-3 card-in-live-edit">
     <div class="card-header">
         <?php $module_info = module_info('blog/admin'); ?>
@@ -41,7 +43,8 @@
                         </div>
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Pagination", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="pagination_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="pagination_the_results" type="checkbox"
@@ -52,7 +55,8 @@
 
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Limit", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="limit_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="limit_the_results" type="checkbox"
@@ -62,7 +66,8 @@
                         </div>
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Sort", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="sort_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="sort_the_results" type="checkbox"
@@ -136,6 +141,9 @@
                                                         class="mw_option_field custom-control-input" name="{{$customFieldOptionName}}" value="1" id="{{$customFieldOptionName}}">
                                                         <label class="custom-control-label" for="{{$customFieldOptionName}}">{{ucfirst($customFieldName)}}</label>
                                                     </div>
+
+
+
                                                 @endforeach
                                             </duv>
                                         </div>
