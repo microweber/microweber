@@ -129,24 +129,45 @@
                                     </div>
 
                                     <div class="js-filterting-custom-fields-settings">
-                                        <div class="card mb-3">
-                                            <duv class="card-body">
-                                                @foreach($customFieldNames as $customFieldKey=>$customFieldName)
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td><?php _e("Control"); ?></td>
+                                                <td><?php _e("Enable"); ?></td>
+                                               {{-- <td><?php _e("Order"); ?></td>--}}
+                                            </tr>
+                                            </thead>
 
+                                        @foreach($customFieldNames as $customFieldKey=>$customFieldName)
+                                            <tr>
+                                                <td>{{ucfirst($customFieldName)}}</td>
+
+                                                <td>
+                                                    <select class="form-control" name="">
+                                                        <option value="check_box"><?php _e("Checkbox"); ?></option>
+                                                        <option value="radio_button"><?php _e("Radio button"); ?></option>
+                                                        <option value="select_box"><?php _e("Selectbox"); ?></option>
+                                                        <option value="slider"><?php _e("Slider"); ?></option>
+                                                        <option value="square_checkbox"><?php _e("Square checkbox"); ?></option>
+                                                        <option value="color"><?php _e("Color"); ?></option>
+                                                    </select>
+                                                </td>
+                                                <td>
                                                     @php
                                                         $customFieldOptionName = 'filtering_by_custom_fields_' . $customFieldKey;
                                                     @endphp
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?>
-                                                        class="mw_option_field custom-control-input" name="{{$customFieldOptionName}}" value="1" id="{{$customFieldOptionName}}">
-                                                        <label class="custom-control-label" for="{{$customFieldOptionName}}">{{ucfirst($customFieldName)}}</label>
+                                                    <div class="custom-control custom-switch pl-0">
+                                                        <label class="d-inline-block mr-5" for="{{$customFieldOptionName}}"></label>
+                                                        <input type="checkbox"  <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?> name="{{$customFieldOptionName}}" data-value-checked="1" data-value-unchecked="0" id="{{$customFieldOptionName}}" class="mw_option_field custom-control-input">
+                                                        <label class="custom-control-label" for="{{$customFieldOptionName}}"></label>
                                                     </div>
+                                                </td>
+                                               {{-- <td></td>--}}
+                                            </tr>
+                                        @endforeach
 
-
-
-                                                @endforeach
-                                            </duv>
-                                        </div>
+                                        </table>
                                     </div>
 
                                  {{--   <div class="custom-control custom-checkbox">
