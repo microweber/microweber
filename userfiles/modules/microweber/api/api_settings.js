@@ -159,6 +159,12 @@
                 mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
             }
         ],
+        air_datepicker: [
+            function () {
+                mw.require(mw.settings.libs_url + 'air-datepicker' + '/css/datepicker.min.css', true);
+                mw.require(mw.settings.libs_url + 'air-datepicker' + '/js/datepicker.min.js', true);
+            }
+        ],
         bootstrap_datepicker: [
             function () {
                 mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/css/bootstrap-datepicker3.css', true);
