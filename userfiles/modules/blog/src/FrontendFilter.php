@@ -241,6 +241,12 @@ class FrontendFilter
 
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
+
+                    $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
+                    if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
+                        continue;
+                    }
+
                     $customFieldValues = $resultCustomField->fieldValue()->get();
                     if (!empty($customFieldValues)) {
                         $this->allCustomFieldsForResults[$resultCustomField->id] = [
