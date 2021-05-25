@@ -104,6 +104,11 @@ class FrontendFilter
 
     public function categories($template = false)
     {
+        $show = get_option('filtering_by_categories', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $categoryQuery = Category::query();
         $categoryQuery->where('rel_id', $this->getMainPageId());
 
@@ -114,6 +119,12 @@ class FrontendFilter
 
     public function tags($template = false)
     {
+
+        $show = get_option('filtering_by_tags', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $tags = [];
 
         $fullUrl = URL::current();
@@ -246,6 +257,12 @@ class FrontendFilter
 
     public function filters($template = false)
     {
+
+        $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $requestFilters = \Request::get('filters', false);
 
         $filters = [];
