@@ -22,7 +22,7 @@
             @foreach($filter->options as $options)
             @endforeach
 
-            <div id="datepicker-xx">x</div>
+            <div id="js-filter-option-datepicker"></div>
 
         @endif
     </div>
@@ -35,15 +35,43 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#datepicker-xx').daterangepicker({
-            container: '#date-range12-container',
-            inline:true,
-            alwaysOpen:true,
-            showDropdowns: true,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'), 10)
-        }, function(start, end, label) {
 
+        $('#js-filter-option-datepicker').datepicker({
+            timepicker: true,
+            range: true,
+            multipleDates: true,
+            multipleDatesSeparator: " - ",
+            onRenderCell: function (d, cellType) {
+                var currentDate = d.getFullYear() + "-"+ d.getMonth()  + "-"+ d.getDate();
+                if (cellType == 'day' && currentDate == '{{\Request::get('from_date', false)}}') {
+                    return {
+                        html: '<div style="background:#20badd2e;border-radius:4px;color:#fff;padding:10px 15px;">'+d.getDate()+'</div>'
+                    }
+                }
+            },
+            onSelect: function (fd, d, picker) {
+                // Do nothing if selection was cleared
+                if (!d) return;
+
+                var dateRange = d[0].getFullYear() + "-"+ d[0].getMonth()  + "-"+ d[0].getDate();
+
+                var redirectFilterUrl = getUrlAsArray();
+
+                var findFromDataRangeKey = false;
+                for (var i=0; i< redirectFilterUrl.length; i++) {
+                    if (redirectFilterUrl[i].key == 'from_date') {
+                        redirectFilterUrl[i].value = dateRange;
+                        findFromDataRangeKey = true;
+                        break;
+                    }
+                }
+
+                if (findFromDataRangeKey === false) {
+                    redirectFilterUrl.push({key: 'from_date', value: dateRange});
+                }
+
+                window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+            }
         });
     });
 </script>
