@@ -13961,7 +13961,8 @@ mw.colorPicker = function (o) {
                     root.html(title);
                 }
                 else {
-                    mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');                }
+                    mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');
+                }
             }
         };
 

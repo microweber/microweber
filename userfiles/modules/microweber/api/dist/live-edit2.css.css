@@ -78,5 +78,15 @@
   opacity: 0;
   visibility: hidden;
 }
+.mw-handle-item .mw-handle-item-handle {
+  width: 30px;
+  height: 30px;
+  background: red;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+}
 
 /*# sourceMappingURL=live-edit2.css.css.map*/

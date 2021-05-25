@@ -2,20 +2,22 @@ import {ObjectService} from './object.service';
 
 export const GetPointerTargets = function(options)  {
 
-
     options = options || {};
 
     var scope = this;
 
     var defaults = {
-        document: document
+
     };
 
     this.settings = ObjectService.extend({}, defaults, options);
 
-    this.document = this.settings.document;
+    if ( this.settings.root.nodeType === 9 ) {
+        this.document = this.settings.root;
+    } else {
+        this.document = this.settings.root.ownerDocument;
+    }
     this.body = this.document.body;
-
 
     var distanceMax = 20;
 

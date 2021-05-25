@@ -21,9 +21,7 @@ export const Draggable = function (options) {
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
-        this.element = mw.element(node).prop('draggable', true).css({
-            userSelect: 'none'
-        }).get(0);
+        this.element = mw.element(node).prop('draggable', true).get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -77,7 +75,6 @@ export const Draggable = function (options) {
 
 
     this.draggable = function () {
-        this.handle.draggable = true;
         mw.element(this.settings.target).on('dragover', function (e) {
             if (scope.isDragging) {
                 scope.dispatch('dragOver', {element: scope.element, event: e});

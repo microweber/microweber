@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-/* globals: mw */
 
 import {ObjectService} from "./object.service";
 

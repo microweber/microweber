@@ -53,7 +53,7 @@ export class LiveEdit {
             handleLayout: new Handle()
         });
 
-        this.observe = new GetPointerTargets();
+        this.observe = new GetPointerTargets(this.settings);
         this.init();
     }
 

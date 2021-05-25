@@ -30,9 +30,11 @@ export const Handle = function (options) {
 
     this.initDraggable = function () {
       this.draggable = new Draggable({
-          handle: this.wrapper
+          handle: this.handle,
+          element: null
       });
     };
+
     this.set = function (target) {
         if (!target) {
             _currentTarget = null;
@@ -50,6 +52,17 @@ export const Handle = function (options) {
         _currentTarget = target;
     };
 
+    this.createHandle = function () {
+        this.handle = mw.element({
+            tag: 'div',
+            props: {
+                className: 'mw-defaults mw-handle-item-handle',
+                contentEditable: false
+            }
+        });
+        this.wrapper.append(this.handle);
+    }
+
     this.createWrapper = function() {
         this.wrapper = mw.element({
             tag: 'div',
@@ -66,12 +79,12 @@ export const Handle = function (options) {
         mw.$(document).on('mouseup', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
-
         document.body.appendChild(this.wrapper.get(0));
     };
 
-    this.createWrapper()
-    this.initDraggable()
+    this.createWrapper();
+    this.initDraggable();
+    this.createHandle();
 
 
 
