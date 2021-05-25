@@ -216,7 +216,7 @@ class FrontendFilter
     {
         $query = $this->model::query();
         $query->with('tagged');
-        $query->where('parent_id', $this->getMainPageId());
+      //  $query->where('parent_id', $this->getMainPageId());
 
         $results = $query->get();
 
