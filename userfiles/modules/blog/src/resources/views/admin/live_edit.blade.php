@@ -132,16 +132,21 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
+                                                <td style="width:40px"></td>
                                                 <td></td>
                                                 <td><?php _e("Control"); ?></td>
                                                 <td><?php _e("Enable"); ?></td>
-                                               {{-- <td><?php _e("Order"); ?></td>--}}
                                             </tr>
                                             </thead>
 
                                         @foreach($customFieldNames as $customFieldKey=>$customFieldName)
-                                            <tr>
-                                                <td>{{ucfirst($customFieldName)}}</td>
+                                            <tr class="js-filter-custom-field-holder vertical-align-middle show-on-hover-root" data-field-custom-field-key="{{$customFieldKey}}">
+                                                <td>
+                                                    <i data-title="<?php _e("Reorder filters"); ?>" data-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
+                                                </td>
+                                                <td>
+                                                    {{ucfirst($customFieldName)}}
+                                                </td>
 
                                                 <td>
                                                     <select class="form-control" name="">
@@ -163,11 +168,52 @@
                                                         <label class="custom-control-label" for="{{$customFieldOptionName}}"></label>
                                                     </div>
                                                 </td>
-                                               {{-- <td></td>--}}
                                             </tr>
                                         @endforeach
-
                                         </table>
+                                        <input type="text" class="js-filtering-custom-fields-ordering">
+
+                                        <script type="text/javascript">
+                                            function encodeObjectToUrl(object)
+                                            {
+                                                var parameters = [];
+                                                for (var property in object) {
+                                                    if (object.hasOwnProperty(property)) {
+                                                        parameters.push(encodeURI(property + '=' + object[property]));
+                                                    }
+                                                }
+
+                                                return parameters.join('&');
+                                            }
+                                            $(document).ready(function () {
+                                                mw.$(".js-filterting-custom-fields-settings").sortable({
+                                                    items: '.js-filter-custom-field-holder',
+                                                    //helper:"clone",
+                                                    axis: 'y',
+                                                    cancel: ".country-id-0",
+                                                    handle: '.js-filter-custom-field-handle-field',
+                                                    update: function () {
+                                                        var obj = {order: []}
+                                                        $(this).find('.js-filter-custom-field-holder').each(function () {
+                                                            var id = this.attributes['data-field-custom-field-key'].nodeValue;
+                                                            obj.order.push(id);
+                                                        });
+                                                        $('.js-filtering-custom-fields-ordering').val(encodeObjectToUrl(obj.order));
+                                                        $('.js-filtering-custom-fields-ordering').trigger('change');
+                                                    },
+                                                    start: function (a, ui) {
+                                                        $(this).height($(this).outerHeight());
+                                                        $(ui.placeholder).height($(ui.item).outerHeight())
+                                                        $(ui.placeholder).width($(ui.item).outerWidth())
+                                                    },
+                                                    stop: function () {
+                                                        mw.$(".js-filterting-custom-fields-settings").height("auto");
+                                                    },
+                                                    scroll: false,
+                                                    placeholder: "custom-field-main-table-placeholder"
+                                                });
+                                            });
+                                        </script>
                                     </div>
 
                                  {{--   <div class="custom-control custom-checkbox">
