@@ -36,6 +36,14 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
+        @php
+            $filters = \Request::get('filters', false);
+            $filtersFromDate = false;
+            if (isset($filters['date'])) {
+                $filtersFromDate = $filters['date'];
+            }
+        @endphp
+
         $('#js-filter-option-datepicker').datepicker({
             timepicker: true,
             range: true,
@@ -43,9 +51,9 @@
             multipleDatesSeparator: " - ",
             onRenderCell: function (d, cellType) {
                 var currentDate = d.getFullYear() + "-"+ d.getMonth()  + "-"+ d.getDate();
-                if (cellType == 'day' && currentDate == '{{\Request::get('from_date', false)}}') {
+                if (cellType == 'day' && currentDate == '{{$filtersFromDate}}') {
                     return {
-                        html: '<div style="background:#20badd2e;border-radius:4px;color:#fff;padding:10px 15px;">'+d.getDate()+'</div>'
+                        html: '<div style="background:#20badd2e;border-radius:4px;color:#fff;padding:10px 11px;">'+d.getDate()+'</div>'
                     }
                 }
             },
@@ -59,7 +67,7 @@
 
                 var findFromDataRangeKey = false;
                 for (var i=0; i< redirectFilterUrl.length; i++) {
-                    if (redirectFilterUrl[i].key == 'from_date') {
+                    if (redirectFilterUrl[i].key == 'filters[date]') {
                         redirectFilterUrl[i].value = dateRange;
                         findFromDataRangeKey = true;
                         break;
@@ -67,7 +75,7 @@
                 }
 
                 if (findFromDataRangeKey === false) {
-                    redirectFilterUrl.push({key: 'from_date', value: dateRange});
+                    redirectFilterUrl.push({key: 'filters[date]', value: dateRange});
                 }
 
                 window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
