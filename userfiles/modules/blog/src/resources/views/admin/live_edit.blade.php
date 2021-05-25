@@ -115,6 +115,24 @@
                                         <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                     </div>
 
+                                    <div class="js-filterting-custom-fields-settings">
+                                        <div class="card mb-3">
+                                            <duv class="card-body">
+                                                @foreach($customFieldNames as $customFieldKey=>$customFieldName)
+
+                                                    @php
+                                                        $customFieldOptionName = 'filtering_by_custom_fields_' . $customFieldKey;
+                                                    @endphp
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?>
+                                                        class="mw_option_field custom-control-input" name="{{$customFieldOptionName}}" value="1" id="{{$customFieldOptionName}}">
+                                                        <label class="custom-control-label" for="{{$customFieldOptionName}}">{{ucfirst($customFieldName)}}</label>
+                                                    </div>
+                                                @endforeach
+                                            </duv>
+                                        </div>
+                                    </div>
+
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
                                         <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
