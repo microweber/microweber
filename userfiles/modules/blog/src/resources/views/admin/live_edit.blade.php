@@ -91,6 +91,14 @@
                                     }
                                 });
 
+                                $('#filter_by_custom_fields').change(function() {
+                                    if ($(this).prop('checked')) {
+                                        $('.js-filterting-custom-fields-settings').fadeIn();
+                                    } else {
+                                        $('.js-filterting-custom-fields-settings').fadeOut();
+                                    }
+                                });
+
                             });
                         </script>
 
