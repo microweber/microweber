@@ -2,7 +2,7 @@
 
     <div class="col-md-12 pb-3">
 
-        @if ($filter->type == 'dropdown' || $filter->type == 'radio')
+        @if ($filter->type == 'dropdown' || $filter->type == 'radio' || $filter->type == 'text')
 
             <b>{{$filter->name}}</b>
 
@@ -35,28 +35,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
-        @php
-            $filters = \Request::get('filters', false);
-            $filtersFromDate = false;
-            if (isset($filters['date'])) {
-                $filtersFromDate = $filters['date'];
-            }
-        @endphp
-
         $('#js-filter-option-datepicker').datepicker({
             timepicker: true,
             range: true,
             multipleDates: true,
             multipleDatesSeparator: " - ",
-            onRenderCell: function (d, cellType) {
+           /* onRenderCell: function (d, cellType) {
                 var currentDate = d.getFullYear() + "-"+ d.getMonth()  + "-"+ d.getDate();
-                if (cellType == 'day' && currentDate == '{{$filtersFromDate}}') {
+                if (cellType == 'day' && currentDate == '') {
                     return {
                         html: '<div style="background:#20badd2e;border-radius:4px;color:#fff;padding:10px 11px;">'+d.getDate()+'</div>'
                     }
                 }
-            },
+            },*/
             onSelect: function (fd, d, picker) {
                 // Do nothing if selection was cleared
                 if (!d) return;
@@ -78,9 +69,21 @@
                     redirectFilterUrl.push({key: 'filters[date]', value: dateRange});
                 }
 
-                window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+               // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
             }
         });
+
+        @php
+            $filters = \Request::get('filters', false);
+            $filtersFromDate = false;
+            if (isset($filters['date'])) {
+                $filtersFromDate = $filters['date'];
+            }
+        @endphp
+
+        @if($filtersFromDate)
+        $('#js-filter-option-datepicker').data('datepicker').selectDate(new Date('{{$filtersFromDate}}'));
+        @endif
     });
 </script>
 
