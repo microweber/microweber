@@ -141,10 +141,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="custom-control custom-checkbox">
+                                 {{--   <div class="custom-control custom-checkbox">
                                         <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
                                         <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
-                                    </div>
+                                    </div>--}}
 
                                 </div>
                             </div>
