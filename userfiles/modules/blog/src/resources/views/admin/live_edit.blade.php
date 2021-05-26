@@ -151,7 +151,7 @@
                                                 <td>
                                                     @php
                                                         $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
-                                                    @endphp 
+                                                    @endphp
                                                     <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
                                                         <option value="check_box" <?php if ('check_box' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
                                                         <option value="radio_button" <?php if ('radio_button' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
