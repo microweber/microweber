@@ -304,11 +304,32 @@ class FrontendFilter
             foreach ($this->allCustomFieldsForResults as $result) {
                 if (isset($filterOptions[$result['customField']->name_key])) {
 
+                    $readyFilterOptions = $filterOptions[$result['customField']->name_key];
+
                     $filter = new \stdClass();
                     $filter->type = $result['customField']->type;
                     $filter->controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
                     $filter->name = $result['customField']->name;
-                    $filter->options = $filterOptions[$result['customField']->name_key];
+                    $filter->options = $readyFilterOptions;
+
+                    if ($result['customField']->type == 'price') {
+
+                        $allPrices = [];
+                        foreach($readyFilterOptions as $priceVal=>$priceOption) {
+                            $allPrices[] = $priceVal;
+                        }
+
+                        $minPrice = 0;
+                        $maxPrice = 0;
+                        if (isset($allPrices[0])) {
+                            asort($allPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
+                            $minPrice = $allPrices[0];
+                            $maxPrice = end($allPrices);
+                        }
+
+                        $filter->minPrice = round($minPrice);
+                        $filter->maxPrice = round($maxPrice);
+                    }
 
                     $filters[$result['customField']->name_key] = $filter;
                 }
@@ -316,15 +337,17 @@ class FrontendFilter
         }
 
         $readyOrderedFilters = [];
-        $orderFilters = parse_query(get_option('filtering_by_custom_fields_order', $this->params['moduleId']));
-        foreach($orderFilters as $filter) {
-            if (isset($filters[$filter])) {
-                $readyOrderedFilters[$filter] = $filters[$filter];
+        $orderFiltersOption = get_option('filtering_by_custom_fields_order', $this->params['moduleId']);
+        if (!empty($orderFiltersOption)) {
+            $orderFilters = parse_query($orderFiltersOption);
+            foreach ($orderFilters as $filter) {
+                if (isset($filters[$filter])) {
+                    $readyOrderedFilters[$filter] = $filters[$filter];
+                }
             }
+            $filters = $readyOrderedFilters;
         }
-
-        $filters = $readyOrderedFilters;
-
+        
         return view($template, compact( 'filters'));
     }
 

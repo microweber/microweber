@@ -10,8 +10,6 @@ if (isset($_GET['filters']['from_price'])) {
 if (isset($_GET['filters']['to_price'])) {
     $toPrice = $_GET['filters']['to_price'];
 }
-
-dd($filter);
 ?>
 
 <div class="card-header">
@@ -38,7 +36,7 @@ dd($filter);
 
             <div class="row">
                 <div class="col-12">
-                    <input type="text" class="js-slider{{$randomId}}" data-min="0" data-max="1000" data-step="1" />
+                    <input type="text" class="js-slider{{$randomId}}" data-min="{{$filter->minPrice}}" data-max="{{$filter->maxPrice}}" data-step="1" />
                 </div>
             </div>
         </div>
