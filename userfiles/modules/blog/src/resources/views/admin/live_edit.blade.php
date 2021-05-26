@@ -149,13 +149,16 @@
                                                 </td>
 
                                                 <td>
-                                                    <select class="form-control" name="">
-                                                        <option value="check_box"><?php _e("Checkbox"); ?></option>
-                                                        <option value="radio_button"><?php _e("Radio button"); ?></option>
-                                                        <option value="select_box"><?php _e("Selectbox"); ?></option>
-                                                        <option value="slider"><?php _e("Slider"); ?></option>
-                                                        <option value="square_checkbox"><?php _e("Square checkbox"); ?></option>
-                                                        <option value="color"><?php _e("Color"); ?></option>
+                                                    @php
+                                                        $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
+                                                    @endphp 
+                                                    <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
+                                                        <option value="check_box" <?php if ('check_box' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
+                                                        <option value="radio_button" <?php if ('radio_button' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
+                                                        <option value="select_box" <?php if ('select_box' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
+                                                        <option value="slider" <?php if ('slider' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>
+                                                        <option value="square_checkbox" <?php if ('square_checkbox' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
+                                                        <option value="color" <?php if ('color' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -171,7 +174,7 @@
                                             </tr>
                                         @endforeach
                                         </table>
-                                        
+
                                         <input type="hidden" name="filtering_by_custom_fields_order" value="" class="mw_option_field js-filtering-custom-fields-ordering">
 
                                         <script type="text/javascript">
