@@ -19,12 +19,12 @@
 
         @if ($filter->controlType == 'select')
             <b>{{$filter->name}}</b>
-            <select class="form-control" name="filters[{{$filterKey}}][]">
+            <select class="form-control js-filter-option-select" name="filters[{{$filterKey}}][]">
                 <option>{{_e('Select')}}</option>
                 @foreach($filter->options as $options)
                     <option @if ($options->active) selected="selected" @endif value="{{$options->value}}">{{ $options->value }}</option>
                 @endforeach
-            </select> 
+            </select>
         @endif
 
         @if ($filter->controlType == 'radio')
@@ -34,7 +34,7 @@
                         @php
                             $randIdForCheck = uniqid();
                         @endphp
-                        <input class="form-check-input js-filter-option-selectx" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                        <input class="form-check-input js-filter-option-select" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
                         <label class="form-check-label" for="{{$randIdForCheck}}">
                             {{ $options->value }}
                         </label>
