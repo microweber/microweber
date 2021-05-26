@@ -34,8 +34,8 @@ description: Opens video in a popup
     #video-dialog-button-<?php echo $params['id']; ?>:after{
         content: "\F040C";
         font-family: "Material Design Icons";
-        font-size: 44px;
-        color: #777;
+        font-size: 60px;
+        color: #2b2b2b;
     }
 </style>
 
