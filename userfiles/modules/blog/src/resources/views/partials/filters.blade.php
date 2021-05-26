@@ -55,6 +55,15 @@
 
 @endforeach
 
+
+@php
+    $filters = \Request::get('filters', false);
+    $filtersFromDate = false;
+    if (isset($filters['date'])) {
+        $filtersFromDate = $filters['date'];
+    }
+@endphp
+
 <script>
     mw.lib.require("air_datepicker");
 </script>
@@ -76,9 +85,16 @@
             },*/
             onSelect: function (fd, d, picker) {
                 // Do nothing if selection was cleared
-                if (!d) return;
+                if (!d[0]) return;
+                if (!d[1]) return;
 
                 var dateRange = d[0].getFullYear() + "-"+ d[0].getMonth()  + "-"+ d[0].getDate();
+
+                @if($filtersFromDate)
+                if (dateRange == '{{$filtersFromDate}}') {
+                    return;
+                }
+                @endif
 
                 var redirectFilterUrl = getUrlAsArray();
 
@@ -95,20 +111,12 @@
                     redirectFilterUrl.push({key: 'filters[date]', value: dateRange});
                 }
 
-               // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+               window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
             }
         });
 
-        @php
-            $filters = \Request::get('filters', false);
-            $filtersFromDate = false;
-            if (isset($filters['date'])) {
-                $filtersFromDate = $filters['date'];
-            }
-        @endphp
-
         @if($filtersFromDate)
-        $('#js-filter-option-datepicker').data('datepicker').selectDate(new Date('{{$filtersFromDate}}'));
+        $('#js-filter-option-datepicker').data('datepicker').selectDate([new Date('{{$filtersFromDate}}')]);
         @endif
     });
 </script>
