@@ -59,8 +59,12 @@
 @php
     $filters = \Request::get('filters', false);
     $filtersFromDate = false;
-    if (isset($filters['date'])) {
-        $filtersFromDate = $filters['date'];
+    if (isset($filters['from_date'])) {
+        $filtersFromDate = $filters['from_date'];
+    }
+    $filtersToDate = false;
+    if (isset($filters['to_date'])) {
+        $filtersToDate = $filters['to_date'];
     }
 @endphp
 
@@ -88,35 +92,41 @@
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateRange = d[0].getFullYear() + "-"+ d[0].getMonth()  + "-"+ d[0].getDate();
+                var dateFromRange = d[0].getFullYear() + "-"+ d[0].getMonth()  + "-"+ d[0].getDate();
+                var dateToRange = d[1].getFullYear() + "-"+ d[1].getMonth()  + "-"+ d[1].getDate();
 
-                @if($filtersFromDate)
-                if (dateRange == '{{$filtersFromDate}}') {
+                @if($filtersFromDate && $filtersToDate)
+                if ((dateFromRange === '{{$filtersFromDate}}') && (dateToRange === '{{$filtersToDate}}')) {
                     return;
                 }
                 @endif
 
                 var redirectFilterUrl = getUrlAsArray();
 
-                var findFromDataRangeKey = false;
-                for (var i=0; i< redirectFilterUrl.length; i++) {
-                    if (redirectFilterUrl[i].key == 'filters[date]') {
-                        redirectFilterUrl[i].value = dateRange;
-                        findFromDataRangeKey = true;
-                        break;
-                    }
-                }
-
-                if (findFromDataRangeKey === false) {
-                    redirectFilterUrl.push({key: 'filters[date]', value: dateRange});
-                }
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
 
                window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
             }
         });
 
-        @if($filtersFromDate)
-        $('#js-filter-option-datepicker').data('datepicker').selectDate([new Date('{{$filtersFromDate}}')]);
+        function findOrReplaceInObject(object, key, value) {
+            var findKey = false;
+            for (var i=0; i< object.length; i++) {
+                if (object[i].key == key) {
+                    object[i].value = value;
+                    findKey = true;
+                    break;
+                }
+            }
+            if (findKey === false) {
+                object.push({key: key, value: value});
+            }
+            return object;
+        }
+
+        @if($filtersFromDate && $filtersToDate)
+        //$('#js-filter-option-datepicker').data('datepicker').selectDate([new Date('{{$filtersFromDate}}'), new Date('{{$filtersToDate}}')]);
         @endif
     });
 </script>
