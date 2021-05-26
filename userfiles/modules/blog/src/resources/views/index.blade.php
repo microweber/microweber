@@ -45,27 +45,29 @@
 
 
             <div class="col-md-3">
+                <div class="card">
 
-            {!! $posts->tags('blog::partials.tags'); !!}
+                    {!! $posts->search('blog::partials.search') !!}
 
-            {!! $posts->categories('blog::partials.categories'); !!}
+                    {!! $posts->tags('blog::partials.tags') !!}
 
-            {!! $posts->filters('blog::partials.filters'); !!}
+                    {!! $posts->categories('blog::partials.categories') !!}
 
-            @if (!empty($_GET))
-                <br />
-                <br />
-                <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>
-            @endif
-        </div>
+                    {!! $posts->filters('blog::partials.filters') !!}
+
+                 </div>
+            </div>
+
 
         <div class="col-md-9">
 
             <div class="row">
                 <div class="col-md-8">
-                    {!! $posts->search('blog::partials.search'); !!}
+                    @if (!empty($_GET))
+                        <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>
+                    @endif
                 </div>
-                <div class="col-md-2 ">
+                <div class="col-md-2">
                     {!! $posts->limit('blog::partials.limit'); !!}
                 </div>
                 <div class="col-md-2">
@@ -117,6 +119,9 @@
             </p>
         </div>
 
-    </div>
-    </div>
+
+
+
+        </div>
+        </div>
 </section>

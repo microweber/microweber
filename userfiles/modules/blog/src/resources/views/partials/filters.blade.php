@@ -1,20 +1,54 @@
+<script>
+    $(document).ready(function(){
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.show").each(function(){
+            $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+    });
+</script>
+{{--
+<div class="card">
+    <div class="card-body">
+    <div class="accordion" id="accordionExample">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <a href="#" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"><i class="fa fa-plus"></i> What is HTML?</a>
+            </h2>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+
+                <p>HTML stands for HyperText Markup Language. HTML is the standard markup language for describing the structure of web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+            </div>
+        </div>
+    </div>
+</div>--}}
+
 @foreach($filters as $filterKey=>$filter)
 
     <div class="col-md-12 pb-3">
 
         @if ($filter->controlType == 'checkbox')
             <b>{{$filter->name}}</b>
+            <div class="form-group">
             @foreach($filter->options as $options)
                 @php
                     $randIdForCheck = uniqid();
                 @endphp
-                <div class="form-check">
-                    <input class="form-check-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
-                    <label class="form-check-label" for="{{$randIdForCheck}}">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                    <label class="custom-control-label" for="{{$randIdForCheck}}">
                         {{ $options->value }}
                     </label>
                 </div>
             @endforeach
+            </div>
         @endif
 
         @if ($filter->controlType == 'select')
@@ -29,17 +63,19 @@
 
         @if ($filter->controlType == 'radio')
             <b>{{$filter->name}}</b>
+                <div class="form-group">
             @foreach($filter->options as $options)
-                    <div class="form-check">
+                    <div class="custom-control custom-radio">
                         @php
                             $randIdForCheck = uniqid();
                         @endphp
-                        <input class="form-check-input js-filter-option-select" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
-                        <label class="form-check-label" for="{{$randIdForCheck}}">
+                        <input class="custom-control-input js-filter-option-select" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                        <label class="custom-control-label" for="{{$randIdForCheck}}">
                             {{ $options->value }}
                         </label>
                     </div>
             @endforeach
+                </div>
         @endif
 
         @if ($filter->controlType == 'date_range')
