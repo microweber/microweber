@@ -1,5 +1,15 @@
 <?php
 $randomId = uniqid();
+
+$fromPrice = 0;
+$toPrice = 0;
+
+if (isset($_GET['filters']['from_price'])) {
+    $fromPrice = $_GET['filters']['from_price'];
+}
+if (isset($_GET['filters']['to_price'])) {
+    $toPrice = $_GET['filters']['to_price'];
+}
 ?>
 
 <div class="card-header">
@@ -16,23 +26,22 @@ $randomId = uniqid();
             <div class="row mb-2">
                 <div class="col">
                     <label>{{_e('From')}}</label>
-                    <input type="text" value="" class="form-control js-from{{$randomId}}">
+                    <input type="text" value={{$fromPrice}}" class="form-control js-from{{$randomId}}">
                 </div>
                 <div class="col">
                     <label>{{_e('To')}}</label>
-                    <input type="text" value="" class="form-control js-to{{$randomId}}">
+                    <input type="text" value="{{$toPrice}}" class="form-control js-to{{$randomId}}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <input type="text" class="js-slider{{$randomId}}" value="" data-min="10" data-max="100" data-step="1" />
+                    <input type="text" class="js-slider{{$randomId}}" data-min="0" data-max="1000" data-step="1" />
                 </div>
             </div>
         </div>
 
-        <input type="hidden" class="js-filter-option-select js-range-value{{$randomId}}" name="filters[{{$filterKey}}][]" />
-        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button>
+        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button> 
 
     </div>
 </div>
@@ -45,8 +54,17 @@ $randomId = uniqid();
     $(document).ready(function () {
 
         $('.js-range-apply{{$randomId}}').click(function() {
-            $('.js-range-value{{$randomId}}').val($('.js-slider{{$randomId}}').val());
-            $('.js-range-value{{$randomId}}').trigger('change');
+
+            var from = $('.js-from{{$randomId}}');
+            var to = $('.js-to{{$randomId}}');
+
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_price]', from.val());
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_price]', to.val());
+
+            window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+
         });
 
         $(".js-range{{$randomId}}").each(function (index) {
@@ -56,6 +74,8 @@ $randomId = uniqid();
             var slider = $(this).find('.js-slider{{$randomId}}');
 
             slider.ionRangeSlider({
+                from: {{$fromPrice}},
+                to: {{$toPrice}},
                 grid: false,
                 type: "double",
                 skin: "round",
