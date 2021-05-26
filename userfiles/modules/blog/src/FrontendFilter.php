@@ -347,7 +347,7 @@ class FrontendFilter
             }
             $filters = $readyOrderedFilters;
         }
-        
+
         return view($template, compact( 'filters'));
     }
 

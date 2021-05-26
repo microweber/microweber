@@ -1,5 +1,5 @@
-<script src="{{module_url()}}/js/filter.js" type="text/javascript"></script>
-<link href="{{module_url()}}/css/filter.css" type="text/css" rel="stylesheet">
+<script src="userfiles/modules/blog/js/filter.js" type="text/javascript"></script>
+<link href="userfiles/modules/blog/css/filter.css" type="text/css" rel="stylesheet">
 
 <section class="section section-blog">
     <div class="container">
