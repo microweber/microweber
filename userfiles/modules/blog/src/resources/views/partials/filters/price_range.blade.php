@@ -1,8 +1,8 @@
 <?php
 $randomId = uniqid();
 
-$fromPrice = 0;
-$toPrice = 0;
+$fromPrice = $filter->minPrice;
+$toPrice = $filter->maxPrice;
 
 if (isset($_GET['filters']['from_price'])) {
     $fromPrice = $_GET['filters']['from_price'];
