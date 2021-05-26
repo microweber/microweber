@@ -26,7 +26,7 @@ if (isset($_GET['filters']['to_price'])) {
             <div class="row mb-2">
                 <div class="col">
                     <label>{{_e('From')}}</label>
-                    <input type="text" value={{$fromPrice}}" class="form-control js-from{{$randomId}}">
+                    <input type="text" value="{{$fromPrice}}" class="form-control js-from{{$randomId}}">
                 </div>
                 <div class="col">
                     <label>{{_e('To')}}</label>

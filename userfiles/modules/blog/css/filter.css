@@ -4,6 +4,11 @@
     color: #a8a8a8;
     padding: 7px 10px;
     margin-right:7px;
+    margin-top:5px;
+    margin-bottom:5px;
+    display:block;
+    max-width:130px;
+    float:left;
 }
 .filter-tags .active {
     color: #1e61e3;
