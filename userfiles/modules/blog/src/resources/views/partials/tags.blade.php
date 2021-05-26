@@ -11,10 +11,10 @@ $randomId = uniqid();
 
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
-        <div class="tags">
-        @foreach($tags as $tag)
-            <a href="{{$tag->url}}" @if(\Request::get('tags', false) == $tag->slug) style="border:3px solid #43a90c;" @endif>{{$tag->name}}</a>
-        @endforeach
+        <div class="filter-tags">
+            @foreach($tags as $tag)
+                <a href="{{$tag->url}}" @if(\Request::get('tags', false) == $tag->slug) class="active" @endif>{{$tag->name}}</a>
+            @endforeach
         </div>
     </div>
 </div>

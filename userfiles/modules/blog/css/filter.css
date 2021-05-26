@@ -1,0 +1,29 @@
+.filter-tags a {
+    border-radius:3px;
+    border:1px solid #d5d5d5;
+    color: #a8a8a8;
+    padding: 7px 10px;
+    margin-right:7px;
+}
+.filter-tags .active {
+    color: #1e61e3;
+    border-color: #1e61e3;
+}
+.datepicker {
+    width:100%;
+    border:none;
+}
+
+.btn-square-checkbox {
+    background: #5e99ff;
+    color: #fff;
+}
+.btn-square-checkbox:hover {
+    cursor:pointer;
+    background: #005af5;
+    color: #fff;
+}
+.btn-square-checkbox.active {
+    background: #005af5;
+    color: #fff;
+}

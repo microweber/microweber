@@ -14,7 +14,7 @@ $randomId = uniqid();
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="js-content-search" value="{{$search}}" placeholder="<?php _e('Search');?>" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary btn-icon" onclick="__contentSearch()"><i class="fa fa-search"></i></button>
+                <button type="submit" class="btn btn-primary btn-icon pl-3 pr-2" onclick="__contentSearch()"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
