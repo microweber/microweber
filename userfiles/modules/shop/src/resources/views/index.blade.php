@@ -6,25 +6,6 @@
     <div class="row">
 
             <script type="text/javascript">
-                function getUrlAsArray() {
-                    let url = window.location.href;
-                    if (url.indexOf('?') === -1) {
-                        return [];
-                    }
-                    var request = [];
-                    var pairs = url.substring(url.indexOf('?') + 1).split('&');
-                    for (var i = 0; i < pairs.length; i++) {
-                        if(!pairs[i])
-                            continue;
-                        var pair = pairs[i].split('=');
-                        request.push({key:decodeURIComponent(pair[0]), value: decodeURIComponent(pair[1])});
-                    }
-                    return request;
-                }
-
-                encodeDataToURL = (data) => {
-                    return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
-                };
 
                 $(document).ready(function () {
                     $('.js-filter-option-select').change(function () {
