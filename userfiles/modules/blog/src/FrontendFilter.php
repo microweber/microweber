@@ -322,9 +322,13 @@ class FrontendFilter
                         $minPrice = 0;
                         $maxPrice = 0;
                         if (isset($allPrices[0])) {
+                            $sortedPrices = [];
                             asort($allPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-                            $minPrice = $allPrices[0];
-                            $maxPrice = end($allPrices);
+                            foreach($allPrices as $sortPrice) {
+                                $sortedPrices[] = $sortPrice;
+                            }
+                            $minPrice = $sortedPrices[0];
+                            $maxPrice = end($sortedPrices);
                         }
 
                         $filter->minPrice = round($minPrice);

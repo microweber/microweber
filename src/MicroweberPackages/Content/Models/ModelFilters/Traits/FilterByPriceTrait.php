@@ -44,7 +44,7 @@ trait FilterByPriceTrait
         return $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
                 if ($maxPrice) {
-                    $query->whereBetween('value', [$minPrice, $maxPrice]); 
+                    $query->whereBetween('value', [$minPrice, $maxPrice]);
                 } else {
                     $query->where('value', '>=', $minPrice);
                 }
