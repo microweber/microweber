@@ -432,11 +432,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 {
                                                     group: {
                                                         icon: 'mdi mdi-format-bold',
-                                                        controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                                                        controls: ['bold', 'italic', 'underline', 'strikeThrough'],
+
                                                     }
                                                 },
-
-                                                '|', 'wordPaste'
+                                                    'fontSize',
+                                                '|', 'wordPaste',
                                             ],
                                         ]
                                     });
