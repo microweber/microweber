@@ -104,6 +104,11 @@ class FrontendFilter
 
     public function categories($template = false)
     {
+        $show = get_option('filtering_by_categories', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $categoryQuery = Category::query();
         $categoryQuery->where('rel_id', $this->getMainPageId());
 
@@ -114,6 +119,12 @@ class FrontendFilter
 
     public function tags($template = false)
     {
+
+        $show = get_option('filtering_by_tags', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $tags = [];
 
         $fullUrl = URL::current();
@@ -216,7 +227,7 @@ class FrontendFilter
     {
         $query = $this->model::query();
         $query->with('tagged');
-        $query->where('parent_id', $this->getMainPageId());
+      //  $query->where('parent_id', $this->getMainPageId());
 
         $results = $query->get();
 
@@ -230,6 +241,12 @@ class FrontendFilter
 
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
+
+                    $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
+                    if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
+                        continue;
+                    }
+
                     $customFieldValues = $resultCustomField->fieldValue()->get();
                     if (!empty($customFieldValues)) {
                         $this->allCustomFieldsForResults[$resultCustomField->id] = [
@@ -246,6 +263,12 @@ class FrontendFilter
 
     public function filters($template = false)
     {
+
+        $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
+        if (!$show) {
+            return false;
+        }
+
         $requestFilters = \Request::get('filters', false);
 
         $filters = [];
@@ -261,10 +284,12 @@ class FrontendFilter
                     // Mark as active
                     if (!empty($requestFilters)) {
                         foreach ($requestFilters as $requestFilterKey => $requestFilterValues) {
-                            if ($requestFilterKey == $result['customField']->name_key) {
-                                foreach ($requestFilterValues as $requestFilterValue) {
-                                    if ($requestFilterValue == $customFieldValue->value) {
-                                        $filterOption->active = 1;
+                            if (is_array($requestFilterValues)) {
+                                if ($requestFilterKey == $result['customField']->name_key) {
+                                    foreach ($requestFilterValues as $requestFilterValue) {
+                                        if ($requestFilterValue == $customFieldValue->value) {
+                                            $filterOption->active = 1;
+                                        }
                                     }
                                 }
                             }

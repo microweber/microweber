@@ -1,4 +1,6 @@
-
+<script type="text/javascript">
+    mw.top().dialog.get().resize(1000);
+</script>
 <div class="card style-1 mb-3 card-in-live-edit">
     <div class="card-header">
         <?php $module_info = module_info('blog/admin'); ?>
@@ -41,7 +43,8 @@
                         </div>
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Pagination", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="pagination_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="pagination_the_results" type="checkbox"
@@ -52,7 +55,8 @@
 
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Limit", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="limit_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="limit_the_results" type="checkbox"
@@ -62,7 +66,8 @@
                         </div>
 
                         <div class="form-group col-4">
-                            <label class="control-label d-block"><?php echo _e("Sort", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
+                            <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
                                 <label class="d-inline-block mr-5" for="sort_the_results"><?php _e('No'); ?></label>
                                 <input class="mw_option_field custom-control-input" id="sort_the_results" type="checkbox"
@@ -91,6 +96,14 @@
                                     }
                                 });
 
+                                $('#filter_by_custom_fields').change(function() {
+                                    if ($(this).prop('checked')) {
+                                        $('.js-filterting-custom-fields-settings').fadeIn();
+                                    } else {
+                                        $('.js-filterting-custom-fields-settings').fadeOut();
+                                    }
+                                });
+
                             });
                         </script>
 
@@ -115,10 +128,99 @@
                                         <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                     </div>
 
-                                    <div class="custom-control custom-checkbox">
+                                    <div class="js-filterting-custom-fields-settings">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <td style="width:40px"></td>
+                                                <td></td>
+                                                <td><?php _e("Control"); ?></td>
+                                                <td><?php _e("Enable"); ?></td>
+                                            </tr>
+                                            </thead>
+
+                                        @foreach($customFieldNames as $customFieldKey=>$customFieldName)
+                                            <tr class="js-filter-custom-field-holder vertical-align-middle show-on-hover-root" data-field-custom-field-key="{{$customFieldKey}}">
+                                                <td>
+                                                    <i data-title="<?php _e("Reorder filters"); ?>" data-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
+                                                </td>
+                                                <td>
+                                                    {{ucfirst($customFieldName)}}
+                                                </td>
+
+                                                <td>
+                                                    <select class="form-control" name="">
+                                                        <option value="check_box"><?php _e("Checkbox"); ?></option>
+                                                        <option value="radio_button"><?php _e("Radio button"); ?></option>
+                                                        <option value="select_box"><?php _e("Selectbox"); ?></option>
+                                                        <option value="slider"><?php _e("Slider"); ?></option>
+                                                        <option value="square_checkbox"><?php _e("Square checkbox"); ?></option>
+                                                        <option value="color"><?php _e("Color"); ?></option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $customFieldOptionName = 'filtering_by_custom_fields_' . $customFieldKey;
+                                                    @endphp
+                                                    <div class="custom-control custom-switch pl-0">
+                                                        <label class="d-inline-block mr-5" for="{{$customFieldOptionName}}"></label>
+                                                        <input type="checkbox" <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?> name="{{$customFieldOptionName}}" data-value-checked="1" data-value-unchecked="0" id="{{$customFieldOptionName}}" class="mw_option_field custom-control-input">
+                                                        <label class="custom-control-label" for="{{$customFieldOptionName}}"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </table>
+                                        
+                                        <input type="hidden" name="filtering_by_custom_fields_order" value="" class="mw_option_field js-filtering-custom-fields-ordering">
+
+                                        <script type="text/javascript">
+                                            function encodeObjectToUrl(object)
+                                            {
+                                                var parameters = [];
+                                                for (var property in object) {
+                                                    if (object.hasOwnProperty(property)) {
+                                                        parameters.push(encodeURI(property + '=' + object[property]));
+                                                    }
+                                                }
+
+                                                return parameters.join('&');
+                                            }
+                                            $(document).ready(function () {
+                                                mw.$(".js-filterting-custom-fields-settings").sortable({
+                                                    items: '.js-filter-custom-field-holder',
+                                                    //helper:"clone",
+                                                    axis: 'y',
+                                                    cancel: ".country-id-0",
+                                                    handle: '.js-filter-custom-field-handle-field',
+                                                    update: function () {
+                                                        var obj = {order: []}
+                                                        $(this).find('.js-filter-custom-field-holder').each(function () {
+                                                            var id = this.attributes['data-field-custom-field-key'].nodeValue;
+                                                            obj.order.push(id);
+                                                        });
+                                                        $('.js-filtering-custom-fields-ordering').val(encodeObjectToUrl(obj.order));
+                                                        $('.js-filtering-custom-fields-ordering').trigger('change');
+                                                    },
+                                                    start: function (a, ui) {
+                                                        $(this).height($(this).outerHeight());
+                                                        $(ui.placeholder).height($(ui.item).outerHeight())
+                                                        $(ui.placeholder).width($(ui.item).outerWidth())
+                                                    },
+                                                    stop: function () {
+                                                        mw.$(".js-filterting-custom-fields-settings").height("auto");
+                                                    },
+                                                    scroll: false,
+                                                    placeholder: "custom-field-main-table-placeholder"
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+
+                                 {{--   <div class="custom-control custom-checkbox">
                                         <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
                                         <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
-                                    </div>
+                                    </div>--}}
 
                                 </div>
                             </div>

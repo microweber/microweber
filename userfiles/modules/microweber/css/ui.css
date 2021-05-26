@@ -6102,6 +6102,12 @@ li:hover > .show-on-hover {
 .mw-dialog .mw-dialog-container {
   position: relative;
 }
+.mw-dialog .mw-dialog-container .mw-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .mw-dialog .mw-dialog-overlay {
   position: fixed;
   z-index: 1;
@@ -6125,6 +6131,25 @@ li:hover > .show-on-hover {
 }
 .mw-dialog.mw-dialog-iframe-autoheight iframe {
   position: relative;
+}
+.mw-dialog-skin-video .mw-dialog-close {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00000059;
+  border-radius: 43px;
+  cursor: pointer;
+}
+.mw-dialog-skin-video .mw-dialog-close:after {
+  content: "\F0156";
+  font-family: "Material Design Icons";
 }
 .mw-dialog-skin-default {
   visibility: hidden;
@@ -6561,6 +6586,7 @@ html[dir='rtl'] .mw-dialog-close {
   z-index: 20;
   display: inline-block;
   max-width: 100%;
+  width: 100%;
 }
 .mw-select ::-webkit-scrollbar {
   width: 5px;
