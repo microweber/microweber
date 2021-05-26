@@ -303,8 +303,10 @@ class FrontendFilter
             }
             foreach ($this->allCustomFieldsForResults as $result) {
                 if (isset($filterOptions[$result['customField']->name_key])) {
+
                     $filter = new \stdClass();
                     $filter->type = $result['customField']->type;
+                    $filter->controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
                     $filter->name = $result['customField']->name;
                     $filter->options = $filterOptions[$result['customField']->name_key];
 

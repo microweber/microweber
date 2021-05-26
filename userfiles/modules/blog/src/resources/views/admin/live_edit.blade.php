@@ -153,12 +153,15 @@
                                                         $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
                                                     @endphp
                                                     <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
-                                                        <option value="check_box" <?php if ('check_box' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
-                                                        <option value="radio_button" <?php if ('radio_button' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
-                                                        <option value="select_box" <?php if ('select_box' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
+                                                        <option value="" disabled="disabled"><?php _e("Select control type"); ?></option>
+                                                        <option value="checkbox" <?php if ('checkbox' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
+                                                        <option value="radio" <?php if ('radio' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
+                                                        <option value="select" <?php if ('select' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
                                                         <option value="slider" <?php if ('slider' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>
                                                         <option value="square_checkbox" <?php if ('square_checkbox' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
                                                         <option value="color" <?php if ('color' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
+                                                        <option value="date" <?php if ('date' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Date"); ?></option>
+                                                        <option value="date_range" <?php if ('date_range' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Date Range"); ?></option>
                                                     </select>
                                                 </td>
                                                 <td>

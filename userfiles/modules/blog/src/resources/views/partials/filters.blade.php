@@ -2,21 +2,47 @@
 
     <div class="col-md-12 pb-3">
 
-        @if ($filter->type == 'dropdown' || $filter->type == 'radio' || $filter->type == 'text')
-
+        @if ($filter->controlType == 'checkbox')
             <b>{{$filter->name}}</b>
-
             @foreach($filter->options as $options)
+                @php
+                    $randIdForCheck = uniqid();
+                @endphp
                 <div class="form-check">
-                    <input class="form-check-input js-filter-option-select" @if ($options->active) checked @endif type="checkbox" name="filters[{{$filterKey}}][]" value="{{$options->value}}">
-                    <label class="form-check-label">
+                    <input class="form-check-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                    <label class="form-check-label" for="{{$randIdForCheck}}">
                         {{ $options->value }}
                     </label>
                 </div>
             @endforeach
         @endif
 
-        @if ($filter->type == 'date')
+        @if ($filter->controlType == 'select')
+            <b>{{$filter->name}}</b>
+            <select class="form-control" name="filters[{{$filterKey}}][]">
+                <option>{{_e('Select')}}</option>
+                @foreach($filter->options as $options)
+                    <option @if ($options->active) selected="selected" @endif value="{{$options->value}}">{{ $options->value }}</option>
+                @endforeach
+            </select> 
+        @endif
+
+        @if ($filter->controlType == 'radio')
+            <b>{{$filter->name}}</b>
+            @foreach($filter->options as $options)
+                    <div class="form-check">
+                        @php
+                            $randIdForCheck = uniqid();
+                        @endphp
+                        <input class="form-check-input js-filter-option-selectx" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                        <label class="form-check-label" for="{{$randIdForCheck}}">
+                            {{ $options->value }}
+                        </label>
+                    </div>
+            @endforeach
+        @endif
+
+        @if ($filter->controlType == 'date_range')
             <b>{{$filter->name}}</b>
 
             @foreach($filter->options as $options)
