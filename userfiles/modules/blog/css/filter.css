@@ -15,15 +15,17 @@
 }
 
 .btn-square-checkbox {
-    background: #5e99ff;
-    color: #fff;
+    background-color: #fff;
+    border-color: #e4e4e4;
+    color: #212529;
 }
 .btn-square-checkbox:hover {
     cursor:pointer;
-    background: #005af5;
-    color: #fff;
+    background-color: #fff;
+    border-color: #989898;
 }
 .btn-square-checkbox.active {
     background: #005af5;
+    border-color: #005af5;
     color: #fff;
 }
