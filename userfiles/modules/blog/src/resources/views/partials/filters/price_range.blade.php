@@ -63,7 +63,12 @@ if (isset($_GET['filters']['to_price'])) {
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_price]', from.val());
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_price]', to.val());
 
-            window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+
+            $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
+            mw.reload_module('#{{$moduleId}}');
+            window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
+
+            ///window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
 
         });
 

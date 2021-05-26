@@ -23,7 +23,7 @@ class BlogController
             'moduleId'=>$moduleId
         ]);
 
-        return view('blog::index', ['posts'=>$postResults]);
+        return view('blog::index', ['posts'=>$postResults,'moduleId'=>$moduleId]);
     }
 
 }

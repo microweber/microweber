@@ -41,7 +41,12 @@
                         $.each($(this).serializeArray(), function(k,filter) {
                             redirectFilterUrl.push({key:filter.name, value:filter.value});
                         });
-                        window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+
+                        $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
+                        mw.reload_module('#{{$moduleId}}');
+                        window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
+
+                        // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
                     });
                 });
             </script>

@@ -3,6 +3,7 @@
 
 namespace MicroweberPackages\Blog;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
@@ -71,6 +72,7 @@ class FrontendFilter
         $options = [];
 
         $fullUrl = URL::current();
+        $request = $this->getRequest();
 
         $directions = [
           'desc'=>'NEWEST',
@@ -81,7 +83,7 @@ class FrontendFilter
             foreach($directions as $direction=>$directionName) {
 
                 $isActive = 0;
-                if ((\Request::get('order') == $direction) && \Request::get('sort') == $field) {
+                if (($request->get('order') == $direction) && $request->get('sort') == $field) {
                     $isActive = 1;
                 }
 
@@ -128,7 +130,8 @@ class FrontendFilter
         $tags = [];
 
         $fullUrl = URL::current();
-        $category = \Request::get('category');
+        $request = $this->getRequest();
+        $category = $request->get('category');
 
        foreach ($this->allTagsForResults as $tag) {
             $buildLink = [];
@@ -163,6 +166,7 @@ class FrontendFilter
         ];
 
         $fullUrl = URL::current();
+        $request = $this->getRequest();
 
         foreach ($pageLimits as $limit) {
 
@@ -171,7 +175,7 @@ class FrontendFilter
             $buildLink = http_build_query($buildLink);
 
             $isActive = 0;
-            if (\Request::get('limit') == $limit) {
+            if ($request->get('limit') == $limit) {
                 $isActive = 1;
             }
 
@@ -194,7 +198,7 @@ class FrontendFilter
         $searchUri['search'] = '';
         $searchUri = $fullUrl . '?'. http_build_query($searchUri);
 
-        $search = \Request::get('search', false);
+        $search = $this->getRequest()->get('search', false);
 
         return view($template, compact('searchUri', 'search'));
     }
@@ -269,7 +273,7 @@ class FrontendFilter
             return false;
         }
 
-        $requestFilters = \Request::get('filters', false);
+        $requestFilters = $this->getRequest()->get('filters', false);
 
         $filters = [];
 
@@ -352,17 +356,34 @@ class FrontendFilter
             $filters = $readyOrderedFilters;
         }
 
-        return view($template, compact( 'filters'));
+        $moduleId = $this->params['moduleId'];
+
+        return view($template, compact( 'filters','moduleId'));
+    }
+
+    public function getRequest()
+    {
+        $request = new \Illuminate\Http\Request($_REQUEST);
+
+        $ajaxFilter = $request->get('ajax_filter');
+        if (!empty($ajaxFilter)) {
+            parse_str($ajaxFilter, $ajaxFilterDecoded);
+            $request->merge($ajaxFilterDecoded);
+        }
+
+        return $request;
     }
 
     public function apply()
     {
-        $limit = \Request::get('limit', false);
+        $request = $this->getRequest();
+
+        $limit = $request->get('limit', false);
         if ($limit) {
             $this->queryParams['limit'] = $limit;
         }
 
-        $page = \Request::get('page', false);
+        $page = $request->get('page', false);
         if ($page) {
             $this->queryParams['page'] = $page;
         }
@@ -370,14 +391,14 @@ class FrontendFilter
         $this->query->where('parent', $this->getMainPageId());
 
         // Search
-        $search = \Request::get('search');
+        $search = $request->get('search');
         if (!empty($search)) {
             $this->query->where('title','LIKE','%'.$search.'%');
         }
 
         // Sort & Order
-        $sort = \Request::get('sort', false);
-        $order = \Request::get('order', false);
+        $sort = $request->get('sort', false);
+        $order = $request->get('order', false);
 
         if ($sort && $order) {
 
@@ -389,7 +410,7 @@ class FrontendFilter
 
         // Tags
         $this->query->with('tagged');
-        $tags = \Request::get('tags', false);
+        $tags = $request->get('tags', false);
 
         if (!empty($tags)) {
             $this->queryParams['tags'] = $tags;
@@ -397,7 +418,7 @@ class FrontendFilter
         }
 
         // Categories
-        $category = \Request::get('category');
+        $category = $request->get('category');
         if (!empty($category)) {
             $this->queryParams['category'] = $category;
             $this->query->whereHas('categoryItems', function ($query) use($category) {
@@ -408,7 +429,7 @@ class FrontendFilter
         $this->buildFilter();
 
         // filters
-        $filters = $customFieldFilters = \Request::get('filters');
+        $filters = $customFieldFilters = $request->get('filters');
 
         // except keys
         if (isset($customFieldFilters['from_price'])) {

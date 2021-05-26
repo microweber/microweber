@@ -55,7 +55,12 @@
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
 
-               window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+
+               $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
+               mw.reload_module('#{{$moduleId}}');
+                window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
+
+              // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
             }
         });
 
