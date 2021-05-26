@@ -12,25 +12,26 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
 
-            <div class="js-range{{$randomId}} mb-5">
-                <div class="row mb-2">
-                    <div class="col">
-                        <label>{{_e('From')}}</label>
-                        <input type="text" value="" class="form-control js-from{{$randomId}}">
-                    </div>
-                    <div class="col">
-                        <label>{{_e('To')}}</label>
-                        <input type="text" value="" class="form-control js-to{{$randomId}}">
-                    </div>
+        <div class="js-range{{$randomId}} mb-3">
+            <div class="row mb-2">
+                <div class="col">
+                    <label>{{_e('From')}}</label>
+                    <input type="text" value="" class="form-control js-from{{$randomId}}">
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <input type="text" class="js-slider{{$randomId}}" name="my_range" value="" data-min="10" data-max="100" data-step="1" />
-                    </div>
+                <div class="col">
+                    <label>{{_e('To')}}</label>
+                    <input type="text" value="" class="form-control js-to{{$randomId}}">
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-12"> 
+                    <input type="text" class="js-slider{{$randomId}}" name="filters[{{$filterKey}}][]" value="" data-min="10" data-max="100" data-step="1" />
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">{{_e('Apply')}}</button>
 
     </div>
 </div>
