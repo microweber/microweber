@@ -404,10 +404,25 @@ class FrontendFilter
         $this->buildFilter();
 
         // filters
-        $filters = \Request::get('filters');
-        if (!empty($filters)) {
-            $this->queryParams['filters'] = $filters;
-            $this->query->whereCustomField($filters);
+        $filters = $customFieldFilters = \Request::get('filters');
+
+        // except keys
+        if (isset($customFieldFilters['from_price'])) {
+            unset($customFieldFilters['from_price']);
+        }
+        if (isset($customFieldFilters['to_price'])) {
+            unset($customFieldFilters['to_price']);
+        }
+
+        if (!empty($customFieldFilters)) {
+            $this->queryParams['filters'] = $customFieldFilters;
+            $this->query->whereCustomField($customFieldFilters);
+        }
+
+        if (isset($filters['from_price']) && isset($filters['to_price'])) {
+            $this->query->filter([
+                'priceBetween'=> $filters['from_price'] . ',' . $filters['to_price']
+            ]);
         }
 
         $this->pagination = $this->query->paginate($limit)->withQueryString();
