@@ -318,7 +318,9 @@ class FrontendFilter
         $readyOrderedFilters = [];
         $orderFilters = parse_query(get_option('filtering_by_custom_fields_order', $this->params['moduleId']));
         foreach($orderFilters as $filter) {
-            $readyOrderedFilters[$filter] = $filters[$filter];
+            if (isset($filters[$filter])) {
+                $readyOrderedFilters[$filter] = $filters[$filter];
+            }
         }
 
         $filters = $readyOrderedFilters;

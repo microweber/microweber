@@ -5,6 +5,7 @@ namespace MicroweberPackages\Blog\Http\Controllers;
 use Illuminate\Http\Request;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 
 class BlogController
 {
@@ -17,7 +18,7 @@ class BlogController
     {
         $moduleId = $request->get('id');
 
-        $postQuery = Post::query();
+        $postQuery = Product::query();
 
         $postResults = $postQuery->frontendFilter([
             'moduleId'=>$moduleId

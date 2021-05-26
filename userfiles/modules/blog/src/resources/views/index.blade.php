@@ -76,14 +76,14 @@
                     {!! $posts->sort('blog::partials.sort'); !!}
                 </div>
             </div>
-
+            <div class="row">
             @foreach($posts->results() as $post)
-
+                    <div class="col-md-3">
             <div class="post" style="margin-top:25px;">
 
                 <img src="{{$post->media()->first()->filename}}" alt="" width="400px">
 
-                <h3>{{$post->title}}</h3>
+                <h4>{{$post->title}}</h4>
                 <p>{{$post->content_text}}</p>
                 <br />
                 <small>Posted At:{{$post->posted_at}}</small>
@@ -111,7 +111,9 @@
 
                 @endforeach
             </div>
+            </div>
             @endforeach
+            </div>
 
             {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
 

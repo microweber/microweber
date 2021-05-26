@@ -10,6 +10,8 @@ if (isset($_GET['filters']['from_price'])) {
 if (isset($_GET['filters']['to_price'])) {
     $toPrice = $_GET['filters']['to_price'];
 }
+
+dd($filter);
 ?>
 
 <div class="card-header">
@@ -41,7 +43,7 @@ if (isset($_GET['filters']['to_price'])) {
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button> 
+        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button>
 
     </div>
 </div>
