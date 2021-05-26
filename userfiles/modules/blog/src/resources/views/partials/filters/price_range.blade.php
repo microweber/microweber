@@ -25,13 +25,14 @@ $randomId = uniqid();
             </div>
 
             <div class="row">
-                <div class="col-12"> 
-                    <input type="text" class="js-slider{{$randomId}}" name="filters[{{$filterKey}}][]" value="" data-min="10" data-max="100" data-step="1" />
+                <div class="col-12">
+                    <input type="text" class="js-slider{{$randomId}}" value="" data-min="10" data-max="100" data-step="1" />
                 </div>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">{{_e('Apply')}}</button>
+        <input type="hidden" class="js-filter-option-select js-range-value{{$randomId}}" name="filters[{{$filterKey}}][]" />
+        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button>
 
     </div>
 </div>
@@ -42,6 +43,12 @@ $randomId = uniqid();
     mw.lib.require('ion_range_slider');
 
     $(document).ready(function () {
+
+        $('.js-range-apply{{$randomId}}').click(function() {
+            $('.js-range-value{{$randomId}}').val($('.js-slider{{$randomId}}').val());
+            $('.js-range-value{{$randomId}}').trigger('change');
+        });
+
         $(".js-range{{$randomId}}").each(function (index) {
 
             var from = $(this).find('.js-from{{$randomId}}');
