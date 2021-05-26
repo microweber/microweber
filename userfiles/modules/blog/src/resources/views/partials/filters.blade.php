@@ -92,8 +92,8 @@
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].getFullYear() + "-"+ d[0].getMonth()  + "-"+ d[0].getDate();
-                var dateToRange = d[1].getFullYear() + "-"+ d[1].getMonth()  + "-"+ d[1].getDate();
+                var dateFromRange = d[0].getFullYear() + "-"+ numericMonth(d[0])  + "-"+ d[0].getDate();
+                var dateToRange = d[1].getFullYear() + "-"+ numericMonth(d[1])  + "-"+ d[1].getDate();
 
                 @if($filtersFromDate && $filtersToDate)
                 if ((dateFromRange === '{{$filtersFromDate}}') && (dateToRange === '{{$filtersToDate}}')) {
@@ -109,6 +109,11 @@
                window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
             }
         });
+
+        function numericMonth(dt)
+        {
+            return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+        }
 
         function findOrReplaceInObject(object, key, value) {
             var findKey = false;
@@ -126,7 +131,7 @@
         }
 
         @if($filtersFromDate && $filtersToDate)
-        //$('#js-filter-option-datepicker').data('datepicker').selectDate([new Date('{{$filtersFromDate}}'), new Date('{{$filtersToDate}}')]);
+        $('#js-filter-option-datepicker').data('datepicker').selectDate([new Date('{{$filtersFromDate}}'), new Date('{{$filtersToDate}}')]);
         @endif
     });
 </script>
