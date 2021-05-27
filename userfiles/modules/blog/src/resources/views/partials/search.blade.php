@@ -21,8 +21,25 @@ $randomId = uniqid();
 </div>
 
 <script type="text/javascript">
+
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            __contentSearch();
+        }
+    });
+
     function __contentSearch() {
         var keywordField = document.getElementById("js-content-search");
-        window.location = "{!! $searchUri !!}" + keywordField.value;
+
+        var redirectFilterUrl = getUrlAsArray();
+
+        redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', keywordField.value);
+
+        $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
+        mw.reload_module('#{{$moduleId}}');
+        window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
+
+
+        //window.location = "{!! $searchUri !!}" + keywordField.value;
     }
 </script>

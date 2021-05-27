@@ -204,7 +204,9 @@ class FrontendFilter
 
         $search = $this->getRequest()->get('search', false);
 
-        return view($template, compact('searchUri', 'search'));
+        $moduleId = $this->params['moduleId'];
+
+        return view($template, compact('searchUri', 'search', 'moduleId'));
     }
 
     public function results()
@@ -391,8 +393,8 @@ class FrontendFilter
                         $filter->minPrice = round($minPrice);
                         $filter->maxPrice = round($maxPrice);
 
-                        $filter->fromPrice = 0;
-                        $filter->toPrice = 0;
+                        $filter->fromPrice = $filter->minPrice;
+                        $filter->toPrice = $filter->maxPrice;
 
                         if (isset($requestFilters['from_price'])) {
                             $filter->fromPrice = $requestFilters['from_price'];
