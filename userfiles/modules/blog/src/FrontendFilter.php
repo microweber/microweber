@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Blog;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\CustomField\Models\CustomField;
@@ -234,6 +235,20 @@ class FrontendFilter
 
     public function buildFilter()
     {
+        $allCustomFieldsForResults = [];
+
+        $cacheTags = $this->model->getTable();
+        $cacheId = 'buildFilter' . $this->getMainPageId() . $this->params['moduleId'];
+
+        $checkCache =  Cache::tags($cacheTags)->get($cacheId);
+
+        if (!empty($checkCache)) {
+            if (isset($checkCache['allCustomFieldsForResults'])) {
+                $this->allCustomFieldsForResults = $checkCache['allCustomFieldsForResults'];
+            }
+           return true;
+        }
+
         $query = $this->model::query();
         $query->select(['id']);
 
@@ -262,12 +277,29 @@ class FrontendFilter
                             continue;
                         }
 
+                        $customFieldValuesClean = [];
                         $customFieldValues = $resultCustomField->fieldValue;
-
                         if (!empty($customFieldValues)) {
-                            $this->allCustomFieldsForResults[$resultCustomField->id] = [
-                                'customField'=>$resultCustomField,
-                                'customFieldValues'=>$customFieldValues,
+                            foreach($customFieldValues as $customFieldValue) {
+
+                                $customFieldValueClean = new \stdClass();
+                                $customFieldValueClean->id = $customFieldValue->id;
+                                $customFieldValueClean->custom_field_id = $customFieldValue->custom_field_id;
+                                $customFieldValueClean->value = $customFieldValue->value;
+
+                                $customFieldValuesClean[] = $customFieldValueClean;
+                            }
+                        }
+
+                        $resultCustomFieldClean = new \stdClass();
+                        $resultCustomFieldClean->type = $resultCustomField->type;
+                        $resultCustomFieldClean->name = $resultCustomField->name;
+                        $resultCustomFieldClean->name_key = $resultCustomField->name_key;
+
+                        if (!empty($customFieldValuesClean)) {
+                            $allCustomFieldsForResults[$resultCustomField->id] = [
+                                'customField'=>$resultCustomFieldClean,
+                                'customFieldValues'=>$customFieldValuesClean,
                             ];
                         }
                     }
@@ -275,6 +307,9 @@ class FrontendFilter
             }
         }
 
+        $this->allCustomFieldsForResults = $allCustomFieldsForResults;
+
+        Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
     }
 
     public function filters($template = false)
