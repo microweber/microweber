@@ -62,6 +62,7 @@ class FrontendFilter
 
     public function sort($template = false)
     {
+        return false;
         $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
         if (!$sortTheResults) {
             return false;
@@ -108,6 +109,7 @@ class FrontendFilter
 
     public function categories($template = false)
     {
+        return false;
         $show = get_option('filtering_by_categories', $this->params['moduleId']);
         if (!$show) {
             return false;
@@ -154,6 +156,8 @@ class FrontendFilter
 
     public function limit($template = false)
     {
+        return false;
+
         $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
         if (!$limitTheResults) {
             return false;
@@ -230,57 +234,47 @@ class FrontendFilter
 
         return 0;
     }
+
+
+
     public function buildFilter()
     {
-        $query = CustomField::query();
-        $query->select(['id','rel_id','rel_type','type','name','name_key']);
-        //$query->groupBy('name_key');
-
-        $resultCustomFields = $query->get();
-
-        $query = CustomFieldValue::query();
-        $query->select(['id','custom_field_id','value']);
-
-        $customFieldValuesMap = [];
-        $resultCustomFieldsValues = $query->get();
-        if (!empty($resultCustomFieldsValues)) {
-            foreach ($resultCustomFieldsValues as $resultCustomFieldValue) {
-                $customFieldValuesMap[$resultCustomFieldValue->custom_field_id][] = $resultCustomFieldValue;
-            }
-        }
-
-        if (!empty($resultCustomFields)) {
-            foreach ($resultCustomFields as $resultCustomField) {
-
-                $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
-                if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
-                    continue;
-                }
-
-                if (isset($customFieldValuesMap[$resultCustomField->id])) {
-                    $this->allCustomFieldsForResults[$resultCustomField->id] = [
-                        'customField'=>$resultCustomField,
-                        'customFieldValues'=>$customFieldValuesMap[$resultCustomField->id],
-                    ];
-                }
-            }
-        }
-    }
-
-    public function fakan___buildFilter()
-    {
         $query = $this->model::query();
-        $query->with('tagged');
-        //$query->with('customField');
-      //  $query->where('parent_id', $this->getMainPageId());
+        $query->select(['id']);
+
+        // $query->with('tagged');
+        $query->where('parent', $this->getMainPageId());
+
+        $query->with('customField', function ($query) {
+            $query->with('fieldValue',function ($query) {
+                $query->whereNotNull('value');
+                $query->groupBy('value');
+            });
+        });
 
         $results = $query->get();
 
         if (!empty($results)) {
             foreach ($results as $result) {
-                foreach ($result->tags as $tag) {
-                    if (isset($tag->slug)) {
-                        $this->allTagsForResults[$tag->slug] = $tag;
+
+                $resultCustomFields = $result->customField;
+
+                if (!empty($resultCustomFields)) {
+                    foreach ($resultCustomFields as $resultCustomField) {
+
+                        $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
+                        if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
+                            continue;
+                        }
+
+                        $customFieldValues = $resultCustomField->fieldValue;
+
+                        if (!empty($customFieldValues)) {
+                            $this->allCustomFieldsForResults[$resultCustomField->id] = [
+                                'customField'=>$resultCustomField,
+                                'customFieldValues'=>$customFieldValues,
+                            ];
+                        }
                     }
                 }
             }
@@ -480,7 +474,7 @@ class FrontendFilter
             ]);
         }
 
-        $this->query->select(['id','url','title','content','content_body']);
+        $this->query->select(['id','parent', 'url','title','content','content_body']);
 /*
         $this->query->limit(50);
 
