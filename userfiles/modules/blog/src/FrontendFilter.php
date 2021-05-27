@@ -390,6 +390,18 @@ class FrontendFilter
 
                         $filter->minPrice = round($minPrice);
                         $filter->maxPrice = round($maxPrice);
+
+                        $filter->fromPrice = 0;
+                        $filter->toPrice = 0;
+
+                        if (isset($requestFilters['from_price'])) {
+                            $filter->fromPrice = $requestFilters['from_price'];
+                        }
+
+                        if (isset($requestFilters['to_price'])) {
+                            $filter->toPrice = $requestFilters['to_price'];
+                        }
+
                     }
 
                     $filters[$customFieldNameKey] = $filter;

@@ -1,15 +1,5 @@
 <?php
 $randomId = uniqid();
-
-$fromPrice = $filter->minPrice;
-$toPrice = $filter->maxPrice;
-
-if (isset($_GET['filters']['from_price'])) {
-    $fromPrice = $_GET['filters']['from_price'];
-}
-if (isset($_GET['filters']['to_price'])) {
-    $toPrice = $_GET['filters']['to_price'];
-}
 ?>
 
 <div class="card-header">
@@ -26,11 +16,11 @@ if (isset($_GET['filters']['to_price'])) {
             <div class="row mb-2">
                 <div class="col">
                     <label>{{_e('From')}}</label>
-                    <input type="text" value="{{$fromPrice}}" class="form-control js-from{{$randomId}}">
+                    <input type="text" value="{{$filter->fromPrice}}" class="form-control js-from{{$randomId}}">
                 </div>
                 <div class="col">
                     <label>{{_e('To')}}</label>
-                    <input type="text" value="{{$toPrice}}" class="form-control js-to{{$randomId}}">
+                    <input type="text" value="{{$filter->toPrice}}" class="form-control js-to{{$randomId}}">
                 </div>
             </div>
 
@@ -79,8 +69,8 @@ if (isset($_GET['filters']['to_price'])) {
             var slider = $(this).find('.js-slider{{$randomId}}');
 
             slider.ionRangeSlider({
-                from: {{$fromPrice}},
-                to: {{$toPrice}},
+                from: {{$filter->fromPrice}},
+                to: {{$filter->toPrice}},
                 grid: false,
                 type: "double",
                 skin: "round",
