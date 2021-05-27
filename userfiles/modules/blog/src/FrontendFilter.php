@@ -240,7 +240,13 @@ class FrontendFilter
         $query = CustomFieldValue::query();
         $query->select(['id','custom_field_id','value']);
 
+        $customFieldValuesMap = [];
         $resultCustomFieldsValues = $query->get();
+        if (!empty($resultCustomFieldsValues)) {
+            foreach ($resultCustomFieldsValues as $resultCustomFieldValue) {
+                $customFieldValuesMap[$resultCustomFieldValue->custom_field_id][] = $resultCustomFieldValue;
+            }
+        }
 
         if (!empty($resultCustomFields)) {
             foreach ($resultCustomFields as $resultCustomField) {
@@ -249,11 +255,11 @@ class FrontendFilter
                 if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
                     continue;
                 }
-                $customFieldValues = [];
-                if (!empty($customFieldValues)) {
+
+                if (isset($customFieldValuesMap[$resultCustomField->id])) {
                     $this->allCustomFieldsForResults[$resultCustomField->id] = [
                         'customField'=>$resultCustomField,
-                        'customFieldValues'=>$customFieldValues,
+                        'customFieldValues'=>$customFieldValuesMap[$resultCustomField->id],
                     ];
                 }
             }
