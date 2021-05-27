@@ -334,9 +334,14 @@ class FrontendFilter
 
                     $readyFilterOptions = $filterOptions[$result['customField']->name_key];
 
+                    $controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
+                    if (empty($controlType)) {
+                        $controlType = 'checkbox';
+
+                    }
                     $filter = new \stdClass();
                     $filter->type = $result['customField']->type;
-                    $filter->controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
+                    $filter->controlType = $controlType;
                     $filter->name = $result['customField']->name;
                     $filter->options = $readyFilterOptions;
 
