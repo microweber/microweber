@@ -235,8 +235,6 @@ class FrontendFilter
 
     public function buildFilter()
     {
-        $allCustomFieldsForResults = [];
-
         $cacheTags = $this->model->getTable();
         $cacheId = 'buildFilter' . $this->getMainPageId() . $this->params['moduleId'];
 
@@ -263,6 +261,8 @@ class FrontendFilter
         });
 
         $results = $query->get();
+
+        $allCustomFieldsForResults = [];
 
         if (!empty($results)) {
             foreach ($results as $result) {
@@ -356,10 +356,12 @@ class FrontendFilter
 
                     $readyFilterOptions = $filterOptions[$result['customField']->name_key];
 
-                    $controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
+                    $controlType = 'square_checkbox';
+
+                  /*  $controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
                     if (empty($controlType)) {
                         $controlType = 'checkbox';
-                    }
+                    }*/
 
                     $filter = new \stdClass();
                     $filter->type = $result['customField']->type;
@@ -367,7 +369,7 @@ class FrontendFilter
                     $filter->name = $result['customField']->name;
                     $filter->options = $readyFilterOptions;
 
-                    if ($result['customField']->type == 'price') {
+                    if ($result['customField']->type == 'priceXXXX') {
 
                         $allPrices = [];
                         foreach($readyFilterOptions as $priceVal=>$priceOption) {
