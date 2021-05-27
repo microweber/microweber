@@ -55,7 +55,6 @@
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
 
-
                $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
                mw.reload_module('#{{$moduleId}}');
                 window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));

@@ -35,10 +35,15 @@ $randomId = uniqid();
 
         redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', keywordField.value);
 
+        mw.spinner({
+            element: $('#{{$moduleId}}'),
+            size:"500px",
+            decorate: true
+        }).show();
+
         $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
         mw.reload_module('#{{$moduleId}}');
         window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
-
 
         //window.location = "{!! $searchUri !!}" + keywordField.value;
     }
