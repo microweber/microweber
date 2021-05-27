@@ -62,7 +62,6 @@ class FrontendFilter
 
     public function sort($template = false)
     {
-        return false;
         $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
         if (!$sortTheResults) {
             return false;
@@ -109,7 +108,6 @@ class FrontendFilter
 
     public function categories($template = false)
     {
-        return false;
         $show = get_option('filtering_by_categories', $this->params['moduleId']);
         if (!$show) {
             return false;
@@ -125,8 +123,6 @@ class FrontendFilter
 
     public function tags($template = false)
     {
-
-        return false;
 
         $show = get_option('filtering_by_tags', $this->params['moduleId']);
         if (!$show) {
@@ -156,7 +152,6 @@ class FrontendFilter
 
     public function limit($template = false)
     {
-        return false;
 
         $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
         if (!$limitTheResults) {
@@ -284,9 +279,6 @@ class FrontendFilter
 
     public function filters($template = false)
     {
-
-       // return false;
-
         $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
         if (!$show) {
             return false;
