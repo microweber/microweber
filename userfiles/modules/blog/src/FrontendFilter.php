@@ -6,6 +6,8 @@ namespace MicroweberPackages\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Page\Models\Page;
 
 class FrontendFilter
@@ -122,6 +124,8 @@ class FrontendFilter
     public function tags($template = false)
     {
 
+        return false;
+
         $show = get_option('filtering_by_tags', $this->params['moduleId']);
         if (!$show) {
             return false;
@@ -226,11 +230,41 @@ class FrontendFilter
 
         return 0;
     }
-
     public function buildFilter()
+    {
+        $query = CustomField::query();
+        $query->select(['id','rel_id','rel_type','type','name','name_key']);
+
+        $resultCustomFields = $query->get();
+
+        $query = CustomFieldValue::query();
+        $query->select(['id','custom_field_id','value']);
+
+        $resultCustomFieldsValues = $query->get();
+
+        if (!empty($resultCustomFields)) {
+            foreach ($resultCustomFields as $resultCustomField) {
+
+                $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
+                if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
+                    continue;
+                }
+                $customFieldValues = [];
+                if (!empty($customFieldValues)) {
+                    $this->allCustomFieldsForResults[$resultCustomField->id] = [
+                        'customField'=>$resultCustomField,
+                        'customFieldValues'=>$customFieldValues,
+                    ];
+                }
+            }
+        }
+    }
+
+    public function fakan___buildFilter()
     {
         $query = $this->model::query();
         $query->with('tagged');
+        //$query->with('customField');
       //  $query->where('parent_id', $this->getMainPageId());
 
         $results = $query->get();
@@ -242,24 +276,6 @@ class FrontendFilter
                         $this->allTagsForResults[$tag->slug] = $tag;
                     }
                 }
-
-                $resultCustomFields = $result->customField()->with('fieldValue')->get();
-                foreach ($resultCustomFields as $resultCustomField) {
-
-                    $customFieldOptionName = 'filtering_by_custom_fields_' . $resultCustomField->name_key;
-                    if (get_option($customFieldOptionName, $this->params['moduleId']) != '1') {
-                        continue;
-                    }
-
-                    $customFieldValues = $resultCustomField->fieldValue()->get();
-                    if (!empty($customFieldValues)) {
-                        $this->allCustomFieldsForResults[$resultCustomField->id] = [
-                            'customField'=>$resultCustomField,
-                            'customFieldValues'=>$customFieldValues,
-                        ];
-                    }
-                }
-
             }
         }
 
@@ -267,6 +283,8 @@ class FrontendFilter
 
     public function filters($template = false)
     {
+
+       // return false;
 
         $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
         if (!$show) {

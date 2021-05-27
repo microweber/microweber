@@ -23,6 +23,8 @@ class ShopServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
+
         View::addNamespace('shop', (__DIR__) . '/resources/views');
     }
 }
