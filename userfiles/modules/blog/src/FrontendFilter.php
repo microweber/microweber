@@ -234,6 +234,7 @@ class FrontendFilter
     {
         $query = CustomField::query();
         $query->select(['id','rel_id','rel_type','type','name','name_key']);
+        //$query->groupBy('name_key');
 
         $resultCustomFields = $query->get();
 
@@ -337,8 +338,8 @@ class FrontendFilter
                     $controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
                     if (empty($controlType)) {
                         $controlType = 'checkbox';
-
                     }
+
                     $filter = new \stdClass();
                     $filter->type = $result['customField']->type;
                     $filter->controlType = $controlType;
@@ -478,6 +479,12 @@ class FrontendFilter
                 'priceBetween'=> $filters['from_price'] . ',' . $filters['to_price']
             ]);
         }
+
+        $this->query->select(['id','url','title','content','content_body']);
+/*
+        $this->query->limit(50);
+
+        dd($this->query->get());*/
 
         $this->pagination = $this->query->paginate($limit)->withQueryString();
 

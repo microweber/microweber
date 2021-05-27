@@ -100,7 +100,7 @@
                 @endforeach
 
                 @php
-                    $resultCustomFields = $post->customField()->with('fieldValue')->get();
+                    $resultCustomFields = false;// $post->customField()->with('fieldValue')->get();
                 @endphp
                 @foreach ($resultCustomFields as $resultCustomField)
                     {{--@if ($resultCustomField->type !== 'date')
