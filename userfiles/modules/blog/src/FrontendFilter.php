@@ -325,11 +325,14 @@ class FrontendFilter
 
         if (!empty($this->allCustomFieldsForResults)) {
             $filterOptions = [];
+            $customFieldsGrouped = [];
             foreach ($this->allCustomFieldsForResults as $result) {
+
+                $customFieldsGrouped[$result['customField']->name_key] = $result['customField'];
+
                 foreach ($result['customFieldValues'] as $customFieldValue) {
 
-                    $filterOption = new \stdClass();
-                    $filterOption->active = 0;
+                    $customFieldValue->active = 0;
 
                     // Mark as active
                     if (!empty($requestFilters)) {
@@ -338,7 +341,7 @@ class FrontendFilter
                                 if ($requestFilterKey == $result['customField']->name_key) {
                                     foreach ($requestFilterValues as $requestFilterValue) {
                                         if ($requestFilterValue == $customFieldValue->value) {
-                                            $filterOption->active = 1;
+                                            $customFieldValue->active = 1;
                                         }
                                     }
                                 }
@@ -346,30 +349,27 @@ class FrontendFilter
                         }
                     }
 
-                    $filterOption->id = $customFieldValue->id;
-                    $filterOption->value = $customFieldValue->value;
-                    $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $filterOption;
+                    $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
                 }
             }
-            foreach ($this->allCustomFieldsForResults as $result) {
-                if (isset($filterOptions[$result['customField']->name_key])) {
 
-                    $readyFilterOptions = $filterOptions[$result['customField']->name_key];
+            foreach($customFieldsGrouped as $customFieldNameKey=>$customField) {
+                if (isset($filterOptions[$customFieldNameKey])) {
 
-                    $controlType = 'square_checkbox';
+                    $readyFilterOptions = $filterOptions[$customFieldNameKey];
 
-                  /*  $controlType = get_option('filtering_by_custom_fields_control_type_' . $result['customField']->name_key, $this->params['moduleId']);
+                    $controlType = get_option('filtering_by_custom_fields_control_type_' . $customFieldNameKey, $this->params['moduleId']);
                     if (empty($controlType)) {
                         $controlType = 'checkbox';
-                    }*/
+                    }
 
                     $filter = new \stdClass();
-                    $filter->type = $result['customField']->type;
+                    $filter->type = $customField->type;
                     $filter->controlType = $controlType;
-                    $filter->name = $result['customField']->name;
+                    $filter->name = $customField->name;
                     $filter->options = $readyFilterOptions;
 
-                    if ($result['customField']->type == 'priceXXXX') {
+                    if ($customField->type == 'price') {
 
                         $allPrices = [];
                         foreach($readyFilterOptions as $priceVal=>$priceOption) {
@@ -392,9 +392,11 @@ class FrontendFilter
                         $filter->maxPrice = round($maxPrice);
                     }
 
-                    $filters[$result['customField']->name_key] = $filter;
+                    $filters[$customFieldNameKey] = $filter;
+
                 }
             }
+
         }
 
         $readyOrderedFilters = [];
