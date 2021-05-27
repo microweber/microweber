@@ -36,3 +36,8 @@ function getUrlAsArray() {
 encodeDataToURL = (data) => {
     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
 };
+
+function submitQueryFilter()
+{
+
+}
