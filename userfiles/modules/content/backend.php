@@ -695,6 +695,7 @@ if ($action == 'posts') {
                                                 element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
                                                 sortable: false,
                                                 selectable: false,
+                                                toggleSelect: false,
                                                 id: 'admin-main-tree',
                                                 append: treeTail,
                                                 contextMenu: [
@@ -716,7 +717,7 @@ if ($action == 'posts') {
                                                                         if (window.pagesTreeRefresh) {
                                                                             pagesTreeRefresh()
                                                                         }
-                                                                        ;
+
                                                                     })
                                                                 });
                                                             }
@@ -769,7 +770,7 @@ if ($action == 'posts') {
                                                 })
 
                                                 $('.mw-tree-item-title', pagesTree.list).on('click', function () {
-                                                    $('li.selected', pagesTree.list).each(function () {
+                                                    $('li.selected', pagesTree.list).not(mw.tools.firstParentWithTag(this, 'li')).each(function () {
                                                         pagesTree.unselect(this)
                                                     });
                                                     var li = mw.tools.firstParentWithTag(this, 'li'),
@@ -779,7 +780,7 @@ if ($action == 'posts') {
                                                         if (data.type === 'page') {
                                                             action = 'editpage';
                                                         }
-                                                        if (data.subtype === 'dynamic' || data.subtype == 'shop') {
+                                                        if (data.subtype === 'dynamic' || data.subtype === 'shop') {
                                                             action = 'showposts';
                                                         }
                                                         if (data.type === 'category') {
@@ -787,8 +788,6 @@ if ($action == 'posts') {
                                                         }
                                                         mw.url.windowHashParam("action", action + ":" + data.id);
                                                     }
-
-
                                                 });
                                                 mainTreeSetActiveItems()
 

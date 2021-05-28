@@ -283,6 +283,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
                     <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                    <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
                     <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
@@ -420,7 +421,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <script>mw.require('editor.js')</script>
                             <script>
                                 $(document).ready(function () {
-                                    mweditor = mw.Editor({
+                                    var editor = mw.Editor({
                                         selector: '#text',
                                         mode: 'div',
                                         smallEditor: false,
@@ -441,6 +442,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             ],
                                         ]
                                     });
+                                    $(editor).on('change', function (e, val){
+                                        var fs = $('[name="font_size"]');
+                                        var area = this.$editArea.get(0);
+                                        var curr = getComputedStyle(area).fontSize;
+                                        if(curr !== fs.val()) {
+                                            fs.val(curr).trigger('change');
+                                        }
+                                    })
                                 });
                             </script>
 
