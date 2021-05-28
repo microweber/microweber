@@ -37,7 +37,24 @@ encodeDataToURL = (data) => {
     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
 };
 
-function submitQueryFilter()
+function submitQueryFilter(moduleId, queryParams)
 {
+    var redirectFilterUrl = getUrlAsArray();
 
+    var i;
+    for (i = 0; i < queryParams.length; i++) {
+        redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
+    }
+
+    mw.spinner({
+        element: $('#'+moduleId+ ''),
+        size:"500px",
+        decorate: true
+    }).show();
+
+    $('#'+moduleId+ '').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
+    mw.reload_module('#'+moduleId+ '');
+    window.history.pushState('', false, '?' + encodeDataToURL(redirectFilterUrl));
+
+    //window.location = "{!! $searchUri !!}" + keywordField.value;
 }

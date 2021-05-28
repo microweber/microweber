@@ -99,12 +99,16 @@ class FrontendFilter
                 $pageSort->active = $isActive;
                 $pageSort->link = $fullUrl . '?' . $buildLink;
                 $pageSort->name = '' . $field .' '. $directionName;
+                $pageSort->sort = $field;
+                $pageSort->order = $direction;
 
                 $options[] = $pageSort;
             }
         }
 
-        return view($template,compact('options'));
+        $moduleId = $this->params['moduleId'];
+
+        return view($template,compact('options','moduleId'));
     }
 
     public function categories($template = false)
@@ -187,11 +191,14 @@ class FrontendFilter
             $pageLimit->active = $isActive;
             $pageLimit->link = $fullUrl .'?'. $buildLink;
             $pageLimit->name = $limit;
+            $pageLimit->value = $limit;
 
             $options[] = $pageLimit;
         }
 
-        return view($template, compact('options'));
+        $moduleId = $this->params['moduleId'];
+
+        return view($template, compact('options', 'moduleId'));
     }
 
     public function search($template = false)

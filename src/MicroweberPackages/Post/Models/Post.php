@@ -38,7 +38,6 @@ class Post extends Content
 
     public $sortable = [
         'id',
-        'name',
         'posted_at'
     ];
 

@@ -14,7 +14,7 @@ $randomId = uniqid();
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="js-content-search" value="{{$search}}" placeholder="<?php _e('Search');?>" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary btn-icon pl-3 pr-2" onclick="__contentSearch()"><i class="fa fa-search"></i></button>
+                <button type="submit" class="btn btn-primary btn-icon pl-3 pr-2" onclick="filterSearch()"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -24,27 +24,20 @@ $randomId = uniqid();
 
     $(document).keypress(function(e) {
         if(e.which == 13) {
-            __contentSearch();
+            filterSearch();
         }
     });
 
-    function __contentSearch() {
+    function filterSearch() {
+
         var keywordField = document.getElementById("js-content-search");
 
-        var redirectFilterUrl = getUrlAsArray();
+        var queryParams = [];
+        queryParams.push({
+            key:'search',
+            value:keywordField.value
+        });
 
-        redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', keywordField.value);
-
-        mw.spinner({
-            element: $('#{{$moduleId}}'),
-            size:"500px",
-            decorate: true
-        }).show();
-
-        $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
-        mw.reload_module('#{{$moduleId}}');
-        window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
-
-        //window.location = "{!! $searchUri !!}" + keywordField.value;
+        submitQueryFilter('{{$moduleId}}', queryParams);
     }
 </script>
