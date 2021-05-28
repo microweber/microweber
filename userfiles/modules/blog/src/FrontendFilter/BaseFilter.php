@@ -290,8 +290,8 @@ abstract class BaseFilter
         $this->query->where('parent', $this->getMainPageId());
         $this->query->select(['id','parent', 'url','title','content','content_body']);
 
-        $showFilter = get_option('filtering_the_results', $this->params['moduleId']);
-        if ($showFilter == '1') {
+        $filter = get_option('filtering_the_results', $this->params['moduleId']);
+        if ($filter == '1') {
             $this->buildFilter();
         }
 
