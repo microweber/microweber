@@ -27,6 +27,7 @@ abstract class BaseFilter
     public $queryParams = array();
     protected $query;
     protected $model;
+    protected $request;
 
     public function __construct()
     {

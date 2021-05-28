@@ -74,13 +74,35 @@
 
             {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
 
+            <script type="text/javascript">
+                $('#{{$moduleId}}').find('.pagination').find('.page-link').click(function(e) {
+                    e.preventDefault();
+                    var pageLink = $(this).attr('href');
+                    var linkObject = decodeUrlParamsToObject(pageLink);
+
+                    var i;
+                    var targetPageNum;
+                    for (i = 0; i < linkObject.length; i++) {
+                        if (linkObject[i].key == 'page') {
+                            targetPageNum = linkObject[i].value;
+                        }
+                    }
+
+                    var queryParams = [];
+                    queryParams.push({
+                        key:'page',
+                        value:targetPageNum
+                    });
+
+                    submitQueryFilter('{{$moduleId}}', queryParams);
+                });
+            </script>
+
             <br />
             <p>
                 Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
             </p>
         </div>
-
-
 
 
         </div>

@@ -17,8 +17,8 @@ function findOrReplaceInObject(object, key, value) {
     return object;
 }
 
-function getUrlAsArray() {
-    let url = window.location.href;
+function decodeUrlParamsToObject(url)
+{
     if (url.indexOf('?') === -1) {
         return [];
     }
@@ -31,6 +31,11 @@ function getUrlAsArray() {
         request.push({key: decodeURIComponent(pair[0]), value: decodeURIComponent(pair[1])});
     }
     return request;
+}
+
+function getUrlAsArray() {
+    let url = window.location.href;
+    return decodeUrlParamsToObject(url);
 }
 
 encodeDataToURL = (data) => {
@@ -58,3 +63,4 @@ function submitQueryFilter(moduleId, queryParams)
 
     //window.location = "{!! $searchUri !!}" + keywordField.value;
 }
+
