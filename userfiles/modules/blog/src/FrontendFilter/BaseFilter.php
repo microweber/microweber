@@ -23,6 +23,7 @@ class BaseFilter
     //public $allCategoriesForResults = [];
     public $allTagsForResults = [];
 
+    public $filters = array();
     public $params = array();
     public $queryParams = array();
     protected $query;
@@ -45,9 +46,9 @@ class BaseFilter
 
     public function activeFilters($template = false) {
 
-        //dd($this->allCustomFieldsForResults);
-
         $activeFilters = [];
+
+        dump($this->filters);
 
         $moduleId = $this->params['moduleId'];
 
@@ -263,6 +264,8 @@ class BaseFilter
             }
             $filters = $readyOrderedFilters;
         }
+
+        $this->filters = $filters;
 
         $moduleId = $this->params['moduleId'];
 
