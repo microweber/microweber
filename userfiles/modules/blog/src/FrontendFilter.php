@@ -111,6 +111,18 @@ class FrontendFilter
         return view($template,compact('options','moduleId'));
     }
 
+    public function activeFilters($template = false) {
+
+
+        //dd($this->allCustomFieldsForResults);
+
+        $activeFilters = [];
+
+        $moduleId = $this->params['moduleId'];
+
+        return view($template, compact('activeFilters','moduleId'));
+    }
+
     public function categories($template = false)
     {
         $show = get_option('filtering_by_categories', $this->params['moduleId']);

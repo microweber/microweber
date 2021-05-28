@@ -1,7 +1,21 @@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.js-filter-option-select').change(function () {
+            var queryParams = [];
+            $.each($(this).serializeArray(), function(k,filter) {
+                queryParams.push({
+                    key:filter.name,
+                    value:filter.value
+                });
+            });
+            submitQueryFilter('{{$moduleId}}', queryParams);
+        });
+    });
+</script>
+
 @foreach($filters as $filterKey=>$filter)
-
     @include('blog::partials.filters.' . $filter->controlType)
-
 @endforeach
 
 
