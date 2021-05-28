@@ -62,6 +62,17 @@ class ContentFilter {
             filterInstance.submitQueryFilter( queryParams);
         });
 
+        // Custom fields
+        $('body').on('change', '.js-filter-option-select', function(e) {
+            var queryParams = [];
+            $.each($(this).serializeArray(), function(k,filter) {
+                queryParams.push({
+                    key:filter.name,
+                    value:filter.value
+                });
+            });
+            filterInstance.submitQueryFilter(queryParams);
+        });
 
         // Search
         $(document).keypress(function(e) {
