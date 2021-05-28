@@ -5,6 +5,15 @@ use Illuminate\Support\Facades\URL;
 
 trait SearchTrait {
 
+    public function applyQuerySearch($request)
+    {
+        // Search
+        $search = $request->get('search');
+        if (!empty($search)) {
+            $this->query->where('title','LIKE','%'.$search.'%');
+        }
+    }
+
     public function search($template = false)
     {
         $fullUrl = URL::current();

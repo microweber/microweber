@@ -34,4 +34,12 @@ trait PaginationTrait {
     {
         return $this->pagination->items();
     }
+
+    public function applyQueryPage($request)
+    {
+        $page = $request->get('page', false);
+        if ($page) {
+            $this->queryParams['page'] = $page;
+        }
+    }
 }

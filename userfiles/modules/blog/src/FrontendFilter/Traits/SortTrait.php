@@ -5,6 +5,21 @@ use Illuminate\Support\Facades\URL;
 
 trait SortTrait {
 
+    public function applyQuerySort($request)
+    {
+        // Sort & Order
+        $sort = $request->get('sort', false);
+        $order = $request->get('order', false);
+
+        if ($sort && $order) {
+
+            $this->queryParams['sort'] = $sort;
+            $this->queryParams['order'] = $order;
+
+            $this->query->orderBy($sort, $order);
+        }
+    }
+
     public function sort($template = false)
     {
         $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);

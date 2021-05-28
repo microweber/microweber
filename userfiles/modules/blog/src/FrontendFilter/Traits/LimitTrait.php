@@ -5,9 +5,18 @@ use Illuminate\Support\Facades\URL;
 
 trait LimitTrait {
 
+    public function applyQueryLimit($request)
+    {
+        $this->queryParams['limit'] = 10;
+
+        $limit = $request->get('limit', false);
+        if ($limit) {
+            $this->queryParams['limit'] = $limit;
+        }
+    }
+
     public function limit($template = false)
     {
-
         $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
         if (!$limitTheResults) {
             return false;
@@ -50,4 +59,5 @@ trait LimitTrait {
 
         return view($template, compact('options', 'moduleId'));
     }
+
 }

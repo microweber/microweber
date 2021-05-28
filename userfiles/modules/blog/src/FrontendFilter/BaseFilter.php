@@ -289,53 +289,17 @@ class BaseFilter
     {
         $request = $this->getRequest();
 
-        $limit = $request->get('limit', false);
-        if ($limit) {
-            $this->queryParams['limit'] = $limit;
-        }
+        $reflection = new \ReflectionClass(get_class($this));
+        $traitMethods = $reflection->getMethods();
+        foreach($traitMethods as $method) {
 
-        $page = $request->get('page', false);
-        if ($page) {
-            $this->queryParams['page'] = $page;
+            // Apply query builds from traits
+            if (strpos($method->name, 'applyQuery') !== false) {
+                $this->{$method->name}($request);
+            }
         }
 
         $this->query->where('parent', $this->getMainPageId());
-
-        // Search
-        $search = $request->get('search');
-        if (!empty($search)) {
-            $this->query->where('title','LIKE','%'.$search.'%');
-        }
-
-        // Sort & Order
-        $sort = $request->get('sort', false);
-        $order = $request->get('order', false);
-
-        if ($sort && $order) {
-
-            $this->queryParams['sort'] = $sort;
-            $this->queryParams['order'] = $order;
-
-            $this->query->orderBy($sort, $order);
-        }
-
-        // Tags
-        $this->query->with('tagged');
-        $tags = $request->get('tags', false);
-
-        if (!empty($tags)) {
-            $this->queryParams['tags'] = $tags;
-            $this->query->withAllTags($tags);
-        }
-
-        // Categories
-        $category = $request->get('category');
-        if (!empty($category)) {
-            $this->queryParams['category'] = $category;
-            $this->query->whereHas('categoryItems', function ($query) use($category) {
-                $query->where('parent_id', '=', $category);
-            });
-        }
 
         $this->buildFilter();
 
@@ -367,7 +331,7 @@ class BaseFilter
 
         dd($this->query->get());*/
 
-        $this->pagination = $this->query->paginate($limit)->withQueryString();
+        $this->pagination = $this->query->paginate($this->queryParams['limit'])->withQueryString();
 
         return $this;
     }

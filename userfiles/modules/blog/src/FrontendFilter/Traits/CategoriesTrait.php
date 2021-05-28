@@ -6,6 +6,18 @@ use MicroweberPackages\Category\Models\Category;
 
 trait CategoriesTrait {
 
+    public function applyQueryCategories($request)
+    {
+        // Categories
+        $category = $request->get('category');
+        if (!empty($category)) {
+            $this->queryParams['category'] = $category;
+            $this->query->whereHas('categoryItems', function ($query) use($category) {
+                $query->where('parent_id', '=', $category);
+            });
+        }
+    }
+
     public function categories($template = false)
     {
         $show = get_option('filtering_by_categories', $this->params['moduleId']);

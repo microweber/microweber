@@ -5,5 +5,4 @@ use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
 
 class ShopFilter extends BaseFilter {
 
-
 }

@@ -5,5 +5,11 @@ use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
 
 class BlogFilter extends BaseFilter {
 
+    public function apply()
+    {
+
+        echo 111;
+
+    }
 
 }

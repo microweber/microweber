@@ -5,6 +5,18 @@ use Illuminate\Support\Facades\URL;
 
 trait TagsTrait {
 
+    public function applyQueryTags($request)
+    {
+        // Tags
+        $this->query->with('tagged');
+        $tags = $request->get('tags', false);
+
+        if (!empty($tags)) {
+            $this->queryParams['tags'] = $tags;
+            $this->query->withAllTags($tags);
+        }
+    }
+
     public function tags($template = false)
     {
         $show = get_option('filtering_by_tags', $this->params['moduleId']);
