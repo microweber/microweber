@@ -77,7 +77,7 @@
             <script type="text/javascript">
                 $('#{{$moduleId}}').find('.pagination').find('.page-link').click(function(e) {
                     e.preventDefault();
-                    var pageLink = $(this).attr('href');
+                  /*  var pageLink = $(this).attr('href');
                     var linkObject = decodeUrlParamsToObject(pageLink);
 
                     var i;
@@ -86,7 +86,9 @@
                         if (linkObject[i].key == 'page') {
                             targetPageNum = linkObject[i].value;
                         }
-                    }
+                    }*/
+
+                    var targetPageNum = $(this).attr('href').split('page=')[1];
 
                     var queryParams = [];
                     queryParams.push({

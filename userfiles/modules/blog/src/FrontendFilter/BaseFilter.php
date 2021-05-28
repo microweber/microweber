@@ -296,7 +296,12 @@ abstract class BaseFilter
             $this->buildFilter();
         }
 
-        $this->pagination = $this->query->paginate($this->queryParams['limit'])->withQueryString();
+        $page = 0;
+        if ($this->request->get('page', false)) {
+            $page = $this->request->get('page');
+        }
+
+        $this->pagination = $this->query->paginate($this->queryParams['limit'], ['*'], 'page', $page)->withQueryString();
 
         return $this;
     }
