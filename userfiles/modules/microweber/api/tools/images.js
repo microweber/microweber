@@ -57,14 +57,14 @@ mw.image = {
             for (; i < l; i++) all[i].mwImageResizerComponent = true
         },
         resizerSet: function (el, selectImage) {
-            var selectImage = typeof selectImage === 'undefined' ? true : selectImage;
+            selectImage = typeof selectImage === 'undefined' ? true : selectImage;
             /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
 
 
             mw.$('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG' ? 'show' : 'hide']()
 
-            var el = mw.$(el);
+            el = mw.$(el);
             var offset = el.offset();
             var parent = el.parent();
             var parentOffset = parent.offset();

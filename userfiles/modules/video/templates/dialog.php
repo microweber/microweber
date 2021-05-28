@@ -6,6 +6,12 @@ description: Opens video in a popup
 */
 ?>
 
+<?php
+    if(!isset($params['width'])) {
+        $params['width'] = 450;
+    }
+?>
+
 <script>
     $(document).ready(function () {
 
@@ -13,12 +19,13 @@ description: Opens video in a popup
             $('#video-dialog-template-<?php echo $params['id']; ?>').mwDialog({
                 header: false,
                 skin: 'video',
-                closeButtonAppendTo: '.mw-dialog-holder'
+                closeButtonAppendTo: '.mw-dialog-holder',
+                width: <?php print $params['width']  ?>
             });
             var dialog = mw.dialog.get()
 
             mw.spinner(({element: dialog.dialogContainer, size: 30})).show();
-            $('iframe', dialog.dialogContainer).on('load', function (){
+            $('iframe,img', dialog.dialogContainer).on('load', function (){
                 mw.spinner(({element: dialog.dialogContainer, size: 30})).remove();
             })
         })
@@ -38,6 +45,8 @@ description: Opens video in a popup
         color: #2b2b2b;
     }
 </style>
+
+
 
 <template id="video-dialog-template-<?php echo $params['id']; ?>" style="display: none"><?php echo $code; ?></template>
 <span id="video-dialog-button-<?php echo $params['id']; ?>">Play</span>
