@@ -1,18 +1,23 @@
 <?php
-
-
-namespace MicroweberPackages\Blog;
+namespace MicroweberPackages\Blog\FrontendFilter;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\SearchTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\SortTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\TagsTrait;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Page\Models\Page;
 
-class FrontendFilter
+class BaseFilter
 {
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait;
 
     public $allCustomFieldsForResults = [];
     //public $allCategoriesForResults = [];
@@ -20,7 +25,6 @@ class FrontendFilter
 
     public $params = array();
     public $queryParams = array();
-    protected $pagination;
     protected $query;
     protected $model;
 
@@ -39,78 +43,6 @@ class FrontendFilter
         $this->query = $query;
     }
 
-    public function pagination($theme = false)
-    {
-        //$filteringTheResults = get_option('filtering_the_results', $this->params['moduleId']);
-
-        return $this->pagination->links($theme);
-    }
-
-    public function total()
-    {
-        return $this->pagination->total();
-    }
-
-    public function count()
-    {
-        return $this->pagination->count();
-    }
-
-    public function items()
-    {
-        return $this->pagination->items();
-    }
-
-    public function sort($template = false)
-    {
-        $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
-        if (!$sortTheResults) {
-            return false;
-        }
-
-        if (!isset($this->model->sortable)) {
-            return false;
-        }
-
-        $options = [];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-
-        $directions = [
-          'desc'=>'NEWEST',
-          'asc'=>'OLDEST',
-        ];
-
-        foreach($this->model->sortable as $field) {
-            foreach($directions as $direction=>$directionName) {
-
-                $isActive = 0;
-                if (($request->get('order') == $direction) && $request->get('sort') == $field) {
-                    $isActive = 1;
-                }
-
-                $buildLink = $this->queryParams;
-                $buildLink['sort'] = $field;
-                $buildLink['order'] = $direction;
-                $buildLink = http_build_query($buildLink);
-
-                $pageSort = new \stdClass;
-                $pageSort->active = $isActive;
-                $pageSort->link = $fullUrl . '?' . $buildLink;
-                $pageSort->name = '' . $field .' '. $directionName;
-                $pageSort->sort = $field;
-                $pageSort->order = $direction;
-
-                $options[] = $pageSort;
-            }
-        }
-
-        $moduleId = $this->params['moduleId'];
-
-        return view($template,compact('options','moduleId'));
-    }
-
     public function activeFilters($template = false) {
 
 
@@ -121,116 +53,6 @@ class FrontendFilter
         $moduleId = $this->params['moduleId'];
 
         return view($template, compact('activeFilters','moduleId'));
-    }
-
-    public function categories($template = false)
-    {
-        $show = get_option('filtering_by_categories', $this->params['moduleId']);
-        if (!$show) {
-            return false;
-        }
-
-        $categoryQuery = Category::query();
-        $categoryQuery->where('rel_id', $this->getMainPageId());
-
-        $categories = $categoryQuery->where('parent_id',0)->get();
-
-        return view($template, compact('categories'));
-    }
-
-    public function tags($template = false)
-    {
-
-        $show = get_option('filtering_by_tags', $this->params['moduleId']);
-        if (!$show) {
-            return false;
-        }
-
-        $tags = [];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-        $category = $request->get('category');
-
-       foreach ($this->allTagsForResults as $tag) {
-            $buildLink = [];
-            if (!empty($category)) {
-                $buildLink['category'] = $category;
-            }
-            $buildLink['tags'] = $tag->slug;
-            $buildLink = http_build_query($buildLink);
-
-            $tag->url = $fullUrl .'?'. $buildLink;
-            $tags[$tag->slug] = $tag;
-        }
-
-        return view($template, compact('tags'));
-    }
-
-    public function limit($template = false)
-    {
-
-        $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
-        if (!$limitTheResults) {
-            return false;
-        }
-
-        $options =[];
-
-        $pageLimits = [
-            1,
-            2,
-            3,
-            4,
-            5,
-        ];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-
-        foreach ($pageLimits as $limit) {
-
-            $buildLink = $this->queryParams;
-            $buildLink['limit'] = $limit;
-            $buildLink = http_build_query($buildLink);
-
-            $isActive = 0;
-            if ($request->get('limit') == $limit) {
-                $isActive = 1;
-            }
-
-            $pageLimit = new \stdClass;
-            $pageLimit->active = $isActive;
-            $pageLimit->link = $fullUrl .'?'. $buildLink;
-            $pageLimit->name = $limit;
-            $pageLimit->value = $limit;
-
-            $options[] = $pageLimit;
-        }
-
-        $moduleId = $this->params['moduleId'];
-
-        return view($template, compact('options', 'moduleId'));
-    }
-
-    public function search($template = false)
-    {
-        $fullUrl = URL::current();
-
-        $searchUri = $this->queryParams;
-        $searchUri['search'] = '';
-        $searchUri = $fullUrl . '?'. http_build_query($searchUri);
-
-        $search = $this->getRequest()->get('search', false);
-
-        $moduleId = $this->params['moduleId'];
-
-        return view($template, compact('searchUri', 'search', 'moduleId'));
-    }
-
-    public function results()
-    {
-        return $this->pagination->items();
     }
 
     public function getMainPageId()
@@ -251,7 +73,6 @@ class FrontendFilter
 
         return 0;
     }
-
 
 
     public function buildFilter()

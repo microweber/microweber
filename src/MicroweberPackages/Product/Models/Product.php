@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Product\Models;
 
-use MicroweberPackages\Blog\FrontendFilter;
+use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
@@ -176,7 +176,7 @@ class Product extends Content
 
     public function scopeFrontendFilter($query, $params)
     {
-        $filter = new FrontendFilter();
+        $filter = new BaseFilter();
         $filter->setModel($this);
         $filter->setQuery($query);
         $filter->setParams($params);

@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Post\Models;
 
-use MicroweberPackages\Blog\FrontendFilter;
+use MicroweberPackages\Blog\BaseFilter;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
 
@@ -61,7 +61,7 @@ class Post extends Content
 
     public function scopeFrontendFilter($query, $params)
     {
-        $filter = new FrontendFilter();
+        $filter = new BaseFilter();
         $filter->setModel($this);
         $filter->setQuery($query);
         $filter->setParams($params);
