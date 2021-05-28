@@ -159,7 +159,7 @@ abstract class BaseFilter
         Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
     }
 
-    public function filters($template = false)
+    public function filters_($template = false)
     {
         $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
         if (!$show) {
@@ -200,7 +200,7 @@ abstract class BaseFilter
                 }
             }
 
-            foreach($customFieldsGrouped as $customFieldNameKey=>$customField) {
+            foreach ($customFieldsGrouped as $customFieldNameKey => $customField) {
                 if (isset($filterOptions[$customFieldNameKey])) {
 
                     $readyFilterOptions = $filterOptions[$customFieldNameKey];
@@ -219,7 +219,7 @@ abstract class BaseFilter
                     if ($customField->type == 'price') {
 
                         $allPrices = [];
-                        foreach($readyFilterOptions as $priceVal=>$priceOption) {
+                        foreach ($readyFilterOptions as $priceVal => $priceOption) {
                             $allPrices[] = $priceVal;
                         }
 
@@ -228,7 +228,7 @@ abstract class BaseFilter
                         if (isset($allPrices[0])) {
                             $sortedPrices = [];
                             asort($allPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-                            foreach($allPrices as $sortPrice) {
+                            foreach ($allPrices as $sortPrice) {
                                 $sortedPrices[] = $sortPrice;
                             }
                             $minPrice = $sortedPrices[0];
@@ -269,8 +269,11 @@ abstract class BaseFilter
             }
             $filters = $readyOrderedFilters;
         }
+    }
 
-        $this->filters = $filters;
+    public function filters($template) {
+
+        $filters = [];
 
         $moduleId = $this->params['moduleId'];
 

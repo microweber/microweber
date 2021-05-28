@@ -8,11 +8,4 @@ class BlogFilter extends BaseFilter {
 
     use CustomFieldsTrait;
 
-    public function apply()
-    {
-
-        echo 111;
-
-    }
-
 }

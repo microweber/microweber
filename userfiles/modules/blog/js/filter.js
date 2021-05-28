@@ -32,6 +32,9 @@ class ContentFilter {
 
         // Limit
         $('body').on('change' , '.js-filter-change-limit' , function() {
+
+            $(this).attr('disabled','disabled');
+
             var queryParams = [];
 
             var limit = $(".js-filter-change-limit").val();
@@ -45,6 +48,9 @@ class ContentFilter {
 
         // Sort
         $('body').on('change' , '.js-filter-change-sort' , function() {
+
+            $(this).attr('disabled','disabled');
+
             var queryParams = [];
 
             var sort = $(".js-filter-change-sort").children('option:selected').attr('data-sort');
@@ -64,6 +70,9 @@ class ContentFilter {
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
+
+            $(this).attr('disabled','disabled');
+
             var queryParams = [];
             $.each($(this).serializeArray(), function(k,filter) {
                 queryParams.push({
@@ -82,10 +91,16 @@ class ContentFilter {
         });
 
         $('body').on('submit', '.js-filter-search-submit', function(e) {
+
+            $(this).attr('disabled','disabled');
+
             $('.js-filter-search-field').trigger('change');
         });
 
         $('body').on('change', '.js-filter-search-field', function(e) {
+
+            $(this).attr('disabled','disabled');
+
             var queryParams = [];
             queryParams.push({
                 key:'search',
@@ -109,6 +124,8 @@ class ContentFilter {
         // Pagination
         $('body').on('click', '.page-link', function(e) {
             e.preventDefault();
+            $(this).attr('disabled','disabled');
+
             var targetPageNum = $(this).attr('href').split('page=')[1];
             var queryParams = [];
             queryParams.push({
