@@ -45,7 +45,6 @@ class BaseFilter
 
     public function activeFilters($template = false) {
 
-
         //dd($this->allCustomFieldsForResults);
 
         $activeFilters = [];

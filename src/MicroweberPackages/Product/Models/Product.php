@@ -1,11 +1,11 @@
 <?php
 namespace MicroweberPackages\Product\Models;
 
-use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
+use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 
 class Product extends Content
 {
@@ -176,7 +176,7 @@ class Product extends Content
 
     public function scopeFrontendFilter($query, $params)
     {
-        $filter = new BaseFilter();
+        $filter = new ShopFilter();
         $filter->setModel($this);
         $filter->setQuery($query);
         $filter->setParams($params);
