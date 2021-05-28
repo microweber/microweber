@@ -1,30 +1,11 @@
-<script src="{{module_url()}}/js/filter.js" type="text/javascript"></script>
-<link href="{{module_url()}}/css/filter.css" type="text/css" rel="stylesheet">
+<script src="userfiles/modules/blog/js/filter.js" type="text/javascript"></script>
+<link href="userfiles/modules/blog/css/filter.css" type="text/css" rel="stylesheet">
 
 <section class="section section-blog">
     <div class="container">
     <div class="row">
 
             <script type="text/javascript">
-                function getUrlAsArray() {
-                    let url = window.location.href;
-                    if (url.indexOf('?') === -1) {
-                        return [];
-                    }
-                    var request = [];
-                    var pairs = url.substring(url.indexOf('?') + 1).split('&');
-                    for (var i = 0; i < pairs.length; i++) {
-                        if(!pairs[i])
-                            continue;
-                        var pair = pairs[i].split('=');
-                        request.push({key:decodeURIComponent(pair[0]), value: decodeURIComponent(pair[1])});
-                    }
-                    return request;
-                }
-
-                encodeDataToURL = (data) => {
-                    return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
-                };
 
                 $(document).ready(function () {
                     $('.js-filter-option-select').change(function () {
@@ -41,12 +22,7 @@
                         $.each($(this).serializeArray(), function(k,filter) {
                             redirectFilterUrl.push({key:filter.name, value:filter.value});
                         });
-
-                        $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
-                        mw.reload_module('#{{$moduleId}}');
-                        window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
-
-                        // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
+                        window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
                     });
                 });
             </script>
@@ -100,7 +76,7 @@
                 @endforeach
 
                 @php
-                    $resultCustomFields = false;// $post->customField()->with('fieldValue')->get();
+                    $resultCustomFields = $post->customField()->with('fieldValue')->get();
                 @endphp
                 @foreach ($resultCustomFields as $resultCustomField)
                     {{--@if ($resultCustomField->type !== 'date')

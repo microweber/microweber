@@ -3,7 +3,7 @@
 </script>
 <div class="card style-1 mb-3 card-in-live-edit">
     <div class="card-header">
-        <?php $module_info = module_info('blog/admin'); ?>
+        <?php $module_info = module_info('shop/admin'); ?>
         <h5>
             <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
@@ -24,7 +24,7 @@
                         <?php
                         $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
                             ->where('subtype','dynamic')
-                           // ->where('is_shop', 0)
+                            ->where('is_shop', 1)
                             ->get();
                         ?>
 

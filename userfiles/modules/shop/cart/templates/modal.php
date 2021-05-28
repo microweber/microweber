@@ -94,7 +94,7 @@ $total = cart_total();
                    <module type="shop/cart" template="totals" class="no-settings" />
            </div>
 
-           <div class="w-100 mt-md-3 justify-content-center text-md-left text-center">
+           <div class="w-100 mt-md-3 justify-content-center text-md-start text-center">
                <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
                <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-right ml-2"><?php _e('Proceed to Checkout'); ?></a>

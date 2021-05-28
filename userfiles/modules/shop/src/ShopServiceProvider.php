@@ -9,12 +9,12 @@
  *
  */
 
-namespace MicroweberPackages\Shop\Products\Filter;
+namespace MicroweberPackages\Shop;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class ProductFilterServiceProvider extends ServiceProvider
+class ShopServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -23,6 +23,8 @@ class ProductFilterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::addNamespace('productFilter', (__DIR__) . '/resources/views');
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
+
+        View::addNamespace('shop', (__DIR__) . '/resources/views');
     }
 }

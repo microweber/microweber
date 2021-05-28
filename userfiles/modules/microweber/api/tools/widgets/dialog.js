@@ -145,7 +145,7 @@
         };
 
         this.options = $.extend({}, defaults, options, {
-            skin: 'default'
+            // skin: 'default'
         });
 
         this.id = this.options.id;

@@ -698,10 +698,13 @@
                     mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
                 }
                 this._tooltip.style.display = 'block';
+                if(target.nodeType === 1) {
+                    var size = getComputedStyle(target);
+                    $('[type="number"],[type="range"]').val(Number(size.fontSize));
+                }
+
             }
-            console.log(target)
-            var size = getComputedStyle(target);
-            $('[type="number"],[type="range"]').val(Number(size.fontSize));
+
             mw.components._init();
             return this._tooltip;
         };

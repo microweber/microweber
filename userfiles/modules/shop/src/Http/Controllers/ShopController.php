@@ -1,12 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Blog\Http\Controllers;
+namespace MicroweberPackages\Shop\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Content\Content;
-use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 
-class BlogController
+class ShopController
 {
     /**
      * Display a listing of the resource.
@@ -17,13 +16,13 @@ class BlogController
     {
         $moduleId = $request->get('id');
 
-        $postQuery = Post::query();
+        $postQuery = Product::query();
 
         $postResults = $postQuery->frontendFilter([
             'moduleId'=>$moduleId
         ]);
 
-        return view('blog::index', ['posts'=>$postResults,'moduleId'=>$moduleId]);
+        return view('shop::index', ['posts'=>$postResults]);
     }
 
 }
