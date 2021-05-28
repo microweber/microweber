@@ -7,18 +7,3 @@
     @endforeach
 </select>
 </div>
-
-<script type="text/javascript">
-    $('body').on('change' , '.js-filter-change-limit' , function() {
-
-        var limit = $(".js-filter-change-limit").val();
-        var queryParams = [];
-        queryParams.push({
-            key:'limit',
-            value:limit
-        });
-
-        submitQueryFilter('{{$moduleId}}', queryParams);
-
-    });
-</script>

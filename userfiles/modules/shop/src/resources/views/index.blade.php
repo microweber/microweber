@@ -1,6 +1,12 @@
 <script src="userfiles/modules/blog/js/filter.js" type="text/javascript"></script>
 <link href="userfiles/modules/blog/css/filter.css" type="text/css" rel="stylesheet">
 
+<script type="text/javascript">
+    filter = new ContentFilter();
+    filter.setModuleId('{{$moduleId}}');
+    filter.init();
+</script>
+
 <section class="section section-blog">
     <div class="container">
     <div class="row">
@@ -73,32 +79,6 @@
             </div>
 
             {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
-
-            <script type="text/javascript">
-                $('#{{$moduleId}}').find('.pagination').find('.page-link').click(function(e) {
-                    e.preventDefault();
-                  /*  var pageLink = $(this).attr('href');
-                    var linkObject = decodeUrlParamsToObject(pageLink);
-
-                    var i;
-                    var targetPageNum;
-                    for (i = 0; i < linkObject.length; i++) {
-                        if (linkObject[i].key == 'page') {
-                            targetPageNum = linkObject[i].value;
-                        }
-                    }*/
-
-                    var targetPageNum = $(this).attr('href').split('page=')[1];
-
-                    var queryParams = [];
-                    queryParams.push({
-                        key:'page',
-                        value:targetPageNum
-                    });
-
-                    submitQueryFilter('{{$moduleId}}', queryParams);
-                });
-            </script>
 
             <br />
             <p>

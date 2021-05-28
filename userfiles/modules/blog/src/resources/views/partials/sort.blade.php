@@ -7,24 +7,3 @@
         @endforeach
     </select>
 </div>
-
-<script type="text/javascript">
-    $('body').on('change' , '.js-filter-change-sort' , function() {
-
-        var sort = $(".js-filter-change-sort").children('option:selected').attr('data-sort');
-        var order = $(".js-filter-change-sort").children('option:selected').attr('data-order');
-
-        var queryParams = [];
-        queryParams.push({
-            key:'sort',
-            value:sort
-        });
-        queryParams.push({
-            key:'order',
-            value:order
-        });
-
-        submitQueryFilter('{{$moduleId}}', queryParams);
-
-    });
-</script>
