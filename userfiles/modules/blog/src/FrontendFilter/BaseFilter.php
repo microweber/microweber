@@ -53,7 +53,15 @@ abstract class BaseFilter
 
         $activeFilters = [];
 
-        dump($this->filters);
+        $this->filters();
+
+        foreach($this->filters as $filter) {
+            foreach($filter->options as $option) {
+                if ($option->active) {
+                    $activeFilters[$filter->name] = $option;
+                }
+            }
+        }
 
         $moduleId = $this->params['moduleId'];
 
@@ -78,7 +86,6 @@ abstract class BaseFilter
 
         return 0;
     }
-
 
     public function buildFilter()
     {
@@ -270,9 +277,16 @@ abstract class BaseFilter
             $filters = $readyOrderedFilters;
         }
 
+        $this->filters = $filters;
+
         $moduleId = $this->params['moduleId'];
 
-        return view($template, compact( 'filters','moduleId'));
+        $viewData =  ['filters'=>$filters, 'moduleId'=>$moduleId];
+
+        if (!$template) {
+            return $viewData;
+        }
+        return view($template, $viewData);
     }
 
     public function apply()
