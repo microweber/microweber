@@ -5,11 +5,12 @@ trait PriceFilter {
 
     public function applyQueryPrice()
     {
-        $filters = $this->request->get('filters');
+        $minPrice = $this->request->get('min_price', false);
+        $maxPrice = $this->request->get('max_price', false);
 
-        if (isset($filters['from_price']) && isset($filters['to_price'])) {
+        if ($minPrice && $maxPrice) {
             $this->query->filter([
-                'priceBetween'=> $filters['from_price'] . ',' . $filters['to_price']
+                'priceBetween'=> $minPrice . ',' . $maxPrice
             ]);
         }
     }

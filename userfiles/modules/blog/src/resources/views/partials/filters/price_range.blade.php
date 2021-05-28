@@ -50,8 +50,8 @@ $randomId = uniqid();
 
             var redirectFilterUrl = getUrlAsArray();
 
-            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_price]', from.val());
-            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_price]', to.val());
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'min_price', from.val());
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'max_price', to.val());
 
 
             $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));

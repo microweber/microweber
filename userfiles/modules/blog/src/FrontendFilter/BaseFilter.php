@@ -173,7 +173,7 @@ abstract class BaseFilter
             return false;
         }
 
-        $requestFilters = $this->_getRequestInstance()->get('filters', false);
+        $requestFilters = $this->request->get('filters', false);
 
         $filters = [];
 
@@ -248,12 +248,12 @@ abstract class BaseFilter
                         $filter->fromPrice = $filter->minPrice;
                         $filter->toPrice = $filter->maxPrice;
 
-                        if (isset($requestFilters['from_price'])) {
-                            $filter->fromPrice = $requestFilters['from_price'];
+                        if ($this->request->get('min_price', false)) {
+                            $filter->fromPrice = $this->request->get('min_price');
                         }
 
-                        if (isset($requestFilters['to_price'])) {
-                            $filter->toPrice = $requestFilters['to_price'];
+                        if ($this->request->get('max_price', false)) {
+                            $filter->toPrice = $this->request->get('max_price');
                         }
 
                     }
