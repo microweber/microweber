@@ -63,6 +63,10 @@ abstract class BaseFilter
             }
         }
 
+        if (empty($activeFilters)) {
+            return false;
+        }
+
         $moduleId = $this->params['moduleId'];
 
         return view($template, compact('activeFilters','moduleId'));
