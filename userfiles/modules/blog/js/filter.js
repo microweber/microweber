@@ -71,8 +71,6 @@ class ContentFilter {
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
 
-            $(this).attr('disabled','disabled');
-
             var queryParams = [];
             $.each($(this).serializeArray(), function(k,filter) {
                 queryParams.push({

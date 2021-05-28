@@ -159,7 +159,7 @@ abstract class BaseFilter
         Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
     }
 
-    public function filters_($template = false)
+    public function filters($template = false)
     {
         $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
         if (!$show) {
@@ -269,11 +269,6 @@ abstract class BaseFilter
             }
             $filters = $readyOrderedFilters;
         }
-    }
-
-    public function filters($template) {
-
-        $filters = [];
 
         $moduleId = $this->params['moduleId'];
 
