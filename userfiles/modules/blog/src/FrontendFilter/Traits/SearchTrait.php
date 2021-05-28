@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\URL;
 
 trait SearchTrait {
 
-    public function applyQuerySearch($request)
+    public function applyQuerySearch()
     {
         // Search
-        $search = $request->get('search');
+        $search = $this->request->get('search');
         if (!empty($search)) {
             $this->query->where('title','LIKE','%'.$search.'%');
         }
@@ -22,7 +22,7 @@ trait SearchTrait {
         $searchUri['search'] = '';
         $searchUri = $fullUrl . '?'. http_build_query($searchUri);
 
-        $search = $this->getRequest()->get('search', false);
+        $search = $this->request->get('search', false);
 
         $moduleId = $this->params['moduleId'];
 

@@ -15,7 +15,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Page\Models\Page;
 
-class BaseFilter
+abstract class BaseFilter
 {
     use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait;
 
@@ -27,6 +27,11 @@ class BaseFilter
     public $queryParams = array();
     protected $query;
     protected $model;
+
+    public function __construct()
+    {
+        $this->request = $this->_getRequestInstance();
+    }
 
     public function setModel($model)
     {
@@ -160,7 +165,7 @@ class BaseFilter
             return false;
         }
 
-        $requestFilters = $this->getRequest()->get('filters', false);
+        $requestFilters = $this->_getRequestInstance()->get('filters', false);
 
         $filters = [];
 
@@ -271,7 +276,31 @@ class BaseFilter
         return view($template, compact( 'filters','moduleId'));
     }
 
-    public function getRequest()
+    public function apply()
+    {
+        $reflection = new \ReflectionClass(get_class($this));
+        $traitMethods = $reflection->getMethods();
+        foreach($traitMethods as $method) {
+            // Apply query builds from traits
+            if (strpos($method->name, 'applyQuery') !== false) {
+                $this->{$method->name}();
+            }
+        }
+
+        $this->query->where('parent', $this->getMainPageId());
+        $this->query->select(['id','parent', 'url','title','content','content_body']);
+
+        $showFilter = get_option('x', $this->params['moduleId']);
+        if ($showFilter) {
+            $this->buildFilter();
+        }
+
+        $this->pagination = $this->query->paginate($this->queryParams['limit'])->withQueryString();
+
+        return $this;
+    }
+
+    private function _getRequestInstance()
     {
         $request = new \Illuminate\Http\Request($_REQUEST);
 
@@ -282,52 +311,5 @@ class BaseFilter
         }
 
         return $request;
-    }
-
-    public function apply()
-    {
-        $request = $this->getRequest();
-
-        $reflection = new \ReflectionClass(get_class($this));
-        $traitMethods = $reflection->getMethods();
-        foreach($traitMethods as $method) {
-
-            // Apply query builds from traits
-            if (strpos($method->name, 'applyQuery') !== false) {
-                $this->{$method->name}($request);
-            }
-        }
-
-        $this->query->where('parent', $this->getMainPageId());
-
-        $this->buildFilter();
-
-        // filters
-        $filters = $customFieldFilters = $request->get('filters');
-
-        // except keys
-        if (isset($customFieldFilters['from_price'])) {
-            unset($customFieldFilters['from_price']);
-        }
-        if (isset($customFieldFilters['to_price'])) {
-            unset($customFieldFilters['to_price']);
-        }
-
-        if (!empty($customFieldFilters)) {
-            $this->queryParams['filters'] = $customFieldFilters;
-            $this->query->whereCustomField($customFieldFilters);
-        }
-
-        if (isset($filters['from_price']) && isset($filters['to_price'])) {
-            $this->query->filter([
-                'priceBetween'=> $filters['from_price'] . ',' . $filters['to_price']
-            ]);
-        }
-
-        $this->query->select(['id','parent', 'url','title','content','content_body']);
-
-        $this->pagination = $this->query->paginate($this->queryParams['limit'])->withQueryString();
-
-        return $this;
     }
 }

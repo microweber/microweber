@@ -6,10 +6,10 @@ use MicroweberPackages\Category\Models\Category;
 
 trait CategoriesTrait {
 
-    public function applyQueryCategories($request)
+    public function applyQueryCategories()
     {
         // Categories
-        $category = $request->get('category');
+        $category = $this->request->get('category');
         if (!empty($category)) {
             $this->queryParams['category'] = $category;
             $this->query->whereHas('categoryItems', function ($query) use($category) {

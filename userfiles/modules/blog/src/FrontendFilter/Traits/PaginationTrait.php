@@ -35,9 +35,9 @@ trait PaginationTrait {
         return $this->pagination->items();
     }
 
-    public function applyQueryPage($request)
+    public function applyQueryPage()
     {
-        $page = $request->get('page', false);
+        $page = $this->request->get('page', false);
         if ($page) {
             $this->queryParams['page'] = $page;
         }

@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\URL;
 
 trait LimitTrait {
 
-    public function applyQueryLimit($request)
+    public function applyQueryLimit()
     {
         $this->queryParams['limit'] = 10;
 
-        $limit = $request->get('limit', false);
+        $limit = $this->request->get('limit', false);
         if ($limit) {
             $this->queryParams['limit'] = $limit;
         }
@@ -33,7 +33,6 @@ trait LimitTrait {
         ];
 
         $fullUrl = URL::current();
-        $request = $this->getRequest();
 
         foreach ($pageLimits as $limit) {
 
@@ -42,7 +41,7 @@ trait LimitTrait {
             $buildLink = http_build_query($buildLink);
 
             $isActive = 0;
-            if ($request->get('limit') == $limit) {
+            if ($this->request->get('limit') == $limit) {
                 $isActive = 1;
             }
 

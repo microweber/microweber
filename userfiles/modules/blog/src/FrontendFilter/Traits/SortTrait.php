@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\URL;
 
 trait SortTrait {
 
-    public function applyQuerySort($request)
+    public function applyQuerySort()
     {
         // Sort & Order
-        $sort = $request->get('sort', false);
-        $order = $request->get('order', false);
+        $sort = $this->request->get('sort', false);
+        $order = $this->request->get('order', false);
 
         if ($sort && $order) {
 
@@ -34,7 +34,6 @@ trait SortTrait {
         $options = [];
 
         $fullUrl = URL::current();
-        $request = $this->getRequest();
 
         $directions = [
             'desc'=>'NEWEST',
@@ -45,7 +44,7 @@ trait SortTrait {
             foreach($directions as $direction=>$directionName) {
 
                 $isActive = 0;
-                if (($request->get('order') == $direction) && $request->get('sort') == $field) {
+                if (($this->request->get('order') == $direction) && $this->request->get('sort') == $field) {
                     $isActive = 1;
                 }
 

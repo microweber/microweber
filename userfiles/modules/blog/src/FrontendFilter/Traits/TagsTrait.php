@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\URL;
 
 trait TagsTrait {
 
-    public function applyQueryTags($request)
+    public function applyQueryTags()
     {
         // Tags
         $this->query->with('tagged');
-        $tags = $request->get('tags', false);
+        $tags = $this->request->get('tags', false);
 
         if (!empty($tags)) {
             $this->queryParams['tags'] = $tags;
@@ -27,8 +27,7 @@ trait TagsTrait {
         $tags = [];
 
         $fullUrl = URL::current();
-        $request = $this->getRequest();
-        $category = $request->get('category');
+        $category = $this->request->get('category');
 
         foreach ($this->allTagsForResults as $tag) {
             $buildLink = [];
