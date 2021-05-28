@@ -159,6 +159,12 @@
                 mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
             }
         ],
+        ion_range_slider: [
+            function () {
+                mw.require(mw.settings.libs_url + 'ion-range-slider' + '/css/ion.rangeSlider.min.css', true);
+                mw.require(mw.settings.libs_url + 'ion-range-slider' + '/js/ion.rangeSlider.min.js', true);
+            }
+        ],
         air_datepicker: [
             function () {
                 mw.require(mw.settings.libs_url + 'air-datepicker' + '/css/datepicker.min.css', true);

@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Product\Models;
 
+use MicroweberPackages\Blog\FrontendFilter;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
@@ -68,6 +69,11 @@ class Product extends Content
         'depth'=>''
     ];
 
+    public $sortable = [
+        'id',
+        'name',
+        'posted_at'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -167,5 +173,15 @@ class Product extends Content
         }
 
         return $defaultKeys;
+    }
+
+    public function scopeFrontendFilter($query, $params)
+    {
+        $filter = new FrontendFilter();
+        $filter->setModel($this);
+        $filter->setQuery($query);
+        $filter->setParams($params);
+
+        return $filter->apply();
     }
 }

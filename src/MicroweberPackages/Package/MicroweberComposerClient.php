@@ -118,13 +118,16 @@ class MicroweberComposerClient
 
             foreach ($getRepositories as $packageName => $packageVersions) {
 
-                if (isset($filter['require_version'])) {
-                    if (!is_array($packageVersions)) {
-                        continue;
-                    }
+                if (!is_array($packageVersions)) {
+                    continue;
+                }
+
+                if ((isset($filter['require_name']) && ($filter['require_name'] == $packageName))) {
+
+                    $packageVersions['latest'] = end($packageVersions);
+
                     foreach ($packageVersions as $packageVersion => $packageVersionData) {
-                        if (($filter['require_version'] == $packageVersion) &&
-                            ($filter['require_name'] == $packageName)) {
+                        if ($filter['require_version'] == $packageVersion) {
                             $packages[] = $packageVersionData;
                             break;
                         }
@@ -139,6 +142,11 @@ class MicroweberComposerClient
 
     public function requestInstall($params)
     {
+
+        if (!isset($params['require_version'])) {
+            $params['require_version'] = 'latest';
+        }
+
         $this->newLog('Request install...');
 
         $this->log('Searching for ' . $params['require_name'] . ' for version ' . $params['require_version']);

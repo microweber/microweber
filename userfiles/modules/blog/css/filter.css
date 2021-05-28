@@ -1,0 +1,36 @@
+.filter-tags a {
+    border-radius:3px;
+    border:1px solid #d5d5d5;
+    color: #a8a8a8;
+    padding: 7px 10px;
+    margin-right:7px;
+    margin-top:5px;
+    margin-bottom:5px;
+    display:block;
+    max-width:130px;
+    float:left;
+}
+.filter-tags .active {
+    color: #1e61e3;
+    border-color: #1e61e3;
+}
+.datepicker {
+    width:100%;
+    border:none;
+}
+
+.btn-square-checkbox {
+    background-color: #fff;
+    border-color: #e4e4e4;
+    color: #212529;
+}
+.btn-square-checkbox:hover {
+    cursor:pointer;
+    background-color: #fff;
+    border-color: #989898;
+}
+.btn-square-checkbox.active {
+    background: #005af5;
+    border-color: #005af5;
+    color: #fff;
+}

@@ -29,7 +29,6 @@ trait FilterByPriceTrait
 
     public function priceBetween($price)
     {
-
         $minPrice = $price;
         $maxPrice = false;
 
@@ -41,6 +40,8 @@ trait FilterByPriceTrait
 
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
+
+       // dump($minPrice, $maxPrice);
 
         return $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
