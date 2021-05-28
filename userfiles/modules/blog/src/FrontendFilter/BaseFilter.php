@@ -20,7 +20,6 @@ class BaseFilter
     use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait;
 
     public $allCustomFieldsForResults = [];
-    //public $allCategoriesForResults = [];
     public $allTagsForResults = [];
 
     public $filters = array();
@@ -326,10 +325,6 @@ class BaseFilter
         }
 
         $this->query->select(['id','parent', 'url','title','content','content_body']);
-/*
-        $this->query->limit(50);
-
-        dd($this->query->get());*/
 
         $this->pagination = $this->query->paginate($this->queryParams['limit'])->withQueryString();
 
