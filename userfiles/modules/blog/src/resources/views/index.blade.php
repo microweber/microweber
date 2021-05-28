@@ -1,6 +1,12 @@
 <script src="{{module_url()}}/js/filter.js" type="text/javascript"></script>
 <link href="{{module_url()}}/css/filter.css" type="text/css" rel="stylesheet">
 
+<script type="text/javascript">
+    filter = new ContentFilter();
+    filter.setModuleId('{{$moduleId}}');
+    filter.init();
+</script>
+
 <section class="section section-blog">
     <div class="container">
     <div class="row">
@@ -80,9 +86,6 @@
                 Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
             </p>
         </div>
-
-
-
 
         </div>
         </div>
