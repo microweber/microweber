@@ -62,6 +62,39 @@ class ContentFilter {
             filterInstance.submitQueryFilter( queryParams);
         });
 
+
+        // Search
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+               $('.js-filter-search-field').trigger('change');
+            }
+        });
+
+        $('body').on('submit', '.js-filter-search-submit', function(e) {
+            $('.js-filter-search-field').trigger('change');
+        });
+
+        $('body').on('change', '.js-filter-search-field', function(e) {
+            var queryParams = [];
+            queryParams.push({
+                key:'search',
+                value: $('.js-filter-search-field').val()
+            });
+            filterInstance.submitQueryFilter(queryParams);
+        });
+
+        // Categories
+        $('body').on('click', '.js-filter-category-link', function(e) {
+            e.preventDefault();
+            var targetPageNum = $(this).attr('href').split('category=')[1];
+            var queryParams = [];
+            queryParams.push({
+                key:'category',
+                value:targetPageNum
+            });
+            filterInstance.submitQueryFilter(queryParams);
+        });
+
         // Pagination
         $('body').on('click', '.page-link', function(e) {
             e.preventDefault();
@@ -80,6 +113,10 @@ class ContentFilter {
 
 function numericMonth(dt) {
     return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+}
+
+function removeInObject(object, key, value) {
+
 }
 
 function findOrReplaceInObject(object, key, value) {

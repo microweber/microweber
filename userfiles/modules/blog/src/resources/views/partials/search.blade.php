@@ -12,32 +12,10 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" id="js-content-search" value="{{$search}}" placeholder="<?php _e('Search');?>" />
+            <input type="text" class="form-control js-filter-search-field" value="{{$search}}" placeholder="<?php _e('Search');?>" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary btn-icon pl-3 pr-2" onclick="filterSearch()"><i class="fa fa-search"></i></button>
+                <button type="submit" class="btn btn-primary btn-icon pl-3 pr-2 js-filter-search-submit"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    $(document).keypress(function(e) {
-        if(e.which == 13) {
-            filterSearch();
-        }
-    });
-
-    function filterSearch() {
-
-        var keywordField = document.getElementById("js-content-search");
-
-        var queryParams = [];
-        queryParams.push({
-            key:'search',
-            value:keywordField.value
-        });
-
-        submitQueryFilter('{{$moduleId}}', queryParams);
-    }
-</script>

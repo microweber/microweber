@@ -30,7 +30,9 @@ trait CategoriesTrait {
 
         $categories = $categoryQuery->where('parent_id',0)->get();
 
-        return view($template, compact('categories'));
+        $request = $this->request;
+
+        return view($template, compact('categories','request'));
     }
 
 }
