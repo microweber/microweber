@@ -5,6 +5,7 @@ class ContentFilter {
     };
 
     submitQueryFilter(queryParams) {
+
         var redirectFilterUrl = getUrlAsArray();
 
         var i;
@@ -87,20 +88,22 @@ class ContentFilter {
                 value:order
             });
 
-            filterInstance.submitQueryFilter( queryParams);
+            filterInstance.submitQueryFilter(queryParams);
         });
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
 
             var queryParams = [];
-            $.each($(this).serializeArray(), function(k,filter) {
+
+            $.each($(".js-filter-option-select:checked"), function(){
                 queryParams.push({
-                    key:filter.name,
-                    value:filter.value
+                    key:$(this).attr('name'),
+                    value:$(this).val()
                 });
             });
-            filterInstance.submitQueryFilter(queryParams);
+
+           filterInstance.submitQueryFilter(queryParams);
         });
 
         // Search
