@@ -12,7 +12,7 @@ class ModuleFrontController
     public $moduleOptions = [];
     public $moduleConfig = [];
 
-    public function setModuleParams($params) 
+    public function setModuleParams($params)
     {
         $this->moduleParams = $params;
         $this->moduleOptions = Option::where('option_group', $this->moduleParams['id'])->get();
