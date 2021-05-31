@@ -15,5 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     echo $controller->index($request);
 
+} else {
+    include 'products/admin.php';
 }
 ?>

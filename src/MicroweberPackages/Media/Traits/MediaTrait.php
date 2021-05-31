@@ -16,6 +16,17 @@ trait MediaTrait {
         return $this->hasMany(Media::class, 'rel_id')->orderBy('position','asc');
     }
 
+    public function thumbnail($width = false, $height = false, $crop = false)
+    {
+        $media = $this->media()->first();
+        if ($media) {
+            return thumbnail($media->filename, $width, $height, $crop);
+        }
+
+        return pixum($width, $height);
+    }
+
+
     public function addMedia($mediaArr)
     {
         $this->_newMediaToAssociate[] = $mediaArr;

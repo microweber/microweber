@@ -9,5 +9,3 @@ $config['ui_admin'] = true;
 $config['categories'] = "online shop";
 $config['version'] = 0.41;
 $config['position'] = 21;
-
-
