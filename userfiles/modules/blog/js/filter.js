@@ -129,12 +129,11 @@ class ContentFilter {
 
             $(this).attr('disabled','disabled');
 
-            var queryParams = [];
-            queryParams.push({
-                key:'search',
-                value: $('.js-filter-search-field').val()
-            });
-            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
+            var redirectFilterUrl = getUrlAsArray();
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', $('.js-filter-search-field').val());
+            redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
+
+            filterInstance.reloadFilter(redirectFilterUrl);
         });
 
         // Categories
