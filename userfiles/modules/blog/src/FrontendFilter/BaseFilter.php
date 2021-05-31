@@ -4,6 +4,7 @@ namespace MicroweberPackages\Blog\FrontendFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFilterTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
@@ -17,7 +18,7 @@ use MicroweberPackages\Page\Models\Page;
 
 abstract class BaseFilter
 {
-    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait;
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFilterTrait;
 
     public $allCustomFieldsForResults = [];
     public $allTagsForResults = [];
@@ -47,54 +48,6 @@ abstract class BaseFilter
     public function setQuery($query)
     {
         $this->query = $query;
-    }
-
-    public function activeFilters($template = false) {
-
-        $activeFilters = [];
-
-        $this->filters();
-
-        foreach($this->filters as $filter) {
-            foreach($filter->options as $option) {
-                if ($option->active) {
-
-                    $filter = new \stdClass();
-                    $filter->name = 'Filter: '. $option->value;
-                    $filter->link = '';
-                    $filter->keys[] = 'filters';
-                    $activeFilters[] = $filter;
-                }
-            }
-        }
-
-        $search = $this->request->get('search', false);
-        if ($search) {
-            $filter = new \stdClass();
-            $filter->name = 'Search: '. $search;
-            $filter->link = '';
-            $filter->keys[] = 'search';
-            $activeFilters[] = $filter;
-        }
-
-        $minPrice = $this->request->get('min_price', 0.00);
-        $maxPrice = $this->request->get('max_price', false);
-        if ($maxPrice) {
-            $filter = new \stdClass();
-            $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
-            $filter->link = '';
-            $filter->keys[] = 'min_price';
-            $filter->keys[] = 'max_price';
-            $activeFilters[] = $filter;
-        }
-
-        if (empty($activeFilters)) {
-            return false;
-        }
-
-        $moduleId = $this->params['moduleId'];
-
-        return view($template, compact('activeFilters','moduleId'));
     }
 
     public function getMainPageId()
