@@ -43,6 +43,7 @@ class ContentFilter {
         $('body').on('click' , '.js-filter-active-filters' , function() {
 
             var keys = $(this).data('key');
+            var value = $(this).data('value');
             var removeKeys = keys.split(',');
 
             var redirectFilterUrl = getUrlAsArray();
@@ -50,7 +51,12 @@ class ContentFilter {
             for (var i = 0; i < removeKeys.length; i++) {
                 var filterKey = removeKeys[i];
                 filterKey = filterKey.trim();
-                redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl, filterKey);
+
+                for (var i = 0; i < redirectFilterUrl.length; i++) {
+                    if ((redirectFilterUrl[i].key == filterKey) && (redirectFilterUrl[i].value == value)) {
+                        redirectFilterUrl.splice(i, 1);
+                    }
+                }
             }
 
             filterInstance.reloadFilter(redirectFilterUrl);

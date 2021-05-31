@@ -17,6 +17,7 @@ trait ActiveFiltersTrait {
                     $activeFilter->name = $filter->name . ': '. $option->value;
                     $activeFilter->link = '';
                     $activeFilter->key = $urlForRemoving;
+                    $activeFilter->value = $option->value;
                     $activeFilters[] = $activeFilter;
                 }
             }
