@@ -20,6 +20,7 @@ class BlogController
         $postQuery = Post::query();
 
         $postResults = $postQuery->frontendFilter([
+            'request'=>$request,
             'moduleId'=>$moduleId
         ]);
 

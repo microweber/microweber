@@ -43,7 +43,9 @@ class ContentFilter {
             var redirectFilterUrl = getUrlAsArray();
 
             for (var i = 0; i < removeKeys.length; i++) {
-                redirectFilterUrl = removeKeyInObject(redirectFilterUrl, removeKeys[i]);
+                var filterKey = removeKeys[i];
+                filterKey = filterKey.trim();
+                redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl, filterKey);
             }
 
             filterInstance.reloadFilter(redirectFilterUrl);
@@ -161,9 +163,15 @@ function numericMonth(dt) {
     return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
 }
 
-function removeKeyInObject(object, key) {
+function removeItemByKeyInObject(object, key) {
 
-    
+    for (var i = 0; i < object.length; i++) {
+        if (object[i].key == key) {
+            object.splice(i, 1);
+        }
+    }
+
+    return object;
 }
 
 function findOrReplaceInObject(object, key, value) {
