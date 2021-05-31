@@ -12,7 +12,6 @@ trait ActiveFiltersTrait {
         foreach($this->filters as $filter) {
             foreach($filter->options as $option) {
                 if ($option->active) {
-
                     $filter = new \stdClass();
                     $filter->name = 'Filter: '. $option->value;
                     $filter->link = '';

@@ -203,6 +203,7 @@ abstract class BaseFilter
                     $filter->type = $customField->type;
                     $filter->controlType = $controlType;
                     $filter->name = $customField->name;
+                    $filter->nameKey = $customField->name_key;
                     $filter->options = $readyFilterOptions;
 
                     if ($customField->type == 'price') {
