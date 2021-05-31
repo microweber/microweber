@@ -25,7 +25,7 @@ class ContentFilter {
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
             size:"500px",
-            decorate: true
+            decorate: false
         }).show();
 
         $('#'+this.moduleId+ '').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
