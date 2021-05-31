@@ -1,7 +1,8 @@
-<script src="userfiles/modules/blog/js/filter.js" type="text/javascript"></script>
-<link href="userfiles/modules/blog/css/filter.css" type="text/css" rel="stylesheet">
-
 <script type="text/javascript">
+
+    mw.require('{{modules_url()}}/blog/js/filter.js');
+    mw.require('{{modules_url()}}/blog/css/filter.css');
+
     filter = new ContentFilter();
     filter.setModuleId('{{$moduleId}}');
     filter.init();

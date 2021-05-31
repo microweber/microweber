@@ -1,7 +1,8 @@
-<script src="{{module_url()}}/js/filter.js" type="text/javascript"></script>
-<link href="{{module_url()}}/css/filter.css" type="text/css" rel="stylesheet">
-
 <script type="text/javascript">
+
+    mw.require('{{module_url()}}/js/filter.js');
+    mw.require('{{module_url()}}/css/filter.css');
+
     filter = new ContentFilter();
     filter.setModuleId('{{$moduleId}}');
     filter.init();
