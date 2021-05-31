@@ -16,7 +16,7 @@ trait ActiveFiltersTrait {
                     $filter = new \stdClass();
                     $filter->name = 'Filter: '. $option->value;
                     $filter->link = '';
-                    $filter->keys[] = 'filters';
+                    $filter->key = 'filters';
                     $activeFilters[] = $filter;
                 }
             }
@@ -27,7 +27,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Search: '. $search;
             $filter->link = '';
-            $filter->keys[] = 'search';
+            $filter->key= 'search';
             $activeFilters[] = $filter;
         }
 
@@ -36,7 +36,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Limit: '. $limit;
             $filter->link = '';
-            $filter->keys[] = 'limit';
+            $filter->key = 'limit';
             $activeFilters[] = $filter;
         }
 
@@ -45,8 +45,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Sort: '. $sort;
             $filter->link = '';
-            $filter->keys[] = 'order';
-            $filter->keys[] = 'sort';
+            $filter->key = 'order, sort';
             $activeFilters[] = $filter;
         }
 
@@ -56,8 +55,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
             $filter->link = '';
-            $filter->keys[] = 'min_price';
-            $filter->keys[] = 'max_price';
+            $filter->key = 'min_price, max_price';
             $activeFilters[] = $filter;
         }
 

@@ -11,8 +11,7 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
         @foreach($activeFilters as $filter)
-           <a href=""><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->name}} </a>
-            <br />
+           <button type="button" data-key="{{$filter->key}}" class="btn btn-outline-primary btn-sm mb-2 js-filter-active-filters"><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->name}} </button>
         @endforeach
     </div>
 </div>

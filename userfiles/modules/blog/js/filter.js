@@ -4,14 +4,18 @@ class ContentFilter {
         this.moduleId = moduleId;
     };
 
-    submitQueryFilter(queryParams)
-    {
+    submitQueryFilter(queryParams) {
         var redirectFilterUrl = getUrlAsArray();
 
         var i;
         for (i = 0; i < queryParams.length; i++) {
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
         }
+
+        this.reloadFilter(redirectFilterUrl);
+    };
+
+    reloadFilter(redirectFilterUrl) {
 
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
@@ -29,6 +33,22 @@ class ContentFilter {
     init() {
 
         var filterInstance = this;
+
+        // Active filters
+        $('body').on('click' , '.js-filter-active-filters' , function() {
+
+            var keys = $(this).data('key');
+            var removeKeys = keys.split(',');
+
+            var redirectFilterUrl = getUrlAsArray();
+
+            for (var i = 0; i < removeKeys.length; i++) {
+                redirectFilterUrl = removeKeyInObject(redirectFilterUrl, removeKeys[i]);
+            }
+
+            filterInstance.reloadFilter(redirectFilterUrl);
+
+        });
 
         // Limit
         $('body').on('change' , '.js-filter-change-limit' , function() {
@@ -141,8 +161,9 @@ function numericMonth(dt) {
     return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
 }
 
-function removeInObject(object, key, value) {
+function removeKeyInObject(object, key) {
 
+    
 }
 
 function findOrReplaceInObject(object, key, value) {
