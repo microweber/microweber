@@ -17174,10 +17174,13 @@ mw.filePicker = function (options) {
                     mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
                 }
                 this._tooltip.style.display = 'block';
+                if(target.nodeType === 1) {
+                    var size = getComputedStyle(target);
+                    $('[type="number"],[type="range"]').val(Number(size.fontSize));
+                }
+
             }
-            console.log(target)
-            var size = getComputedStyle(target);
-            $('[type="number"],[type="range"]').val(Number(size.fontSize));
+
             mw.components._init();
             return this._tooltip;
         };
@@ -21537,6 +21540,8 @@ $.fn.invisible = function () {
 
 $.fn.mwDialog = function(conf){
     var el = this[0];
+    var isTemplate = el.nodeName === 'TEMPLATE';
+
     var options = mw.tools.elementOptions(el);
     var id = mw.id('mwDialog-');
     var idEl = mw.id('mwDialogTemp-');
@@ -21548,14 +21553,20 @@ $.fn.mwDialog = function(conf){
     var settings = $.extend({}, defaults, options, conf, {closeButtonAction: 'remove'});
     if(conf === 'close' || conf === 'hide' || conf === 'remove'){
         if(el._dialog){
-            el._dialog.remove()
+            el._dialog.remove();
         }
         return;
     }
     $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
     var dialog = mw.dialog(settings);
     el._dialog = dialog;
-    dialog.dialogContainer.appendChild(el);
+    if(isTemplate) {
+        dialog.dialogContainer.innerHTML = el.innerHTML;
+
+    } else {
+        dialog.dialogContainer.appendChild(el);
+
+    }
     $(el).show();
     if(settings.width === 'auto'){
         dialog.width($(el).width);
@@ -23789,7 +23800,7 @@ mw.colorPicker = function (o) {
         };
 
         this.options = $.extend({}, defaults, options, {
-            skin: 'default'
+            // skin: 'default'
         });
 
         this.id = this.options.id;
@@ -28202,7 +28213,6 @@ mw.treeTags = mw.treeChips = function(options){
                 if(!type) return;
                 return this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
-            //if(!li) {console.warn('List item not defined:', li, type)}
             return li;
         };
 
@@ -28226,14 +28236,14 @@ mw.treeTags = mw.treeChips = function(options){
             this._selectionChangeDisable = true;
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.unselectAll = function(){
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.open = function(li, type, _skipsave){
@@ -28521,7 +28531,13 @@ mw.treeTags = mw.treeChips = function(options){
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
-                    if(scope.options.selectable) scope.toggleSelect(li)
+                    if(scope.options.selectable) {
+                        if(scope.options.toggleSelect) {
+                            scope.toggleSelect(li);
+                        } else {
+                            scope.select(li);
+                        }
+                    }
                 };
                 this.decorate(li);
             }

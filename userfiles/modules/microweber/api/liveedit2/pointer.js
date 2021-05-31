@@ -1,13 +1,16 @@
 import {ObjectService} from './object.service';
+import {DomService} from './dom';
 
 export const GetPointerTargets = function(options)  {
 
     options = options || {};
 
+    this.tools = DomService;
+
     var scope = this;
 
     var defaults = {
-
+        exceptions: ['mw-handle-item']
     };
 
     this.settings = ObjectService.extend({}, defaults, options);
@@ -33,59 +36,7 @@ export const GetPointerTargets = function(options)  {
         return node.type === 1;
     };
 
-    var getChildren = function (parent, target) {
-        var res = [], curr = parent.firstElementChild;
-        while (curr && curr !== target && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            if(curr.children && curr.children.length) {
-                res.push.apply(res, getChildren(parent, target));
-            }
-            curr = validateNode(curr.nextElementSibling);
-        }
-        return res;
-    };
 
-    var getAbove = function(target) {
-        var res = [], curr = target.previousElementSibling;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.previousElementSibling;
-        }
-        return res;
-    };
-
-    var getBelow = function(target) {
-        var res = [], curr = target.nextElementSibling;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.nextElementSibling;
-        }
-        return res;
-    };
-
-    var getParents = function (target) {
-        var res = [], curr = target.parentElement;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.parentElement;
-        }
-        return res;
-    };
-    this.getParents = getParents;
-    this.getBelow = getBelow;
-
-    this.getNeighbours = function (event) {
-        var target = event.target;
-        return [].concat(getParents(target), getAbove(target), getBelow(target), getChildren(target, target));
-    };
 
 
     var round5 = function (x){
@@ -114,6 +65,12 @@ export const GetPointerTargets = function(options)  {
         }
     };
 
+    this.fromEvent = function (e) {
+        if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
+            return this.fromPoint(e.pageX, e.pageY);
+        }
+        return []
+    }
     this.fromPoint = function (x, y) {
         var res = [];
         var el = scope.document.elementFromPoint(x, y);

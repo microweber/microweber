@@ -11,12 +11,22 @@ export const Handles = function (handles) {
         this.get(handle).set(target)
     }
 
+    this.hideAllExceptCurrent = function (e) {
+        var target = e.target ? e.target : e;
+        this.each(function (h){
+            var el = h.wrapper.get(0);
+            if(target !== el && !el.contains(target)) {
+                h.hide()
+            }
+        });
+    }
+
     this.hide = function(handle) {
         if(handle && this.handles[handle]) {
             this.handles[handle].hide();
         } else {
-            this.each(function (handle){
-                handle.hide()
+            this.each(function (h){
+                h.hide()
             });
         }
 

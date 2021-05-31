@@ -1418,7 +1418,7 @@ mw.colorPicker = function (o) {
         };
 
         this.options = $.extend({}, defaults, options, {
-            skin: 'default'
+            // skin: 'default'
         });
 
         this.id = this.options.id;
@@ -5801,7 +5801,6 @@ mw.treeTags = mw.treeChips = function(options){
                 if(!type) return;
                 return this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
-            //if(!li) {console.warn('List item not defined:', li, type)}
             return li;
         };
 
@@ -5825,14 +5824,14 @@ mw.treeTags = mw.treeChips = function(options){
             this._selectionChangeDisable = true;
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.unselectAll = function(){
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.open = function(li, type, _skipsave){
@@ -6120,7 +6119,13 @@ mw.treeTags = mw.treeChips = function(options){
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
-                    if(scope.options.selectable) scope.toggleSelect(li)
+                    if(scope.options.selectable) {
+                        if(scope.options.toggleSelect) {
+                            scope.toggleSelect(li);
+                        } else {
+                            scope.select(li);
+                        }
+                    }
                 };
                 this.decorate(li);
             }

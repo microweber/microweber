@@ -21,7 +21,7 @@ export const Draggable = function (options) {
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
-        this.element = mw.element(node).prop('draggable', true).get(0);
+        this.element = mw.element(node)/*.prop('draggable', true)*/.get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -87,22 +87,26 @@ export const Draggable = function (options) {
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
         });
-        mw.element(this.settings.handle)
+        this.handle
             .on('dragstart', function (e) {
+
                 scope.isDragging = true;
                 if(!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
+
+                scope.element.style.opacity = '0';
+
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
-                scope.helper('create');
+                //scope.helper('create');
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {
-                scope.helper(e);
                 scope.dispatch('drag',{element: scope.element, event: e});
             })
             .on('dragend', function (e) {
+                scope.element.style.opacity = '1';
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
                 scope.helper();

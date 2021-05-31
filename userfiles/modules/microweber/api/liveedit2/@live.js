@@ -58,14 +58,14 @@ export class LiveEdit {
     }
 
     init() {
+
         mw.element(this.root).on('mousemove touchmove', (e) => {
             if (e.pageX % 2 === 0) {
-                var elements = this.observe.fromPoint(e.pageX, e.pageY);
-                this.handles.hide();
+                var elements = this.observe.fromEvent(e);
+                this.handles.hideAllExceptCurrent(e);
                 if(elements[0]) {
                     this.handles.set('handleElement', elements[0])
                 }
-
             }
          });
     };

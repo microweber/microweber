@@ -31,20 +31,20 @@ class DomService {
         while (node && node.nodeName !== 'BODY') {
             let i = 0, l = arr.length;
             for ( ; i < l ; i++ ) {
-                if (node.classList.has(arr[i])) {
+                if (node.classList.contains(arr[i])) {
                     return true;
                 }
             }
             node = node.parentElement;
         }
-        return null;
+        return false;
     }
 
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
         while (curr && curr !== document.body) {
-            const h1 = curr.classList.has(arr[0]);
-            const h2 = curr.classList.has(curr, arr[1]);
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(curr, arr[1]);
             if (h1 && h2) {
                 return false;
             } else {
@@ -63,7 +63,7 @@ class DomService {
         if (!node) return;
         let i = 0, l = arr.length;
         for (; i < l; i++) {
-            if (node.classList.has(arr[i])) {
+            if (node.classList.contains(arr[i])) {
                 return true;
             }
         }
@@ -133,9 +133,7 @@ const Draggable = function (options) {
         this.setElement(this.settings.element);
     };
     this.setElement = function (node) {
-        this.element = mw.element(node).prop('draggable', true).css({
-            userSelect: 'none'
-        }).get(0);
+        this.element = mw.element(node)/*.prop('draggable', true)*/.get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -201,22 +199,26 @@ const Draggable = function (options) {
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
         });
-        mw.element(this.settings.handle)
+        this.handle
             .on('dragstart', function (e) {
+
                 scope.isDragging = true;
                 if(!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
+
+                scope.element.style.opacity = '0';
+
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
-                scope.helper('create');
+                //scope.helper('create');
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {
-                scope.helper(e);
                 scope.dispatch('drag',{element: scope.element, event: e});
             })
             .on('dragend', function (e) {
+                scope.element.style.opacity = '1';
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
                 scope.helper();
@@ -547,7 +549,8 @@ const Handle = function (options) {
             tag: 'div',
             props: {
                 className: 'mw-defaults mw-handle-item-handle',
-                contentEditable: false
+                contentEditable: false,
+                draggable: true
             }
         });
         this.wrapper.append(this.handle);
@@ -566,15 +569,16 @@ const Handle = function (options) {
         this.wrapper.on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
-        mw.$(document).on('mouseup', function () {
+        mw.element(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
         document.body.appendChild(this.wrapper.get(0));
     };
 
     this.createWrapper();
-    this.initDraggable();
     this.createHandle();
+    this.initDraggable();
+
 
 
 
@@ -606,12 +610,22 @@ const Handles = function (handles) {
         this.get(handle).set(target)
     }
 
+    this.hideAllExceptCurrent = function (e) {
+        var target = e.target ? e.target : e;
+        this.each(function (h){
+            var el = h.wrapper.get(0);
+            if(target !== el && !el.contains(target)) {
+                h.hide()
+            }
+        });
+    }
+
     this.hide = function(handle) {
         if(handle && this.handles[handle]) {
             this.handles[handle].hide();
         } else {
-            this.each(function (handle){
-                handle.hide()
+            this.each(function (h){
+                h.hide()
             });
         }
 
@@ -764,16 +778,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "GetPointerTargets": () => (/* binding */ GetPointerTargets)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
 
 
 const GetPointerTargets = function(options)  {
 
     options = options || {};
 
+    this.tools = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService;
+
     var scope = this;
 
     var defaults = {
-
+        exceptions: ['mw-handle-item']
     };
 
     this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
@@ -799,59 +817,7 @@ const GetPointerTargets = function(options)  {
         return node.type === 1;
     };
 
-    var getChildren = function (parent, target) {
-        var res = [], curr = parent.firstElementChild;
-        while (curr && curr !== target && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            if(curr.children && curr.children.length) {
-                res.push.apply(res, getChildren(parent, target));
-            }
-            curr = validateNode(curr.nextElementSibling);
-        }
-        return res;
-    };
 
-    var getAbove = function(target) {
-        var res = [], curr = target.previousElementSibling;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.previousElementSibling;
-        }
-        return res;
-    };
-
-    var getBelow = function(target) {
-        var res = [], curr = target.nextElementSibling;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.nextElementSibling;
-        }
-        return res;
-    };
-
-    var getParents = function (target) {
-        var res = [], curr = target.parentElement;
-        while (curr && isInRange(target, curr)){
-            if(validateNode(curr)) {
-                res.push(curr);
-            }
-            curr = curr.parentElement;
-        }
-        return res;
-    };
-    this.getParents = getParents;
-    this.getBelow = getBelow;
-
-    this.getNeighbours = function (event) {
-        var target = event.target;
-        return [].concat(getParents(target), getAbove(target), getBelow(target), getChildren(target, target));
-    };
 
 
     var round5 = function (x){
@@ -880,6 +846,12 @@ const GetPointerTargets = function(options)  {
         }
     };
 
+    this.fromEvent = function (e) {
+        if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
+            return this.fromPoint(e.pageX, e.pageY);
+        }
+        return []
+    }
     this.fromPoint = function (x, y) {
         var res = [];
         var el = scope.document.elementFromPoint(x, y);
@@ -1031,14 +1003,14 @@ class LiveEdit {
     }
 
     init() {
+
         mw.element(this.root).on('mousemove touchmove', (e) => {
             if (e.pageX % 2 === 0) {
-                var elements = this.observe.fromPoint(e.pageX, e.pageY);
-                this.handles.hide();
+                var elements = this.observe.fromEvent(e);
+                this.handles.hideAllExceptCurrent(e);
                 if(elements[0]) {
                     this.handles.set('handleElement', elements[0])
                 }
-
             }
          });
     };

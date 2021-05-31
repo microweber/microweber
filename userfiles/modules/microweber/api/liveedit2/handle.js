@@ -57,7 +57,8 @@ export const Handle = function (options) {
             tag: 'div',
             props: {
                 className: 'mw-defaults mw-handle-item-handle',
-                contentEditable: false
+                contentEditable: false,
+                draggable: true
             }
         });
         this.wrapper.append(this.handle);
@@ -76,15 +77,16 @@ export const Handle = function (options) {
         this.wrapper.on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
-        mw.$(document).on('mouseup', function () {
+        mw.element(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
         document.body.appendChild(this.wrapper.get(0));
     };
 
     this.createWrapper();
-    this.initDraggable();
     this.createHandle();
+    this.initDraggable();
+
 
 
 

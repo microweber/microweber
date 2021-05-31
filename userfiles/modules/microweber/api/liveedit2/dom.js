@@ -17,20 +17,20 @@ export class DomService {
         while (node && node.nodeName !== 'BODY') {
             let i = 0, l = arr.length;
             for ( ; i < l ; i++ ) {
-                if (node.classList.has(arr[i])) {
+                if (node.classList.contains(arr[i])) {
                     return true;
                 }
             }
             node = node.parentElement;
         }
-        return null;
+        return false;
     }
 
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
         while (curr && curr !== document.body) {
-            const h1 = curr.classList.has(arr[0]);
-            const h2 = curr.classList.has(curr, arr[1]);
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(curr, arr[1]);
             if (h1 && h2) {
                 return false;
             } else {
@@ -49,7 +49,7 @@ export class DomService {
         if (!node) return;
         let i = 0, l = arr.length;
         for (; i < l; i++) {
-            if (node.classList.has(arr[i])) {
+            if (node.classList.contains(arr[i])) {
                 return true;
             }
         }
