@@ -11,8 +11,7 @@ $randomId = uniqid();
 
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
-
-        <div class="form-group">
+        <div class="form-group js-slimscroll" style="overflow:scroll;">
             @foreach($filter->options as $options)
                 <div class="custom-control custom-radio">
                     @php

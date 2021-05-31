@@ -1,6 +1,5 @@
 <?php if(isset($params['backend'])): ?>
 <?php
-		 
 $dir_name = normalize_path(modules_path());
 
 $params['is_shop'] = 1;
@@ -11,7 +10,7 @@ $posts_mod = $dir_name.DS.'content'.DS.'backend.php' ;
 
 <div class="<?php print $config['module_class']; ?>">
   <?php
-	
+
 	$params['is_shop'] = 1;
 	$params['content_type'] = 'product';
 	$dir_name = normalize_path(modules_path());

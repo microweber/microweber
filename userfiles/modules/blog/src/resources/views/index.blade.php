@@ -46,7 +46,7 @@
                     <div class="col-md-3">
             <div class="post" style="margin-top:25px;">
 
-                <img src="{{$post->media()->first()->filename}}" alt="" width="400px">
+                <img src="{{$post->thumbnail(400,400)}}" alt="" width="400px">
 
                 <h4>{{$post->title}}</h4>
                 <p>{{$post->content_text}}</p>
@@ -59,22 +59,6 @@
                    <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
                 @endforeach
 
-                @php
-                    $resultCustomFields = false;// $post->customField()->with('fieldValue')->get();
-                @endphp
-                @foreach ($resultCustomFields as $resultCustomField)
-                    {{--@if ($resultCustomField->type !== 'date')
-                        @continue
-                    @endif--}}
-                    {{$resultCustomField->name}}:
-                    @php
-                        $customFieldValues = $resultCustomField->fieldValue()->get();
-                    @endphp
-                    @foreach($customFieldValues as $customFieldValue)
-                        {{$customFieldValue->value}};
-                    @endforeach
-
-                @endforeach
             </div>
             </div>
             @endforeach

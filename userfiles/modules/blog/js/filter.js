@@ -1,20 +1,25 @@
+/*jshint esversion: 6 */
+
 class ContentFilter {
 
     setModuleId(moduleId) {
         this.moduleId = moduleId;
-    };
+    }
 
     submitQueryFilter(queryParams) {
-
         var redirectFilterUrl = getUrlAsArray();
-
         var i;
         for (i = 0; i < queryParams.length; i++) {
-            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
+            if(queryParams[i].remove) {
+                redirectFilterUrl = redirectFilterUrl.filter(function (item) {
+                    return item.key !== queryParams[i].key;
+                });
+            } else {
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
+            }
         }
-
         this.reloadFilter(redirectFilterUrl);
-    };
+    }
 
     reloadFilter(redirectFilterUrl) {
 
@@ -30,6 +35,28 @@ class ContentFilter {
 
         //window.location = "{!! $searchUri !!}" + keywordField.value;
     };
+
+
+    getFilterOptions() {
+        const nodes = document.querySelectorAll('.js-filter-option-select'),
+        l = nodes.length,
+        queryParams = [];
+        let i = 0;
+        for ( ; i < l; i++) {
+            const item = nodes[i];
+            const toAdd = {
+                key:item.name,
+                value:item.value
+            };
+            if (item.type === 'radio' || item.type === 'checkbox') {
+              if (!item.checked) {
+                  toAdd.remove = true;
+              }
+            }
+            queryParams.push(toAdd);
+        }
+        return queryParams;
+    }
 
     init() {
 
@@ -93,17 +120,7 @@ class ContentFilter {
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
-
-            var queryParams = [];
-
-            $.each($(".js-filter-option-select:checked"), function(){
-                queryParams.push({
-                    key:$(this).attr('name'),
-                    value:$(this).val()
-                });
-            });
-
-           filterInstance.submitQueryFilter(queryParams);
+           filterInstance.submitQueryFilter(filterInstance.getFilterOptions());
         });
 
         // Search
@@ -162,10 +179,6 @@ class ContentFilter {
 }
 
 
-function numericMonth(dt) {
-    return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
-}
-
 function removeItemByKeyInObject(object, key) {
 
     for (var i = 0; i < object.length; i++) {
@@ -180,7 +193,7 @@ function removeItemByKeyInObject(object, key) {
 function findOrReplaceInObject(object, key, value) {
     var findKey = false;
     for (var i = 0; i < object.length; i++) {
-        if (object[i].key == key) {
+        if (object[i].key === key) {
             object[i].value = value;
             findKey = true;
             break;
@@ -192,8 +205,7 @@ function findOrReplaceInObject(object, key, value) {
     return object;
 }
 
-function decodeUrlParamsToObject(url)
-{
+function decodeUrlParamsToObject(url) {
     if (url.indexOf('?') === -1) {
         return [];
     }
@@ -209,11 +221,10 @@ function decodeUrlParamsToObject(url)
 }
 
 function getUrlAsArray() {
-    let url = window.location.href;
-    return decodeUrlParamsToObject(url);
+    return decodeUrlParamsToObject(location.href);
 }
 
-encodeDataToURL = (data) => {
+const encodeDataToURL = (data) => {
     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
 };
 
