@@ -58,9 +58,34 @@ abstract class BaseFilter
         foreach($this->filters as $filter) {
             foreach($filter->options as $option) {
                 if ($option->active) {
-                    $activeFilters[$filter->name] = $option;
+
+                    $filter = new \stdClass();
+                    $filter->name = 'Filter: '. $option->value;
+                    $filter->link = '';
+                    $filter->keys[] = 'filters';
+                    $activeFilters[] = $filter;
                 }
             }
+        }
+
+        $search = $this->request->get('search', false);
+        if ($search) {
+            $filter = new \stdClass();
+            $filter->name = 'Search: '. $search;
+            $filter->link = '';
+            $filter->keys[] = 'search';
+            $activeFilters[] = $filter;
+        }
+
+        $minPrice = $this->request->get('min_price', 0.00);
+        $maxPrice = $this->request->get('max_price', false);
+        if ($maxPrice) {
+            $filter = new \stdClass();
+            $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
+            $filter->link = '';
+            $filter->keys[] = 'min_price';
+            $filter->keys[] = 'max_price';
+            $activeFilters[] = $filter;
         }
 
         if (empty($activeFilters)) {

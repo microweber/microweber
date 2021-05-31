@@ -10,8 +10,8 @@ $randomId = uniqid();
 
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
-        @foreach($activeFilters as $filterName=>$filter)
-           <a href=""><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->value}} </a>
+        @foreach($activeFilters as $filter)
+           <a href=""><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->name}} </a>
             <br />
         @endforeach
     </div>
