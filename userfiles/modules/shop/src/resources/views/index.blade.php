@@ -44,7 +44,9 @@
             @foreach($posts->results() as $post)
                     <div class="col-md-3">
             <div class="post" style="margin-top:25px;">
-)
+
+                <img src="{{$post->thumbnail(400,400)}}" alt="" width="400px">
+
                 <h4>{{$post->title}}</h4>
                 <p>{{$post->content_text}}</p>
                 <br />
