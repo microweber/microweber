@@ -13,7 +13,7 @@ class ContentFilter {
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
         }
 
-        this.reloadFilter(redirectFilterUrl);
+        this.reloadFilter(redirectFilterUrl); 
     };
 
     reloadFilter(redirectFilterUrl) {
