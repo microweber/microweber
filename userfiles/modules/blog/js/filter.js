@@ -98,17 +98,29 @@ class ContentFilter {
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
 
-            var queryParams = [];
-            var filterForm = $('.js-filter-form').serializeArray();
-            $.each(filterForm, function(k, v) {
-                queryParams.push({
-                    key:v.name,
-                    value:v.value
-                });
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = redirectFilterUrl.filter(function(e) {
+                var elementKey = e.key;
+                if (elementKey.indexOf("[]")) {
+                    return false;
+                }
             });
 
+           var filterForm = $('.js-filter-form').serializeArray();
+            $.each(filterForm, function(k, field) {
+                var fieldName = field.name;
+              //  console.log(fieldName);
+                if (fieldName.indexOf("[]")) {
+                    redirectFilterUrl.push({key: field.name, value: field.value});
+                } else {
+                    redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                }
+            });
 
+           // console.log(redirectFilterUrl);
 
+            filterInstance.reloadFilter(redirectFilterUrl);
         });
 
         // Search
