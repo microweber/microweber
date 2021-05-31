@@ -11,6 +11,9 @@ trait ActiveFiltersTrait {
 
         foreach($this->filters as $filter) {
             foreach($filter->options as $option) {
+                if (!isset($option->value) && !empty($option->value)) {
+                    continue;
+                }
                 if ($option->active) {
                     $urlForRemoving = 'filters['.$filter->nameKey.'][]';
                     $activeFilter = new \stdClass();
@@ -29,6 +32,7 @@ trait ActiveFiltersTrait {
             $filter->name = 'Search: '. $search;
             $filter->link = '';
             $filter->key= 'search';
+            $filter->value= $search;
             $activeFilters[] = $filter;
         }
 
@@ -38,6 +42,7 @@ trait ActiveFiltersTrait {
             $filter->name = 'Limit: '. $limit;
             $filter->link = '';
             $filter->key = 'limit';
+            $filter->value = $limit;
             $activeFilters[] = $filter;
         }
 
@@ -46,6 +51,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Sort: '. $sort;
             $filter->link = '';
+            $filter->value = $sort;
             $filter->key = 'order, sort';
             $activeFilters[] = $filter;
         }
@@ -56,6 +62,7 @@ trait ActiveFiltersTrait {
             $filter = new \stdClass();
             $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
             $filter->link = '';
+            $filter->value = $maxPrice;
             $filter->key = 'min_price, max_price';
             $activeFilters[] = $filter;
         }
