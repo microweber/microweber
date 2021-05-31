@@ -4,27 +4,21 @@ class ContentFilter {
 
     setModuleId(moduleId) {
         this.moduleId = moduleId;
-    }
+    };
 
-    submitQueryFilter(queryParams) {
+    replaceKeyValuesAndReloadFilter(queryParams) {
+
+        // Update values for keys in URL QUERY
 
         var redirectFilterUrl = getUrlAsArray();
 
         var i;
         for (i = 0; i < queryParams.length; i++) {
-            if(queryParams[i].remove) {
-                redirectFilterUrl = redirectFilterUrl.filter(function (item) {
-                    return ((item.key !== queryParams[i].key) && (item.value !== queryParams[i].value));
-                });
-            } else {
-                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
-            }
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
         }
 
-        console.log(redirectFilterUrl);
-
-        //this.reloadFilter(redirectFilterUrl);
-    }
+        this.reloadFilter(redirectFilterUrl);
+    };
 
     reloadFilter(redirectFilterUrl) {
 
@@ -40,28 +34,6 @@ class ContentFilter {
 
         //window.location = "{!! $searchUri !!}" + keywordField.value;
     };
-
-
-    getFilterOptions() {
-        const nodes = document.querySelectorAll('.js-filter-option-select'),
-        l = nodes.length,
-        queryParams = [];
-        let i = 0;
-        for ( ; i < l; i++) {
-            const item = nodes[i];
-            const toAdd = {
-                key:item.name,
-                value:item.value
-            };
-            if (item.type === 'radio' || item.type === 'checkbox') {
-              if (!item.checked) {
-                  toAdd.remove = true;
-              }
-            }
-            queryParams.push(toAdd);
-        }
-        return queryParams;
-    }
 
     init() {
 
@@ -98,7 +70,7 @@ class ContentFilter {
                 value:limit
             });
 
-            filterInstance.submitQueryFilter( queryParams);
+            filterInstance.replaceKeyValuesAndReloadFilter( queryParams);
         });
 
         // Sort
@@ -120,13 +92,23 @@ class ContentFilter {
                 value:order
             });
 
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
         });
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
-            var query = filterInstance.getFilterOptions();
-            filterInstance.submitQueryFilter(query);
+
+            var queryParams = [];
+            var filterForm = $('.js-filter-form').serializeArray();
+            $.each(filterForm, function(k, v) {
+                queryParams.push({
+                    key:v.name,
+                    value:v.value
+                });
+            });
+
+
+
         });
 
         // Search
@@ -152,7 +134,7 @@ class ContentFilter {
                 key:'search',
                 value: $('.js-filter-search-field').val()
             });
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
         });
 
         // Categories
@@ -164,7 +146,7 @@ class ContentFilter {
                 key:'category',
                 value:targetPageNum
             });
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
         });
 
         // Pagination
@@ -178,7 +160,7 @@ class ContentFilter {
                 key:'page',
                 value:targetPageNum
             });
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
         });
 
     };

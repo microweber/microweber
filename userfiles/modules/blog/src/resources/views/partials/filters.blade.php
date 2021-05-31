@@ -1,20 +1,8 @@
-
-<script type="text/javascript">
-    mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-</script>
-
-<script type="text/javascript">
-    $(function(){
-        $('.js-slimscroll').slimScroll({
-            height: '250px'
-        });
-    });
-</script>
-
-
+<form class="js-filter-form" method="get">
 @foreach($filters as $filterKey=>$filter)
     @include('blog::partials.filters.' . $filter->controlType)
 @endforeach
+</form>
 
 @php
     $filters = \Request::get('filters', false);
