@@ -25,7 +25,7 @@ class ModuleFrontController
 
     public function view($view = false, $data = [], $return = false)
     {
-        if (method_exists($this, 'appendContentSchemaOrg')) {
+        /*if (method_exists($this, 'appendContentSchemaOrg')) {
             $this->appendContentSchemaOrg();
         }
 
@@ -35,7 +35,7 @@ class ModuleFrontController
 
         if (method_exists($this, 'appendContentShowFields')) {
             $this->appendContentShowFields();
-        }
+        }*/
 
         $this->viewData = array_merge($this->viewData, $data);
 

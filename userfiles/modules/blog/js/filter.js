@@ -7,18 +7,23 @@ class ContentFilter {
     }
 
     submitQueryFilter(queryParams) {
+
         var redirectFilterUrl = getUrlAsArray();
+
         var i;
         for (i = 0; i < queryParams.length; i++) {
             if(queryParams[i].remove) {
                 redirectFilterUrl = redirectFilterUrl.filter(function (item) {
-                    return item.key !== queryParams[i].key;
+                    return ((item.key !== queryParams[i].key) && (item.value !== queryParams[i].value));
                 });
             } else {
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
             }
         }
-        this.reloadFilter(redirectFilterUrl);
+
+        console.log(redirectFilterUrl);
+
+        //this.reloadFilter(redirectFilterUrl);
     }
 
     reloadFilter(redirectFilterUrl) {
@@ -26,7 +31,7 @@ class ContentFilter {
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
             size:"500px",
-            decorate: true
+            decorate: false
         }).show();
 
         $('#'+this.moduleId+ '').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
@@ -120,7 +125,8 @@ class ContentFilter {
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
-           filterInstance.submitQueryFilter(filterInstance.getFilterOptions());
+            var query = filterInstance.getFilterOptions();
+            filterInstance.submitQueryFilter(query);
         });
 
         // Search
