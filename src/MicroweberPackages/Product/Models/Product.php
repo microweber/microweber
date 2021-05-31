@@ -1,11 +1,11 @@
 <?php
 namespace MicroweberPackages\Product\Models;
 
-use MicroweberPackages\Blog\FrontendFilter;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
+use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 
 class Product extends Content
 {
@@ -71,7 +71,6 @@ class Product extends Content
 
     public $sortable = [
         'id',
-        'name',
         'posted_at'
     ];
 
@@ -177,7 +176,7 @@ class Product extends Content
 
     public function scopeFrontendFilter($query, $params)
     {
-        $filter = new FrontendFilter();
+        $filter = new ShopFilter();
         $filter->setModel($this);
         $filter->setQuery($query);
         $filter->setParams($params);

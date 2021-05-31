@@ -1,3 +1,11 @@
+.js-filter-category-link {
+    color: #989898;
+}
+.js-filter-category-link.active {
+    text-decoration: underline;
+    color: #1e61e3;
+}
+
 .filter-tags a {
     border-radius:3px;
     border:1px solid #d5d5d5;

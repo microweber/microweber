@@ -1,58 +1,21 @@
-<script src="{{module_url()}}/js/filter.js" type="text/javascript"></script>
-<link href="{{module_url()}}/css/filter.css" type="text/css" rel="stylesheet">
+<script type="text/javascript">
+
+    mw.require('{{module_url()}}/js/filter.js');
+    mw.require('{{module_url()}}/css/filter.css');
+
+    filter = new ContentFilter();
+    filter.setModuleId('{{$moduleId}}');
+    filter.init();
+</script>
 
 <section class="section section-blog">
     <div class="container">
     <div class="row">
 
-            <script type="text/javascript">
-                function getUrlAsArray() {
-                    let url = window.location.href;
-                    if (url.indexOf('?') === -1) {
-                        return [];
-                    }
-                    var request = [];
-                    var pairs = url.substring(url.indexOf('?') + 1).split('&');
-                    for (var i = 0; i < pairs.length; i++) {
-                        if(!pairs[i])
-                            continue;
-                        var pair = pairs[i].split('=');
-                        request.push({key:decodeURIComponent(pair[0]), value: decodeURIComponent(pair[1])});
-                    }
-                    return request;
-                }
-
-                encodeDataToURL = (data) => {
-                    return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
-                };
-
-                $(document).ready(function () {
-                    $('.js-filter-option-select').change(function () {
-                        var redirectFilterUrl = getUrlAsArray();
-                        if (!this.checked) {
-                            var currentElement = this;
-                            for (var i=0; i< redirectFilterUrl.length; i++) {
-                                if ((redirectFilterUrl[i].key === currentElement.name) &&(redirectFilterUrl[i].value === currentElement.value)) {
-                                    redirectFilterUrl.splice(i,1);
-                                    break;
-                                }
-                            }
-                        }
-                        $.each($(this).serializeArray(), function(k,filter) {
-                            redirectFilterUrl.push({key:filter.name, value:filter.value});
-                        });
-
-                        $('#{{$moduleId}}').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
-                        mw.reload_module('#{{$moduleId}}');
-                        window.history.pushState('{{ URL::current() }}', false, '?' + encodeDataToURL(redirectFilterUrl));
-
-                        // window.location.href = "{{ URL::current() }}?" + encodeDataToURL(redirectFilterUrl);
-                    });
-                });
-            </script>
-
             <div class="col-md-3">
                 <div class="card">
+
+                    {!! $posts->activeFilters('blog::partials.active_filters') !!}
 
                     {!! $posts->search('blog::partials.search') !!}
 
@@ -69,11 +32,8 @@
         <div class="col-md-9">
 
             <div class="row">
-                <div class="col-md-8">
-                    @if (!empty($_GET))
-                        <a href="{{ URL::current() }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-times"></i> <?php _e('Reset filter'); ?></a>
-                    @endif
-                </div>
+                <div class="col-md-8"> </div>
+
                 <div class="col-md-2">
                     {!! $posts->limit('blog::partials.limit'); !!}
                 </div>
@@ -127,9 +87,6 @@
                 Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
             </p>
         </div>
-
-
-
 
         </div>
         </div>

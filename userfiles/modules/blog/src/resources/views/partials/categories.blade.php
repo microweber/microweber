@@ -13,9 +13,9 @@ $randomId = uniqid();
     <div class="card-body">
 
         @foreach($categories as $category)
-            <ul class="filter-tree">
+            <ul class="js-filter-category-tree">
                 <li>
-                    <a href="?category={{$category->id}}" @if(\Request::get('category', false) == $category->id) class="active" @endif >{{$category->title}}</a>
+                    <a href="?category={{$category->id}}" class="js-filter-category-link @if($request->get('category', false) == $category->id) active @endif ">{{$category->title}}</a>
                 </li>
                 @if($category->children()->count() > 0)
                     @include('blog::partials.categories_children', ['categories' => $category->children])

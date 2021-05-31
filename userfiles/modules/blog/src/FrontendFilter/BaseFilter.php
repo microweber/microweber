@@ -1,28 +1,39 @@
 <?php
-
-
-namespace MicroweberPackages\Blog;
+namespace MicroweberPackages\Blog\FrontendFilter;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFiltersTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\SearchTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\SortTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\TagsTrait;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Page\Models\Page;
 
-class FrontendFilter
+abstract class BaseFilter
 {
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
 
     public $allCustomFieldsForResults = [];
-    //public $allCategoriesForResults = [];
     public $allTagsForResults = [];
 
+    public $filters = array();
     public $params = array();
     public $queryParams = array();
-    protected $pagination;
     protected $query;
     protected $model;
+    protected $request;
+
+    public function __construct()
+    {
+        $this->request = $this->_getRequestInstance();
+    }
 
     public function setModel($model)
     {
@@ -37,181 +48,6 @@ class FrontendFilter
     public function setQuery($query)
     {
         $this->query = $query;
-    }
-
-    public function pagination($theme = false)
-    {
-        //$filteringTheResults = get_option('filtering_the_results', $this->params['moduleId']);
-
-        return $this->pagination->links($theme);
-    }
-
-    public function total()
-    {
-        return $this->pagination->total();
-    }
-
-    public function count()
-    {
-        return $this->pagination->count();
-    }
-
-    public function items()
-    {
-        return $this->pagination->items();
-    }
-
-    public function sort($template = false)
-    {
-        $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
-        if (!$sortTheResults) {
-            return false;
-        }
-
-        if (!isset($this->model->sortable)) {
-            return false;
-        }
-
-        $options = [];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-
-        $directions = [
-          'desc'=>'NEWEST',
-          'asc'=>'OLDEST',
-        ];
-
-        foreach($this->model->sortable as $field) {
-            foreach($directions as $direction=>$directionName) {
-
-                $isActive = 0;
-                if (($request->get('order') == $direction) && $request->get('sort') == $field) {
-                    $isActive = 1;
-                }
-
-                $buildLink = $this->queryParams;
-                $buildLink['sort'] = $field;
-                $buildLink['order'] = $direction;
-                $buildLink = http_build_query($buildLink);
-
-                $pageSort = new \stdClass;
-                $pageSort->active = $isActive;
-                $pageSort->link = $fullUrl . '?' . $buildLink;
-                $pageSort->name = '' . $field .' '. $directionName;
-
-                $options[] = $pageSort;
-            }
-        }
-
-        return view($template,compact('options'));
-    }
-
-    public function categories($template = false)
-    {
-        $show = get_option('filtering_by_categories', $this->params['moduleId']);
-        if (!$show) {
-            return false;
-        }
-
-        $categoryQuery = Category::query();
-        $categoryQuery->where('rel_id', $this->getMainPageId());
-
-        $categories = $categoryQuery->where('parent_id',0)->get();
-
-        return view($template, compact('categories'));
-    }
-
-    public function tags($template = false)
-    {
-
-        $show = get_option('filtering_by_tags', $this->params['moduleId']);
-        if (!$show) {
-            return false;
-        }
-
-        $tags = [];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-        $category = $request->get('category');
-
-       foreach ($this->allTagsForResults as $tag) {
-            $buildLink = [];
-            if (!empty($category)) {
-                $buildLink['category'] = $category;
-            }
-            $buildLink['tags'] = $tag->slug;
-            $buildLink = http_build_query($buildLink);
-
-            $tag->url = $fullUrl .'?'. $buildLink;
-            $tags[$tag->slug] = $tag;
-        }
-
-        return view($template, compact('tags'));
-    }
-
-    public function limit($template = false)
-    {
-
-        $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
-        if (!$limitTheResults) {
-            return false;
-        }
-
-        $options =[];
-
-        $pageLimits = [
-            1,
-            2,
-            3,
-            4,
-            5,
-        ];
-
-        $fullUrl = URL::current();
-        $request = $this->getRequest();
-
-        foreach ($pageLimits as $limit) {
-
-            $buildLink = $this->queryParams;
-            $buildLink['limit'] = $limit;
-            $buildLink = http_build_query($buildLink);
-
-            $isActive = 0;
-            if ($request->get('limit') == $limit) {
-                $isActive = 1;
-            }
-
-            $pageLimit = new \stdClass;
-            $pageLimit->active = $isActive;
-            $pageLimit->link = $fullUrl .'?'. $buildLink;
-            $pageLimit->name = $limit;
-
-            $options[] = $pageLimit;
-        }
-
-        return view($template, compact('options'));
-    }
-
-    public function search($template = false)
-    {
-        $fullUrl = URL::current();
-
-        $searchUri = $this->queryParams;
-        $searchUri['search'] = '';
-        $searchUri = $fullUrl . '?'. http_build_query($searchUri);
-
-        $search = $this->getRequest()->get('search', false);
-
-        $moduleId = $this->params['moduleId'];
-
-        return view($template, compact('searchUri', 'search', 'moduleId'));
-    }
-
-    public function results()
-    {
-        return $this->pagination->items();
     }
 
     public function getMainPageId()
@@ -232,8 +68,6 @@ class FrontendFilter
 
         return 0;
     }
-
-
 
     public function buildFilter()
     {
@@ -321,7 +155,7 @@ class FrontendFilter
             return false;
         }
 
-        $requestFilters = $this->getRequest()->get('filters', false);
+        $requestFilters = $this->request->get('filters', false);
 
         $filters = [];
 
@@ -355,7 +189,7 @@ class FrontendFilter
                 }
             }
 
-            foreach($customFieldsGrouped as $customFieldNameKey=>$customField) {
+            foreach ($customFieldsGrouped as $customFieldNameKey => $customField) {
                 if (isset($filterOptions[$customFieldNameKey])) {
 
                     $readyFilterOptions = $filterOptions[$customFieldNameKey];
@@ -369,12 +203,13 @@ class FrontendFilter
                     $filter->type = $customField->type;
                     $filter->controlType = $controlType;
                     $filter->name = $customField->name;
+                    $filter->nameKey = $customField->name_key;
                     $filter->options = $readyFilterOptions;
 
                     if ($customField->type == 'price') {
 
                         $allPrices = [];
-                        foreach($readyFilterOptions as $priceVal=>$priceOption) {
+                        foreach ($readyFilterOptions as $priceVal => $priceOption) {
                             $allPrices[] = $priceVal;
                         }
 
@@ -383,7 +218,7 @@ class FrontendFilter
                         if (isset($allPrices[0])) {
                             $sortedPrices = [];
                             asort($allPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-                            foreach($allPrices as $sortPrice) {
+                            foreach ($allPrices as $sortPrice) {
                                 $sortedPrices[] = $sortPrice;
                             }
                             $minPrice = $sortedPrices[0];
@@ -396,12 +231,12 @@ class FrontendFilter
                         $filter->fromPrice = $filter->minPrice;
                         $filter->toPrice = $filter->maxPrice;
 
-                        if (isset($requestFilters['from_price'])) {
-                            $filter->fromPrice = $requestFilters['from_price'];
+                        if ($this->request->get('min_price', false)) {
+                            $filter->fromPrice = $this->request->get('min_price');
                         }
 
-                        if (isset($requestFilters['to_price'])) {
-                            $filter->toPrice = $requestFilters['to_price'];
+                        if ($this->request->get('max_price', false)) {
+                            $filter->toPrice = $this->request->get('max_price');
                         }
 
                     }
@@ -425,12 +260,45 @@ class FrontendFilter
             $filters = $readyOrderedFilters;
         }
 
+        $this->filters = $filters;
+
         $moduleId = $this->params['moduleId'];
 
-        return view($template, compact( 'filters','moduleId'));
+        $viewData =  ['filters'=>$filters, 'moduleId'=>$moduleId];
+
+        if (!$template) {
+            return $viewData;
+        }
+        return view($template, $viewData);
     }
 
-    public function getRequest()
+    public function apply()
+    {
+        $reflection = new \ReflectionClass(get_class($this));
+        $traitMethods = $reflection->getMethods();
+        foreach($traitMethods as $method) {
+            // Apply query builds from traits
+            if (strpos($method->name, 'applyQuery') !== false) {
+                $this->{$method->name}();
+            }
+        }
+
+        $this->query->where('parent', $this->getMainPageId());
+        $this->query->select(['id','parent', 'url','title','content','content_body']);
+
+        $filter = get_option('filtering_the_results', $this->params['moduleId']);
+        if ($filter == '1') {
+            $this->buildFilter();
+        }
+
+        $this->pagination = $this->query
+            ->paginate($this->queryParams['limit'], ['*'], 'page', $this->request->get('page', 0))
+            ->withQueryString();
+
+        return $this;
+    }
+
+    private function _getRequestInstance()
     {
         $request = new \Illuminate\Http\Request($_REQUEST);
 
@@ -441,92 +309,5 @@ class FrontendFilter
         }
 
         return $request;
-    }
-
-    public function apply()
-    {
-        $request = $this->getRequest();
-
-        $limit = $request->get('limit', false);
-        if ($limit) {
-            $this->queryParams['limit'] = $limit;
-        }
-
-        $page = $request->get('page', false);
-        if ($page) {
-            $this->queryParams['page'] = $page;
-        }
-
-        $this->query->where('parent', $this->getMainPageId());
-
-        // Search
-        $search = $request->get('search');
-        if (!empty($search)) {
-            $this->query->where('title','LIKE','%'.$search.'%');
-        }
-
-        // Sort & Order
-        $sort = $request->get('sort', false);
-        $order = $request->get('order', false);
-
-        if ($sort && $order) {
-
-            $this->queryParams['sort'] = $sort;
-            $this->queryParams['order'] = $order;
-
-            $this->query->orderBy($sort, $order);
-        }
-
-        // Tags
-        $this->query->with('tagged');
-        $tags = $request->get('tags', false);
-
-        if (!empty($tags)) {
-            $this->queryParams['tags'] = $tags;
-            $this->query->withAllTags($tags);
-        }
-
-        // Categories
-        $category = $request->get('category');
-        if (!empty($category)) {
-            $this->queryParams['category'] = $category;
-            $this->query->whereHas('categoryItems', function ($query) use($category) {
-                $query->where('parent_id', '=', $category);
-            });
-        }
-
-        $this->buildFilter();
-
-        // filters
-        $filters = $customFieldFilters = $request->get('filters');
-
-        // except keys
-        if (isset($customFieldFilters['from_price'])) {
-            unset($customFieldFilters['from_price']);
-        }
-        if (isset($customFieldFilters['to_price'])) {
-            unset($customFieldFilters['to_price']);
-        }
-
-        if (!empty($customFieldFilters)) {
-            $this->queryParams['filters'] = $customFieldFilters;
-            $this->query->whereCustomField($customFieldFilters);
-        }
-
-        if (isset($filters['from_price']) && isset($filters['to_price'])) {
-            $this->query->filter([
-                'priceBetween'=> $filters['from_price'] . ',' . $filters['to_price']
-            ]);
-        }
-
-        $this->query->select(['id','parent', 'url','title','content','content_body']);
-/*
-        $this->query->limit(50);
-
-        dd($this->query->get());*/
-
-        $this->pagination = $this->query->paginate($limit)->withQueryString();
-
-        return $this;
     }
 }

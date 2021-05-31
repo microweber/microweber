@@ -22,7 +22,7 @@ class ShopController
             'moduleId'=>$moduleId
         ]);
 
-        return view('shop::index', ['posts'=>$postResults]);
+        return view('shop::index', ['posts'=>$postResults,'moduleId'=>$moduleId]);
     }
 
 }
