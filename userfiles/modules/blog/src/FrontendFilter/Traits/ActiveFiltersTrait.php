@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
-trait ActiveFilterTrait {
+trait ActiveFiltersTrait {
 
     public function activeFilters($template = false) {
 

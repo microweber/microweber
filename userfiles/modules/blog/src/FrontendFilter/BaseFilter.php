@@ -4,7 +4,7 @@ namespace MicroweberPackages\Blog\FrontendFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFilterTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFiltersTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
@@ -18,7 +18,7 @@ use MicroweberPackages\Page\Models\Page;
 
 abstract class BaseFilter
 {
-    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFilterTrait;
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
 
     public $allCustomFieldsForResults = [];
     public $allTagsForResults = [];
