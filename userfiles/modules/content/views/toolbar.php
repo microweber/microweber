@@ -236,7 +236,7 @@ if ($last_page_front != false) {
         ?>
 
 
-        <div class="js-hide-when-no-items col-5 d-flex justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
+        <div class="js-hide-when-no-items col d-flex justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -264,7 +264,7 @@ if ($last_page_front != false) {
 
             <?php if (isset($params['category-id'])): ?>
                 <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-                <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-category-btn"><?php _e("Edit category"); ?></a>
+                <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm mx-2" id="edit-category-btn"><?php _e("Edit category"); ?></a>
             <?php endif; ?>
 
             <?php if (isset($content_types) and !empty($content_types)): ?>
