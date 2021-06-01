@@ -23,7 +23,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .filter-max-scroll {
-    height:200px;
+    height:300px;
     overflow-y: scroll;
 }
 .filter-tags a {

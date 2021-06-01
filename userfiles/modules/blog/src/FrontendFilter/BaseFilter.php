@@ -160,7 +160,8 @@ abstract class BaseFilter
         $filters = [];
 
         if (!empty($this->allCustomFieldsForResults)) {
-            $filterOptions = [];
+            $filterOptionsInactive = [];
+            $filterOptionsActive = [];
             $customFieldsGrouped = [];
             foreach ($this->allCustomFieldsForResults as $result) {
 
@@ -185,7 +186,19 @@ abstract class BaseFilter
                         }
                     }
 
-                    $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                    if ($customFieldValue->active) {
+                        $filterOptionsActive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                    } else {
+                        $filterOptionsInactive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                    }
+                }
+            }
+
+            // Order filters first active
+            $filterOptions = $filterOptionsActive;
+            foreach ($filterOptionsInactive as $customFieldNameKey=>$filterOptionsValues) {
+                foreach($filterOptionsValues as $filterOptionValueName=>$filterOptionValue) {
+                    $filterOptions[$customFieldNameKey][$filterOptionValueName] = $filterOptionValue;
                 }
             }
 
