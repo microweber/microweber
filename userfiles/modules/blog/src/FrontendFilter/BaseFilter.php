@@ -328,7 +328,7 @@ abstract class BaseFilter
     public function scripts()
     {
         $modulesUrl = modules_url();
-        
+
         return '<script type="text/javascript">
 
             mw.require("'.$modulesUrl.'/blog/js/filter.js");
