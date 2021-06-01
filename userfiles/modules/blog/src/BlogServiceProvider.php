@@ -27,10 +27,10 @@ class BlogServiceProvider extends ServiceProvider
         $checkForOverwrite = template_dir() . 'modules/blog/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
 
-        if (is_dir($checkForOverwrite) && is_file($checkForOverwrite . '/index.blade.php')) {
+        if (is_dir($checkForOverwrite)) {
             View::addNamespace('blog', $checkForOverwrite);
-        } else {
-            View::addNamespace('blog', (__DIR__) . '/resources/views');
         }
+
+        View::addNamespace('blog', (__DIR__) . '/resources/views');
     }
 }
