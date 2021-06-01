@@ -47,6 +47,8 @@ class ContentFilter {
 
         mw.lib.require("air_datepicker");
 
+        var filterInstance = this;
+
         $('#' + params.id).datepicker({
             timepicker: true,
             range: true,
@@ -80,7 +82,7 @@ class ContentFilter {
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
 
-
+                filterInstance.reloadFilter(redirectFilterUrl);
             }
         });
 
@@ -287,3 +289,7 @@ const encodeDataToURL = (data) => {
     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
 };
 
+function numericMonth(dt)
+{
+    return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+}
