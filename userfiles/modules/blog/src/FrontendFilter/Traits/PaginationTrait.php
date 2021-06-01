@@ -8,7 +8,7 @@ trait PaginationTrait {
 
     protected $pagination;
 
-    public function pagination($theme = false)
+    public function pagination($theme = 'pagination::bootstrap-4-flex')
     {
         //$filteringTheResults = get_option('filtering_the_results', $this->params['moduleId']);
 

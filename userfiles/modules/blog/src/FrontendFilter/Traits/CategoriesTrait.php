@@ -18,7 +18,7 @@ trait CategoriesTrait {
         }
     }
 
-    public function categories($template = false)
+    public function categories($template = 'blog::partials.categories')
     {
         $show = get_option('filtering_by_categories', $this->params['moduleId']);
         if (!$show) {

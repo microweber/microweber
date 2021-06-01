@@ -15,7 +15,7 @@ trait LimitTrait {
         }
     }
 
-    public function limit($template = false)
+    public function limit($template = 'blog::partials.limit')
     {
         $limitTheResults = get_option('limit_the_results', $this->params['moduleId']);
         if (!$limitTheResults) {

@@ -3,7 +3,7 @@ namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
 trait ActiveFiltersTrait {
 
-    public function activeFilters($template = false) {
+    public function activeFilters($template = 'blog::partials.active_filters') {
 
         $activeFilters = [];
 

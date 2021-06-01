@@ -17,7 +17,7 @@ trait TagsTrait {
         }
     }
 
-    public function tags($template = false)
+    public function tags($template = 'blog::partials.tags')
     {
         $show = get_option('filtering_by_tags', $this->params['moduleId']);
         if (!$show) {

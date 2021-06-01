@@ -148,7 +148,7 @@ abstract class BaseFilter
         Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
     }
 
-    public function filters($template = false)
+    public function filters($template = 'blog::partials.filters')
     {
         $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
         if (!$show) {

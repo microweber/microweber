@@ -14,7 +14,7 @@ trait SearchTrait {
         }
     }
 
-    public function search($template = false)
+    public function search($template = 'blog::partials.search')
     {
         $fullUrl = URL::current();
 

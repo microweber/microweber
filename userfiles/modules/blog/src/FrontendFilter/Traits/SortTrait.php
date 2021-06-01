@@ -20,7 +20,7 @@ trait SortTrait {
         }
     }
 
-    public function sort($template = false)
+    public function sort($template = 'blog::partials.sort')
     {
         $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
         if (!$sortTheResults) {
