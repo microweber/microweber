@@ -32,7 +32,7 @@ abstract class BaseFilter
 
     public function __construct()
     {
-        $this->request = $this->_getRequestInstance();
+        $this->request = $this->_getRequestInstance(); 
     }
 
     public function setModel($model)
@@ -293,6 +293,7 @@ abstract class BaseFilter
         if (!$template) {
             return $viewData;
         }
+
         return view($template, $viewData);
     }
 
