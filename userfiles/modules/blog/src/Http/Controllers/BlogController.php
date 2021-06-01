@@ -7,7 +7,7 @@ use MicroweberPackages\App\Http\Controllers\ModuleFrontController;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Post\Models\Post;
 
-class BlogController
+class BlogController extends ModuleFrontController
 {
     /**
      * Display a listing of the resource.
