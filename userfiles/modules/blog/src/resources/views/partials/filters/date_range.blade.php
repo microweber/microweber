@@ -10,7 +10,7 @@ $randomId = uniqid();
 </div>
 
 <div class="collapse show" id="collapse_{{$randomId}}">
-    <div class="card-body">
+    <div class="card-body filter-max-scroll">
 
   {{--      @foreach($filter->options as $options)
         @endforeach

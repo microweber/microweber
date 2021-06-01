@@ -1,3 +1,19 @@
+html {
+    --scrollbarBG: #ffffff;
+    --thumbBG: #1e61e3;
+}
+body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+body::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+}
+body::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG) ;
+    border: 1px solid var(--scrollbarBG);
+}
+
 .js-filter-category-link {
     color: #989898;
 }
@@ -6,6 +22,10 @@
     color: #1e61e3;
 }
 
+.filter-max-scroll {
+    height:200px;
+    overflow-y: scroll;
+}
 .filter-tags a {
     border-radius:3px;
     border:1px solid #d5d5d5;

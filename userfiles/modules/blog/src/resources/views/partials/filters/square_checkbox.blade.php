@@ -10,7 +10,7 @@ $randomId = uniqid();
 </div>
 
 <div class="collapse show" id="collapse_{{$randomId}}">
-    <div class="card-body">
+    <div class="card-body filter-max-scroll">
 
         <div class="form-group">
             <div data-toggle="filter-buttons">
