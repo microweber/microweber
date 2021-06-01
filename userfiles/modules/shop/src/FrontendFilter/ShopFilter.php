@@ -8,4 +8,5 @@ class ShopFilter extends BaseFilter {
 
     use PriceFilter;
 
+    // public $viewNamespace = 'shop';
 }

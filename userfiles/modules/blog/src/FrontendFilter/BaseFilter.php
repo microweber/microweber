@@ -20,6 +20,8 @@ abstract class BaseFilter
 {
     use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
 
+    public $viewNamespace = false;
+
     public $allCustomFieldsForResults = [];
     public $allTagsForResults = [];
 
@@ -32,7 +34,7 @@ abstract class BaseFilter
 
     public function __construct()
     {
-        $this->request = $this->_getRequestInstance(); 
+        $this->request = $this->_getRequestInstance();
     }
 
     public function setModel($model)
