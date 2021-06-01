@@ -49,8 +49,8 @@ body::-webkit-scrollbar-thumb {
     border-color: #1e61e3;
 }
 .datepicker {
-    width:100%;
-    border:none;
+    width:100% !important;
+    border:none !important;
 }
 
 .btn-square-checkbox {

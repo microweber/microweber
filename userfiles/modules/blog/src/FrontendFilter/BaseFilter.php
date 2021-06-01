@@ -219,7 +219,18 @@ abstract class BaseFilter
                     $filter->nameKey = $customField->name_key;
                     $filter->options = $readyFilterOptions;
 
-                    if ($customField->type == 'price') {
+                    if ($filter->controlType == 'date_range') {
+                        $filter->fromDate = '';
+                        $filter->toDate = '';
+                        if (isset($requestFilters['from_date'])) {
+                            $filter->fromDate = $requestFilters['from_date'];
+                        }
+                        if (isset($requestFilters['to_date'])) {
+                            $filter->toDate = $requestFilters['to_date'];
+                        }
+                    }
+
+                    if ($filter->controlType == 'price') {
 
                         $allPrices = [];
                         foreach ($readyFilterOptions as $priceVal => $priceOption) {

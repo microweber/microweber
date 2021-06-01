@@ -12,12 +12,15 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body filter-max-scroll">
 
-  {{--      @foreach($filter->options as $options)
-        @endforeach
---}}
+        <div id="js-filter-option-datepicker{{$randomId}}"></div>
 
-        <div id="js-filter-option-datepicker"></div>
-
+        <script>
+            filter.addDateRangePicker({
+                id: 'js-filter-option-datepicker{{$randomId}}',
+                fromDate: '{{$filter->fromDate}}',
+                toDate: '{{$filter->toDate}}',
+            });
+        </script>
 
     </div>
 </div>
