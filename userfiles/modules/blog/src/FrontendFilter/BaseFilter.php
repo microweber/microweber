@@ -20,6 +20,8 @@ abstract class BaseFilter
 {
     use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
 
+    public $viewNamespace = false;
+
     public $allCustomFieldsForResults = [];
     public $allTagsForResults = [];
 
@@ -293,6 +295,7 @@ abstract class BaseFilter
         if (!$template) {
             return $viewData;
         }
+
         return view($template, $viewData);
     }
 

@@ -25,7 +25,10 @@ class BlogController extends ModuleFrontController
             'moduleId'=>$moduleId
         ]);
 
-        return view('blog::index', ['posts'=>$postResults,'moduleId'=>$moduleId]);
+        return view( 'blog::index', [
+            'posts'=>$postResults,
+            'moduleId'=>$moduleId
+        ]);
     }
 
 }

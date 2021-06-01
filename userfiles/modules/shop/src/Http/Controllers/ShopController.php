@@ -16,13 +16,16 @@ class ShopController
     {
         $moduleId = $request->get('id');
 
-        $postQuery = Product::query();
+        $productQuery = Product::query();
 
-        $postResults = $postQuery->frontendFilter([
-            'moduleId'=>$moduleId
+        $productResults = $productQuery->frontendFilter([
+            'moduleId'=>$moduleId,
         ]);
 
-        return view('shop::index', ['posts'=>$postResults,'moduleId'=>$moduleId]);
+        return view('shop::index', [
+            'products'=>$productResults,
+            'moduleId'=>$moduleId,
+        ]);
     }
 
 }

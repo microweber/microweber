@@ -8,4 +8,6 @@ class BlogFilter extends BaseFilter {
 
     use CustomFieldsTrait;
 
+    // public $viewNamespace = 'blog';
+
 }

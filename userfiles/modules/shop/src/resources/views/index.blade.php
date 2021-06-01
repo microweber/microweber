@@ -15,15 +15,15 @@
         <div class="col-md-3">
             <div class="card">
 
-                {!! $posts->activeFilters() !!}
+                {!! $products->activeFilters() !!}
 
-                {!! $posts->search() !!}
+                {!! $products->search() !!}
 
-                {!! $posts->tags() !!}
+                {!! $products->tags() !!}
 
-                {!! $posts->categories() !!}
+                {!! $products->categories() !!}
 
-                {!! $posts->filters() !!}
+                {!! $products->filters() !!}
 
              </div>
         </div>
@@ -34,32 +34,32 @@
             <div class="row">
                 <div class="col-md-8"></div>
                 <div class="col-md-2">
-                    {!! $posts->limit(); !!}
+                    {!! $products->limit(); !!}
                 </div>
                 <div class="col-md-2">
-                    {!! $posts->sort(); !!}
+                    {!! $products->sort(); !!}
                 </div>
             </div>
             <div class="row">
-            @foreach($posts->results() as $post)
+            @foreach($products->results() as $product)
                     <div class="col-md-3">
             <div class="post" style="margin-top:25px;">
 
-                <img src="{{$post->thumbnail(400,400)}}" alt="" width="400px">
+                <img src="{{$product->thumbnail(400,400)}}" alt="" width="400px">
 
-                <h4>{{$post->title}}</h4>
-                <p>{{$post->content_text}}</p>
+                <h4>{{$product->title}}</h4>
+                <p>{{$product->content_text}}</p>
                 <br />
-                <small>Posted At:{{$post->posted_at}}</small>
+                <small>Posted At:{{$product->posted_at}}</small>
                 <br />
-                <a href="{{site_url($post->url)}}">View</a>
+                <a href="{{site_url($product->url)}}">View</a>
                 <hr />
-                @foreach($post->tags as $tag)
+                @foreach($product->tags as $tag)
                    <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
                 @endforeach
 
                 @php
-                    $resultCustomFields = $post->customField()->with('fieldValue')->get();
+                    $resultCustomFields = $product->customField()->with('fieldValue')->get();
                 @endphp
                 @foreach ($resultCustomFields as $resultCustomField)
                     {{--@if ($resultCustomField->type !== 'date')
@@ -79,11 +79,11 @@
             @endforeach
             </div>
 
-            {!! $posts->pagination() !!}
+            {!! $products->pagination() !!}
 
             <br />
             <p>
-                Displaying {{$posts->count()}} of {{ $posts->total() }} result(s).
+                Displaying {{$products->count()}} of {{ $products->total() }} result(s).
             </p>
         </div>
 
