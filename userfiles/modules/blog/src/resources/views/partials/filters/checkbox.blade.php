@@ -17,11 +17,20 @@ $randomId = uniqid();
                 @php
                     $randIdForCheck = uniqid();
                 @endphp
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
-                    <label class="custom-control-label" for="{{$randIdForCheck}}">
-                        {{ $options->value }}
-                    </label>
+                <div class="control-wrapper">
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                        <label class="custom-control-label" for="{{$randIdForCheck}}">
+                            {{ $options->value }}
+                        </label>
+
+
+                        @if ($options->active)
+                            <div class="remove-control">
+                                <a href="#" data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-active-filters"><i class="fa fa-times-circle"></i></a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             @endforeach
         </div>

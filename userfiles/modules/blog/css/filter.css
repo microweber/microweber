@@ -22,6 +22,12 @@ body::-webkit-scrollbar-thumb {
     color: #1e61e3;
 }
 
+.remove-control {
+    cursor: pointer;
+    font-size:18px;
+    float: right;
+}
+
 .filter-max-scroll {
     height:300px;
     overflow-y: scroll;
