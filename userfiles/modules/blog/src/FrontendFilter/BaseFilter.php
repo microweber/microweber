@@ -325,6 +325,22 @@ abstract class BaseFilter
         return $this;
     }
 
+    public function scripts()
+    {
+        $modulesUrl = modules_url();
+        
+        return '<script type="text/javascript">
+
+            mw.require("'.$modulesUrl.'/blog/js/filter.js");
+            mw.require("'.$modulesUrl.'/blog/css/filter.css");
+
+            filter = new ContentFilter();
+            filter.setModuleId("'.$this->params['moduleId'].'");
+            filter.init();
+            </script>
+        ';
+    }
+
     private function _getRequestInstance()
     {
         $request = new \Illuminate\Http\Request($_REQUEST);
