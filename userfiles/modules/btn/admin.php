@@ -24,6 +24,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $style = get_module_option('button_style', $params['id']);
         $size = get_module_option('button_size', $params['id']);
         $action = get_module_option('button_action', $params['id']);
+        $align = get_module_option('align', $params['id']);
 
         $onclick = false;
         if (isset($params['button_onclick'])) {
@@ -144,6 +145,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <textarea class="mw_option_field form-control" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
                     </div>
                 <?php endif; ?>
+                <label class="control-label"><?php _e("Align"); ?></label>
+                <div class="form-group">
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-secondary <?php print $align === 'left' ? 'active' : ''; ?>">
+                            <input class="mw_option_field" type="radio" value="left"  name="align"> <i class="mdi mdi-format-horizontal-align-left"></i>
+                        </label>
+                        <label class="btn btn-outline-secondary <?php print ($align === 'center' ? 'active' : ''); ?>">
+                            <input type="radio" class="mw_option_field" value="center"  name="align"> <i class="mdi mdi-format-horizontal-align-center"></i>
+                        </label>
+                        <label class="btn btn-outline-secondary <?php print $align === 'right' ? 'active' : ''; ?>">
+                            <input type="radio" class="mw_option_field" value="right"  name="align"> <i class="mdi mdi-format-horizontal-align-right"></i>
+                        </label>
+                    </div>
+                </div>
 
                 <?php if (!$onclick): ?>
 
