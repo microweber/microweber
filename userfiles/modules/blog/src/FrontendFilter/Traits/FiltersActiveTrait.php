@@ -7,6 +7,19 @@ trait FiltersActiveTrait {
 
         $filtersActive = [];
 
+        $tags = $this->request->get('tags', false);
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $urlForRemoving = 'tags[]';
+                $activeFilter = new \stdClass();
+                $activeFilter->name = _e('Tag', true) . ': ' . $tag;
+                $activeFilter->link = '';
+                $activeFilter->key = $urlForRemoving;
+                $activeFilter->value = $tag;
+                $filtersActive[] = $activeFilter;
+            }
+        }
+
         $this->filters();
 
         foreach($this->filters as $filter) {
@@ -29,7 +42,7 @@ trait FiltersActiveTrait {
         $search = $this->request->get('search', false);
         if ($search) {
             $filter = new \stdClass();
-            $filter->name = 'Search: '. $search;
+            $filter->name = _e('Search', true) .': '. $search;
             $filter->link = '';
             $filter->key= 'search';
             $filter->value= $search;
@@ -39,7 +52,7 @@ trait FiltersActiveTrait {
         $limit = $this->request->get('limit', false);
         if ($limit) {
             $filter = new \stdClass();
-            $filter->name = 'Limit: '. $limit;
+            $filter->name = _e('Limit', true) . ': '. $limit;
             $filter->link = '';
             $filter->key = 'limit';
             $filter->value = $limit;
@@ -49,7 +62,7 @@ trait FiltersActiveTrait {
         $sort = $this->request->get('sort', false);
         if ($sort) {
             $filter = new \stdClass();
-            $filter->name = 'Sort: '. $sort;
+            $filter->name = _e('Sort', true) .': '. $sort;
             $filter->link = '';
             $filter->value = $sort;
             $filter->key = 'order, sort';
@@ -60,7 +73,7 @@ trait FiltersActiveTrait {
         $maxPrice = $this->request->get('max_price', false);
         if ($maxPrice) {
             $filter = new \stdClass();
-            $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
+            $filter->name = _e('Price', true) .': '. $minPrice . ' - ' . $maxPrice;
             $filter->link = '';
             $filter->value = $maxPrice;
             $filter->key = 'min_price, max_price';
