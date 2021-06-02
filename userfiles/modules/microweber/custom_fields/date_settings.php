@@ -1,5 +1,21 @@
 <?php include('settings_header.php'); ?>
 
+<script type="text/javascript">
+
+    mw.lib.require("air_datepicker");
+
+    $('#value<?php print $rand; ?>').datepicker({
+        timepicker: false,
+        range: false,
+        multipleDates: false,
+        multipleDatesSeparator: " - ",
+        onSelect: function (fd, d, picker) {
+            $('#value<?php print $rand; ?>').trigger('change');
+        }
+    });
+
+</script>
+
 <div class="custom-field-settings-values">
   <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
    <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
