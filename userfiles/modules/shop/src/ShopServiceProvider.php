@@ -25,16 +25,15 @@ class ShopServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
 
-
         // Allow to overwrite resource files for this module
         $checkForOverwrite = template_dir() . 'modules/shop/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
 
-        if (is_dir($checkForOverwrite) && is_file($checkForOverwrite . '/index.blade.php')) {
+        if (is_dir($checkForOverwrite)) {
             View::addNamespace('shop', $checkForOverwrite);
-        } else {
-            View::addNamespace('shop', (__DIR__) . '/resources/views');
         }
+
+        View::addNamespace('shop', (__DIR__) . '/resources/views');
 
     }
 }

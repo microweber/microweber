@@ -135,8 +135,17 @@ if (is_file($template_file) != false) {
     print lnotif("No template found. Please choose template.");
 }
 
+?>
 
- if ($action == 'popup') { ?>
+<style type="text/css">
+    #<?php print $params['id']; ?> {
+        text-align: <?php print get_module_option('align', $params['id']); ?>;
+    }
+</style>
+
+<?php
+
+if ($action == 'popup') { ?>
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>

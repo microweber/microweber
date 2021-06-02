@@ -4,7 +4,7 @@ namespace MicroweberPackages\Blog\FrontendFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFiltersTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\FiltersActiveTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
@@ -18,7 +18,7 @@ use MicroweberPackages\Page\Models\Page;
 
 abstract class BaseFilter
 {
-    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, FiltersActiveTrait;
 
     public $viewNamespace = false;
 
@@ -82,13 +82,16 @@ abstract class BaseFilter
             if (isset($checkCache['allCustomFieldsForResults'])) {
                 $this->allCustomFieldsForResults = $checkCache['allCustomFieldsForResults'];
             }
+            if (isset($checkCache['allTagsForResults'])) {
+                $this->allTagsForResults = $checkCache['allTagsForResults'];
+            }
            return true;
         }
 
         $query = $this->model::query();
         $query->select(['id']);
 
-        // $query->with('tagged');
+        $query->with('tagged');
         $query->where('parent', $this->getMainPageId());
 
         $query->with('customField', function ($query) {
@@ -104,6 +107,10 @@ abstract class BaseFilter
 
         if (!empty($results)) {
             foreach ($results as $result) {
+
+                foreach($result->tags as $tag) {
+                    $this->allTagsForResults[] = $tag;
+                }
 
                 $resultCustomFields = $result->customField;
 
@@ -147,7 +154,10 @@ abstract class BaseFilter
 
         $this->allCustomFieldsForResults = $allCustomFieldsForResults;
 
-        Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
+        Cache::tags($cacheTags)->put($cacheId, [
+            'allCustomFieldsForResults'=>$allCustomFieldsForResults,
+            'allTagsForResults'=>$this->allTagsForResults,
+        ]);
     }
 
     public function filters($template = 'blog::partials.filters')
@@ -156,6 +166,8 @@ abstract class BaseFilter
         if (!$show) {
             return false;
         }
+
+        $showPickedFirst = get_option('filtering_show_picked_first', $this->params['moduleId']);
 
         $requestFilters = $this->request->get('filters', false);
 
@@ -188,22 +200,29 @@ abstract class BaseFilter
                         }
                     }
 
-                    if ($customFieldValue->active) {
-                        $filterOptionsActive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                    if ($showPickedFirst) {
+                        if ($customFieldValue->active) {
+                            $filterOptionsActive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        } else {
+                            $filterOptionsInactive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        }
                     } else {
-                        $filterOptionsInactive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
                     }
                 }
             }
 
-            // Order filters first active
-            $filterOptions = $filterOptionsActive;
-            foreach ($filterOptionsInactive as $customFieldNameKey=>$filterOptionsValues) {
-                foreach($filterOptionsValues as $filterOptionValueName=>$filterOptionValue) {
-                    $filterOptions[$customFieldNameKey][$filterOptionValueName] = $filterOptionValue;
+            if ($showPickedFirst) {
+                // Order filters first active
+                $filterOptions = $filterOptionsActive;
+                foreach ($filterOptionsInactive as $customFieldNameKey => $filterOptionsValues) {
+                    foreach ($filterOptionsValues as $filterOptionValueName => $filterOptionValue) {
+                        $filterOptions[$customFieldNameKey][$filterOptionValueName] = $filterOptionValue;
+                    }
                 }
             }
 
+            $i = 0;
             foreach ($customFieldsGrouped as $customFieldNameKey => $customField) {
                 if (isset($filterOptions[$customFieldNameKey])) {
 
@@ -215,6 +234,8 @@ abstract class BaseFilter
                     }
 
                     $filter = new \stdClass();
+                    $filter->position = $i;
+                    $filter->isFirst = ($i == 0 ? true : false);
                     $filter->type = $customField->type;
                     $filter->controlType = $controlType;
                     $filter->name = $customField->name;
@@ -268,7 +289,7 @@ abstract class BaseFilter
                     }
 
                     $filters[$customFieldNameKey] = $filter;
-
+                    $i++;
                 }
             }
 
@@ -278,9 +299,16 @@ abstract class BaseFilter
         $orderFiltersOption = get_option('filtering_by_custom_fields_order', $this->params['moduleId']);
         if (!empty($orderFiltersOption)) {
             $orderFilters = parse_query($orderFiltersOption);
+            $i = 0;
             foreach ($orderFilters as $filter) {
                 if (isset($filters[$filter])) {
-                    $readyOrderedFilters[$filter] = $filters[$filter];
+                    $orderedFilter = $filters[$filter];
+                    if ($i == 0) {
+                        $orderedFilter->isFirst = true;
+                    }
+                    $orderedFilter->position = $i;
+                    $i++;
+                    $readyOrderedFilters[$filter] = $orderedFilter;
                 }
             }
             $filters = $readyOrderedFilters;
@@ -323,6 +351,29 @@ abstract class BaseFilter
             ->withQueryString();
 
         return $this;
+    }
+
+    public function scripts()
+    {
+        $modulesUrl = modules_url();
+
+        $filtering = 'automatically';
+        $filteringWhen = get_option('filtering_when', $this->params['moduleId']);
+        if ($filteringWhen) {
+            $filtering = $filteringWhen;
+        }
+
+        return '<script type="text/javascript">
+
+            mw.require("'.$modulesUrl.'/blog/js/filter.js");
+            mw.require("'.$modulesUrl.'/blog/css/filter.css");
+
+            filter = new ContentFilter();
+            filter.setModuleId("'.$this->params['moduleId'].'");
+            filter.setFilteringWhen("'.$filtering.'");
+            filter.init();
+            </script>
+        ';
     }
 
     private function _getRequestInstance()

@@ -1,11 +1,24 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
-trait ActiveFiltersTrait {
+trait FiltersActiveTrait {
 
-    public function activeFilters($template = 'blog::partials.active_filters') {
+    public function filtersActive($template = 'blog::partials.filters_active') {
 
-        $activeFilters = [];
+        $filtersActive = [];
+
+        $tags = $this->request->get('tags', false);
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $urlForRemoving = 'tags[]';
+                $activeFilter = new \stdClass();
+                $activeFilter->name = _e('Tag', true) . ': ' . $tag;
+                $activeFilter->link = '';
+                $activeFilter->key = $urlForRemoving;
+                $activeFilter->value = $tag;
+                $filtersActive[] = $activeFilter;
+            }
+        }
 
         $this->filters();
 
@@ -21,7 +34,7 @@ trait ActiveFiltersTrait {
                     $activeFilter->link = '';
                     $activeFilter->key = $urlForRemoving;
                     $activeFilter->value = $option->value;
-                    $activeFilters[] = $activeFilter;
+                    $filtersActive[] = $activeFilter;
                 }
             }
         }
@@ -29,51 +42,51 @@ trait ActiveFiltersTrait {
         $search = $this->request->get('search', false);
         if ($search) {
             $filter = new \stdClass();
-            $filter->name = 'Search: '. $search;
+            $filter->name = _e('Search', true) .': '. $search;
             $filter->link = '';
             $filter->key= 'search';
             $filter->value= $search;
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $limit = $this->request->get('limit', false);
         if ($limit) {
             $filter = new \stdClass();
-            $filter->name = 'Limit: '. $limit;
+            $filter->name = _e('Limit', true) . ': '. $limit;
             $filter->link = '';
             $filter->key = 'limit';
             $filter->value = $limit;
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $sort = $this->request->get('sort', false);
         if ($sort) {
             $filter = new \stdClass();
-            $filter->name = 'Sort: '. $sort;
+            $filter->name = _e('Sort', true) .': '. $sort;
             $filter->link = '';
             $filter->value = $sort;
             $filter->key = 'order, sort';
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $minPrice = $this->request->get('min_price', 0.00);
         $maxPrice = $this->request->get('max_price', false);
         if ($maxPrice) {
             $filter = new \stdClass();
-            $filter->name = 'Price: '. $minPrice . ' - ' . $maxPrice;
+            $filter->name = _e('Price', true) .': '. $minPrice . ' - ' . $maxPrice;
             $filter->link = '';
             $filter->value = $maxPrice;
             $filter->key = 'min_price, max_price';
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
-        if (empty($activeFilters)) {
+        if (empty($filtersActive)) {
             return false;
         }
 
         $moduleId = $this->params['moduleId'];
 
-        return view($template, compact('activeFilters','moduleId'));
+        return view($template, compact('filtersActive','moduleId'));
     }
 
 }

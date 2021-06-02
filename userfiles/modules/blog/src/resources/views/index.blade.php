@@ -1,12 +1,4 @@
-<script type="text/javascript">
-
-    mw.require('{{module_url()}}/js/filter.js');
-    mw.require('{{module_url()}}/css/filter.css');
-
-    filter = new ContentFilter();
-    filter.setModuleId('{{$moduleId}}');
-    filter.init();
-</script>
+{!! $posts->scripts() !!}
 
 <section class="section section-blog">
     <div class="container">

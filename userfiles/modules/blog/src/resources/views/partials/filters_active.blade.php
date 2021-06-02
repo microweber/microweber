@@ -10,8 +10,8 @@ $randomId = uniqid();
 
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body">
-        @foreach($activeFilters as $filter)
-           <button type="button" data-key="{{$filter->key}}" data-value="{{$filter->value}}" class="btn btn-outline-primary btn-sm mb-2 js-filter-active-filters"><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->name}} </button>
+        @foreach($filtersActive as $filter)
+           <button type="button" data-key="{{$filter->key}}" data-value="{{$filter->value}}" class="btn btn-outline-primary btn-sm mb-2 js-filter-picked"><i class="fa fa-times-circle"></i> &nbsp;&nbsp; {{$filter->name}} </button>
         @endforeach
     </div>
 </div>
