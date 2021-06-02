@@ -126,7 +126,7 @@ class ContentFilter {
 
             var redirectFilterUrl = getUrlAsArray();
 
-            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'tags[]', tagSlug); 
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'tags[]', tagSlug);
 
             filterInstance.reloadFilter(redirectFilterUrl);
         });

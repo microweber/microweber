@@ -13,7 +13,7 @@ $randomId = uniqid();
     <div class="card-body">
         <div class="filter-tags">
             @foreach($tags as $tag)
-                <a href="{{$tag->url}}" @if(\Request::get('tags', false) == $tag->slug) class="active" @endif>{{$tag->name}}</a>
+                <span class="@if($tag->active) active @endif" data-slug="{{$tag->slug}}">{{$tag->name}}</span>
             @endforeach
         </div>
     </div>
