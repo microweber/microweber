@@ -129,6 +129,12 @@
                                     </div>
 
                                     <div class="js-filterting-custom-fields-settings">
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
+                                            <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
+                                        </div>
+
                                         <table class="table">
                                             <thead>
                                             <tr>
