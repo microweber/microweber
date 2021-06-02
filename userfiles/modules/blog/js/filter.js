@@ -29,11 +29,8 @@ class ContentFilter {
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
-
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
-
         mw.reload_module('#' + this.moduleId + '');
-
         window.history.pushState('', false, '?' + encodedDataUrl);
     };
 
@@ -103,7 +100,9 @@ class ContentFilter {
 
         // Apply filter button
         $('body').on('click' , '.js-filter-apply' , function() {
-            filterInstance.applyFilters();
+            if (filterInstance.redirectFilterUrl) {
+                filterInstance.applyFilters(filterInstance.redirectFilterUrl);
+            }
         });
 
         // Reset all filters
@@ -196,8 +195,8 @@ class ContentFilter {
 
             redirectFilterUrl = redirectFilterUrl.filter(function(e) {
                 var elementKey = e.key;
-                if (elementKey.indexOf("[]")) {
-                    return false;
+                if (elementKey.indexOf("filters[")) {
+                    return true;
                 }
             });
 
@@ -212,9 +211,11 @@ class ContentFilter {
                 }
             });
 
-           // console.log(redirectFilterUrl);
+            if (filterInstance.filteringWhen == 'automatically') {
+                 filterInstance.applyFilters(redirectFilterUrl);
+            }
 
-            // filterInstance.applyFilters(redirectFilterUrl);
+            filterInstance.redirectFilterUrl = redirectFilterUrl;
         });
 
         // Search
