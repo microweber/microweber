@@ -40,11 +40,32 @@ class DomService {
         return false;
     }
 
+    static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(arr[1]);
+            if (h1 && h2) {
+                return false;
+            }
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
         while (curr && curr !== document.body) {
             const h1 = curr.classList.contains(arr[0]);
-            const h2 = curr.classList.contains(curr, arr[1]);
+            const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
                 return false;
             } else {
@@ -83,7 +104,7 @@ class DomService {
             count++;
             i = 0;
             for ( ; i < l; i++) {
-                if (curr.classList.includes(arr[i]) && only_first.indexOf(arr[i]) === -1) {
+                if (curr.classList.contains(arr[i]) && only_first.indexOf(arr[i]) === -1) {
                     obj[arr[i]] = count;
                     only_first.push(arr[i]);
                 }
@@ -110,10 +131,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Draggable": () => (/* binding */ Draggable)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+/* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
+/* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
 
 
 
-const Draggable = function (options) {
+
+
+const Draggable = function (options, rootSettings) {
     var defaults = {
         handle: null,
         element: null,
@@ -184,10 +209,18 @@ const Draggable = function (options) {
     };
 
     this.isDragging = false;
+    this.dropableService = new _element_types__WEBPACK_IMPORTED_MODULE_1__.DroppableElementAnalyzerService(rootSettings);
 
-
+    this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_2__.DropIndicator();
     this.draggable = function () {
-        mw.element(this.settings.target).on('dragover', function (e) {
+         mw.element(this.settings.target).on('dragover', function (e) {
+             var target = scope.dropableService.getTarget(e.target)
+
+            if(target) {
+                scope.dropIndicator.position(target, 'top')
+            } else {
+                scope.dropIndicator.hide()
+            }
             if (scope.isDragging) {
                 scope.dispatch('dragOver', {element: scope.element, event: e});
                 e.preventDefault();
@@ -254,7 +287,7 @@ class ElementAnalyzerServiceBase {
     }
 
     isRow (node) {
-        return node.classList.has(this.settings.rowClass);
+        return node.classList.contains(this.settings.rowClass);
     }
 
     isModuleButNotLayout (node) {
@@ -265,16 +298,17 @@ class ElementAnalyzerServiceBase {
     }
 
     isElement (node) {
-        return node.classList.has(this.settings.elementClass);
+        return node.classList.contains(this.settings.elementClass);
     }
 
     isEmpty (node) {
-        return node.classList.has(this.settings.emptyElementClass);
+        return node.classList.contains(this.settings.emptyElementClass);
     }
 
 
     isEdit (node) {
-        return node.classList.has(this.settings.editClass);
+
+        return node.classList.contains(this.settings.editClass);
     }
 
     isInEdit (node) {
@@ -290,7 +324,7 @@ class ElementAnalyzerServiceBase {
     }
 
     isPlainText (node) {
-        return node.classList.has(this.settings.plainElementClass);
+        return node.classList.contains(this.settings.plainElementClass);
     }
 
 }
@@ -354,12 +388,12 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
     }
     // whether or not "target" can accept elements
     canAccept (target) {
-        if (this.canAcceptByTag(target) &&
+
+        return !!(/*this.canAcceptByTag(target) &&*/
             this.canAcceptByClass(target) &&
             this.isEditOrInEdit(target) &&
-            this.allowDrop(target)) {
-        }
-        return false;
+            this.allowDrop(target));
+
     }
 
     dropableElements (){
@@ -393,7 +427,7 @@ const ElementAnalyzer = function (options) {
 
     this.settings = options;
 
-    this.dropableService = new DroppableElementAnalyzerService(this.settings);
+
 
     this.getTargets = function (targets) {
 
@@ -490,6 +524,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 /* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
+/* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+
 
 
 
@@ -503,6 +539,8 @@ const Handle = function (options) {
     var scope = this;
 
     this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
+
+
 
     var _visible = true;
     var _currentTarget = null;
@@ -524,7 +562,8 @@ const Handle = function (options) {
       this.draggable = new _draggable__WEBPACK_IMPORTED_MODULE_1__.Draggable({
           handle: this.handle,
           element: null
-      });
+      }, options);
+
     };
 
     this.set = function (target) {
@@ -600,6 +639,7 @@ __webpack_require__.r(__webpack_exports__);
 const Handles = function (handles) {
 
     this.handles = handles;
+    this.dragging = false;
     var scope = this;
 
     this.get = function (handle) {
@@ -647,6 +687,129 @@ const Handles = function (handles) {
             c.call(scope, this.handles[i]);
         }
     };
+
+    this.init = function (){
+        this.each(function (handle){
+            handle.draggable.on('dragStart', function (){
+                scope.dragging = true;
+            })
+            handle.draggable.on('dragEnd', function (){
+                scope.dragging = false;
+            })
+        })
+    }
+
+    this.init();
+};
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/interact.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/interact.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InteractionService": () => (/* binding */ InteractionService),
+/* harmony export */   "DropIndicator": () => (/* binding */ DropIndicator)
+/* harmony export */ });
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
+
+
+const InteractionService = function (settings, rootNode) {
+    this.settings = settings;
+
+    rootNode = rootNode || document.body;
+
+    var doc = rootNode.ownerDocument;
+
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+
+    var handleMove = function (e) {
+        var tartet = e.target;
+    };
+
+    this.init = function () {
+        rootNode.addEventListener("mousemove", function (event){
+            handleMove(event);
+        });
+        rootNode.addEventListener("touchmove", function (event){
+            handleMove(event);
+        });
+    };
+
+    this.init();
+
+};
+
+const DropIndicator = function (options) {
+
+    options = options || {};
+
+    var defaults = {
+        template: 'default'
+    };
+
+    this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
+
+    this._indicator = null;
+
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+    this.hide = function () {
+        this._indicator.addClass('mw-drop-indicator-hidden');
+    };
+
+    this.show = function () {
+        this._indicator.removeClass('mw-drop-indicator-hidden');
+    };
+
+    var positions = [
+        'before-top', 'before-right', 'before-bottom', 'before-left',
+        'inside-top', 'inside-right', 'inside-bottom', 'inside-left'
+    ];
+
+    var positionsClasses = positions.map(function (cls){ return 'mw-drop-indicator-position-' + cls });
+
+    this.position = function (rect, position) {
+        this._indicator.removeClass(positionsClasses);
+        if(!rect || !position) return;
+            if(rect.nodeType === 1) {
+                rect = rect.getBoundingClientRect();
+            }
+        this._indicator.addClass('mw-drop-indicator-position-' + position);
+        this._indicator.css({
+            height: rect.height,
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+        });
+        this.show();
+    };
+
+    this.make = function () {
+        this._indicator = mw.element();
+        this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
+        this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
+        this.hide();
+        document.body.appendChild(this._indicator.get(0));
+    };
+
+    this.init = function (){
+        this.make();
+    };
+
+    this.init();
+
 };
 
 
@@ -943,6 +1106,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./handles */ "./userfiles/modules/microweber/api/liveedit2/handles.js");
 /* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+/* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+
 
 
 
@@ -983,6 +1148,7 @@ class LiveEdit {
             frameworksClasses: {
                 col: ['col', 'mw-col']
             },
+            document: document,
             root: document.body
         };
 
@@ -993,25 +1159,33 @@ class LiveEdit {
         this.elementAnalyzer = new _element_types__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_4__.Handles({
-            handleElement: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
-            handleModule: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(),
-            handleLayout: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle()
+            handleElement: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(this.settings),
+            handleModule: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(this.settings),
+            handleLayout: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(this.settings)
         });
 
         this.observe = new _pointer__WEBPACK_IMPORTED_MODULE_2__.GetPointerTargets(this.settings);
+        this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_7__.DropIndicator();
+
         this.init();
     }
 
     init() {
 
         mw.element(this.root).on('mousemove touchmove', (e) => {
-            if (e.pageX % 2 === 0) {
-                var elements = this.observe.fromEvent(e);
-                this.handles.hideAllExceptCurrent(e);
-                if(elements[0]) {
-                    this.handles.set('handleElement', elements[0])
+             if(this.handles.dragging) {
+                this.handles.hideAll(e);
+                this.dropIndicator.position(e.target, 'top')
+            } else {
+                if (e.pageX % 2 === 0) {
+                    var elements = this.observe.fromEvent(e);
+                    this.handles.hideAllExceptCurrent(e);
+                    if(elements[0]) {
+                        this.handles.set('handleElement', elements[0])
+                    }
                 }
             }
+
          });
     };
 

@@ -1,6 +1,7 @@
 export const Handles = function (handles) {
 
     this.handles = handles;
+    this.dragging = false;
     var scope = this;
 
     this.get = function (handle) {
@@ -48,4 +49,17 @@ export const Handles = function (handles) {
             c.call(scope, this.handles[i]);
         }
     };
+
+    this.init = function (){
+        this.each(function (handle){
+            handle.draggable.on('dragStart', function (){
+                scope.dragging = true;
+            })
+            handle.draggable.on('dragEnd', function (){
+                scope.dragging = false;
+            })
+        })
+    }
+
+    this.init();
 };

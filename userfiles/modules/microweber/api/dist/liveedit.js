@@ -20179,9 +20179,24 @@ mw.dropdown = mw.tools.dropdown;
         };
 
         this.removeClass = function (cls) {
-            return this.each(function (){
-                this.classList.remove(cls.trim());
-            });
+            var isArray = Array.isArray(cls);
+            if(!isArray) {
+                cls = cls.trim();
+                var isMultiple = cls.split(' ');
+                if(isMultiple.length > 1) {
+                    return this.removeClass(isMultiple)
+                }
+                return this.each(function (){
+                    this.classList.remove(cls);
+                });
+            } else {
+                return this.each(function (){
+                    var i = 0, l = cls.length;
+                    for ( ; i < l; i++) {
+                        this.classList.remove(cls[i]);
+                    }
+                });
+            }
         };
 
         this.remove = function () {

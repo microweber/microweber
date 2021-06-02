@@ -30,7 +30,7 @@ export const InteractionService = function (settings, rootNode) {
 
 };
 
-var DropIndicator = function (options) {
+export const DropIndicator = function (options) {
 
     options = options || {};
 
@@ -65,8 +65,8 @@ var DropIndicator = function (options) {
         this._indicator.removeClass(positionsClasses);
         if(!rect || !position) return;
             if(rect.nodeType === 1) {
-            rect = rect.getBoundingClientRect();
-        }
+                rect = rect.getBoundingClientRect();
+            }
         this._indicator.addClass('mw-drop-indicator-position-' + position);
         this._indicator.css({
             height: rect.height,

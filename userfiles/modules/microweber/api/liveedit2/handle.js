@@ -1,5 +1,6 @@
 import {ObjectService} from "./object.service";
 import {Draggable} from "./draggable";
+import {DropIndicator} from "./interact";
 
 export const Handle = function (options) {
 
@@ -11,6 +12,8 @@ export const Handle = function (options) {
     var scope = this;
 
     this.settings = ObjectService.extend({}, defaults, options);
+
+
 
     var _visible = true;
     var _currentTarget = null;
@@ -32,7 +35,8 @@ export const Handle = function (options) {
       this.draggable = new Draggable({
           handle: this.handle,
           element: null
-      });
+      }, options);
+
     };
 
     this.set = function (target) {

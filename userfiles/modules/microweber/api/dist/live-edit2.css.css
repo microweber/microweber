@@ -4,6 +4,15 @@
   z-index: 1001;
   margin: 0 !important;
   padding: 0 !important;
+  border-color: #111;
+  border-style: solid;
+  border-width: 0;
+}
+.mw-drop-indicator.mw-drop-indicator-position-top {
+  border-top-width: 2px;
+}
+.mw-drop-indicator.mw-drop-indicator-position-bottom {
+  border-bottom-width: 2px;
 }
 
 @keyframes mwLiveEditDropIndicatorAnimationUp {
@@ -39,6 +48,10 @@
   transform: rotate(180deg);
   top: 30px;
   display: inline-block;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-top .mw-drop-indicator-pin {
+  top: -30px;
+  transform: rotate(0);
 }
 .mw-drop-indicator-template-default .mw-drop-indicator-block {
   transition: 0.3s;

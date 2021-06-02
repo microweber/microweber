@@ -40,12 +40,12 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     }
     // whether or not "target" can accept elements
     canAccept (target) {
-        if (this.canAcceptByTag(target) &&
+
+        return !!(/*this.canAcceptByTag(target) &&*/
             this.canAcceptByClass(target) &&
             this.isEditOrInEdit(target) &&
-            this.allowDrop(target)) {
-        }
-        return false;
+            this.allowDrop(target));
+
     }
 
     dropableElements (){
@@ -79,7 +79,7 @@ export const ElementAnalyzer = function (options) {
 
     this.settings = options;
 
-    this.dropableService = new DroppableElementAnalyzerService(this.settings);
+
 
     this.getTargets = function (targets) {
 

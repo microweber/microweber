@@ -7,6 +7,7 @@ import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
 import {Draggable} from "./draggable";
 import {ObjectService} from "./object.service";
+import {DropIndicator} from "./interact";
 // import "./css/liveedit.scss";
 
 
@@ -38,6 +39,7 @@ export class LiveEdit {
             frameworksClasses: {
                 col: ['col', 'mw-col']
             },
+            document: document,
             root: document.body
         };
 
@@ -48,25 +50,33 @@ export class LiveEdit {
         this.elementAnalyzer = new ElementAnalyzer(this.settings);
 
         this.handles = new Handles({
-            handleElement: new Handle(),
-            handleModule: new Handle(),
-            handleLayout: new Handle()
+            handleElement: new Handle(this.settings),
+            handleModule: new Handle(this.settings),
+            handleLayout: new Handle(this.settings)
         });
 
         this.observe = new GetPointerTargets(this.settings);
+        this.dropIndicator = new DropIndicator();
+
         this.init();
     }
 
     init() {
 
         mw.element(this.root).on('mousemove touchmove', (e) => {
-            if (e.pageX % 2 === 0) {
-                var elements = this.observe.fromEvent(e);
-                this.handles.hideAllExceptCurrent(e);
-                if(elements[0]) {
-                    this.handles.set('handleElement', elements[0])
+             if(this.handles.dragging) {
+                this.handles.hideAll(e);
+                this.dropIndicator.position(e.target, 'top')
+            } else {
+                if (e.pageX % 2 === 0) {
+                    var elements = this.observe.fromEvent(e);
+                    this.handles.hideAllExceptCurrent(e);
+                    if(elements[0]) {
+                        this.handles.set('handleElement', elements[0])
+                    }
                 }
             }
+
          });
     };
 

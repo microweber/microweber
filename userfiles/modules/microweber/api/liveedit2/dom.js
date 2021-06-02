@@ -26,11 +26,32 @@ export class DomService {
         return false;
     }
 
+    static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(arr[1]);
+            if (h1 && h2) {
+                return false;
+            }
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
         while (curr && curr !== document.body) {
             const h1 = curr.classList.contains(arr[0]);
-            const h2 = curr.classList.contains(curr, arr[1]);
+            const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
                 return false;
             } else {
@@ -69,7 +90,7 @@ export class DomService {
             count++;
             i = 0;
             for ( ; i < l; i++) {
-                if (curr.classList.includes(arr[i]) && only_first.indexOf(arr[i]) === -1) {
+                if (curr.classList.contains(arr[i]) && only_first.indexOf(arr[i]) === -1) {
                     obj[arr[i]] = count;
                     only_first.push(arr[i]);
                 }

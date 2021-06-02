@@ -9,7 +9,7 @@ export class ElementAnalyzerServiceBase {
     }
 
     isRow (node) {
-        return node.classList.has(this.settings.rowClass);
+        return node.classList.contains(this.settings.rowClass);
     }
 
     isModuleButNotLayout (node) {
@@ -20,16 +20,17 @@ export class ElementAnalyzerServiceBase {
     }
 
     isElement (node) {
-        return node.classList.has(this.settings.elementClass);
+        return node.classList.contains(this.settings.elementClass);
     }
 
     isEmpty (node) {
-        return node.classList.has(this.settings.emptyElementClass);
+        return node.classList.contains(this.settings.emptyElementClass);
     }
 
 
     isEdit (node) {
-        return node.classList.has(this.settings.editClass);
+
+        return node.classList.contains(this.settings.editClass);
     }
 
     isInEdit (node) {
@@ -45,7 +46,7 @@ export class ElementAnalyzerServiceBase {
     }
 
     isPlainText (node) {
-        return node.classList.has(this.settings.plainElementClass);
+        return node.classList.contains(this.settings.plainElementClass);
     }
 
 }
