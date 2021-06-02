@@ -32,7 +32,7 @@ class ContentFilter {
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
         mw.reload_module('#' + this.moduleId + '');
         window.history.pushState('', false, '?' + encodedDataUrl);
-    }; 
+    };
 
     addDateRangePicker(params) {
 
