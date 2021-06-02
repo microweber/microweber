@@ -119,6 +119,18 @@ class ContentFilter {
 
         });
 
+        // Tags
+        $('body').on('click' , '.js-filter-tag' , function() {
+
+            var tagSlug = $(this).data('slug');
+
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'tags[]', tagSlug);
+
+            filterInstance.reloadFilter(redirectFilterUrl);
+        });
+
         // Limit
         $('body').on('change' , '.js-filter-change-limit' , function() {
 

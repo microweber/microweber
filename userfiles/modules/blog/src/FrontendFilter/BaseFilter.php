@@ -82,13 +82,16 @@ abstract class BaseFilter
             if (isset($checkCache['allCustomFieldsForResults'])) {
                 $this->allCustomFieldsForResults = $checkCache['allCustomFieldsForResults'];
             }
+            if (isset($checkCache['allTagsForResults'])) {
+                $this->allTagsForResults = $checkCache['allTagsForResults'];
+            }
            return true;
         }
 
         $query = $this->model::query();
         $query->select(['id']);
 
-        // $query->with('tagged');
+        $query->with('tagged');
         $query->where('parent', $this->getMainPageId());
 
         $query->with('customField', function ($query) {
@@ -104,6 +107,10 @@ abstract class BaseFilter
 
         if (!empty($results)) {
             foreach ($results as $result) {
+
+                foreach($result->tags as $tag) {
+                    $this->allTagsForResults[] = $tag;
+                }
 
                 $resultCustomFields = $result->customField;
 
@@ -147,7 +154,10 @@ abstract class BaseFilter
 
         $this->allCustomFieldsForResults = $allCustomFieldsForResults;
 
-        Cache::tags($cacheTags)->put($cacheId, ['allCustomFieldsForResults'=>$allCustomFieldsForResults] );
+        Cache::tags($cacheTags)->put($cacheId, [
+            'allCustomFieldsForResults'=>$allCustomFieldsForResults,
+            'allTagsForResults'=>$this->allTagsForResults,
+        ]);
     }
 
     public function filters($template = 'blog::partials.filters')
