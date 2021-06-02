@@ -214,6 +214,7 @@ abstract class BaseFilter
                 }
             }
 
+            $i = 0;
             foreach ($customFieldsGrouped as $customFieldNameKey => $customField) {
                 if (isset($filterOptions[$customFieldNameKey])) {
 
@@ -225,6 +226,8 @@ abstract class BaseFilter
                     }
 
                     $filter = new \stdClass();
+                    $filter->position = $i;
+                    $filter->isFirst = ($i == 0 ? true : false);
                     $filter->type = $customField->type;
                     $filter->controlType = $controlType;
                     $filter->name = $customField->name;
@@ -278,7 +281,7 @@ abstract class BaseFilter
                     }
 
                     $filters[$customFieldNameKey] = $filter;
-
+                    $i++;
                 }
             }
 
@@ -288,8 +291,14 @@ abstract class BaseFilter
         $orderFiltersOption = get_option('filtering_by_custom_fields_order', $this->params['moduleId']);
         if (!empty($orderFiltersOption)) {
             $orderFilters = parse_query($orderFiltersOption);
+            $i = 0;
             foreach ($orderFilters as $filter) {
                 if (isset($filters[$filter])) {
+                    if ($i == 0) {
+                        $filter->isFirst = true;
+                    }
+                    $filter->position = $i;
+                    $i++;
                     $readyOrderedFilters[$filter] = $filters[$filter];
                 }
             }
