@@ -1,11 +1,11 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
-trait ActiveFiltersTrait {
+trait FiltersActiveTrait {
 
-    public function activeFilters($template = 'blog::partials.active_filters') {
+    public function filtersActive($template = 'blog::partials.filters_active') {
 
-        $activeFilters = [];
+        $filtersActive = [];
 
         $this->filters();
 
@@ -21,7 +21,7 @@ trait ActiveFiltersTrait {
                     $activeFilter->link = '';
                     $activeFilter->key = $urlForRemoving;
                     $activeFilter->value = $option->value;
-                    $activeFilters[] = $activeFilter;
+                    $filtersActive[] = $activeFilter;
                 }
             }
         }
@@ -33,7 +33,7 @@ trait ActiveFiltersTrait {
             $filter->link = '';
             $filter->key= 'search';
             $filter->value= $search;
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $limit = $this->request->get('limit', false);
@@ -43,7 +43,7 @@ trait ActiveFiltersTrait {
             $filter->link = '';
             $filter->key = 'limit';
             $filter->value = $limit;
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $sort = $this->request->get('sort', false);
@@ -53,7 +53,7 @@ trait ActiveFiltersTrait {
             $filter->link = '';
             $filter->value = $sort;
             $filter->key = 'order, sort';
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
         $minPrice = $this->request->get('min_price', 0.00);
@@ -64,16 +64,16 @@ trait ActiveFiltersTrait {
             $filter->link = '';
             $filter->value = $maxPrice;
             $filter->key = 'min_price, max_price';
-            $activeFilters[] = $filter;
+            $filtersActive[] = $filter;
         }
 
-        if (empty($activeFilters)) {
+        if (empty($filtersActive)) {
             return false;
         }
 
         $moduleId = $this->params['moduleId'];
 
-        return view($template, compact('activeFilters','moduleId'));
+        return view($template, compact('filtersActive','moduleId'));
     }
 
 }

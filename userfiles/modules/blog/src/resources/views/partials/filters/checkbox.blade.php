@@ -27,7 +27,7 @@ $randomId = uniqid();
 
                         @if ($options->active)
                             <div class="remove-control">
-                                <a href="#" data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-active-filters"><i class="fa fa-times-circle"></i></a>
+                                <a href="#" data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-picked"><i class="fa fa-times-circle"></i></a>
                             </div>
                         @endif
                     </div>

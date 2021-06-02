@@ -50,7 +50,7 @@ class ContentFilter {
         var filterInstance = this;
 
         $('#' + params.id).datepicker({
-            timepicker: true,
+            timepicker: false,
             range: true,
             multipleDates: true,
             multipleDatesSeparator: " - ",
@@ -95,8 +95,17 @@ class ContentFilter {
 
         var filterInstance = this;
 
+        // Reset all filters
+        $('body').on('click' , '.js-filter-reset' , function() {
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl.splice(0,redirectFilterUrl.length);
+
+            filterInstance.reloadFilter(redirectFilterUrl);
+        });
+
         // Active filters
-        $('body').on('click' , '.js-filter-active-filters' , function() {
+        $('body').on('click' , '.js-filter-picked' , function() {
 
             var keys = $(this).data('key');
             var value = $(this).data('value');

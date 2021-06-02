@@ -4,7 +4,7 @@ namespace MicroweberPackages\Blog\FrontendFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Blog\FrontendFilter\Traits\ActiveFiltersTrait;
+use MicroweberPackages\Blog\FrontendFilter\Traits\FiltersActiveTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
@@ -18,7 +18,7 @@ use MicroweberPackages\Page\Models\Page;
 
 abstract class BaseFilter
 {
-    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, ActiveFiltersTrait;
+    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, FiltersActiveTrait;
 
     public $viewNamespace = false;
 
@@ -294,12 +294,13 @@ abstract class BaseFilter
             $i = 0;
             foreach ($orderFilters as $filter) {
                 if (isset($filters[$filter])) {
+                    $orderedFilter = $filters[$filter];
                     if ($i == 0) {
-                        $filter->isFirst = true;
+                        $orderedFilter->isFirst = true;
                     }
-                    $filter->position = $i;
+                    $orderedFilter->position = $i;
                     $i++;
-                    $readyOrderedFilters[$filter] = $filters[$filter];
+                    $readyOrderedFilters[$filter] = $orderedFilter;
                 }
             }
             $filters = $readyOrderedFilters;
