@@ -78,6 +78,18 @@ trait CustomFieldsTrait {
         });
     }
 
+    public function getCustomFieldValueByName($name)
+    {
+        $getCustomField = $this->customField()->where('name', $name)->with('fieldValue')->first();
+        if ($getCustomField !== null) {
+            $fieldValue = $getCustomField->fieldValue->first();
+            if ($fieldValue !== null) {
+                return $fieldValue->value;
+            }
+        }
+        return false;
+    }
+
     public function customFieldsValues()
     {
         return $this->hasManyThrough(

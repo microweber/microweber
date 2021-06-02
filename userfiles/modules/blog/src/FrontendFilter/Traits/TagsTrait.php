@@ -37,6 +37,13 @@ trait TagsTrait {
             $buildLink['tags'] = $tag->slug;
             $buildLink = http_build_query($buildLink);
 
+            $active = false;
+            if ($this->request->get('tags', false) == $tag->slug) {
+                $active = true;
+            }
+
+            $tag->active = $active;
+
             $tag->url = $fullUrl .'?'. $buildLink;
             $tags[$tag->slug] = $tag;
         }
