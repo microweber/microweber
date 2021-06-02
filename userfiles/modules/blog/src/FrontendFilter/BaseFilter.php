@@ -167,6 +167,8 @@ abstract class BaseFilter
             return false;
         }
 
+        $showPickedFirst = get_option('filtering_show_picked_first', $this->params['moduleId']);
+
         $requestFilters = $this->request->get('filters', false);
 
         $filters = [];
@@ -198,19 +200,25 @@ abstract class BaseFilter
                         }
                     }
 
-                    if ($customFieldValue->active) {
-                        $filterOptionsActive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                    if ($showPickedFirst) {
+                        if ($customFieldValue->active) {
+                            $filterOptionsActive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        } else {
+                            $filterOptionsInactive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        }
                     } else {
-                        $filterOptionsInactive[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
+                        $filterOptions[$result['customField']->name_key][$customFieldValue->value] = $customFieldValue;
                     }
                 }
             }
 
-            // Order filters first active
-            $filterOptions = $filterOptionsActive;
-            foreach ($filterOptionsInactive as $customFieldNameKey=>$filterOptionsValues) {
-                foreach($filterOptionsValues as $filterOptionValueName=>$filterOptionValue) {
-                    $filterOptions[$customFieldNameKey][$filterOptionValueName] = $filterOptionValue;
+            if ($showPickedFirst) {
+                // Order filters first active
+                $filterOptions = $filterOptionsActive;
+                foreach ($filterOptionsInactive as $customFieldNameKey => $filterOptionsValues) {
+                    foreach ($filterOptionsValues as $filterOptionValueName => $filterOptionValue) {
+                        $filterOptions[$customFieldNameKey][$filterOptionValueName] = $filterOptionValue;
+                    }
                 }
             }
 
@@ -349,6 +357,12 @@ abstract class BaseFilter
     {
         $modulesUrl = modules_url();
 
+        $filtering = 'automatically';
+        $filteringWhen = get_option('filtering_when', $this->params['moduleId']);
+        if ($filteringWhen) {
+            $filtering = $filteringWhen;
+        }
+
         return '<script type="text/javascript">
 
             mw.require("'.$modulesUrl.'/blog/js/filter.js");
@@ -356,6 +370,7 @@ abstract class BaseFilter
 
             filter = new ContentFilter();
             filter.setModuleId("'.$this->params['moduleId'].'");
+            filter.setFilteringWhen("'.$filtering.'");
             filter.init();
             </script>
         ';

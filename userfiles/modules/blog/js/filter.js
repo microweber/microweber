@@ -6,7 +6,7 @@ class ContentFilter {
         this.moduleId = moduleId;
     };
 
-    replaceKeyValuesAndReloadFilter(queryParams) {
+    replaceKeyValuesAndApplyFilters(queryParams) {
 
         // Update values for keys in URL QUERY
 
@@ -17,10 +17,10 @@ class ContentFilter {
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
         }
 
-        this.reloadFilter(redirectFilterUrl);
+        this.applyFilters(redirectFilterUrl);
     };
 
-    reloadFilter(redirectFilterUrl) {
+    applyFilters(redirectFilterUrl) {
 
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
@@ -28,11 +28,10 @@ class ContentFilter {
             decorate: false
         }).show();
 
-        $('#'+this.moduleId+ '').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
-        mw.reload_module('#'+this.moduleId+ '');
-        window.history.pushState('', false, '?' + encodeDataToURL(redirectFilterUrl));
-
-        //window.location = "{!! $searchUri !!}" + keywordField.value;
+        var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
+        $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
+        mw.reload_module('#' + this.moduleId + '');
+        window.history.pushState('', false, '?' + encodedDataUrl);
     };
 
     addDateRangePicker(params) {
@@ -82,18 +81,29 @@ class ContentFilter {
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
 
-                filterInstance.reloadFilter(redirectFilterUrl);
+                filterInstance.applyFilters(redirectFilterUrl);
             }
         });
 
         if (params.fromDate && params.toDate) {
             $('#' + params.id).data('datepicker').selectDate([new Date(params.fromDate), new Date(params.toDate)]);
         }
-    }
+    };
+
+    setFilteringWhen(filtering) {
+        this.filteringWhen = filtering;
+    };
 
     init() {
 
         var filterInstance = this;
+
+        // Apply filter button
+        $('body').on('click' , '.js-filter-apply' , function() {
+            if (filterInstance.redirectFilterUrl) {
+                filterInstance.applyFilters(filterInstance.redirectFilterUrl);
+            }
+        });
 
         // Reset all filters
         $('body').on('click' , '.js-filter-reset' , function() {
@@ -101,7 +111,7 @@ class ContentFilter {
 
             redirectFilterUrl.splice(0,redirectFilterUrl.length);
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Active filters
@@ -124,7 +134,7 @@ class ContentFilter {
                 }
             }
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            filterInstance.applyFilters(redirectFilterUrl);
 
         });
 
@@ -137,7 +147,7 @@ class ContentFilter {
 
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'tags[]', tagSlug);
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Limit
@@ -153,7 +163,7 @@ class ContentFilter {
                 value:limit
             });
 
-            filterInstance.replaceKeyValuesAndReloadFilter( queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Sort
@@ -175,7 +185,7 @@ class ContentFilter {
                 value:order
             });
 
-            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Custom fields
@@ -185,8 +195,8 @@ class ContentFilter {
 
             redirectFilterUrl = redirectFilterUrl.filter(function(e) {
                 var elementKey = e.key;
-                if (elementKey.indexOf("[]")) {
-                    return false;
+                if (elementKey.indexOf("filters[")) {
+                    return true;
                 }
             });
 
@@ -201,9 +211,12 @@ class ContentFilter {
                 }
             });
 
-           // console.log(redirectFilterUrl);
+            if (filterInstance.filteringWhen == 'automatically') {
+                 filterInstance.applyFilters(redirectFilterUrl);
+            }
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            // Update instance redirect filter
+            filterInstance.redirectFilterUrl = redirectFilterUrl;
         });
 
         // Search
@@ -228,7 +241,7 @@ class ContentFilter {
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', $('.js-filter-search-field').val());
             redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Categories
@@ -240,7 +253,7 @@ class ContentFilter {
                 key:'category',
                 value:targetPageNum
             });
-            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Pagination
@@ -254,7 +267,7 @@ class ContentFilter {
                 key:'page',
                 value:targetPageNum
             });
-            filterInstance.replaceKeyValuesAndReloadFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
     };
