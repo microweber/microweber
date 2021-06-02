@@ -140,7 +140,7 @@
                                             <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
                                                 <option <?php if (get_option('automatically', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
                                                 <option <?php if (get_option('apply_button', $moduleId) == 'apply_button'): ?> selected="selected" <?php endif; ?> value="apply_button">{{_e("Apply Button")}}</option>
-                                            </select> 
+                                            </select>
                                         </div>
 
                                         <table class="table">

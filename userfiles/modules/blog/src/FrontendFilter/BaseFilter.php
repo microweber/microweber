@@ -357,6 +357,12 @@ abstract class BaseFilter
     {
         $modulesUrl = modules_url();
 
+        $filtering = 'automatically';
+        $filteringWhen = get_option('filtering_when', $this->params['moduleId']);
+        if ($filteringWhen) {
+            $filtering = $filteringWhen;
+        }
+
         return '<script type="text/javascript">
 
             mw.require("'.$modulesUrl.'/blog/js/filter.js");
@@ -364,6 +370,7 @@ abstract class BaseFilter
 
             filter = new ContentFilter();
             filter.setModuleId("'.$this->params['moduleId'].'");
+            filter.setFilteringWhen("'.$filtering.'");
             filter.init();
             </script>
         ';
