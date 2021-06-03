@@ -12,7 +12,7 @@ trait DateRangeTrait
         if ($dateRange) {
             foreach ($dateRange as $customFieldNameKey=>$dateRangeValues) {
                 $filter = new \stdClass();
-                $filter->name = _e('Date range', true) .': '. $dateRangeValues['from'] . ' - ' . $dateRangeValues['to'];
+                $filter->name = $dateRangeValues['from'] . ' - ' . $dateRangeValues['to'];
                 $filter->link = '';
                 $filter->value = $dateRangeValues['from'];
                 $filter->key = 'date_range['.$customFieldNameKey.'][from], date_range['.$customFieldNameKey.'][to]';
