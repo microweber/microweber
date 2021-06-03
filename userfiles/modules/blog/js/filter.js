@@ -123,7 +123,7 @@ class ContentFilter {
 
             var redirectFilterUrl = getUrlAsArray();
 
-            if (removeKeys.length > 0) {
+            if (removeKeys.length > 1) {
                 for (var irk = 0; irk < removeKeys.length; irk++) {
                     var filterKey = removeKeys[irk];
                     filterKey = filterKey.trim();
@@ -134,8 +134,17 @@ class ContentFilter {
                     }
                 }
             } else {
+                var filterKey = key + '';
+                filterKey = filterKey.trim();
 
+                var filterValue = value + '';
+                filterValue = filterValue.trim();
 
+                for (var irfu = 0; irfu < redirectFilterUrl.length; irfu++) {
+                    if ((redirectFilterUrl[irfu].key == filterKey) && (redirectFilterUrl[irfu].value == filterValue)) {
+                        redirectFilterUrl.splice(irfu, 1);
+                    }
+                }
             }
 
             filterInstance.applyFilters(redirectFilterUrl);
