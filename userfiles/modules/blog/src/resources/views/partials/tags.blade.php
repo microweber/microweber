@@ -13,7 +13,7 @@ $randomId = uniqid();
     <div class="card-body">
         <div class="filter-tags">
             @foreach($tags as $tag)
-                <span class="@if($tag->active) active @endif" data-slug="{{$tag->slug}}">{{$tag->name}}</span>
+                <a href="#" class="js-filter-tag @if($tag->active) active @endif" data-slug="{{$tag->slug}}">{{$tag->name}}</a>
             @endforeach
         </div>
     </div>
