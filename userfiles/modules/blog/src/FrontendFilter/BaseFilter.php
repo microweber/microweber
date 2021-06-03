@@ -163,7 +163,7 @@ abstract class BaseFilter
     public function filters($template = 'blog::partials.filters')
     {
         $disableFilter = get_option('disable_filter', $this->params['moduleId']);
-        if (!$disableFilter) {
+        if ($disableFilter) {
             return false;
         }
 
@@ -253,7 +253,7 @@ abstract class BaseFilter
                         }
                     }
 
-                    if ($filter->controlType == 'price') {
+                    if ($filter->controlType == 'price_range') {
 
                         $allPrices = [];
                         foreach ($readyFilterOptions as $priceVal => $priceOption) {
@@ -341,8 +341,10 @@ abstract class BaseFilter
         $this->query->where('parent', $this->getMainPageId());
         $this->query->select(['id','parent', 'url','title','content','content_body']);
 
-        $filter = get_option('filtering_the_results', $this->params['moduleId']);
-        if ($filter == '1') {
+        $disableFilter = get_option('disable_filter', $this->params['moduleId']);
+        if ($disableFilter) {
+
+        } else {
             $this->buildFilter();
         }
 
