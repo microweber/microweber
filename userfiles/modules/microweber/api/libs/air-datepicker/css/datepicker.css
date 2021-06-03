@@ -48,11 +48,11 @@
   .datepicker--cell.-focus- {
     background: #f0f0f0; }
   .datepicker--cell.-current- {
-    color: #4EB5E6; }
+    color: #1d2128; }
     .datepicker--cell.-current-.-focus- {
       color: #4a4a4a; }
     .datepicker--cell.-current-.-in-range- {
-      color: #4EB5E6; }
+      color: #1d2128; }
   .datepicker--cell.-in-range- {
     background: rgba(92, 196, 239, 0.1);
     color: #4a4a4a;
@@ -100,7 +100,6 @@
   margin: 8px 0 3px; }
 
 .datepicker--day-name {
-  color: #FF9A19;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -169,14 +168,7 @@
       display: none; } }
 
 .datepicker {
-  background: #fff;
-  border: 1px solid #dbdbdb;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
   box-sizing: content-box;
-  font-family: Tahoma, sans-serif;
-  font-size: 14px;
-  color: #4a4a4a;
   width: 250px;
   position: absolute;
   left: -100000px;
@@ -449,7 +441,6 @@
 .datepicker--time-current-minutes {
   line-height: 1;
   font-size: 19px;
-  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   position: relative;
   z-index: 1; }
   .datepicker--time-current-hours:after,
