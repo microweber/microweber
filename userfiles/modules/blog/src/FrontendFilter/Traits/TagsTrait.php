@@ -17,6 +17,22 @@ trait TagsTrait {
         }
     }
 
+    public function appendFiltersActiveTags()
+    {
+        $tags = $this->request->get('tags', false);
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $urlForRemoving = 'tags[]';
+                $activeFilter = new \stdClass();
+                $activeFilter->name = _e('Tag', true) . ': ' . $tag;
+                $activeFilter->link = '';
+                $activeFilter->key = $urlForRemoving;
+                $activeFilter->value = $tag;
+                $this->filtersActive[] = $activeFilter;
+            }
+        }
+    }
+
     public function tags($template = 'blog::partials.tags')
     {
         $show = get_option('filtering_by_tags', $this->params['moduleId']);

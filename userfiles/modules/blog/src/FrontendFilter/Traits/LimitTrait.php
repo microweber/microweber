@@ -5,6 +5,19 @@ use Illuminate\Support\Facades\URL;
 
 trait LimitTrait {
 
+    public function appendFiltersActiveLimit()
+    {
+        $limit = $this->request->get('limit', false);
+        if ($limit) {
+            $filter = new \stdClass();
+            $filter->name = _e('Limit', true) . ': '. $limit;
+            $filter->link = '';
+            $filter->key = 'limit';
+            $filter->value = $limit;
+            $this->filtersActive[] = $filter;
+        }
+    }
+
     public function applyQueryLimit()
     {
         $this->queryParams['limit'] = 10;

@@ -3,32 +3,17 @@ namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
 trait FiltersActiveTrait {
 
+    public $filtersActive = [];
+
     public function filtersActive($template = 'blog::partials.filters_active') {
 
         $filtersActive = [];
 
-        $tags = $this->request->get('tags', false);
-        if ($tags) {
-            foreach ($tags as $tag) {
-                $urlForRemoving = 'tags[]';
-                $activeFilter = new \stdClass();
-                $activeFilter->name = _e('Tag', true) . ': ' . $tag;
-                $activeFilter->link = '';
-                $activeFilter->key = $urlForRemoving;
-                $activeFilter->value = $tag;
-                $filtersActive[] = $activeFilter;
-            }
-        }
-
-        $dateRange = $this->request->get('date_range', false);
-        if ($dateRange) {
-            foreach ($dateRange as $customFieldNameKey=>$dateRangeValues) {
-                $filter = new \stdClass();
-                $filter->name = _e('Date range', true) .': '. $dateRangeValues['from'] . ' - ' . $dateRangeValues['to'];
-                $filter->link = '';
-                $filter->value = $dateRangeValues['from'];
-                $filter->key = 'date_range['.$customFieldNameKey.'][from], date_range['.$customFieldNameKey.'][to]';
-                $filtersActive[] = $filter;
+        $reflection = new \ReflectionClass(get_class($this));
+        $traitMethods = $reflection->getMethods();
+        foreach($traitMethods as $method) {
+            if (strpos($method->name, 'appendFiltersActive') !== false) {
+                $this->{$method->name}();
             }
         }
 
@@ -46,57 +31,17 @@ trait FiltersActiveTrait {
                     $activeFilter->link = '';
                     $activeFilter->key = $urlForRemoving;
                     $activeFilter->value = $option->value;
-                    $filtersActive[] = $activeFilter;
+                    $this->filtersActive[] = $activeFilter;
                 }
             }
         }
 
-        $search = $this->request->get('search', false);
-        if ($search) {
-            $filter = new \stdClass();
-            $filter->name = _e('Search', true) .': '. $search;
-            $filter->link = '';
-            $filter->key= 'search';
-            $filter->value= $search;
-            $filtersActive[] = $filter;
-        }
-
-        $limit = $this->request->get('limit', false);
-        if ($limit) {
-            $filter = new \stdClass();
-            $filter->name = _e('Limit', true) . ': '. $limit;
-            $filter->link = '';
-            $filter->key = 'limit';
-            $filter->value = $limit;
-            $filtersActive[] = $filter;
-        }
-
-        $sort = $this->request->get('sort', false);
-        if ($sort) {
-            $filter = new \stdClass();
-            $filter->name = _e('Sort', true) .': '. $sort;
-            $filter->link = '';
-            $filter->value = $sort;
-            $filter->key = 'order, sort';
-            $filtersActive[] = $filter;
-        }
-
-        $minPrice = $this->request->get('min_price', 0.00);
-        $maxPrice = $this->request->get('max_price', false);
-        if ($maxPrice) {
-            $filter = new \stdClass();
-            $filter->name = _e('Price', true) .': '. $minPrice . ' - ' . $maxPrice;
-            $filter->link = '';
-            $filter->value = $maxPrice;
-            $filter->key = 'min_price, max_price';
-            $filtersActive[] = $filter;
-        }
+        $moduleId = $this->params['moduleId'];
+        $filtersActive = $this->filtersActive;
 
         if (empty($filtersActive)) {
             return false;
         }
-
-        $moduleId = $this->params['moduleId'];
 
         return view($template, compact('filtersActive','moduleId'));
     }

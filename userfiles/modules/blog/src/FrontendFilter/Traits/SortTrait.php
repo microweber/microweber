@@ -5,6 +5,19 @@ use Illuminate\Support\Facades\URL;
 
 trait SortTrait {
 
+    public function appendFiltersActiveSort()
+    {
+        $sort = $this->request->get('sort', false);
+        if ($sort) {
+            $filter = new \stdClass();
+            $filter->name = _e('Sort', true) .': '. $sort;
+            $filter->link = '';
+            $filter->value = $sort;
+            $filter->key = 'order, sort';
+            $this->filtersActive[] = $filter;
+        }
+    }
+
     public function applyQuerySort()
     {
         // Sort & Order

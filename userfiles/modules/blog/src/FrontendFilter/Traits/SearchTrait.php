@@ -5,6 +5,19 @@ use Illuminate\Support\Facades\URL;
 
 trait SearchTrait {
 
+    public function appendFiltersActiveSearch()
+    {
+        $search = $this->request->get('search', false);
+        if ($search) {
+            $filter = new \stdClass();
+            $filter->name = _e('Search', true) .': '. $search;
+            $filter->link = '';
+            $filter->key= 'search';
+            $filter->value= $search;
+            $this->filtersActive[] = $filter;
+        }
+    }
+
     public function applyQuerySearch()
     {
         // Search
