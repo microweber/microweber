@@ -48,7 +48,20 @@ class ContentFilter {
 
         var filterInstance = this;
 
-        $('#' + params.id).datepicker({
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'mm/dd/yyyy',
+            timeFormat: 'hh:ii aa',
+            firstDay: 0
+        };
+
+        var datePickerBaseSetup = {
             timepicker: false,
             range: true,
             multipleDates: true,
@@ -83,7 +96,14 @@ class ContentFilter {
 
                 filterInstance.applyFilters(redirectFilterUrl);
             }
-        });
+        };
+
+        if (params.setup) {
+            var datePickerSetup = {...datePickerBaseSetup, ...params.setup};
+            $('#' + params.id).datepicker(datePickerSetup);
+        } else {
+            $('#' + params.id).datepicker(datePickerBaseSetup);
+        }
 
         if (params.filter.fromDate && params.filter.toDate) {
             $('#' + params.id).data('datepicker').selectDate([new Date(params.filter.fromDate), new Date(params.filter.toDate)]);
