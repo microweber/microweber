@@ -6,9 +6,7 @@ trait FiltersActiveTrait {
     public $filtersActive = [];
 
     public function filtersActive($template = 'blog::partials.filters_active') {
-
-        $filtersActive = [];
-
+        
         $reflection = new \ReflectionClass(get_class($this));
         $traitMethods = $reflection->getMethods();
         foreach($traitMethods as $method) {
