@@ -15,9 +15,7 @@ trait DateRangeTrait
                 $fieldName = $customFieldNameKey;
                 $from = $customFieldDateRange['from'];
                 $to = $customFieldDateRange['to'];
-
-                dump($from, $to);
-
+                
                 $this->query->whereHas('customField', function ($query) use ($fieldName, $from, $to) {
                     $query->where('name_key', \Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($from, $to) {
                         $query->where('value','>=', $from);
