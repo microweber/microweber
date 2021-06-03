@@ -117,21 +117,25 @@ class ContentFilter {
         // Active filters
         $('body').on('click' , '.js-filter-picked' , function() {
 
-            var keys = $(this).data('key');
+            var key = $(this).data('key');
             var value = $(this).data('value');
-            var removeKeys = keys.split(',');
+            var removeKeys = key.split(',');
 
             var redirectFilterUrl = getUrlAsArray();
 
-            for (var i = 0; i < removeKeys.length; i++) {
-                var filterKey = removeKeys[i];
-                filterKey = filterKey.trim();
-
-                for (var i = 0; i < redirectFilterUrl.length; i++) {
-                    if ((redirectFilterUrl[i].key == filterKey) && (redirectFilterUrl[i].value == value)) {
-                        redirectFilterUrl.splice(i, 1);
+            if (removeKeys.length > 0) {
+                for (var irk = 0; irk < removeKeys.length; irk++) {
+                    var filterKey = removeKeys[irk];
+                    filterKey = filterKey.trim();
+                    for (var irfu = 0; irfu < redirectFilterUrl.length; irfu++) {
+                        if (redirectFilterUrl[irfu].key == filterKey) {
+                            redirectFilterUrl.splice(irfu, 1);
+                        }
                     }
                 }
+            } else {
+
+
             }
 
             filterInstance.applyFilters(redirectFilterUrl);
