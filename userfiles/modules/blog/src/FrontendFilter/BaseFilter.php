@@ -163,7 +163,7 @@ abstract class BaseFilter
     public function filters($template = 'blog::partials.filters')
     {
         $disableFilter = get_option('disable_filter', $this->params['moduleId']);
-        if (!$disableFilter) {
+        if ($disableFilter) {
             return false;
         }
 
