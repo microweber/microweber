@@ -2,12 +2,13 @@
 namespace MicroweberPackages\Shop\FrontendFilter;
 
 use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
+use MicroweberPackages\Blog\FrontendFilter\Traits\CustomFieldsTrait;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Shop\FrontendFilter\Traits\PriceFilter;
 
 class ShopFilter extends BaseFilter {
 
-    use PriceFilter;
+    use PriceFilter, CustomFieldsTrait;
 
     // public $viewNamespace = 'shop';
 
