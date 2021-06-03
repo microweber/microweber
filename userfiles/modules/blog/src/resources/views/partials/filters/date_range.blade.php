@@ -17,8 +17,7 @@ $randomId = uniqid();
         <script>
             filter.addDateRangePicker({
                 id: 'js-filter-option-datepicker{{$randomId}}',
-                fromDate: '{{$filter->fromDate}}',
-                toDate: '{{$filter->toDate}}',
+                filter: {!! json_encode($filter) !!},
             });
         </script>
 

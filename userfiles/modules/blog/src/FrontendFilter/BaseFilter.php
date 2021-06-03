@@ -245,11 +245,12 @@ abstract class BaseFilter
                     if ($filter->controlType == 'date_range') {
                         $filter->fromDate = '';
                         $filter->toDate = '';
-                        if (isset($requestFilters['from_date'])) {
-                            $filter->fromDate = $requestFilters['from_date'];
+                        $dateRange = $this->request->get('date_range');
+                        if (isset($dateRange[$filter->nameKey]['from'])) {
+                            $filter->fromDate = $dateRange[$filter->nameKey]['from'];
                         }
-                        if (isset($requestFilters['to_date'])) {
-                            $filter->toDate = $requestFilters['to_date'];
+                        if (isset($dateRange[$filter->nameKey]['to'])) {
+                            $filter->toDate = $dateRange[$filter->nameKey]['to'];
                         }
                     }
 

@@ -36,12 +36,12 @@ class ContentFilter {
 
     addDateRangePicker(params) {
 
-        if (params.fromDate == '') {
-            params.fromDate = false;
+        if (params.filter.fromDate == '') {
+            params.filter.fromDate = false;
         }
 
-        if (params.toDate == '') {
-            params.toDate = false;
+        if (params.filter.toDate == '') {
+            params.filter.toDate = false;
         }
 
         mw.lib.require("air_datepicker");
@@ -70,23 +70,23 @@ class ContentFilter {
                 var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
                 var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate();
 
-                if (params.fromDate && params.toDate) {
-                    if ((dateFromRange === params.fromDate) && (dateToRange === params.toDate)) {
+                if (params.filter.fromDate && params.filter.toDate) {
+                    if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
                         return;
                     }
                 }
 
                 var redirectFilterUrl = getUrlAsArray();
 
-                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[from_date]', dateFromRange);
-                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'filters[to_date]', dateToRange);
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][from]', dateFromRange);
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][to]', dateToRange);
 
                 filterInstance.applyFilters(redirectFilterUrl);
             }
         });
 
-        if (params.fromDate && params.toDate) {
-            $('#' + params.id).data('datepicker').selectDate([new Date(params.fromDate), new Date(params.toDate)]);
+        if (params.filter.fromDate && params.filter.toDate) {
+            $('#' + params.id).data('datepicker').selectDate([new Date(params.filter.fromDate), new Date(params.filter.toDate)]);
         }
     };
 
