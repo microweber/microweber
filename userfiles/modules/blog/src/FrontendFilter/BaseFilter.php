@@ -4,6 +4,7 @@ namespace MicroweberPackages\Blog\FrontendFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Blog\FrontendFilter\Traits\DateRangeTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\FiltersActiveTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
@@ -18,7 +19,7 @@ use MicroweberPackages\Page\Models\Page;
 
 abstract class BaseFilter
 {
-    use CategoriesTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, FiltersActiveTrait;
+    use CategoriesTrait, DateRangeTrait, LimitTrait, PaginationTrait, SearchTrait, SortTrait, TagsTrait, FiltersActiveTrait;
 
     public $viewNamespace = false;
 
@@ -343,9 +344,7 @@ abstract class BaseFilter
         $this->query->select(['id','parent', 'url','title','content','content_body']);
 
         $disableFilter = get_option('disable_filter', $this->params['moduleId']);
-        if ($disableFilter) {
-
-        } else {
+        if (!$disableFilter) {
             $this->buildFilter();
         }
 
