@@ -162,8 +162,8 @@ abstract class BaseFilter
 
     public function filters($template = 'blog::partials.filters')
     {
-        $show = get_option('filtering_by_custom_fields', $this->params['moduleId']);
-        if (!$show) {
+        $disableFilter = get_option('disable_filter', $this->params['moduleId']);
+        if (!$disableFilter) {
             return false;
         }
 

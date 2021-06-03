@@ -21,7 +21,7 @@ class LiveEditAdminController
             }
         }
 
-        return view('shop::admin.live_edit', [
+        return view('blog::admin.live_edit', [
             'moduleId'=>$request->get('id'),
             'customFieldNames'=>$customFieldNames
         ]);

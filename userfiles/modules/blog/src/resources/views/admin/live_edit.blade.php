@@ -46,10 +46,10 @@
                             <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
                             <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
-                                <label class="d-inline-block mr-5" for="pagination_the_results"><?php _e('No'); ?></label>
-                                <input class="mw_option_field custom-control-input" id="pagination_the_results" type="checkbox"
-                                       autocomplete="off" name="pagination_the_results" <?php if (get_option('pagination_the_results', $moduleId) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="1" data-value-unchecked="0">
-                                <label class="custom-control-label" for="pagination_the_results"><?php _e('Yes'); ?></label>
+                                <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
+                                <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
+                                       autocomplete="off" name="disable_pagination" <?php if (!get_option('disable_pagination', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
+                                <label class="custom-control-label" for="disable_pagination"><?php _e('Yes'); ?></label>
                             </div>
                         </div>
 
@@ -58,10 +58,10 @@
                             <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
                             <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
-                                <label class="d-inline-block mr-5" for="limit_the_results"><?php _e('No'); ?></label>
-                                <input class="mw_option_field custom-control-input" id="limit_the_results" type="checkbox"
-                                       autocomplete="off" name="limit_the_results" <?php if (get_option('limit_the_results', $moduleId) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="1" data-value-unchecked="0">
-                                <label class="custom-control-label" for="limit_the_results"><?php _e('Yes'); ?></label>
+                                <label class="d-inline-block mr-5" for="disable_limit"><?php _e('No'); ?></label>
+                                <input class="mw_option_field custom-control-input" id="disable_limit" type="checkbox"
+                                       autocomplete="off" name="disable_limit" <?php if (!get_option('disable_limit', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
+                                <label class="custom-control-label" for="disable_limit"><?php _e('Yes'); ?></label>
                             </div>
                         </div>
 
@@ -69,26 +69,26 @@
                             <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                             <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                             <div class="custom-control custom-switch pl-0">
-                                <label class="d-inline-block mr-5" for="sort_the_results"><?php _e('No'); ?></label>
-                                <input class="mw_option_field custom-control-input" id="sort_the_results" type="checkbox"
-                                       autocomplete="off" name="sort_the_results" <?php if (get_option('sort_the_results', $moduleId) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="1" data-value-unchecked="0">
-                                <label class="custom-control-label" for="sort_the_results"><?php _e('Yes'); ?></label>
+                                <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
+                                <input class="mw_option_field custom-control-input" id="disable_sort" type="checkbox"
+                                       autocomplete="off" name="disable_sort" <?php if (!get_option('disable_sort', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
+                                <label class="custom-control-label" for="disable_sort"><?php _e('Yes'); ?></label>
                             </div>
                         </div>
 
                         <div class="form-group col-12">
                             <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                             <div class="custom-control custom-switch pl-0">
-                                <label class="d-inline-block mr-5" for="filtering_the_results"><?php _e('No'); ?></label>
-                                <input class="mw_option_field custom-control-input" id="filtering_the_results" type="checkbox"
-                                       autocomplete="off" name="filtering_the_results" <?php if (get_option('filtering_the_results', $moduleId) == '1'): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="1" data-value-unchecked="0">
-                                <label class="custom-control-label" for="filtering_the_results"><?php _e('Yes'); ?></label>
+                                <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
+                                <input class="mw_option_field custom-control-input" id="disable_filter" type="checkbox"
+                                       autocomplete="off" name="disable_filter" <?php if (!get_option('disable_filter', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
+                                <label class="custom-control-label" for="disable_filter"><?php _e('Yes'); ?></label>
                             </div>
                         </div>
 
                         <script type="text/javascript">
                             $(document).ready(function () {
-                                $('#filtering_the_results').change(function() {
+                                $('#disable_filter').change(function() {
                                     if ($(this).prop('checked')) {
                                         $('.js-blog-filtering-the-results').fadeIn();
                                     } else {
@@ -107,7 +107,7 @@
                             });
                         </script>
 
-                        <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('filtering_the_results', $moduleId) != '1'): ?>style="display:none"<?php endif; ?>>
+                        <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?>style="display:none"<?php endif; ?>>
 
                             <div class="card">
                                 <div class="card-body">

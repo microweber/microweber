@@ -10,7 +10,10 @@ trait PaginationTrait {
 
     public function pagination($theme = 'pagination::bootstrap-4-flex')
     {
-        //$filteringTheResults = get_option('filtering_the_results', $this->params['moduleId']);
+        $disablePagination = get_option('disable_pagination', $this->params['moduleId']);
+        if ($disablePagination) {
+            return false;
+        }
 
         return $this->pagination->links($theme);
     }

@@ -22,8 +22,8 @@ trait SortTrait {
 
     public function sort($template = 'blog::partials.sort')
     {
-        $sortTheResults = get_option('sort_the_results', $this->params['moduleId']);
-        if (!$sortTheResults) {
+        $disableSort = get_option('disable_sort', $this->params['moduleId']);
+        if ($disableSort) {
             return false;
         }
 
