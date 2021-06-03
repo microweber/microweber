@@ -20,6 +20,18 @@ trait FiltersActiveTrait {
             }
         }
 
+        $dateRange = $this->request->get('date_range', false);
+        if ($dateRange) {
+            foreach ($dateRange as $customFieldNameKey=>$dateRangeValues) {
+                $filter = new \stdClass();
+                $filter->name = _e('Date range', true) .': '. $dateRangeValues['from'] . ' - ' . $dateRangeValues['to'];
+                $filter->link = '';
+                $filter->value = $dateRangeValues['from'];
+                $filter->key = 'date_range['.$customFieldNameKey.'][from], date_range['.$customFieldNameKey.'][to]';
+                $filtersActive[] = $filter;
+            }
+        }
+
         $this->filters();
 
         foreach($this->filters as $filter) {
