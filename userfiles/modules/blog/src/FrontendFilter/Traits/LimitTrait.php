@@ -38,11 +38,10 @@ trait LimitTrait {
         $options =[];
 
         $pageLimits = [
-            4,
-            16,
-            22,
+            6,
+            12,
             24,
-            32,
+            48,
         ];
 
         $fullUrl = URL::current();
