@@ -7,7 +7,7 @@
         <div class="col-md-3">
             <div class="card">
 
-                {!! $products->activeFilters() !!}
+                {!! $products->filtersActive() !!}
 
                 {!! $products->search() !!}
 

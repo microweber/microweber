@@ -7,7 +7,7 @@
             <div class="col-md-3">
                 <div class="card">
 
-                    {!! $posts->activeFilters() !!}
+                    {!! $posts->filtersActive() !!}
 
                     {!! $posts->search() !!}
 
