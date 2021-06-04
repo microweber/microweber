@@ -8,6 +8,11 @@ use MicroweberPackages\Shop\Http\Controllers\ShopController;
 
 class ShopFilterTest extends TestCase
 {
+    public function testCreateShopPage()
+    {
+
+    }
+
     public function testGetProducts()
     {
         $controller = App::make(ShopController::class);
@@ -19,7 +24,7 @@ class ShopFilterTest extends TestCase
 
         $findJs = (strpos($html, 'filter.js') !== false);
         $this->assertTrue($findJs);
-        
+
         $findCss = (strpos($html, 'filter.css') !== false);
         $this->assertTrue($findCss);
 
