@@ -9,12 +9,12 @@
  *
  */
 
-namespace MicroweberPackages\Blog;
+namespace MicroweberPackages\Shop;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class BlogServiceProvider extends ServiceProvider
+class ShopServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -23,14 +23,20 @@ class BlogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
+
         // Allow to overwrite resource files for this module
-        $checkForOverwrite = template_dir() . 'modules/blog/src/resources/views';
+        $checkForOverwrite = template_dir() . 'modules/shop/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
 
         if (is_dir($checkForOverwrite)) {
-            View::addNamespace('blog', $checkForOverwrite);
+            View::addNamespace('shop', $checkForOverwrite);
         }
 
-        View::addNamespace('blog', (__DIR__) . '/resources/views');
+        $mainFolder = modules_path() . 'shop/src/resources/views';
+        $mainFolder = normalize_path($mainFolder);
+
+        View::addNamespace('shop', $mainFolder);
+
     }
 }
