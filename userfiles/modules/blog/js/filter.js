@@ -4,29 +4,23 @@ class ContentFilter {
 
     setModuleId(moduleId) {
         this.moduleId = moduleId;
-    }
+    };
 
-    submitQueryFilter(queryParams) {
+    replaceKeyValuesAndApplyFilters(queryParams) {
+
+        // Update values for keys in URL QUERY
 
         var redirectFilterUrl = getUrlAsArray();
 
         var i;
         for (i = 0; i < queryParams.length; i++) {
-            if(queryParams[i].remove) {
-                redirectFilterUrl = redirectFilterUrl.filter(function (item) {
-                    return ((item.key !== queryParams[i].key) && (item.value !== queryParams[i].value));
-                });
-            } else {
-                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
-            }
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, queryParams[i].key, queryParams[i].value);
         }
 
-        console.log(redirectFilterUrl);
+        this.applyFilters(redirectFilterUrl);
+    };
 
-        //this.reloadFilter(redirectFilterUrl);
-    }
-
-    reloadFilter(redirectFilterUrl) {
+    applyFilters(redirectFilterUrl) {
 
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
@@ -34,55 +28,159 @@ class ContentFilter {
             decorate: false
         }).show();
 
-        $('#'+this.moduleId+ '').attr('ajax_filter', encodeDataToURL(redirectFilterUrl));
-        mw.reload_module('#'+this.moduleId+ '');
-        window.history.pushState('', false, '?' + encodeDataToURL(redirectFilterUrl));
-
-        //window.location = "{!! $searchUri !!}" + keywordField.value;
+        var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
+        $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
+        mw.reload_module('#' + this.moduleId + '');
+        window.history.pushState('', false, '?' + encodedDataUrl);
     };
 
+    addDateRangePicker(params) {
 
-    getFilterOptions() {
-        const nodes = document.querySelectorAll('.js-filter-option-select'),
-        l = nodes.length,
-        queryParams = [];
-        let i = 0;
-        for ( ; i < l; i++) {
-            const item = nodes[i];
-            const toAdd = {
-                key:item.name,
-                value:item.value
-            };
-            if (item.type === 'radio' || item.type === 'checkbox') {
-              if (!item.checked) {
-                  toAdd.remove = true;
-              }
-            }
-            queryParams.push(toAdd);
+        if (params.filter.fromDate == '') {
+            params.filter.fromDate = false;
         }
-        return queryParams;
-    }
+
+        if (params.filter.toDate == '') {
+            params.filter.toDate = false;
+        }
+
+        mw.lib.require("air_datepicker");
+
+        var filterInstance = this;
+
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'mm/dd/yyyy',
+            timeFormat: 'hh:ii aa',
+            firstDay: 0
+        };
+
+        var datePickerBaseSetup = {
+            timepicker: false,
+            range: true,
+            multipleDates: true,
+            multipleDatesSeparator: " - ",
+            /* onRenderCell: function (d, cellType) {
+                 var currentDate = d.getFullYear() + "-"+ d.getMonth()  + "-"+ d.getDate();
+                 if (cellType == 'day' && currentDate == '') {
+                     return {
+                         html: '<div style="background:#20badd2e;border-radius:4px;color:#fff;padding:10px 11px;">'+d.getDate()+'</div>'
+                     }
+                 }
+             },*/
+            onSelect: function (fd, d, picker) {
+
+                // Do nothing if selection was cleared
+                if (!d[0]) return;
+                if (!d[1]) return;
+
+                var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
+                var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate();
+
+                if (params.filter.fromDate && params.filter.toDate) {
+                    if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
+                        return;
+                    }
+                }
+
+                var redirectFilterUrl = getUrlAsArray();
+
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][from]', dateFromRange);
+                redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][to]', dateToRange);
+
+                filterInstance.applyFilters(redirectFilterUrl);
+            }
+        };
+
+        if (params.setup) {
+            var datePickerSetup = {...datePickerBaseSetup, ...params.setup};
+            $('#' + params.id).datepicker(datePickerSetup);
+        } else {
+            $('#' + params.id).datepicker(datePickerBaseSetup);
+        }
+
+        if (params.filter.fromDate && params.filter.toDate) {
+            $('#' + params.id).data('datepicker').selectDate([new Date(params.filter.fromDate), new Date(params.filter.toDate)]);
+        }
+    };
+
+    setFilteringWhen(filtering) {
+        this.filteringWhen = filtering;
+    };
 
     init() {
 
         var filterInstance = this;
 
-        // Active filters
-        $('body').on('click' , '.js-filter-active-filters' , function() {
+        // Apply filter button
+        $('body').on('click' , '.js-filter-apply' , function() {
+            if (filterInstance.redirectFilterUrl) {
+                filterInstance.applyFilters(filterInstance.redirectFilterUrl);
+            }
+        });
 
-            var keys = $(this).data('key');
-            var removeKeys = keys.split(',');
+        // Reset all filters
+        $('body').on('click' , '.js-filter-reset' , function() {
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl.splice(0,redirectFilterUrl.length);
+
+            filterInstance.applyFilters(redirectFilterUrl);
+        });
+
+        // Active filters
+        $('body').on('click' , '.js-filter-picked' , function() {
+
+            var key = $(this).data('key');
+            var value = $(this).data('value');
+            var removeKeys = key.split(',');
 
             var redirectFilterUrl = getUrlAsArray();
 
-            for (var i = 0; i < removeKeys.length; i++) {
-                var filterKey = removeKeys[i];
+            if (removeKeys.length > 1) {
+                for (var irk = 0; irk < removeKeys.length; irk++) {
+                    var filterKey = removeKeys[irk];
+                    filterKey = filterKey.trim();
+                    for (var irfu = 0; irfu < redirectFilterUrl.length; irfu++) {
+                        if (redirectFilterUrl[irfu].key == filterKey) {
+                            redirectFilterUrl.splice(irfu, 1);
+                        }
+                    }
+                }
+            } else {
+                var filterKey = key + '';
                 filterKey = filterKey.trim();
-                redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl, filterKey);
+
+                var filterValue = value + '';
+                filterValue = filterValue.trim();
+
+                for (var irfu = 0; irfu < redirectFilterUrl.length; irfu++) {
+                    if ((redirectFilterUrl[irfu].key == filterKey) && (redirectFilterUrl[irfu].value == filterValue)) {
+                        redirectFilterUrl.splice(irfu, 1);
+                    }
+                }
             }
 
-            filterInstance.reloadFilter(redirectFilterUrl);
+            filterInstance.applyFilters(redirectFilterUrl);
 
+        });
+
+        // Tags
+        $('body').on('click' , '.js-filter-tag' , function() {
+
+            var tagSlug = $(this).data('slug');
+
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'tags[]', tagSlug);
+
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Limit
@@ -98,7 +196,7 @@ class ContentFilter {
                 value:limit
             });
 
-            filterInstance.submitQueryFilter( queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Sort
@@ -120,13 +218,38 @@ class ContentFilter {
                 value:order
             });
 
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Custom fields
         $('body').on('change', '.js-filter-option-select', function(e) {
-            var query = filterInstance.getFilterOptions();
-            filterInstance.submitQueryFilter(query);
+
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = redirectFilterUrl.filter(function(e) {
+                var elementKey = e.key;
+                if (elementKey.indexOf("filters[")) {
+                    return true;
+                }
+            });
+
+           var filterForm = $('.js-filter-form').serializeArray();
+            $.each(filterForm, function(k, field) {
+                var fieldName = field.name;
+              //  console.log(fieldName);
+                if (fieldName.indexOf("[]")) {
+                    redirectFilterUrl.push({key: field.name, value: field.value});
+                } else {
+                    redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                }
+            });
+
+            if (filterInstance.filteringWhen == 'automatically') {
+                 filterInstance.applyFilters(redirectFilterUrl);
+            }
+
+            // Update instance redirect filter
+            filterInstance.redirectFilterUrl = redirectFilterUrl;
         });
 
         // Search
@@ -147,12 +270,11 @@ class ContentFilter {
 
             $(this).attr('disabled','disabled');
 
-            var queryParams = [];
-            queryParams.push({
-                key:'search',
-                value: $('.js-filter-search-field').val()
-            });
-            filterInstance.submitQueryFilter(queryParams);
+            var redirectFilterUrl = getUrlAsArray();
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', $('.js-filter-search-field').val());
+            redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
+
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Categories
@@ -164,7 +286,7 @@ class ContentFilter {
                 key:'category',
                 value:targetPageNum
             });
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
         // Pagination
@@ -178,7 +300,7 @@ class ContentFilter {
                 key:'page',
                 value:targetPageNum
             });
-            filterInstance.submitQueryFilter(queryParams);
+            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
     };
@@ -234,3 +356,7 @@ const encodeDataToURL = (data) => {
     return data.map(value => `${value.key}=${encodeURIComponent(value.value)}`).join('&');
 };
 
+function numericMonth(dt)
+{
+    return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+}

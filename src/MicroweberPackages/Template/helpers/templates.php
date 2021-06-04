@@ -18,6 +18,7 @@ function template_option_group()
 function template_stylesheet_url()
 {
     $template_settings = mw()->template->get_config();
+
     $stylesheet_settings = false;
     if (isset($template_settings['stylesheet_compiler']) AND isset($template_settings['stylesheet_compiler']['settings'])) {
         $stylesheet_settings = $template_settings['stylesheet_compiler']['settings'];

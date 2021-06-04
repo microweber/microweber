@@ -29,7 +29,7 @@ if ($stylesheet_settings) {
 
 ?>
 <script>
-     mw.lib.require('colorpicker');
+    mw.lib.require('colorpicker');
 </script>
 
 <style>
@@ -84,9 +84,9 @@ if ($stylesheet_settings) {
 
         $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
 
-        parent.mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
-        parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
-        mw.tools.refresh(parent.$("#theme-style"));
+            parent.mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
+            parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
+            mw.tools.refresh(parent.$("#theme-style"));
         });
     }
 
@@ -114,15 +114,15 @@ if ($stylesheet_settings) {
 
 
 <div id="settings-holder">
-    <div class="col-12">
-        <h4 style="font-weight: bold;"><?php _e("Stylesheet Settings"); ?></h4>
-    </div>
+    <!--    <div class="col-12">-->
+    <!--        <h4 style="font-weight: bold;">--><?php //_e("Background Settings"); ?><!--</h4>-->
+    <!--    </div>-->
 
     <div class="bootstrap3ns">
         <?php if ($stylesheet_settings): ?>
             <?php foreach ($stylesheet_settings as $key => $setting): ?>
                 <?php if ($setting['type'] == 'title'): ?>
-                    <h5><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></h5>
+                    <h4 class="font-weight-bold"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></h4>
                 <?php elseif ($setting['type'] == 'delimiter'): ?>
                     <hr/>
                 <?php elseif ($setting['type'] == 'dropdown'): ?>

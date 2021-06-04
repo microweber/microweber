@@ -98,7 +98,7 @@ class Parser
         $par_id_mod_count = 'global';
         $static_parser_mem_crc = 'global';
 
-
+        $mod_as_element_has_been_found_aleady = false;
         $it = 0;
         $it_loop = 0;
         $it_loop1 = 0;
@@ -795,14 +795,23 @@ class Parser
                                     }
                                     $module_name_url = app()->url_manager->slug($module_name);
 
-                                //    var_dump($options);
+
 
                                     if ($mod_as_element == false) {
-                                        if (!$coming_from_parent_id and isset($options['module_as_element']) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
+                                        if (!$coming_from_parent_id and (isset($options['module_as_element']) and !isset($options['populate_module_ids_in_elements'])) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
+
+                                        if(isset($options['module_as_element'])){
+                                            unset($options['module_as_element']);
+                                        }
+
+                                        if(isset($options['populate_module_ids_in_elements'])){
+                                            unset($options['populate_module_ids_in_elements']);
+                                        }
+
                                         $userclass = str_replace(trim($module_class), '', $userclass);
                                         $userclass = trim(str_replace(' -module ', 'module ', $userclass));
                                         $userclass = trim(str_replace(' module ', ' ', $userclass));

@@ -17,6 +17,10 @@ class TemplateCssParser
 
     public function getStylesheet($lessFilePath, $defaultCssFile = false, $cache = true)
     {
+
+
+
+
         if (config('microweber.developer_mode') == 1) {
             $cache = false;
         }
@@ -122,8 +126,77 @@ class TemplateCssParser
         return 1;
     }
 
-    public function compileSaas()
+    public function compileSaas($params)
     {
+
+
+        $lessFilePath = array_get($params, 'path', false);
+        $optionGroupName = array_get($params, 'option_group', false);
+        $templateFolder = array_get($params, 'template_folder', false);
+        $cssPath = array_get($params, 'css_path', false);
+        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $templateFolder);
+
+        $dn = dirname($outputFileLocations['output']['file']);
+        if (!is_dir($dn)) {
+            mkdir_recursive($dn);
+        }
+
+        $parserOptions = array(
+            'sourceMap' => true,
+            'compress' => true,
+            'sourceMapWriteTo' => $outputFileLocations['output']['fileMap'],
+            'sourceMapURL' => $outputFileLocations['output']['fileMapUrl'],
+            'sourceMapBasepath' => $outputFileLocations['lessDirPath'],
+        );
+
+
+//        $options = [
+//            'importPaths'        => $this->importPaths,
+//            'registeredVars'     => $this->registeredVars,
+//            'registeredFeatures' => $this->registeredFeatures,
+//            'encoding'           => $this->encoding,
+//            'sourceMap'          => serialize($this->sourceMap),
+//            'sourceMapOptions'   => $this->sourceMapOptions,
+//            'formatter'          => $this->formatter,
+//            'legacyImportPath'   => $this->legacyCwdImportPath,
+//        ];
+
+
+
+
+        $compiler = new \ScssPhp\ScssPhp\Compiler();
+
+
+        $compiler->setSourceMapOptions(array(
+            'sourceMapWriteTo' =>$outputFileLocations['output']['fileMap'],
+            'sourceMapURL' => $outputFileLocations['output']['fileMapUrl'],
+            'sourceMapBasepath' => $outputFileLocations['lessDirPath'],
+            'sourceRoot' => dirname($outputFileLocations['styleFilePath']).'/',
+
+        ));
+
+        $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
+ //dd($outputFileLocations);
+
+        $variables =  $this->_getOptionVariables($optionGroupName);
+
+        $compiler->setVariables($variables);
+        $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']).'/');
+
+        $cssContent = $compiler->compile($cssOrig,dirname($outputFileLocations['styleFilePath']).'/');
+
+
+        $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
+
+
+
+        $response = \Response::make($cssContent);
+       $response->header('Content-Type', 'text/css');
+//
+       return $response;
+
+
+
         // Saas not supported
     }
 
@@ -180,8 +253,7 @@ class TemplateCssParser
         }
 
         // Save compiled file
-
-        $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
+         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
         $response = \Response::make($cssContent);
         $response->header('Content-Type', 'text/css');
@@ -232,6 +304,7 @@ class TemplateCssParser
         $outputFileMapUrl = $outputUrl . $lessFilePathWithVersion . '.map';
 
         $styleFilePath = normalize_path($templatePath . '/' . $lessFilePath, false);
+
         $cssfilepath = false;
         $templateUrlWithPathCss = false;
         $outputFileCss = false;
@@ -290,6 +363,7 @@ class TemplateCssParser
         if (!is_dir($dir)) {
             mkdir_recursive($dir);
         }
+
 
         file_put_contents($outputFile, $cssContent);
 

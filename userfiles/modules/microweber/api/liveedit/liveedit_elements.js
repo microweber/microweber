@@ -38,14 +38,14 @@ mw.dropables = {
             mw.tools.removeClass(noEditModules[i], 'module');
         }
         for ( ; i2<edits.length; i2++ ) {
-            var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
+            var all = mw.ea.helpers.getElementsLike(":not(.element,.noelement)", edits[i2]), i2a = 0;
             var allAllowDrops = edits[i2].querySelectorAll(".allow-drop"), i3a = 0;
             for( ; i3a<allAllowDrops.length; i3a++){
                 mw.tools.addClass(allAllowDrops[i3a], 'element');
             }
             for( ; i2a<all.length; i2a++){
                 if(!mw.tools.hasClass(all[i2a], 'module')){
-                    if(mw.ea.canDrop(all[i2a])){
+                    if(mw.ea.canDrop(all[i2a])/* && !mw.tools.hasClass(all[i2a], 'noelement')*/){
                         mw.tools.addClass(all[i2a], 'element');
                     }
                 }

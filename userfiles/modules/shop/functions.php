@@ -1,6 +1,4 @@
 <?php
-autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Shop\\');
-
 event_bind('mw.admin', function ($params = false) {
     return mw_add_admin_menu_buttons($params);
 });

@@ -1,12 +1,4 @@
-<script type="text/javascript">
-
-    mw.require('{{module_url()}}/js/filter.js');
-    mw.require('{{module_url()}}/css/filter.css');
-
-    filter = new ContentFilter();
-    filter.setModuleId('{{$moduleId}}');
-    filter.init();
-</script>
+{!! $posts->scripts() !!}
 
 <section class="section section-blog">
     <div class="container">
@@ -15,15 +7,15 @@
             <div class="col-md-3">
                 <div class="card">
 
-                    {!! $posts->activeFilters('blog::partials.active_filters') !!}
+                    {!! $posts->filtersActive() !!}
 
-                    {!! $posts->search('blog::partials.search') !!}
+                    {!! $posts->search() !!}
 
-                    {!! $posts->tags('blog::partials.tags') !!}
+                    {!! $posts->tags() !!}
 
-                    {!! $posts->categories('blog::partials.categories') !!}
+                    {!! $posts->categories() !!}
 
-                    {!! $posts->filters('blog::partials.filters') !!}
+                    {!! $posts->filters() !!}
 
                  </div>
             </div>
@@ -35,10 +27,10 @@
                 <div class="col-md-8"> </div>
 
                 <div class="col-md-2">
-                    {!! $posts->limit('blog::partials.limit'); !!}
+                    {!! $posts->limit(); !!}
                 </div>
                 <div class="col-md-2">
-                    {!! $posts->sort('blog::partials.sort'); !!}
+                    {!! $posts->sort(); !!}
                 </div>
             </div>
             <div class="row">
@@ -64,7 +56,7 @@
             @endforeach
             </div>
 
-            {!! $posts->pagination('pagination::bootstrap-4-flex') !!}
+            {!! $posts->pagination() !!}
 
             <br />
             <p>

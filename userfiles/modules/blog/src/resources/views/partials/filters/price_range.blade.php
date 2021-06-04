@@ -31,7 +31,7 @@ $randomId = uniqid();
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button>
+        <button type="button" class="btn btn-primary btn-block js-range-apply{{$randomId}}">{{_e('Apply')}}</button>
 
     </div>
 </div>

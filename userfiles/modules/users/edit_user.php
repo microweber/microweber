@@ -305,14 +305,14 @@ if (isset($data[0]) == false) {
 
                                 <div class="form-group">
                                     <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
-                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>. <a href="<?php echo route('admin.role.index');?>"><?php _e("Manage user roles"); ?></a></small>
+                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
+                                      <!--  <a href="<?php /*echo route('admin.role.index');*/?>"><?php /*_e("Manage user roles"); */?></a>-->
+                                    </small>
                                     <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
 
                                         <?php
                                         $roles = \MicroweberPackages\Role\Repositories\Role::all();
                                         foreach ($roles as $role):
-
-
                                             ?>
                                         <?php if ($role['name'] == 'Super Admin') : ?>
                                             <option <?php if( $data['is_admin'] == 1 && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>

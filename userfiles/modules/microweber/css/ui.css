@@ -6148,6 +6148,12 @@ li:hover > .show-on-hover {
 .mw-dialog.mw-dialog-iframe-autoheight iframe {
   position: relative;
 }
+.mw-dialog-skin-video .mw-dialog-holder {
+  max-width: calc(100% - 140px);
+}
+.mw-dialog-skin-video .mw-dialog-holder .mwembed {
+  max-width: 100%;
+}
 .mw-dialog-skin-video .mw-dialog-close {
   position: absolute;
   top: -50px;
