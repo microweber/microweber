@@ -45,7 +45,15 @@ class ShopFilterTest extends TestCase
 
         $html = $controller->index($request);
 
-        echo $html;
+        foreach ($products as $product) {
+
+            $findProductTitle = (strpos($html, $product->title) !== false);
+            $this->assertTrue($findProductTitle);
+
+            $findProductPrice = (strpos($html, $product->price) !== false);
+            $this->assertTrue($findProductPrice);
+            
+        }
 
         $findJs = (strpos($html, 'filter.js') !== false);
         $this->assertTrue($findJs);
