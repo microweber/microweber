@@ -16,6 +16,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     echo $controller->index($request);
 
 } else {
-    include 'products/admin.php';
+
+    if (url_param('action') == 'options') {
+        ?>
+        <module type="shop/settings" />
+        <?php
+    } else if (url_param('action') == 'products') {
+        ?>
+        <module type="products" />
+    <?php
+    } else {
+
+    }
 }
 ?>
