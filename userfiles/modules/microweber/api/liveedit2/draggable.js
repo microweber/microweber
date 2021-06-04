@@ -2,6 +2,7 @@
 import {ObjectService} from './object.service';
 import {DroppableElementAnalyzerService} from "./element-types";
 import {DropIndicator} from "./interact";
+import {DropPosition} from "./drop-position";
 
 export const Draggable = function (options, rootSettings) {
     var defaults = {
@@ -77,12 +78,13 @@ export const Draggable = function (options, rootSettings) {
     this.dropableService = new DroppableElementAnalyzerService(rootSettings);
 
     this.dropIndicator = new DropIndicator();
+    this.dropPosition = DropPosition;
     this.draggable = function () {
          mw.element(this.settings.target).on('dragover', function (e) {
              var target = scope.dropableService.getTarget(e.target)
-
             if(target) {
-                scope.dropIndicator.position(target, 'top')
+                const pos = scope.dropPosition(e, e.target);
+                scope.dropIndicator.position(target, pos.action + '-' + pos.position)
             } else {
                 scope.dropIndicator.hide()
             }

@@ -133,6 +133,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 /* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+/* harmony import */ var _drop_position__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./drop-position */ "./userfiles/modules/microweber/api/liveedit2/drop-position.js");
+
 
 
 
@@ -212,12 +214,13 @@ const Draggable = function (options, rootSettings) {
     this.dropableService = new _element_types__WEBPACK_IMPORTED_MODULE_1__.DroppableElementAnalyzerService(rootSettings);
 
     this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_2__.DropIndicator();
+    this.dropPosition = _drop_position__WEBPACK_IMPORTED_MODULE_3__.DropPosition;
     this.draggable = function () {
          mw.element(this.settings.target).on('dragover', function (e) {
              var target = scope.dropableService.getTarget(e.target)
-
             if(target) {
-                scope.dropIndicator.position(target, 'top')
+                const pos = scope.dropPosition(e, e.target);
+                scope.dropIndicator.position(target, pos.action + '-' + pos.position)
             } else {
                 scope.dropIndicator.hide()
             }
@@ -260,6 +263,44 @@ const Draggable = function (options, rootSettings) {
             });
     };
     this.init();
+};
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/drop-position.js":
+/*!*********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/drop-position.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DropPosition": () => (/* binding */ DropPosition)
+/* harmony export */ });
+const DropPosition = (e, target) => {
+    if(!e || !target || target.nodeType !== 1) return false;
+    const x = e.pageX;
+    const y = e.pageY;
+    // if(x%2 !== 0) return false;
+    const rect = target.getBoundingClientRect();
+    const res = {};
+    const distance = 20;
+
+    if (y >= rect.top - distance && y <= rect.top + distance) {
+        res.position = 'top';
+        res.action = 'before';
+    } else if ( y >= rect.top + distance && y <= rect.top + (rect.height/2)) {
+        res.position = 'top';
+        res.action = 'prepend';
+    } else if ( y >= rect.top + (rect.height/2) && y <= rect.bottom - distance) {
+        res.position = 'bottom';
+        res.action = 'append';
+    }  else if ( y >= rect.top + (rect.height/2) && y >= rect.bottom - distance) {
+        res.position = 'bottom';
+        res.action = 'after';
+    }
+    return res
 };
 
 
@@ -692,9 +733,11 @@ const Handles = function (handles) {
         this.each(function (handle){
             handle.draggable.on('dragStart', function (){
                 scope.dragging = true;
+                //handle.hide()
             })
             handle.draggable.on('dragEnd', function (){
                 scope.dragging = false;
+                handle.show()
             })
         })
     }
@@ -713,41 +756,11 @@ const Handles = function (handles) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "InteractionService": () => (/* binding */ InteractionService),
 /* harmony export */   "DropIndicator": () => (/* binding */ DropIndicator)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 
 
-
-const InteractionService = function (settings, rootNode) {
-    this.settings = settings;
-
-    rootNode = rootNode || document.body;
-
-    var doc = rootNode.ownerDocument;
-
-    var _e = {};
-    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
-
-
-    var handleMove = function (e) {
-        var tartet = e.target;
-    };
-
-    this.init = function () {
-        rootNode.addEventListener("mousemove", function (event){
-            handleMove(event);
-        });
-        rootNode.addEventListener("touchmove", function (event){
-            handleMove(event);
-        });
-    };
-
-    this.init();
-
-};
 
 const DropIndicator = function (options) {
 
@@ -774,11 +787,14 @@ const DropIndicator = function (options) {
     };
 
     var positions = [
-        'before-top', 'before-right', 'before-bottom', 'before-left',
-        'inside-top', 'inside-right', 'inside-bottom', 'inside-left'
+        'before-top', 'prepend-top',
+        'after-bottom', 'append-bottom'
     ];
 
-    var positionsClasses = positions.map(function (cls){ return 'mw-drop-indicator-position-' + cls });
+
+    const positionsPrefix = 'mw-drop-indicator-position-';
+
+    var positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
 
     this.position = function (rect, position) {
         this._indicator.removeClass(positionsClasses);
@@ -786,7 +802,7 @@ const DropIndicator = function (options) {
             if(rect.nodeType === 1) {
                 rect = rect.getBoundingClientRect();
             }
-        this._indicator.addClass('mw-drop-indicator-position-' + position);
+        this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({
             height: rect.height,
             left: rect.left,
@@ -794,6 +810,7 @@ const DropIndicator = function (options) {
             width: rect.width,
         });
         this.show();
+        $('.mw-drop-indicator-block').html(position)
     };
 
     this.make = function () {
@@ -1107,6 +1124,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+/* harmony import */ var _drop_position__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./drop-position */ "./userfiles/modules/microweber/api/liveedit2/drop-position.js");
+
 
 
 
@@ -1165,17 +1184,21 @@ class LiveEdit {
         });
 
         this.observe = new _pointer__WEBPACK_IMPORTED_MODULE_2__.GetPointerTargets(this.settings);
-        this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_7__.DropIndicator();
+        //this.dropIndicator = new DropIndicator();
 
         this.init();
     }
 
     init() {
 
+        this.dropPosition = _drop_position__WEBPACK_IMPORTED_MODULE_8__.DropPosition;
+
         mw.element(this.root).on('mousemove touchmove', (e) => {
-             if(this.handles.dragging) {
-                this.handles.hideAll(e);
-                this.dropIndicator.position(e.target, 'top')
+
+             if (this.handles.dragging) {
+/*                this.handles.hideAll(e);
+                const pos = this.dropPosition(e, e.target);
+                this.dropIndicator.position(e.target, pos.position, pos.action)*/
             } else {
                 if (e.pageX % 2 === 0) {
                     var elements = this.observe.fromEvent(e);

@@ -8,6 +8,7 @@ import {Handles} from "./handles";
 import {Draggable} from "./draggable";
 import {ObjectService} from "./object.service";
 import {DropIndicator} from "./interact";
+import {DropPosition} from "./drop-position";
 // import "./css/liveedit.scss";
 
 
@@ -56,17 +57,21 @@ export class LiveEdit {
         });
 
         this.observe = new GetPointerTargets(this.settings);
-        this.dropIndicator = new DropIndicator();
+        //this.dropIndicator = new DropIndicator();
 
         this.init();
     }
 
     init() {
 
+        this.dropPosition = DropPosition;
+
         mw.element(this.root).on('mousemove touchmove', (e) => {
-             if(this.handles.dragging) {
-                this.handles.hideAll(e);
-                this.dropIndicator.position(e.target, 'top')
+
+             if (this.handles.dragging) {
+/*                this.handles.hideAll(e);
+                const pos = this.dropPosition(e, e.target);
+                this.dropIndicator.position(e.target, pos.position, pos.action)*/
             } else {
                 if (e.pageX % 2 === 0) {
                     var elements = this.observe.fromEvent(e);

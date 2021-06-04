@@ -54,29 +54,38 @@
   transform: rotate(0);
 }
 .mw-drop-indicator-template-default .mw-drop-indicator-block {
-  transition: 0.3s;
   transform: scale(1);
   pointer-events: none !important;
   background-color: #111;
+  position: absolute;
 }
 .mw-drop-indicator-template-default.mw-drop-indicator-hidden {
   opacity: 0;
   transform: scale(0.8);
   visibility: hidden !important;
 }
-.mw-drop-indicator-template-default.mw-drop-indicator-position-before-bottom .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-block {
+.mw-drop-indicator-template-default.mw-drop-indicator-position-after-bottom .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-block {
   height: 5px;
   width: 100%;
+  left: 0;
 }
-.mw-drop-indicator-template-default.mw-drop-indicator-position-before-bottom .mw-drop-indicator-pin {
+.mw-drop-indicator-template-default.mw-drop-indicator-position-append-bottom .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-prepend-top .mw-drop-indicator-block {
+  height: 45px;
+  width: 100%;
+  background-color: rgba(0, 164, 255, 0.33);
+  left: 0;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-prepend-top .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-block {
+  top: 0;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-append-bottom .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-after-bottom .mw-drop-indicator-block {
+  bottom: 0;
+}
+.mw-drop-indicator-template-default.mw-drop-indicator-position-after-bottom .mw-drop-indicator-pin {
   animation: mwLiveEditDropIndicatorAnimationDown 2s linear infinite;
 }
 .mw-drop-indicator-template-default.mw-drop-indicator-position-before-top .mw-drop-indicator-pin {
   animation: mwLiveEditDropIndicatorAnimationUp 2s linear infinite;
-}
-.mw-drop-indicator-template-default.mw-drop-indicator-position-before-left .mw-drop-indicator-block, .mw-drop-indicator-template-default.mw-drop-indicator-position-before-right .mw-drop-indicator-block {
-  width: 5px;
-  height: 100%;
 }
 
 .mw-handle-item {

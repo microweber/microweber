@@ -5667,7 +5667,7 @@ mw.drag = {
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
-    external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
+    external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement', 'no-element', 'mw-skip', 'allow-drop', 'nodrop', 'mw-open-module-settings','module-layouts'],
     onCloneableControl:function(target, isOverControl){
         if(!this._onCloneableControl){
             this._onCloneableControl = document.createElement('div');
@@ -5681,7 +5681,7 @@ mw.drag = {
 
             document.body.appendChild(this._onCloneableControl);
             mw.$('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
-                var $t = mw.$(mw.drag._onCloneableControl.__target).parent()
+                var $t = mw.$(mw.drag._onCloneableControl.__target).parent();
                 mw.liveEditState.record({
                     target: $t[0],
                     value: $t[0].innerHTML
@@ -6277,7 +6277,6 @@ mw.drag = {
             noelements = noelements.concat(noelements_drag);
             noelements = noelements.concat(section_selectors);
             noelements = noelements.concat(icon_selectors);
-
             return mw.tools.hasAnyOfClasses(el, noelements);
         },
         canBeEditable: function(el) {
@@ -10721,14 +10720,14 @@ mw.dropables = {
             mw.tools.removeClass(noEditModules[i], 'module');
         }
         for ( ; i2<edits.length; i2++ ) {
-            var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
+            var all = mw.ea.helpers.getElementsLike(":not(.element,.noelement)", edits[i2]), i2a = 0;
             var allAllowDrops = edits[i2].querySelectorAll(".allow-drop"), i3a = 0;
             for( ; i3a<allAllowDrops.length; i3a++){
                 mw.tools.addClass(allAllowDrops[i3a], 'element');
             }
             for( ; i2a<all.length; i2a++){
                 if(!mw.tools.hasClass(all[i2a], 'module')){
-                    if(mw.ea.canDrop(all[i2a])){
+                    if(mw.ea.canDrop(all[i2a])/* && !mw.tools.hasClass(all[i2a], 'noelement')*/){
                         mw.tools.addClass(all[i2a], 'element');
                     }
                 }
@@ -12971,7 +12970,7 @@ mw.wysiwyg = {
             ul = mw.tools.firstParentOrCurrentWithTag(getSelection().focusNode, ['ul', 'ol']);
         }
         if(ul) {
-            mw.tools.addClass(ul, 'mw-richtext-list')
+            mw.tools.addClass(ul, 'mw-richtext-list');
         }
 
         mw.liveEditState.record({
@@ -14103,15 +14102,7 @@ mw.wysiwyg = {
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
-            var family_array = font.family.split(',');
-            if (family_array.length == 1) {
-                var fam = font.family;
-
-            } else {
-                //var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
-                var fam = family_array.shift();
-            }
-
+            var fam = font.family.split(',').shift();
             var ddval = mw.$(".mw_dropdown_action_font_family");
             if (ddval.length != 0 && ddval.setDropdownValue != undefined) {
                 mw.$(".mw_dropdown_action_font_family").each(function () {
@@ -14214,6 +14205,7 @@ mw.wysiwyg = {
 
             if (selection.rangeCount > 0) {
                 mw.wysiwyg.resetActiveButtons();
+                activeSet = true;
                 var range = selection.getRangeAt(0);
                 var start = range.startContainer;
                 var end = range.endContainer;
@@ -14231,7 +14223,7 @@ mw.wysiwyg = {
                     mw.$(".mw-align-" + align).addClass('mw_editor_btn_active');
                     for (; i < l; i++) {
                         if(children[i].nodeName){
-                        mw.wysiwyg.setActiveButtons(children[i]);
+                            mw.wysiwyg.setActiveButtons(children[i]);
                         }
                     }
 
@@ -14269,8 +14261,7 @@ mw.wysiwyg = {
 
             if (!!target && target.nodeName) {
 
-
-                mw.wysiwyg.setActiveButtons(target);
+                if(!activeSet) mw.wysiwyg.setActiveButtons(target);
                 if (target.tagName === 'A') {
                     mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
                 }
@@ -15111,16 +15102,7 @@ mw.wysiwyg = {
         return result;
     }
 }
-mw.disable_selection = function (element) {
-    var el = element || ".module";
-    el = mw.$(el, ".edit").not(".unselectable");
-    el.attr("unselectable", "on");
-    el.addClass("unselectable");
-    el.on("selectstart", function (event) {
-        event.preventDefault();
-        return false;
-    });
-};
+
 
 mw.wysiwyg.dropdowns = function () {
     mw.$(".mw_dropdown_action_font_size").not('.ready').addClass('ready').change(function () {
@@ -15140,15 +15122,15 @@ mw.wysiwyg.dropdowns = function () {
         if (mw.wysiwyg.isSelectionEditable()) {
             var val = mw.$(this).getDropdownValue();
 
-            var isTextlike = val == 'icon';
+            var isTextlike = val === 'icon';
             if (!isTextlike && isPlain) {
                 return false;
             }
 
-            if (val == 'hr') {
+            if (val === 'hr') {
                 mw.wysiwyg._do('InsertHorizontalRule');
             }
-            else if (val == 'box') {
+            else if (val === 'box') {
 
                 var div = mw.wysiwyg.applier('div', 'mw-ui-box mw-ui-box-content element');
                 if (mw.wysiwyg.selection_length() <= 2) {

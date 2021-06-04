@@ -1,35 +1,6 @@
 
 import {ObjectService} from "./object.service";
 
-export const InteractionService = function (settings, rootNode) {
-    this.settings = settings;
-
-    rootNode = rootNode || document.body;
-
-    var doc = rootNode.ownerDocument;
-
-    var _e = {};
-    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
-
-
-    var handleMove = function (e) {
-        var tartet = e.target;
-    };
-
-    this.init = function () {
-        rootNode.addEventListener("mousemove", function (event){
-            handleMove(event);
-        });
-        rootNode.addEventListener("touchmove", function (event){
-            handleMove(event);
-        });
-    };
-
-    this.init();
-
-};
-
 export const DropIndicator = function (options) {
 
     options = options || {};
@@ -55,11 +26,14 @@ export const DropIndicator = function (options) {
     };
 
     var positions = [
-        'before-top', 'before-right', 'before-bottom', 'before-left',
-        'inside-top', 'inside-right', 'inside-bottom', 'inside-left'
+        'before-top', 'prepend-top',
+        'after-bottom', 'append-bottom'
     ];
 
-    var positionsClasses = positions.map(function (cls){ return 'mw-drop-indicator-position-' + cls });
+
+    const positionsPrefix = 'mw-drop-indicator-position-';
+
+    var positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
 
     this.position = function (rect, position) {
         this._indicator.removeClass(positionsClasses);
@@ -67,7 +41,7 @@ export const DropIndicator = function (options) {
             if(rect.nodeType === 1) {
                 rect = rect.getBoundingClientRect();
             }
-        this._indicator.addClass('mw-drop-indicator-position-' + position);
+        this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({
             height: rect.height,
             left: rect.left,
@@ -75,6 +49,7 @@ export const DropIndicator = function (options) {
             width: rect.width,
         });
         this.show();
+        $('.mw-drop-indicator-block').html(position)
     };
 
     this.make = function () {

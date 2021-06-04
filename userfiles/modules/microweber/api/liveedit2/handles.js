@@ -54,9 +54,11 @@ export const Handles = function (handles) {
         this.each(function (handle){
             handle.draggable.on('dragStart', function (){
                 scope.dragging = true;
+                //handle.hide()
             })
             handle.draggable.on('dragEnd', function (){
                 scope.dragging = false;
+                handle.show()
             })
         })
     }
