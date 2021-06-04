@@ -27,7 +27,7 @@ class ShopFilterTest extends TestCase
 
         $products = [];
 
-        for($i = 0; $i < 100; $i++) {
+        for($i = 0; $i < 5; $i++) {
 
             $newProduct = new Product();
             $newProduct->price = rand(11,999);
@@ -51,7 +51,7 @@ class ShopFilterTest extends TestCase
             $this->assertTrue($findProductTitle);
 
             $findProductPrice = (strpos($html, $product->price) !== false);
-            $this->assertTrue($findProductPrice); 
+            $this->assertTrue($findProductPrice);
 
         }
 
