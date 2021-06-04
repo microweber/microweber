@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Shop\Http\Controllers\ShopController;
 
 class ShopFilterTest extends TestCase
@@ -23,13 +24,28 @@ class ShopFilterTest extends TestCase
             ->where('subtype','dynamic')
             ->where('is_shop', 1)
             ->first();
-        
+
+        $products = [];
+
+        for($i = 0; $i < 100; $i++) {
+
+            $newProduct = new Product();
+            $newProduct->price = rand(11,999);
+            $newProduct->title = uniqid();
+            $newProduct->parent = $shopPage->id;
+            $newProduct->save();
+
+            $products[] = $newProduct;
+        }
+
         $controller = App::make(ShopController::class);
 
         $request = new Request();
         $request->merge(['id'=>$shopPage->id]);
 
         $html = $controller->index($request);
+
+        echo $html;
 
         $findJs = (strpos($html, 'filter.js') !== false);
         $this->assertTrue($findJs);
