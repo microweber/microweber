@@ -51,8 +51,8 @@ class ShopFilterTest extends TestCase
             $this->assertTrue($findProductTitle);
 
             $findProductPrice = (strpos($html, $product->price) !== false);
-            $this->assertTrue($findProductPrice);
-            
+            $this->assertTrue($findProductPrice); 
+
         }
 
         $findJs = (strpos($html, 'filter.js') !== false);
