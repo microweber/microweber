@@ -4,23 +4,28 @@ namespace MicroweberPackages\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
-use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Content\Content;
 
 class LiveEditAdminController
 {
     public function index(Request $request)
     {
-        $query = Post::query();
-        $query->with('tagged');
+        return view('blog::admin.live_edit', [
+            'moduleId'=>$request->get('id')
+        ]);
+    }
 
-        $contentFromId = get_option('content_from_id', $request->get('id'));
-        if ($contentFromId) {
-            $query->where('parent', $contentFromId);
-        }
+    public function getCustomFieldsTableFromPage(Request $request)
+    {
+        $query = Content::query();
+        //$query->with('tagged');
+
+        $contentFromId = $request->get('contentFromId');
+        $moduleId = $request->get('moduleId');
+
+        $query->where('parent', $contentFromId);
 
         $results = $query->get();
-
-        $moduleId = $request->get('id');
 
         $customFieldNames = [];
         if (!empty($results)) {
@@ -35,8 +40,9 @@ class LiveEditAdminController
             }
         }
 
-        return view('blog::admin.live_edit', [
-            'moduleId'=>$request->get('id'),
+
+        return view('blog::admin.ajax_custom_fields_table', [
+            'moduleId'=>$moduleId,
             'customFieldNames'=>$customFieldNames
         ]);
     }
