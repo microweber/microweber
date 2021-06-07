@@ -9,6 +9,7 @@ trait DateRangeTrait
     public function appendFiltersActiveDateRange()
     {
         $dateRange = $this->request->get('date_range', false);
+
         if ($dateRange) {
             foreach ($dateRange as $customFieldNameKey=>$dateRangeValues) {
                 $filter = new \stdClass();
