@@ -41,7 +41,9 @@
                                     $('.js-filtering-from-content-id').change(function () {
                                         loadFilteringCustomFieldsTable();
                                     });
+                                    <?php if ('1' == get_option('filtering_by_custom_fields', $moduleId)): ?>
                                     loadFilteringCustomFieldsTable();
+                                    <?php endif; ?>
                                 });
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
