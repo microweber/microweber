@@ -41,9 +41,7 @@
                                     $('.js-filtering-from-content-id').change(function () {
                                         loadFilteringCustomFieldsTable();
                                     });
-                                    setTimeout(function () {
-                                        $('.js-filtering-from-content-id').trigger('change');
-                                    },300); 
+                                    loadFilteringCustomFieldsTable();
                                 });
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();

@@ -1,4 +1,7 @@
-<table class="table">
+<script>
+    mw.options.form('.js-filtering-custom-fields-table-holder');
+</script>
+<table class="table js-filtering-custom-fields-table-holder">
     <thead>
     <tr>
         <td style="width:40px"></td>
