@@ -285,7 +285,9 @@ const DropPosition = (e, target) => {
     // if(x%2 !== 0) return false;
     const rect = target.getBoundingClientRect();
     const res = {};
-    const distance = 20;
+    const distance = 10;
+
+    console.log(y, rect.top)
 
     if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
         res.position = 'top';

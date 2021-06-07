@@ -4554,7 +4554,7 @@ window.onmessage = function (e) {
                             scope.settings.on.fileUploaded(res);
                         }
                         if (done) {
-                            done.call(file);
+                            done.call(file, res);
                         }
                         resolve(file);
                     }
@@ -10700,6 +10700,16 @@ mw.dropables = {
             return mw.$(this).removeClass('mw_dropable_hidden');
         };
         mw.dropable.hide();
+        $(document.body).on('drop', function(e){
+            e = e.originalEvent || e;
+            if(mw.tools.hasClass(e.target, 'background-image-holder') && e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+                e.preventDefault();
+                mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
+                    e.target.style.backgroundImage = 'url(' + data.src + ')';
+                    mw.wysiwyg.change(e.target);
+                });
+            }
+        });
     },
     userInteractionClasses:function(){
         var bgHolders = document.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
