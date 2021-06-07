@@ -43,7 +43,7 @@
                                     });
                                     setTimeout(function () {
                                         $('.js-filtering-from-content-id').trigger('change');
-                                    },300);
+                                    },300); 
                                 });
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
