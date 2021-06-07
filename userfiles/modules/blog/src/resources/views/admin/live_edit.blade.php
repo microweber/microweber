@@ -45,16 +45,20 @@
                             <script type="text/javascript">
                                 $(document).ready(function () {
                                     $('.js-filtering-from-content-id').change(function () {
-                                        var contentFromId = $('.js-filtering-from-content-id').val();
-                                        var moduleId = '{{$moduleId}}';
-                                        $.post("{{route('admin.blog.filter.get-custom-fields-table')}}", {
-                                            contentFromId: contentFromId,
-                                            moduleId: moduleId
-                                        }, function(data, status){
-                                            $('.js-filtering-custom-fields-table').html(data);
-                                        });
+                                        loadFilteringCustomFieldsTable();
                                     });
                                 });
+                                function loadFilteringCustomFieldsTable() {
+                                    var contentFromId = $('.js-filtering-from-content-id').val();
+                                    var moduleId = '{{$moduleId}}';
+                                    $.post("{{route('admin.blog.filter.get-custom-fields-table')}}", {
+                                        contentFromId: contentFromId,
+                                        moduleId: moduleId
+                                    }, function(data, status){
+                                        $('.js-filtering-custom-fields-table').html(data);
+                                    });
+                                }
+                                loadFilteringCustomFieldsTable();
                             </script>
 
                         <div class="form-group col-4">
