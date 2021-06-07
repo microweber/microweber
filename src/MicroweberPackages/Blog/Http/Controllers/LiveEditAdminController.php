@@ -39,6 +39,12 @@ class LiveEditAdminController
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
 
+                    $resultCustomField->controlName = ucfirst($resultCustomField->name);
+                    $controlName = get_option('filtering_by_custom_fields_control_name_' . $resultCustomField->name_key, $moduleId);
+                    if ($controlName) {
+                        $resultCustomField->controlName = $controlName;
+                    }
+
                     $resultCustomField->controlType = FilterHelper::getFilterControlType($resultCustomField, $moduleId);
 
                     $customFieldNames[$resultCustomField->name_key] = $resultCustomField;
