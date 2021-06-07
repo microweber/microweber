@@ -43,7 +43,7 @@
                                     });
                                     <?php if ('1' == get_option('filtering_by_custom_fields', $moduleId)): ?>
                                     loadFilteringCustomFieldsTable();
-                                    <?php endif; ?> 
+                                    <?php endif; ?>
                                 });
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
