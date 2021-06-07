@@ -56,7 +56,7 @@ class ContentFilter {
             monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             today: 'Today',
             clear: 'Clear',
-            dateFormat: 'mm/dd/yyyy',
+           dateFormat: 'dd.mm.yyyy',
             timeFormat: 'hh:ii aa',
             firstDay: 0
         };
@@ -80,8 +80,8 @@ class ContentFilter {
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].getFullYear() + "." + numericMonth(d[0]) + "." + d[0].getDate();
-                var dateToRange = d[1].getFullYear() + "." + numericMonth(d[1]) + "." + d[1].getDate();
+                var dateFromRange = d[0].getDate() + "." + numericMonth(d[0]) + "." + d[0].getFullYear();
+                var dateToRange = d[1].getDate() + "." + numericMonth(d[1]) + "." + d[1].getFullYear();
 
                 if (params.filter.fromDate && params.filter.toDate) {
                     if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
@@ -106,7 +106,12 @@ class ContentFilter {
         }
 
         if (params.filter.fromDate && params.filter.toDate) {
-            $('#' + params.id).data('datepicker').selectDate([new Date(params.filter.fromDate), new Date(params.filter.toDate)]);
+            var partsFromDate = params.filter.fromDate.split('.');//d.m.y
+            var partsToDate = params.filter.toDate.split('.');
+            $('#' + params.id).data('datepicker').selectDate([
+                new Date(partsFromDate[2], partsFromDate[1] - 1, partsFromDate[0]),
+                new Date(partsToDate[2], partsToDate[1] - 1, partsToDate[0])  
+            ]);
         }
     };
 
