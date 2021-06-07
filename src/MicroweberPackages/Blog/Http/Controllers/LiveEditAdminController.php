@@ -11,7 +11,11 @@ class LiveEditAdminController
     {
         $query = Post::query();
         $query->with('tagged');
-        //  $query->where('parent_id', $this->getMainPageId());
+
+        $contentFromId = get_option('content_from_id', $request->get('id'));
+        if ($contentFromId) {
+            $query->where('parent', $contentFromId);
+        }
 
         $results = $query->get();
 

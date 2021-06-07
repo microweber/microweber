@@ -229,10 +229,7 @@ abstract class BaseFilter
 
                     $readyFilterOptions = $filterOptions[$customFieldNameKey];
 
-                    $controlType = get_option('filtering_by_custom_fields_control_type_' . $customFieldNameKey, $this->params['moduleId']);
-                    if (empty($controlType)) {
-                        $controlType = 'checkbox';
-                    }
+                    $controlType = FilterHelper::getFilterControlType($customField,$this->params['moduleId']);
 
                     $filter = new \stdClass();
                     $filter->position = $i;
