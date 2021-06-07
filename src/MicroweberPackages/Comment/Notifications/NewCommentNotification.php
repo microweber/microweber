@@ -73,6 +73,9 @@ class NewCommentNotification extends Notification implements ShouldQueue
         if (isset($notification['rel_id'])) {
 
             $article = get_content_by_id($notification['rel_id']);
+            if (empty($article)) {
+                return false;
+            }
             $comments = get_comments('rel_type='.$notification['rel_type'].'&rel_id=' . $notification['rel_id']);
             $picture = get_picture($article['id'],$notification['rel_type']);
 
