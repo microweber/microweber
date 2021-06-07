@@ -11,12 +11,15 @@ class FilterHelper
         $controlType = get_option('filtering_by_custom_fields_control_type_' . $customField->name_key, $moduleId);
 
         if (empty($controlType)) {
-            $controlType = 'checkbox';
+            $controlType = $customField->type;
             if ($customField->type == 'price') {
                 $controlType = 'price_range';
             }
             if ($customField->type == 'date') {
                 $controlType = 'date_range';
+            }
+            if ($customField->type == 'dropdown') {
+                $controlType = 'select';
             }
         }
 

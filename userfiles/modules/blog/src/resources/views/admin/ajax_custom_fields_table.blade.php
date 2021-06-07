@@ -23,14 +23,14 @@
                 @endphp
                 <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
                     <option value="" disabled="disabled"><?php _e("Select control type"); ?></option>
-                    <option value="checkbox" <?php if ('checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
-                    <option value="radio" <?php if ('radio' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
-                    <option value="select" <?php if ('select' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
-                    <option value="slider" <?php if ('slider' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>
+                    <option value="checkbox" <?php if ('checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Multiple choices"); ?></option>
+                    <option value="radio" <?php if ('radio' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Single Choice"); ?></option>
+                    <option value="select" <?php if ('select' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Dropdown"); ?></option>
+{{--                    <option value="slider" <?php if ('slider' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>--}}
                     <option value="price_range" <?php if ('price_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Price Range"); ?></option>
                     <option value="square_checkbox" <?php if ('square_checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
                     <option value="color" <?php if ('color' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
-                    <option value="date" <?php if ('date' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date"); ?></option>
+{{--                   {{-- <option value="date" <?php if ('date' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date"); ?></option>--}}--}}
                     <option value="date_range" <?php if ('date_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date Range"); ?></option>
                 </select>
             </td>
