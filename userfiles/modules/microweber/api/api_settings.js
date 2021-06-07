@@ -89,11 +89,17 @@
                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
             }
         ],
+
+        bootstrap5js: [
+            function () {
+                 mw.require(mw.settings.libs_url + 'bootstrap5' + '/js/bootstrap.bundle.min.js');
+            }
+        ],
         bootstrap5: [
             function () {
-                mw.require(mw.settings.libs_url + 'bootstrap5' + '/bootstrap.' + (document.documentElement.dir==='rtl' ? 'rtl.' : '') + 'min.css');
-                mw.require(mw.settings.libs_url + 'bootstrap5' + '/bootstrap.bundle.min.js');
-            }
+                mw.require(mw.settings.libs_url + 'bootstrap5' + '/css/bootstrap.' + (document.documentElement.dir==='rtl' ? 'rtl.' : '') + 'min.css');
+                mw.lib.require('bootstrap5js')
+             }
         ],
         microweber_ui: [
             function () {
