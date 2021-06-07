@@ -20,13 +20,15 @@ class LiveEditAdminController
 
         $results = $query->get();
 
+        $moduleId = $request->get('id');
+
         $customFieldNames = [];
         if (!empty($results)) {
             foreach ($results as $result) {
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
 
-                    //$customFieldControlType = FilterHelper::getFilterControlType($customField, $moduleId);
+                    $resultCustomField->controlType = FilterHelper::getFilterControlType($resultCustomField, $moduleId);
 
                     $customFieldNames[$resultCustomField->name_key] = $resultCustomField;
                 }
@@ -34,7 +36,7 @@ class LiveEditAdminController
         }
 
         return view('blog::admin.live_edit', [
-            'moduleId'=>$request->get('id'),
+            'moduleId'=>$moduleId,
             'customFieldNames'=>$customFieldNames
         ]);
     }

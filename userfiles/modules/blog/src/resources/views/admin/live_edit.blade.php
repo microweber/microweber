@@ -153,13 +153,13 @@
                                             </tr>
                                             </thead>
 
-                                        @foreach($customFieldNames as $customFieldKey=>$customFieldName)
+                                        @foreach($customFieldNames as $customFieldKey=>$customField)
                                             <tr class="js-filter-custom-field-holder vertical-align-middle show-on-hover-root" data-field-custom-field-key="{{$customFieldKey}}">
                                                 <td>
                                                     <i data-title="<?php _e("Reorder filters"); ?>" data-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
                                                 </td>
                                                 <td>
-                                                    {{ucfirst($customFieldName)}}
+                                                    {{ucfirst($customField->name)}}
                                                 </td>
 
                                                 <td>
@@ -168,15 +168,15 @@
                                                     @endphp
                                                     <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
                                                         <option value="" disabled="disabled"><?php _e("Select control type"); ?></option>
-                                                        <option value="checkbox" <?php if ('checkbox' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
-                                                        <option value="radio" <?php if ('radio' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
-                                                        <option value="select" <?php if ('select' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
-                                                        <option value="slider" <?php if ('slider' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>
-                                                        <option value="price_range" <?php if ('price_range' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Price Range"); ?></option>
-                                                        <option value="square_checkbox" <?php if ('square_checkbox' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
-                                                        <option value="color" <?php if ('color' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
-                                                        <option value="date" <?php if ('date' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Date"); ?></option>
-                                                        <option value="date_range" <?php if ('date_range' == get_option($customFieldControlTypeOptionName, $moduleId)): ?>selected="selected"<?php endif; ?>><?php _e("Date Range"); ?></option>
+                                                        <option value="checkbox" <?php if ('checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Checkbox"); ?></option>
+                                                        <option value="radio" <?php if ('radio' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Radio button"); ?></option>
+                                                        <option value="select" <?php if ('select' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Selectbox"); ?></option>
+                                                        <option value="slider" <?php if ('slider' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Slider"); ?></option>
+                                                        <option value="price_range" <?php if ('price_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Price Range"); ?></option>
+                                                        <option value="square_checkbox" <?php if ('square_checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
+                                                        <option value="color" <?php if ('color' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
+                                                        <option value="date" <?php if ('date' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date"); ?></option>
+                                                        <option value="date_range" <?php if ('date_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date Range"); ?></option>
                                                     </select>
                                                 </td>
                                                 <td>

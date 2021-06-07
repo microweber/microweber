@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
 use MicroweberPackages\Post\Models\Post;
 
 class LiveEditAdminController
@@ -19,12 +20,17 @@ class LiveEditAdminController
 
         $results = $query->get();
 
+        $moduleId = $request->get('id');
+
         $customFieldNames = [];
         if (!empty($results)) {
             foreach ($results as $result) {
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
-                    $customFieldNames[$resultCustomField->name_key] = $resultCustomField->name;
+
+                    $resultCustomField->controlType = FilterHelper::getFilterControlType($resultCustomField, $moduleId);
+
+                    $customFieldNames[$resultCustomField->name_key] = $resultCustomField;
                 }
             }
         }
