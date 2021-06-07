@@ -3,19 +3,33 @@
 namespace MicroweberPackages\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
+use MicroweberPackages\Content\Content;
 
 class LiveEditAdminController
 {
     public function index(Request $request)
     {
-        $query = Post::query();
-        $query->with('tagged');
+        $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
+            ->where('subtype','dynamic')
+            // ->where('is_shop', 0)
+            ->get();
 
-        $contentFromId = get_option('content_from_id', $request->get('id'));
-        if ($contentFromId) {
-            $query->where('parent', $contentFromId);
-        }
+        return view('blog::admin.live_edit', [
+            'moduleId'=>$request->get('id'),
+            'pages'=>$pages
+        ]);
+    }
+
+    public function getCustomFieldsTableFromPage(Request $request)
+    {
+        $query = Content::query();
+        //$query->with('tagged');
+
+        $contentFromId = $request->get('contentFromId');
+        $moduleId = $request->get('moduleId');
+
+        $query->where('parent', $contentFromId);
 
         $results = $query->get();
 
@@ -24,13 +38,17 @@ class LiveEditAdminController
             foreach ($results as $result) {
                 $resultCustomFields = $result->customField()->with('fieldValue')->get();
                 foreach ($resultCustomFields as $resultCustomField) {
-                    $customFieldNames[$resultCustomField->name_key] = $resultCustomField->name;
+
+                    $resultCustomField->controlType = FilterHelper::getFilterControlType($resultCustomField, $moduleId);
+
+                    $customFieldNames[$resultCustomField->name_key] = $resultCustomField;
                 }
             }
         }
 
-        return view('blog::admin.live_edit', [
-            'moduleId'=>$request->get('id'),
+
+        return view('blog::admin.ajax_custom_fields_table', [
+            'moduleId'=>$moduleId,
             'customFieldNames'=>$customFieldNames
         ]);
     }

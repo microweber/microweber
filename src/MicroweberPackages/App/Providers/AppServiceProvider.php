@@ -16,6 +16,7 @@ use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Assets\AssetsServiceProvider;
 use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
+use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
@@ -277,6 +278,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueueEventServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
+        $this->app->register(BlogServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
