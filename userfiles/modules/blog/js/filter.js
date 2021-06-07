@@ -48,18 +48,19 @@ class ContentFilter {
 
         var filterInstance = this;
 
-        $.fn.datepicker.language['en'] = {
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
-            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            today: 'Today',
-            clear: 'Clear',
-           dateFormat: 'dd.mm.yyyy',
-            timeFormat: 'hh:ii aa',
-            firstDay: 0
-        };
+        if ($.fn.datepicker) {
+            $.fn.datepicker.language['en'] = {
+                days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                today: 'Today',
+                clear: 'Clear',
+                dateFormat: 'yyyy-mm-dd',
+                firstDay: 0 
+            };
+        }
 
         var datePickerBaseSetup = {
             timepicker: false,
@@ -80,8 +81,11 @@ class ContentFilter {
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].getDate() + "." + numericMonth(d[0]) + "." + d[0].getFullYear();
-                var dateToRange = d[1].getDate() + "." + numericMonth(d[1]) + "." + d[1].getFullYear();
+                var dateFromRange = d[0].toISOString().split('T')[0];
+                var dateToRange = d[1].toISOString().split('T')[0];
+
+                //var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
+                //var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate();
 
                 if (params.filter.fromDate && params.filter.toDate) {
                     if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
@@ -106,12 +110,10 @@ class ContentFilter {
         }
 
         if (params.filter.fromDate && params.filter.toDate) {
-            var partsFromDate = params.filter.fromDate.split('.');//d.m.y
-            var partsToDate = params.filter.toDate.split('.');
             $('#' + params.id).data('datepicker').selectDate([
-                new Date(partsFromDate[2], partsFromDate[1] - 1, partsFromDate[0]),
-                new Date(partsToDate[2], partsToDate[1] - 1, partsToDate[0])  
-            ]);
+                 new Date(params.filter.fromDate +'T00:00:00.000Z'),
+                 new Date(params.filter.toDate+'T00:00:00.000Z')
+             ]);
         }
     };
 

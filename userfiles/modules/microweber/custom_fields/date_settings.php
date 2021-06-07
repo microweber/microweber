@@ -8,6 +8,7 @@
         timepicker: false,
         range: false,
         multipleDates: false,
+        dateFormat: 'yyyy-mm-dd',
         multipleDatesSeparator: " - ",
         onSelect: function (fd, d, picker) {
             $('#value<?php print $rand; ?>').trigger('change');
@@ -20,7 +21,7 @@
   <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
    <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
 
-   <input type="text" class="form-control" name="value"  value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
+   <input type="text" class="form-control" name="value" autocomplete="off" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
    <?php print $savebtn; ?>
 </div>
 
