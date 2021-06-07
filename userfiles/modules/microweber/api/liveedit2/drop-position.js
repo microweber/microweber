@@ -7,7 +7,7 @@ export const DropPosition = (e, target) => {
     const res = {};
     const distance = 20;
 
-    if (y >= rect.top - distance && y <= rect.top + distance) {
+    if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
         res.position = 'top';
         res.action = 'before';
     } else if ( y >= rect.top + distance && y <= rect.top + (rect.height/2)) {
