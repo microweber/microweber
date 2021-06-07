@@ -21,12 +21,6 @@
             <div class="tab-pane fade show active" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
                     <div class="form-row row">
-                        <?php
-                        $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
-                            ->where('subtype','dynamic')
-                           // ->where('is_shop', 0)
-                            ->get();
-                        ?>
 
                         <div class="form-group col-12">
                             <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
@@ -47,6 +41,9 @@
                                     $('.js-filtering-from-content-id').change(function () {
                                         loadFilteringCustomFieldsTable();
                                     });
+                                    setTimeout(function () {
+                                        $('.js-filtering-from-content-id').trigger('change');
+                                    },300);
                                 });
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
@@ -58,7 +55,6 @@
                                         $('.js-filtering-custom-fields-table').html(data);
                                     });
                                 }
-                                loadFilteringCustomFieldsTable();
                             </script>
 
                         <div class="form-group col-4">

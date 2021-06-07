@@ -10,8 +10,14 @@ class LiveEditAdminController
 {
     public function index(Request $request)
     {
+        $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
+            ->where('subtype','dynamic')
+            // ->where('is_shop', 0)
+            ->get();
+
         return view('blog::admin.live_edit', [
-            'moduleId'=>$request->get('id')
+            'moduleId'=>$request->get('id'),
+            'pages'=>$pages
         ]);
     }
 
