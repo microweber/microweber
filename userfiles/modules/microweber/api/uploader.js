@@ -256,7 +256,7 @@
                             scope.settings.on.fileUploaded(res);
                         }
                         if (done) {
-                            done.call(file);
+                            done.call(file, res);
                         }
                         resolve(file);
                     }
