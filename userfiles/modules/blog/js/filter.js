@@ -242,15 +242,18 @@ class ContentFilter {
 
            var filterForm = $('.js-filter-form').serializeArray();
             $.each(filterForm, function(k, field) {
-                if (field.value == '') {
-                    return false;
+                var addToUrl = true;
+                if (field.value == '' || field.value == ' ') {
+                    addToUrl = false;
                 }
-                var fieldName = field.name;
-              //  console.log(fieldName);
-                if (fieldName.indexOf("[]")) {
-                    redirectFilterUrl.push({key: field.name, value: field.value});
-                } else {
-                    redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                if (addToUrl) {
+                    var fieldName = field.name;
+                    //  console.log(fieldName);
+                    if (fieldName.indexOf("[]")) {
+                        redirectFilterUrl.push({key: field.name, value: field.value});
+                    } else {
+                        redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                    }
                 }
             });
 
