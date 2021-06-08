@@ -1,3 +1,8 @@
+@if(empty($customFieldNames))
+    <div class="alert alert-warning">
+        {{_e('There is no custom fields found for this content.')}}
+    </div>
+@else
 <script>
     mw.options.form('.js-filtering-custom-fields-table-holder', function(){
         mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
@@ -56,3 +61,4 @@
         </tr>
     @endforeach
 </table>
+@endif

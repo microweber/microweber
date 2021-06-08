@@ -46,13 +46,18 @@
                         <script type="text/javascript">
                             $(document).ready(function () {
                                 $('.js-filtering-from-content-id').change(function () {
-                                    if ($('.js-filtering-from-content-id').val() == '') {
-                                        $('.js-filtering-settings-holder').slideUp();
-                                    } else {
-                                        $('.js-filtering-settings-holder').slideDown();
-                                    }
+                                    showFilteringSettingsHolder();
                                 });
+                                showFilteringSettingsHolder();
                             });
+                            function showFilteringSettingsHolder()
+                            {
+                                if ($('.js-filtering-from-content-id').val() == '') {
+                                    $('.js-filtering-settings-holder').slideUp();
+                                } else {
+                                    $('.js-filtering-settings-holder').slideDown();
+                                }
+                            }
                         </script>
                         <div class="form-row row js-filtering-settings-holder" style="display: none;">
 
@@ -61,7 +66,7 @@
                                     $('.js-filtering-from-content-id').change(function () {
                                         loadFilteringCustomFieldsTable();
                                     });
-                                    <?php if ('1' == get_option('filtering_by_custom_fields', $moduleId)): ?>
+                                    <?php if (get_option('filtering_by_custom_fields', $moduleId)): ?>
                                     loadFilteringCustomFieldsTable();
                                     <?php endif; ?>
                                 });
@@ -133,6 +138,7 @@
 
                                     $('#filter_by_custom_fields').change(function() {
                                         if ($(this).prop('checked')) {
+                                            loadFilteringCustomFieldsTable();
                                             $('.js-filterting-custom-fields-settings').fadeIn();
                                         } else {
                                             $('.js-filterting-custom-fields-settings').fadeOut();
@@ -159,11 +165,13 @@
                                         </div>
 
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" <?php if ('1' == get_option('filtering_by_custom_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
+                                            <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
                                             <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                         </div>
 
-                                        <div class="js-filterting-custom-fields-settings">
+                                        <div class="js-filterting-custom-fields-settings" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
+                                            <div class="card">
+                                                <div class="card-body">
 
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
@@ -231,6 +239,8 @@
                                             <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
                                         </div>--}}
 
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
