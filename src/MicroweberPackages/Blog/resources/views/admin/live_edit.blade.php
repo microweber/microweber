@@ -146,7 +146,7 @@
                                     });
 
                                 });
-                            </script> 
+                            </script>
 
                             <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?>style="display:none"<?php endif; ?>>
 

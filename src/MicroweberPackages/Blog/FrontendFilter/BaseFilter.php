@@ -163,8 +163,8 @@ abstract class BaseFilter
 
     public function filters($template = 'blog::partials.filters')
     {
-        $disableFilter = get_option('disable_filter', $this->params['moduleId']);
-        if ($disableFilter) {
+        $filteringByCustomFields = get_option('filtering_by_custom_fields', $this->params['moduleId']);
+        if ($filteringByCustomFields != '1') {
             return false;
         }
 
@@ -240,7 +240,7 @@ abstract class BaseFilter
                     $filter->nameKey = $customField->name_key;
                     $filter->options = $readyFilterOptions;
 
-                    $filter->controlName = ucfirst($customField->name); 
+                    $filter->controlName = ucfirst($customField->name);
                     $controlName = get_option('filtering_by_custom_fields_control_name_' . $customField->name_key, $this->params['moduleId']);
                     if ($controlName) {
                         $filter->controlName = $controlName;
@@ -347,8 +347,8 @@ abstract class BaseFilter
         $this->query->select(['id','parent', 'url','title','content','content_body']);
 
         $disableFilter = get_option('disable_filter', $this->params['moduleId']);
-        if (!$disableFilter) {
-            $this->buildFilter();
+        if ($disableFilter != '1') {
+           $this->buildFilter();
         }
 
         $this->pagination = $this->query
