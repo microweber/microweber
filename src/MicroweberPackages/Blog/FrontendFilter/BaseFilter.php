@@ -240,6 +240,12 @@ abstract class BaseFilter
                     $filter->nameKey = $customField->name_key;
                     $filter->options = $readyFilterOptions;
 
+                    $filter->controlName = ucfirst($customField->name); 
+                    $controlName = get_option('filtering_by_custom_fields_control_name_' . $customField->name_key, $this->params['moduleId']);
+                    if ($controlName) {
+                        $filter->controlName = $controlName;
+                    }
+
                     if ($filter->controlType == 'date_range') {
                         $filter->fromDate = '';
                         $filter->toDate = '';

@@ -1,11 +1,14 @@
 <script>
-    mw.options.form('.js-filtering-custom-fields-table-holder');
+    mw.options.form('.js-filtering-custom-fields-table-holder', function(){
+        mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
+    });
 </script>
 <table class="table js-filtering-custom-fields-table-holder">
     <thead>
     <tr>
         <td style="width:40px"></td>
-        <td></td>
+        <td><?php _e("Name"); ?></td>
+        <td><?php _e("Custom Field"); ?></td>
         <td><?php _e("Control"); ?></td>
         <td><?php _e("Enable"); ?></td>
     </tr>
@@ -17,7 +20,10 @@
                 <i data-title="<?php _e("Reorder filters"); ?>" data-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
             </td>
             <td>
-                {{ucfirst($customField->name)}}
+                <input type="text" class="form-control mw_option_field" value="{{$customField->controlName}}" name="filtering_by_custom_fields_control_name_{{$customFieldKey}}" />
+            </td>
+            <td>
+                {{$customField->name}}
             </td>
 
             <td>
