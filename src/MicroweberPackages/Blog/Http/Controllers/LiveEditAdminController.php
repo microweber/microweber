@@ -12,7 +12,7 @@ class LiveEditAdminController
     {
         $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
             ->where('subtype','dynamic')
-            // ->where('is_shop', 0)
+            ->where('is_shop', 0)
             ->get();
 
         return view('blog::admin.live_edit', [
@@ -26,7 +26,7 @@ class LiveEditAdminController
         $query = Content::query();
         //$query->with('tagged');
 
-        $contentFromId = $request->get('contentFromId');
+        $contentFromId = $request->get('contentFromId', false);
         $moduleId = $request->get('moduleId');
 
         $query->where('parent', $contentFromId);

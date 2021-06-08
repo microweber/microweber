@@ -20,6 +20,13 @@
 
             <div class="tab-pane fade show active" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
+                    @if($pages->count() == 0)
+                        <div class="alert alert-warning">
+                            {{_e('You don\'t have any dynamic pages with shop.')}}
+                            <br />
+                            {{_e('Please, create a dynamig shop page from admin panel to continue.')}}
+                        </div>
+                        @else
                     <div class="form-row row">
 
                         <div class="form-group col-12">
@@ -216,6 +223,7 @@
 
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
 
