@@ -4,6 +4,21 @@
 
     mw.lib.require("air_datepicker");
 
+
+    if ($.fn.datepicker) {
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'yyyy-mm-dd',
+            firstDay: 0
+        };
+    }
+
     $('#value<?php print $rand; ?>').datepicker({
         timepicker: false,
         range: false,
