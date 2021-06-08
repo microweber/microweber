@@ -494,7 +494,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
+                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
                                                 <?php foreach ($available_content_types as $item): ?>
                                                     <option value="<?php print $item['content_type']; ?>" <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type']; ?></option>
                                                 <?php endforeach; ?>
@@ -506,7 +506,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
+                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
                                                 <?php foreach ($available_content_subtypes as $item): ?>
                                                     <option value="<?php print $item['subtype']; ?>" <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype']; ?></option>
                                                 <?php endforeach; ?>
