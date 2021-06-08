@@ -24,7 +24,7 @@
                         <div class="alert alert-warning">
                             {{_e('You don\'t have any dynamic pages with shop.')}}
                             <br />
-                            {{_e('Please, create a dynamig shop page from admin panel to continue.')}}
+                            {{_e('Please, create a dynamic shop page from admin panel to continue.')}}
                         </div>
                         @else
                     <div class="form-row row">
