@@ -323,7 +323,15 @@ abstract class BaseFilter
 
         $moduleId = $this->params['moduleId'];
 
-        $viewData =  ['filters'=>$filters, 'moduleId'=>$moduleId];
+        $showApplyFilterButton = false;
+        $filteringWhen = get_option('filtering_when', $moduleId);
+        if ($filteringWhen) {
+            if ($filteringWhen == 'apply_button') {
+                $showApplyFilterButton = true;
+            }
+        }
+
+        $viewData =  ['filters'=>$filters,'showApplyFilterButton'=>$showApplyFilterButton, 'moduleId'=>$moduleId];
 
         if (!$template) {
             return $viewData;
