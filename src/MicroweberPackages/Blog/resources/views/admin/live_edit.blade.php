@@ -116,7 +116,18 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-12">
+                            <div class="form-group col-4">
+                                <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
+                                <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
+                                <div class="custom-control custom-switch pl-0">
+                                    <label class="d-inline-block mr-5" for="disable_search"><?php _e('No'); ?></label>
+                                    <input class="mw_option_field custom-control-input" id="disable_search" type="checkbox"
+                                           autocomplete="off" name="disable_search" <?php if (!get_option('disable_search', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
+                                    <label class="custom-control-label" for="disable_search"><?php _e('Yes'); ?></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
@@ -152,7 +163,7 @@
 
                                 <div class="card">
                                     <div class="card-body">
-                                        <strong>Filter by</strong>
+                                        <strong><?php _e("Filtering the results"); ?></strong>
 
                                         <div class="custom-control custom-checkbox mt-3">
                                             <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
