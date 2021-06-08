@@ -187,7 +187,7 @@
                     dateFormat: 'yyyy-mm-dd',
                     firstDay: 0
                 };
-                
+
             }
         ],
         bootstrap_datepicker: [

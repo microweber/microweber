@@ -22,9 +22,9 @@
                 <div class="module-live-edit-settings module-blog-settings">
                     @if($pages->count() == 0)
                         <div class="alert alert-warning">
-                            {{_e('You don\'t have any dynamic pages with shop.')}}
+                            {{_e('You don\'t have any dynamic pages.')}}
                             <br />
-                            {{_e('Please, create a dynamic shop page from admin panel to continue.')}}
+                            {{_e('Please, create a dynamic page from admin panel to continue.')}}
                         </div>
                         @else
                     <div class="form-row row">
