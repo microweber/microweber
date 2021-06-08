@@ -278,6 +278,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DropPosition": () => (/* binding */ DropPosition)
 /* harmony export */ });
+
+
+let prevY = -1;
+
 const DropPosition = (e, target) => {
     if(!e || !target || target.nodeType !== 1) return false;
     const x = e.pageX;
@@ -287,20 +291,25 @@ const DropPosition = (e, target) => {
     const res = {};
     const distance = 10;
 
-    console.log(y, rect.top)
+    if(prevY  === y ) return  false
+
+
 
     if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
+        console.log(y, rect.top)
         res.position = 'top';
         res.action = 'before';
-    } else if ( y >= rect.top + distance && y <= rect.top + (rect.height/2)) {
+    } else if ( y >= (rect.top + distance) && y <= (rect.top + (rect.height/2))) {console.log(2)
         res.position = 'top';
         res.action = 'prepend';
-    } else if ( y >= rect.top + (rect.height/2) && y <= rect.bottom - distance) {
+    } else if ( y >= (rect.top + (rect.height/2)) && y <= (rect.bottom - distance)) {console.log(3)
         res.position = 'bottom';
         res.action = 'append';
-    }  else if ( y >= rect.top + (rect.height/2) && y >= rect.bottom - distance) {
+    }  else if ( y >= (rect.top + (rect.height/2)) && y >= (rect.bottom - distance)) {console.log(4)
         res.position = 'bottom';
         res.action = 'after';
+    } else {
+        console.log(1)
     }
     return res
 };

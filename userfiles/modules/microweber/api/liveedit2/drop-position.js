@@ -13,20 +13,22 @@ export const DropPosition = (e, target) => {
 
     if(prevY  === y ) return  false
 
-    console.log(y, rect.top)
 
     if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
+        console.log(y, rect.top, x)
         res.position = 'top';
         res.action = 'before';
-    } else if ( y >= rect.top + distance && y <= rect.top + (rect.height/2)) {
+    } else if ( y >= (rect.top + distance) && y <= (rect.top + (rect.height/2))) {
         res.position = 'top';
         res.action = 'prepend';
-    } else if ( y >= rect.top + (rect.height/2) && y <= rect.bottom - distance) {
+    } else if ( y >= (rect.top + (rect.height/2)) && y <= (rect.bottom - distance)) {
         res.position = 'bottom';
         res.action = 'append';
-    }  else if ( y >= rect.top + (rect.height/2) && y >= rect.bottom - distance) {
+    }  else if ( y >= (rect.top + (rect.height/2)) && y >= (rect.bottom - distance)) {
         res.position = 'bottom';
         res.action = 'after';
+    } else {
+        console.log(1)
     }
     return res
 };
