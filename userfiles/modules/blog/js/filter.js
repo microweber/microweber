@@ -58,7 +58,7 @@ class ContentFilter {
                 today: 'Today',
                 clear: 'Clear',
                 dateFormat: 'yyyy-mm-dd',
-                firstDay: 0 
+                firstDay: 0
             };
         }
 
@@ -242,6 +242,10 @@ class ContentFilter {
 
            var filterForm = $('.js-filter-form').serializeArray();
             $.each(filterForm, function(k, field) {
+                alert(field.value);
+                if (field.value == '') {
+                    return false;  
+                }
                 var fieldName = field.name;
               //  console.log(fieldName);
                 if (fieldName.indexOf("[]")) {
