@@ -184,10 +184,7 @@
                                             <div class="card">
                                                 <div class="card-body">
 
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
-                                                <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
-                                            </div>
+
 
                                             <div class="form-group">
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
@@ -243,6 +240,12 @@
                                                     });
                                                 });
                                             </script>
+
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
+                                                <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
+                                            </div>
                                         </div>
 
                                      {{--   <div class="custom-control custom-checkbox">

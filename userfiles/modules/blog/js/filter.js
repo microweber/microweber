@@ -242,9 +242,8 @@ class ContentFilter {
 
            var filterForm = $('.js-filter-form').serializeArray();
             $.each(filterForm, function(k, field) {
-                alert(field.value);
                 if (field.value == '') {
-                    return false;  
+                    return false;
                 }
                 var fieldName = field.name;
               //  console.log(fieldName);
