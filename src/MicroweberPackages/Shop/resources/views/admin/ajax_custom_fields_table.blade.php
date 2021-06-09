@@ -35,7 +35,7 @@
                 @php
                     $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
                 @endphp
-                <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
+                <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}"> 
                     <option value="" disabled="disabled"><?php _e("Select control type"); ?></option>
                     <option value="checkbox" <?php if ('checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Multiple choices"); ?></option>
                     <option value="radio" <?php if ('radio' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Single Choice"); ?></option>
