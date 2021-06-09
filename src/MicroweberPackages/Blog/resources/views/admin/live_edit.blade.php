@@ -189,8 +189,8 @@
                                             <div class="form-group">
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
                                                 <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
-                                                    <option <?php if (get_option('automatically', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
-                                                    <option <?php if (get_option('apply_button', $moduleId) == 'apply_button'): ?> selected="selected" <?php endif; ?> value="apply_button">{{_e("Apply Button")}}</option>
+                                                    <option <?php if (get_option('filtering_when', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
+                                                    <option <?php if (get_option('filtering_when', $moduleId) == 'apply_button'): ?> selected="selected" <?php endif; ?> value="apply_button">{{_e("Apply Button")}}</option>
                                                 </select>
                                             </div>
 
