@@ -5,7 +5,7 @@
     <div class="row">
 
             <div class="col-md-3">
-                <div class="card text-dark bg-white">
+                <div class="card border-0 text-dark bg-white">
 
                     {!! $posts->filtersActive() !!}
 
