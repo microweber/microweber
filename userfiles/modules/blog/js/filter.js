@@ -2,9 +2,13 @@
 
 class ContentFilter {
 
+    constructor() {
+        this.redirectFilterUrl = [];
+    }
+
     setModuleId(moduleId) {
         this.moduleId = moduleId;
-    };
+    }
 
     replaceKeyValuesAndApplyFilters(queryParams) {
 
@@ -18,7 +22,7 @@ class ContentFilter {
         }
 
         this.applyFilters(redirectFilterUrl);
-    };
+    }
 
     applyFilters(redirectFilterUrl) {
 
@@ -29,10 +33,11 @@ class ContentFilter {
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
+        console.log(redirectFilterUrl); 
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
         mw.reload_module('#' + this.moduleId + '');
         window.history.pushState('', false, '?' + encodedDataUrl);
-    };
+    }
 
     addDateRangePicker(params) {
 
@@ -102,7 +107,7 @@ class ContentFilter {
                 // Update instance redirect filter
                 filterInstance.redirectFilterUrl = redirectFilterUrl;
             }
-        };
+        }
 
         if (params.setup) {
             var datePickerSetup = {...datePickerBaseSetup, ...params.setup};
@@ -117,11 +122,11 @@ class ContentFilter {
                  new Date(params.filter.toDate+'T00:00:00.000Z')
              ]);
         }
-    };
+    }
 
     setFilteringWhen(filtering) {
         this.filteringWhen = filtering;
-    };
+    }
 
     init() {
 
@@ -318,7 +323,7 @@ class ContentFilter {
             filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
-    };
+    }
 }
 
 
