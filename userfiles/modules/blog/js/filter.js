@@ -95,7 +95,12 @@ class ContentFilter {
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][from]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][to]', dateToRange);
 
-                filterInstance.applyFilters(redirectFilterUrl);
+                if (filterInstance.filteringWhen == 'automatically') {
+                    filterInstance.applyFilters(redirectFilterUrl);
+                }
+
+                // Update instance redirect filter
+                filterInstance.redirectFilterUrl = redirectFilterUrl;
             }
         };
 
