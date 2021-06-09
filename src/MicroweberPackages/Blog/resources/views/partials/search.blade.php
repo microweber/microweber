@@ -2,7 +2,7 @@
 $randomId = uniqid();
 ?>
 
-<div class="card-header">
+<div class="card-header bg-white">
     <a href="#" data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="">
         <h6 class="title"><?php _e('Search') ?></h6>
         <i class="fa fa-chevron-down" style="float:right;margin-top:-18px;"></i>
