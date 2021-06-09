@@ -81,10 +81,10 @@
   .datepicker--cell.-selected- {
     color: #fff;
     border: none;
-    background: #5cc4ef; }
+    background: red; }
     .datepicker--cell.-selected-.-current- {
       color: #fff;
-      background: #5cc4ef; }
+      background: red; }
     .datepicker--cell.-selected-.-focus- {
       background: #45bced; }
   .datepicker--cell:empty {
@@ -504,13 +504,13 @@
     .datepicker--time-row input[type='range']:focus {
       outline: none; }
       .datepicker--time-row input[type='range']:focus::-webkit-slider-thumb {
-        background: #5cc4ef;
+        background: red;
         border-color: #5cc4ef; }
       .datepicker--time-row input[type='range']:focus::-moz-range-thumb {
-        background: #5cc4ef;
+        background: red;
         border-color: #5cc4ef; }
       .datepicker--time-row input[type='range']:focus::-ms-thumb {
-        background: #5cc4ef;
+        background: red;
         border-color: #5cc4ef; }
     .datepicker--time-row input[type='range']::-webkit-slider-thumb {
       box-sizing: border-box;

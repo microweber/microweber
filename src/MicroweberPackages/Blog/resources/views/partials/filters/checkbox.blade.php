@@ -2,15 +2,15 @@
 $randomId = uniqid();
 ?>
 
-<div class="card-header bg-white">
+<div class="card-header bg-white px-1">
     <div data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="d-flex">
-        <h4 class="title">{{$filter->controlName}}</h6>
+        <h4 class="title">{{$filter->controlName}}</h4>
         <i class="mdi mdi-plus ml-auto align-self-center"   ></i>
     </div>
 </div>
 
 <div class="collapse show" id="collapse_{{$randomId}}">
-    <div class="card-body filter-max-scroll">
+    <div class="card-body px-1 filter-max-scroll">
 
         <div class="form-group">
             @foreach($filter->options as $options)
