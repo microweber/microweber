@@ -2,10 +2,6 @@
 
 class ContentFilter {
 
-    constructor() {
-        this.redirectFilterUrl = [];
-    }
-
     setModuleId(moduleId) {
         this.moduleId = moduleId;
     }
@@ -33,7 +29,8 @@ class ContentFilter {
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
-        console.log(redirectFilterUrl); 
+       // console.log(encodedDataUrl); 
+
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
         mw.reload_module('#' + this.moduleId + '');
         window.history.pushState('', false, '?' + encodedDataUrl);
@@ -105,7 +102,7 @@ class ContentFilter {
                 }
 
                 // Update instance redirect filter
-                filterInstance.redirectFilterUrl = redirectFilterUrl;
+                mw.redirectFilterUrl = redirectFilterUrl;
             }
         }
 
@@ -134,8 +131,8 @@ class ContentFilter {
 
         // Apply filter button
         $('body').on('click' , '.js-filter-apply' , function() {
-            if (filterInstance.redirectFilterUrl) {
-                filterInstance.applyFilters(filterInstance.redirectFilterUrl);
+            if (mw.redirectFilterUrl) {
+                filterInstance.applyFilters(mw.redirectFilterUrl);
             }
         });
 
@@ -269,7 +266,7 @@ class ContentFilter {
             }
 
             // Update instance redirect filter
-            filterInstance.redirectFilterUrl = redirectFilterUrl;
+            mw.redirectFilterUrl = redirectFilterUrl;
         });
 
         // Search
