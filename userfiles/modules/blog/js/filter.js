@@ -81,8 +81,8 @@ class ContentFilter {
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
-                var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate(); 
+                var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + numericDate(d[0]);
+                var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + numericDate(d[1]);
 
                 if (params.filter.fromDate && params.filter.toDate) {
                     if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
@@ -369,4 +369,14 @@ const encodeDataToURL = (data) => {
 function numericMonth(dt)
 {
     return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+}
+function numericDate(dt)
+{
+    var date = dt.getDate();
+
+    if (date < 10) {
+        date = '0' + date;
+    }
+
+    return date;
 }
