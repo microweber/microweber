@@ -29,7 +29,7 @@ class ContentFilter {
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
-       // console.log(encodedDataUrl); 
+       // console.log(encodedDataUrl);   
 
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
         mw.reload_module('#' + this.moduleId + '');
