@@ -74,7 +74,7 @@
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
                                     var moduleId = '{{$moduleId}}';
-                                    $.post("{{$getCustomFieldsTableRoute}}", { 
+                                    $.post("{{$getCustomFieldsTableRoute}}", {
                                         contentFromId: contentFromId,
                                         moduleId: moduleId
                                     }, function(data, status){

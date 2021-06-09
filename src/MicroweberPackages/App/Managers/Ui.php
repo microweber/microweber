@@ -157,6 +157,7 @@ class Ui
             'country' => 'Country',
             'date' => 'Date',
             'time' => 'Time',
+            'color' => 'Color',
             'upload' => 'File Upload',
             'property' => 'Property',
             'breakline' => 'Break Line',
