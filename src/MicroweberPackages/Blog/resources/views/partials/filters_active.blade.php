@@ -4,7 +4,7 @@ $randomId = uniqid();
 <div class="card-header bg-white">
     <a href="#" data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="d-flex">
         <h6 class="title"><?php _e('Active filters') ?></h6>
-        <i class="mdi mdi-plus ml-auto" style="font-size: 21px;"  ></i>
+        <i class="mdi mdi-plus ml-auto"   ></i>
     </a>
 </div>
 
