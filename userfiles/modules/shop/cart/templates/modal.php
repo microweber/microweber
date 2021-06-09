@@ -36,7 +36,7 @@ $total = cart_total();
 <div class="products">
     <?php if (is_array($data) and $data) : ?>
         <?php foreach ($data as $item) :?>
-            <div class="form-row checkout-modal-product-list-item align-items-center py-4 pl-4">
+            <div class="row checkout-modal-product-list-item align-items-center py-4 pl-4">
                 <div class="col-md-2 col-4">
                     <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                         <?php $p = $item['item_image']; ?>
@@ -76,7 +76,7 @@ $total = cart_total();
 </div>
 
    <?php if (is_array($data) and $data) : ?>
-       <div class="checkout-modal-amount-holder form-row mt-4">
+       <div class="checkout-modal-amount-holder row mt-4">
 
            <div class="col-sm-6 checkout-modal-promocode-holder">
 
@@ -97,7 +97,7 @@ $total = cart_total();
            <div class="w-100 mt-md-3 justify-content-center text-md-start text-center">
                <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
-               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-right ml-2"><?php _e('Proceed to Checkout'); ?></a>
+               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-end ml-2"><?php _e('Proceed to Checkout'); ?></a>
            </div>
        </div>
    <?php endif; ?>

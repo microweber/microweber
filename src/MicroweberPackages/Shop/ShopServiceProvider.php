@@ -33,7 +33,7 @@ class ShopServiceProvider extends ServiceProvider
             View::addNamespace('shop', $checkForOverwrite);
         }
 
-        $mainFolder = modules_path() . 'shop/src/resources/views';
+        $mainFolder = __DIR__ . '/resources/views';
         $mainFolder = normalize_path($mainFolder);
 
         View::addNamespace('shop', $mainFolder);

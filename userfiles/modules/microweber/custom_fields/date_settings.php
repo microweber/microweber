@@ -5,6 +5,7 @@
     mw.lib.require("air_datepicker");
 
     $('#value<?php print $rand; ?>').datepicker({
+        language: 'en',
         timepicker: false,
         range: false,
         multipleDates: false,

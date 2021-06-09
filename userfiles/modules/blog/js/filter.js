@@ -58,7 +58,7 @@ class ContentFilter {
                 today: 'Today',
                 clear: 'Clear',
                 dateFormat: 'yyyy-mm-dd',
-                firstDay: 0 
+                firstDay: 0
             };
         }
 
@@ -81,11 +81,8 @@ class ContentFilter {
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].toISOString().split('T')[0];
-                var dateToRange = d[1].toISOString().split('T')[0];
-
-                //var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
-                //var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate();
+                var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + numericDate(d[0]);
+                var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + numericDate(d[1]);
 
                 if (params.filter.fromDate && params.filter.toDate) {
                     if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
@@ -242,12 +239,18 @@ class ContentFilter {
 
            var filterForm = $('.js-filter-form').serializeArray();
             $.each(filterForm, function(k, field) {
-                var fieldName = field.name;
-              //  console.log(fieldName);
-                if (fieldName.indexOf("[]")) {
-                    redirectFilterUrl.push({key: field.name, value: field.value});
-                } else {
-                    redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                var addToUrl = true;
+                if (field.value == '' || field.value == ' ') {
+                    addToUrl = false;
+                }
+                if (addToUrl) {
+                    var fieldName = field.name;
+                    //  console.log(fieldName);
+                    if (fieldName.indexOf("[]")) {
+                        redirectFilterUrl.push({key: field.name, value: field.value});
+                    } else {
+                        redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, field.name, field.value);
+                    }
                 }
             });
 
@@ -366,4 +369,14 @@ const encodeDataToURL = (data) => {
 function numericMonth(dt)
 {
     return (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1);
+}
+function numericDate(dt)
+{
+    var date = dt.getDate();
+
+    if (date < 10) {
+        date = '0' + date;
+    }
+
+    return date;
 }

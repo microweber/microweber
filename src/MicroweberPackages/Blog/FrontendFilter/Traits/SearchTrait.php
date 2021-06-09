@@ -29,6 +29,12 @@ trait SearchTrait {
 
     public function search($template = 'blog::partials.search')
     {
+
+        $disableSearch = get_option('disable_search', $this->params['moduleId']);
+        if ($disableSearch == '1') {
+            return false;
+        }
+
         $fullUrl = URL::current();
 
         $searchUri = $this->queryParams;
