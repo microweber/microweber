@@ -19,10 +19,14 @@
         </div>
 
         <div class="col-md-9">
-            <p> <?php _e("Displaying"); ?> {{$posts->count()}} <?php _e("of"); ?> {{ $posts->total() }}  <?php _e("result(s)"); ?>.</p>
-            <div class="d-flex justify-content-end">
-                <div class="px-1">{!! $posts->limit(); !!}</div>
-                <div class="px-1">{!! $posts->sort(); !!}</div>
+            <div class="row">
+                <div class="col-8">
+                    <p> <?php _e("Displaying"); ?> {{$posts->count()}} <?php _e("of"); ?> {{ $posts->total() }}  <?php _e("result(s)"); ?>.</p>
+                </div>
+                <div class="col-4 d-flex justify-content-end">
+                    <div class="px-1">{!! $posts->limit(); !!}</div>
+                    <div class="px-1">{!! $posts->sort(); !!}</div>
+                </div>
             </div>
             <div class="row">
             @foreach($posts->results() as $post)
