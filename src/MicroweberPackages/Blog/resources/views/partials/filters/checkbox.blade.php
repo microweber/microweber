@@ -3,10 +3,10 @@ $randomId = uniqid();
 ?>
 
 <div class="card-header bg-white">
-    <a href="#" data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="d-flex">
-        <h6 class="title">{{$filter->controlName}}</h6>
-        <i class="mdi mdi-plus ml-auto"   ></i>
-    </a>
+    <div data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="d-flex">
+        <h4 class="title">{{$filter->controlName}}</h6>
+        <i class="mdi mdi-plus ml-auto align-self-center"   ></i>
+    </div>
 </div>
 
 <div class="collapse show" id="collapse_{{$randomId}}">
@@ -27,7 +27,7 @@ $randomId = uniqid();
 
                         @if ($options->active)
                             <div class="remove-control">
-                                <a href="#" data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-picked"><i class="fa fa-times-circle"></i></a>
+                                <a data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-picked"><i class="fa fa-times-circle"></i></a>
                             </div>
                         @endif
                     </div>
