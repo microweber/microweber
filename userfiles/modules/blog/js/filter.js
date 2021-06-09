@@ -81,11 +81,8 @@ class ContentFilter {
                 if (!d[0]) return;
                 if (!d[1]) return;
 
-                var dateFromRange = d[0].toISOString().split('T')[0];
-                var dateToRange = d[1].toISOString().split('T')[0];
-
-                //var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
-                //var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate();
+                var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + d[0].getDate();
+                var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + d[1].getDate(); 
 
                 if (params.filter.fromDate && params.filter.toDate) {
                     if ((dateFromRange === params.filter.fromDate) && (dateToRange === params.filter.toDate)) {
