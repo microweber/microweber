@@ -21,6 +21,12 @@ $randomId = uniqid();
                     <label class="custom-control-label" for="{{$randIdForCheck}}">
                         {{ $options->value }}
                     </label>
+
+                    @if ($options->active)
+                        <div class="remove-control">
+                            <a data-key="filters[{{$filterKey}}][]" data-value="{{$options->value}}" class="js-filter-picked"><i class="mdi mdi-close "></i></a>
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>
