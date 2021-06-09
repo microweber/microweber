@@ -30,7 +30,7 @@
                     <a href="{{site_url($post->url)}}">
                         <img src="{{$post->thumbnail(800,500, true)}}" alt="">
 
-                        <h3 class="mt-3">{{$post->title}}</h3>
+                        <h4 class="mt-3">{{$post->title}}</h4>
                     </a>
                     <p>{{$post->content_text}}</p>
                     {{--<small>Posted At:{{$post->created_at}}</small>--}}
