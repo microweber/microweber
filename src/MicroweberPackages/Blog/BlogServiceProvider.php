@@ -23,7 +23,6 @@ class BlogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
 
         // Allow to overwrite resource files for this module

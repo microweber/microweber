@@ -18,7 +18,7 @@ class LiveEditAdminController
              ->where('is_shop', 1)
             ->get();
 
-        $getCustomFieldsTableRoute = route('admin.shop.filter.get-custom-fields-table');
+        $getCustomFieldsTableRoute = 'admin.shop.filter.get-custom-fields-table';
 
         return view('blog::admin.live_edit', [
             'moduleId'=>$moduleId,

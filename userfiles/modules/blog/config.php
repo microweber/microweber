@@ -12,3 +12,5 @@ $config['categories'] = "recommended,navigation";
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Blog\BlogServiceProvider::class
 ];
+
+
