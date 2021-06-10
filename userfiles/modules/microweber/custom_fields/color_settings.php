@@ -18,7 +18,8 @@
 
         $('.predefined-colors .color').click(function () {
            $('#value<?php print $rand; ?>').val($(this).data('name'));
-           $('#value<?php print $rand; ?>').css('background', $(this).data('hex')); 
+           $('#value<?php print $rand; ?>').css('background', '#' + $(this).data('hex'));
+            $('#value<?php print $rand; ?>').trigger('change'); 
         });
 
     });
