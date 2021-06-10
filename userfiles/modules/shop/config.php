@@ -14,7 +14,3 @@ $config['permissions'] = [
     'edit' => 'module.admin.shop.edit',
     'destroy' => 'module.admin.shop.destroy'
 ];
-
-$config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\ShopServiceProvider::class
-];

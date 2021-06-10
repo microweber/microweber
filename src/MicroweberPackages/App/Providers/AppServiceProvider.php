@@ -28,6 +28,7 @@ use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
+use MicroweberPackages\Shop\ShopServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
@@ -272,6 +273,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueueEventServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
+        $this->app->register(ShopServiceProvider::class);
+        $this->app->register(BlogServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');

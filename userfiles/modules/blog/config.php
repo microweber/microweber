@@ -8,7 +8,3 @@ $config['is_system'] = true;
 $config['position'] = 7;
 $config['version'] = 0.1;
 $config['categories'] = "recommended,navigation";
-
-$config['settings']['service_provider'] = [
-    \MicroweberPackages\Blog\BlogServiceProvider::class
-];
