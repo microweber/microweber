@@ -1,15 +1,13 @@
 
 
-import {ElementAnalyzer} from './element-types';
+import {ElementAnalyzer} from './analizer';
 import {Handle} from "./handle";
 import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
 import {Draggable} from "./draggable";
 import {ObjectService} from "./object.service";
-import {DropIndicator} from "./interact";
-import {DropPosition} from "./drop-position";
-// import "./css/liveedit.scss";
+  // import "./css/liveedit.scss";
 
 
 export class LiveEdit {
@@ -64,23 +62,15 @@ export class LiveEdit {
 
     init() {
 
-        this.dropPosition = DropPosition;
+         mw.element(this.root).on('mousemove touchmove', (e) => {
 
-        mw.element(this.root).on('mousemove touchmove', (e) => {
-
-             if (this.handles.dragging) {
-/*                this.handles.hideAll(e);
-                const pos = this.dropPosition(e, e.target);
-                this.dropIndicator.position(e.target, pos.position, pos.action)*/
-            } else {
                 if (e.pageX % 2 === 0) {
                     var elements = this.observe.fromEvent(e);
-                    this.handles.hideAllExceptCurrent(e);
+                     this.handles.hideAllExceptCurrent(e);
                     if(elements[0]) {
                         this.handles.set('handleElement', elements[0])
                     }
                 }
-            }
 
          });
     };

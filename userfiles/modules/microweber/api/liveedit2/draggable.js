@@ -1,6 +1,6 @@
 
 import {ObjectService} from './object.service';
-import {DroppableElementAnalyzerService} from "./element-types";
+import {DroppableElementAnalyzerService} from "./analizer";
 import {DropIndicator} from "./interact";
 import {DropPosition} from "./drop-position";
 
@@ -81,9 +81,13 @@ export const Draggable = function (options, rootSettings) {
     this.dropPosition = DropPosition;
     this.draggable = function () {
          mw.element(this.settings.target).on('dragover', function (e) {
+             scope.target = null;
+             scope.action = null;
              var target = scope.dropableService.getTarget(e.target)
-            if(target) {
-                const pos = scope.dropPosition(e, e.target);
+            if(target && target !== scope.element) {
+                const pos = scope.dropPosition(e, target, scope.dropableService.canReceiveElements(target));
+                scope.target = target;
+                scope.action = pos.action;
                 scope.dropIndicator.position(target, pos.action + '-' + pos.position)
             } else {
                 scope.dropIndicator.hide()
@@ -96,8 +100,13 @@ export const Draggable = function (options, rootSettings) {
         }).on('drop', function (e) {
             if (scope.isDragging) {
                 e.preventDefault();
+                if (scope.target && scope.action) {
+                    mw.element(scope.target)[scope.action](scope.element);
+                }
+
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
+             scope.dropIndicator.hide();
         });
         this.handle
             .on('dragstart', function (e) {

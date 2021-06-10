@@ -2,6 +2,116 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./userfiles/modules/microweber/api/liveedit2/analizer.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/analizer.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DroppableElementAnalyzerService": () => (/* binding */ DroppableElementAnalyzerService),
+/* harmony export */   "ElementAnalyzer": () => (/* binding */ ElementAnalyzer)
+/* harmony export */ });
+/* harmony import */ var _element_analizer_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element-analizer.service */ "./userfiles/modules/microweber/api/liveedit2/element-analizer.service.js");
+
+
+class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzerServiceBase  {
+
+    constructor(settings) {
+        super();
+        this.settings = settings;
+        this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
+        this.init();
+    }
+
+    isConfigurable (target) {
+        return this.isElement(target) || this.isModule(target) || this.isRow(target);
+    }
+
+    isEditableLayout (node) {
+        return this.this.isLayout(node) && this.isInEdit(node);
+    }
+
+    isEditableModule (node) {
+        return this.isModule(node) && this.isInEdit(node);
+    }
+
+
+    canAcceptByClass (node) {
+        return this.tools.hasAnyOfClasses(node, this.dropableElements());
+    }
+
+    canAcceptByTag (node) {
+        if(!node || node.nodeType !== 1) return false;
+        return this._tagsCanAccept.indexOf(node.nodeName) !== -1;
+    }
+
+    allowDrop (node) {
+        return this.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
+    }
+
+    canInsertBeforeOrAfter (node) {
+        return this.canAccept(node.parentNode);
+    }
+
+    canAccept (target) {
+        // whether or not "target" can accept elements
+        return !!(
+            this.canAcceptByClass(target) &&
+            this.isEditOrInEdit(target) &&
+            this.allowDrop(target));
+
+    }
+
+    canReceiveElements(target) {
+        return this.isEdit(target) && this.canAcceptByTag(target);
+    }
+
+    dropableElements (){
+        return this._dropableElements;
+    }
+
+    getTarget (node) {
+        if (!node || node === this.settings.document.body) return null;
+        if (this.canAccept(node)) {
+            return node;
+        } else {
+            return this.getTarget(node.parentElement);
+        }
+    }
+
+    init () {
+        this._dropableElements = [
+            this.settings.elementClass,
+            this.settings.cloneableClass,
+            this.settings.editClass,
+            this.settings.moduleClass,
+            this.settings.colClass,
+            this.settings.allowDrop,
+        ];
+    }
+}
+
+
+const ElementAnalyzer = function (options) {
+    options = options || {};
+
+    this.settings = options;
+
+
+
+    this.getTargets = function (targets) {
+
+    };
+
+};
+
+
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/liveedit2/dom.js":
 /*!***********************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/dom.js ***!
@@ -91,6 +201,16 @@ class DomService {
         return false;
     }
 
+    static offset (node) {
+        if(!node) return;
+        var off = node.getBoundingClientRect();
+        var res = {top: off.top, left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
+        res.top += scrollY;
+        res.bottom += scrollY;
+        res.left += scrollX;
+        res.right += scrollX;
+        return res;
+    }
     static parentsOrder (node, arr) {
         var only_first = [];
         var obj = {}, l = arr.length, i = 0, count = -1;
@@ -131,7 +251,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Draggable": () => (/* binding */ Draggable)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
-/* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
+/* harmony import */ var _analizer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./analizer */ "./userfiles/modules/microweber/api/liveedit2/analizer.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
 /* harmony import */ var _drop_position__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./drop-position */ "./userfiles/modules/microweber/api/liveedit2/drop-position.js");
 
@@ -211,15 +331,19 @@ const Draggable = function (options, rootSettings) {
     };
 
     this.isDragging = false;
-    this.dropableService = new _element_types__WEBPACK_IMPORTED_MODULE_1__.DroppableElementAnalyzerService(rootSettings);
+    this.dropableService = new _analizer__WEBPACK_IMPORTED_MODULE_1__.DroppableElementAnalyzerService(rootSettings);
 
     this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_2__.DropIndicator();
     this.dropPosition = _drop_position__WEBPACK_IMPORTED_MODULE_3__.DropPosition;
     this.draggable = function () {
          mw.element(this.settings.target).on('dragover', function (e) {
+             scope.target = null;
+             scope.action = null;
              var target = scope.dropableService.getTarget(e.target)
-            if(target) {
-                const pos = scope.dropPosition(e, e.target);
+            if(target && target !== scope.element) {
+                const pos = scope.dropPosition(e, target, scope.dropableService.canReceiveElements(target));
+                scope.target = target;
+                scope.action = pos.action;
                 scope.dropIndicator.position(target, pos.action + '-' + pos.position)
             } else {
                 scope.dropIndicator.hide()
@@ -232,8 +356,13 @@ const Draggable = function (options, rootSettings) {
         }).on('drop', function (e) {
             if (scope.isDragging) {
                 e.preventDefault();
+                if (scope.target && scope.action) {
+                    mw.element(scope.target)[scope.action](scope.element);
+                }
+
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
+             scope.dropIndicator.hide();
         });
         this.handle
             .on('dragstart', function (e) {
@@ -278,39 +407,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DropPosition": () => (/* binding */ DropPosition)
 /* harmony export */ });
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
 
 
 let prevY = -1;
+let prev = null;
 
-const DropPosition = (e, target) => {
+const DropPosition = (e, target, canInsert) => {
     if(!e || !target || target.nodeType !== 1) return false;
     const x = e.pageX;
     const y = e.pageY;
-    // if(x%2 !== 0) return false;
-    const rect = target.getBoundingClientRect();
+    //  if(x%2 !== 0) return false;
+    const rect = _dom__WEBPACK_IMPORTED_MODULE_0__.DomService.offset(target);
     const res = {};
-    const distance = 10;
-
-    if(prevY  === y ) return  false
-
-
-
-    if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
-        console.log(y, rect.top)
-        res.position = 'top';
-        res.action = 'before';
-    } else if ( y >= (rect.top + distance) && y <= (rect.top + (rect.height/2))) {console.log(2)
-        res.position = 'top';
-        res.action = 'prepend';
-    } else if ( y >= (rect.top + (rect.height/2)) && y <= (rect.bottom - distance)) {console.log(3)
-        res.position = 'bottom';
-        res.action = 'append';
-    }  else if ( y >= (rect.top + (rect.height/2)) && y >= (rect.bottom - distance)) {console.log(4)
-        res.position = 'bottom';
-        res.action = 'after';
+    const distance = 15;
+    if( prevY  === y ) return  false;
+    if(canInsert) {
+        if (y >= (rect.top - distance) && y <= (rect.top + distance)) {
+            res.position = 'top';
+            res.action = 'before';
+        } else if ( y >= (rect.top + distance) && y <= (rect.top  + (rect.height/2))) {
+            res.position = 'top';
+            res.action = 'prepend';
+        } else if ( y >= (rect.top + (rect.height/2)) && y <= (rect.bottom - distance)) {
+            res.position = 'bottom';
+            res.action = 'append';
+        }  else if ( y >= (rect.top + (rect.height/2)) && y >= (rect.bottom - distance)) {
+            res.position = 'bottom';
+            res.action = 'after';
+        } else {
+            return false;
+        }
     } else {
-        console.log(1)
+        if ( y >= (rect.top - distance) && y <= (rect.top  + (rect.height/2))) {
+            res.position = 'top';
+            res.action = 'before';
+        } else if ( y >= (rect.top + (rect.height/2)) && y <= (rect.bottom + distance)) {
+            res.position = 'bottom';
+            res.action = 'after';
+        } else {
+            return false;
+        }
     }
+
     return res
 };
 
@@ -342,24 +482,22 @@ class ElementAnalyzerServiceBase {
         return node.classList.contains(this.settings.rowClass);
     }
 
-    isModuleButNotLayout (node) {
-        return node.dataset.type !== 'layouts';
+    isModule (node) {
+        return node.classList.contains(this.settings.moduleClass) && node.dataset.type !== 'layouts';
     }
     isLayout (node) {
-        return node.dataset.type === 'layouts';
+        return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
     }
 
     isElement (node) {
         return node.classList.contains(this.settings.elementClass);
     }
 
-    isEmpty (node) {
+    isEmptyElement (node) {
         return node.classList.contains(this.settings.emptyElementClass);
     }
 
-
     isEdit (node) {
-
         return node.classList.contains(this.settings.editClass);
     }
 
@@ -378,188 +516,7 @@ class ElementAnalyzerServiceBase {
     isPlainText (node) {
         return node.classList.contains(this.settings.plainElementClass);
     }
-
 }
-
-
-/***/ }),
-
-/***/ "./userfiles/modules/microweber/api/liveedit2/element-types.js":
-/*!*********************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/element-types.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DroppableElementAnalyzerService": () => (/* binding */ DroppableElementAnalyzerService),
-/* harmony export */   "ElementAnalyzer": () => (/* binding */ ElementAnalyzer),
-/* harmony export */   "MenuItem": () => (/* binding */ MenuItem),
-/* harmony export */   "MenuItems": () => (/* binding */ MenuItems)
-/* harmony export */ });
-/* harmony import */ var _element_analizer_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element-analizer.service */ "./userfiles/modules/microweber/api/liveedit2/element-analizer.service.js");
-
-
-class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzerServiceBase  {
-
-    constructor(settings) {
-        super();
-        this.settings = settings;
-        this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
-        this.init();
-    }
-
-    isConfigurable (target) {
-        return this.isElement(target) || this.isModule(target) || this.isRow(target);
-    }
-
-    isEditableLayout (node) {
-        return this.this.isLayout(node) && this.isInEdit(node);
-    }
-
-    isEditableModule (node) {
-        return this.isModule(node) && this.isInEdit(node);
-    }
-
-
-    canAcceptByClass (node) {
-        return this.tools.hasAnyOfClasses(node, this.dropableElements());
-    }
-
-    canAcceptByTag (node) {
-        if(!node || node.nodeType !== 1) return false;
-        return this._tagsCanAccept.indexOf(node.nodeName) !== -1;
-    }
-
-    allowDrop (node) {
-        return this.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
-    }
-
-    canInsertBeforeOrAfter (node) {
-        return this.canAccept(node.parentNode);
-    }
-    // whether or not "target" can accept elements
-    canAccept (target) {
-
-        return !!(/*this.canAcceptByTag(target) &&*/
-            this.canAcceptByClass(target) &&
-            this.isEditOrInEdit(target) &&
-            this.allowDrop(target));
-
-    }
-
-    dropableElements (){
-        return this._dropableElements;
-    }
-
-    getTarget (node) {
-        if (!node || node === this.settings.document.body) return null;
-        if (this.canAccept(node)) {
-            return node;
-        } else {
-            return this.getTarget(node.parentElement);
-        }
-    }
-
-    init () {
-        this._dropableElements = [
-            this.settings.elementClass,
-            this.settings.cloneableClass,
-            this.settings.editClass,
-            this.settings.moduleClass,
-            this.settings.colClass,
-            this.settings.allowDrop,
-        ];
-    }
-}
-
-
-const ElementAnalyzer = function (options) {
-    options = options || {};
-
-    this.settings = options;
-
-
-
-    this.getTargets = function (targets) {
-
-    };
-
-};
-
-const MenuItem = (data, scope) => {
-    var btn = document.createElement('span');
-    btn.className = 'mw-handle-menu-item';
-    if(data.icon) {
-        var iconClass = data.icon;
-        if (iconClass.indexOf('mdi-') === 0) {
-            iconClass = 'mdi ' + iconClass;
-        }
-        var icon = document.createElement('span');
-        icon.className = iconClass + ' mw-handle-menu-item-icon';
-        btn.appendChild(icon);
-    }
-    btn.appendChild(document.createTextNode(data.title));
-    if(data.className){
-        btn.className += (' ' + data.className);
-    }
-    if(data.id){
-        btn.id = data.id;
-    }
-    if(typeof data.visible === 'function'){
-        if(!data.visible()) {
-            btn.style.display = 'none';
-        }
-    }
-    if(data.action){
-        btn.onclick = function (e) {
-            e.preventDefault();
-            data.action.call(scope, e, this, data);
-        };
-    }
-    return btn;
-};
-
-const MenuItems = {
-    module: [
-        {
-            title: 'Edit HTML',
-            icon: 'mw-icon-code',
-            action: function () {
-                mw.editSource(mw._activeElementOver);
-            }
-        },
-        {
-            title: 'Edit Style',
-            icon: 'mdi mdi-layers',
-            action: function () {
-                mw.liveEditSettings.show();
-                mw.sidebarSettingsTabs.set(3);
-                if(mw.cssEditorSelector){
-                    mw.liveEditSelector.active(true);
-                    mw.liveEditSelector.select(mw._activeElementOver);
-                } else {
-                    mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
-                        setTimeout(function(){
-                            mw.liveEditSelector.active(true);
-                            mw.liveEditSelector.select(mw._activeElementOver);
-                        }, 333);
-                    });
-                }
-                mw.liveEditWidgets.cssEditorInSidebarAccordion();
-            }
-        },
-        {
-            title: 'Remove',
-            icon: 'mw-icon-bin',
-            className:'mw-handle-remove',
-            action: function () {
-                mw.drag.delete_element(mw._activeElementOver);
-                mw.handleElement.hide()
-            }
-        }
-    ]
-};
 
 
 /***/ }),
@@ -577,6 +534,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 /* harmony import */ var _draggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./draggable */ "./userfiles/modules/microweber/api/liveedit2/draggable.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
 
 
 
@@ -623,7 +582,7 @@ const Handle = function (options) {
             _currentTarget = null;
             return;
         }
-        var off = target.getBoundingClientRect();
+        var off = _dom__WEBPACK_IMPORTED_MODULE_3__.DomService.offset(target);
         this.wrapper.css({
             top: off.top,
             left: off.left,
@@ -770,6 +729,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DropIndicator": () => (/* binding */ DropIndicator)
 /* harmony export */ });
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
 
 
 
@@ -811,7 +772,7 @@ const DropIndicator = function (options) {
         this._indicator.removeClass(positionsClasses);
         if(!rect || !position) return;
             if(rect.nodeType === 1) {
-                rect = rect.getBoundingClientRect();
+                rect = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.offset(rect);
             }
         this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({
@@ -1039,7 +1000,7 @@ const GetPointerTargets = function(options)  {
 
     this.fromEvent = function (e) {
         if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
-            return this.fromPoint(e.pageX, e.pageY);
+            return this.fromPoint(e.pageX, e.pageY - scrollY);
         }
         return []
     }
@@ -1127,7 +1088,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LiveEdit": () => (/* binding */ LiveEdit)
 /* harmony export */ });
-/* harmony import */ var _element_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element-types */ "./userfiles/modules/microweber/api/liveedit2/element-types.js");
+/* harmony import */ var _analizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./analizer */ "./userfiles/modules/microweber/api/liveedit2/analizer.js");
 /* harmony import */ var _handle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handle */ "./userfiles/modules/microweber/api/liveedit2/handle.js");
 /* harmony import */ var _pointer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pointer */ "./userfiles/modules/microweber/api/liveedit2/pointer.js");
 /* harmony import */ var _mode_auto__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mode-auto */ "./userfiles/modules/microweber/api/liveedit2/mode-auto.js");
@@ -1186,7 +1147,7 @@ class LiveEdit {
 
         this.root = this.settings.root;
 
-        this.elementAnalyzer = new _element_types__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
+        this.elementAnalyzer = new _analizer__WEBPACK_IMPORTED_MODULE_0__.ElementAnalyzer(this.settings);
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_4__.Handles({
             handleElement: new _handle__WEBPACK_IMPORTED_MODULE_1__.Handle(this.settings),
@@ -1213,7 +1174,7 @@ class LiveEdit {
             } else {
                 if (e.pageX % 2 === 0) {
                     var elements = this.observe.fromEvent(e);
-                    this.handles.hideAllExceptCurrent(e);
+                     this.handles.hideAllExceptCurrent(e);
                     if(elements[0]) {
                         this.handles.set('handleElement', elements[0])
                     }

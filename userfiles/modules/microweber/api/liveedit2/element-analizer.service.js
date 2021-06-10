@@ -12,24 +12,22 @@ export class ElementAnalyzerServiceBase {
         return node.classList.contains(this.settings.rowClass);
     }
 
-    isModuleButNotLayout (node) {
-        return node.dataset.type !== 'layouts';
+    isModule (node) {
+        return node.classList.contains(this.settings.moduleClass) && node.dataset.type !== 'layouts';
     }
     isLayout (node) {
-        return node.dataset.type === 'layouts';
+        return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
     }
 
     isElement (node) {
         return node.classList.contains(this.settings.elementClass);
     }
 
-    isEmpty (node) {
+    isEmptyElement (node) {
         return node.classList.contains(this.settings.emptyElementClass);
     }
 
-
     isEdit (node) {
-
         return node.classList.contains(this.settings.editClass);
     }
 
@@ -48,5 +46,4 @@ export class ElementAnalyzerServiceBase {
     isPlainText (node) {
         return node.classList.contains(this.settings.plainElementClass);
     }
-
 }

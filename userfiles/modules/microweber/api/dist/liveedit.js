@@ -10702,12 +10702,23 @@ mw.dropables = {
         mw.dropable.hide();
         $(document.body).on('drop', function(e){
             e = e.originalEvent || e;
-            if(mw.tools.hasClass(e.target, 'background-image-holder') && e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
-                e.preventDefault();
-                mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
-                    e.target.style.backgroundImage = 'url(' + data.src + ')';
-                    mw.wysiwyg.change(e.target);
-                });
+
+            if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+                var bg = mw.tools.firstParentOrCurrentWithClass(e.target, 'background-image-holder');
+                if(bg) {
+                    e.preventDefault();
+                    mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
+                        e.target.style.backgroundImage = 'url(' + data.src + ')';
+                        mw.wysiwyg.change(e.target);
+                    });
+                } else if(e.target.nodeName === 'IMG') {
+                    e.preventDefault();
+                    mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
+                        e.target.src = data.src;
+                        mw.wysiwyg.change(e.target);
+                    });
+                }
+
             }
         });
     },

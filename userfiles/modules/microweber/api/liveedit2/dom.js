@@ -77,6 +77,16 @@ export class DomService {
         return false;
     }
 
+    static offset (node) {
+        if(!node) return;
+        var off = node.getBoundingClientRect();
+        var res = {top: off.top, left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
+        res.top += scrollY;
+        res.bottom += scrollY;
+        res.left += scrollX;
+        res.right += scrollX;
+        return res;
+    }
     static parentsOrder (node, arr) {
         var only_first = [];
         var obj = {}, l = arr.length, i = 0, count = -1;

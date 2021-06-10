@@ -67,7 +67,7 @@ export const GetPointerTargets = function(options)  {
 
     this.fromEvent = function (e) {
         if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
-            return this.fromPoint(e.pageX, e.pageY);
+            return this.fromPoint(e.pageX, e.pageY - scrollY);
         }
         return []
     }

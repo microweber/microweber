@@ -1,5 +1,6 @@
 
 import {ObjectService} from "./object.service";
+import {DomService} from "./dom";
 
 export const DropIndicator = function (options) {
 
@@ -39,7 +40,7 @@ export const DropIndicator = function (options) {
         this._indicator.removeClass(positionsClasses);
         if(!rect || !position) return;
             if(rect.nodeType === 1) {
-                rect = rect.getBoundingClientRect();
+                rect = DomService.offset(rect);
             }
         this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({

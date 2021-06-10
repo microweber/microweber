@@ -1,6 +1,7 @@
 import {ObjectService} from "./object.service";
 import {Draggable} from "./draggable";
 import {DropIndicator} from "./interact";
+import {DomService} from "./dom";
 
 export const Handle = function (options) {
 
@@ -44,7 +45,7 @@ export const Handle = function (options) {
             _currentTarget = null;
             return;
         }
-        var off = target.getBoundingClientRect();
+        var off = DomService.offset(target);
         this.wrapper.css({
             top: off.top,
             left: off.left,
