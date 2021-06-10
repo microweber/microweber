@@ -23,8 +23,6 @@ class BlogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
-
         // Allow to overwrite resource files for this module
         $checkForOverwrite = template_dir() . 'modules/blog/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
@@ -37,5 +35,11 @@ class BlogServiceProvider extends ServiceProvider
         $mainFolder = normalize_path($mainFolder);
 
         View::addNamespace('blog', $mainFolder);
+    }
+
+
+    public function register()
+    {
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
     }
 }
