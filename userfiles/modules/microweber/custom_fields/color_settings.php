@@ -5,21 +5,24 @@
 
    mw.lib.require('colorpicker');
 
-  /*  color = mw.colorPicker({
-        element: '#color<?php print $rand; ?>',
+    color = mw.colorPicker({
+        element: '#value<?php print $rand; ?>',
         position: 'bottom-left',
         onchange: function (color) {
             $('#color<?php print $rand; ?>').val(color).css('background', color);
             $('#color<?php print $rand; ?>').trigger('change');
         }
     });
-*/
+
     $(document).ready(function () {
 
         $('.predefined-colors .color').click(function () {
            $('#value<?php print $rand; ?>').val($(this).data('name'));
            $('#value<?php print $rand; ?>').css('background', '#' + $(this).data('hex'));
-            $('#value<?php print $rand; ?>').trigger('change'); 
+            $('#value<?php print $rand; ?>').trigger('change');
+
+            $('#color<?php print $rand; ?>').val($(this).data('hex'));
+            $('#color<?php print $rand; ?>').trigger('change');
         });
 
     });
@@ -55,6 +58,7 @@
       <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Color"); ?></label>
        <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the color');?></small>
        <input type="text" class="form-control" name="value" autocomplete="off" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
+       <input type="hidden" name="options[hex]" value="<?php print ($data['value']) ?>" id="color<?php print $rand; ?>">
     </div>
 
     <div class="predefined-colors">
