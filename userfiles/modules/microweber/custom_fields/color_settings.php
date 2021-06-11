@@ -45,6 +45,7 @@
         opacity: 0.9;
         cursor: pointer;
         border: 2px solid #fff;
+        border-radius: 50%;
     }
     .predefined-colors .color:hover {
         opacity: 1;
