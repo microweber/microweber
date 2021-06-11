@@ -30,6 +30,7 @@ use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
+use MicroweberPackages\Shop\ShopServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
@@ -241,6 +242,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ContentDataEventServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);
         $this->app->register(CustomFieldEventServiceProvider::class);
+        $this->app->register(TemplateManagerServiceProvider::class);
+        $this->app->register(DatabaseManagerServiceProvider::class);
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
@@ -252,15 +255,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CartManagerServiceProvider::class);
         $this->app->register(ShippingManagerServiceProvider::class);
         $this->app->register(OfferServiceProvider::class);
-
         $this->app->register(FileManagerServiceProvider::class);
-        $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
-        $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
@@ -278,16 +278,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueueEventServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
-        $this->app->register(BlogServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(DuskServiceProvider::class);
-
-
-
-
 
     }
 

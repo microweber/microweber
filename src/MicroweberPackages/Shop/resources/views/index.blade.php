@@ -1,11 +1,9 @@
 {!! $products->scripts() !!}
 
-<section class="section section-blog">
-    <div class="container">
+<div class="container">
     <div class="row">
-
         <div class="col-md-3">
-            <div class="card">
+            <div class="card border-0 text-dark bg-white">
 
                 {!! $products->filtersActive() !!}
 
@@ -17,69 +15,48 @@
 
                 {!! $products->filters() !!}
 
-             </div>
+            </div>
         </div>
-
 
         <div class="col-md-9">
-
             <div class="row">
-                <div class="col-md-8"></div>
-                <div class="col-md-2">
-                    {!! $products->limit(); !!}
+                <div class="col-8">
+                    <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
-                <div class="col-md-2">
-                    {!! $products->sort(); !!}
+                <div class="col-4 d-flex justify-content-end">
+                    <div class="px-1">{!! $products->limit(); !!}</div>
+                    <div class="px-1">{!! $products->sort(); !!}</div>
                 </div>
             </div>
             <div class="row">
-            @foreach($products->results() as $product)
-                    <div class="col-md-3">
-            <div class="post" style="margin-top:25px;">
+                @foreach($products->results() as $product)
+                    <div class="col-4 mb-5">
+                        <a href="{{site_url($product->url)}}">
+                            <img src="{{$product->thumbnail(800,800, true)}}" alt="">
 
-                <img src="{{$product->thumbnail(400,400)}}" alt="" width="400px">
+                            <h4 class="mt-3">{{$product->title}}</h4>
+                        </a>
+                        <p>{{$product->content_text}}</p>
 
-                <h4>{{$product->title}}</h4>
-                <p>{{$product->content_text}}</p>
-                <br />
-                <small>Posted At:{{$product->posted_at}}</small>
-                <br />
-                <a href="{{site_url($product->url)}}">View</a>
-                <hr />
-                @foreach($product->tags as $tag)
-                   <span class="badge badge-success"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
-                @endforeach
+                        <div class="d-flex py-2">
+                            <p class="col-6 px-0">{{$product->price}}</p>
 
-                @php
-                    $resultCustomFields = $product->customField()->with('fieldValue')->get();
-                @endphp
-                @foreach ($resultCustomFields as $resultCustomField)
-                    {{--@if ($resultCustomField->type !== 'date')
-                        @continue
-                    @endif--}}
-                    {{$resultCustomField->name}}:
-                    @php
-                        $customFieldValues = $resultCustomField->fieldValue()->get();
-                    @endphp
-                    @foreach($customFieldValues as $customFieldValue)
-                        {{$customFieldValue->value}};
-                    @endforeach
+                            <a class="col-6 text-right align-self-center" href="{{site_url($product->url)}}"> View</a>
+                        </div>
 
+                        <hr />
+
+                        @foreach($product->tags as $tag)
+                            <span class="badge badge-lg"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
+                        @endforeach
+                    </div>
                 @endforeach
             </div>
-            </div>
-            @endforeach
-            </div>
-
             {!! $products->pagination() !!}
-
-            <br />
-            <p>
-                Displaying {{$products->count()}} of {{ $products->total() }} result(s).
-            </p>
         </div>
+    </div>
+</div>
 
 
-        </div>
-        </div>
-</section>
+
+

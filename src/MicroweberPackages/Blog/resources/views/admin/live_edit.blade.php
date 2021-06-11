@@ -26,6 +26,7 @@
                             <br />
                             {{_e('Please, create a dynamic page from admin panel to continue.')}}
                         </div>
+
                         @else
                     <div class="form-row row">
 
@@ -35,8 +36,8 @@
                                 <option value=""><?php echo _e("Select page", true); ?></option>
                                 <?php
                                 foreach ($pages as $page):
-                                    ?>
-                                    <option <?php if (get_option('content_from_id', $moduleId) == $page->id): ?>selected="selected"<?php endif; ?> value="<?php echo $page->id; ?>"><?php echo $page->title;?></option>
+                                ?>
+                                <option <?php if (get_option('content_from_id', $moduleId) == $page->id): ?>selected="selected"<?php endif; ?> value="<?php echo $page->id; ?>"><?php echo $page->title;?></option>
                                 <?php
                                 endforeach;
                                 ?>
@@ -73,7 +74,7 @@
                                 function loadFilteringCustomFieldsTable() {
                                     var contentFromId = $('.js-filtering-from-content-id').val();
                                     var moduleId = '{{$moduleId}}';
-                                    $.post("{{route('admin.blog.filter.get-custom-fields-table')}}", {
+                                    $.post("{{$getCustomFieldsTableRoute}}", {
                                         contentFromId: contentFromId,
                                         moduleId: moduleId
                                     }, function(data, status){

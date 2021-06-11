@@ -6,6 +6,6 @@ Route::name('admin.blog.filter.')
     ->namespace('\MicroweberPackages\Blog\Http\Controllers')
     ->group(function () {
 
-        Route::post('get-custom-fields-table', 'LiveEditAdminController@getCustomFieldsTableFromPage')->name('get-custom-fields-table');
+        Route::any('get-custom-fields-table', 'LiveEditAdminController@getCustomFieldsTableFromPage')->name('get-custom-fields-table');
 
     });

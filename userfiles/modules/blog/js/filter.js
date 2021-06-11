@@ -4,7 +4,7 @@ class ContentFilter {
 
     setModuleId(moduleId) {
         this.moduleId = moduleId;
-    };
+    }
 
     replaceKeyValuesAndApplyFilters(queryParams) {
 
@@ -18,21 +18,31 @@ class ContentFilter {
         }
 
         this.applyFilters(redirectFilterUrl);
-    };
+    }
 
     applyFilters(redirectFilterUrl) {
 
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
-            size:"500px",
-            decorate: false
+            size:"36px",
+            decorate: true
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
+       // console.log(encodedDataUrl);
+
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
-        mw.reload_module('#' + this.moduleId + '');
+        var scope = this;
+        mw.reload_module('#' + this.moduleId + '' , function () {
+            mw.spinner({
+                element: $('#'+scope.moduleId+ ''),
+                size:"300px",
+                decorate: true
+            }).remove();
+
+        });
         window.history.pushState('', false, '?' + encodedDataUrl);
-    };
+    }
 
     addDateRangePicker(params) {
 
@@ -95,9 +105,14 @@ class ContentFilter {
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][from]', dateFromRange);
                 redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'date_range['+params.filter.nameKey+'][to]', dateToRange);
 
-                filterInstance.applyFilters(redirectFilterUrl);
+                if (filterInstance.filteringWhen == 'automatically') {
+                    filterInstance.applyFilters(redirectFilterUrl);
+                }
+
+                // Update instance redirect filter
+                mw.redirectFilterUrl = redirectFilterUrl;
             }
-        };
+        }
 
         if (params.setup) {
             var datePickerSetup = {...datePickerBaseSetup, ...params.setup};
@@ -112,11 +127,11 @@ class ContentFilter {
                  new Date(params.filter.toDate+'T00:00:00.000Z')
              ]);
         }
-    };
+    }
 
     setFilteringWhen(filtering) {
         this.filteringWhen = filtering;
-    };
+    }
 
     init() {
 
@@ -124,8 +139,8 @@ class ContentFilter {
 
         // Apply filter button
         $('body').on('click' , '.js-filter-apply' , function() {
-            if (filterInstance.redirectFilterUrl) {
-                filterInstance.applyFilters(filterInstance.redirectFilterUrl);
+            if (mw.redirectFilterUrl) {
+                filterInstance.applyFilters(mw.redirectFilterUrl);
             }
         });
 
@@ -259,7 +274,7 @@ class ContentFilter {
             }
 
             // Update instance redirect filter
-            filterInstance.redirectFilterUrl = redirectFilterUrl;
+            mw.redirectFilterUrl = redirectFilterUrl;
         });
 
         // Search
@@ -313,7 +328,7 @@ class ContentFilter {
             filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
         });
 
-    };
+    }
 }
 
 
@@ -380,3 +395,16 @@ function numericDate(dt)
 
     return date;
 }
+
+$(document).ready(function(){
+    // Add minus icon for collapse element which is open by default
+    $(".collapse.show").each(function(){
+        $(this).prev(".card-header").find(".mdi").addClass("mdi-minus").removeClass("mdi-plus");
+    });
+    // Toggle plus minus icon on show hide of collapse element
+    $(".collapse").on('show.bs.collapse', function(){
+        $(this).prev(".card-header").find(".mdi").removeClass("mdi-plus").addClass("mdi-minus");
+    }).on('hide.bs.collapse', function(){
+        $(this).prev(".card-header").find(".mdi").removeClass("mdi-minus").addClass("mdi-plus");
+    });
+});

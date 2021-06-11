@@ -36,7 +36,7 @@ if (!function_exists('offers_get_products')) {
 }
 if (!function_exists('offers_get_price')) {
 
-    function offers_get_price($product_id = false, $price_id)
+    function offers_get_price($product_id, $price_id)
     {
         return \MicroweberPackages\Offer\Models\Offer::getPrice($product_id, $price_id);
 
