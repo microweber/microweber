@@ -14,7 +14,9 @@ export const Handle = function (options) {
 
     this.settings = ObjectService.extend({}, defaults, options);
 
-
+    const _e = {};
+    this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
     var _visible = true;
     var _currentTarget = null;
@@ -32,12 +34,20 @@ export const Handle = function (options) {
         this.wrapper.addClass('mw-handle-item-hidden');
     };
 
+
     this.initDraggable = function () {
       this.draggable = new Draggable({
           handle: this.handle,
-          element: null
+          element: null,
+          helper: true,
+          dropIndicator: this.settings.dropIndicator
       }, options);
-
+        this.draggable.on('dragStart', function () {
+            scope.wrapper.addClass('mw-handle-item-dragging');
+        })
+        this.draggable.on('dragEnd', function () {
+            scope.wrapper.removeClass('mw-handle-item-dragging');
+        })
     };
 
     this.set = function (target) {
@@ -46,7 +56,7 @@ export const Handle = function (options) {
             return;
         }
         var off = DomService.offset(target);
-        this.wrapper.css({
+         this.wrapper.css({
             top: off.top,
             left: off.left,
             width: off.width,
@@ -54,7 +64,11 @@ export const Handle = function (options) {
         });
         this.show();
         this.draggable.setElement(target);
-        _currentTarget = target;
+        if(_currentTarget !== target) {
+            _currentTarget = target;
+            this.dispatch('targetChange', target);
+        }
+
     };
 
     this.createHandle = function () {
@@ -63,7 +77,8 @@ export const Handle = function (options) {
             props: {
                 className: 'mw-defaults mw-handle-item-handle',
                 contentEditable: false,
-                draggable: true
+                draggable: true,
+                innerHTML: this.settings.title
             }
         });
         this.wrapper.append(this.handle);

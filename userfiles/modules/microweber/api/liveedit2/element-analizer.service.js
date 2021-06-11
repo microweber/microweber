@@ -15,6 +15,7 @@ export class ElementAnalyzerServiceBase {
     isModule (node) {
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type !== 'layouts';
     }
+
     isLayout (node) {
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
     }
@@ -45,5 +46,17 @@ export class ElementAnalyzerServiceBase {
 
     isPlainText (node) {
         return node.classList.contains(this.settings.plainElementClass);
+    }
+
+    getType(node) {
+        if(this.isEdit(node)) {
+            return 'edit';
+        } else if(this.isElement(node)) {
+            return 'element';
+        } else if(this.isModule(node)) {
+            return 'module';
+        }  else if(this.isLayout(node)) {
+            return 'layout';
+        }
     }
 }

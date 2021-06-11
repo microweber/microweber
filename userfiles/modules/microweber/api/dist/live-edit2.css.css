@@ -96,6 +96,12 @@
   transition: opacity 0.2s;
   pointer-events: none;
 }
+.mw-handle-item.mw-handle-item-dragging {
+  border-color: transparent;
+}
+.mw-handle-item.mw-handle-item-dragging * {
+  opacity: 0 !important;
+}
 .mw-handle-item.mw-handle-item-hidden {
   opacity: 0;
   visibility: hidden;
@@ -103,13 +109,26 @@
 .mw-handle-item .mw-handle-item-handle {
   width: 30px;
   height: 30px;
-  background: red;
+  background: #1a73b4;
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   cursor: grab;
   pointer-events: all;
+}
+.mw-handle-item .mw-handle-item-handle:after {
+  content: "|||";
+  display: block;
+  color: #fff;
+  padding: 5px;
+}
+
+.mw-draggable-helper {
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(119, 117, 117, 0.49);
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=live-edit2.css.css.map*/

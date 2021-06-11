@@ -9350,10 +9350,8 @@ var domHelp = {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
-                if (match.a > 0) {
-                    return true;
-                }
-                return false;
+                return match.a > 0;
+
             }
             else {
                 if (h1) {
@@ -9488,8 +9486,6 @@ var domHelp = {
         }
         return false;
     },
-
-
     hasParentsWithClass: function (el, cls) {
         if (!el) return;
         var curr = el.parentNode;

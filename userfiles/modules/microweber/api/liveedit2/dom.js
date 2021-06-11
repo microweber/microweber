@@ -26,6 +26,19 @@ export class DomService {
         return false;
     }
 
+    static firstWithAyOfClassesOnNodeOrParent(node, arr) {
+        while (node && node.nodeName !== 'BODY') {
+            let i = 0, l = arr.length;
+            for ( ; i < l ; i++ ) {
+                if (node.classList.contains(arr[i])) {
+                    return node;
+                }
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
     static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
         let curr = node;
         while (curr && curr !== document.body) {

@@ -9,34 +9,32 @@ export const Handles = function (handles) {
     }
 
     this.set = function (handle, target){
-        this.get(handle).set(target)
-    }
-
-    this.hideAllExceptCurrent = function (e) {
-        var target = e.target ? e.target : e;
-        this.each(function (h){
-            var el = h.wrapper.get(0);
-            if(target !== el && !el.contains(target)) {
-                h.hide()
-            }
-        });
+         this.get(handle).set(target)
     }
 
     this.hide = function(handle) {
         if(handle && this.handles[handle]) {
             this.handles[handle].hide();
         } else {
-            this.each(function (h){
+            this.each(function (name, h){
                 h.hide()
             });
         }
-
     };
+
+    this.hideAllBut = function(handle) {
+        this.each(function (name, h){
+            if(name !== handle) {
+                h.hide()
+            }
+        });
+    };
+
     this.show = function(handle) {
         if (handle && this.handles[handle]) {
             this.handles[handle].show();
         } else {
-            this.each(function (handle){
+            this.each(function (name, handle){
                 handle.show();
             });
         }
@@ -46,15 +44,15 @@ export const Handles = function (handles) {
         if(!c) return;
         var i;
         for (i in this.handles) {
-            c.call(scope, this.handles[i]);
+            c.call(scope, i, this.handles[i]);
         }
     };
 
     this.init = function (){
-        this.each(function (handle){
+        this.each(function (name, handle){
             handle.draggable.on('dragStart', function (){
                 scope.dragging = true;
-                //handle.hide()
+                scope.hideAllBut(name)
             })
             handle.draggable.on('dragEnd', function (){
                 scope.dragging = false;

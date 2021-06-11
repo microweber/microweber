@@ -1,12 +1,12 @@
 
 
-import {ElementAnalyzer} from './analizer';
-import {Handle} from "./handle";
+ import {Handle} from "./handle";
 import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
-import {Draggable} from "./draggable";
 import {ObjectService} from "./object.service";
+import {DroppableElementAnalyzerService} from "./analizer";
+ import {DropIndicator} from "./interact";
   // import "./css/liveedit.scss";
 
 
@@ -25,11 +25,11 @@ export class LiveEdit {
             cloneableClass: 'cloneable',
             editClass: 'edit',
             moduleClass: 'module',
-            rowClass: 'mw-row',
+/*            rowClass: 'mw-row',
             colClass: 'mw-col',
             safeElementClass: 'safe-element',
             plainElementClass: 'plain-text',
-            emptyElementClass: 'empty-element',
+            emptyElementClass: 'empty-element',*/
             nodrop: 'nodrop',
             allowDrop: 'allow-drop',
             unEditableModules: [
@@ -39,20 +39,31 @@ export class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
-            root: document.body
+            root: document.body,
+            strict: false // todo: element and modules should be dropped only in layouts
         };
 
         this.settings = ObjectService.extend({}, defaults, options);
 
         this.root = this.settings.root;
 
-        this.elementAnalyzer = new ElementAnalyzer(this.settings);
+        this.elementAnalyzer = new DroppableElementAnalyzerService(this.settings);
+
+        this.dropIndicator = new DropIndicator();
 
         this.handles = new Handles({
-            handleElement: new Handle(this.settings),
-            handleModule: new Handle(this.settings),
-            handleLayout: new Handle(this.settings)
+            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator}),
+            module: new Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
+            layout: new Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
         });
+
+        this.handles.get('element').on('targetChange', function (target) {
+            console.log(target);
+        })
+
+        this.handles.get('module').on('targetChange', function (target) {
+            console.log('module', target);
+        })
 
         this.observe = new GetPointerTargets(this.settings);
         //this.dropIndicator = new DropIndicator();
@@ -63,15 +74,21 @@ export class LiveEdit {
     init() {
 
          mw.element(this.root).on('mousemove touchmove', (e) => {
-
                 if (e.pageX % 2 === 0) {
-                    var elements = this.observe.fromEvent(e);
-                     this.handles.hideAllExceptCurrent(e);
-                    if(elements[0]) {
-                        this.handles.set('handleElement', elements[0])
+                    const elements = this.observe.fromEvent(e);
+                    const first = elements[0];
+                    if(first) {
+                       const type = this.elementAnalyzer.getType(first);
+                       if(type && type !== 'edit') {
+                           this.handles.set(type, elements[0])
+                           if(type === 'element') {
+                               this.handles.hide('module')
+                           } else if(type === 'module') {
+                               this.handles.hide('element')
+                           }
+                       }
                     }
                 }
-
          });
     };
 

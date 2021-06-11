@@ -3,7 +3,7 @@ import {ElementAnalyzerServiceBase} from './element-analizer.service'
 export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase  {
 
     constructor(settings) {
-        super();
+        super(settings);
         this.settings = settings;
         this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
         this.init();
@@ -56,13 +56,42 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         return this._dropableElements;
     }
 
+    getIteractionTarget(node) {
+        return this.tools.firstWithAyOfClassesOnNodeOrParent(node, [
+            this.settings.elementClass,
+            this.settings.editClass,
+            this.settings.moduleClass,
+        ]);
+    }
+
     getTarget (node) {
-        if (!node || node === this.settings.document.body) return null;
-        if (this.canAccept(node)) {
-            return node;
-        } else {
-            return this.getTarget(node.parentElement);
+
+        const target = this.getIteractionTarget(node);
+        if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
+            return null;
         }
+        const res = {
+            target,
+            canInsert: false,
+            beforeAfter: false
+        }
+        if (this.isEdit(target)) {
+            res.canInsert = true;
+        } else if(this.isElement(target)) {
+            if(this.canAcceptByTag(target)) {
+                res.canInsert = true;
+            }
+            //if(this.canInsertBeforeOrAfter(target)) {
+                res.beforeAfter = true;
+            //}
+        } else if(this.isModule(target)) {
+            if(this.canInsertBeforeOrAfter(target)) {
+                res.beforeAfter = true;
+            } else {
+                return null;
+            }
+        }
+        return res;
     }
 
     init () {
@@ -78,17 +107,6 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 }
 
 
-export const ElementAnalyzer = function (options) {
-    options = options || {};
 
-    this.settings = options;
-
-
-
-    this.getTargets = function (targets) {
-
-    };
-
-};
 
 
