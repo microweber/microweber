@@ -24,15 +24,23 @@ class ContentFilter {
 
         mw.spinner({
             element: $('#'+this.moduleId+ ''),
-            size:"500px",
-            decorate: false
+            size:"36px",
+            decorate: true
         }).show();
 
         var encodedDataUrl = encodeDataToURL(redirectFilterUrl);
        // console.log(encodedDataUrl);
 
         $('#'+this.moduleId+ '').attr('ajax_filter', encodedDataUrl);
-        mw.reload_module('#' + this.moduleId + '');
+        var scope = this;
+        mw.reload_module('#' + this.moduleId + '' , function () {
+            mw.spinner({
+                element: $('#'+scope.moduleId+ ''),
+                size:"300px",
+                decorate: true
+            }).remove();
+
+        });
         window.history.pushState('', false, '?' + encodedDataUrl);
     }
 
