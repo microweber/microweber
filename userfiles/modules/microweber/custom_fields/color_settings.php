@@ -65,8 +65,8 @@
         <?php
         foreach (mw()->ui->predefined_colors() as $color) {
         ?>
-        <div class="color" style="background: #<?php echo $color['hex']; ?>" data-hex="<?php echo $color['hex']; ?>" data-name="<?php echo $color['name']; ?>">
-           <!-- <?php echo $color['name']; ?> -->
+        <div class="color d-none" style="background: #<?php echo $color['hex']; ?>" data-hex="<?php echo $color['hex']; ?>" data-name="<?php echo $color['name']; ?>">
+<!--            --><?php //echo $color['name']; ?><!-- -->
         </div>
         <?php
         }
