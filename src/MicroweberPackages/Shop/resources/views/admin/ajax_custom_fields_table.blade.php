@@ -1,6 +1,6 @@
 @if(empty($customFieldNames))
     <div class="alert alert-warning">
-        {{_e('There is no custom fields found for posts from selected blog page.')}}
+        {{_e('There is no custom fields found for products from selected shop page.')}}
     </div>
 @else
 <script>
@@ -35,13 +35,14 @@
                 @php
                     $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
                 @endphp
-                <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}">
+                <select class="mw_option_field form-control" name="{{$customFieldControlTypeOptionName}}"> 
                     <option value="" disabled="disabled"><?php _e("Select control type"); ?></option>
                     <option value="checkbox" <?php if ('checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Multiple choices"); ?></option>
                     <option value="radio" <?php if ('radio' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Single Choice"); ?></option>
                     <option value="select" <?php if ('select' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Dropdown"); ?></option>
+                    <option value="price_range" <?php if ('price_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Price Range"); ?></option>
                     <option value="square_checkbox" <?php if ('square_checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
-                    <option value="date_range" <?php if ('date_range' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Date Range"); ?></option>
+                    <option value="color" <?php if ('color' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
                 </select>
             </td>
             <td>

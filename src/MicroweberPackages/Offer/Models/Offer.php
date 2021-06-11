@@ -108,7 +108,7 @@ class Offer extends Model
         return $offers;
     }
 
-    public static function getPrice($productId = false, $priceId)
+    public static function getPrice($productId, $priceId)
     {
         $query = Offer::where('price_id', $priceId);
 
