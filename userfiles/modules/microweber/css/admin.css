@@ -383,5 +383,11 @@ div.form-control {
 }
 
 .mw-custom-field-icon-color:before {
-    content: '\F0132';
+    content: '\F0765';
+
+}
+
+.mw-custom-field-icon-country:before {
+    content: '\F0826';
+
 }
