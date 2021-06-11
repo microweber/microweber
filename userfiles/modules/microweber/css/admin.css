@@ -380,6 +380,8 @@ div.form-control {
         display: none;
     }
 
- 
+}
 
+.mw-custom-field-icon-color:before {
+    content: '\F0132';
 }
