@@ -40,7 +40,7 @@
         width: 50px;
         font-size:9px;
         padding: 2px;
-        float:left;
+        /*float:left;*/
         margin-right: 2px;
         opacity: 0.9;
         cursor: pointer;
@@ -61,7 +61,7 @@
        <input type="hidden" name="options[hex]" value="<?php print ($data['value']) ?>" id="color<?php print $rand; ?>">
     </div>
 
-    <div class="predefined-colors">
+    <div class="predefined-colors row d-flex">
         <?php
         foreach (mw()->ui->predefined_colors() as $color) {
         ?>
@@ -73,8 +73,11 @@
         ?>
     </div>
 
-   <?php print $savebtn; ?>
+    <div class="custom-field-settings-values">
+        <?php echo $savebtn; ?>
+    </div>
 </div>
 
 <?php include('placeholder_settings.php'); ?>
+
 <?php include('settings_footer.php'); ?>
