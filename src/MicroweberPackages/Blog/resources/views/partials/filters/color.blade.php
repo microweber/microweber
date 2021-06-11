@@ -17,7 +17,7 @@ $randomId = uniqid();
                     @php
                         $randIdForCheck = uniqid();
                     @endphp
-                    <label class="btn mx-1 rounded-circle @if ($option->active) active @endif" for="{{$randIdForCheck}}" style="width: 50px; height: 50px; background:{{$option->value}};">
+                    <label class="btn px-0 btn-sm rounded-circle d-inline-block  @if ($option->active) active @endif" for="{{$randIdForCheck}}" style="width: 30px; height: 30px; background:{{$option->value}};">
                         <input type="checkbox" autocomplete="off" class="js-filter-option-select hidden" id="{{$randIdForCheck}}" @if ($option->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$option->value}}">
                     </label>
                 @endforeach

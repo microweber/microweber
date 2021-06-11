@@ -30,28 +30,28 @@
 </script>
 
 <style>
-    .predefined-colors {
-        display: block;
-        width: 100%;
-        clear: both;
-    }
-    .predefined-colors .color {
-        height: 50px;
-        width: 50px;
-        font-size:9px;
-        padding: 2px;
-        /*float:left;*/
-        margin-right: 2px;
-        opacity: 0.9;
-        cursor: pointer;
-        border: 2px solid #fff;
-        border-radius: 50%;
-    }
-    .predefined-colors .color:hover {
-        opacity: 1;
-        border: 2px solid #00000052;
-    }
-</style>
+/*    .predefined-colors {*/
+/*        display: block;*/
+/*        width: 100%;*/
+/*        clear: both;*/
+/*    }*/
+/*    .predefined-colors .color {*/
+/*        height: 50px;*/
+/*        width: 50px;*/
+/*        font-size:9px;*/
+/*        padding: 2px;*/
+/*        /*float:left;*/*/
+/*        margin-right: 2px;*/
+/*        opacity: 0.9;*/
+/*        cursor: pointer;*/
+/*        border: 2px solid #fff;*/
+/*        border-radius: 50%;*/
+/*    }*/
+/*    .predefined-colors .color:hover {*/
+/*        opacity: 1;*/
+/*        border: 2px solid #00000052;*/
+/*    }*/
+/*</style>*/
 
 <div class="custom-field-settings-values">
 
