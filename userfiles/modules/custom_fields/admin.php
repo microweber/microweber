@@ -147,45 +147,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     thismodal.resize(800)
                 }
             </script>
-            <style>
-                .custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
-                    font-size: 25px;
-                    display: block;
-                    margin-bottom: 10px;
-                }
-
-                .custom-fields-add-buttons button .mw-custom-field-title text-break-line-1 {
-                    font-size: 12px;
-                }
-
-                .custom-fields-add-buttons button {
-                    width: 20%;
-                    text-align: center;
-                    display: block;
-                    float: left;
-                }
-
-                .custom-fields-add-buttons button:hover {
-                    background: #f2f3f5;
-                }
-
-                .card-closed {
-                    width: auto !important;
-                    display: inline-block;
-                }
-
-                .card .card-header {
-                    /*cursor: pointer;*/
-                }
-
-                .card-closed .card-header:first-child {
-                    border-radius: 10px;
-                }
-
-                .card-closed .card-header:after {
-                    display: none;
-                }
-            </style>
 
             <div class="module-live-edit-settings">
                 <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
