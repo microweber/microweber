@@ -263,7 +263,7 @@ class ContentFilter {
                 }
                 if (addToUrl) {
                     var fieldName = field.name;
-                    //  console.log(fieldName); 
+                    //  console.log(fieldName);
                     if (fieldName.indexOf("[]")) {
                         redirectFilterUrl.push({key: field.name, value: field.value});
                     } else {
