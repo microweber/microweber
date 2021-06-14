@@ -12,7 +12,7 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body px-1">
         @foreach($categories as $category)
-            <ul class="js-filter-category-tree">
+            <ul class="js-filter-category-tree list-unstyled">
                 <li class="pb-4">
                     <a href="?category={{$category->id}}" class="js-filter-category-link @if($request->get('category', false) == $category->id) active @endif ">{{$category->title}}</a>
                 </li>
