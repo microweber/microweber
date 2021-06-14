@@ -27,6 +27,7 @@ trait CategoriesTrait {
 
         $categoryQuery = Category::query();
         $categoryQuery->where('rel_id', $this->getMainPageId());
+        $categoryQuery->orderBy('position');
 
         $categories = $categoryQuery->where('parent_id',0)->get();
 
