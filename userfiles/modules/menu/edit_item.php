@@ -250,6 +250,9 @@ if ($id == 0) {
                         return
                     }
 
+
+                    console.log(ldata)
+
                     var url = ldata.url,
                         target = ldata.target,
                         name = ldata.text,
@@ -257,6 +260,20 @@ if ($id == 0) {
 
                     root.find('[name="title"]').val(name);
                     root.find('[name="url"]').val(url);
+                    console.log(scope)
+                    console.log(scope.dataset)
+
+                    var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
+                    var fields = mw.$('[name="content_id"], [name="categories_id"]', parent).val('0');
+
+                    if (data) {
+                        if (data.type === 'page') {
+                            fields.filter('[name="content_id"]', parent).val(data.id)
+                        } else if (data.type === 'category') {
+                            fields.filter('[name="categories_id"]').val(data.id);
+                        }
+                    }
+                    field.trigger('change')
 
                     if (scope.nodeName === 'INPUT') {
                         scope.value = url;
@@ -265,17 +282,6 @@ if ($id == 0) {
                         if (scope.dataset.for) {
                             var field = $('#' + scope.dataset.for);
                             field.val(url);
-                            var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
-                            fields = mw.$('[name="content_id"], [name="categories_id"]', parent).val('0');
-                            // fields.attr('type', 'text');
-                            if (data) {
-                                if (data.type === 'page') {
-                                    fields.filter('[name="content_id"]', parent).val(data.id)
-                                } else if (data.type === 'category') {
-                                    fields.filter('[name="categories_id"]').val(data.id);
-                                }
-                            }
-                            field.trigger('change')
                         }
                     }
                     //link.dialog.remove();
