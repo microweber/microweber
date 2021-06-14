@@ -11,7 +11,7 @@ class FilterHelper
         $controlType = get_option('filtering_by_custom_fields_control_type_' . $customField->name_key, $moduleId);
 
         if (empty($controlType)) {
-            $controlType = $customField->type;
+            $controlType = 'checkbox';
             if ($customField->type == 'price') {
                 $controlType = 'price_range';
             }
@@ -20,6 +20,12 @@ class FilterHelper
             }
             if ($customField->type == 'dropdown') {
                 $controlType = 'select';
+            }
+            if ($customField->type == 'radio') {
+                $controlType = 'radio';
+            }
+            if ($customField->type == 'color') {
+                $controlType = 'color';
             }
         }
 
