@@ -37,6 +37,14 @@ trait CategoriesTrait {
                 $query->where('parent_id', '=', $category);
             });
         }
+
+        $categories = $this->request->get('categories', false);
+        if (is_array($categories)) {
+            $this->queryParams['categories'] = $categories;
+            $this->query->whereHas('categoryItems', function ($query) use($categories) {
+                $query->whereIn('parent_id', $categories);
+            });
+        }
     }
 
     public function categories($template = 'blog::partials.categories')
