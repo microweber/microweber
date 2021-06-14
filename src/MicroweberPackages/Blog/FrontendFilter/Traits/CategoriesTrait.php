@@ -6,6 +6,27 @@ use MicroweberPackages\Category\Models\Category;
 
 trait CategoriesTrait {
 
+    public function appendFiltersActiveCategories()
+    {
+        $categories = $this->request->get('categories', false);
+        if (is_array($categories)) {
+            foreach($categories as $categoryId) {
+
+                $category = Category::where('id', $categoryId)->first();
+                if ($category == null) {
+                    continue;
+                }
+
+                $filter = new \stdClass();
+                $filter->name = _e('Category', true) . ': ' . $category->title;
+                $filter->link = '';
+                $filter->value = $categoryId;
+                $filter->key = 'categories[]';
+                $this->filtersActive[] = $filter;
+            }
+        }
+    }
+
     public function applyQueryCategories()
     {
         // Categories
