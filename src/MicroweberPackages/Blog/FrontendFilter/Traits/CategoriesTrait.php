@@ -25,14 +25,20 @@ trait CategoriesTrait {
             return false;
         }
 
+        $categoriesActiveIds = $this->request->get('categories', []);
+        if (!is_array($categoriesActiveIds)) {
+            $categoriesActiveIds = [];
+        }
+
         $categoryQuery = Category::query();
         $categoryQuery->where('rel_id', $this->getMainPageId());
+        $categoryQuery->orderBy('position');
 
         $categories = $categoryQuery->where('parent_id',0)->get();
 
         $request = $this->request;
 
-        return view($template, compact('categories','request'));
+        return view($template, compact('categories','categoriesActiveIds','request'));
     }
 
 }
