@@ -59,6 +59,7 @@
                 _tempRender: true,
                 filterRemoteURL: null,
                 filterRemoteKey: 'keyword',
+                toggleSelect: true
             };
 
 
@@ -262,7 +263,7 @@
             var data = [];
             mw.$( 'li.' + this.options.openedClass, this.list  ).each(function(){
                 if(this._data) {
-                    data.push({type:this._data.type, id:this._data.id})
+                    data.push({type:this._data.type, id:this._data.id});
                 }
             });
 

@@ -6175,6 +6175,7 @@ li:hover > .show-on-hover {
 }
 .mw-dialog-skin-default {
   visibility: hidden;
+  color: #686868;
 }
 .mw-dialog-skin-default .mw-dialog-header {
   padding: 6px 25px;
