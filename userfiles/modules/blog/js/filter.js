@@ -305,6 +305,7 @@ class ContentFilter {
         // Categories
         $('body').on('click', '.js-filter-category-link', function(e) {
             e.preventDefault();
+
             var targetPageNum = $(this).attr('href').split('category=')[1];
             var queryParams = [];
             queryParams.push({
@@ -312,6 +313,7 @@ class ContentFilter {
                 value:targetPageNum
             });
             filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
+
         });
 
         // Pagination

@@ -323,15 +323,7 @@ abstract class BaseFilter
 
         $moduleId = $this->params['moduleId'];
 
-        $showApplyFilterButton = false;
-        $filteringWhen = get_option('filtering_when', $moduleId);
-        if ($filteringWhen) {
-            if ($filteringWhen == 'apply_button') {
-                $showApplyFilterButton = true;
-            }
-        }
-
-        $viewData =  ['filters'=>$filters,'showApplyFilterButton'=>$showApplyFilterButton, 'moduleId'=>$moduleId];
+        $viewData =  ['filters'=>$filters,'showApplyFilterButton'=>$this->showApplyFilterButton, 'moduleId'=>$moduleId];
 
         if (!$template) {
             return $viewData;
@@ -357,6 +349,14 @@ abstract class BaseFilter
         $disableFilter = get_option('disable_filter', $this->params['moduleId']);
         if ($disableFilter != '1') {
            $this->buildFilter();
+        }
+
+        $this->showApplyFilterButton = false;
+        $filteringWhen = get_option('filtering_when', $this->params['moduleId']);
+        if ($filteringWhen) {
+            if ($filteringWhen == 'apply_button') {
+                $this->showApplyFilterButton = true;
+            }
         }
 
         $this->pagination = $this->query
