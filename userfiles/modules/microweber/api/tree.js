@@ -61,6 +61,7 @@
                 _tempRender: true,
                 filterRemoteURL: null,
                 filterRemoteKey: 'keyword',
+                toggleSelect: true
             };
 
 
