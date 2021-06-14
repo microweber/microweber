@@ -42,10 +42,10 @@
             $("#thumb").removeAttr('src')
         })
         $(upThumb).on("progress", function (a, b) {
-            $("#upload_thumb_status").find('.progress-bar').width('0%');
             $("#upload_thumb_status").show();
+            $("#upload_thumb_status").find('.progress-bar').width('0%');
             $("#upload_thumb_status").find('.progress-bar').width(b.percent + '%');
-            if (b.percent == 100) { 
+            if (b.percent == 100) {
                 $("#upload_thumb_status").hide();
             }
         });
