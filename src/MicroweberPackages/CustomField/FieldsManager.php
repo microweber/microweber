@@ -292,7 +292,37 @@ class FieldsManager
             return false;
         }
 
-        if ($fieldData['type'] == 'address') {
+        if (isset($fieldData['copy_of']) and $fieldData['copy_of']) {
+            $existing = array();
+            $existing['id'] = $fieldData['copy_of'];
+            $existing['single'] = 1;
+
+            $existing = $this->getAll($existing);
+            if ($existing) {
+                $value_of_copy = [];
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $fieldData['copy_of'])->get();
+                if ($getCustomFieldValues) {
+                    foreach ($getCustomFieldValues as $val){
+                        $value_of_copy = $val->value;
+                    }
+                    $fieldData['values'] =$value_of_copy;
+
+                }
+
+                $fieldData['type'] = $existing['type'];
+                $fieldData['name'] = $existing['name'];
+
+                unset($fieldData['copy_of']);
+
+                return $this->save($fieldData);
+
+
+            }
+
+
+        }
+
+        if (isset($fieldData['type']) and $fieldData['type'] == 'address') {
 
             // Generate address fields
             $fields_csv_str = 'Country[type=country,field_size=12,show_placeholder=true],';
@@ -307,7 +337,7 @@ class FieldsManager
         }
 
         $customField = null;
-        if (!empty($fieldData['id'])) {
+        if (!empty($fieldData['id']) and $fieldData['id'] != 0) {
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
 
@@ -315,7 +345,7 @@ class FieldsManager
             $customField = new CustomField();
             $customField->name = $this->getFieldNameByType($fieldData['type']);
             if (!isset($fieldData['value'])) {
-               $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+                $fieldData['value'] = $this->generateFieldNameValues($fieldData);
             }
         }
 
@@ -472,9 +502,9 @@ class FieldsManager
     {
         $val = false;
         $data = $this->get([
-            'rel_type'=>$table,
-            'rel_id'=>$content_id,
-            'return_full'=>$return_full,
+            'rel_type' => $table,
+            'rel_id' => $content_id,
+            'return_full' => $return_full,
         ]);
         foreach ($data as $item) {
             if (isset($item['name']) and
@@ -604,7 +634,7 @@ class FieldsManager
 
         foreach ($data as $value) {
             if (is_array($value)) {
-                foreach ($value as $position=>$customFieldId) {
+                foreach ($value as $position => $customFieldId) {
                     $findCustomField = CustomField::where('id', $customFieldId)->first();
                     if ($findCustomField) {
                         $findCustomField->position = $position;
@@ -642,7 +672,7 @@ class FieldsManager
         if ($findCustomField) {
             $getCustomFieldValues = $findCustomField->fieldValue()->get();
             if ($getCustomFieldValues) {
-                foreach($getCustomFieldValues as $customFieldValue) {
+                foreach ($getCustomFieldValues as $customFieldValue) {
                     $customFieldValue->delete();
                 }
             }
