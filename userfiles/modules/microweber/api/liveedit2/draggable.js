@@ -84,26 +84,29 @@ export const Draggable = function (options, rootSettings) {
          mw.element(this.settings.target).on('dragover', function (e) {
              scope.target = null;
              scope.action = null;
-             var targetAction = scope.dropableService.getTarget(e.target)
+             if(e.target !== scope.element || !scope.element.contains(e.target)) {
+                 var targetAction = scope.dropableService.getTarget(e.target)
 
-            if(targetAction && targetAction !== scope.element) {
-                const pos = scope.dropPosition(e, targetAction);
-                if(pos) {
-                    scope.target = targetAction.target;
-                    scope.action = pos.action;
-                    scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
-                } else {
+                 if(targetAction && targetAction !== scope.element) {
+                     const pos = scope.dropPosition(e, targetAction);
+                     if(pos) {
+                         scope.target = targetAction.target;
+                         scope.action = pos.action;
+                         scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
+                     } else {
 
-                    scope.dropIndicator.hide()
-                }
+                         scope.dropIndicator.hide()
+                     }
 
-            } else {
-                scope.dropIndicator.hide()
-            }
-            if (scope.isDragging) {
-                scope.dispatch('dragOver', {element: scope.element, event: e});
-                e.preventDefault();
-            }
+                 } else {
+                     scope.dropIndicator.hide()
+                 }
+                 if (scope.isDragging) {
+                     scope.dispatch('dragOver', {element: scope.element, event: e});
+                     e.preventDefault();
+                 }
+             }
+
 
         }).on('drop', function (e) {
             if (scope.isDragging) {
@@ -122,7 +125,6 @@ export const Draggable = function (options, rootSettings) {
                 if(!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
-                scope.element.style.opacity = '0';
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
                 scope.helper('create');
@@ -141,10 +143,8 @@ export const Draggable = function (options, rootSettings) {
                 scope.helper(e)
             })
             .on('dragend', function (e) {
-                scope.element.style.opacity = '1';
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
-
                 scope.helper('remove');
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
                 stop = true;

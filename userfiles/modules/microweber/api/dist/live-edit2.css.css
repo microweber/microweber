@@ -131,4 +131,9 @@
   pointer-events: none;
 }
 
+.mw-element-is-dragged {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /*# sourceMappingURL=live-edit2.css.css.map*/

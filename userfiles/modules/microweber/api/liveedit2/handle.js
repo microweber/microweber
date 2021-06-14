@@ -33,6 +33,14 @@ export const Handle = function (options) {
         _visible = false;
         this.wrapper.addClass('mw-handle-item-hidden');
     };
+    let _content = null;
+    this.setContent = function (content) {
+        if(_content){
+            _content.remove()
+        }
+        _content = content;
+        this.wrapper.append(_content);
+    }
 
 
     this.initDraggable = function () {
@@ -106,6 +114,9 @@ export const Handle = function (options) {
     this.createWrapper();
     this.createHandle();
     this.initDraggable();
+    if(this.settings.content) {
+        this.setContent(this.settings.content)
+    }
 
 
 

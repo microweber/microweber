@@ -167,6 +167,18 @@ class DomService {
         return false;
     }
 
+    static hasParentWithId (el, id) {
+        if (!el) return;
+        var curr = el.parentNode;
+        while (curr && curr !== document.body) {
+            if (curr.id === id) {
+                return true;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
     static firstWithAyOfClassesOnNodeOrParent(node, arr) {
         while (node && node.nodeName !== 'BODY') {
             let i = 0, l = arr.length;
@@ -369,26 +381,29 @@ const Draggable = function (options, rootSettings) {
          mw.element(this.settings.target).on('dragover', function (e) {
              scope.target = null;
              scope.action = null;
-             var targetAction = scope.dropableService.getTarget(e.target)
+             if(e.target !== scope.element || !scope.element.contains(e.target)) {
+                 var targetAction = scope.dropableService.getTarget(e.target)
 
-            if(targetAction && targetAction !== scope.element) {
-                const pos = scope.dropPosition(e, targetAction);
-                if(pos) {
-                    scope.target = targetAction.target;
-                    scope.action = pos.action;
-                    scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
-                } else {
+                 if(targetAction && targetAction !== scope.element) {
+                     const pos = scope.dropPosition(e, targetAction);
+                     if(pos) {
+                         scope.target = targetAction.target;
+                         scope.action = pos.action;
+                         scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
+                     } else {
 
-                    scope.dropIndicator.hide()
-                }
+                         scope.dropIndicator.hide()
+                     }
 
-            } else {
-                scope.dropIndicator.hide()
-            }
-            if (scope.isDragging) {
-                scope.dispatch('dragOver', {element: scope.element, event: e});
-                e.preventDefault();
-            }
+                 } else {
+                     scope.dropIndicator.hide()
+                 }
+                 if (scope.isDragging) {
+                     scope.dispatch('dragOver', {element: scope.element, event: e});
+                     e.preventDefault();
+                 }
+             }
+
 
         }).on('drop', function (e) {
             if (scope.isDragging) {
@@ -407,7 +422,6 @@ const Draggable = function (options, rootSettings) {
                 if(!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
-                scope.element.style.opacity = '0';
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
                 scope.helper('create');
@@ -426,10 +440,8 @@ const Draggable = function (options, rootSettings) {
                 scope.helper(e)
             })
             .on('dragend', function (e) {
-                scope.element.style.opacity = '1';
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
-
                 scope.helper('remove');
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
                 stop = true;
@@ -598,6 +610,183 @@ class ElementAnalyzerServiceBase {
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/handle-menu.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HandleMenu": () => (/* binding */ HandleMenu)
+/* harmony export */ });
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
+
+const HandleMenu = function(options) {
+
+    this.options = options || {};
+
+    var scope = this;
+
+    this._visible = true;
+    this.visible = function () {
+        return this._visible;
+    };
+
+    this.createWrapper = function() {
+        this.wrapper = document.createElement('div');
+        this.wrapper.id = this.options.id || ('mw-handlemenu-' + new Date().getTime());
+        this.wrapper.className = 'mw-defaults mw-handlemenu-item ' + (this.options.className || 'mw-handlemenu-type-default');
+        this.wrapper.contenteditable = false;
+
+        mw.element(this.wrapper).on('mousedown', function () {
+            this.classList.add('mw-handlemenu-item-mouse-down')
+        });
+        mw.element(document.documentElement).on('mouseup', function () {
+            scope.wrapper.classList.remove('mw-handlemenu-item-mouse-down')
+        });
+        document.body.appendChild(this.wrapper);
+    };
+
+    this.create = function() {
+        this.createWrapper();
+        this.createHandler();
+
+        this.createMenu();
+    };
+
+    this.setTitle = function (icon, title) {
+        this.handleIcon.innerHTML = icon;
+        this.handleTitle.innerHTML = title;
+    };
+
+    this.hide = function () {
+        mw.element(this.wrapper).hide().removeClass('active');
+        this._visible = false;
+        return this;
+    };
+
+    this.show = function () {
+        mw.element(this.wrapper).show();
+        this._visible = true;
+        return this;
+    };
+
+    this.createHandler = function(){
+        this.handle = document.createElement('span');
+        this.handleIcon = document.createElement('span');
+        this.handleTitle = document.createElement('span');
+        this.handle.className = 'mw-handlemenu-handler';
+        this.handleIcon.dataset.tip = 'Drag to rearrange';
+        this.handleIcon.className = 'tip mw-handlemenu-handler-icon';
+        this.handleTitle.className = 'mw-handlemenu-handler-title';
+
+        this.handle.appendChild(this.handleIcon);
+        this.createButtons();
+        this.handle.appendChild(this.handleTitle);
+        this.wrapper.appendChild(this.handle);
+
+        this.handleTitle.onclick = function () {
+            mw.element(scope.wrapper).toggleClass('active');
+        };
+        mw.element(document.body).on('click', function (e) {
+            if(!_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.hasParentWithId(e.target, scope.wrapper.id)){
+                mw.element(scope.wrapper).removeClass('active');
+            }
+        });
+    };
+
+    this.menuButton = function (data) {
+        var btn = document.createElement('span');
+        btn.className = 'mw-handlemenu-menu-item';
+        if(data.icon) {
+            var iconClass = data.icon;
+            if (iconClass.indexOf('mdi-') === 0) {
+                iconClass = 'mdi ' + iconClass
+            }
+            var icon = document.createElement('span');
+            icon.className = iconClass + ' mw-handlemenu-menu-item-icon';
+            btn.appendChild(icon);
+        }
+        btn.appendChild(document.createTextNode(data.title));
+        if(data.className){
+            btn.className += (' ' + data.className);
+        }
+        if(data.id){
+            btn.id = data.id;
+        }
+        if(data.action){
+            btn.onmousedown = function (e) {
+                e.preventDefault();
+            };
+            btn.onclick = function (e) {
+                e.preventDefault();
+                data.action.call(scope, e, this, data);
+                scope.hide()
+            };
+        }
+        return btn;
+    };
+
+    this._defaultButtons = [
+
+    ];
+
+    this.createMenuDynamicHolder = function(item){
+        var dn = document.createElement('div');
+        dn.className = 'mw-handlemenu-menu-dynamic' + (item.className ? ' ' + item.className : '');
+        return dn;
+    };
+    this.createMenu = function(){
+        this.menu = document.createElement('div');
+        this.menu.className = 'mw-handlemenu-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handlemenu-menu-default');
+        if (this.options.menu) {
+            for (var i = 0; i < this.options.menu.length; i++) {
+                if(this.options.menu[i].title !== '{dynamic}') {
+                    this.menu.appendChild(this.menuButton(this.options.menu[i])) ;
+                }
+                else {
+                    this.menu.appendChild(this.createMenuDynamicHolder(this.options.menu[i])) ;
+                }
+
+            }
+        }
+        this.wrapper.appendChild(this.menu);
+    };
+    this.createButton = function(obj){
+        var btn = document.createElement('span');
+        btn.className = 'tip mdi ' + obj.icon + (obj.className ? ' ' + obj.className : '');
+        btn.dataset.tip = obj.title;
+        if (obj.hover) {
+            btn.addEventListener('mouseenter', obj.hover[0] , false);
+            btn.addEventListener('mouseleave', obj.hover[1] , false);
+        }
+        btn.onclick = function () {
+            this.classList.remove('active');
+            obj.action(this);
+            scope.hide();
+        };
+        return btn;
+    };
+
+    this.createButtons = function(){
+        this.buttonsHolder = document.createElement('div');
+        this.buttonsHolder.className = 'mw-handlemenu-buttons';
+        if (this.options.buttons) {
+            for (var i = 0; i < this.options.buttons.length; i++) {
+                this.buttonsHolder.appendChild(this.createButton(this.options.buttons[i])) ;
+            }
+        }
+        this.handle.appendChild(this.buttonsHolder);
+    };
+    this.create();
+    this.hide();
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/liveedit2/handle.js":
 /*!**************************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/handle.js ***!
@@ -647,6 +836,14 @@ const Handle = function (options) {
         _visible = false;
         this.wrapper.addClass('mw-handle-item-hidden');
     };
+    let _content = null;
+    this.setContent = function (content) {
+        if(_content){
+            _content.remove()
+        }
+        _content = content;
+        this.wrapper.append(_content);
+    }
 
 
     this.initDraggable = function () {
@@ -720,11 +917,149 @@ const Handle = function (options) {
     this.createWrapper();
     this.createHandle();
     this.initDraggable();
+    if(this.settings.content) {
+        this.setContent(this.settings.content)
+    }
 
 
 
 
 };
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/handles-content/element.js":
+/*!*******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/handles-content/element.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ElementHandleContent": () => (/* binding */ ElementHandleContent)
+/* harmony export */ });
+/* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
+
+
+const ElementHandleContent = function () {
+    this.root = mw.element();
+    this.menuHolder = mw.element();
+    this.root.append(this.menuHolder)
+
+    this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
+        id: 'mw-handle-item-element',
+        className: 'mw-handle-type-default',
+        buttons: [
+            {
+                title: mw.lang('Insert'),
+                icon: 'mdi-plus-circle',
+                className: 'mw-handle-insert-button',
+                hover: [
+                    function (e){
+                        handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt);
+                    },
+                    function (e){
+                        handleInsertTargetDisplay('hide');
+                    }
+                ],
+                action: function (el) {
+                    if (!mw.tools.hasClass(el, 'active')) {
+                        mw.tools.addClass(el, 'active');
+                        mw.drag.plus.locked = true;
+                        mw.$('.mw-tooltip-insert-module').remove();
+                        mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+
+                        var tooltip = new mw.ToolTip({
+                            content: document.getElementById('plus-modules-list').innerHTML,
+                            element: el,
+                            position: mw.drag.plus.tipPosition(this.currentNode),
+                            template: 'mw-tooltip-default mw-tooltip-insert-module',
+                            id: 'mw-plus-tooltip-selector',
+                            overlay: true
+                        });
+                        tooltip.on('removed', function () {
+                            mw.drag.plus.locked = false;
+                        });
+                        mw._initHandles.hideAll();
+
+                        var tip = tooltip.tooltip.get(0);
+                        setTimeout(function (){
+                            $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+                        }, 10);
+                        mw.tabs({
+                            nav: tip.querySelectorAll('.mw-ui-btn'),
+                            tabs: tip.querySelectorAll('.module-bubble-tab'),
+                        });
+
+                        mw.$('.mw-ui-searchfield', tip).on('input', function () {
+                            var resultsLength = mw.drag.plus.search(this.value, tip);
+                            if (resultsLength === 0) {
+                                mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                            }
+                            else {
+                                mw.$(".module-bubble-tab-not-found-message").hide();
+                            }
+                        });
+                        mw.$('#mw-plus-tooltip-selector li').each(function () {
+                            this.onclick = function () {
+                                var name = mw.$(this).attr('data-module-name');
+                                var conf = { class: this.className };
+                                if(name === 'layout') {
+                                    conf.template = mw.$(this).attr('template');
+                                }
+                                mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                mw.wysiwyg.change(mw._activeElementOver)
+                                tooltip.remove();
+                            };
+                        });
+                    }
+                }
+            }
+        ],
+        menu: [
+            {
+                title: 'Edit HTML',
+                icon: 'mw-icon-code',
+                action: function () {
+                    mw.editSource(mw._activeElementOver);
+                }
+            },
+            {
+                title: 'Edit Style',
+                icon: 'mdi mdi-layers',
+                action: function () {
+                    mw.liveEditSettings.show();
+                    mw.sidebarSettingsTabs.set(3);
+                    if(mw.cssEditorSelector){
+                        mw.liveEditSelector.active(true);
+                        mw.liveEditSelector.select(mw._activeElementOver);
+                    } else {
+                        mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
+                            setTimeout(function(){
+                                mw.liveEditSelector.active(true);
+                                mw.liveEditSelector.select(mw._activeElementOver);
+                            }, 333);
+                        });
+                    }
+                    mw.liveEditWidgets.cssEditorInSidebarAccordion();
+                }
+            },
+            {
+                title: 'Remove',
+                icon: 'mw-icon-bin',
+                className:'mw-handle-remove',
+                action: function () {
+                    mw.drag.delete_element(mw._activeElementOver);
+                    mw.handleElement.hide()
+                }
+            }
+        ]
+    });
+
+    this.menuHolder.append(this.menu.wrapper)
+
+}
 
 
 /***/ }),
@@ -1185,6 +1520,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 /* harmony import */ var _analizer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./analizer */ "./userfiles/modules/microweber/api/liveedit2/analizer.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
+/* harmony import */ var _handles_content_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./handles-content/element */ "./userfiles/modules/microweber/api/liveedit2/handles-content/element.js");
 
 
  
@@ -1193,6 +1529,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ 
  
   // import "./css/liveedit.scss";
 
@@ -1238,8 +1575,11 @@ class LiveEdit {
 
         this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_6__.DropIndicator();
 
+
+        const elementhandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent()
+
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_3__.Handles({
-            element: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator}),
+            element: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementhandleContent.root}),
             module: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
             layout: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
         });

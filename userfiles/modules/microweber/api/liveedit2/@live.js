@@ -7,6 +7,7 @@ import {Handles} from "./handles";
 import {ObjectService} from "./object.service";
 import {DroppableElementAnalyzerService} from "./analizer";
  import {DropIndicator} from "./interact";
+ import {ElementHandleContent} from "./handles-content/element";
   // import "./css/liveedit.scss";
 
 
@@ -51,8 +52,11 @@ export class LiveEdit {
 
         this.dropIndicator = new DropIndicator();
 
+
+        const elementhandleContent = new ElementHandleContent()
+
         this.handles = new Handles({
-            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator}),
+            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementhandleContent.root}),
             module: new Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
             layout: new Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
         });
