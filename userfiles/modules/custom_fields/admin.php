@@ -94,6 +94,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     $('.js-cf-options ').trigger('change');
                 }
 
+
+                function addCustomFieldByExisting(fieldId) {
+
+                    var make_field = {}
+                    make_field.rel_type = '<?php print $for; ?>';
+                    make_field.rel_id = '<?php print $for_id; ?>';
+                    make_field.copy_of = fieldId;
+                //   mw.custom_fields.copy_field_by_id(fieldId, '<?php print $for; ?>', '<?php print $for_id; ?>');
+
+                    mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);
+                    mw_cf_toggle_edit_window()
+                    mw.notification.success("<?php _ejs("Custom fields are saved"); ?>");
+                }
+
+
                 $(document).ready(function () {
                     mw.dropdown();
                     mw.$('.js-cf-options').on('change', function () {
@@ -106,12 +121,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             make_field.rel_id = '<?php print $for_id; ?>';
                             make_field.type = val;
                             mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);
+                            mw_cf_toggle_edit_window()
+                            mw.notification.success("<?php _ejs("Custom fields are saved"); ?>");
                         } else {
-                            mw.custom_fields.copy_field_by_id(copyof, '<?php print $for; ?>', '<?php print $for_id; ?>');
+
+                            // mw.custom_fields.copy_field_by_id(copyof, '<?php print $for; ?>', '<?php print $for_id; ?>');
                         }
                     });
                 });
-
+                mw_cf_toggle_edit_window = function(){
+                    $('#add-field-select').toggleClass('collapse');$(this).parent().toggleClass('card-closed');$(this).find('.d-flex').toggleClass('justify-content-between');
+                }
                 mw_custom_fileds_changed_callback = function (el) {
                     mw.tools.loading('#quick-add-post-options-items-holder-container');
                     mw.reload_module('#mw_custom_fields_list_preview', function () {
@@ -171,7 +191,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </label>
                     <div class="custom-field-edit">
                         <div class="custom-field-edit-header">
-                            <span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span> </span>
+                            <span class="custom-field-edit-title"></span> <span xxonmousedown="mw_cf_toggle_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span> </span>
                         </div>
                         <div class="mw-admin-custom-field-edit-item-wrapper">
                             <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
@@ -195,14 +215,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     if (!empty($name_not_in)) {
                         //$ex['name'] = '[not_in]'.implode(',',$name_not_in);
                     }
-                    //$exiisting_fields = mw()->fields_manager->get_all($ex);
+                    $exiisting_fields = mw()->fields_manager->getAll($ex);
+
+                   // var_dump($exiisting_fields);
                     ?>
 
-                    <?php $exiisting_fields = false; //TODO ?>
+                    <?php  // $exiisting_fields = false; //TODO ?>
 
                     <div>
                         <div class="card mb-3 mt-3 card-closed">
-                            <div class="card-header no-border bg-primary text-white py-1 pl-3" onClick="javascript:$('#add-field-select').toggleClass('collapse');$(this).parent().toggleClass('card-closed');$(this).find('.d-flex').toggleClass('justify-content-between');">
+                            <div class="card-header no-border bg-primary text-white py-1 pl-3" onClick="javascript:mw_cf_toggle_edit_window()">
                                 <div class="d-flex align-items-center w-100">
                                     <i class="mdi mdi-plus mdi-20px mr-2"></i>
                                     <span><?php _e("Add new field"); ?></span>
@@ -210,16 +232,30 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                             <div class="card-body collapse" id="add-field-select">
                                 <div class="custom-fields-add-buttons">
+
+                                    Existing fields
+<div class="row" style="background: gray">
                                     <?php if (is_array($exiisting_fields)): ?>
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button type="button" class="btn btn-link text-dark px-1"  onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
+                                            <button type="button" class="btn btn-link text-dark px-1"   onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
                                                 <div>
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
                                                     <span class="mw-custom-field-title text-break-line-1 small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
                                                 </div>
                                             </button>
                                         <?php endforeach; ?>
+
+
+                                    <hr>
+</div>
                                     <?php endif; ?>
+
+<br>
+
+                                    Add new fields
+
+
+
 
                                     <?php foreach ($fields as $field => $value): ?>
                                         <button type="button" class="btn btn-link text-dark px-1"  onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
