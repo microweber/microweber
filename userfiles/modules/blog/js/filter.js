@@ -302,10 +302,14 @@ class ContentFilter {
             filterInstance.applyFilters(redirectFilterUrl);
         });
 
-        // Categories
+        // Categories as link
         $('body').on('click', '.js-filter-category-link', function(e) {
-            e.preventDefault();
 
+            if (typeof $(this).attr('href') == "undefined") {
+                return;
+            }
+
+            e.preventDefault();
             var targetPageNum = $(this).attr('href').split('category=')[1];
             var queryParams = [];
             queryParams.push({
@@ -313,6 +317,11 @@ class ContentFilter {
                 value:targetPageNum
             });
             filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
+
+        });
+
+        // Categories as checkbox,select,radio
+        $('body').on('change', '.js-filter-category-option-select', function(e) {
 
         });
 
