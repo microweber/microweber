@@ -89,6 +89,8 @@
       <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Color"); ?></label>
        <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the color');?></small>
 
+        <input type="hidden" name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>" />
+
         <div class="row">
             <div class="col-4">
             <select class="form-control js-color-input-method-type">
@@ -99,7 +101,7 @@
             </div>
               <div class="col-8">
                   <div class="js-color-input-method-picker">
-                      <input type="text" class="form-control" name="value" autocomplete="off" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
+                      <input type="text" class="form-control" autocomplete="off" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
                   </div>
                   <div class="js-color-input-method-color-palette">
                       <select class="selectpicker" data-live-search="true" style="width:100%;">
