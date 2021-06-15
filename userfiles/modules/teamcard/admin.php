@@ -200,6 +200,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             </span>
                                                 </div>
                                                 <input type="hidden" class="teamcard-id" value="<?php print array_get($slide, 'id'); ?>">
+                                                <input type="hidden" class="teamcard-file" value="<?php print array_get($slide, 'file'); ?>">
                                             </div>
                                         </div>
 
@@ -208,13 +209,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 <div class="mw-ui-col">
                                                     <div class="mw-ui-col-container">
                                                         <label class="control-label"><?php _e('Name'); ?></label>
-                                                        <input type="text" class="form-control" value="<?php print array_get($slide, 'name'); ?>">
+                                                        <input type="text" class="teamcard-name form-control" value="<?php print array_get($slide, 'name'); ?>">
                                                     </div>
                                                 </div>
                                                 <div class="mw-ui-col">
                                                     <div class="mw-ui-col-container">
                                                         <label class="control-label"><?php _e('Position'); ?></label>
-                                                        <input type="text" class="form-control" value="<?php print array_get($slide, 'role'); ?>">
+                                                        <input type="text" class="teamcard-role form-control" value="<?php print array_get($slide, 'role'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,7 +223,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                         <div class="mw-ui-field-holder">
                                             <label class="control-label"><?php _e('Biography'); ?></label>
-                                            <textarea class="form-control"><?php print array_get($slide, 'bio'); ?></textarea>
+                                            <textarea class="form-control teamcard-bio"><?php print array_get($slide, 'bio'); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
