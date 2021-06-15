@@ -63,6 +63,16 @@ trait ContentDataTrait
         }
     }
 
+    public function getContentDataByFieldName($name) {
+        foreach($this->contentData as $contentDataRow) {
+            if($contentDataRow->field_name == $name) {
+                return $contentDataRow->field_value;
+            }
+        }
+
+        return null;
+    }
+
     public function getContentData($values = [])
     {
         $res = [];
