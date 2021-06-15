@@ -201,7 +201,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="card-body collapse" id="add-field-select">
                                 <div class="custom-fields-add-buttons">
                                     <label class="control-label"><?php _e(" Existing fields"); ?></label>
-                                    <small class="d-block mb-2"><?php _e("Choose from your existing fields bellow"); ?></small>
+                                    <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
 
                                     <div class="row">
                                         <?php if (is_array($exiisting_fields)): ?>
@@ -217,7 +217,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <hr>
                                     <?php endif; ?>
                                     <label class="control-label"><?php _e(" Add new fields"); ?></label>
-                                    <small class="d-block mb-2"><?php _e("Add new custom field from list bellow"); ?></small>
+                                    <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
 
                                     <?php foreach ($fields as $field => $value): ?>
                                         <button type="button" class="btn btn-link text-dark px-1"
