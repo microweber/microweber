@@ -1,5 +1,5 @@
 <?php
-
+namespace MicroweberPackages\Content;
 
 class ContentData extends DataFields
 {
