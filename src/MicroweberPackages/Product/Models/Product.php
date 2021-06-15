@@ -131,17 +131,6 @@ class Product extends Content
         return null;
     }
 
-    private function fetchSingleContentDataByName($name)
-    {
-        foreach($this->contentData as $contentDataRow) {
-            if($contentDataRow->field_name == $name) {
-                return $contentDataRow->field_value;
-            }
-        }
-
-        return null;
-    }
-
     public function getPriceAttribute()
     {
         return $this->fetchSingleAttributeByType('price');
@@ -154,12 +143,12 @@ class Product extends Content
 
     public function getQtyAttribute()
     {
-        return $this->fetchSingleContentDataByName('qty');
+        return $this->getContentDataByFieldName('qty');
     }
 
     public function getSkuAttribute()
     {
-        return $this->fetchSingleContentDataByName('sku');
+        return $this->getContentDataByFieldName('sku');
     }
 
     public function getContentData($values = [])

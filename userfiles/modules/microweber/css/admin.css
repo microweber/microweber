@@ -430,3 +430,7 @@ div.form-control {
 .card-closed .card-header:after {
     display: none;
 }
+
+.content-title-field-row .card-header:after{
+    border: none!important;
+}

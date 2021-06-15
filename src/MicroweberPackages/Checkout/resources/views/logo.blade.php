@@ -2,7 +2,7 @@
     $logo = get_option('logo', 'website');
 @endphp
 @if(empty($logo))
-    <div class="text-uppercase">
+    <div>
         <h4><a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a></h4>
     </div>
 @else

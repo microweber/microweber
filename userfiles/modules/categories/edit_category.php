@@ -552,6 +552,12 @@ if (isset($params['live_edit'])) {
                                     id="mw-cat-pics-admin"/>
                         </div>
 
+                        <?php if (isset($data['id'])): ?>
+                            <div class="col-md-12">
+                                <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="col-12">
                             <label class="control-label"><?php _e("Other settings"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
@@ -665,11 +671,6 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
 
-                                    <?php if (isset($data['id'])): ?>
-                                        <div class="col-md-12">
-                                            <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 <?php
-
+namespace MicroweberPackages\Content;
 
 class ContentFields extends \MicroweberPackages\Database\BaseModel
 {
