@@ -25,7 +25,7 @@ class BlogController extends ModuleFrontController
             'moduleId'=>$moduleId
         ]);
 
-        return view( 'blog::index', [
+        return $this->view( 'blog::index', [
             'posts'=>$postResults,
             'moduleId'=>$moduleId
         ]);
