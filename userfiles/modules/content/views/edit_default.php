@@ -240,7 +240,7 @@ if (isset($params['quick_edit'])) {
 
         <div class="row">
             <div class="col-md-8 manage-content-body">
-                <div class="card style-1 mb-3" id="content-title-field-row">
+                <div class="card style-1 mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">
                             <?php

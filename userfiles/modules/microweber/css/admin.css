@@ -429,3 +429,12 @@ div.form-control {
 .card-closed .card-header:after {
     display: none;
 }
+
+
+.card .card-header:after {
+    border: none;
+}
+
+.card.style-1 .card-header:after {
+    border: none;
+}
