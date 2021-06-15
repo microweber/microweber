@@ -64,12 +64,12 @@ class Post extends Content
         return $this->content;
     }
 
-    public function getShortDescriptionAttribute($limit = 224)
+    public function shortDescription($limit = 224)
     {
         $shortDescription = $this->content;
         $shortDescription = strip_tags($shortDescription);
         $shortDescription = trim($shortDescription);
-        $shortDescription = str_limit($shortDescription, $limit); 
+        $shortDescription = str_limit($shortDescription, $limit);
 
         return $shortDescription;
     }
