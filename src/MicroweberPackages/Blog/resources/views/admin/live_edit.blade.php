@@ -268,7 +268,6 @@
             </div>
 
             <div class="tab-pane fade" id="templates">
-                xx
                 <module type="admin/modules/templates" parent-module="blog" parent-module-id="{{$moduleId}}" />
             </div>
         </div>
