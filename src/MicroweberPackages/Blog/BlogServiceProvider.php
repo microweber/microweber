@@ -23,13 +23,13 @@ class BlogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Allow to overwrite resource files for this module
+    /*    // Allow to overwrite resource files for this module
         $checkForOverwrite = template_dir() . 'modules/blog/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
 
         if (is_dir($checkForOverwrite)) {
             View::addNamespace('blog', $checkForOverwrite);
-        }
+        }*/
 
         $mainFolder = (__DIR__) . '/resources/views';
         $mainFolder = normalize_path($mainFolder);
