@@ -247,10 +247,7 @@ class ContentFilter {
 
             redirectFilterUrl = redirectFilterUrl.filter(function(e) {
                 var elementKey = e.key;
-                if (elementKey.indexOf("filters[")) {
-                    return true;
-                }
-                if (elementKey.indexOf("categories[")) {
+                if (!elementKey.contains("filters[") && !elementKey.contains("categories[")) {
                     return true;
                 }
             });
@@ -263,7 +260,6 @@ class ContentFilter {
                 }
                 if (addToUrl) {
                     var fieldName = field.name;
-                    //  console.log(fieldName);
                     if (fieldName.indexOf("[]")) {
                         redirectFilterUrl.push({key: field.name, value: field.value});
                     } else {
@@ -286,22 +282,15 @@ class ContentFilter {
                $('.js-filter-search-field').trigger('change');
             }
         });
-
         $('body').on('submit', '.js-filter-search-submit', function(e) {
-
             $(this).attr('disabled','disabled');
-
             $('.js-filter-search-field').trigger('change');
         });
-
         $('body').on('change', '.js-filter-search-field', function(e) {
-
             $(this).attr('disabled','disabled');
-
             var redirectFilterUrl = getUrlAsArray();
             redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'search', $('.js-filter-search-field').val());
             redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
-
             filterInstance.applyFilters(redirectFilterUrl);
         });
 

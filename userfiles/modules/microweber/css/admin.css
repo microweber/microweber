@@ -391,3 +391,41 @@ div.form-control {
     content: '\F0826';
 
 }
+
+.custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
+    font-size: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.custom-fields-add-buttons button .mw-custom-field-title text-break-line-1 {
+    font-size: 12px;
+}
+
+.custom-fields-add-buttons button {
+    width: 20%;
+    text-align: center;
+    display: block;
+    float: left;
+}
+
+.custom-fields-add-buttons button:hover {
+    background: #f2f3f5;
+}
+
+.card-closed {
+    width: auto !important;
+    display: inline-block;
+}
+
+.card .card-header {
+    /*cursor: pointer;*/
+}
+
+.card-closed .card-header:first-child {
+    border-radius: 10px;
+}
+
+.card-closed .card-header:after {
+    display: none;
+}
