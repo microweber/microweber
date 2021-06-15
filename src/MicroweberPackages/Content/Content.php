@@ -77,8 +77,6 @@ class Content extends Model
         return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
     }
 
-
-
     public function modelFilter()
     {
         return $this->provideFilter(ContentFilter::class);

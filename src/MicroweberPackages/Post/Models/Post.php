@@ -59,6 +59,21 @@ class Post extends Content
         static::addGlobalScope(new PostScope());
     }
 
+    public function getDescriptionAttribute()
+    {
+        return $this->content;
+    }
+
+    public function getShortDescriptionAttribute()
+    {
+        $shortDescription = $this->content;
+        $shortDescription = strip_tags($shortDescription);
+        $shortDescription = trim($shortDescription);
+        $shortDescription = str_limit($shortDescription,224);
+
+        return $shortDescription;
+    }
+
     public function scopeFrontendFilter($query, $params)
     {
         $filter = new BlogFilter();
