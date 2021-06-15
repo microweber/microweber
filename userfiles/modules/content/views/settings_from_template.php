@@ -57,7 +57,7 @@ if (!empty($template_config)) {
                             }
 
                             ?>
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label> <?php _e($title); ?></label>
                                 <?php if ($help) { ?>
                                     <small class="text-muted d-block mb-2"><?php _e($help); ?></small>
