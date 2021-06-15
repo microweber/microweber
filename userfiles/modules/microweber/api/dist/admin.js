@@ -12454,15 +12454,15 @@ mw.tabs = function (obj, element, model) {
             if (target) {
                 scope.settings.element = target;
             }
-            var el = mw.$(scope.settings.element);
+            var el = mw.element(scope.settings.element);
             if (el.length === 0) {
                 return false;
             }
             var tooltip = this.tooltip.get(0);
             var w = el.outerWidth(),
-                tipwidth = mw.$(tooltip).outerWidth(),
+                tipwidth = tooltip.offsetWidth,
                 h = el.outerHeight(),
-                tipheight = mw.$(tooltip).outerHeight(),
+                tipheight = tooltip.offsetHeight,
                 off = el.offset();
             if (off.top === 0 && off.left === 0) {
                 off = el.parent().offset();
@@ -18009,6 +18009,7 @@ mw.treeTags = mw.treeChips = function(options){
                 _tempRender: true,
                 filterRemoteURL: null,
                 filterRemoteKey: 'keyword',
+                toggleSelect: true
             };
 
 
@@ -18212,7 +18213,7 @@ mw.treeTags = mw.treeChips = function(options){
             var data = [];
             mw.$( 'li.' + this.options.openedClass, this.list  ).each(function(){
                 if(this._data) {
-                    data.push({type:this._data.type, id:this._data.id})
+                    data.push({type:this._data.type, id:this._data.id});
                 }
             });
 

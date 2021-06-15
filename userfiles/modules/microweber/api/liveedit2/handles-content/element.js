@@ -1,10 +1,11 @@
 import {HandleMenu} from "../handle-menu";
 
 export const ElementHandleContent = function () {
-    this.root = mw.element();
-    this.menuHolder = mw.element();
-    this.root.append(this.menuHolder)
-
+    this.root = mw.element({
+        props: {
+            id: 'mw-handle-item-element-root'
+        }
+    });
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element',
         className: 'mw-handle-type-default',
@@ -115,6 +116,8 @@ export const ElementHandleContent = function () {
         ]
     });
 
-    this.menuHolder.append(this.menu.wrapper)
+    this.menu.show()
+
+    this.root.append(this.menu.wrapper)
 
 }

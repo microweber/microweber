@@ -53,10 +53,10 @@ export class LiveEdit {
         this.dropIndicator = new DropIndicator();
 
 
-        const elementhandleContent = new ElementHandleContent()
+        const elementHandleContent = new ElementHandleContent()
 
         this.handles = new Handles({
-            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementhandleContent.root}),
+            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementHandleContent.root}),
             module: new Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
             layout: new Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
         });

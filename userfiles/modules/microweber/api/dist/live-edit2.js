@@ -943,10 +943,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ElementHandleContent = function () {
-    this.root = mw.element();
-    this.menuHolder = mw.element();
-    this.root.append(this.menuHolder)
-
+    this.root = mw.element({
+        props: {
+            id: 'mw-handle-item-element-root'
+        }
+    });
     this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
         id: 'mw-handle-item-element',
         className: 'mw-handle-type-default',
@@ -1057,7 +1058,9 @@ const ElementHandleContent = function () {
         ]
     });
 
-    this.menuHolder.append(this.menu.wrapper)
+    this.menu.show()
+
+    this.root.append(this.menu.wrapper)
 
 }
 
@@ -1576,10 +1579,10 @@ class LiveEdit {
         this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_6__.DropIndicator();
 
 
-        const elementhandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent()
+        const elementHandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent()
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_3__.Handles({
-            element: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementhandleContent.root}),
+            element: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementHandleContent.root}),
             module: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
             layout: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
         });

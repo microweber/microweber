@@ -92,9 +92,26 @@
   position: absolute;
   z-index: 9;
   cursor: grab;
-  border: 2px solid #0a53be;
+  border: 1px solid #0078ff;
   transition: opacity 0.2s;
   pointer-events: none;
+  /*    .mw-handle-item-handle{
+          &:after{
+              content: '|||';
+              display: block;
+              color: #fff;
+              padding: 5px;
+          }
+          width: 30px;
+          height: 30px;
+          background: #1a73b4;
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          cursor: grab;
+          pointer-events: all;
+      }*/
 }
 .mw-handle-item.mw-handle-item-dragging {
   border-color: transparent;
@@ -106,22 +123,8 @@
   opacity: 0;
   visibility: hidden;
 }
-.mw-handle-item .mw-handle-item-handle {
-  width: 30px;
-  height: 30px;
-  background: #1a73b4;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: grab;
+.mw-handle-item .mw-handlemenu-item {
   pointer-events: all;
-}
-.mw-handle-item .mw-handle-item-handle:after {
-  content: "|||";
-  display: block;
-  color: #fff;
-  padding: 5px;
 }
 
 .mw-draggable-helper {
@@ -129,6 +132,44 @@
   z-index: 10;
   background-color: rgba(119, 117, 117, 0.49);
   pointer-events: none;
+}
+
+/*  Handles content  */
+.mw-handlemenu-item {
+  position: absolute;
+  height: 42px;
+  border-radius: 3px;
+  border: 1px solid #e5e5e5;
+  padding: 3px 12px;
+  display: inline-flex;
+  align-items: center;
+  background-color: #fff;
+  pointer-events: all;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+#mw-handle-item-element-root .mw-handlemenu-item {
+  top: -49px;
+  left: -1px;
+}
+
+.mw-handlemenu-buttons {
+  display: inline-block;
+}
+.mw-handlemenu-buttons > span {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  font-size: 19px;
+}
+.mw-handlemenu-buttons > span:hover {
+  background-color: #e9e9e9;
 }
 
 .mw-element-is-dragged {
