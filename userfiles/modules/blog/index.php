@@ -13,7 +13,7 @@ if ($moduleTemplate != false) {
 if ($templateFile) {
     $templateDir = dirname($templateFile);
     if (is_dir($templateDir)) {
-        View::replaceNamespace('blog', $templateDir);
+        View::prependNamespace('blog', $templateDir);
     }
 }
 
