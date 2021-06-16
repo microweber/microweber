@@ -35,7 +35,6 @@ if (!empty($template_config)) {
                 <small class="text-muted"><?php _e("Best product labels examples are: Sale, Promo, Top Offer etc."); ?></small>
                 <hr class="thin no-padding">
                 <div class="row">
-                    <div class="col-12 d-flex">
                         <?php foreach ($data_fields_conf as $item): ?>
                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
@@ -57,7 +56,7 @@ if (!empty($template_config)) {
                             }
 
                             ?>
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label> <?php _e($title); ?></label>
                                 <?php if ($help) { ?>
                                     <small class="text-muted d-block mb-2"><?php _e($help); ?></small>
@@ -113,7 +112,6 @@ if (!empty($template_config)) {
                                 <?php } ?>
                             </div>
                         <?php endforeach; ?>
-                    </div>
                 </div>
             </div>
         </div>
