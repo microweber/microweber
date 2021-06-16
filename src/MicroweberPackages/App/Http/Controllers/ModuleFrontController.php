@@ -51,7 +51,7 @@ class ModuleFrontController
         }
 
        // define($this->moduleParams['id'], true);
-        define(11, true);
+        //define(11, true);
 
       //  dd(view()->getFinder()->getHints());
     }

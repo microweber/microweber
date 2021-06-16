@@ -11,5 +11,3 @@ $controller->setModuleConfig($config);
 $controller->registerModule();
 
 echo $controller->index($request);
-
-
