@@ -1,5 +1,5 @@
 <div class="form-group d-flex">
-    <label class="control-label align-self-center mr-2"><?php _e('Limit');?></label>
+    <label class="control-label align-self-center me-2"><?php _e('Limit');?></label>
     <select class="form-control js-filter-change-limit">
         <option value=""><?php _e('Select');?></option>
         @foreach($options as $option)
