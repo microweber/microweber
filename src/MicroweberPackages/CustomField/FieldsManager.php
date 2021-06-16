@@ -278,7 +278,7 @@ class FieldsManager
                 $this->app->option_manager->save($option);*/
 
                 if ($pos > 0) {
-                    $this->app->cache_manager->delete('custom_fields'); 
+                    $this->app->cache_manager->delete('custom_fields');
                 }
             }
         }
