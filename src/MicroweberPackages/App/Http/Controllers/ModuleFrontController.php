@@ -23,6 +23,33 @@ class ModuleFrontController
         $this->moduleConfig = $config;
     }
 
+    public function registerModule()
+    {
+        $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
+        /* if (isset($this->moduleParams['default-template'])) {
+             $defaultTemplate = $this->moduleParams['default-template'];
+         }*/
+
+        if ($moduleTemplate != false) {
+            $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
+        } else {
+            $templateFile = module_templates($this->moduleConfig['module'], 'default');
+        }
+
+        if ($templateFile) {
+            $templateDir = dirname($templateFile);
+            if (is_dir($templateDir)) {
+
+                $defaultDir = dirname($templateDir) . DS . 'default';
+                if (is_dir($defaultDir)) {
+                    view()->replaceNamespace($this->moduleConfig['module'], $defaultDir);
+                }
+
+                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+            }
+        }
+    }
+
     public function view($view = false, $data = [], $return = false)
     {
         /*if (method_exists($this, 'appendContentSchemaOrg')) {
@@ -41,30 +68,6 @@ class ModuleFrontController
 
         $this->viewData['params'] = $this->moduleParams;
         $this->viewData['config'] = $this->moduleConfig;
-
-        $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-       /* if (isset($this->moduleParams['default-template'])) {
-            $defaultTemplate = $this->moduleParams['default-template'];
-        }*/
-
-        if ($moduleTemplate != false) {
-            $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
-        } else {
-            $templateFile = module_templates($this->moduleConfig['module'], 'default');
-        }
-
-        if ($templateFile) {
-            $templateDir = dirname($templateFile);
-            if (is_dir($templateDir)) {
-
-                $defaultDir = dirname($templateDir) . DS . 'default';
-                if (is_dir($defaultDir)) {
-                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
-                }
-
-                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
-            }
-        }
 
         if (strpos($view, '::') !== false) {
             return view($view, $this->viewData);

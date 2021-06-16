@@ -8,6 +8,6 @@ $request->merge($_REQUEST);
 
 $controller->setModuleParams($params);
 $controller->setModuleConfig($config);
+$controller->registerModule();
 
 echo $controller->index($request);
-

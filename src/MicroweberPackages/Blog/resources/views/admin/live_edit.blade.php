@@ -267,7 +267,7 @@
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="templates">
+            <div class="tab-pane fade" id="templates">{{$moduleId}}
                 <module type="admin/modules/templates" parent-module="blog" parent-module-id="{{$moduleId}}" />
             </div>
         </div>
