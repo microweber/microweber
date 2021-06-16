@@ -43,7 +43,7 @@ class ModuleFrontController
         $this->viewData['config'] = $this->moduleConfig;
 
         $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-        if ($moduleTemplate == false and isset($this->moduleParams['template'])) {
+        if (isset($this->moduleParams['template'])) {
             $moduleTemplate = $this->moduleParams['template'];
         }
 
