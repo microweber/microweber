@@ -314,16 +314,15 @@ class Parser
 
 
 //
+             if ($coming_from_parent) {
+                $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
+                if ($more) {
+                    // bug ?
 
 
-            $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
-            if ($more) {
-                // bug ?
-
-
-                 $layout = $this->_replace_editable_fields($layout);
+                    $layout = $this->_replace_editable_fields($layout,false,$coming_from_parent);
+                }
             }
-
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
             $layout = str_replace('</microweber>', '', $layout);
             $layout = str_replace('></module>', '/>', $layout);
@@ -2084,29 +2083,43 @@ class Parser
     }
     public $module_registry = array();
     public $module_load_registry = array();
+    public $module_load_registry_is_loaded = array();
 
     public function load($module_name, $attrs = array())
     {
 
 
+        //   $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
+        $mod_id_value = $attrs['id'];
+        //$mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
 
+//if(isset($attrs['id'])){
+//    $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
+//    dd($attrs);
+//
+//}
 
-        $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
         $that = $this;
         if (isset($that->module_load_registry[$mod_id_value])) {
+            //  dd($this->module_load_registry_is_loaded);
+            //dd(11111111111);
+            return $that->module_load_registry[$mod_id_value];
+        }
+
+        if (isset($that->module_load_registry_is_loaded[$mod_id_value])) {
             return $that->module_load_registry[$mod_id_value];
         }
 
         if ($this->debugbarEnabled) {
-            \Debugbar::startMeasure('render_module_'.$module_name, 'Rendering '.$module_name);
+            \Debugbar::startMeasure('render_module_' . $module_name, 'Rendering ' . $module_name);
         }
 
-        
 
         $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
+        $that->module_load_registry_is_loaded[$mod_id_value] = 1;
 
         if ($this->debugbarEnabled) {
-            \Debugbar::stopMeasure('render_module_'.$module_name,$attrs);
+            \Debugbar::stopMeasure('render_module_' . $module_name, $attrs);
         }
 
 
@@ -2855,7 +2868,6 @@ $srsc_str
 
     private function _do_we_have_more_for_parse($mod_content)
     {
-
         $proceed_with_parse = false;
 
         if ($this->_do_we_have_more_edit_fields_for_parse($mod_content)) {
