@@ -143,7 +143,7 @@ class FieldsManager
 
         $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
+      //  $is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
 
         $make_field = array();
 
@@ -155,9 +155,9 @@ class FieldsManager
             return $_mw_made_default_fields_register[$function_cache_id];
         }
 
-        if ($is_made) {
+       /* if ($is_made) {
             return;
-        }
+        }*/
 
         /* if (is_array($is_made) and !empty($is_made)) {
              return;
@@ -270,14 +270,15 @@ class FieldsManager
                     }
                 }
 
-                $option = array();
+            /*    $option = array();
                 $option['option_value'] = true;
                 $option['option_key'] = $function_cache_id;
                 $option['option_group'] = 'make_default_custom_fields';
 
-                $this->app->option_manager->save($option);
+                $this->app->option_manager->save($option);*/
+
                 if ($pos > 0) {
-                    $this->app->cache_manager->delete('custom_fields');
+                    $this->app->cache_manager->delete('custom_fields'); 
                 }
             }
         }
