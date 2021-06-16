@@ -56,6 +56,7 @@ class ModuleFrontController
         if ($templateFile) {
             $templateDir = dirname($templateFile);
             if (is_dir($templateDir)) {
+
                 $defaultDir = dirname($templateDir) . DS . 'default';
                 if (is_dir($defaultDir)) {
                     view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
