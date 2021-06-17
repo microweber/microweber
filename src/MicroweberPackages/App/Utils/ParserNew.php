@@ -36,10 +36,13 @@ class Parser
     }
 
     public function _preg_match_module_tags($layout) {
+
         preg_match_all('/<module[^>]*>/Uis', $layout, $module_tags);
+
         if (empty($module_tags[0])) {
             return false;
         }
+
         return $module_tags[0];
     }
 
