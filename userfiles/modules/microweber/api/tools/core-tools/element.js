@@ -3,6 +3,7 @@
     var MWElement = function(options, root){
         var scope = this;
 
+        this.isMWElement = true;
 
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
