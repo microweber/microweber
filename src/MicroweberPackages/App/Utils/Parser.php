@@ -2089,9 +2089,10 @@ class Parser
     {
 
 
+
         //   $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
-        $mod_id_value = $attrs['id'];
-        //$mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
+     //   $mod_id_value = $attrs['id'];
+       $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
 
 //if(isset($attrs['id'])){
 //    $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
