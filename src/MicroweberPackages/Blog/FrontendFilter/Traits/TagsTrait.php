@@ -40,10 +40,9 @@ trait TagsTrait {
             return false;
         }
 
-        $tags = [];
-
         $fullUrl = URL::current();
         $category = $this->request->get('category');
+        $tagsRequest = $this->request->get('tags', []);
 
         foreach ($this->allTagsForResults as $tag) {
             $buildLink = [];
@@ -54,13 +53,13 @@ trait TagsTrait {
             $buildLink = http_build_query($buildLink);
 
             $active = false;
-            if ($this->request->get('tags', false) == $tag->slug) {
+            if (in_array($tag->slug, $tagsRequest)) {
                 $active = true;
             }
 
             $tag->active = $active;
-
             $tag->url = $fullUrl .'?'. $buildLink;
+
             $tags[$tag->slug] = $tag;
         }
 
