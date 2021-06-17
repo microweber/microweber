@@ -23,6 +23,39 @@ class ModuleFrontController
         $this->moduleConfig = $config;
     }
 
+    public function registerModule()
+    {
+        $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
+
+        // if (isset($this->moduleParams['default-template'])) {
+      //       $defaultTemplate = $this->moduleParams['default-template'];
+       //  }
+
+        if ($moduleTemplate != false) {
+            $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
+        } else {
+            $templateFile = module_templates($this->moduleConfig['module'], 'default');
+        }
+
+        if ($templateFile) {
+            $templateDir = dirname($templateFile);
+            if (is_dir($templateDir)) {
+
+                $defaultDir = dirname($templateDir) . DS . 'default';
+                if (is_dir($defaultDir)) {
+                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
+                }
+
+                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+            }
+        }
+
+       // define($this->moduleParams['id'], true);
+        //define(11, true);
+
+      //  dd(view()->getFinder()->getHints());
+    }
+
     public function view($view = false, $data = [], $return = false)
     {
         /*if (method_exists($this, 'appendContentSchemaOrg')) {
@@ -42,27 +75,12 @@ class ModuleFrontController
         $this->viewData['params'] = $this->moduleParams;
         $this->viewData['config'] = $this->moduleConfig;
 
-        $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-        if ($moduleTemplate == false and isset($this->moduleParams['template'])) {
-            $moduleTemplate = $this->moduleParams['template'];
-        }
-
-        if ($moduleTemplate != false) {
-            $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
-        } else {
-            $templateFile = module_templates($this->moduleConfig['module'], 'default');
-        }
-
         if (strpos($view, '::') !== false) {
             return view($view, $this->viewData);
         } else {
-
-            view()->addNamespace($this->moduleConfig['module'], dirname($templateFile));
-
             if ($view) {
                 return view($this->moduleConfig['module'] . '::' . $view, $this->viewData);
             }
-
             return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
         }
     }
