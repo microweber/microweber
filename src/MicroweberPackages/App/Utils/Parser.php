@@ -314,7 +314,7 @@ class Parser
 
 
 //
-             if ($coming_from_parent) {
+         // if ($coming_from_parent) {
                 $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
                 if ($more) {
                     // bug ?
@@ -322,7 +322,7 @@ class Parser
 
                     $layout = $this->_replace_editable_fields($layout,false,$coming_from_parent);
                 }
-            }
+     //  }
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
             $layout = str_replace('</microweber>', '', $layout);
             $layout = str_replace('></module>', '/>', $layout);
@@ -2869,15 +2869,68 @@ $srsc_str
 
     private function _do_we_have_more_for_parse($mod_content)
     {
+
+
         $proceed_with_parse = false;
 
         if ($this->_do_we_have_more_edit_fields_for_parse($mod_content)) {
             $proceed_with_parse = true;
         } else {
+            $has_not_found = true;
+            $has_found = true;
+
+            $script_pattern = '/<module[^>]*>/Uis';
+            preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+            if (!empty($mw_script_matches)) {
+                $matches1 = $mw_script_matches[0];
+                foreach ($matches1 as $key => $value) {
+                    if ($value != '') {
+                        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+                        $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+
+                        $attrs = array();
+                        $attrs = array();
+                        if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+                            foreach ($attrs1 as $item) {
+                                $m_tag = trim($item[0], "\x22\x27");
+                                $m_tag = trim($m_tag, "\x27\x22");
+                                $m_tag = preg_replace('/=/', $mw_attrs_key_value_seperator, $m_tag, 1);
+
+
+                                $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
+
+                                $a = trim($m_tag[0], "''");
+                                $a = trim($a, '""');
+                                $b = trim($m_tag[1], "''");
+                                $b = trim($b, '""');
+                                if (isset($m_tag[2])) {
+                                    $rest_pieces = $m_tag;
+                                    if (isset($rest_pieces[0])) {
+                                        unset($rest_pieces[0]);
+                                    }
+                                    if (isset($rest_pieces[1])) {
+                                        unset($rest_pieces[1]);
+                                    }
+                                    $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
+                                    $b = $b . $rest_pieces;
+                                }
+
+                                $attrs[$a] = $b;
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
             preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
             if (!empty($modinner) and isset($modinner[0][0])) {
 
                 $proceed_with_parse = true;
+
+
             }
 
 
