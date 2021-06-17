@@ -95,7 +95,7 @@
                             </div>
 
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-limit">
                                 <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-search">
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -166,17 +166,17 @@
                                     <div class="card-body">
                                         <strong><?php _e("Filtering the results"); ?></strong>
 
-                                        <div class="custom-control custom-checkbox mt-3">
+                                        <div class="custom-control custom-checkbox mt-3 js-filtering-by-tags">
                                             <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
                                             <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox js-filtering-by-categories">
                                             <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
                                             <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
                                             <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
                                             <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                         </div>
@@ -184,8 +184,6 @@
                                         <div class="js-filterting-custom-fields-settings" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
                                             <div class="card">
                                                 <div class="card-body">
-
-
 
                                             <div class="form-group">
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
