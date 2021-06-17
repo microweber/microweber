@@ -95,7 +95,7 @@
                             </div>
 
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-limit">
                                 <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="form-group col-4 js-filtering-allow-search">
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -184,8 +184,6 @@
                                         <div class="js-filterting-custom-fields-settings" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
                                             <div class="card">
                                                 <div class="card-body">
-
-
 
                                             <div class="form-group">
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
