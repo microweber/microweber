@@ -166,17 +166,17 @@
                                     <div class="card-body">
                                         <strong><?php _e("Filtering the results"); ?></strong>
 
-                                        <div class="custom-control custom-checkbox mt-3">
+                                        <div class="custom-control custom-checkbox mt-3 js-filtering-by-tags">
                                             <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
                                             <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox js-filtering-by-categories">
                                             <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
                                             <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
                                             <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
                                             <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                         </div>
