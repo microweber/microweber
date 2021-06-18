@@ -30,7 +30,7 @@
                         @else
                     <div class="form-row row">
 
-                        <div class="form-group col-12">
+                        <div class="mb-3 col-12">
                             <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control js-filtering-from-content-id" data-width="100%" data-size="5" data-live-search="true">
                                 <option value=""><?php echo _e("Select page", true); ?></option>
@@ -83,7 +83,7 @@
                                 }
                             </script>
 
-                            <div class="form-group col-4">
+                            <div class="mb-3 col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -95,7 +95,7 @@
                             </div>
 
 
-                            <div class="form-group col-4">
+                            <div class="mb-3 col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="mb-3 col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="mb-3 col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4">
+                            <div class="mb-3 col-4">
                                 <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
@@ -187,7 +187,7 @@
 
 
 
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
                                                 <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
                                                     <option <?php if (get_option('filtering_when', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
