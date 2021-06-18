@@ -78,7 +78,7 @@ class Parser
     {
 
         if (isset($_GET['new_parser'])) {
-            $new = new \MicroweberPackages\App\Parser\Parser(); 
+            $new = new \MicroweberPackages\App\Parser\Parser();
             return $new->process($layout);
         }
 

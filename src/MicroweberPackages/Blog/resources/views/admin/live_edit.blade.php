@@ -30,7 +30,7 @@
                         @else
                     <div class="form-row row">
 
-                        <div class="mb-3 col-12">
+                        <div class="form-group col-12">
                             <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control js-filtering-from-content-id" data-width="100%" data-size="5" data-live-search="true">
                                 <option value=""><?php echo _e("Select page", true); ?></option>
@@ -83,7 +83,7 @@
                                 }
                             </script>
 
-                            <div class="mb-3 col-4">
+                            <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -91,15 +91,11 @@
                                     <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
                                            autocomplete="off" name="disable_pagination" <?php if (!get_option('disable_pagination', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_pagination"><?php _e('Yes'); ?></label>
-                                </div>
+                                </div> 
                             </div>
 
 
-<<<<<<< HEAD
-                            <div class="mb-3 col-4">
-=======
                             <div class="form-group col-4 js-filtering-allow-limit">
->>>>>>> 15bfcf3b5beb3f879dc92ac0e32967ec1291daf0
                                 <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -110,11 +106,7 @@
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            <div class="mb-3 col-4">
-=======
                             <div class="form-group col-4 js-filtering-allow-sort">
->>>>>>> 15bfcf3b5beb3f879dc92ac0e32967ec1291daf0
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -125,11 +117,7 @@
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            <div class="mb-3 col-4">
-=======
                             <div class="form-group col-4 js-filtering-allow-search">
->>>>>>> 15bfcf3b5beb3f879dc92ac0e32967ec1291daf0
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
@@ -140,7 +128,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3 col-4">
+                            <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
@@ -197,13 +185,7 @@
                                             <div class="card">
                                                 <div class="card-body">
 
-<<<<<<< HEAD
-
-
-                                            <div class="mb-3">
-=======
                                             <div class="form-group">
->>>>>>> 15bfcf3b5beb3f879dc92ac0e32967ec1291daf0
                                                 <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
                                                 <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
                                                     <option <?php if (get_option('filtering_when', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
