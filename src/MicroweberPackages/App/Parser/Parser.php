@@ -7,7 +7,9 @@ final class Parser
     {
         /*$parserModule = new ParserModule();
         echo $parserModule->recursive_parse_modules($layout);*/
-        
+
+        $parserModule = new ParserContentFields();
+        echo $parserModule->recursive_parse_content_fields($layout);
     }
 
     public function replace_url_placeholders($layout)
