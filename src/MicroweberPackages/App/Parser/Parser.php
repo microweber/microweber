@@ -5,7 +5,7 @@ use Illuminate\View\View;
 
 final class Parser extends ParserModule
 {
-    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
+    public function process($layout)
     {
         echo $this->recursive_parse_modules($layout);
     }

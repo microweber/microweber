@@ -8,7 +8,7 @@ class ParserModule {
 
     use ParserHelperTrait;
 
-    public function recursive_parse_modules($layout)
+    public function recursive_parse_modules($layout, $parent = false)
     {
         // Check first block to parse
         $module_tags = $this->_preg_match_module_tags($layout);
@@ -18,15 +18,29 @@ class ParserModule {
 
         // Execute modules
         foreach($module_tags as $module_tag) {
-            $module_attributes = $this->_extract_tag_attributes($module_tag);
-            $render_module = $this->parse_module($module_tag, $module_attributes);
-            $layout = $this->_str_replace_first($module_tag, $render_module, $layout);
-        }
 
-        // Check next block to parse
-        $module_tags = $this->_preg_match_module_tags($layout);
-        if ($module_tags) {
-            $layout = $this->recursive_parse_modules($layout);
+            // Get html tags as array
+            $module_attributes = $this->_extract_tag_attributes($module_tag);
+
+            // If this module is called from another we append parent module tag
+            if ($parent) {
+                $module_attributes['parent_module'] = $parent['parent_module'];
+            }
+
+            // Try to parse module tag block
+            $render_module = $this->parse_module($module_tag, $module_attributes);
+
+            // if the output of module has a new module tags we must to recursive parse again
+            $render_module_tags = $this->_preg_match_module_tags($render_module);
+            if ($render_module_tags) {
+                // Set the parent module tag for the new module taggs
+                $render_module = $this->recursive_parse_modules($render_module, [
+                    'parent_module'=>$module_attributes['type']
+                ]);
+            }
+            
+            // Replace the first module tag block with the rendered module output
+            $layout = $this->_str_replace_first($module_tag, $render_module, $layout);
         }
 
         return $layout;
