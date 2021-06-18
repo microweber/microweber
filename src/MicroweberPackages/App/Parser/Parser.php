@@ -1,13 +1,12 @@
 <?php
 namespace MicroweberPackages\App\Parser;
 
-use Illuminate\View\View;
-
-final class Parser extends ParserModule
+final class Parser
 {
     public function process($layout)
     {
-        echo $this->recursive_parse_modules($layout);
+        $parserModule = new ParserModule();
+        echo $parserModule->recursive_parse_modules($layout);
     }
 
     public function replace_url_placeholders($layout)
