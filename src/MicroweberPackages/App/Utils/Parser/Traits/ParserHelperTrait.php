@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\App\Utils\Parser;
+namespace MicroweberPackages\App\Utils\Parser\Traits;
 
 trait ParserHelperTrait {
 

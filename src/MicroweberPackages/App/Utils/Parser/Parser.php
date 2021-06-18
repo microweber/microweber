@@ -1,8 +1,8 @@
 <?php
 namespace MicroweberPackages\App\Utils\Parser;
 
-
 use Illuminate\View\View;
+use MicroweberPackages\App\Utils\Parser\Traits\ParserHelperTrait;
 
 final class Parser extends ParserModule
 {
