@@ -36,7 +36,7 @@ class ParserModule {
     {
         $cache_id = crc32(serialize($module_attributes));
 
-        $cache_get = Cache::tags(['parser'])->get($cache_id);
+        $cache_get = Cache::tags([$module_attributes['type']])->get($cache_id);
         if ($cache_get) {
             return $cache_get;
         }
@@ -90,7 +90,7 @@ class ParserModule {
         $html_output .= trim($module_rendered);
         $html_output .= '</div>';
 
-        Cache::tags(['parser'])->put($cache_id, $html_output, 600);
+        Cache::tags([$module_attributes['type']])->put($cache_id, $html_output);
 
         return $html_output;
     }
