@@ -2,7 +2,6 @@
 namespace MicroweberPackages\App\Parser;
 
 use Illuminate\View\View;
-use MicroweberPackages\App\Parser\Traits\ParserHelperTrait;
 
 final class Parser extends ParserModule
 {

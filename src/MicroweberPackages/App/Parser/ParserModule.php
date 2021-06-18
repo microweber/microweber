@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\App\Parser;
 
+use MicroweberPackages\App\Parser\Traits\ParserHelperTrait;
+
 class ParserModule {
 
     use ParserHelperTrait;
