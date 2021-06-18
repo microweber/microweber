@@ -3,7 +3,7 @@ namespace MicroweberPackages\App\Parser\Traits;
 
 trait ParserHelperTrait {
 
-    private function _preg_match_module_tags($layout) {
+    private function _pregMatchModuleTags($layout) {
 
         preg_match_all('/<module[^>]*>/Uis', $layout, $module_tags);
 
@@ -14,7 +14,7 @@ trait ParserHelperTrait {
         return $module_tags[0];
     }
 
-    private function _str_replace_first($search, $replace, $subject)
+    private function _strReplaceFirst($search, $replace, $subject)
     {
         if ($search == false || $replace == false) {
             return $subject;
@@ -31,7 +31,7 @@ trait ParserHelperTrait {
         return $subject;
     }
 
-    private function _extract_tag_attributes($value)
+    private function _extractTagAttributes($value)
     {
         $attrs = array();
         $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';

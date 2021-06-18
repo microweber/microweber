@@ -8,10 +8,10 @@ class ParserModule {
 
     use ParserHelperTrait;
 
-    public function recursive_parse_modules($layout, $parent = false)
+    public function recursiveParseModules($layout, $parent = false)
     {
         // Check first block to parse
-        $module_tags = $this->_preg_match_module_tags($layout);
+        $module_tags = $this->_pregMatchModuleTags($layout);
         if (!$module_tags) {
             return false;
         }
@@ -20,7 +20,11 @@ class ParserModule {
         foreach($module_tags as $module_tag) {
 
             // Get html tags as array
-            $module_attributes = $this->_extract_tag_attributes($module_tag);
+            $module_attributes = $this->_extractTagAttributes($module_tag);
+
+            if (!isset($module_attributes['type']) && isset($module_attributes['data-type'])) {
+                $module_attributes['type'] = $module_attributes['data-type'];
+            }
 
             // If this module is called from another we append parent module tag
             if ($parent) {
@@ -28,30 +32,28 @@ class ParserModule {
             }
 
             // Try to parse module tag block
-            $render_module = $this->parse_module($module_tag, $module_attributes);
+            $render_module = $this->parseModule($module_tag, $module_attributes);
 
-            // if the output of module has a new module tags we must to recursive parse again
-            $render_module_tags = $this->_preg_match_module_tags($render_module);
-            if ($render_module_tags) {
-                // Set the parent module tag for the new module taggs
-                $render_module = $this->recursive_parse_modules($render_module, [
-                    'parent_module_type'=>$module_attributes['type']
-                ]);
+            if ($render_module && isset($module_attributes['type'])) {
+                // if the output of module has a new module tags we must to recursive parse again
+                $render_module_tags = $this->_pregMatchModuleTags($render_module);
+                if ($render_module_tags) {
+                    // Set the parent module tag for the new module taggs
+                    $render_module = $this->recursiveParseModules($render_module, [
+                        'parent_module_type' => $module_attributes['type']
+                    ]);
+                }
             }
 
             // Replace the first module tag block with the rendered module output
-            $layout = $this->_str_replace_first($module_tag, $render_module, $layout);
+            $layout = $this->_strReplaceFirst($module_tag, $render_module, $layout);
         }
 
         return $layout;
     }
 
-    public function parse_module($module_tag, $module_attributes)
+    public function parseModule($module_tag, $module_attributes)
     {
-        if (!isset($module_attributes['type']) && isset($module_attributes['data-type'])) {
-            $module_attributes['type'] = $module_attributes['data-type'];
-        }
-
         // If the module tag has no type we dont parse id
         if (!isset($module_attributes['type'])) {
             // If you want to run this module, you must set the attribute type
