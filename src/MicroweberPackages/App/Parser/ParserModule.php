@@ -48,6 +48,16 @@ class ParserModule {
 
     public function parse_module($module_tag, $module_attributes)
     {
+        if (!isset($module_attributes['type']) && isset($module_attributes['data-type'])) {
+            $module_attributes['type'] = $module_attributes['data-type'];
+        }
+
+        // If the module tag has no type we dont parse id
+        if (!isset($module_attributes['type'])) {
+            // If you want to run this module, you must set the attribute type
+            return $this->_execute_module_fail($module_attributes);
+        }
+
         // Generate cache id for the module attributes
         $cache_id = crc32(serialize($module_attributes));
 
@@ -55,12 +65,6 @@ class ParserModule {
         $cache_get = Cache::tags([$module_attributes['type']])->get($cache_id);
         if ($cache_get) {
             return $cache_get;
-        }
-
-        // If the module tag has no type we dont parse id
-        if (!isset($module_attributes['type'])) {
-            // If you want to run this module, you must set the attribute type
-            return $this->_execute_module_fail($module_attributes);
         }
 
         // Find the index of the module file
