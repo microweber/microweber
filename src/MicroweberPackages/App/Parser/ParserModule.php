@@ -49,6 +49,8 @@ class ParserModule {
 
         $config = [];
         $config['module'] = $module_attributes['type'];
+        $config['module_api'] = uniqid();
+        $config['module_class'] = uniqid();
 
         $params = $module_attributes;
         $params['id'] = uniqid();
@@ -57,6 +59,8 @@ class ParserModule {
         if (isset($module_attributes['id'])) {
             $params['id'] = $module_attributes['id'];
         }
+
+        $this->app = app();
 
         include($module_index_file);
 
