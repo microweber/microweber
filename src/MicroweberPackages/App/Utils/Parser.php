@@ -579,6 +579,7 @@ class Parser
                                                 $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
                                             }  
+                                            }
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {

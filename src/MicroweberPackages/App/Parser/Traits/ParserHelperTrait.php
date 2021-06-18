@@ -3,7 +3,7 @@ namespace MicroweberPackages\App\Parser\Traits;
 
 trait ParserHelperTrait {
 
-    public function _preg_match_module_tags($layout) {
+    private function _preg_match_module_tags($layout) {
 
         preg_match_all('/<module[^>]*>/Uis', $layout, $module_tags);
 

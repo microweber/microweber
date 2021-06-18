@@ -19,7 +19,7 @@ class ParserModule {
         // Execute modules
         foreach($module_tags as $module_tag) {
             $module_attributes = $this->_extract_tag_attributes($module_tag);
-            $render_module = $this->execute_module($module_tag, $module_attributes);
+            $render_module = $this->parse_module($module_tag, $module_attributes);
             $layout = $this->_str_replace_first($module_tag, $render_module, $layout);
         }
 
@@ -32,7 +32,7 @@ class ParserModule {
         return $layout;
     }
 
-    public function execute_module($module_tag, $module_attributes)
+    public function parse_module($module_tag, $module_attributes)
     {
         $cache_id = crc32(serialize($module_attributes));
 
@@ -62,13 +62,23 @@ class ParserModule {
             return $this->_execute_module_fail($module_attributes);
         }
 
+        $html_output = $this->execute_module($module_index_file_found, $module_attributes);
+
+        Cache::tags([$module_attributes['type']])->put($cache_id, $html_output);
+
+        return $html_output;
+    }
+
+    public function execute_module($indexFile, $module_attributes)
+    {
         // Execute module in ob start
         ob_start();
 
         $config = [];
         $config['module'] = $module_attributes['type'];
-        $config['module_api'] = uniqid();
         $config['module_class'] = uniqid();
+        $config['module_api'] = app()->url_manager->site('api/' . $module_attributes['type']);
+        $config['module_view'] = app()->url_manager->site('module/' . $module_attributes['type']);
 
         $params = $module_attributes;
         $params['id'] = uniqid();
@@ -80,17 +90,15 @@ class ParserModule {
 
         $this->app = app();
 
-        include($module_index_file_found);
+        include($indexFile);
 
-        $module_rendered = ob_get_clean();
         // Module is rendered
+        $module_rendered = ob_get_clean();
 
         // Append executed module in html
         $html_output = '<div'.$this->_arrayToHtmlAttributes($module_attributes).' mw_module="true">';
         $html_output .= trim($module_rendered);
         $html_output .= '</div>';
-
-        Cache::tags([$module_attributes['type']])->put($cache_id, $html_output);
 
         return $html_output;
     }
