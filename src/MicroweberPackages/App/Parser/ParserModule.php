@@ -24,7 +24,7 @@ class ParserModule {
 
             // If this module is called from another we append parent module tag
             if ($parent) {
-                $module_attributes['parent_module'] = $parent['parent_module'];
+                $module_attributes['mw_parent_module'] = $parent['mw_parent_module'];
             }
 
             // Try to parse module tag block
@@ -35,10 +35,10 @@ class ParserModule {
             if ($render_module_tags) {
                 // Set the parent module tag for the new module taggs
                 $render_module = $this->recursive_parse_modules($render_module, [
-                    'parent_module'=>$module_attributes['type']
+                    'mw_parent_module'=>$module_attributes['type']
                 ]);
             }
-            
+
             // Replace the first module tag block with the rendered module output
             $layout = $this->_str_replace_first($module_tag, $render_module, $layout);
         }
@@ -48,13 +48,16 @@ class ParserModule {
 
     public function parse_module($module_tag, $module_attributes)
     {
+        // Generate cache id for the module attributes
         $cache_id = crc32(serialize($module_attributes));
 
+        // Try to get cached module with this id
         $cache_get = Cache::tags([$module_attributes['type']])->get($cache_id);
         if ($cache_get) {
             return $cache_get;
         }
 
+        // If the module tag has no type we dont parse id
         if (!isset($module_attributes['type'])) {
             // If you want to run this module, you must set the attribute type
             return $this->_execute_module_fail($module_attributes);
@@ -76,8 +79,10 @@ class ParserModule {
             return $this->_execute_module_fail($module_attributes);
         }
 
+        // Execute module in ob start and get the output
         $html_output = $this->execute_module($module_index_file_found, $module_attributes);
 
+        // Save the cache of the executed moudle
         Cache::tags([$module_attributes['type']])->put($cache_id, $html_output);
 
         return $html_output;
