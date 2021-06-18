@@ -76,9 +76,11 @@ class Parser
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
-/*
-        $new = new \MicroweberPackages\App\Parser\Parser();
-        return $new->process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false);*/
+
+        if (isset($_GET['new_parser'])) {
+            $new = new \MicroweberPackages\App\Parser\Parser();
+            return $new->process($layout);
+        }
 
         static $first_known_mod;
         static $it_loop2;
