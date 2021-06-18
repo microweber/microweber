@@ -91,7 +91,7 @@
                                     <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
                                            autocomplete="off" name="disable_pagination" <?php if (!get_option('disable_pagination', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_pagination"><?php _e('Yes'); ?></label>
-                                </div> 
+                                </div>
                             </div>
 
 
