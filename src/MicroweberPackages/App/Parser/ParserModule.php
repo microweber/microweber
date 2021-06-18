@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\App\Parser;
 
+use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\App\Parser\Traits\ParserHelperTrait;
 
 class ParserModule {
@@ -33,6 +34,13 @@ class ParserModule {
 
     public function execute_module($module_tag, $module_attributes)
     {
+        $cache_id = crc32(serialize($module_attributes));
+
+        $cache_get = Cache::tags(['parser'])->get($cache_id);
+        if ($cache_get) {
+            return $cache_get;
+        }
+
         if (!isset($module_attributes['type'])) {
             // If you want to run this module, you must set the attribute type
             return false;
@@ -76,6 +84,8 @@ class ParserModule {
         $html_output = '<div'.$attributes.' mw_module="true">';
         $html_output .= trim($module_rendered);
         $html_output .= '</div>';
+
+        Cache::tags(['parser'])->put($cache_id, $html_output, 600);
 
         return $html_output;
     }
