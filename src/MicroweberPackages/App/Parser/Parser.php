@@ -5,8 +5,9 @@ final class Parser
 {
     public function process($layout)
     {
-        $parserModule = new ParserModule();
-        echo $parserModule->recursive_parse_modules($layout);
+        /*$parserModule = new ParserModule();
+        echo $parserModule->recursive_parse_modules($layout);*/
+        
     }
 
     public function replace_url_placeholders($layout)
