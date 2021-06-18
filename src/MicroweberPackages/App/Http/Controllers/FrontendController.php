@@ -747,7 +747,7 @@ class FrontendController extends Controller
                     $page = $this->app->content_manager->get_by_id($content_id);
                     if($page){
                     $url = $page['url'];
-                    } 
+                    }
                 }
             } else {
                 if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {

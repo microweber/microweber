@@ -99,7 +99,7 @@
 
                         <div class="form-group">
                             <div class="input-group mb-3 append-transparent">
-                                <input type="text" class="form-control form-control-sm"" value="https://www.microweber.com/file?v=OpaOpiFp9Hw">
+                                <input type="text" class="form-control form-control-sm" value="https://www.microweber.com/file?v=OpaOpiFp9Hw">
                                 <div class="input-group-append">
                                     <span class="input-group-text py-0 px-2"><a href="#" class="text-danger">X</a></span>
                                 </div>
@@ -108,7 +108,7 @@
 
                         <div class="form-group">
                             <div class="input-group mb-3 append-transparent">
-                                <input type="text" class="form-control form-control-sm"" value="https://www.microweber.com/file?v=OpaOpiFp9Hw">
+                                <input type="text" class="form-control form-control-sm" value="https://www.microweber.com/file?v=OpaOpiFp9Hw">
                                 <div class="input-group-append">
                                     <span class="input-group-text py-0 px-2"><a href="#" class="text-danger">X</a></span>
                                 </div>
