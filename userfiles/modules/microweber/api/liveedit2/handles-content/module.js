@@ -1,9 +1,10 @@
 import {HandleMenu} from "../handle-menu";
 
-export const ElementHandleContent = function () {
+export const ModuleHandleContent = function () {
     this.root = mw.element({
         props: {
-            id: 'mw-handle-item-element-root'
+            id: 'mw-handle-item-module-root',
+            contentEditable: false,
         }
     });
     this.menu = new HandleMenu({

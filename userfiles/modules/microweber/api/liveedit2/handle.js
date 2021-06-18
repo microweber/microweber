@@ -48,7 +48,9 @@ export const Handle = function (options) {
           handle: this.handle,
           element: null,
           helper: true,
-          dropIndicator: this.settings.dropIndicator
+          dropIndicator: this.settings.dropIndicator,
+          document: this.settings.document,
+          target: this.settings.root
       }, options);
         this.draggable.on('dragStart', function () {
             scope.wrapper.addClass('mw-handle-item-dragging');
@@ -80,16 +82,22 @@ export const Handle = function (options) {
     };
 
     this.createHandle = function () {
-        this.handle = mw.element({
-            tag: 'div',
-            props: {
-                className: 'mw-defaults mw-handle-item-handle',
-                contentEditable: false,
-                draggable: true,
-                innerHTML: this.settings.title
-            }
-        });
-        this.wrapper.append(this.handle);
+        if(this.settings.handle) {
+            this.handle = this.settings.handle;
+        } else {
+            this.handle = mw.element({
+                tag: 'div',
+                props: {
+                    className: 'mw-defaults mw-handle-item-handle',
+                    contentEditable: false,
+                    draggable: true,
+                    innerHTML: this.settings.title,
+                }
+            });
+            this.wrapper.append(this.handle);
+
+        }
+
     }
 
     this.createWrapper = function() {
@@ -97,8 +105,8 @@ export const Handle = function (options) {
             tag: 'div',
             props: {
                 className: 'mw-defaults mw-handle-item ' + (this.settings.className || 'mw-handle-type-default'),
-                contentEditable: false,
-                id: this.settings.id || ('mw-handle-' + new Date().getTime())
+                id: this.settings.id || ('mw-handle-' + new Date().getTime()),
+                contentEditable: false
             }
         });
 
@@ -108,7 +116,7 @@ export const Handle = function (options) {
         mw.element(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
-        document.body.appendChild(this.wrapper.get(0));
+        this.settings.document.body.appendChild(this.wrapper.get(0));
     };
 
     this.createWrapper();

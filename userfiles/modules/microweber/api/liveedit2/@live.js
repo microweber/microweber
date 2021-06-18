@@ -8,6 +8,8 @@ import {ObjectService} from "./object.service";
 import {DroppableElementAnalyzerService} from "./analizer";
  import {DropIndicator} from "./interact";
  import {ElementHandleContent} from "./handles-content/element";
+ import {ModuleHandleContent} from "./handles-content/module";
+ import {LayoutHandleContent} from "./handles-content/layout";
   // import "./css/liveedit.scss";
 
 
@@ -40,33 +42,86 @@ export class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
-            root: document.body,
             strict: false // todo: element and modules should be dropped only in layouts
         };
 
+
         this.settings = ObjectService.extend({}, defaults, options);
+
+        if(!this.settings.root) {
+            this.settings.root = this.settings.document.body
+        }
 
         this.root = this.settings.root;
 
         this.elementAnalyzer = new DroppableElementAnalyzerService(this.settings);
 
-        this.dropIndicator = new DropIndicator();
+        this.dropIndicator = new DropIndicator(this.settings);
 
 
-        const elementHandleContent = new ElementHandleContent()
+        const elementHandleContent = new ElementHandleContent();
+        const moduleHandleContent = new ModuleHandleContent();
+        const layoutHandleContent = new LayoutHandleContent();
+
+        var elementHandle = new Handle({
+            ...this.settings,
+            title: 'Element',
+            dropIndicator: this.dropIndicator,
+            content: elementHandleContent.root,
+            handle: elementHandleContent.menu.title,
+            document: this.settings.document
+        })
+        elementHandle.on('targetChange', function (target){
+            elementHandleContent.menu.setTarget(target);
+            var title = '';
+            if(target.nodeName === 'P') {
+                title = 'Paragraph'
+            } else if(/(H[1-6])/.test(target.nodeName)) {
+                title = 'Title ' + target.nodeName.replace( /^\D+/g, '')
+            } else {
+                title = 'Text'
+            }
+            elementHandleContent.menu.setTitle(title)
+        });
+
+
+        var moduleHandle = new Handle({
+            ...this.settings,
+            title: 'module:',
+            dropIndicator: this.dropIndicator,
+            content: moduleHandleContent.root,
+            handle: moduleHandleContent.menu.title,
+            document: this.settings.document
+        })
+
+        var layoutHandle = new Handle({
+            ...this.settings,
+            title: 'layout:',
+            dropIndicator: this.dropIndicator,
+            content: layoutHandleContent.root,
+            handle: layoutHandleContent.menu.title,
+            document: this.settings.document
+        });
+        var title = 'Layout';
+        layoutHandleContent.menu.setTitle(title)
+        layoutHandle.on('targetChange', function (target){
+            layoutHandleContent.menu.setTarget(target);
+            var title = 'Layout';
+            layoutHandleContent.menu.setTitle(title)
+        });
 
         this.handles = new Handles({
-            element: new Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementHandleContent.root}),
-            module: new Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
-            layout: new Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
+            element: elementHandle,
+            module: moduleHandle,
+            layout: layoutHandle
         });
 
         this.handles.get('element').on('targetChange', function (target) {
-            console.log(target);
-        })
+
+         })
 
         this.handles.get('module').on('targetChange', function (target) {
-            console.log('module', target);
+
         })
 
         this.observe = new GetPointerTargets(this.settings);
@@ -96,18 +151,7 @@ export class LiveEdit {
          });
     };
 
-    // action: append, prepend, before, after
-    insertElement (candidate, target, action) {
-        this.dispatch('beforeElementInsert', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementInsert', {candidate: candidate, target: target, action: action});
-    };
 
-    moveElement (candidate, target, action) {
-        this.dispatch('beforeElementMove', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementMove', {candidate: candidate, target: target, action: action});
-    };
 
 }
 

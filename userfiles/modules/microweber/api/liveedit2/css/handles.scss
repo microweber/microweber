@@ -1,7 +1,9 @@
 .mw-handle-item{
     position: absolute;
     z-index: 9;
-    cursor: grab;
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
     border: 1px solid #0078ff;
     transition: opacity .2s;
     pointer-events: none;
@@ -48,7 +50,7 @@
 
 $handleHeight: 42;
 
-.mw-handlemenu-item{
+.mw-le-handle-menu{
     position: absolute;
     height: #{$handleHeight}px;
     border-radius: 3px;
@@ -59,20 +61,24 @@ $handleHeight: 42;
     background-color: #fff;
     pointer-events: all;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-}
-
-#mw-handle-item-element-root{
-
-    .mw-handlemenu-item{
-       top: -#{$handleHeight + 7}px;
-       left: -1px;
+    *{
+        vertical-align: middle;
     }
 }
 
+#mw-handle-item-element-menu{
+   top: -#{$handleHeight + 7}px;
+   left: -3px;
+}
+#mw-handle-item-layout-menu{
+    top: 7px;
+    right: 7px;
+}
 
-.mw-handlemenu-buttons{
+
+.mw-le-handle-menu-buttons{
     display: inline-block;
-    & > span{
+    & > .mw-le-handle-menu-button{
         display: inline-flex;
         width: 32px;
         height: 32px;
@@ -86,5 +92,69 @@ $handleHeight: 42;
         &:hover{
             background-color: #e9e9e9;
         }
+    }
+}
+
+.mw-le-handle-menu-button-sub-menu{
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transform: scaleY(.5);
+    transform-origin: center top;
+    transition: .2s;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: rgb(17 17 26 / 10%) 0px 4px 16px, rgb(17 17 26 / 5%) 0px 8px 32px;
+    .mw-le-handle-menu-button{
+        display: block;
+        white-space: nowrap;
+        padding: 5px 10px;
+    }
+}
+.mw-le-handle-menu-button.sub-menu-active{
+    & > .mw-le-handle-menu-button-sub-menu{
+        visibility: visible;
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+
+.mw-le-handle-menu-button-content{
+    display: inline-flex;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    .mw-le-handle-menu-button-text{
+        font-size: 14px;
+    }
+    align-items: center;
+}
+
+.mw-le-handle-menu-title{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px 0 0;
+    font-size: 12px;
+    -webkit-user-select: none;
+    user-select: none;
+    height: #{$handleHeight}px;
+    cursor: grab;
+}
+
+.mw-le-handle-menu-button-icon{
+    display: inline-flex;
+    white-space: nowrap;
+    align-items: center;
+    margin-inline: 6px;
+    svg,.mdi,.material-icons,.fa{
+        max-width:25px;
+        max-height: 25px;
+        display: inline-block;
+    }
+    * {
+        max-width:31px;
+        max-height: 31px;
     }
 }

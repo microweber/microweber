@@ -7,10 +7,10 @@ export const Draggable = function (options, rootSettings) {
     var defaults = {
         handle: null,
         element: null,
-        target: document.body,
-        targetDocument: document,
+        document: document,
         helper: true
     };
+
     var scope = this;
 
     var _e = {};
@@ -21,12 +21,15 @@ export const Draggable = function (options, rootSettings) {
     var stop = true;
 
     var scroll = function (step) {
-        scope.settings.targetDocument.body.style.scrollBehavior = 'smooth';
-        scope.settings.targetDocument.defaultView.scrollTo(0,scrollY + step);
+        scope.settings.document.body.style.scrollBehavior = 'smooth';
+        scope.settings.document.defaultView.scrollTo(0,scope.settings.document.defaultView.scrollY + step);
     }
 
     this.config = function () {
         this.settings = ObjectService.extend({}, defaults, options);
+        if(!this.settings.target) {
+            this.settings.target = this.settings.document.body;
+        }
         this.setElement(this.settings.element);
         this.dropIndicator = this.settings.dropIndicator;
     };
@@ -36,6 +39,7 @@ export const Draggable = function (options, rootSettings) {
             this.settings.handle = this.settings.element;
         }
         this.handle = this.settings.handle;
+        this.handle.attr('draggable', 'true')
     };
 
     this.setTargets = function (targets) {
@@ -55,7 +59,7 @@ export const Draggable = function (options, rootSettings) {
         if(!this._helper) {
             this._helper = document.createElement('div');
             this._helper.className = 'mw-draggable-helper';
-            document.body.appendChild(this._helper);
+            this.settings.document.body.appendChild(this._helper);
         }
         if (e === 'create') {
             this._helper.style.top = e.pageY + 'px';
@@ -69,7 +73,7 @@ export const Draggable = function (options, rootSettings) {
         } else if(this.settings.helper && e) {
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
-            this._helper.style.maxWidth = (innerWidth - e.pageX) + 'px';
+            this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX) + 'px';
         }
         return this._helper;
     };

@@ -304,10 +304,10 @@ const Draggable = function (options, rootSettings) {
     var defaults = {
         handle: null,
         element: null,
-        target: document.body,
-        targetDocument: document,
+        document: document,
         helper: true
     };
+
     var scope = this;
 
     var _e = {};
@@ -318,12 +318,15 @@ const Draggable = function (options, rootSettings) {
     var stop = true;
 
     var scroll = function (step) {
-        scope.settings.targetDocument.body.style.scrollBehavior = 'smooth';
-        scope.settings.targetDocument.defaultView.scrollTo(0,scrollY + step);
+        scope.settings.document.body.style.scrollBehavior = 'smooth';
+        scope.settings.document.defaultView.scrollTo(0,scope.settings.document.defaultView.scrollY + step);
     }
 
     this.config = function () {
         this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
+        if(!this.settings.target) {
+            this.settings.target = this.settings.document.body;
+        }
         this.setElement(this.settings.element);
         this.dropIndicator = this.settings.dropIndicator;
     };
@@ -333,6 +336,7 @@ const Draggable = function (options, rootSettings) {
             this.settings.handle = this.settings.element;
         }
         this.handle = this.settings.handle;
+        this.handle.attr('draggable', 'true')
     };
 
     this.setTargets = function (targets) {
@@ -352,7 +356,7 @@ const Draggable = function (options, rootSettings) {
         if(!this._helper) {
             this._helper = document.createElement('div');
             this._helper.className = 'mw-draggable-helper';
-            document.body.appendChild(this._helper);
+            this.settings.document.body.appendChild(this._helper);
         }
         if (e === 'create') {
             this._helper.style.top = e.pageY + 'px';
@@ -366,7 +370,7 @@ const Draggable = function (options, rootSettings) {
         } else if(this.settings.helper && e) {
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
-            this._helper.style.maxWidth = (innerWidth - e.pageX) + 'px';
+            this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX) + 'px';
         }
         return this._helper;
     };
@@ -610,6 +614,38 @@ class ElementAnalyzerServiceBase {
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/liveedit2/element.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/element.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CreateElement": () => (/* binding */ CreateElement)
+/* harmony export */ });
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
+
+
+
+const nodeName = 'mw-le-element'
+if (window.customElements) {
+    customElements.define( nodeName,
+        class extends HTMLElement {
+            constructor() {
+                super();
+            }
+        }
+    );
+}
+const CreateElement = (config) => {
+    config = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, config || {}, { tag: nodeName });
+    return mw.element(config)
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js":
 /*!*******************************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/handle-menu.js ***!
@@ -621,6 +657,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "HandleMenu": () => (/* binding */ HandleMenu)
 /* harmony export */ });
 /* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+/* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
+/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tooltip */ "./userfiles/modules/microweber/api/liveedit2/tooltip.js");
+
+
 
 
 const HandleMenu = function(options) {
@@ -630,158 +670,165 @@ const HandleMenu = function(options) {
     var scope = this;
 
     this._visible = true;
-    this.visible = function () {
+    this.isVisible = function () {
         return this._visible;
     };
 
-    this.createWrapper = function() {
-        this.wrapper = document.createElement('div');
-        this.wrapper.id = this.options.id || ('mw-handlemenu-' + new Date().getTime());
-        this.wrapper.className = 'mw-defaults mw-handlemenu-item ' + (this.options.className || 'mw-handlemenu-type-default');
-        this.wrapper.contenteditable = false;
-
-        mw.element(this.wrapper).on('mousedown', function () {
-            this.classList.add('mw-handlemenu-item-mouse-down')
-        });
-        mw.element(document.documentElement).on('mouseup', function () {
-            scope.wrapper.classList.remove('mw-handlemenu-item-mouse-down')
-        });
-        document.body.appendChild(this.wrapper);
-    };
-
-    this.create = function() {
-        this.createWrapper();
-        this.createHandler();
-
-        this.createMenu();
-    };
-
-    this.setTitle = function (icon, title) {
-        this.handleIcon.innerHTML = icon;
-        this.handleTitle.innerHTML = title;
-    };
-
-    this.hide = function () {
-        mw.element(this.wrapper).hide().removeClass('active');
-        this._visible = false;
-        return this;
-    };
-
-    this.show = function () {
-        mw.element(this.wrapper).show();
+    this.show = function (){
         this._visible = true;
-        return this;
-    };
+        this.root.addClass("mw-le-handle-menu-visible")
+    }
 
-    this.createHandler = function(){
-        this.handle = document.createElement('span');
-        this.handleIcon = document.createElement('span');
-        this.handleTitle = document.createElement('span');
-        this.handle.className = 'mw-handlemenu-handler';
-        this.handleIcon.dataset.tip = 'Drag to rearrange';
-        this.handleIcon.className = 'tip mw-handlemenu-handler-icon';
-        this.handleTitle.className = 'mw-handlemenu-handler-title';
+    this.hide = function (){
+        this._visible = false;
+        this.root.removeClass("mw-le-handle-menu-visible")
+    }
 
-        this.handle.appendChild(this.handleIcon);
-        this.createButtons();
-        this.handle.appendChild(this.handleTitle);
-        this.wrapper.appendChild(this.handle);
+    this.create = function(){
+        this.root = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu',
+                id: scope.options.id || 'mw-le-handle-menu-' + new Date().getTime()
+            }
+        })
+        this.buttonsHolder = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu-buttons'
+            }
+        })
 
-        this.handleTitle.onclick = function () {
-            mw.element(scope.wrapper).toggleClass('active');
-        };
-        mw.element(document.body).on('click', function (e) {
-            if(!_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.hasParentWithId(e.target, scope.wrapper.id)){
-                mw.element(scope.wrapper).removeClass('active');
+        this.root.append(this.buttonsHolder);
+    }
+    var _title, titleText, titleIcon;
+
+    var createTitle = function () {
+        _title = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu-title'
             }
         });
-    };
-
-    this.menuButton = function (data) {
-        var btn = document.createElement('span');
-        btn.className = 'mw-handlemenu-menu-item';
-        if(data.icon) {
-            var iconClass = data.icon;
-            if (iconClass.indexOf('mdi-') === 0) {
-                iconClass = 'mdi ' + iconClass
+        titleText = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu-title-text'
             }
-            var icon = document.createElement('span');
-            icon.className = iconClass + ' mw-handlemenu-menu-item-icon';
-            btn.appendChild(icon);
-        }
-        btn.appendChild(document.createTextNode(data.title));
-        if(data.className){
-            btn.className += (' ' + data.className);
-        }
-        if(data.id){
-            btn.id = data.id;
-        }
-        if(data.action){
-            btn.onmousedown = function (e) {
-                e.preventDefault();
-            };
-            btn.onclick = function (e) {
-                e.preventDefault();
-                data.action.call(scope, e, this, data);
-                scope.hide()
-            };
-        }
-        return btn;
-    };
+        });
+        titleIcon = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu-title-icon'
+            }
+        });
+        _title.append(titleText);
+        _title.append(titleIcon);
+        scope.root.prepend(_title);
+        scope.title = _title
+    }
+    var _target = null;
 
-    this._defaultButtons = [
-
-    ];
-
-    this.createMenuDynamicHolder = function(item){
-        var dn = document.createElement('div');
-        dn.className = 'mw-handlemenu-menu-dynamic' + (item.className ? ' ' + item.className : '');
-        return dn;
-    };
-    this.createMenu = function(){
-        this.menu = document.createElement('div');
-        this.menu.className = 'mw-handlemenu-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handlemenu-menu-default');
-        if (this.options.menu) {
-            for (var i = 0; i < this.options.menu.length; i++) {
-                if(this.options.menu[i].title !== '{dynamic}') {
-                    this.menu.appendChild(this.menuButton(this.options.menu[i])) ;
-                }
-                else {
-                    this.menu.appendChild(this.createMenuDynamicHolder(this.options.menu[i])) ;
-                }
-
+    this.setTarget = function (target) {
+        _target = target;
+        var i = 0;
+        for ( ; i < this.buttons.length; i++) {
+            if(this.buttons[i].config.onTarget) {
+                this.buttons[i].config.onTarget(target, this.buttons[i].button)
             }
         }
-        this.wrapper.appendChild(this.menu);
-    };
-    this.createButton = function(obj){
-        var btn = document.createElement('span');
-        btn.className = 'tip mdi ' + obj.icon + (obj.className ? ' ' + obj.className : '');
-        btn.dataset.tip = obj.title;
-        if (obj.hover) {
-            btn.addEventListener('mouseenter', obj.hover[0] , false);
-            btn.addEventListener('mouseleave', obj.hover[1] , false);
-        }
-        btn.onclick = function () {
-            this.classList.remove('active');
-            obj.action(this);
-            scope.hide();
+    }
+
+
+
+    this.setTitle = function (title, icon){
+        titleText.html(title || '');
+        titleIcon.html( icon || '');
+    }
+    this.buttons = [];
+
+    this.buildButtons = function (menu, btnHolder){
+        btnHolder = btnHolder || this.buttonsHolder;
+        menu = menu || this.options.buttons;
+        menu.forEach(function (btn){
+            btnHolder.append(scope.button(btn));
+        })
+    }
+    this.button = function (conf){
+        /*
+        * {
+                title: mw.lang('Settings1212'),
+                text: '',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                menu: [
+
+                ],
+            },
+        *
+        * */
+        var btn = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+            props: {
+                className: 'mw-le-handle-menu-button' + (conf.className ? ' ' + conf.className : '')
+            }
+        });
+        var btnContenConf = {
+            props: {
+                className: 'mw-le-handle-menu-button-content'
+            }
         };
-        return btn;
-    };
+        var btnContent = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)(btnContenConf);
 
-    this.createButtons = function(){
-        this.buttonsHolder = document.createElement('div');
-        this.buttonsHolder.className = 'mw-handlemenu-buttons';
-        if (this.options.buttons) {
-            for (var i = 0; i < this.options.buttons.length; i++) {
-                this.buttonsHolder.appendChild(this.createButton(this.options.buttons[i])) ;
-            }
+        if(conf.title) {
+            (0,_tooltip__WEBPACK_IMPORTED_MODULE_2__.Tooltip)(btnContent, conf.title);
         }
-        this.handle.appendChild(this.buttonsHolder);
-    };
-    this.create();
-    this.hide();
+
+        if(conf.icon) {
+            var icon = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+                props: {
+                    className: 'mw-le-handle-menu-button-icon',
+                    innerHTML: conf.icon
+                }
+            })
+            btnContent.append(icon);
+        }
+        if(conf.text) {
+            var text = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+                props: {
+                    className: 'mw-le-handle-menu-button-text',
+                    innerHTML: conf.text
+                }
+            })
+            btnContent.append(text);
+        }
+
+
+        btn.append(btnContent);
+        this.buttons.push({
+            button: btn,
+            config: conf,
+        });
+        if(conf.menu) {
+            var submenu = (0,_element__WEBPACK_IMPORTED_MODULE_1__.CreateElement)({
+                props: {
+                    className: 'mw-le-handle-menu-button-sub-menu'
+                }
+            });
+            btn.append(submenu);
+            scope.buildButtons(conf.menu, submenu)
+            btn.on('click', function(){
+                this.classList.toggle('sub-menu-active')
+            })
+        }
+        return btn;
+    }
+
+    this.init = function () {
+        this.create()
+        createTitle();
+        this.setTitle(scope.options.title, scope.options.icon);
+        this.buildButtons();
+        this.hide();
+
+    }
+    this.init()
+
+
 }
 
 
@@ -851,7 +898,9 @@ const Handle = function (options) {
           handle: this.handle,
           element: null,
           helper: true,
-          dropIndicator: this.settings.dropIndicator
+          dropIndicator: this.settings.dropIndicator,
+          document: this.settings.document,
+          target: this.settings.root
       }, options);
         this.draggable.on('dragStart', function () {
             scope.wrapper.addClass('mw-handle-item-dragging');
@@ -883,16 +932,22 @@ const Handle = function (options) {
     };
 
     this.createHandle = function () {
-        this.handle = mw.element({
-            tag: 'div',
-            props: {
-                className: 'mw-defaults mw-handle-item-handle',
-                contentEditable: false,
-                draggable: true,
-                innerHTML: this.settings.title
-            }
-        });
-        this.wrapper.append(this.handle);
+        if(this.settings.handle) {
+            this.handle = this.settings.handle;
+        } else {
+            this.handle = mw.element({
+                tag: 'div',
+                props: {
+                    className: 'mw-defaults mw-handle-item-handle',
+                    contentEditable: false,
+                    draggable: true,
+                    innerHTML: this.settings.title,
+                }
+            });
+            this.wrapper.append(this.handle);
+
+        }
+
     }
 
     this.createWrapper = function() {
@@ -900,8 +955,8 @@ const Handle = function (options) {
             tag: 'div',
             props: {
                 className: 'mw-defaults mw-handle-item ' + (this.settings.className || 'mw-handle-type-default'),
-                contentEditable: false,
-                id: this.settings.id || ('mw-handle-' + new Date().getTime())
+                id: this.settings.id || ('mw-handle-' + new Date().getTime()),
+                contentEditable: false
             }
         });
 
@@ -911,7 +966,7 @@ const Handle = function (options) {
         mw.element(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
-        document.body.appendChild(this.wrapper.get(0));
+        this.settings.document.body.appendChild(this.wrapper.get(0));
     };
 
     this.createWrapper();
@@ -949,120 +1004,224 @@ const ElementHandleContent = function () {
         }
     });
     this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
-        id: 'mw-handle-item-element',
-        className: 'mw-handle-type-default',
+        id: 'mw-handle-item-element-menu',
+        title: 'Element',
         buttons: [
             {
-                title: mw.lang('Insert'),
-                icon: 'mdi-plus-circle',
+                title: mw.lang('Settings'),
+                text: '',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                hover: [
-                    function (e){
-                        handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt);
+                onTarget: function (target, selfNode) {
+                },
+                menu: [
+                    {
+                        title: mw.lang('Add something'),
+                        text: mw.lang('Add something'),
+                        icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+                        className: 'mw-handle-insert-button',
                     },
-                    function (e){
-                        handleInsertTargetDisplay('hide');
-                    }
+                    {
+                        title: mw.lang('Settings1212'),
+                        text: 'Do alert 1212',
+                        className: 'mw-handle-insert-button',
+                        menu: [
+
+                        ],
+                    },
                 ],
+            },
+            {
+                title: mw.lang('Delete'),
+                text: '',
+                icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
+                className: 'mw-handle-insert-button',
                 action: function (el) {
-                    if (!mw.tools.hasClass(el, 'active')) {
-                        mw.tools.addClass(el, 'active');
-                        mw.drag.plus.locked = true;
-                        mw.$('.mw-tooltip-insert-module').remove();
-                        mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
 
-                        var tooltip = new mw.ToolTip({
-                            content: document.getElementById('plus-modules-list').innerHTML,
-                            element: el,
-                            position: mw.drag.plus.tipPosition(this.currentNode),
-                            template: 'mw-tooltip-default mw-tooltip-insert-module',
-                            id: 'mw-plus-tooltip-selector',
-                            overlay: true
-                        });
-                        tooltip.on('removed', function () {
-                            mw.drag.plus.locked = false;
-                        });
-                        mw._initHandles.hideAll();
-
-                        var tip = tooltip.tooltip.get(0);
-                        setTimeout(function (){
-                            $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
-                        }, 10);
-                        mw.tabs({
-                            nav: tip.querySelectorAll('.mw-ui-btn'),
-                            tabs: tip.querySelectorAll('.module-bubble-tab'),
-                        });
-
-                        mw.$('.mw-ui-searchfield', tip).on('input', function () {
-                            var resultsLength = mw.drag.plus.search(this.value, tip);
-                            if (resultsLength === 0) {
-                                mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
-                            }
-                            else {
-                                mw.$(".module-bubble-tab-not-found-message").hide();
-                            }
-                        });
-                        mw.$('#mw-plus-tooltip-selector li').each(function () {
-                            this.onclick = function () {
-                                var name = mw.$(this).attr('data-module-name');
-                                var conf = { class: this.className };
-                                if(name === 'layout') {
-                                    conf.template = mw.$(this).attr('template');
-                                }
-                                mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
-                                mw.wysiwyg.change(mw._activeElementOver)
-                                tooltip.remove();
-                            };
-                        });
-                    }
                 }
             }
         ],
-        menu: [
-            {
-                title: 'Edit HTML',
-                icon: 'mw-icon-code',
-                action: function () {
-                    mw.editSource(mw._activeElementOver);
-                }
-            },
-            {
-                title: 'Edit Style',
-                icon: 'mdi mdi-layers',
-                action: function () {
-                    mw.liveEditSettings.show();
-                    mw.sidebarSettingsTabs.set(3);
-                    if(mw.cssEditorSelector){
-                        mw.liveEditSelector.active(true);
-                        mw.liveEditSelector.select(mw._activeElementOver);
-                    } else {
-                        mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
-                            setTimeout(function(){
-                                mw.liveEditSelector.active(true);
-                                mw.liveEditSelector.select(mw._activeElementOver);
-                            }, 333);
-                        });
-                    }
-                    mw.liveEditWidgets.cssEditorInSidebarAccordion();
-                }
-            },
-            {
-                title: 'Remove',
-                icon: 'mw-icon-bin',
-                className:'mw-handle-remove',
-                action: function () {
-                    mw.drag.delete_element(mw._activeElementOver);
-                    mw.handleElement.hide()
-                }
-            }
-        ]
     });
 
     this.menu.show()
 
-    this.root.append(this.menu.wrapper)
+    this.root.append(this.menu.root)
 
 }
+
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js":
+/*!******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LayoutHandleContent": () => (/* binding */ LayoutHandleContent)
+/* harmony export */ });
+/* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
+
+
+const LayoutHandleContent = function () {
+    this.root = mw.element({
+        props: {
+            id: 'mw-handle-item-layout-root'
+        }
+    });
+    this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
+        id: 'mw-handle-item-layout-menu',
+        title: 'Layout',
+        buttons: [
+            {
+                title: mw.lang('Settings'),
+                text: '',
+                icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 13.3 15.9" xml:space="preserve"><path d="M8.2,2.4L11,5.1l-8.2,8.2H0v-2.8L8.2,2.4z M11.8,4.3L9,1.6l1.4-1.4C10.5,0.1,10.7,0,10.9,0c0.2,0,0.4,0.1,0.5,0.2l1.7,1.7c0.1,0.1,0.2,0.3,0.2,0.5S13.3,2.8,13.1,3L11.8,4.3z"/><rect y="14.5" width="12" height="1.4"/></svg>',
+                className: 'mw-handle-insert-button',
+                onTarget: function (target, selfNode) {
+
+                },
+                menu: [
+                    {
+                        title: mw.lang('Add something'),
+                        text: mw.lang('Add something'),
+                        icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+                        className: 'mw-handle-insert-button',
+                    },
+                    {
+                        title: mw.lang('Settings1212'),
+                        text: 'Do alert 1212',
+                        className: 'mw-handle-insert-button',
+                        menu: [
+
+                        ],
+                    },
+                ],
+            },
+
+            {
+                title: mw.lang('Copy'),
+                text: '',
+                icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                action: function (el) {
+
+                }
+            },
+
+            {
+                title: mw.lang('Move Down'),
+                text: '',
+                icon: '<svg  width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                action: function (el) {
+
+                }
+            },
+            {
+                title: mw.lang('Move up'),
+                text: '',
+                icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                action: function (el) {
+
+                }
+            },
+
+
+            {
+                title: mw.lang('Delete'),
+                text: '',
+                icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                action: function (el) {
+
+                }
+            },
+
+
+        ],
+    });
+
+    this.menu.show()
+
+    this.root.append(this.menu.root)
+
+}
+
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/handles-content/module.js":
+/*!******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/handles-content/module.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ModuleHandleContent": () => (/* binding */ ModuleHandleContent)
+/* harmony export */ });
+/* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
+
+
+const ModuleHandleContent = function () {
+    this.root = mw.element({
+        props: {
+            id: 'mw-handle-item-module-root',
+            contentEditable: false,
+        }
+    });
+    this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
+        id: 'mw-handle-item-element-menu',
+        title: 'Element',
+        buttons: [
+            {
+                title: mw.lang('Settings'),
+                text: '',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                onTarget: function (target, selfNode) {
+                },
+                menu: [
+                    {
+                        title: mw.lang('Add something'),
+                        text: mw.lang('Add something'),
+                        icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+                        className: 'mw-handle-insert-button',
+                    },
+                    {
+                        title: mw.lang('Settings1212'),
+                        text: 'Do alert 1212',
+                        className: 'mw-handle-insert-button',
+                        menu: [
+
+                        ],
+                    },
+                ],
+            },
+            {
+                title: mw.lang('Delete'),
+                text: '',
+                icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
+                className: 'mw-handle-insert-button',
+                action: function (el) {
+
+                }
+            }
+        ],
+    });
+
+    this.menu.show()
+
+    this.root.append(this.menu.root)
+
+}
+
 
 
 /***/ }),
@@ -1218,7 +1377,7 @@ const DropIndicator = function (options) {
         this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
         this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
         this.hide();
-        document.body.appendChild(this._indicator.get(0));
+        this.settings.document.body.appendChild(this._indicator.get(0));
     };
 
     this.init = function (){
@@ -1448,6 +1607,27 @@ const GetPointerTargets = function(options)  {
 
 
 
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/liveedit2/tooltip.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/tooltip.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Tooltip": () => (/* binding */ Tooltip)
+/* harmony export */ });
+const Tooltip = (node, content, position) => {
+    if(!node || !content) return;
+    node = node.isMWElement ? node.get(0) : node;
+    node.classList.add('tip');
+    node.dataset.tip = content;
+    node.dataset.tipposition = position || 'top-center';
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -1524,6 +1704,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _analizer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./analizer */ "./userfiles/modules/microweber/api/liveedit2/analizer.js");
 /* harmony import */ var _interact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./interact */ "./userfiles/modules/microweber/api/liveedit2/interact.js");
 /* harmony import */ var _handles_content_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./handles-content/element */ "./userfiles/modules/microweber/api/liveedit2/handles-content/element.js");
+/* harmony import */ var _handles_content_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./handles-content/module */ "./userfiles/modules/microweber/api/liveedit2/handles-content/module.js");
+/* harmony import */ var _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./handles-content/layout */ "./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js");
 
 
  
@@ -1532,6 +1714,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ 
+ 
  
  
   // import "./css/liveedit.scss";
@@ -1566,33 +1750,86 @@ class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
-            root: document.body,
             strict: false // todo: element and modules should be dropped only in layouts
         };
 
+
         this.settings = _object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options);
+
+        if(!this.settings.root) {
+            this.settings.root = this.settings.document.body
+        }
 
         this.root = this.settings.root;
 
         this.elementAnalyzer = new _analizer__WEBPACK_IMPORTED_MODULE_5__.DroppableElementAnalyzerService(this.settings);
 
-        this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_6__.DropIndicator();
+        this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_6__.DropIndicator(this.settings);
 
 
-        const elementHandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent()
+        const elementHandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent();
+        const moduleHandleContent = new _handles_content_module__WEBPACK_IMPORTED_MODULE_8__.ModuleHandleContent();
+        const layoutHandleContent = new _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__.LayoutHandleContent();
+
+        var elementHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
+            ...this.settings,
+            title: 'Element',
+            dropIndicator: this.dropIndicator,
+            content: elementHandleContent.root,
+            handle: elementHandleContent.menu.title,
+            document: this.settings.document
+        })
+        elementHandle.on('targetChange', function (target){
+            elementHandleContent.menu.setTarget(target);
+            var title = '';
+            if(target.nodeName === 'P') {
+                title = 'Paragraph'
+            } else if(/(H[1-6])/.test(target.nodeName)) {
+                title = 'Title ' + target.nodeName.replace( /^\D+/g, '')
+            } else {
+                title = 'Text'
+            }
+            elementHandleContent.menu.setTitle(title)
+        });
+
+
+        var moduleHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
+            ...this.settings,
+            title: 'module:',
+            dropIndicator: this.dropIndicator,
+            content: moduleHandleContent.root,
+            handle: moduleHandleContent.menu.title,
+            document: this.settings.document
+        })
+
+        var layoutHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
+            ...this.settings,
+            title: 'layout:',
+            dropIndicator: this.dropIndicator,
+            content: layoutHandleContent.root,
+            handle: layoutHandleContent.menu.title,
+            document: this.settings.document
+        });
+        var title = 'Layout';
+        layoutHandleContent.menu.setTitle(title)
+        layoutHandle.on('targetChange', function (target){
+            layoutHandleContent.menu.setTarget(target);
+            var title = 'Layout';
+            layoutHandleContent.menu.setTitle(title)
+        });
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_3__.Handles({
-            element: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'Element', dropIndicator: this.dropIndicator, content: elementHandleContent.root}),
-            module: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'module:', dropIndicator: this.dropIndicator}),
-            layout: new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({...this.settings, title: 'layout', dropIndicator: this.dropIndicator})
+            element: elementHandle,
+            module: moduleHandle,
+            layout: layoutHandle
         });
 
         this.handles.get('element').on('targetChange', function (target) {
-            console.log(target);
-        })
+
+         })
 
         this.handles.get('module').on('targetChange', function (target) {
-            console.log('module', target);
+
         })
 
         this.observe = new _pointer__WEBPACK_IMPORTED_MODULE_1__.GetPointerTargets(this.settings);
@@ -1622,18 +1859,7 @@ class LiveEdit {
          });
     };
 
-    // action: append, prepend, before, after
-    insertElement (candidate, target, action) {
-        this.dispatch('beforeElementInsert', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementInsert', {candidate: candidate, target: target, action: action});
-    };
 
-    moveElement (candidate, target, action) {
-        this.dispatch('beforeElementMove', {candidate: candidate, target: target, action: action});
-        mw.element(target)[action](candidate);
-        this.dispatch('elementMove', {candidate: candidate, target: target, action: action});
-    };
 
 }
 

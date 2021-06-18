@@ -4,7 +4,7 @@ import {ObjectService} from "./object.service";
 const nodeName = 'mw-le-element'
 if (window.customElements) {
     customElements.define( nodeName,
-        class extends HTMLDivElement {
+        class extends HTMLElement {
             constructor() {
                 super();
             }

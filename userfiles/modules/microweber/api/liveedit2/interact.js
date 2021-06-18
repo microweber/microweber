@@ -58,7 +58,7 @@ export const DropIndicator = function (options) {
         this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
         this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
         this.hide();
-        document.body.appendChild(this._indicator.get(0));
+        this.settings.document.body.appendChild(this._indicator.get(0));
     };
 
     this.init = function (){

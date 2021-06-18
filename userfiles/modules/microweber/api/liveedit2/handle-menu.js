@@ -26,7 +26,8 @@ export const HandleMenu = function(options) {
     this.create = function(){
         this.root = CreateElement({
             props: {
-                className: 'mw-le-handle-menu'
+                className: 'mw-le-handle-menu',
+                id: scope.options.id || 'mw-le-handle-menu-' + new Date().getTime()
             }
         })
         this.buttonsHolder = CreateElement({
@@ -57,7 +58,8 @@ export const HandleMenu = function(options) {
         });
         _title.append(titleText);
         _title.append(titleIcon);
-        scope.root.append(_title);
+        scope.root.prepend(_title);
+        scope.title = _title
     }
     var _target = null;
 
@@ -65,7 +67,7 @@ export const HandleMenu = function(options) {
         _target = target;
         var i = 0;
         for ( ; i < this.buttons.length; i++) {
-            if(this.buttons.config.onTarget) {
+            if(this.buttons[i].config.onTarget) {
                 this.buttons[i].config.onTarget(target, this.buttons[i].button)
             }
         }
@@ -74,8 +76,8 @@ export const HandleMenu = function(options) {
 
 
     this.setTitle = function (title, icon){
-        titleText.innerHTML = title || '';
-        titleIcon.innerHTML = icon || '';
+        titleText.html(title || '');
+        titleIcon.html( icon || '');
     }
     this.buttons = [];
 
@@ -112,14 +114,14 @@ export const HandleMenu = function(options) {
         var btnContent = CreateElement(btnContenConf);
 
         if(conf.title) {
-            Tooltip(btnContenConf, conf.title);
+            Tooltip(btnContent, conf.title);
         }
 
         if(conf.icon) {
             var icon = CreateElement({
                 props: {
                     className: 'mw-le-handle-menu-button-icon',
-                    innerHTML: conf.text
+                    innerHTML: conf.icon
                 }
             })
             btnContent.append(icon);
@@ -141,7 +143,16 @@ export const HandleMenu = function(options) {
             config: conf,
         });
         if(conf.menu) {
-            scope.buildButtons(conf.menu, btn)
+            var submenu = CreateElement({
+                props: {
+                    className: 'mw-le-handle-menu-button-sub-menu'
+                }
+            });
+            btn.append(submenu);
+            scope.buildButtons(conf.menu, submenu)
+            btn.on('click', function(){
+                this.classList.toggle('sub-menu-active')
+            })
         }
         return btn;
     }
@@ -149,10 +160,12 @@ export const HandleMenu = function(options) {
     this.init = function () {
         this.create()
         createTitle();
+        this.setTitle(scope.options.title, scope.options.icon);
+        this.buildButtons();
         this.hide();
 
     }
-
+    this.init()
 
 
 }

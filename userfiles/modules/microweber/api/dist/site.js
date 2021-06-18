@@ -9132,6 +9132,7 @@ mw.dropdown = mw.tools.dropdown;
     var MWElement = function(options, root){
         var scope = this;
 
+        this.isMWElement = true;
 
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
@@ -9140,6 +9141,14 @@ mw.dropdown = mw.tools.dropdown;
         this._active = function () {
             return this.nodes[this.nodes.length - 1];
         };
+
+        this.getDocument = function () {
+            return this._active().ownerDocument;
+        }
+
+        this.getWindow = function () {
+            return this.getDocument().defaultView;;
+        }
 
         this.get = function(selector, scope){
             this.nodes = (scope || document).querySelectorAll(selector);
@@ -9416,10 +9425,12 @@ mw.dropdown = mw.tools.dropdown;
         };
 
         this.offset = function () {
-            var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + window.pageYOffset;
-            rect.offsetBottom = rect.bottom + window.pageYOffset;
-            rect.offsetLeft = rect.left + window.pageXOffset;
+            var curr = this._active();
+            var win = this.getWindow();
+            var rect = curr.getBoundingClientRect();
+            rect.offsetTop = rect.top + win.pageYOffset;
+            rect.offsetBottom = rect.bottom + win.pageYOffset;
+            rect.offsetLeft = rect.left + win.pageXOffset;
             return rect;
         };
 
