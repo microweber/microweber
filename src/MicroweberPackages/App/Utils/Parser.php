@@ -12,6 +12,7 @@ $mw_replaced_codes_tag = array();
 $mw_replaced_textarea_tag = array();
 $local_mw_replaced_modules_ids_grouped = array();
 $local_mw_replaced_modules = array();
+$global_mw_replaced_modules = array();
 
 $mw_parser_nest_counter_level = 0;
 $mw_parser_replace_inc = 0;
@@ -55,11 +56,15 @@ class Parser
 
 
     public $debugbarEnabled = false;
+    public $utils = false;
+    public $registry = false;
 
     public function __construct()
     {
 
         $this->debugbarEnabled = \Debugbar::isEnabled();
+        $this->utils = new ParserUtils();
+        $this->registry = new ParserRegistry();
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
@@ -237,6 +242,8 @@ class Parser
         }
 
 
+        global  $global_mw_replaced_modules;
+
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
         $layout = str_replace('</microweber>', '', $layout);
         $layout = str_replace('></module>', '/>', $layout);
@@ -250,13 +257,13 @@ class Parser
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                    //   dd($key);
                     $v1 = crc32($value) . '-' . $parser_modules_crc . $key;
                     $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
                     if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
                         $layout = $this->_str_replace_first($value, $v1, $layout);
 
                         $local_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
+                        $global_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
                     }
                 }
             }
@@ -316,7 +323,7 @@ class Parser
 //
          // if ($coming_from_parent) {
                 $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
-                if ($more) {
+                 if ($more) {
                     // bug ?
 
 
@@ -340,6 +347,8 @@ class Parser
                         if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
                             $layout = $this->_str_replace_first($value, $v1, $layout);
                             $local_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
+                            $global_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
+
                         }
                     }
                 }
@@ -359,9 +368,7 @@ class Parser
             }
 
             $parser_ed_field = array();
-            if (isset($this->_mw_edit_field_map[$parser_mem_crc])) {
-                //  dd($this->_mw_edit_field_map[$parser_mem_crc]);
-            }
+
 
             if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
 
@@ -407,35 +414,8 @@ class Parser
 ////                                continue;
 ////                            }
 
-                            $attrs = array();
-                            if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
-                                foreach ($attrs1 as $item) {
-                                    $m_tag = trim($item[0], "\x22\x27");
-                                    $m_tag = trim($m_tag, "\x27\x22");
-                                    $m_tag = preg_replace('/=/', $mw_attrs_key_value_seperator, $m_tag, 1);
+                            $attrs = $this->utils->parseAttributes($value);
 
-
-                                    $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
-
-                                    $a = trim($m_tag[0], "''");
-                                    $a = trim($a, '""');
-                                    $b = trim($m_tag[1], "''");
-                                    $b = trim($b, '""');
-                                    if (isset($m_tag[2])) {
-                                        $rest_pieces = $m_tag;
-                                        if (isset($rest_pieces[0])) {
-                                            unset($rest_pieces[0]);
-                                        }
-                                        if (isset($rest_pieces[1])) {
-                                            unset($rest_pieces[1]);
-                                        }
-                                        $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
-                                        $b = $b . $rest_pieces;
-                                    }
-
-                                    $attrs[$a] = $b;
-                                }
-                            }
 
                             $m_tag = ltrim($value, '<module');
 
@@ -578,7 +558,7 @@ class Parser
                                             if ($coming_from_parent_id and !$coming_from_parent) {
                                                 $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
-                                            }  
+                                            }
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
@@ -591,7 +571,7 @@ class Parser
 
 
                                         static $last_content_id = null;
-                                        if (!$coming_from_parent) {
+                                        if (!$coming_from_parent and !$more and !$this->have_more  ) {
                                             if (defined('CONTENT_ID') and CONTENT_ID == 0) {
                                                 if ($last_content_id == null) {
                                                     $last_content_id = app()->database_manager->last_id('content');
@@ -606,7 +586,6 @@ class Parser
                                                 $mod_id = $mod_id .'-'.date('YmdHis').'-'.$mw_mod_counter;
                                             }
                                         }
-
 
 
                                         $it++;
@@ -717,6 +696,8 @@ class Parser
                                                 //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
                                                 if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
+
+
                                                 } else {
                                                     //  $mod_id = $mod_id . '--' .$it_loop;
                                                     //  $mod_id = $mod_id . '-' . $last_content_id;
@@ -754,9 +735,20 @@ class Parser
                                         }
 
 
+                                       if( $this->registry->isParsedModule($module_name,$mod_id)){
+                                           continue;
+                                       }
+
+
+
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
 
+                                        $this->registry->registerParsedModule($module_name,$mod_id);
+
                                         $this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id] = $mod_id;
+
+                                        //                            $attrs = $this->utils->parseAttributes($value);
+
                                         $local_mw_replaced_modules_ids_grouped[$par_id_mod_count][$module_name]++;
 
                                         // $this->_existing_module_ids_map[$parse_key.$replace_key] = $mod_id;
@@ -969,6 +961,16 @@ class Parser
                                         $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
                                         if ($proceed_with_parse == true) {
+
+//                                            if (!empty($global_mw_replaced_modules)) {
+//                                                foreach ($global_mw_replaced_modules as $key => $value) {
+//                                                    if ($value != '') {
+//                                                        $mod_content = str_replace($key, $value, $layout);
+//                                                    }
+//                                                    //unset($this->_mw_parser_replaced_html_comments[$key]);
+//                                                }
+//                                            }
+
                                             $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                                         }
 
@@ -1183,6 +1185,9 @@ class Parser
         $this->filter[] = $callback;
     }
 
+
+    public $is_replacing = array();
+
     private function _replace_editable_fields($layout, $no_cache = false, $from_parent = false)
     {
         global $mw_replaced_edit_fields_vals;
@@ -1207,7 +1212,6 @@ class Parser
 //      //      return $mw_replaced_edit_fields_vals[$parser_mem_crc];
 //        }
 //        if ($no_cache and $from_parent) {
-//            //    dd($parser_mem_crc, $layout,$from_parent);
 //        }
 //        if($from_parent){
 //            $pq = \phpQuery::newDocument($from_parent);
@@ -1407,6 +1411,9 @@ class Parser
 
                     $this->_current_parser_rel = $rel;
                     $this->_current_parser_field = $field;
+
+                    $this->registry->registerParsedEditField($field,$rel,$data_id);
+
 
                     if (!empty($this->filter)) {
                         foreach ($this->filter as $filter) {
@@ -1653,7 +1660,7 @@ class Parser
                 }
             }
         }
-        //dd($layout);
+
         if (isset($mw_elements_array) and !empty($mw_elements_array)) {
             if (isset($mw_elements_array['elems']) and isset($mw_elements_array['to_replace']) and isset($mw_elements_array['new'])) {
                 $modified_layout = $mw_elements_array['new'];
@@ -1838,7 +1845,9 @@ class Parser
 
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                        $attrs = $this->_extract_module_tag_attrs($value);
+                       // $attrs = $this->_extract_module_tag_attrs($value);
+
+                        $attrs = $this->utils->parseAttributes($value);
                         $suffix = date("Ymdhis");
                         if (isset($attrs['parent-module-id'])) {
                             $attrs['parent-module-id'] = $attrs['parent-module-id'] . $suffix;
@@ -2089,26 +2098,30 @@ class Parser
     {
 
 
+      //  $mod_id_value = 'load' . crc32($module_name . json_encode($attrs['id']));
 
         //   $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
      //   $mod_id_value = $attrs['id'];
-       $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
 
-//if(isset($attrs['id'])){
-//    $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
-//    dd($attrs);
-//
-//}
 
-        $that = $this;
-        if (isset($that->module_load_registry[$mod_id_value])) {
-            //  dd($this->module_load_registry_is_loaded);
-            //dd(11111111111);
-            return $that->module_load_registry[$mod_id_value];
+
+        if(isset($attrs['id'])){
+            $mod_id_value = 'load_module_' . ($module_name . $attrs['id']);
+           // $this->registry->registerParsedModule($module_name,$attrs['id']);
+
+        } else {
+            $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
+
+        }
+
+
+        if (isset($this->module_load_registry[$mod_id_value])) {
+
+            return $this->module_load_registry[$mod_id_value];
         }
 
         if (isset($that->module_load_registry_is_loaded[$mod_id_value])) {
-            return $that->module_load_registry[$mod_id_value];
+            return $this->module_load_registry[$mod_id_value];
         }
 
         if ($this->debugbarEnabled) {
@@ -2116,15 +2129,15 @@ class Parser
         }
 
 
-        $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
-        $that->module_load_registry_is_loaded[$mod_id_value] = 1;
+        $this->module_load_registry[$mod_id_value] = $this->load_module_callback($module_name, $attrs);
+        $this->module_load_registry_is_loaded[$mod_id_value] = 1;
 
         if ($this->debugbarEnabled) {
             \Debugbar::stopMeasure('render_module_' . $module_name, $attrs);
         }
 
 
-        return $that->module_load_registry[$mod_id_value];
+        return $this->module_load_registry[$mod_id_value];
 
 
     }
@@ -2452,6 +2465,9 @@ class Parser
             }
             $l1->params = $attrs;
 
+            $this->registry->registerParsedModule($module_name,$attrs['id']);
+
+
 
             if ($config) {
                 $this->current_module = ($config);
@@ -2517,7 +2533,6 @@ class Parser
         //   $non_cached
         $non_cached = app()->module_manager->get('allow_caching=0&ui=any');
         $has_changes = false;
-//dd($non_cached);
 
 
         if (!$non_cached or $layout == '') {
@@ -2836,34 +2851,43 @@ $srsc_str
     {
         $proceed_with_parse = false;
         preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $modinner);
-        $proceed_with_parse = false;
-//        if (!empty($modinner) and isset($modinner[0][0])) {
+
+
+        //        if (!empty($modinner) and isset($modinner[0][0])) {
 //            $proceed_with_parse = true;
 //        }
 
         //check for field and rel attributes
-        $pattern = '/(\w+)=[\'"]([^\'"]*)/';
+       // $pattern = '/(\w+)=[\'"]([^\'"]*)/';
 
         if (!empty($modinner) and isset($modinner[0][0])) {
             foreach ($modinner[0] as $item){
 
-                preg_match_all($pattern,$item,$matches,PREG_SET_ORDER);
-                $result = [];
-                foreach($matches as $match){
-                    $attrName = $match[1];
-                    //parse the string value into an integer if it's numeric,
-                    // leave it as a string if it's not numeric,
-                    $attrValue = is_numeric($match[2])? (int)$match[2]: trim($match[2]);
+              //  preg_match_all($pattern,$item,$matches,PREG_SET_ORDER);
+                $result = $this->utils->parseAttributes($item);
 
-                    $result[$attrName] = $attrValue; //add match to results
+                $ed_fields_attr = $this->utils->getEditFieldAttributesFromParsedAttributes($result);
+
+
+
+                if(isset($ed_fields_attr['field']) and isset($ed_fields_attr['rel'])){
+                    $proceed_with_parse = true;
+
+
+                    //$reg = $this->registry->editFieldRegistry;
+                    $reg = $this->registry->isParsedEditField($ed_fields_attr['field'],$ed_fields_attr['rel'],$ed_fields_attr['rel_id']);
+                    if ($reg) {
+                        $proceed_with_parse = false;
+                    }
                 }
 
-               if(isset($result['field']) or isset($result['data-field'])){
-                   $proceed_with_parse = true;
-               }
+//               if(isset($result['field']) or isset($result['data-field'])){
+//                   $proceed_with_parse = true;
+//               }
 
             }
         }
+
         return $proceed_with_parse;
     }
 
@@ -2879,51 +2903,25 @@ $srsc_str
             $has_not_found = true;
             $has_found = true;
 
-            $script_pattern = '/<module[^>]*>/Uis';
-            preg_match_all($script_pattern, $mod_content, $mw_script_matches);
-
-            if (!empty($mw_script_matches)) {
-                $matches1 = $mw_script_matches[0];
-                foreach ($matches1 as $key => $value) {
-                    if ($value != '') {
-                        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
-                        $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
-
-                        $attrs = array();
-                        $attrs = array();
-                        if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
-                            foreach ($attrs1 as $item) {
-                                $m_tag = trim($item[0], "\x22\x27");
-                                $m_tag = trim($m_tag, "\x27\x22");
-                                $m_tag = preg_replace('/=/', $mw_attrs_key_value_seperator, $m_tag, 1);
-
-
-                                $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
-
-                                $a = trim($m_tag[0], "''");
-                                $a = trim($a, '""');
-                                $b = trim($m_tag[1], "''");
-                                $b = trim($b, '""');
-                                if (isset($m_tag[2])) {
-                                    $rest_pieces = $m_tag;
-                                    if (isset($rest_pieces[0])) {
-                                        unset($rest_pieces[0]);
-                                    }
-                                    if (isset($rest_pieces[1])) {
-                                        unset($rest_pieces[1]);
-                                    }
-                                    $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
-                                    $b = $b . $rest_pieces;
-                                }
-
-                                $attrs[$a] = $b;
-                            }
-                        }
-
-
-                    }
-                }
-            }
+//            $script_pattern = '/<module[^>]*>/Uis';
+//            preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+//
+//            if (!empty($mw_script_matches)) {
+//                $matches1 = $mw_script_matches[0];
+//                foreach ($matches1 as $key => $value) {
+//                    if ($value != '') {
+//                        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+//                        $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+//
+//                        $attrs = $this->utils->parseAttributes($value);
+//                        if (isset($attrs['id'])) {
+//                            $mod_name = $this->utils->getModuleTypeFromParsedAttributes($attrs);
+//
+//
+//                        }
+//                    }
+//                }
+//            }
 
             preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
             if (!empty($modinner) and isset($modinner[0][0])) {
@@ -2953,7 +2951,7 @@ $srsc_str
         }
         return $proceed_with_parse;
     }
-
+/*
     private function _extract_module_tag_attrs($module_tag)
     {
         $value = $module_tag;
@@ -2992,7 +2990,7 @@ $srsc_str
         if ($attrs) {
             return $attrs;
         }
-    }
+    }*/
 
 
     private function _replace_tags_with_placeholders($mod_content)
