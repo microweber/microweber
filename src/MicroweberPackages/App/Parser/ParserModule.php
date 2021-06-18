@@ -24,7 +24,7 @@ class ParserModule {
 
             // If this module is called from another we append parent module tag
             if ($parent) {
-                $module_attributes['mw_parent_module'] = $parent['mw_parent_module'];
+                $module_attributes['parent-module-id'] = $parent['parent_module_type'];
             }
 
             // Try to parse module tag block
@@ -35,7 +35,7 @@ class ParserModule {
             if ($render_module_tags) {
                 // Set the parent module tag for the new module taggs
                 $render_module = $this->recursive_parse_modules($render_module, [
-                    'mw_parent_module'=>$module_attributes['type']
+                    'parent_module_type'=>$module_attributes['type']
                 ]);
             }
 
