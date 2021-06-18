@@ -43,13 +43,23 @@ class ParserModule {
 
         if (!isset($module_attributes['type'])) {
             // If you want to run this module, you must set the attribute type
-            return false;
+            return $this->_execute_module_fail($module_attributes);
         }
 
         // Find the index of the module file
+        $module_index_file_found = false;
         $module_index_file = modules_path() . $module_attributes['type'] . DS . 'index.php';
-        if (!is_file($module_index_file)) {
-            return false;
+        if (is_file($module_index_file)) {
+            $module_index_file_found = $module_index_file;
+        }
+
+        // Find the index of the module in current template
+        $template_module_index_file = template_dir() . DS .  'userfiles' .  DS . 'modules' . DS. $module_attributes['type'] . DS . 'index.php';
+        if (is_file($template_module_index_file)) {
+            $module_index_file_found = $template_module_index_file;
+        }
+        if (!$module_index_file_found) {
+            return $this->_execute_module_fail($module_attributes);
         }
 
         // Execute module in ob start
@@ -70,23 +80,36 @@ class ParserModule {
 
         $this->app = app();
 
-        include($module_index_file);
+        include($module_index_file_found);
 
         $module_rendered = ob_get_clean();
         // Module is rendered
 
         // Append executed module in html
-        $attributes = '';
-        foreach($module_attributes as $attribute_key=>$attribute_value) {
-            $attributes .= " ".$attribute_key . '="'.$attribute_value.'"';
-        }
-
-        $html_output = '<div'.$attributes.' mw_module="true">';
+        $html_output = '<div'.$this->_arrayToHtmlAttributes($module_attributes).' mw_module="true">';
         $html_output .= trim($module_rendered);
         $html_output .= '</div>';
 
         Cache::tags(['parser'])->put($cache_id, $html_output, 600);
 
         return $html_output;
+    }
+
+    private function _execute_module_fail($attributes) {
+
+        $html_output = '<div'.$this->_arrayToHtmlAttributes($attributes).' mw_module="true" mw_module_executed="false">';
+        $html_output .= '<!-- The module cant be executed. -->';
+        $html_output .= '</div>';
+
+        return $html_output;
+    }
+
+    private function _arrayToHtmlAttributes($array)
+    {
+        $attributes = '';
+        foreach($array as $attribute_key=>$attribute_value) {
+            $attributes .= " ".$attribute_key . '="'.$attribute_value.'"';
+        }
+        return $attributes;
     }
 }
