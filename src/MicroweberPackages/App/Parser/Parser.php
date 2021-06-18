@@ -1,13 +1,11 @@
 <?php
-namespace MicroweberPackages\App\Utils\Parser;
+namespace MicroweberPackages\App\Parser;
 
 use Illuminate\View\View;
-use MicroweberPackages\App\Utils\Parser\Traits\ParserHelperTrait;
+use MicroweberPackages\App\Parser\Traits\ParserHelperTrait;
 
 final class Parser extends ParserModule
 {
-    use ParserHelperTrait;
-
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
         echo $this->recursive_parse_modules($layout);

@@ -1,7 +1,9 @@
 <?php
-namespace MicroweberPackages\App\Utils\Parser;
+namespace MicroweberPackages\App\Parser;
 
 class ParserModule {
+
+    use ParserHelperTrait;
 
     public function recursive_parse_modules($layout)
     {
