@@ -74,10 +74,9 @@ class Parser
     }
 
 
-
     public function process($layout, $options = [])
     {
-            $ready = new ParserProcessor();
+        $ready = new ParserProcessor();
         $ready = $ready->process($layout, $options);
 
         return $ready;
@@ -86,7 +85,7 @@ class Parser
 
 
 
-    public function process2($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
+    public function processOLD($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
 
         static $first_known_mod;
