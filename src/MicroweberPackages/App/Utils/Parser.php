@@ -88,6 +88,11 @@ class Parser
     public function processOLD($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
 
+        if (isset($_GET['new_parser'])) {
+            $new = new \MicroweberPackages\App\Parser\Parser();
+            return $new->process($layout);
+        }
+
         static $first_known_mod;
         static $it_loop2;
 
@@ -592,7 +597,7 @@ class Parser
                                             if ($coming_from_parent_id and !$coming_from_parent) {
                                                 $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
-                                            }  
+                                            }
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
@@ -2666,7 +2671,7 @@ class Parser
 
 
 	$('script[type=\"text/javascript/defer\"]').each(function(){
-		$(this).clone().attr('type', 'application/javascript').insertAfter(this);	
+		$(this).clone().attr('type', 'application/javascript').insertAfter(this);
 		$(this).remove();
 	});
 });

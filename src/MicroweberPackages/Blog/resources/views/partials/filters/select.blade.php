@@ -11,7 +11,7 @@ $randomId = uniqid();
 
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body px-1">
-        <div class="form-group">
+        <div class="mb-3">
 
         <select class="form-control js-filter-option-select" name="filters[{{$filterKey}}][]">
             <option value="">{{_e('Select')}}</option>
