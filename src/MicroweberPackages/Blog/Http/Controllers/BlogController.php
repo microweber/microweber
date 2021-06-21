@@ -19,18 +19,11 @@ class BlogController extends ModuleFrontController
         $moduleId = $request->get('id');
 
         $postQuery = Post::query();
-
-       /// dd(view()->getFinder()->getHints());
-
+        
         $postResults = $postQuery->frontendFilter([
             'request'=>$request,
             'moduleId'=>$moduleId
         ]);
-
-        /*return $this->view( 'blog::index', [
-            'posts'=>$postResults,
-            'moduleId'=>$moduleId
-        ]);*/
 
         return view( 'blog::index', [
             'posts'=>$postResults,
