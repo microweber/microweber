@@ -70,8 +70,9 @@ class Product extends Content
     ];
 
     public $sortable = [
-        'id',
-        'posted_at'
+        'id'=>[
+            'title'=> 'Product'
+        ]
     ];
 
     public function __construct(array $attributes = [])
