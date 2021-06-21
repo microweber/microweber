@@ -16,6 +16,7 @@ class ProductQuickViewController
                 return [
                     'id'=>$findProduct->id,
                     'url'=>$findProduct->url,
+                    'thumbnail'=>$findProduct->thumbnail(800,800, true),
                     'title'=>$findProduct->title,
                     'description'=>$findProduct->description,
                     'shortDescription'=>$findProduct->shortDescription(200),
