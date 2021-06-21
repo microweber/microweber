@@ -44,15 +44,14 @@ class ModuleFrontController
                 if (is_dir($defaultDir)) {
                     view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
                 }
-
-                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+                view()->addNamespace($this->moduleConfig['module'], $templateDir);
             }
         }
     }
 
     public function view($view = false, $data = [], $return = false)
     {
-     //   dump(view()->getFinder()->getHints());
+        // dump(view()->getFinder()->getHints()[$this->moduleConfig['module']]);
 
         $this->viewData = array_merge($this->viewData, $data);
 
