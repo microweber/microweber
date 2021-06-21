@@ -26,7 +26,6 @@ class ModuleFrontController
     public function registerModule()
     {
         $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-
         // if (isset($this->moduleParams['default-template'])) {
       //       $defaultTemplate = $this->moduleParams['default-template'];
        //  }
@@ -53,18 +52,6 @@ class ModuleFrontController
 
     public function view($view = false, $data = [], $return = false)
     {
-        /*if (method_exists($this, 'appendContentSchemaOrg')) {
-            $this->appendContentSchemaOrg();
-        }
-
-        if (method_exists($this, 'appendContentThumbnailSize')) {
-            $this->appendContentThumbnailSize();
-        }
-
-        if (method_exists($this, 'appendContentShowFields')) {
-            $this->appendContentShowFields();
-        }*/
-
      //   dump(view()->getFinder()->getHints());
 
         $this->viewData = array_merge($this->viewData, $data);
