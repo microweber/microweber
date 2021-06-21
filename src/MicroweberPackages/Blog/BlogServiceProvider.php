@@ -31,10 +31,7 @@ class BlogServiceProvider extends ServiceProvider
             View::addNamespace('blog', $checkForOverwrite);
         }
 
-        $mainFolder = (__DIR__) . '/resources/views';
-        $mainFolder = normalize_path($mainFolder);
-
-        View::addNamespace('blog', $mainFolder);
+        View::addNamespace('blog', normalize_path((__DIR__) . '/resources/views'));
     }
 
 
