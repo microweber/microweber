@@ -64,8 +64,8 @@ class ModuleFrontController
         if (method_exists($this, 'appendContentShowFields')) {
             $this->appendContentShowFields();
         }*/
-        
-        dump(view()->getFinder()->getHints());
+
+     //   dump(view()->getFinder()->getHints());
 
         $this->viewData = array_merge($this->viewData, $data);
 
