@@ -42,14 +42,6 @@ class ParserProcessor
 
     }
 
-    public function process111($layout, $options = [])
-    {
-
-
-        return $layout;
-
-    }
-
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
