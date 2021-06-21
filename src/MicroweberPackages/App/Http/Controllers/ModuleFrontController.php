@@ -46,14 +46,9 @@ class ModuleFrontController
                     view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
                 }
 
-                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
             }
         }
-
-       // define($this->moduleParams['id'], true);
-        //define(11, true);
-
-      //  dd(view()->getFinder()->getHints());
     }
 
     public function view($view = false, $data = [], $return = false)
@@ -70,6 +65,8 @@ class ModuleFrontController
             $this->appendContentShowFields();
         }*/
 
+     //   dump(view()->getFinder()->getHints());
+
         $this->viewData = array_merge($this->viewData, $data);
 
         $this->viewData['params'] = $this->moduleParams;
@@ -81,7 +78,7 @@ class ModuleFrontController
             if ($view) {
                 return view($this->moduleConfig['module'] . '::' . $view, $this->viewData);
             }
-            return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
+            // return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
         }
     }
 }
