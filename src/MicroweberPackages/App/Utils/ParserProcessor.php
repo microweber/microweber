@@ -113,6 +113,27 @@ class ParserProcessor
             return $mw_replaced_edit_fields_vals[$parser_mem_crc];
         }
 
+
+        $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
+                    $layout = str_replace($value, $v1, $layout);
+
+                        $mw_replaced_textarea_tag[$v1] = $value;
+
+
+                }
+            }
+        }
+
+
+
+
         global $mw_parser_replace_inc;
         $layout = str_replace('<?', '&lt;?', $layout);
 
@@ -160,6 +181,8 @@ class ParserProcessor
                     }
                 }
             }
+
+
 
 
 //
@@ -944,6 +967,7 @@ class ParserProcessor
 //                                $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 //                                //$this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
+                                $module_html = $this->_replace_tags_with_placeholders_back($module_html);
 
                                 $this->mw_replaced_modules_values[$parser_mem_crc] = $module_html;
                                 $layout = $this->_str_replace_first($value, $module_html, $layout);
@@ -963,6 +987,14 @@ class ParserProcessor
             $it_loop2 = 0;
         }
 
+        if (!empty($mw_replaced_textarea_tag)) {
+            foreach ($mw_replaced_textarea_tag as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+                unset($mw_replaced_textarea_tag[$key]);
+            }
+        }
 
 
       ///  dump($this->have_more);
@@ -973,6 +1005,12 @@ class ParserProcessor
 
             $layout = $this->replace_url_placeholders($layout);
         }
+
+
+
+
+
+
 
 
     //    $layout = str_replace('{rand}', uniqid() . rand(), $layout);
