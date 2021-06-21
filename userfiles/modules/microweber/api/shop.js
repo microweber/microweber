@@ -1,6 +1,15 @@
 // JavaScript Document
 mw.require('forms.js');
 
+mw.product = {
+    quick_view: function(product_id) {
+        $.get(mw.settings.api_url + 'product/quick-view', {id:product_id},
+            function (data) {
+
+            }
+        );
+    }
+};
 
 mw.cart = {
 
