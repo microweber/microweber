@@ -210,12 +210,13 @@ class ContentFilter {
             var queryParams = [];
 
             var limit = $(".js-filter-change-limit").val();
-            queryParams.push({
-                key:'limit',
-                value:limit
-            });
 
-            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
+            var redirectFilterUrl = getUrlAsArray();
+
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'limit', limit);
+            redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
+
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Sort
@@ -223,21 +224,16 @@ class ContentFilter {
 
             $(this).attr('disabled','disabled');
 
-            var queryParams = [];
+            var sortOrderField = $(".js-filter-change-sort").children('option:selected');
 
-            var sort = $(".js-filter-change-sort").children('option:selected').attr('data-sort');
-            queryParams.push({
-                key:'sort',
-                value:sort
-            });
+            var redirectFilterUrl = getUrlAsArray();
 
-            var order = $(".js-filter-change-sort").children('option:selected').attr('data-order');
-            queryParams.push({
-                key:'order',
-                value:order
-            });
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'sort', sortOrderField.attr('data-sort'));
+            redirectFilterUrl = findOrReplaceInObject(redirectFilterUrl, 'order', sortOrderField.attr('data-order'));
 
-            filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
+            redirectFilterUrl = removeItemByKeyInObject(redirectFilterUrl,'page');
+
+            filterInstance.applyFilters(redirectFilterUrl);
         });
 
         // Custom fields
