@@ -9,8 +9,30 @@ trait SortTrait {
     {
         $sort = $this->request->get('sort', false);
         if ($sort) {
+
+            $sortName = $sort;
+
+            if (isset($this->query->getModel()->sortable)) {
+                $sortable = $this->query->getModel()->sortable;
+                if (isset($sortable[$sort])) {
+                    if (isset($sortable[$sort]['title'])) {
+                        $sortName = $sortable[$sort]['title'];
+                    }
+                }
+            }
+
+            $order = $this->request->get('order', false);
+            if ($order) {
+                if ($order == 'desc') {
+                    $sortName .= ' New';
+                }
+                if ($order == 'asc') {
+                    $sortName .= ' Old';
+                }
+            }
+
             $filter = new \stdClass();
-            $filter->name = _e('Sort', true) .': '. $sort;
+            $filter->name = _e('Sort', true) .': '. $sortName;
             $filter->link = '';
             $filter->value = $sort;
             $filter->key = 'order, sort';
