@@ -151,6 +151,14 @@ class Product extends Content
         return $this->getContentDataByFieldName('sku');
     }
 
+    public function getInStockAttribute()
+    {
+        if ($this->qty > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function getContentData($values = [])
     {
         $defaultKeys = self::$contentDataDefault;
