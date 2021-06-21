@@ -72,9 +72,6 @@ class Product extends Content
     public $sortable = [
         'id'=>[
             'title'=> 'Product'
-        ],
-        'posted_at'=> [
-            'title'=> 'Created at'
         ]
     ];
 

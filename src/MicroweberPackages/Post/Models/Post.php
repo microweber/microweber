@@ -39,9 +39,6 @@ class Post extends Content
     public $sortable = [
         'id'=>[
             'title'=> 'Post'
-        ],
-        'posted_at'=> [
-            'title'=> 'Posted at'
         ]
     ];
 
