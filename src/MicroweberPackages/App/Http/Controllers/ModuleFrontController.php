@@ -64,11 +64,13 @@ class ModuleFrontController
         if (method_exists($this, 'appendContentShowFields')) {
             $this->appendContentShowFields();
         }*/
+        
+        dump(view()->getFinder()->getHints());
 
         $this->viewData = array_merge($this->viewData, $data);
 
         $this->viewData['params'] = $this->moduleParams;
-        $this->viewData['config'] = $this->moduleConfig; 
+        $this->viewData['config'] = $this->moduleConfig;
 
         if (strpos($view, '::') !== false) {
             return view($view, $this->viewData);
