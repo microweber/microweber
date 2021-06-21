@@ -4,8 +4,8 @@ $randomId = uniqid();
 
 <div class="card-header bg-white px-1">
     <div data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="d-flex">
-        <h4 class="title">{{$filter->controlName}}</h4>
-        <i class="mdi mdi-plus ms-auto align-self-center"   ></i>
+        <h4>{{$filter->controlName}}</h4>
+        <i class="mdi mdi-plus ms-auto align-self-center"></i>
     </div>
 </div>
 

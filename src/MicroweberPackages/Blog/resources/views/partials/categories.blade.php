@@ -4,7 +4,7 @@ $randomId = uniqid();
 
 <div class="card-header bg-white px-1">
     <div data-toggle="collapse" data-target="#collapse_{{$randomId}}" aria-expanded="true" class="collapse-element d-flex">
-        <h4 class="title"><?php _e('Categories') ?></h4>
+        <h4><?php _e('Categories') ?></h4>
         <i class="mdi mdi-plus ms-auto align-self-center"></i>
     </div>
 </div>
