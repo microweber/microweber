@@ -7,4 +7,3 @@ Route::name('api.')
     ->group(function () {
         Route::apiResource('product', 'ProductApiController');
     });
-
