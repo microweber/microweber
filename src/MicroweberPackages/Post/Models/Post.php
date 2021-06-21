@@ -67,6 +67,10 @@ class Post extends Content
 
     public function shortDescription($limit = 224)
     {
+        if (empty($this->content)) {
+            return false;
+        }
+        
         $shortDescription = $this->content;
         $shortDescription = strip_tags($shortDescription);
         $shortDescription = trim($shortDescription);
