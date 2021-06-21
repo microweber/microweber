@@ -37,8 +37,12 @@ class Post extends Content
     public $translatable = ['title','url','description','content','content_body'];
 
     public $sortable = [
-        'id',
-        'posted_at'
+        'id'=>[
+            'title'=> 'Post'
+        ],
+        'posted_at'=> [
+            'title'=> 'Posted at'
+        ]
     ];
 
     public function __construct(array $attributes = [])

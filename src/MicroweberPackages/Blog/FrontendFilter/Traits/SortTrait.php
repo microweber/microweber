@@ -49,11 +49,12 @@ trait SortTrait {
         $fullUrl = URL::current();
 
         $directions = [
-            'desc'=>'NEWEST',
-            'asc'=>'OLDEST',
+            'desc'=>'New',
+            'asc'=>'Old',
         ];
 
-        foreach($this->model->sortable as $field) {
+        foreach($this->model->sortable as $field=>$fieldSettings) {
+
             foreach($directions as $direction=>$directionName) {
 
                 $isActive = 0;
@@ -69,7 +70,7 @@ trait SortTrait {
                 $pageSort = new \stdClass;
                 $pageSort->active = $isActive;
                 $pageSort->link = $fullUrl . '?' . $buildLink;
-                $pageSort->name = '' . $field .' '. $directionName;
+                $pageSort->name = '' . $fieldSettings['title'] .' '. $directionName;
                 $pageSort->sort = $field;
                 $pageSort->order = $direction;
 
