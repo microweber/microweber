@@ -48,6 +48,7 @@ class Front
 
     function index($params, $config)
     {
+
         $params['exclude_shorthand'] = 'keyword, data-keyword';
         $options = Option::where('option_group', $params['id'])->get();
 

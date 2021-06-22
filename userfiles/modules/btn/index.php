@@ -1,5 +1,4 @@
 <?php
-
 $btn_id = 'btn-' . $params['id'];
 
 $btn_options = [];
