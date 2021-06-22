@@ -146,23 +146,18 @@ class TagsManager
                 }
 
             } else {
+                $article = $model->with('tagged')->first()->existingTags();
 
-                try {
-                    $article = $model->with('tagged')->first()->existingTags();
+                if ($article) {
+                    if ($return_full) {
+                        return $article->toArray();
+                    }
 
-                    if ($article) {
-                        if ($return_full) {
-                            return $article->toArray();
-                        }
-
-                        foreach ($article as $tag) {
-                            if (is_object($tag)) {
-                                $tags_return[] = $tag->name;
-                            }
+                    foreach ($article as $tag) {
+                        if (is_object($tag)) {
+                            $tags_return[] = $tag->name;
                         }
                     }
-                } catch (Exception $e) {
-                    
                 }
             }
 
