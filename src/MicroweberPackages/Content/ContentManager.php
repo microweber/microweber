@@ -2299,7 +2299,6 @@ class ContentManager
     public function homepage()
     {
         $findPage = Page::where('is_home', 1)->where('is_deleted',0)->first();
-
         if ($findPage !== null) {
             return $findPage->toArray();
         }

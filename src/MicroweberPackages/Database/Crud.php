@@ -107,6 +107,13 @@ class Crud
         $params['single'] = true;
         $data = $this->get($params);
 
+        if ($params['id'] == '1' && $params['table'] == 'content') {
+
+            //dump(debug_backtrace(50));
+
+        }
+
+
         return $data;
     }
 

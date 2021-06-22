@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -1461,10 +1462,6 @@ class FrontendController extends Controller
             return $response;
         }
 
-        $page = $this->app->content_manager->homepage();
-        echo 1;
-        return;
-
 
         if ($page == false or $this->create_new_page == true) {
             if (trim($page_url) == '' and $preview_module == false) {
@@ -1778,18 +1775,23 @@ class FrontendController extends Controller
         if (isset($page['id']) AND $page['id'] != 0) {
 
             // if(!isset($page['layout_file']) or $page['layout_file'] == false){
-            $page = $this->app->content_manager->get_by_id($page['id']);
+            // $page = $this->app->content_manager->get_by_id($page['id']);
+
+            $page = Page::where('id', $page['id'])->first();
 
             // }
             if ($page['content_type'] == 'post' and isset($page['parent'])) {
                 $content = $page;
-                $page = $this->app->content_manager->get_by_id($page['parent']);
+                //$page = $this->app->content_manager->get_by_id($page['parent']);
+                $page = Page::where('id', $page['parent'])->first();
             } else {
                 $content = $page;
             }
         } else {
             $content = $page;
         }
+
+
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
         }
@@ -1885,7 +1887,6 @@ class FrontendController extends Controller
         }
 
         $this->app->content_manager->define_constants($content);
-
 
         event_trigger('mw.front', $content);
 
@@ -1990,7 +1991,11 @@ class FrontendController extends Controller
             $render_params['page'] = $page;
             $render_params['meta_tags'] = true;
 
+            $this->app->template->set_content($content);
+            $this->app->template->set_category($category);
+
             $l = $this->app->template->render($render_params);
+
             if (is_object($l)) {
                 return $l;
             }
@@ -2031,6 +2036,7 @@ class FrontendController extends Controller
                     }
                 }
             }
+
             $modify_content = event_trigger('on_load', $content);
 
             if ($this->debugbarEnabled) {
@@ -2061,17 +2067,8 @@ class FrontendController extends Controller
                 event_trigger('mw.pageview');
             }
 
-            //$apijs_loaded = $this->app->template->get_apijs_url();
-
-            //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
-
-            $is_admin = $this->app->user_manager->is_admin();
-            // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
-
-
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
-
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
@@ -2110,6 +2107,7 @@ class FrontendController extends Controller
             if ($template_headers_src != false and is_string($template_headers_src)) {
                 $l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
             }
+
 
             $template_footer_src = $this->app->template->foot(true);
 
@@ -2220,9 +2218,7 @@ class FrontendController extends Controller
                     }
                 }
 
-
             }
-
 
             $template_config = $this->app->template->get_config();
 
@@ -2257,14 +2253,10 @@ class FrontendController extends Controller
                     }
                 }
             } else {
-
                 $l = $this->app->template->optimize_page_loading($l);
-
             }
 
-
             $l = $this->app->parser->replace_url_placeholders($l);
-
 
             if ($page != false and empty($this->page)) {
                 $this->page = $page;
@@ -2272,7 +2264,6 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
-
 
             $l = mw()->template->add_csrf_token_meta_tags($l);
 
@@ -2318,6 +2309,7 @@ class FrontendController extends Controller
             }
 
 
+
             if ($show_404_to_non_admin) {
                 $response = \Response::make($l);
                 $response->setStatusCode(404);
@@ -2331,7 +2323,6 @@ class FrontendController extends Controller
                 $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
             }
 
-
             return $response;
 
 
@@ -2342,6 +2333,7 @@ class FrontendController extends Controller
 
             return;
         }
+        
     }
 
     public function m()

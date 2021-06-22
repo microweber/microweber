@@ -9,6 +9,8 @@ class MicroweberTemplate
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
+    public $content;
+    public $category;
 
     public function __construct($app = null)
     {
@@ -16,6 +18,16 @@ class MicroweberTemplate
         if (!is_object($this->app)) {
             $this->app = app();
         }
+    }
+
+    public function set_content($content)
+    {
+        $this->content = $content;
+    }
+
+    public function set_category($category)
+    {
+        $this->category = $category;
     }
 
     public function render($params = array())

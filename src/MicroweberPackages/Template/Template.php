@@ -40,6 +40,9 @@ class Template
     public $js_adapter = null;
     public $stack_compiler_adapter = null;
 
+    public $content = [];
+    public $category = [];
+
 
     public function __construct($app = null)
     {
@@ -57,6 +60,18 @@ class Template
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
 
+
+    public function set_content($content)
+    {
+        $this->content = $content;
+        return $this->adapter_current->set_content($content);
+    }
+
+    public function set_category($category)
+    {
+        $this->category = $category;
+        return $this->adapter_current->set_category($category);
+    }
 
     public function compile_css($params)
     {

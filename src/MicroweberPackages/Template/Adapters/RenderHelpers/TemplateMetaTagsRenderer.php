@@ -23,7 +23,6 @@ class TemplateMetaTagsRenderer
 
     public function render($params)
     {
-
         if (isset($params['layout'])) {
             $layout = $params['layout'];
             $meta_content_id = 0;
@@ -59,8 +58,9 @@ class TemplateMetaTagsRenderer
             }
 
 
-            if ($meta_category_id > 0) {
-                $meta_category_data = $this->app->category_manager->get_by_id($meta_category_id);
+            if ($meta_category_id > 0 && isset($params['category'])) {
+
+                $meta_category_data = $params['category'];
 
                 if($meta_category_data) {
                     $meta['title'] = $meta_category_data['title'];
@@ -83,28 +83,29 @@ class TemplateMetaTagsRenderer
                         $meta['og_image'] = $content_image;
                     }
                 }
-            } else if ($meta_content_id > 0) {
-                $meta = $this->app->content_manager->get_by_id($meta_content_id);
+            } else if ($meta_content_id > 0 && isset($params['content'])) {
+
+                $meta = $params['content'];
+
+               // $meta = $this->app->content_manager->get_by_id($meta_content_id);
                 $content_image = $this->app->media_manager->get_picture($meta_content_id);
+
                 if ($content_image) {
                     $meta['content_image'] = $content_image;
                 } else {
                     $meta['content_image'] = '';
-                    $cont_id = get_content_by_id($meta_content_id);
 
-                    if ($cont_id and isset($cont_id['content'])) {
-                        $img = $this->app->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
-
-                        if ($img != false) {
-                            $surl = $this->app->url_manager->site();
-                            $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
-                            $meta['content_image'] = $img;
-                        }
+                    $img = $this->app->media_manager->get_first_image_from_html(html_entity_decode($meta['content']));
+                    if ($img != false) {
+                        $surl = $this->app->url_manager->site();
+                        $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
+                        $meta['content_image'] = $img;
                     }
-
-
                 }
-                $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
+
+                //$meta['content_url'] = $this->app->content_manager->link($meta_content_id);
+                $meta['content_url'] = $meta->link();
+
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
                     if ($meta['content_type'] == 'post') {
