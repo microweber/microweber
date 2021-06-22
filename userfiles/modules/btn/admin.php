@@ -182,7 +182,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                 <script>
-                    mw.top().require('instruments.js');
                     var pickUrl = function () {
 
 
