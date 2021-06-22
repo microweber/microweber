@@ -49,10 +49,23 @@
         top: 30px;
         display: inline-block;
     }
-    &.mw-drop-indicator-position-top {
+    &.mw-drop-indicator-position-before-top {
         .mw-drop-indicator-pin{
-            top: -30px;
+            margin-top: -70px;
             transform: rotate(0);
+        }
+    }
+    &.mw-drop-indicator-position-after-bottom {
+        .mw-drop-indicator-pin{
+            margin-top: 50px;
+        }
+    }
+    &.mw-drop-indicator-hidden,
+    &.mw-drop-indicator-position-prepend-top,
+    &.mw-drop-indicator-position-append-bottom{
+        .mw-drop-indicator-pin{
+            display: none;
+            animation: none;
         }
     }
     .mw-drop-indicator-block{
@@ -80,7 +93,7 @@
         .mw-drop-indicator-block{
             height: 45px;
             width: 100%;
-            background-color: rgba(0, 164, 255, 0.33);
+            background-color: rgba(0, 0, 0, 0.33);
             left: 0;
         }
     }

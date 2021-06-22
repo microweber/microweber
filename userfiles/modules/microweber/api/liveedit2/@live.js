@@ -1,16 +1,18 @@
 
 
- import {Handle} from "./handle";
+import {Handle} from "./handle";
 import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
 import {ObjectService} from "./object.service";
 import {DroppableElementAnalyzerService} from "./analizer";
- import {DropIndicator} from "./interact";
- import {ElementHandleContent} from "./handles-content/element";
- import {ModuleHandleContent} from "./handles-content/module";
- import {LayoutHandleContent} from "./handles-content/layout";
-  // import "./css/liveedit.scss";
+import {DropIndicator} from "./interact";
+import {ElementHandleContent} from "./handles-content/element";
+import {ModuleHandleContent} from "./handles-content/module";
+import {LayoutHandleContent} from "./handles-content/layout";
+import {CreateElement} from "./element";
+import {i18n} from "./i18n";
+
 
 
 export class LiveEdit {
@@ -42,11 +44,20 @@ export class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
+            lang: 'en',
             strict: false // todo: element and modules should be dropped only in layouts
         };
 
 
+
+
         this.settings = ObjectService.extend({}, defaults, options);
+
+        this.lang = function (key) {
+            if(!i18n[this.settings]) return key;
+            return i18n[this.settings][key] || i18n[this.settings][key.toLowerCase()] || key;
+        }
+
 
         if(!this.settings.root) {
             this.settings.root = this.settings.document.body
@@ -59,13 +70,12 @@ export class LiveEdit {
         this.dropIndicator = new DropIndicator(this.settings);
 
 
-        const elementHandleContent = new ElementHandleContent();
-        const moduleHandleContent = new ModuleHandleContent();
-        const layoutHandleContent = new LayoutHandleContent();
+        const elementHandleContent = new ElementHandleContent(this);
+        const moduleHandleContent = new ModuleHandleContent(this);
+        const layoutHandleContent = new LayoutHandleContent(this);
 
         var elementHandle = new Handle({
             ...this.settings,
-            title: 'Element',
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
             handle: elementHandleContent.menu.title,
@@ -75,11 +85,11 @@ export class LiveEdit {
             elementHandleContent.menu.setTarget(target);
             var title = '';
             if(target.nodeName === 'P') {
-                title = 'Paragraph'
+                title = scope.lang('Paragraph')
             } else if(/(H[1-6])/.test(target.nodeName)) {
-                title = 'Title ' + target.nodeName.replace( /^\D+/g, '')
+                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '')
             } else {
-                title = 'Text'
+                title = scope.lang('Text')
             }
             elementHandleContent.menu.setTitle(title)
         });
@@ -87,7 +97,6 @@ export class LiveEdit {
 
         var moduleHandle = new Handle({
             ...this.settings,
-            title: 'module:',
             dropIndicator: this.dropIndicator,
             content: moduleHandleContent.root,
             handle: moduleHandleContent.menu.title,
@@ -96,18 +105,16 @@ export class LiveEdit {
 
         var layoutHandle = new Handle({
             ...this.settings,
-            title: 'layout:',
             dropIndicator: this.dropIndicator,
             content: layoutHandleContent.root,
             handle: layoutHandleContent.menu.title,
             document: this.settings.document
         });
-        var title = 'Layout';
+        var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
             layoutHandleContent.menu.setTarget(target);
-            var title = 'Layout';
-            layoutHandleContent.menu.setTitle(title)
+             layoutHandleContent.menu.setTitle(title)
         });
 
         this.handles = new Handles({
@@ -131,8 +138,7 @@ export class LiveEdit {
     }
 
     init() {
-
-         mw.element(this.root).on('mousemove touchmove', (e) => {
+         CreateElement(this.root).on('mousemove touchmove', (e) => {
                 if (e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
                     const first = elements[0];

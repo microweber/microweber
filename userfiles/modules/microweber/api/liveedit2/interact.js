@@ -1,6 +1,7 @@
 
 import {ObjectService} from "./object.service";
 import {DomService} from "./dom";
+import {CreateElement} from "./element";
 
 export const DropIndicator = function (options) {
 
@@ -36,8 +37,14 @@ export const DropIndicator = function (options) {
 
     var positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
 
+    var currentPositionClass = null; // do not set if same to prevent animation stop
+
     this.position = function (rect, position) {
-        this._indicator.removeClass(positionsClasses);
+        if(currentPositionClass !== position) {
+            this._indicator.removeClass(positionsClasses);
+            currentPositionClass = position
+        }
+
         if(!rect || !position) return;
             if(rect.nodeType === 1) {
                 rect = DomService.offset(rect);
@@ -50,11 +57,10 @@ export const DropIndicator = function (options) {
             width: rect.width,
         });
         this.show();
-        $('.mw-drop-indicator-block').html(position)
     };
 
     this.make = function () {
-        this._indicator = mw.element();
+        this._indicator = CreateElement();
         this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
         this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
         this.hide();

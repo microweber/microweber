@@ -1,17 +1,18 @@
 import {HandleMenu} from "../handle-menu";
+import {CreateElement} from "../element";
 
-export const LayoutHandleContent = function () {
-    this.root = mw.element({
+export const LayoutHandleContent = function (scope) {
+    this.root = CreateElement({
         props: {
             id: 'mw-handle-item-layout-root'
         }
     });
     this.menu = new HandleMenu({
         id: 'mw-handle-item-layout-menu',
-        title: 'Layout',
+        title: scope.lang('Layout'),
         buttons: [
             {
-                title: mw.lang('Settings'),
+                title: scope.lang('Settings'),
                 text: '',
                 icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 13.3 15.9" xml:space="preserve"><path d="M8.2,2.4L11,5.1l-8.2,8.2H0v-2.8L8.2,2.4z M11.8,4.3L9,1.6l1.4-1.4C10.5,0.1,10.7,0,10.9,0c0.2,0,0.4,0.1,0.5,0.2l1.7,1.7c0.1,0.1,0.2,0.3,0.2,0.5S13.3,2.8,13.1,3L11.8,4.3z"/><rect y="14.5" width="12" height="1.4"/></svg>',
                 className: 'mw-handle-insert-button',
@@ -80,8 +81,24 @@ export const LayoutHandleContent = function () {
         ],
     });
 
+    var plusLabel = 'Add Layout';
+
+    this.plusTop = CreateElement({
+        props: {
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top'
+        }
+    });
+
+    this.plusBottom = CreateElement({
+        props: {
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom'
+        }
+    });
+
     this.menu.show()
 
+    this.root.append(this.plusTop)
+    this.root.append(this.plusBottom)
     this.root.append(this.menu.root)
 
 }

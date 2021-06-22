@@ -1,7 +1,7 @@
 import {ObjectService} from "./object.service";
 import {Draggable} from "./draggable";
-import {DropIndicator} from "./interact";
 import {DomService} from "./dom";
+import {CreateElement} from "./element";
 
 export const Handle = function (options) {
 
@@ -85,13 +85,12 @@ export const Handle = function (options) {
         if(this.settings.handle) {
             this.handle = this.settings.handle;
         } else {
-            this.handle = mw.element({
+            this.handle = CreateElement({
                 tag: 'div',
                 props: {
-                    className: 'mw-defaults mw-handle-item-handle',
+                    className: 'mw-handle-item-handle',
                     contentEditable: false,
                     draggable: true,
-                    innerHTML: this.settings.title,
                 }
             });
             this.wrapper.append(this.handle);
@@ -101,10 +100,10 @@ export const Handle = function (options) {
     }
 
     this.createWrapper = function() {
-        this.wrapper = mw.element({
+        this.wrapper = CreateElement({
             tag: 'div',
             props: {
-                className: 'mw-defaults mw-handle-item ' + (this.settings.className || 'mw-handle-type-default'),
+                className: 'mw-handle-item ' + (this.settings.className || 'mw-handle-type-default'),
                 id: this.settings.id || ('mw-handle-' + new Date().getTime()),
                 contentEditable: false
             }
@@ -113,7 +112,7 @@ export const Handle = function (options) {
         this.wrapper.on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
-        mw.element(document.body).on('mouseup touchend', function () {
+        CreateElement(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
         this.settings.document.body.appendChild(this.wrapper.get(0));

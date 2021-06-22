@@ -1,7 +1,6 @@
 import {ObjectService} from "./object.service";
 
-
-const nodeName = 'mw-le-element'
+const nodeName = 'mw-le-element';
 if (window.customElements) {
     customElements.define( nodeName,
         class extends HTMLElement {
@@ -12,6 +11,8 @@ if (window.customElements) {
     );
 }
 export const CreateElement = (config) => {
-    config = ObjectService.extend({}, config || {}, { tag: nodeName });
+    if (config instanceof Object && !config.nodeType) {
+        config = ObjectService.extend({}, config || {}, { tag: nodeName });
+    }
     return mw.element(config)
 }

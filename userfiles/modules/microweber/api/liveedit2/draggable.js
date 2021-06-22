@@ -2,6 +2,7 @@
 import {ObjectService} from './object.service';
 import {DroppableElementAnalyzerService} from "./analizer";
  import {DropPosition} from "./drop-position";
+import {CreateElement} from "./element";
 
 export const Draggable = function (options, rootSettings) {
     var defaults = {
@@ -34,7 +35,7 @@ export const Draggable = function (options, rootSettings) {
         this.dropIndicator = this.settings.dropIndicator;
     };
     this.setElement = function (node) {
-        this.element = mw.element(node)/*.prop('draggable', true)*/.get(0);
+        this.element = CreateElement(node)/*.prop('draggable', true)*/.get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -43,7 +44,7 @@ export const Draggable = function (options, rootSettings) {
     };
 
     this.setTargets = function (targets) {
-        this.targets = mw.element(targets);
+        this.targets = CreateElement(targets);
     };
 
     this.addTarget = function (target) {
@@ -57,7 +58,7 @@ export const Draggable = function (options, rootSettings) {
 
     this.helper = function (e) {
         if(!this._helper) {
-            this._helper = document.createElement('div');
+            this._helper = CreateElement().get(0);
             this._helper.className = 'mw-draggable-helper';
             this.settings.document.body.appendChild(this._helper);
         }
@@ -73,7 +74,7 @@ export const Draggable = function (options, rootSettings) {
         } else if(this.settings.helper && e) {
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
-            this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX) + 'px';
+            this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
         }
         return this._helper;
     };
@@ -85,15 +86,17 @@ export const Draggable = function (options, rootSettings) {
     this.dropPosition = DropPosition;
 
     this.draggable = function () {
-         mw.element(this.settings.target).on('dragover', function (e) {
+         CreateElement(this.settings.target).on('dragleave', function (e) {
+             scope.dropIndicator.hide()
+         })
+         CreateElement(this.settings.target).on('dragover', function (e) {
              scope.target = null;
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target)
-
                  if(targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
-                     if(pos) {
+                      if(pos) {
                          scope.target = targetAction.target;
                          scope.action = pos.action;
                          scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
@@ -116,9 +119,9 @@ export const Draggable = function (options, rootSettings) {
             if (scope.isDragging) {
                 e.preventDefault();
                 if (scope.target && scope.action) {
-                    mw.element(scope.target)[scope.action](scope.element);
+                    CreateElement(scope.target)[scope.action](scope.element);
                 }
-
+                scope.dropIndicator.hide();
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
              scope.dropIndicator.hide();
@@ -131,6 +134,8 @@ export const Draggable = function (options, rootSettings) {
                 }
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
+                e.dataTransfer.effectAllowed = "move";
+
                 scope.helper('create');
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
@@ -143,8 +148,10 @@ export const Draggable = function (options, rootSettings) {
                 if (e.clientY > (innerHeight - (scrlStp + ( this._helper ? this._helper.offsetHeight + 10 : 0)))) {
                     scroll(step)
                 }
+                e.dataTransfer.dropEffect = "copy";
                 scope.dispatch('drag',{element: scope.element, event: e});
                 scope.helper(e)
+
             })
             .on('dragend', function (e) {
                 scope.isDragging = false;
