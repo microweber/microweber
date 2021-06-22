@@ -1,4 +1,5 @@
 <?php
+return;
 $params['global'] = 1;
 $config['module'] = 'posts';
 $set_content_type = 'post';
@@ -15,7 +16,6 @@ if (isset($params['content_type'])) {
 
 $controller = new content\controllers\Front();
 return $controller->index($params,$config);
- 
+
 //include($config['path_to_module'] . '../posts/index.php');
- 
- 
+

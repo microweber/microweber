@@ -1,5 +1,7 @@
 
 <?php
+return;
+
 if (isset($params['name'])) {
     $params['menu-name'] = $params['name'];
 } elseif (isset($params['menu-name'])) {
