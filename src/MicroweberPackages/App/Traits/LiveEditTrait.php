@@ -66,7 +66,6 @@ trait LiveEditTrait {
         return $html;
     }
 
-
     public function liveEditToolbarBack($html)
     {
         $tooblabBack = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar_back.php';

@@ -123,6 +123,7 @@ class ContentManagerCrud extends Crud
      */
     public function get($params = false)
     {
+
         $params2 = array();
 
         if (is_string($params)) {
@@ -338,7 +339,7 @@ class ContentManagerCrud extends Crud
             if ($postSlug) {
                 $contentSlug = $postSlug;
             }
-            
+
             $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];

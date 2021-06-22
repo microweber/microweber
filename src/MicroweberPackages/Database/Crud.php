@@ -35,6 +35,11 @@ class Crud
             return;
         }
 
+/*
+        if (isset($params['id']) && $params['id'] == '486') {
+            dump(debug_backtrace(50));
+        }*/
+
         $table = $this->table;
         $params['table'] = $table;
 
@@ -105,14 +110,12 @@ class Crud
         $params[$field_name] = $id;
         $params['table'] = $table;
         $params['single'] = true;
+
         $data = $this->get($params);
 
-        if ($params['id'] == '1' && $params['table'] == 'content') {
-
-            //dump(debug_backtrace(50));
-
-        }
-
+       /* if ($id == '486') {
+            dump(debug_backtrace(50));
+        }*/
 
         return $data;
     }
