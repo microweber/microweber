@@ -74,8 +74,24 @@ class Parser
     }
 
 
-    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
+    public function process($layout, $options = [])
     {
+        $ready = new ParserProcessor();
+        $ready = $ready->process($layout, $options);
+
+        return $ready;
+
+    }
+
+
+
+    public function processOLD($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
+    {
+
+        if (isset($_GET['new_parser'])) {
+            $new = new \MicroweberPackages\App\Parser\Parser();
+            return $new->process($layout);
+        }
 
         static $first_known_mod;
         static $it_loop2;
@@ -98,7 +114,7 @@ class Parser
         $par_id_mod_count = 'global';
         $static_parser_mem_crc = 'global';
 
-        $mod_as_element_has_been_found_aleady = false;
+
         $it = 0;
         $it_loop = 0;
         $it_loop1 = 0;
@@ -237,30 +253,32 @@ class Parser
         }
 
 
-        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
-        $layout = str_replace('</microweber>', '', $layout);
-        $layout = str_replace('></module>', '/>', $layout);
-
-        $script_pattern = '/<module[^>]*>/Uis';
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
-        if (!isset($local_mw_replaced_modules[$static_parser_mem_crc])) {
-            $local_mw_replaced_modules[$static_parser_mem_crc] = array();
-        }
-        if (!empty($mw_script_matches)) {
-            $matches1 = $mw_script_matches[0];
-            foreach ($matches1 as $key => $value) {
-                if ($value != '') {
-                    //   dd($key);
-                    $v1 = crc32($value) . '-' . $parser_modules_crc . $key;
-                    $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
-                    if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
-                        $layout = $this->_str_replace_first($value, $v1, $layout);
-
-                        $local_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
-                    }
-                }
-            }
-        }
+//
+//          bug
+//        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
+//        $layout = str_replace('</microweber>', '', $layout);
+//        $layout = str_replace('></module>', '/>', $layout);
+//
+//        $script_pattern = '/<module[^>]*>/Uis';
+//        preg_match_all($script_pattern, $layout, $mw_script_matches);
+//        if (!isset($local_mw_replaced_modules[$static_parser_mem_crc])) {
+//            $local_mw_replaced_modules[$static_parser_mem_crc] = array();
+//        }
+//        if (!empty($mw_script_matches)) {
+//            $matches1 = $mw_script_matches[0];
+//            foreach ($matches1 as $key => $value) {
+//                if ($value != '') {
+//                    //   dd($key);
+//                    $v1 = crc32($value) . '-' . $parser_modules_crc . $key;
+//                    $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
+//                    if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
+//                        $layout = $this->_str_replace_first($value, $v1, $layout);
+//
+//                        $local_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
+//                    }
+//                }
+//            }
+//        }
 
         $should_parse_only_vars = false;
         if (isset($options['parse_only_vars']) and $options['parse_only_vars']) {
@@ -314,15 +332,16 @@ class Parser
 
 
 //
-             if ($coming_from_parent) {
-                $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
-                if ($more) {
-                    // bug ?
 
 
-                    $layout = $this->_replace_editable_fields($layout,false,$coming_from_parent);
-                }
+            $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
+            if ($more) {
+                // bug ?
+
+
+                 $layout = $this->_replace_editable_fields($layout);
             }
+
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
             $layout = str_replace('</microweber>', '', $layout);
             $layout = str_replace('></module>', '/>', $layout);
@@ -578,7 +597,7 @@ class Parser
                                             if ($coming_from_parent_id and !$coming_from_parent) {
                                                 $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
-                                            }  
+                                            }
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
@@ -794,23 +813,14 @@ class Parser
                                     }
                                     $module_name_url = app()->url_manager->slug($module_name);
 
-
+                                //    var_dump($options);
 
                                     if ($mod_as_element == false) {
-                                        if (!$coming_from_parent_id and (isset($options['module_as_element']) and !isset($options['populate_module_ids_in_elements'])) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
+                                        if (!$coming_from_parent_id and isset($options['module_as_element']) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
-
-                                        if(isset($options['module_as_element'])){
-                                            unset($options['module_as_element']);
-                                        }
-
-                                        if(isset($options['populate_module_ids_in_elements'])){
-                                            unset($options['populate_module_ids_in_elements']);
-                                        }
-
                                         $userclass = str_replace(trim($module_class), '', $userclass);
                                         $userclass = trim(str_replace(' -module ', 'module ', $userclass));
                                         $userclass = trim(str_replace(' module ', ' ', $userclass));
@@ -1941,7 +1951,7 @@ class Parser
         return $html_to_save;
     }
 
-    public function get_by_id($html_element_id = false, $layout= false)
+    public function get_by_id($html_element_id = false, $layout)
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
@@ -2083,44 +2093,29 @@ class Parser
     }
     public $module_registry = array();
     public $module_load_registry = array();
-    public $module_load_registry_is_loaded = array();
 
     public function load($module_name, $attrs = array())
     {
 
 
 
-        //   $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
-     //   $mod_id_value = $attrs['id'];
-       $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
 
-//if(isset($attrs['id'])){
-//    $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
-//    dd($attrs);
-//
-//}
-
+        $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
         $that = $this;
         if (isset($that->module_load_registry[$mod_id_value])) {
-            //  dd($this->module_load_registry_is_loaded);
-            //dd(11111111111);
-            return $that->module_load_registry[$mod_id_value];
-        }
-
-        if (isset($that->module_load_registry_is_loaded[$mod_id_value])) {
             return $that->module_load_registry[$mod_id_value];
         }
 
         if ($this->debugbarEnabled) {
-            \Debugbar::startMeasure('render_module_' . $module_name, 'Rendering ' . $module_name);
+            \Debugbar::startMeasure('render_module_'.$module_name, 'Rendering '.$module_name);
         }
 
+        
 
         $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
-        $that->module_load_registry_is_loaded[$mod_id_value] = 1;
 
         if ($this->debugbarEnabled) {
-            \Debugbar::stopMeasure('render_module_' . $module_name, $attrs);
+            \Debugbar::stopMeasure('render_module_'.$module_name,$attrs);
         }
 
 
@@ -2676,7 +2671,7 @@ class Parser
 
 
 	$('script[type=\"text/javascript/defer\"]').each(function(){
-		$(this).clone().attr('type', 'application/javascript').insertAfter(this);	
+		$(this).clone().attr('type', 'application/javascript').insertAfter(this);
 		$(this).remove();
 	});
 });
@@ -2869,6 +2864,7 @@ $srsc_str
 
     private function _do_we_have_more_for_parse($mod_content)
     {
+
         $proceed_with_parse = false;
 
         if ($this->_do_we_have_more_edit_fields_for_parse($mod_content)) {

@@ -3,7 +3,7 @@
 
 
 Route::name('admin.shop.filter.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(ADMIN_PREFIX. '/shop/filter')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers')
     ->group(function () {

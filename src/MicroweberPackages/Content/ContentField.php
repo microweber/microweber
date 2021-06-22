@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Content;
 
-class ContentFields extends \MicroweberPackages\Database\BaseModel
+class ContentField extends \MicroweberPackages\Database\BaseModel
 {
     public $table = 'content_fields';
     public $table_drafts = 'content_fields_drafts';
