@@ -26,6 +26,15 @@ trait MediaTrait {
         return pixum($width, $height);
     }
 
+    public function mediaUrl()
+    {
+        $media = $this->media()->first();
+        if ($media) {
+           return $media->filename;
+        }
+
+        return pixum();
+    }
 
     public function addMedia($mediaArr)
     {
