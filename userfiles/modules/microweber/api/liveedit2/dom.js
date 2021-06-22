@@ -1,4 +1,16 @@
+
+let matches;
+const el = document.documentElement;
+if(!!el.matches) matches = 'matches';
+else if (!!el.matchesSelector) matches = 'matchesSelector';
+else if (!!el.mozMatchesSelector) matches = 'mozMatchesSelector';
+else if (!!el.webkitMatchesSelector) matches = 'webkitMatchesSelector';
+
 export class DomService {
+
+    static matches(node, selector) {
+        return node[matches](selector)
+    }
 
     static firstWithBackgroundImage (node) {
         if (!node) {

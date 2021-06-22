@@ -4681,6 +4681,25 @@ $(document).ready(function () {
 /***/ (() => {
 
 
+
+mw.product = {
+    quick_view: function(product_id, dialog_title) {
+        $.get(mw.settings.api_url + 'product/quick-view', {id:product_id},
+            function (html) {
+                mw.dialog({
+                    title: dialog_title,
+                    width: 960,
+                    content: html,
+                    onremove: function () {
+
+                    },
+                    name: 'product-quick-view'
+                });
+            }
+        );
+    }
+};
+
 mw.cart = {
 
     add_and_checkout: function (content_id, price, c) {
@@ -16590,7 +16609,7 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
-                if(textField) val.url = scope.link;
+                val.url = scope.link;
                   return val;
             };
 

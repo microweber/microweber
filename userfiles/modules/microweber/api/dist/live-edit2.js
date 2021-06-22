@@ -139,7 +139,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DomService": () => (/* binding */ DomService)
 /* harmony export */ });
+
+let matches;
+const el = document.documentElement;
+if(!!el.matches) matches = 'matches';
+else if (!!el.matchesSelector) matches = 'matchesSelector';
+else if (!!el.mozMatchesSelector) matches = 'mozMatchesSelector';
+else if (!!el.webkitMatchesSelector) matches = 'webkitMatchesSelector';
+
 class DomService {
+
+    static matches(node, selector) {
+        return node[matches](selector)
+    }
 
     static firstWithBackgroundImage (node) {
         if (!node) {
@@ -1464,34 +1476,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ModeAuto": () => (/* binding */ ModeAuto)
 /* harmony export */ });
-const getElementsLike = (selector, root) => {
-    root = root || document.body;
+/* harmony import */ var _analizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./analizer */ "./userfiles/modules/microweber/api/liveedit2/analizer.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+
+
+
+
+
+const isRowLike = function (node) {
+    return _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.matches(node, '.row,[class*="row-"]');
+}
+
+const isColumnLIke = function (node) {
+    return _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.matches(node, '.col,[class*="col-"]');
+}
+let _fragment;
+const fragment = function(){
+    if(!_fragment){
+        _fragment = document.createElement('div');
+        _fragment.style.visibility = 'hidden';
+        _fragment.style.position = 'absolute';
+        _fragment.style.width = '1px';
+        _fragment.style.height = '1px';
+        document.body.appendChild(_fragment);
+    }
+    return _fragment;
+}
+const _isBlockCache = {};
+const isBlockLevel = function (node) {
+    if(!node || node.nodeType === 3){
+        return false;
+    }
+    var name = node.nodeName;
+    if(typeof _isBlockCache[name] !== 'undefined'){
+        return _isBlockCache[name];
+    }
+    var test = document.createElement(name);
+    fragment().appendChild(test);
+    _isBlockCache[name] = getComputedStyle(test).display === 'block';
+    fragment().removeChild(test);
+    return _isBlockCache[name];
+}
+
+
+
+
+const getElementsLike = (selector, root, scope) => {
+
     selector = selector || '*';
     var all = root.querySelectorAll(selector), i = 0, final = [];
     for( ; i<all.length; i++){
-        if(!undefined.scope.helpers.isColLike(all[i]) &&
-            !undefined.scope.helpers.isRowLike(all[i]) &&
-            !undefined.scope.helpers.isEdit(all[i]) &&
-            undefined.scope.helpers.isBlockLevel(all[i])){
+        if(!isColumnLIke(all[i]) &&
+            !isRowLike(all[i]) &&
+            !scope.elementAnalyzer.isEdit(all[i]) &&
+            isBlockLevel(all[i])){
             final.push(all[i]);
         }
     }
+    console.log(final)
     return final;
 };
 
-const ModeAuto = (root, selector, config, domService, dropableService) => {
+const ModeAuto = (scope) => {
+
+
+
     const {
         backgroundImageHolder,
         editClass,
         moduleClass,
         elementClass,
         allowDrop
-    } = config;
-    root = root || document.body;
-    selector = selector || '*';
+    } = scope.settings;
+    const root = scope.root;
+    var selector = '*';
     var bgHolders = root.querySelectorAll('.' + editClass + '.' + backgroundImageHolder + ', .' + editClass + ' .' + backgroundImageHolder + ', .'+editClass+'[style*="background-image"], .'+editClass+' [style*="background-image"]');
-    var noEditModules = root.querySelectorAll('.' + moduleClass + mw.noEditModules.join(',.' + moduleClass));
-    var edits = root.querySelectorAll('.edit');
+    var noEditModules = root.querySelectorAll('.' + moduleClass + scope.settings.unEditableModules.join(',.' + moduleClass));
+    var edits = root.querySelectorAll('.' + editClass);
     var i = 0, i1 = 0, i2 = 0;
     for ( ; i < bgHolders.length; i++ ) {
         var curr = bgHolders[i];
@@ -1507,14 +1568,15 @@ const ModeAuto = (root, selector, config, domService, dropableService) => {
         noEditModules[i].classList.remove(moduleClass);
     }
     for ( ; i2 < edits.length; i2++ ) {
-        var all = getElementsLike(':not(.' + elementClass + ')', edits[i2]), i2a = 0;
+        var all = getElementsLike(':not(.' + elementClass + ')', edits[i2], scope), i2a = 0;
+
         var allAllowDrops = edits[i2].querySelectorAll('.' + allowDrop), i3a = 0;
         for( ; i3a < allAllowDrops.length; i3a++){
             allAllowDrops[i3a].classList.add(elementClass);
         }
         for( ; i2a<all.length; i2a++) {
             if(!all[i2a].classList.contains(moduleClass)){
-                if(dropableService.canAccept(all[i2a])){
+                if(scope.elementAnalyzer.isInEdit(all[i2a])){
                     all[i2a].classList.add( elementClass );
                 }
             }
@@ -1817,6 +1879,7 @@ class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
+            mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
             strict: false // todo: element and modules should be dropped only in layouts
         };
@@ -1825,6 +1888,8 @@ class LiveEdit {
 
 
         this.settings = _object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options);
+
+
 
         this.lang = function (key) {
             if(!_i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings]) return key;
@@ -1911,6 +1976,9 @@ class LiveEdit {
     }
 
     init() {
+        if(this.settings.mode === 'auto') {
+            (0,_mode_auto__WEBPACK_IMPORTED_MODULE_2__.ModeAuto)(this);
+        }
          (0,_element__WEBPACK_IMPORTED_MODULE_10__.CreateElement)(this.root).on('mousemove touchmove', (e) => {
                 if (e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);

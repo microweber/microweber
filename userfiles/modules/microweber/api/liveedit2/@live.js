@@ -44,6 +44,7 @@ export class LiveEdit {
                 col: ['col', 'mw-col']
             },
             document: document,
+            mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
             strict: false // todo: element and modules should be dropped only in layouts
         };
@@ -52,6 +53,8 @@ export class LiveEdit {
 
 
         this.settings = ObjectService.extend({}, defaults, options);
+
+
 
         this.lang = function (key) {
             if(!i18n[this.settings]) return key;
@@ -138,6 +141,9 @@ export class LiveEdit {
     }
 
     init() {
+        if(this.settings.mode === 'auto') {
+            ModeAuto(this);
+        }
          CreateElement(this.root).on('mousemove touchmove', (e) => {
                 if (e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
