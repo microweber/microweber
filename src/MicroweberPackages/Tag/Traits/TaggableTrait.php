@@ -56,7 +56,7 @@ trait TaggableTrait
                     }
                 } else {
                     $tags = $model->existingTags();
-                    if ($tags) { 
+                    if ($tags) {
                         foreach ($tags as $tag) {
                             $tag->delete();
                         }

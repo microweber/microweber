@@ -1277,7 +1277,6 @@ class FrontendController extends Controller
             $is_editmode = true;
         }
 
-
         $preview_module = false;
         $preview_module_template = false;
         $is_preview_module_skin = false;
@@ -1310,6 +1309,8 @@ class FrontendController extends Controller
         if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
             $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
         }
+
+
 
         $output_cache_timeout = false;
 
@@ -1392,6 +1393,10 @@ class FrontendController extends Controller
 
             }
         }
+
+
+
+
         if (isset($is_preview_template) and $is_preview_template != false) {
             if (!defined('MW_NO_SESSION')) {
                 define('MW_NO_SESSION', true);
@@ -1455,6 +1460,11 @@ class FrontendController extends Controller
             $response->setStatusCode(503);
             return $response;
         }
+
+        $page = $this->app->content_manager->homepage();
+        echo 1;
+        return;
+
 
         if ($page == false or $this->create_new_page == true) {
             if (trim($page_url) == '' and $preview_module == false) {

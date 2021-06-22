@@ -17,16 +17,15 @@ use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    use TaggableTrait;
-    use ContentDataTrait;
-    use CustomFieldsTrait;
-    use CategoryTrait;
+    //use TaggableTrait;
+   // use ContentDataTrait;
+   // use CustomFieldsTrait;
+   // use CategoryTrait;
     use HasSlugTrait;
-    use MediaTrait;
+ //   use MediaTrait;
     use Filterable;
-    use HasCreatedByFieldsTrait;
+ //   use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
-
 
     protected $table = 'content';
     protected $content_type = 'content';

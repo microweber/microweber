@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
+use MicroweberPackages\Page\Models\Page;
 
 /**
  * Content class is used to get and save content in the database.
@@ -2297,12 +2298,13 @@ class ContentManager
      */
     public function homepage()
     {
-        $get = array();
-        $get['is_home'] = 1;
-        $get['single'] = 1;
-        $data = $this->get($get);
+        $findPage = Page::where('is_home', 1)->where('is_deleted',0)->first();
 
-        return $data;
+        if ($findPage !== null) {
+            return $findPage->toArray();
+        }
+
+        return false;
     }
 
 // ------------------------------------------------------------------------

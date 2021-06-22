@@ -687,6 +687,9 @@ class Front
 
         //$content = get_content($post_params);
 
+
+        return;
+
         if (isset($post_params['content_type']) && $post_params['content_type'] == 'product') {
 
             $productQuery = Product::query();
