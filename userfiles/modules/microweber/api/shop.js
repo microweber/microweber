@@ -7,6 +7,7 @@ mw.product = {
             function (html) {
                 mw.dialog({
                     title: dialog_title,
+                    width: 960,
                     content: html,
                     onremove: function () {
 
