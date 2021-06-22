@@ -4,9 +4,15 @@ namespace MicroweberPackages\Post\Models;
 use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
+use MicroweberPackages\Media\Traits\MediaTrait;
+use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Post extends Content
 {
+
+    use MediaTrait;
+    use TaggableTrait;
+
     protected $table = 'content';
     protected $primaryKey = 'id';
 

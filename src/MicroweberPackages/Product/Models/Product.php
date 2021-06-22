@@ -3,12 +3,16 @@ namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
+use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Product extends Content
 {
+    use MediaTrait;
+    use TaggableTrait;
     use CustomFieldPriceTrait;
 
     protected $table = 'content';
