@@ -9,27 +9,34 @@ class ProductQuickViewController
 {
     public function view(Request $request) {
 
+        $product = false;
+        $productAsArray = [];
+
         $productId = $request->get('id', false);
         if ($productId) {
-            $findProduct = Product::where('id', $productId)->first();
-            if ($findProduct !== null) {
-                return [
-                    'id'=>$findProduct->id,
-                    'url'=>$findProduct->url,
-                    'thumbnail'=>$findProduct->thumbnail(800,800, true),
-                    'title'=>$findProduct->title,
-                    'description'=>$findProduct->description,
-                    'shortDescription'=>$findProduct->shortDescription(200),
-                    'inStock'=>$findProduct->inStock,
-                    'sku'=>$findProduct->sku,
-                    'model'=>$findProduct->model,
-                    'qty'=>$findProduct->qty,
-                    'price'=>$findProduct->price,
+            $product = Product::where('id', $productId)->first();
+            if ($product !== null) {
+                $productAsArray =  [
+                    'id'=>$product->id,
+                    'url'=>$product->url,
+                    'thumbnail'=>$product->thumbnail(800,800, true),
+                    'title'=>$product->title,
+                    'description'=>$product->description,
+                    'shortDescription'=>$product->shortDescription(200),
+                    'inStock'=>$product->inStock,
+                    'sku'=>$product->sku,
+                    'model'=>$product->model,
+                    'qty'=>$product->qty,
+                    'price'=>$product->price,
                 ];
             }
         }
 
-        return [];
+        $json = $request->get('json', false);
+        if ($json){
+            return $productAsArray;
+        }
 
+        return view('shop::product-quick-view', compact('product'));
     }
 }
