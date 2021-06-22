@@ -2333,7 +2333,7 @@ class FrontendController extends Controller
 
             return;
         }
-        
+
     }
 
     public function m()

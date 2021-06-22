@@ -17,12 +17,12 @@ use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    //use TaggableTrait;
+    use TaggableTrait;
    // use ContentDataTrait;
    // use CustomFieldsTrait;
    // use CategoryTrait;
     use HasSlugTrait;
- //   use MediaTrait;
+    use MediaTrait;
     use Filterable;
  //   use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
