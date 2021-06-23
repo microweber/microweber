@@ -1,5 +1,4 @@
 <?php
-
 $settings = get_option('settings', 'init_scwCookiedefault');
 $json = array();
 //$settings = false;

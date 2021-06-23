@@ -1,7 +1,8 @@
 <?php
 
-include_once(__DIR__ . DS . 'scwCookie/scwCookie.class.php');
+$scwCookieSettings = get_option('settings', 'init_scwCookiedefault');
 
+include_once(__DIR__ . DS . 'scwCookie/scwCookie.class.php');
 
 api_expose('scwCookie_ajax');
 function scwCookie_ajax()
@@ -98,20 +99,17 @@ function scwCookie_ajax()
     }
 }
 
-
-event_bind('mw.front', function () {
-    $mod_id = 'init_scwCookiedefault';
-    $settings = get_option('settings', $mod_id);
-    $json = json_decode($settings, true);
-
-    if (isset($json['cookies_policy']) AND $json['cookies_policy'] == 'y') {
-        $init = init_scwCookie($mod_id);
-        if (is_object($init) and method_exists($init, 'getOutput')) {
-            mw()->template->foot($init->getOutput());
+if (!empty($scwCookieSettings)) {
+    event_bind('mw.front', function () use($scwCookieSettings) {
+        $json = json_decode($scwCookieSettings, true);
+        if (isset($json['cookies_policy']) and $json['cookies_policy'] == 'y') {
+            $init = init_scwCookie('init_scwCookiedefault');
+            if (is_object($init) and method_exists($init, 'getOutput')) {
+                mw()->template->foot($init->getOutput());
+            }
         }
-    }
-});
-
+    });
+}
 
 function init_scwCookie($id)
 {
