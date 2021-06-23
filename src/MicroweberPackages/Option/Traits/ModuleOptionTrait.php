@@ -7,6 +7,7 @@ use MicroweberPackages\Option\Models\ModuleOption;
 trait ModuleOptionTrait {
 
     public $memoryModuleOptionGroup = [];
+    public $memoryModuleOptionGroupPrefix = [];
 
     public function getModuleOptions($optionGroup)
     {
@@ -26,7 +27,13 @@ trait ModuleOptionTrait {
                 $optionGroupShared = $optionGroupPrefix[0];
             }
 
-            $allOptions = ModuleOption::where('option_group','LIKE', '%' . $optionGroupShared. '%')->get()->toArray();
+            if (isset($this->memoryModuleOptionGroupPrefix[$optionGroupShared])) {
+                $allOptions = $this->memoryModuleOptionGroupPrefix[$optionGroupShared];
+            } else {
+                $allOptions = ModuleOption::where('option_group','LIKE', '%' . $optionGroupShared. '%')->get()->toArray();
+                $this->memoryModuleOptionGroupPrefix[$optionGroupShared] = $allOptions;
+            }
+
             foreach ($allOptions as $option) {
                 $this->memoryModuleOptionGroup[$option['option_group']][] = $option;
             }
