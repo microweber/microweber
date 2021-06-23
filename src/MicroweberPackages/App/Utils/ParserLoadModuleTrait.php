@@ -1,15 +1,10 @@
 <?php
-
-
 namespace MicroweberPackages\App\Utils;
 
 use MicroweberPackages\View\View;
 
-
 Trait ParserLoadModuleTrait
 {
-
-
     public $module_registry = array();
     public $module_load_registry = array();
     public $module_load_registry_is_loaded = array();
@@ -19,13 +14,8 @@ Trait ParserLoadModuleTrait
     public $_existing_module_ids_grouped = array();
     public $_existing_module_ids = array();
 
-
-
-
     public function load($module_name, $attrs = array())
     {
-
-
         //  $mod_id_value = 'load' . crc32($module_name . json_encode($attrs['id']));
 
         //   $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
@@ -394,8 +384,6 @@ Trait ParserLoadModuleTrait
             $l1->params = $attrs;
 
             //   $this->registry->registerParsedModule($module_name,$attrs['id']);
-
-
 
             if ($config) {
                 $this->current_module = ($config);
