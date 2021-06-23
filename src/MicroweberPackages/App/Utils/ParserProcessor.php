@@ -1011,9 +1011,9 @@ class ParserProcessor
 
 
 
+ 
 
-
-    //    $layout = str_replace('{rand}', uniqid() . rand(), $layout);
+        $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', app()->url_manager->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', app()->url_manager->site(), $layout);
