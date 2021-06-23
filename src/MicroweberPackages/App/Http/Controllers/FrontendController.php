@@ -1462,7 +1462,6 @@ class FrontendController extends Controller
             return $response;
         }
 
-
         if ($page == false or $this->create_new_page == true) {
             if (trim($page_url) == '' and $preview_module == false) {
                 $page = $this->app->content_manager->homepage();
@@ -1773,13 +1772,7 @@ class FrontendController extends Controller
         }
 
         if (isset($page['id']) AND $page['id'] != 0) {
-
-            // if(!isset($page['layout_file']) or $page['layout_file'] == false){
-            // $page = $this->app->content_manager->get_by_id($page['id']);
-
             $page = Page::where('id', $page['id'])->first();
-
-            // }
             if ($page['content_type'] == 'post' and isset($page['parent'])) {
                 $content = $page;
                 //$page = $this->app->content_manager->get_by_id($page['parent']);
@@ -1790,7 +1783,6 @@ class FrontendController extends Controller
         } else {
             $content = $page;
         }
-
 
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
@@ -1803,11 +1795,9 @@ class FrontendController extends Controller
         if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
             $is_preview_template = str_replace('..', '', $is_preview_template);
-
             $content['active_site_template'] = $is_preview_template;
         }
-
-
+        
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
             if ($is_layout_file == 'inherit') {
