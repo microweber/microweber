@@ -29,7 +29,7 @@ trait ModuleOptionTrait {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryModuleOptionGroup[$optionGroup], $returnFull);
         }
 
-        if ($optionGroup) { 
+        if ($optionGroup) {
             $allOptions = ModuleOption::select(['id','option_key','option_group','option_value'])->where('option_group', $optionGroup)->get()->toArray();
             $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
