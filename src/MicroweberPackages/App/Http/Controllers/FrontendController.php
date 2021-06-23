@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
-   // use LiveEditTrait;
+    use LiveEditTrait;
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
