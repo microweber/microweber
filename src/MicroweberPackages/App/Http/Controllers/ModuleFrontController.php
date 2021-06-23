@@ -26,7 +26,6 @@ class ModuleFrontController
     public function registerModule()
     {
         $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-
         // if (isset($this->moduleParams['default-template'])) {
       //       $defaultTemplate = $this->moduleParams['default-template'];
        //  }
@@ -43,32 +42,17 @@ class ModuleFrontController
 
                 $defaultDir = dirname($templateDir) . DS . 'default';
                 if (is_dir($defaultDir)) {
-                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
+                    view()->addNamespace($this->moduleConfig['module'], $defaultDir);
                 }
 
-                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
             }
         }
-
-       // define($this->moduleParams['id'], true);
-        //define(11, true);
-
-      //  dd(view()->getFinder()->getHints());
     }
 
     public function view($view = false, $data = [], $return = false)
     {
-        /*if (method_exists($this, 'appendContentSchemaOrg')) {
-            $this->appendContentSchemaOrg();
-        }
-
-        if (method_exists($this, 'appendContentThumbnailSize')) {
-            $this->appendContentThumbnailSize();
-        }
-
-        if (method_exists($this, 'appendContentShowFields')) {
-            $this->appendContentShowFields();
-        }*/
+        view()->getFinder()->flush();
 
         $this->viewData = array_merge($this->viewData, $data);
 
@@ -76,12 +60,12 @@ class ModuleFrontController
         $this->viewData['config'] = $this->moduleConfig;
 
         if (strpos($view, '::') !== false) {
-            return view($view, $this->viewData);
+            return view()->make($view, $this->viewData);
         } else {
             if ($view) {
-                return view($this->moduleConfig['module'] . '::' . $view, $this->viewData);
+               return view()->make($this->moduleConfig['module'] . '::' . $view, $this->viewData);
             }
-            return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
+            // return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
         }
     }
 }

@@ -414,7 +414,7 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
-                if(textField) val.url = scope.link;
+                val.url = scope.link;
                   return val;
             };
 

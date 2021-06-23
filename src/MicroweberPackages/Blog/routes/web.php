@@ -1,7 +1,7 @@
 <?php
 
 Route::name('admin.blog.filter.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(ADMIN_PREFIX . '/blog/filter')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Blog\Http\Controllers')
     ->group(function () {

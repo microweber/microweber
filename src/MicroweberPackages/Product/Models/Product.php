@@ -70,8 +70,9 @@ class Product extends Content
     ];
 
     public $sortable = [
-        'id',
-        'posted_at'
+        'id'=>[
+            'title'=> 'Product'
+        ]
     ];
 
     public function __construct(array $attributes = [])
@@ -149,6 +150,33 @@ class Product extends Content
     public function getSkuAttribute()
     {
         return $this->getContentDataByFieldName('sku');
+    }
+
+    public function getInStockAttribute()
+    {
+        if ($this->qty > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->content;
+    }
+
+    public function shortDescription($limit = 224)
+    {
+        if (empty($this->content)) {
+            return false;
+        }
+
+        $shortDescription = $this->content;
+        $shortDescription = strip_tags($shortDescription);
+        $shortDescription = trim($shortDescription);
+        $shortDescription = str_limit($shortDescription, $limit);
+
+        return $shortDescription;
     }
 
     public function getContentData($values = [])

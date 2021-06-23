@@ -37,8 +37,9 @@ class Post extends Content
     public $translatable = ['title','url','description','content','content_body'];
 
     public $sortable = [
-        'id',
-        'posted_at'
+        'id'=>[
+            'title'=> 'Post'
+        ]
     ];
 
     public function __construct(array $attributes = [])
@@ -66,6 +67,10 @@ class Post extends Content
 
     public function shortDescription($limit = 224)
     {
+        if (empty($this->content)) {
+            return false;
+        }
+
         $shortDescription = $this->content;
         $shortDescription = strip_tags($shortDescription);
         $shortDescription = trim($shortDescription);
