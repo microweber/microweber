@@ -124,7 +124,20 @@ Route::get('test-lang', function () {
 
 });
 */
+/*
+Route::get('/', function() {
 
+    global $mw_time_start;
+
+    $time_end = microtime(true);
+    $execution_time = ($time_end - $mw_time_start);
+
+    echo $execution_time;
+    return;
+
+});*/
+
+return;
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
