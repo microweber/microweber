@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -1148,13 +1149,14 @@ class FrontendController extends Controller
 
         event_trigger('mw.controller.index');
 
-        if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == false) {
-            $page_url = $this->app->url_manager->string();
+        $isAjax = app()->url_manager->is_ajax();
+        $urlString = app()->url_manager->string();
 
-        } elseif ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
-            //  $page_url = $this->app->url_manager->string(1);
-            $page_url = $this->app->url_manager->string();
+        if ($this->render_this_url == false and $isAjax == false) {
+            $page_url = $urlString;
 
+        } elseif ($this->render_this_url == false and $isAjax == true) {
+            $page_url = $urlString;
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
