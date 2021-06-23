@@ -1473,15 +1473,12 @@ class FrontendController extends Controller
                 $slug_category = $this->app->permalink_manager->slug($page_url, 'category');
 
                 $found_mod = false;
-
                 $try_content = false;
-
 
                 if ($slug_post) {
                     $page = $this->app->content_manager->get_by_url($slug_post);
                     $page_exact = $this->app->content_manager->get_by_url($slug_post, true);
                 }
-
 
                 if ($slug_page and !$page) {
                     $page = $this->app->content_manager->get_by_url($page_url);
@@ -1498,7 +1495,6 @@ class FrontendController extends Controller
                         }
                     }
                 }
-
 
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
@@ -1519,8 +1515,6 @@ class FrontendController extends Controller
                     return $response;
                 }
 
-
-                // if ($found_mod == false) {
                 if (empty($page)) {
                     $the_new_page_file = false;
                     $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
@@ -1596,18 +1590,15 @@ class FrontendController extends Controller
                     $fname2 = $page_url_segment_2 . '.php';
                     $fname3 = $page_url_segment_2;
 
-
                     $tf1 = $td . DS . $fname1;
                     $tf2 = $td . DS . $fname2;
                     $tf3 = $td . DS . $fname3;
-
 
                     if ($directly_to_file == false and is_dir($td)) {
                         if (is_file($tf1)) {
                             $simply_a_file = $tf1;
                             $the_new_page_file = $fname1;
                         }
-
                         if (is_file($tf2)) {
                             $simply_a_file = $tf2;
                             $the_new_page_file = $fname2;
@@ -1616,48 +1607,26 @@ class FrontendController extends Controller
                             $simply_a_file = $tf3;
                             $the_new_page_file = $fname3;
                         }
-
                         if (($simply_a_file) != false) {
                             $simply_a_file = str_replace('..', '', $simply_a_file);
                             $simply_a_file = normalize_path($simply_a_file, false);
                         }
                     }
 
-
                     if ($simply_a_file == false) {
-
-                        //$page = $this->app->content_manager->homepage();
                         $page = false;
                         if (!is_array($page)) {
 
-
                             $page = array();
-
                             $page['id'] = 0;
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
                             $page['url'] = $this->app->url_manager->string();
-                            //  $page['active_site_template'] = $page_url_segment_1;
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
+
                             $show_404_to_non_admin = true;
-
                             $enable_full_page_cache = false;
-
-
-                            if ($show_404_to_non_admin) {
-//                                $content_from_event = event_trigger('mw.frontend.404', $page);
-//                                if($content_from_event and !empty($content_from_event)){
-//                                    foreach ($content_from_event as $content_from_event_item){
-//                                        $page = array_merge($page,$content_from_event_item);
-//                                      //  $page = $content_from_event_item;
-//                                        //$content = array_merge($content,$content_from_event_item);
-//                                    }
-//                                }
-
-
-                            }
-
 
                             if ($all_url_segments) {
                                 $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
@@ -1697,16 +1666,15 @@ class FrontendController extends Controller
                                     if ($preview_module_id != false) {
                                         $mod_params = $mod_params . " id='{$preview_module_id}' ";
                                     }
-                                    $found_mod = $page_url;
+
                                     $page['simply_a_file'] = $file_for_module;
                                     $page['layout_file'] = $file_for_module;
                                     $page['content'] = '<module type="' . $page_url . '" ' . $mod_params . '  />';
-
-                                    //  $page['simply_a_file'] = 'clean.php';
                                     $page['layout_file'] = $file_for_module;
-                                    template_var('content', $page['content']);
 
+                                    template_var('content', $page['content']);
                                     template_var('new_page', $page);
+
                                     $show_404_to_non_admin = false;
                                 }
                             }
@@ -1725,43 +1693,36 @@ class FrontendController extends Controller
                                     $page['content'] = '<module type="' . $mvalue . '" />';
                                     $page['simply_a_file'] = 'clean.php';
                                     $page['layout_file'] = 'clean.php';
-                                    template_var('content', $page['content']);
 
+                                    template_var('content', $page['content']);
                                     template_var('new_page', $page);
+
                                     $enable_full_page_cache = false;
                                     $show_404_to_non_admin = false;
                                 }
                             }
                         }
                     } else {
-
                         if (!is_array($page)) {
                             $page = array();
                         }
+
                         $page['id'] = 0;
-
-                        if (isset($page_data) and isset($page_data['id'])) {
-
-                            //  $page['id'] = $page_data['id'];
-                        }
-
                         $page['content_type'] = 'page';
                         $page['parent'] = '0';
                         $page['url'] = $this->app->url_manager->string();
-
                         $page['active_site_template'] = $the_active_site_template;
-
                         $page['layout_file'] = $the_new_page_file;
                         $page['simply_a_file'] = $simply_a_file;
+
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
-                        $show_404_to_non_admin = false;
 
+                        $show_404_to_non_admin = false;
                         $enable_full_page_cache = false;
 
                     }
                 }
-                // }
             }
         }
 
@@ -1771,17 +1732,12 @@ class FrontendController extends Controller
 
         }
 
+        $content = $page;
         if (isset($page['id']) AND $page['id'] != 0) {
-            $page = Page::where('id', $page['id'])->first();
-            if ($page['content_type'] == 'post' and isset($page['parent'])) {
+            if ($page['content_type'] == 'post' and isset($page['parent']) && $page['parent'] > 0) {
                 $content = $page;
-                //$page = $this->app->content_manager->get_by_id($page['parent']);
                 $page = Page::where('id', $page['parent'])->first();
-            } else {
-                $content = $page;
             }
-        } else {
-            $content = $page;
         }
 
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
@@ -1797,7 +1753,7 @@ class FrontendController extends Controller
             $is_preview_template = str_replace('..', '', $is_preview_template);
             $content['active_site_template'] = $is_preview_template;
         }
-        
+
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
             if ($is_layout_file == 'inherit') {
