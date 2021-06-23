@@ -15,9 +15,23 @@ trait ModuleOptionTrait {
         }
 
         if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
-            return $allOptions;
+
+            $this->memoryModuleOptionGroup[$optionGroup] = [];
+
+            $optionGroupShared = $optionGroup;
+
+            // This will be explode the first symbols of the modules option group
+            $optionGroupPrefix = explode('--', $optionGroup);
+            if (isset($optionGroupPrefix[0]) && !empty($optionGroupPrefix[0])) {
+                $optionGroupShared = $optionGroupPrefix[0];
+            }
+
+            $allOptions = ModuleOption::where('option_group','LIKE', '%' . $optionGroupShared. '%')->get()->toArray();
+            foreach ($allOptions as $option) {
+                $this->memoryModuleOptionGroup[$option['option_group']][] = $option;
+            }
+
+            return $this->memoryModuleOptionGroup[$optionGroup];
         }
 
         return false;
@@ -30,8 +44,7 @@ trait ModuleOptionTrait {
         }
 
         if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+            $allOptions = $this->getModuleOptions($optionGroup);
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
         }
 

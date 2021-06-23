@@ -125,6 +125,19 @@ Route::get('test-lang', function () {
 });
 */
 
+Route::get('kur', function () {
+
+    $options1 = get_module_options('module-layouts-1--1');
+    $options2 = get_module_options('module-layouts-1--23-posts--1');
+    $options2 = get_module_options('module-layouts-1--28-pricing-table--1');
+
+
+    dump($options2);
+
+    echo 999;
+    return;
+});
+
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
