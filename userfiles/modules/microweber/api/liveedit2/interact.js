@@ -1,7 +1,7 @@
 
 import {ObjectService} from "./object.service";
 import {DomService} from "./dom";
-import {CreateElement} from "./element";
+import {ElementManager} from "./element";
 
 export const DropIndicator = function (options) {
 
@@ -60,7 +60,7 @@ export const DropIndicator = function (options) {
     };
 
     this.make = function () {
-        this._indicator = CreateElement();
+        this._indicator = ElementManager();
         this._indicator.html('<div class="mw-drop-indicator-block"><div class="mw-drop-indicator-pin"></div></div>');
         this._indicator.addClass('mw-drop-indicator mw-drop-indicator-template-' + this.settings.template);
         this.hide();

@@ -2,7 +2,7 @@
 import {ObjectService} from './object.service';
 import {DroppableElementAnalyzerService} from "./analizer";
  import {DropPosition} from "./drop-position";
-import {CreateElement} from "./element";
+import {ElementManager} from "./element";
 
 export const Draggable = function (options, rootSettings) {
     var defaults = {
@@ -35,7 +35,7 @@ export const Draggable = function (options, rootSettings) {
         this.dropIndicator = this.settings.dropIndicator;
     };
     this.setElement = function (node) {
-        this.element = CreateElement(node)/*.prop('draggable', true)*/.get(0);
+        this.element = ElementManager(node)/*.prop('draggable', true)*/.get(0);
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
@@ -44,7 +44,7 @@ export const Draggable = function (options, rootSettings) {
     };
 
     this.setTargets = function (targets) {
-        this.targets = CreateElement(targets);
+        this.targets = ElementManager(targets);
     };
 
     this.addTarget = function (target) {
@@ -58,7 +58,7 @@ export const Draggable = function (options, rootSettings) {
 
     this.helper = function (e) {
         if(!this._helper) {
-            this._helper = CreateElement().get(0);
+            this._helper = ElementManager().get(0);
             this._helper.className = 'mw-draggable-helper';
             this.settings.document.body.appendChild(this._helper);
         }
@@ -82,44 +82,44 @@ export const Draggable = function (options, rootSettings) {
     this.isDragging = false;
     this.dropableService = new DroppableElementAnalyzerService(rootSettings);
 
+    var stateManager = function () {
+
+    }
+
 
     this.dropPosition = DropPosition;
 
     this.draggable = function () {
-         CreateElement(this.settings.target).on('dragleave', function (e) {
+         ElementManager(this.settings.target).on('dragleave', function (e) {
              scope.dropIndicator.hide()
          })
-         CreateElement(this.settings.target).on('dragover', function (e) {
+         ElementManager(this.settings.target).on('dragover', function (e) {
              scope.target = null;
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
-                 var targetAction = scope.dropableService.getTarget(e.target)
-                 if(targetAction && targetAction !== scope.element) {
+                 var targetAction = scope.dropableService.getTarget(e.target);
+                 if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
                          scope.target = targetAction.target;
                          scope.action = pos.action;
                          scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
                      } else {
-
-                         scope.dropIndicator.hide()
+                         scope.dropIndicator.hide();
                      }
-
                  } else {
-                     scope.dropIndicator.hide()
+                     scope.dropIndicator.hide();
                  }
                  if (scope.isDragging) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});
                      e.preventDefault();
                  }
              }
-
-
         }).on('drop', function (e) {
             if (scope.isDragging) {
                 e.preventDefault();
                 if (scope.target && scope.action) {
-                    CreateElement(scope.target)[scope.action](scope.element);
+                    ElementManager(scope.target)[scope.action](scope.element);
                 }
                 scope.dropIndicator.hide();
                 scope.dispatch('drop', {element: scope.element, event: e});
@@ -129,7 +129,7 @@ export const Draggable = function (options, rootSettings) {
         this.handle
             .on('dragstart', function (e) {
                 scope.isDragging = true;
-                if(!scope.element.id) {
+                if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
                 scope.element.classList.add('mw-element-is-dragged');

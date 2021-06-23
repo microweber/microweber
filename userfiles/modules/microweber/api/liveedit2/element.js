@@ -10,9 +10,9 @@ if (window.customElements) {
         }
     );
 }
-export const CreateElement = (config) => {
+export const ElementManager = (config, root) => {
     if (config instanceof Object && !config.nodeType) {
         config = ObjectService.extend({}, config || {}, { tag: nodeName });
     }
-    return mw.element(config)
+    return mw.element(config, root)
 }

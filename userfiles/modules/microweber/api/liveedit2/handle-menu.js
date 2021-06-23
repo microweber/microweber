@@ -1,5 +1,5 @@
 import {DomService} from "./dom";
-import {CreateElement} from "./element";
+import {ElementManager} from "./element";
 import {Tooltip} from "./tooltip";
 
 export const HandleMenu = function(options) {
@@ -24,13 +24,13 @@ export const HandleMenu = function(options) {
     }
 
     this.create = function(){
-        this.root = CreateElement({
+        this.root = ElementManager({
             props: {
                 className: 'mw-le-handle-menu',
                 id: scope.options.id || 'mw-le-handle-menu-' + new Date().getTime()
             }
         })
-        this.buttonsHolder = CreateElement({
+        this.buttonsHolder = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-buttons'
             }
@@ -41,17 +41,17 @@ export const HandleMenu = function(options) {
     var _title, titleText, titleIcon;
 
     var createTitle = function () {
-        _title = CreateElement({
+        _title = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-title'
             }
         });
-        titleText = CreateElement({
+        titleText = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-title-text'
             }
         });
-        titleIcon = CreateElement({
+        titleIcon = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-title-icon'
             }
@@ -63,12 +63,16 @@ export const HandleMenu = function(options) {
     }
     var _target = null;
 
+    this.getTarget = function (){
+        return _target;
+    }
+
     this.setTarget = function (target) {
         _target = target;
         var i = 0;
         for ( ; i < this.buttons.length; i++) {
             if(this.buttons[i].config.onTarget) {
-                this.buttons[i].config.onTarget(target, this.buttons[i].button)
+                this.buttons[i].config.onTarget(target, this.buttons[i].button.get(0), scope.options.rootScope);
             }
         }
     }
@@ -101,7 +105,7 @@ export const HandleMenu = function(options) {
             },
         *
         * */
-        var btn = CreateElement({
+        var btn = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-button' + (conf.className ? ' ' + conf.className : '')
             }
@@ -111,14 +115,14 @@ export const HandleMenu = function(options) {
                 className: 'mw-le-handle-menu-button-content'
             }
         };
-        var btnContent = CreateElement(btnContenConf);
+        var btnContent = ElementManager(btnContenConf);
 
         if(conf.title) {
             Tooltip(btnContent, conf.title);
         }
 
         if(conf.icon) {
-            var icon = CreateElement({
+            var icon = ElementManager({
                 props: {
                     className: 'mw-le-handle-menu-button-icon',
                     innerHTML: conf.icon
@@ -127,7 +131,7 @@ export const HandleMenu = function(options) {
             btnContent.append(icon);
         }
         if(conf.text) {
-            var text = CreateElement({
+            var text = ElementManager({
                 props: {
                     className: 'mw-le-handle-menu-button-text',
                     innerHTML: conf.text
@@ -143,7 +147,7 @@ export const HandleMenu = function(options) {
             config: conf,
         });
         if(conf.menu) {
-            var submenu = CreateElement({
+            var submenu = ElementManager({
                 props: {
                     className: 'mw-le-handle-menu-button-sub-menu'
                 }
@@ -151,7 +155,11 @@ export const HandleMenu = function(options) {
             btn.append(submenu);
             scope.buildButtons(conf.menu, submenu)
             btn.on('click', function(){
-                this.classList.toggle('sub-menu-active')
+                this.classList.toggle('sub-menu-active');
+            })
+        } else if(typeof conf.action === 'function') {
+            btn.on('click', function(){
+                conf.action(scope.getTarget(), btn.get(0), scope.options.rootScope)
             })
         }
         return btn;

@@ -1,8 +1,9 @@
 import {HandleMenu} from "../handle-menu";
-import {CreateElement} from "../element";
+import {ElementManager} from "../element";
+import {DomService} from "../dom";
 
 export const LayoutHandleContent = function (scope) {
-    this.root = CreateElement({
+    this.root = ElementManager({
         props: {
             id: 'mw-handle-item-layout-root'
         }
@@ -10,15 +11,14 @@ export const LayoutHandleContent = function (scope) {
     this.menu = new HandleMenu({
         id: 'mw-handle-item-layout-menu',
         title: scope.lang('Layout'),
+        rootScope: scope,
         buttons: [
             {
                 title: scope.lang('Settings'),
                 text: '',
                 icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 13.3 15.9" xml:space="preserve"><path d="M8.2,2.4L11,5.1l-8.2,8.2H0v-2.8L8.2,2.4z M11.8,4.3L9,1.6l1.4-1.4C10.5,0.1,10.7,0,10.9,0c0.2,0,0.4,0.1,0.5,0.2l1.7,1.7c0.1,0.1,0.2,0.3,0.2,0.5S13.3,2.8,13.1,3L11.8,4.3z"/><rect y="14.5" width="12" height="1.4"/></svg>',
                 className: 'mw-handle-insert-button',
-                onTarget: function (target, selfNode) {
 
-                },
                 menu: [
                     {
                         title: mw.lang('Add something'),
@@ -38,12 +38,25 @@ export const LayoutHandleContent = function (scope) {
             },
 
             {
-                title: mw.lang('Copy'),
+                title: mw.lang('Clone'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                action: function (el) {
-
+                action: function (target, selfNode, rootScope) {
+                    var el = document.createElement('div');
+                    el.innerHTML = target.outerHTML;
+                    console.log(target)
+                    ElementManager('[id]', el).each(function(){
+                        this.id = 'le-id-' + new Date().getTime();
+                    });
+                    ElementManager(target).after(el.innerHTML);
+                    var newEl = target.nextElementSibling;
+                    mw.reload_module(newEl, function(){
+                        mw.liveEditState.record({
+                            target: mw.tools.firstParentWithClass(target, 'edit'),
+                            value: parent.innerHTML
+                        });
+                    });
                 }
             },
 
@@ -52,17 +65,79 @@ export const LayoutHandleContent = function (scope) {
                 text: '',
                 icon: '<svg  width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                action: function (el) {
+                onTarget: function (target, selfNode, rootscope) {
 
+                    if(target.nextElementSibling === null) {
+                        selfNode.style.display = 'none';
+                    } else {
+                        selfNode.style.display = '';
+                    }
+                },
+                action: function (target, selfNode, rootScope) {
+                    rootScope.handles.get('layout').hide()
+                    var prev = target.nextElementSibling;
+                    if(!prev) return;
+                    var offTarget = target.getBoundingClientRect();
+                    var offPrev = prev.getBoundingClientRect();
+                    var to = 0;
+
+                    if (offTarget.top < offPrev.top) {
+                        to = -(offTarget.top - offPrev.top)
+                    }
+
+                    target.classList.add("mw-le-target-to-animate")
+                    prev.classList.add("mw-le-target-to-animate")
+
+                    target.style.transform = 'translateY('+to+'px)';
+                    prev.style.transform = 'translateY('+(-to)+'px)';
+
+                    setTimeout(function (){
+                        prev.parentNode.insertBefore(target, prev.nextSibling);
+                        target.classList.remove("mw-le-target-to-animate")
+                        prev.classList.remove("mw-le-target-to-animate")
+                        target.style.transform = '';
+                        prev.style.transform = '';
+                    }, 300)
                 }
+
             },
             {
                 title: mw.lang('Move up'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                action: function (el) {
+                onTarget: function (target, selfNode, rootScope) {
+                    if (target.previousElementSibling === null) {
+                        selfNode.style.display = 'none';
+                    } else {
+                        selfNode.style.display = '';
+                    }
+                },
+                action: function (target, selfNode, rootScope) {
+                    rootScope.handles.get('layout').hide()
+                    var prev = target.previousElementSibling;
+                    if(!prev) return;
+                    var offTarget = target.getBoundingClientRect();
+                    var offPrev = prev.getBoundingClientRect();
+                    var to = 0;
 
+                    if (offTarget.top > offPrev.top) {
+                        to = -(offTarget.top - offPrev.top)
+                    }
+
+                    target.classList.add("mw-le-target-to-animate")
+                    prev.classList.add("mw-le-target-to-animate")
+
+                    target.style.transform = 'translateY('+to+'px)';
+                    prev.style.transform = 'translateY('+(-to)+'px)';
+
+                    setTimeout(function (){
+                        prev.parentNode.insertBefore(target, prev);
+                        target.classList.remove("mw-le-target-to-animate")
+                        prev.classList.remove("mw-le-target-to-animate")
+                        target.style.transform = '';
+                        prev.style.transform = '';
+                    }, 300)
                 }
             },
 
@@ -83,13 +158,13 @@ export const LayoutHandleContent = function (scope) {
 
     var plusLabel = 'Add Layout';
 
-    this.plusTop = CreateElement({
+    this.plusTop = ElementManager({
         props: {
             className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top'
         }
     });
 
-    this.plusBottom = CreateElement({
+    this.plusBottom = ElementManager({
         props: {
             className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom'
         }

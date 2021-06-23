@@ -468,8 +468,8 @@
          };
         this.init();
     };
-    mw.element = function(options){
-        return new MWElement(options);
+    mw.element = function(options, root){
+        return new MWElement(options, root);
     };
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;

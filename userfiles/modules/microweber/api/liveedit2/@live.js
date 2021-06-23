@@ -10,7 +10,7 @@ import {DropIndicator} from "./interact";
 import {ElementHandleContent} from "./handles-content/element";
 import {ModuleHandleContent} from "./handles-content/module";
 import {LayoutHandleContent} from "./handles-content/layout";
-import {CreateElement} from "./element";
+import {ElementManager} from "./element";
 import {i18n} from "./i18n";
 
 
@@ -29,6 +29,7 @@ export class LiveEdit {
             backgroundImageHolder: 'background-image-holder',
             cloneableClass: 'cloneable',
             editClass: 'edit',
+            stateManager: null,
             moduleClass: 'module',
 /*            rowClass: 'mw-row',
             colClass: 'mw-col',
@@ -50,11 +51,9 @@ export class LiveEdit {
         };
 
 
-
-
         this.settings = ObjectService.extend({}, defaults, options);
 
-
+        this.stateManager = this.settings.stateManager;
 
         this.lang = function (key) {
             if(!i18n[this.settings]) return key;
@@ -82,7 +81,8 @@ export class LiveEdit {
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
             handle: elementHandleContent.menu.title,
-            document: this.settings.document
+            document: this.settings.document,
+            stateManager: this.settings.stateManager
         })
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
@@ -103,7 +103,8 @@ export class LiveEdit {
             dropIndicator: this.dropIndicator,
             content: moduleHandleContent.root,
             handle: moduleHandleContent.menu.title,
-            document: this.settings.document
+            document: this.settings.document,
+            stateManager: this.settings.stateManager
         })
 
         var layoutHandle = new Handle({
@@ -111,7 +112,8 @@ export class LiveEdit {
             dropIndicator: this.dropIndicator,
             content: layoutHandleContent.root,
             handle: layoutHandleContent.menu.title,
-            document: this.settings.document
+            document: this.settings.document,
+            stateManager: this.settings.stateManager
         });
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
@@ -144,7 +146,7 @@ export class LiveEdit {
         if(this.settings.mode === 'auto') {
             ModeAuto(this);
         }
-         CreateElement(this.root).on('mousemove touchmove', (e) => {
+         ElementManager(this.root).on('mousemove touchmove', (e) => {
                 if (e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
                     const first = elements[0];

@@ -90,6 +90,12 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             } else {
                 return null;
             }
+        } else if(this.isLayout(target)) {
+            if(this.canInsertBeforeOrAfter(target)) {
+                res.beforeAfter = true;
+            } else {
+                return null;
+            }
         }
         return res;
     }
