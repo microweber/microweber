@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
-    use LiveEditTrait;
+   // use LiveEditTrait;
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -38,17 +38,17 @@ class FrontendController extends Controller
 
     public function __construct($app = null)
     {
-        if (!is_object($this->app)) {
+      /*  if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
             }
-        }
+        }*/
 
-        $this->websiteOptions = Option::getWebsiteOptions();
+        //$this->websiteOptions = Option::getWebsiteOptions();
 
-        event_trigger('mw.init');
+       // event_trigger('mw.init');
 
     }
 
@@ -65,9 +65,7 @@ class FrontendController extends Controller
             }
         }
 
-
         $this->debugbarEnabled = \Debugbar::isEnabled();;
-
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
@@ -617,7 +615,6 @@ class FrontendController extends Controller
     public function module()
     {
         if (!defined('MW_API_CALL')) {
-
             //      define('MW_API_CALL', true);
         }
 
