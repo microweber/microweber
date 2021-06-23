@@ -103,8 +103,8 @@ class TemplateMetaTagsRenderer
                     }
                 }
 
-                //$meta['content_url'] = $this->app->content_manager->link($meta_content_id);
-                $meta['content_url'] = $meta->link();
+                $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
+               // $meta['content_url'] = $meta->link();
 
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];

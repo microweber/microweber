@@ -2250,8 +2250,6 @@ class FrontendController extends Controller
                 }
             }
 
-
-
             if ($show_404_to_non_admin) {
                 $response = \Response::make($l);
                 $response->setStatusCode(404);
@@ -2267,12 +2265,9 @@ class FrontendController extends Controller
 
             return $response;
 
-
         } else {
             echo 'Error! Page is not found? Please login in the admin and make a page.';
-
             $this->app->cache_manager->clear();
-
             return;
         }
 
