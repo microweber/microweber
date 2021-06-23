@@ -1011,17 +1011,12 @@ class ParserProcessor
 
 
 
+ 
 
-
-        if (!$coming_from_parent and  !$this->have_more) {
-
-            $layout = str_replace('{rand}', uniqid() . rand(), $layout);
-            $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
-            $layout = str_replace('{MW_SITE_URL}', app()->url_manager->site(), $layout);
-            $layout = str_replace('%7BSITE_URL%7D', app()->url_manager->site(), $layout);
-
-        }
-
+        $layout = str_replace('{rand}', uniqid() . rand(), $layout);
+        $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', app()->url_manager->site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', app()->url_manager->site(), $layout);
 //        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
         return $layout;
