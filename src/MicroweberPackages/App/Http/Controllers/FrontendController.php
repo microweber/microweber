@@ -39,17 +39,17 @@ class FrontendController extends Controller
 
     public function __construct($app = null)
     {
-      /*  if (!is_object($this->app)) {
+        if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
             }
-        }*/
+        }
 
-        //$this->websiteOptions = Option::getWebsiteOptions();
+        $this->websiteOptions = Option::getWebsiteOptions();
 
-       // event_trigger('mw.init');
+        event_trigger('mw.init');
 
     }
 
