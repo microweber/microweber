@@ -1308,17 +1308,15 @@ class FrontendController extends Controller
         }
 
         if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
-            $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
+            $page = Content::where('id', $_REQUEST['content_id'])->first();
         }
-
-
 
         $output_cache_timeout = false;
 
 
         if ($is_quick_edit or $is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
-                $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
+                $page = Content::where('id', $_REQUEST['content_id'])->first();
             } else {
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
@@ -1394,8 +1392,6 @@ class FrontendController extends Controller
 
             }
         }
-
-
 
 
         if (isset($is_preview_template) and $is_preview_template != false) {
