@@ -218,7 +218,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
         if ($tags) {
             foreach ($tags as $table) {
-                TableCollectionCach::flushCache($table);
+                TableCollectionCache::flushCache($table);
             }
         }
 
