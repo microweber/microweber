@@ -359,6 +359,8 @@ abstract class BaseFilter
             }
         }
 
+        $this->query->where('is_deleted', 0);
+
         $this->pagination = $this->query
             ->paginate($this->queryParams['limit'], ['*'], 'page', $this->request->get('page', 0))
             ->withQueryString();
