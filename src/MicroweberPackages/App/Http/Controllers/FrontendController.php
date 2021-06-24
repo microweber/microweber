@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -65,9 +66,7 @@ class FrontendController extends Controller
             }
         }
 
-
         $this->debugbarEnabled = \Debugbar::isEnabled();;
-
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
@@ -157,7 +156,7 @@ class FrontendController extends Controller
         $mod_class_api_class_exist = false;
         $caller_commander = false;
         if ($api_function == false) {
-            $api_function_full = $this->app->url_manager->string();
+            $api_function_full = app()->url_manager->string();
             $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
             $api_function_full = $this->app->format->replace_once('api/api', 'api', $api_function_full);
 
@@ -191,7 +190,7 @@ class FrontendController extends Controller
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
 
-        $api_function_full = $this->app->database_manager->escape_string($api_function_full);
+        $api_function_full = app()->database_manager->escape_string($api_function_full);
         if (is_string($api_function_full)) {
             $mod_api_class = explode('/', $api_function_full);
         } else {
@@ -298,12 +297,12 @@ class FrontendController extends Controller
         }
 
         if ($api_function == false) {
-            $api_function = $this->app->url_manager->segment(1);
+            $api_function = app()->url_manager->segment(1);
         }
 
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
-                $url_segs = $this->app->url_manager->segment(-1);
+                $url_segs = app()->url_manager->segment(-1);
             }
         } else {
             if (is_array($api_function)) {
@@ -322,9 +321,9 @@ class FrontendController extends Controller
                 if ($params != false) {
                     $data = $params;
                 } elseif (!$_POST and !$_REQUEST) {
-                    $data = $this->app->url_manager->params(true);
+                    $data = app()->url_manager->params(true);
                     if (empty($data)) {
-                        $data = $this->app->url_manager->segment(2);
+                        $data = app()->url_manager->segment(2);
                     }
                 } else {
 
@@ -451,9 +450,9 @@ class FrontendController extends Controller
                             if ($params != false) {
                                 $data = $params;
                             } elseif (!$_POST and !$_REQUEST) {
-                                $data = $this->app->url_manager->params(true);
+                                $data = app()->url_manager->params(true);
                                 if (empty($data)) {
-                                    $data = $this->app->url_manager->segment(2);
+                                    $data = app()->url_manager->segment(2);
                                 }
                             } else {
                                 $data = array_merge($_GET, $_POST);
@@ -520,10 +519,10 @@ class FrontendController extends Controller
             if ($mod_class_api_called == false) {
                 if (!$_POST and !$_REQUEST) {
 
-                    //  $data = $this->app->url_manager->segment(2);
-                    $data = $this->app->url_manager->params(true);
+                    //  $data = app()->url_manager->segment(2);
+                    $data = app()->url_manager->params(true);
                     if (empty($data)) {
-                        $data = $this->app->url_manager->segment(2);
+                        $data = app()->url_manager->segment(2);
                     }
                 } else {
 
@@ -540,7 +539,7 @@ class FrontendController extends Controller
                 } elseif (class_exists($api_function, false)) {
 
                     //
-                    $segs = $this->app->url_manager->segment();
+                    $segs = app()->url_manager->segment();
                     $mmethod = array_pop($segs);
 
                     $class = new $api_function($this->app);
@@ -556,7 +555,7 @@ class FrontendController extends Controller
 
                         //
 
-                        $segs = $this->app->url_manager->segment();
+                        $segs = app()->url_manager->segment();
                         $mmethod = array_pop($segs);
 
                         $class = new $api_function_full_2($this->app);
@@ -617,17 +616,16 @@ class FrontendController extends Controller
     public function module()
     {
         if (!defined('MW_API_CALL')) {
-
             //      define('MW_API_CALL', true);
         }
 
         if (!defined('MW_NO_SESSION')) {
-            $is_ajax = $this->app->url_manager->is_ajax();
+            $is_ajax = app()->url_manager->is_ajax();
             if (!mw()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
                 define('MW_SESS_STARTED', true);
                 //session_start();
             }
-            $editmode_sess = $this->app->user_manager->session_get('editmode');
+            $editmode_sess = app()->user_manager->session_get('editmode');
             if ($editmode_sess == true and !defined('IN_EDIT')) {
                 define('IN_EDIT', true);
             }
@@ -648,7 +646,7 @@ class FrontendController extends Controller
             $request_data['data-type'] = $request_data['data-module-name'];
 
             if (!isset($request_data['id'])) {
-                $request_data['id'] = $this->app->url_manager->slug($request_data['data-module-name'] . '-' . date('YmdHis'));
+                $request_data['id'] = app()->url_manager->slug($request_data['data-module-name'] . '-' . date('YmdHis'));
             }
         }
 
@@ -698,25 +696,25 @@ class FrontendController extends Controller
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
-            $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
+            $content_id = app()->url_manager->param('content_id', false, $from_url2);
 
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
+                $content_id = app()->url_manager->param('editpage', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('editpost', false, $from_url2);
+                $content_id = app()->url_manager->param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $is_current = $this->app->url_manager->param('is-current', false, $from_url2);
+                $is_current = app()->url_manager->param('is-current', false, $from_url2);
                 if ($is_current) {
-                    $content_id = $this->app->url_manager->param('content-id', false, $from_url2);
+                    $content_id = app()->url_manager->param('content-id', false, $from_url2);
                 } else {
-                    $content_id = $this->app->url_manager->param('mw-adm-content-id', false, $from_url2);
+                    $content_id = app()->url_manager->param('mw-adm-content-id', false, $from_url2);
                 }
             }
 
             if ($content_id == false) {
-                $action_test = $this->app->url_manager->param('action', false, $from_url2);
+                $action_test = app()->url_manager->param('action', false, $from_url2);
 
                 if ($action_test != false) {
                     $action_test = str_ireplace('editpage:', '', $action_test);
@@ -750,7 +748,7 @@ class FrontendController extends Controller
                     }
                 }
             } else {
-                if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
+                if (trim($url) == '' or trim($url) == app()->url_manager->site()) {
 
                     //var_dump($from_url);
                     //$page = $this->app->content_manager->get_by_url($url);
@@ -761,7 +759,7 @@ class FrontendController extends Controller
                     }
 
                     if (isset($from_url2)) {
-                        $mw_quick_edit = $this->app->url_manager->param('mw_quick_edit', false, $from_url2);
+                        $mw_quick_edit = app()->url_manager->param('mw_quick_edit', false, $from_url2);
 
                         if ($mw_quick_edit) {
                             $page = false;
@@ -785,7 +783,7 @@ class FrontendController extends Controller
                 }
             }
         } else {
-            $url = $this->app->url_manager->string();
+            $url = app()->url_manager->string();
         }
 
         if (!defined('IS_HOME')) {
@@ -815,7 +813,7 @@ class FrontendController extends Controller
         }
 
         if ($custom_display == true) {
-            $u2 = $this->app->url_manager->site();
+            $u2 = app()->url_manager->site();
             $u1 = str_replace($u2, '', $url);
 
             $this->render_this_url = $u1;
@@ -828,16 +826,16 @@ class FrontendController extends Controller
 
         $url_last = false;
         if (!isset($request_data['module'])) {
-            $url = $this->app->url_manager->string(0);
+            $url = app()->url_manager->string(0);
             if ($url == __FUNCTION__) {
-                $url = $this->app->url_manager->string(0);
+                $url = app()->url_manager->string(0);
             }
 
             /*
-            $is_ajax = $this->app->url_manager->is_ajax();
+            $is_ajax = app()->url_manager->is_ajax();
 
             if ($is_ajax == true) {
-            $url = $this->app->url_manager->string(true);
+            $url = app()->url_manager->string(true);
             }*/
 
             $url = $this->app->format->replace_once('module/', '', $url);
@@ -878,7 +876,7 @@ class FrontendController extends Controller
             }
         }
 
-        $module_info = $this->app->url_manager->param('module_info', true);
+        $module_info = app()->url_manager->param('module_info', true);
 
 
         if ($module_info and isset($request_data['module'])) {
@@ -894,7 +892,7 @@ class FrontendController extends Controller
 
                 if (!isset($config['icon']) or $config['icon'] == false) {
                     $config['icon'] = modules_path() . '' . $request_data['module'] . '.png';
-                    $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
+                    $config['icon'] = app()->url_manager->link_to_file($config['icon']);
                 }
                 echo json_encode($config);
 
@@ -903,10 +901,10 @@ class FrontendController extends Controller
         }
 
 
-        $admin = $this->app->url_manager->param('admin', true);
+        $admin = app()->url_manager->param('admin', true);
 
-        $mod_to_edit = $this->app->url_manager->param('module_to_edit', true);
-        $embed = $this->app->url_manager->param('embed', true);
+        $mod_to_edit = app()->url_manager->param('module_to_edit', true);
+        $embed = app()->url_manager->param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -919,7 +917,7 @@ class FrontendController extends Controller
         if (($_POST)) {
             $data = $_POST;
         } else {
-            $url = $this->app->url_manager->segment();
+            $url = app()->url_manager->segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -1045,7 +1043,7 @@ class FrontendController extends Controller
                     } else {
                         $v = $this->app->format->clean_html($v);
 
-                        //$v = $this->app->database_manager->escape_string($v);
+                        //$v = app()->database_manager->escape_string($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -1055,10 +1053,10 @@ class FrontendController extends Controller
 
         if ($has_id == false) {
 //            if (defined('MW_MODULE_ONDROP')) {
-//                $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
+//                $mod_n = app()->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
 //                $tags .= "id=\"$mod_n\" ";
 //            }
-            //  $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
+            //  $mod_n = app()->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //  $tags .= "id=\"$mod_n\" ";
         }
 
@@ -1079,7 +1077,7 @@ class FrontendController extends Controller
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, $this->app->url_manager->site())) {
+            if (strstr($get_arr_from_ref, app()->url_manager->site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -1103,7 +1101,7 @@ class FrontendController extends Controller
             $res = str_replace('{content}', $res, $layout);
         }
 
-        $aj = $this->app->url_manager->is_ajax();
+        $aj = app()->url_manager->is_ajax();
 
         if ((isset($request_data['live_edit']) or isset($request_data['admin'])) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
@@ -1119,7 +1117,7 @@ class FrontendController extends Controller
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = $this->app->url_manager->replace_site_url_back($res);
+            $res = app()->url_manager->replace_site_url_back($res);
             return response($res);
 
             // echo $res;
@@ -1151,13 +1149,14 @@ class FrontendController extends Controller
 
         event_trigger('mw.controller.index');
 
-        if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == false) {
-            $page_url = $this->app->url_manager->string();
+        $isAjax = app()->url_manager->is_ajax();
+        $urlString = app()->url_manager->string();
 
-        } elseif ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
-            //  $page_url = $this->app->url_manager->string(1);
-            $page_url = $this->app->url_manager->string();
+        if ($this->render_this_url == false and $isAjax == false) {
+            $page_url = $urlString;
 
+        } elseif ($this->render_this_url == false and $isAjax == true) {
+            $page_url = $urlString;
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
@@ -1174,7 +1173,11 @@ class FrontendController extends Controller
             $page_url = $this->page_url;
         }
 
-        $favicon_image = $this->websiteOptions['favicon_image'];
+        $favicon_image = false;
+
+        if (isset($this->websiteOptions['favicon_image'])) {
+            $favicon_image = $this->websiteOptions['favicon_image'];
+        }
 
         if (!$favicon_image) {
             $ui_favicon = mw()->ui->brand_favicon();
@@ -1194,7 +1197,7 @@ class FrontendController extends Controller
         }
 
         $page_url = rtrim($page_url, '/');
-        $is_admin = $this->app->user_manager->is_admin();
+        $is_admin = app()->user_manager->is_admin();
         $page_url_orig = $page_url;
         $simply_a_file = false;
         $show_404_to_non_admin = false;
@@ -1204,18 +1207,18 @@ class FrontendController extends Controller
         if (isset($_REQUEST['view'])) {
             $is_custom_view = $_REQUEST['view'];
         } else {
-            $is_custom_view = $this->app->url_manager->param('view');
+            $is_custom_view = app()->url_manager->param('view');
             if ($is_custom_view and $is_custom_view != false) {
                 $is_custom_view = str_replace('..', '', $is_custom_view);
-                $page_url = $this->app->url_manager->param_unset('view', $page_url);
+                $page_url = app()->url_manager->param_unset('view', $page_url);
             }
         }
 
-        $is_editmode = $this->app->url_manager->param('editmode');
+        $is_editmode = app()->url_manager->param('editmode');
 
-        $is_no_editmode = $this->app->url_manager->param('no_editmode');
-        $is_quick_edit = $this->app->url_manager->param('mw_quick_edit');
-        $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+        $is_no_editmode = app()->url_manager->param('no_editmode');
+        $is_quick_edit = app()->url_manager->param('mw_quick_edit');
+        $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
         if (!$back_to_editmode) {
             if (isset($_COOKIE['mw-back-to-live-edit']) and $is_admin) {
                 $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
@@ -1224,9 +1227,9 @@ class FrontendController extends Controller
 
 
         if ($is_quick_edit != false) {
-            $page_url = $this->app->url_manager->param_unset('mw_quick_edit', $page_url);
+            $page_url = app()->url_manager->param_unset('mw_quick_edit', $page_url);
         }
-        $is_preview_template = $this->app->url_manager->param('preview_template');
+        $is_preview_template = app()->url_manager->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
             if ($this->return_data == false) {
@@ -1238,23 +1241,23 @@ class FrontendController extends Controller
             if (mw()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
-                    $page_url = $this->app->url_manager->param_unset('editmode', $page_url);
-                    $this->app->user_manager->session_set('back_to_editmode', true);
-                    $this->app->user_manager->session_set('editmode', false);
+                    $page_url = app()->url_manager->param_unset('editmode', $page_url);
+                    app()->user_manager->session_set('back_to_editmode', true);
+                    app()->user_manager->session_set('editmode', false);
 
-                    return $this->app->url_manager->redirect($this->app->url_manager->site_url($page_url));
+                    return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                 } else {
-                    $editmode_sess = $this->app->user_manager->session_get('editmode');
-                    $page_url = $this->app->url_manager->param_unset('editmode', $page_url);
+                    $editmode_sess = app()->user_manager->session_get('editmode');
+                    $page_url = app()->url_manager->param_unset('editmode', $page_url);
 
                     if ($is_admin == true) {
                         if ($editmode_sess == false) {
-                            $this->app->user_manager->session_set('editmode', true);
-                            $this->app->user_manager->session_set('back_to_editmode', false);
+                            app()->user_manager->session_set('editmode', true);
+                            app()->user_manager->session_set('back_to_editmode', false);
                             $is_editmode = false;
                         }
 
-                        return $this->app->url_manager->redirect($this->app->url_manager->site_url($page_url));
+                        return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                     } else {
 
                         $is_editmode = false;
@@ -1263,15 +1266,15 @@ class FrontendController extends Controller
             }
 
             if (mw()->user_manager->session_id() and !$is_no_editmode) {
-                $is_editmode = $this->app->user_manager->session_get('editmode');
+                $is_editmode = app()->user_manager->session_get('editmode');
 
             } else {
                 $is_editmode = false;
-                $page_url = $this->app->url_manager->param_unset('no_editmode', $page_url);
+                $page_url = app()->url_manager->param_unset('no_editmode', $page_url);
             }
         } else {
             $is_editmode = false;
-            $page_url = $this->app->url_manager->param_unset('preview_template', $page_url);
+            $page_url = app()->url_manager->param_unset('preview_template', $page_url);
         }
         if ($is_quick_edit == true) {
             $is_editmode = true;
@@ -1283,14 +1286,14 @@ class FrontendController extends Controller
         $is_preview_module_skin = false;
         $preview_module_id = false;
         $template_relative_layout_file_from_url = false;
-        $is_preview_module = $this->app->url_manager->param('preview_module');
+        $is_preview_module = app()->url_manager->param('preview_module');
 
         if ($is_preview_module != false) {
-            if ($this->app->user_manager->is_admin()) {
+            if (app()->user_manager->is_admin()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
-                    $is_preview_module_skin = $this->app->url_manager->param('preview_module_template');
-                    $preview_module_id = $this->app->url_manager->param('preview_module_id');
+                    $is_preview_module_skin = app()->url_manager->param('preview_module_template');
+                    $preview_module_id = app()->url_manager->param('preview_module_id');
                     $preview_module = $is_preview_module;
                     if ($is_preview_module_skin != false) {
                         $preview_module_template = module_name_decode($is_preview_module_skin);
@@ -1300,11 +1303,11 @@ class FrontendController extends Controller
             }
         }
 
-        $is_layout_file = $this->app->url_manager->param('preview_layout');
+        $is_layout_file = app()->url_manager->param('preview_layout');
         if (!$is_layout_file) {
             $is_layout_file = false;
         } else {
-            $page_url = $this->app->url_manager->param_unset('preview_layout', $page_url);
+            $page_url = app()->url_manager->param_unset('preview_layout', $page_url);
         }
 
         if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
@@ -1321,11 +1324,11 @@ class FrontendController extends Controller
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
                 if (isset($_REQUEST['content_type'])) {
-                    $page['content_type'] = $this->app->database_manager->escape_string($_REQUEST['content_type']);
+                    $page['content_type'] = app()->database_manager->escape_string($_REQUEST['content_type']);
                 }
 
                 if (isset($_REQUEST['subtype'])) {
-                    $page['subtype'] = $this->app->database_manager->escape_string($_REQUEST['subtype']);
+                    $page['subtype'] = app()->database_manager->escape_string($_REQUEST['subtype']);
                 }
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
@@ -1334,7 +1337,7 @@ class FrontendController extends Controller
                     $page['parent'] = intval($_REQUEST['parent_id']);
                 }
 
-                //$page['url'] = $this->app->url_manager->string();
+                //$page['url'] = app()->url_manager->string();
                 if (isset($is_preview_template) and $is_preview_template != false) {
                     $page['active_site_template'] = $is_preview_template;
                 } else {
@@ -1494,7 +1497,7 @@ class FrontendController extends Controller
                 }
 
 
-                $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
+                $page_url_segment_1 = app()->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;
                 }
@@ -1517,14 +1520,14 @@ class FrontendController extends Controller
                 // if ($found_mod == false) {
                 if (empty($page)) {
                     $the_new_page_file = false;
-                    $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
+                    $page_url_segment_1 = app()->url_manager->segment(0, $page_url);
 
                     $td = templates_path() . $page_url_segment_1;
                     $td_base = $td;
 
-                    $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
+                    $page_url_segment_2 = app()->url_manager->segment(1, $page_url);
                     $directly_to_file = false;
-                    $page_url_segment_3 = $all_url_segments = $this->app->url_manager->segment(-1, $page_url);
+                    $page_url_segment_3 = $all_url_segments = app()->url_manager->segment(-1, $page_url);
                     if (!$page_url_segment_1) {
                         $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                     }
@@ -1630,7 +1633,7 @@ class FrontendController extends Controller
                             $page['id'] = 0;
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
-                            $page['url'] = $this->app->url_manager->string();
+                            $page['url'] = app()->url_manager->string();
                             //  $page['active_site_template'] = $page_url_segment_1;
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
@@ -1670,7 +1673,7 @@ class FrontendController extends Controller
                                     $page['id'] = 0;
                                     $page['content_type'] = 'page';
                                     $page['parent'] = '0';
-                                    $page['url'] = $this->app->url_manager->string();
+                                    $page['url'] = app()->url_manager->string();
                                     $page['active_site_template'] = $the_active_site_template;
 
                                     $file_for_module = 'module.php';
@@ -1714,7 +1717,7 @@ class FrontendController extends Controller
                                     $page['id'] = 0;
                                     $page['content_type'] = 'page';
                                     $page['parent'] = '0';
-                                    $page['url'] = $this->app->url_manager->string();
+                                    $page['url'] = app()->url_manager->string();
                                     $page['active_site_template'] = $the_active_site_template;
                                     $page['content'] = '<module type="' . $mvalue . '" />';
                                     $page['simply_a_file'] = 'clean.php';
@@ -1741,7 +1744,7 @@ class FrontendController extends Controller
 
                         $page['content_type'] = 'page';
                         $page['parent'] = '0';
-                        $page['url'] = $this->app->url_manager->string();
+                        $page['url'] = app()->url_manager->string();
 
                         $page['active_site_template'] = $the_active_site_template;
 
@@ -1819,12 +1822,12 @@ class FrontendController extends Controller
         }
 
         if (isset($content['is_active']) and ($content['is_active'] == 'n' or $content['is_active'] == 0)) {
-            if ($this->app->user_manager->is_admin() == false) {
+            if (app()->user_manager->is_admin() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = $this->app->url_manager->string();
+                $page_non_active['url'] = app()->url_manager->string();
                 $page_non_active['content'] = 'This page is not published!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -1833,12 +1836,12 @@ class FrontendController extends Controller
                 $content = $page_non_active;
             }
         } elseif (isset($content['is_deleted']) and $content['is_deleted'] == 1) {
-            if ($this->app->user_manager->is_admin() == false) {
+            if (app()->user_manager->is_admin() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = $this->app->url_manager->string();
+                $page_non_active['url'] = app()->url_manager->string();
                 $page_non_active['content'] = 'This page is deleted!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -1849,15 +1852,15 @@ class FrontendController extends Controller
         }
 
         if (isset($content['require_login']) and $content['require_login'] == 1) {
-            if ($this->app->user_manager->id() == 0) {
+            if (app()->user_manager->id() == 0) {
 
-                return $this->app->url_manager->redirect(login_url() . '?redirect=' . urlencode(mw()->url_manager->current()));
+                return app()->url_manager->redirect(login_url() . '?redirect=' . urlencode(mw()->url_manager->current()));
 
 //                $page_non_active = array();
 //                $page_non_active['id'] = 0;
 //                $page_non_active['content_type'] = 'page';
 //                $page_non_active['parent'] = '0';
-//                $page_non_active['url'] = $this->app->url_manager->string();
+//                $page_non_active['url'] = app()->url_manager->string();
 //                $page_non_active['content'] = ' <module type="users/login" class="user-require-login-on-view" /> ';
 //                $page_non_active['simply_a_file'] = 'clean.php';
 //                $page_non_active['layout_file'] = 'clean.php';
@@ -1999,7 +2002,7 @@ class FrontendController extends Controller
                     }
                 }
 
-                $is_admin = $this->app->user_manager->is_admin();
+                $is_admin = app()->user_manager->is_admin();
                 if ($is_admin == true and isset($isolated_el) != false) {
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
 
@@ -2055,7 +2058,7 @@ class FrontendController extends Controller
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
-            $is_admin = $this->app->user_manager->is_admin();
+            $is_admin = app()->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
 
@@ -2091,7 +2094,7 @@ class FrontendController extends Controller
 
 
             if (isset($page['created_by'])) {
-                $author = $this->app->user_manager->get_by_id($page['created_by']);
+                $author = app()->user_manager->get_by_id($page['created_by']);
                 if (is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false) {
                     $template_headers_src = $template_headers_src . "\n" . '<link rel="author" href="' . trim($author['profile_url']) . '" />' . "\n";
                 }
@@ -2200,7 +2203,7 @@ class FrontendController extends Controller
 
             if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 //editmode fix
-                $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
 
                 if (!$back_to_editmode) {
                     if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
@@ -2228,10 +2231,10 @@ class FrontendController extends Controller
 
 
             if (isset($content['original_link']) and $content['original_link'] != '') {
-                $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
+                $content['original_link'] = str_ireplace('{site_url}', app()->url_manager->site(), $content['original_link']);
                 $redirect = $this->app->format->prep_url($content['original_link']);
                 if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
-                    return $this->app->url_manager->redirect($redirect);
+                    return app()->url_manager->redirect($redirect);
                 }
             }
 
@@ -2266,7 +2269,7 @@ class FrontendController extends Controller
 
             $l = mw()->template->add_csrf_token_meta_tags($l);
 
-            $is_embed = $this->app->url_manager->param('embed');
+            $is_embed = app()->url_manager->param('embed');
 
             if ($is_embed != false) {
                 $this->isolate_by_html_id = $is_embed;
@@ -2282,7 +2285,7 @@ class FrontendController extends Controller
                 }
             }
             if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
-                $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
+                app()->user_manager->session_set('last_content_id', CONTENT_ID);
             }
             if (isset($output_cache_content) and $enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
@@ -2300,7 +2303,7 @@ class FrontendController extends Controller
             }
             if (isset($_REQUEST['debug'])) {
                 if ($this->app->make('config')->get('app.debug')) {
-                    $is_admin = $this->app->user_manager->is_admin();
+                    $is_admin = app()->user_manager->is_admin();
                     if ($is_admin == true) {
                         include mw_includes_path() . 'debug.php';
                     }
@@ -2469,7 +2472,7 @@ class FrontendController extends Controller
             //  event_trigger('mw_cron');
         }
 
-        $tool = $this->app->url_manager->segment(1);
+        $tool = app()->url_manager->segment(1);
 
         if ($tool) {
         } else {
@@ -2513,7 +2516,7 @@ class FrontendController extends Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
+            if (trim($url) == '' or trim($url) == app()->url_manager->site()) {
 
                 //$page = $this->app->content_manager->get_by_url($url);
                 $page = $this->app->content_manager->homepage();
@@ -2521,7 +2524,7 @@ class FrontendController extends Controller
                 $page = $this->app->content_manager->get_by_url($url);
             }
         } else {
-            $url = $this->app->url_manager->string();
+            $url = app()->url_manager->string();
         }
 
         if (!isset($page['active_site_template'])) {
@@ -2625,7 +2628,7 @@ class FrontendController extends Controller
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
 
 
-            // $is_admin = $this->app->user_manager->is_admin();
+            // $is_admin = app()->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
