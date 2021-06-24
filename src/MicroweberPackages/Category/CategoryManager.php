@@ -166,10 +166,16 @@ class CategoryManager
         }
     }
 
+    public $_get_parents = [];
     public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
+
         if (intval($id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_parents[$id][$without_main_parrent][$data_type])) {
+            return $this->_get_parents[$id][$without_main_parrent][$data_type];
         }
 
         $table = $this->tables['categories'];
@@ -219,11 +225,13 @@ class CategoryManager
 
         if (!empty($ids)) {
             $ids = array_unique($ids);
-
-            return $ids;
         } else {
-            return false;
+            $ids = false;
         }
+
+        $this->_get_parents[$id][$without_main_parrent][$data_type] = $ids;
+
+        return $ids;
     }
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
@@ -302,10 +310,17 @@ class CategoryManager
         return $to_return;
     }
 
+
+    public $_get_for_content_memory = [];
+
     public function get_for_content($content_id, $data_type = 'categories')
     {
         if (intval($content_id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_for_content_memory[$content_id][$data_type])) {
+            return $this->_get_for_content_memory[$content_id][$data_type];
         }
 
         if ($data_type == 'categories') {
@@ -358,6 +373,8 @@ class CategoryManager
 
             $get_category = array_unique_recursive($get_category);
         }
+
+        $this->_get_for_content_memory[$content_id][$data_type] = $get_category;
 
         if (empty($get_category)) {
             return false;
@@ -779,13 +796,20 @@ class CategoryManager
      *
      * @since       Version 1.0
      */
+
+    public $_get_by_id = [];
     public function get_by_id($id = 0, $by_field_name = 'id')
     {
         if (!$id) {
             return;
         }
+
         if ($by_field_name == 'id' and intval($id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_by_id[$id][$by_field_name])) {
+            return $this->_get_by_id[$id][$by_field_name];
         }
 
         if (is_numeric($id)) {
@@ -809,6 +833,8 @@ class CategoryManager
         if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
+
+        $this->_get_by_id[$id][$by_field_name] = $q;
 
         return $q;
 
