@@ -61,11 +61,11 @@ class MicroweberTemplate
 
         $l = $l->__toString();
 
-        if(isset($params['meta_tags']) and $params['meta_tags']){
+        /*if(isset($params['meta_tags']) and $params['meta_tags']){
             $params['layout'] = $l;
             $meta_tags_render = new TemplateMetaTagsRenderer($this->app);
             $l = $meta_tags_render->render($params);
-        }
+        }*/
 
         return $l;
     }
