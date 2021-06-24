@@ -3,6 +3,7 @@ namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
@@ -14,6 +15,7 @@ class Product extends Content
 {
     use MediaTrait;
     use TaggableTrait;
+    use ContentDataTrait;
     use CustomFieldsTrait;
     use CustomFieldPriceTrait;
 

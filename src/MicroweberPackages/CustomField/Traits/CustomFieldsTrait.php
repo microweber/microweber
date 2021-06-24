@@ -11,7 +11,7 @@ trait CustomFieldsTrait {
 
     public function initializeCustomFieldsTrait()
     {
-      //  $this->appends[] = 'customField';
+      //  $this->appends[] = 'customField'; // DONT ADD THIS
         $this->fillable[] = 'custom_fields'; // related with boot custom fields trait
     }
 
