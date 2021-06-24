@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col item-author manage-post-item-col-4">
+                                    <div class="col item-author manage-post-item-col-4 d-xl-block d-none">
                                         <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
