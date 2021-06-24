@@ -87,7 +87,7 @@ class CategoryManager
 
 
         $renderer = new KnpCategoryTreeRenderer($this->app);
-      //  $renderer->setUseCache(false);
+        //  $renderer->setUseCache(false);
 
         if(isset($params['use_cache']) and intval($params['use_cache']) == 0){
             $renderer->setUseCache(0);
@@ -96,7 +96,7 @@ class CategoryManager
             $renderer->setUseCache(1);
 
         }
-      //  $renderer->setUseCache(0);
+        //  $renderer->setUseCache(0);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
@@ -166,10 +166,16 @@ class CategoryManager
         }
     }
 
+    public $_get_parents = [];
     public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
+
         if (intval($id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_parents[$id][$without_main_parrent][$data_type])) {
+            return $this->_get_parents[$id][$without_main_parrent][$data_type];
         }
 
         $table = $this->tables['categories'];
@@ -219,11 +225,13 @@ class CategoryManager
 
         if (!empty($ids)) {
             $ids = array_unique($ids);
-
-            return $ids;
         } else {
-            return false;
+            $ids = false;
         }
+
+        $this->_get_parents[$id][$without_main_parrent][$data_type] = $ids;
+
+        return $ids;
     }
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
@@ -302,10 +310,17 @@ class CategoryManager
         return $to_return;
     }
 
+
+    public $_get_for_content_memory = [];
+
     public function get_for_content($content_id, $data_type = 'categories')
     {
         if (intval($content_id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_for_content_memory[$content_id][$data_type])) {
+            return $this->_get_for_content_memory[$content_id][$data_type];
         }
 
         if ($data_type == 'categories') {
@@ -335,7 +350,7 @@ class CategoryManager
             ->orderBy('position','asc')
             ->get();
 
-       // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+        // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         } else {
@@ -358,6 +373,8 @@ class CategoryManager
 
             $get_category = array_unique_recursive($get_category);
         }
+
+        $this->_get_for_content_memory[$content_id][$data_type] = $get_category;
 
         if (empty($get_category)) {
             return false;
@@ -611,7 +628,7 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-         //  $possible_slug = $this->app->url_manager->slug($data['url']);
+            //  $possible_slug = $this->app->url_manager->slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
             $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
@@ -636,7 +653,7 @@ class CategoryManager
                     $cont_get['no_cache'] = true;
                     $check_cont_wth_slug =  $this->app->content_manager->get($cont_get);
 
-                   // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
+                    // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
                     if ($check_cont_wth_slug) {
                         $possible_slug = $possible_slug . '-' . date('YmdHis');
                     }
@@ -779,13 +796,20 @@ class CategoryManager
      *
      * @since       Version 1.0
      */
+
+    public $_get_by_id = [];
     public function get_by_id($id = 0, $by_field_name = 'id')
     {
         if (!$id) {
             return;
         }
+
         if ($by_field_name == 'id' and intval($id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_by_id[$id][$by_field_name])) {
+            return $this->_get_by_id[$id][$by_field_name];
         }
 
         if (is_numeric($id)) {
