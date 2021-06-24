@@ -125,19 +125,6 @@ Route::get('test-lang', function () {
 });
 */
 
-Route::get('kur', function () {
-
-    $options1 = get_module_options('modwaf1');
-    $options2 = get_module_options('modulewfam-3');
-    $options2 = get_module_options('modufwaeam-5');
-    $options3 = get_option('module-layouts-7--4-teamcard-team-1');
-
-    dump($options3);
-
-    echo 999;
-    return;
-});
-
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
