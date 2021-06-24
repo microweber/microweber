@@ -101,9 +101,7 @@ class DatabaseManager extends DbUtils
     public $_database_manager_get = [];
     public function get($table, $params = null)
     {
-        $tbParams = $params;
-        $tbParams['___'] = $table;
-        $hashParamsTable = md5(serialize($tbParams));
+        $hashParamsTable = md5(serialize($params). serialize($table));
 
         if (isset($this->_database_manager_get[$hashParamsTable])) {
             return $this->_database_manager_get[$hashParamsTable];
