@@ -24,10 +24,10 @@ class TableCollectionCache
      */
     public static function getCache(string $table, array $params)
     {
-        $hashParamsTable = self::__generateKey($table, $params);
+        $key = self::__generateKey($table, $params);
 
-        if (isset(self::$__data[$table][$hashParamsTable])) {
-            return self::$__data[$table][$hashParamsTable];
+        if (isset(self::$__data[$table][$key])) {
+            return self::$__data[$table][$key];
         }
     }
 
