@@ -12,7 +12,7 @@ class TableCollectionCache
      * @param array $params
      * @param $data
      */
-    public static function setCache(string $table, array $params, $data)
+    public static function setCache(string $table, $params, $data)
     {
         self::$__data[$table][self::__generateKey($table, $params)] = $data;
     }
@@ -22,7 +22,7 @@ class TableCollectionCache
      * @param array $params
      * @return mixed
      */
-    public static function getCache(string $table, array $params)
+    public static function getCache(string $table, $params)
     {
         $key = self::__generateKey($table, $params);
 

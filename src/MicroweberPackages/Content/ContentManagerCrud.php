@@ -3,6 +3,7 @@ namespace MicroweberPackages\Content;
 
 use MicroweberPackages\Database\Crud;
 use DB;
+use MicroweberPackages\Database\TableCollectionCache;
 use function foo\func;
 
 class ContentManagerCrud extends Crud
@@ -123,6 +124,14 @@ class ContentManagerCrud extends Crud
      */
     public function get($params = false)
     {
+        $table = $this->tables['content'];
+
+        $orig_params = $params;
+
+        $collectionCache = TableCollectionCache::getCache($table, $orig_params);
+        if ($collectionCache) {
+            return $collectionCache;
+        }
 
         $params2 = array();
 
@@ -145,7 +154,6 @@ class ContentManagerCrud extends Crud
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
         }
-        $table = $this->tables['content'];
         if (!isset($params['is_deleted'])) {
             $params['is_deleted'] = 0;
         }
@@ -236,6 +244,8 @@ class ContentManagerCrud extends Crud
                 }
             }
 
+            TableCollectionCache::setCache($table, $orig_params, $get);
+
             return $get;
         }
 
@@ -255,6 +265,8 @@ class ContentManagerCrud extends Crud
                 $data2[] = $item;
             }
             $get = $data2;
+
+            TableCollectionCache::setCache($table, $orig_params, $get);
 
             return $get;
         }
