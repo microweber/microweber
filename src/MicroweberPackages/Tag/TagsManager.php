@@ -146,6 +146,7 @@ class TagsManager
                 }
 
             } else {
+
                 $article = $model->with('tagged')->first()->existingTags();
 
                 if ($article) {

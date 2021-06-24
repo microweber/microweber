@@ -103,9 +103,9 @@ class DatabaseManager extends DbUtils
     {
         $hashParamsTable = md5(serialize($params). serialize($table));
 
-        if (isset($this->_database_manager_get[$hashParamsTable])) {
-            return $this->_database_manager_get[$hashParamsTable];
-        }
+         if (isset($this->_database_manager_get[$hashParamsTable])) {
+             return $this->_database_manager_get[$hashParamsTable];
+         }
 
         if ($params === null) {
             $params = $table;
