@@ -1580,10 +1580,7 @@ class ContentManager
         $ref_page = false;
         if (isset($_REQUEST['from_url'])) {
             $ref_page = $_REQUEST['from_url'];
-        } else
-
-
-        if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
+        } else if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
             $ref_page = url_current(true);
