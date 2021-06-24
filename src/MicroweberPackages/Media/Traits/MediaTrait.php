@@ -33,7 +33,7 @@ trait MediaTrait {
            return $media->filename;
         }
 
-        return pixum();
+        return pixum(100,100);
     }
 
     public function addMedia($mediaArr)
