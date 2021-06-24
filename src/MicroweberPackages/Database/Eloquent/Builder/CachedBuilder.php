@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Database\Eloquent\Builder;
 
+use MicroweberPackages\Database\TableCollectionCache;
 use function Opis\Closure\serialize as serializeClosure;
 use function Opis\Closure\unserialize as unserializeClosure;
 
@@ -214,6 +215,12 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     private function _clearModelTaggedCache()
     {
         $tags = $this->generateCacheTags();
+
+        if ($tags) {
+            foreach ($tags as $table) {
+                TableCollectionCach::flushCache($table);
+            }
+        }
 
         \Cache::tags($tags)->flush();
     }
