@@ -98,15 +98,8 @@ class DatabaseManager extends DbUtils
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
      */
-    public $_database_manager_get = [];
     public function get($table, $params = null)
     {
-        $hashParamsTable = md5(serialize($params). serialize($table));
-
-         if (isset($this->_database_manager_get[$hashParamsTable])) {
-             return $this->_database_manager_get[$hashParamsTable];
-         }
-
         if ($params === null) {
             $params = $table;
         } else {
@@ -130,6 +123,11 @@ class DatabaseManager extends DbUtils
         }
         if (!$table) {
             return false;
+        }
+
+        $collectionCache = TableCollectionCache::getCache($table, $params);
+        if ($collectionCache) {
+            return $collectionCache;
         }
 
         $enable_triggers = true;
@@ -387,7 +385,7 @@ class DatabaseManager extends DbUtils
 
 
         if (!is_array($data)) {
-            $this->_database_manager_get[$hashParamsTable] = $data;
+            TableCollectionCache::setCache($table, $orig_params, $data);
             return $data;
         }
 
@@ -406,13 +404,12 @@ class DatabaseManager extends DbUtils
                 return (array)$data[0];
             }
 
-            $this->_database_manager_get[$hashParamsTable] = $data[0];
+            TableCollectionCache::setCache($table, $orig_params, $data[0]);
 
             return $data[0];
         }
 
-        $this->_database_manager_get[$hashParamsTable] = $data;
-
+        TableCollectionCache::setCache($table, $orig_params, $data);
 
         return $data;
     }
