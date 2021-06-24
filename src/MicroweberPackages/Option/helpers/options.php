@@ -21,7 +21,7 @@ function get_module_option($optionKey, $optionGroup = false, $returnFull = false
  */
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
 {
-    return app()->option_manager->get($key, $option_group, $return_full, $orderby, $module);
+   return app()->option_manager->get($key, $option_group, $return_full, $orderby, $module);
 }
 
 /*

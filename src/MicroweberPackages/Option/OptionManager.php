@@ -184,6 +184,8 @@ class OptionManager
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
     {
 
+        return get_module_option($optionKey, $optionGroup, $returnFull);
+
         if (!mw_is_installed()) {
             return false;
         }

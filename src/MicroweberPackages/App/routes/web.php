@@ -127,17 +127,12 @@ Route::get('test-lang', function () {
 
 Route::get('kur', function () {
 
-    $options1 = get_module_options('module-layouts-7--4-teamcard-team-0');
-    $options2 = get_module_options('module-layouts-7--4-teamcard-team-1');
-    $options3 = get_module_options('module-layouts-7--4-teamcard-team-2');
-    $options4 = get_module_options('module-layouts-7--4-teamcard-team-3');
-    $options5 = get_module_options('module-layouts-7--4-teamcard-team-4');
-    $options6 = get_module_options('module-layouts-7--4-teamcard-team-5');
-    $options7 = get_module_options('module-layouts-7--4-teamcard-team-6');
-    $options8 = get_module_options('module-layouts-7--4-teamcard-team-7');
-    $options9 = get_module_options('module-layouts-7--4-teamcard-team-001');
+    $options1 = get_module_options('modwaf1');
+    $options2 = get_module_options('modulewfam-3');
+    $options2 = get_module_options('modufwaeam-5');
+    $options3 = get_option('module-layouts-7--4-teamcard-team-1');
 
-    dump($options9);
+    dump($options3);
 
     echo 999;
     return;

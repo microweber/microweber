@@ -1,5 +1,9 @@
 <?php
 
+global $mw_time_start;
+$mw_time_start = microtime(true);
+
+
 if(defined('LARAVEL_START')){
     return;
 }
