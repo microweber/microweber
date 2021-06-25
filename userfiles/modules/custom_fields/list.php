@@ -206,7 +206,7 @@ if (isset($params['for_module_id'])): ?>
 
                          ?>
 
-                            <td data-id="<?php print $field['id']; ?>" width="100%">
+                            <td data-id="<?php print $field['id']; ?>" >
                                 <span class="mobile-th"><?php _e("Settings"); ?></span>
                                 <div id="mw-custom-fields-list-preview-<?php print $field['id']; ?>" class="mw-custom-fields-list-preview">
                                     <module type="custom_fields/values_preview" field-id="<?php print $field['id']; ?>" id="mw-admin-custom-field-edit-item-preview-<?php print $field['id']; ?>"/>
@@ -235,7 +235,7 @@ if (isset($params['for_module_id'])): ?>
                     }
 
                     mw.responsive.table('#custom-fields-post-table', {
-                        minWidth: 600
+                        minWidth: 270
                     });
 
                     mw.$("#custom-fields-post-table tbody").sortable({

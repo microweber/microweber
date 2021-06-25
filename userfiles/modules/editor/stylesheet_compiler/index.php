@@ -10,19 +10,21 @@ if (!$stylesheet_settings) {
     return;
 }
 
+
+
+ 
+
 $option_group = 'mw-template-' . mw()->template->folder_name();
 
 if ($stylesheet_settings) {
     foreach ($stylesheet_settings as $key => $setting) {
         $$key = get_option($key, $option_group);
-        if ($$key === false AND $$key !== null) {
+        if ($$key == false) {
             if (isset($setting['default'])) {
                 $$key = $setting['default'];
             } else {
                 $$key = '';
             }
-        } elseif ($$key == null) {
-            $$key = '';
         }
     }
 }
