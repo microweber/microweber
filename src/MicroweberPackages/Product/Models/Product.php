@@ -152,11 +152,27 @@ class Product extends Content
         return $this->getContentDataByFieldName('sku');
     }
 
+    public function getSepcialPriceAttribute()
+    {
+        return $this->getContentDataByFieldName('special_price');
+    }
+
     public function getInStockAttribute()
     {
+
+        $sellWhenIsOos = $this->getContentDataByFieldName('sell_oos');
+        if ($sellWhenIsOos == '1') {
+            return true;
+        }
+
+        if ($this->qty == 'nolimit') {
+            return true;
+        }
+
         if ($this->qty > 0) {
             return true;
         }
+
         return false;
     }
 
