@@ -3,7 +3,7 @@
 </script>
 <div class="card style-1 mb-3 card-in-live-edit">
     <div class="card-header">
-        <?php $module_info = module_info('blog/admin'); ?>
+        <?php $module_info = module_info('shop/admin'); ?>
         <h5>
             <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
@@ -22,16 +22,16 @@
                 <div class="module-live-edit-settings module-blog-settings">
                     @if($pages->count() == 0)
                         <div class="alert alert-warning">
-                            {{_e('You don\'t have any blog pages.')}}
+                            {{_e('You don\'t have any shop pages.')}}
                             <br />
-                            {{_e('Please, create a blog page from admin panel to continue.')}}
+                            {{_e('Please, create a shop page from admin panel to continue.')}}
                         </div>
 
                         @else
                     <div class="form-row row">
 
                         <div class="form-group col-12">
-                            <label class="control-label d-block"><?php echo _e("Display posts from", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Display products from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control js-filtering-from-content-id" data-width="100%" data-size="5" data-live-search="true">
                                 <option value=""><?php echo _e("Select page", true); ?></option>
                                 <?php
@@ -85,7 +85,7 @@
 
                             <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
@@ -97,7 +97,7 @@
 
                             <div class="form-group col-4 js-filtering-allow-limit">
                                 <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_limit"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_limit" type="checkbox"
@@ -108,7 +108,7 @@
 
                             <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of posts on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_sort" type="checkbox"
@@ -119,7 +119,7 @@
 
                             <div class="form-group col-4 js-filtering-allow-search">
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow search of posts on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow search of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_search"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_search" type="checkbox"
@@ -266,7 +266,7 @@
             </div>
 
             <div class="tab-pane fade" id="templates">
-                <module type="admin/modules/templates" parent-module="blog" parent-module-id="{{$moduleId}}" />
+                <module type="admin/modules/templates" parent-module="shop" parent-module-id="{{$moduleId}}" />
             </div>
         </div>
 
