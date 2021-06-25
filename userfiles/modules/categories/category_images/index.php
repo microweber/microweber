@@ -1,5 +1,4 @@
 <?php
-return;
 use \MicroweberPackages\Option\Models\Option;
 
 $cats = [];

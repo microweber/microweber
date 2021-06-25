@@ -1,6 +1,3 @@
-<?php
-return;
-?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>categories/styles.css"); </script>
 
 <?php
