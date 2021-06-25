@@ -31,9 +31,7 @@ if (isset($params['live_edit'])) {
 }
 ?>
 <style>
-     .mw-filepicker-component-section {
-        width: 125px;
-    }
+
      .mw-dialog-container >  .mw-filepicker-component-section {
          width: 100%;
      }
@@ -651,7 +649,7 @@ if (isset($params['live_edit'])) {
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
                                                 <label class="control-label"><?php _e("Meta Title"); ?></label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?></span>
+                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?></span>-->
                                             </div>
                                             <input type="text" class="form-control" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>">
                                         </div>
@@ -661,7 +659,7 @@ if (isset($params['live_edit'])) {
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
                                                 <label class="control-label"><?php _e("Meta descriptions"); ?></label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?> </span>
+                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?> </span>-->
                                             </div>
                                             <textarea class="form-control" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
                                         </div>
