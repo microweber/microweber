@@ -685,22 +685,22 @@ class Front
 
         // dd($post_params,$posts_parent_category);
 
-        //$content = get_content($post_params);
+         $content = get_content($post_params);
 
-        if (isset($post_params['content_type']) && $post_params['content_type'] == 'product') {
-
-            $productQuery = Product::query();
-            $productResults = $productQuery->frontendFilter([
-                'moduleId'=>$params['id'],
-            ]);
-            $content = $productResults->results();
-        } else {
-            $postQuery = Post::query();
-            $postResults = $postQuery->frontendFilter([
-                'moduleId'=>$params['id'],
-            ]);
-            $content = $postResults->results();
-        }
+//        if (isset($post_params['content_type']) && $post_params['content_type'] == 'product') {
+//
+//            $productQuery = Product::query();
+//            $productResults = $productQuery->frontendFilter([
+//                'moduleId'=>$params['id'],
+//            ]);
+//            $content = $productResults->results();
+//        } else {
+//            $postQuery = Post::query();
+//            $postResults = $postQuery->frontendFilter([
+//                'moduleId'=>$params['id'],
+//            ]);
+//            $content = $postResults->results();
+//        }
 
 
         if ($is_search) {
