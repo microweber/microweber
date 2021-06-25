@@ -988,7 +988,7 @@ class ModuleManager
     {
         if ($module_name == false) {
 
-            $mod_data = $this->app->parser->current_module;
+            $mod_data = $this->app->parser->processor->current_module;
             if (isset($mod_data['url_to_module'])) {
                 return $mod_data['url_to_module'];
             }
