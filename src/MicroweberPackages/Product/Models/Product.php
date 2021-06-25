@@ -152,7 +152,16 @@ class Product extends Content
         return $this->getContentDataByFieldName('sku');
     }
 
-    public function getSepcialPriceAttribute()
+    public function hasSpecialPrice()
+    {
+        $specialPrice = $this->getContentDataByFieldName('special_price');
+        if ($specialPrice > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getSpecialPriceAttribute()
     {
         return $this->getContentDataByFieldName('special_price');
     }
