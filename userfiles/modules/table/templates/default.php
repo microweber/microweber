@@ -45,7 +45,7 @@ description: Default with horizontal scrolling
 
 <script>
 
-mw.moduleJS('<?php print module_url(); ?>js/table.js');
+mw.moduleJS('<?php print modules_url(); ?>js/table.js');
 
 $(document).ready(function () {
 	var foundData = false;
