@@ -332,6 +332,16 @@ abstract class BaseFilter
         return view($template, $viewData);
     }
 
+    public function hasFilter()
+    {
+        $disableFilter = get_option('disable_filter', $this->params['moduleId']);
+        if ($disableFilter == '1') {
+            return false;
+        }
+        return true;
+    }
+
+
     public function apply()
     {
         $reflection = new \ReflectionClass(get_class($this));
