@@ -54,6 +54,8 @@ class TagsManager
         $model = $this->app->database_manager->table($params['table']);
         $supports_tags = $this->app->database_manager->supports($params['table'], 'tags');
 
+        dd(method_exists($model, 'tagged'));
+
         $tags_return = array();
         if ($supports_tags) {
             if ($id) {
