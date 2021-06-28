@@ -24,7 +24,7 @@ class ShopFilterTest extends TestCase
 
         $moduleId = 'shop--mw--'. uniqid();
 
-        save_option('content_from_id', $shopPage->id, $moduleId);
+        save_option('content_from_id', $shopPage->id, $moduleId); 
 
         $products = [];
 
