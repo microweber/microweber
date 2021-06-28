@@ -13,7 +13,7 @@ $randomId = uniqid();
     <div class="card-body px-1">
         @foreach($categories as $category)
             <ul class="js-filter-category-tree list-unstyled">
-                <li class="mw-shop-attributes-li pb-4">
+                <li class="mw-shop-attributes-li title pb-1">
                     <a href="?category={{$category->id}}" class="js-filter-category-link @if($request->get('category', false) == $category->id) active @endif ">{{$category->title}}</a>
                 </li>
                 @if($category->children()->count() > 0)
