@@ -55,7 +55,7 @@ description: Full Width
 </style>
 
 <script>
-    mw.moduleJS('<?php print module_url(); ?>js/table.js');
+    mw.moduleJS('<?php print modules_url(); ?>table/js/table.js');
     mw.lib.require('font_awesome');
 
     $(document).ready(function () {

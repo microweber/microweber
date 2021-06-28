@@ -3,6 +3,8 @@
 
 namespace content\controllers;
 
+use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\View\View;
 use DB;
 use \MicroweberPackages\Option\Models\Option;
@@ -660,12 +662,12 @@ class Front
 
         if (isset($params['keyword']) and $params['keyword'] != false) {
             $post_params['keyword'] =$params['keyword'];
-            //   $post_params['no_cache'] = 1;
+         //   $post_params['no_cache'] = 1;
 
             if (!isset($params['keywords_exact_match'])) {
                 $post_params['keywords_exact_match'] = true;
             }
-        }
+         }
 
 
 
@@ -683,7 +685,23 @@ class Front
 
         // dd($post_params,$posts_parent_category);
 
-        $content = get_content($post_params);
+         $content = get_content($post_params);
+
+//        if (isset($post_params['content_type']) && $post_params['content_type'] == 'product') {
+//
+//            $productQuery = Product::query();
+//            $productResults = $productQuery->frontendFilter([
+//                'moduleId'=>$params['id'],
+//            ]);
+//            $content = $productResults->results();
+//        } else {
+//            $postQuery = Post::query();
+//            $postResults = $postQuery->frontendFilter([
+//                'moduleId'=>$params['id'],
+//            ]);
+//            $content = $postResults->results();
+//        }
+
 
         if ($is_search) {
             //dd(DB::getQueryLog(), $content);
@@ -698,28 +716,11 @@ class Front
         $data = array();
 
         if (!empty($content)) {
-
             foreach ($content as $item) {
 
-                $iu = get_picture($item['id'], $for = 'post', $full = false);
-
-                if ($iu != false) {
-                    $item['image'] = $iu;
-                } else {
-                    $item['image'] = false;
-                }
-
-
-                if ($item['image'] != false) {
-                    $item['tn_image'] = thumbnail($item['image'], $tn[0], $tn[1]);
-
-                } else {
-                    $item['tn_image'] = false;
-                }
-
-
+                $item['image'] = $item->mediaUrl();
+                $item['tn_image'] = $item->thumbnail($tn[0], $tn[1]);
                 $item['content'] = htmlspecialchars_decode($item['content']);
-
 
                 if (isset($item['created_at']) and trim($item['created_at']) != '') {
                     $item['created_at'] = date($date_format, strtotime($item['created_at']));
@@ -729,11 +730,8 @@ class Front
                     $item['updated_at'] = date($date_format, strtotime($item['updated_at']));
                 }
 
-                $item['link'] = content_link($item['id']);
-
-
-                $item['description'] = content_description($item['id']);
-
+                $item['link'] = $item->url;
+                $item['description'] = $item->description;
 
                 $item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {
@@ -950,7 +948,11 @@ class Front
                         });
                     </script>
                 <?php endif; ?>
-
+                <?php if (isset($params['is_shop'])): ?>
+                    <script type="text/javascript">
+                        mw.require("shop.js");
+                    </script>
+                <?php endif; ?>
                 <?php
             } else {
                 print lnotif('No default template for ' . $config['module'] . ' is found');

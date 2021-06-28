@@ -52,6 +52,7 @@ class Parser
     private $_additional_parsers = array();
     public $current_module_params = false;
     public $current_module = false;
+    public $processor = false;
 
 
     public $debugbarEnabled = false;
@@ -62,6 +63,12 @@ class Parser
         $this->debugbarEnabled = \Debugbar::isEnabled();
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+
+        $this->processor = new ParserProcessor();
+
+        $this->processor->debugbarEnabled = $this->debugbarEnabled;
+
+
 
     }
 
@@ -76,10 +83,9 @@ class Parser
 
     public function process($layout, $options = [])
     {
-        $ready = new ParserProcessor();
-        $ready = $ready->process($layout, $options);
 
-        return $ready;
+
+        return $this->processor->process($layout, $options);;
 
     }
 
