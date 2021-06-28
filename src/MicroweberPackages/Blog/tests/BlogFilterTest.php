@@ -15,19 +15,19 @@ class BlogFilterTest extends TestCase
 {
     public function testGetPosts()
     {
-        $newPage = new Page();
-        $newPage->title = uniqid();
-        $newPage->content_type = 'page';
-        $newPage->subtype = 'dynamic';
-        $newPage->save();
 
-        $blogPage = Page::where('content_type', 'page')
-            ->where('subtype','dynamic')
-            ->first();
+        // Create dynamic page
+        $newBlogPage = new Page();
+        $newBlogPage->title = uniqid();
+        $newBlogPage->content_type = 'page';
+        $newBlogPage->subtype = 'dynamic';
+        $newBlogPage->save();
 
-        $moduleId = 'blog-'. uniqid();
+        $blogPage = Page::where('id', $newBlogPage->id)->first();
 
-        save_option('content_from_id', $moduleId);
+        $moduleId = 'blog--mw--'. uniqid();
+
+        save_option('content_from_id', $blogPage->id, $moduleId);
 
         $posts = [];
 
@@ -42,7 +42,7 @@ class BlogFilterTest extends TestCase
         }
 
         $params = [];
-        $params['id'] = $blogPage->id;
+        $params['id'] = $moduleId;
 
         $request = new \Illuminate\Http\Request();
         $request->merge($params);
@@ -50,7 +50,7 @@ class BlogFilterTest extends TestCase
         $controller = App::make(BlogController::class);
         $controller->setModuleParams($params);
         $controller->setModuleConfig([
-            'module'=> $moduleId
+            'module'=> 'blog'
         ]);
         $controller->registerModule();
 
