@@ -11,7 +11,7 @@ use MicroweberPackages\Shop\Http\Controllers\ShopController;
 
 class ShopFilterTest extends TestCase
 {
-    public function testGetInShopProducts()
+    public function testGetProductsInShop()
     {
         $newShopPage = new Page();
         $newShopPage->title = uniqid();
@@ -24,7 +24,7 @@ class ShopFilterTest extends TestCase
 
         $moduleId = 'shop--mw--'. uniqid();
 
-        save_option('content_from_id', $shopPage->id, $moduleId); 
+        save_option('content_from_id', $shopPage->id, $moduleId);
 
         $products = [];
 
@@ -50,8 +50,8 @@ class ShopFilterTest extends TestCase
             'module'=> 'shop'
         ]);
         $controller->registerModule();
-        $html = $controller->index($request);
 
+        $html = $controller->index($request);
         $htmlString = $html->__toString();
 
         foreach ($products as $product) {
