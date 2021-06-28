@@ -82,11 +82,6 @@ export const Draggable = function (options, rootSettings) {
     this.isDragging = false;
     this.dropableService = new DroppableElementAnalyzerService(rootSettings);
 
-    var stateManager = function () {
-
-    }
-
-
     this.dropPosition = DropPosition;
 
     this.draggable = function () {
@@ -97,7 +92,7 @@ export const Draggable = function (options, rootSettings) {
              scope.target = null;
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
-                 var targetAction = scope.dropableService.getTarget(e.target);
+                 var targetAction = scope.dropableService.getTarget(e.target, scope.element);
                  if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {

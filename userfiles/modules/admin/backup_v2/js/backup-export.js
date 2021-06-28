@@ -243,7 +243,7 @@ mw.backup_export = {
 	},
 
 	choice: function(template_holder) {
-mw.log(mw.$(template_holder).html())
+
 		this.dialog = mw.dialog({
 		    title: 'Select data which you want to export',
 		    id: 'mw_backup_export_modal',

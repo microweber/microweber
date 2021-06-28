@@ -191,6 +191,7 @@
 }
 
 .mw-le-handle-menu-button-sub-menu {
+  padding: 10px 0;
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -206,6 +207,11 @@
   display: block;
   white-space: nowrap;
   padding: 5px 10px;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+.mw-le-handle-menu-button-sub-menu .mw-le-handle-menu-button:hover {
+  background-color: #efecec;
 }
 
 .mw-le-handle-menu-button.sub-menu-active > .mw-le-handle-menu-button-sub-menu {

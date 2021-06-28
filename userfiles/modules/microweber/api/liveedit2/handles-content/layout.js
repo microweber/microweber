@@ -30,9 +30,7 @@ export const LayoutHandleContent = function (scope) {
                         title: mw.lang('Settings1212'),
                         text: 'Do alert 1212',
                         className: 'mw-handle-insert-button',
-                        menu: [
 
-                        ],
                     },
                 ],
             },
@@ -45,14 +43,13 @@ export const LayoutHandleContent = function (scope) {
                 action: function (target, selfNode, rootScope) {
                     var el = document.createElement('div');
                     el.innerHTML = target.outerHTML;
-                    console.log(target)
                     ElementManager('[id]', el).each(function(){
                         this.id = 'le-id-' + new Date().getTime();
                     });
                     ElementManager(target).after(el.innerHTML);
                     var newEl = target.nextElementSibling;
                     mw.reload_module(newEl, function(){
-                        mw.liveEditState.record({
+                        rootScope.statemanager.record({
                             target: mw.tools.firstParentWithClass(target, 'edit'),
                             value: parent.innerHTML
                         });

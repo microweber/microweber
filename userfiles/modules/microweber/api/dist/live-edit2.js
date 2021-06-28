@@ -79,7 +79,7 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
         ]);
     }
 
-    getTarget (node) {
+    getTarget (node, draggedElement) {
 
         const target = this.getIteractionTarget(node);
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
@@ -90,16 +90,22 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
             canInsert: false,
             beforeAfter: false
         }
+
+        var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
+        var isStrictCase = this.settings.strict && !this.isInLayout(target);
+
+        if(isStrictCase) {
+            return null;
+        }
+
         if (this.isEdit(target)) {
-            res.canInsert = true;
-        } else if(this.isElement(target)) {
-            if(this.canAcceptByTag(target)) {
-                res.canInsert = true;
+            res.canInsert = !draggedElementIsLayoutRestricted;
+        } else if ( this.isElement(target) && !draggedElementIsLayoutRestricted  ) {
+            if (this.canAcceptByTag(target)) {
+                res.canInsert = !draggedElementIsLayoutRestricted;
             }
-            //if(this.canInsertBeforeOrAfter(target)) {
-                res.beforeAfter = true;
-            //}
-        } else if(this.isModule(target)) {
+            res.beforeAfter = true;
+        } else if(this.isModule(target) && !draggedElementIsLayoutRestricted) {
             if(this.canInsertBeforeOrAfter(target)) {
                 res.beforeAfter = true;
             } else {
@@ -107,7 +113,7 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
             }
         } else if(this.isLayout(target)) {
             if(this.canInsertBeforeOrAfter(target)) {
-                res.beforeAfter = true;
+              res.beforeAfter = true;
             } else {
                 return null;
             }
@@ -398,7 +404,6 @@ const Draggable = function (options, rootSettings) {
     this.isDragging = false;
     this.dropableService = new _analizer__WEBPACK_IMPORTED_MODULE_1__.DroppableElementAnalyzerService(rootSettings);
 
-
     this.dropPosition = _drop_position__WEBPACK_IMPORTED_MODULE_2__.DropPosition;
 
     this.draggable = function () {
@@ -409,7 +414,7 @@ const Draggable = function (options, rootSettings) {
              scope.target = null;
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
-                 var targetAction = scope.dropableService.getTarget(e.target);
+                 var targetAction = scope.dropableService.getTarget(e.target, scope.element);
                  if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
@@ -590,6 +595,19 @@ class ElementAnalyzerServiceBase {
 
     isLayout (node) {
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
+    }
+
+    isInLayout (node) {
+        if(!node) {
+            return false;
+        }
+        node = node.parentNode;
+        while(node && node !== this.settings.document.body) {
+            if(node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts') {
+                return true;
+            }
+            node = node.parentNode
+        }
     }
 
     isElement (node) {
@@ -886,10 +904,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const Handle = function (options) {
 
-    var defaults = {
-
-    };
-
+    var defaults = {};
 
     var scope = this;
 
@@ -932,7 +947,8 @@ const Handle = function (options) {
           dropIndicator: this.settings.dropIndicator,
           document: this.settings.document,
           target: this.settings.root,
-          stateManager: this.settings.stateManager
+          stateManager: this.settings.stateManager,
+          type: this.settings.type
 
       }, options);
         this.draggable.on('dragStart', function () {
@@ -961,11 +977,10 @@ const Handle = function (options) {
             _currentTarget = target;
             this.dispatch('targetChange', target);
         }
-
     };
 
     this.createHandle = function () {
-        if(this.settings.handle) {
+        if (this.settings.handle) {
             this.handle = this.settings.handle;
         } else {
             this.handle = (0,_element__WEBPACK_IMPORTED_MODULE_3__.ElementManager)({
@@ -977,9 +992,7 @@ const Handle = function (options) {
                 }
             });
             this.wrapper.append(this.handle);
-
         }
-
     }
 
     this.createWrapper = function() {
@@ -995,9 +1008,11 @@ const Handle = function (options) {
         this.wrapper.on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
+
         (0,_element__WEBPACK_IMPORTED_MODULE_3__.ElementManager)(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
+
         this.settings.document.body.appendChild(this.wrapper.get(0));
     };
 
@@ -1005,12 +1020,8 @@ const Handle = function (options) {
     this.createHandle();
     this.initDraggable();
     if(this.settings.content) {
-        this.setContent(this.settings.content)
+        this.setContent(this.settings.content);
     }
-
-
-
-
 };
 
 
@@ -1133,9 +1144,7 @@ const LayoutHandleContent = function (scope) {
                         title: mw.lang('Settings1212'),
                         text: 'Do alert 1212',
                         className: 'mw-handle-insert-button',
-                        menu: [
 
-                        ],
                     },
                 ],
             },
@@ -1148,14 +1157,13 @@ const LayoutHandleContent = function (scope) {
                 action: function (target, selfNode, rootScope) {
                     var el = document.createElement('div');
                     el.innerHTML = target.outerHTML;
-                    console.log(target)
-                    ;(0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('[id]', el).each(function(){
+                    (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('[id]', el).each(function(){
                         this.id = 'le-id-' + new Date().getTime();
                     });
                     (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(target).after(el.innerHTML);
                     var newEl = target.nextElementSibling;
                     mw.reload_module(newEl, function(){
-                        mw.liveEditState.record({
+                        rootScope.statemanager.record({
                             target: mw.tools.firstParentWithClass(target, 'edit'),
                             value: parent.innerHTML
                         });
@@ -1972,7 +1980,8 @@ class LiveEdit {
             document: document,
             mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
-            strict: false // todo: element and modules should be dropped only in layouts
+            strict: true, // element and modules should be dropped only in layouts
+            strictLayouts: false // layouts can only exist as edit-field children
         };
 
 
@@ -2038,7 +2047,8 @@ class LiveEdit {
             content: layoutHandleContent.root,
             handle: layoutHandleContent.menu.title,
             document: this.settings.document,
-            stateManager: this.settings.stateManager
+            stateManager: this.settings.stateManager,
+            type: 'layout'
         });
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
@@ -2052,18 +2062,7 @@ class LiveEdit {
             module: moduleHandle,
             layout: layoutHandle
         });
-
-        this.handles.get('element').on('targetChange', function (target) {
-
-         })
-
-        this.handles.get('module').on('targetChange', function (target) {
-
-        })
-
         this.observe = new _pointer__WEBPACK_IMPORTED_MODULE_1__.GetPointerTargets(this.settings);
-        //this.dropIndicator = new DropIndicator();
-
         this.init();
     }
 

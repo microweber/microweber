@@ -97,6 +97,7 @@ $handleHeight: 42;
 }
 
 .mw-le-handle-menu-button-sub-menu{
+    padding: 10px 0;
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -111,6 +112,11 @@ $handleHeight: 42;
         display: block;
         white-space: nowrap;
         padding: 5px 10px;
+        text-align: left;
+        transition: background-color .3s;
+        &:hover{
+            background-color: #efecec;
+        }
     }
 }
 .mw-le-handle-menu-button.sub-menu-active{

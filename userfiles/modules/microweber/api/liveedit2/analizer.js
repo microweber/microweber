@@ -64,7 +64,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         ]);
     }
 
-    getTarget (node) {
+    getTarget (node, draggedElement) {
 
         const target = this.getIteractionTarget(node);
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
@@ -75,16 +75,22 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             canInsert: false,
             beforeAfter: false
         }
+
+        var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
+        var isStrictCase = this.settings.strict && !this.isInLayout(target);
+
+        if(isStrictCase) {
+            return null;
+        }
+
         if (this.isEdit(target)) {
-            res.canInsert = true;
-        } else if(this.isElement(target)) {
-            if(this.canAcceptByTag(target)) {
-                res.canInsert = true;
+            res.canInsert = !draggedElementIsLayoutRestricted;
+        } else if ( this.isElement(target) && !draggedElementIsLayoutRestricted  ) {
+            if (this.canAcceptByTag(target)) {
+                res.canInsert = !draggedElementIsLayoutRestricted;
             }
-            //if(this.canInsertBeforeOrAfter(target)) {
-                res.beforeAfter = true;
-            //}
-        } else if(this.isModule(target)) {
+            res.beforeAfter = true;
+        } else if(this.isModule(target) && !draggedElementIsLayoutRestricted) {
             if(this.canInsertBeforeOrAfter(target)) {
                 res.beforeAfter = true;
             } else {
@@ -92,7 +98,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             }
         } else if(this.isLayout(target)) {
             if(this.canInsertBeforeOrAfter(target)) {
-                res.beforeAfter = true;
+              res.beforeAfter = true;
             } else {
                 return null;
             }

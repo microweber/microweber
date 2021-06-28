@@ -415,7 +415,6 @@
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
-            mw.trigger('mwDialogRemove', this);
             for (var i = 0; i < mw.top().__dialogs.length; i++) {
                 if (mw.top().__dialogs[i] === this) {
                     mw.top().__dialogs.splice(i, 1);

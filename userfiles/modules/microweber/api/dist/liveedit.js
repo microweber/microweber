@@ -24114,7 +24114,6 @@ mw.colorPicker = function (o) {
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
-            mw.trigger('mwDialogRemove', this);
             for (var i = 0; i < mw.top().__dialogs.length; i++) {
                 if (mw.top().__dialogs[i] === this) {
                     mw.top().__dialogs.splice(i, 1);
@@ -24454,7 +24453,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
             var el = document.createElement('div');
             el.className = 'mw-gallery-fullscreen-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
             var desc = !item.description ? '' : '<div class="mw-gallery-item-description">'+item.description+'</div>';
-            el.innerHTML = '<div class="mw-gallery-item-image"><img src="'+(item.image || item.url || item.src)+'"></div>' + desc;
+            el.innerHTML = '<div class="mw-gallery-item-image"><img src="'+(item.image || item.url || item.src || item.filename)+'"></div>' + desc;
             this.container.appendChild(el);
             return el;
         };

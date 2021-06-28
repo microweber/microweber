@@ -5,10 +5,7 @@ import {ElementManager} from "./element";
 
 export const Handle = function (options) {
 
-    var defaults = {
-
-    };
-
+    var defaults = {};
 
     var scope = this;
 
@@ -51,7 +48,8 @@ export const Handle = function (options) {
           dropIndicator: this.settings.dropIndicator,
           document: this.settings.document,
           target: this.settings.root,
-          stateManager: this.settings.stateManager
+          stateManager: this.settings.stateManager,
+          type: this.settings.type
 
       }, options);
         this.draggable.on('dragStart', function () {
@@ -80,11 +78,10 @@ export const Handle = function (options) {
             _currentTarget = target;
             this.dispatch('targetChange', target);
         }
-
     };
 
     this.createHandle = function () {
-        if(this.settings.handle) {
+        if (this.settings.handle) {
             this.handle = this.settings.handle;
         } else {
             this.handle = ElementManager({
@@ -96,9 +93,7 @@ export const Handle = function (options) {
                 }
             });
             this.wrapper.append(this.handle);
-
         }
-
     }
 
     this.createWrapper = function() {
@@ -114,9 +109,11 @@ export const Handle = function (options) {
         this.wrapper.on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
+
         ElementManager(document.body).on('mouseup touchend', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
+
         this.settings.document.body.appendChild(this.wrapper.get(0));
     };
 
@@ -124,10 +121,6 @@ export const Handle = function (options) {
     this.createHandle();
     this.initDraggable();
     if(this.settings.content) {
-        this.setContent(this.settings.content)
+        this.setContent(this.settings.content);
     }
-
-
-
-
 };

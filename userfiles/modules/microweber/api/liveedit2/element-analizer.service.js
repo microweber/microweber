@@ -20,6 +20,19 @@ export class ElementAnalyzerServiceBase {
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
     }
 
+    isInLayout (node) {
+        if(!node) {
+            return false;
+        }
+        node = node.parentNode;
+        while(node && node !== this.settings.document.body) {
+            if(node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts') {
+                return true;
+            }
+            node = node.parentNode
+        }
+    }
+
     isElement (node) {
         return node.classList.contains(this.settings.elementClass);
     }

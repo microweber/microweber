@@ -47,7 +47,8 @@ export class LiveEdit {
             document: document,
             mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
-            strict: false // todo: element and modules should be dropped only in layouts
+            strict: true, // element and modules should be dropped only in layouts
+            strictLayouts: false // layouts can only exist as edit-field children
         };
 
 
@@ -113,7 +114,8 @@ export class LiveEdit {
             content: layoutHandleContent.root,
             handle: layoutHandleContent.menu.title,
             document: this.settings.document,
-            stateManager: this.settings.stateManager
+            stateManager: this.settings.stateManager,
+            type: 'layout'
         });
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
@@ -127,18 +129,7 @@ export class LiveEdit {
             module: moduleHandle,
             layout: layoutHandle
         });
-
-        this.handles.get('element').on('targetChange', function (target) {
-
-         })
-
-        this.handles.get('module').on('targetChange', function (target) {
-
-        })
-
         this.observe = new GetPointerTargets(this.settings);
-        //this.dropIndicator = new DropIndicator();
-
         this.init();
     }
 
