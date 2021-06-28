@@ -25,6 +25,10 @@ class BlogFilterTest extends TestCase
             ->where('subtype','dynamic')
             ->first();
 
+        $moduleId = 'blog-'. uniqid();
+
+        save_option('content_from_id', $moduleId);
+
         $posts = [];
 
         for($i = 0; $i < 5; $i++) {
@@ -37,18 +41,25 @@ class BlogFilterTest extends TestCase
             $posts[] = $newPost;
         }
 
-        $controller = App::make(BlogController::class);
+        $params = [];
+        $params['id'] = $blogPage->id;
 
-        $request = new Request();
-        $request->merge(['id'=>$blogPage->id]);
+        $request = new \Illuminate\Http\Request();
+        $request->merge($params);
+
+        $controller = App::make(BlogController::class);
+        $controller->setModuleParams($params);
+        $controller->setModuleConfig([
+            'module'=> $moduleId
+        ]);
+        $controller->registerModule();
 
         $html = $controller->index($request);
         $htmlString = $html->__toString();
-        foreach ($posts as $post) {
 
+        foreach ($posts as $post) {
             $findPostTitle = (strpos($htmlString, $post->title) !== false);
             $this->assertTrue($findPostTitle);
-
         }
 
         $findJs = (strpos($html, 'filter.js') !== false);
