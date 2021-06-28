@@ -43,10 +43,10 @@ class BlogFilterTest extends TestCase
         $request->merge(['id'=>$blogPage->id]);
 
         $html = $controller->index($request);
-
+        $htmlString = $html->__toString();
         foreach ($posts as $post) {
 
-            $findPostTitle = (strpos($html, $post->title) !== false);
+            $findPostTitle = (strpos($htmlString, $post->title) !== false);
             $this->assertTrue($findPostTitle);
 
         }
