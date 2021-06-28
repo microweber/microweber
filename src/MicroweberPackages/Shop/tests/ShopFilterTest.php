@@ -11,24 +11,24 @@ use MicroweberPackages\Shop\Http\Controllers\ShopController;
 
 class ShopFilterTest extends TestCase
 {
-    public function testGetProducts()
+    public function testGetInShopProducts()
     {
-        $newPage = new Page();
-        $newPage->title = uniqid();
-        $newPage->is_shop = 1;
-        $newPage->content_type = 'page';
-        $newPage->subtype = 'dynamic';
-        $newPage->save();
+        $newShopPage = new Page();
+        $newShopPage->title = uniqid();
+        $newShopPage->is_shop = 1;
+        $newShopPage->content_type = 'page';
+        $newShopPage->subtype = 'dynamic';
+        $newShopPage->save();
 
-        $shopPage = Page::where('content_type', 'page')
-            ->where('subtype','dynamic')
-            ->where('is_shop', 1)
-            ->first();
+        $shopPage = Page::where('id', $newShopPage->id)->first();
+
+        $moduleId = 'shop--mw--'. uniqid();
+
+        save_option('content_from_id', $shopPage->id, $moduleId);
 
         $products = [];
 
         for($i = 0; $i < 5; $i++) {
-
             $newProduct = new Product();
             $newProduct->price = rand(11,999);
             $newProduct->title = uniqid();
@@ -38,27 +38,36 @@ class ShopFilterTest extends TestCase
             $products[] = $newProduct;
         }
 
+        $params = [];
+        $params['id'] = $moduleId;
+
+        $request = new \Illuminate\Http\Request();
+        $request->merge($params);
+
         $controller = App::make(ShopController::class);
-
-        $request = new Request();
-        $request->merge(['id'=>$shopPage->id]);
-
+        $controller->setModuleParams($params);
+        $controller->setModuleConfig([
+            'module'=> 'shop'
+        ]);
+        $controller->registerModule();
         $html = $controller->index($request);
+
+        $htmlString = $html->__toString();
 
         foreach ($products as $product) {
 
-            $findProductTitle = (strpos($html, $product->title) !== false);
+            $findProductTitle = (strpos($htmlString, $product->title) !== false);
             $this->assertTrue($findProductTitle);
 
-            $findProductPrice = (strpos($html, $product->price) !== false);
+            $findProductPrice = (strpos($htmlString, $product->price) !== false);
             $this->assertTrue($findProductPrice);
 
         }
 
-        $findJs = (strpos($html, 'filter.js') !== false);
+        $findJs = (strpos($htmlString, 'filter.js') !== false);
         $this->assertTrue($findJs);
 
-        $findCss = (strpos($html, 'filter.css') !== false);
+        $findCss = (strpos($htmlString, 'filter.css') !== false);
         $this->assertTrue($findCss);
 
     }

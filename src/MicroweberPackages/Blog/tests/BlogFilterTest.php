@@ -62,10 +62,10 @@ class BlogFilterTest extends TestCase
             $this->assertTrue($findPostTitle);
         }
 
-        $findJs = (strpos($html, 'filter.js') !== false);
+        $findJs = (strpos($htmlString, 'filter.js') !== false);
         $this->assertTrue($findJs);
 
-        $findCss = (strpos($html, 'filter.css') !== false);
+        $findCss = (strpos($htmlString, 'filter.css') !== false);
         $this->assertTrue($findCss);
 
     }
