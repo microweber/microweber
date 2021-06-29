@@ -12,7 +12,6 @@ class Base extends Eloquent
     public $timestamps = ["updated_at"]; // enable only to updated_at
     const CREATED_AT = null;
 
-
     public function scopePeriod($query, $period, $alias = '')
     {
 
