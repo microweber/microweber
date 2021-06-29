@@ -473,7 +473,7 @@ class InstallController extends Controller
         $http = new Http(app());
 
         try {
-            $http->url('http://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
+            $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
             //maybe internet connection problem
         }
