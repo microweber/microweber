@@ -107,7 +107,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 }
                 // Change api post url to content api
                 $(form).attr('action', mw.settings.site_url + "api/content/" + form.querySelector('input[name="id"]').value);
-                console.log(form);
+               // console.log(form);
             });
         }
         mw.adm_cont_subtype_change_holder_event = function (el) {
