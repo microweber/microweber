@@ -20,7 +20,8 @@ class ShopController extends ModuleFrontController
         $productQuery = Product::query();
 
         $productResults = $productQuery->frontendFilter([
-            'moduleId'=>$moduleId,
+            'request'=>$request,
+            'moduleId'=>$moduleId
         ]);
 
         return $this->view('shop::index', [

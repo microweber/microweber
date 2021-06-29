@@ -15,15 +15,19 @@ class BlogFilterTest extends TestCase
 {
     public function testGetPosts()
     {
-        $newPage = new Page();
-        $newPage->title = uniqid();
-        $newPage->content_type = 'page';
-        $newPage->subtype = 'dynamic';
-        $newPage->save();
 
-        $blogPage = Page::where('content_type', 'page')
-            ->where('subtype','dynamic')
-            ->first();
+        // Create dynamic page
+        $newBlogPage = new Page();
+        $newBlogPage->title = uniqid();
+        $newBlogPage->content_type = 'page';
+        $newBlogPage->subtype = 'dynamic';
+        $newBlogPage->save();
+
+        $blogPage = Page::where('id', $newBlogPage->id)->first();
+
+        $moduleId = 'blog--mw--'. uniqid();
+
+        save_option('content_from_id', $blogPage->id, $moduleId);
 
         $posts = [];
 
@@ -37,24 +41,31 @@ class BlogFilterTest extends TestCase
             $posts[] = $newPost;
         }
 
-        $controller = App::make(BlogController::class);
+        $params = [];
+        $params['id'] = $moduleId;
 
-        $request = new Request();
-        $request->merge(['id'=>$blogPage->id]);
+        $request = new \Illuminate\Http\Request();
+        $request->merge($params);
+
+        $controller = App::make(BlogController::class);
+        $controller->setModuleParams($params);
+        $controller->setModuleConfig([
+            'module'=> 'blog'
+        ]);
+        $controller->registerModule();
 
         $html = $controller->index($request);
+        $htmlString = $html->__toString();
 
         foreach ($posts as $post) {
-
-            $findPostTitle = (strpos($html, $post->title) !== false);
+            $findPostTitle = (strpos($htmlString, $post->title) !== false);
             $this->assertTrue($findPostTitle);
-
         }
 
-        $findJs = (strpos($html, 'filter.js') !== false);
+        $findJs = (strpos($htmlString, 'filter.js') !== false);
         $this->assertTrue($findJs);
 
-        $findCss = (strpos($html, 'filter.css') !== false);
+        $findCss = (strpos($htmlString, 'filter.css') !== false);
         $this->assertTrue($findCss);
 
     }

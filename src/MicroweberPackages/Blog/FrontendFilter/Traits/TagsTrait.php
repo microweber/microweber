@@ -20,7 +20,7 @@ trait TagsTrait {
     public function appendFiltersActiveTags()
     {
         $tags = $this->request->get('tags', false);
-        if ($tags) {
+        if ($tags && is_array($tags)) {
             foreach ($tags as $tag) {
                 $urlForRemoving = 'tags[]';
                 $activeFilter = new \stdClass();
