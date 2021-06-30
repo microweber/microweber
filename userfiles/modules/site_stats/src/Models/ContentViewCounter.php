@@ -39,14 +39,14 @@ class ContentViewCounter
 
     public function getMostViewedForContentForPeriod($contentId, $period = 'daily') {
 
-      //  $range = $this->getDateRangeByPeriod($period);
+        $range = $this->getDateRangeByPeriod($period);
 
         $contentQuery = Content::query();
         $contentQuery->select('content.id', 'stats_urls.id as stats_url_id', \DB::raw('SUM(view_count) AS stats_view_count'));
         $contentQuery->where('content.parent', $contentId);
         $contentQuery->join('stats_urls', 'stats_urls.content_id', '=', 'content.id');
         $contentQuery->join('stats_visits_log', 'stats_visits_log.url_id', '=', 'stats_url_id');
-   //     $contentQuery->whereBetween('stats_visits_log.updated_at', [$range['start_date'], $range['end_date']])
+        $contentQuery->whereBetween('stats_visits_log.updated_at', [$range['start_date'], $range['end_date']]);
         $contentQuery->groupBy('content.id');
         $contentQuery->orderBy('stats_view_count', 'DESC');
 
@@ -62,33 +62,21 @@ class ContentViewCounter
         switch ($period) {
             case 'daily':
                 $startDate = date('Y-m-d H:i:s', strtotime('-1 days'));
-                $endDate = date('Y-m-d H:i:s');
-
                 break;
 
             case 'weekly':
                 $startDate = date('Y-m-d H:i:s', strtotime('-1 weeks'));
-                $endDate = date('Y-m-d H:i:s');
-
                 break;
-
 
             case 'monthly':
                 $startDate = date('Y-m-d H:i:s', strtotime('-12 months'));
-                $endDate = date('Y-m-d H:i:s');
-
                 break;
-
 
             case 'yearly':
                 $startDate = date('Y-m-d H:i:s', strtotime('-1 year'));
-                $endDate = date('Y-m-d H:i:s');
-
                 break;
             default:
                 $startDate = date('Y-m-d H:i:s', strtotime($period));
-                $endDate = date('Y-m-d H:i:s');
-
                 break;
         }
 
