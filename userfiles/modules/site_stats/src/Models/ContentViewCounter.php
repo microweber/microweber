@@ -45,7 +45,7 @@ class ContentViewCounter
         $contentQuery->select('content.id', 'stats_urls.id as stats_url_id', \DB::raw('SUM(view_count) AS stats_view_count'));
         $contentQuery->where('content.parent', $contentId);
         $contentQuery->join('stats_urls', 'stats_urls.content_id', '=', 'content.id');
-        $contentQuery->join('stats_visits_log', 'stats_visits_log.url_id', '=', 'stats_url_id');
+        $contentQuery->join('stats_visits_log', 'stats_visits_log.url_id', '=', 'stats_urls.id');
         $contentQuery->whereBetween('stats_visits_log.updated_at', [$range['start_date'], $range['end_date']]);
         $contentQuery->groupBy('content.id');
         $contentQuery->orderBy('stats_view_count', 'DESC');
