@@ -62,3 +62,5 @@ userfiles/modules/standalone-updater/
 /standalone-update
 /userfiles/standalone-update
 /adminer.php
+userfiles/.DS_Store
+.DS_Store
