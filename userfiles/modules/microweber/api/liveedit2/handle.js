@@ -107,11 +107,11 @@ export const Handle = function (options) {
         });
 
         this.wrapper.on('mousedown', function () {
-            mw.tools.addClass(this, 'mw-handle-item-mouse-down');
+            this.classList.remove('mw-handle-item-mouse-down')
         });
 
         ElementManager(document.body).on('mouseup touchend', function () {
-            mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
+            scope.wrapper.removeClass('mw-handle-item-mouse-down')
         });
 
         this.settings.document.body.appendChild(this.wrapper.get(0));

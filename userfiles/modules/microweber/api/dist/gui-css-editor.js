@@ -1390,6 +1390,7 @@ mw.colorPicker = function (o) {
 
         var scope = this;
 
+
         options = options || {};
         options.content = options.content || options.html || '';
 
@@ -1417,11 +1418,13 @@ mw.colorPicker = function (o) {
             overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
         };
 
-        this.options = $.extend({}, defaults, options, {
-            // skin: 'default'
-        });
+        this.options = Object.assign({}, defaults, options );
 
         this.id = this.options.id;
+
+        const _e = {};
+        this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
 
         var exist = document.getElementById(this.id);

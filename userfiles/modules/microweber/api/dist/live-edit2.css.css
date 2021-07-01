@@ -161,8 +161,8 @@
 }
 
 #mw-handle-item-element-menu {
-  top: -49px;
-  left: -3px;
+  top: -42px;
+  left: -2px;
 }
 
 #mw-handle-item-layout-menu {
@@ -260,6 +260,37 @@
 
 .mw-le-handle-menu-title-text {
   font-size: 14px;
+}
+
+.mw-handle-item-layout-plus {
+  font-size: 12px;
+  display: inline-flex;
+  position: absolute;
+  pointer-events: all;
+  min-width: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  background-color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  padding: 0 15px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.mw-handle-item-layout-plus.mw-handle-item-layout-plus-top {
+  top: 0;
+  margin-top: -15px;
+}
+.mw-handle-item-layout-plus.mw-handle-item-layout-plus-bottom {
+  bottom: 0;
+  margin-bottom: -15px;
+}
+.mw-handle-item-layout-plus:hover {
+  background-color: #e9e9e9;
 }
 
 .mw-element-is-dragged {

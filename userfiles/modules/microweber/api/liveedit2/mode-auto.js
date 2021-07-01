@@ -42,7 +42,6 @@ const isBlockLevel = function (node) {
 
 
 const getElementsLike = (selector, root, scope) => {
-
     selector = selector || '*';
     var all = root.querySelectorAll(selector), i = 0, final = [];
     for( ; i<all.length; i++){
@@ -53,14 +52,10 @@ const getElementsLike = (selector, root, scope) => {
             final.push(all[i]);
         }
     }
-    console.log(final)
     return final;
 };
 
 export const ModeAuto = (scope) => {
-
-
-
     const {
         backgroundImageHolder,
         editClass,
@@ -76,12 +71,13 @@ export const ModeAuto = (scope) => {
     var i = 0, i1 = 0, i2 = 0;
     for ( ; i < bgHolders.length; i++ ) {
         var curr = bgHolders[i];
-        var po = mw.tools.parentsOrder(curr, [editClass, moduleClass]);
-        if(po.module === -1 || (po.edit < po.module && po.edit !== -1)){
-            if(!mw.tools.hasClass(curr, moduleClass)){
+        if( scope.elementAnalyzer.isInEdit(curr) ){
+            if(!mw.tools.hasClass(curr, moduleClass)) {
                 mw.tools.addClass(curr, editClass);
             }
-            curr.style.backgroundImage = curr.style.backgroundImage || 'none';
+            if(!curr.style.backgroundImage) {
+                curr.style.backgroundImage = 'none';
+            }
         }
     }
     for ( ; i1<noEditModules.length; i1++ ) {

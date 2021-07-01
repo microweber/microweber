@@ -24,6 +24,8 @@ export class LiveEdit {
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
+        this.paused = false;
+
         var defaults = {
             elementClass: 'element',
             backgroundImageHolder: 'background-image-holder',
@@ -48,7 +50,8 @@ export class LiveEdit {
             mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
             strict: true, // element and modules should be dropped only in layouts
-            strictLayouts: false // layouts can only exist as edit-field children
+            strictLayouts: false, // layouts can only exist as edit-field children
+            viewWindow: window
         };
 
 
@@ -121,7 +124,14 @@ export class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
             layoutHandleContent.menu.setTarget(target);
-             layoutHandleContent.menu.setTitle(title)
+            layoutHandleContent.menu.setTitle(title);
+            if( scope.elementAnalyzer.isEditOrInEdit(target)) {
+                layoutHandleContent.plusTop.show()
+                layoutHandleContent.plusBottom.show()
+            } else {
+                layoutHandleContent.plusTop.hide()
+                layoutHandleContent.plusBottom.hide()
+            }
         });
 
         this.handles = new Handles({
@@ -133,12 +143,21 @@ export class LiveEdit {
         this.init();
     }
 
+    play() {
+        this.paused = false;
+    }
+
+    pause() {
+        this.handles.hide();
+        this.paused = true;
+    }
+
     init() {
         if(this.settings.mode === 'auto') {
             ModeAuto(this);
         }
          ElementManager(this.root).on('mousemove touchmove', (e) => {
-                if (e.pageX % 2 === 0) {
+                if (!this.paused && e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
                     const first = elements[0];
                     if(first) {

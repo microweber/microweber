@@ -92,7 +92,7 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
         }
 
         var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
-        var isStrictCase = this.settings.strict && !this.isInLayout(target);
+        var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
 
         if(isStrictCase) {
             return null;
@@ -1006,11 +1006,11 @@ const Handle = function (options) {
         });
 
         this.wrapper.on('mousedown', function () {
-            mw.tools.addClass(this, 'mw-handle-item-mouse-down');
+            this.classList.remove('mw-handle-item-mouse-down')
         });
 
         (0,_element__WEBPACK_IMPORTED_MODULE_3__.ElementManager)(document.body).on('mouseup touchend', function () {
-            mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
+            scope.wrapper.removeClass('mw-handle-item-mouse-down')
         });
 
         this.settings.document.body.appendChild(this.wrapper.get(0));
@@ -1271,13 +1271,15 @@ const LayoutHandleContent = function (scope) {
 
     this.plusTop = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
         props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top'
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
+            innerHTML: scope.lang('Add layout')
         }
     });
 
     this.plusBottom = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
         props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom'
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
+            innerHTML: scope.lang('Add layout')
         }
     });
 
@@ -1458,6 +1460,7 @@ __webpack_require__.r(__webpack_exports__);
 const i18n =  {
     en: {
         "Layout": "Layout",
+        "Add layout": "Add layout",
         "Title": "Title",
         "Settings": "Settings",
         "Paragraph": "Paragraph",
@@ -1526,16 +1529,17 @@ const DropIndicator = function (options) {
     var currentPositionClass = null; // do not set if same to prevent animation stop
 
     this.position = function (rect, position) {
+        if(!rect || !position) return;
+
         if(currentPositionClass !== position) {
             this._indicator.removeClass(positionsClasses);
-            currentPositionClass = position
+            currentPositionClass = position;
+            this._indicator.addClass(positionsPrefix + position);
+        }
+        if(rect.nodeType === 1) {
+            rect = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.offset(rect);
         }
 
-        if(!rect || !position) return;
-            if(rect.nodeType === 1) {
-                rect = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.offset(rect);
-            }
-        this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({
             height: rect.height,
             left: rect.left,
@@ -1957,6 +1961,8 @@ class LiveEdit {
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
+        this.paused = false;
+
         var defaults = {
             elementClass: 'element',
             backgroundImageHolder: 'background-image-holder',
@@ -1981,7 +1987,8 @@ class LiveEdit {
             mode: 'manual', // 'auto' | 'manual'
             lang: 'en',
             strict: true, // element and modules should be dropped only in layouts
-            strictLayouts: false // layouts can only exist as edit-field children
+            strictLayouts: false, // layouts can only exist as edit-field children
+            viewWindow: window
         };
 
 
@@ -2054,7 +2061,14 @@ class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
             layoutHandleContent.menu.setTarget(target);
-             layoutHandleContent.menu.setTitle(title)
+            layoutHandleContent.menu.setTitle(title);
+            if( scope.elementAnalyzer.isEditOrInEdit(target)) {
+                layoutHandleContent.plusTop.show()
+                layoutHandleContent.plusBottom.show()
+            } else {
+                layoutHandleContent.plusTop.hide()
+                layoutHandleContent.plusBottom.hide()
+            }
         });
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_3__.Handles({
@@ -2066,12 +2080,21 @@ class LiveEdit {
         this.init();
     }
 
+    play() {
+        this.paused = false;
+    }
+
+    pause() {
+        this.handles.hide();
+        this.paused = true;
+    }
+
     init() {
         if(this.settings.mode === 'auto') {
             (0,_mode_auto__WEBPACK_IMPORTED_MODULE_2__.ModeAuto)(this);
         }
          (0,_element__WEBPACK_IMPORTED_MODULE_10__.ElementManager)(this.root).on('mousemove touchmove', (e) => {
-                if (e.pageX % 2 === 0) {
+                if (!this.paused && e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
                     const first = elements[0];
                     if(first) {

@@ -157,13 +157,15 @@ export const LayoutHandleContent = function (scope) {
 
     this.plusTop = ElementManager({
         props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top'
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
+            innerHTML: scope.lang('Add layout')
         }
     });
 
     this.plusBottom = ElementManager({
         props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom'
+            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
+            innerHTML: scope.lang('Add layout')
         }
     });
 

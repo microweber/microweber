@@ -40,16 +40,17 @@ export const DropIndicator = function (options) {
     var currentPositionClass = null; // do not set if same to prevent animation stop
 
     this.position = function (rect, position) {
+        if(!rect || !position) return;
+
         if(currentPositionClass !== position) {
             this._indicator.removeClass(positionsClasses);
-            currentPositionClass = position
+            currentPositionClass = position;
+            this._indicator.addClass(positionsPrefix + position);
+        }
+        if(rect.nodeType === 1) {
+            rect = DomService.offset(rect);
         }
 
-        if(!rect || !position) return;
-            if(rect.nodeType === 1) {
-                rect = DomService.offset(rect);
-            }
-        this._indicator.addClass(positionsPrefix + position);
         this._indicator.css({
             height: rect.height,
             left: rect.left,

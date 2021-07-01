@@ -77,7 +77,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         }
 
         var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
-        var isStrictCase = this.settings.strict && !this.isInLayout(target);
+        var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
 
         if(isStrictCase) {
             return null;
