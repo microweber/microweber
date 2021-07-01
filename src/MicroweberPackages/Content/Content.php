@@ -59,6 +59,24 @@ class Content extends Model
 //        return $this->belongsToMany(Taggable::class);
 //    }
 
+    public function getTagsAttribute()
+    {
+
+    }
+    public function getContentDataAttribute()
+    {
+
+    }
+    public function getCategoriesAttribute()
+    {
+
+    }
+
+    public function getMediaAttribute()
+    {
+
+    }
+
     public function related()
     {
         return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
