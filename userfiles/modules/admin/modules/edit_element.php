@@ -21,7 +21,7 @@ if ($id != false) {
 
         mw.require('forms.js');
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
             mw.$('#module_admin_settings_form_<?php echo $rand;?>').submit(function () {
                 mw.form.post(mw.$('#module_admin_settings_form_<?php echo $rand;?>'), '<?php print site_url('api') ?>/layouts/save', function () {
                     // mw.reload_module('[data-type="categories"]');
