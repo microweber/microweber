@@ -37,7 +37,7 @@ if (!is_array($data)) {
         mw.options.form('#opt_form_<?php echo $rand;?>', function () {
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
         });
-        <?php endif; ?> 
+        <?php endif; ?>
     });
 </script>
 
