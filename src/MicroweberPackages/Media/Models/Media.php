@@ -9,6 +9,7 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 class Media extends Model
 {
     //use \Conner\Tagging\Taggable;
+    public $cacheTagsToClear = ['media','media_thumbnails'];
 
     use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
