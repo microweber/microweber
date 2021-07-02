@@ -200,11 +200,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
+        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
-
-
         $this->app->register(UserServiceProvider::class);
-
         $this->app->register(ModuleServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
@@ -227,7 +225,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryServiceProvider::class);
         $this->app->register(CategoryEventServiceProvider::class);
-        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuServiceProvider::class);
         $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);

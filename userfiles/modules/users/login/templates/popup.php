@@ -18,7 +18,7 @@ description: Login Popup
     <div id="user_login_holder_<?php print $params['id'] ?>">
         <form method="post" id="pop-up-login" class="clearfix" action="#">
             <div class="form-group">
-                <input class="form-control" autofocus="" name="username" type="text" placeholder="<?php _e("Email"); ?>"/>
+                <input class="form-control"  name="username" type="text" placeholder="<?php _e("Email"); ?>"/>
             </div>
 
             <div class="form-group">

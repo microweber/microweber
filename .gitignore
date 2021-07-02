@@ -64,3 +64,4 @@ userfiles/modules/standalone-updater/
 /adminer.php
 userfiles/.DS_Store
 .DS_Store
+.phpunit.result.cache

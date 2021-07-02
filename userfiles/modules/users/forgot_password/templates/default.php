@@ -1,3 +1,6 @@
+
+<?php $rand = uniqid(); ?>
+
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css")</script>
 
 <div class="module-forgot-password well">
@@ -10,7 +13,7 @@
                 </a></h2>
         </div>
     <?php endif; ?>
-    <div id="form-holder{rand}">
+    <div id="form-holder<?php echo $rand;?>">
         <h4>
             <?php if (!isset($form_title) or $form_title == false): ?>
                 <?php _e("Enter your username or email"); ?>
@@ -18,7 +21,7 @@
                 <?php print $form_title; ?>
             <?php endif; ?>
         </h4>
-        <form id="user_forgot_password_form{rand}" method="post" class="clearfix">
+        <form id="user_forgot_password_form<?php echo $rand;?>" method="post" class="clearfix">
             <div class="control-group form-group">
                 <div class="controls">
                     <input type="text" class="large-field form-control" name="username" placeholder="<?php _e("Email or Username"); ?>">

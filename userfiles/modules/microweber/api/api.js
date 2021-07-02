@@ -172,7 +172,10 @@ mw.askusertostay = false;
   }
 
   mwd = document;
+
   mww = window;
+
+ 
 
   mwhead = document.head || document.getElementsByTagName('head')[0];
 
@@ -978,6 +981,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/tools/cookie.js");
 
 
 
@@ -1006,6 +1010,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
+<?php  include __DIR__.DS."tools/cookie.js"; ?>
 
 
 
