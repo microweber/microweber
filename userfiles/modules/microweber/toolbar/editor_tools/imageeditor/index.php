@@ -9,9 +9,129 @@
         mw.lib.require('colorpicker');
         mw.require("files.js");
         mw.require("widgets.css");
+        mw.require('filepicker.js');
+        $(window).on('load', function (){
+            var editImageRes = mw.top().settings.imageResponsiveEdit;
+            if(editImageRes) {
+                editImageRes = JSON.parse(JSON.stringify(editImageRes));
+                var targetImage = SelectedImage;
+                var targetImagePic
+                if(targetImage.parentNode.nodeName === 'PICTURE') {
+                    targetImagePic = targetImage.parentNode;
+                } else {
+                    mw.parent().$(targetImage).wrap('<picture />')
+                    targetImagePic = targetImage.parentNode
+                }
+              $('#media-images-holder').show();
+                var mediaImagesHolder = $('#media-images-container');
+
+                Array.from(targetImagePic.querySelectorAll('source')).forEach(function(source) {
+                   var has = editImageRes.find(function (item) {
+                       return item.media === source.media;
+                   });
+                   if(!has) {
+                       editImageRes.push({title: source.media, media: source.media, name: source.media},)
+                   }
+                });
+
+                editImageRes.forEach(function (r){
+                    var wrapper = $('<div class=" image-source-item"><h5>'+r.title+'</h5></div>');
+                    var el = $('<span class="mw-ui-btn"><i class="mdi mdi-cloud-upload"></i> Upload image</span>');
+
+                    var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                    var src = source ? source.srcset : '<?php print pixum(170, 170); ?>';
+                    var img = $('<img src="'+src+'" >');
+                    var del = $('<span class="mdi mdi-delete"></span>');
+
+                    wrapper.append(img);
+                    wrapper.append(el);
+                    wrapper.append(del);
+                    mediaImagesHolder.append(wrapper);
+                    del.on('click', function (){
+                        img[0].src = '<?php print pixum(170, 170); ?>';
+                        var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                        if(source) {
+                            source.remove()
+                        }
+
+                    })
+                    var handleImageChange = function (fileUrl) {
+                        $('source.' + r.name, targetImagePic ).remove()
+                        var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                        if(source){
+                            source.srcset = fileUrl
+                        } else {
+                            $('img', targetImagePic).before('<source srcset="'+fileUrl+'" media="'+r.media+'" >')
+
+                        }
+                        img[0].src = fileUrl
+                        dialog.remove()
+                        mw.parent().wysiwyg.change(targetImage)
+                    }
+                    el.on('click', function (){
+                        var picker = new mw.filePicker({
+                            type: 'images',
+                            label: false,
+                            autoSelect: false,
+                            footer: true,
+                            _frameMaxHeight: true,
+                            fileUploaded: function (file) {
+                                var src = file.src
+                                handleImageChange(src)
+                            },
+                            onResult: function (fileUrl) {
+                                handleImageChange(fileUrl)
+
+                            },
+                            cancel: function () {
+                                dialog.remove()
+                            }
+                        });
+                        dialog = mw.top().dialog({
+                            content: picker.root,
+                            title: mw.lang('Select image'),
+                            footer: false,
+                            width: 1200
+                        })
+                    })
+                })
+            }
+        })
+
     </script>
 
     <style>
+
+        #media-images-holder{
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .image-source-item + .image-source-item{
+            border-top: 1px solid #ccc ;
+            padding-top: 20px;
+        }
+        .image-source-item{
+            overflow: hidden;
+            clear:both;
+            margin: 0 0 0 0;
+            padding: 20px;
+            position: relative;
+        }
+
+        .image-source-item .mdi-delete{
+            position: absolute;
+            right:22px;
+            top:45%;
+            cursor:pointer;
+            color: #863737;
+            font-size:19px;
+        }
+        .image-source-item img{
+            width: 120px;
+            margin-inline-end: 12px;
+
+        }
 
         #the-image-holder {
             position: relative;
@@ -167,6 +287,13 @@
 
 
             </div>
+
+                <div id="media-images-holder" style="display: none">
+                    <label class="mw-ui-label">Images for different resolutions</label>
+                    <div id="media-images-container" class="mw-ui-box">
+
+                    </div>
+                </div>
 
 
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
