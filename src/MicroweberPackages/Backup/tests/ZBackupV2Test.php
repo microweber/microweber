@@ -21,7 +21,7 @@ class ZBackupV2Test extends TestCase
 		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
 
 		foreach($locales as $locale) {
-			
+
 			$faker = Factory::create($locale);
 
 			$inputTitle = $faker->name;
