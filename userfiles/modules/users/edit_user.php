@@ -68,9 +68,13 @@ if (isset($data[0]) == false) {
             }
         }
 
+        <?php
+            $usersEditRand = uniqid();
+        ?>
+
         var isValid = function () {
             var valid = true;
-            mw.$('[name="email"], [name="text"]', '#users_edit_{rand}').each(function () {
+            mw.$('[name="email"], [name="text"]', '#users_edit_<?php echo $usersEditRand; ?>').each(function () {
                 if (!this.validity.valid) {
                     $(this).addClass('is-invalid')
                     valid = false;
@@ -91,7 +95,7 @@ if (isset($data[0]) == false) {
                 document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
-            mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (scopeEl) {
+            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print api_link('save_user') ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
@@ -187,7 +191,7 @@ if (isset($data[0]) == false) {
         <div class="card-body pt-3">
             <div class="row">
                 <div class="col-xl-6 mx-auto">
-                    <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
+                    <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_<?php echo $usersEditRand; ?>">
                         <div id="avatar_holder" class="text-center">
                             <div class="d-inline-block">
                                 <?php if ($data['thumbnail'] == '') { ?>
