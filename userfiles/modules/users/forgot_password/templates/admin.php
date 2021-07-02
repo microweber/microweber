@@ -1,7 +1,8 @@
-<div id="form-holder{rand}">
+<?php $rand = uniqid(); ?>
+<div id="form-holder<?php echo $rand;?>">
     <div class="alert" style="margin: 0;display: none;"></div>
 
-    <form id="user_forgot_password_form{rand}" method="post" class="clearfix">
+    <form id="user_forgot_password_form<?php echo $rand;?>" method="post" class="clearfix">
         <div class="form-group">
             <label>E-mail or Username:</label>
             <input type="text" class="form-control" name="username" placeholder="<?php _e("Enter Email or Username"); ?>">

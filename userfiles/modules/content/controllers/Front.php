@@ -3,6 +3,7 @@
 
 namespace content\controllers;
 
+use MicroweberPackages\SiteStats\Models\ContentViewCounter;
 use MicroweberPackages\View\View;
 use DB;
 use \MicroweberPackages\Option\Models\Option;
@@ -298,7 +299,9 @@ class Front
                 $post_params['ids'] = $ids;
             }
         }
-        if (isset($post_params['recently_viewed'])) {
+     /*
+      * DEPRECATED
+      *    if (isset($post_params['recently_viewed'])) {
             if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
                 $str0 = 'table=stats_pageviews&limit=30&main_page_id=' . MAIN_PAGE_ID . '&page_id=[neq]' . CONTENT_ID . '&fields=page_id&order_by=id desc&no_cache=true';
                 $orders = db_get($str0);
@@ -310,8 +313,22 @@ class Front
                     $post_params['ids'] = $ids;
                 }
             }
-        }
+        }*/
 
+        if (isset($post_params['most_viewed'])) {
+            if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
+                if (function_exists('stats_get_views_count_for_content')) {
+                    $postIds = [];
+                    $mostViewedContent = (new ContentViewCounter())->getMostViewedForContentForPeriod(CONTENT_ID, 'weekly');
+                    if ($mostViewedContent !== null) {
+                        foreach ($mostViewedContent as $mvContent) {
+                            $postIds[] = $mvContent->id;
+                        }
+                    }
+                    $post_params['ids'] = $postIds;
+                }
+            }
+        }
 
         if ($get_related_ids_for_content_id) {
             $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
@@ -620,6 +637,8 @@ class Front
                 $post_params['exclude_ids'] = POST_ID;
             }
         }
+
+        //dd(POST_ID);
 
         if (!isset($params['order_by'])) {
 //            if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){

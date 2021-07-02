@@ -20,7 +20,7 @@ class Log extends Base
 
     public function url()
     {
-        return $this->belongsTo('MicroweberPackages\SiteStats\Models\Urls');
+        return $this->belongsTo('MicroweberPackages\SiteStats\Models\StatsUrl');
     }
 
 }

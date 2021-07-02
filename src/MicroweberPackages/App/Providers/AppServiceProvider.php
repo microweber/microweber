@@ -13,8 +13,6 @@ use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Assets\AssetsServiceProvider;
-use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
@@ -135,7 +133,6 @@ class AppServiceProvider extends ServiceProvider
         'App' => \Illuminate\Support\Facades\App::class,
         'Arr' => \Illuminate\Support\Arr::class,
         'Artisan' => \Illuminate\Support\Facades\Artisan::class,
-
         'Auth' => \Illuminate\Support\Facades\Auth::class,
         'Blade' => \Illuminate\Support\Facades\Blade::class,
         'Broadcast' => \Illuminate\Support\Facades\Broadcast::class,
@@ -203,14 +200,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
+        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(AssetsServiceProvider::class);
-
-
-
-
         $this->app->register(UserServiceProvider::class);
-
         $this->app->register(ModuleServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
@@ -233,7 +225,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryServiceProvider::class);
         $this->app->register(CategoryEventServiceProvider::class);
-        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuServiceProvider::class);
         $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);

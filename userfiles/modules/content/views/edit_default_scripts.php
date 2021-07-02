@@ -89,8 +89,6 @@
     mw.edit_content.after_save = function (saved_id) {
         var saved_id = typeof saved_id === "number" ? saved_id : saved_id.id;
 
-
-
         mw.askusertostay = false;
         mw.$('.post-header-content-changed').removeClass('post-header-content-changed')
         var content_id = mw.$('#mw-content-id-value').val();
@@ -111,7 +109,6 @@
             mw.notification.success('<?php _ejs('Content saved!'); ?>');
         }
         if (parent !== self && !!parent.mw) {
-
 
             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
@@ -139,8 +136,6 @@
                 mw.tools.removeClass(document.getElementById('mw-quick-content'), 'loading');
             });
         }
-
-
     }
 
     mw.edit_content.set_category = function (id) {
@@ -329,6 +324,11 @@
                         mw.url.windowHashParam("action", "editpage:" + nid);
                     }
                     <?php endif; ?>
+
+                    if ($('.mw_admin_edit_content_form').attr('content-type-is-changed') == 1) {
+                        location.reload();
+                        // This will redirect the full page with the new content type fields and changes
+                    }
                     mw.edit_content.after_save(this);
                 }
                 mw.edit_content.saving = false;

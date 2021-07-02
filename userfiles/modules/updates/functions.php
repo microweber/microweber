@@ -35,34 +35,33 @@ event_bind(
     }
 }
 );
-
-event_bind(
-    'mw.admin.sidebar.li.last', function ($item) {
-    if (mw()->ui->disable_marketplace != true) {
-
-        if (defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')) {
-            return;
-        }
-        $cache_id = 'mw_update_check_auto_update_check_core';
-        $cache_group = 'update';
-
-        $last_check = cache_get($cache_id, $cache_group, 3600);
-
-        if ($last_check == 'noupdate') {
-            return;
-        }
-
-        print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
-
-        //$check = __mw_check_core_system_update();
-
-
-//        if ($last_check) {
-//         //   print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+//
+//event_bind(
+//    'mw.admin.sidebar.li.last', function ($item) {
+//    if (mw()->ui->disable_marketplace != true) {
+//        if (defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')) {
+//            return;
 //        }
-    }
-}
-);
+//        $cache_id = 'mw_update_check_auto_update_check_core';
+//        $cache_group = 'update';
+//
+//        $last_check = cache_get($cache_id, $cache_group, 3600);
+//
+//        if ($last_check == 'noupdate') {
+//            return;
+//        }
+//
+//        print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+//
+//        //$check = __mw_check_core_system_update();
+//
+//
+////        if ($last_check) {
+////         //   print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+////        }
+//    }
+//}
+//);
 
 
 function __mw_check_core_system_update()

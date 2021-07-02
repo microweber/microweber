@@ -8,8 +8,8 @@
 
 namespace MicroweberPackages\Content\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 

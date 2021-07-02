@@ -242,7 +242,7 @@ abstract class BaseFilter
 
                     $filter->controlName = ucfirst($customField->name);
                     $controlName = get_option('filtering_by_custom_fields_control_name_' . $customField->name_key, $this->params['moduleId']);
-                    if ($controlName) {
+                    if (!empty(trim($controlName))) {
                         $filter->controlName = $controlName;
                     }
 

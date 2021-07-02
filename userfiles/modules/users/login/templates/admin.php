@@ -75,7 +75,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-12">
                                             <div class="form-group mb-3">
                                                 <label class="text-muted" for="username"><?php _e('Username'); ?>:</label>
-                                                <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> autofocus=""/>
+                                                <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> required />
                                             </div>
 
                                             <div class="form-group mb-3">
