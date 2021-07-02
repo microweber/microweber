@@ -24,7 +24,7 @@ trait CustomFieldsRenderTrait
 
                     $resultCustomField->controlName = ucfirst($resultCustomField->name);
                     $controlName = get_option('filtering_by_custom_fields_control_name_' . $resultCustomField->name_key, $moduleId);
-                    if ($controlName) {
+                    if (!empty(trim($controlName))) {
                         $resultCustomField->controlName = $controlName;
                     }
 
