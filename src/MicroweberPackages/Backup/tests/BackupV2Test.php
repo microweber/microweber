@@ -8,10 +8,10 @@ use MicroweberPackages\Backup\BackupManager;
 /**
  * Run test
  * @author Bobi Microweber
- * @command php phpunit.phar --filter ZBackupV2Test
+ * @command php phpunit.phar --filter BackupV2Test
  */
 
-class ZBackupV2Test extends TestCase
+class BackupV2Test extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
