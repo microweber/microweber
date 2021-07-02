@@ -122,7 +122,7 @@ class CreateContentTable extends Migration
                 '$index' => ['rel_type', 'rel_id'],
             ],
 
-            'media' => [
+            /*'media' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
@@ -140,7 +140,7 @@ class CreateContentTable extends Migration
                 'image_options' => 'text',
 
                 '$index' => ['rel_type', 'rel_id', 'media_type'],
-            ],
+            ],*/
 
             'custom_fields' => [
                 'rel_type' => 'string',
