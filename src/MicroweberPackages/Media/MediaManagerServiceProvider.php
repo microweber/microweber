@@ -23,6 +23,9 @@ class MediaManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
         /**
          * @property \MicroweberPackages\Media\MediaManager    $media_manager
          */

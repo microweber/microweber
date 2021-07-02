@@ -16,16 +16,20 @@ class CreateMediaTable extends Migration
         if (!Schema::hasTable('media')) {
             Schema::create('media', function (Blueprint $table) {
                 $table->id()->primary();
-                $table->integer('created_by')->nullable();
-                $table->integer('edited_by')->nullable();
-                $table->string('session_id')->nullable();
-                $table->string('rel_type')->nullable()->index();
-                $table->string('rel_id')->nullable()->index();
-                $table->text('media_type')->nullable()->index();
+
                 $table->text('title')->nullable();
                 $table->text('description')->nullable();
                 $table->text('embed_code')->nullable();
                 $table->text('filename')->nullable();
+                $table->text('media_type')->nullable()->index();
+
+                $table->string('rel_type')->nullable()->index();
+                $table->string('rel_id')->nullable()->index();
+
+                $table->integer('created_by')->nullable();
+                $table->integer('edited_by')->nullable();
+                $table->string('session_id')->nullable();
+
                 $table->longText('image_options')->nullable();
                 $table->integer('position')->nullable();
                 $table->timestamps();

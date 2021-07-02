@@ -122,7 +122,9 @@ class CreateContentTable extends Migration
                 '$index' => ['rel_type', 'rel_id'],
             ],
 
-            /*'media' => [
+            /*
+             *  ITS MOVED TO MIGRATIONS TABLE ON MEDIA PACKAGE
+             * 'media' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
