@@ -36,7 +36,7 @@ $total = cart_total();
 <div class="products">
     <?php if (is_array($data) and $data) : ?>
         <?php foreach ($data as $item) :?>
-            <div class="row checkout-modal-product-list-item align-items-center py-4 pl-4">
+            <div class="row checkout-modal-product-list-item align-items-center py-4 ps-4">
                 <div class="col-md-2 col-4">
                     <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                         <?php $p = $item['item_image']; ?>
@@ -57,7 +57,7 @@ $total = cart_total();
                     </small>
                 </div>
 
-                <div class="col-md-2 col-3 ml-md-0 ml-5">
+                <div class="col-md-2 col-3 ms-md-0 ms-5">
                     <h6><?php print currency_format($item['price']); ?></h6>
                 </div>
                 <div class="col-md-2 col-3 mw-qty-field">
@@ -66,7 +66,7 @@ $total = cart_total();
 
 
                 <div class="col-md-1 col-4 checkout-v2-remove-icon">
-                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end mr-2"></i></a>
+                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end ms-2"></i></a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -94,10 +94,10 @@ $total = cart_total();
                    <module type="shop/cart" template="totals" class="no-settings" />
            </div>
 
-           <div class="w-100 mt-md-3 justify-content-center text-md-start text-center">
+           <div class="w-100 mt-md-3 justify-content-center text-start">
                <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
-               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-end ml-2"><?php _e('Proceed to Checkout'); ?></a>
+               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-end ms-2"><?php _e('Proceed to Checkout'); ?></a>
            </div>
        </div>
    <?php endif; ?>
