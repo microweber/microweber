@@ -170,10 +170,7 @@ api_expose('thumbnail_img');
 
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 
-    $check = \MicroweberPackages\Media\Models\ThumbnailTemp::where('id',$mediaId)
-        ->where('media_type','media_tn_temp')
-        ->where('rel_type','media_tn_temp')
-        ->first();
+    $check = \MicroweberPackages\Media\Models\MediaThumbnail::where('id', $mediaId)->first();
 
     if ($check) {
         $opts = $check->image_options;
@@ -185,7 +182,7 @@ api_expose('thumbnail_img');
         return $tn;
     }
 
-	
+
     return mw()->media_manager->pixum_img();
 });
 
