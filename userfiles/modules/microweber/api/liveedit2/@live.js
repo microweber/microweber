@@ -1,5 +1,3 @@
-
-
 import {Handle} from "./handle";
 import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
@@ -12,8 +10,6 @@ import {ModuleHandleContent} from "./handles-content/module";
 import {LayoutHandleContent} from "./handles-content/layout";
 import {ElementManager} from "./element";
 import {i18n} from "./i18n";
-
-
 
 export class LiveEdit {
 
@@ -54,7 +50,6 @@ export class LiveEdit {
             viewWindow: window
         };
 
-
         this.settings = ObjectService.extend({}, defaults, options);
 
         this.stateManager = this.settings.stateManager;
@@ -63,7 +58,6 @@ export class LiveEdit {
             if(!i18n[this.settings]) return key;
             return i18n[this.settings][key] || i18n[this.settings][key.toLowerCase()] || key;
         }
-
 
         if(!this.settings.root) {
             this.settings.root = this.settings.document.body
@@ -74,7 +68,6 @@ export class LiveEdit {
         this.elementAnalyzer = new DroppableElementAnalyzerService(this.settings);
 
         this.dropIndicator = new DropIndicator(this.settings);
-
 
         const elementHandleContent = new ElementHandleContent(this);
         const moduleHandleContent = new ModuleHandleContent(this);
@@ -87,7 +80,8 @@ export class LiveEdit {
             handle: elementHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager
-        })
+        });
+
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
             var title = '';
@@ -101,7 +95,6 @@ export class LiveEdit {
             elementHandleContent.menu.setTitle(title)
         });
 
-
         var moduleHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
@@ -109,7 +102,7 @@ export class LiveEdit {
             handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager
-        })
+        });
 
         var layoutHandle = new Handle({
             ...this.settings,
@@ -120,6 +113,7 @@ export class LiveEdit {
             stateManager: this.settings.stateManager,
             type: 'layout'
         });
+
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
@@ -174,9 +168,6 @@ export class LiveEdit {
                 }
          });
     };
-
-
-
 }
 
 globalThis.LiveEdit = LiveEdit;

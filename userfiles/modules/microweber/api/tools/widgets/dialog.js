@@ -153,8 +153,10 @@
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
+        this.document = this.options.root.nodeType === 9 ? this.options.root : this.options.ownerDocument;
 
-        var exist = document.getElementById(this.id);
+
+        var exist =this.options.root.getElementById(this.id);
         if (exist) {
             return exist._dialog;
         }
@@ -177,7 +179,7 @@
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.element(document.body).on('keydown', function (e) {
+            mw.element(this.document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -331,7 +333,6 @@
             if (scope.options.containment === 'window') {
                 if (scope.options.scrollMode === 'inside') {
                     var rect = this.dialogHolder.getBoundingClientRect();
-                    var $win = mw.$(window);
                     var sctop = $win.scrollTop();
                     var height = $win.height();
                     if (rect.top < sctop || (sctop + height) > (rect.top + rect.height)) {
@@ -459,7 +460,7 @@
                 css.top = dtop > 0 ? dtop : 0;
             }
 
-            /*if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
+            /*if(window !== mw.top().win &&this.options.root.body.scrollHeight > mw.top().win.innerHeight){
                 $win = $(mw.top());
 
                 css.top = $(document).scrollTop() + 50;
