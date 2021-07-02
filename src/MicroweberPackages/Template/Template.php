@@ -360,23 +360,28 @@ class Template
     {
         $ajax = '<script>
 
-
-
+ 
         $( document ).ready(function() {
 
 
             var _csrf_from_local_storage = null;
+ 
 
-            if(typeof(mw.storage) != \'undefined\'  && mw.storage.get){
-                csrf_from_local_storage_data = mw.storage.get("csrf-token-data")
+            if(typeof(mw.cookie) != \'undefined\'){
+                csrf_from_local_storage_data = mw.cookie.get("csrf-token-data")
+                if(csrf_from_local_storage_data){
+                csrf_from_local_storage_data = JSON.parse(csrf_from_local_storage_data);
 
-                if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
+                 if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
                      _csrf_from_local_storage = csrf_from_local_storage_data.value
+                }
                 }
 
             }
 
             if(_csrf_from_local_storage){
+                alert(5443543543)
+                alert(_csrf_from_local_storage)
                 $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
                      $.ajaxSetup({
                         headers: {
@@ -392,17 +397,19 @@ class Template
             setTimeout(function () {
                     $.get( "' . route('csrf') . '", function( data ) {
                     $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
-                    if(typeof(mw.storage) != \'undefined\'  && mw.storage.set){
+                    if(typeof(mw.cookie) != \'undefined\' ){
 
                          var csrf_from_local_storage_ttl = 900000; // 15 minutes
                          var item = {
                             value: data.token,
                             expiry: (new Date()).getTime() + csrf_from_local_storage_ttl,
                         }
-                        mw.storage.set("csrf-token-data", item)
+                        
+                        mw.cookie.set("csrf-token-data", JSON.stringify(item))
 
 
                      }
+
                      $.ajaxSetup({
                         headers: {
                             \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
