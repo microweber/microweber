@@ -7,6 +7,8 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class ModuleOption extends Model
 {
+    public $cacheTagsToClear = ['global','content','frontend'];
+
     protected $table = 'options';
 
     public $translatable = [];
