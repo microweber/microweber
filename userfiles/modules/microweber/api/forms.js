@@ -82,7 +82,7 @@ mw.form = {
 
         var form = mw.$(selector)[0];
 
-        if (form._isSubmitting == undefined) {
+        if (typeof form._isSubmitting !== 'undefined') {
             if (form._isSubmitting) {
                 return;
             }
