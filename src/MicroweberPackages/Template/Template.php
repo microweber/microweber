@@ -380,8 +380,7 @@ class Template
             }
 
             if(_csrf_from_local_storage){
-                alert(5443543543)
-                alert(_csrf_from_local_storage)
+               
                 $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
                      $.ajaxSetup({
                         headers: {
