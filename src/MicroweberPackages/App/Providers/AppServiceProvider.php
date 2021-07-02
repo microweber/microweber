@@ -223,11 +223,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(PageServiceProvider::class);
+        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryServiceProvider::class);
         $this->app->register(CategoryEventServiceProvider::class);
-        $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuServiceProvider::class);
         $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
