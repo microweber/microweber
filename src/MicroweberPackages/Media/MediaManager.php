@@ -961,7 +961,7 @@ class MediaManager
             $check = MediaThumbnail::where('filename', $cache_id_without_ext)->first();
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
-                $media_tn_temp->filename = $cache_id_without_ext; 
+                $media_tn_temp->filename = $cache_id_without_ext;
                 //$media_tn_temp->filename = null;
                 $media_tn_temp->image_options = $cache_id_data;
                 $media_tn_temp->save();

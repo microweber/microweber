@@ -16,7 +16,7 @@ class CreateMediaThumbnailsTable extends Migration
         if (!Schema::hasTable('media_thumbnails')) {
             Schema::create('media_thumbnails', function (Blueprint $table) {
                 $table->id()->primary();
-                $table->text('filename')->nullable();
+                $table->text('filename')->index()->nullable();
                 $table->longText('image_options')->nullable();
                 $table->timestamps();
             });
