@@ -25,7 +25,6 @@ class MediaManagerServiceProvider extends ServiceProvider
     {
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-
         /**
          * @property \MicroweberPackages\Media\MediaManager    $media_manager
          */

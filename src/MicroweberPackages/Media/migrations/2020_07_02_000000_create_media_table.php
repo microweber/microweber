@@ -15,8 +15,7 @@ class CreateMediaTable extends Migration
     {
         if (!Schema::hasTable('media')) {
             Schema::create('media', function (Blueprint $table) {
-                $table->id()->primary();
-
+                $table->id();
                 $table->text('title')->nullable();
                 $table->text('description')->nullable();
                 $table->text('embed_code')->nullable();
