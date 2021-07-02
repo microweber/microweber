@@ -9,7 +9,7 @@ $(document).ready(function(){
      return false;
  });
 
-	 mw.$('#module_uninstall_{rand}').click(function() {
+	 mw.$('#module_uninstall_<?php echo $rand;?>').click(function() {
        var for_module = {}
        for_module.id =  $(this).attr('data-module-id');
        $.post('<?php print site_url('api') ?>/uninstall_module/', for_module, function(data) {
@@ -17,7 +17,7 @@ $(document).ready(function(){
        });
        return false;
 	 });
-	 mw.$('#module_install_{rand}').click(function() {
+	 mw.$('#module_install_<?php echo $rand;?>').click(function() {
          var for_module = {}
          for_module.for_module =  $(this).attr('data-module-name');
          $.post('<?php print site_url('api') ?>/install_module/', for_module,  function(data) {
