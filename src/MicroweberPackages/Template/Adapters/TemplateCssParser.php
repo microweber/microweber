@@ -163,7 +163,6 @@ class TemplateCssParser
 
 
 
-
         $compiler = new \ScssPhp\ScssPhp\Compiler();
 
 
@@ -176,7 +175,6 @@ class TemplateCssParser
         ));
 
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
- //dd($outputFileLocations);
 
         $variables =  $this->_getOptionVariables($optionGroupName);
 
@@ -185,22 +183,34 @@ class TemplateCssParser
 
         $cssContent = $compiler->compile($cssOrig,dirname($outputFileLocations['styleFilePath']).'/');
 
+        $cssContent = $this->replaceAssetsRelativePaths($cssContent,$params);
 
         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
 
 
-        $response = \Response::make($cssContent);
+       $response = \Response::make($cssContent);
        $response->header('Content-Type', 'text/css');
-//
+
        return $response;
 
-
-
-        // Saas not supported
     }
 
-    public function compileLess($params)
+    public function replaceAssetsRelativePaths($cssContent, $params)
+    {
+        if ($cssContent and isset($params['template_folder']) and isset($params['path'])) {
+
+            $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname(dirname($params['path'])) . '/';
+            $cssContent = str_replace('../', $template_url_css_assets, $cssContent);
+//
+//
+//            $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname($params['path']) . '/';
+//            $cssContent = str_replace('./', $template_url_css_assets, $cssContent);
+        }
+        return $cssContent;
+    }
+
+        public function compileLess($params)
     {
 
         $lessFilePath = array_get($params, 'path', false);
