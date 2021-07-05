@@ -101,7 +101,7 @@ class TemplateCssParser
         if ($extension == 'less') {
             return $this->compileLess($options);
         } else {
-            return $this->compileSaas($options);
+            return $this->compileSass($options);
         }
 
     }
@@ -126,7 +126,7 @@ class TemplateCssParser
         return 1;
     }
 
-    public function compileSaas($params)
+    public function compileSass($params)
     {
 
 
@@ -177,13 +177,24 @@ class TemplateCssParser
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
 
         $variables =  $this->_getOptionVariables($optionGroupName);
-
+//dump($variables);
+//dump($outputFileLocations);
         $compiler->setVariables($variables);
+        $compiler->addParsedFile($outputFileLocations['styleFilePath']);
         $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']).'/');
 
         $cssContent = $compiler->compile($cssOrig,dirname($outputFileLocations['styleFilePath']).'/');
+       // dump($cssContent);
 
         $cssContent = $this->replaceAssetsRelativePaths($cssContent,$params);
+
+        //replace vars with with -- as  --primary: $primary;
+        foreach ($variables as $variable_name=>$variable_val){
+            $replace = '--'.$variable_name.': "'.$variable_val.'"';
+            $search = '--'.$variable_name.': $'.$variable_name.'';
+            $cssContent = str_replace($search,$replace,$cssContent);
+        }
+
 
         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
