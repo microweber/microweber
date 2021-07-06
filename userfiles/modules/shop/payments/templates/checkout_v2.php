@@ -18,7 +18,7 @@ description: Checkout V2
 
         $.ajax({
             url: "<?php print route('checkout.payment_method_change') ?>",
-            data: {"payment_gw":paymentModulePath},
+            data: {"payment_gw":paymentModulePath, "_token":"<?php echo csrf_token();?>"},
             method: 'POST',
         }).done(function() {
             var newShippingModuleElement = $('<div/>').appendTo('#mw-payment-gateway-module-' + paymentModule);

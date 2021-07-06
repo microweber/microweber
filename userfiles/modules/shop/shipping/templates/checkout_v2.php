@@ -3,7 +3,7 @@
         $('.js-shipping-gateway-box').html('');
         $.ajax({
             url: "<?php print route('checkout.shipping_method_change') ?>",
-            data: {"shipping_gw":shippingModulePath},
+            data: {"shipping_gw":shippingModulePath, "_token":"<?php echo csrf_token();?>"},
             method: 'POST',
         }).done(function() {
             mw.reload_module('shop/cart');
