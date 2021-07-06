@@ -371,8 +371,14 @@ abstract class BaseFilter
 
         $this->query->where('is_deleted', 0);
 
+        $limit = $this->queryParams['limit'];
+        $itemsPerPage = get_option('items_per_page', $this->params['moduleId']);
+        if ($itemsPerPage > 0) {
+            $limit = $itemsPerPage;
+        }
+
         $this->pagination = $this->query
-            ->paginate($this->queryParams['limit'], ['*'], 'page', $this->request->get('page', 0))
+            ->paginate($limit, ['*'], 'page', $this->request->get('page', 0))
             ->withQueryString();
 
         return $this;

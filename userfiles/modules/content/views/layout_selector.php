@@ -320,7 +320,7 @@ if (!empty($recomended_layouts)) {
 
             <?php
             if ($iframe_cont_id == 0) {
-                $iframe_start = site_url('home');
+                $iframe_start = site_url('new-content-preview-'.$rand);
             } else {
                 $iframe_start = page_link($iframe_cont_id);
             }
