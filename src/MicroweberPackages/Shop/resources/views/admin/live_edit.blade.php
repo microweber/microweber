@@ -85,7 +85,7 @@
 
                             <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow pagination of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
@@ -108,7 +108,7 @@
 
                             <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
+                                <span class="help-block"><?php echo _e("Allow sorting of shop on page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_sort" type="checkbox"
