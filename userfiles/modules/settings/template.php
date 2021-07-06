@@ -75,6 +75,17 @@ if ($json != false) {
 </script>
 
 <script>
+
+
+
+    mw.options.form('#mw-template-settings-holder', function () {
+        if (mw.top().notification) {
+            mw.top().notification.success('<?php _ejs("Template settings are saved"); ?>');
+        }
+
+    });
+
+
     mw.tpl = {
         save: function () {
             var u = "<?php print $save_url; ?>", obj = {}, m = document.getElementById('mw-template-settings');
