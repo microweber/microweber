@@ -106,6 +106,12 @@
                                 </div>
                             </div>
 
+                            <div class="form-group col-4 js-filtering-products-per-page">
+                                <label class="control-label d-block"><?php echo _e("Products per page", true); ?></label>
+                                <span class="help-block"><?php echo _e("Limit the products per page", true); ?></span>
+                                <input type="text" name="items_per_page" value="<?php echo get_option('items_per_page', $moduleId) ?>" class="mw_option_field form-control" option-group="<?php echo $moduleId;?>" />
+                            </div>
+
                             <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
                                 <span class="help-block"><?php echo _e("Allow sorting of shop on page", true); ?></span>
