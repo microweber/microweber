@@ -12,12 +12,16 @@
 </script>
 
 
-
 <style>
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
         padding-left: 0;
     }
 </style>
+
+
+
+
+
 
 
 <div id="settings-holder">

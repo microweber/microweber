@@ -88,12 +88,6 @@ if ($json != false) {
 
 
 
-    mw.options.form('#mw-template-settings-holder', function () {
-        if (mw.top().notification) {
-            mw.top().notification.success('<?php _ejs("Template settings are saved"); ?>');
-        }
-
-    });
 
 
     mw.tpl = {
