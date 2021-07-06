@@ -377,6 +377,11 @@ abstract class BaseFilter
             $limit = $itemsPerPage;
         }
 
+        $templateConfig = app()->template->get_config();
+        if (isset($templateConfig['template_settings']['items_limit_options']['default'][0])) {
+            $limit = $templateConfig['template_settings']['items_limit_options']['default'][0];
+        }
+
         $this->pagination = $this->query
             ->paginate($limit, ['*'], 'page', $this->request->get('page', 0))
             ->withQueryString();
