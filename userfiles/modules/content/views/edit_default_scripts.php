@@ -240,7 +240,9 @@
                     pagesTreeRefresh()
                 }
 
-                mw.$('.mw-admin-go-live-now-btn').attr('content-id', this);
+                if (typeof(data.id) !== 'undefined') {
+                mw.$('.mw-admin-go-live-now-btn').attr('content-id', data.id);
+                }
                 mw.askusertostay = false;
 
                 if (parent !== self && !!window.parent.mw) {
@@ -345,6 +347,9 @@
 
 
                     if ((data.id) == 0) {
+
+
+
                         var nid = typeof this === "number" ? this : this.id;
 
 
