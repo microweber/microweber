@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\URL;
 
 trait LimitTrait {
 
+    public $limitOptions = [];
+
     public function appendFiltersActiveLimit()
     {
         $limit = $this->request->get('limit', false);
@@ -28,6 +30,10 @@ trait LimitTrait {
         }
     }
 
+    public function setLimitOptions($options) {
+        $this->limitOptions = $options;
+    }
+
     public function limit($template = 'blog::partials.limit')
     {
         $disableLimit = get_option('disable_limit', $this->params['moduleId']);
@@ -37,12 +43,16 @@ trait LimitTrait {
 
         $options =[];
 
-        $pageLimits = [
-            6,
-            12,
-            24,
-            48,
-        ];
+        if (!empty($this->limitOptions)) {
+            $pageLimits = $this->limitOptions;
+        } else {
+            $pageLimits = [
+                6,
+                12,
+                24,
+                48,
+            ];
+        }
 
         $fullUrl = URL::current();
 
