@@ -377,6 +377,10 @@ abstract class BaseFilter
             $limit = $itemsPerPage;
         }
 
+        if (isset($this->limitOptions) && !empty($this->limitOptions)) {
+            $limit = $this->limitOptions[0];
+        }
+
         $this->pagination = $this->query
             ->paginate($limit, ['*'], 'page', $this->request->get('page', 0))
             ->withQueryString();
