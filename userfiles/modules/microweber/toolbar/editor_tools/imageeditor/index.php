@@ -30,7 +30,7 @@
                        return item.media === source.media;
                    });
                    if(!has) {
-                       editImageRes.push({title: source.media, media: source.media, name: source.media},)
+                       editImageRes.push({title: source.media, media: source.media, name: source.media.replace(/[{()}:\s]/g, '')})
                    }
                 });
 
