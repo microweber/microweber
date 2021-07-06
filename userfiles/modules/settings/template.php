@@ -64,6 +64,16 @@ if ($json != false) {
 }
 ?>
 
+<style>
+    #mw-template-settings-holder .mw-ui-btn {
+        white-space: normal;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: auto;
+    }
+</style>
+
+
 <div class="mw-template-settings-wrapper" id="mw-template-settings-holder">
     <div id="mw-template-settings">
         <?php include($tpl_settings_for_theme); ?>
