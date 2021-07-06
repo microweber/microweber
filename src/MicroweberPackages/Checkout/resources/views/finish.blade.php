@@ -3,7 +3,7 @@
 @section('checkout_sidebar')
     <div class="col-lg-6 col-12 checkout-v2-sidebar h-100 d-lg-block d-none">
             <div class="row align-self-center justify-content-center">
-                <i class="checkout-v2-finish-icon mdi mdi-checkbox-marked-circle-outline"></i>
+                <i class="checkout-v2-finish-icon mdi mdi-checkbox-marked-circle-outline text-center"></i>
             </div>
     </div>
 @endsection
