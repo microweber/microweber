@@ -74,7 +74,7 @@ class TaggableFileStore implements Store
      * @param  array $options
      */
 
-    protected $cacheHandler;
+  //  protected $cacheHandler;
 
     public function __construct(TaggableFilesystemManager $files, $directory, $options = [], $tags = [])
     {
@@ -179,7 +179,7 @@ class TaggableFileStore implements Store
 
         try {
             $data = unserialize(substr($contents, 10));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->forget($key);
             return;
         }
@@ -204,8 +204,8 @@ class TaggableFileStore implements Store
     {
 
         // on php 8 crc32 is faster than md5 https://3v4l.org/2MAUr
-        // sha1 is faster than md5
-        $cacheKey = $key . (is_array($this->tags) ? sha1(json_encode($this->tags)) : false);
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(json_encode($this->tags)) : false);
         return $cacheKey;
     }
 
