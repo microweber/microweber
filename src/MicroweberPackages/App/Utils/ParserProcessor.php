@@ -77,15 +77,15 @@ class ParserProcessor
         $mod_tag_replace_inc = 0;
         $previous_attrs2 = $previous_attrs;
         if (!isset($parser_mem_crc)) {
-            $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
+            $parser_mem_crc = 'parser_' . md5($layout) . content_id();
             if ($coming_from_parent_id) {
-                $parser_modules_crc = 'parser_modules' . crc32($coming_from_parent_id) . content_id() . crc32(json_encode($previous_attrs));
+                $parser_modules_crc = 'parser_modules' . md5($coming_from_parent_id . content_id() . json_encode($previous_attrs));
 
             } else if ($previous_attrs) {
-                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(json_encode($previous_attrs));
+                $parser_modules_crc = 'parser_modules' . md5($layout . content_id() . json_encode($previous_attrs));
 
             } else {
-                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
+                $parser_modules_crc = 'parser_modules' . md5($layout . content_id());
 
             }
 
@@ -120,7 +120,7 @@ class ParserProcessor
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value);
+                    $v1 = md5($value);
                     $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
                     $layout = str_replace($value, $v1, $layout);
 
@@ -171,7 +171,7 @@ class ParserProcessor
             if (!empty($mw_script_matches)) {
                 foreach ($mw_script_matches [0] as $key => $value) {
                     if ($value != '') {
-                        $v1 = crc32($value);
+                        $v1 = md5($value);
 
                         $v1 = '<x-tag> mw_replace_back_this_script_' . $v1 . ' </x-tag>';
                         $layout = str_replace($value, $v1, $layout);
@@ -209,7 +209,7 @@ class ParserProcessor
                 $matches1 = $mw_script_matches[0];
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                        $v1 = crc32($value) . '-' . $parser_modules_crc . $key;
+                        $v1 = md5($value) . '-' . $parser_modules_crc . $key;
                         $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
                         if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
                             $layout = $this->_str_replace_first($value, $v1, $layout);
@@ -235,7 +235,7 @@ class ParserProcessor
 //                $matches1 = $mw_script_matches[0];
 //                foreach ($matches1 as $key => $value) {
 //                    if ($value != '') {
-//                        $v1 = crc32($value) . '-' . $parser_modules_crc . $key;
+//                        $v1 = md5($value) . '-' . $parser_modules_crc . $key;
 //
 //                        $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
 //
