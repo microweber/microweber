@@ -29,11 +29,12 @@ class ModuleFrontController
         // if (isset($this->moduleParams['default-template'])) {
       //       $defaultTemplate = $this->moduleParams['default-template'];
        //  }
+        view()->getFinder()->flush();
 
         if ($moduleTemplate != false) {
             $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
         } else {
-            $templateFile = module_templates($this->moduleConfig['module'], 'default');
+            $templateFile = module_templates($this->moduleConfig['module'], template_name());
         }
 
         if ($templateFile) {
@@ -41,11 +42,18 @@ class ModuleFrontController
             if (is_dir($templateDir)) {
 
                 $defaultDir = dirname($templateDir) . DS . 'default';
+                $defaultDir2 = mw_root_path().'/src/MicroweberPackages/Shop/resources/views';
                 if (is_dir($defaultDir)) {
                     view()->addNamespace($this->moduleConfig['module'], $defaultDir);
+                    view()->addNamespace($this->moduleConfig['module'], $defaultDir2);
                 }
 
-                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+                if (is_dir($templateDir)) {
+                    view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+                    view()->addNamespace($this->moduleConfig['module'], $defaultDir);
+                    view()->addNamespace($this->moduleConfig['module'], $defaultDir2);
+                }
+
             }
         }
     }
@@ -58,7 +66,7 @@ class ModuleFrontController
 
         $this->viewData['params'] = $this->moduleParams;
         $this->viewData['config'] = $this->moduleConfig;
-
+//dd($view);
         if (strpos($view, '::') !== false) {
             return view()->make($view, $this->viewData);
         } else {
