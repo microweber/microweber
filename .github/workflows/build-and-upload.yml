@@ -23,5 +23,5 @@ jobs:
       run: |
         rm -rf .git
         rm -rf .github
-        zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls`
+        zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -la`
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
