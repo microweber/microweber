@@ -371,7 +371,6 @@ abstract class BaseFilter
 
         $this->query->where('is_deleted', 0);
 
-        $limit = $this->queryParams['limit'];
         $itemsPerPage = get_option('items_per_page', $this->params['moduleId']);
         if ($itemsPerPage > 0) {
             $limit = $itemsPerPage;
@@ -380,6 +379,11 @@ abstract class BaseFilter
         $templateConfig = app()->template->get_config();
         if (isset($templateConfig['template_settings']['items_limit_options']['default'][0])) {
             $limit = $templateConfig['template_settings']['items_limit_options']['default'][0];
+        }
+
+        $queryLimit = $this->queryParams['limit'];
+        if ($queryLimit > 0) {
+            $limit = $queryLimit;
         }
 
         $this->pagination = $this->query
