@@ -211,6 +211,7 @@ class FieldsManager
                         }
                     }
 
+                    $show_label = true;
                     if (isset($field['settings']['show_label'])) {
                         if ($field['settings']['show_label'] == 'false' || $field['settings']['show_label'] == 0 || $field['settings']['show_label'] == '0') {
                             $show_label = false;
@@ -220,13 +221,13 @@ class FieldsManager
                         }
                     }
 
+                    $show_placeholder = false;
                     if (isset($field['settings']['show_placeholder'])) {
                         if ($field['settings']['show_placeholder'] == 'false' || $field['settings']['show_placeholder'] == 0 || $field['settings']['show_placeholder'] == '0') {
                             $show_placeholder = false;
                         }
                         if ($field['settings']['show_placeholder'] == 'true' || $field['settings']['show_placeholder'] == 1 || $field['settings']['show_placeholder'] == '1') {
                             $show_placeholder = true;
-                            $show_label = false;
                         }
                     }
 
@@ -369,7 +370,7 @@ class FieldsManager
             $customField->name_key = $fieldData['name_key'];
         }
 
-        $customField->show_label = false;
+        $customField->show_label = true;
         if (!empty($fieldData['show_label'])) {
             $customField->show_label = $fieldData['show_label'];
         }
