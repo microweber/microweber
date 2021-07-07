@@ -42,10 +42,20 @@ class ModuleFrontController
 
                 $defaultDir = dirname($templateDir) . DS . 'default';
                 if (is_dir($defaultDir)) {
-                    view()->addNamespace($this->moduleConfig['module'], $defaultDir);
+                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
                 }
 
-                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+                // This is the first level of template
+                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+
+                /**
+                 * The right way to order tempalates
+                 *
+                    0 => "\userfiles\templates\theme\modules\blog\templates\filter"
+                    1 => "\userfiles\templates\theme\modules\blog\templates\default"
+                    2 => "\src\MicroweberPackages\Blog\resources\views\"
+                 */
+
             }
         }
     }
