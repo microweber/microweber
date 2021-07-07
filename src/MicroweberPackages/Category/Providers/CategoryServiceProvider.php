@@ -16,8 +16,9 @@ use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class CategoryServiceProvider extends ServiceProvider
+class CategoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
@@ -38,5 +39,17 @@ class CategoryServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
     }
+
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['category_manager'];
+    }
+
 }
 

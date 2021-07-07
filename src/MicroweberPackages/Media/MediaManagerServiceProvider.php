@@ -13,8 +13,9 @@ namespace MicroweberPackages\Media;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class MediaManagerServiceProvider extends ServiceProvider
+class MediaManagerServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
@@ -40,4 +41,15 @@ class MediaManagerServiceProvider extends ServiceProvider
             'visibility' => 'public',
         ]);
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['media_manager'];
+    }
+
 }

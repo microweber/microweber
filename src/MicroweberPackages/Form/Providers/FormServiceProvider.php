@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\Form\FormsManager;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-
-class FormServiceProvider extends ServiceProvider
+class FormServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
@@ -49,4 +49,15 @@ class FormServiceProvider extends ServiceProvider
         View::addNamespace('form', dirname(__DIR__) . '/resources/views');
 
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['fields_manager','forms_manager'];
+    }
+
 }
