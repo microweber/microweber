@@ -23,5 +23,6 @@ jobs:
       run: |
         rm -rf .git
         rm -rf .github
+        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -a`
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
