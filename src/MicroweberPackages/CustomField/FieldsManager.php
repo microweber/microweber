@@ -301,6 +301,8 @@ class FieldsManager
 
             $existing = $this->getAll($existing);
             if ($existing) {
+
+
                 $value_of_copy = [];
                 $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $fieldData['copy_of'])->get();
                 if ($getCustomFieldValues) {
@@ -319,6 +321,9 @@ class FieldsManager
                 return $this->save($fieldData);
 
 
+            } else {
+                // field to copy not found
+                return false;
             }
 
 
