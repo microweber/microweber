@@ -106,13 +106,13 @@ class ResetCommand extends Command
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(userfiles_path()));
         foreach ($rii as $file) {
             if (!$file->isDir()) {
-                if (strpos($file->getPathname(), 'backup_export') !== false) {
+                if (strpos($file->getPathname(), 'backup_export_') !== false) {
                     $removeFiles[] = $file->getPathname();
                 }
-                if (strpos($file->getPathname(), 'backup-import') !== false) {
+                if (strpos($file->getPathname(), 'backup-import-') !== false) {
                     $removeFiles[] = $file->getPathname();
                 }
-                if (strpos($file->getPathname(), 'backup_import') !== false) {
+                if (strpos($file->getPathname(), 'backup_import_') !== false) {
                     $removeFiles[] = $file->getPathname();
                 }
             }
