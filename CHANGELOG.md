@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.8] - 2021-07-07
+## [1.2.8] - 2021-07-08
 - Updated Laravel to 8.4
 - Fixes the custom fields
 - Fixes the thumbnails
