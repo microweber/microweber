@@ -31,7 +31,7 @@ description:  Show cart totals
        <?php endif; ?>
 
        <?php if ($cart_totals): ?>
-           <div class=" float-end">
+           <div class="d-flex float-end">
                <?php $print_total = cart_total(); ?>
                <h5 class="col-xs-6 checkout-modal-total-label mr-1 font-weight-bold"><?php _lang("Total"); ?>:</h5>
                <h5 class="col-xs-6 checkout-modal-total-price font-weight-bold pl-0">
