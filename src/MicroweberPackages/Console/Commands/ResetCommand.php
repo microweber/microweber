@@ -84,9 +84,9 @@ class ResetCommand extends Command
 
         $removeFiles[] = storage_path() . '\install_log.txt';
     	$removeFiles[] = storage_path() . '\localhost.sqlite';
-    	$removeFiles[] = storage_path() . '\logs';
+/*    	$removeFiles[] = storage_path() . '\logs';
     	$removeFiles[] = storage_path() . '\cache';
-    	$removeFiles[] = storage_path() . '\app';
+    	$removeFiles[] = storage_path() . '\app';*/
     	$removeFiles[] = storage_path() . '\backup_content';
     	$removeFiles[] = storage_path() . '\export_content';
     	$removeFiles[] = storage_path() . '\debugbar';
