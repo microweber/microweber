@@ -433,3 +433,8 @@ div.form-control {
 .content-title-field-row .card-header:after{
     border: none!important;
 }
+
+.btn .mdi{
+    font-size: 16px;
+    margin-inline-end: 6px;
+}
