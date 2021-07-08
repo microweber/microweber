@@ -78,10 +78,10 @@ class ResetCommand extends Command
     	$removeFiles[] = userfiles_path() . 'media';
     	$removeFiles[] = userfiles_path() . 'css';
     	$removeFiles[] = userfiles_path() . 'backup-export-session.log';
-    	$removeFiles[] = userfiles_path() . 'install_item_log.txt';
-    	$removeFiles[] = userfiles_path() . 'install_log.txt';
     	$removeFiles[] = userfiles_path() . 'mw_content.json';
 
+        $removeFiles[] = storage_path() . '\install_item_log.txt';
+        $removeFiles[] = storage_path() . '\install_log.txt';
     	$removeFiles[] = storage_path() . '\localhost.sqlite';
     	$removeFiles[] = storage_path() . '\logs';
     	$removeFiles[] = storage_path() . '\cache';
