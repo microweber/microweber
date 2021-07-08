@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Console\Commands;
 
+use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use Illuminate\Console\Command;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use Symfony\Component\Console\Input\InputArgument;
@@ -86,9 +87,46 @@ class ResetCommand extends Command
     	$removeFiles[] = storage_path() . '\cache';
     	$removeFiles[] = storage_path() . '\app';
     	$removeFiles[] = storage_path() . '\backup_content';
+    	$removeFiles[] = storage_path() . '\export_content';
+    	$removeFiles[] = storage_path() . '\debugbar';
+    	$removeFiles[] = storage_path() . '\html_purifier';
     	$removeFiles[] = storage_path() . '\framework\cache' . DIRECTORY_SEPARATOR;
     	$removeFiles[] = storage_path() . '\framework\sessions'. DIRECTORY_SEPARATOR;
     	$removeFiles[] = storage_path() . '\framework\views'. DIRECTORY_SEPARATOR;
+
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(storage_path()));
+        foreach ($rii as $file) {
+            if (!$file->isDir()) {
+                if (strpos($file->getPathname(), '.sqlite') !== false) {
+                    $removeFiles[] = $file->getPathname();
+                }
+            }
+        }
+
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(userfiles_path()));
+        foreach ($rii as $file) {
+            if (!$file->isDir()) {
+                if (strpos($file->getPathname(), 'backup_export') !== false) {
+                    $removeFiles[] = $file->getPathname();
+                }
+                if (strpos($file->getPathname(), 'backup-import') !== false) {
+                    $removeFiles[] = $file->getPathname();
+                }
+                if (strpos($file->getPathname(), 'backup_import') !== false) {
+                    $removeFiles[] = $file->getPathname();
+                }
+            }
+        }
+        // Except files
+        $exceptedFiles = [];
+        foreach ($removeFiles as $file) {
+            if (strpos($file, '.htaccess') !== false) {
+                continue;
+            }
+            $exceptedFiles[] = $file;
+        }
+
+        $removeFiles = $exceptedFiles;
 
     	foreach($removeFiles as $fileOrDir) {
     		if (is_file($fileOrDir)) {
