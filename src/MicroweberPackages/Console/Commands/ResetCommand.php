@@ -73,26 +73,28 @@ class ResetCommand extends Command
     	// Remove files
 
     	$removeFiles = array();
-
+/*
     	$removeFiles[] = userfiles_path() . 'cache';
     	$removeFiles[] = userfiles_path() . 'media';
     	$removeFiles[] = userfiles_path() . 'css';
+    	*/
     	$removeFiles[] = userfiles_path() . 'backup-export-session.log';
     	$removeFiles[] = userfiles_path() . 'mw_content.json';
+        $removeFiles[] = userfiles_path() . 'install_item_log.txt';
 
-        $removeFiles[] = storage_path() . '\install_item_log.txt';
         $removeFiles[] = storage_path() . '\install_log.txt';
     	$removeFiles[] = storage_path() . '\localhost.sqlite';
-    	$removeFiles[] = storage_path() . '\logs';
+/*    	$removeFiles[] = storage_path() . '\logs';
     	$removeFiles[] = storage_path() . '\cache';
-    	$removeFiles[] = storage_path() . '\app';
+    	$removeFiles[] = storage_path() . '\app';*/
     	$removeFiles[] = storage_path() . '\backup_content';
     	$removeFiles[] = storage_path() . '\export_content';
     	$removeFiles[] = storage_path() . '\debugbar';
     	$removeFiles[] = storage_path() . '\html_purifier';
+    	/*
     	$removeFiles[] = storage_path() . '\framework\cache' . DIRECTORY_SEPARATOR;
     	$removeFiles[] = storage_path() . '\framework\sessions'. DIRECTORY_SEPARATOR;
-    	$removeFiles[] = storage_path() . '\framework\views'. DIRECTORY_SEPARATOR;
+    	$removeFiles[] = storage_path() . '\framework\views'. DIRECTORY_SEPARATOR;*/
 
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(storage_path()));
         foreach ($rii as $file) {
@@ -123,6 +125,12 @@ class ResetCommand extends Command
             if (strpos($file, '.htaccess') !== false) {
                 continue;
             }
+            if (strpos($file, '.gitignore') !== false) {
+                continue;
+            }
+            if (strpos($file, 'index.html') !== false) {
+                continue;
+            }
             $exceptedFiles[] = $file;
         }
 
@@ -137,10 +145,6 @@ class ResetCommand extends Command
     			$this->_removeFilesFromPath($fileOrDir);
     		}
     	}
-
-    	@mkdir(storage_path() . '\framework\cache');
-    	@mkdir(storage_path() . '\framework\sessions');
-    	@mkdir(storage_path() . '\framework\views');
 
     	\Cache::flush();
     }
