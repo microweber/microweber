@@ -79,8 +79,8 @@ class ResetCommand extends Command
     	$removeFiles[] = userfiles_path() . 'css';
     	$removeFiles[] = userfiles_path() . 'backup-export-session.log';
     	$removeFiles[] = userfiles_path() . 'mw_content.json';
+        $removeFiles[] = userfiles_path() . 'install_item_log.txt';
 
-        $removeFiles[] = storage_path() . '\install_item_log.txt';
         $removeFiles[] = storage_path() . '\install_log.txt';
     	$removeFiles[] = storage_path() . '\localhost.sqlite';
     	$removeFiles[] = storage_path() . '\logs';
@@ -121,6 +121,12 @@ class ResetCommand extends Command
         $exceptedFiles = [];
         foreach ($removeFiles as $file) {
             if (strpos($file, '.htaccess') !== false) {
+                continue;
+            }
+            if (strpos($file, '.gitignore') !== false) {
+                continue;
+            }
+            if (strpos($file, 'index.html') !== false) {
                 continue;
             }
             $exceptedFiles[] = $file;
