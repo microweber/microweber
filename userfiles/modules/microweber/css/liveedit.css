@@ -1193,11 +1193,13 @@ body.loaded #live_edit_toolbar {
 
 #live_edit_toolbar {
     position: fixed;
+    height: 56px;
     top: 0;
     left: 0;
     /*right: 50px;*/
     right: 0px;
     border-bottom: 1px solid #DDDDDD;
+
     width: auto;
     transition: .5s;
 }
