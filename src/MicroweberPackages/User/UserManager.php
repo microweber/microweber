@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\UserLoginController;
+use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
@@ -152,23 +154,28 @@ class UserManager
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $params['username_encoded'] = urldecode($params['username_encoded']);
+            $params['username_encoded'] = rawurldecode($params['username_encoded']);
             $decoded_username = @base64_decode($params['username_encoded']);
             if (!empty($decoded_username)) {
                 $params['username'] = $decoded_username;
             } else {
                 $params['username'] = @base62_decode($params['username_encoded']);
             }
+            unset($params['username_encoded'] );
         }
         if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
-            $params['password_encoded'] = urldecode($params['password_encoded']);
+            $params['password_encoded'] = rawurldecode($params['password_encoded']);
             $decoded_password = @base64_decode($params['password_encoded']);
-            if (!empty($decoded_password)) {
+             if (!empty($decoded_password)) {
                 $params['password'] = $decoded_password;
-            } else {
+             } else {
                 $params['password'] = @base62_decode($params['password_encoded']);
             }
+            unset($params['password_encoded'] );
         }
+
+
+
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
