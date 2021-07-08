@@ -34,7 +34,6 @@ class ResetCommand extends Command
 				content_fields_drafts,
 				custom_fields,
 				custom_fields_values,
-				elements,
 				media,
 				menus,
 				modules
