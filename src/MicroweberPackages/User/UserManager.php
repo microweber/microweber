@@ -128,17 +128,37 @@ class UserManager
         $params = parse_params($params);
 
 
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $url = $this->app->url->current(1);
+        if ($check == 5) {
+            $url_href = "<a href='$url' target='_blank'>$url</a>";
+            $this->app->log_manager->save('title=User IP ' . MW_USER_IP . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        }
+        if ($check > 5) {
+            $check = $check - 1;
+
+            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+        }
+        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        if ($check2 > 25) {
+            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+        }
+
+
+
+
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['
-            ']);
+            $decoded_username = @base64_decode($params['username_encoded']);
             if (!empty($decoded_username)) {
                 $params['username'] = $decoded_username;
             } else {
                 $params['username'] = @base62_decode($params['username_encoded']);
             }
         }
-
         if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
             $decoded_password = @base64_decode($params['password_encoded']);
             if (!empty($decoded_password)) {
