@@ -386,7 +386,10 @@
 
                     window.parent.modal_preset_manager_html_placeholder_for_reload();
                     mw.module_preset_linked_dd_menu_show_icon();
-                    mw.dropdown(top.document);
+
+
+
+                    mw.dropdown(mw.top().win.document);
                     mw.dropdown();
                     <?php endif; ?>
                 });
