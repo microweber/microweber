@@ -176,8 +176,8 @@ class UserManager
 
 
 
-
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
         $overiden = false;
@@ -195,9 +195,10 @@ class UserManager
         }
         if ($overiden == true and $redirect_after != false) {
             return $this->app->url_manager->redirect($redirect_after);
-        } elseif ($overiden == true) {
+        } elseif ($overiden == true and $return_resp) {
             return $return_resp;
         }
+
 
 
         $params['x-no-throttle'] = false; //allow throttle

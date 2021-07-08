@@ -112,7 +112,6 @@ class UserLoginController extends Controller
 
 
         $login = Auth::attempt($loginData,$remember = true);
-
         if ($login) {
 
             $userData = auth()->user();
