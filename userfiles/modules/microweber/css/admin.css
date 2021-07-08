@@ -438,3 +438,17 @@ div.form-control {
     font-size: 16px;
     margin-inline-end: 6px;
 }
+
+@media (max-width: 1024px) {
+
+
+    .btn .mdi{
+        margin-inline-end: 0px;
+        margin-inline-start: 0px;
+        
+    }
+
+}
+
+
+

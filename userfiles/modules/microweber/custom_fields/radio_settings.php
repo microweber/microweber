@@ -16,7 +16,7 @@
   <?php endforeach; ?>
 
   <?php else: ?>
-    <div class="mw-custom-field-form-controls">
+     <div class="mw-custom-field-form-controls d-flex">
         <input type="text" name="value[]" class="mw-ui-field mw-full-width"  value="" />
         <?php print $add_remove_controls; ?>
     </div>
