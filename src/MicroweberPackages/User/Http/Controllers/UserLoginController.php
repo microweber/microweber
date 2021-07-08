@@ -57,7 +57,6 @@ class UserLoginController extends Controller
      * login api
      *
      * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
-     * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
     {
@@ -169,7 +168,12 @@ class UserLoginController extends Controller
             }
 
             $response['data'] = auth()->user();
+
+            app()->user_manager->login_set_success_attempt($request);
+
             return new  JsonResource($response);
+        } else {
+            app()->user_manager->login_set_failed_attempt($request);
         }
 
         return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
