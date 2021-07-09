@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67541f52024da8a93b9a0a38ca909fdf",
+    "content-hash": "8c154b3458de34a59c919905e498d18f",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3501,12 +3501,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "80f01125d8d85dccaf3a5501784afeae6d4c4a76"
+                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/80f01125d8d85dccaf3a5501784afeae6d4c4a76",
-                "reference": "80f01125d8d85dccaf3a5501784afeae6d4c4a76",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7a82103f839d094ea007a233cfd8c00f678f271b",
+                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b",
                 "shasum": ""
             },
             "require": {
@@ -3516,7 +3516,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "league/commonmark": "^1.3",
+                "league/commonmark": "^1.3|^2.0",
                 "league/flysystem": "^1.1",
                 "monolog/monolog": "^2.0",
                 "nesbot/carbon": "^2.31",
@@ -3662,7 +3662,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-08T14:29:50+00:00"
+            "time": "2021-07-09T13:40:46+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5448,43 +5448,44 @@
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "1.1",
+            "version": "1.2",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/shopmag.git",
-                "reference": "951be75e032627be6f6d9379d899759dca5476d3"
+                "reference": "df19845e10852fd13ed7505bfb6daaa120cade0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com//dist/microweber-templates/shopmag/microweber-templates-shopmag-951be75e032627be6f6d9379d899759dca5476d3-zip-f367ec.zip",
-                "reference": "951be75e032627be6f6d9379d899759dca5476d3",
-                "shasum": "f30cff00db85760207b22dc6d774f7af54620a38"
+                "url": "https://packages.microweberapi.com//dist/microweber-templates/shopmag/microweber-templates-shopmag-df19845e10852fd13ed7505bfb6daaa120cade0a-zip-909323.zip",
+                "reference": "df19845e10852fd13ed7505bfb6daaa120cade0a",
+                "shasum": "6f37718277d58e186e5421dd9a6e75189711f638"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/screenshot.jpg",
-                    "home-2": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/home-2.jpg",
-                    "home-1": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/home-1.jpg",
-                    "home-3": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/home-3.jpg",
-                    "seaside_groove-webfont": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/seaside_groove-webfont.svg",
-                    "ventoux": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/ventoux.svg",
-                    "slick": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/slick.svg",
-                    "video": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/video.png",
-                    "default_icon": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/default_icon.png",
-                    "skin-1": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-1.jpg",
-                    "skin-2": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-2.jpg",
-                    "skin-3": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-3.jpg",
-                    "skin-11": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-11.png",
-                    "skin-13": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-13.jpg",
-                    "skin-15": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-15.png",
-                    "skin-14": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-14.png",
-                    "skin-12": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-12.png",
-                    "skin-4": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-4.jpg",
-                    "skin-16": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/skin-16.png",
-                    "readme": "https://packages.microweberapi.com/meta/f30cff00db85760207b22dc6d774f7af54620a38/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/screenshot.jpg",
+                    "home-2": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/home-2.jpg",
+                    "404_graphic": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/404_graphic.png",
+                    "home-1": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/home-1.jpg",
+                    "home-3": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/home-3.jpg",
+                    "seaside_groove-webfont": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/seaside_groove-webfont.svg",
+                    "ventoux": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/ventoux.svg",
+                    "slick": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/slick.svg",
+                    "video": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/video.png",
+                    "default_icon": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/default_icon.png",
+                    "skin-1": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-1.jpg",
+                    "skin-2": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-2.jpg",
+                    "skin-3": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-3.jpg",
+                    "skin-11": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-11.png",
+                    "skin-13": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-13.jpg",
+                    "skin-15": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-15.png",
+                    "skin-14": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-14.png",
+                    "skin-12": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-12.png",
+                    "skin-4": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-4.jpg",
+                    "skin-16": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/skin-16.png",
+                    "readme": "https://packages.microweberapi.com/meta/6f37718277d58e186e5421dd9a6e75189711f638/readme.md"
                 }
             },
             "license": [
@@ -5503,7 +5504,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-07-08T14:22:14+00:00"
+            "time": "2021-07-09T12:59:41+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
