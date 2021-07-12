@@ -109,7 +109,7 @@ if ($json != false) {
 
             $.post(u, obj, function (msg) {
                 if (self !== parent) {
-                    var css = parent.mw.$("#mw-template-settings")[0];
+                    var css = mw.parent().$("#mw-template-settings")[0];
 
                     mw.reload_module('content/views/layout_selector_custom_css');
                     mw.reload_module_parent('template_settings');

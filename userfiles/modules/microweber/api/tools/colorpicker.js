@@ -143,8 +143,8 @@ mw._colorPicker = function (options) {
             });
         }
         var documents = [document];
-        if (self !== top){
-            documents.push(top.document);
+        if (self !== mw.top().win){
+            documents.push(mw.top().win.document);
         }
         mw.$(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {

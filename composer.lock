@@ -3501,12 +3501,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "80f01125d8d85dccaf3a5501784afeae6d4c4a76"
+                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/80f01125d8d85dccaf3a5501784afeae6d4c4a76",
-                "reference": "80f01125d8d85dccaf3a5501784afeae6d4c4a76",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7a82103f839d094ea007a233cfd8c00f678f271b",
+                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b",
                 "shasum": ""
             },
             "require": {
@@ -3516,7 +3516,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "league/commonmark": "^1.3",
+                "league/commonmark": "^1.3|^2.0",
                 "league/flysystem": "^1.1",
                 "monolog/monolog": "^2.0",
                 "nesbot/carbon": "^2.31",
@@ -3662,7 +3662,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-08T14:29:50+00:00"
+            "time": "2021-07-09T13:40:46+00:00"
         },
         {
             "name": "laravel/passport",

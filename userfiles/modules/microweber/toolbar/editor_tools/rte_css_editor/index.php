@@ -2,7 +2,7 @@
 <div id="domtree"></div>
 
 <script type="text/javascript">
-    // parent.mw.require("external_callbacks.js");
+    // mw.parent().require("external_callbacks.js");
     mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");

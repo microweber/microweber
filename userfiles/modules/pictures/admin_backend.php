@@ -109,14 +109,14 @@ if ($for_id != false) {
 
                 mw.reload_module_parent('pictures');
                 if (self !== top && typeof parent.mw === 'object') {
-                    parent.mw.reload_module('pictures');
+                    mw.parent().reload_module('pictures');
                     mw.reload_module_parent("pictures/admin");
                     if (self !== top && typeof parent.mw === 'object') {
-                        parent.mw.reload_module_everywhere('posts');
-                        parent.mw.reload_module_everywhere('shop/products');
-                        parent.mw.reload_module_everywhere('content', function () {
+                        mw.parent().reload_module_everywhere('posts');
+                        mw.parent().reload_module_everywhere('shop/products');
+                        mw.parent().reload_module_everywhere('content', function () {
                             mw.reload_module_everywhere('#' + module_id);
-                            parent.mw.reload_module_everywhere('pictures');
+                            mw.parent().reload_module_everywhere('pictures');
                         });
                     }
                 }

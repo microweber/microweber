@@ -181,7 +181,7 @@ if (isset($params['live_edit'])) {
                     mw.$('#mw-cat-pics-admin').attr("for-id", savedcatid);
                     //mw.reload_module('[data-type="categories"]');
                     // if (self !== parent && !!parent.mw) {
-                    //     parent.mw.reload_module('categories');
+                    //     mw.parent().reload_module('categories');
                     // }
                     mw.reload_module_everywhere('categories');
                     mw.reload_module_everywhere('categories/manage');
