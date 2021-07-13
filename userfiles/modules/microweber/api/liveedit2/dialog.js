@@ -30,10 +30,10 @@ const dialogFooter = (okLabel, cancelLabel) => {
 
 class Dialog {
     constructor(options) {
+        this.document = document;
         options = options || {}
         const defaults = {
-            document: document,
-            content: null,
+            content: null
         }
         this.settings = Object.assign({}, defaults, options);
         this.build();
@@ -63,10 +63,12 @@ class Dialog {
 }
 
 
-export const Confirm = function (q, scope) {
+export const Confirm = function (q) {
 
 }
 
-export const Alert = function (scope) {
-
+export const Alert = function (text) {
+    return new Dialog({
+        content: text
+    })
 }

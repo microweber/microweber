@@ -51,6 +51,7 @@ export class LiveEdit {
         };
 
         this.settings = ObjectService.extend({}, defaults, options);
+        this.document = this.settings.document;
 
         this.stateManager = this.settings.stateManager;
 
