@@ -10,6 +10,25 @@ function reorder_modules($data)
     return mw()->module_manager->reorder_modules($data);
 }
 
+
+
+api_expose_admin('get_modules_list_json', function(){
+    return  mw()->module_manager->get('installed=1&ui=1');
+
+});
+
+api_expose_admin('get_layouts_list_json', function(){
+    return     mw()->module_manager->templates('layouts');
+
+
+});
+api_expose_admin('get_elements_list_json', function(){
+    return       mw()->module_manager->scan_for_elements();
+
+});
+
+
+
 /*
  *
  * Modules functions API
