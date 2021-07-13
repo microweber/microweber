@@ -40,6 +40,20 @@
 
         };
 
+        var contentManage = function (content, scope) {
+            if (content) {
+                if (Array.isArray(content)) {
+                    content.forEach(function (el){
+                        contentManage(el, scope);
+                    });
+                } else if (this.settings.content instanceof MWElement) {
+                    scope.append(content);
+                } else if (typeof content === 'object') {
+                    scope.append(new MWElement(content));
+                }
+            }
+        }
+
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
@@ -51,16 +65,9 @@
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
-                if (Array.isArray(this.settings.content)) {
-                    this.settings.content.forEach(function (el){
-                        scope.append(el);
-                    });
-                } else if(this.settings.content instanceof MWElement) {
-                    this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
-                    this.append(new MWElement(this.settings.content));
-                }
+                contentManage(this.settings.content, this)
             }
             this.$node = $(el);
         };

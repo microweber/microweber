@@ -47,7 +47,11 @@ export class LiveEdit {
             lang: 'en',
             strict: true, // element and modules should be dropped only in layouts
             strictLayouts: false, // layouts can only exist as edit-field children
-            viewWindow: window
+            viewWindow: window,
+
+            // url or array
+            modules: [],
+            layouts: [],
         };
 
         this.settings = ObjectService.extend({}, defaults, options);

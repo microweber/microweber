@@ -2,6 +2,59 @@ import {HandleMenu} from "../handle-menu";
 import {ElementManager} from "../element";
 import {DomService} from "../dom";
 
+const _getModulesDataCache = {};
+
+export const getModulesData = (u) => {
+    return new Promise(resolve => {
+       if(Array.isArray(u)) {
+           resolve(u)
+       } else if(typeof u === 'string') {
+           if(_getModulesDataCache[u]) {
+               resolve(_getModulesDataCache[u])
+           } else {
+               fetch(u).then(res => res.json()).then(res => {
+                   _getModulesDataCache[u] = res;
+                   resolve( res )
+               })
+           }
+       }
+    });
+}
+
+const singleModuleItemRender = (data, type) => {
+    const el = ElementManager({
+        props: {
+            className: 'le-selectable-items-list-item',
+            moduleId: data.id,
+        },
+        content: [
+            {
+                props: { className: 'le-selectable-items-list-image', },
+                css: { backgroundImage: 'url(' + data.icon + ')' }
+            },
+            {
+                props: {
+                    className: 'le-selectable-items-list-title',
+                    innerHTML: data.name,
+                }
+            }
+        ]
+    })
+
+    return el;
+}
+export const modulesDataRender = (data, type) => {
+    const el = ElementManager({
+        props: {
+            className: 'le-selectable-items-list le-selectable-items-list-type-' + type
+        }
+    })
+    data.forEach(function (item){
+        el.append(singleModuleItemRender(item))
+    })
+    return el;
+}
+
 export const LayoutHandleContent = function (scope) {
     this.root = ElementManager({
         props: {
@@ -158,15 +211,21 @@ export const LayoutHandleContent = function (scope) {
     this.plusTop = ElementManager({
         props: {
             className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
-            innerHTML: scope.lang('Add layout')
+            innerHTML: scope.lang(plusLabel)
         }
     });
 
     this.plusBottom = ElementManager({
         props: {
             className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
-            innerHTML: scope.lang('Add layout')
+            innerHTML: scope.lang(plusLabel)
         }
+    });
+
+    this.plusTop.on('click', function (){
+        getModulesData(scope.settings.layouts).then(data => {
+
+        });
     });
 
     this.menu.show()
