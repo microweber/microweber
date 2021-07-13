@@ -57,7 +57,6 @@ class UserLoginController extends Controller
      * login api
      *
      * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
-     * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
     {
@@ -94,6 +93,7 @@ class UserLoginController extends Controller
 
         if (!isset($request['email']) and isset($request['username'])) {
             $userId = detect_user_id_from_params($request);
+
             if($userId){
                 $userFind = User::where('id',$userId)->first();
                 if(!empty($userFind->email)){
@@ -107,9 +107,11 @@ class UserLoginController extends Controller
             }
         }
 
-        Session::flash('old_sid', Session::getId());
+         Session::flash('old_sid', Session::getId());
+        $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
-        $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')),$remember = true);
+
+        $login = Auth::attempt($loginData,$remember = true);
         if ($login) {
 
             $userData = auth()->user();
@@ -139,14 +141,15 @@ class UserLoginController extends Controller
                 }
             }
 
-            if (Auth::user()->is_admin == 1) {
-                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
-
-                //   $userData->token = auth()->user()->createToken('authToken');
-            }
+//            if (Auth::user()->is_admin == 1) {
+//                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+//
+//                //   $userData->token = auth()->user()->createToken('authToken');
+//            }
 
 
             $response['success'] = _e('You are logged in', 1);
+            app()->user_manager->login_set_success_attempt($request);
 
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
                 if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
@@ -169,8 +172,12 @@ class UserLoginController extends Controller
             }
 
             $response['data'] = auth()->user();
+
+
             return new  JsonResource($response);
         }
+
+        app()->user_manager->login_set_failed_attempt($request);
 
         return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
     }
@@ -178,6 +185,7 @@ class UserLoginController extends Controller
     public function loginFields($request)
     {
         if (!isset($request['username']) and isset($request['username_encoded']) and $request['username_encoded']) {
+
             $decodedUsername = @base64_decode($request['username_encoded']);
             if (!empty($decodedUsername)) {
                 $request['username'] = $decodedUsername;

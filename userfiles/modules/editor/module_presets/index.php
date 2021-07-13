@@ -30,7 +30,7 @@
         mod_id_for_presets = '<?php print $module_id ?>';
         mod_type_for_presets = '<?php print $module_name ?>';
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
-        mod_id_orig = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+        mod_id_orig = window.mw.parent().$('#' + mod_id_for_presets).attr("data-module-original-id");
         mw_existing_modules_presets_ids = [];
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
@@ -49,14 +49,14 @@
                 }
             }
 
-            window.parent.mw.reload_module("#" + id);
-            window.parent.mw.reload_module_parent("#" + id);
+            window.mw.parent().reload_module("#" + id);
+            window.mw.parent().reload_module_parent("#" + id);
 
             mw.top().reload_module("#" + id);
 
             //mw.reload_module("#<?php print $params['id'] ?>")
-            window.parent.mw.reload_module("#" + id);
-            window.parent.mw.reload_module("#" + mod_id_for_presets);
+            window.mw.parent().reload_module("#" + id);
+            window.mw.parent().reload_module("#" + mod_id_for_presets);
             // mw.top().reload_module("#" + mod_id_for_presets);
 
             // reloading of iframe
@@ -68,7 +68,7 @@
                 var orig_attrs_str = '';
                 var parent_el = window.parent.document.getElementById(id);
                 if (parent_el != null) {
-                    var orig_attrs = window.parent.mw.tools.getAttrs(parent_el);
+                    var orig_attrs = window.mw.parent().tools.getAttrs(parent_el);
                     var orig_attrs_str = $.param(orig_attrs);
                 }
 
@@ -247,8 +247,8 @@
             var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
             var btn_mod_id = $(input_obj).attr('js-mod-id');
             var temp_form1 = mw.tools.firstParentWithClass(input_obj, 'js-module-preset-item-form-holder');
-            window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
-                window.parent.mw.notification.success('Preset name is updated');
+            window.mw.parent().form.post(temp_form1, save_module_as_template_url, function () {
+                window.mw.parent().notification.success('Preset name is updated');
             });
         }
 

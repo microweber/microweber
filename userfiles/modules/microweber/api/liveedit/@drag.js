@@ -820,7 +820,7 @@ mw.drag = {
             data1.view = 'admin';
         }
         if (data1.from_url == undefined) {
-            data1.from_url = window.parent.location;
+            data1.from_url = mw.parent().win.location.href;
         }
         var modal_name = 'module-settings-' + curr.id;
         if (typeof(data1.view.hash) === 'function') {
@@ -957,7 +957,7 @@ mw.drag = {
             dataType: "json",
             success: function (saved_data) {
                 if(saved_data && saved_data.new_page_url && !mw.drag.DraftSaving){
-                    window.parent.mw.askusertostay = false;
+                    window.mw.parent().askusertostay = false;
                     window.mw.askusertostay = false;
                     window.location.href  = saved_data.new_page_url;
 

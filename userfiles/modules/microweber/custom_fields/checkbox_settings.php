@@ -12,7 +12,7 @@
 <div class="custom-field-settings-values">
   <label class="mw-ui-label"><?php _e("Values"); ?></label>
   <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
-    <?php if(is_array($data['values'])) : ?>
+    <?php if(is_array($data['values']) and !empty($data['values'])) : ?>
     <?php foreach($data['values'] as $v): ?>
     <div class="mw-custom-field-form-controls d-flex">
         <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>

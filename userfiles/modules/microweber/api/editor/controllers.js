@@ -158,7 +158,7 @@ MWEditor.controllers = {
                     content: picker.root,
                     title: mw.lang('Select image'),
                     footer: false
-                })
+                });
 
             });
             return el;

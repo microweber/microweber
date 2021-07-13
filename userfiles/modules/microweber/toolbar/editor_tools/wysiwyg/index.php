@@ -18,7 +18,7 @@
 
 GalleriesRemote = function(){
         if(parent.document.querySelector('#manage-galleries-holder') !== null){
-          parent.mw.$('#manage-galleries-holder').empty()
+          mw.parent().$('#manage-galleries-holder').empty()
             var galleries = document.querySelectorAll('.module[data-type="pictures"]'),
                   l = galleries.length,
                   i = 0;
@@ -37,16 +37,16 @@ GalleriesRemote = function(){
                     }
                   }
                   gspan.onclick = function(){
-                    parent.mw.tools.scrollTo(this.forGallery, function(){
+                    mw.parent().tools.scrollTo(this.forGallery, function(){
                       mw.tools.module_settings(this,undefined);
                       if(!!parent.QTABS){
                           parent.QTABS.unset(0);
-                          parent.mw.$(".tip-box .mw-tooltip-arrow").css('left', -9999);
+                          mw.parent().$(".tip-box .mw-tooltip-arrow").css('left', -9999);
                       }
                     });
                   }
                   gspan.innerHTML = '<span class="manage-gallery-btn-holder">' +html + '</span><span><?php _e("Manage this gallery"); ?></span>';
-                  parent.mw.$('#manage-galleries-holder').append(gspan);
+                  mw.parent().$('#manage-galleries-holder').append(gspan);
               }
         }
     }
@@ -57,9 +57,9 @@ GalleriesRemote = function(){
 ScaleFrame = function(){
 
 
-  var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
+  var par_frame = mw.parent().$('iframe[name="'+window.name+'"]')[0];
   if(!!par_frame){
-    parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
+    mw.parent().$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
     //mw.$("#mw-admin-text-editor").hide();
   }
   /*
@@ -99,11 +99,11 @@ PrepareEditor = function(){
                 //$('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
                 mw.$('[contenteditable]', edmwdoc.body).each(function(){mw.wysiwyg.contentEditable(this, false)});
                 var html = edmwdoc.body.innerHTML;
-                parent.mw.$("iframe#"+window.name).trigger("change", html);
+                mw.parent().$("iframe#"+window.name).trigger("change", html);
           }, 600);
 
           mw.top().askusertostay = true;
-          parent.mw.askusertostay = true;
+          mw.parent().askusertostay = true;
 
        setTimeout(function(){
          ScaleFrame();
@@ -190,7 +190,7 @@ $(document.body).on('keydown keypress paste input', function(e){
 
 $(window).on('load', function(){
       $(document.body).on('mousedown', function(e){
-        parent.mw.$(".mw-ui-category-selector").hide();
+        mw.parent().$(".mw-ui-category-selector").hide();
         parent.$(parent.document.body).trigger('mousedown');
       });
       $(document.body).on('mouseup', function(e){
@@ -202,7 +202,7 @@ $(window).on('load', function(){
 
 
       mw.$("#mw-iframe-editor-area").on("keypress", function(e){
-        parent.mw.$('#'+window.name).trigger("editorKeyup");
+        mw.parent().$('#'+window.name).trigger("editorKeyup");
         $(document.body).addClass('editorKeyup');
         if(e.ctrlKey){
             if(e.keyCode === 65){

@@ -44,6 +44,10 @@ trait TagsTrait {
         $category = $this->request->get('category');
         $tagsRequest = $this->request->get('tags', []);
 
+        if (!is_array($tagsRequest)) {
+            return false;
+        }
+
         $tags = [];
         foreach ($this->allTagsForResults as $tag) {
             $buildLink = [];

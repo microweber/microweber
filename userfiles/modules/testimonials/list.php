@@ -60,7 +60,7 @@
                 });
 
                 $.post("<?php print api_url(); ?>reorder_testimonials", data, function () {
-                    parent.mw.reload_module("testimonials");
+                    mw.parent().reload_module("testimonials");
                 });
 
             }

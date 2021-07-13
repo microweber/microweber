@@ -156,7 +156,7 @@ if ($weight_units == false) {
 
 
                 if (window.parent != undefined && window.parent.mw != undefined) {
-                    // window.parent.mw.reload_module('shop/shipping/gateways/country');
+                    // window.mw.parent().reload_module('shop/shipping/gateways/country');
                     mw.reload_module_everywhere('shop/shipping/gateways/country');
 
                 }

@@ -21,6 +21,7 @@ class Text extends DefaultField
         'rows'=> 3,
         'multiple'=>'',
         'show_label'=>true,
+        'show_placeholder'=>false,
         'field_size'=>12,
         'field_size_desktop'=>12,
         'field_size_tablet'=>12,
@@ -40,7 +41,7 @@ class Text extends DefaultField
 
             $this->renderSettings['rows'] = 3;
             $this->renderSettings['cols'] = 3;
-            
+
             if (isset($this->data['options']['rows'])) {
                 $this->renderSettings['rows'] = $this->data['options']['rows'];
             }

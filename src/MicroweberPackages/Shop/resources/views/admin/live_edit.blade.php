@@ -84,8 +84,8 @@
                             </script>
 
                             <div class="form-group col-4">
-                                <label class="control-label d-block"><?php echo _e("Allow pagination", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
+                                <label class="control-label d-block"><?php echo _e("Enable pagination", true); ?></label>
+                                <span class="text-muted"><?php echo _e("Show pagination on the page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
@@ -96,8 +96,8 @@
 
 
                             <div class="form-group col-4 js-filtering-allow-limit">
-                                <label class="control-label d-block"><?php echo _e("Allow limit", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
+                                <label class="control-label d-block"><?php echo _e("Enable limit", true); ?></label>
+                                <span class="text-muted"><?php echo _e("User can define number of products per page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_limit"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_limit" type="checkbox"
@@ -106,9 +106,15 @@
                                 </div>
                             </div>
 
+                            <div class="form-group col-4 js-filtering-products-per-page">
+                                <label class="control-label d-block"><?php echo _e("Products per page", true); ?></label>
+                                <span class="text-muted"><?php echo _e("Number of products per page", true); ?></span>
+                                <input type="text" name="items_per_page" value="<?php echo get_option('items_per_page', $moduleId) ?>" class="mw_option_field form-control" option-group="<?php echo $moduleId;?>" />
+                            </div>
+
                             <div class="form-group col-4 js-filtering-allow-sort">
-                                <label class="control-label d-block"><?php echo _e("Allow sorting", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow limitation of shop on page", true); ?></span>
+                                <label class="control-label d-block"><?php echo _e("Enable product sort", true); ?></label>
+                                <span class="text-muted"><?php echo _e("Sort products by criteria", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_sort" type="checkbox"
@@ -119,7 +125,7 @@
 
                             <div class="form-group col-4 js-filtering-allow-search">
                                 <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
-                                <span class="help-block"><?php echo _e("Allow search of shop on page", true); ?></span>
+                                <span class="text-muted"><?php echo _e("Show search on the shop page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_search"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_search" type="checkbox"
@@ -130,6 +136,7 @@
 
                             <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
+                                <span class="text-muted"><?php echo _e("Show filters on the shop page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
                                     <input class="mw_option_field custom-control-input" id="disable_filter" type="checkbox"

@@ -64,6 +64,16 @@ if ($json != false) {
 }
 ?>
 
+<style>
+    #mw-template-settings-holder .mw-ui-btn {
+        white-space: normal;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: auto;
+    }
+</style>
+
+
 <div class="mw-template-settings-wrapper" id="mw-template-settings-holder">
     <div id="mw-template-settings">
         <?php include($tpl_settings_for_theme); ?>
@@ -72,6 +82,11 @@ if ($json != false) {
 
 
 <script>
+
+
+
+
+
     mw.tpl = {
         save: function () {
             var u = "<?php print $save_url; ?>", obj = {}, m = document.getElementById('mw-template-settings');
@@ -91,7 +106,7 @@ if ($json != false) {
 
             $.post(u, obj, function (msg) {
                 if (self !== parent) {
-                    var css = parent.mw.$("#mw-template-settings")[0];
+                    var css = mw.parent().$("#mw-template-settings")[0];
 
                     mw.reload_module('content/views/layout_selector_custom_css');
                     mw.reload_module_parent('template_settings');

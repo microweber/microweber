@@ -10,6 +10,7 @@
 
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
     <form method="post" action="{{ route('checkout.contact_information_save') }}">
+        @csrf
         <div class="mt-5 edit nodrop" field="checkout_personal_information_title">
             <h4 class="mb-0"><?php _e("Personal Information"); ?></h4>
             <small class="text-muted d-block mb-2"> <?php _e("Please fill the fields bellow"); ?></small>
@@ -32,7 +33,7 @@
             <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control @if(isset($errors['email'])) is-invalid @endif">
             @if(isset($errors['email']))<span class="invalid-feedback">{{$errors['email'][0]}}</span>@endif
         </div>
-        
+
         <div class="form-group @if(isset($errors['phone'])) has-danger @endif">
             <label><?php _e("Phone"); ?></label>
             <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control @if(isset($errors['phone'])) is-invalid @endif">

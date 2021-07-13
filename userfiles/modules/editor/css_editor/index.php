@@ -88,7 +88,7 @@
             if (mw.notification != undefined) {
                 mw.notification.success('CSS Updated');
             }
-            if (typeof(window.parent.mw.wysiwyg) != 'undefined') {
+            if (typeof(window.mw.parent().wysiwyg) != 'undefined') {
                 var custom_fonts_stylesheet = window.parent.document.getElementById("mw-custom-user-css");
                 if (custom_fonts_stylesheet != null) {
                     var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
@@ -170,7 +170,7 @@ if ($file and is_file($file)) {
         };
         $.post(mw.settings.api_url + "current_template_save_custom_css", css, function (res) {
 
-            var css = parent.mw.$("#mw-template-settings")[0];
+            var css = mw.parent().$("#mw-template-settings")[0];
 
             if(css !== undefined && css !== null){
                 mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))

@@ -1,8 +1,4 @@
 
-<?php include('radio_settings.php');
-
-return;
-?>
 <?php include('settings_header.php'); ?>
 
 <script type="text/javascript">
@@ -125,7 +121,7 @@ return;
     }
 
 </style>
-
+ 
 
 
 

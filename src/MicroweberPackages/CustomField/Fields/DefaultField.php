@@ -36,6 +36,7 @@ class DefaultField
         'required'=>false,
         'multiple'=>'',
         'show_label'=>true,
+        'show_placeholder'=>false,
         'field_size'=>12,
         'field_size_desktop'=>12,
         'field_size_tablet'=>12,
@@ -118,7 +119,7 @@ class DefaultField
 
         $customFieldHtml = $parseView->__toString();
 
-        return $customFieldHtml; 
+        return $customFieldHtml;
     }
 
     public function getTempalteFile()

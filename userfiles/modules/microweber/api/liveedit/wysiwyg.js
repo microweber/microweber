@@ -1869,8 +1869,8 @@ mw.wysiwyg = {
                     }
                     else {
                         mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
-                        if(parent.mw.image.currentResizing) {
-                        mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                        if(mw.parent().image.currentResizing) {
+                        mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
                         }
                     }
                     if(mw.image.currentResizing) {
@@ -1912,8 +1912,8 @@ mw.wysiwyg = {
                         }
                         else {
                             mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-                            if(parent.mw.image.currentResizing) {
-                                mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                            if(mw.parent().image.currentResizing) {
+                                mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
                             }
                         }
                         if(mw.image.currentResizing) {
@@ -2023,7 +2023,7 @@ mw.wysiwyg = {
         var ext = url.split('.').pop().toLowerCase();
         var name = url.split('/').pop()
         if(!type) {
-            if(['png','gif','jpg','jpeg','tiff','bmp','svg'].indexOf(ext) !== -1) {
+            if(['png','gif','jpg','jpeg','tiff','bmp','svg', 'webp'].indexOf(ext) !== -1) {
                 type = 'image';
             }
             if(['mp4','ogg'].indexOf(ext) !== -1) {
