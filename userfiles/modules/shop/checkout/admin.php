@@ -35,9 +35,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             mw.notification.success('Checkout updated!');
                         }
 
-                        if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+                        if (window.parent.mw != undefined && window.mw.parent().reload_module != undefined) {
 
-                            window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                            window.mw.parent().reload_module("#<?php print $params['id'] ?>");
                         }
                     }
 

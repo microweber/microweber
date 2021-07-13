@@ -43,40 +43,40 @@ return;
         mw.module_preset_apply_actions_after_id_change = function (id) {
             var parent_el = window.parent.document.getElementById(mod_id_for_presets);
 
-            //d(window.parent.mw.$('#'+id))
-            window.parent.mw.reload_module("#" + id);
-            window.parent.mw.reload_module_parent("#" + id);
+            //d(window.mw.parent().$('#'+id))
+            window.mw.parent().reload_module("#" + id);
+            window.mw.parent().reload_module_parent("#" + id);
 
 
             mw.top().reload_module("#" + id);
             if (parent_el) {
-                var ed_field = window.parent.mw.tools.firstParentWithClass(parent_el, 'edit');
+                var ed_field = window.mw.parent().tools.firstParentWithClass(parent_el, 'edit');
                 if (ed_field) {
-                    window.parent.mw.$(ed_field).addClass('changed');
+                    window.mw.parent().$(ed_field).addClass('changed');
                 }
             }
         }
         mw.module_preset_set_release = function (id) {
 
-            var orig_id = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
-            var orig_attr = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-attrs");
+            var orig_id = window.mw.parent().$('#' + mod_id_for_presets).attr("data-module-original-id");
+            var orig_attr = window.mw.parent().$('#' + mod_id_for_presets).attr("data-module-original-attrs");
 
             if (orig_id) {
 
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                window.mw.parent().$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                window.mw.parent().$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 if (orig_attr) {
 
 
                     var orig_attrs_decoded = JSON.parse(decodeURIComponent(window.atob(orig_attr)));
                     if (orig_attrs_decoded) {
-                        window.parent.mw.$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
+                        window.mw.parent().$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
 
                     }
                 }
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
-                window.parent.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
+                window.mw.parent().$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                window.mw.parent().$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                window.mw.parent().$('#' + mod_id_for_presets).attr("id", orig_id);
                 mw.top().$('#' + mod_id_for_presets).attr("id", orig_id);
                 mod_id_for_presets = orig_id;
                 mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
@@ -91,26 +91,26 @@ return;
             var orig_attrs_encoded;
             var parent_el = window.parent.document.getElementById(mod_id_for_presets);
             if (parent_el != null) {
-                var orig_attrs = window.parent.mw.tools.getAttrs(parent_el);
+                var orig_attrs = window.mw.parent().tools.getAttrs(parent_el);
                 if (orig_attrs) {
                     var orig_attrs_encoded = window.btoa(encodeURIComponent(JSON.stringify(orig_attrs)));
                 }
             }
 
-            var orig_id = window.parent.mw.$(parent_el).attr("id");
-            var have_orig_id = window.parent.mw.$(parent_el).attr("data-module-original-id");
-            var have_orig_attr = window.parent.mw.$(parent_el).attr("data-module-original-attrs");
+            var orig_id = window.mw.parent().$(parent_el).attr("id");
+            var have_orig_id = window.mw.parent().$(parent_el).attr("data-module-original-id");
+            var have_orig_attr = window.mw.parent().$(parent_el).attr("data-module-original-attrs");
             if (!have_orig_attr && orig_attrs_encoded) {
-                window.parent.mw.$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
+                window.mw.parent().$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
             }
             if (!have_orig_id) {
-                window.parent.mw.$(parent_el).attr("data-module-original-id", orig_id);
+                window.mw.parent().$(parent_el).attr("data-module-original-id", orig_id);
             }
             if (use_attrs) {
-                window.parent.mw.$(parent_el).attr(use_attrs);
+                window.mw.parent().$(parent_el).attr(use_attrs);
             }
-            window.parent.mw.$(parent_el).attr("id", is_use);
-            // window.parent.mw.$(parent_el).css("background", 'red');
+            window.mw.parent().$(parent_el).attr("id", is_use);
+            // window.mw.parent().$(parent_el).css("background", 'red');
 
             mod_id_for_presets = is_use;
             mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
@@ -118,7 +118,7 @@ return;
 
 
         $(document).ready(function () {
-            //   window.parent.mw.$('body').css("background", 'red');
+            //   window.mw.parent().$('body').css("background", 'red');
 
             mw.$('.module-presets-action-btn').click(function () {
                 var is_del = $(this).attr('delete');
@@ -133,7 +133,7 @@ return;
 
 
                 if (parent_el != null) {
-                    var attrs = window.parent.mw.tools.getAttrs(parent_el);
+                    var attrs = window.mw.parent().tools.getAttrs(parent_el);
                 }
 
 
@@ -147,12 +147,12 @@ return;
                 if (!!is_release) {
 
                     mw.module_preset_set_release();
-                    /*     var orig_id = window.parent.mw.$('#
+                    /*     var orig_id = window.mw.parent().$('#
                     <?php print $module_id ?>').attr("data-module-original-id");
 
                      if (orig_id) {
 
-                     window.parent.mw.$('#
+                     window.mw.parent().$('#
                     <?php print $module_id ?>').attr("id", orig_id);
                      mw.module_preset_apply_actions_after_id_change(orig_id);
                      }
@@ -162,19 +162,19 @@ return;
                     var use_attrs = JSON.parse(saved_module_attrs_json);
                     mw.module_preset_set_use(is_use, use_attrs);
                     /*  if (mw.reload_module != undefined) {
-                     if (!window.parent.mw.$('#
+                     if (!window.mw.parent().$('#
                     <?php print $module_id ?>').attr("data-module-original-id")) {
-                     window.parent.mw.$('#
+                     window.mw.parent().$('#
                     <?php print $module_id ?>').attr("data-module-original-id", is_use);
                      }
 
-                     window.parent.mw.$('#
+                     window.mw.parent().$('#
                     <?php print $module_id ?>').attr("module-id", is_use);
-                     //  	window.parent.mw.$('#
+                     //  	window.mw.parent().$('#
                     <?php print $module_id ?>').attr("id",is_use);
-                     //  window.parent.mw.$('#
+                     //  window.mw.parent().$('#
                     <?php print $module_id ?>').attr("id", is_use);
-                     //window.parent.mw.reload_module("#"+is_use);
+                     //window.mw.parent().reload_module("#"+is_use);
                      mw.module_preset_apply_actions_after_id_change('
                     <?php print $module_id ?>');
 
@@ -194,7 +194,7 @@ return;
                     //
 //                    module_attrs
                     //save
-                    window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
+                    window.mw.parent().form.post(temp_form1, save_module_as_template_url, function () {
                         mw.reload_module_everywhere("#<?php print $params['id'] ?>");
                     });
 

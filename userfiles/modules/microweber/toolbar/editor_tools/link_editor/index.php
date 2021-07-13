@@ -10,8 +10,8 @@
     RegisterChange = function () {
         var args = Array.prototype.slice.call(arguments);
 
-        if(parent.mw.iframecallbacks && parent.mw.iframecallbacks[hash]) {
-            parent.mw.iframecallbacks[hash].apply( this, arguments );
+        if(mw.parent().iframecallbacks && mw.parent().iframecallbacks[hash]) {
+            mw.parent().iframecallbacks[hash].apply( this, arguments );
         }
         if(window.thismodal){
             thismodal.result({

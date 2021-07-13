@@ -141,7 +141,7 @@ if (!isset($rand)) {
 
                  }
                 if (self !== parent && typeof parent.mw === 'object') {
-                    parent.mw.reload_module('menu');
+                    mw.parent().reload_module('menu');
                 }
             }
 

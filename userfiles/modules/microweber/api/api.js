@@ -175,7 +175,7 @@ mw.askusertostay = false;
 
   mww = window;
 
- 
+
 
   mwhead = document.head || document.getElementsByTagName('head')[0];
 
@@ -427,9 +427,9 @@ mw.getScripts = function (array, callback) {
   mw.reload_module_parent = function(module, callback) {
     if(self !== parent && !!parent.mw){
 
-       parent.mw.reload_module(module, callback)
-	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
-		 top.mweditor.contentWindow.mw.reload_module(module, callback)
+       mw.parent().reload_module(module, callback)
+	   if(typeof(mw.top().win.mweditor) != 'undefined'  && typeof(mw.top().win.mweditor) == 'object'   && typeof(mw.top().win.mweditor.contentWindow) != 'undefined'){
+		 mw.top().win.mweditor.contentWindow.mw.reload_module(module, callback)
 		} else if(typeof(mw.top().win.iframe_editor_window) != 'undefined'  && typeof(mw.top().win.iframe_editor_window) == 'object'   && typeof(mw.top().win.iframe_editor_window.mw) != 'undefined'){
 
 		mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
@@ -951,7 +951,7 @@ mw.top = function(){
           result = curr;
           curr = curr.parent;
       }
-      mw.__top = curr.mw;
+      mw.__top = result.mw;
       return result.mw;
   };
   if(window === top){

@@ -87,7 +87,7 @@
     mw.edit_content.before_save = function () {
         mw.askusertostay = false;
         if (window.parent != undefined && window.parent.mw != undefined) {
-            window.parent.mw.askusertostay = false;
+            window.mw.parent().askusertostay = false;
         }
     }
     mw.edit_content.after_save = function (saved_id) {
@@ -122,7 +122,7 @@
             mw.reload_module_parent('custom_fields');
             mw.tools.removeClass(document.getElementById('mw-quick-content'), 'loading');
             mw.reload_module('pages');
-            parent.mw.askusertostay = false;
+            mw.parent().askusertostay = false;
         } else {
             mw.reload_module('[data-type="pages"]', function () {
                 if (mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0) {
@@ -246,16 +246,16 @@
                 mw.askusertostay = false;
 
                 if (parent !== self && !!window.parent.mw) {
-                    window.parent.mw.askusertostay = false;
+                    window.mw.parent().askusertostay = false;
                     if (typeof(data.is_active) !== 'undefined' && typeof(data.id) !== 'undefined') {
                         if ((data.id) != 0) {
                             if ((data.is_active) == 0) {
-                                window.parent.mw.$('.mw-set-content-unpublish').hide();
-                                window.parent.mw.$('.mw-set-content-publish').show();
+                                window.mw.parent().$('.mw-set-content-unpublish').hide();
+                                window.mw.parent().$('.mw-set-content-publish').show();
                             }
                             else if ((data.is_active) == 1) {
-                                window.parent.mw.$('.mw-set-content-publish').hide();
-                                window.parent.mw.$('.mw-set-content-unpublish').show();
+                                window.mw.parent().$('.mw-set-content-publish').hide();
+                                window.mw.parent().$('.mw-set-content-unpublish').show();
                             }
                         }
 
@@ -281,10 +281,10 @@
                 }
                 if (go_live_edit != false) {
                     if (parent !== self && !!window.parent.mw) {
-                        if (window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
-                            window.parent.mw.drag.save();
+                        if (window.mw.parent().drag != undefined && window.mw.parent().drag.save != undefined) {
+                            window.mw.parent().drag.save();
                         }
-                        window.parent.mw.askusertostay = false;
+                        window.mw.parent().askusertostay = false;
                     }
                     var nid = typeof this === "number" ? this : this.id;
 

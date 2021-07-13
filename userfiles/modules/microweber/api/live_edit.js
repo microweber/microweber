@@ -113,7 +113,7 @@ mw.live_edit.showSettings = function (a, opts) {
     }
     if (data1.from_url == undefined) {
         //data1.from_url = mw.top().win.location;
-        data1.from_url = window.parent.location;
+        data1.from_url = mw.parent().win.location.href;
     }
     var modal_name = 'module-settings-' + curr.id;
     if (typeof(data1.view.hash) == 'function') {

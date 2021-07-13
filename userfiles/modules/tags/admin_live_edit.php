@@ -22,7 +22,7 @@ if (isset($params['for-content-id'])) {
         var additional_params = {};
         additional_params.manage_tags = 'yes';
 
-        return window.parent.mw.tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
+        return window.mw.parent().tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
 
 
     }

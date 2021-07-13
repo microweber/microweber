@@ -5,7 +5,6 @@ mw.require('uploader.js');
 mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
-    var $scope = $(this);
     var defaults = {
         components: [
             {type: 'desktop', label: mw.lang('My computer')},
