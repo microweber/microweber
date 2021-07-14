@@ -1,6 +1,5 @@
 
 <?php
-return;
 
 if (isset($params['name'])) {
     $params['menu-name'] = $params['name'];

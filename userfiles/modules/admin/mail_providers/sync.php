@@ -24,7 +24,6 @@ if (empty($foundedEmailsUnique)):
 ?>
 No emails found.
 <?php
-return;
 endif;
 ?>
 

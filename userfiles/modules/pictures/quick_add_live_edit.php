@@ -1,5 +1,4 @@
 <?php
-return;
 $params['quick-add'] = true;
 
 

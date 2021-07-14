@@ -1,5 +1,4 @@
 <?php
-return;
 $params['global'] = 1;
 $config['module'] = 'posts';
 $set_content_type = 'post';

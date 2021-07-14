@@ -21,7 +21,6 @@ if (count($shipping_options) == 0) {
         ?>
     </div>
 <?php
-return;
 }
 ?>
 
