@@ -1,4 +1,4 @@
-wroot = window.opener || top;
+wroot = window.opener || mw.top().win;
 
 mw.html_editor = {};
 mw.html_editor.map = {};

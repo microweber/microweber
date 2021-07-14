@@ -2355,25 +2355,25 @@ class ImageLib
         $isImage = false;
 
 
-        if (function_exists('finfo_open')) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $mimeType = finfo_file($finfo, $file);
-            finfo_close($finfo);
-            switch ($mimeType) {
-                case 'image/jpeg':
-                case 'image/gif':
-                case 'image/png':
-                case 'image/bmp':
-                case 'image/x-windows-bmp':
-                    $isImage = true;
-                    break;
-                default:
-                    $isImage = false;
-            }
-        } elseif (function_exists('getimagesize')) {
+        if (function_exists('getimagesize')) {
             // open with GD
             if (@is_array(getimagesize($file))) {
                 $isImage = true;
+            } else if (function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mimeType = finfo_file($finfo, $file);
+                finfo_close($finfo);
+                switch ($mimeType) {
+                    case 'image/jpeg':
+                    case 'image/gif':
+                    case 'image/png':
+                    case 'image/bmp':
+                    case 'image/x-windows-bmp':
+                        $isImage = true;
+                        break;
+                    default:
+                        $isImage = false;
+                }
             }
         } elseif (function_exists('exif_imagetype')) {
             // open with EXIF

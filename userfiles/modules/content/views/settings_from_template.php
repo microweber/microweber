@@ -62,7 +62,53 @@ if (!empty($template_config)) {
                                     <small class="text-muted d-block mb-2"><?php _e($help); ?></small>
                                 <?php } ?>
 
-                                <?php if ($type == 'textarea') { ?>
+                                <?php if ($type == 'mw_editor') { ?>
+
+                                    <?php
+                                    $uniqid = uniqid();
+                                    ?>
+
+                                    <textarea name="content_data[<?php print $name; ?>]" id="mw-edit-<?php echo $uniqid; ?>" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
+
+                                    <script type="text/javascript">
+                                        mw.require('editor.js');
+
+                                        mw.Editor({
+                                            selector: '#mw-edit-<?php echo $uniqid; ?>',
+                                            mode: 'div',
+                                            smallEditor: false,
+                                            minHeight: 250,
+                                            maxHeight: '70vh',
+                                            controls: [
+                                                [
+                                                    'undoRedo', '|', 'image', '|',
+                                                    {
+                                                        group: {
+                                                            controller: 'bold',
+                                                            controls: ['italic', 'underline', 'strikeThrough']
+                                                        }
+                                                    },
+                                                    '|',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-align-left',
+                                                            controls: ['align']
+                                                        }
+                                                    },
+                                                    '|', 'format',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-list-bulleted-square',
+                                                            controls: ['ul', 'ol']
+                                                        }
+                                                    },
+                                                    '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat', 'editSource'
+                                                ],
+                                            ]
+                                        });
+                                    </script>
+
+                                <?php } else if ($type == 'textarea') { ?>
                                     <textarea name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
                                 <?php } else if ($type == 'color') { ?>
                                 <input name="content_data[<?php print $name; ?>]" class="form-control mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">

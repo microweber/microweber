@@ -22,16 +22,16 @@
                 <div class="module-live-edit-settings module-blog-settings">
                     @if($pages->count() == 0)
                         <div class="alert alert-warning">
-                            {{_e('You don\'t have any dynamic pages.')}}
+                            {{_e('You don\'t have any blog pages.')}}
                             <br />
-                            {{_e('Please, create a dynamic page from admin panel to continue.')}}
+                            {{_e('Please, create a blog page from admin panel to continue.')}}
                         </div>
 
                         @else
                     <div class="form-row row">
 
                         <div class="form-group col-12">
-                            <label class="control-label d-block"><?php echo _e("Display content from", true); ?></label>
+                            <label class="control-label d-block"><?php echo _e("Display posts from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control js-filtering-from-content-id" data-width="100%" data-size="5" data-live-search="true">
                                 <option value=""><?php echo _e("Select page", true); ?></option>
                                 <?php

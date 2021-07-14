@@ -10,19 +10,21 @@ if (!$stylesheet_settings) {
     return;
 }
 
+
+
+
+
 $option_group = 'mw-template-' . mw()->template->folder_name();
 
 if ($stylesheet_settings) {
     foreach ($stylesheet_settings as $key => $setting) {
         $$key = get_option($key, $option_group);
-        if ($$key === false AND $$key !== null) {
+        if ($$key == false) {
             if (isset($setting['default'])) {
                 $$key = $setting['default'];
             } else {
                 $$key = '';
             }
-        } elseif ($$key == null) {
-            $$key = '';
         }
     }
 }
@@ -84,7 +86,7 @@ if ($stylesheet_settings) {
 
         $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
 
-            parent.mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
+            mw.parent().notification.success("<?php _ejs("Template settings are saved"); ?>.");
             parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
             mw.tools.refresh(parent.$("#theme-style"));
         });
@@ -98,7 +100,7 @@ if ($stylesheet_settings) {
                 // reloadTemplate();
                 reloadTemplate();
                 window.location.reload(false);
-                //     window.parent.mw.drag.save();
+                //     window.mw.parent().drag.save();
                 // window.parent.location.reload(false);
             });
 
@@ -243,7 +245,7 @@ if ($stylesheet_settings) {
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-sm btn-block m-b-20" onclick="window.parent.mw.drag.module_settings('#font_family_selector_main','admin');">Load more fonts</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-block m-b-20" onclick="window.mw.parent().drag.module_settings('#font_family_selector_main','admin');">Load more fonts</button>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>

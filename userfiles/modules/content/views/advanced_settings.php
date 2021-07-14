@@ -105,6 +105,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                 if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
                     form.querySelector('input[name="content_type"]').value = ctype;
                 }
+                // Change api post url to content api
+                $(form).attr('action', mw.settings.site_url + "api/content/" + form.querySelector('input[name="id"]').value);
+                $(form).attr('content-type-is-changed', 1);
             });
         }
         mw.adm_cont_subtype_change_holder_event = function (el) {

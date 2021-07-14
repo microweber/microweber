@@ -81,12 +81,11 @@ mw.form = {
     if(is_form_valid){
 
         var form = mw.$(selector)[0];
-
-        if(form._isSubmitting){
+        if (form._isSubmitting) {
             return;
         }
-        form._isSubmitting = true;
 
+        form._isSubmitting = true;
 
         var when = form.$beforepost ? form.$beforepost : function () {};
         $.when(when()).then(function() {

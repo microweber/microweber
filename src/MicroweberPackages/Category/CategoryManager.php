@@ -87,7 +87,7 @@ class CategoryManager
 
 
         $renderer = new KnpCategoryTreeRenderer($this->app);
-      //  $renderer->setUseCache(false);
+        //  $renderer->setUseCache(false);
 
         if(isset($params['use_cache']) and intval($params['use_cache']) == 0){
             $renderer->setUseCache(0);
@@ -96,7 +96,7 @@ class CategoryManager
             $renderer->setUseCache(1);
 
         }
-      //  $renderer->setUseCache(0);
+        //  $renderer->setUseCache(0);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
@@ -350,7 +350,7 @@ class CategoryManager
             ->orderBy('position','asc')
             ->get();
 
-       // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+        // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         } else {
@@ -628,7 +628,7 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-         //  $possible_slug = $this->app->url_manager->slug($data['url']);
+            //  $possible_slug = $this->app->url_manager->slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
             $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
@@ -653,7 +653,7 @@ class CategoryManager
                     $cont_get['no_cache'] = true;
                     $check_cont_wth_slug =  $this->app->content_manager->get($cont_get);
 
-                   // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
+                    // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
                     if ($check_cont_wth_slug) {
                         $possible_slug = $possible_slug . '-' . date('YmdHis');
                     }

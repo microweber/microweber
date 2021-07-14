@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.8] - 2021-07-08
+- Updated Laravel to 8.4
+- Fixes the custom fields
+- Fixes the thumbnails
+- Added new blog module
+- Added new shop module
+- Added ability for shop and blog to have filters
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.7...1.2.8 "")
+
+
 
 ## [1.2.7] - 2021-05-14
 - Fixes on checkout module

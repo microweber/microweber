@@ -163,7 +163,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         if (inner_mod_type) {
                             var inner_mod_type_admin = inner_mod_type + '/admin'
-                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                         }
                     });
                 }

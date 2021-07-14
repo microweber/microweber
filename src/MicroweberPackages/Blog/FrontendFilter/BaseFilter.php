@@ -242,7 +242,7 @@ abstract class BaseFilter
 
                     $filter->controlName = ucfirst($customField->name);
                     $controlName = get_option('filtering_by_custom_fields_control_name_' . $customField->name_key, $this->params['moduleId']);
-                    if ($controlName) {
+                    if (!empty(trim($controlName))) {
                         $filter->controlName = $controlName;
                     }
 
@@ -332,6 +332,16 @@ abstract class BaseFilter
         return view($template, $viewData);
     }
 
+    public function hasFilter()
+    {
+        $disableFilter = get_option('disable_filter', $this->params['moduleId']);
+        if ($disableFilter == '1') {
+            return false;
+        }
+        return true;
+    }
+
+
     public function apply()
     {
         $reflection = new \ReflectionClass(get_class($this));
@@ -359,8 +369,25 @@ abstract class BaseFilter
             }
         }
 
+        $this->query->where('is_deleted', 0);
+
+        $itemsPerPage = get_option('items_per_page', $this->params['moduleId']);
+        if ($itemsPerPage > 0) {
+            $limit = $itemsPerPage;
+        }
+
+        $templateConfig = app()->template->get_config();
+        if (isset($templateConfig['template_settings']['items_limit_options']['default'][0])) {
+            $limit = $templateConfig['template_settings']['items_limit_options']['default'][0];
+        }
+
+        $queryLimit = $this->queryParams['limit'];
+        if ($queryLimit > 0) {
+            $limit = $queryLimit;
+        }
+
         $this->pagination = $this->query
-            ->paginate($this->queryParams['limit'], ['*'], 'page', $this->request->get('page', 0))
+            ->paginate($limit, ['*'], 'page', $this->request->get('page', 0))
             ->withQueryString();
 
         return $this;

@@ -27,8 +27,8 @@ class ModuleFrontController
     {
         $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
         // if (isset($this->moduleParams['default-template'])) {
-      //       $defaultTemplate = $this->moduleParams['default-template'];
-       //  }
+        //       $defaultTemplate = $this->moduleParams['default-template'];
+        //  }
 
         if ($moduleTemplate != false) {
             $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
@@ -42,10 +42,20 @@ class ModuleFrontController
 
                 $defaultDir = dirname($templateDir) . DS . 'default';
                 if (is_dir($defaultDir)) {
-                    view()->addNamespace($this->moduleConfig['module'], $defaultDir);
+                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
                 }
 
-                view()->replaceNamespace($this->moduleConfig['module'], $templateDir);
+                // This is the first level of template
+                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+
+                /**
+                 * The right way to order tempalates
+                 *
+                    0 => "\userfiles\templates\theme\modules\blog\templates\filter"
+                    1 => "\userfiles\templates\theme\modules\blog\templates\default"
+                    2 => "\src\MicroweberPackages\Blog\resources\views\"
+                 */
+
             }
         }
     }
@@ -63,7 +73,7 @@ class ModuleFrontController
             return view()->make($view, $this->viewData);
         } else {
             if ($view) {
-               return view()->make($this->moduleConfig['module'] . '::' . $view, $this->viewData);
+                return view()->make($this->moduleConfig['module'] . '::' . $view, $this->viewData);
             }
             // return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
         }

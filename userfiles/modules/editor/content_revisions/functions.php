@@ -1,10 +1,14 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    if (0===strpos($class, 'PhpDiff\\')){
-        return require(__DIR__ . DS . 'lib' . DS . 'php-diff' . DS . 'src' . DS . '' . substr($class, 8) . '.php');
-    }
-});
+require_once(__DIR__ . DS . 'lib/php-diff/vendor/autoload.php');
+
+
+//spl_autoload_register(function ($class) {
+//    if (0===strpos($class, 'PhpDiff\\')){
+//
+//        //return require(__DIR__ . DS . 'lib' . DS . 'php-diff' . DS . 'src' . DS . '' . substr($class, 8) . '.php');
+//    }
+//});
 
 event_bind('mw.admin.content.edit.advanced_settings', function ($data) {
     if (isset($data['id']) and isset($data['id'])!=0){

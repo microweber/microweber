@@ -61,3 +61,7 @@ bootstrap/cache/services.8.25.0.php
 userfiles/modules/standalone-updater/
 /standalone-update
 /userfiles/standalone-update
+/adminer.php
+userfiles/.DS_Store
+.DS_Store
+.phpunit.result.cache

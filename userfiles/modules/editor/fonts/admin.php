@@ -12,7 +12,7 @@
     $(document).ready(function () {
         mw.options.form('#enabled_custom_fonts_settings_holder', function () {
             mw.clear_cache();
-            if (typeof(window.parent.mw.wysiwyg) != 'undefined') {
+            if (typeof(window.mw.parent().wysiwyg) != 'undefined') {
                 var selected = [];
                 $('#<?php print $params['id'] ?> .enabled_custom_fonts_table input:checked').each(function () {
                     selected.push($(this).val());
@@ -24,9 +24,9 @@
 
                 }
                 setTimeout(function () {
-                    window.parent.mw.wysiwyg.fontFamiliesExtended = [];
-                    window.parent.mw.wysiwyg.initExtendedFontFamilies(selected);
-                    window.parent.mw.wysiwyg.initFontSelectorBox();
+                    window.mw.parent().wysiwyg.fontFamiliesExtended = [];
+                    window.mw.parent().wysiwyg.initExtendedFontFamilies(selected);
+                    window.mw.parent().wysiwyg.initFontSelectorBox();
                 }, 100)
             }
             if (mw.notification !== undefined) {
@@ -175,7 +175,7 @@ if ($is_load_more) {
                 mw.reload_module_everywhere("settings/template")
                 mw.reload_module_everywhere("editor/fonts/select_option")
                 //mw.reload_module_parent("editor/fonts")
-                //    window.parent.mw.wysiwyg.initExtendedFontFamilies(s)
+                //    window.mw.parent().wysiwyg.initExtendedFontFamilies(s)
 
             });
         });

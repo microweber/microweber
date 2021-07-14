@@ -20,7 +20,9 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
 
             $configPath = $config['path'] . DIRECTORY_SEPARATOR . $folder;
 
-            return \Cache::repository(new TaggableFileStore(new TaggableFilesystemManager(), $configPath, $config));
+            $filesystem =new TaggableFilesystemManager();
+
+            return \Cache::repository(new TaggableFileStore($filesystem, $configPath, $config));
         });
     }
 }

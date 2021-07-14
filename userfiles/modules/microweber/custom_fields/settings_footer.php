@@ -9,12 +9,12 @@ if ($instanceField->hasShowLabelOptions):
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
             <label class="mw-ui-check">
-                   <input type="hidden" value="0" name="show_label">
-                   <input type="checkbox" class="custom-control-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="1" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
+                   <input type="hidden" value="1" name="show_label">
+                   <input type="checkbox" class="custom-control-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="0" <?php if ($settings['show_label'] == '0'): ?> checked="checked"  <?php endif; ?> >
                    <span></span>
                    <span></span>
             </label>
-           <span class="align-self-center col-6 pl-0"><?php _e('Show label'); ?></span>
+           <span class="align-self-center col-6 pl-0"><?php _e('Hide label'); ?></span>
        </div>
    </div>
     <small class="text-muted d-block mb-2"><?php _e('Display the name of title/field name');?></small>

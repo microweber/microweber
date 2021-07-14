@@ -35,14 +35,19 @@ trait LimitTrait {
             return false;
         }
 
-        $options =[];
+        $options = [];
 
-        $pageLimits = [
-            6,
-            12,
-            24,
-            48,
-        ];
+        $templateConfig = app()->template->get_config();
+        if (isset($templateConfig['template_settings']['items_limit_options']['default'])) {
+            $pageLimits = $templateConfig['template_settings']['items_limit_options']['default'];
+        } else {
+            $pageLimits = [
+                6,
+                12,
+                24,
+                48,
+            ];
+        }
 
         $fullUrl = URL::current();
 

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\UserLoginController;
+use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
@@ -128,27 +130,54 @@ class UserManager
         $params = parse_params($params);
 
 
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $url = $this->app->url->current(1);
+        if ($check == 5) {
+            $url_href = "<a href='$url' target='_blank'>$url</a>";
+            $this->app->log_manager->save('title=User IP ' . MW_USER_IP . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        }
+        if ($check > 5) {
+            $check = $check - 1;
+
+            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+        }
+        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        if ($check2 > 25) {
+            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+        }
+
+
+
+
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['
-            ']);
+            $params['username_encoded'] = rawurldecode($params['username_encoded']);
+            $decoded_username = @base64_decode($params['username_encoded']);
             if (!empty($decoded_username)) {
                 $params['username'] = $decoded_username;
             } else {
                 $params['username'] = @base62_decode($params['username_encoded']);
             }
+            unset($params['username_encoded'] );
         }
-
         if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
+            $params['password_encoded'] = rawurldecode($params['password_encoded']);
             $decoded_password = @base64_decode($params['password_encoded']);
-            if (!empty($decoded_password)) {
+             if (!empty($decoded_password)) {
                 $params['password'] = $decoded_password;
-            } else {
+             } else {
                 $params['password'] = @base62_decode($params['password_encoded']);
             }
+            unset($params['password_encoded'] );
         }
 
+
+
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
         $overiden = false;
@@ -166,9 +195,10 @@ class UserManager
         }
         if ($overiden == true and $redirect_after != false) {
             return $this->app->url_manager->redirect($redirect_after);
-        } elseif ($overiden == true) {
+        } elseif ($overiden == true and $return_resp) {
             return $return_resp;
         }
+
 
 
         $params['x-no-throttle'] = false; //allow throttle

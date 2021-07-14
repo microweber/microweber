@@ -352,7 +352,7 @@
                             });
                             $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
                                 if (self !== parent && !!parent.mw) {
-                                    parent.mw.reload_module('categories');
+                                    mw.parent().reload_module('categories');
                                 }
                                 mw.parent().trigger('pagesTreeRefresh')
 

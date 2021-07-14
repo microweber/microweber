@@ -56,7 +56,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
         var filters = [
             {title: "", extensions: Params.filters}
         ]
-        this_frame = parent.mw.$("iframe[name='" + Name + "']");
+        this_frame = mw.parent().$("iframe[name='" + Name + "']");
 
         var filtersarr = Params.filters.split(',');
         for(var i = 0; i < filtersarr.length; i++){

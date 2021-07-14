@@ -2,7 +2,7 @@
     <div class="mb-3">
 
         <?php if ($settings['show_label']): ?>
-            <div class="control-label mb-3 font-weight-bold"><?php echo $data["name"]; ?></div>
+            <div class="control-label mb-3 "><?php echo $data["name"]; ?></div>
         <?php endif; ?>
 
         <?php $i = 0;

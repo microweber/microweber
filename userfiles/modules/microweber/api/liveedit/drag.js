@@ -830,7 +830,7 @@ mw.drag = {
             data1.view = 'admin';
         }
         if (data1.from_url == undefined) {
-            data1.from_url = window.parent.location;
+            data1.from_url = mw.parent().win.location.href;
         }
         var modal_name = 'module-settings-' + curr.id;
         if (typeof(data1.view.hash) === 'function') {
@@ -898,16 +898,21 @@ mw.drag = {
     delete_element: function(idobj, c) {
         mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
             var el = mw.$(idobj);
+
             mw.wysiwyg.change(idobj);
-            var elparent = el.parent()
+            var elparent = el.parent();
+
+            if(el[0].nodeName === 'IMG' && elparent[0].nodeName === 'PICTURE') {
+                el = el.parent();
+                elparent = el.parent();
+            }
 
             mw.liveEditState.record({
                 target: elparent[0],
                 value: elparent.html()
             });
-            el.addClass("mwfadeout");
-            setTimeout(function() {
-                mw.$(idobj).remove();
+
+                mw.$(el).remove();
                 mw.handleModule.hide();
                 mw.$(mw.handleModule).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
@@ -918,7 +923,7 @@ mw.drag = {
                 if(c){
                     c.call()
                 }
-            }, 300);
+
         });
     },
 
@@ -962,7 +967,7 @@ mw.drag = {
             dataType: "json",
             success: function (saved_data) {
                 if(saved_data && saved_data.new_page_url && !mw.drag.DraftSaving){
-                    window.parent.mw.askusertostay = false;
+                    window.mw.parent().askusertostay = false;
                     window.mw.askusertostay = false;
                     window.location.href  = saved_data.new_page_url;
 

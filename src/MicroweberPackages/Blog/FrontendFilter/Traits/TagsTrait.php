@@ -20,7 +20,7 @@ trait TagsTrait {
     public function appendFiltersActiveTags()
     {
         $tags = $this->request->get('tags', false);
-        if ($tags) {
+        if ($tags && is_array($tags)) {
             foreach ($tags as $tag) {
                 $urlForRemoving = 'tags[]';
                 $activeFilter = new \stdClass();
@@ -43,6 +43,10 @@ trait TagsTrait {
         $fullUrl = URL::current();
         $category = $this->request->get('category');
         $tagsRequest = $this->request->get('tags', []);
+
+        if (!is_array($tagsRequest)) {
+            return false;
+        }
 
         $tags = [];
         foreach ($this->allTagsForResults as $tag) {

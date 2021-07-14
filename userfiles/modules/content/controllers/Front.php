@@ -3,8 +3,7 @@
 
 namespace content\controllers;
 
-use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\SiteStats\Models\ContentViewCounter;
 use MicroweberPackages\View\View;
 use DB;
 use \MicroweberPackages\Option\Models\Option;
@@ -48,7 +47,6 @@ class Front
 
     function index($params, $config)
     {
-
         $params['exclude_shorthand'] = 'keyword, data-keyword';
         $options = Option::where('option_group', $params['id'])->get();
 
@@ -301,7 +299,9 @@ class Front
                 $post_params['ids'] = $ids;
             }
         }
-        if (isset($post_params['recently_viewed'])) {
+     /*
+      * DEPRECATED
+      *    if (isset($post_params['recently_viewed'])) {
             if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
                 $str0 = 'table=stats_pageviews&limit=30&main_page_id=' . MAIN_PAGE_ID . '&page_id=[neq]' . CONTENT_ID . '&fields=page_id&order_by=id desc&no_cache=true';
                 $orders = db_get($str0);
@@ -313,8 +313,22 @@ class Front
                     $post_params['ids'] = $ids;
                 }
             }
-        }
+        }*/
 
+        if (isset($post_params['most_viewed'])) {
+            if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
+                if (function_exists('stats_get_views_count_for_content')) {
+                    $postIds = [];
+                    $mostViewedContent = (new ContentViewCounter())->getMostViewedForContentForPeriod(CONTENT_ID, 'weekly');
+                    if ($mostViewedContent !== null) {
+                        foreach ($mostViewedContent as $mvContent) {
+                            $postIds[] = $mvContent->id;
+                        }
+                    }
+                    $post_params['ids'] = $postIds;
+                }
+            }
+        }
 
         if ($get_related_ids_for_content_id) {
             $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
@@ -624,6 +638,8 @@ class Front
             }
         }
 
+        //dd(POST_ID);
+
         if (!isset($params['order_by'])) {
 //            if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){
 //                $post_params['order_by'] = 'position asc';
@@ -663,12 +679,12 @@ class Front
 
         if (isset($params['keyword']) and $params['keyword'] != false) {
             $post_params['keyword'] =$params['keyword'];
-         //   $post_params['no_cache'] = 1;
+            //   $post_params['no_cache'] = 1;
 
             if (!isset($params['keywords_exact_match'])) {
                 $post_params['keywords_exact_match'] = true;
             }
-         }
+        }
 
 
 
@@ -686,26 +702,7 @@ class Front
 
         // dd($post_params,$posts_parent_category);
 
-        //$content = get_content($post_params);
-
-
-        //return;
-
-        if (isset($post_params['content_type']) && $post_params['content_type'] == 'product') {
-
-            $productQuery = Product::query();
-            $productResults = $productQuery->frontendFilter([
-                'moduleId'=>$params['id'],
-            ]);
-            $content = $productResults->results();
-        } else {
-            $postQuery = Post::query();
-            $postResults = $postQuery->frontendFilter([
-                'moduleId'=>$params['id'],
-            ]);
-            $content = $postResults->results();
-        }
-
+        $content = get_content($post_params);
 
         if ($is_search) {
             //dd(DB::getQueryLog(), $content);
@@ -720,11 +717,28 @@ class Front
         $data = array();
 
         if (!empty($content)) {
+
             foreach ($content as $item) {
 
-                $item['image'] = $item->mediaUrl();
-                $item['tn_image'] = $item->thumbnail($tn[0], $tn[1]);
+                $iu = get_picture($item['id'], $for = 'post', $full = false);
+
+                if ($iu != false) {
+                    $item['image'] = $iu;
+                } else {
+                    $item['image'] = false;
+                }
+
+
+                if ($item['image'] != false) {
+                    $item['tn_image'] = thumbnail($item['image'], $tn[0], $tn[1]);
+
+                } else {
+                    $item['tn_image'] = false;
+                }
+
+
                 $item['content'] = htmlspecialchars_decode($item['content']);
+
 
                 if (isset($item['created_at']) and trim($item['created_at']) != '') {
                     $item['created_at'] = date($date_format, strtotime($item['created_at']));
@@ -734,8 +748,11 @@ class Front
                     $item['updated_at'] = date($date_format, strtotime($item['updated_at']));
                 }
 
-                $item['link'] = $item->url;
-                $item['description'] = $item->description;
+                $item['link'] = content_link($item['id']);
+
+
+                $item['description'] = content_description($item['id']);
+
 
                 $item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {

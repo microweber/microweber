@@ -3,9 +3,10 @@
 namespace MicroweberPackages\Shop\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\App\Http\Controllers\ModuleFrontController;
 use MicroweberPackages\Product\Models\Product;
 
-class ShopController
+class ShopController extends ModuleFrontController
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +20,11 @@ class ShopController
         $productQuery = Product::query();
 
         $productResults = $productQuery->frontendFilter([
-            'moduleId'=>$moduleId,
+            'request'=>$request,
+            'moduleId'=>$moduleId
         ]);
 
-        return view('shop::index', [
+        return $this->view('shop::index', [
             'products'=>$productResults,
             'moduleId'=>$moduleId,
         ]);

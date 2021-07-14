@@ -10,7 +10,7 @@ use MicroweberPackages\SiteStats\Models\Referrers;
 use MicroweberPackages\SiteStats\Models\ReferrersDomains;
 use MicroweberPackages\SiteStats\Models\ReferrersPaths;
 use MicroweberPackages\SiteStats\Models\Sessions;
-use MicroweberPackages\SiteStats\Models\Urls;
+use MicroweberPackages\SiteStats\Models\StatsUrl;
 use Jenssegers\Agent\Agent;
 use GeoIp2\Database\Reader;
 
@@ -157,7 +157,7 @@ class Tracker
 
                 if (isset($item['visit_url']) and $item['visit_url']) {
                     $hash = md5($item['visit_url']);
-                    $related_data = new Urls();
+                    $related_data = new StatsUrl();
 
                     $related_data = $related_data->firstOrCreate([
                         'url_hash' => $hash

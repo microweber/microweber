@@ -12,12 +12,16 @@
 </script>
 
 
-
 <style>
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
         padding-left: 0;
     }
 </style>
+
+
+
+
+
 
 
 <div id="settings-holder">
@@ -79,7 +83,7 @@
                     <div class="form-group image-option">
                         <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <div>
-                            <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control selectpicker" data-option-group="<?php print $option_group; ?>">
+                            <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
                                 <?php if (isset($setting['options'])): ?>
                                     <?php foreach ($setting['options'] as $option_key => $option): ?>
                                         <?php

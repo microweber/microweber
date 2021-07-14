@@ -32,6 +32,14 @@
     /*max-height: 70vh;*/
     overflow: hidden;
 }
+.mw-filepicker-root ,
+.mw-filepicker-root *{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 .bootstrap-select .dropdown-menu li{
     overflow: hidden;

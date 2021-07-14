@@ -321,6 +321,10 @@ class OptionManager
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
+
+                    // Remove dublicates
+                    ModuleOption::where('id', '!=', $findModuleOption->id)->where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->delete();
+
                     $this->memoryModuleOptionGroup = [];
                 } else {
                     $findOption = Option::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
@@ -334,6 +338,10 @@ class OptionManager
                     }
                     $findOption->option_value = $data['option_value'];
                     $save = $findOption->save();
+
+                    // Remove dublicates
+                    Option::where('id', '!=', $findOption->id)->where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->delete();
+
                     $this->memoryOptionGroup = [];
                 }
 

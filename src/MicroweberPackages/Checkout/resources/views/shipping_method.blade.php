@@ -21,7 +21,7 @@
     @endif
 
     <form method="post" action="{{ route('checkout.shipping_method_save') }}">
-
+        @csrf
         <div class="shop-cart mt-5">
             <label class="font-weight-bold control-label mb-0"><?php _e("Personal information"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your information"); ?></small>
@@ -35,7 +35,4 @@
 
         <button type="submit" class="btn btn-primary w-100">{{ _e('Continue') }}</button>
     </form>
-
-
-
 @endsection

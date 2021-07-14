@@ -47,7 +47,7 @@
                         <hr />
 
                         @foreach($product->tags as $tag)
-                            <span class="badge badge-lg"><a href="?tags={{$tag->slug}}">{{$tag->name}}</a></span>
+                            <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
                         @endforeach
                     </div>
                 @endforeach

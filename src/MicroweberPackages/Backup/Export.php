@@ -334,6 +334,7 @@ class Export
         $this->skipTables[] = 'migrations';
         $this->skipTables[] = 'translation_keys';
         $this->skipTables[] = 'translation_texts';
+        $this->skipTables[] = 'media_thumbnails';
 
         return $this->skipTables;
     }

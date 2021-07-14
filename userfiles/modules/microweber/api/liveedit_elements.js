@@ -87,6 +87,17 @@ mw.dropables = {
             document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
             document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
         }
+
+        // images
+        var allImg = document.querySelectorAll('picture:not(.element,.noelement)');
+        var iImg = 0, l = allImg.length;
+        for ( ; iImg < l ; iImg++ ) {
+            var el = allImg[iImg].querySelector('.element');
+            if(el) {
+                el.classList.remove('element');
+                allImg[iImg].classList.add('element');
+            }
+        }
     },
     findNearest:function(event,selectors){
 
@@ -119,8 +130,7 @@ mw.dropables = {
         var v1 = offtop - y;
         var v2 = y - (offtop + el[0].offsetHeight);
         var v = v1 > 0 ? v1 : v2;
-        if(coords.y > v){
-
+        if (coords.y > v) {
           final.element = all[i];
         }
         if(coords.y > v && v1 > 0){

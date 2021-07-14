@@ -336,20 +336,28 @@ class CheckoutManager
             if (!isset($data['email']) or $data['email'] == '') {
                 $data['email'] = user_name(user_id(), 'email');
             }
-            if (!isset($data['email']) or $data['email'] == '') {
-                $checkout_errors['email'] = 'Email is required';
+
+            if (get_option('shop_require_email', 'website') == 1) {
+                if (!isset($data['email']) or $data['email'] == '') {
+                    $checkout_errors['email'] = 'Email is required';
+                }
             }
 
             if (!isset($data['first_name']) or $data['first_name'] == '') {
                 $data['first_name'] = user_name(user_id(), 'first');
             }
-            if (!isset($data['first_name']) or $data['first_name'] == '') {
-                $checkout_errors['first_name'] = 'First name is required';
+
+            if (get_option('shop_require_first_name', 'website') == 1) {
+                if (!isset($data['first_name']) or $data['first_name'] == '') {
+                    $checkout_errors['first_name'] = 'First name is required';
+                }
             }
 
-            if (!isset($data['last_name']) or $data['last_name'] == '') {
-                // $checkout_errors['last_name'] = 'Last name is required';
-                $data['last_name'] = user_name(user_id(), 'last');
+            if (get_option('shop_require_last_name', 'website') == 1) {
+                if (!isset($data['last_name']) or $data['last_name'] == '') {
+                    // $checkout_errors['last_name'] = 'Last name is required';
+                    $data['last_name'] = user_name(user_id(), 'last');
+                }
             }
 
             if (isset($data['payment_gw']) and $data['payment_gw'] != '') {
