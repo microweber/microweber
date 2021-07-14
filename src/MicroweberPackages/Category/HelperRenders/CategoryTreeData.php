@@ -451,7 +451,7 @@ class CategoryTreeData
                 return $query;
             };
         }
-//dump($cat_get_params);
+
         $result = $this->app->database_manager->get($cat_get_params);
 
         $output = '';

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Database;
 
+use function Opis\Closure\serialize as serializeClosure;
+use function Opis\Closure\unserialize as unserializeClosure;
 
 class TableCollectionCache
 {
@@ -48,7 +50,7 @@ class TableCollectionCache
      */
     private static function __generateKey($table, $params)
     {
-        $hashParamsTable = $table . crc32(serialize($params));
+        $hashParamsTable = $table . crc32(serializeClosure($params));
 
         return $hashParamsTable;
     }
