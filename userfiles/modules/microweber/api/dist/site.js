@@ -3160,9 +3160,9 @@ mw.options = {
 
 
                 if (mw.admin) {
-                    if (top.mweditor && top.mweditor.contentWindow) {
+                    if (mw.top().win.mweditor && mw.top().win.mweditor.contentWindow) {
                         setTimeout(function () {
-                            top.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload);
+                            mw.top().win.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload);
 
                         }, 777);
                     }
@@ -3175,17 +3175,17 @@ mw.options = {
 
                             var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
-                                // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
-                               // var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
-                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop=dateModified])']);
+                                // var module_parent_edit_field = window.mw.parent().tools.firstParentWithClass(mod_element, 'edit')
+                               // var module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                var module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop=dateModified])']);
                                 if (!module_parent_edit_field) {
-                                   module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
+                                   module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
                                 }
 
                                 if (module_parent_edit_field) {
-                                   // window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
-                                    window.parent.mw.wysiwyg.change(module_parent_edit_field)
-                                    window.parent.mw.askusertostay = true;
+                                   // window.mw.parent().tools.addClass(module_parent_edit_field, 'changed');
+                                    window.mw.parent().wysiwyg.change(module_parent_edit_field)
+                                    window.mw.parent().askusertostay = true;
 
                                 }
                             }
@@ -3200,11 +3200,11 @@ mw.options = {
                         }, 777);
                     }
 
-                    if (window.parent.mw.reload_module != undefined) {
+                    if (window.mw.parent().reload_module != undefined) {
 
                         if (!!mw.admin) {
                             setTimeout(function () {
-                                window.parent.mw.reload_module("#" + which_module_to_reload);
+                                window.mw.parent().reload_module("#" + which_module_to_reload);
                                 mw.options.___rebindAllFormsAfterReload();
                             }, 777);
                         }
@@ -3212,15 +3212,15 @@ mw.options = {
                             if (window.parent.mweditor != undefined) {
                                 window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
-                                        window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        window.mw.parent().exec("mw.admin.editor.set", window.parent.mweditor);
                                         mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
                             if (window.parent.mw != undefined) {
-                                window.parent.mw.reload_module("#" + which_module_to_reload, function () {
+                                window.mw.parent().reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
-                                        window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        window.mw.parent().exec("mw.admin.editor.set", window.parent.mweditor);
                                         mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
@@ -3233,7 +3233,7 @@ mw.options = {
 
 
                 // if (reaload_in_parent != undefined && reaload_in_parent !== null) {
-                //     //     window.parent.mw.reload_module("#"+refresh_modules11);
+                //     //     window.mw.parent().reload_module("#"+refresh_modules11);
                 //
                 //     return false;
                 // }
@@ -3392,8 +3392,8 @@ mw.options.form = function ($selector, callback, beforepost) {
                                 if (typeof root._optionsEvents.beforepost === 'function') {
                                     root._optionsEvents.beforepost.call(this);
                                 }
-                                if (top !== self && window.parent.mw.drag && window.parent.mw.drag.save) {
-                                    window.parent.mw.drag.save();
+                                if (top !== self && window.mw.parent().drag && window.mw.parent().drag.save) {
+                                    window.mw.parent().drag.save();
                                 }
                                 mw.options.save(this, root._optionsEvents.callback);
                             });
@@ -4731,7 +4731,7 @@ window.onmessage = function (e) {
 
 // URL Strings - Manipulations
 
-json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
+json2url = function(obj){ console.log(obj);  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
 
 mw.url = {
@@ -5217,7 +5217,6 @@ mw.CSSParser = function(el){
 mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
-    var $scope = $(this);
     var defaults = {
         components: [
             {type: 'desktop', label: mw.lang('My computer')},
@@ -9188,6 +9187,20 @@ mw.dropdown = mw.tools.dropdown;
 
         };
 
+        var contentManage = function (content, scope) {
+            if (content) {
+                if (Array.isArray(content)) {
+                    content.forEach(function (el){
+                        contentManage(el, scope);
+                    });
+                } else if (content instanceof MWElement) {
+                    scope.append(content);
+                } else if (typeof content === 'object') {
+                    scope.append(new MWElement(content));
+                }
+            }
+        }
+
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
@@ -9199,16 +9212,9 @@ mw.dropdown = mw.tools.dropdown;
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
-                if (Array.isArray(this.settings.content)) {
-                    this.settings.content.forEach(function (el){
-                        scope.append(el);
-                    });
-                } else if(this.settings.content instanceof MWElement) {
-                    this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
-                    this.append(new MWElement(this.settings.content));
-                }
+                contentManage(this.settings.content, this)
             }
             this.$node = $(el);
         };
@@ -9574,6 +9580,9 @@ mw.dropdown = mw.tools.dropdown;
         this.init = function(){
             this.nodes = [];
             this.root = root || document;
+            if(this.root instanceof MWElement) {
+                this.root = this.root.get(0)
+            }
             this._asElement = false;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
@@ -9586,6 +9595,7 @@ mw.dropdown = mw.tools.dropdown;
                 this._asElement = true;
             } else if(typeof options === 'string') {
                 if(options.indexOf('<') === -1) {
+
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;

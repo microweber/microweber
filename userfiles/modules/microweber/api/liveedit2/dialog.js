@@ -28,7 +28,7 @@ const dialogFooter = (okLabel, cancelLabel) => {
     }
 }
 
-class Dialog {
+export class Dialog {
     constructor(options) {
         this.document = document;
         options = options || {}
@@ -47,7 +47,7 @@ class Dialog {
         })
         this.container = ElementManager({
             props: {
-                className: 'le-dialog'
+                className: 'le-dialog-container'
             },
             content: this.settings.content
         })

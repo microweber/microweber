@@ -46,7 +46,7 @@
                     content.forEach(function (el){
                         contentManage(el, scope);
                     });
-                } else if (this.settings.content instanceof MWElement) {
+                } else if (content instanceof MWElement) {
                     scope.append(content);
                 } else if (typeof content === 'object') {
                     scope.append(new MWElement(content));
@@ -433,6 +433,9 @@
         this.init = function(){
             this.nodes = [];
             this.root = root || document;
+            if(this.root instanceof MWElement) {
+                this.root = this.root.get(0)
+            }
             this._asElement = false;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
@@ -445,6 +448,7 @@
                 this._asElement = true;
             } else if(typeof options === 'string') {
                 if(options.indexOf('<') === -1) {
+
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;

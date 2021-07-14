@@ -3160,9 +3160,9 @@ mw.options = {
 
 
                 if (mw.admin) {
-                    if (top.mweditor && top.mweditor.contentWindow) {
+                    if (mw.top().win.mweditor && mw.top().win.mweditor.contentWindow) {
                         setTimeout(function () {
-                            top.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload);
+                            mw.top().win.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload);
 
                         }, 777);
                     }
@@ -3175,17 +3175,17 @@ mw.options = {
 
                             var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
-                                // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
-                               // var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
-                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop=dateModified])']);
+                                // var module_parent_edit_field = window.mw.parent().tools.firstParentWithClass(mod_element, 'edit')
+                               // var module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                var module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop=dateModified])']);
                                 if (!module_parent_edit_field) {
-                                   module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
+                                   module_parent_edit_field = window.mw.parent().tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
                                 }
 
                                 if (module_parent_edit_field) {
-                                   // window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
-                                    window.parent.mw.wysiwyg.change(module_parent_edit_field)
-                                    window.parent.mw.askusertostay = true;
+                                   // window.mw.parent().tools.addClass(module_parent_edit_field, 'changed');
+                                    window.mw.parent().wysiwyg.change(module_parent_edit_field)
+                                    window.mw.parent().askusertostay = true;
 
                                 }
                             }
@@ -3200,11 +3200,11 @@ mw.options = {
                         }, 777);
                     }
 
-                    if (window.parent.mw.reload_module != undefined) {
+                    if (window.mw.parent().reload_module != undefined) {
 
                         if (!!mw.admin) {
                             setTimeout(function () {
-                                window.parent.mw.reload_module("#" + which_module_to_reload);
+                                window.mw.parent().reload_module("#" + which_module_to_reload);
                                 mw.options.___rebindAllFormsAfterReload();
                             }, 777);
                         }
@@ -3212,15 +3212,15 @@ mw.options = {
                             if (window.parent.mweditor != undefined) {
                                 window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
-                                        window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        window.mw.parent().exec("mw.admin.editor.set", window.parent.mweditor);
                                         mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
                             if (window.parent.mw != undefined) {
-                                window.parent.mw.reload_module("#" + which_module_to_reload, function () {
+                                window.mw.parent().reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
-                                        window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        window.mw.parent().exec("mw.admin.editor.set", window.parent.mweditor);
                                         mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
@@ -3233,7 +3233,7 @@ mw.options = {
 
 
                 // if (reaload_in_parent != undefined && reaload_in_parent !== null) {
-                //     //     window.parent.mw.reload_module("#"+refresh_modules11);
+                //     //     window.mw.parent().reload_module("#"+refresh_modules11);
                 //
                 //     return false;
                 // }
@@ -3392,8 +3392,8 @@ mw.options.form = function ($selector, callback, beforepost) {
                                 if (typeof root._optionsEvents.beforepost === 'function') {
                                     root._optionsEvents.beforepost.call(this);
                                 }
-                                if (top !== self && window.parent.mw.drag && window.parent.mw.drag.save) {
-                                    window.parent.mw.drag.save();
+                                if (top !== self && window.mw.parent().drag && window.mw.parent().drag.save) {
+                                    window.mw.parent().drag.save();
                                 }
                                 mw.options.save(this, root._optionsEvents.callback);
                             });
@@ -4731,7 +4731,7 @@ window.onmessage = function (e) {
 
 // URL Strings - Manipulations
 
-json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
+json2url = function(obj){ console.log(obj);  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
 
 mw.url = {
@@ -6372,7 +6372,7 @@ mw.drag = {
             data1.view = 'admin';
         }
         if (data1.from_url == undefined) {
-            data1.from_url = window.parent.location;
+            data1.from_url = mw.parent().win.location.href;
         }
         var modal_name = 'module-settings-' + curr.id;
         if (typeof(data1.view.hash) === 'function') {
@@ -6440,16 +6440,21 @@ mw.drag = {
     delete_element: function(idobj, c) {
         mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
             var el = mw.$(idobj);
+
             mw.wysiwyg.change(idobj);
-            var elparent = el.parent()
+            var elparent = el.parent();
+
+            if(el[0].nodeName === 'IMG' && elparent[0].nodeName === 'PICTURE') {
+                el = el.parent();
+                elparent = el.parent();
+            }
 
             mw.liveEditState.record({
                 target: elparent[0],
                 value: elparent.html()
             });
-            el.addClass("mwfadeout");
-            setTimeout(function() {
-                mw.$(idobj).remove();
+
+                mw.$(el).remove();
                 mw.handleModule.hide();
                 mw.$(mw.handleModule).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
@@ -6460,7 +6465,7 @@ mw.drag = {
                 if(c){
                     c.call()
                 }
-            }, 300);
+
         });
     },
 
@@ -6504,7 +6509,7 @@ mw.drag = {
             dataType: "json",
             success: function (saved_data) {
                 if(saved_data && saved_data.new_page_url && !mw.drag.DraftSaving){
-                    window.parent.mw.askusertostay = false;
+                    window.mw.parent().askusertostay = false;
                     window.mw.askusertostay = false;
                     window.location.href  = saved_data.new_page_url;
 
@@ -7815,6 +7820,9 @@ mw.ElementAnalyzer = function(options){
         ];
         while(node && node !== document.body){
             if(mw.tools.hasAnyOfClasses(node, cls)){
+                if (node.nodeName === 'IMG' && node.parentNode.nodeName === 'PICTURE' ) {
+                    node = node.parentNode
+                }
                 return node;
             }
             node = node.parentNode;
@@ -7925,6 +7933,7 @@ mw.ElementAnalyzer = function(options){
 
             var el = mw.$(scope.data.target);
             mw.currentDragMouseOver = scope.data.target;
+
 
             var edit = mw.tools.firstParentOrCurrentWithClass(mw.currentDragMouseOver, 'edit');
             mw.tools.classNamespaceDelete(mw.dropable[0], 'mw-dropable-tagret-rel-');
@@ -10558,7 +10567,7 @@ mw.live_edit.showSettings = function (a, opts) {
     }
     if (data1.from_url == undefined) {
         //data1.from_url = mw.top().win.location;
-        data1.from_url = window.parent.location;
+        data1.from_url = mw.parent().win.location.href;
     }
     var modal_name = 'module-settings-' + curr.id;
     if (typeof(data1.view.hash) == 'function') {
@@ -10788,6 +10797,17 @@ mw.dropables = {
             document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
             document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
         }
+
+        // images
+        var allImg = document.querySelectorAll('picture:not(.element,.noelement)');
+        var iImg = 0, l = allImg.length;
+        for ( ; iImg < l ; iImg++ ) {
+            var el = allImg[iImg].querySelector('.element');
+            if(el) {
+                el.classList.remove('element');
+                allImg[iImg].classList.add('element');
+            }
+        }
     },
     findNearest:function(event,selectors){
 
@@ -10820,8 +10840,7 @@ mw.dropables = {
         var v1 = offtop - y;
         var v2 = y - (offtop + el[0].offsetHeight);
         var v = v1 > 0 ? v1 : v2;
-        if(coords.y > v){
-
+        if (coords.y > v) {
           final.element = all[i];
         }
         if(coords.y > v && v1 > 0){
@@ -14434,8 +14453,8 @@ mw.wysiwyg = {
                     }
                     else {
                         mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
-                        if(parent.mw.image.currentResizing) {
-                        mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                        if(mw.parent().image.currentResizing) {
+                        mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
                         }
                     }
                     if(mw.image.currentResizing) {
@@ -14477,8 +14496,8 @@ mw.wysiwyg = {
                         }
                         else {
                             mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-                            if(parent.mw.image.currentResizing) {
-                                mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                            if(mw.parent().image.currentResizing) {
+                                mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
                             }
                         }
                         if(mw.image.currentResizing) {
@@ -14588,7 +14607,7 @@ mw.wysiwyg = {
         var ext = url.split('.').pop().toLowerCase();
         var name = url.split('/').pop()
         if(!type) {
-            if(['png','gif','jpg','jpeg','tiff','bmp','svg'].indexOf(ext) !== -1) {
+            if(['png','gif','jpg','jpeg','tiff','bmp','svg', 'webp'].indexOf(ext) !== -1) {
                 type = 'image';
             }
             if(['mp4','ogg'].indexOf(ext) !== -1) {
@@ -16044,7 +16063,6 @@ mw.CSSParser = function(el){
 mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
-    var $scope = $(this);
     var defaults = {
         components: [
             {type: 'desktop', label: mw.lang('My computer')},
@@ -20015,6 +20033,20 @@ mw.dropdown = mw.tools.dropdown;
 
         };
 
+        var contentManage = function (content, scope) {
+            if (content) {
+                if (Array.isArray(content)) {
+                    content.forEach(function (el){
+                        contentManage(el, scope);
+                    });
+                } else if (content instanceof MWElement) {
+                    scope.append(content);
+                } else if (typeof content === 'object') {
+                    scope.append(new MWElement(content));
+                }
+            }
+        }
+
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
@@ -20026,16 +20058,9 @@ mw.dropdown = mw.tools.dropdown;
                 });
             }
             this.nodes = [el];
+
             if (this.settings.content) {
-                if (Array.isArray(this.settings.content)) {
-                    this.settings.content.forEach(function (el){
-                        scope.append(el);
-                    });
-                } else if(this.settings.content instanceof MWElement) {
-                    this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
-                    this.append(new MWElement(this.settings.content));
-                }
+                contentManage(this.settings.content, this)
             }
             this.$node = $(el);
         };
@@ -20401,6 +20426,9 @@ mw.dropdown = mw.tools.dropdown;
         this.init = function(){
             this.nodes = [];
             this.root = root || document;
+            if(this.root instanceof MWElement) {
+                this.root = this.root.get(0)
+            }
             this._asElement = false;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
@@ -20413,6 +20441,7 @@ mw.dropdown = mw.tools.dropdown;
                 this._asElement = true;
             } else if(typeof options === 'string') {
                 if(options.indexOf('<') === -1) {
+
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
@@ -23301,7 +23330,13 @@ mw.image.settings = function () {
             return frame;
         },
           confirm_reset_module_by_id: function (module_id) {
-        if (confirm("Are you sure you want to reset this module?")) {
+
+
+
+
+
+
+              if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -23334,6 +23369,14 @@ mw.image.settings = function () {
 
             });
 
+
+          mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
+           
+              var some_child = mw.$(this).attr('id');
+
+              data.modules_ids.push(some_child);
+
+          });
 
             window.mw.on.DOMChangePause = true;
 
@@ -23648,8 +23691,8 @@ mw._colorPicker = function (options) {
             });
         }
         var documents = [document];
-        if (self !== top){
-            documents.push(top.document);
+        if (self !== mw.top().win){
+            documents.push(mw.top().win.document);
         }
         mw.$(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
@@ -23842,6 +23885,8 @@ mw.colorPicker = function (o) {
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
             overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
+            disableTextSelection: false,
+
         };
 
         this.options = Object.assign({}, defaults, options );
@@ -23852,8 +23897,10 @@ mw.colorPicker = function (o) {
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
+        this.document = this.options.root.nodeType === 9 ? this.options.root : this.options.ownerDocument;
 
-        var exist = document.getElementById(this.id);
+
+        var exist =this.options.root.getElementById(this.id);
         if (exist) {
             return exist._dialog;
         }
@@ -23876,7 +23923,7 @@ mw.colorPicker = function (o) {
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.element(document.body).on('keydown', function (e) {
+            mw.element(this.document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -23939,7 +23986,9 @@ mw.colorPicker = function (o) {
 
         this.build = function () {
             this.dialogMain = this.options.root.createElement('div');
-
+            if (this.options.disableTextSelection){
+                this.dialogMain.style.userSelect = 'none';
+            }
             this.dialogMain.id = this.id;
             var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
                 + ' mw-dialog-skin-' + this.options.skin
@@ -24030,7 +24079,6 @@ mw.colorPicker = function (o) {
             if (scope.options.containment === 'window') {
                 if (scope.options.scrollMode === 'inside') {
                     var rect = this.dialogHolder.getBoundingClientRect();
-                    var $win = mw.$(window);
                     var sctop = $win.scrollTop();
                     var height = $win.height();
                     if (rect.top < sctop || (sctop + height) > (rect.top + rect.height)) {
@@ -24158,7 +24206,7 @@ mw.colorPicker = function (o) {
                 css.top = dtop > 0 ? dtop : 0;
             }
 
-            /*if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
+            /*if(window !== mw.top().win &&this.options.root.body.scrollHeight > mw.top().win.innerHeight){
                 $win = $(mw.top());
 
                 css.top = $(document).scrollTop() + 50;
@@ -25287,26 +25335,43 @@ mw.spinner = function(options){
 
 mw.storage = {
     init: function () {
-        if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
-        var lsmw = localStorage.getItem("mw");
-        if (typeof lsmw === 'undefined' || lsmw === null) {
-            lsmw = localStorage.setItem("mw", "{}");
+
+        try {
+            if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
+            var lsmw = localStorage.getItem("mw");
+            if (typeof lsmw === 'undefined' || lsmw === null) {
+                lsmw = localStorage.setItem("mw", "{}");
+            }
+            this.change("INIT");
+            return lsmw;
+
+        } catch (error) {
+            console.log(error);
         }
-        this.change("INIT");
-        return lsmw;
+
+
     },
     set: function (key, val) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        curr[key] = val;
-        var a = localStorage.setItem("mw", JSON.stringify(curr));
-        mw.storage.change("CALL", key, val);
-        return a;
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            curr[key] = val;
+            var a = localStorage.setItem("mw", JSON.stringify(curr));
+            mw.storage.change("CALL", key, val);
+            return a;
+        } catch (error) {
+            console.log(error);
+        }
+
     },
     get: function (key) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        return curr[key];
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            return curr[key];
+        } catch (error) {
+            console.log(error);
+        }
     },
     _keys: {},
     change: function (key, callback, other) {
@@ -25314,14 +25379,14 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
-                    if(e.newValue === null){
+                    if (e.newValue === null) {
                         return;
                     }
 
-                    if(e.oldValue === null){
+                    if (e.oldValue === null) {
                         return;
                     }
-                   
+
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);

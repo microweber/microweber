@@ -141,6 +141,97 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/liveedit2/dialog.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit2/dialog.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Dialog": () => (/* binding */ Dialog),
+/* harmony export */   "Confirm": () => (/* binding */ Confirm),
+/* harmony export */   "Alert": () => (/* binding */ Alert)
+/* harmony export */ });
+/* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
+
+
+const dialogFooter = (okLabel, cancelLabel) => {
+    const ft = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-dialog-footer'
+        }
+    });
+
+    const ok = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-btn-primary le-dialog-footer-ok',
+            innerHTML: okLabel || 'OK'
+        }
+    });
+
+    const cancel = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-dialog-footer-cancel'
+        }
+    });
+
+    ft.append(cancel)
+    ft.append(ok)
+
+    return  {
+        ok, cancel
+    }
+}
+
+class Dialog {
+    constructor(options) {
+        this.document = document;
+        options = options || {}
+        const defaults = {
+            content: null
+        }
+        this.settings = Object.assign({}, defaults, options);
+        this.build();
+        this.open();
+    }
+    build() {
+        this.root = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog'
+            }
+        })
+        this.container = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-container'
+            },
+            content: this.settings.content
+        })
+        this.root.append(this.container);
+        this.settings.document.body.appendChild(this.root.get(0))
+    }
+    open() {
+        this.root.addClass('le-dialog-opened')
+    }
+    remove() {
+        this.root.remove()
+    }
+}
+
+
+const Confirm = function (q) {
+
+}
+
+const Alert = function (text) {
+    return new Dialog({
+        content: text
+    })
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/liveedit2/dom.js":
 /*!***********************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/dom.js ***!
@@ -1107,14 +1198,111 @@ const ElementHandleContent = function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getModulesData": () => (/* binding */ getModulesData),
+/* harmony export */   "loadModule": () => (/* binding */ loadModule),
+/* harmony export */   "modulesDataRender": () => (/* binding */ modulesDataRender),
 /* harmony export */   "LayoutHandleContent": () => (/* binding */ LayoutHandleContent)
 /* harmony export */ });
 /* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
 /* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom */ "./userfiles/modules/microweber/api/liveedit2/dom.js");
+/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
 
 
 
+
+
+const _getModulesDataCache = {};
+
+const getModulesData = (u) => {
+    return new Promise(resolve => {
+       if(Array.isArray(u)) {
+           resolve(u)
+       } else if(typeof u === 'string') {
+           if(_getModulesDataCache[u]) {
+               resolve(_getModulesDataCache[u])
+           } else {
+               fetch(u, {mode: 'cors'}).then(res => res.json()).then(res => {
+                   _getModulesDataCache[u] = res;
+                   resolve( res )
+               })
+           }
+       }
+    });
+}
+
+const singleModuleItemRender = (data, type) => {
+    const el = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+        props: {
+            className: 'le-selectable-items-list-item',
+            moduleId: data.id,
+        },
+        content: [
+            {
+                props: { className: 'le-selectable-items-list-image', style: { backgroundImage: 'url(' + (data.icon || data.screenshot) + ')' }},
+
+            },
+            {
+                props: {
+                    className: 'le-selectable-items-list-title',
+                    innerHTML: data.name,
+                }
+            }
+        ]
+    });
+
+    el.get(0).__data = data
+
+    return el;
+}
+
+const _loadModuleCache = {}
+
+const loadModule = (obj, endpoint) => {
+    return new Promise(resolve => {
+        if(!obj || (!obj.id && !obj.layout_file)){
+            resolve(null);
+            return;
+        }
+        const params = {
+            ondrop: true,
+        }
+        if(obj.module) {
+            params['data-module-name'] = obj.module;
+        } else if(obj.type === 'layout') {
+            params['data-module-name'] = 'layouts';
+            params['template'] = obj.layout_file;
+        }
+
+        const conf = {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+
+        fetch(endpoint, conf)
+            .then(resp => resp.text())
+            .then(html => {
+                console.log(html)
+            })
+        
+    })
+}
+
+const modulesDataRender = (data, type) => {
+    const el = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+        props: {
+            className: 'le-selectable-items-list le-selectable-items-list-type-' + type
+        }
+    })
+    data.forEach(function (item){
+        el.append(singleModuleItemRender(item))
+    })
+    return el;
+}
 
 const LayoutHandleContent = function (scope) {
     this.root = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
@@ -1267,26 +1455,44 @@ const LayoutHandleContent = function (scope) {
         ],
     });
 
-    var plusLabel = 'Add Layout';
-
-    this.plusTop = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
-        props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
-            innerHTML: scope.lang('Add layout')
+    this.addButtons = function (){
+        if(!scope.settings.layouts) {
+            return;
         }
-    });
+        var plusLabel = 'Add Layout';
 
-    this.plusBottom = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
-        props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
-            innerHTML: scope.lang('Add layout')
-        }
-    });
+        this.plusTop = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+            props: {
+                className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
+                innerHTML: scope.lang(plusLabel)
+            }
+        });
 
+        this.plusBottom = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+            props: {
+                className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
+                innerHTML: scope.lang(plusLabel)
+            }
+        });
+
+        this.plusTop.on('click', function (){
+            getModulesData(scope.settings.layouts).then(data => {
+                const content = modulesDataRender(data, 'layouts');
+                new _dialog__WEBPACK_IMPORTED_MODULE_3__.Dialog({
+                    content: content,
+                    document: scope.settings.document
+                });
+                (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('.le-selectable-items-list-item', content).on('click', function (){
+                    loadModule(this.__data, scope.settings.loadModulesURL)
+                })
+            });
+        });
+
+        this.root.append(this.plusTop)
+        this.root.append(this.plusBottom)
+    }
     this.menu.show()
-
-    this.root.append(this.plusTop)
-    this.root.append(this.plusBottom)
+    this.addButtons()
     this.root.append(this.menu.root)
 
 }
@@ -1624,7 +1830,6 @@ const isBlockLevel = function (node) {
 
 
 const getElementsLike = (selector, root, scope) => {
-
     selector = selector || '*';
     var all = root.querySelectorAll(selector), i = 0, final = [];
     for( ; i<all.length; i++){
@@ -1635,14 +1840,10 @@ const getElementsLike = (selector, root, scope) => {
             final.push(all[i]);
         }
     }
-    console.log(final)
     return final;
 };
 
 const ModeAuto = (scope) => {
-
-
-
     const {
         backgroundImageHolder,
         editClass,
@@ -1658,12 +1859,13 @@ const ModeAuto = (scope) => {
     var i = 0, i1 = 0, i2 = 0;
     for ( ; i < bgHolders.length; i++ ) {
         var curr = bgHolders[i];
-        var po = mw.tools.parentsOrder(curr, [editClass, moduleClass]);
-        if(po.module === -1 || (po.edit < po.module && po.edit !== -1)){
-            if(!mw.tools.hasClass(curr, moduleClass)){
+        if( scope.elementAnalyzer.isInEdit(curr) ){
+            if(!mw.tools.hasClass(curr, moduleClass)) {
                 mw.tools.addClass(curr, editClass);
             }
-            curr.style.backgroundImage = curr.style.backgroundImage || 'none';
+            if(!curr.style.backgroundImage) {
+                curr.style.backgroundImage = 'none';
+            }
         }
     }
     for ( ; i1<noEditModules.length; i1++ ) {
@@ -1948,10 +2150,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 class LiveEdit {
 
     constructor(options) {
@@ -1988,11 +2186,60 @@ class LiveEdit {
             lang: 'en',
             strict: true, // element and modules should be dropped only in layouts
             strictLayouts: false, // layouts can only exist as edit-field children
-            viewWindow: window
+            viewWindow: window,
+
+            // url or array
+            modules: [
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "CLEAN CONTAINER",
+                    "position": 0,
+                    "layout_file": "skin-1.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.php",
+                    "screenshot_file": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    "screenshot": "https://unit.microweber.com/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    data: 'http://asas.com'
+                },
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "lang Key",
+                    "position": 0,
+                    "layout_file": "skin-lang-key.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-lang-key.php"
+                }
+            ],
+            xlayouts: 'https://unit.microweber.com/api/get_layouts_list_json',
+            layouts: [
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "CLEAN CONTAINER",
+                    "position": 0,
+                    "layout_file": "skin-1.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.php",
+                    "screenshot_file": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    "screenshot": "https://unit.microweber.com/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg"
+                },
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "lang Key",
+                    "position": 0,
+                    "layout_file": "skin-lang-key.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-lang-key.php"
+                }
+            ],
+            loadModulesURL: 'http://localhost/mw2/module'
         };
 
-
         this.settings = _object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options);
+        this.document = this.settings.document;
 
         this.stateManager = this.settings.stateManager;
 
@@ -2000,7 +2247,6 @@ class LiveEdit {
             if(!_i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings]) return key;
             return _i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings][key] || _i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings][key.toLowerCase()] || key;
         }
-
 
         if(!this.settings.root) {
             this.settings.root = this.settings.document.body
@@ -2011,7 +2257,6 @@ class LiveEdit {
         this.elementAnalyzer = new _analizer__WEBPACK_IMPORTED_MODULE_5__.DroppableElementAnalyzerService(this.settings);
 
         this.dropIndicator = new _interact__WEBPACK_IMPORTED_MODULE_6__.DropIndicator(this.settings);
-
 
         const elementHandleContent = new _handles_content_element__WEBPACK_IMPORTED_MODULE_7__.ElementHandleContent(this);
         const moduleHandleContent = new _handles_content_module__WEBPACK_IMPORTED_MODULE_8__.ModuleHandleContent(this);
@@ -2024,7 +2269,8 @@ class LiveEdit {
             handle: elementHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager
-        })
+        });
+
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
             var title = '';
@@ -2038,7 +2284,6 @@ class LiveEdit {
             elementHandleContent.menu.setTitle(title)
         });
 
-
         var moduleHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
@@ -2046,7 +2291,7 @@ class LiveEdit {
             handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager
-        })
+        });
 
         var layoutHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
             ...this.settings,
@@ -2057,6 +2302,7 @@ class LiveEdit {
             stateManager: this.settings.stateManager,
             type: 'layout'
         });
+
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
@@ -2111,9 +2357,6 @@ class LiveEdit {
                 }
          });
     };
-
-
-
 }
 
 globalThis.LiveEdit = LiveEdit;

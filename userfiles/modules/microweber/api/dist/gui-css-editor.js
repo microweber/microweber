@@ -879,7 +879,13 @@ mw.image.settings = function () {
             return frame;
         },
           confirm_reset_module_by_id: function (module_id) {
-        if (confirm("Are you sure you want to reset this module?")) {
+
+
+
+
+
+
+              if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -912,6 +918,14 @@ mw.image.settings = function () {
 
             });
 
+
+          mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
+           
+              var some_child = mw.$(this).attr('id');
+
+              data.modules_ids.push(some_child);
+
+          });
 
             window.mw.on.DOMChangePause = true;
 
@@ -1224,8 +1238,8 @@ mw._colorPicker = function (options) {
             });
         }
         var documents = [document];
-        if (self !== top){
-            documents.push(top.document);
+        if (self !== mw.top().win){
+            documents.push(mw.top().win.document);
         }
         mw.$(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
@@ -1416,6 +1430,8 @@ mw.colorPicker = function (o) {
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
             overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
+            disableTextSelection: false,
+
         };
 
         this.options = Object.assign({}, defaults, options );
@@ -1426,8 +1442,10 @@ mw.colorPicker = function (o) {
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
+        this.document = this.options.root.nodeType === 9 ? this.options.root : this.options.ownerDocument;
 
-        var exist = document.getElementById(this.id);
+
+        var exist =this.options.root.getElementById(this.id);
         if (exist) {
             return exist._dialog;
         }
@@ -1450,7 +1468,7 @@ mw.colorPicker = function (o) {
 
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
-            mw.element(document.body).on('keydown', function (e) {
+            mw.element(this.document.body).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
@@ -1513,7 +1531,9 @@ mw.colorPicker = function (o) {
 
         this.build = function () {
             this.dialogMain = this.options.root.createElement('div');
-
+            if (this.options.disableTextSelection){
+                this.dialogMain.style.userSelect = 'none';
+            }
             this.dialogMain.id = this.id;
             var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
                 + ' mw-dialog-skin-' + this.options.skin
@@ -1604,7 +1624,6 @@ mw.colorPicker = function (o) {
             if (scope.options.containment === 'window') {
                 if (scope.options.scrollMode === 'inside') {
                     var rect = this.dialogHolder.getBoundingClientRect();
-                    var $win = mw.$(window);
                     var sctop = $win.scrollTop();
                     var height = $win.height();
                     if (rect.top < sctop || (sctop + height) > (rect.top + rect.height)) {
@@ -1732,7 +1751,7 @@ mw.colorPicker = function (o) {
                 css.top = dtop > 0 ? dtop : 0;
             }
 
-            /*if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
+            /*if(window !== mw.top().win &&this.options.root.body.scrollHeight > mw.top().win.innerHeight){
                 $win = $(mw.top());
 
                 css.top = $(document).scrollTop() + 50;
@@ -2847,26 +2866,43 @@ mw.spinner = function(options){
   \*******************************************************************/
 mw.storage = {
     init: function () {
-        if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
-        var lsmw = localStorage.getItem("mw");
-        if (typeof lsmw === 'undefined' || lsmw === null) {
-            lsmw = localStorage.setItem("mw", "{}");
+
+        try {
+            if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
+            var lsmw = localStorage.getItem("mw");
+            if (typeof lsmw === 'undefined' || lsmw === null) {
+                lsmw = localStorage.setItem("mw", "{}");
+            }
+            this.change("INIT");
+            return lsmw;
+
+        } catch (error) {
+            console.log(error);
         }
-        this.change("INIT");
-        return lsmw;
+
+
     },
     set: function (key, val) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        curr[key] = val;
-        var a = localStorage.setItem("mw", JSON.stringify(curr));
-        mw.storage.change("CALL", key, val);
-        return a;
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            curr[key] = val;
+            var a = localStorage.setItem("mw", JSON.stringify(curr));
+            mw.storage.change("CALL", key, val);
+            return a;
+        } catch (error) {
+            console.log(error);
+        }
+
     },
     get: function (key) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        return curr[key];
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            return curr[key];
+        } catch (error) {
+            console.log(error);
+        }
     },
     _keys: {},
     change: function (key, callback, other) {
@@ -2874,14 +2910,14 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
-                    if(e.newValue === null){
+                    if (e.newValue === null) {
                         return;
                     }
 
-                    if(e.oldValue === null){
+                    if (e.oldValue === null) {
                         return;
                     }
-                   
+
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);

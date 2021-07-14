@@ -50,8 +50,53 @@ export class LiveEdit {
             viewWindow: window,
 
             // url or array
-            modules: [],
-            layouts: [],
+            modules: [
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "CLEAN CONTAINER",
+                    "position": 0,
+                    "layout_file": "skin-1.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.php",
+                    "screenshot_file": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    "screenshot": "https://unit.microweber.com/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    data: 'http://asas.com'
+                },
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "lang Key",
+                    "position": 0,
+                    "layout_file": "skin-lang-key.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-lang-key.php"
+                }
+            ],
+            xlayouts: 'https://unit.microweber.com/api/get_layouts_list_json',
+            layouts: [
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "CLEAN CONTAINER",
+                    "position": 0,
+                    "layout_file": "skin-1.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.php",
+                    "screenshot_file": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg",
+                    "screenshot": "https://unit.microweber.com/userfiles/templates/casamia/modules/layouts/templates/skin-1.jpg"
+                },
+                {
+                    "type": "layout",
+                    "directory": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/",
+                    "template_dir": "casamia",
+                    "name": "lang Key",
+                    "position": 0,
+                    "layout_file": "skin-lang-key.php",
+                    "filename": "/home/unitmicroweber/public_html/userfiles/templates/casamia/modules/layouts/templates/skin-lang-key.php"
+                }
+            ],
+            loadModulesURL: 'http://localhost/mw2/module'
         };
 
         this.settings = ObjectService.extend({}, defaults, options);

@@ -1,6 +1,7 @@
 import {HandleMenu} from "../handle-menu";
 import {ElementManager} from "../element";
 import {DomService} from "../dom";
+import {Dialog} from "../dialog";
 
 const _getModulesDataCache = {};
 
@@ -12,7 +13,7 @@ export const getModulesData = (u) => {
            if(_getModulesDataCache[u]) {
                resolve(_getModulesDataCache[u])
            } else {
-               fetch(u).then(res => res.json()).then(res => {
+               fetch(u, {mode: 'cors'}).then(res => res.json()).then(res => {
                    _getModulesDataCache[u] = res;
                    resolve( res )
                })
@@ -29,8 +30,8 @@ const singleModuleItemRender = (data, type) => {
         },
         content: [
             {
-                props: { className: 'le-selectable-items-list-image', },
-                css: { backgroundImage: 'url(' + data.icon + ')' }
+                props: { className: 'le-selectable-items-list-image', style: { backgroundImage: 'url(' + (data.icon || data.screenshot) + ')' }},
+
             },
             {
                 props: {
@@ -39,10 +40,49 @@ const singleModuleItemRender = (data, type) => {
                 }
             }
         ]
-    })
+    });
+
+    el.get(0).__data = data
 
     return el;
 }
+
+const _loadModuleCache = {}
+
+export const loadModule = (obj, endpoint) => {
+    return new Promise(resolve => {
+        if(!obj || (!obj.id && !obj.layout_file)){
+            resolve(null);
+            return;
+        }
+        const params = {
+            ondrop: true,
+        }
+        if(obj.module) {
+            params['data-module-name'] = obj.module;
+        } else if(obj.type === 'layout') {
+            params['data-module-name'] = 'layouts';
+            params['template'] = obj.layout_file;
+        }
+
+        const conf = {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+
+        fetch(endpoint, conf)
+            .then(resp => resp.text())
+            .then(html => {
+                console.log(html)
+            })
+
+    })
+}
+
 export const modulesDataRender = (data, type) => {
     const el = ElementManager({
         props: {
@@ -206,32 +246,44 @@ export const LayoutHandleContent = function (scope) {
         ],
     });
 
-    var plusLabel = 'Add Layout';
-
-    this.plusTop = ElementManager({
-        props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
-            innerHTML: scope.lang(plusLabel)
+    this.addButtons = function (){
+        if(!scope.settings.layouts) {
+            return;
         }
-    });
+        var plusLabel = 'Add Layout';
 
-    this.plusBottom = ElementManager({
-        props: {
-            className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
-            innerHTML: scope.lang(plusLabel)
-        }
-    });
-
-    this.plusTop.on('click', function (){
-        getModulesData(scope.settings.layouts).then(data => {
-
+        this.plusTop = ElementManager({
+            props: {
+                className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
+                innerHTML: scope.lang(plusLabel)
+            }
         });
-    });
 
+        this.plusBottom = ElementManager({
+            props: {
+                className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
+                innerHTML: scope.lang(plusLabel)
+            }
+        });
+
+        this.plusTop.on('click', function (){
+            getModulesData(scope.settings.layouts).then(data => {
+                const content = modulesDataRender(data, 'layouts');
+                new Dialog({
+                    content: content,
+                    document: scope.settings.document
+                });
+                ElementManager('.le-selectable-items-list-item', content).on('click', function (){
+                    loadModule(this.__data, scope.settings.loadModulesURL)
+                })
+            });
+        });
+
+        this.root.append(this.plusTop)
+        this.root.append(this.plusBottom)
+    }
     this.menu.show()
-
-    this.root.append(this.plusTop)
-    this.root.append(this.plusBottom)
+    this.addButtons()
     this.root.append(this.menu.root)
 
 }
