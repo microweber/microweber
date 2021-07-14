@@ -4,16 +4,20 @@ namespace MicroweberPackages\Shop\Http\Controllers;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Blog\Http\Controllers\Traits\CustomFieldsRenderTrait;
+use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 
 class LiveEditAdminController
 {
     use CustomFieldsRenderTrait;
 
+    public $model = Product::class;
+
     public function index(Request $request)
     {
         $moduleId = $request->get('id');
 
-        $pages = \MicroweberPackages\Content\Content::where('content_type', 'page')
+        $pages = Page::where('content_type', 'page')
             //->where('subtype','dynamic')
              ->where('is_shop', 1)
             ->get();

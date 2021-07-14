@@ -6,12 +6,10 @@ use MicroweberPackages\Content\Content;
 
 trait CustomFieldsRenderTrait
 {
-
     public function getCustomFieldByParentIdAndModuleId($parentId, $moduleId)
     {
-        $query = Content::query();
-        //$query->with('tagged');
-
+        $query = $this->model::query();
+        $query->with('customField');
         $query->where('parent', $parentId);
 
         $results = $query->get();
