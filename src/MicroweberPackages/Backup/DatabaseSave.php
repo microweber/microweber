@@ -26,11 +26,35 @@ class DatabaseSave
         if (isset($tableData['description'])) {
             $product->description = $tableData['description'];
         }
+        if (isset($tableData['pictures'])) {
+            self::downloadMedia($tableData['pictures']);
+        }
 
         $product->price = $tableData['price'];
         $save = $product->save();
 
         return $save;
+    }
+
+    public static function downloadMedia($imageUrl) {
+
+        $photoId = md5($imageUrl);
+        $filename = media_uploads_path() . $photoId . '.tmp';
+        $filenameUrl = media_uploads_url() . $photoId . '.tmp';
+
+        $downloaded = mw()->http->url($imageUrl)->download($filename);
+        if ($downloaded && is_file($filename)) {
+            $imageExt = strtolower(mime_content_type($filename));
+            if (strpos($imageExt, 'image/') !== false) {
+                $imageExt = str_replace('image/', '', $imageExt);
+                $newFilename = media_uploads_path() . $photoId .'.'. $imageExt;
+                rename($filename, $newFilename);
+                if (is_file($newFilename)) {
+
+                    
+                }
+            }
+        }
     }
 
 	public static function save($table, $tableData)
