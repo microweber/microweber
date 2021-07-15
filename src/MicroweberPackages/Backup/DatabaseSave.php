@@ -14,12 +14,22 @@ class DatabaseSave
 {
     public static function saveProduct($tableData)
     {
-        $product = new Product();
-        $product->title = $tableData['title'];
-        $product->content_body = $tableData['content_body'];
-        $product->description = $tableData['description'];
+        $product = Product::where('title', $tableData['title'])->first();
+        if ($product == null) {
+            $product = new Product();
+            $product->title = $tableData['title'];
+        }
+
+        if (isset($tableData['content_body'])) {
+            $product->content_body = $tableData['content_body'];
+        }
+        if (isset($tableData['description'])) {
+            $product->description = $tableData['description'];
+        }
+
         $product->price = $tableData['price'];
         $save = $product->save();
+
         return $save;
     }
 
