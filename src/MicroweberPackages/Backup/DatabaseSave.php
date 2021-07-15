@@ -55,6 +55,8 @@ class DatabaseSave
 
                     $media = new Media();
                     $media->rel_id = $contentId;
+                    $media->name = $photoId;
+                    $media->filename = $newFilename;
                     $media->rel_type = 'content';
                     $media->media_type = 'picture';
                     $save = $media->save();
