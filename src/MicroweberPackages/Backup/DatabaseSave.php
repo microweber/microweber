@@ -29,13 +29,13 @@ class DatabaseSave
         }
 
         $product->price = $tableData['price'];
-        $save = $product->save();
+        $product->save();
 
         if (isset($tableData['pictures'])) {
-            self::downloadAndSaveMedia($tableData['pictures'], $save);
+            self::downloadAndSaveMedia($tableData['pictures'], $product->id);
         }
 
-        return $save;
+        return $product;
     }
 
     public static function downloadAndSaveMedia($imageUrl, $contentId) {
@@ -52,14 +52,13 @@ class DatabaseSave
                 $newFilename = media_uploads_path() . $photoId .'.'. $imageExt;
                 rename($filename, $newFilename);
                 if (is_file($newFilename)) {
-
-                    $media = new Media();
-                    $media->rel_id = $contentId;
-                    $media->name = $photoId;
-                    $media->filename = $newFilename;
-                    $media->rel_type = 'content';
-                    $media->media_type = 'picture';
-                    $save = $media->save();
+                    mw()->media_manager->save([
+                        'rel_id'=>$contentId,
+                        'rel_type'=>'content',
+                        'media_type'=>'picture',
+                        'name'=>$photoId,
+                        'filename'=>$newFilename
+                    ]);
                 }
             }
         }
