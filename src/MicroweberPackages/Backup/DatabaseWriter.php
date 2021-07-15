@@ -100,6 +100,15 @@ class DatabaseWriter
 
 	private function _saveItemDatabase($item) {
 
+		if ($this->overwriteById) {
+            if (isset($item['price'])) {
+                $itemIdDatabase = DatabaseSave::saveProduct($item);
+                BackupImportLogger::setLogInfo('Saving product.. item id: ' . $itemIdDatabase);
+
+                return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+            }
+        }
+
 		if ($this->overwriteById && isset($item['id'])) {
 
 			// We will overwrite content by id from our db structure
@@ -111,13 +120,8 @@ class DatabaseWriter
 			$dbSelectParams['fields'] = 'id';
 			$dbSelectParams['id'] = $item['id'];
 
-			if (isset($item['price'])) {
-                $itemIdDatabase = DatabaseSave::saveProduct($item);
-                BackupImportLogger::setLogInfo('Saving product.. item id: ' . $itemIdDatabase);
-            } else {
-                $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
-                BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
-            }
+            $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
+            BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
 
             return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 		}

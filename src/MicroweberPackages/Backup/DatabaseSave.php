@@ -35,7 +35,7 @@ class DatabaseSave
             self::downloadAndSaveMedia($tableData['pictures'], $product->id);
         }
 
-        return $product;
+        return $product->id;
     }
 
     public static function downloadAndSaveMedia($imageUrl, $contentId) {
