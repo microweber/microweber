@@ -111,8 +111,13 @@ class DatabaseWriter
 			$dbSelectParams['fields'] = 'id';
 			$dbSelectParams['id'] = $item['id'];
 
-			$itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
-            BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase );
+			if (isset($item['price'])) {
+                $itemIdDatabase = DatabaseSave::saveProduct($item['save_to_table'], $item);
+                BackupImportLogger::setLogInfo('Saving product "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
+            } else {
+                $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
+                BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
+            }
 
             return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 		}
