@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Backup;
 
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Product\Models\Product;
 
 /**
@@ -26,17 +27,18 @@ class DatabaseSave
         if (isset($tableData['description'])) {
             $product->description = $tableData['description'];
         }
-        if (isset($tableData['pictures'])) {
-            self::downloadMedia($tableData['pictures']);
-        }
 
         $product->price = $tableData['price'];
         $save = $product->save();
 
+        if (isset($tableData['pictures'])) {
+            self::downloadAndSaveMedia($tableData['pictures'], $save);
+        }
+
         return $save;
     }
 
-    public static function downloadMedia($imageUrl) {
+    public static function downloadAndSaveMedia($imageUrl, $contentId) {
 
         $photoId = md5($imageUrl);
         $filename = media_uploads_path() . $photoId . '.tmp';
@@ -51,7 +53,11 @@ class DatabaseSave
                 rename($filename, $newFilename);
                 if (is_file($newFilename)) {
 
-                    
+                    $media = new Media();
+                    $media->rel_id = $contentId;
+                    $media->rel_type = 'content';
+                    $media->media_type = 'picture';
+                    $save = $media->save();
                 }
             }
         }
