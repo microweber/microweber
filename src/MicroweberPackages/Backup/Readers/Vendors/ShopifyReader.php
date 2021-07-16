@@ -15,36 +15,36 @@ class ShopifyReader extends DefaultXmlReader
 
             $nodeData = $this->getArrayFromDomNode($entry);
 
-            if (isset($nodeData['s:variant'])) {
+            $saveData = [];
 
+            if (isset($nodeData['title'][0]['#text'])) {
+                $saveData['title'] = $nodeData['title'][0]['#text'];
+            }
+
+            $variants = [];
+            if (isset($nodeData['s:variant'])) {
                 foreach ($nodeData['s:variant'] as $variant) {
 
-                    $saveData = [];
-
-                    if (isset($nodeData['title'][0]['#text'])) {
-                        $saveData['title'] = $nodeData['title'][0]['#text'];
-                    }
+                    $saveVariant = [];
 
                     if (isset($variant['title'][0]['#text'])) {
-                        $saveData['variant_title'] = $variant['title'][0]['#text'];
+                        $saveVariant['variant_title'] = $variant['title'][0]['#text'];
                     }
 
-                    $saveData['title'] = $saveData['title'] . ' - ' . $saveData['variant_title'];
-
                     if (isset($variant['s:price'][0]['#text'])) {
-                        $saveData['price'] = $variant['s:price'][0]['#text'];
+                        $saveVariant['price'] = $variant['s:price'][0]['#text'];
                     }
 
                     if (isset($variant['s:sku'][0]['#text'])) {
-                        $saveData['sku'] = $variant['s:sku'][0]['#text'];
+                        $saveVariant['sku'] = $variant['s:sku'][0]['#text'];
                     }
 
                     if (isset($variant['s:vendor'][0]['#text'])) {
-                        $saveData['brand'] = $variant['s:vendor'][0]['#text'];
+                        $saveVariant['brand'] = $variant['s:vendor'][0]['#text'];
                     }
 
                     if (isset($variant['s:price'][0]['currency'])) {
-                        $saveData['data_currency'] = $variant['s:price'][0]['currency'];
+                        $saveVariant['data_currency'] = $variant['s:price'][0]['currency'];
                     }
 
                     $contentBody = false;
@@ -52,17 +52,27 @@ class ShopifyReader extends DefaultXmlReader
                         $contentBody = $nodeData['summary'][0]['#text'][0];
                     }
 
-                    $saveData['content_body'] = $contentBody;
+                    $saveVariant['content_body'] = $contentBody;
 
                      $firstImage = app()->media_manager->get_first_image_from_html($contentBody);
                     if ($firstImage) {
-                        $saveData['pictures'] = $firstImage;
+                        $saveVariant['pictures'] = $firstImage;
                     }
 
 
-                    $data[] = $saveData;
+                    $variants[] = $saveVariant;
                 }
             }
+
+            if (!empty($variants)) {
+                $saveData['price'] = $variants[0]['price'];
+                $saveData['content_body'] = $variants[0]['content_body'];
+                $saveData['pictures'] = $variants[0]['pictures'];
+            }
+
+            $saveData['variants'] = $variants;
+
+            $data[] = $saveData;
         }
 
         return array("content"=>$data);;
