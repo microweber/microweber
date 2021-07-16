@@ -43,6 +43,7 @@ class DatabaseSave
                 if ($productVariant == null) {
                     $productVariant = new ProductVariant();
                     $productVariant->title = $variantData['title'];
+                    $productVariant->parent = $product->id;
                 }
 
                 if (isset($variantData['content_body'])) {
