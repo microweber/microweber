@@ -199,6 +199,12 @@ if (isset($params['quick_edit'])) {
             $formActionUrl = route('api.product.update', $data['id']);
         }
     }
+    if (isset($data['content_type']) and $data['content_type'] == 'product_variant') {
+        $formActionUrl = route('api.product_variant.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('api.product_variant.update', $data['id']);
+        }
+    }
     if (isset($data['content_type']) and $data['content_type'] == 'post') {
         $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {

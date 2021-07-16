@@ -152,6 +152,8 @@
     if (isset($productVariant) && $productVariant !== null) {
         $showTags = false;
         $showCategories = false;
+
+        $product = \MicroweberPackages\Product\Models\Product::where('id', $productVariant->parent)->first();
     }
     ?>
 
