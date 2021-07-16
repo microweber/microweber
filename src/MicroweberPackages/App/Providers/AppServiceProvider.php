@@ -27,6 +27,8 @@ use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
+use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
+use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
 use MicroweberPackages\Shop\ShopServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
@@ -200,6 +202,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
+        $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
         $this->app->register(UserServiceProvider::class);

@@ -3,11 +3,22 @@
 namespace MicroweberPackages\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Database\Observers\CreatedByObserver;
-use MicroweberPackages\ContentData\Models\ContentData;
+
+use MicroweberPackages\Repository\Repositories\ContentRepository;
+use MicroweberPackages\Repository\Repositories\Interfaces\ContentRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
+
+    public function register()
+    {
+        $this->app->bind(
+            ContentRepositoryInterface::class,
+            ContentRepository::class
+        );
+    }
+
+
     /**
      * Bootstrap any application services.
      *
@@ -15,7 +26,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       // ContentData::observe(CreatedByObserver::class);
+        // ContentData::observe(CreatedByObserver::class);
     }
 
 }

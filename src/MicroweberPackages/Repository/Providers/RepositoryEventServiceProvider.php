@@ -21,10 +21,10 @@ class RepositoryEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
         ContentWasCreated::class => [
-            AddContentDataProductListener::class
+        //    AddContentDataProductListener::class
         ],
         ContentWasUpdated::class => [
-            EditContentDataProductListener::class
+        //    EditContentDataProductListener::class
         ]
     ];
 }
