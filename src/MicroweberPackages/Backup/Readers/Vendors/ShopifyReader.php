@@ -28,7 +28,7 @@ class ShopifyReader extends DefaultXmlReader
                     $saveVariant = [];
 
                     if (isset($variant['title'][0]['#text'])) {
-                        $saveVariant['variant_title'] = $variant['title'][0]['#text'];
+                        $saveVariant['title'] = $variant['title'][0]['#text'];
                     }
 
                     if (isset($variant['s:price'][0]['#text'])) {

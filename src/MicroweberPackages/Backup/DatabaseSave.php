@@ -3,6 +3,7 @@ namespace MicroweberPackages\Backup;
 
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Product\Models\ProductVariant;
 
 /**
  * Microweber - Backup Module Database Save
@@ -13,26 +14,51 @@ use MicroweberPackages\Product\Models\Product;
  */
 class DatabaseSave
 {
-    public static function saveProduct($tableData)
+    public static function saveProduct($productData)
     {
-        $product = Product::where('title', $tableData['title'])->first();
+        $product = Product::where('title', $productData['title'])->first();
         if ($product == null) {
             $product = new Product();
-            $product->title = $tableData['title'];
+            $product->title = $productData['title'];
         }
 
-        if (isset($tableData['content_body'])) {
-            $product->content_body = $tableData['content_body'];
+        if (isset($productData['content_body'])) {
+            $product->content_body = $productData['content_body'];
         }
-        if (isset($tableData['description'])) {
-            $product->description = $tableData['description'];
+        if (isset($productData['description'])) {
+            $product->description = $productData['description'];
         }
 
-        $product->price = $tableData['price'];
+        $product->price = $productData['price'];
         $product->save();
 
-        if (isset($tableData['pictures'])) {
-            self::downloadAndSaveMedia($tableData['pictures'], $product->id);
+        if (isset($productData['pictures'])) {
+            self::downloadAndSaveMedia($productData['pictures'], $product->id);
+        }
+
+        if (isset($productData['variants']) && !empty($productData['variants'])) {
+            foreach ($productData['variants'] as $variantData) {
+
+                $productVariant = ProductVariant::where('title', $variantData['title'])->where('parent', $product->id)->first();
+                if ($productVariant == null) {
+                    $productVariant = new ProductVariant();
+                    $productVariant->title = $variantData['title'];
+                }
+
+                if (isset($variantData['content_body'])) {
+                    $productVariant->content_body = $variantData['content_body'];
+                }
+                if (isset($variantData['description'])) {
+                    $productVariant->description = $variantData['description'];
+                }
+
+                $productVariant->price = $variantData['price'];
+                $productVariant->save();
+
+                if (isset($variantData['pictures'])) {
+                    self::downloadAndSaveMedia($variantData['pictures'], $productVariant->id);
+                }
+            }
         }
 
         return $product->id;
@@ -64,12 +90,12 @@ class DatabaseSave
         }
     }
 
-	public static function save($table, $tableData)
+	public static function save($table, $productData)
 	{
-		$tableData['skip_cache'] = true;
-		$tableData['allow_html'] = true;
-		$tableData['allow_scripts'] = true;
+		$productData['skip_cache'] = true;
+		$productData['allow_html'] = true;
+		$productData['allow_scripts'] = true;
 
-		return db_save($table, $tableData);
+		return db_save($table, $productData);
 	}
 }
