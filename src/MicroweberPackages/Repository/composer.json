@@ -1,0 +1,21 @@
+{
+    "name": "microweber-packages/microweber-repository",
+    "description": "Repository container",
+    "version" : "0.0.1",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+  ],
+  "autoload": {
+      "psr-4": {
+        "MicroweberPackages\\Repository\\": ""
+      }
+  },
+  "homepage": "http://microweber.org",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}
