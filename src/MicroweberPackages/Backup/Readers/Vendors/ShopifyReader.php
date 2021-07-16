@@ -40,11 +40,15 @@ class ShopifyReader extends DefaultXmlReader
                     }
 
                     if (isset($variant['s:vendor'][0]['#text'])) {
-                        $saveVariant['brand'] = $variant['s:vendor'][0]['#text'];
+                        $saveVariant['content_data']['brand'] = $variant['s:vendor'][0]['#text'];
+                    }
+
+                    if (isset($variant['s:grams'][0]['#text'])) {
+                        $saveVariant['content_data']['grams'] = $variant['s:grams'][0]['#text'];
                     }
 
                     if (isset($variant['s:price'][0]['currency'])) {
-                        $saveVariant['data_currency'] = $variant['s:price'][0]['currency'];
+                        $saveVariant['content_data']['currency'] = $variant['s:price'][0]['currency'];
                     }
 
                     $contentBody = false;

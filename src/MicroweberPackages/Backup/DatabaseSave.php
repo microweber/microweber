@@ -32,6 +32,10 @@ class DatabaseSave
         $product->price = $productData['price'];
         $product->save();
 
+        if (isset($productData['content_data']) && !empty($productData['content_data'])) {
+            $product->setContentData($productData['content_data']);
+        }
+
         if (isset($productData['pictures'])) {
             self::downloadAndSaveMedia($productData['pictures'], $product->id);
         }
@@ -55,6 +59,10 @@ class DatabaseSave
 
                 $productVariant->price = $variantData['price'];
                 $productVariant->save();
+
+                if (isset($variantData['content_data']) && !empty($variantData['content_data'])) {
+                    $productVariant->setContentData($variantData['content_data']);
+                }
 
                 if (isset($variantData['pictures'])) {
                     self::downloadAndSaveMedia($variantData['pictures'], $productVariant->id);

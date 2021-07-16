@@ -55,6 +55,10 @@ trait ContentDataTrait
         return $this->morphMany(ContentData::class, 'rel');
     }
 
+    /**
+     * Set content data can be used only if parent model allready have a created resource.
+     * @param $values
+     */
     public function setContentData($values)
     {
         foreach ($values as $key => $val) {
