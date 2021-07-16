@@ -35,6 +35,10 @@ class ShopifyReader extends DefaultXmlReader
                         $saveData['price'] = $variant['s:price'][0]['#text'];
                     }
 
+                    if (isset($variant['s:sku'][0]['#text'])) {
+                        $saveData['sku'] = $variant['s:sku'][0]['#text'];
+                    }
+
                     if (isset($variant['s:price'][0]['currency'])) {
                         $saveData['data_currency'] = $variant['s:price'][0]['currency'];
                     }
@@ -56,6 +60,8 @@ class ShopifyReader extends DefaultXmlReader
                 }
             }
         }
+
+        dd($data);
 
         return array("content"=>$data);;
 
