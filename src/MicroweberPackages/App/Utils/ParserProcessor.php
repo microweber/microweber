@@ -999,7 +999,7 @@ class ParserProcessor
 
       ///  dump($this->have_more);
 
-         if (!$coming_from_parent or   !$this->have_more) {
+        if (!$coming_from_parent or   !$this->have_more or $it_loop == 0 ) {
 
           $layout = $this->_replace_tags_with_placeholders_back($layout);
 
