@@ -144,6 +144,27 @@
         </div>
     </div>
 
+
+
+    <?php if(isset($product) && $product !== null): ?>
+    <div class="card style-1 mb-3 product-variants">
+        <div class="card-body pt-3 pb-1">
+            <div class="row">
+                <div class="col-12">
+                    <strong><?php _e("Variants"); ?></strong>
+
+                    <div class="mt-2 mb-2">
+                        <?php
+                        foreach($product->variants as $variant): ?>
+                           <a href="<?php echo admin_url(); ?>view:content#action=editpage:<?php echo $variant->id; ?>" class="btn btn-outline-primary btn-sm mt-2"><?php echo $variant->title; ?> <i class="mdi mdi-pencil"></i> </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <div class="card style-1 mb-3 categories">
         <div class="card-body pt-3 pb-1">
             <div class="row">
