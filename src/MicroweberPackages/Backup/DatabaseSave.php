@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Backup;
 
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Models\ProductVariant;
 
@@ -16,10 +17,20 @@ class DatabaseSave
 {
     public static function saveProduct($productData)
     {
+        $shopPage = Page::where('content_type', 'page')->where('is_shop', 1)->first();
+        if ($shopPage == null) {
+            $shopPage = new Page();
+            $shopPage->title = 'Shop';
+            $shopPage->content_type = 'page';
+            $shopPage->is_shop = 1;
+            $shopPage->save();
+        }
+
         $product = Product::where('title', $productData['title'])->first();
         if ($product == null) {
             $product = new Product();
             $product->title = $productData['title'];
+            $product->parent = $shopPage->id;
         }
 
         if (isset($productData['content_body'])) {
