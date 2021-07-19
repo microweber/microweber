@@ -4,6 +4,7 @@ namespace MicroweberPackages\Content;
 use MicroweberPackages\Database\Crud;
 use DB;
 use function foo\func;
+use function Opis\Closure\serialize as serializeClosure;
 
 class ContentManagerCrud extends Crud
 {
@@ -124,7 +125,7 @@ class ContentManagerCrud extends Crud
     private $_content_manager_crud_get = [];
     public function get($params = false)
     {
-        $md5_params = md5(serialize($params));
+        $md5_params = md5(serializeClosure($params));
         if (isset($this->_content_manager_crud_get[$md5_params])) {
             return $this->_content_manager_crud_get[$md5_params];
         }

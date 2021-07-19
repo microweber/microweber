@@ -9,6 +9,7 @@
  *
  */
 namespace MicroweberPackages\Database;
+use function Opis\Closure\serialize as serializeClosure;
 
 class Crud
 {
@@ -31,7 +32,7 @@ class Crud
     public function get($params)
     {
 
-        $md5_params = md5(serialize($params));
+        $md5_params = md5(serializeClosure($params));
         if (isset($this->_crud_get_cache[$md5_params])) {
             return $this->_crud_get_cache[$md5_params];
         }

@@ -32,7 +32,7 @@ class TagsManager
 
 
     /**
-     * @deprecated 
+     * @deprecated
      */
     public function get_values($params, $return_full = false)
     {
