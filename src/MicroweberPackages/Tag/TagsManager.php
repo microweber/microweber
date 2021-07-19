@@ -33,10 +33,6 @@ class TagsManager
 
     public function get_values($params, $return_full = false)
     {
-
-        dump($params);
-        return;
-
         if (is_string($params)) {
             $params = parse_params($params);
         }

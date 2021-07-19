@@ -2,12 +2,14 @@
 
 namespace MicroweberPackages\Content;
 
+use Conner\Tagging\Model\Tagged;
 use Content;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
+use phpDocumentor\Reflection\Types\True_;
 
 /**
  * Content class is used to get and save content in the database.
@@ -416,8 +418,19 @@ class ContentManager
         }
         return $this->app->tags_manager->get_values($data, $return_full);*/
 
-        
+        $query = Tagged::query();
+        $query->where('taggable_type','content');
 
+        if ($content_id) {
+            $query->where('taggable_id', $content_id);
+        }
+        $tags = $query->get();
+        $pluck = $tags->pluck('tag_name');
+        if ($return_full) {
+            return $tags;
+        } else {
+            return $pluck->toArray();
+        }
     }
 
     public function attributes($content_id)
