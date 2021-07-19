@@ -70,6 +70,9 @@ class MediaTest extends TestCase
         $newPage->deleteMediaById($newPage->media[0]->id);
 
          foreach ($newPage->media()->get() as $media) {
+
+        //     $newPage->unsetRelation('media');
+
             $media->delete();
         }
 
