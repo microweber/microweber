@@ -808,8 +808,8 @@ class CategoryManager
             return false;
         }
 
-        if (isset($this->_get_by_id[$id][$by_field_name])) {
-            return $this->_get_by_id[$id][$by_field_name];
+        if (isset($this->_get_by_id[$id . $by_field_name])) {
+            return $this->_get_by_id[$id . $by_field_name];
         }
 
         if (is_numeric($id)) {
@@ -833,6 +833,8 @@ class CategoryManager
         if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
+
+        $this->_get_by_id[$id . $by_field_name] = $q;
 
         return $q;
 
