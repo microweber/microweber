@@ -95,18 +95,18 @@ trait CategoryTrait
 
     public function getCategoriesAttribute()
     {
-        $relations = [];
+     /*   $relations = [];
         if ($this->relationLoaded('categoryItems')) {
             $relations = $this->getRelation('categoryItems');
         } else {
             $relations =$this->categoryItems()->with('parent')->get();
             $this->setRelation('categoryItems', $relations);
-        }
+        }*/
 
 
         $categories = [];
 
-        foreach ($relations as $category) {
+        foreach ($this->categoryItems()->with('parent')->get() as $category) {
             $categories[] = $category;
         }
 
