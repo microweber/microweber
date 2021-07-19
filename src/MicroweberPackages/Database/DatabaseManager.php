@@ -98,8 +98,15 @@ class DatabaseManager extends DbUtils
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
      */
+    private $database_manager_get_cache = [];
     public function get($table, $params = null)
     {
+        $ramKey =  crc32(serializeClosure($table) . serializeClosure($params));
+
+        if (isset($this->database_manager_get_cache[$ramKey])) {
+            return $this->database_manager_get_cache[$ramKey];
+        }
+
         if ($params === null) {
             $params = $table;
         } else {
@@ -116,12 +123,14 @@ class DatabaseManager extends DbUtils
         }
 
         if (!isset($params['table'])) {
+            $this->database_manager_get_cache[$ramKey] = false;
             return false;
         } else {
             $table = trim($params['table']);
             unset($params['table']);
         }
         if (!$table) {
+            $this->database_manager_get_cache[$ramKey] = false;
             return false;
         }
 
@@ -229,6 +238,7 @@ class DatabaseManager extends DbUtils
 
         $ttl = $this->table_cache_ttl;
         if (!$query) {
+            $this->database_manager_get_cache[$ramKey] = false;
             return;
         }
 
@@ -258,40 +268,42 @@ class DatabaseManager extends DbUtils
             if ($use_cache == false and $cache_from_model == false) {
                 $query = $query->count();
             } else {
-                $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
-                    return $query->count();
+                $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query, $ramKey) {
+                    $queryCount = $query->count();
+                    $this->database_manager_get_cache[$ramKey] = $queryCount;
+                    return $queryCount;
                 });
             }
             if ($items_per_page != false and is_numeric($query)) {
                 // return the pages count
                 $query = intval(ceil($query / $items_per_page));
             }
-
+            $this->database_manager_get_cache[$ramKey] = $query;
             return $query;
         }
 
         if (isset($orig_params['min']) and ($orig_params['min'])) {
             $column = $orig_params['min'];
             $query = $query->min($column);
-
+            $this->database_manager_get_cache[$ramKey] = $query;
             return $query;
         }
         if (isset($orig_params['max']) and ($orig_params['max'])) {
             $column = $orig_params['max'];
             $query = $query->max($column);
-
+            $this->database_manager_get_cache[$ramKey] = $query;
             return $query;
         }
         if (isset($orig_params['avg']) and ($orig_params['avg'])) {
             $column = $orig_params['avg'];
             $query = $query->avg($column);
-
+            $this->database_manager_get_cache[$ramKey] = $query;
             return $query;
         }
         if (isset($orig_params['sum']) and ($orig_params['sum'])) {
             $column = $orig_params['sum'];
             $query = $query->sum($column);
-
+            $this->database_manager_get_cache[$ramKey] = $query;
             return $query;
         }
 
@@ -331,7 +343,7 @@ class DatabaseManager extends DbUtils
 
         } else {
 
-            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params) {
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params, $ramKey) {
 
 
                 $queryResponse = $query->get();
@@ -342,18 +354,20 @@ class DatabaseManager extends DbUtils
                         $queryResponse->makeHidden(array_keys($builderModel->attributesToArray()));
                     }
                 }
-
+                $this->database_manager_get_cache[$ramKey] = $queryResponse;
                 return $queryResponse;
             });
         }
 
         if ($data == false or empty($data)) {
+            $this->database_manager_get_cache[$ramKey] = false;
             return false;
         }
 
         if (is_object($data)
         ) {
             if (isset($orig_params['collection']) and ($orig_params['collection'])) {
+                $this->database_manager_get_cache[$ramKey] = $data;
                 return $data;
             } else {
                 $data = $this->_collection_to_array($data);
@@ -370,7 +384,7 @@ class DatabaseManager extends DbUtils
 
 
         if (empty($data)) {
-
+            $this->database_manager_get_cache[$ramKey] = false;
             return false;
         } else {
             if (!$do_not_replace_site_url) {
@@ -380,6 +394,7 @@ class DatabaseManager extends DbUtils
 
 
         if (!is_array($data)) {
+            $this->database_manager_get_cache[$ramKey] = $data;
             return $data;
         }
 
@@ -389,19 +404,21 @@ class DatabaseManager extends DbUtils
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
-
+                $this->database_manager_get_cache[$ramKey] = false;
                 return false;
             }
 
             if (is_object($data[0]) and isset($data[0]->id)) {
                 // might be a bug here?
+                $this->database_manager_get_cache[$ramKey] = (array) $data[0];
                 return (array)$data[0];
             }
 
+            $this->database_manager_get_cache[$ramKey] = $data[0];
             return $data[0];
         }
 
-
+        $this->database_manager_get_cache[$ramKey] = $data;
         return $data;
     }
 
