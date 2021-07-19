@@ -166,10 +166,11 @@
 
                     <div class="mt-2 mb-2">
                         <?php
+                        if (isset($product->variants)):
                         $productVariants = $product->variants;
                         foreach($productVariants as $variant): ?>
                            <a href="<?php echo admin_url(); ?>view:content#action=editpage:<?php echo $variant->id; ?>" class="btn btn-outline-primary btn-sm mt-2"><?php echo $variant->title; ?> <i class="mdi mdi-pencil"></i> </a>
-                        <?php endforeach; ?>
+                        <?php endforeach; endif; ?>
                     </div>
                 </div>
             </div>
