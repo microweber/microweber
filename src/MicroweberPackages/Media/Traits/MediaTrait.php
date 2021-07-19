@@ -6,14 +6,22 @@ use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Media\Models\Media;
 
 
-trait MediaTrait {
+trait MediaTrait
+{
 
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
     private $_newMediaToAssociateIds = [];
 
+
+    public function initializeMediaTrait()
+    {
+      //  $this->appends[] = 'media';
+        $this->fillable[] = 'media_ids';
+    }
+
     public function media()
     {
-        return $this->hasMany(Media::class, 'rel_id')->orderBy('position','asc');
+        return $this->hasMany(Media::class, 'rel_id')->orderBy('position', 'asc');
     }
 
     public function thumbnail($width = false, $height = false, $crop = false)
@@ -30,10 +38,10 @@ trait MediaTrait {
     {
         $media = $this->media()->first();
         if ($media) {
-           return $media->filename;
+            return $media->filename;
         }
 
-        return pixum(100,100);
+        return pixum(100, 100);
     }
 
     public function addMedia($mediaArr)
@@ -50,18 +58,23 @@ trait MediaTrait {
 
     public function getMediaAttribute()
     {
+        /*if ($this->relationLoaded('media')) {
+            return $this->getRelation('media');
+        }
+
+        $relation = $this->media()->get();
+        $this->setRelation('media',$relation);
+
+        return $relation;*/
+
         return $this->media()->get();
     }
 
-    public function initializeMediaTrait()
-    {
-    	$this->appends[] = 'media';
-        $this->fillable[] = 'media_ids';
-    }
+
 
     public static function bootMediaTrait()
     {
-        static::saving(function ($model)  {
+        static::saving(function ($model) {
 
             $mediaIds = [];
 
@@ -80,9 +93,9 @@ trait MediaTrait {
             unset($model->media_ids);
         });
 
-        static::saved(function ($model)  {
+        static::saved(function ($model) {
 
-            Media::where('session_id', Session::getId())->where('rel_id', 0)->update(['rel_id'=> $model->id]);
+            Media::where('session_id', Session::getId())->where('rel_id', 0)->update(['rel_id' => $model->id]);
 
             if (is_array($model->_newMediaToAssociate) && !empty($model->_newMediaToAssociate)) {
                 foreach ($model->_newMediaToAssociate as $mediaArr) {
@@ -102,13 +115,14 @@ trait MediaTrait {
         });
     }
 
-    public function setMedias($mediaIds) {
+    public function setMedias($mediaIds)
+    {
 
         if (is_string($mediaIds)) {
             $mediaIds = explode(',', $mediaIds);
         }
 
-        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type',$this->getMorphClass())->get();
+        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
         if ($entityMedias) {
             foreach ($entityMedias as $entityMedia) {
                 if (!in_array($entityMedia->id, $mediaIds)) {
@@ -120,7 +134,7 @@ trait MediaTrait {
         if (!empty($mediaIds)) {
             foreach ($mediaIds as $mediaId) {
 
-                $media = Media::where('rel_id', $this->id)->where('rel_type',$this->getMorphClass())->where('id', $mediaId)->first();
+                $media = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->where('id', $mediaId)->first();
                 if (!$media) {
                     $media = new Media();
                 }

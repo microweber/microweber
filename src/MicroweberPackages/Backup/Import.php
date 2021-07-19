@@ -19,7 +19,7 @@ class Import
 	 *
 	 * @var string
 	 */
-	public $type; 
+	public $type;
 
 	/**
 	 * The import file path
@@ -62,7 +62,7 @@ class Import
 	public function setLanguage($abr) {
 	    $this->language = $abr;
     }
-	
+
 	/**
 	 * Import data as type
 	 *
@@ -108,7 +108,7 @@ class Import
             BackupImportLogger::setLogInfo('Start importing session..');
 		}
         $cacheFileFolder = userfiles_path() .'cache/';
-		$cacheFileName = $cacheFileFolder . md5($this->file);
+		$cacheFileName = $cacheFileFolder . md5($this->file) . time();
 		if (!is_dir($cacheFileFolder)) {
 		    mkdir_recursive($cacheFileFolder);
         }
@@ -180,9 +180,7 @@ class Import
 	 */
 	private function _getReader($data = array())
 	{
-		$reader = false;
-
-		switch ($this->type) {
+	    switch ($this->type) {
 			case 'json':
 				$reader = new JsonReader($data);
 				break;
@@ -210,7 +208,7 @@ class Import
 		}
 
 		$data = $reader->readData();
-		
+
 		return $this->_recognizeDataTableName($data);
 	}
 }

@@ -14,7 +14,7 @@ class BaseRepository implements BaseRepositoryInterface
     /**
      *  Model property on class instances
      *
-     * @var Model
+     * @var Model Eloquent
      */
     protected $model;
 

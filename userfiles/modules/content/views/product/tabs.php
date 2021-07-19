@@ -6,7 +6,7 @@ $contentData = \MicroweberPackages\Product\Models\Product::$contentDataDefault;
 $customFields = \MicroweberPackages\Product\Models\Product::$customFields;
 
 if ($data['id'] > 0) {
-    $product = \MicroweberPackages\Product\Models\Product::find($data['id']);
+    $product = \MicroweberPackages\Product\Models\Product::where('id',$data['id'])->first();
     $contentData = $product->getContentData();
     $productPrice = $product->price;
 }

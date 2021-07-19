@@ -83,7 +83,23 @@ class ScwCookie
 
         // Get popup output
         $add_html = '<script>var modId = \'' . $this->mod_id . '\';</script>';
-        $return[] = $this->getOutputHTML('popup',$add_html);
+        //$return[] = $this->getOutputHTML('popup',$add_html);
+
+        // Module template
+        $module_template = get_option('data-template', $this->mod_id);
+        if ($module_template == false and isset($params['template'])) {
+            $module_template = $params['template'];
+        }
+
+        if ($module_template != false) {
+            $template_file = module_templates('cookie_notice', $module_template);
+        } else {
+            $template_file = module_templates('cookie_notice', 'default');
+        }
+
+        ob_start();
+        include $template_file;
+        $return[] = trim(ob_get_clean());
 
         // Get embed codes
         foreach ($this->config as $configKey => $configValue) {

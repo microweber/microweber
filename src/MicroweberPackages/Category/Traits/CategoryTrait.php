@@ -13,7 +13,7 @@ trait CategoryTrait
 
     public function initializeCategoryTrait()
     {
-        $this->appends[] = 'categories';
+        //$this->appends[] = 'categories';
         //	$this->with[] = 'categoryItems';
         $this->fillable[] = 'category_ids';
     }
@@ -95,6 +95,15 @@ trait CategoryTrait
 
     public function getCategoriesAttribute()
     {
+     /*   $relations = [];
+        if ($this->relationLoaded('categoryItems')) {
+            $relations = $this->getRelation('categoryItems');
+        } else {
+            $relations =$this->categoryItems()->with('parent')->get();
+            $this->setRelation('categoryItems', $relations);
+        }*/
+
+
         $categories = [];
 
         foreach ($this->categoryItems()->with('parent')->get() as $category) {

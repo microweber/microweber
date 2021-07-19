@@ -55,6 +55,8 @@ if ($edit_page_info['is_shop'] == 1) {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
     $type = 'Product';
+} elseif ($edit_page_info['content_type'] == 'product_variant') {
+    $type = 'Product variant';
 } elseif ($edit_page_info['content_type'] == 'post') {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'page') {
@@ -155,6 +157,12 @@ if (isset($params['quick_edit'])) {
             $formActionUrl = route('api.product.update', $data['id']);
         }
     }
+    if (isset($data['content_type']) and $data['content_type'] == 'product_variant') {
+        $formActionUrl = route('api.product_variant.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('api.product_variant.update', $data['id']);
+        }
+    }
     if (isset($data['content_type']) and $data['content_type'] == 'post') {
         $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {
@@ -204,6 +212,8 @@ if (isset($params['quick_edit'])) {
                             <?php
                             $type_icon = 'mdi-text';
                             if ($type == 'Product') {
+                                $type_icon = 'mdi-shopping';
+                            } else if ($type == 'Product variant') {
                                 $type_icon = 'mdi-shopping';
                             } elseif ($type == 'Post') {
                                 $type_icon = 'mdi-text';

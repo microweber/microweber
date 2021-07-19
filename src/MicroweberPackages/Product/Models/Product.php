@@ -185,6 +185,11 @@ class Product extends Content
         return false;
     }
 
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class , 'parent');
+    }
+
     public function getDescriptionAttribute()
     {
         return $this->content;

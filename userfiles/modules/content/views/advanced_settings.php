@@ -160,6 +160,16 @@ if (isset($data['created_by']) and $data['created_by']) {
     <module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"/>
 <?php endif; ?>
 
+   <?php
+    $showSeoSettings = true;
+    $showAdvancedSettings = true;
+    if ($data['content_type'] == 'product_variant') {
+        $showSeoSettings = false;
+        $showAdvancedSettings = false;
+    }
+    ?>
+
+<?php if ($showSeoSettings): ?>
     <!-- SEO Settings -->
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
@@ -219,7 +229,9 @@ if (isset($data['created_by']) and $data['created_by']) {
             </div>
         </div>
     </div>
+<?php endif;?>
 
+    <?php if ($showAdvancedSettings): ?>
     <!-- Advanced Settings -->
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
@@ -527,6 +539,9 @@ if (isset($data['created_by']) and $data['created_by']) {
             </div>
         </div>
     </div>
+    <?php endif; ?>
+
+
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
 
 <?php if (!empty($custom)): ?>
