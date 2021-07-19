@@ -376,7 +376,7 @@ class FieldsManager
         }
 
         $customField->show_label = true;
-        if (!empty($fieldData['show_label'])) {
+        if (isset($fieldData['show_label'])) {
             $customField->show_label = $fieldData['show_label'];
         }
 
