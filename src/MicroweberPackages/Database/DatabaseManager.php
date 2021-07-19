@@ -887,6 +887,9 @@ class DatabaseManager extends DbUtils
 
     public function table($table, $params = [])
     {
+
+        return DB::table($table);
+
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
