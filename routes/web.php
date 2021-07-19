@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('test123', function () {
 
 
+
+    dump(get_content('id=1349') );
+
+    return;
    // clearcache();
 
     //  $controller = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
