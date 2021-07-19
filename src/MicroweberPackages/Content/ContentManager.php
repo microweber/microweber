@@ -409,12 +409,15 @@ class ContentManager
 
     public function tags($content_id = false, $return_full = false)
     {
-        $data = array();
+       /* $data = array();
         $data['table'] = $this->tables['content'];
         if ($content_id) {
             $data['id'] = intval($content_id);
         }
-        return $this->app->tags_manager->get_values($data, $return_full);
+        return $this->app->tags_manager->get_values($data, $return_full);*/
+
+        
+
     }
 
     public function attributes($content_id)
