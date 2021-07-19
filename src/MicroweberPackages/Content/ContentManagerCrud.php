@@ -242,7 +242,7 @@ class ContentManagerCrud extends Crud
                 }
             }
 
-            $this->_content_manager_crud_get[$md5_params] = $get; 
+            $this->_content_manager_crud_get[$md5_params] = $get;
 
             return $get;
         }

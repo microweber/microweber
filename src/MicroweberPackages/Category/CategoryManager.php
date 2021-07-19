@@ -808,9 +808,9 @@ class CategoryManager
             return false;
         }
 
-        if (isset($this->_get_by_id[$id . $by_field_name])) {
+        /*if (isset($this->_get_by_id[$id . $by_field_name])) {
             return $this->_get_by_id[$id . $by_field_name];
-        }
+        }*/
 
         if (is_numeric($id)) {
             $id = intval($id);
