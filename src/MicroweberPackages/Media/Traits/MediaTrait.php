@@ -56,7 +56,9 @@ trait MediaTrait
         }
 
         $relation = $this->media()->get();
-        return $this->setRelation('media',$relation);
+        $this->setRelation('media',$relation);
+
+        return $relation;
     }
 
     public function initializeMediaTrait()
