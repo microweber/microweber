@@ -31,7 +31,7 @@ trait TaggableTrait
 
     public function initializeTaggableTrait()
     {
-        $this->appends[] = 'tags';
+      //  $this->appends[] = 'tags';
         $this->fillable[] = 'tag_names';
     }
 

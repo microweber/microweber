@@ -12,6 +12,13 @@ trait MediaTrait
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
     private $_newMediaToAssociateIds = [];
 
+
+    public function initializeMediaTrait()
+    {
+      //  $this->appends[] = 'media';
+        $this->fillable[] = 'media_ids';
+    }
+
     public function media()
     {
         return $this->hasMany(Media::class, 'rel_id')->orderBy('position', 'asc');
@@ -61,11 +68,7 @@ trait MediaTrait
         return $relation;
     }
 
-    public function initializeMediaTrait()
-    {
-        $this->appends[] = 'media';
-        $this->fillable[] = 'media_ids';
-    }
+
 
     public static function bootMediaTrait()
     {

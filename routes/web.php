@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test123', function () {
 
-    $content = (new MicroweberPackages\Content\Content())->find(1349);
-    dump($content->media()->where('rel_id',1349))->get();
-    //dump(get_content('id=1349') );
+    //$content = (new MicroweberPackages\Content\Content())->find(1349);
+    //dump($content->media()->where('rel_id',1349))->get();
+     dump(get_content('id=1349') );
 
     return;
    // clearcache();

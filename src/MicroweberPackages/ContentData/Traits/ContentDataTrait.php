@@ -12,7 +12,7 @@ trait ContentDataTrait
 
     public function initializeContentDataTrait()
     {
-        $this->appends[] = 'contentData';
+      //  $this->appends[] = 'contentData';
         $this->fillable[] = 'content_data';
     }
 
