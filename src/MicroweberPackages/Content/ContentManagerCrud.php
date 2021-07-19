@@ -126,9 +126,9 @@ class ContentManagerCrud extends Crud
     public function get($params = false)
     {
         $md5_params = md5(serializeClosure($params));
-        if (isset($this->_content_manager_crud_get[$md5_params])) {
+      /*  if (isset($this->_content_manager_crud_get[$md5_params])) {
             return $this->_content_manager_crud_get[$md5_params];
-        }
+        }*/
 
         $params2 = array();
 

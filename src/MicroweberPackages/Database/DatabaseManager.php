@@ -103,9 +103,9 @@ class DatabaseManager extends DbUtils
     {
         $ramKey =  crc32(serializeClosure($table) . serializeClosure($params));
 
-        if (isset($this->database_manager_get_cache[$ramKey])) {
+      /*  if (isset($this->database_manager_get_cache[$ramKey])) {
             return $this->database_manager_get_cache[$ramKey];
-        }
+        }*/
 
         if ($params === null) {
             $params = $table;
@@ -889,7 +889,7 @@ class DatabaseManager extends DbUtils
     {
 
         return DB::table($table);
-
+/*
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
@@ -947,7 +947,7 @@ class DatabaseManager extends DbUtils
             return Media::query();
         }
 
-        return DB::table($table);
+        return DB::table($table);*/
     }
 
     public function supports($table, $feature)
