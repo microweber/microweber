@@ -9,6 +9,7 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
@@ -48,6 +49,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property UrlManager                    $url_manager
  * @property Format                            $format
  * @property ContentManager                $content_manager
+ * @property RepositoryManager                $repository_manager
  * @property CategoryManager               $category_manager
  * @property MenuManager                   $menu_manager
  * @property MediaManager                  $media_manager

@@ -13,18 +13,68 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*
-Route::get('test123', function(){
+Route::get('test123', function () {
 
-    $availableTranslations = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations();
 
-    foreach($availableTranslations as $availableLocale=>$availableLanguage) {
-        $installResponse = \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage($availableLocale);
-    }
+   // clearcache();
 
-    \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage('bg_BG');
+    //  $controller = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+    $controller = app()->repository_manager->driver('content');
+//    dump($controller->find(1349)->contentData);
+//    dump($controller->find(1349)->contentData);
 
-});*/
+    dump(content_data(1349));
+    dump(content_data(1349));
+    dump(content_data(1349));
+    dump(content_data(1349));
+    dump(content_data(1349));
+    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump($controller->find(1349)->contentData);
+//    dump($controller->find(1349)->contentData);
+//    dump($controller->find(1349)->contentData);
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump($controller->find(1349)->contentData()->get());
+//    dump($controller->find(1349)->contentData()->get());
+//    dump($controller->find(1349)->contentData()->get());
+//    dump($controller->find(1349)->contentData()->get());
+//    dump($controller->find(1349)->contentData()->get());
+
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+//    dump(content_data(1349));
+
+
+    return;
+
+//    $controller = app()->make(\MicroweberPackages\Repository\Controllers\ContentRepositoryController::class);
+//    $controller = app()->make(\MicroweberPackages\Repository\Controllers\ContentRepositoryController::class);
+//    $controller = app()->make(\MicroweberPackages\Repository\Controllers\ContentRepositoryController::class);
+//    $controller = app()->make(\MicroweberPackages\Repository\Controllers\ContentRepositoryController::class);
+
+
+    dump($controller->getById(1349)->contentData());
+    dump($controller->getById(1349)->contentData());
+    dump($controller->getById(1349)->contentData());
+    dump($controller->getById(1349)->contentData());
+    dump($controller->getById(1349)->contentData());
+    return;
+    $article = \MicroweberPackages\Content\Content::whereId(1349)->with('contentData')->first();
+    $article = \MicroweberPackages\Content\Content::whereId(1349)->with('contentData')->first();
+    $article = \MicroweberPackages\Content\Content::whereId(1349)->with('contentData')->first();
+    $media = $article->contentData;
+    $media2 = $article->contentData;
+    dump($media, $media2, $article);
+});
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
 

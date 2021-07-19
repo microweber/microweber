@@ -12,8 +12,7 @@
 namespace MicroweberPackages\Repository\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use MicroweberPackages\ContentData\Listeners\AddContentDataProductListener;
-use MicroweberPackages\ContentData\Listeners\EditContentDataProductListener;
+
 use MicroweberPackages\Content\Events\ContentWasCreated;
 use MicroweberPackages\Content\Events\ContentWasUpdated;
 

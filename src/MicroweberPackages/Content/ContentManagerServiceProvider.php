@@ -12,6 +12,9 @@
 namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Content\Repositories\ContentRepositoryManager;
+use MicroweberPackages\Repository\Controllers\ContentRepositoryController;
 
 
 class ContentManagerServiceProvider extends ServiceProvider
@@ -38,10 +41,20 @@ class ContentManagerServiceProvider extends ServiceProvider
         });
 
         /**
-         * @property \MicroweberPackages\Content\ArtributesManager    $attributes_manager
+         * @property \MicroweberPackages\Content\AttributesManager    $attributes_manager
          */
         $this->app->singleton('attributes_manager', function ($app) {
             return new AttributesManager();
+        });
+
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+
+            $repositoryManager->extend('content', function () {
+                return new ContentRepositoryManager(app()->make(ContentRepository::class) );
+            });
+
         });
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');

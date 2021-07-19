@@ -3,20 +3,21 @@
 namespace MicroweberPackages\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Container\Container;
 
-use MicroweberPackages\Repository\Repositories\ContentRepository;
-use MicroweberPackages\Repository\Repositories\Interfaces\ContentRepositoryInterface;
+use MicroweberPackages\Application;
+use MicroweberPackages\Repository\RepositoryManager;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
 
-    public function register()
-    {
-        $this->app->bind(
-            ContentRepositoryInterface::class,
-            ContentRepository::class
-        );
-    }
+//    public function register()
+//    {
+//        $this->app->bind(
+//            ContentRepositoryInterface::class,
+//            ContentRepository::class
+//        );
+//    }
 
 
     /**
@@ -26,7 +27,18 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // ContentData::observe(CreatedByObserver::class);
-    }
+
+        /**
+         * @property  RepositoryManager repository_manager
+         */
+
+        $this->app->singleton('repository_manager', function ($app) {
+            /**
+             * @var Application $app
+             */
+            return new RepositoryManager($app->make(Container::class));
+        });
+
+     }
 
 }

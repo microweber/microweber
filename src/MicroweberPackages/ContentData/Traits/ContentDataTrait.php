@@ -47,12 +47,18 @@ trait ContentDataTrait
 
     public function getContentDataAttribute()
     {
+        if($this->relationLoaded('contentData')){
+            return $this->getRelation('contentData');
+        }
+
         return $this->contentData()->get();
     }
 
     public function contentData()
     {
-        return $this->morphMany(ContentData::class, 'rel');
+
+       return $this->morphMany(ContentData::class, 'rel');
+      //  return $this->hasMany(ContentData::class, 'rel_type','rel_id');
     }
 
     /**
