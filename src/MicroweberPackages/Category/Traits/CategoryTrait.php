@@ -95,13 +95,15 @@ trait CategoryTrait
 
     public function getCategoriesAttribute()
     {
-     /*   $relations = [];
         if ($this->relationLoaded('categoryItems')) {
             $relations = $this->getRelation('categoryItems');
         } else {
-            $relations =$this->categoryItems()->with('parent')->get();
+            $relations = $this->categoryItems()->with('parent')->get();
             $this->setRelation('categoryItems', $relations);
-        }*/
+        }
+
+        return $relations;
+        /*
 
 
         $categories = [];
@@ -110,7 +112,7 @@ trait CategoryTrait
             $categories[] = $category;
         }
 
-        return collect($categories);
+        return collect($categories);*/
     }
 
 }
