@@ -164,6 +164,7 @@ export class LiveEdit {
             type: 'layout'
         });
 
+
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
@@ -177,6 +178,10 @@ export class LiveEdit {
                 layoutHandleContent.plusBottom.hide()
             }
         });
+
+        layoutHandleContent.handle = layoutHandle;
+        moduleHandleContent.handle = moduleHandle;
+        elementHandleContent.handle = elementHandle;
 
         this.handles = new Handles({
             element: elementHandle,

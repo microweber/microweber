@@ -2,7 +2,7 @@ mw.Spinner = function(options){
     if(!options || !options.element){
         return;
     }
-    this.$element = $(options.element);
+    this.$element = mw.element(options.element);
     if(!this.$element.length) return;
     this.element = this.$element[0];
     if(this.element._mwSpinner){

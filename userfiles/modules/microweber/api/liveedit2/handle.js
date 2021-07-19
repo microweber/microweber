@@ -18,6 +18,10 @@ export const Handle = function (options) {
     var _visible = true;
     var _currentTarget = null;
 
+    this.getTarget = function () {
+        return _currentTarget
+    }
+
     this.isVisible = function () {
         return _visible;
     };

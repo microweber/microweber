@@ -176,8 +176,8 @@ const dialogFooter = (okLabel, cancelLabel) => {
         }
     });
 
-    ft.append(cancel)
-    ft.append(ok)
+    ft.append(cancel);
+    ft.append(ok);
 
     return  {
         ok, cancel
@@ -189,32 +189,57 @@ class Dialog {
         this.document = document;
         options = options || {}
         const defaults = {
-            content: null
+            content: null,
+            overlay: true
         }
         this.settings = Object.assign({}, defaults, options);
         this.build();
-        this.open();
+        setTimeout(_ => this.open())
     }
     build() {
         this.root = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             props: {
-                className: 'le-dialog'
+                className: 'le-dialog',
+
             }
-        })
+        });
+        var closeBtn = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-close',
+            }
+        });
+        closeBtn.on('click', () => {
+            this.remove();
+        });
         this.container = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             props: {
                 className: 'le-dialog-container'
             },
             content: this.settings.content
         })
+        this.root.append(closeBtn);
         this.root.append(this.container);
         this.settings.document.body.appendChild(this.root.get(0))
+        if (this.settings.overlay) {
+            this.overlay()
+        }
     }
     open() {
         this.root.addClass('le-dialog-opened')
     }
     remove() {
         this.root.remove()
+        if(this.overlay){
+            this.overlay.remove()
+        }
+    }
+    overlay() {
+        this.overlay = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-overlay'
+            }
+        })
+        this.settings.document.body.appendChild(this.overlay.get(0))
     }
 }
 
@@ -770,7 +795,7 @@ if (window.customElements) {
 }
 const ElementManager = (config, root) => {
     if (config instanceof Object && !config.nodeType) {
-        config = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, config || {}, { tag: nodeName });
+        config = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, config || {}, { tag: config.tag || nodeName });
     }
     return mw.element(config, root)
 }
@@ -1007,6 +1032,10 @@ const Handle = function (options) {
 
     var _visible = true;
     var _currentTarget = null;
+
+    this.getTarget = function () {
+        return _currentTarget
+    }
 
     this.isVisible = function () {
         return _visible;
@@ -1266,6 +1295,7 @@ const loadModule = (obj, endpoint) => {
         }
         const params = {
             ondrop: true,
+            id: obj.id || 'module-' + Date.now()
         }
         if(obj.module) {
             params['data-module-name'] = obj.module;
@@ -1278,17 +1308,16 @@ const loadModule = (obj, endpoint) => {
             method: 'POST',
             body: JSON.stringify(params),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }
 
 
         fetch(endpoint, conf)
             .then(resp => resp.text())
-            .then(html => {
-                console.log(html)
-            })
-        
+            .then(resp => resolve(resp))
+
+
     })
 }
 
@@ -1297,14 +1326,22 @@ const modulesDataRender = (data, type) => {
         props: {
             className: 'le-selectable-items-list le-selectable-items-list-type-' + type
         }
+    });
+    var cats = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+        props: {
+            className: 'le-selectable-items-list le-selectable-items-list-type-' + type
+        }
     })
+
     data.forEach(function (item){
         el.append(singleModuleItemRender(item))
     })
+
     return el;
 }
 
-const LayoutHandleContent = function (scope) {
+const LayoutHandleContent = function (rootScope) {
+    var scope = this;
     this.root = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
         props: {
             id: 'mw-handle-item-layout-root'
@@ -1312,11 +1349,11 @@ const LayoutHandleContent = function (scope) {
     });
     this.menu = new _handle_menu__WEBPACK_IMPORTED_MODULE_0__.HandleMenu({
         id: 'mw-handle-item-layout-menu',
-        title: scope.lang('Layout'),
-        rootScope: scope,
+        title: rootScope.lang('Layout'),
+        rootScope: rootScope,
         buttons: [
             {
-                title: scope.lang('Settings'),
+                title: rootScope.lang('Settings'),
                 text: '',
                 icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 13.3 15.9" xml:space="preserve"><path d="M8.2,2.4L11,5.1l-8.2,8.2H0v-2.8L8.2,2.4z M11.8,4.3L9,1.6l1.4-1.4C10.5,0.1,10.7,0,10.9,0c0.2,0,0.4,0.1,0.5,0.2l1.7,1.7c0.1,0.1,0.2,0.3,0.2,0.5S13.3,2.8,13.1,3L11.8,4.3z"/><rect y="14.5" width="12" height="1.4"/></svg>',
                 className: 'mw-handle-insert-button',
@@ -1456,36 +1493,52 @@ const LayoutHandleContent = function (scope) {
     });
 
     this.addButtons = function (){
-        if(!scope.settings.layouts) {
+        if(!rootScope.settings.layouts) {
             return;
         }
         var plusLabel = 'Add Layout';
 
+        var handlePlus = function (which) {
+            getModulesData(rootScope.settings.layouts).then(data => {
+                const content = modulesDataRender(data, 'layouts');
+                var dialog = new _dialog__WEBPACK_IMPORTED_MODULE_3__.Dialog({
+                    content: content,
+                    document: rootScope.settings.document,
+                });
+                (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('.le-selectable-items-list-item', content).on('click', function (){
+                    loadModule(this.__data, rootScope.settings.loadModulesURL).then(function (data){
+                        var action;
+                        if(which === 'top') {
+                            action = 'before';
+                        } else if(which === 'bottom') {
+                            action = 'after';
+                        }
+                        (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(scope.handle.getTarget())[action](data);
+                    })
+                    dialog.remove()
+                });
+            });
+        }
+
         this.plusTop = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
             props: {
                 className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-top',
-                innerHTML: scope.lang(plusLabel)
+                innerHTML: rootScope.lang(plusLabel)
             }
         });
 
         this.plusBottom = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
             props: {
                 className: 'mw-handle-item-layout-plus mw-handle-item-layout-plus-bottom',
-                innerHTML: scope.lang(plusLabel)
+                innerHTML: rootScope.lang(plusLabel)
             }
         });
 
         this.plusTop.on('click', function (){
-            getModulesData(scope.settings.layouts).then(data => {
-                const content = modulesDataRender(data, 'layouts');
-                new _dialog__WEBPACK_IMPORTED_MODULE_3__.Dialog({
-                    content: content,
-                    document: scope.settings.document
-                });
-                (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('.le-selectable-items-list-item', content).on('click', function (){
-                    loadModule(this.__data, scope.settings.loadModulesURL)
-                })
-            });
+            handlePlus('top')
+        });
+        this.plusBottom.on('click', function (){
+            handlePlus('bottom')
         });
 
         this.root.append(this.plusTop)
@@ -2303,6 +2356,7 @@ class LiveEdit {
             type: 'layout'
         });
 
+
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
@@ -2316,6 +2370,10 @@ class LiveEdit {
                 layoutHandleContent.plusBottom.hide()
             }
         });
+
+        layoutHandleContent.handle = layoutHandle;
+        moduleHandleContent.handle = moduleHandle;
+        elementHandleContent.handle = elementHandle;
 
         this.handles = new _handles__WEBPACK_IMPORTED_MODULE_3__.Handles({
             element: elementHandle,

@@ -12,7 +12,7 @@ if (window.customElements) {
 }
 export const ElementManager = (config, root) => {
     if (config instanceof Object && !config.nodeType) {
-        config = ObjectService.extend({}, config || {}, { tag: nodeName });
+        config = ObjectService.extend({}, config || {}, { tag: config.tag || nodeName });
     }
     return mw.element(config, root)
 }
