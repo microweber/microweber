@@ -121,8 +121,14 @@ class ContentManagerCrud extends Crud
      *  var_dump($data);
      * </code>
      */
+    private $_content_manager_crud_get = [];
     public function get($params = false)
     {
+        $md5_params = md5(serialize($params));
+        if (isset($this->_content_manager_crud_get[$md5_params])) {
+            return $this->_content_manager_crud_get[$md5_params];
+        }
+
         $params2 = array();
 
         if (is_string($params)) {
@@ -235,6 +241,8 @@ class ContentManagerCrud extends Crud
                 }
             }
 
+            $this->_content_manager_crud_get[$md5_params] = $get;
+
             return $get;
         }
 
@@ -254,6 +262,8 @@ class ContentManagerCrud extends Crud
                 $data2[] = $item;
             }
             $get = $data2;
+
+            $this->_content_manager_crud_get[$md5_params] = $get;
 
             return $get;
         }
@@ -338,7 +348,7 @@ class ContentManagerCrud extends Crud
             if ($postSlug) {
                 $contentSlug = $postSlug;
             }
-            
+
             $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
