@@ -9,7 +9,6 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
-use phpDocumentor\Reflection\Types\True_;
 
 /**
  * Content class is used to get and save content in the database.
