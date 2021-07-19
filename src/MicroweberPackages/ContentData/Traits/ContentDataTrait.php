@@ -12,7 +12,7 @@ trait ContentDataTrait
 
     public function initializeContentDataTrait()
     {
-      //  $this->appends[] = 'contentData';
+        //  $this->appends[] = 'contentData';
         $this->fillable[] = 'content_data';
     }
 
@@ -95,6 +95,7 @@ trait ContentDataTrait
 
         foreach ($values as $value) {
             foreach ($arrData as $key => $val) {
+
                 if ($val['field_name'] == $value) {
                     $res[$value] = $val['field_value'];
                 }
@@ -106,10 +107,13 @@ trait ContentDataTrait
 
     public function deleteContentData(array $values)
     {
-        foreach ($this->contentData as $key => $contentDataInstance) {
-            if (in_array($contentDataInstance->field_name, $values)) {
-                $contentDataInstance->delete();
-                $this->refresh();
+        $items = $this->contentData()->get();
+        if ($items) {
+            foreach ($items as $key => $contentDataInstance) {
+                if ($contentDataInstance and in_array($contentDataInstance->field_name, $values)) {
+                    $contentDataInstance->delete();
+                    $this->refresh();
+                }
             }
         }
     }
