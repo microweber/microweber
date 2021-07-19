@@ -20,15 +20,32 @@ Route::get('test123', function () {
 
     //  $controller = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
     $controller = app()->repository_manager->driver('content');
-//    dump($controller->find(1349)->contentData);
-//    dump($controller->find(1349)->contentData);
+    dump($controller->find(1349)->media);
+     dump($controller->find(1349)->contentData);
+     dump($controller->find(1349)->media);
 
-    dump(content_data(1349));
-    dump(content_data(1349));
-    dump(content_data(1349));
-    dump(content_data(1349));
-    dump(content_data(1349));
-    dump(content_data(1349));
+
+    dump($controller->find(1341)->media);
+    dump($controller->find(1341)->contentData);
+    dump($controller->find(1341)->media);
+ dump($controller->find(1341)->media);
+    dump($controller->find(1341)->contentData);
+    dump($controller->find(1341)->media);
+ dump($controller->find(1341)->media);
+    dump($controller->find(1341)->contentData);
+    dump($controller->find(1341)->media);
+ dump($controller->find(1341)->media);
+    dump($controller->find(1341)->contentData);
+    dump($controller->find(1341)->media);
+
+
+
+   // $content = (new MicroweberPackages\Content\Content())->find(1349);
+  //  dump(get_content('id=1349') );
+   // dump($content );
+//    dump(content_data(1341));
+//    dump(content_data(1349));
+
 //    dump(content_data(1349));
 //    dump(content_data(1349));
 //    dump(content_data(1349));

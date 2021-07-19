@@ -12,7 +12,7 @@ class ContentRepositoryManager
     public function __construct(ContentRepository $contentRepository)
     {
 
-         $this->contentRepository = $contentRepository;
+        $this->contentRepository = $contentRepository;
     }
 
     public function all()
@@ -24,7 +24,7 @@ class ContentRepositoryManager
     public function find($id)
     {
 
-        if (isset($this->contentRepositoryMemory[$id])) {
+         if (isset($this->contentRepositoryMemory[$id])) {
             return $this->contentRepositoryMemory[$id];
         }
         $result = $this->contentRepository->find($id);

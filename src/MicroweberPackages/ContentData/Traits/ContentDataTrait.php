@@ -12,20 +12,19 @@ trait ContentDataTrait
 
     public function initializeContentDataTrait()
     {
-       $this->appends[] = 'contentData';
-       $this->fillable[] = 'content_data';
+        $this->appends[] = 'contentData';
+        $this->fillable[] = 'content_data';
     }
 
     public static function bootContentDataTrait()
     {
-        static::saving(function ($model)  {
+        static::saving(function ($model) {
 
             if (isset($model->attributes['content_data'])) {
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
             }
         });
-
 
 
 //        if ($model->attributes and array_key_exists("price", $model->attributes)) {
@@ -39,7 +38,7 @@ trait ContentDataTrait
 //        }
 
 
-        static::saved(function($model) {
+        static::saved(function ($model) {
 
             $model->setContentData($model->_addContentData);
         });
@@ -47,18 +46,19 @@ trait ContentDataTrait
 
     public function getContentDataAttribute()
     {
-        if($this->relationLoaded('contentData')){
+        if ($this->relationLoaded('contentData')) {
             return $this->getRelation('contentData');
         }
 
-        return $this->contentData()->get();
+        $relation = $this->contentData()->get();
+        return $this->setRelation('contentData', $relation);
     }
 
     public function contentData()
     {
 
-       return $this->morphMany(ContentData::class, 'rel');
-      //  return $this->hasMany(ContentData::class, 'rel_type','rel_id');
+        return $this->morphMany(ContentData::class, 'rel');
+        //  return $this->hasMany(ContentData::class, 'rel_type','rel_id');
     }
 
     /**
@@ -68,14 +68,15 @@ trait ContentDataTrait
     public function setContentData($values)
     {
         foreach ($values as $key => $val) {
-                $this->contentData()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
-                    ['field_name' => $key, 'field_value' => $val]);
+            $this->contentData()->where('field_name', $key)->updateOrCreate(['field_name' => $key],
+                ['field_name' => $key, 'field_value' => $val]);
         }
     }
 
-    public function getContentDataByFieldName($name) {
-        foreach($this->contentData as $contentDataRow) {
-            if($contentDataRow->field_name == $name) {
+    public function getContentDataByFieldName($name)
+    {
+        foreach ($this->contentData as $contentDataRow) {
+            if ($contentDataRow->field_name == $name) {
                 return $contentDataRow->field_value;
             }
         }
@@ -89,7 +90,7 @@ trait ContentDataTrait
         $arrData = !empty($this->contentData) ? $this->contentData->toArray() : [];
 
         if (empty($values)) {
-           return $this->contentData->pluck('field_value', 'field_name')->toArray();
+            return $this->contentData->pluck('field_value', 'field_name')->toArray();
         }
 
         foreach ($values as $value) {
@@ -115,8 +116,8 @@ trait ContentDataTrait
 
     public function scopeWhereContentData($query, $whereArr)
     {
-        $query->whereHas('contentData', function($query) use ($whereArr){
-            foreach($whereArr as $fieldName => $fieldValue) {
+        $query->whereHas('contentData', function ($query) use ($whereArr) {
+            foreach ($whereArr as $fieldName => $fieldValue) {
                 $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
             }
         });

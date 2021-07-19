@@ -19,22 +19,23 @@ class DataFieldsManager extends Crud
         if (isset($params['content_id'])) {
 
 
-            $controller = app()->repository_manager->driver('content');
-            $cont = $controller->find($params['content_id']);
-
-             if($cont  ){
-                $data = $cont->getContentData()  ;
-                if($data){
-                     $get = $data ;
-
-                }
-            }
+//            $controller = app()->repository_manager->driver('content');
+//            $cont = $controller->find($params['content_id']);
+//
+//             if($cont  ){
+//                $data = $cont->contentData ;
+//                if( $data ){
+//                     $get = $data->toArray() ;
+//
+//                }
+//            }
 
             $params['rel_type'] = 'content';
             $params['rel_id'] = $params['content_id'];
+
             unset($params['content_id']);
 
-
+            $get = $this->get($params);
 
         } else {
             // get data for other than content
