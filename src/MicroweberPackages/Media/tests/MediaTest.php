@@ -14,6 +14,12 @@ class ContentTestModel extends Model
 
     protected $table = 'content';
 
+  /*  public static function boot()
+    {
+        parent::boot();
+
+    }*/
+
 }
 
 class MediaTest extends TestCase
@@ -69,10 +75,7 @@ class MediaTest extends TestCase
 
         $newPage->deleteMediaById($newPage->media[0]->id);
 
-         foreach ($newPage->media()->get() as $media) {
-
-        //     $newPage->unsetRelation('media');
-
+        foreach ($newPage->media()->get() as $media) {
             $media->delete();
         }
 
