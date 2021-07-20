@@ -939,8 +939,6 @@ class DatabaseManager extends DbUtils
 
     private function _collection_to_array($data)
     {
-
         return collection_to_array($data);
-
     }
 }
