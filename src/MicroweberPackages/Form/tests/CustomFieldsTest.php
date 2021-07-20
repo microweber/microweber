@@ -71,7 +71,7 @@ class CustomFieldsTest extends TestCase
             if (strpos($field3, 'class="mw-flex-col-md-12"') !== false) {
                 $check_input_if_exists = true;
             }
-            $this->assertEquals($check_input_if_exists, true); 
+            $this->assertEquals($check_input_if_exists, true);
 
         }
     }
