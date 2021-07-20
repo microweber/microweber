@@ -47,15 +47,15 @@ trait ContentDataTrait
     public function getContentDataAttribute()
     {
 
-        if ($this->relationLoaded('contentData')) {
+/*        if ($this->relationLoaded('contentData')) {
             return $this->getRelation('contentData');
         }
 
         $relation = $this->contentData()->get();
         $this->setRelation('contentData', $relation);
-        return $relation;
+        return $relation;*/
 
-        // return $this->contentData()->get();
+         return $this->contentData()->get();
     }
 
     public function contentData()
