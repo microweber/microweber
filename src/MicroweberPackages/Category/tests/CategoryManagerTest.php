@@ -42,12 +42,6 @@ class CategoryManagerTest extends TestCase
         $newPage->category_ids = 0;
         $newPage->save();
 
-
-       // Content::where('id', $newPage->id)->delete();
-
-  /*      $x = get_content('id='.$newPage->id);
-        var_dump($x);*/
-
         //check if deleted
         $contentForCategories = get_content(array(
             "categories"=>[$category->id],

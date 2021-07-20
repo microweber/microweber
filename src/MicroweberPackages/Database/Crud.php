@@ -27,21 +27,12 @@ class Crud
         }
     }
 
-    private $_crud_get_cache = [];
-
     public function get($params)
     {
-
-        $md5_params = md5(serializeClosure($params));
-        if (isset($this->_crud_get_cache[$md5_params])) {
-            return $this->_crud_get_cache[$md5_params];
-        }
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
         if ($params == false) {
-            $this->_crud_get_cache[$md5_params] = false;
             return;
         }
 
@@ -95,8 +86,6 @@ class Crud
                 }
             }
         }
-
-        $this->_crud_get_cache[$md5_params] = $get;
 
         return $get;
     }
