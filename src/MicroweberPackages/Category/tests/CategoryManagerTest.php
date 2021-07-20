@@ -5,6 +5,7 @@ use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Page\Models\Page;
 
 
 class CategoryManagerTest extends TestCase
@@ -28,7 +29,6 @@ class CategoryManagerTest extends TestCase
         $newPage->category_ids = $category->id;
         $newPage->save();
 
-
         $contentForCategories = get_content(array(
             "categories"=>[$category->id],
             "fields"=>'title,id'
@@ -38,15 +38,22 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
         $this->assertEquals(2,count( $contentForCategories[0]));
 
-
         //delete from cat
         $newPage->category_ids = 0;
         $newPage->save();
+
+
+       // Content::where('id', $newPage->id)->delete();
+
+        $x = get_content('id='.$newPage->id);
+        var_dump($x);
+
         //check if deleted
         $contentForCategories = get_content(array(
             "categories"=>[$category->id],
             "fields"=>'title,id'
         ));
+
 
         $this->assertEquals(null, $contentForCategories);
 
