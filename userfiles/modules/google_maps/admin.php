@@ -31,6 +31,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
 
             <div class="form-group">
+                <label class="control-label"><?php _e("Pin position"); ?></label>
+                <input name="data-pin" class="mw_option_field form-control" type="text" value="<?php print get_option('data-pin', $params['id']) ?>" placeholder="<?php _e('Example: longitude, latitude'); ?>"/>
+            </div>
+
+            <div class="form-group">
                 <label class="control-label"><?php _e("Zoom Level"); ?></label>
                 <div class="range-slider">
                     <input name="data-zoom" class="mw-ui-field-range mw_option_field mw-full-width" max="21" min="0" type="range" id="zoom_level" value="<?php print get_option('data-zoom', $params['id']) ?>"/>

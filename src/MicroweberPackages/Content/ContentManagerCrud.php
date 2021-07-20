@@ -122,14 +122,9 @@ class ContentManagerCrud extends Crud
      *  var_dump($data);
      * </code>
      */
-    private $_content_manager_crud_get = [];
-    public function get($params = false)
-    {
-        $md5_params = md5(serializeClosure($params));
-        if (isset($this->_content_manager_crud_get[$md5_params])) {
-            return $this->_content_manager_crud_get[$md5_params];
-        }
 
+    public function get($params = false) 
+    {
         $params2 = array();
 
         if (is_string($params)) {
@@ -242,8 +237,6 @@ class ContentManagerCrud extends Crud
                 }
             }
 
-            $this->_content_manager_crud_get[$md5_params] = $get;
-
             return $get;
         }
 
@@ -263,8 +256,6 @@ class ContentManagerCrud extends Crud
                 $data2[] = $item;
             }
             $get = $data2;
-
-            $this->_content_manager_crud_get[$md5_params] = $get;
 
             return $get;
         }

@@ -62,25 +62,7 @@ class DefaultField
 
     public function preparePreview()
     {
-        $renderData = [];
-        if (!empty($this->data)) {
-            $renderData = array_merge($renderData, $this->data);
-        }
-
-        // Set default data if not exists
-        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
-            if (!isset($renderData[$defaultDataKey])) {
-                $renderData[$defaultDataKey] = $defaultDataValue;
-            }
-        }
-        // Set default data options if not exists
-        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
-            if (!isset($renderData['options'][$defaultDataOptionKey])) {
-                $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
-            }
-        }
-        $this->renderData = $renderData;
-
+        // Render settings
         $renderSettings = [];
         if (!empty($this->settings)) {
             $renderSettings = array_merge($renderSettings, $this->settings);
@@ -107,6 +89,31 @@ class DefaultField
         $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
+
+        // Render data
+        $renderData = [];
+        if (!empty($this->data)) {
+            $renderData = array_merge($renderData, $this->data);
+        }
+
+        // Set default data if not exists
+        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
+            if (!isset($renderData[$defaultDataKey])) {
+                $renderData[$defaultDataKey] = $defaultDataValue;
+            }
+        }
+        // Set default data options if not exists
+        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
+            if (!isset($renderData['options'][$defaultDataOptionKey])) {
+                $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
+            }
+        }
+
+        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false) {
+            $renderData['placeholder'] = '';
+        }
+
+        $this->renderData = $renderData;
     }
 
     public function render()
