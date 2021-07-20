@@ -58,17 +58,16 @@ trait MediaTrait
 
     public function getMediaAttribute()
     {
-
-     /*   if ($this->relationLoaded('media')) {
+        if ($this->relationLoaded('media')) {
             return $this->getRelation('media');
         }
 
         $relation = $this->media()->get();
         $this->setRelation('media',$relation);
 
-        return $relation;*/
+        return $relation;
 
-        return $this->media()->get();
+        //return $this->media()->get();
     }
 
 
