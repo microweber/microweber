@@ -16,14 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('test123', function () {
 
     $content = (new MicroweberPackages\Content\Content())->find(7);
-    $content = (new MicroweberPackages\Content\Content())->find(7);
-    $content = (new MicroweberPackages\Content\Content())->find(7);
-    $content = (new MicroweberPackages\Content\Content())->find(7);
-    $content = (new MicroweberPackages\Content\Content())->find(7);
-    $content = (new MicroweberPackages\Content\Content())->find(7);
 
-    dump($content);
-    return;
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+    dump($content->media);
+
+    return; 
    // clearcache();
 
     //  $controller = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
