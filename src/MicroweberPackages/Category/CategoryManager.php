@@ -797,7 +797,6 @@ class CategoryManager
      * @since       Version 1.0
      */
 
-    public $_get_by_id = [];
     public function get_by_id($id = 0, $by_field_name = 'id')
     {
         if (!$id) {
@@ -807,10 +806,6 @@ class CategoryManager
         if ($by_field_name == 'id' and intval($id) == 0) {
             return false;
         }
-
-        /*if (isset($this->_get_by_id[$id . $by_field_name])) {
-            return $this->_get_by_id[$id . $by_field_name];
-        }*/
 
         if (is_numeric($id)) {
             $id = intval($id);
@@ -833,8 +828,6 @@ class CategoryManager
         if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
-
-        $this->_get_by_id[$id . $by_field_name] = $q;
 
         return $q;
 
