@@ -123,7 +123,7 @@ class ContentManagerCrud extends Crud
      * </code>
      */
 
-    public function get($params = false)
+    public function get($params = false) 
     {
         $params2 = array();
 
