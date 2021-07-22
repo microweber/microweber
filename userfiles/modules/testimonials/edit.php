@@ -1,8 +1,8 @@
 <?php must_have_access(); ?>
 
 <script>
-    $(document).ready(function () {
 
+    $(document).ready(function () {
         $("#add-testimonial-form").submit(function (event) {
             var isNew = $('[name="id"]', this).val() === '0';
             event.preventDefault();
@@ -16,25 +16,14 @@
             var post = $.post(url, data);
             post.done(function (data) {
 
-                $('#add-testimonial-form').trigger("reset");
-
                 list_testimonial();
+                $('#edit-testimonials').html('');
 
                 mw.notification.success('Saved');
                 mw.spinner({
                     element: form,
                     decorate: true
                 }).hide()
-
-                $('.js-add-new-button').hide();
-
-                if(isNew) {
-                    $("#edit-testimonials").attr("edit-id", data);
-                    mw.reload_module("#edit-testimonials");
-
-                    $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
-                }
-                mw.reload_module_parent("testimonials");
             });
         });
     });

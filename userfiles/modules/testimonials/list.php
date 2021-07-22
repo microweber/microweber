@@ -32,6 +32,7 @@
     list_testimonial = function () {
         $('.js-list-testimonials').trigger('click');
         mw.reload_module("testimonials/list");
+        mw.reload_module_parent("testimonials");
     }
 
     edit_testimonial = function (id) {
