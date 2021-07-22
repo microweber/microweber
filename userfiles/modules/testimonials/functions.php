@@ -10,6 +10,10 @@ function project_testimonial_autocomplete($params)
     $keyword = $params['keyword'];
     $getTestimonials = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_name', 'LIKE', '%'.$keyword.'%')->groupBy('project_name')->get();
     $testimonials = [];
+    $testimonials[] = [
+        'id'=>'All projects',
+        'title'=>'All projects',
+    ];
     foreach ($getTestimonials as $getTestimonial) {
         $testimonials[] = [
             'id' => $getTestimonial->project_name,
