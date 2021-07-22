@@ -16,8 +16,13 @@
             var post = $.post(url, data);
             post.done(function (data) {
 
-                list_testimonial();
+                $('.js-list-testimonials').trigger('click'); 
+
                 $('#edit-testimonials').html('');
+
+                mw.reload_module("testimonials/list");
+                mw.reload_module("#project-select-testimonials");
+                mw.reload_module_parent("#<?php echo $params['parent-module-id']; ?>");
 
                 mw.notification.success('Saved');
                 mw.spinner({

@@ -11,7 +11,6 @@
             post.done(function (data) {
                 mw.reload_module("testimonials");
                 mw.reload_module("testimonials/list");
-
             });
             mw.reload_module_parent("testimonials");
         }
@@ -31,10 +30,8 @@
 
     list_testimonial = function () {
         $('.js-list-testimonials').trigger('click');
-        mw.reload_module("testimonials/list");
-        mw.reload_module_parent("#<?php echo $params['parent-module-id']; ?>");
     }
-
+``
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
