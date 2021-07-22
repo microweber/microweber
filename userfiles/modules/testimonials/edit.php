@@ -1,6 +1,7 @@
 <?php must_have_access(); ?>
 
 <script>
+
     $(document).ready(function () {
         $("#add-testimonial-form").submit(function (event) {
             var isNew = $('[name="id"]', this).val() === '0';
@@ -14,25 +15,20 @@
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
             post.done(function (data) {
-                mw.reload_module_parent("testimonials");
+
+                $('.js-list-testimonials').trigger('click');
+
+                $('#edit-testimonials').html('');
+
                 mw.reload_module("testimonials/list");
                 mw.reload_module("#project-select-testimonials");
+                mw.reload_module_parent("#<?php echo $params['parent-module-id']; ?>");
 
                 mw.notification.success('Saved');
                 mw.spinner({
                     element: form,
                     decorate: true
                 }).hide()
-
-                $('.js-add-new-button').hide();
-
-                if(isNew) {
-                    $("#edit-testimonials").attr("edit-id", data);
-                    mw.reload_module("#edit-testimonials");
-
-                    $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
-                }
-
             });
         });
     });
@@ -179,12 +175,12 @@ if (!isset($data['client_company'])) {
         <div class="col">
             <div class="form-group">
                 <label class="control-label"><?php _e('Client name'); ?></label>
-                <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="form-control">
+                <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" required="required" class="form-control">
             </div>
 
             <div class="form-group">
                 <label class="control-label"><?php _e('Client testimonial'); ?></label>
-                <textarea name="content" class="form-control" rows="10"><?php print $data['content'] ?></textarea>
+                <textarea name="content" class="form-control" required="required" rows="10"><?php print $data['content'] ?></textarea>
             </div>
 
             <button type="button" class="btn btn-link btn-sm px-0 pt-0 mb-3 d=block" onclick="$('#more-testimonial-settings').slideToggle()"><?php _e('Show more settings'); ?></button>
@@ -210,10 +206,39 @@ if (!isset($data['client_company'])) {
                     <input type="text" name="read_more_url" value="<?php print $data['read_more_url'] ?>" class="form-control">
                 </div>
 
+
+                <?php
+                $projectName = get_option('show_testimonials_per_project', $params['parent-module-id']);
+                if (empty($projectName)) {
+                    $projectName = 'All projects';
+                }
+                if ($data['id'] > 0) {
+                    $projectName = $data['project_name'];
+                }
+                ?>
+
                 <div class="form-group">
                     <label class="control-label"><?php _e('Project name'); ?></label>
                     <small class="text-muted d-block mb-2"><?php _e('You can have more than one “testimonials”, check in Settings tab'); ?></small>
-                    <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="form-control">
+                    <input type="text" name="project_name" value="<?php echo $projectName; ?>" class="form-control">
+
+                    <script>
+                        var projectSelect = mw.select({
+                            element: '[name="project_name"]',
+                            multiple: false,
+                            autocomplete: true,
+                            tags: false,
+                            placeholder: '',
+                            ajaxMode: {
+                                paginationParam: 'page',
+                                searchParam: 'keyword',
+                                endpoint: mw.settings.api_url + 'project_testimonial_autocomplete',
+                                method: 'get'
+                            }
+                        });
+                        projectSelect.value({id:'<?php echo $projectName; ?>', title: '<?php echo $projectName; ?>'});
+                    </script>
+
                 </div>
             </div>
 
