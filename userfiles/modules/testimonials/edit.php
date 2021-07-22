@@ -170,12 +170,12 @@ if (!isset($data['client_company'])) {
         <div class="col">
             <div class="form-group">
                 <label class="control-label"><?php _e('Client name'); ?></label>
-                <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="form-control">
+                <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" required="required" class="form-control">
             </div>
 
             <div class="form-group">
                 <label class="control-label"><?php _e('Client testimonial'); ?></label>
-                <textarea name="content" class="form-control" rows="10"><?php print $data['content'] ?></textarea>
+                <textarea name="content" class="form-control" required="required" rows="10"><?php print $data['content'] ?></textarea>
             </div>
 
             <button type="button" class="btn btn-link btn-sm px-0 pt-0 mb-3 d=block" onclick="$('#more-testimonial-settings').slideToggle()"><?php _e('Show more settings'); ?></button>
