@@ -217,7 +217,7 @@ if (!isset($data['client_company'])) {
                 <div class="form-group">
                     <label class="control-label"><?php _e('Project name'); ?></label>
                     <small class="text-muted d-block mb-2"><?php _e('You can have more than one “testimonials”, check in Settings tab'); ?></small>
-                    <input type="text" name="project_name" class="form-control">
+                    <input type="text" name="project_name" value="<?php echo $projectName; ?>" class="form-control">
 
                     <script>
                         var projectSelect = mw.select({
