@@ -2,6 +2,7 @@
 
 <script>
     $(document).ready(function () {
+
         $("#add-testimonial-form").submit(function (event) {
             var isNew = $('[name="id"]', this).val() === '0';
             event.preventDefault();
@@ -14,6 +15,8 @@
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
             post.done(function (data) {
+
+                $('#add-testimonial-form').trigger("reset");
 
                 list_testimonial();
 
