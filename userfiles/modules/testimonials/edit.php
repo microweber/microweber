@@ -14,9 +14,8 @@
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
             post.done(function (data) {
-                mw.reload_module_parent("testimonials");
-                mw.reload_module("testimonials/list");
-                mw.reload_module("#project-select-testimonials");
+
+                list_testimonial();
 
                 mw.notification.success('Saved');
                 mw.spinner({
@@ -32,7 +31,7 @@
 
                     $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
                 }
-
+                mw.reload_module_parent("testimonials");
             });
         });
     });
