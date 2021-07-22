@@ -175,7 +175,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
 
                 <div class="tab-pane fade" id="new">
-                    <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
+                    <module type="testimonials/edit"  id="edit-testimonials" edit-id="0"/>
                 </div>
             </div>
         </div>

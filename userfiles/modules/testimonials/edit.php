@@ -16,7 +16,7 @@
             var post = $.post(url, data);
             post.done(function (data) {
 
-                $('.js-list-testimonials').trigger('click'); 
+                $('.js-list-testimonials').trigger('click');
 
                 $('#edit-testimonials').html('');
 
@@ -206,10 +206,18 @@ if (!isset($data['client_company'])) {
                     <input type="text" name="read_more_url" value="<?php print $data['read_more_url'] ?>" class="form-control">
                 </div>
 
+
+                <?php
+                $projectName = get_option('show_testimonials_per_project', $params['parent-module-id']);
+                if ($data['id'] > 0) {
+                    $projectName = $data['project_name'];
+                }
+                ?>
+
                 <div class="form-group">
                     <label class="control-label"><?php _e('Project name'); ?></label>
                     <small class="text-muted d-block mb-2"><?php _e('You can have more than one “testimonials”, check in Settings tab'); ?></small>
-                    <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="form-control">
+                    <input type="text" name="project_name" class="form-control">
 
                     <script>
                         var projectSelect = mw.select({
@@ -225,6 +233,7 @@ if (!isset($data['client_company'])) {
                                 method: 'get'
                             }
                         });
+                        projectSelect.value({id:'<?php echo $projectName; ?>', title: '<?php echo $projectName; ?>'});
                     </script>
 
                 </div>
