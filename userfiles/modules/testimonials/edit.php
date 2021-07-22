@@ -209,6 +209,9 @@ if (!isset($data['client_company'])) {
 
                 <?php
                 $projectName = get_option('show_testimonials_per_project', $params['parent-module-id']);
+                if (empty($projectName)) {
+                    $projectName = 'All projects'; 
+                }
                 if ($data['id'] > 0) {
                     $projectName = $data['project_name'];
                 }

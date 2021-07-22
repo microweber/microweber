@@ -123,7 +123,7 @@ $data = get_testimonials($get);
 
     <?php foreach ($data as $project): ?>
         <?php
-        $projects[$project['project_name']][] = $project; 
+        $projects[$project['project_name']][] = $project;
         ?>
     <?php endforeach; ?>
 
