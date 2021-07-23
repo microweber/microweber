@@ -669,7 +669,7 @@ class DatabaseManager extends DbUtils
 
         // DB::getPdo()->lastInsertId();
 
-        $last_id = $this->table($table)->orderBy('id', 'DESC')->take(1)->first();
+        $last_id = $this->table($table)->select(['id'])->orderBy('id', 'DESC')->take(1)->first();
         if (isset($last_id->id)) {
             return $last_id->id;
         }
@@ -689,11 +689,11 @@ class DatabaseManager extends DbUtils
             $q = $this->_collection_to_array($q);
 
             return $q;
-        } catch (Exception $e) {
-            return;
-        } catch (QueryException $e) {
+        } catch (\Exception $e) {
             return;
         } catch (\Illuminate\Database\QueryException $e) {
+            return;
+        } catch (\QueryException $e) {
             return;
         }
     }
@@ -895,24 +895,24 @@ class DatabaseManager extends DbUtils
                 }
 
                 if ($filterParams) {
-                    return $model->filter($filterParams);
+                    return $model->withoutRelations()->filter($filterParams);
                 } else {
-                    return $model->query();
+                    return $model->withoutRelations()->query();
 
                 }
             } else {
-                return $model->query();
+                return $model->withoutRelations()->query();
             }
         }
 
         if ($table == 'custom_fields') {
             $this->use_model_cache[$table] = true;
-            return CustomField::query();
+            return CustomField::withoutRelations()->query();
         }
 
         if ($table == 'custom_fields_values') {
             $this->use_model_cache[$table] = true;
-            return CustomFieldValue::query();
+            return CustomFieldValue::withoutRelations()->query();
         }
 
         if ($table == 'media') {

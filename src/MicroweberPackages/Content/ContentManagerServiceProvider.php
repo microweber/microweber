@@ -14,6 +14,7 @@ namespace MicroweberPackages\Content;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Content\Repositories\ContentRepositoryManager;
+use MicroweberPackages\Content\Repositories\ContentRepositoryModel;
 use MicroweberPackages\Repository\Controllers\ContentRepositoryController;
 
 
@@ -52,7 +53,8 @@ class ContentManagerServiceProvider extends ServiceProvider
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
 
             $repositoryManager->extend('content', function () {
-                return new ContentRepositoryManager(app()->make(ContentRepository::class) );
+                 return new ContentRepositoryManager(app()->make(ContentRepositoryModel::class) );
+               // return new ContentRepositoryModel();
             });
 
         });

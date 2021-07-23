@@ -13,22 +13,21 @@ namespace MicroweberPackages\Repository;
 
 
 use Illuminate\Support\Manager;
+use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Core\Repositories\BaseRepositoryInterface;
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
 /**
- * @mixin AbstractRepository
+ * @mixin BaseRepository
  */
 class RepositoryManager extends Manager
 {
 
-    // public $defaultDriver = 'NoShippingDriver';
 
     /**
      * Get default driver instance.
      *
-     * @return AbstractRepository
+     * @return BaseRepository
      *
      * @throws \InvalidArgumentException
      */
@@ -37,30 +36,8 @@ class RepositoryManager extends Manager
          return;
     }
 
-//    public function createDefaultDriver()
-//    {
-//        return $this->getDefaultDriver();
-//    }
-
-
-    /**
-     * Get a driver instance.
-     *
-     * @param  string|null $driver
-     * @return BaseRepositoryInterface
-     *
-     * @throws \InvalidArgumentException
-     */
-//    public function driver($driver = 'default')
-//    {
-//        return parent::driver($driver);
-//    }
 
 
 
-//    public function with($driver = null)
-//    {
-//        return $this->driver($driver);
-//    }
 
 }

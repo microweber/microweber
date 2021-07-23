@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89f7708f89e878f0fc2626dc30854a8f",
+    "content-hash": "67a42b2f1f284e690dea1d24aba53e0b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -12681,6 +12681,63 @@
             "time": "2021-05-20T14:26:08+00:00"
         },
         {
+            "name": "torann/laravel-repository",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Torann/laravel-repository.git",
+                "reference": "95ae8d3a0778db863fec6138751a7cbed90ff265"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Torann/laravel-repository/zipball/95ae8d3a0778db863fec6138751a7cbed90ff265",
+                "reference": "95ae8d3a0778db863fec6138751a7cbed90ff265",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "^7.0|^8.0",
+                "illuminate/database": "^7.0|^8.0",
+                "illuminate/support": "^7.0|^8.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "phpstan/phpstan": "^0.12.14",
+                "phpunit/phpunit": "^8.0",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Torann\\LaravelRepository\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Stainback",
+                    "email": "torann@gmail.com"
+                }
+            ],
+            "description": "Base repository implementation for Laravel",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "repositories",
+                "repository",
+                "repository pattern"
+            ],
+            "support": {
+                "issues": "https://github.com/Torann/laravel-repository/issues",
+                "source": "https://github.com/Torann/laravel-repository/tree/master"
+            },
+            "time": "2021-07-13T20:23:47+00:00"
+        },
+        {
             "name": "tucker-eric/eloquentfilter",
             "version": "2.4.0",
             "source": {
@@ -16026,6 +16083,7 @@
         "microweber-packages/microweber-class-alias": 20,
         "florianv/exchanger": 20,
         "predis/predis": 20,
+        "torann/laravel-repository": 20,
         "laravel/dusk": 20,
         "halaxa/json-machine": 20
     },

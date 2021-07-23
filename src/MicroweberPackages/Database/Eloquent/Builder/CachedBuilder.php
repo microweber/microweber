@@ -82,6 +82,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         }
 
         $collection = $builder->getModel()->newCollection($models);
+
         if (!$is_disabled) {
             \Cache::tags($cacheTags)->put($cacheKey, $collection, $this->cacheSeconds);
         }
@@ -146,7 +147,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_', $appends) . app()->getLocale());
+        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
