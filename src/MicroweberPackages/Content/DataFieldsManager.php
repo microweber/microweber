@@ -12,30 +12,26 @@ class DataFieldsManager extends Crud
     public $table = 'content_data';
 
 
-
     public function get_values($params)
     {
         $get = [];
         if (isset($params['content_id'])) {
 
 
-//            $controller = app()->repository_manager->driver('content');
-//            $cont = $controller->find($params['content_id']);
-//
-//             if($cont  ){
-//                $data = $cont->contentData ;
-//                if( $data ){
-//                     $get = $data->toArray() ;
-//
-//                }
-//            }
+            // $params['rel_type'] = 'content';
+            //  $params['rel_id'] = $params['content_id'];
 
-            $params['rel_type'] = 'content';
-            $params['rel_id'] = $params['content_id'];
+            //  unset($params['content_id']);
 
-            unset($params['content_id']);
+            //    $get = $this->get($params);
 
-            $get = $this->get($params);
+            $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+
+
+            $data = $content_repository->getContentData($params['content_id']);
+            if ($data) {
+                $get = $data->toArray();
+            }
 
         } else {
             // get data for other than content
@@ -49,7 +45,7 @@ class DataFieldsManager extends Crud
             foreach ($get as $item) {
 
                 if (isset($item['field_name']) and isset($item['field_value'])) {
-                    $res[ $item['field_name'] ] = $item['field_value'];
+                    $res[$item['field_name']] = $item['field_value'];
                 }
             }
 

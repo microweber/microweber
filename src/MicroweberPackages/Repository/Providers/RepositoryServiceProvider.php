@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container;
 
 use MicroweberPackages\Application;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 
 
@@ -71,6 +72,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
 
 
+        AbstractRepository::setCacheInstance($this->app['cache']);
 
 
 
