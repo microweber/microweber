@@ -51,12 +51,9 @@ class ContentManagerServiceProvider extends ServiceProvider
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-
-            $repositoryManager->extend('content', function () {
-                 return new ContentRepositoryManager(app()->make(ContentRepositoryModel::class) );
-               // return new ContentRepositoryModel();
+            $repositoryManager->extend(Content::class, function () {
+                 return new ContentRepositoryModel();
             });
-
         });
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');

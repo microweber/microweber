@@ -16,20 +16,21 @@ trait CacheableRepository
      * @var CacheManager
      */
     protected static $cache = null;
+    public $disableCache= false;
 
     /**
      * Flush the cache after create/update/delete events.
      *
      * @var bool
      */
-    protected $eventFlushCache = false;
+    protected $eventFlushCache = true;
 
     /**
      * Global lifetime of the cache.
      *
      * @var int
      */
-    protected $cacheMinutes = 60000;
+    protected $cacheSeconds = 60000;
 
     /**
      * Set cache manager.
@@ -62,6 +63,11 @@ trait CacheableRepository
      */
     public function skippedCache()
     {
+
+        if($this->disableCache){
+            return true;
+        }
+
         return config('repositories.cache_enabled', false) === false
             || app('request')->has(config('repositories.cache_skip_param', 'skipCache')) === true;
     }
@@ -143,10 +149,11 @@ trait CacheableRepository
         }
          // Use the called class name as the tag
 
-        $tag = $this->generateCacheTags();
+      //  $tag = $this->generateCacheTags();
 
         $this->eventFlushCache = false;
-        return self::getCacheInstance()->tags($tag)->flush();
+        $this->disableCache = true;
+       // return self::getCacheInstance()->tags($tag)->flush();
     }
 
     /**
@@ -161,9 +168,9 @@ trait CacheableRepository
         if ($time === self::EXPIRES_END_OF_DAY) {
             return class_exists(Carbon::class)
                 ? round(Carbon::now()->secondsUntilEndOfDay() / 60)
-                : $this->cacheMinutes;
+                : $this->cacheSeconds;
         }
 
-        return $time ?: $this->cacheMinutes;
+        return $time ?: $this->cacheSeconds;
     }
 }

@@ -895,24 +895,24 @@ class DatabaseManager extends DbUtils
                 }
 
                 if ($filterParams) {
-                    return $model->withoutRelations()->filter($filterParams);
+                    return $model->filter($filterParams);
                 } else {
-                    return $model->withoutRelations()->query();
+                    return $model->query();
 
                 }
             } else {
-                return $model->withoutRelations()->query();
+                return $model->query();
             }
         }
 
         if ($table == 'custom_fields') {
             $this->use_model_cache[$table] = true;
-            return CustomField::withoutRelations()->query();
+            return CustomField::query();
         }
 
         if ($table == 'custom_fields_values') {
             $this->use_model_cache[$table] = true;
-            return CustomFieldValue::withoutRelations()->query();
+            return CustomFieldValue::query();
         }
 
         if ($table == 'media') {

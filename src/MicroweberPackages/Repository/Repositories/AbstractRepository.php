@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Repository\Repositories;
 
 use Illuminate\Support\Facades\Event;
+use MicroweberPackages\Content\Repositories\ContentRepositoryModel;
 use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
 
@@ -19,7 +20,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Torann\LaravelRepository\Contracts\RepositoryContract;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
-
+/**
+ * @mixin ContentRepositoryModel
+ */
 abstract class AbstractRepository
 {
     use CacheableRepository;

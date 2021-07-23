@@ -12,8 +12,7 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class ContentRepositoryModel extends AbstractRepository
 {
 
-    protected $eventFlushCache = true;
-    protected $cacheMinutes = 6000;
+
 
 
     /**
@@ -21,7 +20,7 @@ class ContentRepositoryModel extends AbstractRepository
      *
      * @return string
      */
-    protected $model = Content::class;
+    public $model = Content::class;
 
 
 
