@@ -4,6 +4,7 @@ namespace MicroweberPackages\Content;
 use MicroweberPackages\Database\Crud;
 use DB;
 use function foo\func;
+use function Opis\Closure\serialize as serializeClosure;
 
 class ContentManagerCrud extends Crud
 {
@@ -121,7 +122,8 @@ class ContentManagerCrud extends Crud
      *  var_dump($data);
      * </code>
      */
-    public function get($params = false)
+
+    public function get($params = false) 
     {
         $params2 = array();
 
@@ -338,7 +340,7 @@ class ContentManagerCrud extends Crud
             if ($postSlug) {
                 $contentSlug = $postSlug;
             }
-            
+
             $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];

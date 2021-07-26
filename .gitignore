@@ -1,5 +1,4 @@
 config/*
-dist/*
 vendor/*
 config/database.php
 config/app.php
@@ -66,4 +65,4 @@ userfiles/modules/standalone-updater/
 userfiles/.DS_Store
 .DS_Store
 .phpunit.result.cache
-/userfiles/modules/microweber/api/dist/
+/userfiles/modules/vouchers

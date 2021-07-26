@@ -9,6 +9,7 @@
  *
  */
 namespace MicroweberPackages\Database;
+use function Opis\Closure\serialize as serializeClosure;
 
 class Crud
 {

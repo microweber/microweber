@@ -279,7 +279,7 @@ var _populate = {
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
-                this.value = color // color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
+                this.value = mw.color.rgbOrRgbaToHex(color);
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -592,7 +592,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium"><input type="color" class="colorField" data-prop="color"></div>
+                    <div class="mw-field" data-size="medium">
+                        <input type="color" class="colorField unit" data-prop="color">
+                   </div>
                 </div>
             </div>
         </div>
@@ -686,7 +688,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
-                    <input type="color" class="colorField" data-prop="backgroundColor">
+                    <input type="color" class="colorField unit" data-prop="backgroundColor">
                 </div>
             </div>
         </div>
@@ -882,7 +884,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
-                    <input type="color" class="colorField" id="border-color">
+                    <input type="color" class="colorField unit" id="border-color">
                 </div>
             </div>
         </div>

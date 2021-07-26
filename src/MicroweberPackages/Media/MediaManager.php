@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Media;
 
+use Conner\Tagging\Model\Tagged;
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
@@ -655,12 +656,26 @@ class MediaManager
 
     public function tags($media_id = false, $return_full = false)
     {
-        $data = array();
+       /* $data = array();
         $data['table'] = $this->tables['media'];
         if ($media_id) {
             $data['id'] = intval($media_id);
         }
-        return $this->app->tags_manager->get_values($data, $return_full);
+        return $this->app->tags_manager->get_values($data, $return_full);*/
+
+        $query = Tagged::query();
+        $query->where('taggable_type','media');
+
+        if ($media_id) {
+            $query->where('taggable_id', $media_id);
+        }
+        $tags = $query->get();
+        $pluck = $tags->pluck('tag_name');
+        if ($return_full) {
+            return $tags;
+        } else {
+            return $pluck->toArray();
+        }
     }
 
 

@@ -83,7 +83,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $fields = mw()->ui->custom_fields();
             ?>
 
-            <script type="text/javascript">
+            <script>
+
+                var customFields<?php print $for_id; ?> = <?php print json_encode($fields); ?>;
+
                 function addCustomFieldByVal(fieldName) {
                     $('.js-cf-options').val(fieldName);
                     $('.js-cf-options ').trigger('change');
@@ -149,14 +152,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </label>
                     <div class="custom-field-edit">
                         <div class="custom-field-edit-header">
-                            <span class="custom-field-edit-title"></span> <span
-                                xxonmousedown="mw_cf_toggle_edit_window()" class="custom-field-edit-title-head right"
-                                style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down"
-                                                                                    style="opacity:0.6;"></span> </span>
+                            <span class="custom-field-edit-title"></span>
+                            <span class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?>
+                                <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span>
+                            </span>
                         </div>
                         <div class="mw-admin-custom-field-edit-item-wrapper">
-                            <div
-                                class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
+                            <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?>"></div>
                         </div>
                     </div>
                 </div>
@@ -223,8 +225,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         </button>
                                     <?php endforeach; ?>
 
-                                    <select class="js-cf-options" data-live-search="true" data-size="7"
-                                            style="display: none;">
+                                    <select class="js-cf-options" data-live-search="true" data-size="7" style="display: none;">
                                         <?php if (is_array($exiisting_fields)): ?>
                                             <?php foreach ($exiisting_fields as $item): ?>
                                                 <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>">

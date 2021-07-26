@@ -1,3 +1,3 @@
 <?php _e('NON EXISTING MODULE!!!!'); ?>
- 
-<?php var_dump($params); ?>
+
+<?php/* var_dump($params);*/ ?>

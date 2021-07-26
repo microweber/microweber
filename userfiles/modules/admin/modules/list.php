@@ -17,6 +17,15 @@ if (isset($template_config['elements_mode']) and $template_config['elements_mode
 if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
     $hide_dynamic_layouts = true;
 }
+
+if (isset($params['group_modules_by_category']) and $params['group_modules_by_category']) {
+    $show_grouped_by_cats = true;
+}
+
+if (isset($params['group_layouts_by_category']) and $params['group_layouts_by_category']) {
+    $show_grouped_by_cats = true;
+}
+
 if (isset($template_config['use_dynamic_layouts_for_posts']) and $template_config['use_dynamic_layouts_for_posts']) {
     $hide_dynamic_layouts = false;
 }

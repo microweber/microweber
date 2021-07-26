@@ -12,6 +12,7 @@
     }
 </script>
 
+<script>mw.lib.require('mwui_init');</script>
 <?php
 $for = 'module';
 if (isset($params['for'])) {
@@ -136,6 +137,15 @@ if (isset($params['for_module_id'])): ?>
             vertical-align: middle;
         }
     </style>
+
+<script>
+
+    $(document).ready(function (){
+        mw.trigger('customFieldsRefresh', {data:  <?php print json_encode($more);  ?>})
+    })
+
+</script>
+
     <?php if (!empty($more)): ?>
         <?php if ($list_preview == false): ?>
             <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
@@ -183,7 +193,8 @@ if (isset($params['for_module_id'])): ?>
                    </tr>
                    </thead>
                    <tbody>
-                   <?php foreach ($more as $field): ?>
+                   <?php
+                   foreach ($more as $field): ?>
                        <tr id="mw-custom-list-element-<?php print $field['id']; ?>" data-id="<?php print $field['id']; ?>" class="show-on-hover-root">
                            <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon" data-tipposition="top-left">
                                <span class="mobile-th"><?php _e("Type"); ?>:</span>
@@ -226,8 +237,12 @@ if (isset($params['for_module_id'])): ?>
                 </table>
             </div>
 
-             <script>
+            <script>mw.require('admin_custom_fields.js');</script>
+            <script>
+
+
                 $(document).ready(function () {
+
                     if (typeof( mw.admin.custom_fields) != 'undefined') {
                         mw.admin.custom_fields.initValues();
                     }

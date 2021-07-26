@@ -91,7 +91,7 @@ abstract class DuskTestCase extends BaseTestCase
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
-            dump($is_installed);
+         //   dump($is_installed);
          //   $app->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
 
 

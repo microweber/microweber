@@ -4,6 +4,7 @@ namespace MicroweberPackages\Backup\tests;
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Backup\BackupManager;
+use MicroweberPackages\Post\Models\Post;
 
 /**
  * Run test
@@ -125,16 +126,16 @@ class BackupV2Test extends TestCase
 			$urls[$title['url']] = $title;
 		}
 
-		$contents = get_content('no_limit=1&content_type=post');
+		$posts = Post::all();
 
-		if (empty($contents)) {
+		if (empty($posts)) {
 			$this->assertTrue(false);
 			return;
 		}
 
-		foreach($contents as $content) {
-			if (array_key_exists($content['url'], $urls)) {
-				$this->assertSame($urls[$content['url']]['title'], $content['title']);
+		foreach($posts->toArray() as $post) {
+			if (array_key_exists($post['url'], $urls)) {
+				$this->assertSame($urls[$post['url']]['title'], $post['title']);
 			}
 		}
 	}

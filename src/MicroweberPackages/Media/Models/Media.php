@@ -27,14 +27,4 @@ class Media extends Model
         'media_type' => 'picture',
     ];
 
-//    public static function boot()
-//    {
-//        parent::boot();
-//    }
-
-//    public function tags()
-//    {
-//        return $this->belongsToMany('Tag');
-//    }
-
 }

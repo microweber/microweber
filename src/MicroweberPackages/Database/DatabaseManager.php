@@ -259,39 +259,35 @@ class DatabaseManager extends DbUtils
                 $query = $query->count();
             } else {
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
-                    return $query->count();
+                    $queryCount = $query->count();
+                    return $queryCount;
                 });
             }
             if ($items_per_page != false and is_numeric($query)) {
                 // return the pages count
                 $query = intval(ceil($query / $items_per_page));
             }
-
             return $query;
         }
 
         if (isset($orig_params['min']) and ($orig_params['min'])) {
             $column = $orig_params['min'];
             $query = $query->min($column);
-
             return $query;
         }
         if (isset($orig_params['max']) and ($orig_params['max'])) {
             $column = $orig_params['max'];
             $query = $query->max($column);
-
             return $query;
         }
         if (isset($orig_params['avg']) and ($orig_params['avg'])) {
             $column = $orig_params['avg'];
             $query = $query->avg($column);
-
             return $query;
         }
         if (isset($orig_params['sum']) and ($orig_params['sum'])) {
             $column = $orig_params['sum'];
             $query = $query->sum($column);
-
             return $query;
         }
 
@@ -333,7 +329,6 @@ class DatabaseManager extends DbUtils
 
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params) {
 
-
                 $queryResponse = $query->get();
 
                 if (isset($orig_params['fields']) and $orig_params['fields'] != false) {
@@ -342,7 +337,6 @@ class DatabaseManager extends DbUtils
                         $queryResponse->makeHidden(array_keys($builderModel->attributesToArray()));
                     }
                 }
-
                 return $queryResponse;
             });
         }
@@ -370,7 +364,6 @@ class DatabaseManager extends DbUtils
 
 
         if (empty($data)) {
-
             return false;
         } else {
             if (!$do_not_replace_site_url) {
@@ -389,7 +382,6 @@ class DatabaseManager extends DbUtils
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
-
                 return false;
             }
 
@@ -400,7 +392,6 @@ class DatabaseManager extends DbUtils
 
             return $data[0];
         }
-
 
         return $data;
     }
@@ -870,6 +861,8 @@ class DatabaseManager extends DbUtils
 
     public function table($table, $params = [])
     {
+       // return DB::table($table);
+
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
@@ -945,8 +938,6 @@ class DatabaseManager extends DbUtils
 
     private function _collection_to_array($data)
     {
-
         return collection_to_array($data);
-
     }
 }

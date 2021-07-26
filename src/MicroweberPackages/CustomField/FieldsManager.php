@@ -223,11 +223,12 @@ class FieldsManager
 
                     $show_placeholder = false;
                     if (isset($field['settings']['show_placeholder'])) {
-                        if ($field['settings']['show_placeholder'] == 'false' || $field['settings']['show_placeholder'] == 0 || $field['settings']['show_placeholder'] == '0') {
-                            $show_placeholder = false;
-                        }
-                        if ($field['settings']['show_placeholder'] == 'true' || $field['settings']['show_placeholder'] == 1 || $field['settings']['show_placeholder'] == '1') {
-                            $show_placeholder = true;
+                        switch ($field['settings']['show_placeholder']) {
+                            case "true":
+                            case "1":
+                            case 1:
+                                $show_placeholder = true;
+                                break;
                         }
                     }
 
@@ -256,6 +257,7 @@ class FieldsManager
                         }
 
                         $make_field['type'] = $field_type;
+                        $make_field['options']['show_placeholder'] = $show_placeholder;
                         $make_field['options']['field_type'] = $field_type;
                         $make_field['options']['field_size'] = $field_size;
                         $make_field['options']['field_size_desktop'] = $field_size;
@@ -376,7 +378,7 @@ class FieldsManager
         }
 
         $customField->show_label = true;
-        if (!empty($fieldData['show_label'])) {
+        if (isset($fieldData['show_label'])) {
             $customField->show_label = $fieldData['show_label'];
         }
 

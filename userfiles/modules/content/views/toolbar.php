@@ -168,7 +168,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Add Page"); ?></strong>
                 </h5>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Post"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Page"); ?></a>
             </div>
         <?php elseif ($act == 'posts'): ?>
             <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">

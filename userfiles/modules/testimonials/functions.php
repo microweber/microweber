@@ -1,5 +1,29 @@
 <?php
 
+api_expose('project_testimonial_autocomplete');
+function project_testimonial_autocomplete($params)
+{
+    if (!is_admin()) {
+        return;
+    }
+
+    $keyword = $params['keyword'];
+    $getTestimonials = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_name', 'LIKE', '%'.$keyword.'%')->groupBy('project_name')->get();
+    $testimonials = [];
+    $testimonials[] = [
+        'id'=>'All projects',
+        'title'=>'All projects',
+    ];
+    foreach ($getTestimonials as $getTestimonial) {
+        $testimonials[] = [
+            'id' => $getTestimonial->project_name,
+            'title' => $getTestimonial->project_name,
+        ];
+    }
+
+    return ['data'=>$testimonials];
+}
+
 api_expose('save_testimonial');
 function save_testimonial($data)
 {

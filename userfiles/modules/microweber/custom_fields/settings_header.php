@@ -237,6 +237,6 @@ if ($for == false) {
             <?php _e('Title'); ?>
         </label>
         <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-        <input type="text" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+        <input type="text" class="form-control" value="<?php print ($data['name']) ?>" required="required" name="name" id="input_field_label<?php print $rand; ?>">
     </div>
 </div>

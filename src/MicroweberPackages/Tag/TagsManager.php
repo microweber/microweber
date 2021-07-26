@@ -31,6 +31,9 @@ class TagsManager
 //    }
 
 
+    /**
+     * @deprecated
+     */
     public function get_values($params, $return_full = false)
     {
         if (is_string($params)) {

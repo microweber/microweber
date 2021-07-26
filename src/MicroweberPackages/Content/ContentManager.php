@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Content;
 
+use Conner\Tagging\Model\Tagged;
 use Content;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -409,12 +410,26 @@ class ContentManager
 
     public function tags($content_id = false, $return_full = false)
     {
-        $data = array();
+       /* $data = array();
         $data['table'] = $this->tables['content'];
         if ($content_id) {
             $data['id'] = intval($content_id);
         }
-        return $this->app->tags_manager->get_values($data, $return_full);
+        return $this->app->tags_manager->get_values($data, $return_full);*/
+
+        $query = Tagged::query();
+        $query->where('taggable_type','content');
+
+        if ($content_id) {
+            $query->where('taggable_id', $content_id);
+        }
+        $tags = $query->get();
+        $pluck = $tags->pluck('tag_name');
+        if ($return_full) {
+            return $tags;
+        } else {
+            return $pluck->toArray();
+        }
     }
 
     public function attributes($content_id)
