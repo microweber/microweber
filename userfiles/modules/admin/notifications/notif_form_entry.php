@@ -47,7 +47,7 @@ if (isset($item['created_by'])) {
 
 
         $('.collapse', '.js-form-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
-            $('[data-toggle=collapse]', '.js-form-entry-<?php print $item_id ?>').prop('disabled',true);
+            $('.js-form-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
         });
     });
 
@@ -63,7 +63,7 @@ if (isset($item['created_by'])) {
             </div>
         <?php endif; ?>
 
-        <div class="row align-items-center">
+        <div class="row align-items-center" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>
