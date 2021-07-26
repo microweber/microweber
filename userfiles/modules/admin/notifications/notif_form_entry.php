@@ -38,6 +38,21 @@ if (isset($item['created_by'])) {
 }
 ?>
 
+<script>
+    $( document ).ready(function() {
+
+        $('.collapse', '.js-form-entry-<?php print $item_id ?>').collapse({
+                toggle: false
+        });
+
+
+        $('.collapse', '.js-form-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
+            $('[data-toggle=collapse]', '.js-form-entry-<?php print $item_id ?>').prop('disabled',true);
+        });
+    });
+
+</script>
+
 <div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
