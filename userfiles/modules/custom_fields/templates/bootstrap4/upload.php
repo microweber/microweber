@@ -1,7 +1,7 @@
 <?php $rand = uniqid(); ?>
 
-<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
-    <div class="control-group">
+<div class="col-<?php echo $settings['field_size']; ?>">
+    <div class="form-group">
 
         <?php if($settings['show_label']): ?>
             <label class="mw-ui-label"><?php echo $data["name"]; ?>
@@ -11,27 +11,24 @@
             </label>
         <?php endif; ?>
 
-        <div class="relative inline-block mw-custom-field-upload" id="upload_<?php echo($rand); ?>">
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col" style="width: auto">
+        <div class="mw-custom-field-upload" id="upload_<?php echo($rand); ?>">
 
-                  <span class="mw-ui-btn" id="upload_button_<?php echo($rand); ?>">
-                    <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
-                    </span>
+            <span class="mw-ui-btn" id="upload_button_<?php echo($rand); ?>">
+                <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
+            </span>
 
-                    <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"  />
+            <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"  />
 
-                    <input type="hidden" <?php if ($settings['required']){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name"]; ?>" autocomplete="off"  />
+            <input type="hidden" <?php if ($settings['required']){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name"]; ?>" autocomplete="off"  />
 
-                    <span class="ellipsis" id="val_<?php echo $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
+            <span class="ellipsis" id="val_<?php echo $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
 
-                </div>
-
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="alert alert-error" id="upload_err<?php echo($rand); ?>"  style="display:none;"></div>
+
+<div class="alert alert-error" id="upload_err<?php echo($rand); ?>"  style="display:none;"></div>
     <script>
         mw.require('files.js');
     </script>
