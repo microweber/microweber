@@ -1,7 +1,7 @@
 import {ElementManager} from "./element";
 
 const dialogFooter = (okLabel, cancelLabel) => {
-    const ft = ElementManager({
+    const footer = ElementManager({
         props: {
             className: 'le-dialog-footer'
         }
@@ -20,11 +20,11 @@ const dialogFooter = (okLabel, cancelLabel) => {
         }
     });
 
-    ft.append(cancel);
-    ft.append(ok);
+    footer.append(cancel);
+    footer.append(ok);
 
     return  {
-        ok, cancel
+        ok, cancel, footer
     }
 }
 
@@ -63,6 +63,9 @@ export class Dialog {
         })
         this.root.append(closeBtn);
         this.root.append(this.container);
+        if(this.settings.footer) {
+            this.root.append(this.settings.footer.root || this.settings.footer);
+        }
         this.settings.document.body.appendChild(this.root.get(0))
         if (this.settings.overlay) {
             this.overlay()
@@ -85,12 +88,25 @@ export class Dialog {
         })
         this.settings.document.body.appendChild(this.overlay.get(0))
     }
-    
+
 }
 
 
-export const Confirm = function (q) {
-
+export const Confirm = function (content, c) {
+    const footer = dialogFooter();
+    const dialog = new Dialog({
+        content, footer
+    });
+    footer.cancel.on('click', function (){
+        dialog.remove()
+    })
+    footer.ok.on('click', function (){
+        if(c){
+            c.call()
+        }
+        dialog.remove()
+    })
+    return dialog
 }
 
 export const Alert = function (text) {

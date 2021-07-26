@@ -2013,7 +2013,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
   !*** ./userfiles/modules/microweber/api/tools/widgets/gallery.js ***!
   \*******************************************************************/
 (function(){
-    mw.require('modal.css');
+
 
     var Gallery = function (array, startFrom) {
         startFrom = startFrom || 0;

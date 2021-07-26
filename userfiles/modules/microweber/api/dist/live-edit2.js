@@ -157,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const dialogFooter = (okLabel, cancelLabel) => {
-    const ft = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+    const footer = (0,_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
         props: {
             className: 'le-dialog-footer'
         }
@@ -176,11 +176,11 @@ const dialogFooter = (okLabel, cancelLabel) => {
         }
     });
 
-    ft.append(cancel);
-    ft.append(ok);
+    footer.append(cancel);
+    footer.append(ok);
 
     return  {
-        ok, cancel
+        ok, cancel, footer
     }
 }
 
@@ -219,6 +219,9 @@ class Dialog {
         })
         this.root.append(closeBtn);
         this.root.append(this.container);
+        if(this.settings.footer) {
+            this.root.append(this.settings.footer.root || this.settings.footer);
+        }
         this.settings.document.body.appendChild(this.root.get(0))
         if (this.settings.overlay) {
             this.overlay()
@@ -241,11 +244,25 @@ class Dialog {
         })
         this.settings.document.body.appendChild(this.overlay.get(0))
     }
+
 }
 
 
-const Confirm = function (q) {
-
+const Confirm = function (content, c) {
+    const footer = dialogFooter();
+    const dialog = new Dialog({
+        content, footer
+    });
+    footer.cancel.on('click', function (){
+        dialog.remove()
+    })
+    footer.ok.on('click', function (){
+        if(c){
+            c.call()
+        }
+        dialog.remove()
+    })
+    return dialog
 }
 
 const Alert = function (text) {
@@ -1483,8 +1500,10 @@ const LayoutHandleContent = function (rootScope) {
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                action: function (el) {
-
+                action: function (target, selfNode, rootScope) {
+                    (0,_dialog__WEBPACK_IMPORTED_MODULE_3__.Confirm)('Are you sure', function (){
+                        target.remove()
+                    })
                 }
             },
 

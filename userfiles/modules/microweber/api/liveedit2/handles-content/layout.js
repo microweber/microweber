@@ -1,7 +1,7 @@
 import {HandleMenu} from "../handle-menu";
 import {ElementManager} from "../element";
 import {DomService} from "../dom";
-import {Dialog} from "../dialog";
+import {Confirm, Dialog} from "../dialog";
 
 const _getModulesDataCache = {};
 
@@ -245,8 +245,10 @@ export const LayoutHandleContent = function (rootScope) {
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                action: function (el) {
-
+                action: function (target, selfNode, rootScope) {
+                    Confirm('Are you sure', function (){
+                        target.remove()
+                    })
                 }
             },
 
