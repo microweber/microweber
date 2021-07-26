@@ -360,12 +360,12 @@ class Template
     {
         $ajax = '<script>
 
- 
+
         $( document ).ready(function() {
 
 
             var _csrf_from_local_storage = null;
- 
+
 
             if(typeof(mw.cookie) != \'undefined\'){
                 csrf_from_local_storage_data = mw.cookie.get("csrf-token-data")
@@ -380,7 +380,7 @@ class Template
             }
 
             if(_csrf_from_local_storage){
-               
+
                 $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
                      $.ajaxSetup({
                         headers: {
@@ -403,7 +403,7 @@ class Template
                             value: data.token,
                             expiry: (new Date()).getTime() + csrf_from_local_storage_ttl,
                         }
-                        
+
                         mw.cookie.set("csrf-token-data", JSON.stringify(item))
 
 
