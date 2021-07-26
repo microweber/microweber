@@ -91,7 +91,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <script>
 
-                var customFields<?php print $for_id; ?> = <?php print json_encode($fields); ?>;
 
                 function addCustomFieldByVal(fieldName) {
                     $('.js-cf-options').val(fieldName);
