@@ -4919,3 +4919,22 @@ picture{
 body.dragStart picture img{
     pointer-events: none;
 }
+
+.layout-preview-tooltip-image-holder{
+    display: none;
+    float: left;
+    margin: -7px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.mw-tooltip-content .layout-preview-tooltip-image-holder{
+    display: block;
+
+}
+
+
+.layout-preview-tooltip-image{
+     display: block;
+}

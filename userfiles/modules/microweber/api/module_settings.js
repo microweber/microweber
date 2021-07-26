@@ -102,6 +102,8 @@ mw.moduleSettings = function(options){
             });
         }
 
+        console.log(_new)
+
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);
         scope.refactorDomPosition();
