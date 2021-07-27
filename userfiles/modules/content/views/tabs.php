@@ -54,6 +54,42 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
                 display: none;
             }
         </style>
+    <script>
+         const variants = ([main, ...[a, ...b]]) => {
+             if (!a) return main
+             const combined = a.reduce((acc, x) => {
+                 return acc.concat(main.map(h => {
+                     return [h, x]
+                    })
+                 )
+             }, []).map(node => {
+                 var clone = [...node];
+                 clone.forEach(nd => {
+                     if(Array.isArray(nd)) {
+                         nd.forEach(obj => {
+                             clone.push(obj);
+                         });
+                     }
+                 })
+                 return clone.filter(item => !Array.isArray(item));
+             })
+             return variants([combined, ...b])
+         }
+        $(document).ready(function (){
+            mw.on('customFieldsRefresh', function (e, data) {
+                var fields = data.data.map(function (item){
+                    return item.values.map(function (val){
+                        return {
+                            name: val,
+                            customFieldId: item.id
+                        }
+                    })
+                });
+                console.log(fields)
+                console.log(9999, variants(fields))
+            })
+        })
+    </script>
         <div class="card style-1 mb-3 card-collapse fields">
             <div class="card-header no-border">
                 <h6><strong>Custom fields</strong></h6>

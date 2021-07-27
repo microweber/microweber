@@ -1,5 +1,5 @@
 (function(){
-    mw.require('modal.css');
+
 
     var Gallery = function (array, startFrom) {
         startFrom = startFrom || 0;

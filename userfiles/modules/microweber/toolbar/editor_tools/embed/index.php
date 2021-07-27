@@ -1,7 +1,7 @@
 <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
 
-<script src="<?php   print( mw_includes_url());  ?>js/sortable.js" type="text/javascript"></script>
+<script src="<?php print(mw_includes_url()); ?>js/sortable.js"></script>
 
 
 <script type="text/javascript">
