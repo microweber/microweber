@@ -309,6 +309,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     data-filter="<?php print $dynamic_layout['name'] ?>"
                     class="module-item module-item-layout tip"
                     data-tipposition="left-center"
+                    data-tipskin="mw-tooltip-default"
                     data-tip="#tooltip-<?php print $randId; ?>"
                     unselectable="on">
 
@@ -321,9 +322,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                             <?php $dynamic_layout['screenshot'] = $def_icon; ?>
                         <?php endif; ?>
                         <div style="display: none" id="tooltip-<?php print $randId; ?>">
-                            <div  class="layout-preview-tooltip-image-holder">
-                                <img  class="layout-preview-tooltip-image" src="<?php print thumbnail($dynamic_layout['screenshot'], 560, 560) ?>" />
-                            </div>
+                            <div  class="layout-preview-tooltip-image-holder" style="background-image: url(<?php print $dynamic_layout['screenshot']; ?>)"></div>
                         </div>
                         <span class="mw_module_image">
                             <span class="mw_module_image_holder">

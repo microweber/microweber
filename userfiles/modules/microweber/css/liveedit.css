@@ -4921,12 +4921,21 @@ body.dragStart picture img{
 }
 
 .layout-preview-tooltip-image-holder{
-    display: none;
-    float: left;
-    margin: -7px;
+
+    width: 550px;
+    height: 350px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     background-color: #fff;
-    border: 1px solid #ccc;
+
+    display:none;
+
     border-radius: 3px;
+
+}
+.mw-tooltip .layout-preview-tooltip-image-holder {
+    display: block;
 }
 
 .mw-tooltip-content .layout-preview-tooltip-image-holder{

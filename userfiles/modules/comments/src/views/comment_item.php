@@ -1,6 +1,6 @@
 <div
     class="card mb-2 not-collapsed-border collapsed bg-silver"
-    data-toggle="collapse-mw"
+    data-toggle="collapse"
     data-target="#comments-<?php print $comment['id'] ?>"
     id="comment-<?php print $comment['id'] ?>"
     aria-expanded="false"
@@ -70,7 +70,7 @@
 
             <div class="col-12 col-sm text-right"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
         </div>
-        <div class="collapse" id="comments-<?php print $comment['id'] ?>">
+        <div class="collapse" onclick="event.stopPropagation()" id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">
                 <div class="col-12">
                     <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank"><?php _e("View article"); ?></a>

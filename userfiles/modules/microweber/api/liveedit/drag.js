@@ -225,13 +225,13 @@ mw.drag = {
             off.top  +=  (target.dataset.handleOffset ? Number(target.dataset.handleOffset) : 0)
 
 
-            if(next.length == 0){
+            if(next.length === 0){
                 mw.$('.mw-cloneable-control-next', clc).hide();
             }
             else{
                 mw.$('.mw-cloneable-control-next', clc).show();
             }
-            if(prev.length == 0){
+            if(prev.length === 0){
                 mw.$('.mw-cloneable-control-prev', clc).hide();
             }
             else{
