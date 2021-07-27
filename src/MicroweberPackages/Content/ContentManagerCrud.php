@@ -1,9 +1,9 @@
 <?php
 namespace MicroweberPackages\Content;
 
+use MicroweberPackages\Content\Repositories\ContentRepositoryModel;
 use MicroweberPackages\Database\Crud;
-use DB;
-use function foo\func;
+use Illuminate\Support\Facades\DB;
 use function Opis\Closure\serialize as serializeClosure;
 
 class ContentManagerCrud extends Crud
@@ -17,11 +17,15 @@ class ContentManagerCrud extends Crud
     public static $precached_links = array();
     public static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
 
+    /** @var ContentRepositoryModel */
+    public $content_repository;
+
     /**
      *  Boolean that indicates the usage of cache while making queries.
      *
      * @var
      */
+
     public $no_cache = false;
 
     public function __construct($app = null)
@@ -32,6 +36,11 @@ class ContentManagerCrud extends Crud
             $this->app = mw();
         }
         $this->set_table_names();
+
+        $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+
+
+
     }
 
     /**
@@ -125,6 +134,7 @@ class ContentManagerCrud extends Crud
 
     public function get($params = false) 
     {
+
         $params2 = array();
 
         if (is_string($params)) {

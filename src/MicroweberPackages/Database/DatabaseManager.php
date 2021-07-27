@@ -24,6 +24,7 @@ use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
 use MicroweberPackages\Media\Models\Media;
 
+use MicroweberPackages\Option\Models\Option;
 use function Opis\Closure\serialize as serializeClosure;
 use function Opis\Closure\unserialize as unserializeClosure;
 
@@ -98,8 +99,20 @@ class DatabaseManager extends DbUtils
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
      */
+
+    public $_query_get_cache = [];
+    public function clearCache($table = false){
+        if($table){
+            $this->_query_get_cache[$table] = null;
+        } else {
+            $this->_query_get_cache[$table] = [];
+        }
+    }
+
+
     public function get($table, $params = null)
     {
+
         if ($params === null) {
             $params = $table;
         } else {
@@ -124,6 +137,35 @@ class DatabaseManager extends DbUtils
         if (!$table) {
             return false;
         }
+
+
+
+        $cache_key_closures = 'cache';
+        if($params){
+            foreach ($params as $k => $v) {
+                if (is_object($v) && $v instanceof \Closure) {
+
+                    $serialized = serializeClosure($v);
+                    $cache_key_closures .= crc32($serialized);
+                }
+            }
+        }
+        if (!isset($params['no_limit'])) {
+            $cache_key = $table . crc32(json_encode($params) .   $cache_key_closures);
+        } else {
+            $cache_key = $table . crc32(json_encode($params) . $cache_key_closures);
+        }
+
+        $_query_get_cache_key = $cache_key;
+        if (isset($this->_query_get_cache[$table][$_query_get_cache_key]) and $this->_query_get_cache[$table][$_query_get_cache_key]) {
+            // experimental
+             return $this->_query_get_cache[$table][$_query_get_cache_key];
+        }
+
+
+
+
+
 
         $enable_triggers = true;
         if (isset($params['enable_triggers'])) {
@@ -232,14 +274,14 @@ class DatabaseManager extends DbUtils
             return;
         }
 
-        $cache_key_closures = 'cache';
-        foreach ($orig_params as $k => $v) {
-            if (is_object($v) && $v instanceof \Closure) {
-
-                $serialized = serializeClosure($v);
-                $cache_key_closures .= crc32($serialized);
-            }
-        }
+//        $cache_key_closures = 'cache';
+//        foreach ($orig_params as $k => $v) {
+//            if (is_object($v) && $v instanceof \Closure) {
+//
+//                $serialized = serializeClosure($v);
+//                $cache_key_closures .= crc32($serialized);
+//            }
+//        }
 
         if (!isset($params['no_limit'])) {
             $cache_key = $table . crc32(json_encode($orig_params) . $limit . $this->default_limit . $cache_key_closures);
@@ -351,9 +393,9 @@ class DatabaseManager extends DbUtils
                 return $data;
             } else {
                 $data = $this->_collection_to_array($data);
-
             }
         }
+
 
 
         if (is_array($data)) {
@@ -373,6 +415,7 @@ class DatabaseManager extends DbUtils
 
 
         if (!is_array($data)) {
+            $this->_query_get_cache[$table][$_query_get_cache_key] = $data;
             return $data;
         }
 
@@ -387,11 +430,13 @@ class DatabaseManager extends DbUtils
 
             if (is_object($data[0]) and isset($data[0]->id)) {
                 // might be a bug here?
+                $this->_query_get_cache[$table][$_query_get_cache_key] = (array)$data[0];
                 return (array)$data[0];
             }
-
+            $this->_query_get_cache[$table][$_query_get_cache_key] = $data[0];
             return $data[0];
         }
+        $this->_query_get_cache[$table][$_query_get_cache_key] = $data;
 
         return $data;
     }
@@ -429,7 +474,7 @@ class DatabaseManager extends DbUtils
         if (!is_array($data)) {
             return false;
         }
-
+        $this->clearCache($table);
         $original_data = $data;
 
         $is_quick = isset($original_data['quick_save']);
@@ -859,27 +904,42 @@ class DatabaseManager extends DbUtils
         return $data;
     }
 
+    static $model_cache_mem = [];
+
     public function table($table, $params = [])
     {
        // return DB::table($table);
 
+        if (isset(self::$model_cache_mem[$table])) {
+           // $instance = self::$model_cache_mem[$table]->newInstance($params, true);
+         //   $instance = self::$model_cache_mem[$table]->newModelQuery($params, true);
+          //  dump($instance);
+            return self::$model_cache_mem[$table];
+          //  return $instance;
+        }
+
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
-        if ($table == 'content' || $table == 'categories') {
+        if ($table == 'content' || $table == 'categories' || $table == 'options') {
 
             $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
                 $model = new Content($params);
-                // $model = app()->make(Content::class);
+                 // $model = app()->make(Content::class);
 
                 //    $model::boot();
             } else if ($table == 'categories') {
                  $model = new Category($params);
 
-              //  $model = app()->make(Category::class);
+
+            }else if ($table == 'options') {
+                 $model = new Option($params);
+
 
             }
+          //  self::$model_cache_mem[$table] = $model ->newInstance($params, true);;
+
 
             if ($params and isset($params['filter']) and method_exists($model, 'modelFilter')) {
                 $filterParams = $params;
@@ -919,6 +979,8 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache[$table]= true;
             return Media::query();
         }
+
+
 
         return DB::table($table);
     }

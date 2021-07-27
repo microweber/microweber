@@ -13,6 +13,16 @@ class ContentRepositoryModel extends AbstractRepository
 {
 
 
+    protected $searchable = [
+        'title',
+        'content',
+        'content_body',
+        'content_type',
+        'content_subtype',
+        'description',
+        'is_home',
+        'is_shop',
+    ];
 
 
     /**
@@ -44,6 +54,26 @@ class ContentRepositoryModel extends AbstractRepository
                 ->first();
         });
     }
+
+
+    /**
+     * Find data by field
+     *
+     * @return mixed
+     */
+    public function findByParams($params)
+    {
+        foreach ($params as $param_key=>$param_val){
+
+
+            $this->search($param_key,$param_val);
+
+
+
+        }
+    }
+
+
 
     /**
      * Find content by id.

@@ -350,10 +350,11 @@ class CategoryManager
             ->orderBy('position','asc')
             ->get();
 
-        // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+     // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+
         if (empty($get_category)) {
             $get_category = array();
-        } else {
+        } elseif(is_object($get_category)) {
             $get_category = $get_category->toArray();
         }
 

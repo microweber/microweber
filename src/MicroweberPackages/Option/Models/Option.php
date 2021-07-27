@@ -7,7 +7,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Option extends Model
 {
-
+    protected $fillable=['option_group','option_value'];
     public $cacheTagsToClear = ['global','content','frontend'];
     use CacheableQueryBuilderTrait;
 

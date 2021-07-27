@@ -147,7 +147,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
+        $key =  $this->getModel()->getTable().'_'. md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
@@ -215,7 +215,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     private function _clearModelTaggedCache()
     {
         $tags = $this->generateCacheTags();
-
+        app()->database_manager->_query_get_cache = [];
         \Cache::tags($tags)->flush();
     }
 

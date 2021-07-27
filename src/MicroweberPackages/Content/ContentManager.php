@@ -209,7 +209,9 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-        return $this->crud->get_by_id($id);
+
+
+       return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -2780,6 +2782,9 @@ class ContentManager
 
     public function title($id)
     {
+
+
+
         if ($id == false or $id == 0) {
             if (defined('CONTENT_ID') == true) {
                 $id = CONTENT_ID;
@@ -2852,7 +2857,6 @@ class ContentManager
 
         $related_ids = [];
         $content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
-
         if ($content) {
             $related_cont = $content->related()->get();
             if ($related_cont) {

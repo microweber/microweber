@@ -90,7 +90,9 @@ class OptionManager
     public function get_groups($is_system = false)
     {
         $table = $this->tables['options'];
-        $query = $this->app->database_manager->table($table);
+        //$query = $this->app->database_manager->table($table);
+
+        $query = new \MicroweberPackages\Option\Models\Option();
         $query = $query->select('option_group');
 
         $query = $query->whereNull('module');
@@ -106,9 +108,11 @@ class OptionManager
         $res = $query->get();
 
         if ($res and !empty($res)) {
+            $res = $res->toArray();
             $res1 = array();
             foreach ($res as $item) {
                 $item = (array)$item;
+
                 $res1[] = $item['option_group'];
             }
         }
@@ -193,7 +197,11 @@ class OptionManager
         }
 
         if ($optionGroup) {
-            $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+
+              $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+
+        //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
+            //   dd($allOptions);
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
         }
@@ -203,13 +211,15 @@ class OptionManager
 
     private function getOptionFromOptionsArray($key, $options, $returnFull)
     {
-        foreach ($options as $option) {
-            if ($option['option_key'] == $key) {
-                $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
-                if ($returnFull) {
-                    return $option;
+        if ($options) {
+            foreach ($options as $option) {
+                if ($option['option_key'] == $key) {
+                    $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
+                    if ($returnFull) {
+                        return $option;
+                    }
+                    return $option['option_value'];
                 }
-                return $option['option_value'];
             }
         }
     }

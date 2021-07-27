@@ -86,7 +86,8 @@ trait CacheableRepository
         // Sort through arguments
         foreach ($args as &$a) {
             if ($a instanceof Model) {
-                $a = get_class($a) . '|' . $a->getKey();
+                $a = $a->getTable() . '|' . $a->getKey();
+                //$a = get_class($a) . '|' . $a->getKey();
             }
         }
 
@@ -94,11 +95,11 @@ trait CacheableRepository
         $args = serialize($args) . serialize($this->getScopeQuery());
 
         return sprintf(
-            '%s-%s@%s-%s',
+            '%s-%s--%s-%s',
             config('app.locale'),
             implode('-',$tag),
             $method,
-            md5($args)
+            crc32($args)
         );
     }
 
@@ -132,7 +133,7 @@ trait CacheableRepository
     public function generateCacheTags(){
         $tag = [];
         $tag[] = 'repositories';
-        $tag[] = get_called_class();
+       // $tag[] = get_called_class();
         $tag[] = $this->getModel()->getTable();
         return $tag;
     }

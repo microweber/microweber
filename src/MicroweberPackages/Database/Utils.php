@@ -525,7 +525,7 @@ class Utils
 
         if ($use_cache) {
             self::$get_fields_fields_memory[$table] = $fields;
-            mw()->cache_manager->save($fields, $key, $cache_group);
+            mw()->cache_manager->save($fields, $key, $cache_group,$expiresAt);
         }
 
         return $fields;
