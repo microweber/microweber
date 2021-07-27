@@ -260,7 +260,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
 
@@ -372,11 +372,11 @@
                                             <input type="checkbox" class="custom-control-input" id="check-4" >
                                             <label class="custom-control-label" for="check-4"></label>
                                         </div>
-                
+
                                         <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-cards-heart"></i></button>
                                     </div>
                                     <div class="col">
-                                        
+
                                     </div>
                                 </div>-->
 
