@@ -200,7 +200,7 @@ mw.Selector = function(options) {
             target = e;
         }
 
-        if(!mw.tools.isEditable(target)) {
+        if(!mw.tools.isEditable(target) && !target.classList.contains('edit')) {
             return;
         }
 

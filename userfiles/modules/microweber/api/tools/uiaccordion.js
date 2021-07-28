@@ -93,7 +93,7 @@ mw.uiAccordion = function (options) {
             .removeClass('active')
             .parents('.mw-accordion-item').eq(0)
             .removeClass('active');
-        ;
+
         mw.$(this).trigger('accordionUnset', [item]);
     }
 

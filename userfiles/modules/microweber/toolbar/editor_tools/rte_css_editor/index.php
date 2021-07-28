@@ -1,6 +1,12 @@
 <div id="xtree"></div>
 <div id="domtree"></div>
 
+<style>
+    #css-editor-root .mw-accordion-title{
+        font-weight: bold;
+    }
+</style>
+
 <script type="text/javascript">
     // mw.parent().require("external_callbacks.js");
     mw.require("jquery-ui.js");
@@ -17,7 +23,6 @@
 
 
     mw.require('css_parser.js');
-    mw.lib.require('colorpicker');
 
 
     $(window).on('load', function () {
@@ -560,135 +565,133 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         })
 
     </script>
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="classtags-accordion">
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
-        <div class="mw-accordion-content mw-ui-box-content">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Classes"); ?></label>
-                <div class="mw-ui-field w100" id="classtags"></div>
-            </div>
-
-        </div>
-    </div>
-
-
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
-    <div class="mw-accordion-content mw-ui-box-content">
-        <div class="s-field">
-            <label><?php _e("Text align"); ?></label>
-            <div class="s-field-content">
-                <div class="text-align">
-                    <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
-                    <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
-                    <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
-                    <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Size"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Line height"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Color"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <input type="color" class="colorField unit" data-prop="color">
-                   </div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Style"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="fontStyle">
-                            <option value="normal"><?php _e("normal"); ?></option>
-                            <option value="italic"><?php _e("italic"); ?></option>
-                            <option value="oblique"><?php _e("oblique"); ?></option>
-                        </select>
+        <mw-accordion-item>
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content">
+                <div class="s-field">
+                    <label><?php _e("Text align"); ?></label>
+                    <div class="s-field-content">
+                        <div class="text-align">
+                            <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
+                            <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
+                            <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
+                            <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Weight"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="fontWeight">
-                            <option value="normal"><?php _e("normal"); ?></option>
-                            <option value="bold"><?php _e("bold"); ?></option>
-                            <option value="bolder"><?php _e("bolder"); ?></option>
-                            <option value="lighter"><?php _e("lighter"); ?></option>
-                            <option value="100">100</option>
-                            <option value="200">200</option>
-                            <option value="300">300</option>
-                            <option value="400">400</option>
-                            <option value="500">500</option>
-                            <option value="600">600</option>
-                            <option value="700">700</option>
-                            <option value="800">800</option>
-                            <option value="900">900</option>
-                        </select>
+                <div class="s-field">
+                    <label><?php _e("Size"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Text transform"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="textTransform">
-                            <option value="none"><?php _e("none"); ?></option>
-                            <option value="capitalize"><?php _e("capitalize"); ?></option>
-                            <option value="uppercase"><?php _e("uppercase"); ?></option>
-                            <option value="lowercase"><?php _e("lowercase"); ?></option>
-                        </select>
+                <div class="s-field">
+                    <label><?php _e("Line height"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Word Spacing"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
+                <div class="s-field">
+                    <label><?php _e("Color"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <input type="color" class="colorField unit" data-prop="color">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Letter Spacing"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
+                <div class="s-field">
+                    <label><?php _e("Style"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="fontStyle">
+                                    <option value="normal"><?php _e("normal"); ?></option>
+                                    <option value="italic"><?php _e("italic"); ?></option>
+                                    <option value="oblique"><?php _e("oblique"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="s-field">
+                    <label><?php _e("Weight"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="fontWeight">
+                                    <option value="normal"><?php _e("normal"); ?></option>
+                                    <option value="bold"><?php _e("bold"); ?></option>
+                                    <option value="bolder"><?php _e("bolder"); ?></option>
+                                    <option value="lighter"><?php _e("lighter"); ?></option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700">700</option>
+                                    <option value="800">800</option>
+                                    <option value="900">900</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Text transform"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="textTransform">
+                                    <option value="none"><?php _e("none"); ?></option>
+                                    <option value="capitalize"><?php _e("capitalize"); ?></option>
+                                    <option value="uppercase"><?php _e("uppercase"); ?></option>
+                                    <option value="lowercase"><?php _e("lowercase"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Word Spacing"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Letter Spacing"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
-        </div>
+        </mw-accordion-item>
 
 
 
-    </div>
-</div>
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+
+
+
+
+
+
+<mw-accordion-item >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -772,11 +775,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </div>
-</div>
+</mw-accordion-item>
 
 
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="size-box" style="display: none">
+    <mw-accordion-item  id="size-box" style="display: none">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr-col">
@@ -844,9 +847,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
             <span class="mw-ui-link" onclick="mw.$('.size-advanced').slideToggle()">Advanced</span>
         </div>
-    </div>
+    </mw-accordion-item>
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <mw-accordion-item >
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
@@ -867,10 +870,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
             </div>
         </div>
-    </div>
+    </mw-accordion-item>
 
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+<mw-accordion-item  >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -923,8 +926,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </div>
-</div>
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+</mw-accordion-item>
+<mw-accordion-item  >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
@@ -960,8 +963,20 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div id="shadow"></div>
 
     </div>
-</div>
+</mw-accordion-item>
+        <mw-accordion-item id="classtags-accordion">
 
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content">
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Classes"); ?></label>
+                    <div class="mw-ui-field w100" id="classtags"></div>
+                </div>
+
+            </div>
+
+        </mw-accordion-item>
+</div>
 
 <div class="mw-css-editor">
 
