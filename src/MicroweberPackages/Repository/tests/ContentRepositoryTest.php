@@ -37,16 +37,17 @@ class ContentRepositoryTest extends TestCase
 
 
         foreach ($cont as $con) {
-            $data = $content_repository->getContentData($con->id);
+            $data = $content_repository->findById($con->id)->contentData;
             if ($data) {
                 foreach ($data as $dat) {
+
                     if ($dat->field_name == 'year') {
                         $dat->field_name = $newyear;
                         $dat->field_value = $newyearval;
                         $s = $dat->save();
                         $data1 = $content_repository->getContentData($con->id);
                         foreach ($data1 as $dat2) {
-                            if ($dat2->id == $dat->id) {
+                            if ($dat2['id'] == $dat->id) {
                                 $new_field_name = $dat->field_name;
                             }
                         }

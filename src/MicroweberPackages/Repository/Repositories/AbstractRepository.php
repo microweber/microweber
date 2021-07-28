@@ -293,6 +293,29 @@ abstract class AbstractRepository
         return $this->query->get($columns);
     }
 
+//
+//    /**
+//     * Find content by id.
+//     *
+//     * @param mixed $id
+//     *
+//     * @return Model|Collection
+//     */
+
+
+    public function findById($id)
+    {
+
+        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        $this->newQuery();
+
+        return $this->query
+            ->where('id', $id)
+            ->limit(1)
+            ->first();
+        //  });
+    }
+
     /**
      * Order results by.
      *

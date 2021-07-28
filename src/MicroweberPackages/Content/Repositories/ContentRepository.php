@@ -45,29 +45,6 @@ class ContentRepository extends AbstractRepository
     public $model = Content::class;
 
 
-//
-//    /**
-//     * Find content by id.
-//     *
-//     * @param mixed $id
-//     *
-//     * @return Model|Collection
-//     */
-
-
-    public function findById($id)
-    {
-
-        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-        $this->newQuery();
-
-        return $this->query
-            ->where('id', $id)
-            ->limit(1)
-            ->first();
-        //  });
-    }
-
     /**
      * Filter results by given query params.
      *
