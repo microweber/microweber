@@ -9,7 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
-use MicroweberPackages\Content\Repositories\ContentRepositoryModel;
+use MicroweberPackages\Content\Repositories\ContentRepository;
 
 /**
  * Content class is used to get and save content in the database.
@@ -33,8 +33,7 @@ class ContentManager
     /** @var \Microweber\Providers\Content\ContentManagerHelpers */
     public $helpers;
 
-    /** @var ContentRepositoryModel */
-    public $content_repository;
+
 
     /**
      *  Boolean that indicates the usage of cache while making queries.
@@ -57,7 +56,7 @@ class ContentManager
         $this->crud = new ContentManagerCrud($this->app);
         $this->helpers = new ContentManagerHelpers($this->app);
 
-        $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+        //$this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 
 
 

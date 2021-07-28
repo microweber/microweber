@@ -57,6 +57,12 @@ class Crud
             }
         }
 
+
+
+       // $get =app()->content_repository->searchByParams ($params);
+
+      //  $get =app()->content_repository->searchByParams ($params);
+
         $get = $this->app->database_manager->get($params);
 
         $override_data = array();

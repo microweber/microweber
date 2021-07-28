@@ -6,6 +6,9 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Post\Models\Post;
 
+
+
+return;
 /**
  * Run test
  * @author Bobi Microweber

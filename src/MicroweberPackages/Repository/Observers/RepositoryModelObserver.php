@@ -44,7 +44,6 @@ class RepositoryModelObserver
     protected function clearCache($model)
     {
 
-       dd(111111111111111111114454,$model);
         //  clearcache();
         // TODO
         //Cache::tags($model->table)->flush();

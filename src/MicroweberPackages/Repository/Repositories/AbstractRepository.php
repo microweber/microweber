@@ -4,7 +4,7 @@
 namespace MicroweberPackages\Repository\Repositories;
 
 use Illuminate\Support\Facades\Event;
-use MicroweberPackages\Content\Repositories\ContentRepositoryModel;
+use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
 
@@ -20,9 +20,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Torann\LaravelRepository\Contracts\RepositoryContract;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
-/**
- * @mixin ContentRepositoryModel
- */
+
 abstract class AbstractRepository
 {
     use CacheableRepository;
@@ -128,7 +126,7 @@ abstract class AbstractRepository
             $this->flushCache();
         });
 
-         //    $this->getModel()::observe(RepositoryModelObserver::class);
+        //    $this->getModel()::observe(RepositoryModelObserver::class);
 
 
     }
@@ -471,12 +469,33 @@ abstract class AbstractRepository
             }
 
             // Ensure only the current model's table attributes are return
-            $query->addSelect([
-                $this->getModel()->getTable() . '.*',
-            ]);
-
+            if (!$this->_selectIsAdded) {
+                $query->addSelect([
+                    $this->getModel()->getTable() . '.*',
+                ]);
+            }
             return $query;
         });
+    }
+
+
+    private $_selectIsAdded = false;
+
+    public function select($columns)
+    {
+        $this->_selectIsAdded = true;
+        return $this->addScopeQuery(function ($query) use ($columns) {
+            foreach ($columns as $key => $column) {
+                $query->addSelect([
+                    $this->getModel()->getTable() . '.' . $column,
+                ]);
+            }
+
+            return $query;
+
+        });
+
+
     }
 
     /**

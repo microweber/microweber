@@ -19,7 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
 //        $this->app->bind(
 //            ContentRepositoryInterface::class,
-//            ContentRepository::class
+//            ContentRepositoryApi::class
 //        );
 
         $this->app->register(\Torann\LaravelRepository\RepositoryServiceProvider::class);

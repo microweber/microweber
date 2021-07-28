@@ -11,13 +11,13 @@ namespace MicroweberPackages\Content\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Content\Repositories\ContentRepositoryApi;
 
 class ContentApiController extends AdminDefaultController
 {
     public $content;
 
-    public function __construct(ContentRepository $content)
+    public function __construct(ContentRepositoryApi $content)
     {
         $this->content = $content;
     }

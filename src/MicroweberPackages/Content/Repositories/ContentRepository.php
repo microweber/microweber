@@ -1,68 +1,175 @@
 <?php
 
+
 namespace MicroweberPackages\Content\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use MicroweberPackages\Content\Content;
-use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Content\Events\ContentIsCreating;
-use MicroweberPackages\Content\Events\ContentIsUpdating;
-use MicroweberPackages\Content\Events\ContentWasCreated;
-use MicroweberPackages\Content\Events\ContentWasDeleted;
-use MicroweberPackages\Content\Events\ContentWasUpdated;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
-class ContentRepository extends BaseRepository
+/**
+ * @mixin AbstractRepository
+ */
+class ContentRepository extends AbstractRepository
 {
 
-    public function __construct(Content $model)
+
+    protected $searchable = [
+        'id',
+        'title',
+        'content',
+        'content_body',
+        'content_type',
+        'content_subtype',
+        'description',
+        'is_home',
+        'is_shop',
+        'is_deleted',
+        'subtype',
+        'subtype_value',
+        'parent',
+        'layout_file',
+        'active_site_template',
+        'url',
+        'content_meta_title',
+        'content_meta_keywords',
+    ];
+
+
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public $model = Content::class;
+
+
+//
+//    /**
+//     * Find content by id.
+//     *
+//     * @param mixed $id
+//     *
+//     * @return Model|Collection
+//     */
+
+
+    public function findById($id)
     {
-        $this->model = $model;
+
+        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        $this->newQuery();
+
+        return $this->query
+            ->where('id', $id)
+            ->limit(1)
+            ->first();
+        //  });
     }
 
-    public function create($data)
+    /**
+     * Filter results by given query params.
+     *
+     * @param string|array $queries
+     *
+     * @return self
+     */
+    public function searchByParams($params)
     {
-        event($event = new ContentIsCreating($data));
 
-        $product = $this->model->create($data);
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-        event(new ContentWasCreated($product, $data));
+            if (isset($params['count']) and $params['count']) {
+                $result = $this->search($params)->count();
+            } else if (isset($params['single'])) {
+                $result = $this->select(['id'])->search($params)->limit(1)->all();
+            } else {
+                $result = $this->select(['id'])->search($params)->all(['id']);
 
-        return $product;
+            }
+
+
+            if ($result) {
+
+                $result = $result->toArray();
+                if ($result) {
+                    $ready = [];
+                    foreach ($result as $dataById) {
+                        $dataById = $dataById['id'];
+                        $find = $this->findById($dataById);
+                        if ($find) {
+                            $find = $find->toArray();
+                        }
+                        $ready[$dataById] = $find;
+                    }
+                    $result = $ready;
+                }
+
+                if (isset($params['single'])) {
+                    $result = array_pop($result);
+                }
+            }
+
+            return $result;
+
+
+        });
+
+
+    }
+//
+//
+//
+//
+//
+    /**
+     * Find content by id.
+     *
+     * @param mixed $id
+     *
+     * @return Model|Collection
+     */
+    public function getMedia($id)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+
+            return $this->findById($id)->media->toArray();
+
+
+        });
     }
 
-    public function update($data, $id)
+//
+
+    /**
+     * Find content by id.
+     *
+     * @param mixed $id
+     *
+     * @return Model|Collection
+     */
+    public function getContentData($id)
     {
-        $product = $this->model->find($id);
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
-        event($event = new ContentIsUpdating($product, $data));
+            return $this->findById($id)->contentData->toArray();
 
-        $product->update($data);
 
-        event(new ContentWasUpdated($product, $data));
-
-        return $product;
+        });
     }
-
-
-    public function delete($id)
-    {
-        $product = $this->model->find($id);
-
-        event(new ContentWasDeleted($product));
-
-        return $product->delete();
-    }
-
-
-    public function destroy($ids)
-    {
-        event(new ContentWasDestroy($ids));
-
-        return $this->model->destroy($ids);
-    }
-
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
+//
+//
+//    /**
+//     * Filter by author attribute
+//     *
+//     * @return self
+//     */
+//    public function scopeIsShop()
+//    {
+//        return $this->addScopeQuery(function ($query) {
+//            return $query->where('is_shop', '=', 1);
+//        });
+//    }
 
 }

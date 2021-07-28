@@ -113,6 +113,7 @@ trait CacheableRepository
      *
      * @return mixed
      */
+    public $_cacheCallbackMemory = [];
     public function cacheCallback($method, $args, Closure $callback, $time = null)
     {
         // Cache disabled, just execute query & return result
@@ -121,9 +122,16 @@ trait CacheableRepository
         }
          // Use the called class name as the tag
         $tag = $this->generateCacheTags();
+        $cacheKey =  $this->getCacheKey($method, $args, $tag);
 
-        return self::getCacheInstance()->tags($tag)->remember(
-            $this->getCacheKey($method, $args, $tag),
+        $_cacheCallback_memory_key = implode('-',$tag).$cacheKey;
+        if(isset($this->_cacheCallbackMemory[$_cacheCallback_memory_key])){
+            // return from local memory to prevent cache hits
+            return $this->_cacheCallbackMemory[$_cacheCallback_memory_key];
+        }
+
+        return $this->_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
+            $cacheKey,
             $this->getCacheExpiresTime($time),
             $callback
         );
@@ -144,6 +152,8 @@ trait CacheableRepository
      */
     public function flushCache()
     {
+        $this->_cacheCallbackMemory = [];
+
         // Cache disabled, just ignore this
         if ($this->eventFlushCache === false || config('repositories.cache_enabled', false) === false) {
             return false;
@@ -153,7 +163,7 @@ trait CacheableRepository
       //  $tag = $this->generateCacheTags();
 
         $this->eventFlushCache = false;
-        $this->disableCache = true;
+        $this->disableCache = true; //disabling repository cache
        // return self::getCacheInstance()->tags($tag)->flush();
     }
 
