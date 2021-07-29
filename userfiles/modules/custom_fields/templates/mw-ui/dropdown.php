@@ -33,7 +33,7 @@ $(document).ready(function () {
             <?php endif; ?>
 
 			<?php foreach($data['values'] as $key=>$value): ?>
-		    <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $key; ?>">
+		    <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $value; ?>">
 		   		<?php echo $value; ?>
 			</option>
 		    <?php endforeach; ?>
