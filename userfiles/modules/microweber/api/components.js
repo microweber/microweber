@@ -237,11 +237,11 @@
     },
     _init: function () {
         mw.$('.mw-field input[type="range"]').addClass('mw-range');
-        mw.$('[data-mwcomponent]').each(function () {
-            var component = mw.$(this).attr("data-mwcomponent");
+        mw.$('[data-mwcomponent], [data-mw-component]').each(function () {
+            var component = this.dataset.mwComponent || this.dataset.mwcomponent;
             if (mw.components[component]) {
                 mw.components[component](this);
-                mw.$(this).removeAttr('data-mwcomponent')
+                mw.$(this).removeAttr('data-mwcomponent').removeAttr('data-mw-component')
             }
         });
         $.each(this, function(key){

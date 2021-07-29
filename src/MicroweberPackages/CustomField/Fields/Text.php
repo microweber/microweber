@@ -35,7 +35,7 @@ class Text extends DefaultField
         $this->renderSettings['required'] = false;
         $this->renderSettings['as_text_area'] = false;
 
-        if (isset($this->data['options']['as_text_area'])) {
+        if (isset($this->data['options']) and isset($this->data['options']['as_text_area'])) {
 
             $this->renderSettings['as_text_area'] = $this->data['options']['as_text_area'];
 
