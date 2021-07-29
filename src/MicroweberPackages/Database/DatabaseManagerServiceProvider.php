@@ -29,5 +29,12 @@ class DatabaseManagerServiceProvider extends ServiceProvider
         $this->app->singleton('database_manager', function ($app) {
             return new DatabaseManager($app);
         });
+
+
+        \Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
+            app()->database_manager->clearCache();
+        });
+
+
     }
 }

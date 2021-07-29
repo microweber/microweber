@@ -101,12 +101,16 @@ class DatabaseManager extends DbUtils
      */
 
     public $_query_get_cache = [];
+    public $_query_get_cache_is_disabled = false;
     public function clearCache($table = false){
-        if($table){
-            $this->_query_get_cache[$table] = null;
-        } else {
-            $this->_query_get_cache[$table] = [];
-        }
+
+        $this->_query_get_cache[$table] = [];
+        $this->_query_get_cache_is_disabled = true;
+//        if($table){
+//            $this->_query_get_cache[$table] = null;
+//        } else {
+//
+//        }
     }
 
 
@@ -157,11 +161,12 @@ class DatabaseManager extends DbUtils
         }
 
         $_query_get_cache_key = $cache_key;
-        if (isset($this->_query_get_cache[$table][$_query_get_cache_key]) and $this->_query_get_cache[$table][$_query_get_cache_key]) {
-            // experimental
-             return $this->_query_get_cache[$table][$_query_get_cache_key];
+        if (!$this->_query_get_cache_is_disabled) {
+            if (isset($this->_query_get_cache[$table][$_query_get_cache_key]) and $this->_query_get_cache[$table][$_query_get_cache_key]) {
+                // experimental
+                return $this->_query_get_cache[$table][$_query_get_cache_key];
+            }
         }
-
 
 
 
@@ -474,7 +479,7 @@ class DatabaseManager extends DbUtils
         if (!is_array($data)) {
             return false;
         }
-        $this->clearCache($table);
+        $this->clearCache();
         $original_data = $data;
 
         $is_quick = isset($original_data['quick_save']);
@@ -858,6 +863,7 @@ class DatabaseManager extends DbUtils
 
         Cache::tags($table)->flush();
         $this->app->cache_manager->delete('content/global/full_page_cache');
+        $this->clearCache();
 
         return $c_id;
     }
@@ -910,13 +916,13 @@ class DatabaseManager extends DbUtils
     {
        // return DB::table($table);
 
-        if (isset(self::$model_cache_mem[$table])) {
-           // $instance = self::$model_cache_mem[$table]->newInstance($params, true);
-         //   $instance = self::$model_cache_mem[$table]->newModelQuery($params, true);
-          //  dump($instance);
-            return self::$model_cache_mem[$table];
-          //  return $instance;
-        }
+//        if (isset(self::$model_cache_mem[$table])) {
+//           // $instance = self::$model_cache_mem[$table]->newInstance($params, true);
+//         //   $instance = self::$model_cache_mem[$table]->newModelQuery($params, true);
+//          //  dump($instance);
+//         //   return self::$model_cache_mem[$table];
+//          //  return $instance;
+//        }
 
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
