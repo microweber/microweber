@@ -315,13 +315,29 @@ class CategoryManager
 
     public function get_for_content($content_id, $data_type = 'categories')
     {
+
         if (intval($content_id) == 0) {
             return false;
         }
 
+        $cats = app()->content_repository->getCategories($content_id);
+
+
+
+        return $cats;
+
+
+        // deprecated old code
+
+
+
+
+
+
         if (isset($this->_get_for_content_memory[$content_id][$data_type])) {
             return $this->_get_for_content_memory[$content_id][$data_type];
         }
+
 
         if ($data_type == 'categories') {
             $data_type = 'category';
@@ -332,7 +348,7 @@ class CategoryManager
 //        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
 //        $get_category_items = $this->get_items('fields=parent_id&group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
         $get_category_items = $this->get_items('fields=parent_id&group_by=categories_items.parent_id&rel_type=content&rel_id=' . ($content_id));
-
+// dump($get_category_items);
         $include_parents = array();
         $include_parents_str = '';
 

@@ -153,6 +153,7 @@ trait CacheableRepository
     public function flushCache()
     {
         $this->_cacheCallbackMemory = [];
+        self::$_loaded_models_cache_get = [];
 
         // Cache disabled, just ignore this
         if ($this->eventFlushCache === false || config('repositories.cache_enabled', false) === false) {

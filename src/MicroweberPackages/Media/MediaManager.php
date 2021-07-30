@@ -57,9 +57,22 @@ class MediaManager
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
+
+
+
+
+
         if (!$images) {
-            $images = $this->get($arr);
+
+            if($for=='content'){
+                $images =  app()->content_repository->getMedia($content_id);
+            } else {
+                $images = $this->get($arr);
+
+            }
+
         }
+
 
         if ($images != false and isset($images[0])) {
             if (isset($images[0]['filename']) and $full == false) {

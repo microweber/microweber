@@ -208,8 +208,6 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-
-
        return $this->crud->get_by_id($id);
     }
 

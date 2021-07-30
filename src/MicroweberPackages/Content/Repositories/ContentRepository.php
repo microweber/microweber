@@ -5,6 +5,7 @@ namespace MicroweberPackages\Content\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -45,56 +46,6 @@ class ContentRepository extends AbstractRepository
     public $model = Content::class;
 
 
-    /**
-     * Filter results by given query params.
-     *
-     * @param string|array $queries
-     *
-     * @return self
-     */
-    public function searchByParams($params)
-    {
-
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
-
-            if (isset($params['count']) and $params['count']) {
-                $result = $this->search($params)->count();
-            } else if (isset($params['single'])) {
-                $result = $this->select(['id'])->search($params)->limit(1)->all();
-            } else {
-                $result = $this->select(['id'])->search($params)->all(['id']);
-
-            }
-
-
-            if ($result) {
-
-                $result = $result->toArray();
-                if ($result) {
-                    $ready = [];
-                    foreach ($result as $dataById) {
-                        $dataById = $dataById['id'];
-                        $find = $this->findById($dataById);
-                        if ($find) {
-                            $find = $find->toArray();
-                        }
-                        $ready[$dataById] = $find;
-                    }
-                    $result = $ready;
-                }
-
-                if (isset($params['single'])) {
-                    $result = array_pop($result);
-                }
-            }
-
-            return $result;
-
-
-        });
-
-
-    }
 //
 //
 //
@@ -111,13 +62,72 @@ class ContentRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
-            return $this->findById($id)->media->toArray();
+
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->media;
+                if ($get) {
+                    return $get->toArray();
+                }
+            }
+            return [];
+
+        });
+    }
+
+
+    /**
+     * Find categories for content
+     *
+     * @param mixed $id
+     *
+     * @return Model|Collection
+     */
+    public function getCategories($id)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+            $cats = [];
+
+
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->categories;
+                if ($get) {
+                    $cats1 = $get->toArray();
+                    if ($cats1) {
+                        foreach ($cats1 as $cat) {
+                            if (isset($cat["parent"])) {
+                                unset($cat["parent"]);
+                                $cats[] = $cat;
+                            }
+                            $cats[] = $cat;
+                        }
+                    }
+
+                    if (is_array($cats) and !empty($cats)) {
+                        $cats = array_unique_recursive($cats);
+                    }
+                    $ready = [];
+                    if ($cats) {
+                        foreach ($cats as $cat) {
+
+                            $cat_exists = get_category_by_id($cat['parent_id']);
+                            if ($cat_exists) {
+                                $ready[] = $cat_exists;
+                            }
+                        }
+                    }
+
+
+                    return $ready;
+                }
+            }
+            return [];
 
 
         });
     }
 
-//
 
     /**
      * Find content by id.
@@ -130,11 +140,77 @@ class ContentRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
-            return $this->findById($id)->contentData->toArray();
+
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->contentData;
+                if ($get) {
+                    return $get->toArray();
+                }
+            }
+            return [];
 
 
         });
     }
+
+    /**
+     * Find content by id.
+     *
+     * @param mixed $id
+     *
+     * @return Model|Collection
+     */
+    public function getCustomFields($id)
+    {
+       return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+
+
+        $item = $this->findById($id);
+        if ($item) {
+
+            $get = $item->customField;
+            $ready = [];
+
+            if ($get) {
+                foreach ($get as $item) {
+                    $cf_item = $item->fieldValue;
+
+                    $cf_item = $item->toArray();
+
+                    if (isset($cf_item['field_value'])) {
+                        $vals = [];
+                        if (!empty($cf_item['field_value'])) {
+                            foreach ($cf_item['field_value'] as $itemv) {
+                                if ($itemv['value']) {
+                                    $vals [] = $itemv['value'];
+                                }
+
+                            }
+                        }
+                        if ($vals) {
+                            $cf_item['values'] = $vals;
+                            $cf_item['value'] = array_pop($vals);
+                        }
+
+                        unset($cf_item['field_value']);
+
+                    }
+
+                    $ready[] = $cf_item;
+
+                }
+
+            }
+
+            return $ready;
+        }
+        return [];
+
+
+        });
+    }
+
 //
 //
 //    /**

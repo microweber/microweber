@@ -293,6 +293,10 @@ abstract class AbstractRepository
         return $this->query->get($columns);
     }
 
+
+    public static $_loaded_models_cache_get = [];
+
+
 //
 //    /**
 //     * Find content by id.
@@ -303,16 +307,26 @@ abstract class AbstractRepository
 //     */
 
 
+
     public function findById($id)
     {
 
-        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+
+        $cls = get_class($this->getModel());
+        if ($this->skippedCache() !== true) {
+            if (isset(self::$_loaded_models_cache_get[$cls][$id])) {
+                return self::$_loaded_models_cache_get[$cls][$id];
+            }
+        }
         $this->newQuery();
 
-        return $this->query
+        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return self::$_loaded_models_cache_get[$cls][$id] = $this->query
             ->where('id', $id)
             ->limit(1)
             ->first();
+
+
         //  });
     }
 
@@ -959,5 +973,57 @@ abstract class AbstractRepository
         $className = get_class($this);
 
         throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+    }
+
+
+    /**
+     * Filter results by given query params.
+     *
+     * @param string|array $queries
+     *
+     * @return self
+     */
+    public function searchByParams($params)
+    {
+
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+
+            if (isset($params['count']) and $params['count']) {
+                $result = $this->search($params)->count();
+            } else if (isset($params['single'])) {
+                $result = $this->select(['id'])->search($params)->limit(1)->all();
+            } else {
+                $result = $this->select(['id'])->search($params)->all(['id']);
+
+            }
+
+
+            if ($result) {
+
+                $result = $result->toArray();
+                if ($result) {
+                    $ready = [];
+                    foreach ($result as $dataById) {
+                        $dataById = $dataById['id'];
+                        $find = $this->findById($dataById);
+                        if ($find) {
+                            $find = $find->toArray();
+                        }
+                        $ready[$dataById] = $find;
+                    }
+                    $result = $ready;
+                }
+
+                if (isset($params['single'])) {
+                    $result = array_pop($result);
+                }
+            }
+
+            return $result;
+
+
+        });
+
+
     }
 }

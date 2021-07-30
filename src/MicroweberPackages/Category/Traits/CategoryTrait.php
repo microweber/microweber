@@ -102,6 +102,7 @@ trait CategoryTrait
 
         $categories = [];
 
+
         foreach ($this->categoryItems()->with('parent')->get() as $category) {
             $categories[] = $category;
         }

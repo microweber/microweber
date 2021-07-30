@@ -10,6 +10,7 @@ use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\User\UserManager;
@@ -64,6 +65,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property ClientsManager           $clients_manager
  * @property InvoicesManager          $invoices_manager
  * @property OptionManager                 $option_manager
+ * @property OptionRepository                 $option_repository
  * @property CacheManager                  $cache_manager
  * @property UserManager                   $user_manager
  * @property DatabaseManager              $database_manager

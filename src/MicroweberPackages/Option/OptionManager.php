@@ -62,6 +62,7 @@ class OptionManager
             $params = $params2;
         }
 
+
         $data = $params;
         $table = $this->tables['options'];
         //  $data['debug'] = 1000;
@@ -106,6 +107,7 @@ class OptionManager
         }
 
         $res = $query->get();
+
 
         if ($res and !empty($res)) {
             $res = $res->toArray();
@@ -198,7 +200,10 @@ class OptionManager
 
         if ($optionGroup) {
 
-              $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+            //  $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+
+            $allOptions = app()->option_repository->searchByParams(['option_group'=>$optionGroup]);
+//dd($allOptions);
 
         //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
             //   dd($allOptions);

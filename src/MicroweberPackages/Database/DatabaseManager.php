@@ -51,6 +51,8 @@ class DatabaseManager extends DbUtils
         }
     }
 
+
+
     /**
      * Get items from the database.
      *
@@ -99,21 +101,6 @@ class DatabaseManager extends DbUtils
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
      */
-
-    public $_query_get_cache = [];
-    public $_query_get_cache_is_disabled = false;
-    public function clearCache($table = false){
-
-        $this->_query_get_cache[$table] = [];
-        $this->_query_get_cache_is_disabled = true;
-//        if($table){
-//            $this->_query_get_cache[$table] = null;
-//        } else {
-//
-//        }
-    }
-
-
     public function get($table, $params = null)
     {
 
@@ -910,7 +897,26 @@ class DatabaseManager extends DbUtils
         return $data;
     }
 
+
+    public $_query_get_cache = [];
+    public $_query_get_cache_is_disabled = false;
+    public function clearCache($table = false){
+
+
+        $this->_query_get_cache = []; //empty whole local cache
+        $this->_query_get_cache_is_disabled = true; //disable the cache after flush
+
+//        if($table){
+//            $this->_query_get_cache[$table] = null;
+//        } else {
+//        // $this->_query_get_cache[$table] = [];
+//        }
+    }
+
+
     static $model_cache_mem = [];
+
+
 
     public function table($table, $params = [])
     {

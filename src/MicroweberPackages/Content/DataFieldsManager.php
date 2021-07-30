@@ -20,10 +20,11 @@ class DataFieldsManager extends Crud
 
              $params['rel_type'] = 'content';
               $params['rel_id'] = $params['content_id'];
+           $get =    app()->content_repository->getContentData($params['content_id']);
 
               unset($params['content_id']);
 
-                $get = $this->get($params);
+             //   $get = $this->get($params);
 
       //      $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 //
