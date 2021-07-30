@@ -204,7 +204,7 @@ class ShopManager
         if ($prices) {
             $return = array();
             foreach ($prices as $price_data) {
-                if (isset($price_data['name'])) {
+                if (isset($price_data['name']) and isset($price_data['value'])) {
                     $return[$price_data['name']] = $price_data['value'];
                 }
             }
