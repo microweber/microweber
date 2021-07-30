@@ -174,10 +174,11 @@ class ContentRepository extends AbstractRepository
 
             if ($get) {
                 foreach ($get as $item) {
-                    $cf_item = $item->fieldValue;
+                    $cf_item1 = $item->fieldValue;
 
                     $cf_item = $item->toArray();
-
+                    $cf_item['value'] = false;
+                    $cf_item['values'] = [];
                     if (isset($cf_item['field_value'])) {
                         $vals = [];
                         if (!empty($cf_item['field_value'])) {
@@ -209,6 +210,24 @@ class ContentRepository extends AbstractRepository
 
 
         });
+    }
+
+    public function getCustomFieldsByType($id,$type)
+    {
+        $fields  = $this->getCustomFields($id);
+        if($fields){
+            foreach ($fields as $k=>$field){
+                if(isset($field['type']) and $field['type']==$type){
+
+                } else {
+                  unset($fields[$k]);
+                }
+
+            }
+        }
+
+        return $fields;
+
     }
 
 //

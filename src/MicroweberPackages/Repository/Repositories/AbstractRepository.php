@@ -312,19 +312,23 @@ abstract class AbstractRepository
     {
 
 
-        $cls = get_class($this->getModel());
-        if ($this->skippedCache() !== true) {
-            if (isset(self::$_loaded_models_cache_get[$cls][$id])) {
-                return self::$_loaded_models_cache_get[$cls][$id];
-            }
-        }
+//        $cls = get_class($this->getModel());
+//        if ($this->skippedCache() !== true) {
+//            if (isset(self::$_loaded_models_cache_get[$cls][$id])) {
+//                return self::$_loaded_models_cache_get[$cls][$id];
+//            }
+//        }
         $this->newQuery();
-
-        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-        return self::$_loaded_models_cache_get[$cls][$id] = $this->query
+        return   $this->query
             ->where('id', $id)
             ->limit(1)
             ->first();
+
+        //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+//        return self::$_loaded_models_cache_get[$cls][$id] = $this->query
+//            ->where('id', $id)
+//            ->limit(1)
+//            ->first();
 
 
         //  });
