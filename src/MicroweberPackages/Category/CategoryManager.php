@@ -239,8 +239,7 @@ class CategoryManager
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
 
-
-        $results = cache_get($cache_id, $cache_group, 600);
+         $results = cache_get($cache_id, $cache_group, 600);
         if ($results) {
             return $results;
         }
@@ -830,6 +829,8 @@ class CategoryManager
             $id = mb_trim($id);
         }
 
+
+
         $table = $this->tables['categories'];
 
         $get = array();
@@ -841,6 +842,16 @@ class CategoryManager
         $get['single'] = true;
         $get['limit'] = 1;
         $q = $this->app->database_manager->get($table, $get);
+
+        if($by_field_name == 'id'){
+            $q = $this->app->database_manager->get($table, $get);
+
+        } else {
+            $q = $this->app->database_manager->get($table, $get);
+
+        }
+
+
 
         if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);

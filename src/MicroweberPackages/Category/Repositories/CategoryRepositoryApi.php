@@ -11,7 +11,7 @@ use MicroweberPackages\Category\Events\CategoryWasDeleted;
 use MicroweberPackages\Category\Events\CategoryWasUpdated;
 use MicroweberPackages\Category\Models\Category;
 
-class CategoryRepository extends BaseRepository
+class CategoryRepositoryApi extends BaseRepository
 {
     public function __construct(Category $model)
     {

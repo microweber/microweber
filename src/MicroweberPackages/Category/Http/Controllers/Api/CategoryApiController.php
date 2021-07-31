@@ -10,13 +10,13 @@ namespace MicroweberPackages\Category\Http\Controllers\Api;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use   MicroweberPackages\Category\Http\Requests\CategoryRequest ;
-use MicroweberPackages\Category\Repositories\CategoryRepository;
+use MicroweberPackages\Category\Repositories\CategoryRepositoryApi;
 
 class CategoryApiController extends AdminDefaultController
 {
     public $category;
 
-    public function __construct(CategoryRepository $category)
+    public function __construct(CategoryRepositoryApi $category)
     {
 
 
