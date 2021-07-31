@@ -233,7 +233,7 @@ class ContentRepository extends AbstractRepository
 //
 //
 //    /**
-//     * Filter by author attribute
+//     * Filter by is_shop attribute
 //     *
 //     * @return self
 //     */

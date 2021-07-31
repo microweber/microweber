@@ -781,8 +781,9 @@ class ModuleManager
         $get = array();
         $get['module'] = $module_name;
         $get['single'] = 1;
+        $data = app()->module_repository->getModule($module_name);
 
-        $data = $this->get($get);
+     //   $data = $this->get($get);
 
         return $data;
     }
@@ -1104,12 +1105,19 @@ class ModuleManager
             $module_namei = str_ireplace('\\admin', '', $module_namei);
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
-        $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
+        //$uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
+        $uninstall_lock = app()->module_repository->getModule($module_namei);
+
+
+
+
 
         if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
             $root_mod = $this->locate_root_module($module_name);
             if ($root_mod) {
-                $uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
+                //$uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
+                $uninstall_lock = app()->module_repository->getModule($root_mod);
+
                 if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
                     return false;
                 } else {
@@ -1177,7 +1185,12 @@ class ModuleManager
         $params['ui'] = 'any';
         $params['limit'] = 1;
 
-        $data = $this->get($params);
+      //  $data = $this->get($params);
+
+        $data = app()->module_repository->getModule($module_name);
+
+
+
         $info = false;
         if (isset($data[0])) {
             $info = $data[0];

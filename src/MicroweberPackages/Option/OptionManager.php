@@ -202,7 +202,7 @@ class OptionManager
 
             //  $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
 
-            $allOptions = app()->option_repository->searchByParams(['option_group'=>$optionGroup]);
+            $allOptions = app()->option_repository->getByParams(['option_group'=>$optionGroup]);
 //dd($allOptions);
 
         //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
