@@ -21,7 +21,7 @@ class Module extends Model
 
     public function register($module)
     {
-        return app()->module_manager->register('order/list', 'MicroweberPackages\Order\Http\Controllers\OrdersController');;
+  //      return app()->module_manager->register('order/list', 'MicroweberPackages\Order\Http\Controllers\OrdersController');;
     }
 
 

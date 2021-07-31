@@ -10,7 +10,7 @@ use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Content\Repositories\ContentRepository;
-use MicroweberPackages\Content\Repositories\ModuleRepository;
+use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
