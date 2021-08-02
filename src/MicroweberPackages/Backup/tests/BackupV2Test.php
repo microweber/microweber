@@ -8,7 +8,7 @@ use MicroweberPackages\Post\Models\Post;
 
 
 
-return;
+
 /**
  * Run test
  * @author Bobi Microweber
