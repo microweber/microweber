@@ -269,6 +269,11 @@ class LayoutsManager
                                 $result = str_ireplace('is_default:', '', $result);
                                 $to_return_temp['is_default'] = trim($result);
                             }
+                            if (preg_match('/categories:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('categories:', '', $result);
+                                $to_return_temp['categories'] = trim($result);
+                            }
 
                             if (preg_match('/position:.+/', $fin, $regs)) {
                                 $result = $regs[0];
