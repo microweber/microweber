@@ -36,6 +36,8 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
     $mod_obj_str = 'modules';
     $template_config = mw()->template->get_config();
     $show_grouped_by_cats = false;
+    $show_layouts_grouped_by_cats = false;
+    $show_group_elements_by_category = false;
     $hide_dynamic_layouts = false;
     $disable_elements = false;
 
@@ -52,7 +54,15 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
     }
 
     if (isset($params['group_layouts_by_category']) and $params['group_layouts_by_category']) {
-        $show_grouped_by_cats = true;
+        $show_layouts_grouped_by_cats = true;
+    }
+
+    if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
+        $show_layouts_grouped_by_cats = true;
+    }
+
+    if (isset($template_config['group_elements_by_category']) and $template_config['group_elements_by_category']) {
+        $show_group_elements_by_category = true;
     }
 
     if (isset($template_config['use_dynamic_layouts_for_posts']) and $template_config['use_dynamic_layouts_for_posts']) {
@@ -99,8 +109,20 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
 
 
     if ($elements_ready) {
-        $ready['elements'] = $elements_ready;
+
+
     }
+
+    $ready_elements = [];
+
+    if ($show_group_elements_by_category) {
+        $ready_elements['hasCategories'] = 1;
+    }
+
+    $ready_elements['data'] = $elements_ready;
+
+    $ready['elements'] = $ready_elements;
+
 
 
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
@@ -118,7 +140,6 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
 
     if ($dynamic_layouts) {
         $module_layouts_skins = array_merge($module_layouts_skins, $module_layouts_skins);
-
     }
 
 
@@ -157,9 +178,25 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
         }
         $modules = array_merge($modules, $modules_from_template);
     }
-    $ready['modules'] = $modules;
-    $ready['layouts'] = $module_layouts_skins;
-    return $ready;
+
+    $modules_ready = [];
+    if ($show_grouped_by_cats) {
+        $modules_ready['hasCategories'] = 1;
+    }
+    $modules_ready['data'] = $modules;
+
+
+    $ready['modules'] = $modules_ready;
+
+    $layouts_ready = [];
+    if ($show_layouts_grouped_by_cats) {
+        $layouts_ready['hasCategories'] = 1;
+    }
+    $layouts_ready['data'] = $module_layouts_skins;
+
+    $ready['layouts'] = $layouts_ready;
+    return response()->json($ready);
+  //  return $ready;
 
 });
 
