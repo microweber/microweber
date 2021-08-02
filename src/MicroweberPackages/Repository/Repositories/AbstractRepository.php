@@ -1009,6 +1009,7 @@ abstract class AbstractRepository
             }
 
             if (isset($params['count']) and $params['count']) {
+               // dd($this->count());
                 return $this->count();
             } else {
                 $result = $this->all();
