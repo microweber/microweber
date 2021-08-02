@@ -1973,9 +1973,6 @@ class FrontendController extends Controller
                  define('PAGE_ID', false);
              }*/
 
-
-            dd($page);
-
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;
             $render_params['content_id'] = CONTENT_ID;
