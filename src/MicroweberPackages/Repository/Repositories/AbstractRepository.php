@@ -992,20 +992,33 @@ abstract class AbstractRepository
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-            if (isset($params['count']) and $params['count']) {
-                $result = $this->search($params)->count();
-            } else if (isset($params['single'])) {
-                $result = $this->select(['id'])->search($params)->limit(1)->all();
-            } else {
-                $result = $this->select(['id'])->search($params)->all(['id']);
+            $result = [];
 
+           if (isset($params['single'])) {
+               $this->select(['id'])->search($params)->limit(1);
+            } else {
+               $this->select(['id'])->search($params);
             }
 
+            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+                unset($params['limit']);
+            }
+
+            if (isset($params['limit']) and $params['limit']) {
+                $this->limit($params['limit']);
+            }
+
+            if (isset($params['count']) and $params['count']) {
+                return $this->count();
+            } else {
+                $result = $this->all();
+            }
 
             if ($result) {
 
                 $result = $result->toArray();
                 if ($result) {
+
                     $ready = [];
                     foreach ($result as $dataById) {
                         $dataById = $dataById['id'];
@@ -1024,7 +1037,6 @@ abstract class AbstractRepository
             }
 
             return $result;
-
 
         });
 

@@ -2325,7 +2325,8 @@ class ContentManager
         $get = array();
         $get['is_home'] = 1;
         $get['single'] = 1;
-        $data = $this->get($get);
+
+        $data = app()->content_repository->getByParams($get);
 
         return $data;
     }
