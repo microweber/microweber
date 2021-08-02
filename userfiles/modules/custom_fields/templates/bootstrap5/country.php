@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="mb-3">
+    <div class="mb-3 d-flex">
 
         <?php if($settings['show_label']): ?>
-            <label class="control-label mb-3">
+            <label class="control-label me-2 align-self-center">
                 <?php echo $data['name']; ?>
                 <?php if ($settings['required']): ?>
                     <span style="color: red;">*</span>
@@ -10,7 +10,7 @@
             </label>
         <?php endif; ?>
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex">
                 <select class="form-control">
                     <option><?php _e($data['placeholder']) ?></option>
                     <option><?php foreach ($data['values'] as $country): ?>

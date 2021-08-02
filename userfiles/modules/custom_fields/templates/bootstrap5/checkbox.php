@@ -1,5 +1,5 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="mb-3">
+    <div class="mb-3 d-flex">
 
         <?php if ($settings['show_label']): ?>
             <div class="control-label mb-3 "><?php echo $data["name"]; ?></div>
