@@ -180,6 +180,12 @@ class UserManager
 
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
+
+        if(!$redirect_after){
+            //legacy redirect param
+            $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
+        }
+
         $overiden = false;
         $return_resp = false;
         if (is_array($override)) {
@@ -187,6 +193,8 @@ class UserManager
                 if (isset($resp['error']) or isset($resp['success'])) {
                     if (isset($resp['success']) and isset($resp['http_redirect'])) {
                         $redirect_after = $resp['http_redirect'];
+                    } else  if (isset($resp['success']) and isset($resp['redirect'])) {
+                        $redirect_after = $resp['redirect'];
                     }
                     $return_resp = $resp;
                     $overiden = true;
