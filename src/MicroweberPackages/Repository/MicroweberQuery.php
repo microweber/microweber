@@ -24,7 +24,9 @@ class MicroweberQuery {
             }
         }
 
-        if (isset($params['single'])) {
+        if (isset($params['count']) and $params['count']) {
+            $result = $model->count();
+        } else if (isset($params['single'])) {
             $result = $model->first();
         } else {
             $result = $model->get();
