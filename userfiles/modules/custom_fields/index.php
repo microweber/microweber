@@ -159,6 +159,15 @@ if (!$template_file) {
 if (isset($params['template'])) {
     $module_template = $params['template'];
     $template_file = module_templates($config['module'], $module_template);
+
+    if ($template_file == false) {
+
+        $template_index_file = module_dir($config['module']) . 'templates'. DS . $module_template . DS . 'index.php';
+
+        if (is_file($template_index_file)) {
+            $template_file = $template_index_file;
+        }
+    }
 }
 
 if ($template_file == false) {
