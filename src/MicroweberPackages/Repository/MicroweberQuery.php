@@ -3,33 +3,12 @@ namespace MicroweberPackages\Repository;
 
 class MicroweberQuery {
 
-
     public static function execute($model, $params) {
 
         $table = $model->getModel()->getTable();
         $columns  = \Schema::getColumnListing($table);
-        
-        if (isset($params['fields']) and $params['fields'] != false) {
-            if (is_string($params['fields'])) {
-                $isFields = explode(',', $params['fields']);
-            } else {
-                $isFields = $params['fields'];
-            }
-            $isFieldsQ = [];
-            if ($isFields) {
-                foreach ($isFields as $isField) {
-                    if (is_string($isField)) {
-                        $isField = trim($isField);
-                        if ($isField != '') {
-                            $isFieldsQ[] = $table . '.' . $isField;
-                        }
-                    }
-                }
-            }
-            if ($isFieldsQ) {
-                $model->select($isFieldsQ);
-            }
-        }
+
+        $model = self::_selectLogic($model, $table, $columns, $params);
 
         if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
             unset($params['limit']);
@@ -62,6 +41,32 @@ class MicroweberQuery {
        // dd($params, $result);
 
         return $result;
+    }
+
+
+    public static function _selectLogic($model, $table, $columns, $params) {
+        if (isset($params['fields']) and $params['fields'] != false) {
+            if (is_string($params['fields'])) {
+                $isFields = explode(',', $params['fields']);
+            } else {
+                $isFields = $params['fields'];
+            }
+            $isFieldsQ = [];
+            if ($isFields) {
+                foreach ($isFields as $isField) {
+                    if (is_string($isField)) {
+                        $isField = trim($isField);
+                        if ($isField != '') {
+                            $isFieldsQ[] = $table . '.' . $isField;
+                        }
+                    }
+                }
+            }
+            if ($isFieldsQ) {
+                $model->select($isFieldsQ);
+            }
+        }
+        return $model;
     }
 
 }
