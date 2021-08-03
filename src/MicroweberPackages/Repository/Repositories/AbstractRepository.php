@@ -995,9 +995,13 @@ abstract class AbstractRepository
             $this->newQuery();
 
             $result = MicroweberQuery::execute($this->query, $params);
+            if ($result != null) {
+                return $result->toArray();
+            } else {
+                return [];
+            }
 
-            return $result->toArray();
-
+            /*
            if (isset($params['single'])) {
                $this->select(['id'])->search($params)->limit(1);
             } else {
@@ -1042,6 +1046,7 @@ abstract class AbstractRepository
             }
 
             return $result;
+*/
 
         });
 
