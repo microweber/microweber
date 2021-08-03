@@ -58,130 +58,138 @@ class OfferRepository extends AbstractRepository
         return $offer;
     }
 
-    public static function getAll()
+    public function getAll()
     {
-        $offers = Offer::select(
-            'offers.id',
-            'offers.product_id',
-            'offers.offer_price',
-            'offers.created_at',
-            'offers.updated_at',
-            'offers.expires_at',
-            'offers.is_active',
-            'content.title as product_title',
-            'content.is_deleted',
-            'custom_fields.name as price_name',
-            'custom_fields_values.value as price'
-        )
-            ->where('content.content_type', '=', 'product')
-            ->where('custom_fields.type', '=', 'price')
-            ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
-            ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
-            ->leftJoin('content', 'offers.product_id', '=', 'content.id')
-            ->get()
-            ->toArray();
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            $offers = Offer::select(
+                'offers.id',
+                'offers.product_id',
+                'offers.offer_price',
+                'offers.created_at',
+                'offers.updated_at',
+                'offers.expires_at',
+                'offers.is_active',
+                'content.title as product_title',
+                'content.is_deleted',
+                'custom_fields.name as price_name',
+                'custom_fields_values.value as price'
+            )
+                ->where('content.content_type', '=', 'product')
+                ->where('custom_fields.type', '=', 'price')
+                ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
+                ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
+                ->leftJoin('content', 'offers.product_id', '=', 'content.id')
+                ->get()
+                ->toArray();
 
-        return $offers;
+            return $offers;
+        });
     }
 
-    public static function getPrice($productId, $priceId)
+    public function getPrice($productId, $priceId)
     {
-        $query = Offer::where('price_id', $priceId);
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId, $priceId) {
+            $query = Offer::where('price_id', $priceId);
 
-        if ($productId) {
-            $query->where('product_id', '=', $productId);
-        }
+            if ($productId) {
+                $query->where('product_id', '=', $productId);
+            }
 
-        $res  = $query->first();
+            $res = $query->first();
 
-        if(!empty($res)) {
-            return $res->toArray();
-        } else {
-            return [];
-        }
+            if (!empty($res)) {
+                return $res->toArray();
+            } else {
+                return [];
+            }
+        });
     }
 
-    public static function getByProductId($productId)
+    public function getByProductId($productId)
     {
-        $offers = Offer::select(
-            'custom_fields.id as id',
-            'offers.id as offer_id',
-            'offers.offer_price',
-            'offers.expires_at',
-            'custom_fields.name as price_name',
-            'custom_fields_values.value as price'
-        )
-            ->where('content.id', '=', $productId)
-            ->where('content.is_deleted', '=', 0)
-            ->where('offers.is_active', '=', 1)
-            ->where('custom_fields.type', '=', 'price')
-            ->leftJoin('content', 'offers.product_id', '=', 'content.id')
-            ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
-            ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
-            ->get()
-            ->toArray();
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId) {
+            $offers = Offer::select(
+                'custom_fields.id as id',
+                'offers.id as offer_id',
+                'offers.offer_price',
+                'offers.expires_at',
+                'custom_fields.name as price_name',
+                'custom_fields_values.value as price'
+            )
+                ->where('content.id', '=', $productId)
+                ->where('content.is_deleted', '=', 0)
+                ->where('offers.is_active', '=', 1)
+                ->where('custom_fields.type', '=', 'price')
+                ->leftJoin('content', 'offers.product_id', '=', 'content.id')
+                ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
+                ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
+                ->get()
+                ->toArray();
 
-        $specialOffers = array();
+            $specialOffers = array();
 
-        foreach ($offers as $offer) {
+            foreach ($offers as $offer) {
 
-            if (!($offer['expires_at']) || $offer['expires_at'] == '0000-00-00 00:00:00' || (strtotime($offer['expires_at']) > strtotime("now"))) {
-                // converting price_name to lowercase to match key from in FieldsManager function get line 556
+                if (!($offer['expires_at']) || $offer['expires_at'] == '0000-00-00 00:00:00' || (strtotime($offer['expires_at']) > strtotime("now"))) {
+                    // converting price_name to lowercase to match key from in FieldsManager function get line 556
 
-                if (isset($offer['offer_price']) and $offer['offer_price'] and isset($offer['price'])) {
+                    if (isset($offer['offer_price']) and $offer['offer_price'] and isset($offer['price'])) {
 
-                    $price_change_direction = 'decrease';
-                    $offer['offer_price'] = floatval($offer['offer_price']);
-                    $offer['price'] = floatval($offer['price']);
+                        $price_change_direction = 'decrease';
+                        $offer['offer_price'] = floatval($offer['offer_price']);
+                        $offer['price'] = floatval($offer['price']);
 
-                    $answer = abs($offer['price'] - $offer['offer_price']);
-                    $offer['price_change_direction_sign'] = '-';
-                    $offer['offer_value_difference'] = $answer;
-
-                    if ($offer['offer_price'] > $offer['price']) {
-                        $price_change_direction = 'increase';
                         $answer = abs($offer['price'] - $offer['offer_price']);
-                        $offer['price_change_direction_sign'] = '+';
+                        $offer['price_change_direction_sign'] = '-';
                         $offer['offer_value_difference'] = $answer;
+
+                        if ($offer['offer_price'] > $offer['price']) {
+                            $price_change_direction = 'increase';
+                            $answer = abs($offer['price'] - $offer['offer_price']);
+                            $offer['price_change_direction_sign'] = '+';
+                            $offer['offer_value_difference'] = $answer;
+                        }
+
+                        $percent = mw()->format->percent($offer['offer_value_difference'], $offer['price']);
+                        $offer['offer_value_difference_percent'] = $percent;
+                        $offer['price_change_direction'] = $price_change_direction;
                     }
 
-                    $percent = mw()->format->percent($offer['offer_value_difference'], $offer['price']);
-                    $offer['offer_value_difference_percent'] = $percent;
-                    $offer['price_change_direction'] = $price_change_direction;
+                    $specialOffers[strtolower($offer['price_name'])] = $offer;
+
                 }
-
-                $specialOffers[strtolower($offer['price_name'])] = $offer;
-
             }
-        }
 
-        return $specialOffers;
+            return $specialOffers;
+        });
     }
 
-    public static function getById($offerId)
+    public function getById($offerId)
     {
-        $offer = Offer::find($offerId);
-        $res = [];
-        $additionalFields = [];
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($offerId) {
+            $offer = Offer::find($offerId);
+            $res = [];
+            $additionalFields = [];
 
-        if (isset($offer->id) and isset($offer->product_id)) {
-            $prodOffers = self::getByProductId($offer->product_id);
-            if ($prodOffers) {
-                foreach ($prodOffers as $key => $prodOffer) {
-                    if ($prodOffer['id'] == $offer['id']) {
-                        $additionalFields = $prodOffer;
+            if (isset($offer->id) and isset($offer->product_id)) {
+                $prodOffers = self::getByProductId($offer->product_id);
+                if ($prodOffers) {
+                    foreach ($prodOffers as $key => $prodOffer) {
+                        if ($prodOffer['id'] == $offer['id']) {
+                            $additionalFields = $prodOffer;
+                        }
                     }
                 }
             }
-        }
 
-        if (!empty($additionalFields)) {
-            $res = array_merge($offer->toArray(), $additionalFields);
-        } elseif(!empty($offer)) {
-            $res = $offer->toArray();
-        }
+            if (!empty($additionalFields)) {
+                $res = array_merge($offer->toArray(), $additionalFields);
+            } elseif (!empty($offer)) {
+                $res = $offer->toArray();
+            }
 
-        return $res;
+            return $res;
+        });
     }
 
     public static function deleteById($offerId)
