@@ -5,6 +5,7 @@ namespace MicroweberPackages\Repository\Repositories;
 
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
 
@@ -989,10 +990,13 @@ abstract class AbstractRepository
      */
     public function getByParams($params)
     {
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-            $result = [];
+            $this->newQuery();
+
+            $result = MicroweberQuery::execute($this->query, $params);
+
+            return $result->toArray();
 
            if (isset($params['single'])) {
                $this->select(['id'])->search($params)->limit(1);
