@@ -1,6 +1,6 @@
 <?php
 //WAS $allOffers = offers_get_all();
-$allOffers = app()->offers_repository->getAll();
+$allOffers = app()->offer_repository->getAll();
 ?>
 <div class="table-responsive">
     <table class="table">

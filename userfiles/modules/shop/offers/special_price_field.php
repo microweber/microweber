@@ -7,7 +7,7 @@ if (!isset($params['product_id']) or !class_exists('\MicroweberPackages\Offer\Mo
 
 $productId = $params['product_id'];
 //WAS $offer = offers_get_by_product_id($productId);
-$offer = app()->offers_repository->getByProductId($productId);
+$offer = app()->offer_repository->getByProductId($productId);
 
 if (!isset($offer['price']['offer_price'])) {
     $offer['price']['offer_price'] = '';
