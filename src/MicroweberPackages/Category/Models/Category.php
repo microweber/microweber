@@ -13,7 +13,7 @@ use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Category extends Model
 {
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
     use Filterable;
     use ContentDataTrait;
     use HasCreatedByFieldsTrait;

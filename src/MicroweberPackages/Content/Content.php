@@ -25,7 +25,7 @@ class Content extends Model
     use MediaTrait;
     use Filterable;
     use HasCreatedByFieldsTrait;
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
 
     protected $table = 'content';

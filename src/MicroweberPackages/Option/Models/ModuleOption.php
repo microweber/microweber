@@ -10,15 +10,13 @@ class ModuleOption extends Model
 
     protected $fillable=['option_group','option_value'];
 
-
-
     public $cacheTagsToClear = ['global','content','frontend'];
 
     protected $table = 'options';
 
     public $translatable = [];
 
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
     protected $casts = [
 
