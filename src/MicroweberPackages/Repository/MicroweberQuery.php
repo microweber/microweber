@@ -9,7 +9,6 @@ class MicroweberQuery {
         $columns  = \Schema::getColumnListing($table);
 
         $model = self::_selectLogic($model, $table, $columns, $params);
-
         $model = self::_limitLogic($model, $table, $columns, $params);
 
         $whereParams = [];
