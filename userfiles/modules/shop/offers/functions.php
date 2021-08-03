@@ -329,7 +329,7 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
     if ($custom_field_items) {
         foreach ($custom_field_items as $key => $price) {
             //WAS $price_on_offer = offers_get_price($price['rel_id'], $price['id']);
-            $price_on_offer = app()->offers_repository->getPrice($price['rel_id'], $price['id']); 
+            $price_on_offer = app()->offers_repository->getPrice($price['rel_id'], $price['id']);
             if ($price_on_offer) {
                 $price_on_offer = (array)$price_on_offer;
 
