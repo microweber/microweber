@@ -10,14 +10,7 @@ class MicroweberQuery {
 
         $model = self::_selectLogic($model, $table, $columns, $params);
 
-        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
-            unset($params['limit']);
-        }
-
-        if (isset($params['limit']) and $params['limit']) {
-            $model->limit($params['limit']);
-        }
-
+        $model = self::_limitLogic($model, $table, $columns, $params);
 
         $whereParams = [];
         foreach ($params as $paramKey=>$paramValue) {
@@ -43,6 +36,19 @@ class MicroweberQuery {
         return $result;
     }
 
+
+    public static function _limitLogic($model, $table, $columns, $params) {
+
+        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+            unset($params['limit']);
+        }
+
+        if (isset($params['limit']) and $params['limit']) {
+            $model->limit($params['limit']);
+        }
+
+        return $model;
+    }
 
     public static function _selectLogic($model, $table, $columns, $params) {
         if (isset($params['fields']) and $params['fields'] != false) {
