@@ -7,6 +7,6 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class SystemLicenses extends Model
 {
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
 }

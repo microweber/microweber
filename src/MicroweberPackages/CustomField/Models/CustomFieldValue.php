@@ -6,7 +6,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CustomFieldValue extends Model
 {
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
     protected $table = 'custom_fields_values';
     protected $primaryKey = 'id';

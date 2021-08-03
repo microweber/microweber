@@ -10,7 +10,7 @@ class MediaThumbnail extends Model
 
     public $cacheTagsToClear = ['media','media_thumbnails'];
 
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
     public $table = 'media_thumbnails';
 

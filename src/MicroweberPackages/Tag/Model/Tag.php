@@ -19,6 +19,6 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
  */
 class Tag extends \Conner\Tagging\Model\Tag
 {
-  // use CacheableQueryBuilderTrait;
+  use CacheableQueryBuilderTrait;
 
 }

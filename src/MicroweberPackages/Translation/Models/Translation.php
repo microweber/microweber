@@ -10,7 +10,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Translation extends Model
 {
-    // use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
 
     /**
      * The number of seconds to cache the query.
