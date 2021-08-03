@@ -5,7 +5,7 @@ $rand = uniqid();
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label me-2 align-self-center">
+        <label class="control-label">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
