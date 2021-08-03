@@ -6,7 +6,7 @@ class MicroweberQuery {
     public static function execute($model, $params) {
 
         $table = $model->getModel()->getTable();
-        $columns  = \Schema::getColumnListing($table);
+        $columns  = $model->getModel()->getFillable();;
 
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);
