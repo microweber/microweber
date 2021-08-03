@@ -9,7 +9,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Offer extends Model
 {
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     public $table = 'offers';
 

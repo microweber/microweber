@@ -7,7 +7,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class TaxType extends Model
 {
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     protected $fillable = [
         'name',

@@ -11,7 +11,7 @@ class Customer extends Model
 {
     public $table = 'customers';
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
     public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users'];
 
 

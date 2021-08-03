@@ -8,7 +8,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 class CategoryItem extends Model
 {
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     public $table = 'categories_items';
     public $timestamps = false;

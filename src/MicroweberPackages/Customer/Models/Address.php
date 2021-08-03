@@ -10,7 +10,7 @@ class Address extends Model
 {
     public $table = 'addresses';
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
     public $cacheTagsToClear = [ 'addresses', 'customers', 'users','countries'];
 
     const BILLING_TYPE = 'billing';

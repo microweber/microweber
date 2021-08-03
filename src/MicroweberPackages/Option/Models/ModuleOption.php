@@ -18,7 +18,7 @@ class ModuleOption extends Model
 
     public $translatable = [];
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     protected $casts = [
 

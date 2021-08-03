@@ -6,7 +6,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Country extends Model
 {
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
 
     public $timestamps = false;

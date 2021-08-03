@@ -9,7 +9,7 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 class CustomField extends Model
 {
     //use MaxPositionTrait;
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     use HasCreatedByFieldsTrait;
 

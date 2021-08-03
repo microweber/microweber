@@ -12,7 +12,7 @@ class ContentRelated extends Model
 {
     use MaxPositionTrait;
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     public $cacheTagsToClear = ['content', 'categories'];
 

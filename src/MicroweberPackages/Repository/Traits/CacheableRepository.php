@@ -113,7 +113,7 @@ trait CacheableRepository
      *
      * @return mixed
      */
-    public $_cacheCallbackMemory = [];
+    public static $_cacheCallbackMemory = [];
     public function cacheCallback($method, $args, Closure $callback, $time = null)
     {
         // Cache disabled, just execute query & return result
@@ -125,12 +125,13 @@ trait CacheableRepository
         $cacheKey =  $this->getCacheKey($method, $args, $tag);
 
         $_cacheCallback_memory_key = implode('-',$tag).$cacheKey;
-        if(isset($this->_cacheCallbackMemory[$_cacheCallback_memory_key])){
+
+        if(isset(self::$_cacheCallbackMemory[$_cacheCallback_memory_key])){
             // return from local memory to prevent cache hits
-            return $this->_cacheCallbackMemory[$_cacheCallback_memory_key];
+            return self::$_cacheCallbackMemory[$_cacheCallback_memory_key];
         }
 
-        return $this->_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
+        return self::$_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
             $cacheKey,
             $this->getCacheExpiresTime($time),
             $callback
@@ -152,7 +153,7 @@ trait CacheableRepository
      */
     public function flushCache()
     {
-        $this->_cacheCallbackMemory = [];
+        self::$_cacheCallbackMemory = [];
         self::$_loaded_models_cache_get = [];
 
         // Cache disabled, just ignore this

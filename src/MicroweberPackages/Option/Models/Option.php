@@ -9,14 +9,11 @@ class Option extends Model
 {
     protected $fillable=['option_group','option_value'];
     public $cacheTagsToClear = ['global','content','frontend'];
-    use CacheableQueryBuilderTrait;
-
+    // use CacheableQueryBuilderTrait;
 
     protected $casts = [
-
         'option_value' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
     ];
-
 
     public function getValue($key, $group = false)
     {

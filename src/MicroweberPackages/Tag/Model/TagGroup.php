@@ -14,5 +14,5 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
  */
 class TagGroup extends \Conner\Tagging\Model\TagGroup
 {
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 }

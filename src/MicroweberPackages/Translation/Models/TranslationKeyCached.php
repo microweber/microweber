@@ -8,5 +8,5 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class TranslationKeyCached extends TranslationKey
 {
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 }

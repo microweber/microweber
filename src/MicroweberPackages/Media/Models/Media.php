@@ -12,7 +12,7 @@ class Media extends Model
     public $cacheTagsToClear = ['media','media_thumbnails'];
 
     use MaxPositionTrait;
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
 
     public $table = 'media';
 

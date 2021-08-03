@@ -9,7 +9,7 @@ use MicroweberPackages\Notification\Models\ModelFilters\NotificationFilter;
 class Notification extends Model
 {
 
-    use CacheableQueryBuilderTrait;
+    // use CacheableQueryBuilderTrait;
     use Filterable;
 
     protected $casts = [
