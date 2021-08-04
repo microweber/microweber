@@ -194,6 +194,7 @@ var _prepare = {
             size:'medium'
         });
         $(CSSShadow).on('change', function(e, id, val){
+
             output(id, val)
         });
         $('.mw-ui-field', root).addClass('mw-ui-field-medium');
@@ -221,7 +222,6 @@ var _prepare = {
         ];
         units = [];
         $('.unit').each(function(){
-            // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-link tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).parent().prev();
@@ -232,8 +232,6 @@ var _prepare = {
             var selectHolder = $('<div class="mw-field" data-size="medium"></div>');
             $('input', this)
                 .attr('type', 'range');
-
-                //.after('<input>')
             $.each(units, function(){
                 select.append('<option value="'+this+'">'+this+'</option>');
             });
@@ -328,12 +326,11 @@ var output = function(property, value){
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {
-          ActiveNode.style[property] = value;
-        // mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
-          // ActiveNode.style.setProperty(property, value);
-          ActiveNode.setAttribute('staticdesign', true);
-          mw.top().wysiwyg.change(ActiveNode);
-          mw.top().liveEditSelector.positionSelected();
+        property =  property.replace(/((?<=[a-z\d])[A-Z]|(?<=[A-Z\d])[A-Z](?=[a-z]))/g, '-$1').toLowerCase();
+        ActiveNode.style.setProperty(property, value, 'important');
+        ActiveNode.setAttribute('staticdesign', true);
+        mw.top().wysiwyg.change(ActiveNode);
+        mw.top().liveEditSelector.positionSelected();
     }
 };
 
@@ -372,7 +369,12 @@ var init = function(){
     });
 
     $(".regular").on('input', function(){
-        output(this.dataset.prop, this.value)
+        var val = this.value;
+/*        if(parseFloat(val) == val) {
+            val += 'px';
+        }
+        console.log(val)*/
+        output(this.dataset.prop, val)
     });
 
     $("#background-remove").on("click", function () {
@@ -935,8 +937,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-top-left"></i></span>
+                        <div class="mw-field unit" data-size="medium" data-prop="borderTopLeftRadius">
+
                             <input type="text" class="regular" data-prop="borderTopLeftRadius">
                         </div>
                         <div class="mw-field" data-size="medium">

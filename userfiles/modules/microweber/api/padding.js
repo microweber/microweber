@@ -98,6 +98,7 @@ mw.require('tempcss.js');
                 mw.$('html').removeClass('padding-control-start');
             });
             mw.$(document).on('mousemove touchmove', function(e){
+
                 if(scope._active){
                     var isDown = e.pageY < scope._pageY;
                     var inc = isDown ? scope._pageY - e.pageY : e.pageY - scope._pageY;
@@ -141,7 +142,7 @@ mw.require('tempcss.js');
 
                 }
 
-                if (scope._active && mw.liveedit.data.get('move', 'hasLayout')) {
+                if (scope._active/* && mw.liveedit.data.get('move', 'hasLayout')*/) {
                     scope.show();
                     scope.position();
                 } else {
@@ -162,9 +163,13 @@ mw.require('tempcss.js');
         this.position = function(targetIsLayout) {
             var $el = mw.$(targetIsLayout);
             var off = $el.offset();
-            scope._active = targetIsLayout;
-            scope.paddingTop.style.top = off.top + 'px';
-            scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
+            if(targetIsLayout) {
+                scope._active = targetIsLayout;
+                scope.paddingTop.style.top = off.top + 'px';
+                scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
+            }
+
+
         };
 
         this.selectors = [
@@ -178,7 +183,7 @@ mw.require('tempcss.js');
                 if(this.selectors[i].indexOf('[id') === -1){
                     this.selectors[i] += '[id]';
                 }
-            } */
+            }*/
         };
 
         this.addSelector = function(selector){
@@ -191,10 +196,10 @@ mw.require('tempcss.js');
                 if(!scope._working){
                     var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, scope.selectors);
                     if(targetIsLayout){
-                        if(mw.tools.hasClass(targetIsLayout, 'module')){
+                        /*if(mw.tools.hasClass(targetIsLayout, 'module')){
                             var child = mw.$(targetIsLayout).children(scope.selectors.join(','))[0];
                             targetIsLayout = child || targetIsLayout;
-                        }
+                        }*/
                         scope.position(targetIsLayout);
                     } else {
 

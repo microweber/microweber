@@ -194,7 +194,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 { type: 'url', config: {target: false, text: false}},
                                 { type: 'page', config: {target: false, text: false} },
                                 { type: 'post', config: {target: false, text: false}},
-                                { type: 'layout', config: {target: false, text: false} }
+                                { type: 'layout', config: {target: false, text: false} },
+                                { type: 'email', config: {target: false, text: false} },
+                                { type: 'title', config: {target: false, text: false} },
                             ]
                         });
 

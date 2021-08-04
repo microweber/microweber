@@ -1170,7 +1170,7 @@ mw.layoutPlus = {
             scope.pause = false;
         });
     },
-    mode: 'Dialog', //'tooltip', 'Dialog',
+    mode: 'controlBox', //'tooltip', 'Dialog',
     showSelectorUI: function (el) {
         var scope = this;
         scope.pause = true;

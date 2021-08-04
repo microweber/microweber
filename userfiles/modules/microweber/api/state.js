@@ -264,14 +264,17 @@
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
         mw.element(document.body).on('keydown', function(e) {
-            var key = e.key.toLowerCase();
-            if (e.ctrlKey && key === 'z' && !e.shiftKey) {
-                e.preventDefault();
-                mw.liveEditState.undo();
-            } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
-                e.preventDefault();
-                mw.liveEditState.redo();
+            if(e.key && mw.wysiwyg && mw.wysiwyg.isSelectionEditable(e.target)) {
+                var key = e.key.toLowerCase();
+                if (e.ctrlKey && key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    mw.liveEditState.undo();
+                } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
+                    e.preventDefault();
+                    mw.liveEditState.redo();
+                }
             }
+
         });
     });
 })();

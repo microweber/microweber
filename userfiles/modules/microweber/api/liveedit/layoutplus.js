@@ -30,7 +30,7 @@ mw.layoutPlus = {
         var $layout = mw.$(this._active);
         var off = $layout.offset();
         var left = (off.left + ($layout.outerWidth()/2));
-        this._top.css({top: off.top - 20, left: left});
+        this._top.css({top: off.top, left: left});
         this._bottom.css({top: off.top + $layout.outerHeight(), left: left});
     },
     _prepareList:function (tip, action) {
@@ -69,15 +69,37 @@ mw.layoutPlus = {
                 }, 40);
                 mw.dropable.hide();
                 mw.layoutPlus.mode === 'Dialog' ? mw.dialog.get(tip).remove()  : $(tip).remove();
+
             }, conf);
             scope.pause = false;
         });
+        $(' [data-src]', tip).each(function (){
+            this.src = this.dataset.src
+        })
     },
-    mode: 'Dialog', //'tooltip', 'Dialog',
+    rand:0,
+    mode: 'Dialog', //'tooltip', 'Dialog', 'controlBox
     showSelectorUI: function (el) {
         var scope = this;
         scope.pause = true;
-        var tip = new mw[mw.layoutPlus.mode]({
+
+        var mode = mw.layoutPlus.mode;
+
+        this.rand++
+
+        $('#mw-plus-tooltip-selector').remove()
+
+
+        if(this.rand  === 1 ) {
+            mode = 'Dialog'
+        } else if(this.rand  === 2 ) {
+            mode = 'controlBox'
+        }  else if(this.rand  === 3 ) {
+            mode = 'tooltip'
+            this.rand = 0;
+        }
+
+        var conf = {
             content: document.getElementById('plus-layouts-list').innerHTML,
             element: el,
             position: 'right-center',
@@ -86,10 +108,20 @@ mw.layoutPlus = {
             title: mw.lang('Select layout'),
             width: 800,
             overlay: true
-        });
+        }
+        if(mode === 'controlBox') {
+            conf.position = 'left';
+            conf.width = 250;
+            delete conf.template ;
+        }
+
+
+        var tip = new mw[mode](conf);
         scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
         $('#mw-plus-tooltip-selector input').focus();
         $('#mw-plus-tooltip-selector').addClass('active');
+        mw.element('#mw-plus-tooltip-selector .tip').removeClass('tip')
+        tip.show ? tip.show() :''
     },
     initSelector: function () {
         var scope = this;

@@ -9,8 +9,14 @@ mw.controlBox = function(options){
         closeButton: true
     };
     this.id = this.options.id;
-    this.settings = $.extend({}, this.defaults, this.options);
+    this.settings = Object.assign({}, this.defaults, this.options);
     this.active = false;
+
+    var _e = {};
+
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; return this; };
 
     this.build = function(){
         this.box = document.createElement('div');
@@ -18,6 +24,12 @@ mw.controlBox = function(options){
         this.box.id = this.id;
         this.boxContent = document.createElement('div');
         this.boxContent.className = 'mw-control-boxcontent';
+        if(this.settings.width) {
+            this.box.style.width = typeof this.settings.width === 'number' ? (this.settings.width + 'px') : this.settings.width;
+        }
+        if(this.settings.height) {
+            this.box.style.height =  typeof this.settings.height === 'number' ? (this.settings.height + 'px') : this.settings.height;
+        }
         this.box.appendChild(this.boxContent);
         this.createCloseButton();
         document.body.appendChild(this.box);
@@ -33,26 +45,18 @@ mw.controlBox = function(options){
         };
     };
 
-    this.setContentByUrl = function(){
-        var cont = this.settings.content.trim();
-        return $.get(cont, function(data){
-            scope.boxContent.innerHTML = data;
-            scope.settings.content = data;
-        });
-    };
+
     this.setContent = function(c){
         var cont = c||this.settings.content.trim();
         this.settings.content = cont;
-        if(cont.indexOf('http://') === 0 || cont.indexOf('https://') === 0){
-            return this.setContentByUrl()
-        }
+
         this.boxContent.innerHTML = cont;
     };
 
     this.show = function(){
         this.active = true;
-        mw.$(this.box).addClass('active') ;
-        mw.$(this).trigger('ControlBoxShow')
+        this.box.classList.add('active')
+        this.dispatch('ControlBoxShow')
     };
 
     this.init = function(){
@@ -61,8 +65,9 @@ mw.controlBox = function(options){
     };
     this.hide = function(){
         this.active = false;
-        mw.$(this.box).removeClass('active');
-        mw.$(this).trigger('ControlBoxHide');
+        this.box.classList.remove('active')
+
+        this.dispatch('ControlBoxHide');
     };
 
 

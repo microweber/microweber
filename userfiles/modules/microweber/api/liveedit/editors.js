@@ -24,12 +24,11 @@ mw.liveedit.editors = {
               var r = sel.getRangeAt(0);
               var cac = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
           }
-          if (mw.tools.hasAnyOfClassesOnNodeOrParent(cac, ['edit', 'mw-admin-editor-area']) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed)) {
-
+          if (mw.tools.hasAnyOfClassesOnNodeOrParent(cac, ['edit', 'mw-admin-editor-area']) && (sel.rangeCount > 0 /*&& !sel.getRangeAt(0).collapsed*/)) {
               if ($.contains(e.target, cac) || $.contains(cac, e.target) || cac === e.target) {
                   setTimeout(function() {
                       var ep = mw.event.page(e);
-                      if (cac.isContentEditable && !sel.isCollapsed && !mw.tools.hasClass(cac, 'plain-text') && !mw.tools.hasClass(cac, 'safe-element')) {
+                      if (cac.isContentEditable /*&& !sel.isCollapsed*/ && !mw.tools.hasClass(cac, 'plain-text') && !mw.tools.hasClass(cac, 'safe-element')) {
                           if (typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined') {
                               return;
                           }
@@ -70,31 +69,9 @@ mw.liveedit.editors = {
               }
           }, 39);
       });
-      mw.smallEditorOff = 150;
+      mw.smallEditorOff = 120;
 
-      mw.$(window).on("mousemove touchmove touchstart", function(e) {
-          if (!!mw.smallEditor && !mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")) {
-              var off = mw.smallEditor.offset();
-              var ep = mw.event.page(e);
-              if (typeof off !== 'undefined') {
-                  if (
-                      ((ep.x - mw.smallEditorOff) > (off.left + mw.smallEditor.width()))
-                      || ((ep.y - mw.smallEditorOff) > (off.top + mw.smallEditor.height()))
-                      || ((ep.x + mw.smallEditorOff) < (off.left)) || ((ep.y + mw.smallEditorOff) < (off.top))) {
-                      if (typeof mw.smallEditor !== 'undefined') {
-                          mw.smallEditor.css("visibility", "hidden");
-                          mw.smallEditorCanceled = true;
-                      }
-                  }
-              }
-          }
-      });
-      mw.$(window).on("scroll", function(e) {
-          if (typeof(mw.smallEditor) !== "undefined") {
-              mw.smallEditor.css("visibility", "hidden");
-              mw.smallEditorCanceled = true;
-          }
-      });
+
       mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown touchstart", function(e) {
 
           mw.$(".wysiwyg_external").empty();

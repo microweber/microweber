@@ -209,14 +209,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
         mw.on('liveEditSettingsReady', function () {
 
-
-
-
-
-
-
             //     $('a','#live_edit_toolbar_holder').off('click')
-
 
             mw.drag.init();
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
@@ -256,7 +249,7 @@ if (isset($_COOKIE['mw_exp'])) {
             });
 
 
-            $(mw.liveEditSettings)
+            mw.liveEditSettings
                 .on('ControlBoxShow', function () {
 
                     $(window).trigger('collapseNavReInit');
@@ -714,25 +707,38 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-top mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 <span class="mw-plus-bottom mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 
-<div style="display: none" id="plus-modules-list">
+<template id="plus-modules-list">
     <h3>Select module</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
         <div class="plus-modules-list-box">
-            <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
+            <module
+                type="admin/modules/list"
+                data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
-</div>
+</template>
 
-<div style="display: none" id="plus-layouts-list">
-    <h3>Select layout</h3>
-    <div class="plus-modules-list" >
-        <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
-        <div class="plus-modules-list-box">
-            <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
+<template id="plus-layouts-list" >
+    <div class="plus-layouts-list-block" >
+        <div class="mw-le-layouts-categories">
+
+            <div>Subscription</div>
+            <div>Cover</div>
+            <div>Menu</div>
+            <div>Gallery</div>
+            <div>Contact</div>
+            <div>Shop</div>
+            <div>Blog</div>
+
+        </div>
+        <div class="plus-modules-list" >
+            <div class="plus-modules-list-box">
+                <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
+            </div>
         </div>
     </div>
-</div>
+</template>
 
 
 
