@@ -998,7 +998,7 @@ abstract class AbstractRepository
             if ($result != null) {
                 return $result->toArray();
             } else {
-                return [];
+                return [];  
             }
 
             /*
