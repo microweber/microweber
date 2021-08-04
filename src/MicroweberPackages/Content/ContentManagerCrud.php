@@ -237,9 +237,10 @@ class ContentManagerCrud extends Crud
 //
 //        }
 
-        $get = app()->content_repository->getByParams($params);
-      //  $get = parent::get($params);
+      //  $get = app()->content_repository->getByParams($params);
+        $get = parent::get($params);
 
+         //echo '<pre>' . print_r($params, true) .'</pre>';
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
