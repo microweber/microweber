@@ -110,12 +110,12 @@ class Crud
             $field_name = 'id';
         }
 
-        if ($field_name == 'id') {
+       /* if ($field_name == 'id') {
             $data = app()->content_repository->findById($id);
             if ($data) {
                 return $data;
             }
-        } else {
+        } else {*/
 
             $table = $this->table;
             $params = array();
@@ -125,7 +125,7 @@ class Crud
             $data = $this->get($params);
 
             return $data;
-       }
+      // }
     }
 
     public function save($params)
