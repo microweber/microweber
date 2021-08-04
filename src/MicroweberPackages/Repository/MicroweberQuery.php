@@ -8,6 +8,10 @@ class MicroweberQuery {
         $table = $model->getModel()->getTable();
         $columns  = $model->getModel()->getFillable();
 
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);
 

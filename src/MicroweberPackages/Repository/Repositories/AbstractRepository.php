@@ -988,7 +988,7 @@ abstract class AbstractRepository
      *
      * @return self
      */
-    public function getByParams($params)
+    public function getByParams($params = [])
     {
        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
             try {

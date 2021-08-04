@@ -194,7 +194,8 @@ class OptionManager
             return false;
         }
 
-        if (isset($this->memoryOptionGroup[$optionGroup])) {
+        // old variant
+    /*    if (isset($this->memoryOptionGroup[$optionGroup])) {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
 
@@ -209,6 +210,19 @@ class OptionManager
             //   dd($allOptions);
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
+        }*/
+
+
+        // variant 2 repo
+        if ($optionGroup) {
+            $allOptions = app()->option_repository->getByParams('fields=id,option_key,option_group,option_value');
+            $groupedOptions = [];
+            foreach ($allOptions as $option) {
+                $groupedOptions[$option['option_group']][] = $option;
+            }
+            if (isset($groupedOptions[$optionGroup])) {
+                return $this->getOptionFromOptionsArray($optionKey, $groupedOptions[$optionGroup], $returnFull);
+            }
         }
 
         return false;
