@@ -63,6 +63,7 @@ class Content extends Model
         "is_home",
         "is_shop",
         "is_active",
+        "is_deleted",
         "updated_at",
         "created_at",
     ];
