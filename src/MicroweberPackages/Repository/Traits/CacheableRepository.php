@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Eloquent\Model;
 
+use function Opis\Closure\serialize as serializeClosure;
 trait CacheableRepository
 {
     /**
@@ -92,7 +93,7 @@ trait CacheableRepository
         }
 
         // Create hash from arguments and query
-        $args = serialize($args) . serialize($this->getScopeQuery());
+        $args = serializeClosure($args) . serializeClosure($this->getScopeQuery());
 
         return sprintf(
             '%s-%s--%s-%s',

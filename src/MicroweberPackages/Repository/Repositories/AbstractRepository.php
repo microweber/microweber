@@ -995,7 +995,7 @@ abstract class AbstractRepository
                 $this->newQuery();
                 return MicroweberQuery::execute($this->query, $params);
             } catch (\Exception $e) {
-                return $e;
+                return $e->getMessage();
             }
         });
     }
