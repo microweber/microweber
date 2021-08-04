@@ -991,65 +991,13 @@ abstract class AbstractRepository
     public function getByParams($params)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
-
             $this->newQuery();
-
             $result = MicroweberQuery::execute($this->query, $params);
             if ($result != null) {
                 return $result->toArray();
             } else {
-                return [];  
+                return [];
             }
-
-            /*
-           if (isset($params['single'])) {
-               $this->select(['id'])->search($params)->limit(1);
-            } else {
-               $this->select(['id'])->search($params);
-            }
-
-            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
-                unset($params['limit']);
-            }
-
-            if (isset($params['limit']) and $params['limit']) {
-                $this->limit($params['limit']);
-            }
-
-            if (isset($params['count']) and $params['count']) {
-               // dd($this->count());
-                return $this->count();
-            } else {
-                $result = $this->all();
-            }
-
-            if ($result) {
-
-                $result = $result->toArray();
-                if ($result) {
-
-                    $ready = [];
-                    foreach ($result as $dataById) {
-                        $dataById = $dataById['id'];
-                        $find = $this->findById($dataById);
-                        if ($find) {
-                            $find = $find->toArray();
-                        }
-                        $ready[$dataById] = $find;
-                    }
-                    $result = $ready;
-                }
-
-                if (isset($params['single'])) {
-                    $result = array_pop($result);
-                }
-            }
-
-            return $result;
-*/
-
         });
-
-
     }
 }
