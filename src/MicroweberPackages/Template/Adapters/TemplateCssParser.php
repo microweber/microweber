@@ -190,7 +190,7 @@ class TemplateCssParser
 
         //replace vars with with -- as  --primary: $primary;
         foreach ($variables as $variable_name=>$variable_val){
-            $replace = '--'.$variable_name.': "'.$variable_val.'"';
+            $replace = '--'.$variable_name.': '.$variable_val.'';
             $search = '--'.$variable_name.': $'.$variable_name.'';
             $cssContent = str_replace($search,$replace,$cssContent);
 
