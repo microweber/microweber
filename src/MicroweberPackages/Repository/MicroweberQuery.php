@@ -34,7 +34,14 @@ class MicroweberQuery {
 
        // dd($params, $result);
 
-        return $result;
+        if ($result != null) {
+            if (is_object($result)) {
+                return $result->toArray();
+            }
+            return $result;
+        }
+
+        return [];
     }
 
 
