@@ -13,6 +13,7 @@ class MicroweberQuery {
         }
 
         $model = self::_selectLogic($model, $table, $columns, $params);
+        $model = self::_closureLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);
 
         $whereParams = [];
@@ -59,6 +60,17 @@ class MicroweberQuery {
 
         if (isset($params['limit']) and $params['limit']) {
             $model->limit($params['limit']);
+        }
+
+        return $model;
+    }
+
+    public static function _closureLogic($model, $table, $columns, $params) {
+
+        foreach ($params as $paramKey=>$paramValue) {
+            if (is_object($params[$paramKey]) && ($params[$paramKey] instanceof \Closure)) {
+                $model = call_user_func($params[$paramKey], $model, $params);
+            }
         }
 
         return $model;
