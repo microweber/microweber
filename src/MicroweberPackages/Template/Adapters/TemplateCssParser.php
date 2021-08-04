@@ -193,6 +193,11 @@ class TemplateCssParser
             $replace = '--'.$variable_name.': "'.$variable_val.'"';
             $search = '--'.$variable_name.': $'.$variable_name.'';
             $cssContent = str_replace($search,$replace,$cssContent);
+
+            $search = '$'.$variable_name.'';
+            $replace = "$variable_val";
+            $cssContent = str_replace($search,$replace,$cssContent);
+
         }
 
 
