@@ -25,23 +25,25 @@ class MicroweberQuery {
         }
 
         if (isset($params['count']) and $params['count']) {
-            $result = $model->count();
+            $exec = $model->count();
         } else if (isset($params['single'])) {
-            $result = $model->first();
+            $exec = $model->first();
         } else {
-            $result = $model->get();
+            $exec = $model->get();
         }
 
        // dd($params, $result);
 
-        if ($result != null) {
-            if (is_numeric($result)) {
-                return $result;
+        $result = [];
+        if ($exec != null) {
+            if (is_numeric($exec)) {
+                $result = $exec;
+            } else {
+                $result = $exec->toArray();
             }
-            return  $result->toArray();
         }
 
-        return [];
+        return $result;
     }
 
 
