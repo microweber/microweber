@@ -35,10 +35,10 @@ class MicroweberQuery {
        // dd($params, $result);
 
         if ($result != null) {
-            if (is_object($result)) {
-                return $result->toArray();
+            if (is_numeric($result)) {
+                return $result;
             }
-            return $result;
+            return  $result->toArray();
         }
 
         return [];
