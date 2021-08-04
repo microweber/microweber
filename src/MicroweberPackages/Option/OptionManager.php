@@ -215,17 +215,30 @@ class OptionManager
 
         // variant 2 repo
         if ($optionGroup) {
-            $allOptions = app()->option_repository->getByParams('fields=id,option_key,option_group,option_value');
+
+         //   $startmb = memory_get_usage();
+           $allOptions = app()->option_repository->getByParams('fields=id,option_key,option_group,option_value');
+           // var_dump($this->formatBytes((memory_get_usage()-$startmb)));die();
+
             $groupedOptions = [];
             foreach ($allOptions as $option) {
                 $groupedOptions[$option['option_group']][] = $option;
             }
+
             if (isset($groupedOptions[$optionGroup])) {
                 return $this->getOptionFromOptionsArray($optionKey, $groupedOptions[$optionGroup], $returnFull);
             }
         }
 
         return false;
+    }
+
+    private function formatBytes($size, $precision = 2)
+    {
+        $base = log($size, 1024);
+        $suffixes = array('', 'K', 'M', 'G', 'T');
+
+        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
     }
 
     private function getOptionFromOptionsArray($key, $options, $returnFull)
