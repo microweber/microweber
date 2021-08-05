@@ -276,9 +276,9 @@ class DatabaseManager extends DbUtils
 //        }
 
         if (!isset($params['no_limit'])) {
-            $cache_key = $table . crc32(json_encode($orig_params) . $limit . $this->default_limit . $cache_key_closures);
+            $cache_key = 'db_get_'.$table . crc32(json_encode($orig_params) . $limit . $this->default_limit . $cache_key_closures);
         } else {
-            $cache_key = $table . crc32(json_encode($params) . $cache_key_closures);
+            $cache_key = 'db_get_'.$table . crc32(json_encode($params) . $cache_key_closures);
         }
 
         if (is_array($params) and !empty($params)) {
@@ -359,6 +359,14 @@ class DatabaseManager extends DbUtils
                 }
             }
 
+            if (isset($orig_params['collection']) and ($orig_params['collection'])) {
+
+            } else {
+
+                $data = $data->toArray();
+            }
+
+
         } else {
 
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params) {
@@ -371,8 +379,14 @@ class DatabaseManager extends DbUtils
                         $queryResponse->makeHidden(array_keys($builderModel->attributesToArray()));
                     }
                 }
-                return $queryResponse;
+                if (isset($orig_params['collection']) and ($orig_params['collection'])) {
+                    return $queryResponse;
+                }
+                return $queryResponse->toArray();
+
             });
+
+
         }
 
         if ($data == false or empty($data)) {

@@ -315,6 +315,11 @@ class ContentManager
      */
     public function get($params = false)
     {
+
+
+
+
+
         return $this->crud->get($params);
     }
 
@@ -1986,9 +1991,20 @@ class ContentManager
 
     public function get_parents($id = 0, $without_main_parrent = false)
     {
+
         if (intval($id) == 0) {
             return false;
         }
+
+
+     //   return app()->content_repository->getParents($id,$without_main_parrent);
+
+
+
+
+
+
+
         $ids = array();
         $get = array();
         $get['id'] = $id;

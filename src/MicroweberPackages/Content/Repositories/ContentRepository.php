@@ -163,70 +163,121 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($id)
     {
-       return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
 
-        $item = $this->findById($id);
-        if ($item) {
+            $item = $this->findById($id);
+            if ($item) {
 
-            $get = $item->customField;
-            $ready = [];
+                $get = $item->customField;
+                $ready = [];
 
-            if ($get) {
-                foreach ($get as $item) {
-                    $cf_item1 = $item->fieldValue;
+                if ($get) {
+                    foreach ($get as $item) {
+                        $cf_item1 = $item->fieldValue;
 
-                    $cf_item = $item->toArray();
-                    $cf_item['value'] = false;
-                    $cf_item['values'] = [];
-                    if (isset($cf_item['field_value'])) {
-                        $vals = [];
-                        if (!empty($cf_item['field_value'])) {
-                            foreach ($cf_item['field_value'] as $itemv) {
-                                if ($itemv['value']) {
-                                    $vals [] = $itemv['value'];
+                        $cf_item = $item->toArray();
+                        $cf_item['value'] = false;
+                        $cf_item['values'] = [];
+                        if (isset($cf_item['field_value'])) {
+                            $vals = [];
+                            if (!empty($cf_item['field_value'])) {
+                                foreach ($cf_item['field_value'] as $itemv) {
+                                    if ($itemv['value']) {
+                                        $vals [] = $itemv['value'];
+                                    }
+
                                 }
-
                             }
-                        }
-                        if ($vals) {
-                            $cf_item['values'] = $vals;
-                            $cf_item['value'] = array_pop($vals);
+                            if ($vals) {
+                                $cf_item['values'] = $vals;
+                                $cf_item['value'] = array_pop($vals);
+                            }
+
+                            unset($cf_item['field_value']);
+
                         }
 
-                        unset($cf_item['field_value']);
+                        $ready[] = $cf_item;
 
                     }
 
-                    $ready[] = $cf_item;
-
                 }
 
+                return $ready;
             }
-
-            return $ready;
-        }
-        return [];
+            return [];
 
 
         });
     }
 
-    public function getCustomFieldsByType($id,$type)
+    public function getCustomFieldsByType($id, $type)
     {
-        $fields  = $this->getCustomFields($id);
-        if($fields){
-            foreach ($fields as $k=>$field){
-                if(isset($field['type']) and $field['type']==$type){
+        $fields = $this->getCustomFields($id);
+        if ($fields) {
+            foreach ($fields as $k => $field) {
+                if (isset($field['type']) and $field['type'] == $type) {
 
                 } else {
-                  unset($fields[$k]);
+                    unset($fields[$k]);
                 }
 
             }
         }
 
         return $fields;
+
+    }
+
+    /**
+     * Get content parents.
+     *
+     * @param mixed $id
+     *
+     * @return array
+     */
+    public function getParents($id, $without_main_parrent = false)
+    {
+        $without_main_parrent = 0;
+
+        $ids = [];
+        $query = $this->getModel()->newQuery();
+        $query->select(['id', 'parent']);
+
+        $query->where('parent', $id);
+        if ($without_main_parrent) {
+        //   $query->where('parent', '!=', 0);
+        }
+
+        $get = $query->get();
+       // dump($id);
+
+        if ($get) {
+            $ids_result = $get->toArray();
+            if ($ids_result) {
+                foreach ($ids_result as $ids_item) {
+                    if (!in_array($ids_item['id'], $ids)) {
+                        if (!$without_main_parrent) {
+                            $ids[] = $ids_item['id'];
+                        }
+                      //  $sub = $this->getParents($ids_item['id'], $without_main_parrent);
+//                        if ($sub) {
+//                            $ids = array_merge($ids, $sub);
+//                        }
+                    }
+                }
+
+            }
+        }
+
+        if ($ids) {
+            $ids = array_unique($ids);
+
+        }
+
+        return $ids;
+
 
     }
 
