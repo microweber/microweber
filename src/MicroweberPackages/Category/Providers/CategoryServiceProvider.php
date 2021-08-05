@@ -15,6 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
@@ -38,6 +39,19 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
         CategoryItem::observe(BaseModelObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Category::class, function () {
+                return new CategoryRepository();
+            });
+        });
+
+        /**
+         * @property CategoryRepository   $category_repository
+         */
+        $this->app->bind('category_repository', function ($app) {
+            return $this->app->repository_manager->driver(Category::class);;
+        });
     }
 
 
