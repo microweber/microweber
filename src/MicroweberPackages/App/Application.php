@@ -9,11 +9,14 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
+use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Cart\CartManager;
@@ -55,7 +58,9 @@ use MicroweberPackages\Utils\Http\Http;
  * @property RepositoryManager                $repository_manager
  * @property ContentRepository                $content_repository
  * @property CategoryManager               $category_manager
+ * @property CategoryRepository              $category_repository
  * @property MenuManager                   $menu_manager
+ * @property MenuRepository              $menu_repository
  * @property MediaManager                  $media_manager
  * @property ShopManager                   $shop_manager
  * @property CartManager              $cart_manager
@@ -89,6 +94,8 @@ use MicroweberPackages\Utils\Http\Http;
  * @property PermalinkManager              $permalink_manager
  * @property ModuleManager              $module_manager
  * @property ModuleRepository              $module_repository
+ * @property Translator                    $translator
+
  */
 class Application
 {

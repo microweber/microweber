@@ -11,23 +11,194 @@ function reorder_modules($data)
 }
 
 
-
-api_expose_admin('get_modules_list_json', function(){
-    return  mw()->module_manager->get('installed=1&ui=1');
-
-});
-
-api_expose_admin('get_layouts_list_json', function(){
-    return     mw()->module_manager->templates('layouts');
-
-
-});
-api_expose_admin('get_elements_list_json', function(){
-    return       mw()->module_manager->scan_for_elements();
+api_expose_admin('get_modules_list_json', function () {
+    return mw()->module_manager->get('installed=1&ui=1');
 
 });
 
+api_expose_admin('get_layouts_list_json', function () {
+    return mw()->module_manager->templates('layouts');
 
+
+});
+api_expose_admin('get_elements_list_json', function () {
+    return mw()->module_manager->scan_for_elements();
+
+});
+
+api_expose_admin('get_modules_and_elements_json', function ($params) {
+
+    $modules_options = array();
+    $modules_options['skip_admin'] = true;
+    $modules_options['ui'] = true;
+    $elements_ready = array();
+    $modules_by_categories = array();
+    $mod_obj_str = 'modules';
+    $template_config = mw()->template->get_config();
+    $show_grouped_by_cats = false;
+    $show_layouts_grouped_by_cats = false;
+    $show_group_elements_by_category = false;
+    $hide_dynamic_layouts = false;
+    $disable_elements = false;
+
+    if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
+        $disable_elements = true;
+    }
+
+    if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
+        $hide_dynamic_layouts = true;
+    }
+
+    if (isset($params['group_modules_by_category']) and $params['group_modules_by_category']) {
+        $show_grouped_by_cats = true;
+    }
+
+    if (isset($params['group_layouts_by_category']) and $params['group_layouts_by_category']) {
+        $show_layouts_grouped_by_cats = true;
+    }
+
+    if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
+        $show_layouts_grouped_by_cats = true;
+    }
+
+    if (isset($template_config['group_elements_by_category']) and $template_config['group_elements_by_category']) {
+        $show_group_elements_by_category = true;
+    }
+
+    if (isset($template_config['use_dynamic_layouts_for_posts']) and $template_config['use_dynamic_layouts_for_posts']) {
+        $hide_dynamic_layouts = false;
+    }
+
+
+    $ready = [];
+    $ready['config'] = $template_config;
+
+
+    $mod_obj_str = 'elements';
+    $el_params = array();
+    if (isset($params['layout_type'])) {
+        $el_params['layout_type'] = $params['layout_type'];
+    }
+
+    $elements_ready = mw()->layouts_manager->get($el_params);
+
+    if ($elements_ready == false) {
+        // scan_for_modules($modules_options);
+        $el_params['no_cache'] = true;
+        mw()->module_manager->scan_for_elements($el_params);
+        $elements_ready = mw()->layouts_manager->get($el_params);
+    }
+
+    if ($elements_ready == false) {
+        $elements_ready = array();
+    }
+
+    $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
+    if (!empty($elements_from_template)) {
+        $elements_ready = array_merge($elements_from_template, $elements_ready);
+    }
+
+    if ($disable_elements) {
+        $elements_ready = array();
+    }
+
+
+    if ($disable_elements) {
+        $elements_ready = array();
+    }
+
+
+    if ($elements_ready) {
+
+
+    }
+
+    $ready_elements = [];
+
+    if ($show_group_elements_by_category) {
+        $ready_elements['hasCategories'] = 1;
+    }
+
+    $ready_elements['data'] = $elements_ready;
+
+    $ready['elements'] = $ready_elements;
+
+
+
+    // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
+    $dynamic_layouts = false;
+    $module_layouts_skins = false;
+    $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
+    $module_layouts_skins = mw()->module_manager->templates('layouts');
+    if ($hide_dynamic_layouts) {
+        $dynamic_layouts = false;
+        $module_layouts_skins = false;
+    }
+    if (!$module_layouts_skins) {
+        $module_layouts_skins = [];
+    }
+
+    if ($dynamic_layouts) {
+        $module_layouts_skins = array_merge($module_layouts_skins, $module_layouts_skins);
+    }
+
+
+    $modules = mw()->module_manager->get('installed=1&ui=1');
+    $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
+    $hide_from_display_list = array('layouts', 'template_settings');
+    $sortout_el = array();
+    $sortout_mod = array();
+    if (!empty($modules)) {
+        foreach ($modules as $mod) {
+            if (isset($mod['as_element']) and intval($mod['as_element']) == 1) {
+                $sortout_el[] = $mod;
+            } else {
+                $sortout_mod[] = $mod;
+            }
+        }
+        $modules = array_merge($sortout_el, $sortout_mod);
+        if ($modules and !empty($module_layouts)) {
+            $modules = array_merge($modules, $module_layouts);
+        }
+    }
+
+    $modules_from_template = mw()->module_manager->get_modules_from_current_site_template();
+    if (!empty($modules_from_template)) {
+        if (!is_array($modules)) {
+            $modules = array();
+        }
+        foreach ($modules as $module) {
+            foreach ($modules_from_template as $k => $module_from_template) {
+                if (isset($module['name']) and isset($module_from_template['name'])) {
+                    if ($module['name'] == $module_from_template['name']) {
+                        unset($modules_from_template[$k]);
+                    }
+                }
+            }
+        }
+        $modules = array_merge($modules, $modules_from_template);
+    }
+
+    $modules_ready = [];
+    if ($show_grouped_by_cats) {
+        $modules_ready['hasCategories'] = 1;
+    }
+    $modules_ready['data'] = $modules;
+
+
+    $ready['modules'] = $modules_ready;
+
+    $layouts_ready = [];
+    if ($show_layouts_grouped_by_cats) {
+        $layouts_ready['hasCategories'] = 1;
+    }
+    $layouts_ready['data'] = $module_layouts_skins;
+
+    $ready['layouts'] = $layouts_ready;
+    return response()->json($ready);
+  //  return $ready;
+
+});
 
 /*
  *
@@ -135,6 +306,7 @@ function load_module($module_name, $attrs = array())
 {
     return mw()->module_manager->load($module_name, $attrs);
 }
+
 function element_display($element_filename, $attrs = array())
 {
     return mw()->layouts_manager->element_display($element_filename, $attrs);
@@ -250,6 +422,7 @@ function mw_post_update()
         return $update;
     }
 }
+
 api_expose_admin('mw_reload_modules');
 function mw_reload_modules()
 {
@@ -257,7 +430,7 @@ function mw_reload_modules()
     $bootstrap_cached_folder = base_path('bootstrap/cache/');
     rmdir_recursive($bootstrap_cached_folder);
 
-    mw()->module_manager->scan(['reload_modules'=>1,'scan'=>1]);
+    mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
 
     if (isset($_GET['redirect_to'])) {
         return redirect($_GET['redirect_to']);
@@ -670,17 +843,15 @@ function template_headers_src()
     return mw()->template->head(true);
 }
 
-function template_stack_add($src, $group='default')
+function template_stack_add($src, $group = 'default')
 {
     return mw()->template->stack_add($src, $group);
 }
 
-function template_stack_display($group='default')
+function template_stack_display($group = 'default')
 {
     return mw()->template->stack_display($group);
 }
-
-
 
 
 api_expose_admin('current_template_save_custom_css');
@@ -689,7 +860,7 @@ function current_template_save_custom_css($data)
     return mw()->layouts_manager->template_save_css($data);
 }
 
-api_expose_admin('layouts/template_remove_custom_css', function($params){
+api_expose_admin('layouts/template_remove_custom_css', function ($params) {
     return mw()->layouts_manager->template_remove_custom_css($params);
 
 });
@@ -942,12 +1113,13 @@ function find_date($string)
  * @return string Base-62 encoded text (not chunked or split)
  */
 if (!function_exists('base62_encode')) {
-    function base62_encode($data) {
+    function base62_encode($data)
+    {
         $outstring = '';
         $l = strlen($data);
         for ($i = 0; $i < $l; $i += 8) {
             $chunk = substr($data, $i, 8);
-            $outlen = ceil((strlen($chunk) * 8)/6); //8bit/char in, 6bits/char out, round up
+            $outlen = ceil((strlen($chunk) * 8) / 6); //8bit/char in, 6bits/char out, round up
             $x = bin2hex($chunk);  //gmp won't convert from binary, so go via hex
             $w = gmp_strval(gmp_init(ltrim($x, '0'), 16), 62); //gmp doesn't like leading 0s
             $pad = str_pad($w, $outlen, '0', STR_PAD_LEFT);
@@ -971,12 +1143,13 @@ if (!function_exists('base62_encode')) {
  * @return string Decoded binary data
  */
 if (!function_exists('base62_decode')) {
-    function base62_decode($data) {
+    function base62_decode($data)
+    {
         $outstring = '';
         $l = strlen($data);
         for ($i = 0; $i < $l; $i += 11) {
             $chunk = substr($data, $i, 11);
-            $outlen = floor((strlen($chunk) * 6)/8); //6bit/char in, 8bits/char out, round down
+            $outlen = floor((strlen($chunk) * 6) / 8); //6bit/char in, 8bits/char out, round down
             $y = gmp_strval(gmp_init(ltrim($chunk, '0'), 62), 16); //gmp doesn't like leading 0s
             $pad = str_pad($y, $outlen * 2, '0', STR_PAD_LEFT); //double output length as as we're going via hex (4bits/char)
             $outstring .= pack('H*', $pad); //same as hex2bin
