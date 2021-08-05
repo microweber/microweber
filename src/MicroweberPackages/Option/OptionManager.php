@@ -221,7 +221,7 @@ class OptionManager
            // var_dump($this->formatBytes((memory_get_usage()-$startmb)));die();
 
             $groupedOptions = [];
-            if (!empty($allOptions)) {
+            if (!empty($allOptions) && is_array($allOptions)) {
                 foreach ($allOptions as $option) {
                     $groupedOptions[$option['option_group']][] = $option;
                 }
