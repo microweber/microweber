@@ -830,7 +830,7 @@ class CategoryManager
     public function get_by_url($slug)
     {
         $id = app()->category_repository->getByUrl($slug);
-       
+
         $override = $this->app->event_manager->trigger('app.category.get_by_url', $slug);
         if ($override and is_array($override) && isset($override[0])) {
             $id = $override[0];
