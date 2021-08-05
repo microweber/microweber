@@ -1,7 +1,12 @@
 <?php
 namespace MicroweberPackages\Repository;
 
+use MicroweberPackages\Database\Traits\QueryFilter;
+
 class MicroweberQuery {
+
+    use QueryFilter;
+
 
     public static function execute($model, $params) {
 
@@ -12,9 +17,17 @@ class MicroweberQuery {
             $params = parse_params($params);
         }
 
+      //  $model = app()->database_manager->map_filters($model,$params,$table);
+
+
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_closureLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);
+
+
+
+
+
 
         $whereParams = [];
         foreach ($params as $paramKey=>$paramValue) {

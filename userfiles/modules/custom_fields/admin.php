@@ -13,11 +13,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
+        <?php
+
+        $module_info = module_info($params['module']); ?>
+
+        <?php if ($module_info): ?>
         <h5>
             <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
             <strong><?php _e($module_info['name']); ?></strong>
         </h5>
+        <?php endif; ?>
     </div>
 
     <div class="card-body pt-3">

@@ -84,6 +84,7 @@ class ModuleRepository extends AbstractRepository
                 }
             }
         }
+        return [];
 
     }
 }

@@ -2869,18 +2869,7 @@ class ContentManager
     public function get_related_content_ids_for_content_id($content_id = false)
     {
 
-        $related_ids = [];
-        $content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
-        if ($content) {
-            $related_cont = $content->related()->get();
-            if ($related_cont) {
-                $related = $related_cont->toArray();
-                foreach ($related as $related_cont) {
-                    $related_ids[] = $related_cont['related_content_id'];
-                }
-            }
-        }
-        return $related_ids;
+        return   $this->app->content_repository->getRelatedContentIds($content_id);
 
     }
 
