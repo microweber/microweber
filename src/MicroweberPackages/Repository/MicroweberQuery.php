@@ -31,7 +31,7 @@ class MicroweberQuery {
 
         if (isset($params['count']) and $params['count']) {
             $exec = $model->count();
-        } else if (isset($params['single'])) {
+        } else if (isset($params['single']) || isset($params['one'])) {
             // $model->limit(1);
             $exec = $model->first();
         } else {
