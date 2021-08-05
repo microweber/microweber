@@ -20,7 +20,11 @@ class CategoryRepository extends AbstractRepository
     public function getByUrl($url)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
-            return Category::where('url', $url)->first()->toArray();
+            $get = Category::where('url', $url)->first();
+            if ($get != null) {
+                return $get->toArray();
+            }
+            return [];
         });
 
     }
