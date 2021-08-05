@@ -17,6 +17,14 @@ class CategoryRepository extends AbstractRepository
     public $model = Category::class;
 
 
+    public function getByUrl($url)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
+            return Category::where('url', $url)->first()->toArray();
+        });
+
+    }
+
     public function getById($id) {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
