@@ -21,7 +21,10 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
             $get = Category::where('url', $url)->first();
-            if ($get != null) {
+            if ($get != null) { if ($get != null) {
+                return $get->toArray();
+            }
+                return [];
                 return $get->toArray();
             }
             return [];
