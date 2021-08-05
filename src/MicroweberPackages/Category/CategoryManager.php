@@ -815,7 +815,7 @@ class CategoryManager
 
     public function get_by_id($id = 0, $by_field_name = 'id')
     {
-         return app()->category_repository->getById($id);
+         return app()->category_repository->getByParams($by_field_name .'='.$id.'&single=1');
     }
 
 
