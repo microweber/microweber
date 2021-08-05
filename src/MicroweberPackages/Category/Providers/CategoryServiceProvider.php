@@ -40,13 +40,11 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
-
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Category::class, function () {
                 return new CategoryRepository();
             });
         });
-
 
         /**
          * @property CategoryRepository   $category_repository
