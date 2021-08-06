@@ -15,6 +15,13 @@ class MenuRepository extends AbstractRepository {
      */
     public $model = Menu::class;
 
+    public function allMenus()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            return $this->getModel()->get()->toArray();
+        });
+    }
+
     public function getMenusByParentIdAndItemType($parentId, $itemType)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId,$itemType) {
