@@ -256,14 +256,13 @@ class MenuManager
 
         $menus = $this->tables['menus'];
 
-        $menu_params = array();
-        $menu_params['parent_id'] = $menu_id;
+      //  $menu_params = array();
+    //    $menu_params['parent_id'] = $menu_id;
+       // $menu_params['table'] = $menus;
+       // $menu_params['order_by'] = 'position ASC';
+        
+        $q = app()->menu_repository->getMenusByParentId($menu_id);
 
-        $menu_params['table'] = $menus;
-        $menu_params['order_by'] = 'position ASC';
-
-
-        $q = $this->app->database_manager->get($menu_params);
         //   dd($menu_params,$q);
         $has_items = false;
 

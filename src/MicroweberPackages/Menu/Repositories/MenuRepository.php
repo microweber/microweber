@@ -15,8 +15,17 @@ class MenuRepository extends AbstractRepository {
      */
     public $model = Menu::class;
 
+    public function getMenusByParentId($parentId)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
+            return $this->getModel()->where('parent_id', $parentId)->orderBy('position', 'ASC')->get()->toArray();
+        });
+    }
+
     public function getMenus($params)
     {
+       // dump($params);
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
             $params2 = array();
@@ -24,12 +33,12 @@ class MenuRepository extends AbstractRepository {
                 $params = array();
             }
             if (is_string($params)) {
-                $params = parse_str($params, $params2); 
+                $params = parse_str($params, $params2);
                 $params = $params2;
             }
 
             $params['item_type'] = 'menu';
-            if(is_live_edit()){
+            if (is_live_edit()) {
                 $params['no_cache'] = 1; // If remove this we mess up menu auto creating
                 //dd($params);
             }
