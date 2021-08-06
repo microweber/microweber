@@ -17,7 +17,7 @@ class MenuRepository extends AbstractRepository {
 
     public function getMenus($params)
     {
-      //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
             $params2 = array();
             if ($params == false) {
@@ -55,7 +55,7 @@ class MenuRepository extends AbstractRepository {
                 return $menus;
             }
 
-       // });
+        });
     }
 
 
