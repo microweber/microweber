@@ -25,6 +25,7 @@ use MicroweberPackages\Database\Traits\ExtendedSave;
 use MicroweberPackages\Media\Models\Media;
 
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use function Opis\Closure\serialize as serializeClosure;
 use function Opis\Closure\unserialize as unserializeClosure;
 
@@ -919,6 +920,9 @@ class DatabaseManager extends DbUtils
 
         $this->_query_get_cache = []; //empty whole local cache
         $this->_query_get_cache_is_disabled = true; //disable the cache after flush
+
+       AbstractRepository::disableCache();
+
 
 //        if($table){
 //            $this->_query_get_cache[$table] = null;

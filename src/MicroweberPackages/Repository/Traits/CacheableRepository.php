@@ -17,7 +17,7 @@ trait CacheableRepository
      * @var CacheManager
      */
     protected static $cache = null;
-    public $disableCache= false;
+    public static $disableCache= false;
 
     /**
      * Flush the cache after create/update/delete events.
@@ -57,6 +57,11 @@ trait CacheableRepository
         return self::$cache;
     }
 
+    public static function disableCache()
+    {
+        self::$disableCache = true;
+    }
+
     /**
      * Determine if the cache will be skipped
      *
@@ -65,7 +70,7 @@ trait CacheableRepository
     public function skippedCache()
     {
 
-        if($this->disableCache){
+        if(self::$disableCache){
             return true;
         }
 
@@ -166,7 +171,7 @@ trait CacheableRepository
       //  $tag = $this->generateCacheTags();
 
         $this->eventFlushCache = false;
-        $this->disableCache = true; //disabling repository cache
+       self::$disableCache = true; //disabling repository cache
        // return self::getCacheInstance()->tags($tag)->flush();
     }
 

@@ -871,34 +871,34 @@ class CategoryManager
 
 
 
-//    /**
-//     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
-//     *
-//     * @param int
-//     *
-//     * @return array
-//     *
-//     * @author      Peter Ivanov
-//     *
-//     * @version     1.0
-//     *
-//     * @since       Version 1.0
-//     */
-//
+    /**
+     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
+     *
+     * @param int
+     *
+     * @return array
+     *
+     * @author      Peter Ivanov
+     *
+     * @version     1.0
+     *
+     * @since       Version 1.0
+     */
+
 //    public function get_by_id($id = 0, $by_field_name = 'id')
 //    {
 //         return app()->category_repository->getByParams($by_field_name .'='.$id.'&single=1');
 //    }
-//
-//
-//    /**
-//     * @desc        Get cateroy by slug
-//     *
-//     * @param string
-//     *
-//     * @return array
-//     *
-//     */
+
+
+    /**
+     * @desc        Get cateroy by slug
+     *
+     * @param string
+     *
+     * @return array
+     *
+     */
 //    public function get_by_url($slug)
 //    {
 //        $id = app()->category_repository->getByUrl($slug);
