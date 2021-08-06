@@ -260,7 +260,7 @@ class MenuManager
     //    $menu_params['parent_id'] = $menu_id;
        // $menu_params['table'] = $menus;
        // $menu_params['order_by'] = 'position ASC';
-        
+
         $q = app()->menu_repository->getMenusByParentId($menu_id);
 
         //   dd($menu_params,$q);
@@ -590,13 +590,17 @@ class MenuManager
                 $has_childs = false;
                 $has_childs_class = false;
 
-
+/*
                 $sub_menu_params = array();
                 $sub_menu_params['parent_id'] = $item['id'];
                 $sub_menu_params['table'] = $menus;
                 $sub_menu_params['item_type'] = 'menu_item';
                // $sub_menu_params['count'] = true;
                 $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
+                */
+
+                $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
+                
                 if ($sub_menu_q) {
 
 
