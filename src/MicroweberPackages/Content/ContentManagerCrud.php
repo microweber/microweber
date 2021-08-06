@@ -1312,12 +1312,33 @@ class ContentManagerCrud extends Crud
         } else {
             $data['cache_group'] = ('content_fields');
         }
+        $data['cache_group'] = 'content_fields';
+
+        $data['table'] = $table;
+
         if (!isset($data['all'])) {
             $data['one'] = 1;
             $data['limit'] = 1;
         }
-        $data['table'] = $table;
-        $get = $this->app->database_manager->get($data);
+
+        if (!isset($data['is_draft']) and !isset($data['all']) and isset($data['rel_type']) and isset($data['field'])) {
+            if (!isset($data['rel_id'])) {
+                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type']);
+
+            } else {
+                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type'], $data['rel_id']);
+            }
+        } else {
+            $get = $this->app->database_manager->get($data);
+        }
+
+
+
+
+        //getEditField
+
+
+
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
         } else {
