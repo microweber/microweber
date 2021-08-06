@@ -58,14 +58,10 @@ class MediaManager
         $arr['rel_id'] = $content_id;
 
 
-
-
-
-
         if (!$images) {
 
-            if($for=='content'){
-                $images =  app()->content_repository->getMedia($content_id);
+            if ($for == 'content') {
+                $images = app()->content_repository->getMedia($content_id);
             } else {
                 $images = $this->get($arr);
 
@@ -669,15 +665,15 @@ class MediaManager
 
     public function tags($media_id = false, $return_full = false)
     {
-       /* $data = array();
-        $data['table'] = $this->tables['media'];
-        if ($media_id) {
-            $data['id'] = intval($media_id);
-        }
-        return $this->app->tags_manager->get_values($data, $return_full);*/
+        /* $data = array();
+         $data['table'] = $this->tables['media'];
+         if ($media_id) {
+             $data['id'] = intval($media_id);
+         }
+         return $this->app->tags_manager->get_values($data, $return_full);*/
 
         $query = Tagged::query();
-        $query->where('taggable_type','media');
+        $query->where('taggable_type', 'media');
 
         if ($media_id) {
             $query->where('taggable_id', $media_id);
@@ -912,7 +908,6 @@ class MediaManager
         $ext = strtolower(get_file_extension($base_src));
 
 
-
         $cache = ($base_src . $width . $height) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
@@ -920,8 +915,8 @@ class MediaManager
         $ext = strtolower(get_file_extension($src));
 
 
-        if($this->_is_webp_supported()){
-            $ext ='webp';
+        if ($this->_is_webp_supported()) {
+            $ext = 'webp';
         }
         $is_remote = false;
         if (!stristr($src, $surl)) {
@@ -986,7 +981,9 @@ class MediaManager
 //            }
 
 
-            $check = MediaThumbnail::where('filename', $cache_id_without_ext)->first();
+            //$check = MediaThumbnail::where('filename', $cache_id_without_ext)->first();
+            $check = app()->media_repository->getThumbnailCachedItem($cache_id_without_ext);
+
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
@@ -995,9 +992,15 @@ class MediaManager
                 $media_tn_temp->save();
 
                 return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->id . '?saved';
+            } elseif (isset($check['image_options']) and isset($check['image_options']['cache_path_relative'])) {
+                $file_check = normalize_path(userfiles_path() . '' . $check['image_options']['cache_path_relative'], false);
+                if (is_file($file_check)) {
+                    return userfiles_url() . $check['image_options']['cache_path_relative'];
+                }
+
             }
 
-            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check->id . '?finded';
+            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['id'] . '?finded';
         }
 
     }
@@ -1093,8 +1096,8 @@ class MediaManager
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
-        if($ext == 'webp'){
-            if(!$this->_is_webp_supported()){
+        if ($ext == 'webp') {
+            if (!$this->_is_webp_supported()) {
                 $ext = strtolower(get_file_extension($src));
 
             }
@@ -1207,7 +1210,7 @@ class MediaManager
 //            return $cache_path;
 //        }
 
-            if($ext=='svg'){
+            if ($ext == 'svg') {
                 header('Content-Type: image/svg+xml');
             } else {
                 header('Content-Type: image/' . $ext);
