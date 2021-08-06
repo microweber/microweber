@@ -331,8 +331,7 @@ img{
 
   $(window).on('load', function(){
 
-      mw.drag.plus.init('#mw-iframe-editor-area');
-      mw.drag.columns.init();
+       mw.drag.columns.init();
       mw.drag.saveDisabled = true;
       mw.drag.draftDisabled = true;
 

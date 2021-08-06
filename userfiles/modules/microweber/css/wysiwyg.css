@@ -225,12 +225,14 @@
     top: -9999px;
     visibility: hidden;
     z-index: 1003;
-    /*width: 250px;
-    height: 68px;*/
-    box-shadow: 0 2px 22px rgba(0,0,0,.2);
-    background: #F5F5F5;
+    background: #ffffff;
     border-radius: 1px;
-    margin-left: 12px;
+    display: flex;
+    height: 35px;
+    padding: 0 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+    box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px;
 }
 
 #font_family_selector_small {
@@ -255,17 +257,7 @@
     margin-right: 1px;
 }
 
-.mw_small_editor_bottom,
-.mw_small_editor_top {
-    padding: 12px;
-}
-.mw_small_editor_top{
-    padding-bottom: 6px;
-}
 
-.mw_small_editor_bottom{
-    padding-top: 6px;
-}
 
 
 

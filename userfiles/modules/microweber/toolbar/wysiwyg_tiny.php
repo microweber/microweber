@@ -1,5 +1,5 @@
 <div id="mw_small_editor" class="mw-defaults mw_editor mw_small_editor">
-        <div class="mw_small_editor_top">
+
 
             <span title="Insert Media" data-command="custom-media" class="mw_editor_btn mw_editor_image"><span class="ed-ico"></span></span>
             <span class="mw_dlm"></span>
@@ -47,8 +47,7 @@
 
             <?php /*<span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>*/ ?>
             <div class="mw_clear">&nbsp;</div>
-        </div>
-        <div class="mw_small_editor_bottom">
+
           <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
           <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
           <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
@@ -59,6 +58,5 @@
             <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span>
             <span title="Remove Formatting" data-command="removeformat" class="mw_editor_btn mw_editor_remove_formatting"><span class="ed-ico"></span></span>
             <div class="mw_clear">&nbsp;</div>
-        </div>
 
     </div>

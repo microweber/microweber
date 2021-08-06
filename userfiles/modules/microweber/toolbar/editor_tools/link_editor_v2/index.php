@@ -377,6 +377,7 @@
             <div class="tab available_elements_tab_show_hide_ctrl" data-ctype="section">
 
                 <div id="available_elements"></div>
+
                 <script>
                     $(document).ready(function () {
                         var available_elements_tab_show_hide_ctrl_counter = 0;

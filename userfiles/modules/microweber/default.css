@@ -12,7 +12,7 @@
 
 /*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css");*/
 /*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_compiled.css");*/
-@import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
+
 
 
 
@@ -329,4 +329,12 @@ ul.mw-default-layout-background-text {
 }
 
 
+.iframe_fix{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
 

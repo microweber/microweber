@@ -4025,6 +4025,10 @@ body.dragStart .allow-drop {
     position: absolute;
     z-index: 1101;
     display: inline-block;
+    pointer-events: none;
+}
+.mw-handle-item > *{
+    pointer-events: all;
 }
 
 .mw-handle-item.active {
@@ -4044,7 +4048,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-handler {
     display: inline-block;
-    position: relative;
     white-space: nowrap;
 }
 
@@ -4250,6 +4253,24 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-no-drag .mw-handle-handler-icon {
     pointer-events: none;
+}
+
+.mw-handle-buttons span.mw-handle-insert-button{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 30px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px;
+    padding: 0;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
 }
 
 .mw-handle-no-drag .mw-handle-handler-icon,

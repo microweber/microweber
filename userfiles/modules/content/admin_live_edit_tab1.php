@@ -155,10 +155,12 @@ $rand = uniqid(); ?>
                 <label class="control-label d-block"><?php _e("Show only with tags"); ?></label>
 
 
+                <div class="row">
                 <div class="col-12">
                     <div id="content-tags-block"></div>
                     <div id="content-tags-search-block"></div>
                     <input type="hidden" class="form-control mw-full-width mw_option_field"  name="data-tags"  value="<?php print $tags_val; ?>"  id="tags"/>
+                </div>
                 </div>
             </div>
 

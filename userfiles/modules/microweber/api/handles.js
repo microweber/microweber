@@ -388,7 +388,7 @@ mw._initHandles = {
             buttons: [
                     {
                         title: mw.lang('Insert'),
-                        icon: 'mdi-plus-circle',
+                        icon: 'mdi-plus',
                         className: 'mw-handle-insert-button',
                         hover: [
                             function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
@@ -583,7 +583,9 @@ mw._initHandles = {
 
             mw.$(mw.handleElement.wrapper).css({
                 top: posTop,
-                left: left_spacing
+                left: left_spacing,
+                width: el.width(),
+                height: el.height()
             }).removeClass('active');
 
             if(!element.id) {
@@ -611,7 +613,7 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
+                    icon: 'mdi-plus',
                     hover: [
                         function (e) {
                             handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
@@ -622,7 +624,7 @@ mw._initHandles = {
                     ],
                     action: function (node) {
                         if(mw.handleModule.isLayout) {
-                            mw.layoutPlus.showSelectorUI(node);
+                            // mw.layoutPlus.showSelectorUI(node);
                         } else {
                             mw.drag.plus.rendModules(node);
                         }
@@ -995,8 +997,8 @@ mw._initHandles = {
                 .css({
                     top: topPosFinal,
                     left: handleLeft,
-                    //width: width,
-                    //marginTop: marginTop
+                    width: el.width(),
+                    height: el.height()
                 }).addClass('mw-active-item');
 
 
@@ -1279,7 +1281,8 @@ mw._initHandles = {
             mw.$(mw.handleColumns.wrapper).css({
                 top: htop,
                 left: left,
-                //width: width
+                width: el.width(),
+                height: el.height()
             });
             mw._initHandles.manageCollision();
 

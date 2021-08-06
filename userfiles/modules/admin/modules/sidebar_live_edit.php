@@ -121,10 +121,11 @@
             }
 
             function mwSidebarSearchItems(value, what) {
-                if (what == 'modules') {
-                    var obj = mw.$("#mw-sidebar-modules-list .modules-list > li");
+                var obj
+                if (what === 'modules') {
+                      obj = mw.$("#mw-sidebar-modules-list .modules-list > li");
                 } else {
-                    var obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
+                      obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
                 }
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
@@ -134,7 +135,7 @@
 
                 $('.mw-sidebar-search-clear-x-btn', '.' + what).show();
 
-                var value = value.toLowerCase();
+                  value = value.toLowerCase();
 
                 var numberOfResults = 0;
 
@@ -144,7 +145,7 @@
                     var show = false;
 
                     var description = $(this).attr('description') || false;
-                    var description = description || $(this).attr('data-filter');
+                    description = description || $(this).attr('data-filter');
                     var title = $(this).attr('title') || false;
                     var template = $(this).attr('template') || false;
 
@@ -154,7 +155,7 @@
                         || (!!template && template.toLowerCase().contains(value))
 
                     ) {
-                        var show = true;
+                        show = true;
                     }
 
                     if (!show) {

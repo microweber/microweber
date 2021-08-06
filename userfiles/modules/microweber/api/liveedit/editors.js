@@ -33,12 +33,19 @@ mw.liveedit.editors = {
                               return;
                           }
                           mw.smallEditorCanceled = false;
-                          var top = ep.y - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
+                          //var rtop = ep.y - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
+
+                          var el = mw.tools.firstBlockLevel(e.target);
+                          var rect = el.getBoundingClientRect();
+                          var rtop = (rect.top - mw.smallEditor.height()) + (document.documentElement.scrollTop + document.body.scrollTop);
+                          rtop = rtop > 55 ? rtop : 55
                           mw.smallEditor.css({
                               visibility: "visible",
                               opacity: 0.7,
-                              top: (top > 55 ? top : 55),
-                              left: ep.x + mw.smallEditor.width() < mw.$(window).width() ? ep.x : ($(window).width() - mw.smallEditor.width() - 5)
+                              // top: (rtop > 55 ? rtop : 55),
+                              top: rtop,
+                              left: rect.left + 120
+                              // left: ep.x + mw.smallEditor.width() < mw.$(window).width() ? ep.x : ($(window).width() - mw.smallEditor.width() - 5)
                           });
 
                       } else {

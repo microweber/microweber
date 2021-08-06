@@ -932,32 +932,32 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 <mw-accordion-item  >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
-        <div class="rouded-corners" >
+        <div class="ьrouded-corners" >
             <label><?php _e("Rounded Corners"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-size="medium" data-prop="borderTopLeftRadius">
 
-                            <input type="text" class="regular" data-prop="borderTopLeftRadius">
-                        </div>
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-top-right"></i></span>
-                            <input class="regular" type="text" data-prop="borderTopRightRadius">
-                        </div>
+
+            <div class="s-field">
+                <label><?php _e("Size"); ?></label>
+                <div class="s-field-content">
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
                     </div>
                 </div>
-                <div class="mw-field" data-size="medium">
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-bottom-left"></i></span>
-                            <input class="regular" type="text" data-prop="borderBottomLeftRadius">
-                        </div>
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-bottom-right"></i></span>
-                            <input class="regular" type="text" data-prop="borderBottomRightRadius">
-                        </div>
-                    </div>
+            </div>
+
+
+            <div class="s-field-content">
+                <div class="mw-field unit" data-size="medium" data-prop="borderTopLeftRadius">
+                    <input type="text" class="regular" data-prop="borderTopLeftRadius">
+                </div>
+                <div class="mw-field unit" data-size="medium" data-prop="borderTopRightRadius">
+                     <input class="regular" type="text" data-prop="borderTopRightRadius">
+                </div>
+                <div class="mw-field unit" data-size="medium" data-prop="borderBottomLeftRadius">
+                     <input class="regular" type="text" data-prop="borderBottomLeftRadius">
+                </div>
+                <div class="mw-field unit" data-size="medium" data-prop="borderBottomRightRadius">
+                     <input class="regular" type="text" data-prop="borderBottomRightRadius">
                 </div>
             </div>
         </div>

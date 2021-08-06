@@ -3,7 +3,7 @@ mw.liveedit.modulesToolbar = {
         var items = selector || ".modules-list li[data-module-name]";
         var $items = mw.$(items);
         $items.on('mouseup touchend', function (){
-            if(!document.body.classList.contains('dragStart') && !this.classList.contains('module-item-layout')) {
+            if(!document.body.classList.contains('dragStart') /*&& !this.classList.contains('module-item-layout')*/) {
                 if(mw.liveEditSelector.selected[0]) {
                     mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
                     setTimeout(function (){

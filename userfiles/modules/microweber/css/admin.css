@@ -1,3 +1,4 @@
+@import url("../api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
 .btn[disabled]{
     cursor: default !important;
 }
