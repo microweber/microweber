@@ -32,7 +32,7 @@ class MenuRepository extends AbstractRepository {
             if(is_live_edit()){
                 $params['no_cache'] = 1; // If remove this we mess up menu auto creating
                 //dd($params);
-            }
+            } 
 
             $menus = MicroweberQuery::execute(Menu::query(), $params);
 
