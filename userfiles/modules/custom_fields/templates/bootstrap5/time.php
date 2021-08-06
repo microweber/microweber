@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-	<div class="mb-3 d-flex">
+	<div class="mb-3">
 
         <?php if($settings['show_label']): ?>
-			<label class="control-label me-2 align-self-center">
+			<label class="control-label mb-3">
 				<?php echo $data['name']; ?>
 				<?php if ($settings['required']): ?>
 					<span style="color: red;">*</span>
