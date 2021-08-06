@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\ContentField;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 /**
@@ -239,34 +240,56 @@ class ContentRepository extends AbstractRepository
      */
     public function getRelatedContentIds($id)
     {
-         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
-        $related_ids = [];
-        $item = $this->findById($id);
-        if ($item) {
-            $get = $item->related;
-            if ($get) {
-                $related = $get->toArray();
+            $related_ids = [];
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->related;
+                if ($get) {
+                    $related = $get->toArray();
 
-                if ($related) {
-                    foreach ($related as $related_cont) {
-                        if (isset($related_cont['related_content_id'])) {
-                            $related_ids[] = $related_cont['related_content_id'];
+                    if ($related) {
+                        foreach ($related as $related_cont) {
+                            if (isset($related_cont['related_content_id'])) {
+                                $related_ids[] = $related_cont['related_content_id'];
+                            }
                         }
+                        return $related_ids;
                     }
-                    return $related_ids;
-                }
 
+                }
             }
-        }
-        return [];
+            return [];
 
 
         });
     }
 
 
+    public function getEditField($field, $rel_type, $rel_id = false)
+    {
 
+
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
+
+            $check = ContentField::where('field', $field);
+            $check->where('rel_type', $rel_type);
+            if ($rel_id) {
+                $check->where('rel_id', $rel_id);
+            }
+
+            $check->limit(1);
+
+            $check = $check->first();
+            if ($check and !empty($check)) {
+                return $check->toArray();
+            }
+
+            return false;
+        });
+
+    }
 
 
 
