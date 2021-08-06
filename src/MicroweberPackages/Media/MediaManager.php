@@ -62,6 +62,8 @@ class MediaManager
 
             if ($for == 'content') {
                 $images = app()->content_repository->getMedia($content_id);
+            } else if ($for == 'categories') {
+                $images = app()->category_repository->getMedia($content_id);
             } else {
                 $images = $this->get($arr);
 

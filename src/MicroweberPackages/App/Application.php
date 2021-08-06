@@ -14,6 +14,7 @@ use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
+use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
@@ -67,6 +68,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property ShopManager                   $shop_manager
  * @property CartManager              $cart_manager
  * @property OrderManager             $order_manager
+ * @property OfferRepository             $offer_repository
  * @property TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
  * @property ShippingManager          $shipping_manager

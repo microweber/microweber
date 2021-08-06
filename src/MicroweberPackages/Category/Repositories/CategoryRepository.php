@@ -64,4 +64,33 @@ class CategoryRepository extends AbstractRepository
     }
 
 
+    /**
+     * Find content by id.
+     *
+     * @param mixed $id
+     *
+     * @return array
+     */
+    public function getMedia($id)
+    {
+
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->media;
+                if ($get) {
+                    return $get->toArray();
+                }
+            }
+            return [];
+
+        });
+    }
+
+
+
+
+
+
 }
