@@ -57,7 +57,7 @@ class MenuRepository extends AbstractRepository {
       /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
             return $this->getModel()->where('parent_id', $parentId)->orderBy('position', 'ASC')->get()->toArray();
         });*/
-    } 
+    }
 
     public function getMenus($params)
     {

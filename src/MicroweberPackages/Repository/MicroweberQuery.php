@@ -27,8 +27,6 @@ class MicroweberQuery {
 
 
 
-
-
         $whereParams = [];
         foreach ($params as $paramKey=>$paramValue) {
             if (in_array($paramKey, $columns)) {
