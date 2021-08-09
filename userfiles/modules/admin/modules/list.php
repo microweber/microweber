@@ -36,6 +36,13 @@ if (isset($is_elements) and $is_elements == true) {
         $el_params['layout_type'] = $params['layout_type'];
     }
 
+
+    if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
+        $show_grouped_by_cats = true;
+    }
+
+
+
     $modules = mw()->layouts_manager->get($el_params);
     //$modules = false;
 
@@ -292,6 +299,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     <?php
 
+
+
+
     if (isset($module_layouts_skins) and is_array($module_layouts_skins)) { ?>
     <?php
     $i = 0; ?>
@@ -299,7 +309,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php
     $module_layouts_skins_grouped = [];
     foreach($module_layouts_skins as $module_layouts_skin) {
-        $expCategories = explode(',', $module_layouts_skin['category']);
+        if(!$show_grouped_by_cats){
+            $expCategories = ['Layouts'];
+
+        } else {
+            $expCategories = explode(',', $module_layouts_skin['category']);
+
+        }
         if (!empty($expCategories)) {
             foreach ($expCategories as $category) {
                 $category = strtolower($category);
@@ -311,15 +327,23 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     ?>
 
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <?php
+     <?php
         foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name=>$dynamic_layouts_grouped) {
             ?>
 
-        <mw-accordion-item>
-            <div class="mw-ui-box-header mw-accordion-title"><?php echo ucfirst($dynamic_layouts_group_name);?></div>
 
-            <div class="mw-accordion-content mw-ui-box-content">
+            <?php if($show_grouped_by_cats){ ?>
+
+
+            <li class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
+                <hr>
+                <h4><?php print ucwords(_e($dynamic_layouts_group_name, true)); ?> </h4>
+                <hr>
+            </li>
+
+            <?php } ?>
+
+
             <?php
         foreach ($dynamic_layouts_grouped as $dynamic_layout) {
                 $randId = uniqid();
@@ -329,7 +353,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>"
-                    class="module-item module-item-layout tip"
+                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"
                     data-tipposition="left-center"
                     data-tipskin="mw-tooltip-default"
                     data-tip="#tooltip-<?php print $randId; ?>"
@@ -367,10 +391,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 <?php
             endif; ?>
         <?php } ?>
-            </div>
-        </mw-accordion-item>
+
+
         <?php } ?>
-    </div>
+
     <?php } ?>
 
 
