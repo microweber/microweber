@@ -302,6 +302,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         $expCategories = explode(',', $module_layouts_skin['category']);
         if (!empty($expCategories)) {
             foreach ($expCategories as $category) {
+                $category = strtolower($category);
+                $category = trim($category);
                 $module_layouts_skins_grouped[$category][] = $module_layouts_skin;
             }
         }
@@ -315,7 +317,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             ?>
 
         <mw-accordion-item>
-            <div class="mw-ui-box-header mw-accordion-title"><?php echo $dynamic_layouts_group_name;?></div>
+            <div class="mw-ui-box-header mw-accordion-title"><?php echo ucfirst($dynamic_layouts_group_name);?></div>
 
             <div class="mw-accordion-content mw-ui-box-content">
             <?php
