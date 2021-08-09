@@ -264,6 +264,14 @@ class LayoutsManager
                                 $to_return_temp['name'] = trim($result);
                             }
 
+                            $to_return_temp['category'] = 'All';
+                            if (preg_match('/category:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('category:', '', $result);
+                                $result = trim($result);
+                                $to_return_temp['category'] = $result;
+                            }
+
                             if (preg_match('/is_default:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('is_default:', '', $result);
