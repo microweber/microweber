@@ -335,7 +335,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
      <?php
         foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name=>$dynamic_layouts_grouped) {
-
+            $dynamic_layouts_group_name_orig = $dynamic_layouts_group_name;
 
             $dynamic_layouts_group_name = str_slug($dynamic_layouts_group_name);
             ?>
@@ -346,7 +346,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
             <li class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
                 <hr>
-                <h4><?php print ucwords(_e($dynamic_layouts_group_name, true)); ?> </h4>
+                <h4><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h4>
                 <hr>
             </li>
 
