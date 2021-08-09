@@ -310,14 +310,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     $module_layouts_skins_grouped = [];
     foreach($module_layouts_skins as $module_layouts_skin) {
          if(!$show_grouped_by_cats){
-            $expCategories = ['Layouts'];
+            $expCategories = ['Other'];
 
         } else {
             if(isset($module_layouts_skin['categories'])){
             $expCategories = explode(',', $module_layouts_skin['categories']);
               array_walk($expCategories,'trim');
             } else {
-                $expCategories = ['Layouts'];
+                $expCategories = ['Other'];
 
             }
 
@@ -345,7 +345,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <li class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
-             
+
                 <h4><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h4>
 
             </li>
