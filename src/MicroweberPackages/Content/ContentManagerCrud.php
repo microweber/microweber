@@ -237,11 +237,12 @@ class ContentManagerCrud extends Crud
 //
 //        }
 //
-
-
-      //  $get = app()->content_repository->getByParams($params);
-        
+       //$get2 = app()->content_repository->getByParams($params);
        $get = parent::get($params);
+
+      /* if (md5(serialize($get)) != md5(serialize($get2))) {
+            echo '---->';  dump($get, $get2);
+       }*/
 
          //echo '<pre>' . print_r([$params,$get], true) .'</pre>';
 
