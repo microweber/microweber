@@ -345,9 +345,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <li class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
-                <hr>
+             
                 <h4><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h4>
-                <hr>
+
             </li>
 
             <?php } ?>
