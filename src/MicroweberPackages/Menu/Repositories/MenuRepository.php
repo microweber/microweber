@@ -32,8 +32,8 @@ class MenuRepository extends AbstractRepository {
                 return $menu;
             }
         }
-        
-        return false;
+
+        return [];
 
       /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId,$itemType) {
             return $this->getModel()->where('parent_id', $parentId)->where('item_type', $itemType)->orderBy('position', 'ASC')->get()->toArray();
@@ -42,10 +42,22 @@ class MenuRepository extends AbstractRepository {
 
     public function getMenusByParentId($parentId)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
+
+        $allMenus = $this->getAllMenus();
+
+        $menus = [];
+        foreach ($allMenus as $menu) {
+            if ($menu['parent_id'] == $parentId) {
+                $menus[] = $menu;
+            }
+        }
+
+        return $menus;
+
+      /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
             return $this->getModel()->where('parent_id', $parentId)->orderBy('position', 'ASC')->get()->toArray();
-        });
-    }
+        });*/
+    } 
 
     public function getMenus($params)
     {
