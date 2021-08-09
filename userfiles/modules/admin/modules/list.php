@@ -309,11 +309,17 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php
     $module_layouts_skins_grouped = [];
     foreach($module_layouts_skins as $module_layouts_skin) {
-        if(!$show_grouped_by_cats){
+         if(!$show_grouped_by_cats){
             $expCategories = ['Layouts'];
 
         } else {
-            $expCategories = explode(',', $module_layouts_skin['category']);
+            if(isset($module_layouts_skin['categories'])){
+            $expCategories = explode(',', $module_layouts_skin['categories']);
+              array_walk($expCategories,'trim');
+            } else {
+                $expCategories = ['Layouts'];
+
+            }
 
         }
         if (!empty($expCategories)) {
