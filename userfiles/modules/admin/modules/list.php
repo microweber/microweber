@@ -344,12 +344,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php if($show_grouped_by_cats){ ?>
 
 
-            <div class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
+            <li unselectable="on" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
 
                 <h3 class="py-1"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h3>
                 <hr class="hr">
-
-            </div>
+            </li>
 
             <?php } ?>
 
@@ -361,7 +360,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
             <?php if (isset($dynamic_layout['layout_file'])): ?>
 
-                <div data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
+                <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>"
                     class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"
                     data-tipposition="left-center"
@@ -397,7 +396,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <span class="module_name"
                               alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"><?php print titlelize(_e($dynamic_layout['name'], true)); ?></span>
                     </span>
-                </div>
+                </li>
                 <?php
             endif; ?>
         <?php } ?>
@@ -416,8 +415,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php if ($mod_obj_str == 'modules' and count($modules_by_categories) > 1): ?>
 
                 <li class=" " unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
-                    <hr>
-                    <h4 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat, true)); ?> </h4>
+                    <h3 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat, true)); ?> </h3>
                     <hr>
                 </li>
 
@@ -426,17 +424,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li unselectable="on">
+                <div unselectable="on">
+                    <h3 class="text-uppercase">
+                        <?php _e('Default layouts'); ?></h3>
                     <hr>
-                    <h6 class="text-uppercase" style="font-size: 11px;
-                    text-transform: uppercase;
-                    margin: 0;
-                    letter-spacing: 0;
-                    padding-bottom: 5px;
-                    line-height: 28px;"
-                    ><?php _e('Default layouts and elements'); ?></span></h6>
-                    <hr>
-                </li>
+                </div>
 
             <?php endif; ?>
 
