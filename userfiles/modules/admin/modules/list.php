@@ -293,15 +293,20 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php
 
     if (isset($module_layouts_skins) and is_array($module_layouts_skins)) { ?>
-        <?php
-        $i = 0; ?>
+    <?php
+    $i = 0; ?>
 
-        <?php
-        $module_layouts_skins_grouped = [];
-        foreach($module_layouts_skins as $module_layouts_skin) {
-            $module_layouts_skins_grouped[$module_layouts_skin['category']][] = $module_layouts_skin;
+    <?php
+    $module_layouts_skins_grouped = [];
+    foreach($module_layouts_skins as $module_layouts_skin) {
+        $expCategories = explode(',', $module_layouts_skin['category']);
+        if (!empty($expCategories)) {
+            foreach ($expCategories as $category) {
+                $module_layouts_skins_grouped[$category][] = $module_layouts_skin;
+            }
         }
-        ?>
+    }
+    ?>
 
 
     <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
@@ -359,7 +364,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 </li>
                 <?php
             endif; ?>
-        <?php } ?> 
+        <?php } ?>
             </div>
         </mw-accordion-item>
         <?php } ?>

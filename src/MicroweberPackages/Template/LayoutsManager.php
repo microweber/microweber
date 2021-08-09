@@ -268,7 +268,8 @@ class LayoutsManager
                             if (preg_match('/category:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('category:', '', $result);
-                                $to_return_temp['category'] = trim($result);
+                                $result = trim($result);
+                                $to_return_temp['category'] = $result;
                             }
 
                             if (preg_match('/is_default:.+/', $fin, $regs)) {
