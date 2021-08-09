@@ -344,11 +344,12 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php if($show_grouped_by_cats){ ?>
 
 
-            <li class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
+            <div class=" "  unselectable="on"   onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
 
-                <h4><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h4>
+                <h3 class="py-1"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h3>
+                <hr class="hr">
 
-            </li>
+            </div>
 
             <?php } ?>
 
@@ -360,7 +361,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
             <?php if (isset($dynamic_layout['layout_file'])): ?>
 
-                <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
+                <div data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>"
                     class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"
                     data-tipposition="left-center"
@@ -396,7 +397,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <span class="module_name"
                               alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"><?php print titlelize(_e($dynamic_layout['name'], true)); ?></span>
                     </span>
-                </li>
+                </div>
                 <?php
             endif; ?>
         <?php } ?>
