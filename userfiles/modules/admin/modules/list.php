@@ -425,7 +425,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
             <?php if ($mod_obj_str == 'elements'): ?>
                 <div unselectable="on">
-                    <h3 class="text-uppercase">
+                    <h3 class="text-uppercase py-1">
                         <?php _e('Default layouts'); ?></h3>
                     <hr>
                 </div>
