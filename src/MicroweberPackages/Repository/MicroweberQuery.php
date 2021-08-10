@@ -7,21 +7,18 @@ class MicroweberQuery {
 
     use QueryFilter;
 
+
     public static function execute($model, $params) {
 
         $table = $model->getModel()->getTable();
         $columns  = $model->getModel()->getFillable();
-
-        if (!in_array('id', $columns)) {
-            $columns[] = 'id';
-        }
 
         if (is_string($params)) {
             $params = parse_params($params);
         }
 
       //  $model = app()->database_manager->map_filters($model,$params,$table);
-
+        
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_closureLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);

@@ -249,8 +249,8 @@ class ContentManagerCrud extends Crud
         }*/
       //  dump($params);
 
-        //$get = app()->content_repository->getByParams($params); // too many parameters are make it on the database manager and function getByParams can't be replaced with parent::get()
-        $get = parent::get($params);
+        $get = app()->content_repository->getByParams($params); // too many parameters are make it on the database manager and function getByParams can't be replaced with parent::get()
+        //$get = parent::get($params);
       /* if (isset($get['id'])) {
            if ($get['id'] != $get2['id']) {
                echo $get['id'] .'[--]'. $get2['id'].'<br />';
