@@ -62,7 +62,7 @@
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
                 </div>
-                <div class="mw-ui-box-content">
+                <div class="mw-ui-box-content pt-0">
                     <?php if (is_post() or is_product()) { ?>
                         <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list" hide-dynamic="true"></div>
                     <?php } else { ?>
