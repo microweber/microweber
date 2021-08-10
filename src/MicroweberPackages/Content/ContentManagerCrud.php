@@ -182,7 +182,6 @@ class ContentManagerCrud extends Crud
                 and isset($category['category_subtype_settings']['filter_content_by_keywords'])
                 and trim($category['category_subtype_settings']['filter_content_by_keywords']) != ''
             ) {
-
                 $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
             }
         }
@@ -197,9 +196,6 @@ class ContentManagerCrud extends Crud
                 $params['is_active'] = 1;
             }
         }
-
-
-
 
         $extra_data = false;
         if (isset($params['get_extra_data'])) {
@@ -237,8 +233,24 @@ class ContentManagerCrud extends Crud
 //
 //        }
 //
-       $get = app()->content_repository->getByParams($params);
-       // $get = parent::get($params);
+
+/*
+        if (isset($params['category']) || isset($params['categories'])) {
+            $findByCategoryIds = [];
+
+            $params['__query_get_with_categories'] = function ($query) {
+                return $query->whereIn('content.id', function ($subQuery)  {
+                     $subQuery->select('categories_items.id');
+                     $subQuery->from('categories_items');
+                     $subQuery->where('categories_items.rel_id', '=', 'content.id');
+                     $subQuery->where('categories_items.rel_type', '=', 'content');
+                 });
+            };
+        }*/
+      //  dump($params);
+
+        //$get = app()->content_repository->getByParams($params); // too many parameters are make it on the database manager and function getByParams can't be replaced with parent::get()
+        $get = parent::get($params);
       /* if (isset($get['id'])) {
            if ($get['id'] != $get2['id']) {
                echo $get['id'] .'[--]'. $get2['id'].'<br />';

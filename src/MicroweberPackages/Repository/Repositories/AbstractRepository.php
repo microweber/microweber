@@ -990,6 +990,9 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
+        $this->newQuery();
+        return MicroweberQuery::execute($this->query, $params);
+
        return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
            $this->newQuery();
            return MicroweberQuery::execute($this->query, $params);
