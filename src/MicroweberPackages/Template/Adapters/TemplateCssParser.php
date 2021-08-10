@@ -177,8 +177,13 @@ class TemplateCssParser
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
 
         $variables =  $this->_getOptionVariables($optionGroupName);
-//dump($variables);
-//dump($outputFileLocations);
+ 
+        if(!$variables){
+            $response = \Response::make($cssOrig);
+            $response->header('Content-Type', 'text/css');
+            return $response;
+        }
+
         $compiler->setVariables($variables);
         $compiler->addParsedFile($outputFileLocations['styleFilePath']);
         $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']).'/');
