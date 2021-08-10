@@ -27,7 +27,6 @@ class Content extends Model
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
 
-
     protected $table = 'content';
     protected $content_type = 'content';
     public $additionalData = [];
@@ -73,6 +72,12 @@ class Content extends Model
 //    {
 //        return $this->belongsToMany(Taggable::class);
 //    }
+
+    public function whereCategoryIds($ids = []) {
+
+        dump($ids);
+
+    }
 
     public function related()
     {

@@ -6,6 +6,7 @@ namespace MicroweberPackages\Repository\Repositories;
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Repository\MicroweberQuery;
+use MicroweberPackages\Repository\MicroweberQueryToModel;
 use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
 
@@ -990,9 +991,6 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        $this->newQuery();
-        return MicroweberQuery::execute($this->query, $params);
-
        return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
            $this->newQuery();
            return MicroweberQuery::execute($this->query, $params);

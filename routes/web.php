@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
-    $get2 = app()->content_repository->getByParams(['id'=>1277]);
+    $get2 = app()->content_repository->getByParams(['categories'=>3]);
 
 
     dd($get2);
