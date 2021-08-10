@@ -253,7 +253,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 <?php } ?>
 
 
-<ul class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
+<div class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
     <?php
     $def_icon = modules_path() . 'default.jpg';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
@@ -431,7 +431,26 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     <?php if (isset($modules) and !empty($modules)): ?>
 
+<script>
 
+   $(document).ready(function (){
+       $('#default-layouts-holder .default-layouts').hide()
+   })
+
+</script>
+
+    <style>
+
+        #default-layouts-holder .mw_module_hold{
+            padding: 0;
+        }
+        #default-layouts-holder .default-layouts{
+            padding: 0;
+            margin-bottom: 35px;
+        }
+
+    </style>
+    <div id="default-layouts-holder">
         <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
             <?php if ($mod_obj_str == 'modules' and count($modules_by_categories) > 1): ?>
@@ -445,11 +464,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <div unselectable="on">
+                <li unselectable="on" onclick="$('.default-layouts').toggle()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>
-                </div>
+                </li>
 
             <?php endif; ?>
 
@@ -583,7 +602,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
         <?php endforeach; ?>
 
-
+</div>
     <?php endif; ?>
 
 
