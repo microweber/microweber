@@ -7,11 +7,14 @@ class MicroweberQuery {
 
     use QueryFilter;
 
-
     public static function execute($model, $params) {
 
         $table = $model->getModel()->getTable();
         $columns  = $model->getModel()->getFillable();
+
+        if (!in_array('id', $columns)) {
+            $columns[] = 'id';
+        }
 
         if (is_string($params)) {
             $params = parse_params($params);

@@ -44,6 +44,7 @@ class Content extends Model
     ];
 
     protected $fillable = [
+        "id",
         "subtype",
         "subtype_value",
         "content_type",
