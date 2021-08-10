@@ -143,7 +143,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
                     </div>
 
-                    <module type="testimonials/list" id="list-testimonials"/>
+                    <module type="testimonials/list" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> id="list-testimonials"/>
                 </div>
 
                 <div class="tab-pane fade" id="settings">
@@ -152,7 +152,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="form-group">
                             <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e('If you have more than one template for testimonials, choose which one to be visible'); ?></small>
-                            <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"/>
+                            <module type="testimonials/project_select" id="project-select-testimonials" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> option-group="<?php print $params['id'] ?>"/>
                         </div>
 
                         <div class="form-group">
