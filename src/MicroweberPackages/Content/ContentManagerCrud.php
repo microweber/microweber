@@ -237,8 +237,8 @@ class ContentManagerCrud extends Crud
 //
 //        }
 //
-       $get2 = app()->content_repository->getByParams($params);
-       //$get = parent::get($params);
+       $get = app()->content_repository->getByParams($params);
+       // $get = parent::get($params);
       /* if (isset($get['id'])) {
            if ($get['id'] != $get2['id']) {
                echo $get['id'] .'[--]'. $get2['id'].'<br />';
