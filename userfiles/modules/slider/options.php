@@ -66,10 +66,10 @@ if ($slides_xl) {
     $slides_xl = 4;
 }
 
-$thumb_quality_x = 5000;
+$thumb_quality_x = 2000;
 $thumb_quality_x = $thumb_quality_x / $slides_xl;
 
-$thumb_quality_y = 5000;
+$thumb_quality_y = 2000;
 $thumb_quality_y = $thumb_quality_y / $slides_xl;
 
 //bxSlider & Slick
