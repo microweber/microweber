@@ -175,11 +175,18 @@ class TemplateCssParser
         ));
 
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
+        $cssOrigFileDistContent=  '';
+        $cssOrigFileDist =normalize_path( $outputFileLocations['styleFilePathDist'], false);
+        if(is_file($cssOrigFileDist)){
+            $cssOrigFileDistContent = file_get_contents($cssOrigFileDist);
+        }
 
-        $variables =  $this->_getOptionVariables($optionGroupName);
- 
+
+      //  $cssOrigNoSettings = file_get_contents($outputFileLocations['output']['fileCss']);
+         $variables =  $this->_getOptionVariables($optionGroupName);
+
         if(!$variables){
-            $response = \Response::make($cssOrig);
+            $response = \Response::make($cssOrigFileDistContent);
             $response->header('Content-Type', 'text/css');
             return $response;
         }
@@ -360,12 +367,17 @@ class TemplateCssParser
 
             //   $styleFilePath = normalize_path($templatePath . '/' . $templateConfig['stylesheet_compiler']['css_file'], false);
         }
+
+        $styleFilePathCss = normalize_path($templatePath . '/' . $cssfilepath, false);
+
+
         $styleFilePath = str_replace('..', '', $styleFilePath);
 
         return array(
             'lessFilePath' => $lessFilePath,
             'lessDirPath' => $lessDirPath,
             'styleFilePath' => $styleFilePath,
+            'styleFilePathDist' => $styleFilePathCss,
             'cssFilePath' => $cssfilepath,
             'templateUrlWithPathCss' => $templateUrlWithPathCss,
             //'templatePath' => $templatePath,
