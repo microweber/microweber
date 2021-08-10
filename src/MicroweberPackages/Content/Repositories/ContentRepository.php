@@ -68,9 +68,6 @@ class ContentRepository extends AbstractRepository
             }
         }
 
-        dump($params);
-        dump($this->query->toSql());
-
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
         } else if (isset($params['single']) || isset($params['one'])) {
