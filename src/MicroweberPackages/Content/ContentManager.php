@@ -315,11 +315,6 @@ class ContentManager
      */
     public function get($params = false)
     {
-
-
-
-
-
         return $this->crud->get($params);
     }
 
