@@ -248,7 +248,9 @@ class PermalinkManager
             }
 
             $selected_cat = get_category_by_id($selected_cat['id']);
+            if($selected_cat and isset($selected_cat['url'])){
             $slug = $selected_cat['url'];
+            }
         }
 
         return $slug;
