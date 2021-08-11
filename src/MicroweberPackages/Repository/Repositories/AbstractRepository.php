@@ -309,7 +309,6 @@ abstract class AbstractRepository
 //     */
 
 
-
     public function findById($id)
     {
 
@@ -321,7 +320,7 @@ abstract class AbstractRepository
 //            }
 //        }
         $this->newQuery();
-        return   $this->query
+        return $this->query
             ->where('id', $id)
             ->limit(1)
             ->first();
@@ -993,6 +992,10 @@ abstract class AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
+            if(is_string($params)){
+                $params = parse_params($params);
+            }
+
             $this->newQuery();
 
             $this->query->select($this->getModel()->getTable() . '.*');
@@ -1005,13 +1008,14 @@ abstract class AbstractRepository
                     $this->filterMethods[$field] = 'where' . $fieldCamelCase;
                 }
             }
-            foreach ($params as $paramKey => $paramValue) {
-                if (isset($this->filterMethods[$paramKey])) {
-                    $whereMethodName = $this->filterMethods[$paramKey];
-                    $this->query->$whereMethodName($paramValue);
+            if ($params) {
+                foreach ($params as $paramKey => $paramValue) {
+                    if (isset($this->filterMethods[$paramKey])) {
+                        $whereMethodName = $this->filterMethods[$paramKey];
+                        $this->query->$whereMethodName($paramValue);
+                    }
                 }
             }
-
             $this->query->limit(30);
 
             if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
@@ -1041,11 +1045,11 @@ abstract class AbstractRepository
             return $result;
         });
     }
-  /*  public function getByParams($params = [])
-    {
-       return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
-           $this->newQuery();
-           return MicroweberQuery::execute($this->query, $params);
-        });
-    }*/
+    /*  public function getByParams($params = [])
+      {
+         return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
+             $this->newQuery();
+             return MicroweberQuery::execute($this->query, $params);
+          });
+      }*/
 }
