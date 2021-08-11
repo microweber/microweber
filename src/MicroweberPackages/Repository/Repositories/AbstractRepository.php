@@ -990,72 +990,83 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-       // return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        // return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-            $model = $this->getModel();
-            $table = $model->getTable();
-            $columns  = $model->getFillable();
+        $model = $this->getModel();
+        $table = $model->getTable();
+        $columns = $model->getFillable();
+        $searchable = $this->searchable;
 
-            if(is_string($params)){
-                $params = parse_params($params);
-            }
+        if ($columns) {
+            $searchable = array_merge($searchable, $columns);
+        }
 
-            $this->newQuery();
-            $this->query = self::_selectLogic( $this->query, $table, $columns, $params);
 
-      /*      foreach ($this->searchable as $field) {
-                if (!isset($this->filterMethods[$field])) {
-                    $fieldCamelCase = str_replace('_', ' ', $field);
-                    $fieldCamelCase = ucwords($fieldCamelCase);
-                    $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
-                    $this->filterMethods[$field] = 'where' . $fieldCamelCase;
-                }
-            }*/
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
 
-            if ($params) {
-                foreach ($params as $paramKey => $paramValue) {
-                    if (isset($this->filterMethods[$paramKey])) {
-                        $whereMethodName = $this->filterMethods[$paramKey];
-                        $this->query->$whereMethodName($paramValue);
-                    } else {
-                        if (in_array($paramKey, $this->searchable)) {
-                            $parse_compare_sign = db_query_parse_compare_sign_value($paramValue);
-                            $this->query->where($table .'.'. $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
-                        }
+        $this->newQuery();
+        $this->query = self::_selectLogic($this->query, $table, $columns, $params);
+
+        /*      foreach ($this->searchable as $field) {
+                  if (!isset($this->filterMethods[$field])) {
+                      $fieldCamelCase = str_replace('_', ' ', $field);
+                      $fieldCamelCase = ucwords($fieldCamelCase);
+                      $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
+                      $this->filterMethods[$field] = 'where' . $fieldCamelCase;
+                  }
+              }*/
+
+        if ($params) {
+            foreach ($params as $paramKey => $paramValue) {
+                if (isset($this->filterMethods[$paramKey])) {
+                    $whereMethodName = $this->filterMethods[$paramKey];
+                    $this->query->$whereMethodName($paramValue);
+                } else {
+
+                    if (in_array($paramKey, $searchable)) {
+                        $parse_compare_sign = db_query_parse_compare_sign_value($paramValue);
+                        $this->query->where($table . '.' . $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
                     }
                 }
+
+
             }
+        }
 
-           $this->query = self::_closureLogic($this->query, $table, $columns, $params);
-           $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
-           $this->query = self::_limitLogic($this->query, $table, $columns, $params);
+        $this->query = self::_closureLogic($this->query, $table, $columns, $params);
+        $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
+        $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
-            if (isset($params['count']) and $params['count']) {
-                $exec = $this->query->count();
-            } else if (isset($params['single']) || isset($params['one'])) {
-                $exec = $this->query->first();
+        if (isset($params['count']) and $params['count']) {
+            $exec = $this->query->count();
+        } else if (isset($params['single']) || isset($params['one'])) {
+            $exec = $this->query->first();
+        } else {
+
+            $exec = $this->query->get();
+        }
+
+        $result = [];
+        if ($exec != null) {
+            if (is_numeric($exec)) {
+                $result = $exec;
             } else {
-                $exec = $this->query->get();
+                $result = $exec->toArray();
             }
+        }
 
-            $result = [];
-            if ($exec != null) {
-                if (is_numeric($exec)) {
-                    $result = $exec;
-                } else {
-                    $result = $exec->toArray();
-                }
-            }
-
-            if (!empty($result)) {
-                return $result;
-            }
-            return null;
-     //   });
+        if (!empty($result)) {
+            return $result;
+        }
+        return null;
+        //   });
     }
 
 
-    public static function _limitLogic($model, $table, $columns, $params) {
+    public static function _limitLogic($model, $table, $columns, $params)
+    {
 
         $model->limit(30);
 
@@ -1070,16 +1081,17 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _excludeIdsLogic($model, $table, $columns, $params) {
+    public static function _excludeIdsLogic($model, $table, $columns, $params)
+    {
 
         $excludeIds = [];
-        if(isset($params['exclude_ids']) and is_string($params['exclude_ids'])){
-            $exclude_ids_merge = explode(',',$params['exclude_ids']);
-            if($exclude_ids_merge){
-                $excludeIds = array_merge($excludeIds,$exclude_ids_merge);
+        if (isset($params['exclude_ids']) and is_string($params['exclude_ids'])) {
+            $exclude_ids_merge = explode(',', $params['exclude_ids']);
+            if ($exclude_ids_merge) {
+                $excludeIds = array_merge($excludeIds, $exclude_ids_merge);
             }
-        } else if(isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
-            $excludeIds = array_merge($excludeIds,$params['exclude_ids']);
+        } else if (isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
+            $excludeIds = array_merge($excludeIds, $params['exclude_ids']);
         }
         if (!empty($excludeIds)) {
             $model->whereNotIn($table . '.id', $excludeIds);
@@ -1088,9 +1100,10 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _closureLogic($model, $table, $columns, $params) {
+    public static function _closureLogic($model, $table, $columns, $params)
+    {
 
-        foreach ($params as $paramKey=>$paramValue) {
+        foreach ($params as $paramKey => $paramValue) {
             if (is_object($params[$paramKey]) && ($params[$paramKey] instanceof \Closure)) {
                 $model = call_user_func($params[$paramKey], $model, $params);
             }
@@ -1099,7 +1112,8 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _selectLogic($model, $table, $columns, $params) {
+    public static function _selectLogic($model, $table, $columns, $params)
+    {
         if (isset($params['fields']) and $params['fields'] != false) {
             if (is_string($params['fields'])) {
                 $isFields = explode(',', $params['fields']);
