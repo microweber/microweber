@@ -46,6 +46,11 @@ if ($show_testimonials_per_project) {
     } else {
         $get['no_limit'] = true;
     }
+
+    if (isset($params['project_name'])) {
+        $get['project_name'] = $params['project_name'];
+    }
+
     $data = get_testimonials($get);
 
 }

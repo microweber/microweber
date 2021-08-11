@@ -13,6 +13,7 @@ use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use voku\helper\AntiXSS;
 
 
 class FrontendController extends Controller
@@ -633,6 +634,24 @@ class FrontendController extends Controller
 
 
         $request_data = array_merge($_GET, $_POST);
+
+
+        // sanitize attributes
+        if($request_data){
+            $request_data_new = [];
+            $antixss = new AntiXSS();
+            foreach ($request_data as $k=>$v){
+                if(is_string($k)){
+                    $k = $antixss->xss_clean($k);
+                    if($k){
+                        $request_data_new[$k] = $v;
+                    }
+                } else {
+                    $request_data_new[$k] = $v;
+                }
+            }
+            $request_data = $request_data_new;
+        }
 
         $page = false;
 

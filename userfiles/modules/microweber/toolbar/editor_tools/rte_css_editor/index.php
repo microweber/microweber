@@ -683,14 +683,6 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </mw-accordion-item>
 
 
-
-
-
-
-
-
-
-
 <mw-accordion-item >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
