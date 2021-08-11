@@ -1,5 +1,3 @@
-
-
 (function () {
 
     var IconLoader = function (store) {
@@ -419,9 +417,11 @@
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Icon size</label></div>');
-                    var sizeinput = mw.element('<input class="mw-ui-field" type="number" min="8" max="200">');
-                    var sizeinput2 = mw.element('<input type="range" min="8" max="200">');
+                    var label = mw.element('<div class="mb-2"> <label class="control-label">Icon size in px</label> </div>')
+                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item d-flex col-12 ps-0 form-group"></div>');
+                    var sizeinput = mw.element('<input class="form-control col-6 me-2" type="number" min="8" max="200">');
+                    var sizeinput2 = mw.element('<input class="form-control col-6 mx-2" type="range" min="8" max="200">');
+
                     actionNodes.size = sizeinput;
                     sizeinput.on('input', function () {
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
@@ -432,13 +432,14 @@
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
                     });
 
+                    holder.append(label);
                     sizeel.append(sizeinput);
                     sizeel.append(sizeinput2);
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Color</label></div>');
-                    cinput = mw.element('<input type="color">');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item form-group"><label class="control-label d-block mb-2">Color</label></div>');
+                    cinput = mw.element('<input class="form-control col-2" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
@@ -447,8 +448,8 @@
                     holder.append(cel);
                 }
                 if(scope.settings.iconOptions.reset) {
-                    var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
-                    var rinput = mw.element('<input type="button" class="mw-ui-btn mw-ui-btn-medium" value="Reset options">');
+                    var rel = mw.element('<div class="mwiconlist-settings-section-block-item form-group"> </div>');
+                    var rinput = mw.element('<input type="button" class="btn btn-dark" value="Reset options">');
                     rinput.on('click', function () {
                         scope.dispatch('reset', rinput.get(0).value);
                     });
