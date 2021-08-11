@@ -851,6 +851,6 @@ trait QueryFilter
 
     private function _is_closure($t)
     {
-        return is_object($t) && ($t instanceof \Closure);
+        return is_object($t) && ($t instanceof \Closure); 
     }
 }
