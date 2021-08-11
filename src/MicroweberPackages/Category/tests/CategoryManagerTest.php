@@ -30,7 +30,7 @@ class CategoryManagerTest extends TestCase
             "fields"=>'title,id'
         ));
 
-        dd($contentForCategories);
+       /// dd($contentForCategories);
 
         $this->assertEquals($cont_title, $contentForCategories[0]['title']);
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
