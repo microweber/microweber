@@ -26,6 +26,7 @@ if (!function_exists('db_query_parse_compare_sign_value')) {
     function db_query_parse_compare_sign_value($value)
     {
         $compare_sign = '=';
+        $compare_value = $value;
 
         if (stristr($value, '[lt]')) {
             $compare_sign = '<';
@@ -95,7 +96,7 @@ if (!function_exists('db_query_parse_compare_sign_value')) {
             $compare_sign = 'not_null';
         }
 
-        return ['compare_sign'=>$compare_sign,'compare_value'=>$value];
+        return ['compare_sign'=>$compare_sign,'compare_value'=>$compare_value,'value'=>$value];
     }
 }
 

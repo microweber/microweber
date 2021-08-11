@@ -140,6 +140,7 @@ trait QueryFilter
 
                     $compare_sign = $parse_compare_sign['compare_sign'];
                     $compare_value = $parse_compare_sign['compare_value'];
+                    $value = $parse_compare_sign['value'];
 
                     if ($filter == 'created_at' or $filter == 'updated_at') {
                         $compare_value = date('Y-m-d H:i:s', strtotime($value));
