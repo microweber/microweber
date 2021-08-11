@@ -438,7 +438,7 @@
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item form-group"><label class="control-label d-block mb-2">Color</label></div>');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item form-group"><label class="control-label d-block mb-2">Choose color</label></div>');
                     cinput = mw.element('<input class="form-control col-2" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
