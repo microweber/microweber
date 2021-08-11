@@ -3218,7 +3218,7 @@ body.dragStart .module-item{ cursor: grabbing;}
 
 .module-item-module .mw_module_hold {
     background: transparent;
-    padding: 10px;
+    padding-top: 10px!important;
     display: block;
     border: 1px solid transparent;
     border-radius: 2px;
@@ -4970,4 +4970,48 @@ body.dragStart picture img{
 
 .layout-preview-tooltip-image{
      display: block;
+}
+
+.mw-icon-selector-12-column {
+    flex: 0 0 100%!important;
+    max-width: 100%!important;
+    position: relative!important;
+}
+
+.mw-icon-selector-6-column {
+    flex: 0 0 auto!important;
+    width: 50%!important;
+    position: relative!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-2-column {
+    flex: 0 0 auto!important;
+    width: 16.6666666667%!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-flex {
+    display: flex !important;
+}
+
+.mw-icon-selector-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.mw-icon-selector-control-label {
+    font-weight: bold;
+    margin-bottom: 7px;
 }
