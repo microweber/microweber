@@ -384,7 +384,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>"
-                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"
+                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"  <?php if($show_grouped_by_cats)  { ?> style="display: none"   <?php } ?>
                     data-tipposition="left-center"
                     data-tipskin="mw-tooltip-default"
                     data-tip="#tooltip-<?php print $randId; ?>"
@@ -433,10 +433,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 <script>
 
-   $(document).ready(function (){
-   //    $('#default-layouts-holder .default-layouts').hide()
-   })
+    <?php if($show_grouped_by_cats)  { ?>
 
+
+
+   $(document).ready(function (){
+      $('#default-layouts-holder .default-layouts').hide()
+   })
+    <?php } ?>
 </script>
 
     <style>
