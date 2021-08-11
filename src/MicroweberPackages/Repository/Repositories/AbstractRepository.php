@@ -6,6 +6,7 @@ namespace MicroweberPackages\Repository\Repositories;
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Repository\MicroweberQuery;
+use MicroweberPackages\Repository\MicroweberQueryToModel;
 use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
 

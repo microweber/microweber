@@ -19,15 +19,9 @@ class MicroweberQuery {
 
       //  $model = app()->database_manager->map_filters($model,$params,$table);
 
-
         $model = self::_selectLogic($model, $table, $columns, $params);
         $model = self::_closureLogic($model, $table, $columns, $params);
         $model = self::_limitLogic($model, $table, $columns, $params);
-
-
-
-
-
 
         $whereParams = [];
         foreach ($params as $paramKey=>$paramValue) {

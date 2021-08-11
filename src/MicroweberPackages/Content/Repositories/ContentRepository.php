@@ -16,7 +16,6 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class ContentRepository extends AbstractRepository
 {
 
-
     protected $searchable = [
         'id',
         'title',
@@ -38,6 +37,10 @@ class ContentRepository extends AbstractRepository
         'content_meta_keywords',
     ];
 
+    protected $filterMethods = [
+        'tags'=>'whereTagsNames',
+        'categories'=>'whereCategoryIds',
+    ];
 
     /**
      * Specify Model class name
@@ -47,11 +50,46 @@ class ContentRepository extends AbstractRepository
     public $model = Content::class;
 
 
-//
-//
-//
-//
-//
+    public function getByParams($params = [])
+    {
+        $this->newQuery();
+
+        foreach ($this->searchable as $field) {
+            if (!isset($this->filterMethods[$field])) {
+                $fieldCamelCase = str_replace('_', ' ', $field);
+                $fieldCamelCase = ucwords($fieldCamelCase);
+                $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
+                $this->filterMethods[$field] = 'where' . $fieldCamelCase;
+            }
+        }
+        
+        foreach ($params as $paramKey=>$paramValue) {
+            if (isset($this->filterMethods[$paramKey])) {
+                $whereMethodName = $this->filterMethods[$paramKey];
+                $this->query->$whereMethodName($paramValue);
+            }
+        }
+
+        if (isset($params['count']) and $params['count']) {
+            $exec = $this->query->count();
+        } else if (isset($params['single']) || isset($params['one'])) {
+            $exec = $this->query->first();
+        } else {
+            $exec = $this->query->get();
+        }
+
+        $result = [];
+        if ($exec != null) {
+            if (is_numeric($exec)) {
+                $result = $exec;
+            } else {
+                $result = $exec->toArray();
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Find content by id.
      *

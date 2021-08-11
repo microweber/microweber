@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
 
+Route::get('mw-test-api', function () {
+
+    $get2 = app()->content_repository->getByParams(['categories'=>3]);
+
+
+    dd($get2);
+
+});

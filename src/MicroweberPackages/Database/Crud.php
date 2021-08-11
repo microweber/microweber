@@ -58,10 +58,7 @@ class Crud
         }
 
         $get = $this->app->database_manager->get($params);
-
-
       //  $get =app()->content_repository->getByParams($params);
-
 
         $override_data = array();
 

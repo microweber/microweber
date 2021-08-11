@@ -15,7 +15,7 @@ class MenuRepository extends AbstractRepository {
      */
     public $model = Menu::class;
 
-    public function allMenus()
+    public function getAllMenus()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
             return $this->getModel()->get()->toArray();
@@ -24,16 +24,39 @@ class MenuRepository extends AbstractRepository {
 
     public function getMenusByParentIdAndItemType($parentId, $itemType)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId,$itemType) {
+
+        $allMenus = $this->getAllMenus();
+
+        foreach ($allMenus as $menu) {
+            if ($menu['parent_id'] == $parentId && $menu['item_type'] == $itemType) {
+                return $menu;
+            }
+        }
+
+        return [];
+
+      /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId,$itemType) {
             return $this->getModel()->where('parent_id', $parentId)->where('item_type', $itemType)->orderBy('position', 'ASC')->get()->toArray();
-        });
+        });*/
     }
 
     public function getMenusByParentId($parentId)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
+
+        $allMenus = $this->getAllMenus();
+
+        $menus = [];
+        foreach ($allMenus as $menu) {
+            if ($menu['parent_id'] == $parentId) {
+                $menus[] = $menu;
+            }
+        }
+
+        return $menus;
+
+      /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
             return $this->getModel()->where('parent_id', $parentId)->orderBy('position', 'ASC')->get()->toArray();
-        });
+        });*/
     }
 
     public function getMenus($params)
