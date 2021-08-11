@@ -1599,6 +1599,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     position: relative;
     margin: 0 auto;
     height: 44px;
+    padding-top: 10px;
 }
 
 .mw_module_image img {
@@ -3218,11 +3219,15 @@ body.dragStart .module-item{ cursor: grabbing;}
 
 .module-item-module .mw_module_hold {
     background: transparent;
-    padding-top: 10px!important;
+    padding: 10px;
     display: block;
     border: 1px solid transparent;
     border-radius: 2px;
     transition: .3s;
+}
+
+.mw-module-item-title {
+    padding-top: 10px!important;
 }
 
 body.touchscreen-device .module-item-module {
