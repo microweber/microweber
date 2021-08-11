@@ -2725,12 +2725,14 @@ $(window).on('load', function () {
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
     mw.editorIconPicker.on('sizeChange', function (size){
-        mw.editorIconPicker.target.style.fontSize = size + 'px';
+        // mw.editorIconPicker.target.style.fontSize = size + 'px';
+        mw.editorIconPicker.target.style.setProperty('font-size', size + 'px', 'important');
         mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
         mw.wysiwyg.change(mw.editorIconPicker.target)
     })
     mw.editorIconPicker.on('colorChange', function (color){
-        mw.editorIconPicker.target.style.color = color;
+        // mw.editorIconPicker.target.style.color = color;
+        mw.editorIconPicker.target.style.setProperty('color', color, 'important');
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
 
