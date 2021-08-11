@@ -1027,6 +1027,7 @@ abstract class AbstractRepository
             }
 
            $this->query = self::_closureLogic($this->query, $table, $columns, $params);
+           $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
            $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
             if (isset($params['count']) and $params['count']) {
@@ -1064,6 +1065,24 @@ abstract class AbstractRepository
 
         if (isset($params['limit']) and $params['limit']) {
             $model->limit($params['limit']);
+        }
+
+        return $model;
+    }
+
+    public static function _excludeIdsLogic($model, $table, $columns, $params) {
+
+        $excludeIds = [];
+        if(isset($params['exclude_ids']) and is_string($params['exclude_ids'])){
+            $exclude_ids_merge = explode(',',$params['exclude_ids']);
+            if($exclude_ids_merge){
+                $excludeIds = array_merge($excludeIds,$exclude_ids_merge);
+            }
+        } else if(isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
+            $excludeIds = array_merge($excludeIds,$params['exclude_ids']);
+        }
+        if (!empty($excludeIds)) {
+            $model->whereNotIn($table . '.id', $excludeIds);
         }
 
         return $model;
