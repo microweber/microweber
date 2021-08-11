@@ -38,13 +38,8 @@ class ContentRepository extends AbstractRepository
     ];
 
     protected $filterMethods = [
-        'id'=>'whereId',
-        'url'=>'whereUrl',
-        'is_deleted'=>'whereIsDeleted',
-        'sub_type'=>'whereSubType',
-        'content_type'=>'whereContentType',
+        'tags'=>'whereTagsNames',
         'categories'=>'whereCategoryIds',
-        'limit'=>'limit',
     ];
 
     /**
@@ -59,8 +54,15 @@ class ContentRepository extends AbstractRepository
     {
         $this->newQuery();
 
-        $params['categories'] = '1';
-
+        foreach ($this->searchable as $field) {
+            if (!isset($this->filterMethods[$field])) {
+                $fieldCamelCase = str_replace('_', ' ', $field);
+                $fieldCamelCase = ucwords($fieldCamelCase);
+                $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
+                $this->filterMethods[$field] = 'where' . $fieldCamelCase;
+            }
+        }
+        
         foreach ($params as $paramKey=>$paramValue) {
             if (isset($this->filterMethods[$paramKey])) {
                 $whereMethodName = $this->filterMethods[$paramKey];
