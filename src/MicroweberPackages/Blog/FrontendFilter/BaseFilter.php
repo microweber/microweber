@@ -316,7 +316,9 @@ abstract class BaseFilter
                     $readyOrderedFilters[$filter] = $orderedFilter;
                 }
             }
-            $filters = $readyOrderedFilters;
+            if (!empty($readyOrderedFilters) && is_array($readyOrderedFilters)) {
+                $filters = $readyOrderedFilters;
+            }
         }
 
         $this->filters = $filters;
