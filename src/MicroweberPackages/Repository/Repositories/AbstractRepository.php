@@ -990,7 +990,11 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+       // return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+
+            $model = $this->getModel();
+            $table = $model->getTable();
+            $columns  = $model->getFillable();
 
             if(is_string($params)){
                 $params = parse_params($params);
@@ -998,7 +1002,7 @@ abstract class AbstractRepository
 
             $this->newQuery();
 
-            $this->query->select($this->getModel()->getTable() . '.*');
+             $this->query = self::_selectLogic( $this->query, $table, $columns, $params);
 
             foreach ($this->searchable as $field) {
                 if (!isset($this->filterMethods[$field])) {
@@ -1016,14 +1020,9 @@ abstract class AbstractRepository
                     }
                 }
             }
-            $this->query->limit(30);
 
-            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
-                unset($params['limit']);
-            }
-            if (isset($params['limit']) and $params['limit']) {
-                $this->query->limit($params['limit']);
-            }
+           $this->query = self::_closureLogic($this->query, $table, $columns, $params);
+           $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
             if (isset($params['count']) and $params['count']) {
                 $exec = $this->query->count();
@@ -1043,8 +1042,64 @@ abstract class AbstractRepository
             }
 
             return $result;
-        });
+     //   });
     }
+
+
+    public static function _limitLogic($model, $table, $columns, $params) {
+
+        $model->limit(30);
+
+        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+            unset($params['limit']);
+        }
+
+        if (isset($params['limit']) and $params['limit']) {
+            $model->limit($params['limit']);
+        }
+
+        return $model;
+    }
+
+    public static function _closureLogic($model, $table, $columns, $params) {
+
+        foreach ($params as $paramKey=>$paramValue) {
+            if (is_object($params[$paramKey]) && ($params[$paramKey] instanceof \Closure)) {
+                $model = call_user_func($params[$paramKey], $model, $params);
+            }
+        }
+
+        return $model;
+    }
+
+    public static function _selectLogic($model, $table, $columns, $params) {
+        if (isset($params['fields']) and $params['fields'] != false) {
+            if (is_string($params['fields'])) {
+                $isFields = explode(',', $params['fields']);
+            } else {
+                $isFields = $params['fields'];
+            }
+            $isFieldsQ = [];
+            if ($isFields) {
+                foreach ($isFields as $isField) {
+                    if (is_string($isField)) {
+                        $isField = trim($isField);
+                        if ($isField != '') {
+                            $isFieldsQ[] = $table . '.' . $isField;
+                        }
+                    }
+                }
+            }
+            if ($isFieldsQ) {
+                $model->select($isFieldsQ);
+            }
+        } else {
+            $model->select($table . '.*');
+        }
+
+        return $model;
+    }
+
     /*  public function getByParams($params = [])
       {
          return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {

@@ -11,10 +11,6 @@ use MicroweberPackages\Page\Models\Page;
 class CategoryManagerTest extends TestCase
 {
 
-
-
-
-
     public function testSelectOnlyFieldsWithCategoryFilter()
     {
 
@@ -33,6 +29,8 @@ class CategoryManagerTest extends TestCase
             "categories"=>[$category->id],
             "fields"=>'title,id'
         ));
+
+        dd($contentForCategories);
 
         $this->assertEquals($cont_title, $contentForCategories[0]['title']);
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
