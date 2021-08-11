@@ -1041,7 +1041,10 @@ abstract class AbstractRepository
                 }
             }
 
-            return $result;
+            if (!empty($result)) {
+                return $result;
+            }
+            return null;
      //   });
     }
 
