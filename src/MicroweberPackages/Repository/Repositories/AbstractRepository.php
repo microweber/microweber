@@ -1018,9 +1018,9 @@ abstract class AbstractRepository
                         $whereMethodName = $this->filterMethods[$paramKey];
                         $this->query->$whereMethodName($paramValue);
                     } else {
-                        if (isset($this->searchable[$paramKey])) {
+                        if (in_array($paramKey, $this->searchable)) {
                             $parse_compare_sign = db_query_parse_compare_sign_value($paramValue);
-                            $this->query->where($paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['compare_value']);
+                            $this->query->where($table .'.'. $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
                         }
                     }
                 }
