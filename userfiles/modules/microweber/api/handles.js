@@ -388,7 +388,7 @@ mw._initHandles = {
             buttons: [
                     {
                         title: mw.lang('Insert'),
-                        icon: 'mdi-plus-circle',
+                        icon: 'mdi-plus',
                         className: 'mw-handle-insert-button',
                         hover: [
                             function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
@@ -574,7 +574,7 @@ mw._initHandles = {
                 mw.handleElement.show();
             }
             mw.handleElement.positionedAt = 'top';
-            var posTop = o.top - 30;
+            var posTop = o.top - 40;
             var elHeight = el.height();
             /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
@@ -611,7 +611,7 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
+                    icon: 'mdi-plus',
                     hover: [
                         function (e) {
                             handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);

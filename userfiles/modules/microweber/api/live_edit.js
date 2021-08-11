@@ -220,6 +220,9 @@ mw.live_edit.getModuleIcon = function (module_type) {
     if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].icon) {
         return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
+/*    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].title) {
+        return '<span class="mw-handle-handler-title">'+mw.live_edit.registry[module_type].title+'</span>';
+    }*/
     else {
         return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
     }
