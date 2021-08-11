@@ -247,17 +247,22 @@ class ContentManagerCrud extends Crud
                  });
             };
         }*/
-      //  dump($params);
 
-     //   $get = app()->content_repository->getByParams($params); // too many parameters are make it on the database manager and function getByParams can't be replaced with parent::get()
-        $get = parent::get($params);
-      /* if (isset($get['id'])) {
+    /*    if (isset($params['category-id'])) {
+            dump($params);
+        }*/
+
+        $get = app()->content_repository->getByParams($params); // too many parameters are make it on the database manager and function getByParams can't be replaced with parent::get()
+
+        //$get = parent::get($params);
+        /*
+         if (isset($get['id'])) {
            if ($get['id'] != $get2['id']) {
                echo $get['id'] .'[--]'. $get2['id'].'<br />';
            }
        }*/
 
-         //echo '<pre>' . print_r([$params,$get], true) .'</pre>';
+       //  echo '<pre>' . print_r([$params], true) .'</pre>';
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {

@@ -19,9 +19,9 @@ trait CategoryTrait
     }
 
 
-    public function scopeWhereCategoryIds($query, $ids = []) {
+    public function scopeWhereCategoryIds($query, $ids = false) {
 
-        $excludeIds = [];// TODO
+       // $excludeIds = [];
         $table = $this->getTable();
 
         if (is_string($ids)) {
@@ -29,19 +29,20 @@ trait CategoryTrait
         } elseif (is_int($ids)) {
             $ids = array($ids);
         }
+
         if (is_array($ids)) {
             $ids = array_filter($ids);
             if (!empty($ids)) {
                 if (!isset($search_joined_tables_check['categories_items'])) {
-                    $query = $query->join('categories_items', function ($join) use ($table, $ids, $excludeIds) {
+                    $query = $query->join('categories_items', function ($join) use ($table, $ids) {
                         $join->on('categories_items.rel_id', '=', $table . '.id')->where('categories_items.rel_type', '=', $table);
-                        if ($excludeIds) {
+                        /*if ($excludeIds) {
                             $join->whereNotIn('categories_items.rel_id', $excludeIds);
-                        }
+                        }*/
                         $join->whereIn('categories_items.parent_id', $ids)->distinct();
                     });
                 }
-                $query = $query->distinct();
+                //$query = $query->distinct();
 
             }
         }

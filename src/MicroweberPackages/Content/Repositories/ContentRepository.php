@@ -39,6 +39,7 @@ class ContentRepository extends AbstractRepository
 
     protected $filterMethods = [
         'tags'=>'whereTagsNames',
+        'category'=>'whereCategoryIds',
         'categories'=>'whereCategoryIds',
     ];
 
@@ -52,42 +53,55 @@ class ContentRepository extends AbstractRepository
 
     public function getByParams($params = [])
     {
-        $this->newQuery();
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-        foreach ($this->searchable as $field) {
-            if (!isset($this->filterMethods[$field])) {
-                $fieldCamelCase = str_replace('_', ' ', $field);
-                $fieldCamelCase = ucwords($fieldCamelCase);
-                $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
-                $this->filterMethods[$field] = 'where' . $fieldCamelCase;
+            $this->newQuery();
+
+            $this->query->select($this->getModel()->getTable() . '.*');
+
+            foreach ($this->searchable as $field) {
+                if (!isset($this->filterMethods[$field])) {
+                    $fieldCamelCase = str_replace('_', ' ', $field);
+                    $fieldCamelCase = ucwords($fieldCamelCase);
+                    $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
+                    $this->filterMethods[$field] = 'where' . $fieldCamelCase;
+                }
             }
-        }
-        
-        foreach ($params as $paramKey=>$paramValue) {
-            if (isset($this->filterMethods[$paramKey])) {
-                $whereMethodName = $this->filterMethods[$paramKey];
-                $this->query->$whereMethodName($paramValue);
+            foreach ($params as $paramKey => $paramValue) {
+                if (isset($this->filterMethods[$paramKey])) {
+                    $whereMethodName = $this->filterMethods[$paramKey];
+                    $this->query->$whereMethodName($paramValue);
+                }
             }
-        }
 
-        if (isset($params['count']) and $params['count']) {
-            $exec = $this->query->count();
-        } else if (isset($params['single']) || isset($params['one'])) {
-            $exec = $this->query->first();
-        } else {
-            $exec = $this->query->get();
-        }
+            $this->query->limit(30);
 
-        $result = [];
-        if ($exec != null) {
-            if (is_numeric($exec)) {
-                $result = $exec;
+            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+                unset($params['limit']);
+            }
+            if (isset($params['limit']) and $params['limit']) {
+                $this->query->limit($params['limit']);
+            }
+
+            if (isset($params['count']) and $params['count']) {
+                $exec = $this->query->count();
+            } else if (isset($params['single']) || isset($params['one'])) {
+                $exec = $this->query->first();
             } else {
-                $result = $exec->toArray();
+                $exec = $this->query->get();
             }
-        }
 
-        return $result;
+            $result = [];
+            if ($exec != null) {
+                if (is_numeric($exec)) {
+                    $result = $exec;
+                } else {
+                    $result = $exec->toArray();
+                }
+            }
+
+            return $result;
+        });
     }
 
     /**
