@@ -698,10 +698,13 @@
                 } else {
                     mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
                 }
+
                 this._tooltip.style.display = 'block';
                 if(target.nodeType === 1) {
-                    var size = getComputedStyle(target);
-                    $('[type="number"],[type="range"]').val(Number(size.fontSize));
+                    var css = getComputedStyle(target);
+                    $('[type="number"],[type="range"]', this._tooltip).val(parseFloat(css.fontSize));
+
+                    $('[type="color"]', this._tooltip).val(mw.color.rgbOrRgbaToHex(css.color));
                 }
 
             }

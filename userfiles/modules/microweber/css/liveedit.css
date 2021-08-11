@@ -3866,7 +3866,7 @@ body.dragStart .allow-drop {
 }
 
 .mw-handle-handler .mw_module_settings_sidebar_icon {
-    margin: 3px 0 0 4px;
+    margin: 6px 0 0 4px;
     background-image: none !important;
 }
 
@@ -4110,12 +4110,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-handler {
-    height: 30px;
+    height: 40px;
     border-radius: 4px;
     background-color: #fff;
     color: #2b2b2b;
-    line-height: 30px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    line-height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 .mw-handle-type-default.active .mw-handle-handler{
     border-radius: 4px 4px 0 0;
@@ -4272,8 +4272,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-handler-title {
     display: inline-block;
-    line-height: 30px;
-    height: 30px;
+    line-height: 40px;
+    height: 40px;
     padding-right: 10px;
     vertical-align: top;
     cursor: pointer;
@@ -4312,13 +4312,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-handle-no-drag .mw-handle-handler-icon {
     pointer-events: none;
 }
+.mw-handle-buttons span.mw-handle-insert-button{
+    font-size: 24px;
+    line-height: 35px;
+    top: 2px;
+    position: relative;
+}
 
-.mw-handle-no-drag .mw-handle-handler-icon,
+/*.mw-handle-no-drag .mw-handle-handler-icon,
 .mw-handle-no-drag .ui-draggable-handle,
 .mw-handle-no-drag .mw-handle-insert-button,
 .mw-handle-no-drag .mw-handle-remove {
     display: none !important;
-}
+}*/
 
 .mw-handle-no-drag .mw-handle-remove {
     display: none;
