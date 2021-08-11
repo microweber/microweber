@@ -19,7 +19,7 @@ trait CategoryTrait
     }
 
 
-    public function scopeWhereCategoryIds($query, $ids = []) {
+    public function scopeWhereCategoryIds($query, $ids = false) {
 
        // $excludeIds = [];
         $table = $this->getTable();
@@ -29,6 +29,7 @@ trait CategoryTrait
         } elseif (is_int($ids)) {
             $ids = array($ids);
         }
+
         if (is_array($ids)) {
             $ids = array_filter($ids);
             if (!empty($ids)) {
@@ -41,7 +42,7 @@ trait CategoryTrait
                         $join->whereIn('categories_items.parent_id', $ids)->distinct();
                     });
                 }
-                $query = $query->distinct();
+                //$query = $query->distinct();
 
             }
         }

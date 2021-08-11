@@ -39,6 +39,7 @@ class ContentRepository extends AbstractRepository
 
     protected $filterMethods = [
         'tags'=>'whereTagsNames',
+        'category'=>'whereCategoryIds',
         'categories'=>'whereCategoryIds',
     ];
 
@@ -56,6 +57,8 @@ class ContentRepository extends AbstractRepository
 
             $this->newQuery();
 
+            $this->query->select($this->getModel()->getTable() . '.*');
+
             foreach ($this->searchable as $field) {
                 if (!isset($this->filterMethods[$field])) {
                     $fieldCamelCase = str_replace('_', ' ', $field);
@@ -70,7 +73,9 @@ class ContentRepository extends AbstractRepository
                     $this->query->$whereMethodName($paramValue);
                 }
             }
-        
+
+            $this->query->limit(30);
+
             if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
                 unset($params['limit']);
             }
