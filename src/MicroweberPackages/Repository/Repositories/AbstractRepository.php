@@ -1001,22 +1001,27 @@ abstract class AbstractRepository
             }
 
             $this->newQuery();
+            $this->query = self::_selectLogic( $this->query, $table, $columns, $params);
 
-             $this->query = self::_selectLogic( $this->query, $table, $columns, $params);
-
-            foreach ($this->searchable as $field) {
+      /*      foreach ($this->searchable as $field) {
                 if (!isset($this->filterMethods[$field])) {
                     $fieldCamelCase = str_replace('_', ' ', $field);
                     $fieldCamelCase = ucwords($fieldCamelCase);
                     $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
                     $this->filterMethods[$field] = 'where' . $fieldCamelCase;
                 }
-            }
+            }*/
+
             if ($params) {
                 foreach ($params as $paramKey => $paramValue) {
                     if (isset($this->filterMethods[$paramKey])) {
                         $whereMethodName = $this->filterMethods[$paramKey];
                         $this->query->$whereMethodName($paramValue);
+                    } else {
+                        if (isset($this->searchable[$paramKey])) {
+                            $parse_compare_sign = db_query_parse_compare_sign_value($paramValue);
+                            $this->query->where($paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['compare_value']);
+                        }
                     }
                 }
             }
