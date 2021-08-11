@@ -417,7 +417,7 @@
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var label = mw.element('<div class="mb-2"> <label class="control-label">Icon size in px</label> </div>')
+                    var label = mw.element('<div class="d-flex mb-2"> <label class="control-label col-6 ps-0">Icon size in px</label> <label class="control-label col-6 ps-2">Select size from range</label> </div>');
                     var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item d-flex col-12 ps-0 form-group"></div>');
                     var sizeinput = mw.element('<input class="form-control col-6 me-2" type="number" min="8" max="200">');
                     var sizeinput2 = mw.element('<input class="form-control col-6 mx-2" type="range" min="8" max="200">');
