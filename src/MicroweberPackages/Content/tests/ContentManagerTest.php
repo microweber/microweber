@@ -346,7 +346,11 @@ class ContentManagerTest extends TestCase
 
         $saved_id = save_content($params);
 
+        clearcache();
+
         $get = get_content('keyword='.$title);
+
+        dd($get);
 
         $this->assertEquals($title, $get[0]['title']);
         $this->assertEquals($saved_id, $get[0]['id']);
