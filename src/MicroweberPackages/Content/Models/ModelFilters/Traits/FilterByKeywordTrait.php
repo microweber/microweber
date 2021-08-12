@@ -34,13 +34,15 @@ trait FilterByKeywordTrait
             $searchInFields = array_diff($searchInFields, $guardedFields);
         }
 
-        return $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
+        $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
             if ($searchInFields) {
                 foreach ($searchInFields as $field) {
                     $query->orWhere($table .'.'. $field, 'LIKE', '%' . $keyword . '%');
                 }
             }
         });
+
+        return $this->query;
     }
 
 }
