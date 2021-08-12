@@ -1,21 +1,13 @@
 /*
- * Microweber - Framework
- *
- * Default styles
- *
- */
-
-
-/*
-@import url("../layouts/templates/layouts.css");
+ * Microweber - Default styles
 */
 
-/*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css");*/
-/*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_compiled.css");*/
 
-
-
-
+.mw-bg-mask{
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: rgba(0,0,0,0) !important;
+}
 .mw-filepicker-component-section:hover .dropable-zone{
     border-color: #4592ff;
     background-color: rgba(69, 146, 255, 0.1);
