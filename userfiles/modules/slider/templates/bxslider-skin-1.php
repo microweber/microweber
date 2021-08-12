@@ -12,8 +12,13 @@
 */
 
 ?>
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>/templates/bxslider-skin-1/style.css"/>
 
+<?php $skin_css_file =  __DIR__.'/bxslider-skin-1/style.css' ?>
+<?php if(is_file($skin_css_file)){ ?>
+    <style>
+        <?php print  @file_get_contents($skin_css_file) ?>
+    </style>
+<?php } ?>
 <?php
 $thumb_quality_y = '1920';
 $thumb_quality_y = $thumb_quality_y / $slides_xl;
