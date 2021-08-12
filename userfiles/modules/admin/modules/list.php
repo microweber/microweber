@@ -384,7 +384,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>"
-                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>" style="display: none;"
+                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"  <?php if($show_grouped_by_cats)  { ?> style="display: none"   <?php } ?>
                     data-tipposition="left-center"
                     data-tipskin="mw-tooltip-default"
                     data-tip="#tooltip-<?php print $randId; ?>"
@@ -433,10 +433,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 <script>
 
-   $(document).ready(function (){
-       $('#default-layouts-holder .default-layouts').hide()
-   })
+    <?php if($show_grouped_by_cats)  { ?>
 
+
+
+   $(document).ready(function (){
+      $('#default-layouts-holder .default-layouts').hide()
+   })
+    <?php } ?>
 </script>
 
     <style>
@@ -464,7 +468,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li unselectable="on" onclick="$('.default-layouts').toggle()">
+                <li class="mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts').toggle()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>
@@ -523,7 +527,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <?php if (isset($module_item['template'])) { ?>
                             template="<?php print $module_item['template'] ?>"
                         <?php } ?>
-                            class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
+                            class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts pt-0<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element pt-0<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
 

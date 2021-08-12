@@ -1,5 +1,3 @@
-
-
 (function () {
 
     var IconLoader = function (store) {
@@ -419,9 +417,11 @@
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Icon size</label></div>');
-                    var sizeinput = mw.element('<input class="mw-ui-field" type="number" min="8" max="200">');
-                    var sizeinput2 = mw.element('<input type="range" min="8" max="200">');
+                    var label = mw.element('<div class="mw-icon-selector-flex"> <label class="mw-icon-selector-control-label mw-icon-selector-6-column">Icon size in px</label> <label class="mw-icon-selector-control-label mw-icon-selector-6-column ps-2">Select size from range</label> </div>');
+                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item mw-icon-selector-flex  mw-icon-selector-12-column"></div>');
+                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="number" min="8" max="200">');
+                    var sizeinput2 = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="range" min="8" max="200">');
+
                     actionNodes.size = sizeinput;
                     sizeinput.on('input', function () {
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
@@ -432,13 +432,14 @@
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
                     });
 
+                    holder.append(label);
                     sizeel.append(sizeinput);
                     sizeel.append(sizeinput2);
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Color</label></div>');
-                    cinput = mw.element('<input type="color">');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label  ps-2">Choose color</label></div>');
+                    cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
@@ -448,7 +449,7 @@
                 }
                 if(scope.settings.iconOptions.reset) {
                     var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
-                    var rinput = mw.element('<input type="button" class="mw-ui-btn mw-ui-btn-medium" value="Reset options">');
+                    var rinput = mw.element('<input type="button" class="mw-ui-btn" value="Reset options">');
                     rinput.on('click', function () {
                         scope.dispatch('reset', rinput.get(0).value);
                     });
@@ -697,10 +698,13 @@
                 } else {
                     mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
                 }
+
                 this._tooltip.style.display = 'block';
                 if(target.nodeType === 1) {
-                    var size = getComputedStyle(target);
-                    $('[type="number"],[type="range"]').val(Number(size.fontSize));
+                    var css = getComputedStyle(target);
+                    $('[type="number"],[type="range"]', this._tooltip).val(parseFloat(css.fontSize));
+
+                    $('[type="color"]', this._tooltip).val(mw.color.rgbOrRgbaToHex(css.color));
                 }
 
             }
