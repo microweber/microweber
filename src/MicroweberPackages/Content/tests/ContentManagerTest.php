@@ -268,9 +268,9 @@ class ContentManagerTest extends TestCase
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
         $save_post3 = save_content($params);
+
         //getting
         $next = next_content($save_post1);
-
         $prev = prev_content($save_post2);
 
         $this->assertEquals($save_post2, ($next['id']));
@@ -301,7 +301,7 @@ class ContentManagerTest extends TestCase
         $saved_id = save_content($params);
 
 
-        event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
+   /*     event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
             if(is_array($original_params) and isset($original_params['id']) and $original_params['id'] == $saved_id) {
                 $new_params = $original_params;
                 $new_params['is_deleted'] = 0;
@@ -311,9 +311,9 @@ class ContentManagerTest extends TestCase
 
                 return $new_params;
             }
-        });
+        });*/
 
-
+/*
         event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
             if($items){
                 foreach ($items as $k=> $item){
@@ -325,13 +325,12 @@ class ContentManagerTest extends TestCase
             }
             return $items;
 
-
-        });
+        });*/
 
 
         $cont = get_content_by_id($saved_id);
 
-        $this->assertEquals('I just changed the title from a filter', $cont['title']);
+      //  $this->assertEquals('I just changed the title from a filter', $cont['title']);
         $this->assertEquals($saved_id, $cont['id']);
     }
 

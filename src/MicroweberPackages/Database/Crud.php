@@ -47,14 +47,14 @@ class Crud
         }
 
         if ($enable_triggers) {
-            $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
+          /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
             if (is_array($override)) {
                 foreach ($override as $resp) {
                     if (is_array($resp) and !empty($resp)) {
                         $params = array_merge($params, $resp);
                     }
                 }
-            }
+            }*/
         }
 
         $get = $this->app->database_manager->get($params);
@@ -74,7 +74,8 @@ class Crud
             if (isset($params['count']) and $params['count']) {
                 //do nothing on override
             } else {
-                $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
+
+              /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
                 if (is_array($override)) {
                     foreach ($override as $resp) {
                         if (is_array($resp) and !empty($resp)) {
@@ -86,7 +87,7 @@ class Crud
                             }
                         }
                     }
-                }
+                }*/
             }
         }
 

@@ -2535,87 +2535,78 @@ class ContentManager
         if ($cont_data == false) {
             return false;
         }
+
+        $query = \MicroweberPackages\Content\Content::query();
         $categories = array();
         $params = array();
 
+        $parent_id = false;
         if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $params['parent'] = $cont_data['parent'];
+            $parent_id = $cont_data['parent'];
         }
 
-        $compare_q = '[lt]';
-        if (trim($mode) == 'prev') {
-            $compare_q = '[mt]';
-        }
         if ($content_type) {
-            $params['content_type'] = $content_type;
             if (defined('PAGE_ID') and PAGE_ID != 0) {
-                $params['parent'] = PAGE_ID;
+                $parent_id = PAGE_ID;
             }
         } elseif (isset($cont_data['content_type'])) {
-            $params['content_type'] = $cont_data['content_type'];
+            $content_type = $cont_data['content_type'];
         }
 
         if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
-            $compare_q = '[mt]';
-            $params['order_by'] = 'created_at asc';
-            $params['order_by'] = 'position asc, created_at asc';
-            $params['order_by'] = 'position asc';
+
             if (trim($mode) == 'prev') {
-                $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_at desc';
-                $params['order_by'] = 'position desc';
+                $query->orderBy('position', 'desc');
+                $query->where('position', '<', $cont_data['position']);
+            } else {
+                $query->orderBy('position', 'asc');
+                $query->where('position', '>', $cont_data['position']);
             }
+
             $cats = $this->app->category_manager->get_for_content($content_id);
             if (!empty($cats)) {
                 foreach ($cats as $cat) {
                     $categories[] = $cat['id'];
                 }
-            } else {
-                if ($category_id != false) {
-                    //$categories[] = $category_id;
-                }
+                $query->whereCategoryIds($categories);
             }
-            $params['position'] = $compare_q . $cont_data['position'];
+
         } else {
+
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q . $cont_data['position'];
-            }
-            $params['order_by'] = 'created_at asc';
-            if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_at desc';
-            }
-        }
-
-        if (!empty($categories)) {
-            $params['category'] = $categories;
-        }
-
-        $params['limit'] = 1;
-        $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 1;
-        $params['is_deleted'] = 0;
-        $params['single'] = true;
-
-        $q = $this->get($params);
-
-        if (is_array($q)) {
-            return $q;
-        } else {
-            if (isset($params['created_at'])) {
-                unset($params['created_at']);
-            }
-
-            $q = $this->get($params);
-            if (!is_array($q)) {
-                if (isset($params['category'])) {
-                    unset($params['category']);
-                    $q = $this->get($params);
+                if (trim($mode) == 'prev') {
+                    $query->where('position', '>', $cont_data['position']);
+                } else {
+                    $query->where('position', '<', $cont_data['position']);
                 }
             }
-            if (is_array($q)) {
-                return $q;
-            }
 
+            if (trim($mode) == 'prev') {
+                $query->orderBy('created_at', 'desc');
+            } else {
+                $query->orderBy('created_at', 'asc');
+            }
+        }
+
+        $params['exclude_ids'] = array($content_id);
+
+        if ($parent_id) {
+            $query->whereParent($parent_id);
+        }
+
+        $query->whereContentType($content_type);
+        $query->whereIsActive(1);
+        $query->whereIsDeleted(0);
+
+        $response = [];
+        $get = $query->first();
+        if ($get != null) {
+            $response = $get->toArray();
+        }
+
+        if (is_array($response)) {
+            return $response;
+        } else {
             return false;
         }
     }

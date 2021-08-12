@@ -86,7 +86,6 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
             $cats = [];
 
-
             $item = $this->findById($id);
             if ($item) {
                 $get = $item->categories;
@@ -267,8 +266,6 @@ class ContentRepository extends AbstractRepository
 
     public function getEditField($field, $rel_type, $rel_id = false)
     {
-
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
 
             $check = ContentField::where('field', $field);
