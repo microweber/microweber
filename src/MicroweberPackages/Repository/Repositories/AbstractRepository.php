@@ -1009,15 +1009,6 @@ abstract class AbstractRepository
         $this->newQuery();
         $this->query = self::_selectLogic($this->query, $table, $columns, $params);
 
-        /*      foreach ($this->searchable as $field) {
-                  if (!isset($this->filterMethods[$field])) {
-                      $fieldCamelCase = str_replace('_', ' ', $field);
-                      $fieldCamelCase = ucwords($fieldCamelCase);
-                      $fieldCamelCase = str_replace(' ', '', $fieldCamelCase);
-                      $this->filterMethods[$field] = 'where' . $fieldCamelCase;
-                  }
-              }*/
-
         if ($params) {
             foreach ($params as $paramKey => $paramValue) {
                 if (isset($this->filterMethods[$paramKey])) {
@@ -1035,6 +1026,7 @@ abstract class AbstractRepository
             }
         }
 
+        $this->query = self::_keywordLogic($this->query, $table, $columns, $params);
         $this->query = self::_closureLogic($this->query, $table, $columns, $params);
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
@@ -1095,6 +1087,15 @@ abstract class AbstractRepository
         }
         if (!empty($excludeIds)) {
             $model->whereNotIn($table . '.id', $excludeIds);
+        }
+
+        return $model;
+    }
+
+    public static function _keywordLogic($model, $table, $columns, $params) {
+
+        if (isset($params['keyword'])) {
+            $model->filter(['keyword'=>$params['keyword']]);
         }
 
         return $model;
