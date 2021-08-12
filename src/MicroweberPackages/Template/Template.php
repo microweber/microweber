@@ -358,6 +358,10 @@ class Template
 
     public function add_csrf_token_meta_tags($layout)
     {
+
+        $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
+
+
         $ajax = '<script>
 
 
@@ -427,7 +431,14 @@ class Template
 
         $one = 1;
         //   $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
-        $layout = str_ireplace('</head>', $ajax . '</head>', $layout, $one);
+
+        if ($optimize_asset_loading == 'y') {
+            $layout = str_ireplace('</body>', $ajax . '</body>', $layout, $one);
+
+        } else {
+            $layout = str_ireplace('</head>', $ajax . '</head>', $layout, $one);
+
+        }
 
 
         return $layout;
