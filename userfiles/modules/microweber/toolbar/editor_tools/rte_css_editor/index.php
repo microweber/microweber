@@ -328,8 +328,8 @@ var output = function(property, value){
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {
-          ActiveNode.style[property] = value;
-        // mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
+        //  ActiveNode.style[property] = value;
+         mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
           // ActiveNode.style.setProperty(property, value);
           ActiveNode.setAttribute('staticdesign', true);
           mw.top().wysiwyg.change(ActiveNode);

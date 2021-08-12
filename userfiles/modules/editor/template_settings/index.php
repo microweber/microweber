@@ -18,24 +18,26 @@
     }
 </style>
 
-<div id="settings-holder" data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="col-12">
-        <h5 style="font-weight: bold;">Template Settings </h5>
-    </div>
-    <?php //dd($template_settings); ?>
+<div id="settings-holder" >
 
-    <div class="bootstrap3ns">
+    <div data-mw-component="accordion" data-options="openFirst: false" class="mw-ui-box mw-accordion">
+        <mw-accordion-item>
+
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Template Settings"); ?></div>
+
+
+    <div class="bootstrap3ns mw-accordion-content mw-ui-box-content">
         <?php if ($template_settings): ?>
 
             <?php foreach ($template_settings as $key => $setting): ?>
-                <mw-accordion-item>
-                    <div class="mw-ui-box-header mw-accordion-title">
+
+                    <h5 >
                         <?php if ($setting['type'] == 'title') : ?>
                             <?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?>
                         <?php endif; ?>
-                    </div>
+                    </h5>
 
-                    <div class="mw-accordion-content mw-ui-box-content">
+                    <div class="  ">
                         <?php if ($setting['type'] == 'delimiter'): ?>
                             <hr/>
                         <?php elseif ($setting['type'] == 'text'): ?>
@@ -147,14 +149,17 @@
                             </div>
                         <?php endif; ?>
                     </div>
-                <mw-accordion-item>
+
             <?php endforeach; ?>
+                    <mw-accordion-item></div>
         <?php endif; ?>
 
-        <hr/>
-        <div class="form-group text-center">
-            <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="resetToDefault();" style="margin-top: 4px;"><?php _e("Reset Template Settings"); ?></span>
-        </div>
+
+
+
     </div>
+    <br>
+
+    <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="resetToDefault();" style="margin-top: 4px;"><?php _e("Reset Template Settings"); ?></span>
 </div>
 <!-- /#settings-holder -->

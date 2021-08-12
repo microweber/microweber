@@ -283,11 +283,10 @@
             });
         },
         accordion: function (el, callback) {
-            mw.require('css_parser.js');
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;
-            var is_hidden = mw.CSSParser(container).get.display() === 'none';
+            var is_hidden = getComputedStyle(container).display === 'none';
             if (!$(container).is(":animated")) {
                 if (is_hidden) {
                     mw.$(container).slideDown(speed, function () {
