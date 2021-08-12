@@ -93,7 +93,7 @@ class Crud
         return $get;
     }
 
-    public function get_by_id($id = 0, $field_name = 'id')
+    public function get_by_id($id = 0, $field_name = 'id') 
     {
         if ($field_name == 'id') {
             $id = intval($id);

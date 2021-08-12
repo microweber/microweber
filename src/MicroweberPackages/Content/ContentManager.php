@@ -2535,7 +2535,7 @@ class ContentManager
         if ($cont_data == false) {
             return false;
         }
-        
+
         $query = \MicroweberPackages\Content\Content::query();
         $categories = array();
         $params = array();
@@ -2545,10 +2545,6 @@ class ContentManager
             $parent_id = $cont_data['parent'];
         }
 
-        $compare_q = '<';
-        if (trim($mode) == 'prev') {
-            $compare_q = '>';
-        }
         if ($content_type) {
             if (defined('PAGE_ID') and PAGE_ID != 0) {
                 $parent_id = PAGE_ID;
@@ -2559,12 +2555,12 @@ class ContentManager
 
         if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
 
-            $compare_q = '>';
             if (trim($mode) == 'prev') {
-                $compare_q = '<';
                 $query->orderBy('position', 'desc');
+                $query->where('position', '<', $cont_data['position']);
             } else {
                 $query->orderBy('position', 'asc');
+                $query->where('position', '>', $cont_data['position']);
             }
 
             $cats = $this->app->category_manager->get_for_content($content_id);
@@ -2572,16 +2568,17 @@ class ContentManager
                 foreach ($cats as $cat) {
                     $categories[] = $cat['id'];
                 }
-            } else {
-                if ($category_id != false) {
-                    //$categories[] = $category_id;
-                }
+                $query->whereCategoryIds($categories);
             }
-            $query->where('position', $compare_q, $cont_data['position']);
+
         } else {
 
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $query->where('position', $compare_q, $cont_data['position']);
+                if (trim($mode) == 'prev') {
+                    $query->where('position', '>', $cont_data['position']);
+                } else {
+                    $query->where('position', '<', $cont_data['position']);
+                }
             }
 
             if (trim($mode) == 'prev') {
@@ -2589,10 +2586,6 @@ class ContentManager
             } else {
                 $query->orderBy('created_at', 'asc');
             }
-        }
-
-        if (!empty($categories)) {
-          //  $query->whereCategoryIds($categories);
         }
 
         $params['exclude_ids'] = array($content_id);
