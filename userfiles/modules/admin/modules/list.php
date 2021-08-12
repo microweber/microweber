@@ -294,7 +294,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <script>
         $(document).ready(function () {
 
-            $('.mw_module_image img').each(function (index) {
+            $('.mw_module_image img','#<?php print $params['id'] ?>').each(function (index) {
                 var img = $(this).data('src');
                 $(this).attr('src', img);
             });
@@ -366,7 +366,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
-            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
+            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>','#<?php print $params['id'] ?>').toggle()">
                 <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
             </li>
 
@@ -438,7 +438,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
    $(document).ready(function (){
-      $('#default-layouts-holder .default-layouts').hide()
+      $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
    })
     <?php } ?>
 </script>
@@ -468,7 +468,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li class="mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts').toggle()">
+                <li class="mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts','#<?php print $params['id'] ?>').toggle()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>
@@ -479,9 +479,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php $i = 0; ?>
             <?php foreach ($modules as $module_item): ?>
 
-                <?php
-              //  dump($module_item);
-                ?>
+
 
                 <?php $i++; ?>
                 <?php if (isset($module_item['module'])): ?>
