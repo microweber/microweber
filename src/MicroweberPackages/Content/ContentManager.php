@@ -2535,36 +2535,38 @@ class ContentManager
         if ($cont_data == false) {
             return false;
         }
+        
+        $query = \MicroweberPackages\Content\Content::query();
         $categories = array();
         $params = array();
 
+        $parent_id = false;
         if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $params['parent'] = $cont_data['parent'];
+            $parent_id = $cont_data['parent'];
         }
 
-        $compare_q = '[lt]';
+        $compare_q = '<';
         if (trim($mode) == 'prev') {
-            $compare_q = '[mt]';
+            $compare_q = '>';
         }
         if ($content_type) {
-            $params['content_type'] = $content_type;
             if (defined('PAGE_ID') and PAGE_ID != 0) {
-                $params['parent'] = PAGE_ID;
+                $parent_id = PAGE_ID;
             }
         } elseif (isset($cont_data['content_type'])) {
-            $params['content_type'] = $cont_data['content_type'];
+            $content_type = $cont_data['content_type'];
         }
 
         if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
-            $compare_q = '[mt]';
-            $params['order_by'] = 'created_at asc';
-            $params['order_by'] = 'position asc, created_at asc';
-            $params['order_by'] = 'position asc';
+
+            $compare_q = '>';
             if (trim($mode) == 'prev') {
-                $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_at desc';
-                $params['order_by'] = 'position desc';
+                $compare_q = '<';
+                $query->orderBy('position', 'desc');
+            } else {
+                $query->orderBy('position', 'asc');
             }
+
             $cats = $this->app->category_manager->get_for_content($content_id);
             if (!empty($cats)) {
                 foreach ($cats as $cat) {
@@ -2575,47 +2577,43 @@ class ContentManager
                     //$categories[] = $category_id;
                 }
             }
-            $params['position'] = $compare_q . $cont_data['position'];
+            $query->where('position', $compare_q, $cont_data['position']);
         } else {
+
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q . $cont_data['position'];
+                $query->where('position', $compare_q, $cont_data['position']);
             }
-            $params['order_by'] = 'created_at asc';
+
             if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_at desc';
+                $query->orderBy('created_at', 'desc');
+            } else {
+                $query->orderBy('created_at', 'asc');
             }
         }
 
         if (!empty($categories)) {
-            $params['category'] = $categories;
+          //  $query->whereCategoryIds($categories);
         }
 
-        $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 1;
-        $params['is_deleted'] = 0;
-        $params['single'] = true;
 
-        $q = $this->get($params);
+        if ($parent_id) {
+            $query->whereParent($parent_id);
+        }
 
-        if (is_array($q)) {
-            return $q;
+        $query->whereContentType($content_type);
+        $query->whereIsActive(1);
+        $query->whereIsDeleted(0);
+
+        $response = [];
+        $get = $query->first();
+        if ($get != null) {
+            $response = $get->toArray();
+        }
+
+        if (is_array($response)) {
+            return $response;
         } else {
-            if (isset($params['created_at'])) {
-                unset($params['created_at']);
-            }
-
-            $q = $this->get($params);
-            if (!is_array($q)) {
-                if (isset($params['category'])) {
-                    unset($params['category']);
-                    $q = $this->get($params);
-                }
-            }
-            if (is_array($q)) {
-                return $q;
-            }
-
             return false;
         }
     }
