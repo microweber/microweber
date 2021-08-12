@@ -1031,6 +1031,8 @@ abstract class AbstractRepository
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
+       // dump($this->query->toSql());
+
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
         } else if (isset($params['single']) || isset($params['one'])) {

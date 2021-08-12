@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Config;
 
 trait FilterByKeywordTrait
 {
@@ -19,6 +20,10 @@ trait FilterByKeywordTrait
         $searchInFields = $model->getFillable();
         $guardedFields = $model->getGuarded();
         $tableFields = $model->getConnection()->getSchemaBuilder()->getColumnListing($table);
+
+        /*
+        $searchInFields = [];
+        $searchInFields[] = 'title';*/
 
         if (isset($this->input['searchInFields'])) {
             if (strpos($this->input['searchInFields'], ',') !== false) {
@@ -34,13 +39,15 @@ trait FilterByKeywordTrait
             $searchInFields = array_diff($searchInFields, $guardedFields);
         }
 
-        return $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
+        $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
             if ($searchInFields) {
                 foreach ($searchInFields as $field) {
                     $query->orWhere($table .'.'. $field, 'LIKE', '%' . $keyword . '%');
                 }
             }
         });
+
+        return $this->query;
     }
 
 }
