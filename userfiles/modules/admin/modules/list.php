@@ -366,7 +366,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
-            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle()">
+            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>').toggle();event.stopImmediatePropagation()">
                 <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
             </li>
 

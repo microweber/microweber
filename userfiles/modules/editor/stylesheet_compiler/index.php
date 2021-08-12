@@ -10,10 +10,6 @@ if (!$stylesheet_settings) {
     return;
 }
 
-
-
-
-
 $option_group = 'mw-template-' . mw()->template->folder_name();
 
 if ($stylesheet_settings) {
@@ -35,10 +31,12 @@ if ($stylesheet_settings) {
 </script>
 
 <style>
+    #settings-container{
+        padding: 0;
+    }
     #color-scheme {
         display: none;
     }
-
     .theme-color-selector {
         width: 100%;
         display: block;
@@ -53,7 +51,6 @@ if ($stylesheet_settings) {
     }
 
     .theme-color-selector button {
-        border: 1px solid transparent;
         width: 30px;
         height: 30px;
         background: #425cbb;
@@ -82,50 +79,58 @@ if ($stylesheet_settings) {
     });
 
     function reloadTemplate() {
-
-
         $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
-
             mw.parent().notification.success("<?php _ejs("Template settings are saved"); ?>.");
-            parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
+            mw.parent().$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
             mw.tools.refresh(parent.$("#theme-style"));
         });
     }
 
     function deleteCompiledCSS() {
         if (confirm("Are you sure you want to reset stylesheet ?")) {
-
             $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>&delete_options=true", function () {
-                // Delete
-                // reloadTemplate();
                 reloadTemplate();
                 window.location.reload(false);
-                //     window.mw.parent().drag.save();
-                // window.parent.location.reload(false);
             });
-
-
-
         }
-
-
-
-
     }
 </script>
 
 
 <div id="settings-holder">
-    <!--    <div class="col-12">-->
-    <!--        <h4 style="font-weight: bold;">--><?php //_e("Background Settings"); ?><!--</h4>-->
-    <!--    </div>-->
+
 
     <div class="bootstrap3ns">
         <?php if ($stylesheet_settings): ?>
-            <?php foreach ($stylesheet_settings as $key => $setting): ?>
-                <?php if ($setting['type'] == 'title'): ?>
-                    <h4 class="font-weight-bold"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></h4>
-                <?php elseif ($setting['type'] == 'delimiter'): ?>
+            <div data-mw-component="accordion" class="mw-ui-box">
+            <?php
+
+            $count = -1;
+            $total = count($stylesheet_settings);
+
+            foreach ($stylesheet_settings as $key => $setting):
+
+            $count++;
+
+            ?>
+
+
+
+
+
+                <?php if ($setting['type'] == 'title') { ?>
+                <?php if ($count > 0 ){ ?>
+                    </div>
+                    </mw-accordion-item>
+                <?php } ?>
+                    <mw-accordion-item>
+                        <div class="mw-accordion-title mw-ui-box-header"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></div>
+                        <div class="mw-accordion-content mw-ui-box-content">
+                <?php }   ?>
+
+
+
+                <?php if ($setting['type'] == 'delimiter'): ?>
                     <hr/>
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
@@ -247,12 +252,20 @@ if ($stylesheet_settings) {
 
                     <button type="button" class="btn btn-primary btn-sm btn-block m-b-20" onclick="window.mw.parent().drag.module_settings('#font_family_selector_main','admin');">Load more fonts</button>
                 <?php endif; ?>
+                <?php if ($total === $count) { ?>
+                    </div>
+                    </mw-accordion-item>
+                <?php } ?>
+
             <?php endforeach; ?>
+            </div>
         <?php endif; ?>
-        <hr/>
-        <div class="form-group text-center">
-            <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="deleteCompiledCSS();" style="margin-top: 4px;"><?php _e("Reset Stylesheet Settings"); ?></span>
-        </div>
-        <hr/>
+
+
+
     </div>
+<br>
+<div class="form-group text-center">
+    <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="deleteCompiledCSS();" style="margin-top: 4px;"><?php _e("Reset Stylesheet Settings"); ?></span>
+</div>
 </div>
