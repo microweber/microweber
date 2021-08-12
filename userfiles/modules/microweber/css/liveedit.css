@@ -1599,6 +1599,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     position: relative;
     margin: 0 auto;
     height: 44px;
+    padding-top: 10px;
 }
 
 .mw_module_image img {
@@ -3128,7 +3129,7 @@ div[id*='SSDIVEL'] {
     font-size: 16px;
     /*text-transform: uppercase;*/
     margin: 0 0 0 15px;
-    padding: 20px 20px 15px 15px;
+    padding: 12px 20px 15px 12px;
     letter-spacing: 1px;
 }
 
@@ -3223,6 +3224,10 @@ body.dragStart .module-item{ cursor: grabbing;}
     border: 1px solid transparent;
     border-radius: 2px;
     transition: .3s;
+}
+
+.mw-module-item-title {
+    padding-top: 10px!important;
 }
 
 body.touchscreen-device .module-item-module {
@@ -3866,7 +3871,7 @@ body.dragStart .allow-drop {
 }
 
 .mw-handle-handler .mw_module_settings_sidebar_icon {
-    margin: 3px 0 0 4px;
+    margin: 6px 0 0 4px;
     background-image: none !important;
 }
 
@@ -4110,12 +4115,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-handler {
-    height: 30px;
+    height: 40px;
     border-radius: 4px;
     background-color: #fff;
     color: #2b2b2b;
-    line-height: 30px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    line-height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 .mw-handle-type-default.active .mw-handle-handler{
     border-radius: 4px 4px 0 0;
@@ -4272,8 +4277,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-handler-title {
     display: inline-block;
-    line-height: 30px;
-    height: 30px;
+    line-height: 40px;
+    height: 40px;
     padding-right: 10px;
     vertical-align: top;
     cursor: pointer;
@@ -4312,13 +4317,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-handle-no-drag .mw-handle-handler-icon {
     pointer-events: none;
 }
+.mw-handle-buttons span.mw-handle-insert-button{
+    font-size: 24px;
+    line-height: 35px;
+    top: 2px;
+    position: relative;
+}
 
-.mw-handle-no-drag .mw-handle-handler-icon,
+/*.mw-handle-no-drag .mw-handle-handler-icon,
 .mw-handle-no-drag .ui-draggable-handle,
 .mw-handle-no-drag .mw-handle-insert-button,
 .mw-handle-no-drag .mw-handle-remove {
     display: none !important;
-}
+}*/
 
 .mw-handle-no-drag .mw-handle-remove {
     display: none;
@@ -4970,4 +4981,48 @@ body.dragStart picture img{
 
 .layout-preview-tooltip-image{
      display: block;
+}
+
+.mw-icon-selector-12-column {
+    flex: 0 0 100%!important;
+    max-width: 100%!important;
+    position: relative!important;
+}
+
+.mw-icon-selector-6-column {
+    flex: 0 0 auto!important;
+    width: 50%!important;
+    position: relative!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-2-column {
+    flex: 0 0 auto!important;
+    width: 16.6666666667%!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-flex {
+    display: flex !important;
+}
+
+.mw-icon-selector-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.mw-icon-selector-control-label {
+    font-weight: bold;
+    margin-bottom: 7px;
 }
