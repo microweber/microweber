@@ -253,7 +253,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 <?php } ?>
 
 
-<div class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
+<ul class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
     <?php
     $def_icon = modules_path() . 'default.jpg';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
