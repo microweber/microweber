@@ -42,6 +42,27 @@ class Content extends Model
         'is_home' => '0',
     ];
 
+    protected $searchable = [
+        'id',
+        'title',
+        'content',
+        'content_body',
+        'content_type',
+        'content_subtype',
+        'description',
+        'is_home',
+        'is_shop',
+        'is_deleted',
+        'subtype',
+        'subtype_value',
+        'parent',
+        'layout_file',
+        'active_site_template',
+        'url',
+        'content_meta_title',
+        'content_meta_keywords',
+    ];
+
     protected $fillable = [
         "id",
         "subtype",
