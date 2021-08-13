@@ -950,7 +950,7 @@ abstract class AbstractRepository
         }
 
         $this->newQuery();
-        $this->query = self::_selectLogic($this->query, $table, $columns, $params);
+        $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
 
         if ($params) {
             foreach ($params as $paramKey => $paramValue) {
@@ -960,21 +960,21 @@ abstract class AbstractRepository
                 } else {
 
                     if (in_array($paramKey, $searchable)) {
-                        $parse_compare_sign = db_query_parse_compare_sign_value($paramValue);
-                        $this->query->where($table . '.' . $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
+                        $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
+                        $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
                     }
                 }
             }
         }
 
-        $this->query = self::_keywordLogic($this->query, $table, $columns, $params);
-        $this->query = self::_tagsLogic($this->query, $table, $columns, $params);
-        $this->query = self::_closureLogic($this->query, $table, $columns, $params);
-        $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::_limitLogic($this->query, $table, $columns, $params);
-        $this->query = self::_groupByLogic($this->query, $table, $columns, $params);
-        $this->query = self::_orderByLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
+        $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
 
         //dump($this->query->toSql());
 
@@ -1004,7 +1004,7 @@ abstract class AbstractRepository
     }
 
 
-    public static function _limitLogic($model, $table, $columns, $params)
+    public static function queryLimitLogic($model, $table, $columns, $params)
     {
 
         $limit = self::$limit;
@@ -1028,9 +1028,9 @@ abstract class AbstractRepository
         if (!$no_limit) {
             $model->limit($limit);
             if (isset($params['current_page']) and $params['current_page']) {
-                $cur_page_value = intval($params['current_page']);
-                if ($cur_page_value > 1) {
-                    $criteria = intval($cur_page_value - 1) * intval($limit);
+                $currentPageValue = intval($params['current_page']);
+                if ($currentPageValue > 1) {
+                    $criteria = intval($currentPageValue - 1) * intval($limit);
                     $model->skip($criteria);
                 }
             }
@@ -1040,13 +1040,13 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _orderByLogic($model, $table, $columns, $params)
+    public static function queryOrderByLogic($model, $table, $columns, $params)
     {
 
         if (isset($params['order_by']) and is_string($params['order_by'])) {
-            $order_by = trim($params['order_by']);
-            $order_by_criteria = explode(',', $order_by);
-            foreach ($order_by_criteria as $c) {
+            $orderBy = trim($params['order_by']);
+            $orderByCriteria = explode(',', $orderBy);
+            foreach ($orderByCriteria as $c) {
                 $c = urldecode($c);
                 $c = explode(' ', $c);
                 if (isset($c[0]) and trim($c[0]) != '') {
@@ -1066,30 +1066,30 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _groupByLogic($model, $table, $columns, $params)
+    public static function queryGroupByLogic($model, $table, $columns, $params)
     {
 
         if (isset($params['group_by']) and is_string($params['group_by'])) {
-            $group_by_criteria = explode(',', $params['group_by']);
-            if (!empty($group_by_criteria)) {
-                $group_by_criteria = array_map('trim', $group_by_criteria);
+            $groupByCriteria = explode(',', $params['group_by']);
+            if (!empty($groupByCriteria)) {
+                $groupByCriteria = array_map('trim', $groupByCriteria);
             }
-            if (!empty($group_by_criteria)) {
-                $model->groupBy($group_by_criteria);
+            if (!empty($groupByCriteria)) {
+                $model->groupBy($groupByCriteria);
             }
         }
 
         return $model;
     }
 
-    public static function _excludeIdsLogic($model, $table, $columns, $params)
+    public static function queryExcludeIdsLogic($model, $table, $columns, $params)
     {
 
         $excludeIds = [];
         if (isset($params['exclude_ids']) and is_string($params['exclude_ids'])) {
-            $exclude_ids_merge = explode(',', $params['exclude_ids']);
-            if ($exclude_ids_merge) {
-                $excludeIds = array_merge($excludeIds, $exclude_ids_merge);
+            $excludeIdsMerge = explode(',', $params['exclude_ids']);
+            if ($excludeIdsMerge) {
+                $excludeIds = array_merge($excludeIds, $excludeIdsMerge);
             }
         } else if (isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
             $excludeIds = array_merge($excludeIds, $params['exclude_ids']);
@@ -1101,14 +1101,14 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _includeIdsLogic($model, $table, $columns, $params)
+    public static function queryIncludeIdsLogic($model, $table, $columns, $params)
     {
 
         $includeIds = [];
         if (isset($params['ids']) and is_string($params['ids'])) {
-            $exclude_ids_merge = explode(',', $params['ids']);
-            if ($exclude_ids_merge) {
-                $includeIds = array_merge($includeIds, $exclude_ids_merge);
+            $excludeIdsMerge = explode(',', $params['ids']);
+            if ($excludeIdsMerge) {
+                $includeIds = array_merge($includeIds, $excludeIdsMerge);
             }
         } else if (isset($params['ids']) and is_array($params['ids'])) {
             $includeIds = array_merge($includeIds, $params['ids']);
@@ -1120,7 +1120,7 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _keywordLogic($model, $table, $columns, $params)
+    public static function queryKeywordLogic($model, $table, $columns, $params)
     {
 
         if (isset($params['keyword'])) {
@@ -1130,7 +1130,7 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _tagsLogic($model, $table, $columns, $params)
+    public static function queryTagsLogic($model, $table, $columns, $params)
     {
 
         if (isset($params['tag_names'])) {
@@ -1144,7 +1144,7 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _closureLogic($model, $table, $columns, $params)
+    public static function queryClosureLogic($model, $table, $columns, $params)
     {
 
         foreach ($params as $paramKey => $paramValue) {
@@ -1156,7 +1156,7 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _selectLogic($model, $table, $columns, $params)
+    public static function querySelectLogic($model, $table, $columns, $params)
     {
         if (isset($params['fields']) and $params['fields'] != false) {
             if (is_string($params['fields'])) {
