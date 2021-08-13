@@ -964,8 +964,6 @@ abstract class AbstractRepository
                         $this->query->where($table . '.' . $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
                     }
                 }
-
-
             }
         }
 
@@ -976,7 +974,7 @@ abstract class AbstractRepository
         $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
-        // dump($this->query->toSql());
+        //dump($this->query->toSql());
 
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
