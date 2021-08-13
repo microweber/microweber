@@ -366,7 +366,7 @@ class ContentManagerTest extends TestCase
 
 
         $get = get_content('nolimit=1');
-        $get2 = get_content();
+        $get2 = get_content('limit=2');
         $this->assertNotEquals(count($get), count($get2));
 
     }
