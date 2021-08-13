@@ -945,11 +945,6 @@ abstract class AbstractRepository
         $columns = $model->getFillable();
         $searchable = $model->getSearchable();
 
-        if ($columns) {
-            $searchable = array_merge($searchable, $columns);
-        }
-
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
@@ -969,8 +964,6 @@ abstract class AbstractRepository
                         $this->query->where($table . '.' . $paramKey, $parse_compare_sign['compare_sign'], $parse_compare_sign['value']);
                     }
                 }
-
-
             }
         }
 
@@ -981,7 +974,7 @@ abstract class AbstractRepository
         $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
-        // dump($this->query->toSql());
+        //dump($this->query->toSql());
 
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
@@ -1096,7 +1089,11 @@ abstract class AbstractRepository
     public static function _tagsLogic($model, $table, $columns, $params) {
 
         if (isset($params['tag_names'])) {
-            $model->filter(['tag_names'=>$params['tag_names']]);
+            $model->filter(['tags'=>$params['tag_names']]);
+        }
+
+        if (isset($params['all_tags'])) {
+            $model->filter(['allTags'=>$params['all_tags']]);
         }
 
         return $model;
