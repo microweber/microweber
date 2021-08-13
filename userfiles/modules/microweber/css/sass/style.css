@@ -1236,3 +1236,14 @@ Primary style
     white-space: nowrap;
     vertical-align: middle;
 }
+
+.mw-ui-btn-invert {
+    color: #fff;
+    background-color: #2b2b2b;
+    border-color: #2b2b2b;
+}
+
+.mw-ui-btn-invert:hover, .mw-ui-btn-invert.active {
+    background-color: #5e5e5e;
+    border-color: #5e5e5e;
+}
