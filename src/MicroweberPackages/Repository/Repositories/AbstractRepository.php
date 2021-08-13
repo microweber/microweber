@@ -1092,6 +1092,10 @@ abstract class AbstractRepository
             $model->filter(['tags'=>$params['tag_names']]);
         }
 
+        if (isset($params['all_tags'])) {
+            $model->filter(['allTags'=>$params['all_tags']]);
+        }
+
         return $model;
     }
 
