@@ -353,4 +353,17 @@ class ContentManagerTest extends TestCase
 
     }
 
+    public function testContentLimitPaging()
+    {
+        $get = get_content('limit=1');
+        $get2 = get_content('limit=1&current_page=2');
+
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
+
+
+
+
+
+    }
+
 }

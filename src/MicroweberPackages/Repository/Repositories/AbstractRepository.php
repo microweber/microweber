@@ -99,6 +99,8 @@ abstract class AbstractRepository
         'bt', 'ne',
     ];
 
+    public static $limit = 30;
+
     /**
      * Create a new Repository instance
      *
@@ -977,7 +979,7 @@ abstract class AbstractRepository
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
-       // dump($this->query->toSql());
+        // dump($this->query->toSql());
 
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
@@ -1008,14 +1010,30 @@ abstract class AbstractRepository
     public static function _limitLogic($model, $table, $columns, $params)
     {
 
-        $model->limit(30);
+        $limit = self::$limit;
+        $no_limit = false;
+
 
         if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+            $no_limit = true;
             unset($params['limit']);
         }
 
         if (isset($params['limit']) and $params['limit']) {
-            $model->limit($params['limit']);
+            $limit = intval($params['limit']);
+        }
+
+
+        if (!$no_limit) {
+            $model->limit($limit);
+            if (isset($params['current_page']) and $params['current_page']) {
+                $cur_page_value = intval($params['current_page']);
+                if ($cur_page_value > 1) {
+                    $criteria = intval($cur_page_value - 1) * intval($limit);
+                    $model->skip($criteria);
+                }
+            }
+
         }
 
         return $model;
@@ -1040,10 +1058,11 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _keywordLogic($model, $table, $columns, $params) {
+    public static function _keywordLogic($model, $table, $columns, $params)
+    {
 
         if (isset($params['keyword'])) {
-            $model->filter(['keyword'=>$params['keyword']]);
+            $model->filter(['keyword' => $params['keyword']]);
         }
 
         return $model;
