@@ -10,15 +10,6 @@ use MicroweberPackages\Translation\Models\TranslationKeyCached;
 
 class TranslationKeyRepository extends AbstractRepository
 {
-
-
-    protected $searchable = [
-        'id',
-        'translation_keys',
-        'translation_texts',
-    ];
-
-
     /**
      * Specify Model class name
      *

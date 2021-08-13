@@ -15,17 +15,6 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class OptionRepository extends AbstractRepository
 {
-
-    protected $searchable = [
-        'id',
-        'option_group',
-        'option_value',
-        'module',
-        'is_system',
-
-    ];
-
-
     /**
      * Specify Model class name
      *

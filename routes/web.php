@@ -18,9 +18,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
-    $get2 = app()->content_repository->getByParams(['categories'=>3]);
+
+    //dump(prev_content(1019)['id']);
+
+    //$get2 = app()->content_repository->getByParams(['keyword'=>'Amazon $25']);
 
 
-    dd($get2);
+
+/*    $title = 'Search By title '. uniqid('kw');
+    app()->database_manager->extended_save_set_permission(true);
+    $params = array(
+        'title' => $title,
+        'content_type' => 'post',
+        'is_active' => 1
+    );
+
+    $saved_id = save_content($params);
+
+    $x =  get_content('id='. $saved_id);*/
+
+    $get = \MicroweberPackages\Content\Content::filter(['keyword'=>'gaz spirachka'])->get();
+    //$get = get_content('keyword=kw61151fb832261');
+
+    dump($get->toArray());
 
 });

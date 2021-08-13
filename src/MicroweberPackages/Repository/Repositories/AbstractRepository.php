@@ -75,13 +75,6 @@ abstract class AbstractRepository
     protected $orderable = [];
 
     /**
-     * Valid searchable columns
-     *
-     * @return array
-     */
-    protected $searchable = [];
-
-    /**
      * Default order by column and direction pairs.
      *
      * @var array
@@ -378,53 +371,6 @@ abstract class AbstractRepository
     }
 
     /**
-     * Set searchable array.
-     *
-     * @param array|string $key
-     * @param mixed $value
-     *
-     * @return self
-     */
-    public function setSearchable($key, $value = null)
-    {
-        // Allow for a batch assignment
-        if (is_array($key) === false) {
-            $key = [$key => $value];
-        }
-
-        // Update the searchable values
-        foreach ($key as $k => $v) {
-            $this->searchable[$k] = $v;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return searchable keys.
-     *
-     * @return array
-     */
-    public function getSearchableKeys()
-    {
-        $return = $this->getSearchable();
-
-        return array_values(array_map(function ($value, $key) {
-            return (is_array($value) || is_numeric($key) === false) ? $key : $value;
-        }, $return, array_keys($return)));
-    }
-
-    /**
-     * Return searchable array.
-     *
-     * @return array
-     */
-    public function getSearchable()
-    {
-        return $this->searchable;
-    }
-
-    /**
      * Return orderable array.
      *
      * @return array
@@ -454,7 +400,7 @@ abstract class AbstractRepository
             // Keep track of what tables have been joined and their aliases
             $joined = [];
 
-            foreach ($this->getSearchable() as $param => $columns) {
+            foreach ($this->getModel()->getSearchable() as $param => $columns) {
                 // It doesn't always have to map to something
                 $param = is_numeric($param) ? $columns : $param;
 
@@ -995,7 +941,7 @@ abstract class AbstractRepository
         $model = $this->getModel();
         $table = $model->getTable();
         $columns = $model->getFillable();
-        $searchable = $this->searchable;
+        $searchable = $model->getSearchable();
 
         if ($columns) {
             $searchable = array_merge($searchable, $columns);

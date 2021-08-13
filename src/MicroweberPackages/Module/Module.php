@@ -7,6 +7,24 @@ class Module extends Model
 {
     public $table = 'modules';
 
+    protected $searchable = [
+        'id',
+        'name',
+        'module',
+        'type',
+        'as_element',
+        'installed',
+        'ui',
+        'ui_admin',
+        'ui_admin_iframe',
+        'is_system',
+        'categories',
+        'settings',
+        'parent_id',
+        'icon',
+        'description',
+    ];
+
     public static function boot()
     {
         // there is some logic in this method, so don't forget this!

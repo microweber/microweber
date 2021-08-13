@@ -109,7 +109,7 @@ class DefaultField
             }
         }
 
-        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false || $renderSettings['show_placeholder'] == 'false') {
+        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] === false || $renderSettings['show_placeholder'] === 'false') {
             $renderData['placeholder'] = '';
         }
 

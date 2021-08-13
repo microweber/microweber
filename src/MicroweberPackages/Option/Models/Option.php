@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Option\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
@@ -9,10 +10,20 @@ class Option extends Model
 {
     protected $fillable=['option_group','option_value'];
     public $cacheTagsToClear = ['global','content','frontend'];
+
     use CacheableQueryBuilderTrait;
+    use HasSearchableTrait;
 
     protected $casts = [
         'option_value' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+    ];
+
+    protected $searchable = [
+        'id',
+        'option_group',
+        'option_value',
+        'module',
+        'is_system',
     ];
 
     public function getValue($key, $group = false)
