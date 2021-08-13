@@ -400,5 +400,24 @@ class ContentManagerTest extends TestCase
         $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
 
     }
+    public function testContentGroupBy()
+    {
+        $title = 'New '. uniqid('ParentGroupBy');
+        $parent = rand(1000,9999);
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'parent' => $parent,
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+        $saved_id2 = save_content($params);
+
+        $get = get_content('limit=100&group_by=parent&parent='.$parent);
+        $this->assertEquals(1, count($get));
+
+    }
 
 }

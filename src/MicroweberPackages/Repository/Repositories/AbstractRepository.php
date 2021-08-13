@@ -973,6 +973,7 @@ abstract class AbstractRepository
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
+        $this->query = self::_groupByLogic($this->query, $table, $columns, $params);
         $this->query = self::_orderByLogic($this->query, $table, $columns, $params);
 
         //dump($this->query->toSql());
@@ -1038,6 +1039,7 @@ abstract class AbstractRepository
 
         return $model;
     }
+
     public static function _orderByLogic($model, $table, $columns, $params)
     {
 
@@ -1053,11 +1055,27 @@ abstract class AbstractRepository
                         $c[1] = trim($c[1]);
                     }
                     if (isset($c[1]) and ($c[1]) != '') {
-                          $model->orderBy($c[0], $c[1]);
+                        $model->orderBy($c[0], $c[1]);
                     } elseif (isset($c[0])) {
-                          $model->orderBy($c[0]);
+                        $model->orderBy($c[0]);
                     }
                 }
+            }
+        }
+
+        return $model;
+    }
+
+    public static function _groupByLogic($model, $table, $columns, $params)
+    {
+
+        if (isset($params['group_by']) and is_string($params['group_by'])) {
+            $group_by_criteria = explode(',', $params['group_by']);
+            if (!empty($group_by_criteria)) {
+                $group_by_criteria = array_map('trim', $group_by_criteria);
+            }
+            if (!empty($group_by_criteria)) {
+                $model->groupBy($group_by_criteria);
             }
         }
 
@@ -1112,14 +1130,15 @@ abstract class AbstractRepository
         return $model;
     }
 
-    public static function _tagsLogic($model, $table, $columns, $params) {
+    public static function _tagsLogic($model, $table, $columns, $params)
+    {
 
         if (isset($params['tag_names'])) {
-            $model->filter(['tags'=>$params['tag_names']]);
+            $model->filter(['tags' => $params['tag_names']]);
         }
 
         if (isset($params['all_tags'])) {
-            $model->filter(['allTags'=>$params['all_tags']]);
+            $model->filter(['allTags' => $params['all_tags']]);
         }
 
         return $model;
