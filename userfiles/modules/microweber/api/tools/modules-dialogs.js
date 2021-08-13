@@ -22,11 +22,6 @@
         },
           confirm_reset_module_by_id: function (module_id) {
 
-
-
-
-
-
               if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
@@ -48,21 +43,17 @@
             data.modules_ids = [module_id];
 
             var childs_arr = [];
-
             mw.$('#'+module_id).andSelf().find('.edit').each(function (i) {
                 var some_child = {};
-
                 mw.tools.removeClass(this, 'changed')
                 some_child.rel = mw.$(this).attr('rel');
                 some_child.field = mw.$(this).attr('field');
-
                 childs_arr.push(some_child);
-
             });
 
 
           mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
-           
+
               var some_child = mw.$(this).attr('id');
 
               data.modules_ids.push(some_child);
