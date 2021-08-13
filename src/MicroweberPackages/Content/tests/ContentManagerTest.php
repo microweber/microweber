@@ -355,6 +355,28 @@ class ContentManagerTest extends TestCase
 
     public function testContentLimitPaging()
     {
+
+        $title = 'New '. uniqid('New');
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+        $title = 'New  '. uniqid('New');
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+
+
         $get = get_content('limit=1');
         $get2 = get_content('limit=1&current_page=2');
         $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
@@ -368,6 +390,14 @@ class ContentManagerTest extends TestCase
         $get = get_content('nolimit=1');
         $get2 = get_content('limit=2');
         $this->assertNotEquals(count($get), count($get2));
+
+    }
+
+    public function testContentOrderBy()
+    {
+        $get = get_content('limit=1&order_by=id desc');
+        $get2 = get_content('limit=1');
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
 
     }
 

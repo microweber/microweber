@@ -973,6 +973,7 @@ abstract class AbstractRepository
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
+        $this->query = self::_orderByLogic($this->query, $table, $columns, $params);
 
         //dump($this->query->toSql());
 
@@ -1033,6 +1034,31 @@ abstract class AbstractRepository
                 }
             }
 
+        }
+
+        return $model;
+    }
+    public static function _orderByLogic($model, $table, $columns, $params)
+    {
+
+        if (isset($params['order_by']) and is_string($params['order_by'])) {
+            $order_by = trim($params['order_by']);
+            $order_by_criteria = explode(',', $order_by);
+            foreach ($order_by_criteria as $c) {
+                $c = urldecode($c);
+                $c = explode(' ', $c);
+                if (isset($c[0]) and trim($c[0]) != '') {
+                    $c[0] = trim($c[0]);
+                    if (isset($c[1])) {
+                        $c[1] = trim($c[1]);
+                    }
+                    if (isset($c[1]) and ($c[1]) != '') {
+                          $model->orderBy($c[0], $c[1]);
+                    } elseif (isset($c[0])) {
+                          $model->orderBy($c[0]);
+                    }
+                }
+            }
         }
 
         return $model;
