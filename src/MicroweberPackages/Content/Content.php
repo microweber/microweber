@@ -3,10 +3,11 @@ namespace MicroweberPackages\Content;
 
 use Conner\Tagging\Taggable;
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
-use MicroweberPackages\Core\Models\MicroweberModel;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -15,13 +16,14 @@ use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Traits\TaggableTrait;
 
-class Content extends MicroweberModel
+class Content extends Model
 {
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
     use CategoryTrait;
     use HasSlugTrait;
+    use HasSearchableTrait;
     use MediaTrait;
     use Filterable;
     use HasCreatedByFieldsTrait;
@@ -43,13 +45,12 @@ class Content extends MicroweberModel
     ];
 
     protected $searchable = [
-        'ixxd',
         'id',
         'title',
         'content',
         'content_body',
         'content_type',
-        'content_subtype',
+        'subtype',
         'description',
         'is_home',
         'is_shop',

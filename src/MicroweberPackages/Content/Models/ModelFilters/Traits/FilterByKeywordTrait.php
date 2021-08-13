@@ -18,21 +18,11 @@ trait FilterByKeywordTrait
         $model = $this->getModel();
         $table = $model->getTable();
         $searchInFields = $model->getSearchable();
-        $guardedFields = $model->getGuarded();
-        $tableFields = $model->getConnection()->getSchemaBuilder()->getColumnListing($table);
 
         if (isset($this->input['searchInFields'])) {
             if (strpos($this->input['searchInFields'], ',') !== false) {
                 $searchInFields = explode(',', $this->input['searchInFields']);
             }
-        }
-
-        if ($searchInFields and $tableFields) {
-            $searchInFields = array_diff($tableFields, $searchInFields);
-        }
-
-        if ($searchInFields and $guardedFields) {
-            $searchInFields = array_diff($searchInFields, $guardedFields);
         }
 
         $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
