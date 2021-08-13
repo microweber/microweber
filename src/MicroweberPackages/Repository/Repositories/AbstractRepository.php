@@ -945,11 +945,6 @@ abstract class AbstractRepository
         $columns = $model->getFillable();
         $searchable = $model->getSearchable();
 
-        if ($columns) {
-            $searchable = array_merge($searchable, $columns);
-        }
-
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
@@ -1096,7 +1091,7 @@ abstract class AbstractRepository
     public static function _tagsLogic($model, $table, $columns, $params) {
 
         if (isset($params['tag_names'])) {
-            $model->filter(['tag_names'=>$params['tag_names']]);
+            $model->filter(['tags'=>$params['tag_names']]);
         }
 
         return $model;
