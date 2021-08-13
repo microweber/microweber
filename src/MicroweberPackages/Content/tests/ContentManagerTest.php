@@ -357,12 +357,11 @@ class ContentManagerTest extends TestCase
     {
         $get = get_content('limit=1');
         $get2 = get_content('limit=1&current_page=2');
-
         $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
-
-
-
-
+        
+        $get3 = get_content('ids='.$get2[0]['id']);
+        $this->assertEquals(1, count($get3));
+        $this->assertNotEquals($get3[0]['id'], $get2[0]['id']);
 
     }
 

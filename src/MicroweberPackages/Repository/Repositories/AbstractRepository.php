@@ -978,6 +978,7 @@ abstract class AbstractRepository
         $this->query = self::_tagsLogic($this->query, $table, $columns, $params);
         $this->query = self::_closureLogic($this->query, $table, $columns, $params);
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
+        $this->query = self::_includeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
 
         // dump($this->query->toSql());
@@ -1054,6 +1055,25 @@ abstract class AbstractRepository
         }
         if (!empty($excludeIds)) {
             $model->whereNotIn($table . '.id', $excludeIds);
+        }
+
+        return $model;
+    }
+
+    public static function _includeIdsLogic($model, $table, $columns, $params)
+    {
+
+        $includeIds = [];
+        if (isset($params['ids']) and is_string($params['ids'])) {
+            $exclude_ids_merge = explode(',', $params['ids']);
+            if ($exclude_ids_merge) {
+                $includeIds = array_merge($includeIds, $exclude_ids_merge);
+            }
+        } else if (isset($params['ids']) and is_array($params['ids'])) {
+            $includeIds = array_merge($includeIds, $params['ids']);
+        }
+        if (!empty($includeIds)) {
+            $model->whereIn($table . '.id', $includeIds);
         }
 
         return $model;
