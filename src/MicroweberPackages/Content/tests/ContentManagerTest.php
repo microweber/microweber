@@ -361,7 +361,7 @@ class ContentManagerTest extends TestCase
 
         $get3 = get_content('ids='.$get2[0]['id']);
         $this->assertEquals(1, count($get3));
-        $this->assertNotEquals($get3[0]['id'], $get2[0]['id']);
+        $this->assertEquals($get3[0]['id'], $get2[0]['id']);
 
 
 
