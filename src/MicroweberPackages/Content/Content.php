@@ -3,10 +3,10 @@ namespace MicroweberPackages\Content;
 
 use Conner\Tagging\Taggable;
 use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\Core\Models\MicroweberModel;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -15,7 +15,7 @@ use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Traits\TaggableTrait;
 
-class Content extends Model
+class Content extends MicroweberModel
 {
     use TaggableTrait;
     use ContentDataTrait;
@@ -43,6 +43,7 @@ class Content extends Model
     ];
 
     protected $searchable = [
+        'ixxd',
         'id',
         'title',
         'content',

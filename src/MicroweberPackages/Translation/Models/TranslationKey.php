@@ -2,13 +2,19 @@
 
 namespace MicroweberPackages\Translation\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
+use MicroweberPackages\Core\Models\MicroweberModel;
 
-class TranslationKey extends Model
+class TranslationKey extends MicroweberModel
 {
     public $timestamps = false;
     public $table = 'translation_keys';
+
+    protected $searchable = [
+        'id',
+        'translation_keys',
+        'translation_texts',
+    ];
 
     public function texts()
     {

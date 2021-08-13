@@ -11,27 +11,6 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ModuleRepository extends AbstractRepository
 {
-
-
-    protected $searchable = [
-        'id',
-        'name',
-        'module',
-        'type',
-        'as_element',
-        'installed',
-        'ui',
-        'ui_admin',
-        'ui_admin_iframe',
-        'is_system',
-        'categories',
-        'settings',
-        'parent_id',
-        'icon',
-        'description',
-    ];
-
-
     /**
      * Specify Model class name
      *
