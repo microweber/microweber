@@ -975,6 +975,7 @@ abstract class AbstractRepository
         }
 
         $this->query = self::_keywordLogic($this->query, $table, $columns, $params);
+        $this->query = self::_tagsLogic($this->query, $table, $columns, $params);
         $this->query = self::_closureLogic($this->query, $table, $columns, $params);
         $this->query = self::_excludeIdsLogic($this->query, $table, $columns, $params);
         $this->query = self::_limitLogic($this->query, $table, $columns, $params);
@@ -1063,6 +1064,15 @@ abstract class AbstractRepository
 
         if (isset($params['keyword'])) {
             $model->filter(['keyword' => $params['keyword']]);
+        }
+
+        return $model;
+    }
+
+    public static function _tagsLogic($model, $table, $columns, $params) {
+
+        if (isset($params['tag_names'])) {
+            $model->filter(['tag_names'=>$params['tag_names']]);
         }
 
         return $model;
