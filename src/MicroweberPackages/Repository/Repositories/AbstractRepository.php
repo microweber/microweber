@@ -1015,16 +1015,20 @@ abstract class AbstractRepository
         $limit = self::$limit;
         $no_limit = false;
 
-
-        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+        if (isset($params['no_limit']) or isset($params['nolimit'])) {
             $no_limit = true;
-            unset($params['limit']);
         }
 
-        if (isset($params['limit']) and $params['limit']) {
-            $limit = intval($params['limit']);
-        }
+        if (!$no_limit) {
+            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+                $no_limit = true;
+                unset($params['limit']);
+            }
 
+            if (isset($params['limit']) and $params['limit']) {
+                $limit = intval($params['limit']);
+            }
+        }
 
         if (!$no_limit) {
             $model->limit($limit);
