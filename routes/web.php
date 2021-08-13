@@ -37,7 +37,7 @@ Route::get('mw-test-api', function () {
 
     $x =  get_content('id='. $saved_id);*/
 
-    $get = \MicroweberPackages\Content\Content::filter(['keyword'=>'gaz spirachka'])->get();
+    $get = \MicroweberPackages\Content\Content::filter(['tags'=>'FELICHITA'])->get();
     //$get = get_content('keyword=kw61151fb832261');
 
     dump($get->toArray());
