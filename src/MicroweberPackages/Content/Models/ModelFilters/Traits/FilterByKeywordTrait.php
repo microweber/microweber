@@ -35,8 +35,6 @@ trait FilterByKeywordTrait
             $searchInFields = array_diff($searchInFields, $guardedFields);
         }
 
-        dump($searchInFields);
-
         $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
             if ($searchInFields) {
                 foreach ($searchInFields as $field) {
