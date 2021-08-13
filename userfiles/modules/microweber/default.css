@@ -322,3 +322,91 @@ ul.mw-default-layout-background-text {
 
 
 
+.mw-ui-btn {
+    font-weight: 400;
+    text-align: center;
+    user-select: none;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 1.308rem;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    font-size: 0.875rem;
+    height: 40px;
+    border-radius: 5px;
+    color: #686868;
+    background-color: #eeefef;
+    border: 1px solid #cfcfcf;
+    outline: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.mw-ui-btn-nav, .mw-ui-btn-vertical-nav {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mw-ui-btn-nav > .mw-dropdown, .mw-ui-btn-nav > .mw-dropdown .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-field, .mw-ui-btn-nav > li > .mw-ui-btn {
+    border-width: 1px 1px 1px 0px;
+    float: left;
+    border-radius: 0px;
+}
+
+.mw-ui-bg-info, .mw-ui-btn-info, .mw-ui-btn.active-info {
+    color: #fff!important;
+    background-color: #4592ff!important;
+    border-color: #4592ff!important;
+}
+
+
+.mw-ui-btn-info:hover, .mw-ui-btn-info.active {
+    background-color: #abceff!important;
+    border-color: #abceff!important;
+}
+
+.mw-ui-btn:hover:not([class*='active-']):not(.active) {
+    outline: none!important;
+    text-decoration: none!important;
+}
+
+.mw-ui-btn-nav > .mw-dropdown:first-child .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn:first-child, .mw-ui-btn-nav > .mw-ui-field:first-child, .mw-ui-btn-nav > li:first-child > .mw-ui-btn {
+    border-left-width: 1px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.mw-ui-btn-nav > .mw-dropdown:last-child .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn:last-child, .mw-ui-btn-nav > .mw-ui-field:last-child, .mw-ui-btn-nav > li:last-child > .mw-ui-btn {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.mw-ui-btn .mdi, .mw-ui-btn-tab .mdi, .mw-ui-btn .fa, .mw-ui-btn-tab .fa {
+    font-size: 1rem;
+    line-height: 0.5em;
+    position: relative;
+    margin-inline-end: 6px;
+}
+
+.mdi:before, .mdi-set {
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.mw-ui-size-medium, .mw-ui-btn-medium {
+    font-size: 0.765625rem;
+    height: 35px;
+    padding: 0px 1rem;
+}
