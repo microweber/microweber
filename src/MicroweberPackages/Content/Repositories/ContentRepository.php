@@ -85,10 +85,11 @@ class ContentRepository extends AbstractRepository
                     $ready = [];
                     if ($cats) {
                         foreach ($cats as $cat) {
-
-                            $cat_exists = get_category_by_id($cat['parent_id']);
-                            if ($cat_exists) {
-                                $ready[] = $cat_exists;
+                            if (isset($cat['parent_id'])) {
+                                $cat_exists = get_category_by_id($cat['parent_id']);
+                                if ($cat_exists) {
+                                    $ready[] = $cat_exists;
+                                }
                             }
                         }
                     }
