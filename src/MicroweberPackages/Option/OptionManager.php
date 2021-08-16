@@ -213,7 +213,13 @@ class OptionManager
         }*/
 
 
-        $allOptionGroups = app()->option_repository->getByParams('no_limit=1&fields=option_group&group_by=option_group');
+        if(isset($this->options_memory['allOptionGroups'])){
+            $allOptionGroups = $this->options_memory['allOptionGroups'];
+        } else {
+            $this->options_memory['allOptionGroups'] =  $allOptionGroups = app()->option_repository->getByParams('no_limit=1&fields=option_group&group_by=option_group');
+
+        }
+
         if($allOptionGroups and is_array($allOptionGroups)){
             $allOptionGroups = array_flatten($allOptionGroups);
             $allOptionGroups = array_flip($allOptionGroups);
