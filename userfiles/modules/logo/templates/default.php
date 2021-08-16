@@ -37,7 +37,7 @@ $size = $size . 'px';
             </span><?php }} ?>
         <?php if ($logotype == 'text' or $logotype == false or $logotype == 'both') { ?><span class="mw-ui-col"><span
                 class="module-logo-text"
-                style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px;line-height:<?php print $font_size; ?>px;"><?php _e($text); ?></span>
+                style="font-family: <?php print $font_family_safe; ?>;font-size:<?php print $font_size; ?>px;line-height:<?php print $font_size; ?>px;"><?php _e($text); ?></span>
             </span><?php } ?>
     <?php } ?>
 </a>

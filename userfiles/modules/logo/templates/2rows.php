@@ -33,7 +33,7 @@
             </span><?php } ?>
         <?php if ($logotype == 'text' or $logotype == false or $logotype == 'both') { ?><span class="module-logo-row-bottom"><span
                 class="module-logo-text"
-                style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px"><?php print ($text); ?></span>
+                style="font-family: <?php print $font_family_safe; ?>;font-size:<?php print $font_size; ?>px"><?php print ($text); ?></span>
             </span><?php } ?>
 
     <?php } ?>

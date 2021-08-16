@@ -190,12 +190,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
-                            controllers: [
+                            /*controllers: [
                                 { type: 'url', config: {target: false, text: false}},
                                 { type: 'page', config: {target: false, text: false} },
                                 { type: 'post', config: {target: false, text: false}},
                                 { type: 'layout', config: {target: false, text: false} }
-                            ]
+                            ]*/
                         });
 
                         linkEditor.setValue({
