@@ -74,6 +74,12 @@ trait CacheableRepository
             return true;
         }
 
+        $is_disabled = \Config::get('microweber.disable_model_cache');
+        if($is_disabled){
+            return true;
+        }
+
+
         return config('repositories.cache_enabled', false) === false
             || app('request')->has(config('repositories.cache_skip_param', 'skipCache')) === true;
     }

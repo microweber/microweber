@@ -18,7 +18,7 @@ class MenuRepository extends AbstractRepository {
     public function getAllMenus()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-            return $this->getModel()->get()->toArray();
+            return $this->getModel()->newQuery()->get()->toArray();
         });
     }
 
