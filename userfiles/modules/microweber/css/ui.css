@@ -7319,20 +7319,20 @@ body.bup.dragStart.state-element .edit .element:empty {
   cursor: pointer;
   position: relative;
 }
-.mw-ui-box-header.mw-accordion-title:after {
-  position: absolute;
-  content: "\0118";
-  display: inline-block;
-  font-family: Microweber !important;
-  text-transform: none !important;
-  transition: 0.4s;
-  z-index: 1;
-  color: #4592ff;
-  transform: rotate(-90deg);
-  top: 12px;
-  right: 12px;
-  font-size: 15px;
-}
+/*.mw-ui-box-header.mw-accordion-title:after {*/
+  /*position: absolute;*/
+  /*content: "\0118";*/
+  /*display: inline-block;*/
+  /*font-family: Microweber !important;*/
+  /*text-transform: none !important;*/
+  /*transition: 0.4s;*/
+  /*z-index: 1;*/
+  /*color: #4592ff;*/
+  /*transform: rotate(-90deg);*/
+  /*top: 12px;*/
+  /*right: 12px;*/
+  /*font-size: 15px;*/
+/*}*/
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
 }
