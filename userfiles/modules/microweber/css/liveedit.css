@@ -3137,6 +3137,7 @@ div[id*='SSDIVEL'] {
     margin: 0 0 0 15px;
     padding: 12px 20px 15px 12px;
     letter-spacing: 1px;
+    font-weight: bold!important;
 }
 
 

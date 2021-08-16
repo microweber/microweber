@@ -3199,6 +3199,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+
 }
 .mw-ui-box-header {
   padding: 15px 25px 10px 25px;
@@ -3208,6 +3209,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   position: relative;
+    font-weight: bold;
 }
 .mw-ui-box-header a {
   text-decoration: none;

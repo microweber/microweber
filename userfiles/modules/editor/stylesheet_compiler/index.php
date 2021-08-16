@@ -81,7 +81,7 @@ if ($stylesheet_settings) {
     function reloadTemplate() {
         $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
             mw.parent().notification.success("<?php _ejs("Template settings are saved"); ?>.");
-            mw.parent().$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
+            mw.parent().$("#theme-style").attr(', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
             mw.tools.refresh(parent.$("#theme-style"));
         });
     }
@@ -131,7 +131,7 @@ if ($stylesheet_settings) {
 
 
                 <?php if ($setting['type'] == 'delimiter'): ?>
-                    <hr/>
+
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
                         <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
