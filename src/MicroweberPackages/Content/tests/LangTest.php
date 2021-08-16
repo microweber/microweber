@@ -18,9 +18,9 @@ class LangTest extends TestCase
 //
 //        $install_lang = TranslationPackageInstallHelper::installLanguage('bg_BG');
  //       $this->assertArrayHasKey('success', $install_lang);
-        set_current_lang('en');
+        set_current_lang('en_US');
         $current_lang = current_lang();
-        $this->assertEquals('en', $current_lang);
+        $this->assertEquals('en_US', $current_lang);
 
         set_current_lang('bg_BG');
         $new_current_lang = current_lang();
