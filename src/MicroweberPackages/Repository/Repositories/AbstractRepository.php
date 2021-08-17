@@ -938,69 +938,77 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        // return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        $result =  $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $columns = $model->getFillable();
-        $searchable = $model->getSearchable();
+            $model = $this->getModel();
+            $table = $model->getTable();
+            $columns = $model->getFillable();
+            $searchable = $model->getSearchable();
 
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
+            if (is_string($params)) {
+                $params = parse_params($params);
+            }
 
-        $this->newQuery();
-        $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
+            $this->newQuery();
+            $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
 
-        if ($params) {
-            foreach ($params as $paramKey => $paramValue) {
-                if (isset($this->filterMethods[$paramKey])) {
-                    $whereMethodName = $this->filterMethods[$paramKey];
-                    $this->query->$whereMethodName($paramValue);
-                } else {
+            if ($params) {
+                foreach ($params as $paramKey => $paramValue) {
+                    if (isset($this->filterMethods[$paramKey])) {
+                        $whereMethodName = $this->filterMethods[$paramKey];
+                        $this->query->$whereMethodName($paramValue);
+                    } else {
 
-                    if (in_array($paramKey, $searchable)) {
-                        $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
-                        $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
+                        if (in_array($paramKey, $searchable)) {
+                            $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
+                            $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
+                        }
                     }
                 }
             }
-        }
 
-        $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
 
-        //dump($this->query->toSql());
+            //dump($this->query->toSql());
 
-        if (isset($params['count']) and $params['count']) {
-            $exec = $this->query->count();
-        } else if (isset($params['single']) || isset($params['one'])) {
-            $exec = $this->query->first();
-        } else {
-
-            $exec = $this->query->get();
-        }
-
-        $result = [];
-        if ($exec != null) {
-            if (is_numeric($exec)) {
-                $result = $exec;
+            if (isset($params['count']) and $params['count']) {
+                $exec = $this->query->count();
+            } else if (isset($params['single']) || isset($params['one'])) {
+                $exec = $this->query->first();
             } else {
-                $result = $exec->toArray();
+
+                $exec = $this->query->get();
             }
-        }
+
+            $result = [];
+            if ($exec != null) {
+                if (is_numeric($exec)) {
+                    $result = $exec;
+                } else {
+                    $result = $exec->toArray();
+                }
+            }
+
+            if (!empty($result)) {
+                return $result;
+            }
+            return [];
+        });
 
         if (!empty($result)) {
             return $result;
         }
+
         return null;
-        //   });
+
+
     }
 
 
