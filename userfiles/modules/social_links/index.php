@@ -1,5 +1,4 @@
 <?php
-
 $option_group = $params['id'];
 
 if (isset($params['option-group'])) {
@@ -35,14 +34,14 @@ $social_links_options['discord_enabled'] = '';
 
 $website_social_links_options = $social_links_options;
 
-$get_social_links_options = \MicroweberPackages\Option\Models\Option::where('option_group', $option_group)->get();
+$get_social_links_options = app()->option_repository->getOptionsByGroup($option_group);
 if (!empty($get_social_links_options)) {
     foreach ($get_social_links_options as $social_links_option) {
         $social_links_options[$social_links_option['option_key']] = $social_links_option['option_value'];
     }
 }
 
-$get_website_social_links_options = \MicroweberPackages\Option\Models\Option::where('option_group', 'website')->get();
+$get_website_social_links_options = app()->option_repository->getOptionsByGroup('website');
 if (!empty($get_website_social_links_options)) {
     foreach ($get_website_social_links_options as $social_links_option) {
         $website_social_links_options[$social_links_option['option_key']] = $social_links_option['option_value'];
