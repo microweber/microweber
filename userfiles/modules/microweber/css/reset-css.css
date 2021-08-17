@@ -11,7 +11,7 @@
  */
 
 .mw-normalize-css * {
-    font-family: Milliard, Verdana, Geneva, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     font-weight: normal !important;
     letter-spacing: 1px !important;
 }
@@ -455,3 +455,4 @@
 .mw-normalize-css li {
     list-style: none;
 }
+

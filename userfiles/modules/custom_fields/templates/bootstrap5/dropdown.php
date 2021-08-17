@@ -10,7 +10,7 @@
 <?php endif; ?>
 
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="mb-3">
+    <div class="text-start mb-3">
 
         <?php if($settings['show_label']): ?>
         <label class="control-label mb-3">
