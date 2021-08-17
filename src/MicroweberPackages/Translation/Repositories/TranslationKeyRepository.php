@@ -18,18 +18,55 @@ class TranslationKeyRepository extends AbstractRepository
     public $model = TranslationKey::class;
 
 
+    public function getTranslatedNamespacesThatHaveTexts()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function ()   {
+
+            $result = [];
+
+            $translation_namespaces = \DB::table('translation_keys')
+                ->select('translation_namespace')
+                ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
+                ->groupBy('translation_namespace')
+                ->get();
+
+            if ($translation_namespaces) {
+                $result = $translation_namespaces->toArray();
+                if ($result and is_array($result)) {
+                    $result = array_map(function ($value) {
+                        return (array)$value;
+                    }, $result);
+                    $result = array_values($result);
+                    $result = array_flatten($result);
+                    $result = array_flip($result);
+                    $result = array_keys($result);
+                }
+
+            }
+
+            return $result;
+        });
+
+    }
+
     public function getTranslatedStrings($locale, $group, $namespace)
     {
+
+        $namespaces = $this->getTranslatedNamespacesThatHaveTexts();
+        if (!in_array($namespace, $namespaces)) {
+            return [];
+        }
+
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($locale, $group, $namespace) {
 
             $result = [];
             $query = $this->getModel();
 
-            $get = $query->select(['translation_text','translation_key'])->where('translation_group', $group)
+            $get = $query->select(['translation_text', 'translation_key'])->where('translation_group', $group)
                 ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
                 ->where('translation_texts.translation_locale', $locale)
-                ->where('translation_namespace', $namespace)  ->get()         ;
+                ->where('translation_namespace', $namespace)->get();
 
             if ($get and $get->isNotEmpty()) {
                 $result = $get->toArray();
@@ -39,11 +76,7 @@ class TranslationKeyRepository extends AbstractRepository
         });
 
 
-
     }
-
-
-
 
 
 }
