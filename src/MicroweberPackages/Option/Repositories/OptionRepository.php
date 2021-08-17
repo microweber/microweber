@@ -108,7 +108,7 @@ class OptionRepository extends AbstractRepository
             $allOptions = collect($allOptions)->map(function ($option) {
                 return (array)$option;
             })->toArray();
-            
+
             return $allOptions;
         });
     }

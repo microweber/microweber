@@ -31,12 +31,8 @@ trait ModuleOptionTrait {
         }
 
         if ($optionGroup) {
-          $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
 
-          //  $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
-
-
-
+            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
 
             $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
