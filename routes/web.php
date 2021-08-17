@@ -18,28 +18,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
+/*
+    $mem1 = memory_get_usage();
+    $content = \MicroweberPackages\Content\Content::all();
+    $mem2 = memory_get_usage();
 
-    //dump(prev_content(1019)['id']);
+    dump(app()->format->human_filesize($mem2 - $mem1));
+*/
 
-    //$get2 = app()->content_repository->getByParams(['keyword'=>'Amazon $25']);
+/*    $mem3 = memory_get_usage();
+    $content = DB::select("SELECT * FROM content");
+    $mem4 = memory_get_usage();
 
+    dump(app()->format->human_filesize($mem4 - $mem3));
+    */
 
-
-/*    $title = 'Search By title '. uniqid('kw');
-    app()->database_manager->extended_save_set_permission(true);
-    $params = array(
-        'title' => $title,
-        'content_type' => 'post',
-        'is_active' => 1
-    );
-
-    $saved_id = save_content($params);
-
-    $x =  get_content('id='. $saved_id);*/
-
-   // $get = \MicroweberPackages\Content\Content::filter(['tags'=>'skype'])->get();
-    $get = get_content('tag_names=felichita');
-
-    dump($get);
 
 });

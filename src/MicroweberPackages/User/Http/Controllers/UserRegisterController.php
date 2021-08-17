@@ -70,8 +70,8 @@ class UserRegisterController extends Controller
         }
 
         // $registration_approval_required = get_option('registration_approval_required', 'users');
-        $registration_approval_required = Option::getValue('registration_approval_required', 'users');
-        $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
+        $registration_approval_required = get_option('registration_approval_required', 'users');
+        $isVerfiedEmailRequired = get_option('register_email_verify', 'users');
 
         if ($registration_approval_required == true) {
             $userData['is_active'] = 0;

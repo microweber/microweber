@@ -45,24 +45,24 @@ class NotificationServiceProvider extends ServiceProvider
     private function _configMailSender(){
 
         // SMTP SETTINGS
-        $smtpHost = Option::getValue('smtp_host', 'email');
-        $smtpPort = Option::getValue('smtp_port', 'email');
-        $smtpUsername = Option::getValue('smtp_username', 'email');
-        $smtpPassword = Option::getValue('smtp_password', 'email');
-        $smtpAuth = Option::getValue('smtp_auth', 'email');
-        $smtpSecure = Option::getValue('smtp_secure', 'email');
+        $smtpHost = get_option('smtp_host', 'email');
+        $smtpPort = get_option('smtp_port', 'email');
+        $smtpUsername = get_option('smtp_username', 'email');
+        $smtpPassword = get_option('smtp_password', 'email');
+        $smtpAuth = get_option('smtp_auth', 'email');
+        $smtpSecure = get_option('smtp_secure', 'email');
 
         // Type transport
-        $emailTransport = Option::getValue('email_transport', 'email');
+        $emailTransport = get_option('email_transport', 'email');
 
         // From Name
-        $emailFromName = Option::getValue('email_from_name', 'email');
+        $emailFromName = get_option('email_from_name', 'email');
         if (!$emailFromName) {
             $emailFromName = getenv('USERNAME');
         }
 
         // Email From
-        $emailFrom = Option::getValue('email_from', 'email');
+        $emailFrom = get_option('email_from', 'email');
         if (!$emailFrom) {
             $hostname = mw()->url_manager->hostname();
             if ($emailFromName != '') {

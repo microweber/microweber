@@ -44,7 +44,7 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php $emailCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_receivers', $mod_id); ?>
+            <?php $emailCustomReceivers = \MicroweberPackages\Option\Facades\get_option('email_custom_receivers', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="email_custom_receivers">No</label>
                 <input type="checkbox" module="contact_form" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="email_custom_receivers" option-group="<?php print $mod_id ?>" id="email_custom_receivers" value="y" <?php if ($emailCustomReceivers): ?>checked<?php endif; ?>>
@@ -92,7 +92,7 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php $emailAutorespondEnable = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_enable', $mod_id); ?>
+            <?php $emailAutorespondEnable = \MicroweberPackages\Option\Facades\get_option('email_autorespond_enable', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="email_autorespond_enable">No</label>
                 <input type="checkbox" module="contact_form" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_enable" option-group="<?php print $mod_id ?>" id="email_autorespond_enable" value="y" <?php if ($emailAutorespondEnable): ?>checked<?php endif; ?>>
@@ -154,7 +154,7 @@ if (isset($params['for_module_id'])) {
                 </div>
 
                 <div class="form-group mb-4">
-                    <?php  $emailAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_custom_sender', $mod_id); ?>
+                    <?php  $emailAutorespondCustomSender = \MicroweberPackages\Option\Facades\get_option('email_autorespond_custom_sender', $mod_id); ?>
                     <div class="custom-control custom-switch pl-0">
                         <label class="d-inline-block mr-5" for="email_autorespond_custom_sender">No</label>
                         <input type="checkbox" onchange="toggleAutorespondCustomSender(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_custom_sender" option-group="<?php print $mod_id ?>" id="email_autorespond_custom_sender" value="y" <?php if ($emailAutorespondCustomSender): ?>checked<?php endif; ?>>

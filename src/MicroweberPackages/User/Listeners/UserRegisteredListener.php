@@ -16,7 +16,7 @@ class UserRegisteredListener
 
         try {
             $newRegEvent = new NewRegistration($event->user);
-            $isRegisterEmailEnabled = Option::getValue('register_email_enabled', 'users');
+            $isRegisterEmailEnabled = get_option('register_email_enabled', 'users');
             if ($isRegisterEmailEnabled) {
                 $event->user->notifyNow($newRegEvent);
             }
@@ -27,7 +27,7 @@ class UserRegisteredListener
         try {
             $adminUser = User::whereIsAdmin(1)->get();
             $newRegEvent = new NewRegistrationAdminNotification($event->user);
-            $registerEmailToAdminsEnabled = Option::getValue('register_email_to_admins_enabled', 'users');
+            $registerEmailToAdminsEnabled = get_option('register_email_to_admins_enabled', 'users');
             if ($registerEmailToAdminsEnabled) {
                 Notification::send($adminUser, $newRegEvent);
             }

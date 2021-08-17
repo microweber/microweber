@@ -44,11 +44,11 @@ class NewFormEntry extends Notification
         $channels = [];
 
         if ($relId) {
-            $skipSavingEmails = Option::getValue('skip_saving_emails', $relId);
+            $skipSavingEmails = get_option('skip_saving_emails', $relId);
         }
 
         if (!$skipSavingEmails) {
-            $skipSavingEmails = Option::getValue('skip_saving_emails', 'contact_form_default');
+            $skipSavingEmails = get_option('skip_saving_emails', 'contact_form_default');
         }
 
         if (!$skipSavingEmails) {
@@ -74,7 +74,7 @@ class NewFormEntry extends Notification
 
         $hostname = mw()->url_manager->hostname();
 
-        $formName = Option::getValue('form_name', $this->formEntry->rel_id);
+        $formName = get_option('form_name', $this->formEntry->rel_id);
         if ($formName) {
             $emailSubject = '[' . $hostname . '] ' . _e('New entry from ', true) . $formName;
         } else {

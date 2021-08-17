@@ -69,43 +69,6 @@ class Option extends Model
         return save_option($saveOption);
     }
 
-    public static function getWebsiteOptions()
-    {
-        $websiteOptions = [
-            'favicon_image'=>'',
-            'website_footer'=>'',
-            'website_head'=>'',
-            'website_title'=>'',
-            'website_keywords'=>'',
-            'website_description'=>'',
-            'date_format'=>'',
-            'enable_full_page_cache'=>'',
-            'google-site-verification-code'=>'',
-            'bing-site-verification-code'=>'',
-            'alexa-site-verification-code'=>'',
-            'pinterest-site-verification-code'=>'',
-            'yandex-site-verification-code'=>'',
-            'google-analytics-id'=>'',
-            'facebook-pixel-id'=>'',
-            'robots_txt'=>'' ,
-            'maintenance_mode'=>'',
-            'maintenance_mode_text'=>''
-        ];
-
-        if (!mw_is_installed()) {
-            return $websiteOptions;
-        }
-
-        $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
-        if (!empty($getWebsiteOptions)) {
-            foreach ($getWebsiteOptions as $websiteOption) {
-                $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];
-            }
-        }
-
-        return $websiteOptions;
-    }
-
     public static function fetchFromCollection($optionsCollection, $key)
     {
         if(empty($optionsCollection) || empty($key)) {

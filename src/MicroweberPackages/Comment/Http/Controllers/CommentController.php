@@ -26,7 +26,7 @@ class CommentController
     public function postComment(Request $request)
     {
         if (empty(Auth::user()->id)) {
-            $mustBeLogged = Option::getValue('user_must_be_logged', 'comments');
+            $mustBeLogged = get_option('user_must_be_logged', 'comments');
             if ($mustBeLogged) {
                 return ['errors'=>'Must be logged'];
             }
@@ -44,7 +44,7 @@ class CommentController
             $inputs['email'] = $inputs['comment_email'];
         }
 
-        if (Option::getValue('require_terms', 'comments')) {
+        if (get_option('require_terms', 'comments')) {
             $rules['terms'] = 'terms:terms_comments';
             if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
                 $rules['terms'] = $rules['terms'] . ', terms_newsletter';
@@ -53,7 +53,7 @@ class CommentController
         }
 
         $rules['captcha'] = 'captcha';
-         if (is_module('captcha') && Option::getValue('disable_captcha', 'comments')) {
+         if (is_module('captcha') && get_option('disable_captcha', 'comments')) {
             unset($rules['captcha']);
         }
 
@@ -64,7 +64,7 @@ class CommentController
 
         $saveComment = $request->all();
 
-        $requireModeration = Option::getValue('require_moderation', 'comments');
+        $requireModeration = get_option('require_moderation', 'comments');
         if ($requireModeration) {
             $saveComment['is_moderated'] = 1;
         }
