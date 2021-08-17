@@ -85,9 +85,43 @@ class OfferRepository extends AbstractRepository
             return $offers;
         });
     }
+    public function getProductIdsThatHaveOfferPrice()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+
+            $result = [];
+
+            $translation_namespaces = \DB::table('offers')
+                ->select('product_id')
+                ->groupBy('product_id')
+                ->get();
+
+            if ($translation_namespaces) {
+                $result = $translation_namespaces->toArray();
+                if ($result and is_array($result)) {
+                    $result = array_map(function ($value) {
+                        return (array)$value;
+                    }, $result);
+                    $result = array_values($result);
+                    $result = array_flatten($result);
+                    $result = array_flip($result);
+                    $result = array_keys($result);
+                }
+
+            }
+
+            return $result;
+       });
+    }
 
     public function getPrice($productId, $priceId)
     {
+
+        $existingIds = $this->getProductIdsThatHaveOfferPrice();
+        if (!in_array($productId,$existingIds)) {
+            return [];
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId, $priceId) {
             $query = Offer::where('price_id', $priceId);
 
