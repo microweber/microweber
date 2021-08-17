@@ -1,5 +1,5 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="d-flex flex-column justify-content-start mb-3">
+    <div class="text-start mb-3">
 
 
         <?php if($settings['show_label']): ?>

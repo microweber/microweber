@@ -1,5 +1,5 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="d-flex flex-column justify-content-start mb-3">
+    <div class="text-start mb-3">
 
         <?php if($settings['show_label']): ?>
             <label class="control-label mb-3">
@@ -10,7 +10,7 @@
             </label>
         <?php endif; ?>
 
-            <div class="d-flex flex-column justify-content-start mb-3">
+            <div class="text-start mb-3">
                 <select class="form-control">
                     <option><?php _e($data['placeholder']) ?></option>
                     <option><?php foreach ($data['values'] as $country): ?>
