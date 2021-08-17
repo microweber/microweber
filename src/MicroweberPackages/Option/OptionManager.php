@@ -185,34 +185,7 @@ class OptionManager
      * Example usage:
      * $this->get('my_key', 'my_group');
      */
-    public $memoryOptionGroupNew = [];
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
-    {
-        if (!mw_is_installed()) {
-            return false;
-        }
-
-        if (isset($this->memoryOptionGroupNew[$optionGroup])) {
-            return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroupNew[$optionGroup], $returnFull);
-        }
-
-        if ($optionGroup) {
-
-            $allOptions = [];
-              $getAllOptions = DB::table('options')->where('option_group', $optionGroup)->get();
-              if ($getAllOptions != null) {
-                  $allOptions = collect($getAllOptions)->map(function($x){
-                      return (array) $x;
-                  })->toArray();
-              }
-
-            $this->memoryOptionGroupNew[$optionGroup] = $allOptions;
-            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
-        }
-
-    }
-
-    public function _____get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
     {
 
         if (!mw_is_installed()) {
