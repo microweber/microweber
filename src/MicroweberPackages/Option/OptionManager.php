@@ -185,80 +185,27 @@ class OptionManager
      * Example usage:
      * $this->get('my_key', 'my_group');
      */
+
+    public $memoryOptionGroup = [];
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
     {
-
         if (!mw_is_installed()) {
             return false;
         }
 
-        // old variant
-    /*    if (isset($this->memoryOptionGroup[$optionGroup])) {
+        if (isset($this->memoryOptionGroup[$optionGroup])) {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
 
         if ($optionGroup) {
 
-            //  $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+            $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
+            $allOptions = collect($allOptions)->map(function($x){
+                return (array) $x;
+            })->toArray();
 
-            $allOptions = app()->option_repository->getByParams(['option_group'=>$optionGroup]);
-//dd($allOptions);
-
-        //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
-            //   dd($allOptions);
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
-        }*/
-
-
-        if(isset($this->options_memory['allOptionGroups'])){
-            $allOptionGroups = $this->options_memory['allOptionGroups'];
-        } else {
-            $this->options_memory['allOptionGroups'] =  $allOptionGroups = app()->option_repository->getByParams('no_limit=1&fields=option_group&group_by=option_group');
-
-        }
-
-        if($allOptionGroups and is_array($allOptionGroups)){
-            $allOptionGroups = array_flatten($allOptionGroups);
-            $allOptionGroups = array_flip($allOptionGroups);
-        }
-
-        // variant 2 repo
-        if ($optionGroup) {
-            if($allOptionGroups){
-                if(!isset($allOptionGroups[$optionGroup])){
-                    return false;
-                }
-            }
-
-
-            if(isset($this->options_memory[$optionGroup])){
-                $allOptions = $this->options_memory[$optionGroup];
-            } else {
-                $this->options_memory[$optionGroup] =  $allOptions =  app()->option_repository->getByParams('no_limit=1&fields=id,option_key,option_group,option_value&option_group='.$optionGroup);
-
-
-            }
-
-
-
-
-            //   $startmb = memory_get_usage();
-         //  $allOptions = app()->option_repository->getByParams('no_limit=1&fields=id,option_key,option_group,option_value&option_group='.$optionGroup);
-
-           //$allOptions = app()->option_repository->getByParams('fields=id,option_key,option_group,option_value');
-           // var_dump($this->formatBytes((memory_get_usage()-$startmb)));die();
-
-            $groupedOptions = [];
-            if (!empty($allOptions) && is_array($allOptions)) {
-                foreach ($allOptions as $option) {
-                    $groupedOptions[$option['option_group']][] = $option;
-                }
-            }
-
-            if (isset($groupedOptions[$optionGroup])) {
-                return $this->getOptionFromOptionsArray($optionKey, $groupedOptions[$optionGroup], $returnFull);
-            }
         }
 
         return false;
