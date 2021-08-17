@@ -16,9 +16,9 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class ContentRepository extends AbstractRepository
 {
     protected $filterMethods = [
-        'tags'=>'whereTagsNames',
-        'category'=>'whereCategoryIds',
-        'categories'=>'whereCategoryIds',
+        'tags' => 'whereTagsNames',
+        'category' => 'whereCategoryIds',
+        'categories' => 'whereCategoryIds',
     ];
 
     /**
@@ -37,6 +37,13 @@ class ContentRepository extends AbstractRepository
      */
     public function getMedia($id)
     {
+
+
+        $existingIds = $this->getIdsThatHaveRelation('media', 'content');
+        if (!in_array($id,$existingIds)) {
+            return [];
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
             $item = $this->findById($id);
@@ -114,6 +121,13 @@ class ContentRepository extends AbstractRepository
      */
     public function getContentData($id)
     {
+
+        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
+        if (!in_array($id,$existingIds)) {
+            return [];
+        }
+
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
 
@@ -139,6 +153,11 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($id)
     {
+        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
+        if (!in_array($id,$existingIds)) {
+            return [];
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
 
@@ -265,6 +284,8 @@ class ContentRepository extends AbstractRepository
 
     }
 
+
+    
 
 
 

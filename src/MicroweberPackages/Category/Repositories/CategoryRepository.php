@@ -25,8 +25,7 @@ class CategoryRepository extends AbstractRepository
                 return $get->toArray();
             }
                 return [];
-                return $get->toArray();
-            }
+             }
             return [];
         });
 

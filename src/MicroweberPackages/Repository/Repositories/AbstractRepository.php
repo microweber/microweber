@@ -1193,6 +1193,37 @@ abstract class AbstractRepository
         return $model;
     }
 
+    public function getIdsThatHaveRelation($table, $rel_type)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($table, $rel_type) {
+
+            $result = [];
+
+            $translation_namespaces = \DB::table($table)
+                ->select('rel_id')
+                ->where('rel_type', $rel_type)
+                ->groupBy('rel_id')
+                ->get();
+
+            if ($translation_namespaces) {
+                $result = $translation_namespaces->toArray();
+                if ($result and is_array($result)) {
+                    $result = array_map(function ($value) {
+                        return (array)$value;
+                    }, $result);
+                    $result = array_values($result);
+                    $result = array_flatten($result);
+                    $result = array_flip($result);
+                    $result = array_keys($result);
+                }
+
+            }
+
+            return $result;
+        });
+
+    }
+
     /*  public function getByParams($params = [])
       {
          return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {
