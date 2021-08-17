@@ -1,5 +1,5 @@
 <?php
-return;
+
 $option_group = $params['id'];
 
 if (isset($params['option-group'])) {
