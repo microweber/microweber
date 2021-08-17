@@ -18,11 +18,14 @@ class ModuleRepository extends AbstractRepository
      */
     public $model = Module::class;
 
+    public static $_getAllModules = [];
     public function getAllModules()
     {
+        if (!empty(self::$_getAllModules)) {
+            return self::$_getAllModules;
+        }
 
-
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        $modules = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
             $item = $this->all();
             if ($item) {
@@ -34,7 +37,8 @@ class ModuleRepository extends AbstractRepository
 
         });
 
-
+        self::$_getAllModules = $modules;
+        return $modules;
     }
 
     public function getModulesByType($type)
