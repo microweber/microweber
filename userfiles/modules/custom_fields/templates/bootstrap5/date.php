@@ -2,7 +2,7 @@
 $rand = uniqid();
 ?>
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="mb-3">
+    <div class="d-flex flex-column justify-content-start mb-3">
 
         <?php if($settings['show_label']): ?>
         <label class="control-label mb-3">
