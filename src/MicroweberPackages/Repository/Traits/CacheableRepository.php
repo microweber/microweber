@@ -108,7 +108,7 @@ trait CacheableRepository
 
         return sprintf(
             '%s-%s--%s-%s',
-            config('app.locale'),
+            app()->getLocale(),
             implode('-',$tag),
             $method,
             crc32($args)
