@@ -198,15 +198,7 @@ class OptionManager
         }
 
         if ($optionGroup) {
-
-//            $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
-//            $allOptions = collect($allOptions)->map(function($x){
-//                return (array) $x;
-//            })->toArray();
-            $allOptions = app()->option_repository->getOptions($optionGroup);
-
-
-
+            $allOptions = app()->option_repository->getOptionsByGroup($optionGroup);
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
         }

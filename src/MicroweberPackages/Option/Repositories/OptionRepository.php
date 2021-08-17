@@ -64,51 +64,51 @@ class OptionRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $ready = [];
-            $allOptions = \DB::table('options')
+            $allOptions = [];
+            $getAllOptions = \DB::table('options')
                 ->select('option_group')
                 ->groupBy('option_group')
                 ->get();
-            $allOptions = collect($allOptions)->map(function ($x) {
-                return (array)$x;
+            $getAllOptions = collect($getAllOptions)->map(function ($option) {
+                return (array)$option;
             })->toArray();
 
-            if ($allOptions and is_array($allOptions)) {
-                $ready = array_flatten($allOptions);
+            if ($getAllOptions and is_array($getAllOptions)) {
+                $allOptions = array_flatten($getAllOptions);
             }
 
-
-            return $ready;
+            return $allOptions;
         });
     }
 
-    public function optionGroupExists($option_group)
+    public function optionGroupExists($optionGroup)
     {
-        $all = $this->getAllExistingOptionGroups();
+        $existingGroups = $this->getAllExistingOptionGroups();
 
-        if ($all) {
-            $all = array_flip($all);
-            if (isset($all[$option_group])) {
+        if ($existingGroups) {
+            $existingGroups = array_flip($existingGroups);
+            if (isset($existingGroups[$optionGroup])) {
                 return true;
             }
         }
 
-
+        return false;
     }
 
-    public function getOptions($option_group)
+    public function getOptionsByGroup($optionGroup)
     {
-        $exists = $this->optionGroupExists($option_group);
+        $isExsitOptionGroup = $this->optionGroupExists($optionGroup);
 
-        if (!$exists) {
+        if (!$isExsitOptionGroup) {
             return false;
         }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($option_group) {
-            $allOptions = \DB::table('options')->where('option_group', $option_group)->get();
-            $allOptions = collect($allOptions)->map(function ($x) {
-                return (array)$x;
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
+            $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
+            $allOptions = collect($allOptions)->map(function ($option) {
+                return (array)$option;
             })->toArray();
+            
             return $allOptions;
         });
     }
