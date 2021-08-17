@@ -17,7 +17,7 @@ trait CacheableRepository
      * @var CacheManager
      */
     protected static $cache = null;
-    public static $disableCache= false;
+    public static $disableCache= true;
 
     /**
      * Flush the cache after create/update/delete events.

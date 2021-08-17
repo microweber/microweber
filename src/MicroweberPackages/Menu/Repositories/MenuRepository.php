@@ -15,11 +15,19 @@ class MenuRepository extends AbstractRepository {
      */
     public $model = Menu::class;
 
+    public static $_getAllMenus = [];
     public function getAllMenus()
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        if (!empty(self::$_getAllMenus)) {
+            return self::$_getAllMenus;
+        }
+
+        $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
             return $this->getModel()->newQuery()->get()->toArray();
         });
+
+        self::$_getAllMenus = $menus;
+        return $menus;
     }
 
     public function getMenusByParentIdAndItemType($parentId, $itemType)
