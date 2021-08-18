@@ -938,13 +938,14 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        $result =  $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
-
+        $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+            $searchable = [];
             $model = $this->getModel();
             $table = $model->getTable();
             $columns = $model->getFillable();
-            $searchable = $model->getSearchable();
-
+            if (method_exists($model, 'getSearchable')) {
+                $searchable = $model->getSearchable();
+            }
             if (is_string($params)) {
                 $params = parse_params($params);
             }
@@ -976,7 +977,6 @@ abstract class AbstractRepository
             $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
             $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
 
-            //dump($this->query->toSql());
 
             if (isset($params['count']) and $params['count']) {
                 $exec = $this->query->count();
@@ -1214,7 +1214,7 @@ abstract class AbstractRepository
                     $result = array_values($result);
                     $result = array_flatten($result);
                     $result = array_filter($result);
-                    if(!empty($result)){
+                    if (!empty($result)) {
                         $result = array_flip($result);
                         $result = array_keys($result);
 
@@ -1228,6 +1228,46 @@ abstract class AbstractRepository
 
     }
 
+    public function getById($id)
+    {
+
+        if (is_array($id)) {
+
+            $ready = [];
+            foreach ($id as $k => $v) {
+                $ready[$k] = $this->getById($v);
+            }
+
+            return $ready;
+        }
+
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+
+            if (!$id) {
+                return false;
+            }
+
+            if (intval($id) == 0) {
+                return false;
+            }
+
+            if (is_numeric($id)) {
+                $id = intval($id);
+            } else {
+                $id = mb_trim($id);
+            }
+            $table = $this->getModel()->getTable();
+            $getItemById = \DB::table($table)->where('id', $id)->first();
+
+            if($getItemById){
+                return (array) $getItemById;
+            }
+
+
+
+            return false;
+        });
+    }
     /*  public function getByParams($params = [])
       {
          return $this->cacheCallback(get_class($this).__FUNCTION__, func_get_args(), function () use ($params) {

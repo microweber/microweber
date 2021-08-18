@@ -43,34 +43,6 @@ class CategoryRepository extends AbstractRepository
         });
     }
 
-    public function getById($id)
-    {
-
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-
-            if (!$id) {
-                return;
-            }
-
-            if (intval($id) == 0) {
-                return false;
-            }
-
-            if (is_numeric($id)) {
-                $id = intval($id);
-            } else {
-                $id = mb_trim($id);
-            }
-
-            $getCategory = \DB::table('categories')->where('id', $id)->get();
-            $getCategory = collect($getCategory)->map(function ($item) {
-                return (array)$item;
-            })->toArray();
-
-            return $getCategory;
-        });
-    }
-
 
     /**
      * Find content by id.

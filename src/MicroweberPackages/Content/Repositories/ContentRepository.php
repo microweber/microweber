@@ -39,7 +39,7 @@ class ContentRepository extends AbstractRepository
     public function getMedia($id)
     {
         $existingIds = $this->getIdsThatHaveRelation('media', 'content');
-        if (!in_array($id,$existingIds)) {
+        if (!in_array($id, $existingIds)) {
             return [];
         }
 
@@ -67,7 +67,7 @@ class ContentRepository extends AbstractRepository
      */
     public function getCategoriesByContentId($id)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        $categoryIds = $this->cacheCallback(__FUNCTION__ . 'categories_items', func_get_args(), function () use ($id) {
 
             $categoryIds = [];
             $getCategoryItems = DB::table('categories_items')
@@ -76,19 +76,54 @@ class ContentRepository extends AbstractRepository
                 ->where('rel_id', $id)
                 ->groupBy('parent_id')
                 ->get();
+            if ($getCategoryItems) {
+                foreach ($getCategoryItems as $categoryItem) {
+                    $categoryIds[] = $categoryItem->parent_id;
+                }
+            }
+            return $categoryIds;
 
-            foreach ($getCategoryItems as $categoryItem) {
-                $categoryIds[] = $categoryItem->parent_id;
+        });
+
+
+        $ready = [];
+        if ($categoryIds) {
+
+            foreach ($categoryIds as $k => $v) {
+                $ready[] = app()->category_repository->getById($v);
             }
 
-            $getCategories = DB::table('categories')->whereIn('id', $categoryIds)->get();
-            $getCategories = collect($getCategories)->map(function ($item) {
-                return (array)$item;
-            })->toArray();
 
-            return $getCategories;
-        });
+        }
+
+        return $ready;
+
+
     }
+//    public function getCategoriesByContentId11($id)
+//    {
+//        return $this->cacheCallback(__FUNCTION__.'categories_items', func_get_args(), function () use ($id) {
+//
+//            $categoryIds = [];
+//            $getCategoryItems = DB::table('categories_items')
+//                ->select('parent_id')
+//                ->where('rel_type', 'content')
+//                ->where('rel_id', $id)
+//                ->groupBy('parent_id')
+//                ->get();
+//
+//            foreach ($getCategoryItems as $categoryItem) {
+//                $categoryIds[] = $categoryItem->parent_id;
+//            }
+//
+//            $getCategories = DB::table('categories')->whereIn('id', $categoryIds)->get();
+//            $getCategories = collect($getCategories)->map(function ($item) {
+//                return (array)$item;
+//            })->toArray();
+//
+//            return $getCategories;
+//        });
+//    }
 
     /**
      * Find content by id.
@@ -101,7 +136,7 @@ class ContentRepository extends AbstractRepository
     {
 
         $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
-        if (!in_array($id,$existingIds)) {
+        if (!in_array($id, $existingIds)) {
             return [];
         }
 
@@ -130,7 +165,7 @@ class ContentRepository extends AbstractRepository
     public function getCustomFields($id)
     {
         $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
-        if (!in_array($id,$existingIds)) {
+        if (!in_array($id, $existingIds)) {
             return [];
         }
 
@@ -138,15 +173,15 @@ class ContentRepository extends AbstractRepository
 
             $customFields = [];
             $getCustomFields = DB::table('custom_fields')
-                ->where('rel_type','content')
+                ->where('rel_type', 'content')
                 ->where('rel_id', $id)
                 ->get();
             foreach ($getCustomFields as $customField) {
-                $customField = (array) $customField;
+                $customField = (array)$customField;
 
                 $getCustomFieldValues = DB::table('custom_fields_values')
-                    ->select(['value','position'])
-                    ->where('custom_field_id',$customField['id'])
+                    ->select(['value', 'position'])
+                    ->where('custom_field_id', $customField['id'])
                     ->get();
 
                 $customFieldValues = [];
