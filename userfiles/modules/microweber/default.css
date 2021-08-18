@@ -422,3 +422,7 @@ ul.mw-default-layout-background-text {
     }
 }
 
+
+.checkout-modal-header .btn-close {
+    padding: 1rem!important;
+}
