@@ -68,7 +68,7 @@ if (isset($user['role'])) {
                     </div>
 
                     <small class="d-block text-muted"><?php _e('You are logged in as'); ?></small>
-                    <span class="d-block text-primary font-weight-bold"><?php echo $user_name; ?></span>
+                    <span class="d-block text-outline-primary font-weight-bold"><?php echo $user_name; ?></span>
                     <small class="d-block text-dark"><?php echo $user_role; ?></small>
 
                     <a
