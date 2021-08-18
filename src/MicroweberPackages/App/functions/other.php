@@ -124,7 +124,6 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
     $ready['elements'] = $ready_elements;
 
 
-
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
     $module_layouts_skins = false;
@@ -196,7 +195,7 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
 
     $ready['layouts'] = $layouts_ready;
     return response()->json($ready);
-  //  return $ready;
+    //  return $ready;
 
 });
 
@@ -1155,5 +1154,14 @@ if (!function_exists('base62_decode')) {
             $outstring .= pack('H*', $pad); //same as hex2bin
         }
         return $outstring;
+    }
+}
+
+if (!function_exists('hashClosure')) {
+    function hashClosure($f)
+    {
+        $rf = new \ReflectionFunction($f);
+        $pseudounique = $rf->getFileName() . $rf->getEndLine();
+        return crc32($pseudounique);
     }
 }

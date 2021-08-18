@@ -137,8 +137,11 @@ class DatabaseManager extends DbUtils
             foreach ($params as $k => $v) {
                 if (is_object($v) && $v instanceof \Closure) {
 
-                    $serialized = serializeClosure($v);
-                    $cache_key_closures .= crc32($serialized);
+                  //  $serialized = serializeClosure($v);
+                  //  $cache_key_closures .= crc32($serialized);
+
+                    $serialized = hashClosure($v);
+                    $cache_key_closures .= $serialized;
                 }
             }
         }
@@ -155,7 +158,6 @@ class DatabaseManager extends DbUtils
                 return $this->_query_get_cache[$table][$_query_get_cache_key];
             }
         }
-
 
 
 
@@ -289,6 +291,7 @@ class DatabaseManager extends DbUtils
             }
         }
 
+
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             if ($use_cache == false and $cache_from_model == false) {
                 $query = $query->count();
@@ -322,7 +325,14 @@ class DatabaseManager extends DbUtils
         }
         if (isset($orig_params['sum']) and ($orig_params['sum'])) {
             $column = $orig_params['sum'];
-            $query = $query->sum($column);
+             $query = $query->sum($column);
+
+//            $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query,$column) {
+//                $queryCount = $query->sum($column);
+//                return $queryCount;
+//            });
+
+
             return $query;
         }
 
