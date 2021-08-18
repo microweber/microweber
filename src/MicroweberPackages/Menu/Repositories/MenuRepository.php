@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Menu\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -23,7 +24,15 @@ class MenuRepository extends AbstractRepository {
         }
 
         $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-            return $this->getModel()->newQuery()->get()->toArray();
+
+            $getMenu = DB::table('menus')->get();
+            $allMenus = collect($getMenu)->map(function ($option) {
+                return (array)$option;
+            })->toArray();
+
+            return $allMenus;
+
+            // return $this->getModel()->newQuery()->get()->toArray();
         });
 
         self::$_getAllMenus = $menus;
