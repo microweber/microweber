@@ -121,7 +121,7 @@ if (is_module('multilanguage')) {
                                                 <?php endif;?>
 
                                             </div>
-                                            <div class="col-md-5 text-right">
+                                            <div class="col-md-5 text-end">
                                                 <script>mw.require('admin_package_manager.js');</script>
                                                 <script>
                                                     $(document).ready(function () {

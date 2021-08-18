@@ -52,7 +52,7 @@ $values = array_merge($default_item, $item);
         <input name="rate" type="text" class="form-control" required="required" value="<?php print $values['rate']; ?>">
     </div>
 
-    <div class="text-right">
+    <div class="text-end">
         <button type="submit" class="btn btn-success btn-sm" name="submit"><?php _e('Save'); ?></button>
     </div>
 </form>

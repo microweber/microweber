@@ -60,7 +60,7 @@
 
     <div class="row d-flex justify-content-between">
         <div class="col"></div>
-        <div class="col text-right">
+        <div class="col text-end">
             @if(request()->get('filter') == 'true')
             <a href="{{route('admin.customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
             @else

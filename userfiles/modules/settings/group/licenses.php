@@ -84,7 +84,7 @@
                 <a class="btn btn-primary btn-sm" href="javascript:mw.validate_licenses();"><?php _e('Validate'); ?></a>
             <?php endif; ?>
         </div>
-        <div class="col text-right">
+        <div class="col text-end">
             <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
     </div>
     </div>

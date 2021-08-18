@@ -117,7 +117,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             </div>
 
-            <div class="col-sm-6 text-right d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="col-sm-6 text-end d-flex justify-content-center justify-content-sm-end align-items-center">
                 <div id="manage-buttons" style="display: none;">
                     <span onclick="delete_selected_posts_forever();" class="btn btn-outline-danger btn-sm"><?php _e("Delete forever"); ?></span>
                     <span onclick="restore_selected_posts();" class="btn btn-outline-success btn-sm"><?php _e("Restore selected"); ?></span>

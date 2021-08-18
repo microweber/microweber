@@ -58,7 +58,7 @@ if (isset($params['for-content-id'])) {
                 </div>
             </div>
 
-            <div class="text-right">
+            <div class="text-end">
                 <a href="javascript:;" onClick="editTagsShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});" class="btn btn-primary btn-sm"><?php _e('Manage tags') ?></a>
             </div>
         </div>

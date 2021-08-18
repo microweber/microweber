@@ -2,7 +2,7 @@
 <div class="card mb-2 not-collapsed-border collapsed card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>" data-toggle="collapse" data-target="#notif-item-<?php print $id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row align-items-center mb-3">
-            <div class="col text-left">
+            <div class="col text-start">
                 <span class="text-primary text-break-line-2">New comment</span>
             </div>
         </div>
@@ -13,13 +13,13 @@
                     <img src="<?php echo $picture; ?>"/>
                 </div>
             </div>
-            <div class="col text-left">
+            <div class="col text-start">
                 <?php if (isset($article['title'])): ?>
                 <h5 class="text-primary text-break-line-2"><?php echo $article['title']; ?></h5>
                 <?php endif; ?>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php _e(mw('format')->ago($notification['created_at'])); ?></div>
+            <div class="col-12 col-sm text-end"><?php _e(mw('format')->ago($notification['created_at'])); ?></div>
         </div>
         <div class="collapse" id="notif-item-<?php print $id ?>">
             <?php if (isset($article['full_url'])): ?>
@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     <textarea></textarea>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-end">
                                     <a href="dashboard.html" class="btn btn-outline-secondary btn-sm">Post Comment</a>
                                 </div>
                             </div>

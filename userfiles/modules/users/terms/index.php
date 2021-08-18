@@ -32,7 +32,7 @@ if (!$terms_label) {
                 </div>
             </div>
 
-            <div class="mw-flex-col-xs-4 text-right">
+            <div class="mw-flex-col-xs-4 text-end">
                 <div class="box"><a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-primary"
                                     href="<?php print $terms_url; ?>" target="_blank"><?php _e("Read more"); ?></a>
                 </div>

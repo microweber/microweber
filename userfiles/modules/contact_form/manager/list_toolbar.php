@@ -47,8 +47,8 @@ if ($load_list == 'default') {
         <?php endif; ?>
     </div>
 
-    <div class="col-sm-6 text-right">
-        <div class="contact-form-export-search text-right d-inline-block">
+    <div class="col-sm-6 text-end">
+        <div class="contact-form-export-search text-end d-inline-block">
             <div class="form-inline">
                 <div class="form-group mr-1 mb-2">
                     <input name="forms_data_keyword" id="forms_data_keyword" autocomplete="off" class="form-control form-control-sm" type="search" placeholder='<?php print $def; ?>'/>

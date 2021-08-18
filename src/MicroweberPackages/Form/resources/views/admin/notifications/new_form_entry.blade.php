@@ -4,7 +4,7 @@
     <div class="card-body">
         @if(!empty($module_name) && $module_name == 'admin/notifications')
             <div class="row align-items-center mb-3">
-                <div class="col text-left">
+                <div class="col text-start">
                     <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>

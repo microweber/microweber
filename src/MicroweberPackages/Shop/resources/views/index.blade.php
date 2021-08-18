@@ -41,7 +41,7 @@
                         <div class="d-flex py-2">
                             <p class="col-6 px-0">{{$product->price}}</p>
 
-                            <a class="col-6 text-right align-self-center" href="{{site_url($product->url)}}"> View</a>
+                            <a class="col-6 text-end align-self-center" href="{{site_url($product->url)}}"> View</a>
                         </div>
 
                         <hr />

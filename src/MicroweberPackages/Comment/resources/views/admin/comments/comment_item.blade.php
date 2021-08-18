@@ -116,7 +116,7 @@
                                             <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
                                             <textarea placeholder="<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
                                         </div>
-                                        <div class="text-right">
+                                        <div class="text-end">
                                             <button class="btn btn-outline-secondary btn-sm" type="submit"><?php _e('Post Comment'); ?></button>
                                         </div>
                                     </form>
