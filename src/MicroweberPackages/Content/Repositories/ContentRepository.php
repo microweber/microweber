@@ -100,10 +100,10 @@ class ContentRepository extends AbstractRepository
     public function getContentDataByContentId($id)
     {
 
-/*        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
+        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
         if (!in_array($id,$existingIds)) {
             return [];
-        }*/
+        }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -129,6 +129,11 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($id)
     {
+        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
+        if (!in_array($id,$existingIds)) {
+            return [];
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
             $customFields = [];
