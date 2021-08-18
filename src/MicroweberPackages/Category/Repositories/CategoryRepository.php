@@ -20,13 +20,13 @@ class CategoryRepository extends AbstractRepository
     public function getByUrl($url)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
-            $get = Category::where('url', $url)->first();
-            if ($get != null) { if ($get != null) {
-                return $get->toArray();
-            }
-                return [];
-             }
-            return [];
+
+            $getCategory = \DB::table('categories')->where('url', $url)->get();
+            $getCategory = collect($getCategory)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            return $getCategory;
         });
 
     }
@@ -49,16 +49,12 @@ class CategoryRepository extends AbstractRepository
                 $id = mb_trim($id);
             }
 
-            $get = array();
-            $get['id'] = $id;
-            $get['single'] = true;
-            $get['limit'] = 1;
+            $getCategory = \DB::table('categories')->where('id', $id)->get();
+            $getCategory = collect($getCategory)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
 
-            /*if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
-                $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
-            }*/
-
-            return MicroweberQuery::execute(Category::query(), $get);
+            return $getCategory;
         });
     }
 
@@ -86,10 +82,5 @@ class CategoryRepository extends AbstractRepository
 
         });
     }
-
-
-
-
-
 
 }
