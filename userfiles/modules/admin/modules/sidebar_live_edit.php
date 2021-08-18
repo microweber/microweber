@@ -121,10 +121,11 @@
             }
 
             function mwSidebarSearchItems(value, what) {
+                var obj;
                 if (what == 'modules') {
-                    var obj = mw.$("#mw-sidebar-modules-list .modules-list > li");
+                    obj = mw.$("#mw-sidebar-modules-list .modules-list li[data-module-name]");
                 } else {
-                    var obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
+                    obj = mw.$("#mw-sidebar-layouts-list .modules-list li[data-module-name]");
                 }
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
@@ -134,7 +135,7 @@
 
                 $('.mw-sidebar-search-clear-x-btn', '.' + what).show();
 
-                var value = value.toLowerCase();
+                value = value.toLowerCase();
 
                 var numberOfResults = 0;
 
@@ -154,7 +155,7 @@
                         || (!!template && template.toLowerCase().contains(value))
 
                     ) {
-                        var show = true;
+                         show = true;
                     }
 
                     if (!show) {
