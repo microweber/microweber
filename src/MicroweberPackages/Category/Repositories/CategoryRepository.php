@@ -31,6 +31,19 @@ class CategoryRepository extends AbstractRepository
 
     }
 
+    public function getByColumnNameAndColumnValue($columnName, $columnValue) {
+
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
+
+            $getCategory = \DB::table('categories')->where($columnName, $columnValue)->get();
+            $getCategory = collect($getCategory)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            return $getCategory;
+        });
+    }
+
     public function getById($id) {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {

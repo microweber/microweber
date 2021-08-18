@@ -722,57 +722,6 @@ class CategoryManager
     }
 
     /**
-     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
-     *
-     * @param int
-     *
-     * @return array
-     *
-     * @author      Peter Ivanov
-     *
-     * @version     1.0
-     *
-     * @since       Version 1.0
-     */
-
-    public function get_by_id($id = 0, $by_field_name = 'id')
-    {
-        if (!$id) {
-            return;
-        }
-
-        if ($by_field_name == 'id' and intval($id) == 0) {
-            return false;
-        }
-
-        if (is_numeric($id)) {
-            $id = intval($id);
-        } else {
-            $id = mb_trim($id);
-        }
-
-        $table = $this->tables['categories'];
-
-        $get = array();
-        $get[$by_field_name] = $id;
-        if(!$this->useCache){
-            $get['no_cache'] = true;
-        }
-        //
-        $get['single'] = true;
-        $get['limit'] = 1;
-        $q = $this->app->database_manager->get($table, $get);
-
-        if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
-            $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
-        }
-
-        return $q;
-
-    }
-
-
-    /**
      * @desc        Get cateroy by slug
      *
      * @param string
@@ -807,10 +756,10 @@ class CategoryManager
      * @since       Version 1.0
      */
 
-//    public function get_by_id($id = 0, $by_field_name = 'id')
-//    {
-//         return app()->category_repository->getByParams($by_field_name .'='.$id.'&single=1');
-//    }
+    public function get_by_id($id = 0, $by_field_name = 'id')
+    {
+        return app()->category_repository->getByColumnNameAndColumnValue($by_field_name, $id);
+    }
 
 
     /**
