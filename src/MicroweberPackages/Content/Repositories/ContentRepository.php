@@ -5,6 +5,7 @@ namespace MicroweberPackages\Content\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\ContentField;
@@ -66,51 +67,24 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getCategories($id)
+    public function getCategoriesForContentId($id)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-            $cats = [];
 
-            $item = $this->findById($id);
-            if ($item) {
-                $get = $item->categories;
-                if ($get) {
-                    $cats1 = $get->toArray();
-                    if ($cats1) {
-                        foreach ($cats1 as $cat) {
-                            if (isset($cat["parent"])) {
-                                unset($cat["parent"]);
-                                $cats[] = $cat;
-                            }
-                            $cats[] = $cat;
-                        }
-                    }
-
-                    if (is_array($cats) and !empty($cats)) {
-                        $cats = array_unique_recursive($cats);
-                    }
-                    $ready = [];
-                    if ($cats) {
-                        foreach ($cats as $cat) {
-                            if (isset($cat['parent_id'])) {
-                                $cat_exists = get_category_by_id($cat['parent_id']);
-                                if ($cat_exists) {
-                                    $ready[] = $cat_exists;
-                                }
-                            }
-                        }
-                    }
-
-
-                    return $ready;
-                }
+            $categoryIds = [];
+            $getCategoryItems = DB::table('categories_items')->select('parent_id')->where('rel_type', 'content')->where('rel_id', $id)->groupBy('parent_id')->get();
+            foreach ($getCategoryItems as $categoryItem) {
+                $categoryIds[] = $categoryItem->parent_id;
             }
-            return [];
 
+            $getCategories = DB::table('categories')->whereIn('id', $categoryIds)->get();
+            $getCategories = collect($getCategories)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
 
+            return $getCategories;
         });
     }
-
 
     /**
      * Find content by id.
@@ -285,7 +259,7 @@ class ContentRepository extends AbstractRepository
     }
 
 
-    
+
 
 
 

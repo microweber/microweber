@@ -314,89 +314,11 @@ class CategoryManager
 
     public function get_for_content($content_id, $data_type = 'categories')
     {
-
         if (intval($content_id) == 0) {
             return false;
         }
 
-        $cats = app()->content_repository->getCategories($content_id);
-
-
-
-        return $cats;
-
-
-        // deprecated old code
-
-
-
-
-
-
-        if (isset($this->_get_for_content_memory[$content_id][$data_type])) {
-            return $this->_get_for_content_memory[$content_id][$data_type];
-        }
-
-
-        if ($data_type == 'categories') {
-            $data_type = 'category';
-        }
-        if ($data_type == 'tags') {
-            $data_type = 'tag';
-        }
-//        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
-//        $get_category_items = $this->get_items('fields=parent_id&group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
-        $get_category_items = $this->get_items('fields=parent_id&group_by=categories_items.parent_id&rel_type=content&rel_id=' . ($content_id));
-// dump($get_category_items);
-        $include_parents = array();
-        $include_parents_str = '';
-
-        if (!empty($get_category_items)) {
-            foreach ($get_category_items as $get_category_item) {
-                if (isset($get_category_item['parent_id'])) {
-                    $include_parents[] = $get_category_item['parent_id'];
-                }
-            }
-        }
-
-        $get_category = Category::where('data_type',$data_type)
-            ->where('rel_id',$content_id)
-            ->where('rel_type','content')
-            ->orderBy('position','asc')
-            ->get();
-
-     // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
-
-        if (empty($get_category)) {
-            $get_category = array();
-        } elseif(is_object($get_category)) {
-            $get_category = $get_category->toArray();
-        }
-
-        if (!empty($include_parents)) {
-            $include_parents_str = 'order_by=position asc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
-            $get_category2 = $this->get($include_parents_str);
-
-            if (!empty($get_category2)) {
-                foreach ($get_category2 as $item) {
-                    $get_category[] = $item;
-                }
-            }
-        }
-
-        if (is_array($get_category) and !empty($get_category)) {
-            //array_unique($get_category);
-
-            $get_category = array_unique_recursive($get_category);
-        }
-
-        $this->_get_for_content_memory[$content_id][$data_type] = $get_category;
-
-        if (empty($get_category)) {
-            return false;
-        }
-
-        return $get_category;
+        return app()->content_repository->getCategoriesForContentId($content_id);
     }
 
     /**
