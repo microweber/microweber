@@ -250,7 +250,7 @@ if (isset($params['live_edit'])) {
     <?php endif; ?>
 
     <div class="<?php if (!isset($params['no-toolbar'])): ?>card-body pt-3<?php endif; ?>">
-        <div class="text-right">
+        <div class="text-end">
             <div class="create-root mb-3">
                 <div id="content-title-field-buttons">
                     <?php if (intval($data['id']) != 0): ?>
@@ -681,7 +681,7 @@ if (isset($params['live_edit'])) {
             </div>
         </div>
 
-        <div class="text-right">
+        <div class="text-end">
             <?php if (intval($data['id']) != 0): ?>
                 <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
             <?php endif; ?>

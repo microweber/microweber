@@ -118,7 +118,7 @@ if ($id != false) {
 
     <div class="card mw-modules-module-holder p-1">
         <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
-            <div class="text-left pb-3">
+            <div class="text-start pb-3">
             <?php echo $badge; ?>
             </div>
 

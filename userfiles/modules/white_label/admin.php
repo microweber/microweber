@@ -328,7 +328,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
       <div>
-          <div class="text-left">
+          <div class="text-start">
               <a href="javascript:;" id="white_label-whmcs-admin-module-link" onclick="mw.show_white_label_whmcs_settings();">WHMCS settings</a>
               <script>
                   mw.show_white_label_whmcs_settings = function () {
@@ -339,7 +339,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
               </script>
           </div>
 
-          <div class="text-left">
+          <div class="text-start">
               <a href="javascript:;" onclick="mw.show_licenses_modal();">My Licenses</a>
               <script>
                   mw.show_licenses_modal = function () {
@@ -354,7 +354,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
       </div>
 
 
-        <div class="text-right">
+        <div class="text-end">
 
             <button form="white_label_settings_holder" type="submit" class="btn btn-lg btn-success btn-save " ><span>Save</span></button>
 

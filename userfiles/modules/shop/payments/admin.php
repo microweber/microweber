@@ -169,7 +169,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                         </small>
                                     </div>
 
-                                    <div class="col text-right">
+                                    <div class="col text-end">
                                         <button type="button" onclick="paymentModal('#module-db-id-<?php print $module_info['id'] ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                     </div>
                                 </div>

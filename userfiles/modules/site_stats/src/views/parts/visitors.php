@@ -65,7 +65,7 @@ if (!$data) {
                      ?> class='flag-icon flag-icon-<?php print strtolower($item['country_code'] . " " . "tip");
                     }
                     ?>'></span></div>
-            <div class="visitor-name text-left"><?php print $item['user_ip']; ?></div>
+            <div class="visitor-name text-start"><?php print $item['user_ip']; ?></div>
             <div class="timestamp tip" data-tip="<?php print $item['updated_at']; ?>"><?php print mw()->format->ago($item['updated_at']); ?></div>
         </div>
         <div class="clearfix"></div>

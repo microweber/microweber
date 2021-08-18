@@ -18,7 +18,7 @@
 
             <div class="d-flex justify-content-end">
                 <?php if ($product->inStock == true): ?>
-                <a href="javascript:;" onclick="mw.cart.add_item('{{$product->id}}','{{$product->price}}', '{{$product->title}}')" class="btn btn-outline-primary"><i class="material-icons">shopping_cart</i> <?php _lang("Add to cart", 'templates/shopmag') ?></a>
+                <a href="javascript:;" onclick="mw.cart.add_item('{{$product->id}}','{{$product->price}}', '{{$product->title}}')" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> <?php _lang("Add to cart", 'templates/shopmag') ?></a>
                 <?php else: ?>
                 <span class="text-danger p-1"><i class="material-icons" style="font-size: 18px;">remove_shopping_cart</i> <?php _lang("Out of Stock", 'templates/shopmag') ?></span>
                 <?php endif; ?>

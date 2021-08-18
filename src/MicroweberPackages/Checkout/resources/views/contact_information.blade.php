@@ -2,7 +2,7 @@
 
 @section('logo-right-link')
 <div class="ml-auto align-self-center">
-    <a href="{{ site_url() }}shop" class="btn btn-link text-right">{{ _e('Continue shopping') }}</a>
+    <a href="{{ site_url() }}shop" class="btn btn-link text-end">{{ _e('Continue shopping') }}</a>
 </div>
 @endsection
 

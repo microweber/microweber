@@ -362,7 +362,7 @@
 
 
 <div class="installholder">
-    <small class="text-muted d-block text-right mb-2">v. <?php print MW_VERSION ?></small>
+    <small class="text-muted d-block text-end mb-2">v. <?php print MW_VERSION ?></small>
 
     <div class="card">
         <div class="card-header d-block">
@@ -730,7 +730,7 @@
                                         </div>
 
                                         <div class="mt-2 mb-4">
-                                            <div class="text-right">
+                                            <div class="text-end">
                                                 <button type="button" href="javascript:void(0);" class="btn btn-link px-0" onClick="$('.advanced-options-installation').toggle()" tabindex="14">Show advanced options</button>
                                             </div>
 
@@ -751,7 +751,7 @@
                                     <input type="hidden" name="make_install" value="1" id="is_installed_<?php print $rand; ?>">
                                     <input type="hidden" value="UTC" name="default_timezone"/>
 
-                                    <div class="text-right">
+                                    <div class="text-end">
                                         <button type="submit" name="submit" class="btn btn-primary" tabindex="16"><?php _e('Install'); ?></button>
                                     </div>
                                 </form>

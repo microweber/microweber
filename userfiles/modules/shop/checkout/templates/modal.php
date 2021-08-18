@@ -23,9 +23,9 @@ description: Checkout
    <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
        <div class="modal-content">
            <div class="checkout-modal-header">
-               <label class="control-label font-weight-bold"><?php _e("Your cart"); ?></label>
+<!--               <label class="control-label font-weight-bold">--><?php //_e("Your cart"); ?><!--</label>-->
                <?php if(!isset($params['no-close-btn'])) { ?>
-                   <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"><span
+                   <button type="button" class="btn-close float-end" data-dismiss="modal" aria-label="Close"><span
                                aria-hidden="true">&times;</span></button>
 
                <?php } ?>

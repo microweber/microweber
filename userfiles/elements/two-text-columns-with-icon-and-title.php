@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-       <div class="col d-flex justify-content-center text-left">
+       <div class="col d-flex justify-content-center text-start">
            <div class="col">
                <div class="mb-3"><i class="mw-elements-icon-earth mdi mdi-earth"></i></div>
                <h6 class="mb-3 font-weight-bold">Awesome title</h6>

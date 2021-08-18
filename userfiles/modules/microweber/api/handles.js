@@ -621,7 +621,12 @@ mw._initHandles = {
                         }
                     ],
                     action: function (node) {
-                        if(mw.handleModule.isLayout) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = targetFn();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
                             mw.layoutPlus.showSelectorUI(node);
                         } else {
                             mw.drag.plus.rendModules(node);
@@ -698,6 +703,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -784,6 +790,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -841,7 +848,7 @@ mw._initHandles = {
                     if (!mw.dragCurrent.id) {
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
-                    if(mw.liveEditTools.isLayout(mw.dragCurrent)){
+                    if (mw.liveEditTools.isLayout(mw.dragCurrent)){
                         mw.$(mw.dragCurrent).css({
                             opacity:0
                         }).addClass("mw_drag_current");

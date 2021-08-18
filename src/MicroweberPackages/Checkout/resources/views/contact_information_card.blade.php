@@ -17,7 +17,7 @@
             <?php if (!empty($checkout_session['email'])) { echo $checkout_session['email'] . '<br />'; } ?>
         </div>
 
-        <div class="col-4 justify-content-end text-right align-self-top px-0">
+        <div class="col-4 justify-content-end text-end align-self-top px-0">
             <a href="{{ route('checkout.contact_information') }}" class="btn btn-link px-0">{{ _e('Edit') }}</a>
         </div>
 
