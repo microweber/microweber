@@ -12,6 +12,29 @@ class MediaRepository extends AbstractRepository
 {
     public $model = Media::class;
 
+    public function getPictureByRelIdAndRelType($relId, $relType = 'content')
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId, $relType) {
+
+            $getMedia = \DB::table('media')
+                ->select('filename')
+                ->where('rel_type', $relType)
+                ->where('rel_id', $relId)
+                ->first();
+
+            if ($getMedia !== null) {
+
+                $getMedia = (array) $getMedia;
+                $surl = app()->url_manager->site();
+                $getMedia['filename'] = app()->format->replace_once('{SITE_URL}', $surl, $getMedia['filename']);
+
+                return $getMedia;
+            }
+
+            return [];
+        });
+    }
+
     public function getThumbnailCachedItem($tn_cache_id)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($tn_cache_id) {
