@@ -39,7 +39,7 @@
 
                     <div class="  ">
                         <?php if ($setting['type'] == 'delimiter'): ?>
-                            <hr/>
+
                         <?php elseif ($setting['type'] == 'text'): ?>
                             <div class="form-group ">
                                 <label class="control-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>"><span class="red">?</span></span><?php endif; ?></label>

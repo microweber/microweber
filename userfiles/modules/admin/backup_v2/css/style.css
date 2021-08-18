@@ -86,6 +86,7 @@
 #quick-parent-selector-tree {
     max-height: 40vh;
     overflow: auto;
+    padding: 15px;
 }
 
 .export-stepper-1-select {

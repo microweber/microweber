@@ -9,6 +9,7 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Media\Repositories\MediaRepository;
@@ -67,6 +68,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property MediaRepository                  $media_repository
  * @property ShopManager                   $shop_manager
  * @property CartManager              $cart_manager
+ * @property CartRepository         $cart_repository
  * @property OrderManager             $order_manager
  * @property OfferRepository             $offer_repository
  * @property TaxManager               $tax_manager
