@@ -72,7 +72,13 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
             $categoryIds = [];
-            $getCategoryItems = DB::table('categories_items')->select('parent_id')->where('rel_type', 'content')->where('rel_id', $id)->groupBy('parent_id')->get();
+            $getCategoryItems = DB::table('categories_items')
+                ->select('parent_id')
+                ->where('rel_type', 'content')
+                ->where('rel_id', $id)
+                ->groupBy('parent_id')
+                ->get();
+
             foreach ($getCategoryItems as $categoryItem) {
                 $categoryIds[] = $categoryItem->parent_id;
             }
