@@ -95,16 +95,26 @@ trait CacheableRepository
      */
     public function getCacheKey($method, $args = null, $tag =[])
     {
+        $hashArgs = [];
         // Sort through arguments
-        foreach ($args as &$a) {
-            if ($a instanceof Model) {
-                $a = $a->getTable() . '|' . $a->getKey();
-                //$a = get_class($a) . '|' . $a->getKey();
+        foreach ($args as $k=>$a) {
+            if (is_object($a) && $a instanceof \Closure) {
+                $serialized = hashClosure($a);
+                $hashArgs[$k] = $serialized;
+            } else {
+                $hashArgs[$k] = $a;
             }
+//            if ($a instanceof Model) {
+//                $a = $a->getTable() . '|' . $a->getKey();
+//                //$a = get_class($a) . '|' . $a->getKey();
+//            }
         }
 
+
+
         // Create hash from arguments and query
-        $args = serializeClosure($args) . serializeClosure($this->getScopeQuery());
+       // $args = serializeClosure($args) . serializeClosure($this->getScopeQuery());
+        $args = json_encode($hashArgs);
 
         return sprintf(
             '%s-%s--%s-%s',
@@ -142,6 +152,7 @@ trait CacheableRepository
             // return from local memory to prevent cache hits
             return self::$_cacheCallbackMemory[$_cacheCallback_memory_key];
         }
+      
 
         return self::$_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
             $cacheKey,
@@ -198,4 +209,6 @@ trait CacheableRepository
 
         return $time ?: $this->cacheSeconds;
     }
+
+
 }
