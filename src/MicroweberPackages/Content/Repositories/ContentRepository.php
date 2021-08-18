@@ -149,8 +149,13 @@ class ContentRepository extends AbstractRepository
                     $customFieldValues[] = $customFieldValue->value;
                 }
 
-                $customField['value'] = $customFieldValues[0];
-                $customField['values'] = $customFieldValues;
+                if (isset($customFieldValues[0])) {
+                    $customField['value'] = $customFieldValues[0];
+                    $customField['values'] = $customFieldValues;
+                } else {
+                    $customField['value'] = false;
+                    $customField['values'] = [];
+                }
 
                 $customFields[] = $customField;
             }
