@@ -37,39 +37,46 @@ class CartManager extends Crud
      */
     public function sum($return_amount = true)
     {
-        $sid = $this->app->user_manager->session_id();
-        $different_items = 0;
-        $amount = floatval(0.00);
-        $get_params = array();
-        $get_params['order_completed'] = 0;
-        $get_params['session_id'] = $sid;
-        //$get_params['no_cache'] = true;
-        $sumq = $this->app->database_manager->get($this->table, $get_params);
-
-        if (is_array($sumq)) {
-            foreach ($sumq as $value) {
-                $different_items = $different_items + $value['qty'];
-                $amount = $amount + (intval($value['qty']) * floatval($value['price']));
-            }
+        if($return_amount ){
+            return $this->app->cart_repository->getCartAmount();
+        } else {
+            return $this->app->cart_repository->getCartItemsCount();
         }
 
-        $modify_amount = $this->app->event_manager->trigger('mw.cart.sum', $amount);
-        if ($modify_amount !== null and $modify_amount !== false) {
-            if (is_array($modify_amount)) {
-                $pop = array_pop($modify_amount);
-                if ($pop != false) {
-                    $amount = $pop;
-                }
-            } else {
-                $amount = $modify_amount;
-            }
-        }
 
-        if ($return_amount == false) {
-            return $different_items;
-        }
-
-        return $amount;
+//        $sid = $this->app->user_manager->session_id();
+//        $different_items = 0;
+//        $amount = floatval(0.00);
+//        $get_params = array();
+//        $get_params['order_completed'] = 0;
+//        $get_params['session_id'] = $sid;
+//        //$get_params['no_cache'] = true;
+//        $sumq = $this->app->database_manager->get($this->table, $get_params);
+//
+//        if (is_array($sumq)) {
+//            foreach ($sumq as $value) {
+//                $different_items = $different_items + $value['qty'];
+//                $amount = $amount + (intval($value['qty']) * floatval($value['price']));
+//            }
+//        }
+//
+//        $modify_amount = $this->app->event_manager->trigger('mw.cart.sum', $amount);
+//        if ($modify_amount !== null and $modify_amount !== false) {
+//            if (is_array($modify_amount)) {
+//                $pop = array_pop($modify_amount);
+//                if ($pop != false) {
+//                    $amount = $pop;
+//                }
+//            } else {
+//                $amount = $modify_amount;
+//            }
+//        }
+//
+//        if ($return_amount == false) {
+//            return $different_items;
+//        }
+//
+//        return $amount;
     }
 
     public function totals($return = 'all')
@@ -341,7 +348,6 @@ class CartManager extends Crud
             unset($params['order_completed']);
         }
         // $params['no_cache'] = 1;
-
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
