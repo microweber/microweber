@@ -16,7 +16,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Cart\Repositories\CartRepository;
 
-class CartManagerServiceProvider extends ServiceProvider implements DeferrableProvider
+class CartManagerServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -25,12 +25,6 @@ class CartManagerServiceProvider extends ServiceProvider implements DeferrablePr
      */
     public function boot()
     {
-
-
-
-
-
-
 
         /**
          * @property \MicroweberPackages\Cart\CartManager    $cart_manager
