@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Module\Repositories;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Module\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -27,13 +28,12 @@ class ModuleRepository extends AbstractRepository
 
         $modules = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $item = $this->all();
-            if ($item) {
+            $getModules = DB::table('modules')->get();
+            $allModules = collect($getModules)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
 
-                return $item->toArray();
-
-            }
-            return [];
+            return $allModules;
 
         });
 
