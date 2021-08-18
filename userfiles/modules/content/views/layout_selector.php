@@ -150,6 +150,7 @@ if (isset($params['content-type'])) {
 if (!empty($recomended_layouts)) {
     $layouts = array_merge($recomended_layouts, $layouts);
 }
+
 ?>
 
 <script>
@@ -598,7 +599,7 @@ if (!empty($recomended_layouts)) {
                                                                     onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
                                                                     data-index="<?php print $i ?>"
                                                                     data-layout_file="<?php print $item['layout_file'] ?>"
-                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file']))): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
+                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) and $data['id'] != 0): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
                                                                 <?php if (isset($item['is_default']) and $item['is_default'] != false): ?>
                                                                     data-is-default="<?php print $item['is_default'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>
                                                                 <?php if (isset($item['is_recomended']) and $item['is_recomended'] != false): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>
