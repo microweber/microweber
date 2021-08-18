@@ -129,56 +129,33 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($id)
     {
-        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
-        if (!in_array($id,$existingIds)) {
-            return [];
-        }
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
+            $customFields = [];
+            $getCustomFields = DB::table('custom_fields')
+                ->where('rel_type','content')
+                ->where('rel_id', $id)
+                ->get();
+            foreach ($getCustomFields as $customField) {
+                $customField = (array) $customField;
 
-            $item = $this->findById($id);
-            if ($item) {
+                $getCustomFieldValues = DB::table('custom_fields_values')
+                    ->select(['value','position'])
+                    ->where('custom_field_id',$customField['id'])
+                    ->get();
 
-                $get = $item->customField;
-                $ready = [];
-
-                if ($get) {
-                    foreach ($get as $item) {
-                        $cf_item1 = $item->fieldValue;
-
-                        $cf_item = $item->toArray();
-                        $cf_item['value'] = false;
-                        $cf_item['values'] = [];
-                        if (isset($cf_item['field_value'])) {
-                            $vals = [];
-                            if (!empty($cf_item['field_value'])) {
-                                foreach ($cf_item['field_value'] as $itemv) {
-                                    if ($itemv['value']) {
-                                        $vals [] = $itemv['value'];
-                                    }
-
-                                }
-                            }
-                            if ($vals) {
-                                $cf_item['values'] = $vals;
-                                $cf_item['value'] = array_pop($vals);
-                            }
-
-                            unset($cf_item['field_value']);
-
-                        }
-
-                        $ready[] = $cf_item;
-
-                    }
-
+                $customFieldValues = [];
+                foreach ($getCustomFieldValues as $customFieldValue) {
+                    $customFieldValues[] = $customFieldValue->value;
                 }
 
-                return $ready;
-            }
-            return [];
+                $customField['value'] = $customFieldValues[0];
+                $customField['values'] = $customFieldValues;
 
+                $customFields[] = $customField;
+            }
+
+            return $customFields;
 
         });
     }
