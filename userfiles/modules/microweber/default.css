@@ -410,3 +410,15 @@ ul.mw-default-layout-background-text {
     height: 35px;
     padding: 0px 1rem;
 }
+
+
+@media only screen and (max-width: 430px) {
+
+    .mw-checkout-modal-buttons {
+        width: 100%!important;
+        margin: 5px 0!important;
+        display: flex;
+        justify-content: center;
+    }
+}
+

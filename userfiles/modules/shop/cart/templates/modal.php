@@ -95,9 +95,9 @@ $total = cart_total();
             </div>
 
             <div class="w-100 mt-md-3 justify-content-center text-start">
-                <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
+                <a href="#" class="mw-checkout-modal-buttons btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
-                <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-end ms-2"><?php _e('Proceed to Checkout'); ?></a>
+                <a href="<?php echo route('checkout.contact_information'); ?>" class="mw-checkout-modal-buttons btn btn-primary float-end ms-2"><?php _e('Proceed to Checkout'); ?></a>
             </div>
         </div>
     <?php endif; ?>
