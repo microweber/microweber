@@ -318,7 +318,7 @@ class CategoryManager
             return false;
         }
 
-        return app()->content_repository->getCategoriesForContentId($content_id);
+        return app()->content_repository->getCategoriesByContentId($content_id);
     }
 
     /**

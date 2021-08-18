@@ -38,8 +38,6 @@ class ContentRepository extends AbstractRepository
      */
     public function getMedia($id)
     {
-
-
         $existingIds = $this->getIdsThatHaveRelation('media', 'content');
         if (!in_array($id,$existingIds)) {
             return [];
@@ -67,7 +65,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getCategoriesForContentId($id)
+    public function getCategoriesByContentId($id)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -99,28 +97,26 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getContentData($id)
+    public function getContentDataByContentId($id)
     {
 
-        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
+/*        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
         if (!in_array($id,$existingIds)) {
             return [];
-        }
-
+        }*/
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
+            $getContentData = DB::table('content_data')
+                ->where('rel_type', 'content')
+                ->where('rel_id', $id)
+                ->get();
 
-            $item = $this->findById($id);
-            if ($item) {
-                $get = $item->contentData;
-                if ($get) {
-                    return $get->toArray();
-                }
-            }
-            return [];
+            $contentData = collect($getContentData)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
 
-
+            return $contentData;
         });
     }
 
