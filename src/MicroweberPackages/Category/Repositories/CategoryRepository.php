@@ -31,18 +31,20 @@ class CategoryRepository extends AbstractRepository
 
     }
 
-    public function getByColumnNameAndColumnValue($columnName, $columnValue) {
+    public function getByColumnNameAndColumnValue($columnName, $columnValue)
+    {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
             $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
-            $getCategory = (array) $getCategory;
+            $getCategory = (array)$getCategory;
 
             return $getCategory;
         });
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -91,6 +93,26 @@ class CategoryRepository extends AbstractRepository
             }
             return [];
 
+        });
+    }
+
+    /**
+     * Check if category has products in stock.
+     *
+     * @param mixed $categoryId
+     *
+     * @return boolean
+     */
+    public function hasProductsInStock($categoryId)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
+
+            $categoryModelHasAviableProducts = Category::where('id', $categoryId)->select('id')->limit(1)->filter(['hasProductsInStock' => true])->first();
+            if ($categoryModelHasAviableProducts) {
+                return true;
+            }
+
+            return false;
         });
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Category\tests;
 
 use MicroweberPackages\Content\Content;
@@ -6,6 +7,7 @@ use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 
 
 class CategoryManagerTest extends TestCase
@@ -19,22 +21,22 @@ class CategoryManagerTest extends TestCase
         $category->save();
 
 
-        $cont_title =  'Content with cats to test filter';
+        $cont_title = 'Content with cats to test filter';
         $newPage = new Content();
-        $newPage->title =$cont_title;
+        $newPage->title = $cont_title;
         $newPage->category_ids = $category->id;
         $newPage->save();
 
         $contentForCategories = get_content(array(
-            "categories"=>[$category->id],
-            "fields"=>'title,id'
+            "categories" => [$category->id],
+            "fields" => 'title,id'
         ));
 
         //dd($contentForCategories);
 
         $this->assertEquals($cont_title, $contentForCategories[0]['title']);
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
-        $this->assertEquals(2,count( $contentForCategories[0]));
+        $this->assertEquals(2, count($contentForCategories[0]));
 
         //delete from cat
         $newPage->category_ids = 0;
@@ -42,8 +44,8 @@ class CategoryManagerTest extends TestCase
 
         //check if deleted
         $contentForCategories = get_content(array(
-            "categories"=>[$category->id],
-            "fields"=>'title,id'
+            "categories" => [$category->id],
+            "fields" => 'title,id'
         ));
 
         $this->assertEquals(null, $contentForCategories);
@@ -80,5 +82,58 @@ class CategoryManagerTest extends TestCase
 
     }*/
 
+
+    public function testCategoryInStockFilter()
+    {
+
+        // check when in stock
+
+        $category = new Category();
+        $category->title = 'New cat for my Product to test filter';
+        $category->save();
+
+
+        $cont_title = 'Product with cats to test filter';
+        $newPage = new Product();
+        $newPage->title = $cont_title;
+        $newPage->is_active = 1;
+        $newPage->is_deleted = 0;
+        $newPage->content_type = 'product';
+        $newPage->content_data = ['qty'=>'1'];
+        $newPage->category_ids = $category->id;
+        $newPage->save();
+        $content_data = content_data($newPage->id);
+        $check  = app()->category_repository->hasProductsInStock($category->id);
+
+        $this->assertTrue($check);
+        $this->assertEquals($content_data['qty'],1);
+
+
+
+        // check when out of stock
+
+
+        $category = new Category();
+        $category->title = 'New cat for my Product to test filter';
+        $category->save();
+
+
+        $cont_title = 'Product with cats to test filter';
+        $newPage = new Product();
+        $newPage->title = $cont_title;
+        $newPage->is_active = 1;
+        $newPage->is_deleted = 0;
+        $newPage->content_type = 'product';
+        $newPage->content_data = ['qty'=>'0'];
+        $newPage->category_ids = $category->id;
+        $newPage->save();
+        $content_data = content_data($newPage->id);
+        $check  = app()->category_repository->hasProductsInStock($category->id);
+
+        $this->assertFalse($check);
+        $this->assertEquals($content_data['qty'],0);
+
+
+    }
 
 }
