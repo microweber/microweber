@@ -255,12 +255,14 @@ mw.image = {
             mw.image._dragcurrent.style.left = x + 'px';
         }
     },
-    preloadForAll: function (array, eachcall, callback) {
+    preloadForAll: function (array, eachCall, callback) {
         var size = array.length, i = 0, count = 0;
         for (; i < size; i++) {
             mw.image.preload(array[i], function (imgWidth, imgHeight) {
                 count++;
-                eachcall.call(this, imgWidth, imgHeight)
+                if(eachCall) {
+                    eachCall.call(this, imgWidth, imgHeight)
+                }
                 if (count === size) {
                     if (!!callback) callback.call()
                 }

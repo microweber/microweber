@@ -1603,6 +1603,10 @@ body.has-opened-sidebar #live_edit_toolbar {
     height: 44px;
     padding-top: 10px;
 }
+.mw-dialog #default-layouts-holder .mw_module_image{
+    height: auto;
+}
+
 
 .mw_module_image img {
     position: relative;
@@ -3133,6 +3137,8 @@ div[id*='SSDIVEL'] {
     margin: 0 0 0 15px;
     padding: 12px 20px 15px 12px;
     letter-spacing: 1px;
+    font-weight: bold!important;
+    font-family: Milliard;
 }
 
 
@@ -4326,12 +4332,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     position: relative;
 }
 
-/*.mw-handle-no-drag .mw-handle-handler-icon,
+.mw-handle-no-drag .mw-handle-handler-icon,
 .mw-handle-no-drag .ui-draggable-handle,
 .mw-handle-no-drag .mw-handle-insert-button,
 .mw-handle-no-drag .mw-handle-remove {
     display: none !important;
-}*/
+}
 
 .mw-handle-no-drag .mw-handle-remove {
     display: none;
@@ -4847,7 +4853,7 @@ div.element {
 }
 .mw-dialog #mw-dialog-holder-mw-plus-tooltip-selector .modules-list li{
     cursor: pointer;
-    width: 49%;
+    width: 100%;
     height: auto;
 
     display: inline-block;
@@ -5028,3 +5034,5 @@ body.dragStart picture img{
     font-weight: bold;
     margin-bottom: 7px;
 }
+
+

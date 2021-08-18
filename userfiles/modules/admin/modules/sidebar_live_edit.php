@@ -62,7 +62,7 @@
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
                 </div>
-                <div class="mw-ui-box-content pt-0">
+                <div class="mw-ui-box-content px-0 pt-0">
                     <?php if (is_post() or is_product()) { ?>
                         <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list" hide-dynamic="true"></div>
                     <?php } else { ?>
@@ -121,10 +121,11 @@
             }
 
             function mwSidebarSearchItems(value, what) {
+                var obj;
                 if (what == 'modules') {
-                    var obj = mw.$("#mw-sidebar-modules-list .modules-list > li");
+                    obj = mw.$("#mw-sidebar-modules-list .modules-list li[data-module-name]");
                 } else {
-                    var obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
+                    obj = mw.$("#mw-sidebar-layouts-list .modules-list li[data-module-name]");
                 }
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
@@ -134,7 +135,7 @@
 
                 $('.mw-sidebar-search-clear-x-btn', '.' + what).show();
 
-                var value = value.toLowerCase();
+                value = value.toLowerCase();
 
                 var numberOfResults = 0;
 
@@ -154,7 +155,7 @@
                         || (!!template && template.toLowerCase().contains(value))
 
                     ) {
-                        var show = true;
+                         show = true;
                     }
 
                     if (!show) {

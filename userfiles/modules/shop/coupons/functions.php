@@ -283,7 +283,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
                 <a href="#option_group=shop/coupons/admin" class="d-flex my-3">
                     <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
                     <div class="info-holder">
-                        <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
+                        <span class="text-outline-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
                         <small class="text-muted">' . _e('Creating and managing coupon codes', true) . '</small>
                     </div>
                 </a>

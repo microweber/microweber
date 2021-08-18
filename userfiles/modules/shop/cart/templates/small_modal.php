@@ -70,7 +70,7 @@
             </div>
         <?php else: ?>
             <div class="col-12">
-                <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
+                <p class="mb-0"><?php _e("Your cart is empty."); ?></p>
             </div>
         <?php endif; ?>
     </div>

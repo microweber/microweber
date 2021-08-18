@@ -37,7 +37,7 @@
                 <hr>
             <?php endforeach; ?>
         <?php else: ?>
-                <h5 class="m-5 text-center"><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
+                <h5 class="m-5 text-center"><?php _e("Your cart is empty."); ?></h5>
         <?php endif; ?>
 
         <?php if (is_array($data) and $data) : ?>
