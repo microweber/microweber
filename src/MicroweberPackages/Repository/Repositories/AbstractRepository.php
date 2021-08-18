@@ -1213,8 +1213,12 @@ abstract class AbstractRepository
                     }, $result);
                     $result = array_values($result);
                     $result = array_flatten($result);
-                    $result = array_flip($result);
-                    $result = array_keys($result);
+                    $result = array_filter($result);
+                    if(!empty($result)){
+                        $result = array_flip($result);
+                        $result = array_keys($result);
+
+                    }
                 }
 
             }
