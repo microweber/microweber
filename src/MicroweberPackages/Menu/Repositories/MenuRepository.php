@@ -59,7 +59,6 @@ class MenuRepository extends AbstractRepository {
 
     public function getMenusByParentId($parentId)
     {
-
         $allMenus = $this->getAllMenus();
 
         $menus = [];
@@ -69,11 +68,20 @@ class MenuRepository extends AbstractRepository {
             }
         }
 
-        return $menus;
+        if (is_array($menus) && !empty($menus)) {
 
-      /*  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($parentId) {
-            return $this->getModel()->where('parent_id', $parentId)->orderBy('position', 'ASC')->get()->toArray();
-        });*/
+            $hookParams = [];
+            $hookParams['data'] = $menus;
+            $hookParams['hook_overwrite_type'] = 'multiple';
+
+            $overwrite = app()->event_manager->response(get_class($this) .'\\'. __FUNCTION__, $hookParams);
+
+            if (isset($overwrite['data'])) {
+                $menus = $overwrite['data'];
+            }
+        }
+
+        return $menus;
     }
 
     public function getMenus($params)

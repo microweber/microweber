@@ -939,6 +939,7 @@ abstract class AbstractRepository
     public function getByParams($params = [])
     {
         $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+
             $searchable = [];
             $model = $this->getModel();
             $table = $model->getTable();
@@ -978,12 +979,13 @@ abstract class AbstractRepository
             $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
 
 
+            $single = false;
             if (isset($params['count']) and $params['count']) {
                 $exec = $this->query->count();
             } else if (isset($params['single']) || isset($params['one'])) {
                 $exec = $this->query->first();
+                $single = true;
             } else {
-
                 $exec = $this->query->get();
             }
 
@@ -993,6 +995,20 @@ abstract class AbstractRepository
                     $result = $exec;
                 } else {
                     $result = $exec->toArray();
+                }
+            }
+
+            $hookParams = [];
+            $hookParams['data'] = $result;
+            if ($single) {
+                $hookParams['hook_overwrite_type'] = 'single';
+            } else {
+                $hookParams['hook_overwrite_type'] = 'multiple';
+            }
+            if (is_array($result)) {
+                $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
+                if (isset($overwrite['data'])) {
+                    $result = $overwrite['data'];
                 }
             }
 
@@ -1007,7 +1023,6 @@ abstract class AbstractRepository
         }
 
         return null;
-
 
     }
 
@@ -1275,4 +1290,5 @@ abstract class AbstractRepository
              return MicroweberQuery::execute($this->query, $params);
           });
       }*/
+
 }

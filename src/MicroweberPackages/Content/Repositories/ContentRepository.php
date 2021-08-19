@@ -282,11 +282,6 @@ class ContentRepository extends AbstractRepository
 
     }
 
-
-
-
-
-
 //
 //    /**
 //     * Get content parents.
