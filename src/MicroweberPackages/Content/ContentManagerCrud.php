@@ -255,39 +255,39 @@ class ContentManagerCrud extends Crud
 
 
 
-        if (!isset($params['fields']) and !isset($params['count']) and !isset($params['count_paging'])) {
-            $get = false;
-            $params['fields'] = 'id';
-            $getIds = app()->content_repository->getByParams($params);
-            if ($getIds) {
-                if(isset($params['single']) or isset($params['one'])){
-                    $getIds = array_values($getIds);
-                    $getOne = app()->content_repository->getById(array_pop($getIds));
-
-
-                    if($getOne){
-                        if(!isset($getOne[0]) and !empty($getOne)){
-                            $get = $getOne;
-                        } elseif(isset($getOne[0])) {
-                        $get = $getOne[0] ;
-                        }
-                        unset($getOne);
-                    }
-                 } else {
-                    if(is_numeric($getIds)){
-                    $get = app()->content_repository->getById($getIds);
-                    } else {
-                    $get = app()->content_repository->getById(array_values(array_flatten($getIds)));
-                    }
-
-                }
-
-            }
-        } else {
-            $get = app()->content_repository->getByParams($params);
-
-        }
-     //   $get = app()->content_repository->getByParams($params);
+//        if (!isset($params['fields']) and !isset($params['count']) and !isset($params['count_paging'])) {
+//            $get = false;
+//            $params['fields'] = 'id';
+//            $getIds = app()->content_repository->getByParams($params);
+//            if ($getIds) {
+//                if(isset($params['single']) or isset($params['one'])){
+//                    $getIds = array_values($getIds);
+//                    $getOne = app()->content_repository->getById(array_pop($getIds));
+//
+//
+//                    if($getOne){
+//                        if(!isset($getOne[0]) and !empty($getOne)){
+//                            $get = $getOne;
+//                        } elseif(isset($getOne[0])) {
+//                        $get = $getOne[0] ;
+//                        }
+//                        unset($getOne);
+//                    }
+//                 } else {
+//                    if(is_numeric($getIds)){
+//                    $get = app()->content_repository->getById($getIds);
+//                    } else {
+//                    $get = app()->content_repository->getById(array_values(array_flatten($getIds)));
+//                    }
+//
+//                }
+//
+//            }
+//        } else {
+//            $get = app()->content_repository->getByParams($params);
+//
+//        }
+       $get = app()->content_repository->getByParams($params);
 
 
 
