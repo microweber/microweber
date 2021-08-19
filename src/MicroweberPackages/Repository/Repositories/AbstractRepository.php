@@ -981,8 +981,10 @@ abstract class AbstractRepository
 
         $single = false;
         $multiple = false;
+        $count = false;
         if (isset($params['count']) and $params['count']) {
             $exec = $this->query->count();
+            $count = true;
         } else if (isset($params['single']) || isset($params['one'])) {
             $exec = $this->query->first();
             $single = true;
@@ -1016,9 +1018,17 @@ abstract class AbstractRepository
             }
         }
 
+        if ($count) {
+            if (!is_numeric($result)) {
+                return 0;
+            }
+            return $result;
+        }
+
         if (!empty($result)) {
             return $result;
         }
+
         return [];
         // });
 
