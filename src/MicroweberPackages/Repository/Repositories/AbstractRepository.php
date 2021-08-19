@@ -938,7 +938,7 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        //$result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
             $searchable = [];
             $model = $this->getModel();
@@ -980,6 +980,7 @@ abstract class AbstractRepository
 
 
             $single = false;
+            $multiple = false;
             if (isset($params['count']) and $params['count']) {
                 $exec = $this->query->count();
             } else if (isset($params['single']) || isset($params['one'])) {
@@ -987,6 +988,7 @@ abstract class AbstractRepository
                 $single = true;
             } else {
                 $exec = $this->query->get();
+                $multiple = true;
             }
 
             $result = [];
@@ -998,17 +1000,19 @@ abstract class AbstractRepository
                 }
             }
 
-            $hookParams = [];
-            $hookParams['data'] = $result;
-            if ($single) {
-                $hookParams['hook_overwrite_type'] = 'single';
-            } else {
-                $hookParams['hook_overwrite_type'] = 'multiple';
-            }
-            if (is_array($result)) {
-                $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
-                if (isset($overwrite['data'])) {
-                    $result = $overwrite['data'];
+             if ($single || $multiple) {
+                $hookParams = [];
+                $hookParams['data'] = $result;
+                if ($single) {
+                    $hookParams['hook_overwrite_type'] = 'single';
+                } else {
+                    $hookParams['hook_overwrite_type'] = 'multiple';
+                }
+                if (is_array($result)) {
+                    $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
+                    if (isset($overwrite['data'])) {
+                       // $result = $overwrite['data'];
+                    }
                 }
             }
 
@@ -1016,7 +1020,7 @@ abstract class AbstractRepository
                 return $result;
             }
             return [];
-        });
+       // });
 
         if (!empty($result)) {
             return $result;

@@ -68,7 +68,7 @@ class MenuRepository extends AbstractRepository {
             }
         }
 
-        if (is_array($menus) && !empty($menus)) {
+       if (is_array($menus) && !empty($menus)) {
 
             $hookParams = [];
             $hookParams['data'] = $menus;
