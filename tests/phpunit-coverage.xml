@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="../bootstrap/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+
+         stopOnFailure="true"
+         verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage/>
+    <logging>
+        <testdoxText outputFile="php://stdout"/>
+        <log type="coverage-clover" target="coverage.xml"/>
+        <log type="coverage-html" target="coverage.html" lowUpperBound="35" highLowerBound="70"/>
+        <log type="testdox-html" target="coverage-testdox.html"/>
+        <log type="testdox-text" target="coverage-testdox.txt"/>
+    </logging>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
+    <testsuites>
+        <testsuite name="Microweber Test Suite">
+            <directory>../src/MicroweberPackages/*/tests/</directory>
+        </testsuite>
+
+    </testsuites>
+    <php>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <ini name="memory_limit" value="-1"/>
+        <env name="MAIL_DRIVER" value="array"/>
+    </php>
+</phpunit>
