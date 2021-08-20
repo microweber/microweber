@@ -26,6 +26,7 @@
         </include>
         <exclude>
             <directory suffix="Facade.php">./src</directory>
+            <directory suffix=".php">./src/MicroweberPackages/Utils/ThirdPartyLibs</directory>
         </exclude>
     </coverage>
 
