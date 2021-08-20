@@ -52,7 +52,7 @@ class NewRegistration extends Notification implements ShouldQueue
 
         $mail = new MailMessage();
 
-        $templateId = get_option('new_user_registration_mail_template', 'users');
+        $templateId = Option::getValue('new_user_registration_mail_template', 'users');
         $template = get_mail_template_by_id($templateId, 'new_user_registration');
 
         if ($template) {

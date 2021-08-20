@@ -58,7 +58,7 @@ class NewOrderNotification extends Notification
 
         $mail = new MailMessage();
 
-        $templateId = get_option('new_order_mail_template', 'orders');
+        $templateId = Option::getValue('new_order_mail_template', 'orders');
         $template = get_mail_template_by_id($templateId, 'new_order');
         if ($template) {
 

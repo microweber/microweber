@@ -607,10 +607,10 @@ class FormsManager
 
                 if (!empty($userEmails)) {
 
-                    if (get_option('email_custom_receivers', $for_id)) {
-                        $sendFormDataToReceivers = get_option('email_to', $for_id);
+                    if (Option::getValue('email_custom_receivers', $for_id)) {
+                        $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
                     } else {
-                        $sendFormDataToReceivers = get_option('email_to', 'contact_form_default');
+                        $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
                     }
 
                     if (empty(!$sendFormDataToReceivers)) {
@@ -622,7 +622,7 @@ class FormsManager
                         }
                     }
 
-                    if (get_option('email_autorespond_enable', $for_id) && is_array($userEmails)) {
+                    if (Option::getValue('email_autorespond_enable', $for_id) && is_array($userEmails)) {
                         foreach ($userEmails as $userEmail) {
 
                             $findFormRecipient = FormRecipient::where('email', $userEmail)->first();
@@ -693,31 +693,31 @@ class FormsManager
         /**
          * Auto Respond custom sender
          */
-        if (get_option('email_autorespond_custom_sender', $formId)) {
-            $emailFrom = get_option('email_autorespond_from', $formId);
-            $emailFromName = get_option('email_autorespond_from_name', $formId);
+        if (Option::getValue('email_autorespond_custom_sender', $formId)) {
+            $emailFrom = Option::getValue('email_autorespond_from', $formId);
+            $emailFromName = Option::getValue('email_autorespond_from_name', $formId);
         } else {
             /**
              * Sending options if we dont have a custom auto respond sender
              */
-            if (get_option('email_custom_sender', $contactFormGlobalOptionGroup)) {
+            if (Option::getValue('email_custom_sender', $contactFormGlobalOptionGroup)) {
                 // We will get the global contact form options
-                $emailFrom = get_option('email_from', $contactFormGlobalOptionGroup);
-                $emailFromName = get_option('email_from_name', $contactFormGlobalOptionGroup);
+                $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
             } else {
                 // We will get the system email options
-                $emailFrom = get_option('email_from', $systemEmailOptionGroup);
-                $emailFromName = get_option('email_from_name', $systemEmailOptionGroup);
+                $emailFrom = Option::getValue('email_from', $systemEmailOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $systemEmailOptionGroup);
             }
         }
 
         /**
          * Auto Respond to user
          */
-        $emailContent = get_option('email_autorespond', $formId);
-        $emailSubject = get_option('email_autorespond_subject', $formId);
-        $emailReplyTo = get_option('email_autorespond_reply_to', $formId);
-        $emailAppendFiles = get_option('email_autorespond_append_files', $formId);
+        $emailContent = Option::getValue('email_autorespond', $formId);
+        $emailSubject = Option::getValue('email_autorespond_subject', $formId);
+        $emailReplyTo = Option::getValue('email_autorespond_reply_to', $formId);
+        $emailAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
 
         return [
             'emailContent'=>$emailContent,

@@ -23,7 +23,7 @@ if (isset($params['for_module_id'])) {
             </div>
         <?php endif; ?>
 
-        <div class="col text-end">
+        <div class="col text-right">
             <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
     </div>
@@ -43,7 +43,7 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php  $emailCustomSender = \MicroweberPackages\Option\Facades\get_option('email_custom_sender', $mod_id); ?>
+            <?php  $emailCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_sender', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="email_custom_sender">No</label>
                 <input type="checkbox" onchange="toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="email_custom_sender" option-group="<?php print $mod_id ?>" id="email_custom_sender" value="y" <?php if ($emailCustomSender): ?>checked<?php endif; ?>>

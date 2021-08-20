@@ -35,13 +35,17 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
             return new OptionManager();
         });
 
-     /*   $this->app->bind('option',function(){
+        $this->app->bind('option',function(){
             return new OptionModel();
-        });*/
-/*
+        });
+
         $this->app->singleton('global_options', function ($app) {
             return new GlobalOptions(OptionModel::all());
-        });*/
+        });
+
+
+
+
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Option::class, function () {
@@ -50,12 +54,15 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         });
 
 
+
         /**
          * @property OptionRepository   $option_repository
          */
         $this->app->bind('option_repository', function () {
             return $this->app->repository_manager->driver(Option::class);;
         });
+
+
 
 
     }

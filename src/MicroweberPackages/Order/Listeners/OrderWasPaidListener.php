@@ -14,7 +14,7 @@ class OrderWasPaidListener
     {
         $order = $event->getModel();
 
-        $sendWhen = get_option('order_email_send_when', 'orders');
+        $sendWhen = Option::getValue('order_email_send_when', 'orders');
 
         if ($sendWhen == 'order_paid') {
             $this->sendNewOrderNotification($order);

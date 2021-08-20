@@ -79,7 +79,7 @@ class UserLoginController extends Controller
                     return redirect(site_url());
                 }
             }
-
+			
             $message = [];
             if (Auth::user()->is_admin == 1) {
                 //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
@@ -117,7 +117,7 @@ class UserLoginController extends Controller
             $userData = auth()->user();
 
             if (Auth::user()->is_admin == 0) {
-                $isVerfiedEmailRequired = get_option('register_email_verify', 'users');
+                $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
 
                 if ($isVerfiedEmailRequired) {
 
@@ -129,7 +129,7 @@ class UserLoginController extends Controller
                     }
                 }
 
-                $isApprovalRequired = get_option('registration_approval_required', 'users');
+                $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
                  if ($isApprovalRequired) {
 
                     if (!$userData->is_active) {
