@@ -22,6 +22,15 @@
             <directory suffix=".php">../src</directory>
         </whitelist>
     </filter>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">../src</directory>
+        </include>
+    </coverage>
+
+
+
     <testsuites>
         <testsuite name="Microweber Test Suite">
             <directory>../src/MicroweberPackages/*/tests/</directory>
