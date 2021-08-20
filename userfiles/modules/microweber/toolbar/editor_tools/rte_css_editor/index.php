@@ -5,6 +5,18 @@
     #css-editor-root .mw-accordion-title{
         font-weight: bold;
     }
+
+    #columns-edit .mw-field{
+        padding-bottom: 15px;
+    }
+    #columns-edit .mdi{
+        font-size: 19px;
+        position: relative;
+        top: 4px;
+        margin-inline-end: 15px;
+        margin-inline-start: 15px;
+    }
+
 </style>
 
 <script type="text/javascript">
@@ -320,7 +332,84 @@ var populate = function(css){
     })
 };
 
+var scColumns = function (property, value){
+    var tg = ActiveNode;
+    while (tg && tg.classList) {
+        if(!tg.classList.contains('col') && !tg.className.contains('col-')) {
+            tg = tg.parentNode;
+        } else {
+            break
+        }
+    }
+
+    if(property === 'col-desktop') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-' + i)
+            tg.classList.remove('col-lg-' + i)
+        }
+        // tg.classList.add('col-' + value)
+        tg.classList.add('col-lg-' + value)
+    } else if(property === 'col-tablet') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-md-' + i)
+        }
+        tg.classList.add('col-md-' + value)
+    } else if(property === 'col-mobile') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-xs-' + i)
+            tg.classList.remove('col-sm-' + i)
+        }
+        tg.classList.add('col-sm-' + value)
+    }
+}
+
+var specialCases = function (property, value){
+    if(property.includes('col-')){
+        scColumns(property, value)
+        return true;
+    }
+}
+
+var populateSpecials = function (css) {
+    var holder = document.getElementById('columns-edit');
+    var colDesktop = document.querySelector('[data-prop="col-desktop"]')
+    var coltablet = document.querySelector('[data-prop="col-tablet"]')
+    var colmobile = document.querySelector('[data-prop="col-mobile"]')
+    colDesktop.value = ''
+    coltablet.value = ''
+    colmobile.value = ''
+     holder.style.display = 'none';
+
+    if(ActiveNode) {
+        var col = null;
+        var tg = ActiveNode;
+        while (tg && tg.classList) {
+            if(!tg.classList.contains('col') && !tg.className.contains('col-')) {
+                tg = tg.parentNode;
+            } else {
+                if(mw.tools.isEditable(tg)){
+                    col = tg;
+                    break
+                } else {
+                    tg = tg.parentNode;
+                }
+
+            }
+        }
+        if(col) {
+            holder.style.display = '';
+            var lg = col.className.split('col-lg-')[1] || '';
+            var md = col.className.split('col-md-')[1] || '';
+            var sm = col.className.split('col-sm-')[1] || '';
+            colDesktop.value = lg.split(' ')[0];
+            coltablet.value = md.split(' ')[0];
+            colmobile.value = sm.split(' ')[0];
+        }
+    }
+}
+
 var output = function(property, value){
+    console.log(property)
     if(!ActiveNode) {
         ActiveNode = mw.top().liveEditSelector.selected
     }
@@ -328,12 +417,14 @@ var output = function(property, value){
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {
-        //  ActiveNode.style[property] = value;
-         mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
-          // ActiveNode.style.setProperty(property, value);
-          ActiveNode.setAttribute('staticdesign', true);
-          mw.top().wysiwyg.change(ActiveNode);
-          mw.top().liveEditSelector.positionSelected();
+        if(!specialCases(property, value)) {
+            //  ActiveNode.style[property] = value;
+            mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
+            // ActiveNode.style.setProperty(property, value);
+            ActiveNode.setAttribute('staticdesign', true);
+        }
+        mw.top().wysiwyg.change(ActiveNode);
+        mw.top().liveEditSelector.positionSelected();
     }
 };
 
@@ -430,6 +521,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         populate(css);
         ActiveNode = nodes[0];
         activeTree();
+        populateSpecials(css);
 
         var clsdata = [];
         $.each(nodes[0].className.split(' '), function(){
@@ -495,6 +587,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                 mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
             }
+            populateSpecials(css);
         }
         mw.top().liveEditSelector.positionSelected();
         setTimeout(function(){
@@ -567,9 +660,98 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </script>
     <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
 
+
+
+
+<mw-accordion-item >
+    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="s-field">
+            <label><?php _e("Image"); ?></label>
+            <div class="s-field-content">
+
+                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
+                <span id="background-remove"><span class="mw-icon-close"></span></span>
+            </div>
+        </div>
+        <div class="s-field">
+            <label><?php _e("Color"); ?></label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <input type="color" class="colorField unit" data-prop="backgroundColor">
+                </div>
+            </div>
+        </div>
+
+        <div class="s-field">
+            <label><?php _e("Size"); ?></label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" class="regular" data-prop="backgroundSize">
+                        <option value="auto"><?php _e("Auto"); ?></option>
+                        <option value="contain"><?php _e("Fit"); ?></option>
+                        <option value="cover"><?php _e("Cover"); ?></option>
+                        <option value="100% 100%"><?php _e("Scale"); ?></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label><?php _e("Repeat"); ?></label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" class="regular" data-prop="backgroundRepeat">
+                        <option value="repeat"><?php _e("repeat"); ?></option>
+                        <option value="no-repeat"><?php _e("no-repeat"); ?></option>
+                        <option value="repeat-x"><?php _e("repeat horizontally"); ?></option>
+                        <option value="repeat-y"><?php _e("repeat vertically "); ?></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="s-field" id="text-mask">
+            <label>Text mask</label>
+            <script>
+                mask = function (val) {
+                    var $node = $(ActiveNode);
+                    var action = val ? 'addClass' : 'removeClass';
+                    $node[action]('mw-bg-mask');
+                    mw.top().wysiwyg.change($node[0]);
+                }
+            </script>
+            <div class="s-field-content">
+                <label class="mw-ui-check">
+                    <input type="checkbox" id="text-mask-field"  onchange="mask(this.checked)">
+                    <span></span><span></span>
+                </label>
+            </div>
+        </div>
+        <div class="s-field">
+            <label><?php _e("Position"); ?></label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select class="regular" data-prop="backgroundPosition">
+                        <option value="0% 0%"><?php _e("Left Top"); ?></option>
+                        <option value="50% 0%"><?php _e("Center Top"); ?></option>
+                        <option value="100% 0%"><?php _e("Right Top"); ?></option>
+
+                        <option value="0% 50%"><?php _e("Left Center"); ?></option>
+                        <option value="50% 50%"><?php _e("Center Center"); ?></option>
+                        <option value="100% 50%"><?php _e("Right Center"); ?></option>
+
+                        <option value="0% 100%"><?php _e("Left Bottom"); ?></option>
+                        <option value="50% 100%"><?php _e("Center Bottom"); ?></option>
+                        <option value="100% 100%"><?php _e("Right Bottom"); ?></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</mw-accordion-item>
+
         <mw-accordion-item>
             <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
-            <div class="mw-accordion-content mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
                 <div class="s-field">
                     <label><?php _e("Text align"); ?></label>
                     <div class="s-field-content">
@@ -678,99 +860,53 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
 
 
-
             </div>
         </mw-accordion-item>
 
+    <mw-accordion-item id="columns-edit">
 
-<mw-accordion-item >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
-    <div class="mw-accordion-content mw-ui-box-content">
-        <div class="s-field">
-            <label><?php _e("Image"); ?></label>
-            <div class="s-field-content">
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Columns"); ?></div>
+        <div class="mw-accordion-content mw-ui-box-content">
 
-                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
-                <span id="background-remove"><span class="mw-icon-close"></span></span>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Color"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <input type="color" class="colorField unit" data-prop="backgroundColor">
+            <div class="s-field">
+
+                <div class="s-field-content">
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Desktop'); ?></label>
+                        <i class=" mdi mdi-monitor"></i>
+                        <select data-prop="col-desktop" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Tablet'); ?></label>
+                        <i class=" mdi mdi-tablet"></i>
+                        <select data-prop="col-tablet" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Mobile'); ?></label>
+                        <i class=" mdi mdi-cellphone"></i>
+                        <select data-prop="col-mobile" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="s-field">
-            <label><?php _e("Size"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundSize">
-                        <option value="auto"><?php _e("Auto"); ?></option>
-                        <option value="contain"><?php _e("Fit"); ?></option>
-                        <option value="cover"><?php _e("Cover"); ?></option>
-                        <option value="100% 100%"><?php _e("Scale"); ?></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Repeat"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundRepeat">
-                        <option value="repeat"><?php _e("repeat"); ?></option>
-                        <option value="no-repeat"><?php _e("no-repeat"); ?></option>
-                        <option value="repeat-x"><?php _e("repeat horizontally"); ?></option>
-                        <option value="repeat-y"><?php _e("repeat vertically "); ?></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="s-field" id="text-mask">
-            <label>Text mask</label>
-            <script>
-                mask = function (val) {
-                    var $node = $(ActiveNode);
-                    var action = val ? 'addClass' : 'removeClass';
-                    $node[action]('mw-bg-mask');
-                    mw.top().wysiwyg.change($node[0]);
-                }
-            </script>
-            <div class="s-field-content">
-                <label class="mw-ui-check">
-                    <input type="checkbox" id="text-mask-field"  onchange="mask(this.checked)">
-                    <span></span><span></span>
-                </label>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Position"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundPosition">
-                        <option value="0% 0%"><?php _e("Left Top"); ?></option>
-                        <option value="50% 0%"><?php _e("Center Top"); ?></option>
-                        <option value="100% 0%"><?php _e("Right Top"); ?></option>
 
-                        <option value="0% 50%"><?php _e("Left Center"); ?></option>
-                        <option value="50% 50%"><?php _e("Center Center"); ?></option>
-                        <option value="100% 50%"><?php _e("Right Center"); ?></option>
-
-                        <option value="0% 100%"><?php _e("Left Bottom"); ?></option>
-                        <option value="50% 100%"><?php _e("Center Bottom"); ?></option>
-                        <option value="100% 100%"><?php _e("Right Bottom"); ?></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</mw-accordion-item>
-
-
-
+    </mw-accordion-item>
     <mw-accordion-item  id="size-box" style="display: none">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">

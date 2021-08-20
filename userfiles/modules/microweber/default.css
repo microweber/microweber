@@ -3,6 +3,10 @@
 */
 
 
+[data-layout-container] {
+    min-height: 100px;
+}
+
 .mw-bg-mask{
     background-clip: text;
     -webkit-background-clip: text;
