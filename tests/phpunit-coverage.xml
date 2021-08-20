@@ -10,8 +10,7 @@
 
          stopOnFailure="true"
          verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-    <coverage/>
-    <logging>
+     <logging>
         <testdoxText outputFile="php://stdout"/>
         <log type="coverage-clover" target="coverage.xml"/>
         <log type="coverage-html" target="coverage.html" lowUpperBound="35" highLowerBound="70"/>
