@@ -86,7 +86,7 @@ class DefaultField
             }
         }
 
-        $renderSettings = $this->calculateFieldSize($renderSettings);
+        // $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
 
@@ -146,7 +146,7 @@ class DefaultField
         return $file;
     }
 
-    public function calculateFieldSize($renderSettings)
+   /* public function calculateFieldSize($renderSettings)
     {
         $renderSettings['field_size'] = 12;
 
@@ -169,5 +169,5 @@ class DefaultField
         }
 
         return $renderSettings;
-    }
+    }*/
 }
