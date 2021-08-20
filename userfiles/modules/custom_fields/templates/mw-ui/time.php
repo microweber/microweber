@@ -21,7 +21,7 @@
             id="<?php print $fieldId ?>"
             <?php if ($settings['required']): ?>required<?php endif; ?>
             data-custom-field-id="<?php echo $data['id']; ?>"
-            name="<?php echo $data['name']; ?>"
+            name="<?php echo $data['name_key']; ?>"
             value="<?php echo $data['value']; ?>"
             placeholder="<?php echo $data['placeholder']; ?>" />
 	</div>

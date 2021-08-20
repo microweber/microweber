@@ -10,7 +10,7 @@
         </label>
         <?php endif; ?>
 
-        <textarea type="text" rows="<?php echo $settings['rows']; ?>" cols="<?php echo $settings['cols']; ?>" class="form-control" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
+        <textarea type="text" rows="<?php echo $settings['rows']; ?>" cols="<?php echo $settings['cols']; ?>" class="form-control" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
 
         <?php if ($data['help']): ?>
             <span class="help-block"><?php echo $data['help']; ?></span>

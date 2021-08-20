@@ -16,7 +16,7 @@ $rand = uniqid();
         <?php if ($data['help']): ?>
             <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
         <?php endif; ?>
-        <input type="url" class="mw-ui-field form-control" id="custom_field_help_text<?php print $rand; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" value="<?php echo $data['value']; ?>" name="<?php echo $data['name']; ?>"
+        <input type="url" class="mw-ui-field form-control" id="custom_field_help_text<?php print $rand; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" value="<?php echo $data['value']; ?>" name="<?php echo $data['name_key']; ?>"
                placeholder="<?php echo $data['placeholder']; ?>"/>
     </div>
 </div>

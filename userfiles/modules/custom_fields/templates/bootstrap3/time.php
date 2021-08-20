@@ -11,7 +11,7 @@
         <?php endif; ?>
 
         <div id="datetimepicker3">
-            <input type="text" class="form-control js-bootstrap3-timepicker" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
+            <input type="text" class="form-control js-bootstrap3-timepicker" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
         </div>
 
         <?php if ($data['help']): ?>

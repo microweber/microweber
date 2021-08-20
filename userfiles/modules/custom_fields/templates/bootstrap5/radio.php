@@ -17,7 +17,7 @@
             ?>
             <div class="custom-control custom-radio">
                 <input type="radio" id="custom-radio-<?php echo $data['id'] . '-' . $key; ?>" class="custom-control-input" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>"
-                       name="<?php echo $data['name']; ?>">
+                       name="<?php echo $data['name_key']; ?>">
                 <label class="custom-control-label mb-3" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
             </div>
         <?php endforeach; ?>
