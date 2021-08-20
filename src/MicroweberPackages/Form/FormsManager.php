@@ -346,9 +346,18 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
+        $fieldRulesSettings = [];
+
         $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
+
+                if ($item['required'] == 1) {
+                    $requiredFields[$item['name_key']] = [
+                        'required'
+                    ];
+                }
+
                  if (isset($item['name'])) {
                     $cfn = ($item['name']);
 
@@ -382,6 +391,18 @@ class FormsManager
             $cfToSave = $params;
         }
 
+        if (!empty($requiredFields)) {
+            $validator = Validator::make($params, $requiredFields);
+            if ($validator->fails()) {
+                $validatorMessages = false;
+                foreach ($validator->messages()->toArray() as $inputFieldErros) {
+                    $validatorMessages = reset($inputFieldErros);
+                }
+                return array(
+                    'error' => $validatorMessages
+                );
+            }
+        }
 
           $save = 1;
 
