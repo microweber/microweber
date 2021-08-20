@@ -37,9 +37,14 @@ class CategoryRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
             $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
-            $getCategory = (array)$getCategory;
 
-            return $getCategory;
+            if ($getCategory) {
+                $getCategory = (array)$getCategory;
+                return $getCategory;
+
+            } else {
+                return false;
+            }
         });
     }
 

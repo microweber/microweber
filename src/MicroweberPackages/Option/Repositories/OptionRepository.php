@@ -26,24 +26,24 @@ class OptionRepository extends AbstractRepository
     public function getWebsiteOptions()
     {
         $websiteOptions = [
-            'favicon_image' => '',
-            'website_footer' => '',
-            'website_head' => '',
-            'website_title' => '',
-            'website_keywords' => '',
-            'website_description' => '',
-            'date_format' => '',
-            'enable_full_page_cache' => '',
-            'google-site-verification-code' => '',
-            'bing-site-verification-code' => '',
-            'alexa-site-verification-code' => '',
-            'pinterest-site-verification-code' => '',
-            'yandex-site-verification-code' => '',
-            'google-analytics-id' => '',
-            'facebook-pixel-id' => '',
-            'robots_txt' => '',
-            'maintenance_mode' => '',
-            'maintenance_mode_text' => ''
+            'favicon_image'=>'',
+            'website_footer'=>'',
+            'website_head'=>'',
+            'website_title'=>'',
+            'website_keywords'=>'',
+            'website_description'=>'',
+            'date_format'=>'',
+            'enable_full_page_cache'=>'',
+            'google-site-verification-code'=>'',
+            'bing-site-verification-code'=>'',
+            'alexa-site-verification-code'=>'',
+            'pinterest-site-verification-code'=>'',
+            'yandex-site-verification-code'=>'',
+            'google-analytics-id'=>'',
+            'facebook-pixel-id'=>'',
+            'robots_txt'=>'' ,
+            'maintenance_mode'=>'',
+            'maintenance_mode_text'=>''
         ];
 
         if (!mw_is_installed()) {
@@ -59,6 +59,8 @@ class OptionRepository extends AbstractRepository
 
         return $websiteOptions;
     }
+
+
 
     public function getAllExistingOptionGroups()
     {

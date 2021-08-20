@@ -239,7 +239,7 @@ class CategoryManager
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
 
-         $results = cache_get($cache_id, $cache_group, 600);
+         $results = cache_get($cache_id, $cache_group, 6000);
         if ($results) {
             return $results;
         }
@@ -318,7 +318,7 @@ class CategoryManager
             return false;
         }
 
-        return app()->content_repository->getCategoriesByContentId($content_id);
+        return app()->content_repository->getCategories($content_id);
     }
 
     /**
@@ -797,7 +797,7 @@ class CategoryManager
             $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
         }
 
-        return $del;
+        return true;
     }
 
     public function delete_item($data)

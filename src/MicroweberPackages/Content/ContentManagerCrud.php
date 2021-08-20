@@ -287,7 +287,7 @@ class ContentManagerCrud extends Crud
             $get = app()->content_repository->getByParams($params);
 
         }
-     //   $get = app()->content_repository->getByParams($params);
+      //$get = app()->content_repository->getByParams($params);
 
 
 

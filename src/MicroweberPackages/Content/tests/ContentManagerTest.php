@@ -252,6 +252,8 @@ class ContentManagerTest extends TestCase
         $delete_category = delete_category($post_cats[0]['id']);
         $deleted_category = get_category_by_id($post_cats[0]['id']);
         $this->assertEquals(true, $delete_category);
+
+        dump($deleted_category);
         $this->assertEquals(false, $deleted_category);
     }
 

@@ -20,7 +20,7 @@ class DataFieldsManager extends Crud
 
              $params['rel_type'] = 'content';
               $params['rel_id'] = $params['content_id'];
-             $get =    app()->content_repository->getContentDataByContentId($params['content_id']);
+             $get =    app()->content_repository->getContentData($params['content_id']);
 
               unset($params['content_id']);
 
@@ -29,7 +29,7 @@ class DataFieldsManager extends Crud
       //      $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 //
 //
-//            $data = $content_repository->getContentDataByContentId($params['content_id']);
+//            $data = $content_repository->getContentData($params['content_id']);
 //            if ($data) {
 //                $get = $data->toArray();
 //            }
