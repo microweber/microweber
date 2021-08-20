@@ -24,6 +24,9 @@
         <include>
             <directory suffix=".php">./src</directory>
         </include>
+        <exclude>
+            <directory suffix="Facade.php">./src</directory>
+        </exclude>
     </coverage>
 
 
