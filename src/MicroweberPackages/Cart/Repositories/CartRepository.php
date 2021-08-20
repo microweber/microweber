@@ -43,6 +43,7 @@ class CartRepository extends AbstractRepository
                 $amount = $amount + (intval($value['qty']) * floatval($value['price']));
             }
         }
+        return $amount;
     }
 
     public function getCartItemsCount()

@@ -65,7 +65,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getCategoriesByContentId($id)
+    public function getCategories($id)
     {
         $categoryIds = $this->cacheCallback(__FUNCTION__ . 'categories_items', func_get_args(), function () use ($id) {
 
@@ -100,7 +100,7 @@ class ContentRepository extends AbstractRepository
 
 
     }
-//    public function getCategoriesByContentId11($id)
+//    public function getCategories11($id)
 //    {
 //        return $this->cacheCallback(__FUNCTION__.'categories_items', func_get_args(), function () use ($id) {
 //
@@ -132,7 +132,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getContentDataByContentId($id)
+    public function getContentData($id)
     {
 
         $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');

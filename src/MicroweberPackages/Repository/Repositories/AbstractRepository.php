@@ -938,99 +938,99 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        //$result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-        $searchable = [];
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $columns = $model->getFillable();
-        if (method_exists($model, 'getSearchable')) {
-            $searchable = $model->getSearchable();
-        }
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
+            $searchable = [];
+            $model = $this->getModel();
+            $table = $model->getTable();
+            $columns = $model->getFillable();
+            if (method_exists($model, 'getSearchable')) {
+                $searchable = $model->getSearchable();
+            }
+            if (is_string($params)) {
+                $params = parse_params($params);
+            }
 
-        $this->newQuery();
-        $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
+            $this->newQuery();
+            $this->query = self::querySelectLogic($this->query, $table, $columns, $params);
 
-        if ($params) {
-            foreach ($params as $paramKey => $paramValue) {
-                if (isset($this->filterMethods[$paramKey])) {
-                    $whereMethodName = $this->filterMethods[$paramKey];
-                    $this->query->$whereMethodName($paramValue);
-                } else {
+            if ($params) {
+                foreach ($params as $paramKey => $paramValue) {
+                    if (isset($this->filterMethods[$paramKey])) {
+                        $whereMethodName = $this->filterMethods[$paramKey];
+                        $this->query->$whereMethodName($paramValue);
+                    } else {
 
-                    if (in_array($paramKey, $searchable)) {
-                        $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
-                        $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
+                        if (in_array($paramKey, $searchable)) {
+                            $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
+                            $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);
+                        }
                     }
                 }
             }
-        }
 
-        $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
-        $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryKeywordLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryTagsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
+            $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
 
 
-        $single = false;
-        $multiple = false;
-        $count = false;
-        if (isset($params['count']) and $params['count']) {
-            $exec = $this->query->count();
-            $count = true;
-        } else if (isset($params['single']) || isset($params['one'])) {
-            $exec = $this->query->first();
-            $single = true;
-        } else {
-            $exec = $this->query->get();
-            $multiple = true;
-        }
-
-        $result = [];
-        if ($exec != null) {
-            if (is_numeric($exec)) {
-                $result = $exec;
+            $single = false;
+            $multiple = false;
+            $count = false;
+            if (isset($params['count']) and $params['count']) {
+                $exec = $this->query->count();
+                $count = true;
+            } else if (isset($params['single']) || isset($params['one'])) {
+                $exec = $this->query->first();
+                $single = true;
             } else {
-                $result = $exec->toArray();
+                $exec = $this->query->get();
+                $multiple = true;
             }
-        }
 
-        if ($single || $multiple) {
-            $hookParams = [];
-            $hookParams['data'] = $result;
-            if ($single) {
-                $hookParams['hook_overwrite_type'] = 'single';
-            } else {
-                $hookParams['hook_overwrite_type'] = 'multiple';
-            }
-            if (is_array($result)) {
-                $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
-                if (isset($overwrite['data'])) {
-               //     $result = $overwrite['data'];
+            $result = [];
+            if ($exec != null) {
+                if (is_numeric($exec)) {
+                    $result = $exec;
+                } else {
+                    $result = $exec->toArray();
                 }
             }
-        }
 
-        if ($count) {
-            if (!is_numeric($result)) {
-                return 0;
+            if ($single || $multiple) {
+                $hookParams = [];
+                $hookParams['data'] = $result;
+                if ($single) {
+                    $hookParams['hook_overwrite_type'] = 'single';
+                } else {
+                    $hookParams['hook_overwrite_type'] = 'multiple';
+                }
+                if (is_array($result)) {
+                    $overwrite = app()->event_manager->response(get_class($this) . '\\getByParams', $hookParams);
+                    if (isset($overwrite['data'])) {
+                        //     $result = $overwrite['data'];
+                    }
+                }
             }
-            return $result;
-        }
 
-        if (!empty($result)) {
-            return $result;
-        }
+            if ($count) {
+                if (!is_numeric($result)) {
+                    return 0;
+                }
+                return $result;
+            }
 
-        return [];
-        // });
+            if (!empty($result)) {
+                return $result;
+            }
+
+            return [];
+        });
 
         if (!empty($result)) {
             return $result;

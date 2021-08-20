@@ -73,9 +73,9 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
             $cacheTags = $this->generateCacheTags();
 
 
-           /* if ($cacheKey == 'cached_model_categories_72e28628c380a0869f8c7932add45ad5') {
+             if ($cacheKey == 'cached_model_content_6242ec6e4b9b086185069aa4cf046baf') {
                 dd(debug_backtrace(1));
-            }*/
+            }
 
             $cacheMem_key =  implode('-',$cacheTags).'-'.$cacheKey;
 
