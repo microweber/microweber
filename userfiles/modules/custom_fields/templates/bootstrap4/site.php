@@ -1,7 +1,7 @@
 <?php
 $rand = uniqid();
 ?>
-<div class="col-<?php echo $settings['field_size']; ?>">
+<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
