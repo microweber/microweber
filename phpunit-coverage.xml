@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="../bootstrap/autoload.php"
+         bootstrap="./bootstrap/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -16,13 +16,13 @@
     </logging>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 
     <coverage>
         <include>
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">./src</directory>
         </include>
     </coverage>
 
@@ -30,7 +30,7 @@
 
     <testsuites>
         <testsuite name="Microweber Test Suite">
-            <directory>../src/MicroweberPackages/*/tests/</directory>
+            <directory>./src/MicroweberPackages/*/tests/</directory>
         </testsuite>
 
     </testsuites>
