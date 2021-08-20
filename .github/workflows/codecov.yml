@@ -41,7 +41,5 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: tests/phpunit-coverage.xml
-        flags: unittests # optional
-        name: codecov # optional
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
