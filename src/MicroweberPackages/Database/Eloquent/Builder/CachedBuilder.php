@@ -72,11 +72,6 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
             $cacheKey = $this->getCacheKey($columns);
             $cacheTags = $this->generateCacheTags();
 
-
-             if ($cacheKey == 'cached_model_content_6242ec6e4b9b086185069aa4cf046baf') {
-                dd(debug_backtrace(1));
-            }
-
             $cacheMem_key =  implode('-',$cacheTags).'-'.$cacheKey;
 
             if(isset(self::$_loaded_models_cache_get[$cacheMem_key])){
