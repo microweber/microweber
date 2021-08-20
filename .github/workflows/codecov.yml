@@ -17,7 +17,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        tools: phpunit:8.5.1
+        tools: phpunit:9.5
         coverage: xdebug
     - name: zstd act workaround
       run: sudo apt install zstd
