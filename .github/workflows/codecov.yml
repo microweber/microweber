@@ -1,4 +1,4 @@
-name: PHP Unit Tests
+name: PHP Code Coverage Tests
 on: [push,pull_request]
 
 jobs:
