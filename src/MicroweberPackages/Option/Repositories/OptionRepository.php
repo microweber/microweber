@@ -62,8 +62,13 @@ class OptionRepository extends AbstractRepository
 
 
 
+    public static $_getAllExistingOptionGroups = [];
     public function getAllExistingOptionGroups()
     {
+        if (!empty(self::$_getAllExistingOptionGroups)) {
+            return self::$_getAllExistingOptionGroups;
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
             $allOptions = [];
@@ -78,6 +83,8 @@ class OptionRepository extends AbstractRepository
             if ($getAllOptions and is_array($getAllOptions)) {
                 $allOptions = array_flatten($getAllOptions);
             }
+
+            self::$_getAllExistingOptionGroups = $allOptions;
 
             return $allOptions;
         });
@@ -97,19 +104,27 @@ class OptionRepository extends AbstractRepository
         return false;
     }
 
+    public static $_getOptionsByGroup = [];
     public function getOptionsByGroup($optionGroup)
     {
-        $isExsitOptionGroup = $this->optionGroupExists($optionGroup);
 
+        if (isset(self::$_getOptionsByGroup[$optionGroup]) && !empty(self::$_getOptionsByGroup[$optionGroup])) {
+            return self::$_getOptionsByGroup[$optionGroup];
+        }
+
+        $isExsitOptionGroup = $this->optionGroupExists($optionGroup);
         if (!$isExsitOptionGroup) {
             return false;
         }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
+
             $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
             $allOptions = collect($allOptions)->map(function ($option) {
                 return (array)$option;
             })->toArray();
+
+            self::$_getOptionsByGroup[$optionGroup] = $allOptions;
 
             return $allOptions;
         });
