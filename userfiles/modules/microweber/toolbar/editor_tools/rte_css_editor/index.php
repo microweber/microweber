@@ -20,6 +20,7 @@
 </style>
 
 <script type="text/javascript">
+
     // mw.parent().require("external_callbacks.js");
     mw.require("jquery-ui.js");
     mw.require("events.js");
@@ -409,7 +410,6 @@ var populateSpecials = function (css) {
 }
 
 var output = function(property, value){
-    console.log(property)
     if(!ActiveNode) {
         ActiveNode = mw.top().liveEditSelector.selected
     }
@@ -865,7 +865,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
     <mw-accordion-item id="columns-edit">
 
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Columns"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Grid"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
 
             <div class="s-field">
