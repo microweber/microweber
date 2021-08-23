@@ -253,7 +253,7 @@ class Ui
         if ($this->disable_powered_by_link != false) {
             return;
         }
-        $link = '<span class="mw-powered-by"><a href="https://microweber.org/" title="Website Builder">Website Builder</a> <a href="https://microweber.org" target="_blank" title="Microweber CMS">Microweber</a></span>';
+        $link = '<span class="mw-powered-by"><a href="https://microweber.org/" title="Website Builder">Website Builder</a> - <a href="https://microweber.org" target="_blank" title="Microweber CMS">Microweber</a></span>';
         if ($this->powered_by_link != false) {
             $link = $this->powered_by_link;
         }
