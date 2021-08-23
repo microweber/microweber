@@ -264,17 +264,27 @@ class ContentRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
 
-            $check = ContentField::where('field', $field);
+            $check = DB::table('content_fields');
+            $check->where('field', $field);
             $check->where('rel_type', $rel_type);
             if ($rel_id) {
                 $check->where('rel_id', $rel_id);
             }
-
-            $check->limit(1);
-
             $check = $check->first();
+            
             if ($check and !empty($check)) {
-                return $check->toArray();
+
+                $check = (array) $check;
+
+                $hookParams = [];
+                $hookParams['data'] = $check;
+                $hookParams['hook_overwrite_type'] = 'single';
+                $overwrite = app()->event_manager->response(get_class($this) .'\\'. __FUNCTION__, $hookParams);
+                if (isset($overwrite['data'])) {
+                    $check = $overwrite['data'];
+                }
+
+                return $check;
             }
 
             return false;
