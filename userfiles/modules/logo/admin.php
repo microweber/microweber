@@ -327,18 +327,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
                                 <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
 
-                                <div class="js-remove-logo-btn <?php if ($logoimage == ''): ?>d-none<?php endif; ?>">
-                                    <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
-
-                                    <script>
-                                        $('.js-remove-logoimage').on('click', function () {
-                                            $('#logoimage').val('');
-                                            $("#logoimage").trigger('change');
-                                            $('img.the-image').attr('src', '');
-                                            $(this).parent().addClass('d-none');
-                                        });
-                                    </script>
-                                </div>
                             </div>
 
                             <div>
@@ -347,6 +335,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
                                     <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit image"); ?></a>
                                 <?php endif; ?>
+
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
+
+                                <script>
+                                    $('.js-remove-logoimage').on('click', function () {
+                                        $('#logoimage').val('');
+                                        $("#logoimage").trigger('change');
+                                        $('img.the-image').attr('src', '');
+                                    });
+                                </script>
+
                             </div>
                         </div>
 
