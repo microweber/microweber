@@ -1,7 +1,7 @@
 <?php
 $rand = uniqid();
 ?>
-<div class="col-<?php echo $settings['field_size']; ?>">
+<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
@@ -13,7 +13,7 @@ $rand = uniqid();
         </label>
         <?php endif; ?>
 
-        <input type="text" <?php if ($settings['required']): ?> required="true"  <?php endif; ?> data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>"
+        <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?> data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>"
                class="form-control js-bootstrap4-datepicker" autocomplete="off"/>
         <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
         <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>

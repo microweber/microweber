@@ -337,12 +337,10 @@ body.mw-column-resizing * {
     left: 50%;
     margin-left: -17px;
     top: 0;
-    background-color: transparent;
     width: 35px;
     height: 10px;
     content: "\f1b4";
     font-family: Microweber;
-    border-radius: 2px;
     color: #272727;
     font-size: 21px;
     line-height: 10px;
@@ -353,9 +351,10 @@ body.mw-column-resizing * {
 }
 
 .dragStart .mw-sorthandle-moveit, body.dragStart *, body.dragStart .column_separator_title {
-    cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;
     cursor: grabbing;
+}
+.dragStart .mw-universal-tooltip{
+    display: none !important;
 }
 
 .dragStart .nodrop,
@@ -369,11 +368,8 @@ body.mw-column-resizing * {
 }
 
 .column_separator_title {
-    line-height: normal;
     display: inline-block;
     cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
     cursor: grab;
     text-align: center;
     font-size: 11px;
@@ -408,30 +404,6 @@ body.mw-column-resizing * {
     pointer-events: none;
 }
 
-/*
-.mw_dropable_arr:before,
-.mw_dropable_arr:after {
-    width: 0px;
-    height: 0px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    margin-left: -2.5px;
-
-}
-
-.mw_dropable_arr:before {
-    border-bottom: 5px solid #0088CC;
-    top: -6px;
-}
-
-.mw_dropable_arr:after {
-    border-top: 5px solid #0088CC;
-    bottom: -9px;
-}*/
 
 .mw_dropable {
     position: absolute !important;
@@ -544,7 +516,7 @@ body.mw-column-resizing * {
 
 .mw-cols_set {
     padding: 9px;
-    display: none;
+
     display: inline-block;
     width: 100%;
     top: -30px;
@@ -556,7 +528,7 @@ body.mw-column-resizing * {
 
 .mw-col_separator_title {
     display: inline-block;
-    cursor: default;
+
     padding: 0px 4px;
     background: #E1E1E1;
     border: 1px solid #D9D9D9;
@@ -592,9 +564,7 @@ a.mw-make-cols {
     border: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+
     user-select: none;
 }
 
@@ -603,13 +573,12 @@ a.mw-make-cols {
 }
 
 #mw_handle_module .mw_edit_settings_multiple {
-    /*color: #111;
-    background: #E1E1E1;*/
+
     color: white;
     background: #2b2b2b;
     text-decoration: none;
     display: inline-block;
-    padding: 2px 7px;
+
     outline: none;
     position: relative;
     z-index: 1;
@@ -617,15 +586,9 @@ a.mw-make-cols {
     border-radius: 30px;
     padding: 0 11px;
     line-height: 30px;
-    /*margin-top: -30px;*/
-    /**/
+
 }
 
-.module-active-layouts .mw-element-name-handle {
-    /*font-size: 0;
-    top: -4px;
-    position: relative;*/
-}
 
 a.mw-make-cols {
     position: absolute;
@@ -641,7 +604,7 @@ a.mw-make-cols.active {
 #items_handle {
     position: absolute;
     z-index: 999;
-    width: 18px;
+
     height: 18px;
     background: white url(../img/cursor_drag_arrow_c.png) no-repeat center center;
     cursor: move;

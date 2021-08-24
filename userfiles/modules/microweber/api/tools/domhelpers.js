@@ -640,12 +640,20 @@ var domHelp = {
         }
         return false;
     },
-    generateSelectorForNode: function (node) {
+    generateSelectorForNode: function (node, strict) {
+        if(typeof strict === 'undefined') {
+            strict = true;
+        }
         if (node === null || node.nodeType === 3) {
             return false;
         }
         if (node.nodeName === 'BODY') {
             return 'body';
+        }
+        if(strict && !node.id) {
+            if(!node.classList.contains('edit') && mw.tools.isEditable(node)) {
+                node.id = mw.id('mw-selector-');
+            }
         }
         if (!!node.id /*&& node.id.indexOf('element_') === -1*/) {
             return '#' + node.id;

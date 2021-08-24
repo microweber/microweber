@@ -91,10 +91,7 @@ class AdminController extends Controller
         mw()->content_manager->define_constants();
 
         if (defined('TEMPLATE_DIR')) {
-            $load_template_functions = TEMPLATE_DIR . 'functions.php';
-            if (is_file($load_template_functions)) {
-                include_once $load_template_functions;
-            }
+            app()->template_manager->boot_template();
         }
 
         event_trigger('mw.admin');

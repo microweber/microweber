@@ -3,6 +3,10 @@
 */
 
 
+[data-layout-container] {
+    min-height: 100px;
+}
+
 .mw-bg-mask{
     background-clip: text;
     -webkit-background-clip: text;
@@ -201,7 +205,7 @@ ul.mw-default-layout-blockquote li:before {
 /*}*/
 
 /*Background Text*/
-ul.mw-default-layout-background-text {
+.mw-default-layout-background-text {
     background-color: rgba(0, 0, 0, 0.01);
     border: 1px solid rgba(51, 51, 51, 0.1);
     padding: 0.8em;

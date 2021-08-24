@@ -451,6 +451,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         #default-layouts-holder .default-layouts{
             padding: 0;
             margin-bottom: 35px;
+            display: none;
         }
 
     </style>

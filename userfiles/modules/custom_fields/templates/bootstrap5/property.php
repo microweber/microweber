@@ -1,4 +1,4 @@
-<div class="col-<?php echo $settings['field_size']; ?>">
+<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="text-start mb-3">
 
         <?php if($settings['show_label']): ?>
@@ -10,7 +10,7 @@
         </label>
         <?php endif; ?>
 
-        <input type="hidden" class="form-control" data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>"/>
+        <input type="hidden" class="form-control" data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>"/>
 
         <div class="controls">
             <?php echo $data["value"]; ?>

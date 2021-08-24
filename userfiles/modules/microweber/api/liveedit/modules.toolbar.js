@@ -7,8 +7,11 @@ mw.liveedit.modulesToolbar = {
                 if(this.classList.contains('module-item-layout')) {
 
                     var el = mw.liveEditSelector.selected[0];
-                    if(!el) {
-                        var all = document.querySelectorAll('.module-layouts'), i = 0, l = all.length;
+                    var action = 'after';
+                    var all
+                    if(!el || !document.body.contains(el)) {
+                        el = null
+                        all = document.querySelectorAll('.module-layouts'), i = 0, l = all.length;
                         for ( ; i < l; i++ ) {
                             if(mw.tools.inview(all[i])) {
                                 el = all[i];
@@ -17,10 +20,24 @@ mw.liveedit.modulesToolbar = {
                         }
                     }
 
+                    if(!el){
+                        el = document.querySelector('[data-layout-container]');
+                        action = 'append';
+                        if(el) {
+                            mw.element(el)[action](this.outerHTML);
+                            setTimeout(function (){
+                                mw.drag.load_new_modules();
+                                mw.tools.scrollTo(el.lastElementChild, undefined, 200)
+                                mw.wysiwyg.change(el.lastElementChild)
+                            }, 78)
+                            return;
+                        }
+                    }
+
                     if(el) {
                         var layout = mw.tools.firstParentOrCurrentWithClass(el, 'module-layouts');
 
-                        mw.element(layout).after(this.outerHTML);
+                        mw.element(layout)[action](this.outerHTML);
                         setTimeout(function (){
                             mw.drag.load_new_modules();
                             mw.tools.scrollTo(layout.nextElementSibling, undefined, 200)
@@ -30,7 +47,7 @@ mw.liveedit.modulesToolbar = {
                         mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
                     }
                 } else {
-                    if(mw.liveEditSelector.selected[0]) {
+                    if(mw.liveEditSelector.selected[0] && document.body.contains(mw.liveEditSelector.selected[0])) {
                         mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
                         setTimeout(function (){
                             mw.drag.load_new_modules();

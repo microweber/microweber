@@ -9,7 +9,7 @@
     </script>
 <?php endif; ?>
 
-<div class="col-<?php echo $settings['field_size']; ?>">
+<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
@@ -21,7 +21,7 @@
         </label>
         <?php endif; ?>
 
-        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>"/>
+        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
 
         <?php if (!empty($data['placeholder'])): ?>
             <option><?php echo $data['placeholder']; ?></option>
