@@ -72,7 +72,7 @@ class Lang
     {
 
         if (self::$_currentLang) {
-            return self::$_currentLang;
+         //   return self::$_currentLang;
         }
 
 //        if($this->lang){
@@ -105,7 +105,7 @@ class Lang
     function default_lang()
     {
         if (self::$_defaultLang) {
-            return self::$_defaultLang;
+        //    return self::$_defaultLang;
         }
 
         $lang = 'en_US'; // dont use current language
