@@ -44,6 +44,7 @@ class CategoryRepository extends AbstractRepository
                 $hookParams['data'] = $getCategory;
                 $hookParams['hook_overwrite_type'] = 'single';
                 $overwrite = app()->event_manager->response(get_class($this) .'\\'. __FUNCTION__, $hookParams);
+
                 if (isset($overwrite['data'])) {
                     $getCategory = $overwrite['data'];
                 }
