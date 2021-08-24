@@ -33,7 +33,6 @@ class CategoryRepository extends AbstractRepository
 
     public function getByColumnNameAndColumnValue($columnName, $columnValue)
     {
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
             $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
