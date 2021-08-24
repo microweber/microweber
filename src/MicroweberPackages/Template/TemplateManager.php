@@ -189,14 +189,14 @@ class TemplateManager
      * representation of it.  Sub-folders contained with the
      * directory will be mapped as well.
      *
-     * @author        ExpressionEngine Dev Team
-     *
-     * @link          http://codeigniter.com/user_guide/helpers/directory_helper.html
-     *
-     * @param    string     path to source
-     * @param    int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+     * @param string     path to source
+     * @param int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
      *
      * @return array
+     * @link          http://codeigniter.com/user_guide/helpers/directory_helper.html
+     *
+     * @author        ExpressionEngine Dev Team
+     *
      */
     private function directory_map($source_dir, $directory_depth = 0, $hidden = false, $full_path = false)
     {
@@ -228,5 +228,40 @@ class TemplateManager
         }
 
         return false;
+    }
+
+
+    public $isBooted = false;
+
+    public function boot_template()
+    {
+        if ($this->isBooted) {
+            return;
+        }
+        $this->isBooted = true;
+
+        $load_template_functions = TEMPLATE_DIR . 'functions.php';
+        if (is_file($load_template_functions)) {
+            include_once $load_template_functions;
+        }
+
+        $module = app()->template->get_config();
+
+        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
+
+            $loadProviders = [];
+            if (is_array($module['settings']['service_provider'])) {
+                foreach ($module['settings']['service_provider'] as $serviceProvider) {
+                    $loadProviders[] = $serviceProvider;
+                }
+            } else {
+                $loadProviders[] = $module['settings']['service_provider'];
+            }
+            foreach ($loadProviders as $loadProvider) {
+                if (class_exists($loadProvider)) {
+                    app()->register($loadProvider);
+                }
+            }
+        }
     }
 }
