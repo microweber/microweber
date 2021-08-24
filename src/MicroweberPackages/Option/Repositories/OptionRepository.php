@@ -104,6 +104,12 @@ class OptionRepository extends AbstractRepository
         return false;
     }
 
+    public function clearCache()
+    {
+        self::$_getOptionsByGroup = [];
+        self::$_getAllExistingOptionGroups = [];
+    }
+
     public static $_getOptionsByGroup = [];
     public function getOptionsByGroup($optionGroup)
     {

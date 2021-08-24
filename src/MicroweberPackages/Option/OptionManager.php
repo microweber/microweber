@@ -559,5 +559,7 @@ class OptionManager
 
             $this->memoryModuleOptionGroup = array();
         }
+
+        app()->option_repository->clearCache();
     }
 }
