@@ -943,7 +943,7 @@ mw._initHandles = {
             var pleft = parseFloat(el.css("paddingLeft"));
 
             var lebar =  document.querySelector("#live_edit_toolbar");
-            var minTop = lebar ? lebar.offsetHeight : 0;
+            var minTop = (lebar ? lebar.offsetHeight : 0);
             if(mw.templateTopFixed) {
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){
@@ -955,11 +955,11 @@ mw._initHandles = {
             var topPos = o.top;
 
             if(topPos<minTop){
-                topPos = minTop;
+                topPos = minTop + el[0].offsetHeight;
                 marginTop = 0
             }
             var ws = mw.$(window).scrollTop();
-            if(topPos<(ws+minTop)){
+            if((topPos-50)<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
                 if(el[0].offsetHeight < 100){
