@@ -1,10 +1,41 @@
 <div id="xtree"></div>
 <div id="domtree"></div>
 
-<script src="<?php print mw_includes_url(); ?>api/webpack/dist/gui-css-editor.js"></script>
-<script>
+<style>
+    #css-editor-root .mw-accordion-title{
+        font-weight: bold;
+    }
 
-    mw.lib.require('colorpicker');
+    #columns-edit .mw-field{
+        padding-bottom: 15px;
+    }
+    #columns-edit .mdi{
+        font-size: 19px;
+        position: relative;
+        top: 4px;
+        margin-inline-end: 15px;
+        margin-inline-start: 15px;
+    }
+
+</style>
+
+<script type="text/javascript">
+
+    // mw.parent().require("external_callbacks.js");
+    mw.require("jquery-ui.js");
+    mw.require("events.js");
+    mw.require("forms.js");
+    mw.require("files.js");
+    mw.require("url.js");
+    mw.require('prop_editor.js');
+    mw.require('color.js');
+    mw.require('selector.js');
+    mw.require('tree.js');
+
+    mw.require('domtree.js');
+
+
+    mw.require('css_parser.js');
 
 
     $(window).on('load', function () {
@@ -302,6 +333,82 @@ var populate = function(css){
     })
 };
 
+var scColumns = function (property, value){
+    var tg = ActiveNode;
+    while (tg && tg.classList) {
+        if(!tg.classList.contains('col') && !tg.className.contains('col-')) {
+            tg = tg.parentNode;
+        } else {
+            break
+        }
+    }
+
+    if(property === 'col-desktop') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-' + i)
+            tg.classList.remove('col-lg-' + i)
+        }
+        // tg.classList.add('col-' + value)
+        tg.classList.add('col-lg-' + value)
+    } else if(property === 'col-tablet') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-md-' + i)
+        }
+        tg.classList.add('col-md-' + value)
+    } else if(property === 'col-mobile') {
+        for (var i = 1; i <= 12; i++) {
+            tg.classList.remove('col-xs-' + i)
+            tg.classList.remove('col-sm-' + i)
+        }
+        tg.classList.add('col-sm-' + value)
+    }
+}
+
+var specialCases = function (property, value){
+    if(property.includes('col-')){
+        scColumns(property, value)
+        return true;
+    }
+}
+
+var populateSpecials = function (css) {
+    var holder = document.getElementById('columns-edit');
+    var colDesktop = document.querySelector('[data-prop="col-desktop"]')
+    var coltablet = document.querySelector('[data-prop="col-tablet"]')
+    var colmobile = document.querySelector('[data-prop="col-mobile"]')
+    colDesktop.value = ''
+    coltablet.value = ''
+    colmobile.value = ''
+     holder.style.display = 'none';
+
+    if(ActiveNode) {
+        var col = null;
+        var tg = ActiveNode;
+        while (tg && tg.classList) {
+            if(!tg.classList.contains('col') && !tg.className.contains('col-')) {
+                tg = tg.parentNode;
+            } else {
+                if(mw.tools.isEditable(tg)){
+                    col = tg;
+                    break
+                } else {
+                    tg = tg.parentNode;
+                }
+
+            }
+        }
+        if(col) {
+            holder.style.display = '';
+            var lg = col.className.split('col-lg-')[1] || '';
+            var md = col.className.split('col-md-')[1] || '';
+            var sm = col.className.split('col-sm-')[1] || '';
+            colDesktop.value = lg.split(' ')[0];
+            coltablet.value = md.split(' ')[0];
+            colmobile.value = sm.split(' ')[0];
+        }
+    }
+}
+
 var output = function(property, value){
     if(!ActiveNode) {
         ActiveNode = mw.top().liveEditSelector.selected
@@ -310,12 +417,14 @@ var output = function(property, value){
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {
-          // ActiveNode.style[property] = value;
-        mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
-          //ActiveNode.style.setProperty(property, value);
-          ActiveNode.setAttribute('staticdesign', true);
-          mw.top().wysiwyg.change(ActiveNode);
-          mw.top().liveEditSelector.positionSelected();
+        if(!specialCases(property, value)) {
+            //  ActiveNode.style[property] = value;
+            mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
+            // ActiveNode.style.setProperty(property, value);
+            ActiveNode.setAttribute('staticdesign', true);
+        }
+        mw.top().wysiwyg.change(ActiveNode);
+        mw.top().liveEditSelector.positionSelected();
     }
 };
 
@@ -387,6 +496,8 @@ var init = function(){
             footer: false,
             width: 1200
         })
+
+
     });
 
     _prepare.units();
@@ -410,6 +521,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         populate(css);
         ActiveNode = nodes[0];
         activeTree();
+        populateSpecials(css);
 
         var clsdata = [];
         $.each(nodes[0].className.split(' '), function(){
@@ -475,12 +587,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                 mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
             }
+            populateSpecials(css);
         }
         mw.top().liveEditSelector.positionSelected();
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
-        mw.$(document.body).removeClass('mw-external-loading');
 
     });
 </script>
@@ -499,6 +611,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 <div id="css-editor-root">
 
     <script>
+        mw.require('tags.js');
 
         initClasses = function () {
             if(!window.classes) {
@@ -545,135 +658,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         })
 
     </script>
-
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="classtags-accordion">
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
-        <div class="mw-accordion-content mw-ui-box-content">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Classes"); ?></label>
-                <div class="mw-ui-field w100" id="classtags"></div>
-            </div>
-
-        </div>
-    </div>
-
-
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
-    <div class="mw-accordion-content mw-ui-box-content">
-        <div class="s-field">
-            <label><?php _e("Text align"); ?></label>
-            <div class="s-field-content">
-                <div class="text-align">
-                    <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
-                    <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
-                    <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
-                    <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Size"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Line height"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Color"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <input type="color" class="colorField unit" data-prop="color">
-                   </div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Style"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="fontStyle">
-                            <option value="normal"><?php _e("normal"); ?></option>
-                            <option value="italic"><?php _e("italic"); ?></option>
-                            <option value="oblique"><?php _e("oblique"); ?></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Weight"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="fontWeight">
-                            <option value="normal"><?php _e("normal"); ?></option>
-                            <option value="bold"><?php _e("bold"); ?></option>
-                            <option value="bolder"><?php _e("bolder"); ?></option>
-                            <option value="lighter"><?php _e("lighter"); ?></option>
-                            <option value="100">100</option>
-                            <option value="200">200</option>
-                            <option value="300">300</option>
-                            <option value="400">400</option>
-                            <option value="500">500</option>
-                            <option value="600">600</option>
-                            <option value="700">700</option>
-                            <option value="800">800</option>
-                            <option value="900">900</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Text transform"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium">
-                        <select class="regular" data-prop="textTransform">
-                            <option value="none"><?php _e("none"); ?></option>
-                            <option value="capitalize"><?php _e("capitalize"); ?></option>
-                            <option value="uppercase"><?php _e("uppercase"); ?></option>
-                            <option value="lowercase"><?php _e("lowercase"); ?></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Word Spacing"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="s-field">
-            <label><?php _e("Letter Spacing"); ?></label>
-            <div class="s-field-content">
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
 
 
 
-    </div>
-</div>
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+<mw-accordion-item >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -740,7 +730,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundPosition">
+                    <select class="regular" data-prop="backgroundPosition">
                         <option value="0% 0%"><?php _e("Left Top"); ?></option>
                         <option value="50% 0%"><?php _e("Center Top"); ?></option>
                         <option value="100% 0%"><?php _e("Right Top"); ?></option>
@@ -757,11 +747,167 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </div>
-</div>
+</mw-accordion-item>
+
+        <mw-accordion-item>
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
+                <div class="s-field">
+                    <label><?php _e("Text align"); ?></label>
+                    <div class="s-field-content">
+                        <div class="text-align">
+                            <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
+                            <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
+                            <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
+                            <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Size"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Line height"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Color"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <input type="color" class="colorField unit" data-prop="color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Style"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="fontStyle">
+                                    <option value="normal"><?php _e("normal"); ?></option>
+                                    <option value="italic"><?php _e("italic"); ?></option>
+                                    <option value="oblique"><?php _e("oblique"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Weight"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="fontWeight">
+                                    <option value="normal"><?php _e("normal"); ?></option>
+                                    <option value="bold"><?php _e("bold"); ?></option>
+                                    <option value="bolder"><?php _e("bolder"); ?></option>
+                                    <option value="lighter"><?php _e("lighter"); ?></option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700">700</option>
+                                    <option value="800">800</option>
+                                    <option value="900">900</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Text transform"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="textTransform">
+                                    <option value="none"><?php _e("none"); ?></option>
+                                    <option value="capitalize"><?php _e("capitalize"); ?></option>
+                                    <option value="uppercase"><?php _e("uppercase"); ?></option>
+                                    <option value="lowercase"><?php _e("lowercase"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Word Spacing"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="s-field">
+                    <label><?php _e("Letter Spacing"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
 
 
+            </div>
+        </mw-accordion-item>
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="size-box" style="display: none">
+    <mw-accordion-item id="columns-edit">
+
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Grid"); ?></div>
+        <div class="mw-accordion-content mw-ui-box-content">
+
+            <div class="s-field">
+
+                <div class="s-field-content">
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Desktop'); ?></label>
+                        <i class=" mdi mdi-monitor"></i>
+                        <select data-prop="col-desktop" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Tablet'); ?></label>
+                        <i class=" mdi mdi-tablet"></i>
+                        <select data-prop="col-tablet" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mw-field" data-size="medium">
+                        <label><?php _e('Mobile'); ?></label>
+                        <i class=" mdi mdi-cellphone"></i>
+                        <select data-prop="col-mobile" class="regular">
+                            <option value='' selected disabled><?php _e('Choose'); ?></option>
+                            <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
+                                <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </mw-accordion-item>
+    <mw-accordion-item  id="size-box" style="display: none">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr-col">
@@ -829,9 +975,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
             <span class="mw-ui-link" onclick="mw.$('.size-advanced').slideToggle()">Advanced</span>
         </div>
-    </div>
+    </mw-accordion-item>
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <mw-accordion-item >
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
@@ -852,10 +998,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
             </div>
         </div>
-    </div>
+    </mw-accordion-item>
 
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+<mw-accordion-item  >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -908,8 +1054,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </div>
-</div>
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+</mw-accordion-item>
+<mw-accordion-item  >
     <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
@@ -945,8 +1091,20 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div id="shadow"></div>
 
     </div>
-</div>
+</mw-accordion-item>
+        <mw-accordion-item id="classtags-accordion">
 
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content">
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Classes"); ?></label>
+                    <div class="mw-ui-field w100" id="classtags"></div>
+                </div>
+
+            </div>
+
+        </mw-accordion-item>
+</div>
 
 <div class="mw-css-editor">
 

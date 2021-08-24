@@ -1,3 +1,7 @@
+@import url("../api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
+@import url("./ui.css");
+@import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
+
 .btn[disabled]{
     cursor: default !important;
 }
@@ -315,6 +319,9 @@ div.form-control {
 
 #edit-content-btn{margin-left: 10px;}
 
+.upload-button-prop:only-child .mw-badge{
+    display: none;
+}
 .upload-button-prop.mw-ui-box.mw-ui-box-content {
     width: 115px;
     display: inline-block;
@@ -450,6 +457,4 @@ div.form-control {
     }
 
 }
-
-
 

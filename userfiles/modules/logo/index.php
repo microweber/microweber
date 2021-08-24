@@ -148,15 +148,28 @@ if (is_file($template_file) != false) {
     print lnotif(_e("No template found. Please choose template."));
 }
 
-if ($logoimage_inverse == false) {
-    if ($logoimage == "") {
-        print lnotif("Upload your logo");
-    }
-} else {
-    if ($logoimage == "" or $logoimage_inverse == "") {
-        print lnotif("Upload your logo");
-    }
+
+$textCheck = strip_tags(html_entity_decode($text));
+$textCheck = mb_trim($textCheck);
+$textCheck = str_replace(' ', false, $textCheck);
+
+$hideUploadLogoText = false;
+
+if (!empty($logoimage)) {
+    $hideUploadLogoText = true;
 }
+if (!empty($textCheck)) {
+    $hideUploadLogoText = true;
+}
+if (!empty($logoimage_inverse)) {
+    $hideUploadLogoText = true;
+}
+
+
+if ($hideUploadLogoText == false) {
+    print lnotif("Upload your logo");
+}
+
 
 
 

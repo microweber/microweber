@@ -369,7 +369,7 @@ if ($last_page_front != false) {
 
                 <div class="d-inline-block ml-3">
                     <div class="js-bulk-actions" style="display: none;">
-                        <select class="selectpickeFr js-bulk-action" title="<?php _e("Bulk actions"); ?>" data-style="btn-sm" data-width="auto">
+                        <select class="selectpickeFr js-bulk-action form-control" title="<?php _e("Bulk actions"); ?>" data-style="btn-sm" data-width="auto">
 
                             <?php
                             if (user_can_access('module.content.edit')):
@@ -424,7 +424,7 @@ if ($last_page_front != false) {
             }
             ?>
 
-            <div class="js-table-sorting col-sm-6 text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="js-table-sorting col-sm-6 text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                 <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
 
                 <div class="d-inline-block mx-1">

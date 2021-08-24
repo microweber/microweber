@@ -15,7 +15,7 @@
         <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
     <?php endif; ?>
 	<div class="mw-ui-controls">
-		<input type="number" onKeyup="mw.form.typeNumber(this);" class="mw-ui-field" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
+		<input type="number" onKeyup="mw.form.typeNumber(this);" class="mw-ui-field" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
 	</div>
 </div>
 </div>

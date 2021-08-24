@@ -25,6 +25,8 @@ if(typeof  processContactForm !== 'object'){
        done: function(form, selector){
           var form = mw.$(form);
           form.addClass("deactivated");
+          form.removeClass("was-validated");
+
           mw.$(selector).css("top", "20%");
           if(typeof form.find(".mw-captcha-img")[0] !== 'undefined'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
@@ -42,6 +44,9 @@ if(typeof  processContactForm !== 'object'){
               mw.$(selector).css("top", "30%");
               form.removeClass("deactivated");
           }, 3200);
+
+
+
        },
        upload:function(form, callback){
             if(window['formHasUploader'] !== true ){

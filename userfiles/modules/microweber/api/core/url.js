@@ -1,6 +1,6 @@
 // URL Strings - Manipulations
 
-json2url = function(obj){ console.log(obj);  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
+json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
 
 mw.url = {

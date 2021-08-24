@@ -346,13 +346,23 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
+        $fieldRulesSettings = [];
+
         $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
-                if (isset($item['name'])) {
+
+                if ($item['required'] == 1) {
+                    $requiredFields[$item['name_key']] = [
+                        'required'
+                    ];
+                }
+
+                 if (isset($item['name'])) {
                     $cfn = ($item['name']);
 
-                    $cfn2 = str_replace(' ', '_', $cfn);
+                  //  $cfn2 = str_replace(' ', '_', $cfn);
+                    $cfn2 = str_replace(' ', '_', trim($cfn));
 
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
@@ -362,13 +372,39 @@ class FormsManager
                         $fields_data[$cfn] = $params[$cfn];
                         $item['value'] = $params[$cfn2];
                         $cfToSave[$cfn] = $item;
+                    } else {
+                        $cfn3 = url_title($item['name']);
+                         foreach ($params as $param_key=>$param_vals){
+                            $cfn_url = url_title($param_key);
+                             if($cfn3 == $cfn_url){
+
+                                 $item['value'] = $params[$param_key];
+                                 $cfToSave[$cfn] = $param_vals;
+                                 $fields_data[$cfn] = $params[$param_key];
+
+                             }
+                        }
                     }
                 }
             }
         } else {
             $cfToSave = $params;
         }
-        $save = 1;
+
+        if (!empty($requiredFields)) {
+            $validator = Validator::make($params, $requiredFields);
+            if ($validator->fails()) {
+                $validatorMessages = false;
+                foreach ($validator->messages()->toArray() as $inputFieldErros) {
+                    $validatorMessages = reset($inputFieldErros);
+                }
+                return array(
+                    'error' => $validatorMessages
+                );
+            }
+        }
+
+          $save = 1;
 
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
         if (!$skip_saving_emails) {

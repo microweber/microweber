@@ -88,6 +88,14 @@ class NewFormEntryAutoRespond extends Notification
         }
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+        $string = $autoRespondSettings['emailContent'];
+
+        if($string == strip_tags($string)) {
+            // emailContent is plain text so we add br tags
+            $autoRespondSettings['emailContent'] = nl2br($autoRespondSettings['emailContent']);
+        }
+
+
         $parsedEmail = $twig->render($autoRespondSettings['emailContent'], [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')

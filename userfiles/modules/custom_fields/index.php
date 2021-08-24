@@ -7,6 +7,11 @@ if (isset($params['for'])) {
     $for = $params['for'];
 }
 
+
+
+
+
+
 if (isset($params['data-skip-type'])) {
     $skip_types = explode(',', $params['data-skip-type']);
     $skip_types = array_trim($skip_types);
@@ -39,11 +44,21 @@ if (isset($params['content-id'])) {
 }
 
 if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
+    $is_cf_created  = get_option('data-default-custom-fields-are-created', $params['id']);
+    if (!$is_cf_created) {
+        $data = mw()->fields_manager->get(['rel_type' => $for, 'rel_id' => $for_id, 'return_full' => true]);
 
-    $data = mw()->fields_manager->get(['rel_type'=>$for,'rel_id'=>$for_id, 'return_full'=>true]);
+        if (empty($data)) {
+            mw()->fields_manager->makeDefault($for, $for_id, $params['default-fields']);
+        }
 
-    if (empty($data)) {
-        mw()->fields_manager->makeDefault($for, $for_id, $params['default-fields']);
+        if (is_admin()) {
+            $option = array();
+            $option['option_value'] = '1';
+            $option['option_key'] = 'data-default-custom-fields-are-created';
+            $option['option_group'] = $params['id'];
+            save_option($option);
+        }
     }
 }
 
@@ -144,6 +159,15 @@ if (!$template_file) {
 if (isset($params['template'])) {
     $module_template = $params['template'];
     $template_file = module_templates($config['module'], $module_template);
+
+    if ($template_file == false) {
+
+        $template_index_file = module_dir($config['module']) . 'templates'. DS . $module_template . DS . 'index.php';
+
+        if (is_file($template_index_file)) {
+            $template_file = $template_index_file;
+        }
+    }
 }
 
 if ($template_file == false) {

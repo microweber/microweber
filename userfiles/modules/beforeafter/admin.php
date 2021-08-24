@@ -76,7 +76,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     element: "#before"
                 });
                 $(before).bind('FileUploaded', function (a, b) {
-                    preload_image(b.src)
 
                     mw.$("#beforeval").val(b.src).trigger('change');
                     mw.$(".js-before-image").attr('src', b.src);
@@ -88,16 +87,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     element: "#after"
                 });
                 $(after).bind('FileUploaded', function (a, b) {
-                    preload_image(b.src)
-                    mw.$("#afterval").val(b.src).trigger('change');
+                     mw.$("#afterval").val(b.src).trigger('change');
                     mw.$(".js-after-image").attr('src', b.src);
                 });
             });
 
-            preload_image = function (src) {
-                var elem = document.createElement("img");
-                elem.setAttribute("src", src);
-            }
+
         </script>
     </div>
 </div>

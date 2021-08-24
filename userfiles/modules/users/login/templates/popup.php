@@ -25,7 +25,7 @@ description: Login Popup
                 <input class="form-control" name="password" type="password" placeholder="<?php _e("Password"); ?>"/>
             </div>
 
-            <div class="text-right">
+            <div class="text-end">
                 <input class="btn btn-primary" type="submit" value="<?php _e("Login"); ?>"/>
             </div>
 

@@ -5,7 +5,7 @@
  * Do not change anything!
  *
  */
-@import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
+
 * {
   margin: 0;
   padding: 0;
@@ -3198,6 +3198,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+
 }
 .mw-ui-box-header {
   padding: 15px 25px 10px 25px;
@@ -3207,6 +3208,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   position: relative;
+    font-weight: bold;
 }
 .mw-ui-box-header a {
   text-decoration: none;
@@ -7333,20 +7335,20 @@ body.bup.dragStart.state-element .edit .element:empty {
   cursor: pointer;
   position: relative;
 }
-.mw-ui-box-header.mw-accordion-title:after {
-  position: absolute;
-  content: "\0118";
-  display: inline-block;
-  font-family: Microweber !important;
-  text-transform: none !important;
-  transition: 0.4s;
-  z-index: 1;
-  color: #4592ff;
-  transform: rotate(-90deg);
-  top: 12px;
-  right: 12px;
-  font-size: 15px;
-}
+/*.mw-ui-box-header.mw-accordion-title:after {*/
+  /*position: absolute;*/
+  /*content: "\0118";*/
+  /*display: inline-block;*/
+  /*font-family: Microweber !important;*/
+  /*text-transform: none !important;*/
+  /*transition: 0.4s;*/
+  /*z-index: 1;*/
+  /*color: #4592ff;*/
+  /*transform: rotate(-90deg);*/
+  /*top: 12px;*/
+  /*right: 12px;*/
+  /*font-size: 15px;*/
+/*}*/
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
 }
@@ -7671,6 +7673,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   padding: 5px;
   min-height: 100px;
   overflow: auto;
+  cursor: auto;
 }
 .mw-editor-frame-area ul:not([class]),
 .mw-editor-area ul:not([class]),

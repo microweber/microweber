@@ -360,7 +360,7 @@
                     <div class="col-md-6">
                         <span class="text-primary">Invoice SAJ/2020/003</span>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-6 text-end">
                         <a href="#" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                 </div>
@@ -368,7 +368,7 @@
                     <div class="col-md-6">
                         <span class="text-primary">Invoice SAJ/2020/003</span>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-6 text-end">
                         <a href="#" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                 </div>

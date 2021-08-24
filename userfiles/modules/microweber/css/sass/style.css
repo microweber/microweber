@@ -1150,3 +1150,43 @@ Primary style
   text-align: center;
   font-style: normal;
 }
+
+
+.mw-ui-btn {
+    font-weight: 400;
+    text-align: center;
+    user-select: none;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 1.308rem;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    font-size: 0.875rem;
+    height: 40px;
+    border-radius: 5px;
+    color: #686868;
+    background-color: #eeefef;
+    border: 1px solid #cfcfcf;
+    outline: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.mw-ui-btn-invert {
+    color: #fff;
+    background-color: #2b2b2b;
+    border-color: #2b2b2b;
+}
+
+.mw-ui-btn-invert:hover, .mw-ui-btn-invert.active {
+    background-color: #5e5e5e;
+    border-color: #5e5e5e;
+}
+

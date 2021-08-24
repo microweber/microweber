@@ -403,7 +403,7 @@ mw._initHandles = {
             buttons: [
                     {
                         title: mw.lang('Insert'),
-                        icon: 'mdi-plus-circle',
+                        icon: 'mdi-plus',
                         className: 'mw-handle-insert-button',
                         hover: [
                             function (e){
@@ -593,7 +593,7 @@ mw._initHandles = {
                 mw.handleElement.show();
             }
             mw.handleElement.positionedAt = 'top';
-            var posTop = o.top - 30;
+            var posTop = o.top - 40;
             var elHeight = el.height();
             /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
@@ -630,7 +630,7 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
+                    icon: 'mdi-plus',
                     hover: [
                         function (e) {
                             handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
@@ -640,7 +640,12 @@ mw._initHandles = {
                         }
                     ],
                     action: function (node) {
-                        if(mw.handleModule.isLayout) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = targetFn();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
                             mw.layoutPlus.showSelectorUI(node);
                         } else {
                             mw.drag.plus.rendModules(node);
@@ -717,6 +722,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -803,6 +809,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -860,7 +867,7 @@ mw._initHandles = {
                     if (!mw.dragCurrent.id) {
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
-                    if(mw.liveEditTools.isLayout(mw.dragCurrent)){
+                    if (mw.liveEditTools.isLayout(mw.dragCurrent)){
                         mw.$(mw.dragCurrent).css({
                             opacity:0
                         }).addClass("mw_drag_current");
@@ -955,7 +962,7 @@ mw._initHandles = {
             var pleft = parseFloat(el.css("paddingLeft"));
 
             var lebar =  document.querySelector("#live_edit_toolbar");
-            var minTop = lebar ? lebar.offsetHeight : 0;
+            var minTop = (lebar ? lebar.offsetHeight : 0);
             if(mw.templateTopFixed) {
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){
@@ -967,11 +974,11 @@ mw._initHandles = {
             var topPos = o.top;
 
             if(topPos<minTop){
-                topPos = minTop;
+                topPos = minTop + el[0].offsetHeight;
                 marginTop = 0
             }
             var ws = mw.$(window).scrollTop();
-            if(topPos<(ws+minTop)){
+            if((topPos-50)<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
                 if(el[0].offsetHeight < 100){

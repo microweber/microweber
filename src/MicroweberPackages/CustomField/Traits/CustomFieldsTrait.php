@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\CustomField\Traits;
 
+use Illuminate\Contracts\Session\Session;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
@@ -41,7 +42,10 @@ trait CustomFieldsTrait {
         static::saved(function($model) {
 
             // Append custom fields to content when content is created
-            CustomField::where('rel_id', 0)->update(['rel_id'=>$model->id]);
+            CustomField::where('rel_id', 0)
+                ->where('session_id',  app()->user_manager->session_id() )  //ERROR: Non-static method Illuminate\Contracts\Session\Session::getId() cannot be called statically
+                ->where('rel_type', $model->getMorphClass())
+                ->update(['rel_id'=>$model->id]);
 
             if (!empty($model->_addCustomFields)) {
                 foreach ($model->_addCustomFields as $customField) {

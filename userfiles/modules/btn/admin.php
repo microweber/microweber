@@ -115,7 +115,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <div class="module-live-edit-settings module-btn-settings">
-            <div class="text-left">
+            <div class="text-start">
                 <div class="row">
                     <div class="form-group col-6">
                         <label class="control-label"><?php _e("Text"); ?></label>
@@ -187,12 +187,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
-                            controllers: [
+                            /*controllers: [
                                 { type: 'url', config: {target: false, text: false}},
                                 { type: 'page', config: {target: false, text: false} },
                                 { type: 'post', config: {target: false, text: false}},
                                 { type: 'layout', config: {target: false, text: false} }
-                            ]
+                            ]*/
                         });
 
                         linkEditor.setValue({

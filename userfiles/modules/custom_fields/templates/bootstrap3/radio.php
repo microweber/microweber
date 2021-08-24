@@ -19,7 +19,7 @@
             $i++;
             ?>
             <label class="mw-ui-check">
-                <input type="radio" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>" name="<?php echo $data['name']; ?>"
+                <input type="radio" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>" name="<?php echo $data['name_key']; ?>"
                        <?php if ($data['value'] && $data['value'] == $value): ?>checked="checked"<?php endif; ?> />
                 <span></span>
                 <span><?php echo $value; ?></span>

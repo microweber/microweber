@@ -36,6 +36,7 @@ mw.layoutPlus = {
     _prepareList:function (tip, action) {
         var scope = this;
         var items = mw.$('.modules-list li', tip);
+        items.removeClass('tip')
         mw.$('input', tip).on('input', function () {
                 mw.tools.search(this.value, items, function (found) {
                     $(this)[found?'show':'hide']();
@@ -84,7 +85,7 @@ mw.layoutPlus = {
             template: 'mw-tooltip-default mw-tooltip-insert-module',
             id: 'mw-plus-tooltip-selector',
             title: mw.lang('Select layout'),
-            width: 800,
+            width: 500,
             overlay: true
         });
         scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');

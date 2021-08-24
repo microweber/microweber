@@ -86,7 +86,7 @@ class DefaultField
             }
         }
 
-        $renderSettings = $this->calculateFieldSize($renderSettings);
+        // $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
 
@@ -109,7 +109,7 @@ class DefaultField
             }
         }
 
-        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false) {
+        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false || $renderSettings['show_placeholder'] == 'false') {
             $renderData['placeholder'] = '';
         }
 
@@ -146,7 +146,7 @@ class DefaultField
         return $file;
     }
 
-    public function calculateFieldSize($renderSettings)
+   /* public function calculateFieldSize($renderSettings)
     {
         $renderSettings['field_size'] = 12;
 
@@ -169,5 +169,5 @@ class DefaultField
         }
 
         return $renderSettings;
-    }
+    }*/
 }

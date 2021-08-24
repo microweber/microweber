@@ -222,7 +222,7 @@ if (!empty($template_id)) {
                     <button type="button" onClick="cancelTemplateEdit();" class="btn btn-danger btn-sm"><?php _e("Cancel"); ?></button>
                 </div>
 
-                <div class="col-md-6 text-right">
+                <div class="col-md-6 text-end">
                     <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
                     <button type="submit" name="submit" class="btn btn-success btn-sm"><?php _e("Save changes"); ?></button>
                 </div>

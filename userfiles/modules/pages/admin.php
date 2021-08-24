@@ -113,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                 </script>
 
-                <div class="text-right">
+                <div class="text-end">
                     <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_page();"><i class="mw-icon-page"></i> <?php _e("Add new page"); ?></a>
                 </div>
 

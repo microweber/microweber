@@ -240,7 +240,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         </div>
 
         <div class="tab-pane fade" id="list">
-            <div class="text-right">
+            <div class="text-end">
                 <?php if (isset($params['global'])): ?>
                     <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');" style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
                         <?php _e("Add new"); ?> <?php _e(ucwords($set_content_type_mod)); ?></a>

@@ -23,7 +23,7 @@ MWEditor.api = function (scope) {
         },
         getSelectionHTML: function (){
             var sel = scope.getSelection();
-            var html = document.createElement('div');
+            var html = scope.actionWindow.document.createElement('div');
             if(sel.rangeCount) {
                 var frag = sel.getRangeAt(0).cloneContents();
                 while (frag.firstChild) {
@@ -44,7 +44,7 @@ MWEditor.api = function (scope) {
                             group.push(curr);
                             curr = curr.nextElementSibling;
                         }
-                        var el = document.createElement(all[i].getAttribute('data-type') === 'ul' ? 'ul' : 'ol');
+                        var el = scope.actionWindow.document.createElement(all[i].getAttribute('data-type') === 'ul' ? 'ul' : 'ol');
                         el.className = 'element';
                         group.wrapAll(el);
                         break;
@@ -87,7 +87,7 @@ MWEditor.api = function (scope) {
                             var prev = this.previousElementSibling;
                             if (!!prev && prev.nodeName === 'LI') {
                                 var type = this.getAttribute('data-type');
-                                var wrap = document.createElement(type === 'ul' ? 'ul' : 'ol');
+                                var wrap = scope.actionWindow.document.createElement(type === 'ul' ? 'ul' : 'ol');
                                 wrap.setAttribute('data-level', level);
                                 mw.$(wrap).append(this);
                                 mw.$(wrap).appendTo(prev);
@@ -101,7 +101,7 @@ MWEditor.api = function (scope) {
                                 }
                                 else {
                                     var type = this.getAttribute('data-type');
-                                    var wrap = document.createElement(type === 'ul' ? 'ul' : 'ol');
+                                    var wrap = scope.actionWindow.document.createElement(type === 'ul' ? 'ul' : 'ol');
                                     wrap.setAttribute('data-level', level)
                                     mw.$(wrap).append(this);
                                     mw.$(wrap).appendTo($('li:last', prev))
@@ -350,6 +350,57 @@ MWEditor.api = function (scope) {
                 return false;
             }
         },
+        getTextNodes: function (root, target){
+            if(!target) target = [];
+            var curr = root.firstChild;
+            while (curr) {
+                if(curr.nodeType === 3) {
+                    target.push(curr);
+                } else if(curr.nodeType === 1){
+                    scope.api.getTextNodes(curr, target)
+                }
+                curr = curr.nextSibling;
+            }
+            return target;
+        },
+        classApplier: function (className) {
+            var sel = scope.getSelection();
+            var range = sel.getRangeAt(0);
+            var frag = range.cloneContents();
+            var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
+            nodes.forEach(function (node){
+                var el = scope.actionWindow.document.createElement('span');
+                el.className = 'mw-richtext-classApplier ' + className;
+                el.textContent = node.textContent;
+                node.parentNode.replaceChild(el, node);
+            });
+            range.deleteContents()
+            range.insertNode(frag)
+        },
+        cssApplier: function (css) {
+            var styles = '';
+            if (typeof css === 'object') {
+                for (var i in css) {
+                    styles += (i + ':' + css[i] + ';');
+                }
+            } else if(typeof css === 'string') {
+                styles = css;
+            }
+            var sel = scope.getSelection();
+            var el = scope.api.elementNode(sel.focusNode);
+            var range = sel.getRangeAt(0);
+            var frag = range.cloneContents();
+            var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
+            nodes.forEach(function (node){
+                var el = scope.actionWindow.document.createElement('span');
+                el.className = 'mw-richtext-cssApplier';
+                el.setAttribute('style', styles);
+                el.textContent = node.textContent;
+                node.parentNode.replaceChild(el, node);
+            });
+            range.deleteContents();
+            range.insertNode(frag);
+        },
         isSafeMode: function(el) {
             if (!el) {
                 var node = scope.getSelection().focusNode;
@@ -374,6 +425,24 @@ MWEditor.api = function (scope) {
                 }
             }
         },
+        domCommand: function (method, options) {
+            var sel = scope.getSelection();
+            try {  // 0x80004005
+                if (  scope.api.isSelectionEditable()) {
+
+                    if (sel.rangeCount > 0) {
+                        var node = scope.api.elementNode(sel.focusNode);
+                        scope.api.action(mw.tools.firstBlockLevel(node), function () {
+                            scope.api[method].call(scope.api, options);
+                            mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
+                            mw.$(scope).trigger('execCommand');
+                        });
+                    }
+                }
+            }
+            catch (e) {
+            }
+        },
         execCommand: function (cmd, def, val) {
              scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
@@ -384,7 +453,7 @@ MWEditor.api = function (scope) {
                     if (sel.rangeCount > 0) {
                          var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(mw.tools.firstBlockLevel(node), function () {
-                             scope.actionWindow.document.execCommand(cmd, def, val);
+                            scope.actionWindow.document.execCommand(cmd, def, val);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                         });
@@ -396,10 +465,7 @@ MWEditor.api = function (scope) {
         },
         _fontSize: function (size, unit) {
             unit = unit || 'px';
-            var fontSize = $('<span/>', {
-                'text': scope.getSelection()
-            }).css('font-size', size + unit).prop('outerHTML');
-            scope.api.execCommand('insertHTML', false, fontSize);
+            scope.api.domCommand('cssApplier', 'font-size:' +  size + unit + ';');
         },
         lineHeight: function (size) {
 
@@ -415,7 +481,7 @@ MWEditor.api = function (scope) {
         fontSize: function (size) {
             var sel = scope.getSelection();
             if (sel.isCollapsed) {
-                scope.api.select_all(scope.api.elementNode(sel.focusNode));
+                scope.api.selectAll(scope.api.elementNode(sel.focusNode));
                 sel = scope.getSelection();
             }
             var range = sel.getRangeAt(0),

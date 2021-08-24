@@ -389,7 +389,7 @@ if (isset($data[0]) == false) {
                                 <?php if ($data['id'] != false and $data['id'] != user_id()): ?>
                                     <div class="d-flex align-items-center">
                                         <a onclick="LoginAsUserFromAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Login as User'); ?></a>
-                                        <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Delete user'); ?></a>
+                                        <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-danger btn-sm ml-2"><?php _e('Delete user'); ?></a>
                                     </div>
                                 <?php endif; ?>
 
@@ -427,8 +427,14 @@ if (isset($data[0]) == false) {
                                     <div class="export-label d-flex align-items-center justify-content-center-x">
                                         <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php _e('Export user data'); ?></a>
                                         &nbsp;
+                                    </div>
+                                    <div class="export-label d-flex align-items-center justify-content-center-x">
+
                                         <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Terms agreement log'); ?></a>
                                         &nbsp;
+                                    </div>
+                                    <div class="export-label d-flex align-items-center justify-content-center-x">
+
                                         <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Login attempts'); ?></a>
                                     </div>
                                 <?php endif; ?>

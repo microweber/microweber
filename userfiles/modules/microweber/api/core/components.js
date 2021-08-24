@@ -1,6 +1,8 @@
     mw.components = {
     _rangeOnce: false,
-    'range': function(el, options){
+    'range': function(el){
+        mw.lib.require('jqueryui');
+        var options = this._options(el);
         var defaults = {
             range: 'min',
             animate: "fast"
@@ -49,7 +51,8 @@
             });
         }
     },
-    'color-picker': function(el, options){
+    'color-picker': function(el){
+        var options = this._options(el);
         var defaults = {
             position: 'bottom-center'
         };
@@ -83,8 +86,9 @@
             }, 10);
         });
     },
-    'file-uploader':function(el, options){
-         var defaults = {
+    'file-uploader':function(el){
+        var options = this._options(el);
+        var defaults = {
             element: el
         };
         var settings = $.extend({}, defaults, options);
@@ -100,8 +104,9 @@
             }
         });
     },
-    'modules-tabs':function(el, options){
-         options.breakPoint = 100; //makes accordion if less then 100px
+    'modules-tabs':function(el){
+        var options = this._options(el);
+        options.breakPoint = 100; //makes accordion if less then 100px
         if(window.live_edit_sidebar) {
             mw.$(el).addClass('mw-accordion-window-height')
             options.breakPoint = 800; //makes accordion if less then 800px
@@ -109,11 +114,12 @@
         var accordion = this.accordion(el);
         var tb = new mw.tabAccordion(options, accordion);
     },
-    'tab-accordion':function(el, options){
-        var accordion = this.accordion(el);
+    'tab-accordion':function(el){
+       var options = this._options(el);
+       var accordion = this.accordion(el);
        var tb = new mw.tabAccordion(options, accordion);
     },
-    accordion:function(el, options){
+    accordion:function(el){
         if(!el || el._accordion) return;
         if(!$(el).is(':visible')){
             setTimeout(function(){
@@ -122,7 +128,8 @@
             return;
         }
         el._accordion = true;
-         var settings = $.extend(options, {element:el})
+        var options = this._options(el);
+        var settings = $.extend(options, {element:el})
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
@@ -160,7 +167,7 @@
         }
         return accordion;
     },
-    postSearch: function (el, options) {
+    postSearch: function (el) {
         var defaults = {keyword: el.value, limit: 4};
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
@@ -169,7 +176,8 @@
         };
 
         el = mw.$(el);
-         settings = $.extend({}, defaults, options);
+        var options = JSON.parse(el.attr("data-options") || '{}');
+        settings = $.extend({}, defaults, options);
         el[0]._settings = settings;
 
         el.wrap("<div class='mw-component-post-search'></div>");
@@ -179,11 +187,11 @@
 
             if (!el[0].is_searching) {
                 var val = el.val();
-                if (event.type === 'blur') {
+                if (event.type == 'blur') {
                     mw.$(this).next('ul').hide();
                     return false;
                 }
-                if (event.type === 'focus') {
+                if (event.type == 'focus') {
                     if ($(this).next('ul').html()) {
                         mw.$(this).next('ul').show()
                     }
@@ -229,18 +237,18 @@
     },
     _init: function () {
         mw.$('.mw-field input[type="range"]').addClass('mw-range');
-        mw.$('[data-mwcomponent]').each(function () {
-            var component = mw.$(this).attr("data-mwcomponent");
+        mw.$('[data-mwcomponent], [data-mw-component]').each(function () {
+            var component = this.dataset.mwComponent || this.dataset.mwcomponent;
             if (mw.components[component]) {
-                mw.components[component](this, mw.components._options(this));
-                mw.$(this).removeAttr('data-mwcomponent');
+                mw.components[component](this);
+                mw.$(this).removeAttr('data-mwcomponent').removeAttr('data-mw-component')
             }
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
                 mw.$('.mw-'+key+', mw-'+key).not(".mw-component-ready").each(function () {
                     mw.$(this).addClass('mw-component-ready');
-                    mw.components[key](this, mw.components._options(this));
+                    mw.components[key](this);
                 });
             }
         });
@@ -248,14 +256,6 @@
 };
 
 $(document).ready(function () {
-    mw.on('ComponentsLaunch', function () {
-        mw.components._init();
-    });
-    mw.on('mwDialogShow', function () {
-        setTimeout(function () {
-            mw.components._init();
-        }, 110);
-    });
     mw.components._init();
 });
 
@@ -263,7 +263,15 @@ $(window).on('load', function () {
     mw.components._init();
 });
 
+    mw.on('ComponentsLaunch', function () {
+        mw.components._init();
+    });
 
+    mw.on('mwDialogShow', function () {
+        setTimeout(function () {
+            mw.components._init();
+        }, 110);
+    });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {

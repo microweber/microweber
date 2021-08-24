@@ -99,10 +99,14 @@
 </style>
 
 <?php
+
 $projects = [];
 $selected_project = get_option('show_testimonials_per_project', $params['parent-module-id']);
 if (empty($selected_project)) {
     $selected_project = 'All projects';
+    if (isset($params['project_name']) && !empty($params['project_name'])) {
+        $selected_project = $params['project_name'];
+    }
 }
 
 $data = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_name', $selected_project)->orderBy('id','DESC')->get();
@@ -135,7 +139,7 @@ $data = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_na
                                     </div>
                                     <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php echo $item->id ?>');"><?php _e("Edit"); ?></a>
                                 </div>
- 
+
                                 <div class="col">
                                     <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 

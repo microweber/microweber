@@ -5,6 +5,14 @@ if (!isset($params['option-group'])) {
 
 $data = get_testimonials("group_by=project_name");
 $selected = get_option('show_testimonials_per_project', $params['option-group']);
+
+if (empty($selected)) {
+    $selected = 'All projects';
+    if (isset($params['project_name']) && !empty($params['project_name'])) {
+        $selected = $params['project_name'];
+    }
+}
+
 ?>
 <script type="text/javascript">
     $(document).ready(function () {

@@ -36,6 +36,13 @@ if (isset($is_elements) and $is_elements == true) {
         $el_params['layout_type'] = $params['layout_type'];
     }
 
+
+    if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
+        $show_grouped_by_cats = true;
+    }
+
+
+
     $modules = mw()->layouts_manager->get($el_params);
     //$modules = false;
 
@@ -232,7 +239,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     }
 
 }
-?>  <?php if (!isset($params['clean'])) { ?>
+?>
+
+
+<?php if (!isset($params['clean'])) { ?>
     <script type="text/javascript">
 
         Modules_List_<?php print $mod_obj_str ?> = {}
@@ -242,7 +252,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 <?php } ?>
 
-<ul class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
+
+<div class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
     <?php
     $def_icon = modules_path() . 'default.jpg';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
@@ -252,9 +263,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
         <?php
 
-
         $i = 0; ?>
         <?php foreach ($dynamic_layouts as $dynamic_layout): ?>
+
             <?php if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layout"
                     template="<?php print $dynamic_layout['template_dir'] ?>/<?php print $dynamic_layout['layout_file'] ?>"
@@ -282,7 +293,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     <script>
         $(document).ready(function () {
-            $('.mw_module_image img').each(function (index) {
+
+            $('.mw_module_image img','#<?php print $params['id'] ?>').each(function (index) {
                 var img = $(this).data('src');
                 $(this).attr('src', img);
             });
@@ -292,20 +304,93 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     <?php
 
-    if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
-        <?php
 
 
-        $i = 0; ?>
 
-        <?php
+    if (isset($module_layouts_skins) and is_array($module_layouts_skins)) { ?>
+    <?php
+    $i = 0; ?>
+
+    <?php
+    $module_layouts_skins_grouped = [];
+    foreach($module_layouts_skins as $module_layouts_skin) {
+         if(!$show_grouped_by_cats){
+            $expCategories = ['Other'];
+
+        } else {
+            if(isset($module_layouts_skin['categories'])){
+            $expCategories = explode(',', $module_layouts_skin['categories']);
+              array_walk($expCategories,'trim');
+            } else {
+                $expCategories = ['Other'];
+
+            }
+
+        }
+        if (!empty($expCategories)) {
+            foreach ($expCategories as $category) {
+                $category = strtolower($category);
+                $category = trim($category);
+                $module_layouts_skins_grouped[$category][] = $module_layouts_skin;
+            }
+        }
+    }
+    ?>
 
 
-        foreach ($module_layouts_skins as $dynamic_layout): ?>
+        <script>
+
+            $(document).ready(function(){
+                $(".mw-liveedit-sidebar-h2").click(function(){
+                    $(".mw-liveedit-layouts-li").not(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
+                   if ($(this.parentNode.nextElementSibling).is(":visible")) {
+                       $(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
+                   } else {
+                       $(this.parentNode).addClass("mw-liveedit-sidebar-background-active");
+                   }
+                }).click();
+            });
+        </script>
+
+
+     <?php
+        foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name=>$dynamic_layouts_grouped) {
+            $dynamic_layouts_group_name_orig = $dynamic_layouts_group_name;
+
+            $dynamic_layouts_group_name = str_slug($dynamic_layouts_group_name);
+            ?>
+
+
+            <?php if($show_grouped_by_cats){ ?>
+
+
+
+
+            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>', this.parentNode).toggle();event.stopImmediatePropagation()">
+                <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
+            </li>
+
+            <?php } ?>
+
+
+            <?php
+        foreach ($dynamic_layouts_grouped as $dynamic_layout) {
+                $randId = uniqid();
+            ?>
+
+
+
             <?php if (isset($dynamic_layout['layout_file'])): ?>
+
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
-                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item module-item-layout"
+                    data-filter="<?php print $dynamic_layout['name'] ?>"
+                    class="module-item module-item-layout tip module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>"  <?php if($show_grouped_by_cats)  { ?> style="display: none"   <?php } ?>
+                    data-tipposition="left-center"
+                    data-tipskin="mw-tooltip-default"
+                    data-tip="#tooltip-<?php print $randId; ?>"
                     unselectable="on">
+
+
                     <span class="mw_module_hold">
                         <?php
 
@@ -313,6 +398,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         if (!isset($dynamic_layout['screenshot'])): ?>
                             <?php $dynamic_layout['screenshot'] = $def_icon; ?>
                         <?php endif; ?>
+                        <div style="display: none" id="tooltip-<?php print $randId; ?>">
+                            <div  class="layout-preview-tooltip-image-holder" style="background-image: url(<?php print $dynamic_layout['screenshot']; ?>)"></div>
+                        </div>
                         <span class="mw_module_image">
                             <span class="mw_module_image_holder">
                                 <img
@@ -322,8 +410,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-                                        src=""
-                                        data-src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
+
+                                        src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
                                 />
                             </span>
                         </span>
@@ -332,24 +420,48 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     </span>
                 </li>
                 <?php
-
-
             endif; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        <?php } ?>
+
+
+        <?php } ?>
+
+    <?php } ?>
 
 
     <?php if (isset($modules) and !empty($modules)): ?>
 
+<script>
 
+    <?php if($show_grouped_by_cats)  { ?>
+
+
+
+   $(document).ready(function (){
+      $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
+   })
+    <?php } ?>
+</script>
+
+    <style>
+
+        #default-layouts-holder .mw_module_hold{
+            padding: 0;
+        }
+        #default-layouts-holder .default-layouts{
+            padding: 0;
+            margin-bottom: 35px;
+            display: none;
+        }
+
+    </style>
+    <div id="default-layouts-holder">
         <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
             <?php if ($mod_obj_str == 'modules' and count($modules_by_categories) > 1): ?>
 
-                <li class=" " unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
-                    <hr>
-                    <h4 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat, true)); ?> </h4>
-                    <hr>
+                <li unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
+                    <h3 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat, true)); ?> </h3>
                 </li>
 
 
@@ -357,22 +469,18 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li unselectable="on">
-                    <hr>
-                    <h6 class="text-uppercase" style="font-size: 11px;
-                    text-transform: uppercase;
-                    margin: 0;
-                    letter-spacing: 0;
-                    padding-bottom: 5px;
-                    line-height: 28px;"
-                    ><?php _e('Default layouts and elements'); ?></span></h6>
-                    <hr>
+                <li class="mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
+                    <h2 class="mw-liveedit-sidebar-h2">
+                        <?php _e('Default layouts'); ?>
+                    </h2>
                 </li>
 
             <?php endif; ?>
 
             <?php $i = 0; ?>
             <?php foreach ($modules as $module_item): ?>
+
+
 
                 <?php $i++; ?>
                 <?php if (isset($module_item['module'])): ?>
@@ -418,7 +526,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <?php if (isset($module_item['template'])) { ?>
                             template="<?php print $module_item['template'] ?>"
                         <?php } ?>
-                            class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
+                            class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts pt-0<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element pt-0<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
 
@@ -479,7 +587,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                    data-src="<?php print $module_item['icon']; ?>"/>
+                    src="<?php print $module_item['icon']; ?>"/>
         </span>
     </span>
                         <?php endif; ?>
@@ -497,7 +605,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
         <?php endforeach; ?>
 
-
+</div>
     <?php endif; ?>
 
 

@@ -636,16 +636,21 @@ mw.propEditor = {
 
 
                 };
-                var close = document.createElement('span');
-                close.className = 'mw-badge mw-badge-important';
-                close.innerHTML = '<span class="mw-icon-close"></span>';
 
-                close.onclick = function(e){
-                    scope.remove(el);
-                    e.preventDefault();
-                    e.stopPropagation();
-                };
-                el.appendChild(close);
+                if(config.multiple === true || (typeof config.multiple === 'number' && config.multiple > 1) ) {
+                    var close = document.createElement('span');
+                    close.className = 'mw-badge mw-badge-important';
+                    close.innerHTML = '<span class="mw-icon-close"></span>';
+
+                    close.onclick = function(e){
+                        scope.remove(el);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    };
+                    el.appendChild(close);
+                }
+
+
                 el.appendChild(btn);
                 return el;
             };

@@ -25,37 +25,37 @@
                 <table id="filter" class="table table-elegant table-hover">
                     <thead>
                     <tr>
-                        <td class="text-left required">Име на филтъра:</td>
-                        <td class="text-right">Подреждане:</td>
+                        <td class="text-start required">Име на филтъра:</td>
+                        <td class="text-end">Подреждане:</td>
                         <td></td>
                     </tr>
                     </thead>
                     <tbody>
 
                     <tr id="filter-row0">
-                        <td class="text-left" style="width: 70%;"><input type="hidden" name="filter[0][filter_id]" value="1">
+                        <td class="text-start" style="width: 70%;"><input type="hidden" name="filter[0][filter_id]" value="1">
                             <div class="input-group"><span class="input-group-addon"><img src="language/bg-bg/bg-bg.png" title="Bulgarian"></span>
                                 <input type="text" name="filter[0][filter_description][2][name]" value="България" placeholder="Име на филтъра:" class="form-control">
                             </div>
                         </td>
-                        <td class="text-right"><input type="text" name="filter[0][sort_order]" value="0" placeholder="Подреждане:" id="input-sort-order" class="form-control"></td>
-                        <td class="text-right"><button type="button" onclick="$('#filter-row0').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Премахване"><i class="fa fa-minus-circle"></i></button></td>
+                        <td class="text-end"><input type="text" name="filter[0][sort_order]" value="0" placeholder="Подреждане:" id="input-sort-order" class="form-control"></td>
+                        <td class="text-end"><button type="button" onclick="$('#filter-row0').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Премахване"><i class="fa fa-minus-circle"></i></button></td>
                     </tr>
                     <tr id="filter-row1">
-                        <td class="text-left" style="width: 70%;"><input type="hidden" name="filter[1][filter_id]" value="2">
+                        <td class="text-start" style="width: 70%;"><input type="hidden" name="filter[1][filter_id]" value="2">
                             <div class="input-group"><span class="input-group-addon"><img src="language/bg-bg/bg-bg.png" title="Bulgarian"></span>
                                 <input type="text" name="filter[1][filter_description][2][name]" value="Япония" placeholder="Име на филтъра:" class="form-control">
                             </div>
                         </td>
-                        <td class="text-right"><input type="text" name="filter[1][sort_order]" value="0" placeholder="Подреждане:" id="input-sort-order" class="form-control"></td>
-                        <td class="text-right"><button type="button" onclick="$('#filter-row1').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Премахване"><i class="fa fa-minus-circle"></i></button></td>
+                        <td class="text-end"><input type="text" name="filter[1][sort_order]" value="0" placeholder="Подреждане:" id="input-sort-order" class="form-control"></td>
+                        <td class="text-end"><button type="button" onclick="$('#filter-row1').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Премахване"><i class="fa fa-minus-circle"></i></button></td>
                     </tr>
                     </tbody>
 
                     <tfoot>
                     <tr>
                         <td colspan="2"></td>
-                        <td class="text-right"><button type="button" onclick="addFilterRow();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Добави филтър"><i class="fa fa-plus-circle"></i></button></td>
+                        <td class="text-end"><button type="button" onclick="addFilterRow();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Добави филтър"><i class="fa fa-plus-circle"></i></button></td>
                     </tr>
                     </tfoot>
                 </table>

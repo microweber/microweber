@@ -31,7 +31,7 @@
         </div>
 
         <?php if (count($orders) != 0) { ?>
-        <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+        <div class="js-table-sorting text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
             <small><?php _e("Sort By"); ?>: &nbsp;</small>
 
             <div class="d-inline-block mx-1">

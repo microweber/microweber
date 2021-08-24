@@ -85,7 +85,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <script>
 
-                var customFields<?php print $for_id; ?> = <?php print json_encode($fields); ?>;
 
                 function addCustomFieldByVal(fieldName) {
                     $('.js-cf-options').val(fieldName);
@@ -188,7 +187,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div>
                         <div class="card mb-3 mt-3 card-closed">
-                            <div class="card-header no-border bg-primary text-white py-1 pl-3" onClick="javascript:mw_cf_toggle_edit_window()">
+                            <div class="card-header no-border bg-primary text-white py-1 pl-3" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
                                 <div class="d-flex align-items-center">
                                     <i class="mdi mdi-plus mdi-20px mr-2"></i>
                                     <span><?php _e("Add new field"); ?></span>

@@ -264,10 +264,23 @@ class LayoutsManager
                                 $to_return_temp['name'] = trim($result);
                             }
 
+                            $to_return_temp['category'] = 'All';
+                            if (preg_match('/category:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('category:', '', $result);
+                                $result = trim($result);
+                                $to_return_temp['category'] = $result;
+                            }
+
                             if (preg_match('/is_default:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('is_default:', '', $result);
                                 $to_return_temp['is_default'] = trim($result);
+                            }
+                            if (preg_match('/categories:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('categories:', '', $result);
+                                $to_return_temp['categories'] = trim($result);
                             }
 
                             if (preg_match('/position:.+/', $fin, $regs)) {

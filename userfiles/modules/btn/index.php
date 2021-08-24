@@ -20,6 +20,11 @@ if (!empty($get_btn_options)) {
     }
 }
 
+$align = get_module_option('align', $params['id']);
+
+
+
+
 
 $style = $btn_options['button_style'];
 $size = $btn_options['button_size'];
@@ -129,6 +134,8 @@ if ($module_template != false) {
 }
 
 
+
+
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
@@ -137,11 +144,14 @@ if (is_file($template_file) != false) {
 
 ?>
 
+
+<?php if($align){ ?>
 <style type="text/css">
     #<?php print $params['id']; ?> {
-        text-align: <?php print get_module_option('align', $params['id']); ?>;
+        text-align: <?php print $align; ?>;
     }
 </style>
+<?php } ?>
 
 <?php
 

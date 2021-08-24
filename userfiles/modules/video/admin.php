@@ -196,14 +196,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Width"); ?></label>
-                                <input name="width" placeholder="450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
+                                <input name="width" placeholder="Ex. 450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
                             </div>
                         </div>
 
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Height"); ?></label>
-                                <input name="height" placeholder="350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
+                                <input name="height" placeholder="Ex. 350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
                             </div>
                         </div>
                     </div>

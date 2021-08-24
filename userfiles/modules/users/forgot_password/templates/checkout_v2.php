@@ -2,7 +2,7 @@
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css")</script>
 
 <?php if (is_logged() == false): ?>
-    <div class="iq-works-box text-left mt-5 boots-form col-md-12">
+    <div class="iq-works-box text-start mt-5 boots-form col-md-12">
 
         <div class="d-flex pb-4">
             <h4><?php _e("Forgot password?"); ?></h4>

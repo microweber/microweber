@@ -84,7 +84,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                     </td>
 
                     <td>
-                        <div class="text-primary font-weight-bold">
+                        <div class="text-outline-primary font-weight-bold">
                             <?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
                                 <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
                             <?php endif; ?>
