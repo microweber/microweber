@@ -37,9 +37,18 @@ class CategoryRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
             $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
-
             if ($getCategory) {
-                $getCategory = (array)$getCategory;
+
+                $getCategory = (array) $getCategory;
+
+                $hookParams = [];
+                $hookParams['data'] = $getCategory;
+                $hookParams['hook_overwrite_type'] = 'single';
+                $overwrite = app()->event_manager->response(get_class($this) .'\\'. __FUNCTION__, $hookParams);
+                if (isset($overwrite['data'])) {
+                    $getCategory = $overwrite['data'];
+                }
+
                 return $getCategory;
 
             } else {

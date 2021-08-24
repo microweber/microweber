@@ -85,15 +85,11 @@ class ContentRepository extends AbstractRepository
 
         });
 
-
         $ready = [];
         if ($categoryIds) {
-
             foreach ($categoryIds as $k => $v) {
                 $ready[] = app()->category_repository->getById($v);
             }
-
-
         }
 
         return $ready;
@@ -134,7 +130,6 @@ class ContentRepository extends AbstractRepository
      */
     public function getContentData($id)
     {
-
         $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
         if (!in_array($id, $existingIds)) {
             return [];
@@ -271,7 +266,7 @@ class ContentRepository extends AbstractRepository
                 $check->where('rel_id', $rel_id);
             }
             $check = $check->first();
-            
+
             if ($check and !empty($check)) {
 
                 $check = (array) $check;
