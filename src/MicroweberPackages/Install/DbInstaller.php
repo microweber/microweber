@@ -145,7 +145,10 @@ class DbInstaller
         $builder = new DbUtils();
         $schemaArray = array();
 
+        app()->mw_migrator->logger = $this->logger;
+
         $migrator = app()->mw_migrator->run(app()->migrator->paths());
+
 
         foreach ($exec as $data) {
             if (method_exists($data, 'get')) {

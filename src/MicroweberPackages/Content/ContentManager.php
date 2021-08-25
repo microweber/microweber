@@ -1595,7 +1595,7 @@ class ContentManager
         $ref_page = false;
         if (isset($_REQUEST['from_url'])) {
             $ref_page = $_REQUEST['from_url'];
-        } else if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
+        } else if (!defined('MW_BACKEND') and (is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
             $ref_page = url_current(true);
@@ -1617,6 +1617,8 @@ class ContentManager
         }
 
         $page = false;
+        $content_orig = $content;
+
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
                 $content = $this->get_by_id($content['id']);
@@ -1784,10 +1786,14 @@ class ContentManager
             $the_active_site_template = $page['active_site_template'];
         } elseif (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
             $the_active_site_template = $content['active_site_template'];
+        }elseif (isset($content_orig) and  !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
+            $the_active_site_template = $content_orig['active_site_template'];
         } else {
             $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
             //
         }
+
+
         if (isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit') {
             $inh = $this->get_inherited_parent($content['id']);
             if ($inh != false) {
