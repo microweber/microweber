@@ -49,7 +49,8 @@ class CustomFieldsTest extends TestCase
 
             // Check person telephone
             $check_input_if_exists = false;
-            if (strpos($field2, 'name="PersonTelephone"') !== false) {
+
+            if (strpos($field2, 'name="persontelephone"') !== false) {
                 $check_input_if_exists = true;
             }
             $this->assertEquals($check_input_if_exists, true);
@@ -130,7 +131,7 @@ class CustomFieldsTest extends TestCase
     		if ($field_name == 'price') {
 
     			$check_input_if_exists = false;
-    			if ((strpos($html_output, 'name="Price"')) !== false && (strpos($html_output, '<input') !== false) && (strpos($html_output, 'type="hidden"') !== false)) {
+    			if ((strpos($html_output, 'name="price"')) !== false && (strpos($html_output, '<input') !== false) && (strpos($html_output, 'type="hidden"') !== false)) {
     				$check_input_if_exists = true;
     			}
 
@@ -140,7 +141,7 @@ class CustomFieldsTest extends TestCase
     		if ($field_name == 'phone') {
 
     			$check_input_if_exists = false;
-    			if (strpos($html_output, 'name="Phone"') !== false) {
+    			if (strpos($html_output, 'name="phone"') !== false) {
     				$check_input_if_exists = true;
     			}
 
@@ -150,7 +151,7 @@ class CustomFieldsTest extends TestCase
     		if ($field_name == 'date') {
 
     			$check_input_if_exists = false;
-    			if (strpos($html_output, 'name="Date"') !== false) {
+    			if (strpos($html_output, 'name="date"') !== false) {
     				$check_input_if_exists = true;
     			}
 
@@ -161,7 +162,7 @@ class CustomFieldsTest extends TestCase
     		if ($field_name == 'fileupload') {
 
     			$check_input_if_exists = false;
-    			if (strpos($html_output, 'name="Fileupload"') !== false) {
+    			if (strpos($html_output, 'name="fileupload"') !== false) {
     				$check_input_if_exists = true;
     			}
 
@@ -274,7 +275,7 @@ class CustomFieldsTest extends TestCase
         $my_product_id = 21;
         $vals = array('Red', 'Blue', 'Green');
         $custom_field = array(
-            'name' => 'Color',
+            'name' => 'color',
             'value' => $vals,
             'type' => 'dropdown',
             'content_id' => $my_product_id,);
@@ -286,7 +287,7 @@ class CustomFieldsTest extends TestCase
         $to_delete = array('id' => $new_id);
         $delete = delete_custom_field($to_delete);
 
-        $this->assertEquals($field['name'], 'Color');
+        $this->assertEquals($field['name'], 'color');
         $this->assertEquals($field['type'], 'dropdown');
 
         $this->assertEquals($field['value'], 'Red');

@@ -9,7 +9,7 @@
   <div class="mw-custom-field-form-controls">
 
   <?php echo $data["value"]; ?>
-    <input type="hidden" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-custom-field-id="<?php echo $data["id"]; ?>"  name="<?php echo $data["name"]; ?>" id="custom_field_help_text<?php echo $rand; ?>" value="<?php echo $data["value"]; ?>">
+    <input type="hidden" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-custom-field-id="<?php echo $data["id"]; ?>"  name="<?php echo $data["name_key"]; ?>" id="custom_field_help_text<?php echo $rand; ?>" value="<?php echo $data["value"]; ?>">
 
     <?php if ($data['options']["old_price"]): ?> <span style="text-decoration: line-through"><?php echo $data['options']["old_price"][0]; ?></span>  <?php endif; ?>
 
