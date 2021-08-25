@@ -15,7 +15,6 @@ class CategoryRepositoryApi extends BaseRepository
 {
     public function __construct(Category $model)
     {
-
         $this->model = $model;
     }
 

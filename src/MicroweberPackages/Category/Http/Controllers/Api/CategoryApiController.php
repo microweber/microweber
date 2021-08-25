@@ -5,11 +5,12 @@
  * Date: 8/19/2020
  * Time: 4:09 PM
  */
+
 namespace MicroweberPackages\Category\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use   MicroweberPackages\Category\Http\Requests\CategoryRequest ;
+use   MicroweberPackages\Category\Http\Requests\CategoryRequest;
 use MicroweberPackages\Category\Repositories\CategoryRepositoryApi;
 
 class CategoryApiController extends AdminDefaultController
@@ -18,8 +19,6 @@ class CategoryApiController extends AdminDefaultController
 
     public function __construct(CategoryRepositoryApi $category)
     {
-
-
         $this->category = $category;
 
         parent::__construct();
@@ -42,7 +41,7 @@ class CategoryApiController extends AdminDefaultController
         ))->response();
 
 
-     }
+    }
 
     /**
      * Store product in database
@@ -74,14 +73,14 @@ class CategoryApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  CategoryRequest $request
-     * @param  string $id
+     * @param CategoryRequest $request
+     * @param string $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(CategoryRequest $request, $id)
     {
 
-        $result =  $this->category->update($request->all(), $id);
+        $result = $this->category->update($request->all(), $id);
 
         return (new JsonResource($result))->response();
 
@@ -95,8 +94,7 @@ class CategoryApiController extends AdminDefaultController
      */
     public function delete($id)
     {
-
-        $result =  $this->category->delete($id);
+        $result = $this->category->delete($id);
 
         return (new JsonResource($result))->response();
 
@@ -106,12 +104,12 @@ class CategoryApiController extends AdminDefaultController
      * Delete resources by given ids.
      *
      * @param string $ids
-      */
+     */
     public function destroy($ids)
     {
-        $result =  $this->category->destroy($ids);
+        $result = $this->category->destroy($ids);
 
-
+        return (new JsonResource($result))->response();
     }
 
 }
