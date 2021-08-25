@@ -67,14 +67,8 @@ class Lang
      *  print $current_lang;
      * </code>
      */
-    public static $_currentLang = false;
     function current_lang()
     {
-
-        if (self::$_currentLang) {
-         //   return self::$_currentLang;
-        }
-
 //        if($this->lang){
 //            return $this->lang;
 //        }
@@ -87,7 +81,6 @@ class Lang
                 $app_locale = app()->getLocale();
             }
         }
-        self::$_currentLang = $app_locale;
 
         return $app_locale;
     }
@@ -101,13 +94,8 @@ class Lang
         return $this->current_lang();
     }
 
-    public static $_defaultLang = false;
     function default_lang()
     {
-        if (self::$_defaultLang) {
-        //    return self::$_defaultLang;
-        }
-
         $lang = 'en_US'; // dont use current language
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
@@ -115,7 +103,7 @@ class Lang
                 $lang = $lang_opt;
             }
         }
-        self::$_defaultLang = $lang;
+
         return $lang;
     }
 
