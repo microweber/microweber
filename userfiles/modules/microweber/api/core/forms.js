@@ -37,8 +37,6 @@ var getFieldValue = function(a){
 };
 
 
-//Cross-browser placeholder
-
 
 mw.Form = function(options) {
     options = options || {};

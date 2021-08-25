@@ -4,8 +4,6 @@ var getFieldValue = function(a){
 };
 
 
-//Cross-browser placeholder
-
 
 mw.Form = function(options) {
     options = options || {};
@@ -58,9 +56,7 @@ mw.form = {
       el.value = arr.join('');
     }
   },
-  dstatic:function(event, d){
 
-  },
   post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
      mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
