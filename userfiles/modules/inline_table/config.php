@@ -2,7 +2,7 @@
 
 $config = array();
 $config['name'] = "Inline Table";
-$config['author'] = "Microweber";
+$config['author'] = "Inline table";
 $config['description'] = "Microweber";
 $config['website'] = "http://microweber.com/";
 $config['version'] = 1;
