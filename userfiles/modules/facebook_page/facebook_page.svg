@@ -3,10 +3,9 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#292D32;}
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2B2B2B;stroke-width:1.25;stroke-miterlimit:10;}
 </style>
-<path class="st0" d="M14.9,22.7h-6c-5.4,0-7.8-2.3-7.8-7.8v-6c0-5.4,2.3-7.8,7.8-7.8h6c5.4,0,7.8,2.3,7.8,7.8v6
-	C22.6,20.4,20.3,22.7,14.9,22.7z M8.9,2.7c-4.6,0-6.2,1.6-6.2,6.2v6c0,4.6,1.6,6.3,6.2,6.3h6c4.6,0,6.3-1.6,6.3-6.3v-6
-	c0-4.6-1.6-6.2-6.3-6.2H8.9z"/>
-<rect x="11.2" y="2.5" class="st0" width="1.4" height="18.8"/>
+<path class="st0" d="M18.2,2H5.8C3.7,2,2,3.7,2,5.8v12.5C2,20.3,3.7,22,5.8,22h12.5c2.1,0,3.7-1.7,3.7-3.7V5.8C22,3.7,20.3,2,18.2,2
+	z M17.7,12.8h-1.9v6.9h-3.1v-6.9h-1.2v-2.3h1.2V9c0-1.9,0.8-3.1,3.1-3.1h2.3v2.3h-1.4c-0.9,0-1,0.3-1,1l0,1.3H18L17.7,12.8
+	L17.7,12.8z"/>
 </svg>
