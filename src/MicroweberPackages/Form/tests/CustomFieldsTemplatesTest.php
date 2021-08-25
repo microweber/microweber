@@ -37,15 +37,15 @@ class CustomFieldsTemplatesTest extends TestCase
         ?>
         <?php if (!empty($fields_group)): ?>
             <?php foreach ($fields_group as $fields): ?>
-    
+
                 <?php if (!empty($fields)): ?>
-    
+
                     <?php foreach ($fields as $field): ?>
                         <?php echo $field[\'html\']; ?>
                     <?php endforeach; ?>
-    
+
                 <?php endif; ?>
-    
+
             <?php endforeach; ?>
         <?php endif; ?>
         ';
@@ -169,7 +169,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $field = mw()->fields_manager->getById($field_id);
 
             $checkRow = false;
-            if (strpos($output, 'class="col-12') !== false) {
+            if (strpos($output, 'class="col-sm-12 col-md-12 col-lg-12"') !== false) {
                 $checkRow = true;
             }
             if (!$checkRow) {
