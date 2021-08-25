@@ -316,41 +316,39 @@ if (isset($params['live_edit'])) {
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
 
-
                                 <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
 
-                                <div class="input-group mb-3 prepend-transparent">
-
-                                    <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                        </div>
-
-                                        <input id="content-title-field" class="form-control" name="title" type="text" placeholder="<?php _e("Subcategory Name"); ?>"/>
-                                    <?php else: ?>
-                                        <?php if (isset($data['parent_id']) and $data['parent_id'] > 0) {
-                                            $htmlPrependTitle = '
-                                            <div class="input-group-prepend">
-                                                 <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                             </div>';
-                                        } else {
-                                            $htmlPrependTitle = '
+                                    <?php
+                                    $categoryNamePlaceholder = 'Category name';
+                                    $htmlCategoryTitlePrepend = '
                                               <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                              </div>';
-                                        }
-                                        ?>
 
-                                        <?php
-                                        $titleValue = '';
-                                        if ($data['id'] > 0) {
-                                            $titleValue = $data['title'];
+                                    if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                        $categoryNamePlaceholder = 'Subcategory Name';
+                                    } else {
+                                        if (isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                            $htmlCategoryTitlePrepend = '
+                                            <div class="input-group-prepend">
+                                                 <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                             </div>';
                                         }
-                                        echo $formBuilder->text('title')->prepend($htmlPrependTitle)->value($titleValue)->id('content-title-field')->autofocus(true);
-                                        ?>
+                                    }
 
-                                    <?php endif; ?>
-                                </div>
+                                    $titleValue = '';
+                                    if ($data['id'] > 0) {
+                                        $titleValue = $data['title'];
+                                    }
+
+                                    echo $formBuilder->text('title')
+                                        ->prepend($htmlCategoryTitlePrepend)
+                                        ->placeholder($categoryNamePlaceholder)
+                                        ->value($titleValue)
+                                        ->id('content-title-field')
+                                        ->autofocus(true);
+                                    ?>
+
                             </div>
                         </div>
 
