@@ -40,7 +40,7 @@ description: Default
 
     <?php if ($linkedin_enabled) { ?>
         <a class="btn-outline-primary" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php print url_current(); ?>&title=<?php print page_title(); ?>&summary=&source=LinkedIn" target="_blank">
-            <span class="fab fa-linkedin"></span></a>
+            <span class="mdi mdi-linkedin"></span></a>
     <?php } ?>
 
     <?php if ($viber_enabled) { ?>
