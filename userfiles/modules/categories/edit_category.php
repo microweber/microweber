@@ -315,8 +315,12 @@ if (isset($params['live_edit'])) {
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
+
+
                                 <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
+
                                 <div class="input-group mb-3 prepend-transparent">
+
                                     <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
@@ -324,26 +328,25 @@ if (isset($params['live_edit'])) {
 
                                         <input id="content-title-field" class="form-control" name="title" type="text" placeholder="<?php _e("Subcategory Name"); ?>"/>
                                     <?php else: ?>
-                                        <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                        <?php if (isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                            $htmlPrependTitle = '
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                            </div>
-                                        <?php else: ?>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
-                                            </div>
-                                        <?php endif; ?>
-
-                                        <input class="form-control" autofocus id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
+                                                 <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                             </div>';
+                                        } else {
+                                            $htmlPrependTitle = '
+                                              <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
+                                             </div>';
+                                        }
+                                        ?>
 
                                         <?php
-/*                                        $titleValue = '';
+                                        $titleValue = '';
                                         if ($data['id'] > 0) {
                                             $titleValue = $data['title'];
                                         }
-
-                                        echo $formBuilder->text('title')->value($titleValue)->id('content-title-field')->autofocus(true);
-                                        */
+                                        echo $formBuilder->text('title')->prepend($htmlPrependTitle)->value($titleValue)->id('content-title-field')->autofocus(true);
                                         ?>
 
                                     <?php endif; ?>
