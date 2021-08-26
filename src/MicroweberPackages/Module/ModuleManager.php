@@ -778,6 +778,8 @@ class ModuleManager
 
     public function info($module_name)
     {
+        $module_name = rtrim($module_name,'/admin');
+
         $get = array();
         $get['module'] = $module_name;
         $get['single'] = 1;

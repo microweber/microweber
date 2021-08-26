@@ -78,8 +78,6 @@ function load_all_functions_files_for_modules($app=null)
 
 function module_info($module_name)
 {
-
-    $module_name = rtrim($module_name,'/admin');
     return mw()->module_manager->info($module_name);
 }
 
