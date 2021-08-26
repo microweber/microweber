@@ -304,11 +304,8 @@ if (isset($params['live_edit'])) {
                         <input name="_method" type="hidden" value="PATCH">
                     <?php endif; ?>
 
-
-
-
-
                     <?php
+                    $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
                     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                     ?>
 
@@ -342,6 +339,7 @@ if (isset($params['live_edit'])) {
                                     }
 
                                     echo $formBuilder->text('title')
+                                        ->setModel($categoryModel)
                                         ->prepend($htmlCategoryTitlePrepend)
                                         ->placeholder($categoryNamePlaceholder)
                                         ->value($titleValue)
@@ -384,8 +382,6 @@ if (isset($params['live_edit'])) {
                               <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
                                 <?php
-                                $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
-
                                 $descriptionValue = '';
                                 if ($data['id'] > 0) {
                                     $descriptionValue = $data['description'];
