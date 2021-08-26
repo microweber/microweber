@@ -470,10 +470,10 @@ div.form-control {
 
 
 
-.card-collapse[aria-expanded="true"]:before{
+.mw-bs-card-collpase[aria-expanded="true"]:before{
     content: "\F015A";
 }
-.card-collapse[aria-expanded="true"]{
+.mw-bs-card-collpase[aria-expanded="true"]{
 
     font: normal normal normal 24px/1 "Material Design Icons";
     color: #4592ff;
@@ -483,7 +483,7 @@ div.form-control {
     top: 10px;
 
 }
-.card-collapse:not([aria-expanded="true"]){
+.mw-bs-card-collpase:not([aria-expanded="true"]){
     position: absolute;
     inset: 0;
     z-index: 3;

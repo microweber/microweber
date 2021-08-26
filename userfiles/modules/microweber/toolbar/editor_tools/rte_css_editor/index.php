@@ -716,6 +716,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     var $node = $(ActiveNode);
                     var action = val ? 'addClass' : 'removeClass';
                     $node[action]('mw-bg-mask');
+                    if(action === 'addClass') {
+                        output('color', 'transparent')
+                    }
                     mw.top().wysiwyg.change($node[0]);
                 }
             </script>
