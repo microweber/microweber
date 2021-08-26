@@ -34,16 +34,18 @@
 
             @include('checkout::contact_information_card')
 
+            <?php
+            if (!empty($checkout_session['shipping_gw'])) {
+            $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
+            ?>
+
             <label class="font-weight-bold control-label mb-0 pt-2"><?php _e("Shipping method"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your choice"); ?></small>
 
             <div class="card mb-3">
                 <div class="card-body d-flex p-3">
                     <div class="col-8">
-                        <?php
-                        if (!empty($checkout_session['shipping_gw'])) {
-                        $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
-                        ?>
+
 
                                 <?php if (isset($shippingGatewayModuleInfo['settings']['icon_class'])): ?>
                             <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>
@@ -58,7 +60,7 @@
                             }
                             ?>
 
-                        <?php } ?>
+
                         <?php if(!empty($checkout_session['country'])):?>
                             <br><br>
                             <?php if (!empty($checkout_session['country'])) { echo $checkout_session['country']; } ?>
@@ -76,7 +78,7 @@
                     </div>
                 </div>
             </div>
-
+            <?php } ?>
             <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
 
             <module type="shop/checkout/terms" template="checkout_v2" class="no-settings" />

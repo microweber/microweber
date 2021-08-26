@@ -96,8 +96,8 @@ class CategoryApiController extends AdminDefaultController
     {
         $result = $this->category->delete($id);
 
-        return (new JsonResource($result))->response();
-
+        //      return (new JsonResource($result))->response();
+        return true;
     }
 
     /**
@@ -108,8 +108,8 @@ class CategoryApiController extends AdminDefaultController
     public function destroy($ids)
     {
         $result = $this->category->destroy($ids);
-
-        return (new JsonResource($result))->response();
+        return true;
+        //     return (new JsonResource($result))->response();
     }
 
 }
