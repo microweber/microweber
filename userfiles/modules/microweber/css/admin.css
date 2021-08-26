@@ -316,6 +316,17 @@ div.form-control {
     height: 55px;
 }
 
+.card.ui-sortable-helper{
+    background-color: #fff !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px !important;
+}
+
+.module-content-manager .card.style-1 .card-body .card.ui-sortable-helper{
+    /* sorting posts */
+    margin-inline-start: 25px;
+    left:0 !important;
+}
+
 #edit-content-btn{margin-left: 10px;}
 
 .upload-button-prop:only-child .mw-badge{
@@ -457,3 +468,24 @@ div.form-control {
 
 }
 
+
+
+.card-collapse[aria-expanded="true"]:before{
+    content: "\F015A";
+}
+.card-collapse[aria-expanded="true"]{
+
+    font: normal normal normal 24px/1 "Material Design Icons";
+    color: #4592ff;
+    font-size: 1.4em;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+}
+.card-collapse:not([aria-expanded="true"]){
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    cursor: pointer;
+}

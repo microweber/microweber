@@ -19,18 +19,21 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script>
 
     mw.on.hashParam("search", function (pval) {
-        mw.$('#pages_edit_container').attr("data-type", 'content/manager');
-        var dis = pval;
-        if (dis !== '') {
-            mw.$('#pages_edit_container').attr("data-keyword", dis);
+        var cont = mw.$('#pages_edit_container').attr("data-type", 'content/manager');
+        if ( !!pval ) {
+            cont.attr("data-keyword", pval);
             mw.url.windowDeleteHashParam('pg')
-            mw.$('#pages_edit_container').attr("data-page-number", 1);
+            cont.attr("data-page-number", 1);
         }
         else {
-            mw.$('#pages_edit_container').removeAttr("data-keyword");
+            cont.removeAttr("data-keyword");
             mw.url.windowDeleteHashParam('search')
         }
-        mw.reload_module('#pages_edit_container');
+        var holder = document.querySelector('#content-view-search-bar') || document.querySelector('.main');
+        mw.spinner({element: holder, size: 22, decorate: true}).show();
+        mw.reload_module('#pages_edit_container', function () {
+            mw.spinner({element: holder}).remove();
+        });
     });
     mw.on.moduleReload('#<?php print $params['id'] ?>');
 
@@ -95,7 +98,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
             //   add_to_parent_page
 
-            var id = id || 0;
+            id = id || 0;
             if (type === 'page') {
                 mw_select_page_for_editing(id);
             }
@@ -157,16 +160,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('active_ids');
 
 
-        if (active_item_is_category != undefined) {
-            //   mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
+        if (active_item_is_category ) {
             var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
-            if (active_item_parent_page != undefined) {
-                var active_item_is_page = active_item_parent_page.attr('data-page-id');
+            if (active_item_parent_page.length) {
+                 active_item_is_page = active_item_parent_page.attr('data-page-id');
             }
             else {
-                var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
-                if (active_item_parent_page != undefined) {
-                    var active_item_is_page = active_item_parent_page.attr('data-page-id');
+                active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+                if (active_item_parent_page.length) {
+                     active_item_is_page = active_item_parent_page.attr('data-page-id');
                 }
             }
         }
@@ -232,10 +234,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             $(document.body).addClass("action-"+arr[0]);
             }
             if (arr[0] == 'showposts') {
-                var active_item = mw.$(".content-item-" + arr[1]);
+                active_item = mw.$(".content-item-" + arr[1]);
             }
             else if (arr[0] == 'showpostscat') {
-                var active_item = mw.$(".category-item-" + arr[1]);
+                active_item = mw.$(".category-item-" + arr[1]);
             }
 
             if (arr[0] === 'editpage') {
@@ -269,19 +271,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module, callback) {
-
-        var n = mw.url.getHashParams(window.location.hash)['new_content'];
-        if (n == 'true') {
+        if (mw.url.getHashParams(window.location.hash)['new_content'] === 'true') {
             var slide = false;
             mw.url.windowDeleteHashParam('new_content');
         }
-        else {
-            var slide = true;
-        }
+
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
 
-        var time = !action ? 500 : 500;
+        var time = 500;
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }

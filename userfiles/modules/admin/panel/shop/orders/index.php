@@ -127,7 +127,7 @@ ordersSort = function(obj){
 
 
   var field = document.getElementById('mw-search-field-orders');
-  $(field).addClass('loading')
+
 
   if(!field.focused){ field.value = value; }
 
