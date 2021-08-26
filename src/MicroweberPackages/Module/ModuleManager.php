@@ -1157,6 +1157,7 @@ class ModuleManager
                     ++$i;
                 }
                 $this->app->database_manager->update_position_field($table, $indx);
+                app()->module_repository->clearCache();
 
                 return $indx;
             }
@@ -1186,6 +1187,7 @@ class ModuleManager
 
             $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         }
+        app()->module_repository->clearCache();
     }
 
     public function icon_with_title($module_name, $link = true)
@@ -1272,6 +1274,7 @@ class ModuleManager
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         $this->app->cache_manager->clear();
+        app()->module_repository->clearCache();
 
 //
 //        $this_module = $this->get('ui=any&one=1&id=' . $id);
@@ -1328,6 +1331,8 @@ class ModuleManager
             }
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
+        app()->module_repository->clearCache();
+
     }
 
     public function update_db()
@@ -1363,6 +1368,8 @@ class ModuleManager
                 }
             }
         }
+        app()->module_repository->clearCache();
+
     }
 
     public function get_saved_modules_as_template($params)
@@ -1407,6 +1414,8 @@ class ModuleManager
                 $this->app->database_manager->delete_by_id($table, $c_id);
             }
         }
+        app()->module_repository->clearCache();
+
     }
 
     public function save_module_as_template($data_to_save)
@@ -1423,6 +1432,7 @@ class ModuleManager
 
             $save = $this->app->database_manager->save($table, $s);
         }
+        app()->module_repository->clearCache();
 
         return $save;
     }

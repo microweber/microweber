@@ -60,5 +60,18 @@ class ModuleManagerTest extends TestCase
         $test = app()->module_manager->is_installed($mod);
         $this->assertEquals(true, $test);
 
+
+        $params = [
+            'for_module' => $mod
+        ];
+
+        app()->module_manager->uninstall($params);
+        $test = app()->module_manager->is_installed($mod);
+        $this->assertEquals(false, $test);
+
+        app()->module_manager->set_installed($params);
+        $test = app()->module_manager->is_installed($mod);
+        $this->assertEquals(true, $test);
+
     }
 }

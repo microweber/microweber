@@ -70,4 +70,10 @@ class ModuleRepository extends AbstractRepository
         return [];
 
     }
+    public function clearCache()
+    {
+        self::$_getAllModules = [];
+    }
+
+
 }
