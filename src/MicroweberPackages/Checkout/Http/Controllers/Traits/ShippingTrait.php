@@ -55,12 +55,14 @@ trait ShippingTrait {
             'other_info'=> $request->get('other_info'),
         ]);
 
-        $validate = $this->_validateShippingMethod();
-        if ($validate['valid'] == false) {
-            session_set('errors', $validate['errors']);
-            return redirect(route('checkout.shipping_method'));
+        $checkIfShippingEnabled = app()->shipping_manager->getShippingModules(true);
+        if ($checkIfShippingEnabled) {
+            $validate = $this->_validateShippingMethod();
+            if ($validate['valid'] == false) {
+                session_set('errors', $validate['errors']);
+                return redirect(route('checkout.shipping_method'));
+            }
         }
-
         // Success
         return redirect(route('checkout.payment_method'));
     }
