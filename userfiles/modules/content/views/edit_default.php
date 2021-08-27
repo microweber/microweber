@@ -435,6 +435,7 @@ if (isset($params['quick_edit'])) {
                                             <div id="mw-admin-content-iframe-editor">
                                                 <textarea id="content_template" name="content_body"><?php /*print $data['content_body']; */?></textarea>
                                             </div>-->
+                                                <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
                                                 <?php
                                                 echo $formBuilder->mwEditor('content_body')
                                                     ->setModel($contentModel)
@@ -447,6 +448,7 @@ if (isset($params['quick_edit'])) {
                                                 <textarea id="content_template" name="content"><?php /*print $data['content']; */?></textarea>
                                             </div>-->
 
+                                                <label class="control-label"><?php  _e("Content"); ?></label>
                                             <?php
                                             echo $formBuilder->mwEditor('content')
                                                 ->setModel($contentModel)

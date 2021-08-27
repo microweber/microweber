@@ -140,21 +140,19 @@
         <h5 class="mb-4 font-weight-bold"><?php _e('Shipping details'); ?></h5>
         <div class="row d-flex align-items-center">
 
+
+            <?php
+            $shippingGatewayModuleInfo = module_info($order['shipping_service']);
+            $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
+            if (isset($shippingGatewayModuleInfo['name'])):
+            ?>
             <div class="col-md-12">
                 <div class="mb-4">
                     <strong><?php _e("Shipping type"); ?>:</strong>
-
-                    <?php
-                    $shippingGatewayModuleInfo = module_info($order['shipping_service']);
-                    $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
-
-
-
-                    ?>
                     <i class="<?php echo $icon; ?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
-
                 </div>
             </div>
+             <?php endif; ?>
 
 
             <?php
