@@ -9,6 +9,16 @@ use MicroweberPackages\Core\tests\TestCase;
 class CheckoutControllerTest extends TestCase
 {
     public static $content_id = 1;
+    public $session_cookie;
+    public $session_id;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->session_id = session()->getId();
+        $this->session_cookie = [session()->getName() => $this->session_id];
+    }
 
     private function _addProductToCart($title)
     {
@@ -24,7 +34,7 @@ class CheckoutControllerTest extends TestCase
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
             ),
-            'is_active' => 1,);
+            'is_active' => 1,'is_deleted'=>0);
 
 
         $saved_id = save_content($params);
@@ -45,15 +55,25 @@ class CheckoutControllerTest extends TestCase
     }
 
 
+
     public function testCheckoutController()
     {
+ //app()->user_manager->logout();
+
         $rand = uniqid();
         $this->_addProductToCart('some product');
         $params = [];
         $params['id'] = 'shop-checkout';
 
+
+        $this->assertEquals(1, cart_get_items_count());
+
+
+
+
         $request = new \Illuminate\Http\Request();
         $request->merge($params);
+        $request->merge($_REQUEST);
 
         $controller = app()->make(CheckoutController::class);
 
@@ -61,36 +81,60 @@ class CheckoutControllerTest extends TestCase
         $this->assertEquals(302, $response->status());
         $this->assertEquals($response->getTargetUrl(), route('checkout.contact_information'));
 
+        $this->_addProductToCart('some product2');
+        $this->assertEquals(2, cart_get_items_count());
 
-        $response = $this->call(
+        $this->_addProductToCart('some product3');
+        $this->assertEquals(3, cart_get_items_count());
+
+        $this->_addProductToCart('some product4');
+        $this->assertEquals(4, cart_get_items_count());
+
+
+
+        $cookies = array_merge($_COOKIE, $this->session_cookie);
+
+
+        $response = $this->withCookies($cookies)->call(
             'GET',
-            route('checkout.contact_information')
+            route('checkout.contact_information'),$parameters = [], $cookies  , $files = [], $server =$_SERVER, $content = null
         );
+
+
         $this->assertEquals(200, $response->status());
 
 
         $params = [];
         $params['first_name'] = 'Name' . $rand;
-        $params['last_name'] = 'LastName' .$rand;
-        $params['email'] = 'LastName' . $rand. '@example.com';
-        $params['phone'] = '123456789';
-        $response = $this->call(
+        $params['last_name'] = 'LastName' . $rand;
+        $params['email'] = 'LastName' . $rand . '@example.com';
+        $params['phone'] = '123456789' . $rand;
+        $response = $this->withCookies($cookies)->call(
             'POST',
-            route('checkout.contact_information_save', $params)
+            route('checkout.contact_information_save', $params),$parameters =$params, $cookies
         );
         $this->assertEquals(302, $response->status());
         $this->assertEquals($response->getTargetUrl(), route('checkout.shipping_method'));
 
-        $response = $this->call(
+
+        $user_info = app()->checkout_manager->getUserInfo();
+        $this->assertEquals($user_info['first_name'], $params['first_name']);
+        $this->assertEquals($user_info['last_name'], $params['last_name']);
+        $this->assertEquals($user_info['email'], $params['email']);
+        $this->assertEquals($user_info['phone'], $params['phone']);
+
+
+
+
+        $response = $this->withCookies($cookies)->call(
             'GET',
-            route('checkout.shipping_method')
+            route('checkout.shipping_method'),$parameters = [], $cookies  , $files = [], $server =$_SERVER, $content = null
         );
         $this->assertEquals(200, $response->status());
 
-        $shipping_modules = app()->checkout_manager->getShippingModules();
 
 
-        return;
+
 
 
 

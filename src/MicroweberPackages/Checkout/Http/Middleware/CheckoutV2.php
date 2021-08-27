@@ -15,7 +15,8 @@ class CheckoutV2
      */
     public function handle($request, Closure $next)
     {
-        $checkCart = get_cart();
+
+        $checkCart = cart_get_items_count();
         if (!$checkCart) {
             return redirect(site_url('shop'));
         }
