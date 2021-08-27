@@ -2,7 +2,7 @@ comment: false
 github_checks:
   annotations: false
 coverage:
-  max_report_age: 24
+  max_report_age: 720
   disable_default_path_fixes: no
   require_ci_to_pass: yes
   status:
