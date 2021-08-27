@@ -1,16 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g id="_7" data-name="7" transform="translate(-428 -188)">
-    <g id="bank">
-      <path id="Vector" d="M10.37.06l9,3.6a1.083,1.083,0,0,1,.63.93V7.91a1,1,0,0,1-1,1H1a1,1,0,0,1-1-1V4.59a1.083,1.083,0,0,1,.63-.93l9-3.6a1.171,1.171,0,0,1,.74,0Z" transform="translate(430 190.09)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-2" data-name="Vector" d="M20,4H0V1A1,1,0,0,1,1,0H19a1,1,0,0,1,1,1Z" transform="translate(430 206)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-3" data-name="Vector" d="M0,7V0" transform="translate(432 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-4" data-name="Vector" d="M0,7V0" transform="translate(436 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-5" data-name="Vector" d="M0,7V0" transform="translate(440 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-6" data-name="Vector" d="M0,7V0" transform="translate(444 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-7" data-name="Vector" d="M0,7V0" transform="translate(448 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-8" data-name="Vector" d="M0,0H22" transform="translate(429 210)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-9" data-name="Vector" d="M3,1.5A1.5,1.5,0,1,1,1.5,0,1.5,1.5,0,0,1,3,1.5Z" transform="translate(438.5 193.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-      <path id="Vector-10" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(428 188)" fill="none" opacity="0"/>
-    </g>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#2B2B2B;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st1{fill:none;stroke:#292D32;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st2{fill:none;}
+</style>
+<g>
+	<path id="Vector" class="st0" d="M12.3,3l8.2,3.3c0.3,0.2,0.6,0.5,0.6,0.9v3c0,0.5-0.4,0.9-0.9,0.9H3.8c-0.5,0-0.9-0.4-0.9-0.9v-3
+		c0-0.4,0.2-0.7,0.6-0.9L11.7,3C11.9,2.9,12.1,2.9,12.3,3z"/>
+	<path id="Vector-2" class="st0" d="M21.2,21.2H2.8v-2.7c0-0.5,0.4-0.9,0.9-0.9h16.5c0.5,0,0.9,0.4,0.9,0.9V21.2z"/>
+	<path id="Vector-3" class="st0" d="M4.7,17.5v-6.4"/>
+	<path id="Vector-4" class="st0" d="M8.3,17.5v-6.4"/>
+	<path id="Vector-5" class="st0" d="M12,17.5v-6.4"/>
+	<path id="Vector-6" class="st0" d="M15.7,17.5v-6.4"/>
+	<path id="Vector-7" class="st0" d="M19.3,17.5v-6.4"/>
+	<path id="Vector-8" class="st1" d="M1.9,21.2h20.1"/>
+	<path id="Vector-9" class="st0" d="M13.4,7.4c0,0.8-0.6,1.4-1.4,1.4s-1.4-0.6-1.4-1.4S11.2,6,12,6S13.4,6.7,13.4,7.4z"/>
+	<path id="Vector-10" class="st2" d="M1,1h22v22H1V1z"/>
+</g>
 </svg>
