@@ -123,19 +123,16 @@ class CheckoutControllerTest extends TestCase
         $this->assertEquals($user_info['email'], $params['email']);
         $this->assertEquals($user_info['phone'], $params['phone']);
 
-
-
-
         $response = $this->withCookies($cookies)->call(
             'GET',
             route('checkout.shipping_method'),$parameters = [], $cookies  , $files = [], $server =$_SERVER, $content = null
         );
         $this->assertEquals(200, $response->status());
 
+        $shipping_modules = app()->checkout_manager->getShippingModules();
 
-
-
-
+        $this->assertEquals(true, !empty($shipping_modules));
+        $this->assertEquals(true, str_contains($response->getContent(),$shipping_modules[0]['module']));
 
 
     }
