@@ -269,12 +269,12 @@ class ContentRepository extends AbstractRepository
 
             if ($check and !empty($check)) {
 
-                $check = (array) $check;
+                $check = (array)$check;
 
                 $hookParams = [];
                 $hookParams['data'] = $check;
                 $hookParams['hook_overwrite_type'] = 'single';
-                $overwrite = app()->event_manager->response(get_class($this) .'\\'. __FUNCTION__, $hookParams);
+                $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
                 if (isset($overwrite['data'])) {
                     $check = $overwrite['data'];
                 }
@@ -284,6 +284,28 @@ class ContentRepository extends AbstractRepository
 
             return false;
         });
+
+    }
+
+    public function getFirstShopPage()
+    {
+
+        $shop_page = $this->cacheCallback(__FUNCTION__, func_get_args(), function ()  {
+            $check = DB::table('content')
+                ->select('id')
+                ->where('content_type', '=', 'page')
+                ->where('is_shop', '=', 1)
+                ->limit(1)
+                ->first();
+            if ($check and !empty($check)) {
+                return (array)$check;
+            }
+            return false;
+        });
+
+        if ($shop_page and isset($shop_page['id'])) {
+           return $this->getById($shop_page['id']);
+        }
 
     }
 
