@@ -3,9 +3,9 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2B2B2B;stroke-width:1.25;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#2B2B2B;stroke-width:1.25;stroke-miterlimit:10;}
 </style>
-<path class="st0" d="M18.2,2H5.8C3.7,2,2,3.7,2,5.8v12.5C2,20.3,3.7,22,5.8,22h12.5c2.1,0,3.7-1.7,3.7-3.7V5.8C22,3.7,20.3,2,18.2,2
-	z M17.7,12.8h-1.9v6.9h-3.1v-6.9h-1.2v-2.3h1.2V9c0-1.9,0.8-3.1,3.1-3.1h2.3v2.3h-1.4c-0.9,0-1,0.3-1,1l0,1.3H18L17.7,12.8
-	L17.7,12.8z"/>
+<path class="st0" d="M18.2,1.9H5.8c-2.1,0-3.8,1.7-3.8,3.8v12.6c0,2,1.7,3.7,3.8,3.7h12.6c2.1,0,3.7-1.7,3.7-3.7V5.8
+	C22.1,3.7,20.3,1.9,18.2,1.9z M17.7,12.8h-1.9v6.9h-3.1v-6.9h-1.2v-2.3h1.2V9c0-1.9,0.8-3.1,3.1-3.1h2.3v2.3h-1.4c-0.9,0-1,0.3-1,1
+	v1.3H18L17.7,12.8L17.7,12.8z"/>
 </svg>
