@@ -9,7 +9,8 @@ import {ElementHandleContent} from "./handles-content/element";
 import {ModuleHandleContent} from "./handles-content/module";
 import {LayoutHandleContent} from "./handles-content/layout";
 import {ElementManager} from "./element";
-import {i18n} from "./i18n";
+import {lang} from "./i18n";
+import {Dialog} from "./dialog";
 
 export class LiveEdit {
 
@@ -105,8 +106,7 @@ export class LiveEdit {
         this.stateManager = this.settings.stateManager;
 
         this.lang = function (key) {
-            if(!i18n[this.settings]) return key;
-            return i18n[this.settings][key] || i18n[this.settings][key.toLowerCase()] || key;
+            return lang(key, this.settings.lang);
         }
 
         if(!this.settings.root) {
@@ -123,6 +123,16 @@ export class LiveEdit {
         const moduleHandleContent = new ModuleHandleContent(this);
         const layoutHandleContent = new LayoutHandleContent(this);
 
+        this.dialog = function (options) {
+            if(!options){
+                options = {}
+            }
+            var defaults = {
+                document: this.settings.document
+            }
+            return new Dialog(ObjectService.extend({}, defaults, options))
+        };
+
         var elementHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
@@ -138,11 +148,11 @@ export class LiveEdit {
             if(target.nodeName === 'P') {
                 title = scope.lang('Paragraph')
             } else if(/(H[1-6])/.test(target.nodeName)) {
-                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '')
+                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
             } else {
                 title = scope.lang('Text')
             }
-            elementHandleContent.menu.setTitle(title)
+            elementHandleContent.menu.setTitle(title);
         });
 
         var moduleHandle = new Handle({

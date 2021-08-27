@@ -100,10 +100,10 @@ export const Draggable = function (options, rootSettings) {
                          scope.action = pos.action;
                          scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
                      } else {
-                         scope.dropIndicator.hide();
+                        // scope.dropIndicator.hide();
                      }
                  } else {
-                     scope.dropIndicator.hide();
+                     //scope.dropIndicator.hide();
                  }
                  if (scope.isDragging) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});

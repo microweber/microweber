@@ -751,7 +751,9 @@ mw.common = {
 
     mw.components = {
     _rangeOnce: false,
-    'range': function(el, options){
+    'range': function(el){
+        mw.lib.require('jqueryui');
+        var options = this._options(el);
         var defaults = {
             range: 'min',
             animate: "fast"
@@ -800,7 +802,8 @@ mw.common = {
             });
         }
     },
-    'color-picker': function(el, options){
+    'color-picker': function(el){
+        var options = this._options(el);
         var defaults = {
             position: 'bottom-center'
         };
@@ -834,8 +837,9 @@ mw.common = {
             }, 10);
         });
     },
-    'file-uploader':function(el, options){
-         var defaults = {
+    'file-uploader':function(el){
+        var options = this._options(el);
+        var defaults = {
             element: el
         };
         var settings = $.extend({}, defaults, options);
@@ -851,8 +855,9 @@ mw.common = {
             }
         });
     },
-    'modules-tabs':function(el, options){
-         options.breakPoint = 100; //makes accordion if less then 100px
+    'modules-tabs':function(el){
+        var options = this._options(el);
+        options.breakPoint = 100; //makes accordion if less then 100px
         if(window.live_edit_sidebar) {
             mw.$(el).addClass('mw-accordion-window-height')
             options.breakPoint = 800; //makes accordion if less then 800px
@@ -860,11 +865,12 @@ mw.common = {
         var accordion = this.accordion(el);
         var tb = new mw.tabAccordion(options, accordion);
     },
-    'tab-accordion':function(el, options){
-        var accordion = this.accordion(el);
+    'tab-accordion':function(el){
+       var options = this._options(el);
+       var accordion = this.accordion(el);
        var tb = new mw.tabAccordion(options, accordion);
     },
-    accordion:function(el, options){
+    accordion:function(el){
         if(!el || el._accordion) return;
         if(!$(el).is(':visible')){
             setTimeout(function(){
@@ -873,7 +879,8 @@ mw.common = {
             return;
         }
         el._accordion = true;
-         var settings = $.extend(options, {element:el})
+        var options = this._options(el);
+        var settings = $.extend(options, {element:el})
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
@@ -911,7 +918,7 @@ mw.common = {
         }
         return accordion;
     },
-    postSearch: function (el, options) {
+    postSearch: function (el) {
         var defaults = {keyword: el.value, limit: 4};
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
@@ -920,7 +927,8 @@ mw.common = {
         };
 
         el = mw.$(el);
-         settings = $.extend({}, defaults, options);
+        var options = JSON.parse(el.attr("data-options") || '{}');
+        settings = $.extend({}, defaults, options);
         el[0]._settings = settings;
 
         el.wrap("<div class='mw-component-post-search'></div>");
@@ -930,11 +938,11 @@ mw.common = {
 
             if (!el[0].is_searching) {
                 var val = el.val();
-                if (event.type === 'blur') {
+                if (event.type == 'blur') {
                     mw.$(this).next('ul').hide();
                     return false;
                 }
-                if (event.type === 'focus') {
+                if (event.type == 'focus') {
                     if ($(this).next('ul').html()) {
                         mw.$(this).next('ul').show()
                     }
@@ -980,18 +988,18 @@ mw.common = {
     },
     _init: function () {
         mw.$('.mw-field input[type="range"]').addClass('mw-range');
-        mw.$('[data-mwcomponent]').each(function () {
-            var component = mw.$(this).attr("data-mwcomponent");
+        mw.$('[data-mwcomponent], [data-mw-component]').each(function () {
+            var component = this.dataset.mwComponent || this.dataset.mwcomponent;
             if (mw.components[component]) {
-                mw.components[component](this, mw.components._options(this));
-                mw.$(this).removeAttr('data-mwcomponent');
+                mw.components[component](this);
+                mw.$(this).removeAttr('data-mwcomponent').removeAttr('data-mw-component')
             }
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
                 mw.$('.mw-'+key+', mw-'+key).not(".mw-component-ready").each(function () {
                     mw.$(this).addClass('mw-component-ready');
-                    mw.components[key](this, mw.components._options(this));
+                    mw.components[key](this);
                 });
             }
         });
@@ -999,14 +1007,6 @@ mw.common = {
 };
 
 $(document).ready(function () {
-    mw.on('ComponentsLaunch', function () {
-        mw.components._init();
-    });
-    mw.on('mwDialogShow', function () {
-        setTimeout(function () {
-            mw.components._init();
-        }, 110);
-    });
     mw.components._init();
 });
 
@@ -1014,7 +1014,15 @@ $(window).on('load', function () {
     mw.components._init();
 });
 
+    mw.on('ComponentsLaunch', function () {
+        mw.components._init();
+    });
 
+    mw.on('mwDialogShow', function () {
+        setTimeout(function () {
+            mw.components._init();
+        }, 110);
+    });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {
@@ -2000,8 +2008,6 @@ var getFieldValue = function(a){
     return typeof a === 'string' ? a : ( typeof a === 'object' && a.tagName !== undefined ? a.value : null);
 };
 
-
-//Cross-browser placeholder
 
 
 mw.Form = function(options) {
@@ -4731,7 +4737,7 @@ window.onmessage = function (e) {
 
 // URL Strings - Manipulations
 
-json2url = function(obj){ console.log(obj);  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
+json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
 
 mw.url = {
@@ -5775,14 +5781,16 @@ mw.drag = {
             var prev = mw.$(this._onCloneableControl.__target).prev();
             var el = mw.$(target), off = el.offset();
 
+            off.top  +=  (target.dataset.handleOffset ? Number(target.dataset.handleOffset) : 0)
 
-            if(next.length == 0){
+
+            if(next.length === 0){
                 mw.$('.mw-cloneable-control-next', clc).hide();
             }
             else{
                 mw.$('.mw-cloneable-control-next', clc).show();
             }
-            if(prev.length == 0){
+            if(prev.length === 0){
                 mw.$('.mw-cloneable-control-prev', clc).hide();
             }
             else{
@@ -8909,7 +8917,7 @@ mw._initHandles = {
             buttons: [
                     {
                         title: mw.lang('Insert'),
-                        icon: 'mdi-plus-circle',
+                        icon: 'mdi-plus',
                         className: 'mw-handle-insert-button',
                         hover: [
                             function (e){
@@ -9099,7 +9107,7 @@ mw._initHandles = {
                 mw.handleElement.show();
             }
             mw.handleElement.positionedAt = 'top';
-            var posTop = o.top - 30;
+            var posTop = o.top - 40;
             var elHeight = el.height();
             /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
@@ -9136,7 +9144,7 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
+                    icon: 'mdi-plus',
                     hover: [
                         function (e) {
                             handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
@@ -9146,7 +9154,12 @@ mw._initHandles = {
                         }
                     ],
                     action: function (node) {
-                        if(mw.handleModule.isLayout) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = targetFn();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
                             mw.layoutPlus.showSelectorUI(node);
                         } else {
                             mw.drag.plus.rendModules(node);
@@ -9223,6 +9236,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -9309,6 +9323,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -9366,7 +9381,7 @@ mw._initHandles = {
                     if (!mw.dragCurrent.id) {
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
-                    if(mw.liveEditTools.isLayout(mw.dragCurrent)){
+                    if (mw.liveEditTools.isLayout(mw.dragCurrent)){
                         mw.$(mw.dragCurrent).css({
                             opacity:0
                         }).addClass("mw_drag_current");
@@ -9461,7 +9476,7 @@ mw._initHandles = {
             var pleft = parseFloat(el.css("paddingLeft"));
 
             var lebar =  document.querySelector("#live_edit_toolbar");
-            var minTop = lebar ? lebar.offsetHeight : 0;
+            var minTop = (lebar ? lebar.offsetHeight : 0);
             if(mw.templateTopFixed) {
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){
@@ -9473,11 +9488,11 @@ mw._initHandles = {
             var topPos = o.top;
 
             if(topPos<minTop){
-                topPos = minTop;
+                topPos = minTop + el[0].offsetHeight;
                 marginTop = 0
             }
             var ws = mw.$(window).scrollTop();
-            if(topPos<(ws+minTop)){
+            if((topPos-50)<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
                 if(el[0].offsetHeight < 100){
@@ -10180,6 +10195,7 @@ mw.layoutPlus = {
     _prepareList:function (tip, action) {
         var scope = this;
         var items = mw.$('.modules-list li', tip);
+        items.removeClass('tip')
         mw.$('input', tip).on('input', function () {
                 mw.tools.search(this.value, items, function (found) {
                     $(this)[found?'show':'hide']();
@@ -10228,7 +10244,7 @@ mw.layoutPlus = {
             template: 'mw-tooltip-default mw-tooltip-insert-module',
             id: 'mw-plus-tooltip-selector',
             title: mw.lang('Select layout'),
-            width: 800,
+            width: 500,
             overlay: true
         });
         scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
@@ -10674,6 +10690,9 @@ mw.live_edit.getModuleIcon = function (module_type) {
     if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].icon) {
         return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
+/*    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].title) {
+        return '<span class="mw-handle-handler-title">'+mw.live_edit.registry[module_type].title+'</span>';
+    }*/
     else {
         return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
     }
@@ -11369,16 +11388,62 @@ mw.liveedit.modulesToolbar = {
         var items = selector || ".modules-list li[data-module-name]";
         var $items = mw.$(items);
         $items.on('mouseup touchend', function (){
-            if(!document.body.classList.contains('dragStart') && !this.classList.contains('module-item-layout')) {
-                if(mw.liveEditSelector.selected[0]) {
-                    mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
-                    setTimeout(function (){
-                        mw.drag.load_new_modules();
-                        mw.tools.scrollTo(mw.liveEditSelector.selected[0].nextElementSibling, undefined, 200)
-                    }, 78)
+            if(!document.body.classList.contains('dragStart')/* && !this.classList.contains('module-item-layout')*/) {
+                if(this.classList.contains('module-item-layout')) {
+
+                    var el = mw.liveEditSelector.selected[0];
+                    var action = 'after';
+                    var all
+                    if(!el || !document.body.contains(el)) {
+                        el = null
+                        all = document.querySelectorAll('.module-layouts'), i = 0, l = all.length;
+                        for ( ; i < l; i++ ) {
+                            if(mw.tools.inview(all[i])) {
+                                el = all[i];
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!el){
+                        el = document.querySelector('[data-layout-container]');
+                        action = 'append';
+                        if(el) {
+                            mw.element(el)[action](this.outerHTML);
+                            setTimeout(function (){
+                                mw.drag.load_new_modules();
+                                mw.tools.scrollTo(el.lastElementChild, undefined, 200)
+                                mw.wysiwyg.change(el.lastElementChild)
+                            }, 78)
+                            return;
+                        }
+                    }
+
+                    if(el) {
+                        var layout = mw.tools.firstParentOrCurrentWithClass(el, 'module-layouts');
+
+                        mw.element(layout)[action](this.outerHTML);
+                        setTimeout(function (){
+                            mw.drag.load_new_modules();
+                            mw.tools.scrollTo(layout.nextElementSibling, undefined, 200)
+                            mw.wysiwyg.change(layout.nextElementSibling)
+                        }, 78)
+                    } else {
+                        mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
+                    }
                 } else {
-                    mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
+                    if(mw.liveEditSelector.selected[0] && document.body.contains(mw.liveEditSelector.selected[0])) {
+                        mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
+                        setTimeout(function (){
+                            mw.drag.load_new_modules();
+                            mw.tools.scrollTo(mw.liveEditSelector.selected[0].nextElementSibling, undefined, 200)
+                            mw.wysiwyg.change(mw.liveEditSelector.selected[0].nextElementSibling)
+                        }, 78)
+                    } else {
+                        mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
+                    }
                 }
+
             }
         });
         $items.draggable({
@@ -11962,270 +12027,269 @@ mw.insertModule = function (module, cls) {
   \***************************************************************/
 /***/ (() => {
 
-(function (){
-    var css = function(element, css){
-        for(var i in css){
-            element.style[i] = typeof css[i] === 'number' ? css[i] + 'px' : css[i];
+mw.css = function(element, css){
+    for(var i in css){
+        element.style[i] = typeof css[i] === 'number' ? css[i] + 'px' : css[i];
+    }
+}
+mw.Selector = function(options) {
+
+    options = options || {};
+
+    var defaults = {
+        autoSelect: true,
+        document: document,
+        toggleSelect: false, // second click unselects element
+        strict: false // only match elements that have id
+    };
+
+    this.options = $.extend({}, defaults, options);
+    this.document = this.options.document;
+
+
+    this.buildSelector = function(){
+        var stop = this.document.createElement('div');
+        var sright = this.document.createElement('div');
+        var sbottom = this.document.createElement('div');
+        var sleft = this.document.createElement('div');
+
+        stop.className = 'mw-selector mw-selector-top';
+        sright.className = 'mw-selector mw-selector-right';
+        sbottom.className = 'mw-selector mw-selector-bottom';
+        sleft.className = 'mw-selector mw-selector-left';
+
+        this.document.body.appendChild(stop);
+        this.document.body.appendChild(sright);
+        this.document.body.appendChild(sbottom);
+        this.document.body.appendChild(sleft);
+
+        this.selectors.push({
+            top:stop,
+            right:sright,
+            bottom:sbottom,
+            left:sleft,
+            active:false
+        });
+    };
+    this.getFirstNonActiveSelector = function(){
+        var i = 0;
+        for( ; i <  this.selectors.length; i++){
+            if(!this.selectors[i].active){
+                return this.selectors[i]
+            }
+        }
+        this.buildSelector();
+        return this.selectors[this.selectors.length-1];
+    };
+    this.deactivateAll = function(){
+         var i = 0;
+        for( ; i <  this.selectors.length; i++){
+            this.selectors[i].active = false;
         }
     };
 
-    mw.Selector = function(options) {
 
-        options = options || {};
-
-        var defaults = {
-            autoSelect: true,
-            document: document,
-            toggleSelect: false, // second click unselects element
-            strict: false // only match elements that have id
-        };
-
-        this.options = $.extend({}, defaults, options);
-        this.document = this.options.document;
-
-
-        this.buildSelector = function(){
-            var stop = this.document.createElement('div');
-            var sright = this.document.createElement('div');
-            var sbottom = this.document.createElement('div');
-            var sleft = this.document.createElement('div');
-
-            stop.className = 'mw-selector mw-selector-top';
-            sright.className = 'mw-selector mw-selector-right';
-            sbottom.className = 'mw-selector mw-selector-bottom';
-            sleft.className = 'mw-selector mw-selector-left';
-
-            this.document.body.appendChild(stop);
-            this.document.body.appendChild(sright);
-            this.document.body.appendChild(sbottom);
-            this.document.body.appendChild(sleft);
-
-            this.selectors.push({
-                top:stop,
-                right:sright,
-                bottom:sbottom,
-                left:sleft,
-                active:false
-            });
-        };
-        this.getFirstNonActiveSelector = function(){
-            var i = 0;
-            for( ; i <  this.selectors.length; i++){
-                if(!this.selectors[i].active){
-                    return this.selectors[i]
-                }
-            }
-            this.buildSelector();
-            return this.selectors[this.selectors.length-1];
-        };
-        this.deactivateAll = function(){
-            var i = 0;
-            for( ; i <  this.selectors.length; i++){
-                this.selectors[i].active = false;
-            }
-        };
-
-
-        this.pause = function(){
-            this.active(false);
-            this.hideAll();
-        };
-        this.hideAll = function(){
-            var i = 0;
-            for( ; i <  this.selectors.length; i++){
-                this.hideItem(this.selectors[i]);
-            }
-            this.hideItem(this.interactors)
-        };
-
-        this.hideItem = function(item){
-
-            item.active = false;
-            for (var x in item){
-                if(!item[x]) continue;
-                item[x].style.visibility = 'hidden';
-            }
-        };
-        this.showItem = function(item){
-            for (var x in item) {
-                if(typeof item[x] === 'boolean' || !item[x].className || item[x].className.indexOf('mw-selector') === -1) continue;
-                item[x].style.visibility = 'visible';
-            }
-        };
-
-        this.buildInteractor = function(){
-            var stop = this.document.createElement('div');
-            var sright = this.document.createElement('div');
-            var sbottom = this.document.createElement('div');
-            var sleft = this.document.createElement('div');
-
-            stop.className = 'mw-selector mw-interactor mw-selector-top';
-            sright.className = 'mw-selector mw-interactor mw-selector-right';
-            sbottom.className = 'mw-selector mw-interactor mw-selector-bottom';
-            sleft.className = 'mw-selector mw-interactor mw-selector-left';
-
-            this.document.body.appendChild(stop);
-            this.document.body.appendChild(sright);
-            this.document.body.appendChild(sbottom);
-            this.document.body.appendChild(sleft);
-
-            this.interactors = {
-                top:stop,
-                right:sright,
-                bottom:sbottom,
-                left:sleft
-            };
-        };
-        this.isSelected = function(e){
-            var target = e.target?e.target:e;
-            return this.selected.indexOf(target) !== -1;
-        };
-
-        this.unsetItem = function(e){
-            var target = e.target?e.target:e;
-            for(var i = 0;i<this.selectors.length;i++){
-                if(this.selectors[i].active === target){
-                    this.hideItem(this.selectors[i]);
-                    break;
-                }
-            }
-            this.selected.splice(this.selected.indexOf(target), 1);
-        };
-
-        this.positionSelected = function(){
-            for(var i = 0;i<this.selectors.length;i++){
-                this.position(this.selectors[i], this.selectors[i].active)
-            }
-        };
-        this.position = function(item, target){
-            if( !target ) {
-                return;
-            }
-            var off = mw.$(target).offset();
-            css(item.top, {
-                top:off.top,
-                left:off.left,
-                width:target.offsetWidth
-            });
-            css(item.right, {
-                top:off.top,
-                left:off.left+target.offsetWidth,
-                height:target.offsetHeight
-            });
-            css(item.bottom, {
-                top:off.top+target.offsetHeight,
-                left:off.left,
-                width:target.offsetWidth
-            });
-            css(item.left, {
-                top:off.top,
-                left:off.left,
-                height:target.offsetHeight
-            });
-        };
-
-        this.setItem = function(e, item, select, extend){
-            if(!e || !this.active()) return;
-            var target = e.target ? e.target : e;
-            if (this.options.strict) {
-                target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);
-            }
-            var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
-            if(!target || !validateTarget) return;
-            if($(target).hasClass('mw-select-skip')){
-                return this.setItem(target.parentNode, item, select, extend);
-            }
-            if(select){
-                if(this.options.toggleSelect && this.isSelected(target)){
-                    this.unsetItem(target);
-                    return false;
-                }
-                else{
-                    if(extend){
-                        this.selected.push(target);
-                    }
-                    else{
-                        this.selected = [target];
-                    }
-                    mw.$(this).trigger('select', [this.selected]);
-                }
-
-            }
-
-
-            this.position(item, target);
-
-            item.active = target;
-
-            this.showItem(item);
-        };
-
-        this.select = function(e, target){
-            if(!e && !target) return;
-            if(!e.nodeType){
-                target = target || e.target;
-            } else{
-                target = e;
-            }
-
-            if(e.ctrlKey){
-                this.setItem(target, this.getFirstNonActiveSelector(), true, true);
-            }
-            else{
-                this.hideAll();
-                this.setItem(target, this.selectors[0], true, false);
-            }
-
-        };
-
-        this.deselect = function(e, target){
-            e.preventDefault();
-            target = target || e.target;
-
-            this.unsetItem(target);
-
-        };
-
-        this.init = function(){
-            this.buildSelector();
-            this.buildInteractor();
-            var scope = this;
-            mw.$(this.root).on("click", function(e){
-                if(scope.options.autoSelect && scope.active()){
-                    scope.select(e);
-                }
-            });
-
-            mw.$(this.root).on( "mousemove touchmove touchend", function(e){
-                if(scope.options.autoSelect && scope.active()){
-                    scope.setItem(e, scope.interactors);
-                }
-            });
-            mw.$(this.root).on( 'scroll', function(){
-                scope.positionSelected();
-            });
-            mw.$(window).on('resize orientationchange', function(){
-                scope.positionSelected();
-            });
-        };
-
-        this._active = false;
-        this.active = function (state) {
-            if(typeof state === 'undefined') {
-                return this._active;
-            }
-            if(this._active !== state) {
-                this._active = state;
-                mw.$(this).trigger('stateChange', [state]);
-            }
-        };
-        this.selected = [];
-        this.selectors = [];
-        this.root = options.root;
-        this.init();
+    this.pause = function(){
+        this.active(false);
+        this.hideAll();
+    };
+    this.hideAll = function(){
+        var i = 0;
+        for( ; i <  this.selectors.length; i++){
+            this.hideItem(this.selectors[i]);
+        }
+        this.hideItem(this.interactors)
     };
 
-})()
+    this.hideItem = function(item){
+
+        item.active = false;
+        for (var x in item){
+            if(!item[x]) continue;
+            item[x].style.visibility = 'hidden';
+        }
+    };
+    this.showItem = function(item){
+        for (var x in item) {
+            if(typeof item[x] === 'boolean' || !item[x].className || item[x].className.indexOf('mw-selector') === -1) continue;
+            item[x].style.visibility = 'visible';
+        }
+    };
+
+    this.buildInteractor = function(){
+        var stop = this.document.createElement('div');
+        var sright = this.document.createElement('div');
+        var sbottom = this.document.createElement('div');
+        var sleft = this.document.createElement('div');
+
+        stop.className = 'mw-selector mw-interactor mw-selector-top';
+        sright.className = 'mw-selector mw-interactor mw-selector-right';
+        sbottom.className = 'mw-selector mw-interactor mw-selector-bottom';
+        sleft.className = 'mw-selector mw-interactor mw-selector-left';
+
+        this.document.body.appendChild(stop);
+        this.document.body.appendChild(sright);
+        this.document.body.appendChild(sbottom);
+        this.document.body.appendChild(sleft);
+
+        this.interactors = {
+            top:stop,
+            right:sright,
+            bottom:sbottom,
+            left:sleft
+        };
+    };
+    this.isSelected = function(e){
+        var target = e.target?e.target:e;
+        return this.selected.indexOf(target) !== -1;
+    };
+
+    this.unsetItem = function(e){
+        var target = e.target?e.target:e;
+        for(var i = 0;i<this.selectors.length;i++){
+            if(this.selectors[i].active === target){
+                this.hideItem(this.selectors[i]);
+                break;
+            }
+        }
+        this.selected.splice(this.selected.indexOf(target), 1);
+    };
+
+    this.positionSelected = function(){
+        for(var i = 0;i<this.selectors.length;i++){
+            this.position(this.selectors[i], this.selectors[i].active)
+        }
+    };
+    this.position = function(item, target){
+        var off = mw.$(target).offset();
+        mw.css(item.top, {
+            top:off.top,
+            left:off.left,
+            width:target.offsetWidth
+        });
+        mw.css(item.right, {
+            top:off.top,
+            left:off.left+target.offsetWidth,
+            height:target.offsetHeight
+        });
+        mw.css(item.bottom, {
+            top:off.top+target.offsetHeight,
+            left:off.left,
+            width:target.offsetWidth
+        });
+        mw.css(item.left, {
+            top:off.top,
+            left:off.left,
+            height:target.offsetHeight
+        });
+    };
+
+    this.setItem = function(e, item, select, extend){
+        if(!e || !this.active()) return;
+        var target = e.target ? e.target : e;
+        if (this.options.strict) {
+            target = mw.tools.first(target, ['[id]', '.edit']);
+        }
+        var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
+        if(!target || !validateTarget) return;
+        if($(target).hasClass('mw-select-skip')){
+            return this.setItem(target.parentNode, item, select, extend);
+        }
+        if(select){
+            if(this.options.toggleSelect && this.isSelected(target)){
+                this.unsetItem(target);
+                return false;
+            }
+            else{
+                if(extend){
+                    this.selected.push(target);
+                }
+                else{
+                    this.selected = [target];
+                }
+                mw.$(this).trigger('select', [this.selected]);
+            }
+
+        }
+
+
+        this.position(item, target);
+
+        item.active = target;
+
+        this.showItem(item);
+    };
+
+    this.select = function(e, target){
+
+        if(!e && !target) return;
+        if(!e.nodeType){
+            target = target || e.target;
+        } else{
+            target = e;
+        }
+
+        if(!mw.tools.isEditable(target) && !target.classList.contains('edit')) {
+            return;
+        }
+
+        if(e.ctrlKey){
+            this.setItem(target, this.getFirstNonActiveSelector(), true, true);
+        }
+        else{
+            this.hideAll();
+            this.setItem(target, this.selectors[0], true, false);
+        }
+
+    };
+
+    this.deselect = function(e, target){
+        e.preventDefault();
+        target = target || e.target;
+
+        this.unsetItem(target);
+
+    };
+
+    this.init = function(){
+        this.buildSelector();
+        this.buildInteractor();
+        var scope = this;
+        mw.$(this.root).on("click", function(e){
+            if(scope.options.autoSelect && scope.active()){
+
+                scope.select(e);
+            }
+        });
+
+        mw.$(this.root).on( "mousemove touchmove touchend", function(e){
+            if(scope.options.autoSelect && scope.active()){
+                scope.setItem(e, scope.interactors);
+            }
+        });
+        mw.$(this.root).on( 'scroll', function(){
+            scope.positionSelected();
+        });
+        mw.$(window).on('resize orientationchange', function(){
+            scope.positionSelected();
+        });
+    };
+
+    this._active = false;
+    this.active = function (state) {
+        if(typeof state === 'undefined') {
+            return this._active;
+        }
+        if(this._active !== state) {
+            this._active = state;
+            mw.$(this).trigger('stateChange', [state]);
+        }
+    };
+    this.selected = [];
+    this.selectors = [];
+    this.root = options.root;
+    this.init();
+};
 
 
 /***/ }),
@@ -15274,12 +15338,14 @@ $(mwd).ready(function () {
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
     mw.editorIconPicker.on('sizeChange', function (size){
-        mw.editorIconPicker.target.style.fontSize = size + 'px';
+        // mw.editorIconPicker.target.style.fontSize = size + 'px';
+        mw.editorIconPicker.target.style.setProperty('font-size', size + 'px', 'important');
         mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
         mw.wysiwyg.change(mw.editorIconPicker.target)
     })
     mw.editorIconPicker.on('colorChange', function (color){
-        mw.editorIconPicker.target.style.color = color;
+        // mw.editorIconPicker.target.style.color = color;
+        mw.editorIconPicker.target.style.setProperty('color', color, 'important');
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
 
@@ -16540,8 +16606,6 @@ mw.filePicker = function (options) {
   \******************************************************************/
 /***/ (() => {
 
-
-
 (function () {
 
     var IconLoader = function (store) {
@@ -16961,9 +17025,11 @@ mw.filePicker = function (options) {
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Icon size</label></div>');
-                    var sizeinput = mw.element('<input class="mw-ui-field" type="number" min="8" max="200">');
-                    var sizeinput2 = mw.element('<input type="range" min="8" max="200">');
+                    var label = mw.element('<div class="mw-icon-selector-flex"> <label class="mw-icon-selector-control-label mw-icon-selector-6-column">Icon size in px</label> <label class="mw-icon-selector-control-label mw-icon-selector-6-column ps-2">Select size from range</label> </div>');
+                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item mw-icon-selector-flex  mw-icon-selector-12-column"></div>');
+                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="number" min="8" max="200">');
+                    var sizeinput2 = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="range" min="8" max="200">');
+
                     actionNodes.size = sizeinput;
                     sizeinput.on('input', function () {
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
@@ -16974,13 +17040,14 @@ mw.filePicker = function (options) {
                         scope.dispatch('sizeChange', sizeinput.get(0).value);
                     });
 
+                    holder.append(label);
                     sizeel.append(sizeinput);
                     sizeel.append(sizeinput2);
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Color</label></div>');
-                    cinput = mw.element('<input type="color">');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label  ps-2">Choose color</label></div>');
+                    cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
@@ -16990,7 +17057,7 @@ mw.filePicker = function (options) {
                 }
                 if(scope.settings.iconOptions.reset) {
                     var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
-                    var rinput = mw.element('<input type="button" class="mw-ui-btn mw-ui-btn-medium" value="Reset options">');
+                    var rinput = mw.element('<input type="button" class="mw-ui-btn" value="Reset options">');
                     rinput.on('click', function () {
                         scope.dispatch('reset', rinput.get(0).value);
                     });
@@ -17239,10 +17306,13 @@ mw.filePicker = function (options) {
                 } else {
                     mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
                 }
+
                 this._tooltip.style.display = 'block';
                 if(target.nodeType === 1) {
-                    var size = getComputedStyle(target);
-                    $('[type="number"],[type="range"]').val(Number(size.fontSize));
+                    var css = getComputedStyle(target);
+                    $('[type="number"],[type="range"]', this._tooltip).val(parseFloat(css.fontSize));
+
+                    $('[type="color"]', this._tooltip).val(mw.color.rgbOrRgbaToHex(css.color));
                 }
 
             }
@@ -17320,6 +17390,21 @@ mw.moduleSettings = function(options){
 
     if(!this.options.element) return;
 
+    this.interval = function (c) {
+        if(!this._interval) {
+            this._intervals = [];
+            this._interval = setInterval(function () {
+                if(scope.options.element && document.body.contains(scope.options.element)) {
+                    scope._intervals.forEach(function (func){
+                        func.call(scope)
+                    })
+                } else {
+                    clearInterval(scope._interval)
+                }
+            }, 1000)
+        }
+    }
+
     this.createItemHolderHeader = function(i){
         if(this.options.header){
             var header = document.createElement('div');
@@ -17391,7 +17476,18 @@ mw.moduleSettings = function(options){
                     }
                 }
             });
+        } else if(method === 'blank') {
+            for (var i in _new) {
+                _new[i] = '';
+                if(i === 'name' || i === 'title') {
+                    _new[i] = 'New';
+                }
+            }
         }
+
+
+
+
 
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);
@@ -18176,16 +18272,21 @@ mw.propEditor = {
 
 
                 };
-                var close = document.createElement('span');
-                close.className = 'mw-badge mw-badge-important';
-                close.innerHTML = '<span class="mw-icon-close"></span>';
 
-                close.onclick = function(e){
-                    scope.remove(el);
-                    e.preventDefault();
-                    e.stopPropagation();
-                };
-                el.appendChild(close);
+                if(config.multiple === true || (typeof config.multiple === 'number' && config.multiple > 1) ) {
+                    var close = document.createElement('span');
+                    close.className = 'mw-badge mw-badge-important';
+                    close.innerHTML = '<span class="mw-icon-close"></span>';
+
+                    close.onclick = function(e){
+                        scope.remove(el);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    };
+                    el.appendChild(close);
+                }
+
+
                 el.appendChild(btn);
                 return el;
             };
@@ -19828,12 +19929,20 @@ var domHelp = {
         }
         return false;
     },
-    generateSelectorForNode: function (node) {
+    generateSelectorForNode: function (node, strict) {
+        if(typeof strict === 'undefined') {
+            strict = true;
+        }
         if (node === null || node.nodeType === 3) {
             return false;
         }
         if (node.nodeName === 'BODY') {
             return 'body';
+        }
+        if(strict && !node.id) {
+            if(!node.classList.contains('edit') && mw.tools.isEditable(node)) {
+                node.id = mw.id('mw-selector-');
+            }
         }
         if (!!node.id /*&& node.id.indexOf('element_') === -1*/) {
             return '#' + node.id;
@@ -22899,6 +23008,364 @@ mw.tabs = function (obj, element, model) {
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/tools/images.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/images.js ***!
+  \**********************************************************/
+/***/ (() => {
+
+mw.image = {
+    isResizing: false,
+    currentResizing: null,
+    resize: {
+        create_resizer: function () {
+            if (!mw.image_resizer) {
+                var resizer = document.createElement('div');
+                resizer.className = 'mw-defaults mw_image_resizer';
+                resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mdi mdi-image mdi-18px"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mdi mdi-pencil mdi-18px"></span></span></div>';
+                document.body.appendChild(resizer);
+                mw.image_resizer = resizer;
+                mw.image_resizer_time = null;
+                mw.image_resizer._show = function () {
+                    clearTimeout(mw.image_resizer_time)
+                    mw.$(mw.image_resizer).addClass('active')
+                };
+                mw.image_resizer._hide = function () {
+                    clearTimeout(mw.image_resizer_time)
+                    mw.image_resizer_time = setTimeout(function () {
+                        mw.$(mw.image_resizer).removeClass('active')
+                    }, 3000)
+                };
+
+                mw.$(resizer).on("click", function (e) {
+                    if (mw.image.currentResizing[0].nodeName === 'IMG') {
+                        mw.wysiwyg.select_element(mw.image.currentResizing[0])
+                    }
+                });
+                mw.$(resizer).on("dblclick", function (e) {
+                    mw.wysiwyg.media('#editimage');
+                });
+            }
+        },
+        prepare: function () {
+            mw.image.resize.create_resizer();
+            mw.$(mw.image_resizer).resizable({
+                handles: "all",
+                minWidth: 60,
+                minHeight: 60,
+                start: function () {
+                    mw.image.isResizing = true;
+                    mw.$(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+                    mw.$(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit')).addClass("changed");
+                },
+                stop: function () {
+                    mw.image.isResizing = false;
+                    mw.drag.fix_placeholders();
+                },
+                resize: function () {
+                    var offset = mw.image.currentResizing.offset();
+                    mw.$(this).css(offset);
+                },
+                aspectRatio: 16 / 9
+            });
+            mw.image_resizer.mwImageResizerComponent = true;
+            var all = mw.image_resizer.querySelectorAll('*'), l = all.length, i = 0;
+            for (; i < l; i++) all[i].mwImageResizerComponent = true
+        },
+        resizerSet: function (el, selectImage) {
+            selectImage = typeof selectImage === 'undefined' ? true : selectImage;
+            /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
+             if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
+
+
+            mw.$('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG' ? 'show' : 'hide']()
+
+            el = mw.$(el);
+            var offset = el.offset();
+            var parent = el.parent();
+            var parentOffset = parent.offset();
+            if(parent[0].nodeName !== 'A'){
+                offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
+                offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
+            }
+            var r = mw.$(mw.image_resizer);
+            var width = el.outerWidth();
+            var height = el.outerHeight();
+            r.css({
+                left: offset.left,
+                top: offset.top,
+                width: width,
+                height: mw.tools.hasParentsWithClass(el[0], 'mw-image-holder') ? 1 : height
+            });
+            r.addClass("active");
+            mw.$(mw.image_resizer).resizable("option", "alsoResize", el);
+            mw.$(mw.image_resizer).resizable("option", "aspectRatio", width / height);
+            mw.image.currentResizing = el;
+            if (!el[0].contentEditable) {
+                mw.wysiwyg.contentEditable(el[0], true);
+            }
+
+            if (selectImage) {
+                if (el[0].parentNode.tagName !== 'A') {
+                    mw.wysiwyg.select_element(el[0]);
+                }
+                else {
+                    mw.wysiwyg.select_element(el[0].parentNode);
+                }
+            }
+            if (document.getElementById('image-settings-button') !== null) {
+                if (!!el[0].src && el[0].src.contains('userfiles/media/pixum/')) {
+                    document.getElementById('image-settings-button').style.display = 'none';
+                }
+                else {
+                    document.getElementById('image-settings-button').style.display = '';
+                }
+            }
+            /* } */
+        },
+        init: function (selector) {
+            mw.image_resizer == undefined ? mw.image.resize.prepare() : '';
+
+            mw.on("ImageClick", function (e, el) {
+                if (!mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName === 'IMG') {
+                    mw.image.resize.resizerSet(el);
+                }
+            })
+        }
+    },
+
+    _isrotating: false,
+    rotate: function (img_object, angle) {
+        if (!mw.image.Rotator) {
+            mw.image.Rotator = document.createElement('canvas');
+            mw.image.Rotator.style.top = '-9999px';
+            mw.image.Rotator.style.left = '-9999px';
+            mw.image.Rotator.style.position = 'absolute';
+            mw.image.RotatorContext = mw.image.Rotator.getContext('2d');
+            document.body.appendChild(mw.image.Rotator);
+        }
+        if (!mw.image._isrotating) {
+            mw.image._isrotating = true;
+            img_object = img_object || document.querySelector("img.element-current");
+            if (img_object === null) {
+                return false;
+            }
+            mw.image.preload(img_object.src, function () {
+                if (!img_object.src.contains("base64")) {
+                    var currDomain = mw.url.getDomain(window.location.href);
+                    var srcDomain = mw.url.getDomain(img_object.src);
+                    if (currDomain !== srcDomain) {
+                        mw.tools.alert("This action is allowed for images on the same domain.");
+                        return false;
+                    }
+                }
+                var angle = angle || 90;
+                var image = mw.$(this);
+                var w = this.naturalWidth;
+                var h = this.naturalHeight;
+                var contextWidth = w;
+                var contextHeight = h;
+                var x = 0;
+                var y = 0;
+                switch (angle) {
+                    case 90:
+                        contextWidth = h;
+                        contextHeight = w;
+                        y = -h;
+                        break;
+                    case 180:
+                        x = -w;
+                        y = -h;
+                        break;
+                    case 270:
+                        contextWidth = h;
+                        contextHeight = w;
+                        x = -w;
+                        break;
+                    default:
+                        contextWidth = h;
+                        contextHeight = w;
+                        y = -h;
+                }
+                mw.image.Rotator.setAttribute('width', contextWidth);
+                mw.image.Rotator.setAttribute('height', contextHeight);
+                mw.image.RotatorContext.rotate(angle * Math.PI / 180);
+                mw.image.RotatorContext.drawImage(img_object, x, y);
+                var data = mw.image.Rotator.toDataURL("image/png");
+                img_object.src = data;
+                mw.image._isrotating = false;
+                if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(img_object);
+            });
+        }
+    },
+    grayscale: function (node) {
+        var node = node || document.querySelector("img.element-current");
+        if (node === null) {
+            return false;
+        }
+        mw.image.preload(node.src, function () {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.width = this.naturalWidth;
+            canvas.height = this.naturalHeight;
+            ctx.drawImage(node, 0, 0);
+            var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            for (var y = 0; y < imgPixels.height; y++) {
+                for (var x = 0; x < imgPixels.width; x++) {
+                    var i = (y * 4) * imgPixels.width + x * 4; //Why is this multiplied by 4?
+                    var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+                    imgPixels.data[i] = avg;
+                    imgPixels.data[i + 1] = avg;
+                    imgPixels.data[i + 2] = avg;
+                }
+            }
+            ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+            node.src = canvas.toDataURL();
+            if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
+        })
+    },
+    vr: [0, 0, 0, 1, 1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 17, 18, 19, 19, 20, 21, 22, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 39, 40, 41, 42, 44, 45, 47, 48, 49, 52, 54, 55, 57, 59, 60, 62, 65, 67, 69, 70, 72, 74, 77, 79, 81, 83, 86, 88, 90, 92, 94, 97, 99, 101, 103, 107, 109, 111, 112, 116, 118, 120, 124, 126, 127, 129, 133, 135, 136, 140, 142, 143, 145, 149, 150, 152, 155, 157, 159, 162, 163, 165, 167, 170, 171, 173, 176, 177, 178, 180, 183, 184, 185, 188, 189, 190, 192, 194, 195, 196, 198, 200, 201, 202, 203, 204, 206, 207, 208, 209, 211, 212, 213, 214, 215, 216, 218, 219, 219, 220, 221, 222, 223, 224, 225, 226, 227, 227, 228, 229, 229, 230, 231, 232, 232, 233, 234, 234, 235, 236, 236, 237, 238, 238, 239, 239, 240, 241, 241, 242, 242, 243, 244, 244, 245, 245, 245, 246, 247, 247, 248, 248, 249, 249, 249, 250, 251, 251, 252, 252, 252, 253, 254, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255],
+    vg: [0, 0, 1, 2, 2, 3, 5, 5, 6, 7, 8, 8, 10, 11, 11, 12, 13, 15, 15, 16, 17, 18, 18, 19, 21, 22, 22, 23, 24, 26, 26, 27, 28, 29, 31, 31, 32, 33, 34, 35, 35, 37, 38, 39, 40, 41, 43, 44, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 79, 80, 81, 83, 84, 85, 86, 88, 89, 90, 92, 93, 94, 95, 96, 97, 100, 101, 102, 103, 105, 106, 107, 108, 109, 111, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 126, 127, 128, 129, 131, 132, 133, 135, 136, 137, 138, 140, 141, 142, 144, 145, 146, 148, 149, 150, 151, 153, 154, 155, 157, 158, 159, 160, 162, 163, 164, 166, 167, 168, 169, 171, 172, 173, 174, 175, 176, 177, 178, 179, 181, 182, 183, 184, 186, 186, 187, 188, 189, 190, 192, 193, 194, 195, 195, 196, 197, 199, 200, 201, 202, 202, 203, 204, 205, 206, 207, 208, 208, 209, 210, 211, 212, 213, 214, 214, 215, 216, 217, 218, 219, 219, 220, 221, 222, 223, 223, 224, 225, 226, 226, 227, 228, 228, 229, 230, 231, 232, 232, 232, 233, 234, 235, 235, 236, 236, 237, 238, 238, 239, 239, 240, 240, 241, 242, 242, 242, 243, 244, 245, 245, 246, 246, 247, 247, 248, 249, 249, 249, 250, 251, 251, 252, 252, 252, 253, 254, 255],
+    vb: [53, 53, 53, 54, 54, 54, 55, 55, 55, 56, 57, 57, 57, 58, 58, 58, 59, 59, 59, 60, 61, 61, 61, 62, 62, 63, 63, 63, 64, 65, 65, 65, 66, 66, 67, 67, 67, 68, 69, 69, 69, 70, 70, 71, 71, 72, 73, 73, 73, 74, 74, 75, 75, 76, 77, 77, 78, 78, 79, 79, 80, 81, 81, 82, 82, 83, 83, 84, 85, 85, 86, 86, 87, 87, 88, 89, 89, 90, 90, 91, 91, 93, 93, 94, 94, 95, 95, 96, 97, 98, 98, 99, 99, 100, 101, 102, 102, 103, 104, 105, 105, 106, 106, 107, 108, 109, 109, 110, 111, 111, 112, 113, 114, 114, 115, 116, 117, 117, 118, 119, 119, 121, 121, 122, 122, 123, 124, 125, 126, 126, 127, 128, 129, 129, 130, 131, 132, 132, 133, 134, 134, 135, 136, 137, 137, 138, 139, 140, 140, 141, 142, 142, 143, 144, 145, 145, 146, 146, 148, 148, 149, 149, 150, 151, 152, 152, 153, 153, 154, 155, 156, 156, 157, 157, 158, 159, 160, 160, 161, 161, 162, 162, 163, 164, 164, 165, 165, 166, 166, 167, 168, 168, 169, 169, 170, 170, 171, 172, 172, 173, 173, 174, 174, 175, 176, 176, 177, 177, 177, 178, 178, 179, 180, 180, 181, 181, 181, 182, 182, 183, 184, 184, 184, 185, 185, 186, 186, 186, 187, 188, 188, 188, 189, 189, 189, 190, 190, 191, 191, 192, 192, 193, 193, 193, 194, 194, 194, 195, 196, 196, 196, 197, 197, 197, 198, 199],
+    vintage: function (node) {
+        var node = node || document.querySelector("img.element-current");
+        if (node === null) {
+            return false;
+        }
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        mw.image.preload(node.src, function (w, h) {
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(node, 0, 0);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height), l = imageData.data.length, i = 0;
+            for (; i < l; i += 4) {
+                imageData.data[i] = mw.image.vr[imageData.data[i]];
+                imageData.data[i + 1] = mw.image.vg[imageData.data[i + 1]];
+                imageData.data[i + 2] = mw.image.vb[imageData.data[i + 2]];
+                if (noise > 0) {
+                    var noise = Math.round(noise - Math.random() * noise), j = 0;
+                    for (; j < 3; j++) {
+                        var iPN = noise + imageData.data[i + j];
+                        imageData.data[i + j] = (iPN > 255) ? 255 : iPN;
+                    }
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            node.src = canvas.toDataURL();
+            if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
+            mw.$(canvas).remove()
+        });
+    },
+    _dragActivated: false,
+    _dragcurrent: null,
+    _dragparent: null,
+    _dragcursorAt: {x: 0, y: 0},
+    _dragTxt: function (e) {
+        if (mw.image._dragcurrent !== null) {
+            mw.image._dragcursorAt.x = e.pageX - mw.image._dragcurrent.offsetLeft;
+            mw.image._dragcursorAt.y = e.pageY - mw.image._dragcurrent.offsetTop;
+            var x = e.pageX - mw.image._dragparent.offsetLeft - mw.image._dragcurrent.startedX - mw.image._dragcursorAt.x;
+            var y = e.pageY - mw.image._dragparent.offsetTop - mw.image._dragcurrent.startedY - mw.image._dragcursorAt.y;
+            mw.image._dragcurrent.style.top = y + 'px';
+            mw.image._dragcurrent.style.left = x + 'px';
+        }
+    },
+    preloadForAll: function (array, eachCall, callback) {
+        var size = array.length, i = 0, count = 0;
+        for (; i < size; i++) {
+            mw.image.preload(array[i], function (imgWidth, imgHeight) {
+                count++;
+                if(eachCall) {
+                    eachCall.call(this, imgWidth, imgHeight)
+                }
+                if (count === size) {
+                    if (!!callback) callback.call()
+                }
+            })
+        }
+    },
+    preloadAll: function (array, callback) {
+        var size = array.length, i = 0, count = 0;
+        for (; i < size; i++) {
+            mw.image.preload(array[i], function () {
+                count++;
+                if (count === size) {
+                    callback.call()
+                }
+            })
+        }
+    },
+    preload: function (url, callback) {
+        var img;
+        if (typeof window.chrome === 'object') {
+            var img = new Image();
+        }
+        else {
+            img = document.createElement('img')
+        }
+        img.className = 'semi_hidden';
+        img.src = url;
+        img.onload = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img, img.naturalWidth, img.naturalHeight);
+                }
+                mw.$(img).remove();
+            }, 33);
+        }
+        img.onerror = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img, 0, 0, 'error');
+                }
+            }, 33);
+        }
+        document.body.appendChild(img);
+    },
+    description: {
+        add: function (text) {
+            var img = document.querySelector("img.element-current");
+            img.title = text;
+        },
+        get: function () {
+            return document.querySelector("img.element-current").title;
+        },
+        init: function (id) {
+            var area = mw.$(id);
+            area.hover(function () {
+                area.addClass("desc_area_hover");
+            }, function () {
+                area.removeClass("desc_area_hover");
+            });
+            var curr = mw.image.description.get();
+            if (!area.hasClass("inited")) {
+                area.addClass("inited");
+                area.bind("keyup change paste", function () {
+                    var val = mw.$(this).val();
+                    mw.image.description.add(val);
+                });
+            }
+            area.val(curr);
+            area.show();
+        }
+    },
+    settings: function () {
+        return mw.dialogIframe({
+            url: 'imageeditor',
+            template: "mw_modal_basic",
+            overlay: true,
+            width: '600',
+            height: "auto",
+            autoHeight: true,
+            name: 'mw-image-settings-modal'
+        });
+    }
+};
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/tools/system-tools/base64.js":
 /*!***********************************************************************!*\
   !*** ./userfiles/modules/microweber/api/tools/system-tools/base64.js ***!
@@ -23357,11 +23824,6 @@ mw.image.settings = function () {
         },
           confirm_reset_module_by_id: function (module_id) {
 
-
-
-
-
-
               if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
@@ -23383,21 +23845,17 @@ mw.image.settings = function () {
             data.modules_ids = [module_id];
 
             var childs_arr = [];
-
             mw.$('#'+module_id).andSelf().find('.edit').each(function (i) {
                 var some_child = {};
-
                 mw.tools.removeClass(this, 'changed')
                 some_child.rel = mw.$(this).attr('rel');
                 some_child.field = mw.$(this).attr('field');
-
                 childs_arr.push(some_child);
-
             });
 
 
           mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
-           
+
               var some_child = mw.$(this).attr('id');
 
               data.modules_ids.push(some_child);
@@ -23843,7 +24301,10 @@ mw.colorPicker = function (o) {
     mw.modalFrame = mw.dialogIframe;
 
     mw.dialog.remove = function (selector) {
-        return mw.dialog.get(selector).remove();
+        var dlg = mw.dialog.get(selector);
+        if(dlg) {
+            dlg.remove()
+        }
     };
 
     mw.dialog.get = function (selector) {
@@ -25551,7 +26012,7 @@ mw.uiAccordion = function (options) {
             .removeClass('active')
             .parents('.mw-accordion-item').eq(0)
             .removeClass('active');
-        ;
+
         mw.$(this).trigger('accordionUnset', [item]);
     }
 
@@ -26554,7 +27015,7 @@ mw.emitter = {
             var layouts = mw.top().$('.module[data-type="layouts"]');
             layouts.each(function () {
                 layoutsData.push({
-                    name: this.getAttribute('template').split('.')[0],
+                    name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
                     element: this,
                     id: this.id
                 });
@@ -28876,6 +29337,7 @@ mw.treeTags = mw.treeChips = function(options){
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tabs.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tooltip.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/images.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/base64.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/image-tools.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js"]();

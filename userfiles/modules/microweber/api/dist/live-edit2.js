@@ -555,10 +555,10 @@ const Draggable = function (options, rootSettings) {
                          scope.action = pos.action;
                          scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
                      } else {
-                         scope.dropIndicator.hide();
+                        // scope.dropIndicator.hide();
                      }
                  } else {
-                     scope.dropIndicator.hide();
+                     //scope.dropIndicator.hide();
                  }
                  if (scope.isDragging) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});
@@ -800,6 +800,496 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/liveedit2/object.service.js");
 
 
+
+
+    var MWElement = function(options, root){
+        var scope = this;
+
+        this.isMWElement = true;
+
+        this.toggle = function () {
+            this.css('display', this.css('display') === 'none' ? 'block' : 'none');
+        };
+
+        this._active = function () {
+            return this.nodes[this.nodes.length - 1];
+        };
+
+        this.getDocument = function () {
+            return this._active().ownerDocument;
+        }
+
+        this.getWindow = function () {
+            return this.getDocument().defaultView;;
+        }
+
+        this.get = function(selector, scope){
+            this.nodes = (scope || document).querySelectorAll(selector);
+        };
+
+        this.each = function(cb){
+            if(this.nodes) {
+                for (var i = 0; i < this.nodes.length; i++) {
+                    cb.call(this.nodes[i], i);
+                }
+            } else if(this.node) {
+                cb.call(this.node, 0);
+            }
+            return this;
+        };
+
+        this.encapsulate = function () {
+
+        };
+
+        var contentManage = function (content, scope) {
+            if (content) {
+                if (Array.isArray(content)) {
+                    content.forEach(function (el){
+                        contentManage(el, scope);
+                    });
+                } else if (content instanceof MWElement) {
+                    scope.append(content);
+                } else if (typeof content === 'object') {
+                    scope.append(new MWElement(content));
+                }
+            }
+        }
+
+        this.create = function() {
+            var el = this.document.createElement(this.settings.tag);
+            this.node = el;
+
+            if (this.settings.encapsulate === true) {
+                var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
+                el.attachShadow({
+                    mode: mode
+                });
+            }
+            this.nodes = [el];
+
+            if (this.settings.content) {
+                contentManage(this.settings.content, this)
+            }
+        };
+
+        this._specialProps = function(dt, val){
+            if(dt === 'tooltip') {
+                this.node.dataset[dt] = val;
+                return true;
+            }
+        };
+
+        this.setProps = function(){
+            for(var i in this.settings.props) {
+                if (i === 'dataset') {
+                    for(var dt in this.settings.props[i]) {
+                        this.node.dataset[dt] = this.settings.props[i][dt];
+                    }
+                } else if (i === 'style') {
+                    for(var st in this.settings.props[i]) {
+                        this.node.style[st] = this.settings.props[i][st];
+                    }
+                } else {
+                    var val = this.settings.props[i];
+                    if(!this._specialProps(i, val)) {
+                        this.node[i] = val;
+                    }
+                }
+            }
+        };
+
+        this.__ = {
+            cssNumber: [
+                'animationIterationCount',
+                'columnCount',
+                'fillOpacity',
+                'flexGrow',
+                'flexShrink',
+                'fontWeight',
+                'gridArea',
+                'gridColumn',
+                'gridColumnEnd',
+                'gridColumnStart',
+                'gridRow',
+                'gridRowEnd',
+                'gridRowStart',
+                'lineHeight',
+                'opacity',
+                'order',
+                'orphans',
+                'widows',
+                'zIndex',
+                'zoom'
+            ]
+        };
+
+        this._normalizeCSSValue = function (prop, val) {
+            if(typeof val === 'number') {
+                if(this.__.cssNumber.indexOf(prop) === -1) {
+                    val = val + 'px';
+                }
+            }
+            return val;
+        };
+
+        this.css = function(css, val){
+            if(typeof css === 'string') {
+                if(typeof val !== 'undefined'){
+                    var nval =  this._normalizeCSSValue(css, val);
+                    this.each(function (){
+                        this.style[css] = nval;
+                    });
+                } else {
+                    return this.document.defaultView.getComputedStyle(this.node)[css];
+                }
+            }
+            if(typeof css === 'object') {
+                for (var i in css) {
+
+                    this.each(function (){
+                        this.style[i] = scope._normalizeCSSValue(i, css[i]);
+                    });
+                }
+            }
+            return this;
+        };
+
+        this.dataset = function(prop, val){
+            if(typeof val === 'undefined') {
+                return this._active()[prop];
+            }
+            this.each(function (){
+                this.dataset[prop] = val;
+            });
+            return this;
+        };
+
+        this.attr = function(prop, val){
+            if(typeof val === 'undefined') {
+                return this._active()[prop];
+            }
+            this.each(function (){
+                this.setAttribute(prop, val);
+            });
+            return this;
+        };
+
+        this.val = function(val){
+            if(typeof val === 'undefined') {
+                return this._active().value;
+            }
+            this.each(function (){
+                this.value = val;
+            });
+            return this;
+        };
+
+        this.prop = function(prop, val){
+            var active = this._active();
+            if(typeof val === 'undefined') {
+                return active[prop];
+            }
+            if(active[prop] !== val){
+                active[prop] = val;
+                this.trigger('propChange', [prop, val]);
+            }
+            return this;
+        };
+
+        this.hide = function () {
+            return this.each(function (){
+                this.style.display = 'none';
+            });
+        };
+        this.show = function () {
+            return this.each(function (){
+                this.style.display = '';
+            });
+        };
+
+        this.find = function (sel) {
+            var el = mw.element('#r' + new Date().getTime());
+            this.each(function (){
+                var all = this.querySelectorAll(sel);
+                for(var i = 0; i < all.length; i++) {
+                    if(el.nodes.indexOf(all[i]) === -1) {
+                        el.nodes.push(all[i]);
+                    }
+                }
+            });
+            return el;
+        };
+
+        this.addClass = function (cls) {
+            cls = cls.trim().split(' ');
+            return this.each(function (){
+                var node = this;
+                cls.forEach(function (singleClass){
+                    node.classList.add(singleClass);
+                });
+
+            });
+        };
+
+        this.toggleClass = function (cls) {
+            return this.each(function (){
+                this.classList.toggle(cls.trim());
+            });
+        };
+
+        this.removeClass = function (cls) {
+            var isArray = Array.isArray(cls);
+            if(!isArray) {
+                cls = cls.trim();
+                var isMultiple = cls.split(' ');
+                if(isMultiple.length > 1) {
+                    return this.removeClass(isMultiple)
+                }
+                return this.each(function (){
+                    this.classList.remove(cls);
+                });
+            } else {
+                return this.each(function (){
+                    var i = 0, l = cls.length;
+                    for ( ; i < l; i++) {
+                        this.classList.remove(cls[i]);
+                    }
+                });
+            }
+        };
+
+        this.remove = function () {
+            return this.each(function (){
+                this.remove();
+            });
+        };
+
+        this.empty = function () {
+            return this.html('');
+        };
+
+        this.html = function (val) {
+            if (typeof val === 'undefined') {
+                return this._active().innerHTML;
+            }
+            return this.each(function (){
+                this.innerHTML = val;
+            });
+        };
+        this.text = function (val, clean) {
+            if(typeof val === 'undefined') {
+                return this.node.textContent;
+            }
+            if(typeof clean === 'undefined') {
+                clean = true;
+            }
+            if (clean) {
+                val = this.document.createRange().createContextualFragment(val).textContent;
+            }
+            this.node.innerHTML = val;
+        };
+
+        this._asdom = function (obj) {
+            if (typeof obj === 'string') {
+                return this.document.createRange().createContextualFragment(obj);
+            } else if (obj.node){
+                return obj.node;
+            }
+            else if (obj.nodes){
+                return obj.nodes[obj.nodes.length - 1];
+            } else {
+                return obj;
+            }
+        };
+
+        this.offset = function () {
+            var curr = this._active();
+            var win = this.getWindow();
+            var rect = curr.getBoundingClientRect();
+            rect.offsetTop = rect.top + win.pageYOffset;
+            rect.offsetBottom = rect.bottom + win.pageYOffset;
+            rect.offsetLeft = rect.left + win.pageXOffset;
+            return rect;
+        };
+
+
+        this.width = function (val) {
+            if(val) {
+                return this.css('width', val);
+            }
+            return this._active().offsetWidth;
+        };
+
+        this.height = function (val) {
+            if(val) {
+                return this.css('height', val);
+            }
+            return this._active().offsetHeight;
+        };
+
+        this.parent = function () {
+            return mw.element(this._active().parentNode);
+        };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
+        this.append = function (el) {
+
+            if (el) {
+                this.each(function (){
+                    this.append(scope._asdom(el));
+                });
+            }
+            return this;
+        };
+
+        this.before = function (el) {
+            if (el) {
+                this.each(function (){
+                    if(this.parentNode){
+                        this.parentNode.insertBefore(scope._asdom(el), this);
+                    }
+                });
+            }
+            return this;
+        };
+
+        this.after = function (el) {
+            if (el) {
+                this.each(function (){
+                    if(this.parentNode) {
+                        this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    }
+                });
+            }
+        };
+
+        this.prepend = function (el) {
+            if (el) {
+                this.each(function (){
+                    this.prepend(scope._asdom(el));
+                });
+            }
+            return this;
+        };
+        this._disabled = false;
+
+        Object.defineProperty(this, "disabled", {
+            get : function () { return this._disabled; },
+            set : function (value) {
+                this._disabled = value;
+                this.node.disabled = this._disabled;
+                this.node.dataset.disabled = this._disabled;
+            }
+        });
+
+        this.trigger = function(event, data){
+            data = data || {};
+            this.each(function (){
+                this.dispatchEvent(new CustomEvent(event, {
+                    detail: data,
+                    cancelable: true,
+                    bubbles: true
+                }));
+                if(scope._on[event]) {
+                    scope._on[event].forEach(function(cb){
+                        cb.call(this, event, data);
+                    });
+                }
+            });
+            return this;
+        };
+
+        this.get = function (i) {
+            return this.nodes[i];
+        };
+
+        this._on = {};
+        this.on = function(events, cb){
+            events = events.trim().split(' ');
+            events.forEach(function (ev) {
+                if(!scope._on[ev]) {  scope._on[ev] = []; }
+                scope._on[ev].push(cb);
+                scope.each(function (){
+                    /*this.addEventListener(ev, function(e) {
+                        cb.call(scope, e, e.detail, this);
+                    }, false);*/
+                    this.addEventListener(ev, cb, false);
+                });
+            });
+            return this;
+        };
+        this.init = function(){
+            this.nodes = [];
+            this.root = root || document;
+            if(this.root instanceof MWElement) {
+                this.root = this.root.get(0)
+            }
+            this._asElement = false;
+            this.document =  (this.root.body ? this.root : this.root.ownerDocument);
+
+            options = options || {};
+
+            if(options.nodeName && options.nodeType) {
+                this.nodes.push(options);
+                this.node = (options);
+                options = {};
+                this._asElement = true;
+            } else if(typeof options === 'string') {
+                if(options.indexOf('<') === -1) {
+
+                    this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
+                    options = {};
+                    this._asElement = true;
+                } else if(this.settings.content instanceof MWElement) {
+                    this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(new MWElement(this.settings.content));
+                }else {
+                    var el = this._asdom(options);
+
+                    this.nodes = [].slice.call(el.children);
+                    this._asElement = true;
+                }
+            }
+
+            options = options || {};
+
+            var defaults = {
+                tag: 'div',
+                props: {}
+            };
+
+            this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
+
+            if(this._asElement) return;
+            this.create();
+            this.setProps();
+        };
+        this.init();
+    };
+const DomQuery = function(options, root){
+    return new MWElement(options, root);
+};
+DomQuery.module = function (name, func) {
+    MWElement.prototype[name] = func;
+};
+
+
+
+
 const nodeName = 'mw-le-element';
 if (window.customElements) {
     customElements.define( nodeName,
@@ -814,7 +1304,7 @@ const ElementManager = (config, root) => {
     if (config instanceof Object && !config.nodeType) {
         config = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, config || {}, { tag: config.tag || nodeName });
     }
-    return mw.element(config, root)
+    return DomQuery(config, root)
 }
 
 
@@ -1176,10 +1666,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
+/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
 
 
 
-const ElementHandleContent = function () {
+
+const ElementHandleContent = function (proto) {
     this.root = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
         props: {
             id: 'mw-handle-item-element-root'
@@ -1190,32 +1682,22 @@ const ElementHandleContent = function () {
         title: 'Element',
         buttons: [
             {
-                title: mw.lang('Settings'),
+                title: 'Settings' ,
                 text: '',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 onTarget: function (target, selfNode) {
                     // console.log(target)
                 },
-                menu: [
-                    {
-                        title: mw.lang('Add something'),
-                        text: mw.lang('Add something'),
-                        icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
-                        className: 'mw-handle-insert-button',
-                    },
-                    {
-                        title: mw.lang('Settings1212'),
-                        text: 'Do alert 1212',
-                        className: 'mw-handle-insert-button',
-                        menu: [
+                action: function (el) {
 
-                        ],
-                    },
-                ],
+                    proto.dialog({
+
+                    })
+                }
             },
             {
-                title: mw.lang('Delete'),
+                title: proto.lang('Delete'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1377,14 +1859,14 @@ const LayoutHandleContent = function (rootScope) {
 
                 menu: [
                     {
-                        title: mw.lang('Add something'),
-                        text: mw.lang('Add something'),
+                        title: rootScope.lang('Add something'),
+                        text: rootScope.lang('Add something'),
                         icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
                         className: 'mw-handle-insert-button',
                     },
                     {
-                        title: mw.lang('Settings1212'),
-                        text: 'Do alert 1212',
+                        title: rootScope.lang('Settings1212'),
+                        text: 'Do alert',
                         className: 'mw-handle-insert-button',
 
                     },
@@ -1392,7 +1874,7 @@ const LayoutHandleContent = function (rootScope) {
             },
 
             {
-                title: mw.lang('Clone'),
+                title: rootScope.lang('Clone'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1414,7 +1896,7 @@ const LayoutHandleContent = function (rootScope) {
             },
 
             {
-                title: mw.lang('Move Down'),
+                title: rootScope.lang('Move Down'),
                 text: '',
                 icon: '<svg  width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1455,7 +1937,7 @@ const LayoutHandleContent = function (rootScope) {
 
             },
             {
-                title: mw.lang('Move up'),
+                title: rootScope.lang('Move up'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1496,7 +1978,7 @@ const LayoutHandleContent = function (rootScope) {
 
 
             {
-                title: mw.lang('Delete'),
+                title: rootScope.lang('Delete'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1520,7 +2002,8 @@ const LayoutHandleContent = function (rootScope) {
         var handlePlus = function (which) {
             getModulesData(rootScope.settings.layouts).then(data => {
                 const content = modulesDataRender(data, 'layouts');
-                var dialog = new _dialog__WEBPACK_IMPORTED_MODULE_3__.Dialog({
+
+                var dialog = rootScope.dialog({
                     content: content,
                     document: rootScope.settings.document,
                 });
@@ -1601,7 +2084,7 @@ const ModuleHandleContent = function (rootScope) {
         rootScope: rootScope,
         buttons: [
             {
-                title: mw.lang('Settings'),
+                title:  'Settings' ,
                 text: '',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1609,14 +2092,14 @@ const ModuleHandleContent = function (rootScope) {
                 },
                 menu: [
                     {
-                        title: mw.lang('Add something'),
-                        text: mw.lang('Add something'),
+                        title: rootScope.lang('Add something'),
+                        text: rootScope.lang('Add something'),
                         icon: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
                         className: 'mw-handle-insert-button',
                     },
                     {
-                        title: mw.lang('Settings1212'),
-                        text: 'Do alert 1212',
+                        title: rootScope.lang('Settings'),
+                        text: 'Do alert',
                         className: 'mw-handle-insert-button',
                         menu: [
 
@@ -1625,7 +2108,7 @@ const ModuleHandleContent = function (rootScope) {
                 ],
             },
             {
-                title: mw.lang('Delete'),
+                title: rootScope.lang('Delete'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
@@ -1733,7 +2216,7 @@ const Handles = function (handles) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "i18n": () => (/* binding */ i18n)
+/* harmony export */   "lang": () => (/* binding */ lang)
 /* harmony export */ });
 const i18n =  {
     en: {
@@ -1747,6 +2230,13 @@ const i18n =  {
     bg: {
 
     }
+}
+
+const lang = (label, lang) => {
+    if(!lang || !i18n[lang]) {
+        lang = 'en';
+    }
+    return i18n[lang][label] || label;
 }
 
 
@@ -1774,27 +2264,41 @@ const DropIndicator = function (options) {
 
     options = options || {};
 
-    var defaults = {
+    const defaults = {
         template: 'default'
     };
+
+    let positionCache = { }
 
     this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
 
     this._indicator = null;
 
-    var _e = {};
+    const _e = {};
     this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
+    this.visible = false;
+
     this.hide = function () {
-        this._indicator.addClass('mw-drop-indicator-hidden');
+        if(this.visible) {
+            this._indicator.addClass('mw-drop-indicator-hidden');
+            this.visible = false;
+            positionCache = {}
+        }
     };
 
     this.show = function () {
-        this._indicator.removeClass('mw-drop-indicator-hidden');
+        console.log(this.visible)
+        if(!this.visible) {
+
+            this._indicator.removeClass('mw-drop-indicator-hidden');
+        }
+        this.visible = true;
+
     };
 
-    var positions = [
+    const positions = [
         'before-top', 'prepend-top',
         'after-bottom', 'append-bottom'
     ];
@@ -1802,29 +2306,40 @@ const DropIndicator = function (options) {
 
     const positionsPrefix = 'mw-drop-indicator-position-';
 
-    var positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
+    const positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
 
-    var currentPositionClass = null; // do not set if same to prevent animation stop
+    let currentPositionClass = null; // do not set if same to prevent animation stop
 
-    this.position = function (rect, position) {
-        if(!rect || !position) return;
+
+    let _positionTime = null;
+
+    this.position = function (target, position) {
+        if(!target || !position) return;
+
+        if(positionCache.target === target && positionCache.position === position) {
+            return;
+        }
+
+        positionCache.target = target;
+        positionCache.position = position
 
         if(currentPositionClass !== position) {
             this._indicator.removeClass(positionsClasses);
             currentPositionClass = position;
             this._indicator.addClass(positionsPrefix + position);
         }
-        if(rect.nodeType === 1) {
-            rect = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.offset(rect);
-        }
+
+        var rect = _dom__WEBPACK_IMPORTED_MODULE_1__.DomService.offset(target);
 
         this._indicator.css({
             height: rect.height,
             left: rect.left,
             top: rect.top,
-            width: rect.width,
+            width: rect.width
         });
         this.show();
+
+
     };
 
     this.make = function () {
@@ -2209,6 +2724,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./handles-content/layout */ "./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js");
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./i18n */ "./userfiles/modules/microweber/api/liveedit2/i18n.js");
+/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
+
 
 
 
@@ -2316,8 +2833,7 @@ class LiveEdit {
         this.stateManager = this.settings.stateManager;
 
         this.lang = function (key) {
-            if(!_i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings]) return key;
-            return _i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings][key] || _i18n__WEBPACK_IMPORTED_MODULE_11__.i18n[this.settings][key.toLowerCase()] || key;
+            return (0,_i18n__WEBPACK_IMPORTED_MODULE_11__.lang)(key, this.settings.lang);
         }
 
         if(!this.settings.root) {
@@ -2334,6 +2850,16 @@ class LiveEdit {
         const moduleHandleContent = new _handles_content_module__WEBPACK_IMPORTED_MODULE_8__.ModuleHandleContent(this);
         const layoutHandleContent = new _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__.LayoutHandleContent(this);
 
+        this.dialog = function (options) {
+            if(!options){
+                options = {}
+            }
+            var defaults = {
+                document: this.settings.document
+            }
+            return new _dialog__WEBPACK_IMPORTED_MODULE_12__.Dialog(_object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options))
+        };
+
         var elementHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
@@ -2349,11 +2875,11 @@ class LiveEdit {
             if(target.nodeName === 'P') {
                 title = scope.lang('Paragraph')
             } else if(/(H[1-6])/.test(target.nodeName)) {
-                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '')
+                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
             } else {
                 title = scope.lang('Text')
             }
-            elementHandleContent.menu.setTitle(title)
+            elementHandleContent.menu.setTitle(title);
         });
 
         var moduleHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({

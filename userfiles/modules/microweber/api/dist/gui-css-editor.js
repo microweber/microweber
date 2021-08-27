@@ -880,11 +880,6 @@ mw.image.settings = function () {
         },
           confirm_reset_module_by_id: function (module_id) {
 
-
-
-
-
-
               if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
@@ -906,21 +901,17 @@ mw.image.settings = function () {
             data.modules_ids = [module_id];
 
             var childs_arr = [];
-
             mw.$('#'+module_id).andSelf().find('.edit').each(function (i) {
                 var some_child = {};
-
                 mw.tools.removeClass(this, 'changed')
                 some_child.rel = mw.$(this).attr('rel');
                 some_child.field = mw.$(this).attr('field');
-
                 childs_arr.push(some_child);
-
             });
 
 
           mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
-           
+
               var some_child = mw.$(this).attr('id');
 
               data.modules_ids.push(some_child);
@@ -1362,7 +1353,10 @@ mw.colorPicker = function (o) {
     mw.modalFrame = mw.dialogIframe;
 
     mw.dialog.remove = function (selector) {
-        return mw.dialog.get(selector).remove();
+        var dlg = mw.dialog.get(selector);
+        if(dlg) {
+            dlg.remove()
+        }
     };
 
     mw.dialog.get = function (selector) {
@@ -3054,7 +3048,7 @@ mw.uiAccordion = function (options) {
             .removeClass('active')
             .parents('.mw-accordion-item').eq(0)
             .removeClass('active');
-        ;
+
         mw.$(this).trigger('accordionUnset', [item]);
     }
 
@@ -4049,7 +4043,7 @@ mw.emitter = {
             var layouts = mw.top().$('.module[data-type="layouts"]');
             layouts.each(function () {
                 layoutsData.push({
-                    name: this.getAttribute('template').split('.')[0],
+                    name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
                     element: this,
                     id: this.id
                 });

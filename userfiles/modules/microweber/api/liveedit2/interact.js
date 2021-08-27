@@ -7,27 +7,41 @@ export const DropIndicator = function (options) {
 
     options = options || {};
 
-    var defaults = {
+    const defaults = {
         template: 'default'
     };
+
+    let positionCache = { }
 
     this.settings = ObjectService.extend({}, defaults, options);
 
     this._indicator = null;
 
-    var _e = {};
+    const _e = {};
     this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
+    this.visible = false;
+
     this.hide = function () {
-        this._indicator.addClass('mw-drop-indicator-hidden');
+        if(this.visible) {
+            this._indicator.addClass('mw-drop-indicator-hidden');
+            this.visible = false;
+            positionCache = {}
+        }
     };
 
     this.show = function () {
-        this._indicator.removeClass('mw-drop-indicator-hidden');
+        console.log(this.visible)
+        if(!this.visible) {
+
+            this._indicator.removeClass('mw-drop-indicator-hidden');
+        }
+        this.visible = true;
+
     };
 
-    var positions = [
+    const positions = [
         'before-top', 'prepend-top',
         'after-bottom', 'append-bottom'
     ];
@@ -35,29 +49,40 @@ export const DropIndicator = function (options) {
 
     const positionsPrefix = 'mw-drop-indicator-position-';
 
-    var positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
+    const positionsClasses = positions.map(function (cls){ return positionsPrefix + cls });
 
-    var currentPositionClass = null; // do not set if same to prevent animation stop
+    let currentPositionClass = null; // do not set if same to prevent animation stop
 
-    this.position = function (rect, position) {
-        if(!rect || !position) return;
+
+    let _positionTime = null;
+
+    this.position = function (target, position) {
+        if(!target || !position) return;
+
+        if(positionCache.target === target && positionCache.position === position) {
+            return;
+        }
+
+        positionCache.target = target;
+        positionCache.position = position
 
         if(currentPositionClass !== position) {
             this._indicator.removeClass(positionsClasses);
             currentPositionClass = position;
             this._indicator.addClass(positionsPrefix + position);
         }
-        if(rect.nodeType === 1) {
-            rect = DomService.offset(rect);
-        }
+
+        var rect = DomService.offset(target);
 
         this._indicator.css({
             height: rect.height,
             left: rect.left,
             top: rect.top,
-            width: rect.width,
+            width: rect.width
         });
         this.show();
+
+
     };
 
     this.make = function () {
