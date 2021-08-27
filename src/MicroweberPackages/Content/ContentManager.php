@@ -2311,20 +2311,23 @@ class ContentManager
         $permalinkGenerated = $this->app->permalink_manager->link($link['id'], 'content');
         if ($permalinkGenerated) {
             $link['url'] = $permalinkGenerated;
+           // $link = ($link['url']);
+
+            if (!stristr($link['url'], $site_url)) {
+                $link = site_url($link['url']);
+            } else {
+                $link = ($link['url']);
+            }
+            return $link;
         }
 
-        if (!stristr($link['url'], $site_url)) {
-            $link = site_url($link['url']);
-        } else {
-            $link = ($link['url']);
-        }
 
         /* $override = $this->app->event_manager->trigger('content.link.after', $link);
          if (is_array($override) && isset($override[0])) {
              $link = $override[0];
          }*/
 
-        return $link;
+
     }
 
     public function save_edit($post_data)

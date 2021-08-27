@@ -4,6 +4,7 @@ namespace MicroweberPackages\Checkout\tests;
 
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Page\Models\Page;
 
 
 class CheckoutControllerTest extends TestCase
@@ -34,7 +35,7 @@ class CheckoutControllerTest extends TestCase
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
             ),
-            'is_active' => 1,'is_deleted'=>0);
+            'is_active' => 1, 'is_deleted' => 0);
 
 
         $saved_id = save_content($params);
@@ -55,10 +56,35 @@ class CheckoutControllerTest extends TestCase
     }
 
 
-
     public function testCheckoutController()
     {
- //app()->user_manager->logout();
+        //app()->user_manager->logout();
+        empty_cart();
+        $controller = app()->make(CheckoutController::class);
+        $cookies = array_merge($_COOKIE, $this->session_cookie);
+
+
+        $newShopPage = new Page();
+        $newShopPage->title = 'my-new-shop-page-'.uniqid();
+        $newShopPage->is_shop = 1;
+        $newShopPage->content_type = 'page';
+        $newShopPage->url = 'my-new-shop-page';
+        $newShopPage->subtype = 'dynamic';
+        $newShopPage->save();
+
+        $request = new \Illuminate\Http\Request();
+        $request->merge($_REQUEST);
+
+
+        $response = $this->withCookies($cookies)->call(
+            'GET',
+            route('checkout.contact_information'), $parameters = [], $cookies, $files = [], $server = $_SERVER, $content = null
+        );
+
+        $this->assertEquals(302, $response->status());
+        $this->assertEquals(true, str_contains($response->getTargetUrl(), 'my-new-shop-page'));
+
+
 
         $rand = uniqid();
         $this->_addProductToCart('some product');
@@ -69,13 +95,10 @@ class CheckoutControllerTest extends TestCase
         $this->assertEquals(1, cart_get_items_count());
 
 
-
-
         $request = new \Illuminate\Http\Request();
         $request->merge($params);
         $request->merge($_REQUEST);
 
-        $controller = app()->make(CheckoutController::class);
 
         $response = $controller->index($request);
         $this->assertEquals(302, $response->status());
@@ -92,17 +115,14 @@ class CheckoutControllerTest extends TestCase
 
 
 
-        $cookies = array_merge($_COOKIE, $this->session_cookie);
-
 
         $response = $this->withCookies($cookies)->call(
             'GET',
-            route('checkout.contact_information'),$parameters = [], $cookies  , $files = [], $server =$_SERVER, $content = null
+            route('checkout.contact_information'), $parameters = [], $cookies, $files = [], $server = $_SERVER, $content = null
         );
 
 
         $this->assertEquals(200, $response->status());
-
 
         $params = [];
         $params['first_name'] = 'Name' . $rand;
@@ -111,7 +131,7 @@ class CheckoutControllerTest extends TestCase
         $params['phone'] = '123456789' . $rand;
         $response = $this->withCookies($cookies)->call(
             'POST',
-            route('checkout.contact_information_save', $params),$parameters =$params, $cookies
+            route('checkout.contact_information_save', $params), $parameters = $params, $cookies
         );
         $this->assertEquals(302, $response->status());
         $this->assertEquals($response->getTargetUrl(), route('checkout.shipping_method'));
@@ -125,14 +145,14 @@ class CheckoutControllerTest extends TestCase
 
         $response = $this->withCookies($cookies)->call(
             'GET',
-            route('checkout.shipping_method'),$parameters = [], $cookies  , $files = [], $server =$_SERVER, $content = null
+            route('checkout.shipping_method'), $parameters = [], $cookies, $files = [], $server = $_SERVER, $content = null
         );
         $this->assertEquals(200, $response->status());
 
         $shipping_modules = app()->checkout_manager->getShippingModules();
 
         $this->assertEquals(true, !empty($shipping_modules));
-        $this->assertEquals(true, str_contains($response->getContent(),$shipping_modules[0]['module']));
+        $this->assertEquals(true, str_contains($response->getContent(), $shipping_modules[0]['module']));
 
 
     }

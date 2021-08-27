@@ -347,7 +347,7 @@ class CartManager extends Crud
         } elseif (isset($params['order_completed']) and $params['order_completed'] === 'any') {
             unset($params['order_completed']);
         }
-       // $params['no_cache'] = 1;
+        // $params['no_cache'] = 1;
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
             return $get;

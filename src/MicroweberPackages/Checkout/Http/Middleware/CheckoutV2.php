@@ -9,16 +9,27 @@ class CheckoutV2
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
 
         $checkCart = cart_get_items_count();
+
         if (!$checkCart) {
-            return redirect(site_url('shop'));
+            $shop_page = get_content('single=true&content_type=page&is_shop=1');
+            $redir = site_url();
+            if ($shop_page and isset($shop_page['id'])) {
+                $link = content_link($shop_page['id']);
+                if ($link) {
+                    $redir = $link;
+                }
+
+            }
+
+            return redirect($redir);
         }
 
         $requiresRegistration = get_option('shop_require_registration', 'website') == '1';

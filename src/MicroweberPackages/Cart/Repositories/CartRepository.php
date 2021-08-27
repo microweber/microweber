@@ -16,7 +16,7 @@ class CartRepository extends AbstractRepository
     {
         $sid = app()->user_manager->session_id();
 
-        return $this->cacheCallback(__FUNCTION__, ['session_id'=>$sid], function () use ($sid) {
+         return $this->cacheCallback(__FUNCTION__, ['session_id'=>$sid], function () use ($sid) {
 
             $cartItems = \DB::table('cart')
                 // ->select(['id', 'qty'])
@@ -29,7 +29,7 @@ class CartRepository extends AbstractRepository
             })->toArray();
 
             return $cartItems;
-        });
+         });
 
     }
 
