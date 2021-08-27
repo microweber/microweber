@@ -1546,14 +1546,13 @@ body.has-opened-sidebar #live_edit_toolbar {
     overflow-x: hidden;
     overflow-y: auto;
 }
-
 .mw_module_image {
     display: block;
     position: relative;
-    margin: 0 auto;
-    height: 44px;
-    padding-top: 10px;
+    height: 21px;
+    margin: 20px;
 }
+
 .mw-dialog #default-layouts-holder .mw_module_image{
     height: auto;
 }
@@ -4251,26 +4250,14 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-columns-icon {
-    width: 17px;
     padding: 2px;
-    background-color: white;
-    border-radius: 1px;
-    margin: -1px 0 0;
-    position: relative;
     display: block;
-    height: 17px;
-    top: 7px;
 }
 
 .mw-handle-type-default .mw-handle-columns-icon:after {
-    position: absolute;
-    content: '';
-    width: 3px;
-    left: 50%;
-    margin-left: -1.5px;
-    top: 0;
-    height: 100%;
-    background-color: #000;
+    content: "\F056D";
+    font-family: 'Material Design Icons';
+    font-size: 25px;
 }
 
 .mw-handle-no-drag .mw-handle-handler-icon {

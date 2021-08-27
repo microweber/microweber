@@ -14,8 +14,8 @@ class MicroweberMigrator extends Migrator
     /**
      * Run the pending migrations at a given path.
      *
-     * @param  array|string $paths
-     * @param  array $options
+     * @param array|string $paths
+     * @param array $options
      * @return array
      */
     public function run($paths = [], array $options = [])
@@ -28,15 +28,15 @@ class MicroweberMigrator extends Migrator
     /**
      * Run "up" a migration instance.
      *
-     * @param  string $file
-     * @param  int $batch
-     * @param  bool $pretend
+     * @param string $file
+     * @param int $batch
+     * @param bool $pretend
      * @return void
      */
     protected function runUp($file, $batch, $pretend)
     {
 
-$this->ensureMigrationsTableExists();
+        $this->ensureMigrationsTableExists();
         $migration = $this->resolve(
             $name = $this->getMigrationName($file)
         );
@@ -52,6 +52,7 @@ $this->ensureMigrationsTableExists();
         try {
             $this->runMigration($migration, 'up');
             $this->repository->log($name, $batch);
+            $this->log('Migrating: ' . $name);
         } catch (\Exception $e) {
             if (strpos($e->getMessage(), 'already exists') !== false) {
                 $this->repository->log($name, $batch);
@@ -77,6 +78,15 @@ $this->ensureMigrationsTableExists();
             }
         }
 
+    }
+
+    public $logger = null;
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
     }
 
 }

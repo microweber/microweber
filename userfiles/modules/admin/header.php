@@ -133,24 +133,19 @@ if (!user_can_view_module(['module' => 'shop'])) {
 
 
     function mw_admin_add_order_popup(ord_id) {
-
-        if (!!ord_id) {
-            var modalTitle = '<?php _e('Edit order'); ?>';
-        } else {
-            var modalTitle = '<?php _e('Add order'); ?>';
-        }
-
-
-        mw.dialog({
-            content: '<div id="mw_admin_edit_order_item_module"></div>',
-            title: modalTitle,
-            id: 'mw_admin_edit_order_item_popup_modal',
+        var contentHolder = document.createElement('div');
+        contentHolder.style.padding = '25px';
+        var dlg = mw.dialog({
+            content: contentHolder,
+            title: !!ord_id ? '<?php _e('Edit order'); ?>' : '<?php _e('Add order'); ?>',
             width: 900
         });
-
-        var params = {}
-        params.order_id = ord_id;
-        mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
+        mw.spinner({element: contentHolder, size: 32})
+        mw.load_module('shop/orders/admin/add_order', contentHolder, function (){
+            contentHolder.style.padding = '0';
+            mw.spinner({element: contentHolder, size: 32}).remove()
+            dlg.center()
+        }, { order_id: ord_id });
     }
 
 </script>

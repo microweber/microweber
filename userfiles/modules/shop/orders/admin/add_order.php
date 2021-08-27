@@ -18,12 +18,9 @@ $data = $products;
 
 <script>
     mw_admin_custom_checkout_callback = function () {
-        $('#mw_admin_edit_order_item_popup_modal').remove();
-
-        mw.reload_module('shop/orders/manage');
-        mw.reload_module('shop/checkout');
-        mw.reload_module('shop/cart');
-        mw.notification.success("Order completed", 5000);
+        mw.dialog.remove();
+        mw.reload_modules(['shop/orders/manage', 'shop/checkout', 'shop/cart']);
+        mw.notification.success('<?php _e('Order completed') ?>', 5000);
     }
 </script>
 

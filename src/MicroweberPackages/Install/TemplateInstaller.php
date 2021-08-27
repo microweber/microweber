@@ -57,6 +57,9 @@ class TemplateInstaller
         $option->option_value = $template_name;
         $option->is_system = 1;
         $option->save();
+
+
+        app()->option_manager->clear_memory();
     }
 
     private function installTemplateContent($template_name)

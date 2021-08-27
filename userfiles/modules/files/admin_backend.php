@@ -115,6 +115,7 @@
             height: auto;
         }
 
+        body.browser-liveedit .file-browser-multiple-download,
         body.browser-liveedit .delete_item {
             display: none;
         }

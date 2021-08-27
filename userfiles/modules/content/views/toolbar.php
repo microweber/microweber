@@ -232,7 +232,7 @@ if ($last_page_front != false) {
         ?>
 
 
-        <div class="js-hide-when-no-items col d-flex justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
+        <div id="content-view-search-bar" class="js-hide-when-no-items col justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -506,7 +506,9 @@ if ($last_page_front != false) {
     });
 
     postsSort = function (obj) {
-
+        mw.spinner({
+            element: document.querySelector('.toolbar'), decorate: true, size: 26
+        }).show();
         var group = mw.tools.firstParentWithClass(obj.el, 'js-table-sorting');
         var parent_mod = document.getElementById('pages_edit_container_content_list');
 
@@ -560,7 +562,11 @@ if ($last_page_front != false) {
 
         if (parent_mod !== undefined) {
             parent_mod.setAttribute('data-order', tosend.type + ' ' + tosend.state);
-            mw.reload_module(parent_mod);
+            mw.reload_module(parent_mod, function (){
+                mw.spinner({
+                    element: document.querySelector('.toolbar'), decorate: true, size: 26
+                }).remove();
+            });
         }
     }
 
