@@ -329,9 +329,11 @@ class ContentFilter {
 
 function removeItemByKeyInObject(object, key) {
 
-    for (var i = 0; i < object.length; i++) {
+    for (var i = 0; i < object.length; ) {
         if (object[i].key == key) {
             object.splice(i, 1);
+        } else {
+            i++;
         }
     }
 

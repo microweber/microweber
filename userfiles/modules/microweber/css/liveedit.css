@@ -1558,14 +1558,13 @@ body.has-opened-sidebar #live_edit_toolbar {
     overflow-x: hidden;
     overflow-y: auto;
 }
-
 .mw_module_image {
     display: block;
     position: relative;
-    margin: 0 auto;
-    height: 44px;
-    padding-top: 10px;
+    height: 21px;
+    margin: 20px;
 }
+
 .mw-dialog #default-layouts-holder .mw_module_image{
     height: auto;
 }

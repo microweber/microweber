@@ -85,8 +85,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
                         }
                     })
                 });
-                console.log(fields)
-                console.log(9999, variants(fields))
+
             })
         })
     </script>

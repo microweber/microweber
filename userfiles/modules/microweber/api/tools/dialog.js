@@ -75,7 +75,10 @@
     mw.modalFrame = mw.dialogIframe;
 
     mw.dialog.remove = function (selector) {
-        return mw.dialog.get(selector).remove();
+        var dlg = mw.dialog.get(selector);
+        if(dlg) {
+            dlg.remove()
+        }
     };
 
     mw.dialog.get = function (selector) {

@@ -30,7 +30,7 @@
             </div>
             <div class="row">
             @foreach($posts->results() as $post)
-                <div class="col-md-6 mb-8">
+                <div class="col-md-6 mb-5">
                     <a href="{{site_url($post->url)}}">
                         <img src="{{$post->thumbnail(800,500, true)}}" alt="">
 
