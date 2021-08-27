@@ -204,6 +204,7 @@ class ModuleManager
 
         mw()->cache_manager->delete('db');
         mw()->cache_manager->clear();
+        mw()->module_repository->clearCache();
 
         $this->scan();
 
@@ -539,7 +540,8 @@ class ModuleManager
                 $s['module'] = $data_to_save['module'];
 
                 if (!isset($s['module_id'])) {
-                    $save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
+                    //$save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
+                  $save =  db_get('table=modules&no_cache=1&module=' . $s['module']);
 
                     if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);

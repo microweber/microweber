@@ -31,6 +31,7 @@ class ModuleManagerTest extends TestCase
         $test = app()->module_manager->css_class($mod);
         $this->assertEquals($test, 'module-shop-admin');
     }
+
     public function testModuleUrlAndPath()
     {
         $mod = 'shop/admin';
@@ -39,7 +40,7 @@ class ModuleManagerTest extends TestCase
 
         $this->assertEquals(true, $result);
         $test = app()->module_manager->dir($mod);
-        $test2 = normalize_path( modules_path().'shop',true);
+        $test2 = normalize_path(modules_path() . 'shop', true);
         $this->assertEquals($test, $test2);
 
     }
@@ -49,7 +50,7 @@ class ModuleManagerTest extends TestCase
         $mod = 'shop/admin';
         $test = app()->module_manager->locate($mod);
 
-        $test2 = normalize_path( modules_path().'shop/admin.php',false);
+        $test2 = normalize_path(modules_path() . 'shop/admin.php', false);
         $this->assertEquals($test, $test2);
 
     }
@@ -72,6 +73,27 @@ class ModuleManagerTest extends TestCase
         app()->module_manager->set_installed($params);
         $test = app()->module_manager->is_installed($mod);
         $this->assertEquals(true, $test);
+
+    }
+
+    public function testIfModulesAreInstalledOnlyOnce()
+    {
+
+        $db = \DB::table('modules')
+            ->select('module',  \DB::raw('count(module) as total'))
+            ->groupBy('module')
+            ->get();
+
+        $foundMoreThanOnce = false;
+        if($db){
+            foreach ($db as $item){
+                if($item->total > 1){
+                    $foundMoreThanOnce = $item->total;
+                }
+            }
+        }
+
+        $this->assertEquals(false, $foundMoreThanOnce);
 
     }
 }

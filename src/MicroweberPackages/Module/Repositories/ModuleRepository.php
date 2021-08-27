@@ -73,6 +73,7 @@ class ModuleRepository extends AbstractRepository
     public function clearCache()
     {
         self::$_getAllModules = [];
+        parent::flushCache();
     }
 
 
