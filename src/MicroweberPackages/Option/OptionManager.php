@@ -337,6 +337,7 @@ class OptionManager
      */
     public function save($data)
     {
+
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
@@ -368,6 +369,8 @@ class OptionManager
                                 $table = $this->tables['options'];
                                 $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
+                                $this->clear_memory();
+
                             }
                         }
                     }
@@ -378,6 +381,7 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
+                    $this->clear_memory();
 
                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
 
