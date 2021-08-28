@@ -35,12 +35,11 @@ before_script:
 script: 
     - phpunit
     - php artisan test #perform unit test
-    - ./vendor/bin/phpstan analyse # static code analysis
+    #- ./vendor/bin/phpstan analyse # static code analysis
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-    email:     
-        - leechoonjia0928@gmail.com
+    email: leechoonjia0928@gmail.com
 branches:
     only:
         - master
