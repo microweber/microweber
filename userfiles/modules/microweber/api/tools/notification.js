@@ -98,7 +98,7 @@ mw.notification = {
             div.style.opacity = 0;
             setTimeout(function () {
                 mw.$(div).remove();
-            }, 1000);
+            }, 10000000000);
         }, timeout);
     },
     success: function (text, timeout, name) {

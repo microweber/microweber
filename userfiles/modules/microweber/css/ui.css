@@ -6737,7 +6737,10 @@ html[dir='rtl'] .mw-dialog-close {
   display: table;
   padding: 5px;
   text-align: center;
-  font-size: 12px;
+  font-size: 24px;
+  height: 80px;
+  width: 380px;
+  border-radius: 25px;
 }
 .mw-notification-lite {
   display: block;

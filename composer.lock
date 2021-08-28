@@ -3501,12 +3501,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b"
+                "reference": "138fe3b744c072a2936eceecd88efe8c0a50be8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7a82103f839d094ea007a233cfd8c00f678f271b",
-                "reference": "7a82103f839d094ea007a233cfd8c00f678f271b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/138fe3b744c072a2936eceecd88efe8c0a50be8e",
+                "reference": "138fe3b744c072a2936eceecd88efe8c0a50be8e",
                 "shasum": ""
             },
             "require": {
@@ -3579,7 +3579,7 @@
                 "illuminate/view": "self.version"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "^3.155",
+                "aws/aws-sdk-php": "^3.189.0",
                 "doctrine/dbal": "^2.6|^3.0",
                 "filp/whoops": "^2.8",
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
@@ -3592,7 +3592,7 @@
                 "symfony/cache": "^5.1.4"
             },
             "suggest": {
-                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.155).",
+                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.189.0).",
                 "brianium/paratest": "Required to run tests in parallel (^6.0).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6|^3.0).",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
@@ -3662,7 +3662,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-09T13:40:46+00:00"
+            "time": "2021-08-24T21:29:28+00:00"
         },
         {
             "name": "laravel/passport",
@@ -12752,12 +12752,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5f20d4a362078e8a066f7dcc146e8005186d9663"
+                "reference": "464842c41f63254eaf06a26489b773b956127f9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5f20d4a362078e8a066f7dcc146e8005186d9663",
-                "reference": "5f20d4a362078e8a066f7dcc146e8005186d9663",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/464842c41f63254eaf06a26489b773b956127f9d",
+                "reference": "464842c41f63254eaf06a26489b773b956127f9d",
                 "shasum": ""
             },
             "require": {
@@ -12821,7 +12821,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-08T11:01:29+00:00"
+            "time": "2021-08-11T07:52:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14013,12 +14013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "002ca4600d81a373c079ea0be73b94ceb01846a7"
+                "reference": "5383370a9e186da9273d31fc07e9acd144b03a49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/002ca4600d81a373c079ea0be73b94ceb01846a7",
-                "reference": "002ca4600d81a373c079ea0be73b94ceb01846a7",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/5383370a9e186da9273d31fc07e9acd144b03a49",
+                "reference": "5383370a9e186da9273d31fc07e9acd144b03a49",
                 "shasum": ""
             },
             "require": {
@@ -14078,7 +14078,7 @@
                 "issues": "https://github.com/mockery/mockery/issues",
                 "source": "https://github.com/mockery/mockery/tree/master"
             },
-            "time": "2021-07-07T11:46:20+00:00"
+            "time": "2021-08-16T15:29:39+00:00"
         },
         {
             "name": "myclabs/deep-copy",
