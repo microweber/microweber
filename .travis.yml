@@ -39,7 +39,9 @@ script:
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-    email: leechoonjia0928@gmail.com
+    email: 
+        - leechoonjia0928@gmail.com
+        - nitrogens68@gmail.com
 branches:
     only:
         - master
