@@ -10,8 +10,6 @@ matrix:
     - php: 5.6
 #    - php: hhvm
 os: linux
-dist: xenial
-matrix: jobs
 # optionally specify a list of environments, for example to test different RDBMS
 env:
     #Database environment 
