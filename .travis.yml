@@ -9,6 +9,7 @@ matrix:
   allow_failures:
     - php: 5.6
 #    - php: hhvm
+os: linux
 # optionally specify a list of environments, for example to test different RDBMS
 env:
     - DB=mysql
