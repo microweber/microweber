@@ -2,7 +2,7 @@
   'debug' => false,
   'url' => 'http://localhost/',
   'timezone' => 'UTC',
-  'locale' => 'en_US',
+  'locale' => 'en',
   'fallback_locale' => 'en',
   'key' => 'base64:bTFlbW1LbGZCWWxiU3FZTW9qa29rVWNXZVUyVzMzZjA=',
   'cipher' => 'AES-256-CBC',
