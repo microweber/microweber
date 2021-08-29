@@ -1,22 +1,7 @@
 FROM php:7.4-apache
 
 
-RUN apt update && apt install -y --no-install-recommends \
-        git \
-        zip \
-        curl \
-        libzip-dev \
-        zlib1g-dev \
-        unzip \
-        libonig-dev \
-        graphviz \
-        libxml2-dev \
-        libcurl4-openssl-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libwebp-dev \
-        libpng-dev && \
-    rm -rf /var/lib/apt/lists/*
+
 
 RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg && \
     docker-php-ext-install gd
