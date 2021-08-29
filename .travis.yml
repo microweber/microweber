@@ -11,18 +11,15 @@ matrix:
 #    - php: hhvm
 # optionally specify a list of environments, for example to test different RDBMS
 env:
-    #Database environment 
     - DB=mysql
 
 before_install:
-#before installing the application, update the application
     - composer self-update
     - composer dump-autoload
 
 # execute any number of scripts before the test run, custom env's are available as variables
 
 before_script:
-#before the script start
     - travis_retry composer install
     - curl -sSfL -o ~/.phpenv/versions/$TRAVIS_PHP_VERSION/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar
 
@@ -32,14 +29,11 @@ before_script:
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
-script: 
-    - phpunit
-    - php artisan test #perform unit test
-    #- ./vendor/bin/phpstan analyse # static code analysis
+script: phpunit 
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-    email: leechoonjia0928@gmail.com
+    irc: "irc.freenode.org#microweber"
 branches:
     only:
         - master

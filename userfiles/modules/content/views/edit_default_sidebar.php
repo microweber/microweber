@@ -130,12 +130,12 @@
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_1"  name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
+                            <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
+                            <label class="custom-control-label" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
                 </div>
