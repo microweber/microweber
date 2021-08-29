@@ -43,7 +43,6 @@ notifications:
     email: 
         - leechoonjia0928@gmail.com
         - nitrogens68@gmail.com
-
 branches:
     only:
         - master
