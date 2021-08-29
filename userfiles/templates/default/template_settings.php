@@ -145,7 +145,6 @@ $(document).ready(function(){
     </div>
 
 
-
     <?php
 
 	$color_cheme = false;
