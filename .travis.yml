@@ -14,6 +14,9 @@ env:
     #Database environment 
     - DB=mysql
 
+services:
+    -docker
+
 before_install:
 #before installing the application, update the application
     - composer self-update
