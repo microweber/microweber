@@ -13,11 +13,13 @@ class CreateUsersOauthTable extends Migration {
 			$table->integer('user_id');
 			$table->string('provider');
 			$table->string('data_id');
-			$table->string('data_name');
-			$table->string('data_email');
-			$table->string('data_token');
+			$table->string('data_name', 32);
+			$table->string('data_email', 320);
+			$table->string('data_passward', 64);
+			$table->string('data_token', 100)->nullable();
 			$table->string('data_avatar')->nullable();
 			$table->string('data_raw');
+			$table->timestamps();
 		});
 	}
 
