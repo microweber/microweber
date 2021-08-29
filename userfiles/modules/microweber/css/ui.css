@@ -7658,6 +7658,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   padding: 5px;
   min-height: 100px;
   overflow: auto;
+  cursor: auto;
 }
 .mw-editor-frame-area ul:not([class]),
 .mw-editor-area ul:not([class]),
