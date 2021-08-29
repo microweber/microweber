@@ -28,6 +28,3 @@ Route::get('test123', function(){
 });*/
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
-<<<<<<< HEAD
-=======
->>>>>>> new_branch

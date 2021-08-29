@@ -36,15 +36,11 @@ script: phpunit
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-<<<<<<< HEAD
-    irc: "irc.freenode.org#microweber"
-=======
     email: 
         - leechoonjia0928@gmail.com
         - nitrogens68@gmail.com
-        -yinkiddtan@hotmail.com
+        - yinkiddtan@hotmail.com
     
->>>>>>> 96a0986368fa60121997771c0eac4b49609f13d1
 branches:
     only:
         - master
