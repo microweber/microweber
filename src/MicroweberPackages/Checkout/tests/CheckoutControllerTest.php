@@ -149,6 +149,10 @@ class CheckoutControllerTest extends TestCase
         );
         $this->assertEquals(200, $response->status());
 
+        app()->shipping_manager->driver('shop/shipping/gateways/pickup')->enable();
+        $this->assertEquals(true, app()->shipping_manager->driver('shop/shipping/gateways/pickup')->isEnabled());
+
+
         $shipping_modules = app()->checkout_manager->getShippingModules();
 
         $this->assertEquals(true, !empty($shipping_modules));

@@ -11,6 +11,30 @@ use shop\shipping\gateways\country\shipping_to_country;
 class ShippingToCountry implements ShippingDriverInterface
 {
 
+    public $module = 'shop/shipping/gateways/country';
+
+
+    public function enable()
+    {
+        $saveOption = [];
+        $saveOption['option_key'] = 'shipping_gw_' . $this->module;
+        $saveOption['option_value'] = 'y';
+        $saveOption['option_group'] = 'shipping';
+
+        return save_option($saveOption);
+    }
+
+    public function disable()
+    {
+        $saveOption = [];
+        $saveOption['option_key'] = 'shipping_gw_' . $this->module;
+        $saveOption['option_value'] = 'y';
+        $saveOption['option_group'] = 'shipping';
+
+        return save_option($saveOption);
+    }
+
+
     public function isEnabled()
     {
         $module = 'shop/shipping/gateways/country';
