@@ -148,7 +148,6 @@ $(document).ready(function(){
 
 
 
-    
     <?php
 
 	$color_cheme = false;
