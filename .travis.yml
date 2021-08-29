@@ -13,6 +13,9 @@ matrix:
 env:
     - DB=mysql
 
+services:
+    -docker
+
 before_install:
     - composer self-update
     - composer dump-autoload

@@ -28,6 +28,6 @@ Route::get('test123', function(){
 });*/
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
-
-Route::get('users/index',[UserController::class, 'index'])->name('users.index');
-Route::post('logout',[UserController::class, 'logout'])->name('logout')
+<<<<<<< HEAD
+=======
+>>>>>>> new_branch
