@@ -138,6 +138,7 @@ $(document).ready(function(){
           <li value="Tahoma"><a style="font-family: Tahoma" href="#">Tahoma</a></li>
           <li value="Verdana"><a style="font-family: Verdana" href="#">Verdana</a></li>
           <li value="Georgia"><a style="font-family: Georgia" href="#">Georgia</a></li>
+          <li value="Brush Script MT, Cursive"><a style="font-family: Brush Script, Cursive" href="#">Brush Script MT</a></li>
           <li value="Calibri"><a style="font-family: Calibri" href="#">Calibri</a></li>
           <li value="Segoe UI, Arial, sans-serif"><a style="font-family: Segoe UI, Arial, sans-serif" href="#">Segoe UI</a></li>
           <li value="Times New Roman"><a style="font-family: Times New Roman" href="#">Times New Roman</a></li>
