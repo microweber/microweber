@@ -2540,9 +2540,13 @@ class ContentManager
         } else {
             $content_id = intval($content_id);
         }
-        $cont_data = $this->get_by_id($content_id);
-        if ($cont_data == false) {
+        $contentData = $this->get_by_id($content_id);
+        if ($contentData == false) {
             return false;
+        }
+
+        if ($contentData['position'] == null) {
+            $contentData['position'] = 0;
         }
 
         $query = \MicroweberPackages\Content\Content::query();
@@ -2550,26 +2554,26 @@ class ContentManager
         $params = array();
 
         $parent_id = false;
-        if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $parent_id = $cont_data['parent'];
+        if (isset($contentData['parent']) and $contentData['parent'] > 0) {
+            $parent_id = $contentData['parent'];
         }
 
         if ($content_type) {
             if (defined('PAGE_ID') and PAGE_ID != 0) {
                 $parent_id = PAGE_ID;
             }
-        } elseif (isset($cont_data['content_type'])) {
-            $content_type = $cont_data['content_type'];
+        } elseif (isset($contentData['content_type'])) {
+            $content_type = $contentData['content_type'];
         }
 
-        if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
+        if (isset($contentData['content_type']) and $contentData['content_type'] != 'page') {
 
             if (trim($mode) == 'prev') {
                 $query->orderBy('position', 'desc');
-                $query->where('position', '<', $cont_data['position']);
+                $query->where('position', '<', $contentData['position']);
             } else {
                 $query->orderBy('position', 'asc');
-                $query->where('position', '>', $cont_data['position']);
+                $query->where('position', '>', $contentData['position']);
             }
 
             $cats = $this->app->category_manager->get_for_content($content_id);
@@ -2582,11 +2586,11 @@ class ContentManager
 
         } else {
 
-            if (isset($cont_data['position']) and $cont_data['position'] > 0) {
+            if (isset($contentData['position']) and $contentData['position'] > 0) {
                 if (trim($mode) == 'prev') {
-                    $query->where('position', '>', $cont_data['position']);
+                    $query->where('position', '>', $contentData['position']);
                 } else {
-                    $query->where('position', '<', $cont_data['position']);
+                    $query->where('position', '<', $contentData['position']);
                 }
             }
 
