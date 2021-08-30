@@ -9,6 +9,12 @@ trait CategoriesTrait {
     public function appendFiltersActiveCategories()
     {
         $categories = $this->request->get('categories', false);
+
+        $category = $this->request->get('category', false);
+        if (empty($categories)) {
+            $categories[] = $category;
+        }
+
         if (is_array($categories)) {
             foreach($categories as $categoryId) {
 
