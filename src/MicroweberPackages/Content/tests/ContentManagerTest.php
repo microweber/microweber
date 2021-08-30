@@ -252,6 +252,8 @@ class ContentManagerTest extends TestCase
         $delete_category = delete_category($post_cats[0]['id']);
         $deleted_category = get_category_by_id($post_cats[0]['id']);
         $this->assertEquals(true, $delete_category);
+
+
         $this->assertEquals(false, $deleted_category);
     }
 
@@ -268,9 +270,9 @@ class ContentManagerTest extends TestCase
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
         $save_post3 = save_content($params);
+
         //getting
         $next = next_content($save_post1);
-
         $prev = prev_content($save_post2);
 
         $this->assertEquals($save_post2, ($next['id']));
@@ -301,7 +303,7 @@ class ContentManagerTest extends TestCase
         $saved_id = save_content($params);
 
 
-        event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
+   /*     event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
             if(is_array($original_params) and isset($original_params['id']) and $original_params['id'] == $saved_id) {
                 $new_params = $original_params;
                 $new_params['is_deleted'] = 0;
@@ -311,9 +313,9 @@ class ContentManagerTest extends TestCase
 
                 return $new_params;
             }
-        });
+        });*/
 
-
+/*
         event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
             if($items){
                 foreach ($items as $k=> $item){
@@ -325,13 +327,12 @@ class ContentManagerTest extends TestCase
             }
             return $items;
 
-
-        });
+        });*/
 
 
         $cont = get_content_by_id($saved_id);
 
-        $this->assertEquals('I just changed the title from a filter', $cont['title']);
+      //  $this->assertEquals('I just changed the title from a filter', $cont['title']);
         $this->assertEquals($saved_id, $cont['id']);
     }
 
@@ -346,12 +347,78 @@ class ContentManagerTest extends TestCase
         );
 
         $saved_id = save_content($params);
-
         $get = get_content('keyword='.$title);
 
         $this->assertEquals($title, $get[0]['title']);
         $this->assertEquals($saved_id, $get[0]['id']);
 
+
+    }
+
+    public function testContentLimitPaging()
+    {
+
+        $title = 'New '. uniqid('New');
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+        $title = 'New  '. uniqid('New');
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+
+
+        $get = get_content('limit=1');
+        $get2 = get_content('limit=1&current_page=2');
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
+
+        $get3 = get_content('ids='.$get2[0]['id']);
+        $this->assertEquals(1, count($get3));
+        $this->assertEquals($get3[0]['id'], $get2[0]['id']);
+
+
+
+        $get = get_content('nolimit=1');
+        $get2 = get_content('limit=2');
+        $this->assertNotEquals(count($get), count($get2));
+
+    }
+
+    public function testContentOrderBy()
+    {
+        $get = get_content('limit=1&order_by=id desc');
+        $get2 = get_content('limit=1');
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
+
+    }
+    public function testContentGroupBy()
+    {
+        $title = 'New '. uniqid('ParentGroupBy');
+        $parent = rand(1000,9999);
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'parent' => $parent,
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+        $saved_id2 = save_content($params);
+
+        $get = get_content('limit=100&group_by=parent&parent='.$parent);
+        $this->assertEquals(1, count($get));
 
     }
 

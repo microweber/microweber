@@ -8,7 +8,9 @@
  * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
+
 namespace MicroweberPackages\Database;
+
 use function Opis\Closure\serialize as serializeClosure;
 
 class Crud
@@ -45,17 +47,18 @@ class Crud
         }
 
         if ($enable_triggers) {
-            $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
+          /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
             if (is_array($override)) {
                 foreach ($override as $resp) {
                     if (is_array($resp) and !empty($resp)) {
                         $params = array_merge($params, $resp);
                     }
                 }
-            }
+            }*/
         }
 
         $get = $this->app->database_manager->get($params);
+      //  $get =app()->content_repository->getByParams($params);
 
         $override_data = array();
 
@@ -71,19 +74,20 @@ class Crud
             if (isset($params['count']) and $params['count']) {
                 //do nothing on override
             } else {
-                $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
+
+              /*  $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
                 if (is_array($override)) {
                     foreach ($override as $resp) {
                         if (is_array($resp) and !empty($resp)) {
-                           $override_data = $resp;
-                            if($is_single_item){
-                                $get =  $override_data[0] ;
+                            $override_data = $resp;
+                            if ($is_single_item) {
+                                $get = $override_data[0];
                             } else {
-                                $get =  $override_data;
+                                $get = $override_data;
                             }
-                          }
+                        }
                     }
-                }
+                }*/
             }
         }
 
@@ -101,14 +105,23 @@ class Crud
         if ($field_name == false) {
             $field_name = 'id';
         }
-        $table = $this->table;
-        $params = array();
-        $params[$field_name] = $id;
-        $params['table'] = $table;
-        $params['single'] = true;
-        $data = $this->get($params);
 
-        return $data;
+       /* if ($field_name == 'id') {
+            $data = app()->content_repository->findById($id);
+            if ($data) {
+                return $data;
+            }
+        } else {*/
+
+            $table = $this->table;
+            $params = array();
+            $params[$field_name] = $id;
+            $params['table'] = $table;
+            $params['single'] = true;
+            $data = $this->get($params);
+
+            return $data;
+      // }
     }
 
     public function save($params)

@@ -9,7 +9,7 @@ trait CategoriesTrait {
     public function appendFiltersActiveCategories()
     {
         $categories = $this->request->get('categories', false);
-        if (is_array($categories)) {
+        if (is_array($categories) && !empty($categories)) {
             foreach($categories as $categoryId) {
 
                 $category = Category::where('id', $categoryId)->first();
@@ -22,6 +22,19 @@ trait CategoriesTrait {
                 $filter->link = '';
                 $filter->value = $categoryId;
                 $filter->key = 'categories[]';
+                $this->filtersActive[] = $filter;
+            }
+        }
+
+        $categoryId = $this->request->get('category', false);
+        if (!empty($categoryId)) {
+            $category = Category::where('id', $categoryId)->first();
+            if ($category != null) {
+                $filter = new \stdClass();
+                $filter->name = _e('Category', true) . ': ' . $category->title;
+                $filter->link = '';
+                $filter->value = $categoryId;
+                $filter->key = 'category';
                 $this->filtersActive[] = $filter;
             }
         }
@@ -57,6 +70,11 @@ trait CategoriesTrait {
         $categoriesActiveIds = $this->request->get('categories', []);
         if (!is_array($categoriesActiveIds)) {
             $categoriesActiveIds = [];
+        }
+
+        $categoryId = $this->request->get('category', false);
+        if (!empty($categoryId)) {
+            $categoriesActiveIds[] = $categoryId;
         }
 
         $categoryQuery = Category::query();

@@ -14,9 +14,34 @@ namespace MicroweberPackages\Media;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Media\Repositories\MediaRepository;
 
 class MediaManagerServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+
+
+    public function register()
+    {
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Media::class, function () {
+                return new MediaRepository();
+            });
+        });
+
+
+        /**
+         * @property MediaRepository   $media_repository
+         */
+        $this->app->bind('media_repository', function () {
+            return $this->app->repository_manager->driver(Media::class);;
+        });
+
+
+    }
+
+
+
     /**
      * Bootstrap the application services.
      *

@@ -58,6 +58,10 @@ class CustomField extends Model
             $this->name_key = \Str::slug($this->name, '-');
         }
 
+        if ($this->rel_id < 1) {
+            $this->session_id = app()->user_manager->session_id();
+        }
+
         $saved = parent::save($options);
 
         if (isset($customFieldValueToSave)) {

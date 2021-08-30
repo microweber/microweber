@@ -17,7 +17,9 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\GlobalOptions;
 use MicroweberPackages\Option\Models\Option as OptionModel;
+use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\OptionManager;
+use MicroweberPackages\Option\Repositories\OptionRepository;
 
 
 class OptionServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -40,6 +42,28 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->app->singleton('global_options', function ($app) {
             return new GlobalOptions(OptionModel::all());
         });
+
+
+
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Option::class, function () {
+                return new OptionRepository();
+            });
+        });
+
+
+
+        /**
+         * @property OptionRepository   $option_repository
+         */
+        $this->app->bind('option_repository', function () {
+            return $this->app->repository_manager->driver(Option::class);;
+        });
+
+
+
 
     }
 

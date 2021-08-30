@@ -11,7 +11,7 @@ $all_products = get_products('nolimit=1');
 if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $addNew = false;
     //WAS $data = offer_get_by_id($params['offer_id']);
-    $data = \MicroweberPackages\Offer\Models\Offer::getById($params['offer_id']);
+    $data = app()->offer_repository->getById($params['offer_id']);
 
     if (isset($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') {
         try {

@@ -103,6 +103,7 @@ class Lang
                 $lang = $lang_opt;
             }
         }
+
         return $lang;
     }
 

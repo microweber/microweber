@@ -4,11 +4,20 @@ namespace MicroweberPackages\Translation\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 
 class TranslationKey extends Model
 {
+    use HasSearchableTrait;
+
     public $timestamps = false;
     public $table = 'translation_keys';
+
+    protected $searchable = [
+        'id',
+        'translation_keys',
+        'translation_texts',
+    ];
 
     public function texts()
     {

@@ -7,7 +7,7 @@ if (!isset($params['product_id']) or !class_exists('\MicroweberPackages\Offer\Mo
 
 $productId = $params['product_id'];
 //WAS $offer = offers_get_by_product_id($productId);
-$offer = \MicroweberPackages\Offer\Models\Offer::getByProductId($productId);
+$offer = app()->offer_repository->getByProductId($productId);
 
 if (!isset($offer['price']['offer_price'])) {
     $offer['price']['offer_price'] = '';
@@ -40,7 +40,7 @@ if (!isset($offer['price']['offer_price'])) {
         data.offer_id = offer_id;
         editModal = mw.tools.open_module_modal('shop/offers/edit_offer', data, {overlay: true, skin: 'simple', title: mTitle})
     }
-    
+
     function toggleOfferPrice() {
         // var specialOfferCheckEl = $('#customCheck322');
         // if(!specialOfferCheckEl.is(':checked')) {
@@ -66,7 +66,7 @@ if (!isset($offer['price']['offer_price'])) {
 		<div class="input-group-prepend">
 			<span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
 		</div>
-        
+
 		<input autocomplete="off" type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>

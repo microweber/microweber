@@ -38,7 +38,7 @@ if (!function_exists('offers_get_price')) {
 
     function offers_get_price($product_id, $price_id)
     {
-        return \MicroweberPackages\Offer\Models\Offer::getPrice($product_id, $price_id);
+        return app()->offer_repository->getPrice($product_id, $price_id);
 
     }
 
@@ -46,7 +46,7 @@ if (!function_exists('offers_get_price')) {
 if (!function_exists('offers_get_by_product_id')) {
     function offers_get_by_product_id($product_id)
     {
-        return \MicroweberPackages\Offer\Models\Offer::getByProductId($product_id);
+        return app()->offer_repository->getByProductId($product_id);
 
     }
 }
@@ -67,6 +67,6 @@ if (!function_exists('offer_get_by_id')) {
 
     function offer_get_by_id($offer_id)
     {
-        return \MicroweberPackages\Offer\Models\Offer::getById($offer_id);
+        return app()->offer_repository->getById($offer_id);
     }
 }

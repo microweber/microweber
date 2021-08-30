@@ -80,7 +80,7 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
 <?php if ($offers_enabled) {
     $is_offer_set = false;
     //WAS $offer = offers_get_price($product_id,$price_id);
-    $offer = \MicroweberPackages\Offer\Models\Offer::getPrice($product_id, $price_id);
+    $offer = app()->offer_repository->getPrice($product_id, $price_id);
 
     if (isset($offer['id']) && isset($offer['offer_price'])) {
         $is_offer_set = true;

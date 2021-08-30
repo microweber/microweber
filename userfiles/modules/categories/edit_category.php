@@ -304,50 +304,49 @@ if (isset($params['live_edit'])) {
                         <input name="_method" type="hidden" value="PATCH">
                     <?php endif; ?>
 
-
-
-
-
                     <?php
+                    $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
                     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                     ?>
 
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
+
                                 <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
-                                <div class="input-group mb-3 prepend-transparent">
-                                    <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                        </div>
 
-                                        <input id="content-title-field" class="form-control" name="title" type="text" placeholder="<?php _e("Subcategory Name"); ?>"/>
-                                    <?php else: ?>
-                                        <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                    <?php
+                                    $categoryNamePlaceholder = 'Category name';
+                                    $htmlCategoryTitlePrepend = '
+                                              <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
+                                             </div>';
+
+                                    if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                        $categoryNamePlaceholder = 'Subcategory Name';
+                                    } else {
+                                        if (isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                            $htmlCategoryTitlePrepend = '
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                            </div>
-                                        <?php else: ?>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
-                                            </div>
-                                        <?php endif; ?>
-
-                                        <input class="form-control" autofocus id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
-
-                                        <?php
-/*                                        $titleValue = '';
-                                        if ($data['id'] > 0) {
-                                            $titleValue = $data['title'];
+                                                 <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                             </div>';
                                         }
+                                    }
 
-                                        echo $formBuilder->text('title')->value($titleValue)->id('content-title-field')->autofocus(true);
-                                        */
-                                        ?>
+                                    $titleValue = '';
+                                    if ($data['id'] > 0) {
+                                        $titleValue = $data['title'];
+                                    }
 
-                                    <?php endif; ?>
-                                </div>
+                                    echo $formBuilder->text('title')
+                                        ->setModel($categoryModel)
+                                        ->prepend($htmlCategoryTitlePrepend)
+                                        ->placeholder($categoryNamePlaceholder)
+                                        ->value($titleValue)
+                                        ->id('content-title-field')
+                                        ->autofocus(true);
+                                    ?>
+
                             </div>
                         </div>
 
@@ -383,8 +382,6 @@ if (isset($params['live_edit'])) {
                               <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
                                 <?php
-                                $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
-
                                 $descriptionValue = '';
                                 if ($data['id'] > 0) {
                                     $descriptionValue = $data['description'];

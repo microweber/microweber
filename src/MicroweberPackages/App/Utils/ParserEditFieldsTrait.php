@@ -173,6 +173,7 @@ Trait ParserEditFieldsTrait
                             $data = app()->content_manager->get_by_id($data_id);
                         } else {
                             // $rel = 'content';
+
                             $data = app()->content_manager->get_page($data_id);
                         }
 

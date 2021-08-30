@@ -7,6 +7,7 @@ trait PriceFilter {
     {
         $minPrice = $this->request->get('min_price', 0.00);
         $maxPrice = $this->request->get('max_price', false);
+
         if ($maxPrice) {
             $filter = new \stdClass();
             $filter->name = _e('Price', true) .': '. $minPrice . ' - ' . $maxPrice;

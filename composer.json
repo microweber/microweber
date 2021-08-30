@@ -31,7 +31,7 @@
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "laravel/framework": "^v8.48.1",
+        "laravel/framework": "^v8.56.0",
         "laravel/tinker": "^2.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -91,7 +91,8 @@
         "symfony/intl": "*",
         "geoip2/geoip2": "~2.0",
         "whitecube/lingua": "1.1.0",
-        "predis/predis": "2.0.x-dev"
+        "predis/predis": "2.0.x-dev",
+        "torann/laravel-repository": "dev-master"
 
 
     },

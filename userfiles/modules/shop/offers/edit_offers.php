@@ -1,6 +1,6 @@
 <?php
 //WAS $allOffers = offers_get_all();
-$allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
+$allOffers = app()->offer_repository->getAll();
 ?>
 <div class="table-responsive">
     <table class="table">

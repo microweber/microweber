@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -22,11 +23,11 @@ class Content extends Model
     use CustomFieldsTrait;
     use CategoryTrait;
     use HasSlugTrait;
+    use HasSearchableTrait;
     use MediaTrait;
     use Filterable;
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
-
 
     protected $table = 'content';
     protected $content_type = 'content';
@@ -43,7 +44,29 @@ class Content extends Model
         'is_home' => '0',
     ];
 
+    protected $searchable = [
+        'id',
+        'title',
+        'content',
+        'content_body',
+        'content_type',
+        'subtype',
+        'description',
+        'is_home',
+        'is_shop',
+        'is_deleted',
+        'subtype',
+        'subtype_value',
+        'parent',
+        'layout_file',
+        'active_site_template',
+        'url',
+        'content_meta_title',
+        'content_meta_keywords',
+    ];
+
     protected $fillable = [
+        "id",
         "subtype",
         "subtype_value",
         "content_type",
@@ -63,6 +86,7 @@ class Content extends Model
         "is_home",
         "is_shop",
         "is_active",
+        "is_deleted",
         "updated_at",
         "created_at",
     ];

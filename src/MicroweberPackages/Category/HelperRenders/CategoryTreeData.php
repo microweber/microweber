@@ -41,22 +41,21 @@ class CategoryTreeData
 
         //asort($params);
         $function_cache_id = false;
-        $function_cache_id = __FUNCTION__ . crc32(serializeClosure($params));
-
-        $active_cat = false;
+        //$function_cache_id = __FUNCTION__ . crc32(serializeClosure($params));
+         $active_cat = false;
         if (defined('CATEGORY_ID')) {
-            $function_cache_id .= CATEGORY_ID;
+        //    $function_cache_id .= CATEGORY_ID;
             $active_cat = CATEGORY_ID;
         }
 
         $cat_url = $this->app->category_manager->get_category_id_from_url();
         if ($cat_url != false) {
-            $function_cache_id .= $cat_url;
+          //  $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
             $cat_url = $this->app->url_manager->param('categories', true);
             if ($cat_url != false) {
-                $function_cache_id .= $cat_url;
+          //      $function_cache_id .= $cat_url;
             }
         }
 
@@ -314,9 +313,10 @@ class CategoryTreeData
         $originalTree = $treeData;
 
         foreach($treeData as $key => $category) {
-           $categoryModelWithAviableProducts = Category::where('id',$category['id'])->filter(['hasProductsInStock'=>true])->first();
 
-           if(empty($categoryModelWithAviableProducts) && empty($category['children'])) {
+            $check  = app()->category_repository->hasProductsInStock($category['id']);
+
+           if($check && empty($category['children'])) {
              unset($originalTree[$key]);
            } else if(!empty($category['children'])) {
                 foreach($category['children'] as $index => $cat) {
@@ -338,9 +338,8 @@ class CategoryTreeData
 
     private function childCategoriesHasAviableProducts($categoryData)
     {
-        $categoryModelWithAviableProducts = Category::where('id', $categoryData['id'])->filter(['hasProductsInStock'=>true])->first();
-
-        if(!empty($categoryModelWithAviableProducts)) {
+        $check  = app()->category_repository->hasProductsInStock($categoryData['id']);
+        if($check) {
             return true;
         } else if(!empty($categoryData['children'])) {
              foreach($categoryData['children'] as $index => $cat) {
