@@ -48,7 +48,7 @@ class FrontendController extends Controller
             }
         }
 
-        $this->websiteOptions = Option::getWebsiteOptions();
+        $this->websiteOptions = app()->option_repository->getWebsiteOptions();
 
         event_trigger('mw.init');
 
@@ -1385,7 +1385,7 @@ class FrontendController extends Controller
         } else {
 
             $enable_full_page_cache = $this->websiteOptions['enable_full_page_cache'] == 'y';
-
+         //   $enable_full_page_cache = 1;
             if ($is_editmode == false
                 and !$is_preview_template
                 and !$is_no_editmode

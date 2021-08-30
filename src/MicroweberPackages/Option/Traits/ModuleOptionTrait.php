@@ -15,8 +15,9 @@ trait ModuleOptionTrait {
         }
 
         if ($optionGroup) {
+
             $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+              $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
             return $allOptions;
         }
 
@@ -30,7 +31,9 @@ trait ModuleOptionTrait {
         }
 
         if ($optionGroup) {
+
             $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
+
             $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
         }

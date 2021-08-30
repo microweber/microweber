@@ -13,8 +13,12 @@ template_stack_add(modules_url()."shop/cart/styles.css");
 
 
 <?php
-
-$shop_page = get_content('is_shop=1');
+$shop_page = false;
+//$shop_page = get_content('is_shop=1');
+$shop_page_first = app()->content_repository->getFirstShopPage();
+if($shop_page_first){
+    $shop_page= array($shop_page_first);
+}
 
 $shipping_options = mw('shop\shipping\shipping_api')->get_active();
 $show_shipping_info = get_option('show_shipping', $params['id']);

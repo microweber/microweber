@@ -13,11 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
-            <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -164,23 +160,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div>
                     <?php
-                    $ex = array();
-                    $ex['rel_type'] = $for;
-                    //$ex['rel_id'] = $for_id;
-                    $ex['group_by'] = 'type';
-                    $ex['order_by'] = 'created_at desc';
-                    $name_not_in = array();
-                    if (is_array($fields)) {
-                        foreach ($fields as $field => $value) {
-                            $name_not_in[] = $field;
-                        }
-                    }
-                    if (!empty($name_not_in)) {
-                        //$ex['name'] = '[not_in]'.implode(',',$name_not_in);
-                    }
-                    $exiisting_fields = mw()->fields_manager->getAll($ex);
+                    $getExistingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', $for)
+                            ->groupBy('name_key')
+                            ->orderBy('created_at','desc')
+                            ->get();
 
-                    // var_dump($exiisting_fields);
+                    $exiisting_fields = [];
+                    if ($getExistingFields != null){
+                        $exiisting_fields = $getExistingFields->toArray();
+                    }
                     ?>
 
                     <?php // $exiisting_fields = false; //TODO ?>

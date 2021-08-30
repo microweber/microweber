@@ -18,7 +18,7 @@ class TemplateMetaTagsRenderer
     public function __construct($app = null)
     {
         $this->app = $app;
-        $this->websiteOptions = Option::getWebsiteOptions();
+        $this->websiteOptions = app()->option_repository->getWebsiteOptions();
     }
 
     public function render($params)

@@ -12,6 +12,10 @@ class RecordAuthenticatedLoginListener
             return;
         }
 
+        if ($event and isset($event->user) and isset($event->user->id)) {
+            return;
+        }
+
         $loginAttempt = new LoginAttempt();
         $loginAttempt->email = $event->user->email;
         $loginAttempt->username = $event->user->username;

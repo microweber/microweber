@@ -281,7 +281,10 @@ Trait ParserLoadModuleTrait
 //            }
 
 
-            $installed_module = app()->module_manager->get('single=1&ui=any&module=' . $module_name);
+          //  $installed_module = app()->module_manager->get('single=1&ui=any&module=' . $module_name);
+            $installed_module =  app()->module_repository->getModule($module_name);
+
+
             if($installed_module and isset($installed_module['settings'])){
                 $config['settings']  = $installed_module['settings'];
             }

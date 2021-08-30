@@ -293,6 +293,22 @@ abstract class BaseFilter
 
                     }
 
+                    if (isset($filter->toPrice)) {
+                        $filter->toPrice = (float) $filter->toPrice;
+                    }
+
+                    if (isset($filter->fromPrice)) {
+                        $filter->fromPrice = (float) $filter->fromPrice;
+                    }
+
+                    if (isset($filter->maxPrice)) {
+                        $filter->maxPrice = (float) $filter->maxPrice;
+                    }
+
+                    if (isset($filter->minPrice)) {
+                        $filter->minPrice = (float) $filter->minPrice;
+                    }
+
                     $filters[$customFieldNameKey] = $filter;
                     $i++;
                 }

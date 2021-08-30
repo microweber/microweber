@@ -297,26 +297,30 @@ class FieldsManager
         }
 
         if (isset($fieldData['copy_of']) and $fieldData['copy_of']) {
+
             $existing = array();
             $existing['id'] = $fieldData['copy_of'];
             $existing['single'] = 1;
-
             $existing = $this->getAll($existing);
+
             if ($existing) {
 
-
-                $value_of_copy = [];
                 $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $fieldData['copy_of'])->get();
                 if ($getCustomFieldValues) {
-                    foreach ($getCustomFieldValues as $val){
-                        $value_of_copy = $val->value;
+                    foreach ($getCustomFieldValues as $customFieldValue){
+                        $fieldData['value'][]  = $customFieldValue->value;
                     }
-                    $fieldData['values'] =$value_of_copy;
-
                 }
 
                 $fieldData['type'] = $existing['type'];
                 $fieldData['name'] = $existing['name'];
+                $fieldData['name_key'] = $existing['name_key'];
+                $fieldData['options'] = $existing['options'];
+                $fieldData['show_label'] = $existing['show_label'];
+                $fieldData['is_active'] = $existing['is_active'];
+                $fieldData['required'] = $existing['required'];
+                $fieldData['placeholder'] = $existing['placeholder'];
+                $fieldData['error_text'] = $existing['error_text'];
 
                 unset($fieldData['copy_of']);
 
@@ -327,7 +331,6 @@ class FieldsManager
                 // field to copy not found
                 return false;
             }
-
 
         }
 
@@ -734,6 +737,11 @@ class FieldsManager
 
         if (isset($params['params']['template'])) {
             $data['params']['template'] = $params['params']['template'];
+        }
+
+        if (!isset($data['name'])) {
+            $data['name'] = $data['type'];
+            $data['name_key'] = $data['type'];
         }
 
         $field = $this->instanceField($data['type']);

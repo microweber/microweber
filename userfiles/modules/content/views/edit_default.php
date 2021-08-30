@@ -258,7 +258,21 @@ if (isset($params['quick_edit'])) {
                         <div class="card-body pt-3">
                             <div class="form-group" id="slug-field-holder">
                                 <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
-                                <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
+
+                                <?php
+                                $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+                                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                                ?>
+
+                                <?php
+                                echo $formBuilder->text('title')
+                                    ->setModel($contentModel)
+                                    ->value($title_for_input)
+                                    ->id('content-title-field')
+                                    ->onkeyup('slugFromTitle();')
+                                    ->autocomplete(false);
+                                ?>
+
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
                                     <span class="mw-admin-post-slug-text">
@@ -375,26 +389,32 @@ if (isset($params['quick_edit'])) {
                                     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
                                         <div class="form-group">
                                             <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
-
-
-                                            <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
-
+                                          <!--  <label class="control-label" title="Content Body"><?php /* _e("Description"); */?></label>
                                             <div id="mw-admin-content-iframe-editor">
-
-                                                <textarea id="content_template" name="content_body"><?php print $data['content_body']; ?></textarea>
-
-                                            </div>
+                                                <textarea id="content_template" name="content_body"><?php /*print $data['content_body']; */?></textarea>
+                                            </div>-->
+                                                <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
+                                                <?php
+                                                echo $formBuilder->mwEditor('content_body')
+                                                    ->setModel($contentModel)
+                                                    ->value($data['content_body'])
+                                                    ->autocomplete(false);
+                                                ?>
                                         <?php else: ?>
+                                           <!-- <label class="control-label"><?php /* _e("Content"); */?></label>
+                                            <div id="mw-admin-content-iframe-editor">
+                                                <textarea id="content_template" name="content"><?php /*print $data['content']; */?></textarea>
+                                            </div>-->
+
                                                 <label class="control-label"><?php  _e("Content"); ?></label>
+                                            <?php
+                                            echo $formBuilder->mwEditor('content')
+                                                ->setModel($contentModel)
+                                                ->value($data['content'])
+                                                ->autocomplete(false);
+                                            ?>
 
-                                                <div id="mw-admin-content-iframe-editor">
-
-                                                    <textarea id="content_template" name="content"><?php print $data['content']; ?></textarea>
-
-                                                </div>
                                         <?php endif; ?>
-
-
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>

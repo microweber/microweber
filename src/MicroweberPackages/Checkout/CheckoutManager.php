@@ -674,6 +674,12 @@ class CheckoutManager
         }
     }
 
+    public function getUserInfo()
+    {
+        return $this->checkout_get_user_info();
+    }
+
+
     public function checkout_get_user_info()
     {
 
@@ -685,7 +691,15 @@ class CheckoutManager
 
         $selected_country_from_session = session_get('shipping_country');
         $checkout_session = session_get('checkout');
+        $checkout_session2 = session_get('checkout_v2');
 
+        if (!$checkout_session) {
+            $checkout_session = [];
+        }
+        if (!$checkout_session2) {
+            $checkout_session2 = [];
+        }
+        $checkout_session = array_merge($checkout_session,$checkout_session2);
         $user_fields_from_profile = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
         $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_gw'];
 

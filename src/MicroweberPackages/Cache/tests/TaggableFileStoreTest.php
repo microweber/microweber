@@ -55,7 +55,7 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
         }
 
         $after = microtime(true);
-        if (($after-$before) > 0.50) {
+        if (($after-$before) > 1.50) {
             $isSpeetTestOk = false;
         }
 

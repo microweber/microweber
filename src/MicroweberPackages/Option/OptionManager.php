@@ -62,6 +62,7 @@ class OptionManager
             $params = $params2;
         }
 
+
         $data = $params;
         $table = $this->tables['options'];
         //  $data['debug'] = 1000;
@@ -90,7 +91,9 @@ class OptionManager
     public function get_groups($is_system = false)
     {
         $table = $this->tables['options'];
-        $query = $this->app->database_manager->table($table);
+        //$query = $this->app->database_manager->table($table);
+
+        $query = new \MicroweberPackages\Option\Models\Option();
         $query = $query->select('option_group');
 
         $query = $query->whereNull('module');
@@ -105,10 +108,13 @@ class OptionManager
 
         $res = $query->get();
 
+
         if ($res and !empty($res)) {
+            $res = $res->toArray();
             $res1 = array();
             foreach ($res as $item) {
                 $item = (array)$item;
+
                 $res1[] = $item['option_group'];
             }
         }
@@ -179,37 +185,140 @@ class OptionManager
      * Example usage:
      * $this->get('my_key', 'my_group');
      */
-    public $memoryOptionGroup = [];
-
+    public $memoryOptionGroupNew = [];
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
+    {
+        if (!mw_is_installed()) {
+            return false;
+        }
+
+        if (isset($this->memoryOptionGroupNew[$optionGroup])) {
+            return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroupNew[$optionGroup], $returnFull);
+        }
+
+        if ($optionGroup) {
+            $allOptions = app()->option_repository->getOptionsByGroup($optionGroup);
+            $this->memoryOptionGroup[$optionGroup] = $allOptions;
+            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
+        }
+
+
+
+
+//        if ($optionGroup) {
+//
+//            $allOptions = [];
+//              $getAllOptions = DB::table('options')->where('option_group', $optionGroup)->get();
+//              if ($getAllOptions != null) {
+//                  $allOptions = collect($getAllOptions)->map(function($x){
+//                      return (array) $x;
+//                  })->toArray();
+//              }
+//
+//            $this->memoryOptionGroupNew[$optionGroup] = $allOptions;
+//            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
+//        }
+
+    }
+
+    public function _____get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
     {
 
         if (!mw_is_installed()) {
             return false;
         }
 
-        if (isset($this->memoryOptionGroup[$optionGroup])) {
+        // old variant
+    /*    if (isset($this->memoryOptionGroup[$optionGroup])) {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
 
         if ($optionGroup) {
-            $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+
+            //  $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+
+            $allOptions = app()->option_repository->getByParams(['option_group'=>$optionGroup]);
+//dd($allOptions);
+
+        //    $allOptions = app()->database_manager->get('table=options&option_group=' . $optionGroup);
+            //   dd($allOptions);
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
+        }*/
+
+
+        if(isset($this->options_memory['allOptionGroups'])){
+            $allOptionGroups = $this->options_memory['allOptionGroups'];
+        } else {
+            $this->options_memory['allOptionGroups'] =  $allOptionGroups = app()->option_repository->getByParams('no_limit=1&fields=option_group&group_by=option_group');
+
+        }
+
+        if($allOptionGroups and is_array($allOptionGroups)){
+            $allOptionGroups = array_flatten($allOptionGroups);
+            $allOptionGroups = array_flip($allOptionGroups);
+        }
+
+        // variant 2 repo
+        if ($optionGroup) {
+            if($allOptionGroups){
+                if(!isset($allOptionGroups[$optionGroup])){
+                    return false;
+                }
+            }
+
+
+            if(isset($this->options_memory[$optionGroup])){
+                $allOptions = $this->options_memory[$optionGroup];
+            } else {
+                $this->options_memory[$optionGroup] =  $allOptions =  app()->option_repository->getByParams('no_limit=1&fields=id,option_key,option_group,option_value&option_group='.$optionGroup);
+
+
+            }
+
+
+
+
+            //   $startmb = memory_get_usage();
+         //  $allOptions = app()->option_repository->getByParams('no_limit=1&fields=id,option_key,option_group,option_value&option_group='.$optionGroup);
+
+           //$allOptions = app()->option_repository->getByParams('fields=id,option_key,option_group,option_value');
+           // var_dump($this->formatBytes((memory_get_usage()-$startmb)));die();
+
+            $groupedOptions = [];
+            if (!empty($allOptions) && is_array($allOptions)) {
+                foreach ($allOptions as $option) {
+                    $groupedOptions[$option['option_group']][] = $option;
+                }
+            }
+
+            if (isset($groupedOptions[$optionGroup])) {
+                return $this->getOptionFromOptionsArray($optionKey, $groupedOptions[$optionGroup], $returnFull);
+            }
         }
 
         return false;
     }
+//
+//    private function formatBytes($size, $precision = 2)
+//    {
+//        $base = log($size, 1024);
+//        $suffixes = array('', 'K', 'M', 'G', 'T');
+//
+//        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+//    }
 
     private function getOptionFromOptionsArray($key, $options, $returnFull)
     {
-        foreach ($options as $option) {
-            if ($option['option_key'] == $key) {
-                $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
-                if ($returnFull) {
-                    return $option;
+        if ($options) {
+            foreach ($options as $option) {
+                if ($option['option_key'] == $key) {
+                    $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
+                    if ($returnFull) {
+                        return $option;
+                    }
+                    return $option['option_value'];
                 }
-                return $option['option_value'];
             }
         }
     }
@@ -228,6 +337,7 @@ class OptionManager
      */
     public function save($data)
     {
+
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
@@ -259,6 +369,8 @@ class OptionManager
                                 $table = $this->tables['options'];
                                 $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
+                                $this->clear_memory();
+
                             }
                         }
                     }
@@ -269,6 +381,7 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
+                    $this->clear_memory();
 
                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
 
@@ -441,6 +554,7 @@ class OptionManager
 
 
         $this->options_memory = array();
+        $this->memoryOptionGroupNew = array();
         $this->override_memory = array();
         if (isset($this->memoryOptionGroup)) {
             $this->memoryOptionGroup = array();
@@ -449,5 +563,7 @@ class OptionManager
 
             $this->memoryModuleOptionGroup = array();
         }
+
+        app()->option_repository->clearCache();
     }
 }

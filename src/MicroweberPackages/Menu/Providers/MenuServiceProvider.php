@@ -12,7 +12,9 @@
 namespace MicroweberPackages\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Menu\MenuManager;
+use MicroweberPackages\Menu\Repositories\MenuRepository;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -31,5 +33,21 @@ class MenuServiceProvider extends ServiceProvider
         });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Menu::class, function () {
+                return new MenuRepository();
+            });
+        });
+
+
+
+        /**
+         * @property MenuRepository   $menu_repository
+         */
+        $this->app->bind('menu_repository', function ($app) {
+            return $this->app->repository_manager->driver(Menu::class);;
+        });
     }
 }

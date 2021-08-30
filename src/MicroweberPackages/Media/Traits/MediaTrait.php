@@ -95,7 +95,10 @@ trait MediaTrait
 
         static::saved(function ($model) {
 
-            Media::where('session_id', Session::getId())->where('rel_id', 0)->update(['rel_id' => $model->id]);
+            Media::where('session_id', Session::getId())
+                ->where('rel_id', 0)
+                ->where('rel_type', $model->getMorphClass())
+                ->update(['rel_id' => $model->id]);
 
             if (is_array($model->_newMediaToAssociate) && !empty($model->_newMediaToAssociate)) {
                 foreach ($model->_newMediaToAssociate as $mediaArr) {

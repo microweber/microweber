@@ -109,7 +109,10 @@ class DefaultField
             }
         }
 
-        if (!isset($renderSettings['show_placeholder']) || $renderSettings['show_placeholder'] == false || $renderSettings['show_placeholder'] == 'false') {
+        if (!isset($renderSettings['show_placeholder'])
+            || $renderSettings['show_placeholder'] == false
+            || (strpos($renderSettings['show_placeholder'], 'false') !== false)
+            ){
             $renderData['placeholder'] = '';
         }
 
@@ -146,28 +149,4 @@ class DefaultField
         return $file;
     }
 
-   /* public function calculateFieldSize($renderSettings)
-    {
-        $renderSettings['field_size'] = 12;
-
-        if (mw()->browser_agent->isMobile()) {
-            if (isset($renderSettings['field_size_mobile'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_mobile'];
-            }
-        }
-
-        if (mw()->browser_agent->isDesktop()) {
-            if (isset($renderSettings['field_size_desktop'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_desktop'];
-            }
-        }
-
-        if (mw()->browser_agent->isTablet()) {
-            if (isset($renderSettings['field_size_tablet'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_tablet'];
-            }
-        }
-
-        return $renderSettings;
-    }*/
 }

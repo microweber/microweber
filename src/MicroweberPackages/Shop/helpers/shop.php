@@ -36,6 +36,11 @@ function cart_sum($return_amount = true)
     return mw()->shop_manager->cart_sum($return_amount);
 }
 
+function cart_get_items_count()
+{
+    return mw()->shop_manager->cart_sum(false);
+}
+
 function cart_total()
 {
     return mw()->shop_manager->cart_total();

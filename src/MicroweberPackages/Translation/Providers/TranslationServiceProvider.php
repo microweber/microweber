@@ -6,11 +6,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
+use MicroweberPackages\Application;
 use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Repositories\TranslationKeyRepository;
 use MicroweberPackages\Translation\TranslationLoader;
 use MicroweberPackages\Translation\Translator;
 use \WhiteCube\Lingua\Service as Lingua;
+
+
+
+
 
 class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 {
@@ -22,6 +28,10 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
 
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+
+
+
+
 
 
         /*
@@ -139,7 +149,32 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
         $this->registerLoader();
 
-        $this->app->singleton('translator', function ($app) {
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(TranslationKey::class, function () {
+                return new TranslationKeyRepository();
+            });
+        });
+
+
+
+        $this->app->bind('translation_key_repostory', function () {
+
+            /**
+             * @mixin Application
+             * @property TranslationKeyRepository   $translation_key_repostory
+             * @return Application
+             */
+            return $this->app->repository_manager->driver(TranslationKey::class);;
+        });
+
+
+
+
+
+
+        app()->singleton('translator', function ($app) {
             $loader = $app['translation.loader'];
 
             // When registering the translator component, we'll need to set the default

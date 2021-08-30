@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
+use MicroweberPackages\Content\Repositories\ContentRepository;
 
 /**
  * Content class is used to get and save content in the database.
@@ -32,6 +33,8 @@ class ContentManager
     /** @var \Microweber\Providers\Content\ContentManagerHelpers */
     public $helpers;
 
+
+
     /**
      *  Boolean that indicates the usage of cache while making queries.
      *
@@ -52,6 +55,11 @@ class ContentManager
         $this->set_table_names();
         $this->crud = new ContentManagerCrud($this->app);
         $this->helpers = new ContentManagerHelpers($this->app);
+
+        //$this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+
+
+
     }
 
     /**
@@ -200,7 +208,7 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-        return $this->crud->get_by_id($id);
+       return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -405,7 +413,7 @@ class ContentManager
         $data = array();
         $data['content_id'] = intval($content_id);
 
-        return $this->app->data_fields_manager->get_values($data);
+       return $this->app->data_fields_manager->get_values($data);
     }
 
     public function tags($content_id = false, $return_full = false)
@@ -1984,9 +1992,20 @@ class ContentManager
 
     public function get_parents($id = 0, $without_main_parrent = false)
     {
+
         if (intval($id) == 0) {
             return false;
         }
+
+
+     //   return app()->content_repository->getParents($id,$without_main_parrent);
+
+
+
+
+
+
+
         $ids = array();
         $get = array();
         $get['id'] = $id;
@@ -2292,20 +2311,23 @@ class ContentManager
         $permalinkGenerated = $this->app->permalink_manager->link($link['id'], 'content');
         if ($permalinkGenerated) {
             $link['url'] = $permalinkGenerated;
+           // $link = ($link['url']);
+
+            if (!stristr($link['url'], $site_url)) {
+                $link = site_url($link['url']);
+            } else {
+                $link = ($link['url']);
+            }
+            return $link;
         }
 
-        if (!stristr($link['url'], $site_url)) {
-            $link = site_url($link['url']);
-        } else {
-            $link = ($link['url']);
-        }
 
         /* $override = $this->app->event_manager->trigger('content.link.after', $link);
          if (is_array($override) && isset($override[0])) {
              $link = $override[0];
          }*/
 
-        return $link;
+
     }
 
     public function save_edit($post_data)
@@ -2323,7 +2345,8 @@ class ContentManager
         $get = array();
         $get['is_home'] = 1;
         $get['single'] = 1;
-        $data = $this->get($get);
+
+        $data = app()->content_repository->getByParams($get);
 
         return $data;
     }
@@ -2517,91 +2540,86 @@ class ContentManager
         } else {
             $content_id = intval($content_id);
         }
-        $cont_data = $this->get_by_id($content_id);
-        if ($cont_data == false) {
+        $contentData = $this->get_by_id($content_id);
+        if ($contentData == false) {
             return false;
         }
+
+        if ($contentData['position'] == null) {
+            $contentData['position'] = 0;
+        }
+
+        $query = \MicroweberPackages\Content\Content::query();
         $categories = array();
         $params = array();
 
-        if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $params['parent'] = $cont_data['parent'];
+        $parent_id = false;
+        if (isset($contentData['parent']) and $contentData['parent'] > 0) {
+            $parent_id = $contentData['parent'];
         }
 
-        $compare_q = '[lt]';
-        if (trim($mode) == 'prev') {
-            $compare_q = '[mt]';
-        }
         if ($content_type) {
-            $params['content_type'] = $content_type;
             if (defined('PAGE_ID') and PAGE_ID != 0) {
-                $params['parent'] = PAGE_ID;
+                $parent_id = PAGE_ID;
             }
-        } elseif (isset($cont_data['content_type'])) {
-            $params['content_type'] = $cont_data['content_type'];
+        } elseif (isset($contentData['content_type'])) {
+            $content_type = $contentData['content_type'];
         }
 
-        if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
-            $compare_q = '[mt]';
-            $params['order_by'] = 'created_at asc';
-            $params['order_by'] = 'position asc, created_at asc';
-            $params['order_by'] = 'position asc';
+        if (isset($contentData['content_type']) and $contentData['content_type'] != 'page') {
+
             if (trim($mode) == 'prev') {
-                $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_at desc';
-                $params['order_by'] = 'position desc';
+                $query->orderBy('position', 'desc');
+                $query->where('position', '<', $contentData['position']);
+            } else {
+                $query->orderBy('position', 'asc');
+                $query->where('position', '>', $contentData['position']);
             }
+
             $cats = $this->app->category_manager->get_for_content($content_id);
             if (!empty($cats)) {
                 foreach ($cats as $cat) {
                     $categories[] = $cat['id'];
                 }
-            } else {
-                if ($category_id != false) {
-                    //$categories[] = $category_id;
+                $query->whereCategoryIds($categories);
+            }
+
+        } else {
+
+            if (isset($contentData['position']) and $contentData['position'] > 0) {
+                if (trim($mode) == 'prev') {
+                    $query->where('position', '>', $contentData['position']);
+                } else {
+                    $query->where('position', '<', $contentData['position']);
                 }
             }
-            $params['position'] = $compare_q . $cont_data['position'];
-        } else {
-            if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q . $cont_data['position'];
-            }
-            $params['order_by'] = 'created_at asc';
+
             if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_at desc';
+                $query->orderBy('created_at', 'desc');
+            } else {
+                $query->orderBy('created_at', 'asc');
             }
         }
 
-        if (!empty($categories)) {
-            $params['category'] = $categories;
-        }
-
-        $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 1;
-        $params['is_deleted'] = 0;
-        $params['single'] = true;
 
-        $q = $this->get($params);
+        if ($parent_id) {
+            $query->whereParent($parent_id);
+        }
 
-        if (is_array($q)) {
-            return $q;
+        $query->whereContentType($content_type);
+        $query->whereIsActive(1);
+        $query->whereIsDeleted(0);
+
+        $response = [];
+        $get = $query->first();
+        if ($get != null) {
+            $response = $get->toArray();
+        }
+
+        if (is_array($response)) {
+            return $response;
         } else {
-            if (isset($params['created_at'])) {
-                unset($params['created_at']);
-            }
-
-            $q = $this->get($params);
-            if (!is_array($q)) {
-                if (isset($params['category'])) {
-                    unset($params['category']);
-                    $q = $this->get($params);
-                }
-            }
-            if (is_array($q)) {
-                return $q;
-            }
-
             return false;
         }
     }
@@ -2777,6 +2795,9 @@ class ContentManager
 
     public function title($id)
     {
+
+
+
         if ($id == false or $id == 0) {
             if (defined('CONTENT_ID') == true) {
                 $id = CONTENT_ID;
@@ -2847,19 +2868,7 @@ class ContentManager
     public function get_related_content_ids_for_content_id($content_id = false)
     {
 
-        $related_ids = [];
-        $content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
-
-        if ($content) {
-            $related_cont = $content->related()->get();
-            if ($related_cont) {
-                $related = $related_cont->toArray();
-                foreach ($related as $related_cont) {
-                    $related_ids[] = $related_cont['related_content_id'];
-                }
-            }
-        }
-        return $related_ids;
+        return   $this->app->content_repository->getRelatedContentIds($content_id);
 
     }
 

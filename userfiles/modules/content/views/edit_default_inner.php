@@ -44,7 +44,7 @@ if (isset($data['content-id'])) {
             // mweditor = mw.admin.editor.init(area, params);
 
 
-            mweditor = mw.Editor({
+          /*  mweditor = mw.Editor({
                 selector: '#content_template',
                 mode: 'div',
                 smallEditor: false,
@@ -76,11 +76,11 @@ if (isset($data['content-id'])) {
                         '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
                     ],
                 ]
-            });
+            });*/
 
 
 
-            if (document.getElementById('content-title-field') !== null) {
+           /* if (document.getElementById('content-title-field') !== null) {
                 mweditor.onload = function () {
                     if (mweditor.contentWindow) {
                         var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
@@ -97,7 +97,7 @@ if (isset($data['content-id'])) {
                 }
             }
 
-            mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;
+            mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;*/
         }
     }
 </script>

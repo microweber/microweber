@@ -16,12 +16,14 @@ trait PaymentTrait {
         }
 
         // Validate Shipping Method
-        $validateShippingMethod = $this->_validateShippingMethod();;
-        if ($validateShippingMethod['valid'] == false) {
-            session_set('errors', $validateShippingMethod['errors']);
-            return redirect(route('checkout.shipping_method'));
+        $checkIfShippingEnabled = app()->shipping_manager->getShippingModules(true);
+        if ($checkIfShippingEnabled) {
+            $validateShippingMethod = $this->_validateShippingMethod();
+            if ($validateShippingMethod['valid'] == false) {
+                session_set('errors', $validateShippingMethod['errors']);
+                return redirect(route('checkout.shipping_method'));
+            }
         }
-
         $data = [];
         $data['errors'] = session_get('errors');
         $data['checkout_session'] = session_get('checkout_v2');
@@ -50,10 +52,14 @@ trait PaymentTrait {
         session_set('checkout', $checkoutData);
 
         if (empty($checkoutData['payment_gw'])) {
-            session_set('errors', [
-                'payment_errors'=>['error'=>_e('Must select payment method', true)]
-            ]);
-            return redirect(route('checkout.payment_method'));
+            // check if we have any payment options enabled
+            $payment_options = payment_options();
+            if ($payment_options) {
+                session_set('errors', [
+                    'payment_errors' => ['error' => _e('Must select payment method', true)]
+                ]);
+                return redirect(route('checkout.payment_method'));
+            }
         }
 
         try {

@@ -1,9 +1,9 @@
 <?php
 namespace MicroweberPackages\Content;
 
+use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Database\Crud;
-use DB;
-use function foo\func;
+use Illuminate\Support\Facades\DB;
 use function Opis\Closure\serialize as serializeClosure;
 
 class ContentManagerCrud extends Crud
@@ -17,11 +17,15 @@ class ContentManagerCrud extends Crud
     public static $precached_links = array();
     public static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
 
+    /** @var ContentRepository */
+   // public $content_repository;
+
     /**
      *  Boolean that indicates the usage of cache while making queries.
      *
      * @var
      */
+
     public $no_cache = false;
 
     public function __construct($app = null)
@@ -32,6 +36,11 @@ class ContentManagerCrud extends Crud
             $this->app = mw();
         }
         $this->set_table_names();
+
+      //  $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+
+
+
     }
 
     /**
@@ -123,8 +132,9 @@ class ContentManagerCrud extends Crud
      * </code>
      */
 
-    public function get($params = false) 
+    public function get($params = false)
     {
+
         $params2 = array();
 
         if (is_string($params)) {
@@ -172,7 +182,6 @@ class ContentManagerCrud extends Crud
                 and isset($category['category_subtype_settings']['filter_content_by_keywords'])
                 and trim($category['category_subtype_settings']['filter_content_by_keywords']) != ''
             ) {
-
                 $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
             }
         }
@@ -187,9 +196,6 @@ class ContentManagerCrud extends Crud
                 $params['is_active'] = 1;
             }
         }
-
-
-
 
         $extra_data = false;
         if (isset($params['get_extra_data'])) {
@@ -226,9 +232,75 @@ class ContentManagerCrud extends Crud
 //
 //
 //        }
+//
 
-        $get = parent::get($params);
+/*
+        if (isset($params['category']) || isset($params['categories'])) {
+            $findByCategoryIds = [];
 
+            $params['__query_get_with_categories'] = function ($query) {
+                return $query->whereIn('content.id', function ($subQuery)  {
+                     $subQuery->select('categories_items.id');
+                     $subQuery->from('categories_items');
+                     $subQuery->where('categories_items.rel_id', '=', 'content.id');
+                     $subQuery->where('categories_items.rel_type', '=', 'content');
+                 });
+            };
+        }*/
+
+    /*    if (isset($params['category-id'])) {
+            dump($params);
+        }*/
+
+
+
+
+        if (!isset($params['fields']) and !isset($params['count']) and !isset($params['count_paging'])) {
+            $get = false;
+            $params['fields'] = 'id';
+            $getIds = app()->content_repository->getByParams($params);
+            if ($getIds) {
+                if(isset($params['single']) or isset($params['one'])){
+                    $getIds = array_values($getIds);
+                    $getOne = app()->content_repository->getById(array_pop($getIds));
+
+
+                    if($getOne){
+                        if(!isset($getOne[0]) and !empty($getOne)){
+                            $get = $getOne;
+                        } elseif(isset($getOne[0])) {
+                        $get = $getOne[0] ;
+                        }
+                        unset($getOne);
+                    }
+                 } else {
+                    if(is_numeric($getIds)){
+                    $get = app()->content_repository->getById($getIds);
+                    } else {
+                    $get = app()->content_repository->getById(array_values(array_flatten($getIds)));
+                    }
+
+                }
+
+            }
+        } else {
+            $get = app()->content_repository->getByParams($params);
+
+        }
+      //$get = app()->content_repository->getByParams($params);
+
+
+
+
+        //$get = parent::get($params);
+        /*
+         if (isset($get['id'])) {
+           if ($get['id'] != $get2['id']) {
+               echo $get['id'] .'[--]'. $get2['id'].'<br />';
+           }
+       }*/
+
+       //  echo '<pre>' . print_r([$params], true) .'</pre>';
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -1298,12 +1370,33 @@ class ContentManagerCrud extends Crud
         } else {
             $data['cache_group'] = ('content_fields');
         }
+        $data['cache_group'] = 'content_fields';
+
+        $data['table'] = $table;
+
         if (!isset($data['all'])) {
             $data['one'] = 1;
             $data['limit'] = 1;
         }
-        $data['table'] = $table;
-        $get = $this->app->database_manager->get($data);
+
+        if (!isset($data['is_draft']) and !isset($data['all']) and isset($data['rel_type']) and isset($data['field'])) {
+            if (!isset($data['rel_id'])) {
+                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type']);
+
+            } else {
+                $get = $this->app->content_repository->getEditField($data['field'], $data['rel_type'], $data['rel_id']);
+            }
+        } else {
+            $get = $this->app->database_manager->get($data);
+        }
+
+
+
+
+        //getEditField
+
+
+
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
         } else {

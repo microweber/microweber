@@ -5,6 +5,7 @@ namespace MicroweberPackages\Database\Traits;
 use DB;
 use MicroweberPackages\Database\Filter;
 use Config;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 trait QueryFilter
 {
@@ -114,13 +115,13 @@ trait QueryFilter
                 $exclude_ids = array_merge($exclude_ids,$exclude_ids_merge);
             }
         } else if(isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
-                $exclude_ids = array_merge($exclude_ids,$params['exclude_ids']);
-         }
+            $exclude_ids = array_merge($exclude_ids,$params['exclude_ids']);
+        }
 
 
 
 
-            foreach ($params as $filter => $value) {
+        foreach ($params as $filter => $value) {
 
             $compare_sign = false;
             $compare_value = false;
@@ -348,7 +349,7 @@ trait QueryFilter
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', '.' . $to_search_keyword);
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', $to_search_keyword . '%');
                                                             if($where_or_where == 'orWhere'){
-                                                            $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
+                                                                $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
                                                             } else {
                                                                 $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
 
@@ -424,7 +425,7 @@ trait QueryFilter
                         }
                     }
                     break;
- 
+
                 case 'category':
                 case 'categories':
 
@@ -570,6 +571,12 @@ trait QueryFilter
                     $criteria = intval($value);
 
                     $query = $query->take($criteria);
+
+//                    $params_filter = [];
+//                    $params_filter['limit'] = $value;
+//                    $query = AbstractRepository::queryLimitLogic($query, $table, [], $params_filter);
+
+
                     unset($params['limit']);
 
                     break;
@@ -578,6 +585,13 @@ trait QueryFilter
                     $query->join($value, $table . '.rel_id', '=', $value . '.id')->where($table . '.rel_type', $value);
                     break;
                 case 'current_page':
+
+//                    $params_filter = [];
+//                    $params_filter['current_page'] = $value;
+//                    $query = AbstractRepository::queryLimitLogic($query, $table, [], $params_filter);
+
+
+
                     $criteria = 0;
                     //  $criteria = intval($value);
                     if ($value > 1) {
@@ -591,43 +605,54 @@ trait QueryFilter
                     unset($params[$filter]);
                     break;
                 case 'ids':
-                    $ids = $value;
-                    if (is_string($ids)) {
-                        $ids = explode(',', $ids);
-                    } elseif (is_int($ids)) {
-                        $ids = array($ids);
-                    }
 
-                    if (isset($ids) and is_array($ids) == true) {
-                        foreach ($ids as $idk => $idv) {
-                            $ids[$idk] = intval($idv);
-                        }
-                    }
+                    $params_filter = [];
+                    $params_filter['ids'] = $value;
+                    $query = AbstractRepository::queryIncludeIdsLogic($query, $table, [], $params_filter);
 
-                    if (is_array($ids)) {
-                        $query = $query->whereIn($table . '.id', $ids);
-                    }
+
+//                    $ids = $value;
+//                    if (is_string($ids)) {
+//                        $ids = explode(',', $ids);
+//                    } elseif (is_int($ids)) {
+//                        $ids = array($ids);
+//                    }
+//
+//                    if (isset($ids) and is_array($ids) == true) {
+//                        foreach ($ids as $idk => $idv) {
+//                            $ids[$idk] = intval($idv);
+//                        }
+//                    }
+//
+//                    if (is_array($ids)) {
+//                        $query = $query->whereIn($table . '.id', $ids);
+//                    }
 
                     unset($params[$filter]);
                     break;
                 case 'remove_ids':
                 case 'exclude_ids':
-                    unset($params[$filter]);
-                    $ids = $value;
-                    if (is_string($ids)) {
-                        $ids = explode(',', $ids);
-                    } elseif (is_int($ids)) {
-                        $ids = array($ids);
-                    }
+                     unset($params[$filter]);
 
-                    if (isset($ids) and is_array($ids) == true) {
-                        foreach ($ids as $idk => $idv) {
-                            $ids[$idk] = intval($idv);
-                        }
-                    }
-                    if (is_array($ids)) {
-                        $query = $query->whereNotIn($table . '.id', $ids);
-                    }
+                    $params_filter = [];
+                    $params_filter['exclude_ids'] = $value;
+                    $query = AbstractRepository::queryExcludeIdsLogic($query, $table, [], $params_filter);
+//                    if (is_string($ids)) {
+//                        $ids = explode(',', $ids);
+//                    } elseif (is_int($ids)) {
+//                        $ids = array($ids);
+//                    }
+//
+//                    if (isset($ids) and is_array($ids) == true) {
+//                        foreach ($ids as $idk => $idv) {
+//                            $ids[$idk] = intval($idv);
+//                        }
+//                    }
+//                    if (is_array($ids)) {
+//                        $query = $query->whereNotIn($table . '.id', $ids);
+//                    }
+//
+
 
 
                     break;

@@ -2,65 +2,104 @@
 
 namespace MicroweberPackages\Category\Repositories;
 
-use MicroweberPackages\Category\Events\CategoryWasDestroyed;
-use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Category\Events\CategoryIsCreating;
-use MicroweberPackages\Category\Events\CategoryIsUpdating;
-use MicroweberPackages\Category\Events\CategoryWasCreated;
-use MicroweberPackages\Category\Events\CategoryWasDeleted;
-use MicroweberPackages\Category\Events\CategoryWasUpdated;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Repository\MicroweberQuery;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
-class CategoryRepository extends BaseRepository
+class CategoryRepository extends AbstractRepository
 {
-    public function __construct(Category $model)
-    {
 
-        $this->model = $model;
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public $model = Category::class;
+
+
+    public function getByUrl($url)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
+
+            $getCategory = \DB::table('categories')->where('url', $url)->get();
+            $getCategory = collect($getCategory)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            return $getCategory;
+        });
+
     }
 
-    public function create($data)
+    public function getByColumnNameAndColumnValue($columnName, $columnValue)
     {
-        event($event = new CategoryIsCreating($data));
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
-        $category = $this->model->create($data);
+            $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
+            if ($getCategory != null) {
 
-        event(new CategoryWasCreated($category, $data));
+                $getCategory = (array) $getCategory;
 
-        return $category;
-    }
+                $hookParams = [];
+                $hookParams['data'] = $getCategory;
+                $hookParams['hook_overwrite_type'] = 'single';
+                $overwrite = app()->event_manager->response(get_class($this) . '\\getByColumnNameAndColumnValue', $hookParams);
 
-    public function update($data, $id)
-    {
-        $category = $this->model->find($id);
+                if (isset($overwrite['data'])) {
+                    $getCategory = $overwrite['data'];
+                }
 
-        if(!$category){
-            return;
-        }
-        event($event = new CategoryIsUpdating($category, $data));
+                return $getCategory;
 
-        $category->update($data);
-
-        event(new CategoryWasUpdated($category, $data));
-
-        return $category;
-    }
-
-    public function delete($id)
-    {
-        $category = $this->model->find($id);
-
-        event(new CategoryWasDeleted($category));
-
-        return $category->delete();
+            } else {
+                return false;
+            }
+        });
     }
 
 
-    public function destroy($ids)
+    /**
+     * Find content by id.
+     *
+     * @param mixed $id
+     *
+     * @return array
+     */
+    public function getMedia($id)
     {
 
-        event(new CategoryWasDestroyed($ids));
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
-        return $this->model->destroy($ids);
+            $item = $this->findById($id);
+            if ($item) {
+                $get = $item->media;
+                if ($get) {
+                    return $get->toArray();
+                }
+            }
+            return [];
+
+        });
     }
+
+    /**
+     * Check if category has products in stock.
+     *
+     * @param mixed $categoryId
+     *
+     * @return boolean
+     */
+    public function hasProductsInStock($categoryId)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
+
+            $categoryModelHasAviableProducts = Category::where('id', $categoryId)->select('id')->limit(1)->filter(['hasProductsInStock' => true])->first();
+            if ($categoryModelHasAviableProducts) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
 }
