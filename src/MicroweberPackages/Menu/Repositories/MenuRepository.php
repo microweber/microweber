@@ -25,14 +25,12 @@ class MenuRepository extends AbstractRepository {
 
         $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $getMenu = DB::table('menus')->get();
+            $getMenu = DB::table('menus')->orderBy('position','asc')->get();
             $allMenus = collect($getMenu)->map(function ($option) {
                 return (array)$option;
             })->toArray();
 
             return $allMenus;
-
-            // return $this->getModel()->newQuery()->get()->toArray();
         });
 
         self::$_getAllMenus = $menus;
