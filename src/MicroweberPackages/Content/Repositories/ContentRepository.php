@@ -96,30 +96,6 @@ class ContentRepository extends AbstractRepository
 
 
     }
-//    public function getCategories11($id)
-//    {
-//        return $this->cacheCallback(__FUNCTION__.'categories_items', func_get_args(), function () use ($id) {
-//
-//            $categoryIds = [];
-//            $getCategoryItems = DB::table('categories_items')
-//                ->select('parent_id')
-//                ->where('rel_type', 'content')
-//                ->where('rel_id', $id)
-//                ->groupBy('parent_id')
-//                ->get();
-//
-//            foreach ($getCategoryItems as $categoryItem) {
-//                $categoryIds[] = $categoryItem->parent_id;
-//            }
-//
-//            $getCategories = DB::table('categories')->whereIn('id', $categoryIds)->get();
-//            $getCategories = collect($getCategories)->map(function ($item) {
-//                return (array)$item;
-//            })->toArray();
-//
-//            return $getCategories;
-//        });
-//    }
 
     /**
      * Find content by id.
@@ -289,7 +265,6 @@ class ContentRepository extends AbstractRepository
 
     public function getFirstShopPage()
     {
-
         $shop_page = $this->cacheCallback(__FUNCTION__, func_get_args(), function ()  {
             $check = DB::table('content')
                 ->select('id')
@@ -308,73 +283,5 @@ class ContentRepository extends AbstractRepository
         }
 
     }
-
-//
-//    /**
-//     * Get content parents.
-//     *
-//     * @param mixed $id
-//     *
-//     * @return array
-//     */
-//    public function getParents($id, $without_main_parrent = false)
-//    {
-//        $without_main_parrent = 0;
-//
-//        $ids = [];
-//        $query = $this->getModel()->newQuery();
-//        $query->select(['id', 'parent']);
-//
-//        $query->where('parent', $id);
-//        if ($without_main_parrent) {
-//        //   $query->where('parent', '!=', 0);
-//        }
-//
-//        $get = $query->get();
-//       // dump($id);
-//
-//        if ($get) {
-//            $ids_result = $get->toArray();
-//            if ($ids_result) {
-//                foreach ($ids_result as $ids_item) {
-//                    if (!in_array($ids_item['id'], $ids)) {
-//                        if (!$without_main_parrent) {
-//                            $ids[] = $ids_item['id'];
-//                        }
-//                      //  $sub = $this->getParents($ids_item['id'], $without_main_parrent);
-////                        if ($sub) {
-////                            $ids = array_merge($ids, $sub);
-////                        }
-//                    }
-//                }
-//
-//            }
-//        }
-//
-//        if ($ids) {
-//            $ids = array_unique($ids);
-//
-//        }
-//
-//        return $ids;
-//
-//
-//    }
-//
-
-
-//
-//
-//    /**
-//     * Filter by is_shop attribute
-//     *
-//     * @return self
-//     */
-//    public function scopeIsShop()
-//    {
-//        return $this->addScopeQuery(function ($query) {
-//            return $query->where('is_shop', '=', 1);
-//        });
-//    }
 
 }
