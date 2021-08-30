@@ -298,6 +298,10 @@
   pointer-events: none;
 }
 
+html.le-dragging .mw-handle-item {
+  opacity: 0 !important;
+}
+
 .le-dialog-overlay {
   position: fixed;
   top: 0;

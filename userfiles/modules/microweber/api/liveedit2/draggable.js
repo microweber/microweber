@@ -24,6 +24,7 @@ export const Draggable = function (options, rootSettings) {
     var scroll = function (step) {
         scope.settings.document.body.style.scrollBehavior = 'smooth';
         scope.settings.document.defaultView.scrollTo(0,scope.settings.document.defaultView.scrollY + step);
+        scope.settings.document.body.style.scrollBehavior = '';
     }
 
     this.config = function () {
@@ -67,14 +68,16 @@ export const Draggable = function (options, rootSettings) {
             this._helper.style.left = e.pageX + 'px';
             this._helper.style.width = scope.element.offsetWidth + 'px';
             this._helper.style.height = scope.element.offsetHeight + 'px';
-
+            this.settings.document.documentElement.classList.add('le-dragging')
             this._helper.style.display = 'block';
         } else if(e === 'remove' && this._helper) {
             this._helper.style.display = 'none';
+            this.settings.document.documentElement.classList.remove('le-dragging')
         } else if(this.settings.helper && e) {
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
             this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
+            this.settings.document.documentElement.classList.add('le-dragging')
         }
         return this._helper;
     };
