@@ -67,8 +67,11 @@ if (isset($params['for_module_id'])): ?>
         mw()->fields_manager->makeDefault($for, $params['for_module_id'], $params['default-fields']);
     }
 
-    $more = get_custom_fields($for, $params['for_module_id'], 1, false, false);
-
+    $more = [];
+    if ($params['for_module_id'] > 0) {
+        $more = get_custom_fields($for, $params['for_module_id'], 1, false, false);
+    }
+    
     if ($suggest_from_rel == true) {
         $par = array();
         $par['rel_type'] = $for;
