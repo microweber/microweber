@@ -71,7 +71,7 @@ trait CategoriesTrait {
         if (!is_array($categoriesActiveIds)) {
             $categoriesActiveIds = [];
         }
-        
+
         $categoryId = $this->request->get('category', false);
         if (!empty($categoryId)) {
             $categoriesActiveIds[] = $categoryId;
