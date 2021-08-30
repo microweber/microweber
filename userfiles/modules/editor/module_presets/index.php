@@ -207,7 +207,11 @@
                     mw_preset_show_hide_use_buttons('')
                 } else if (is_use != undefined) {
                     if (typeof(saved_module_attrs_json) != 'undefined') {
-                        var use_attrs = JSON.parse(saved_module_attrs_json);
+                        try {
+                            var use_attrs = JSON.parse(saved_module_attrs_json);
+                        } catch (error) {
+                            use_attrs = {};
+                        }
                         mw.module_preset_set_use(is_use, use_attrs);
                     }
 
@@ -295,8 +299,8 @@
                 <?php foreach ($saved_modules as $item): ?>
                     <?php
                     $fffound = false;
-                    if (!isset($item['module_attrs']) || empty($item['module_attrs'])) {
-                        continue;
+                    if (!isset($item['module_attrs'])) {
+                        $item['module_attrs'] = '';
                     }
 
                     if ($item['module_id'] == $module_id) {
@@ -308,7 +312,7 @@
                     <div class="card w-100 mb-2 p-2 mw-presets-list js-module-preset-item-form-holder <?php if ($fffound): ?>bg-primary-opacity-3<?php endif; ?>" js-mod-id="<?php print  $item['module_id'] ?>">
                         <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                         <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
-                        <textarea name="module_attrs"><?php print  $item['module_attrs'] ?></textarea>
+                        <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
                         <div class="row">
                             <div class="col-auto d-flex align-items-center justify-content-center">
                                 <div class="custom-control custom-radio mb-0">
