@@ -41,17 +41,22 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
+        dump($maxPrice);
+
         $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
                 if ($maxPrice) {
-                    $query->where(\DB::raw('value > 0 AND value BETWEEN CAST('.$minPrice.' AS UNSIGNED) AND CAST('.$maxPrice.' AS UNSIGNED)'));
+                   //$query->whereRaw("CAST(value as SIGNED) != 0 AND value < 73114");
+                 // $query->where(\DB::raw('CAST(value AS UNSIGNED)'), '<', 4);
+                   //$query->whereBetween(\DB::raw('CAST(value AS UNSIGNED)'), [$minPrice, $maxPrice]);
+                //  $query->whereBetween('value', [$minPrice, $maxPrice]);
                 } else {
-                    $query->where(\DB::raw('value >= CAST("'.$minPrice.'" AS UNSIGNED)'));
+                 //   $query->where(\DB::raw('value >= CAST("'.$minPrice.'" AS UNSIGNED)'));
                 }
             });
         });
 
-       // dump($sql->toSql());
+       dump($sql->toSql());
 
         return $sql;
     }
