@@ -21,8 +21,16 @@ trait FilterByPriceTrait
     {
 
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
-            $query->whereHas('fieldValue', function ($query) use ($price) {
-                $query->where(\DB::raw('value = CAST("' . $price . '" AS UNSIGNED)'));
+            $query->whereHas('fieldValuePrice', function ($query) use ($price) {
+
+                $query->where(function ($query2) use ($price) {
+
+                    $price = intval($price);
+                     $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                    $query2->whereRaw("CAST(value as INTEGER) = {$price}");
+                    return $query2;
+                });
+
             });
         });
     }

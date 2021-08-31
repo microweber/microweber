@@ -54,7 +54,7 @@ class ProductFilterTest extends TestCase
             [
                 'type'=>'price',
                 'name'=>'price',
-                'value'=>'1001',
+                'value'=>'1000',
             ]
         );
         $newProduct2->save();
@@ -62,11 +62,21 @@ class ProductFilterTest extends TestCase
         $model = \MicroweberPackages\Product\Models\Product::query();
 
         $model->filter([
-            'priceBetween' => 1 . ',' . 1000,
+            'priceBetween' => 1 . ',' . 999,
         ]);
         $results = $model->get();
          $this->assertEquals(1, count($results));
         $this->assertEquals($newProduct->id, $results[0]->id);
+
+
+        $model = \MicroweberPackages\Product\Models\Product::query();
+
+        $model->filter([
+            'priceBetween' => 1000
+        ]);
+        $results = $model->get();
+        $this->assertEquals(1, count($results));
+        $this->assertEquals($newProduct2->id, $results[0]->id);
 
 
 
@@ -119,6 +129,28 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct->id, $results[0]->id);
         $this->assertEquals($newProduct3->id, $results[1]->id);
 
+
+
+
+        $model = \MicroweberPackages\Product\Models\Product::query();
+
+        $model->filter([
+            'price' => 1000
+        ]);
+        $results = $model->get();
+
+        $this->assertEquals($newProduct2->id, $results[0]->id);
+
+
+
+        $model = \MicroweberPackages\Product\Models\Product::query();
+
+        $model->filter([
+            'price' => 0
+        ]);
+        $results = $model->get();
+
+        $this->assertEquals($newProduct3->id, $results[0]->id);
 
 
     }
