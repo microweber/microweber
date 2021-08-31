@@ -4,6 +4,9 @@ namespace MicroweberPackages\Menu;
 
 use Content;
 use Menu;
+use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Core\Events\AbstractResourceWasUpdated;
+use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 /**
  * Content class is used to get and save content in the database.
@@ -120,8 +123,23 @@ class MenuManager
         }
         $data_to_save['item_type'] = 'menu_item';
 
+        $saveMenu = null;
+        if (isset($data_to_save['id']) && $data_to_save['id'] > 0) {
+            $saveMenu = \MicroweberPackages\Menu\Menu::where('id', $data_to_save['id'])->first();
+        }
 
-        dd($data_to_save);
+        if ($saveMenu == null) {
+            $saveMenu = new \MicroweberPackages\Menu\Menu();
+        }
+        foreach ($data_to_save as $key => $value){
+            $saveMenu->$key = $value;
+        }
+
+        $saveMenu->save();
+
+        event(new MenuWasUpdated($saveMenu, $data_to_save));
+
+        return $saveMenu->id;
     }
 
     public function get_menu($params = false)
