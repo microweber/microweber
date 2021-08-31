@@ -1,25 +1,26 @@
 <?php
 
-namespace MicroweberPackages\Page\Repositories;
+namespace MicroweberPackages\Menu\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Page\Events\PageIsCreating;
-use MicroweberPackages\Page\Events\MenuIsUpdating;
-use MicroweberPackages\Page\Events\MenuWasCreated;
-use MicroweberPackages\Page\Events\MenuWasDeleted;
-use MicroweberPackages\Page\Events\MenuWasUpdated;
-use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Menu\Menu;
+use MicroweberPackages\Menu\Events\PageIsCreating;
+use MicroweberPackages\Menu\Events\MenuIsUpdating;
+use MicroweberPackages\Menu\Events\MenuWasCreated;
+use MicroweberPackages\Menu\Events\MenuWasDeleted;
+use MicroweberPackages\Menu\Events\MenuWasUpdated;
+use MicroweberPackages\Menu\Models\Page;
 
-class PageRepository extends BaseRepository
+class MenuApiRepository extends BaseRepository
 {
-    public function __construct(Page $model)
+    public function __construct(Menu $model)
     {
         $this->model = $model;
     }
 
     public function create($data)
     {
-        event($event = new PageIsCreating($data));
+        event($event = new MenuIsCreating($data));
 
         $page = $this->model->create($data);
 
@@ -53,7 +54,7 @@ class PageRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new PageWasDestroy($ids));
+        event(new MenuWasDestroy($ids));
 
         return $this->model->destroy($ids);
     }

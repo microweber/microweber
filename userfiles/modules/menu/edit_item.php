@@ -94,10 +94,21 @@ if ($id == 0) {
 
             <div class="row">
                 <div class="col">
+
                     <div class="form-group">
                         <label class="control-label text-muted"><span class="font-weight-normal"><?php _e("Edit menu item"); ?></span></label>
                         <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
-                        <input type="text" placeholder="<?php _e("Title"); ?>" class="form-control" name="title" value="<?php print $data['title'] ?>"/>
+
+                        <?php
+                        $menuModel = \MicroweberPackages\Menu\Menu::where('id', $data['id'])->first();
+                        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+                        echo $formBuilder->text('title')
+                            ->setModel($menuModel)
+                            ->placeholder($data['title'])
+                            ->value($data['title'])
+                            ->autofocus(true);
+                        ?>
                     </div>
 
                     <?php if (isset($params['menu-id'])): ?>
