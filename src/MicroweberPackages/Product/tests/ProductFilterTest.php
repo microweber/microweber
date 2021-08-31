@@ -17,6 +17,7 @@ class ProductFilterTest extends TestCase
     public function testProductFilter()
     {
 
+        $clean = \MicroweberPackages\Product\Models\Product::truncate();
 
         $newShopPage = new Page();
         $newShopPage->title = 'my-new-shop-page-for-filter-test-' . uniqid();
@@ -61,11 +62,10 @@ class ProductFilterTest extends TestCase
         $model = \MicroweberPackages\Product\Models\Product::query();
 
         $model->filter([
-            'priceBetween' => 1 . ',' . 1000
+            'priceBetween' => 1 . ',' . 1000,
         ]);
         $results = $model->get();
-
-        $this->assertEquals(1, count($results));
+         $this->assertEquals(1, count($results));
         $this->assertEquals($newProduct->id, $results[0]->id);
 
 

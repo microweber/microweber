@@ -83,6 +83,7 @@ class MenuManager
     {
         if (isset($data_to_save['menu_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['menu_id']);
+            unset($data_to_save['menu_id']);
         }
 
         if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
