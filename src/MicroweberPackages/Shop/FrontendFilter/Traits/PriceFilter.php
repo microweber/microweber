@@ -20,10 +20,10 @@ trait PriceFilter {
 
     public function applyQueryPrice()
     {
-        $minPrice = $this->request->get('min_price', false);
-        $maxPrice = $this->request->get('max_price', false);
+        $minPrice = $this->request->get('min_price', 0.00);
+        $maxPrice = $this->request->get('max_price', 0.00);
 
-        if ($minPrice && $maxPrice) {
+        if ($maxPrice) {
             $this->query->filter([
                 'priceBetween'=> $minPrice . ',' . $maxPrice
             ]);

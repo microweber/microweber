@@ -596,7 +596,7 @@ class MenuManager
                 */
 
                 $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
-                
+
                 if ($sub_menu_q) {
 
 
@@ -987,9 +987,8 @@ class MenuManager
                 $return_res = $indx;
             }
         }
-        $this->app->cache_manager->delete('menus');
 
-        $this->app->cache_manager->delete('menus');
+        clearcache();
 
         return $return_res;
     }
