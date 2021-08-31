@@ -66,7 +66,7 @@
                 <h6><strong><?php _e("Total Amount: "); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></h6>
             </div>
             <div class="col-12 col-sm-6">
-                <button type="button" class="btn btn-primary btn-md float-end" data-toggle="modal" data-target="#shoppingCartModal"><?php _e("Checkout"); ?></button>
+                <button type="button" class="btn btn-primary btn-md float-end" data-bs-toggle="modal" data-bs-target="#shoppingCartModal"><?php _e("Checkout"); ?></button>
             </div>
         <?php else: ?>
             <div class="col-12">
