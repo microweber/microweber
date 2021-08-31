@@ -21,7 +21,7 @@ trait PriceFilter {
     public function applyQueryPrice()
     {
         $minPrice = $this->request->get('min_price', 0.00);
-        $maxPrice = $this->request->get('max_price', 100);
+        $maxPrice = $this->request->get('max_price', 0.00);
 
         if ($maxPrice) {
             $this->query->filter([
