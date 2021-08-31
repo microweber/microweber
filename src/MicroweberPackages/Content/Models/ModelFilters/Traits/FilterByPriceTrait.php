@@ -65,7 +65,7 @@ trait FilterByPriceTrait
 
             });
         });
-dump($sql->toSql());
+
         return $sql;
     }
 
