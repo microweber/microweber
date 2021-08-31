@@ -88,6 +88,39 @@ class ProductFilterTest extends TestCase
         $this->assertEquals(0, count($results));
 
 
+
+
+
+        $newProduct3 = new Product();
+        $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
+        $newProduct3->url = 'my-second-product-zero-for-filter-test';
+        $newProduct3->content_type = 'product';
+        $newProduct3->subtype = 'product';
+        $newProduct3->parent = $newShopPage->id;
+        $newProduct3->setCustomField(
+            [
+                'type'=>'price',
+                'name'=>'price',
+                'value'=>'0',
+            ]
+        );
+        $newProduct3->save();
+
+
+
+        $model = \MicroweberPackages\Product\Models\Product::query();
+
+        $model->filter([
+            'priceBetween' => 0 . ',' . 1
+        ]);
+        $results = $model->get();
+
+        $this->assertEquals(2, count($results));
+        $this->assertEquals($newProduct->id, $results[0]->id);
+        $this->assertEquals($newProduct3->id, $results[1]->id);
+
+
+
     }
 
 
