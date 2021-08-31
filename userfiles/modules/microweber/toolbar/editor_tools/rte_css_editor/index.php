@@ -333,6 +333,15 @@ var populate = function(css){
     })
 };
 
+var sccontainertype = function (value){
+    var cnt = mw.tools.firstParentOrCurrentWithAnyOfClasses(ActiveNode, ['container', 'container-fluid']);
+    if(cnt && mw.tools.isEditable(cnt)){
+        cnt.classList.remove('container');
+        cnt.classList.remove('container-fluid');
+        cnt.classList.add(value);
+        mw.top().wysiwyg.change(cnt);
+    }
+}
 var scColumns = function (property, value){
     var tg = ActiveNode;
     while (tg && tg.classList) {
@@ -369,6 +378,7 @@ var specialCases = function (property, value){
         scColumns(property, value)
         return true;
     }
+
 }
 
 var populateSpecials = function (css) {
@@ -379,9 +389,27 @@ var populateSpecials = function (css) {
     colDesktop.value = ''
     coltablet.value = ''
     colmobile.value = ''
-     holder.style.display = 'none';
+    holder.style.display = 'none';
+
+    var containerType = document.querySelector('#field-conatiner-type');
+    containerType.style.display = 'none';
+
+
 
     if(ActiveNode) {
+         var cnt = mw.tools.firstParentOrCurrentWithAnyOfClasses(ActiveNode, ['container', 'container-fluid']);
+        if(cnt && mw.tools.isEditable(cnt)){
+            containerType.style.display = '';
+            if(cnt.classList.contains('container-fluid')) {
+                document.querySelector('[name="containertype"][value="container-fluid"]').checked = true
+            } else  if(cnt.classList.contains('container')) {
+                document.querySelector('[name="containertype"][value="container"]').checked = true
+            }
+        }
+
+
+
+
         var col = null;
         var tg = ActiveNode;
         while (tg && tg.classList) {
@@ -394,7 +422,6 @@ var populateSpecials = function (css) {
                 } else {
                     tg = tg.parentNode;
                 }
-
             }
         }
         if(col) {
@@ -716,7 +743,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     var $node = $(ActiveNode);
                     var action = val ? 'addClass' : 'removeClass';
                     $node[action]('mw-bg-mask');
-                    if(action === 'addClass') {
+                    if (action === 'addClass') {
                         output('color', 'transparent')
                     }
                     mw.top().wysiwyg.change($node[0]);
@@ -904,6 +931,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             <?php endforeach; ?>
                         </select>
                     </div>
+
+                </div>
+            </div>
+            <div class="s-field" id="field-conatiner-type">
+                <label><?php _e("Container type"); ?></label>
+                <div class="s-field-content">
+                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container"/> <span></span><span> Fixed </span> </label>
+                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container-fluid"/> <span></span><span> Fluid </span> </label>
+
                 </div>
             </div>
         </div>

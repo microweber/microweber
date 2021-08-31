@@ -55,7 +55,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             }
         </style>
     <script>
-         const variants = ([main, ...[a, ...b]]) => {
+         var variants = ([main, ...[a, ...b]]) => {
              if (!a) return main
              const combined = a.reduce((acc, x) => {
                  return acc.concat(main.map(h => {
