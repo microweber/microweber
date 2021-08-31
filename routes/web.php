@@ -18,20 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
-/*
-    $mem1 = memory_get_usage();
-    $content = \MicroweberPackages\Content\Content::all();
-    $mem2 = memory_get_usage();
+    $menuModel = \MicroweberPackages\Menu\Menu::where('id', 16)->first();
+    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
-    dump(app()->format->human_filesize($mem2 - $mem1));
-*/
-
-/*    $mem3 = memory_get_usage();
-    $content = DB::select("SELECT * FROM content");
-    $mem4 = memory_get_usage();
-
-    dump(app()->format->human_filesize($mem4 - $mem3));
-    */
+    echo $formBuilder->text('title')
+        ->setModel($menuModel)
+        ->placeholder(_e("Title", true))
+        ->value('fwafwa')
+        ->autofocus(true);
 
 
 });
