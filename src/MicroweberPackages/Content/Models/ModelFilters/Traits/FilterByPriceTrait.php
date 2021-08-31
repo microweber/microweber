@@ -22,7 +22,7 @@ trait FilterByPriceTrait
 
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
             $query->whereHas('fieldValue', function ($query) use ($price) {
-                $query->where(\DB::raw('value = CAST("'.$price.'" AS UNSIGNED)'));
+                $query->where(\DB::raw('value = CAST("' . $price . '" AS UNSIGNED)'));
             });
         });
     }
@@ -41,23 +41,31 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-       // dump($maxPrice);
+
 
         $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
-            $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
-                if ($maxPrice) {
-                   //$query->whereRaw("CAST(value as SIGNED) != 0 AND value < 73114");
-                 // $query->where(\DB::raw('CAST(value AS UNSIGNED)'), '<', 4);
-                   //$query->whereBetween(\DB::raw('CAST(value AS UNSIGNED)'), [$minPrice, $maxPrice]);
-                //  $query->whereBetween('value', [$minPrice, $maxPrice]);
-                } else {
-                 //   $query->where(\DB::raw('value >= CAST("'.$minPrice.'" AS UNSIGNED)'));
-                }
+            $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice) {
+                $query2->where(function ($query3) use ($minPrice, $maxPrice) {
+
+                    if ($maxPrice) {
+                        $query3->whereRaw("CAST(value as INTEGER) != 0");
+                        $query3->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                                            $query3->whereBetween(\DB::raw('CAST(value as INTEGER)'), [$minPrice, $maxPrice]);
+                    } else {
+                        $query3->whereRaw("value REGEXP '^[0-9]*$'");
+                        $query3->whereRaw("CAST(value as INTEGER) != 0");
+                        $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
+                    }
+
+
+
+                    return $query3;
+                });
+                return $query2;
+
             });
         });
-
-      // dump($sql->toSql());
-
+dump($sql->toSql());
         return $sql;
     }
 

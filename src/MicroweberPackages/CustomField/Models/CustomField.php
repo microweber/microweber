@@ -46,6 +46,13 @@ class CustomField extends Model
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')->orderBy('position');
     }
 
+    public function fieldValuePrice()
+    {
+        return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
+            ->where('type','price')
+            ->orderBy('position');
+    }
+
     public function save(array $options = [])
     {
         $customFieldValueToSave = null;
