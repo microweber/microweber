@@ -153,6 +153,15 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct3->id, $results[0]->id);
 
 
+
+        $model = \MicroweberPackages\Product\Models\Product::query();
+
+        $model->filter([
+            'title' => 'zero'
+        ]);
+        $results = $model->get();
+
+        $this->assertEquals($newProduct3->id, $results[0]->id);
     }
 
 
