@@ -41,7 +41,7 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        dump($maxPrice);
+       // dump($maxPrice);
 
         $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
@@ -56,7 +56,7 @@ trait FilterByPriceTrait
             });
         });
 
-       dump($sql->toSql());
+      // dump($sql->toSql());
 
         return $sql;
     }
