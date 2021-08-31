@@ -12,11 +12,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByPriceTrait
 {
+
+    protected $_minPriceFilter = false;
+    protected $_maxPriceFilter = false;
+
+
     public function price($price)
     {
+
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
             $query->whereHas('fieldValue', function ($query) use ($price) {
-                $query->where(\DB::raw('CAST(value AS SIGNED)'), '=', $price);
+                $query->where(\DB::raw('value = CAST("'.$price.'" AS UNSIGNED)'));
             });
         });
     }
@@ -35,15 +41,19 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        return $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
+        $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
                 if ($maxPrice) {
-                    $query->whereBetween(\DB::raw('CAST(value AS SIGNED)'), [$minPrice, $maxPrice]);
+                    $query->where(\DB::raw('value > 0 AND value BETWEEN CAST('.$minPrice.' AS UNSIGNED) AND CAST('.$maxPrice.' AS UNSIGNED)'));
                 } else {
-                    $query->where(\DB::raw('CAST(value AS SIGNED)'), '>=', $minPrice);
+                    $query->where(\DB::raw('value >= CAST("'.$minPrice.'" AS UNSIGNED)'));
                 }
             });
         });
+
+       // dump($sql->toSql());
+
+        return $sql;
     }
 
 
