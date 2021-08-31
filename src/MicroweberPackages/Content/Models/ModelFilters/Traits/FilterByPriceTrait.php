@@ -12,17 +12,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByPriceTrait
 {
-
-    protected $_minPriceFilter = false;
-    protected $_maxPriceFilter = false;
-
-
     public function price($price)
     {
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
             $query->whereHas('fieldValue', function ($query) use ($price) {
-                $query->where('value', '=', $price);
-
+                $query->where(\DB::raw('CAST(value AS SIGNED)'), '=', $price);
             });
         });
     }
@@ -41,14 +35,12 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-       // dump($minPrice, $maxPrice);
-
         return $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
                 if ($maxPrice) {
-                    $query->whereBetween('value', [$minPrice, $maxPrice]);
+                    $query->whereBetween(\DB::raw('CAST(value AS SIGNED)'), [$minPrice, $maxPrice]);
                 } else {
-                    $query->where('value', '>=', $minPrice);
+                    $query->where(\DB::raw('CAST(value AS SIGNED)'), '>=', $minPrice);
                 }
             });
         });
