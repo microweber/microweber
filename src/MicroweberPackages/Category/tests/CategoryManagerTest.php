@@ -99,7 +99,8 @@ class CategoryManagerTest extends TestCase
         $newPage->is_active = 1;
         $newPage->is_deleted = 0;
         $newPage->content_type = 'product';
-        $newPage->content_data = ['qty'=>'1'];
+        $newPage->subtype = 'product';
+        $newPage->setContentData(['qty'=>'1']);
         $newPage->category_ids = $category->id;
         $newPage->save();
         $content_data = content_data($newPage->id);
@@ -124,12 +125,15 @@ class CategoryManagerTest extends TestCase
         $newPage->is_active = 1;
         $newPage->is_deleted = 0;
         $newPage->content_type = 'product';
-        $newPage->content_data = ['qty'=>'0'];
+        $newPage->subtype = 'product';
+        $newPage->setContentData( ['qty'=>'0']);
         $newPage->category_ids = $category->id;
         $newPage->save();
         $content_data = content_data($newPage->id);
-        $check  = app()->category_repository->hasProductsInStock($category->id);
 
+        $content2 = app()->content_repository->getContentData($newPage->id);
+
+        $check  = app()->category_repository->hasProductsInStock($category->id);
         $this->assertFalse($check);
         $this->assertEquals($content_data['qty'],0);
 
