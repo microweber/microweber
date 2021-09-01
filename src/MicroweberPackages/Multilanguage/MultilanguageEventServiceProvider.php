@@ -36,7 +36,7 @@ class MultilanguageEventServiceProvider extends EventServiceProvider
     public function boot()
     {
         parent::boot();
-
+/*
         Content::observe(MultilanguageObserver::class);
         Category::observe(MultilanguageObserver::class);
         Post::observe(MultilanguageObserver::class);
@@ -46,7 +46,7 @@ class MultilanguageEventServiceProvider extends EventServiceProvider
         ModuleOption::observe(MultilanguageObserver::class);
         MailTemplate::observe(MultilanguageObserver::class);
         CustomField::observe(MultilanguageObserver::class);
-        CustomFieldValue::observe(MultilanguageObserver::class);
+        CustomFieldValue::observe(MultilanguageObserver::class);*/
 /*
         // Created
         Event::listen(
