@@ -30,7 +30,7 @@ class ContentDataTest extends TestCase
         );
         $newProduct3->save();
 
-        
+
         $product = Product::find($newProduct3->id);
         $contentData = $product->getContentData();
 
@@ -89,6 +89,44 @@ class ContentDataTest extends TestCase
         $this->assertEquals($product['title'],   'Test product with content data');
 
 
+
+    }
+
+    public function testContentDataSaveFromSaveContentWithPrefix()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
+
+
+        $title = 'My prod '.rand();
+        $sku ='somesku'.rand();
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'data_fields' => ['sku'=>$sku],
+            'is_active' => 1);
+        $saved_id = save_content($params);
+
+        $product = Product::find($saved_id);
+        $contentData = $product->getContentData();
+        $this->assertEquals($contentData['sku'],   $sku);
+
+
+        $title = 'My prod '.rand();
+        $sku2 ='somesku2'.rand();
+
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'data_sku' => $sku2,
+            'is_active' => 1);
+        $saved_id = save_content($params);
+
+        $product = Product::find($saved_id);
+
+        $contentData = $product->getContentData();
+        $this->assertEquals($contentData['sku'],   $sku2);
 
     }
 }
