@@ -14,6 +14,7 @@ namespace MicroweberPackages\Multilanguage;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Form\FormElementBuilder;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
+include_once (__DIR__.'/helpers/multilanguage_functions.php');
 
 class MultilanguageServiceProvider extends ServiceProvider
 {
@@ -24,14 +25,11 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $isMultilanguageActive = false;
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
-            $isMultilanguageActive = true;
-        }
 
-        if (defined('MW_DISABLE_MULTILANGUAGE')) {
-            $isMultilanguageActive = false;
-        }
+
+
+
+        $isMultilanguageActive = multilanguage_is_enabled();
 
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();

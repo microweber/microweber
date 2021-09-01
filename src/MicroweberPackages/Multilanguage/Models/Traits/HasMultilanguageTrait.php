@@ -11,10 +11,14 @@ trait HasMultilanguageTrait
 {
 
     private $_addMultilanguage = [];
+    public static $_isMultilanguageEnabled = false;
 
     public function initializeHasMultilanguageTrait()
     {
         $this->fillable[] = 'multilanguage';
+
+        self::$_isMultilanguageEnabled = multilanguage_is_enabled();
+
     }
 
     protected function __getDefaultLocale()
@@ -29,31 +33,32 @@ trait HasMultilanguageTrait
 
     public static function bootHasMultilanguageTrait()
     {
+        if (self::$_isMultilanguageEnabled) {
+            static::retrieved(function ($model) {
+                $mlobs = new MultilanguageObserver();
+                $mlobs->retrieved($model);
+            });
 
-        static::retrieved(function ($model) {
-            $mlobs = new MultilanguageObserver();
-            $mlobs->retrieved($model);
-        });
+            static::saving(function ($model) {
+                if (isset($model->attributes['multilanguage'])) {
+                    $model->_addMultilanguage = $model->attributes['multilanguage'];
+                    unset($model->attributes['multilanguage']);
+                }
+            });
 
-        static::saving(function ($model) {
-            if (isset($model->attributes['multilanguage'])) {
-                $model->_addMultilanguage = $model->attributes['multilanguage'];
-                unset($model->attributes['multilanguage']);
-            }
-        });
+            static::created(function ($model) {
+                $model->_saveMultilanguageTranslation();
+            });
 
-        static::created(function ($model) {
-            $model->_saveMultilanguageTranslation();
-        });
-
-        static::saved(function ($model) {
-            $model->_saveMultilanguageTranslation();
-        });
+            static::saved(function ($model) {
+                $model->_saveMultilanguageTranslation();
+            });
+        }
     }
 
     public function _saveMultilanguageTranslation()
     {
-        if (empty($this->_addMultilanguage)) {
+        if (!self::$_isMultilanguageEnabled or empty($this->_addMultilanguage)) {
             return;
         }
 
