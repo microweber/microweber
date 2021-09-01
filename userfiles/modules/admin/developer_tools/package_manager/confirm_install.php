@@ -30,7 +30,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
     $confirm_files_count = count($get_existing_files_for_confirm_all['user']);
     $get_existing_files_for_confirm = $get_existing_files_for_confirm_all['user'];
 } else {
-    echo '--';// todo
+    // todo
     return;
 }
 ?>
