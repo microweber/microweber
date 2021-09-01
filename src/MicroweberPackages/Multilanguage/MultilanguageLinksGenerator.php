@@ -5,6 +5,7 @@
  * Date: 12/9/2020
  * Time: 4:52 PM
  */
+namespace MicroweberPackages\Multilanguage;
 
 class MultilanguageLinksGenerator
 {

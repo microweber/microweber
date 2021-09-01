@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Multilanguage;
 
 class TranslateTable
 {

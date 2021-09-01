@@ -5,6 +5,7 @@
  * Date: 2/27/2020
  * Time: 12:50 PM
  */
+namespace MicroweberPackages\Multilanguage;
 
 require_once __DIR__ . '/TranslateTable.php';
 require_once __DIR__ . '/TranslateTables/TranslateMenu.php';

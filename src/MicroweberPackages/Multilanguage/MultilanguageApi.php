@@ -5,6 +5,7 @@
  * Date: 12/13/2019
  * Time: 2:29 PM
  */
+namespace MicroweberPackages\Multilanguage;
 
 class MultilanguageApi
 {

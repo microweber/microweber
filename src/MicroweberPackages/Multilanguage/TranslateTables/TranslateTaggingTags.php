@@ -5,6 +5,8 @@
  * Date: 2/27/2020
  * Time: 1:13 PM
  */
+namespace MicroweberPackages\Multilanguage\TranslateTables;
+
 
 class TranslateTaggingTags extends TranslateTable
 {

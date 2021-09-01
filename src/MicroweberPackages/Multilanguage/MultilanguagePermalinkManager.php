@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Multilanguage;
 
 class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManager
 {
