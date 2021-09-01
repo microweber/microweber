@@ -3,6 +3,7 @@
 namespace MicroweberPackages\ContentData\Traits;
 
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
@@ -28,10 +29,23 @@ trait ContentDataTrait
 
         static::saved(function ($model) {
 
-
-
-            dd($model->_addContentData);
-
+            if (!empty($model->_addContentData) && is_array($model->_addContentData)) {
+                foreach($model->_addContentData as $fieldName=>$fieldValue) {
+                    $findContentData = ContentData::where('rel_id', $model->id)
+                        ->where('rel_type', $model->getMorphClass())
+                        ->where('field_name', $fieldName)
+                        ->first();
+                    if ($findContentData == null) {
+                        $findContentData = new ContentData();
+                        $findContentData->rel_id = $model->id;
+                        $findContentData->field_name = $fieldName;
+                        $findContentData->rel_type = $model->getMorphClass();
+                    }
+                    $findContentData->field_value = $fieldValue;
+                    $findContentData->save();
+                }
+            }
+            
             $model->refresh();
 
         });
