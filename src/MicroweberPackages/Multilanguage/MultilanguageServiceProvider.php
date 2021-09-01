@@ -43,7 +43,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         });
 
         if ($isMultilanguageActive) {
-            $this->app->register(MultilanguageEventServiceProvider::class);
+            // $this->app->register(MultilanguageEventServiceProvider::class);
             $this->app->bind(FormElementBuilder::class, function ($app) {
                 return new MultilanguageFormElementBuilder();
             });
