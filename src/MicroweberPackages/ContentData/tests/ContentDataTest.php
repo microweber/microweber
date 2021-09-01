@@ -9,7 +9,6 @@ class ContentDataTest extends TestCase
 {
     public function testContentData()
     {
-
         $product = new Product();
         $product->title = 'Test product with content data';
         $product->save();
@@ -44,10 +43,6 @@ class ContentDataTest extends TestCase
 
         $product = Product::whereContentData(['sku' => '5'])->first();
         $this->assertEquals($product['title'],   'Test product with content data');
-
-
-
-
 
 
 
