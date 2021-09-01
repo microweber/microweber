@@ -2,9 +2,12 @@
 namespace MicroweberPackages\Menu;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Menu extends Model
 {
+    use HasMultilanguageTrait;
+
     public $fillable = [
         "id",
         "title",
