@@ -7,33 +7,32 @@
  */
 namespace MicroweberPackages\Multilanguage;
 
-require_once __DIR__ . '/TranslateTable.php';
-require_once __DIR__ . '/TranslateTables/TranslateMenu.php';
-require_once __DIR__ . '/TranslateTables/TranslateOption.php';
-require_once __DIR__ . '/TranslateTables/TranslateCategory.php';
-require_once __DIR__ . '/TranslateTables/TranslateContent.php';
-require_once __DIR__ . '/TranslateTables/TranslateContentFields.php';
-require_once __DIR__ . '/TranslateTables/TranslateCustomFields.php';
-require_once __DIR__ . '/TranslateTables/TranslateTestimonials.php';
-require_once __DIR__ . '/TranslateTables/TranslateTaggingTags.php';
-require_once __DIR__ . '/TranslateTables/TranslateTaggingTagged.php';
-require_once __DIR__ . '/TranslateTables/TranslateDynamicTextVariables.php';
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateCategory;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateContent;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateContentFields;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateCustomFields;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateDynamicTextVariables;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateMenu;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateOption;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateTaggingTagged;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateTaggingTags;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateTestimonials;
 
 class TranslateManager
 {
 
     public $translateProviders = [
-        'TranslateMenu',
-        'TranslateOption',
-        'TranslateCategory',
-        'TranslateContent',
-        // 'TranslateContentData',
-        'TranslateContentFields',
-        'TranslateCustomFields',
-        'TranslateTestimonials',
-        'TranslateTaggingTags',
-        'TranslateTaggingTagged',
-        'TranslateDynamicTextVariables'
+        TranslateMenu::class,
+        TranslateOption::class,
+        TranslateCategory::class,
+        TranslateContent::class,
+        // 'TranslateContentData::class,
+        TranslateContentFields::class,
+        TranslateCustomFields::class,
+        TranslateTestimonials::class,
+        TranslateTaggingTags::class,
+        TranslateTaggingTagged::class,
+        TranslateDynamicTextVariables::class
     ];
 
     public function run()

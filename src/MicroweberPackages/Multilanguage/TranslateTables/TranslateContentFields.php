@@ -7,6 +7,8 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Multilanguage\TranslateTable;
+
 class TranslateContentFields extends TranslateTable {
 
     protected $relId = 'id';

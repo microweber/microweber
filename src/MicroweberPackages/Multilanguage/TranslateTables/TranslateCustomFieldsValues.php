@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Multilanguage\TranslateTable;
 
 class TranslateCustomFieldsValues extends TranslateTable {
 
