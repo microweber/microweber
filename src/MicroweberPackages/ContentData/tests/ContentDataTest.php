@@ -7,6 +7,37 @@ use MicroweberPackages\Product\Models\Product;
 
 class ContentDataTest extends TestCase
 {
+    public function testContentDataOnNewProduct()
+    {
+        $newProduct3 = new Product();
+        $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
+        $newProduct3->content_type = 'product';
+        $newProduct3->subtype = 'product';
+        $newProduct3->setCustomField(
+            [
+                'type'=>'price',
+                'name'=>'price',
+                'value'=>'0',
+            ]
+        );
+
+        $newProduct3->setContentData(
+            [
+                'qty'=>'1',
+                'sku'=>'skubidu',
+                'rich'=>'bobi'
+            ]
+        );
+        $newProduct3->save();
+
+        $product = Product::find($newProduct3->id);
+        $contentData = $product->getContentData();
+
+        $this->assertEquals('bobi',$contentData['rich']);
+        $this->assertEquals('1',$contentData['qty']);
+        $this->assertEquals('skubidu',$contentData['sku']);
+    }
+
     public function testContentData()
     {
         $product = new Product();
