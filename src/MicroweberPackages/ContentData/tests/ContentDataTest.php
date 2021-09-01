@@ -30,12 +30,25 @@ class ContentDataTest extends TestCase
         );
         $newProduct3->save();
 
+        
         $product = Product::find($newProduct3->id);
         $contentData = $product->getContentData();
 
         $this->assertEquals('bobi',$contentData['rich']);
         $this->assertEquals('1',$contentData['qty']);
         $this->assertEquals('skubidu',$contentData['sku']);
+
+
+        $product->setContentData(
+            [
+                'sku'=>'newsku',
+            ]
+        );
+        $product->save();
+        $contentData = $product->getContentData();
+        $this->assertEquals('bobi',$contentData['rich']);
+        $this->assertEquals('1',$contentData['qty']);
+        $this->assertEquals('newsku',$contentData['sku']);
     }
 
     public function testContentData()
