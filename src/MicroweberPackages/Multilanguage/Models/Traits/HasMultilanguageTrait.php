@@ -46,7 +46,7 @@ trait HasMultilanguageTrait
 
     public function _saveMultilanguageTranslation()
     {
-        if (empty($model->_addMultilanguage)) {
+        if (empty($this->_addMultilanguage)) {
             return;
         }
 
