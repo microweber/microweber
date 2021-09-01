@@ -24,11 +24,6 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-    }
-
-    public function register()
-    {
         $isMultilanguageActive = false;
         if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
             $isMultilanguageActive = true;
@@ -48,5 +43,8 @@ class MultilanguageServiceProvider extends ServiceProvider
                 return new MultilanguageFormElementBuilder();
             });
         }
+
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
+
 }

@@ -203,7 +203,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
-        $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
@@ -280,6 +279,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(DuskServiceProvider::class);
+        $this->app->register(MultilanguageServiceProvider::class);
 
     }
 
