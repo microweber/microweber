@@ -5,6 +5,7 @@ namespace MicroweberPackages\Multilanguage\Models\Traits;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
@@ -28,6 +29,12 @@ trait HasMultilanguageTrait
 
     public static function bootHasMultilanguageTrait()
     {
+
+        static::retrieved(function ($model) {
+            $mlobs = new MultilanguageObserver();
+            $mlobs->retrieved($model);
+        });
+
         static::saving(function ($model) {
             if (isset($model->attributes['multilanguage'])) {
                 $model->_addMultilanguage = $model->attributes['multilanguage'];

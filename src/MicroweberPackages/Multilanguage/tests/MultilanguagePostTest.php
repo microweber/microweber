@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguagePostTest extends \Microweber\tests\TestCase
 {
@@ -62,7 +63,6 @@ class MultilanguagePostTest extends \Microweber\tests\TestCase
         $this->assertEquals(201, $response->status());
         $PostSaved = $response->getData()->data;
 
-        Post::observe(MultilanguageObserver::class);
         $getPost = Post::where('id', $PostSaved->id)->first();
 
         $this->assertEquals($getPost->multilanguage['bg_BG']['title'], $apiPostStore['multilanguage']['title']['bg_BG']);

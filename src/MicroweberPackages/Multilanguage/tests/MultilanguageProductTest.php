@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguageProductTest extends \Microweber\tests\TestCase
 {
@@ -62,7 +63,6 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
         $this->assertEquals(201, $response->status());
         $ProductSaved = $response->getData()->data;
 
-        Product::observe(MultilanguageObserver::class);
         $getProduct = Product::where('id', $ProductSaved->id)->first();
 
         $this->assertEquals($getProduct->multilanguage['bg_BG']['title'], $apiProductStore['multilanguage']['title']['bg_BG']);

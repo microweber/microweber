@@ -1,4 +1,5 @@
 <?php
+use MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguageTest extends \Microweber\tests\TestCase
 {

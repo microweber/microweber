@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguageContentTest extends \Microweber\tests\TestCase
 {
@@ -62,7 +63,6 @@ class MultilanguageContentTest extends \Microweber\tests\TestCase
         $this->assertEquals(201, $response->status());
         $contentSaved = $response->getData()->data;
 
-        Content::observe(MultilanguageObserver::class);
         $getContent = Content::where('id', $contentSaved->id)->first();
 
         $this->assertEquals($getContent->multilanguage['bg_BG']['title'], $apiContentStore['multilanguage']['title']['bg_BG']);

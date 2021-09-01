@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguageCategoryTest extends \Microweber\tests\TestCase
 {
@@ -62,10 +63,9 @@ class MultilanguageCategoryTest extends \Microweber\tests\TestCase
         $this->assertEquals(201, $response->status());
         $categorySaved = $response->getData()->data;
 
-        Category::observe(MultilanguageObserver::class);
+
         $getCategory = Category::where('id', $categorySaved->id)->first();
 
-        dd($getCategory);
 
         $this->assertEquals($getCategory->multilanguage['bg_BG']['title'], $apiCategoryStore['multilanguage']['title']['bg_BG']);
         $this->assertEquals($getCategory->multilanguage['bg_BG']['description'], $apiCategoryStore['multilanguage']['description']['bg_BG']);
