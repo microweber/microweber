@@ -23,6 +23,20 @@ class ModuleManagerTest extends TestCase
         $this->assertEquals($check, $check2);
         $this->assertEquals($check, $check3);
         $this->assertEquals($check2, $check3);
+
+        $info_all = app()->module_repository->getAllModules();
+
+        $found_empty = false;
+
+        foreach ($info_all as $mod){
+            $info = module_info($mod['module']);
+            if(empty($info)){
+                $found_empty = true;
+            }
+        }
+
+        $this->assertEquals(false, $found_empty);
+
     }
 
     public function testModuleCssClass()

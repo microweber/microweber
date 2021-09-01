@@ -20,6 +20,7 @@ class ModuleRepository extends AbstractRepository
     public $model = Module::class;
 
     public static $_getAllModules = [];
+
     public function getAllModules()
     {
         if (!empty(self::$_getAllModules)) {
@@ -70,6 +71,7 @@ class ModuleRepository extends AbstractRepository
         return [];
 
     }
+
     public function clearCache()
     {
         self::$_getAllModules = [];

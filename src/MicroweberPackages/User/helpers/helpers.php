@@ -357,6 +357,7 @@ function user_can_access($permission)
 
 function module_permissions($module)
 {
+
     return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 }
 

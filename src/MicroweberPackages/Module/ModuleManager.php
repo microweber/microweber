@@ -780,14 +780,10 @@ class ModuleManager
 
     public function info($module_name)
     {
-        $module_name = rtrim($module_name,'/admin');
+        $module_name = preg_replace('/admin$/', '', $module_name);
+        $module_name = rtrim($module_name, '/');
 
-        $get = array();
-        $get['module'] = $module_name;
-        $get['single'] = 1;
         $data = app()->module_repository->getModule($module_name);
-
-     //   $data = $this->get($get);
 
         return $data;
     }
