@@ -22,6 +22,7 @@ use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
@@ -202,6 +203,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
+        $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);

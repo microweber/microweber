@@ -13,6 +13,7 @@ namespace MicroweberPackages\Multilanguage;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Form\FormElementBuilder;
+use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 class MultilanguageServiceProvider extends ServiceProvider
 {
@@ -23,39 +24,29 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-       /* if (defined('MW_DISABLE_MULTILANGUAGE')) {
-            return;
-        }
-
-        // Check multilanguage is active
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
-            return;
-        }*/
-
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 
     public function register()
     {
-       /* if (defined('MW_DISABLE_MULTILANGUAGE')) {
-            return;
+        $isMultilanguageActive = false;
+        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
+            $isMultilanguageActive = true;
         }
 
-        // Check multilanguage is active
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
-            return;
-        }*/
+        if (defined('MW_DISABLE_MULTILANGUAGE')) {
+            $isMultilanguageActive = false;
+        }
 
         $this->app->bind('multilanguage_repository', function () {
-            return new \MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository();
+            return new MultilanguageRepository();
         });
 
-        $this->app->register(MultilanguageEventServiceProvider::class);
-
-        $this->app->bind(FormElementBuilder::class, function ($app) {
-            return new MultilanguageFormElementBuilder();
-        });
-
+        if ($isMultilanguageActive) {
+            $this->app->register(MultilanguageEventServiceProvider::class);
+            $this->app->bind(FormElementBuilder::class, function ($app) {
+                return new MultilanguageFormElementBuilder();
+            });
+        }
     }
 }
