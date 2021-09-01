@@ -45,7 +45,7 @@ trait ContentDataTrait
                     $findContentData->save();
                 }
             }
-            
+
             $model->refresh();
 
         });
