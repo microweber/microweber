@@ -27,7 +27,7 @@ Route::get('mw-test-api', function () {
         ->value('fwafwa')
         ->autofocus(true);*/
 
-    $newProduct3 = new MicroweberPackages\Product\Models\Product();
+   /* $newProduct3 = new MicroweberPackages\Product\Models\Product();
     $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
     $newProduct3->content_type = 'product';
     $newProduct3->subtype = 'product';
@@ -45,7 +45,7 @@ Route::get('mw-test-api', function () {
 
         ]
     );
-    $newProduct3->save();
+    $newProduct3->save();*/
 
 
 
