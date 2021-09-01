@@ -19,7 +19,6 @@ trait ContentDataTrait
     public static function bootContentDataTrait()
     {
         static::saving(function ($model) {
-
             if (isset($model->attributes['content_data'])) {
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
@@ -27,42 +26,25 @@ trait ContentDataTrait
         });
 
 
-//        if ($model->attributes and array_key_exists("price", $model->attributes)) {
-//            if (isset($model->attributes['price'])) {
-//                $model->_addPriceField = $model->attributes['price'];
-//            } else {
-//                $model->_removePriceField = true;
-//            }
-//            unset($model->attributes['price']);
-//
-//        }
-
-
         static::saved(function ($model) {
 
-            $model->setContentData($model->_addContentData);
+
+
+            dd($model->_addContentData);
+
+            $model->refresh();
+
         });
     }
 
     public function getContentDataAttribute()
     {
-
- /*      if ($this->relationLoaded('contentData')) {
-            return $this->getRelation('contentData');
-        }
-
-        $relation = $this->contentData()->get();
-        $this->setRelation('contentData', $relation);
-        return $relation;*/
-
          return $this->contentData()->get();
     }
 
     public function contentData()
     {
-
         return $this->morphMany(ContentData::class, 'rel');
-        //  return $this->hasMany(ContentData::class, 'rel_type','rel_id');
     }
 
     /**
@@ -71,10 +53,8 @@ trait ContentDataTrait
      */
     public function setContentData($values)
     {
-        foreach ($values as $key => $val) {
-            $this->contentData()->where('field_name', $key)->updateOrCreate(['field_name' => $key],
-                ['field_name' => $key, 'field_value' => $val]);
-        }
+        $this->_addContentData = $values;
+        return $this;
     }
 
     public function getContentDataByFieldName($name)

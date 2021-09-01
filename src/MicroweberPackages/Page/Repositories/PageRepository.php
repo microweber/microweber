@@ -4,10 +4,10 @@ namespace MicroweberPackages\Page\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Page\Events\PageIsCreating;
-use MicroweberPackages\Page\Events\MenuIsUpdating;
-use MicroweberPackages\Page\Events\MenuWasCreated;
-use MicroweberPackages\Page\Events\MenuWasDeleted;
-use MicroweberPackages\Page\Events\MenuWasUpdated;
+use MicroweberPackages\Page\Events\PageIsUpdating;
+use MicroweberPackages\Page\Events\PageWasCreated;
+use MicroweberPackages\Page\Events\PageWasDeleted;
+use MicroweberPackages\Page\Events\PageWasUpdated;
 use MicroweberPackages\Page\Models\Page;
 
 class PageRepository extends BaseRepository
@@ -23,7 +23,7 @@ class PageRepository extends BaseRepository
 
         $page = $this->model->create($data);
 
-        event(new MenuWasCreated($page, $data));
+        event(new PageWasCreated($page, $data));
 
         return $page;
     }
@@ -32,11 +32,11 @@ class PageRepository extends BaseRepository
     {
         $page = $this->model->find($id);
 
-        event($event = new MenuIsUpdating($page, $data));
+        event($event = new PageIsUpdating($page, $data));
 
         $page->update($data);
 
-        event(new MenuWasUpdated($page, $data));
+        event(new PageWasUpdated($page, $data));
 
         return $page;
     }
@@ -45,7 +45,7 @@ class PageRepository extends BaseRepository
     {
         $page = $this->model->find($id);
 
-        event(new MenuWasDeleted($page));
+        event(new PageWasDeleted($page));
 
         return $page->delete();
     }
