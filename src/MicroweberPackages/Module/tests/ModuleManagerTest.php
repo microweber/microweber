@@ -33,6 +33,12 @@ class ModuleManagerTest extends TestCase
             if(empty($info)){
                 $found_empty = true;
             }
+
+            $info2 = module_info($mod['module'].'/admin');
+            if(empty($info2)){
+                $found_empty = true;
+            }
+
         }
 
         $this->assertEquals(false, $found_empty);
