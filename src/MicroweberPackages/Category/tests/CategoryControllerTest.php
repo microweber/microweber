@@ -55,6 +55,9 @@ class CategoryControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
         $categorySaved = $response->getData()->data;
 
+
+
+
         $this->assertEquals($categorySaved->title, $title2);
 
 

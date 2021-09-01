@@ -14,16 +14,16 @@ namespace MicroweberPackages\Menu\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\Menu\Listeners\AddMenuPageListener;
 use MicroweberPackages\Menu\Listeners\EditMenuPageListener;
-use MicroweberPackages\Page\Events\PageWasCreated;
-use MicroweberPackages\Page\Events\PageWasUpdated;
+use MicroweberPackages\Page\Events\MenuWasCreated;
+use MicroweberPackages\Page\Events\MenuWasUpdated;
 
 class MenuEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
-        PageWasCreated::class => [
+        MenuWasCreated::class => [
             AddMenuPageListener::class
         ],
-        PageWasUpdated::class => [
+        MenuWasUpdated::class => [
             EditMenuPageListener::class
         ]
     ];

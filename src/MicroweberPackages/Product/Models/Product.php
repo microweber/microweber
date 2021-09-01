@@ -9,6 +9,12 @@ use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 
 class Product extends Content
 {
+
+    /**
+     * @method filter(array $filter)
+     * @see ProductFilter
+     */
+
     use CustomFieldPriceTrait;
 
     protected $table = 'content';

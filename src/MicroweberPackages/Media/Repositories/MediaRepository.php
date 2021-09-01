@@ -20,7 +20,7 @@ class MediaRepository extends AbstractRepository
                 ->select('filename')
                 ->where('rel_type', $relType)
                 ->where('rel_id', $relId)
-                ->orderBy('position', 'desc')
+                ->orderBy('position', 'ASC')
                 ->first();
 
             if ($getMedia !== null) {

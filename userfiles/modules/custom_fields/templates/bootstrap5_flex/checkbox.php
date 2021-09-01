@@ -2,7 +2,7 @@
     <div class="mb-3 d-flex">
 
         <?php if ($settings['show_label']): ?>
-            <div class="control-label mb-3 "><?php echo $data["name"]; ?></div>
+            <label class="control-label mb-3 "><?php echo $data["name"]; ?></label>
         <?php endif; ?>
 
         <?php $i = 0;

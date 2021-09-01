@@ -25,14 +25,12 @@ class MenuRepository extends AbstractRepository {
 
         $menus = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $getMenu = DB::table('menus')->get();
+            $getMenu = DB::table('menus')->orderBy('position','asc')->get();
             $allMenus = collect($getMenu)->map(function ($option) {
                 return (array)$option;
             })->toArray();
 
             return $allMenus;
-
-            // return $this->getModel()->newQuery()->get()->toArray();
         });
 
         self::$_getAllMenus = $menus;
@@ -112,11 +110,11 @@ class MenuRepository extends AbstractRepository {
             } else {
                 if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
                     if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                        $check  = $this->app->database_manager->get('no_cache=1&title=' . $params['title']);
+                        $check  = app()->database_manager->get('no_cache=1&title=' . $params['title']);
                         if(!$check){
-                            $new_menu = $this->menu_create('title=' . $params['title']);
+                            $new_menu = app()->menu_manager->menu_create('title=' . $params['title']);
                             $params['id'] = $new_menu;
-                            $menus = $this->app->database_manager->get($params);
+                            $menus = app()->database_manager->get($params);
                         }
                     }
                     define('MW_MENU_IS_ALREADY_MADE_ONCE', true);

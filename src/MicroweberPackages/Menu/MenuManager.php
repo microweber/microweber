@@ -4,6 +4,9 @@ namespace MicroweberPackages\Menu;
 
 use Content;
 use Menu;
+use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Core\Events\AbstractResourceWasUpdated;
+use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 /**
  * Content class is used to get and save content in the database.
@@ -78,15 +81,9 @@ class MenuManager
 
     public function menu_item_save($data_to_save)
     {
-//        $id = $this->app->user_manager->is_admin();
-//        if ($id == false) {
-         // moved check for admin to router
-//            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-//        }
-
         if (isset($data_to_save['menu_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['menu_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
+            unset($data_to_save['menu_id']);
         }
 
         if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
@@ -95,7 +92,6 @@ class MenuManager
 
         if (isset($data_to_save['id'])) {
             $data_to_save['id'] = intval($data_to_save['id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
         }
 
         if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
@@ -109,61 +105,42 @@ class MenuManager
         if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) != 0) {
             $url_from_content = 1;
         }
-        if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
-            //unset($data_to_save['content_id']);
-        }
-
         if (isset($data_to_save['url_target'])) {
             $data_to_save['url_target'] = trim($data_to_save['url_target']);
         }
-
-        if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
-            //unset($data_to_save['categories_id']);
-            //$url_from_content = 1;
-        }
-
         if ($url_from_content != false) {
             if (!isset($data_to_save['title'])) {
                 $data_to_save['title'] = '';
             }
         }
-//        if (!isset($data_to_save['auto_populate'])) {
-//            $data_to_save['auto_populate'] = '';
-//        }
         if (isset($data_to_save['categories'])) {
             unset($data_to_save['categories']);
         }
-
         if ($url_from_content == true and isset($data_to_save['url'])) {
             $data_to_save['url'] = '';
         }
-
         if (isset($data_to_save['parent_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
-//        if (isset($data_to_save['custom_link'])) {
-//            $data_to_save['content_id'] = 0;
-//            $data_to_save['categories_id'] = 0;
-//            $data_to_save['url'] = $data_to_save['custom_link'];
-//        }
-
-        $table = $this->tables['menus'];
-
-        $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
+        $saveMenu = null;
+        if (isset($data_to_save['id']) && $data_to_save['id'] > 0) {
+            $saveMenu = \MicroweberPackages\Menu\Menu::where('id', $data_to_save['id'])->first();
+        }
 
-        $save = $this->app->database_manager->save($table, $data_to_save);
+        if ($saveMenu == null) {
+            $saveMenu = new \MicroweberPackages\Menu\Menu();
+        }
+        foreach ($data_to_save as $key => $value){
+            $saveMenu->$key = $value;
+        }
 
-        /*
-        $data_to_save['id'] = $save;
-        $this->app->event_manager->trigger('menu.after.save', $data_to_save);
-        */
+        $saveMenu->save();
 
-        $this->app->cache_manager->delete('menus');
+        event(new MenuWasUpdated($saveMenu, $data_to_save));
 
-        return $save;
+        return $saveMenu->id;
     }
 
     public function get_menu($params = false)
@@ -596,7 +573,7 @@ class MenuManager
                 */
 
                 $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
-                
+
                 if ($sub_menu_q) {
 
 
@@ -987,9 +964,8 @@ class MenuManager
                 $return_res = $indx;
             }
         }
-        $this->app->cache_manager->delete('menus');
 
-        $this->app->cache_manager->delete('menus');
+        clearcache();
 
         return $return_res;
     }

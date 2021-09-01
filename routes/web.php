@@ -18,20 +18,35 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
-/*
-    $mem1 = memory_get_usage();
-    $content = \MicroweberPackages\Content\Content::all();
-    $mem2 = memory_get_usage();
+    /*$menuModel = \MicroweberPackages\Menu\Menu::where('id', 16)->first();
+    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
-    dump(app()->format->human_filesize($mem2 - $mem1));
-*/
+    echo $formBuilder->text('title')
+        ->setModel($menuModel)
+        ->placeholder(_e("Title", true))
+        ->value('fwafwa')
+        ->autofocus(true);*/
 
-/*    $mem3 = memory_get_usage();
-    $content = DB::select("SELECT * FROM content");
-    $mem4 = memory_get_usage();
+   /* $newProduct3 = new MicroweberPackages\Product\Models\Product();
+    $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
+    $newProduct3->content_type = 'product';
+    $newProduct3->subtype = 'product';
+    $newProduct3->setCustomField(
+        [
+            'type'=>'price',
+            'name'=>'price',
+            'value'=>'0',
+        ]
+    );
 
-    dump(app()->format->human_filesize($mem4 - $mem3));
-    */
+    $newProduct3->setContentData(
+        [
+            'qty'=>'1',
+
+        ]
+    );
+    $newProduct3->save();*/
+
 
 
 });

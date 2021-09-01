@@ -23,4 +23,6 @@ class Menu extends Model
         "rollover_image"
     ];
 
+    public $translatable = ['title'];
+
 }

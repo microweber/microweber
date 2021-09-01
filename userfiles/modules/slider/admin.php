@@ -163,7 +163,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
 
                     <div class="mb-3">
-                        <span class="btn btn-primary btn-rounded" onclick="bxSettings.addNew(0);"><?php _e('Add new'); ?></span>
+                        <span class="btn btn-primary btn-rounded" onclick="bxSettings.addNew(0, 'blank');"><?php _e('Add new'); ?></span>
                     </div>
 
                     <div id="settings-box"></div>

@@ -41,3 +41,13 @@ Route::name('api.menu.')
             return mw()->menu_manager->menu_items_reorder($request->all());
         });
     });
+
+Route::name('api.v2.')
+    ->prefix('api/v2')
+    ->middleware(['api','admin'])
+    ->namespace('\MicroweberPackages\Menu\Http\Controllers\Api')
+    ->group(function () {
+
+        Route::apiResource('menu', 'MenuApiController');
+
+    });

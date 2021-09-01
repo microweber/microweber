@@ -368,8 +368,9 @@ mw.dropables = {
             mw.image_resizer._show();
             mw.image.resize.resizerSet(event.target, false);
         }
-        else if (bg && bgCanChange) {
+        else if (bg && bgCanChange && mw.tools.isEditable(bgTarget)) {
             mw.image_resizer._show();
+
             mw.image.resize.resizerSet(bgTarget, false);
         }
 

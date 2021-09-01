@@ -3,6 +3,7 @@
 namespace MicroweberPackages\ContentData\Traits;
 
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
@@ -19,7 +20,6 @@ trait ContentDataTrait
     public static function bootContentDataTrait()
     {
         static::saving(function ($model) {
-
             if (isset($model->attributes['content_data'])) {
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
@@ -27,42 +27,39 @@ trait ContentDataTrait
         });
 
 
-//        if ($model->attributes and array_key_exists("price", $model->attributes)) {
-//            if (isset($model->attributes['price'])) {
-//                $model->_addPriceField = $model->attributes['price'];
-//            } else {
-//                $model->_removePriceField = true;
-//            }
-//            unset($model->attributes['price']);
-//
-//        }
-
-
         static::saved(function ($model) {
+            if (!empty($model->_addContentData) && is_array($model->_addContentData)) {
 
-            $model->setContentData($model->_addContentData);
+                foreach($model->_addContentData as $fieldName=>$fieldValue) {
+                    $fieldValue = trim($fieldValue);
+                    if ($fieldValue == '') {
+                        continue;
+                    }
+                    $findContentData = ContentData::where('rel_id', $model->id)
+                        ->where('rel_type', $model->getMorphClass())
+                        ->where('field_name', $fieldName)
+                        ->first();
+                    if ($findContentData == null) {
+                        $findContentData = new ContentData();
+                        $findContentData->rel_id = $model->id;
+                        $findContentData->field_name = $fieldName;
+                        $findContentData->rel_type = $model->getMorphClass();
+                    }
+                    $findContentData->field_value = $fieldValue;
+                    $findContentData->save();
+                }
+            }
         });
     }
 
     public function getContentDataAttribute()
     {
-
- /*      if ($this->relationLoaded('contentData')) {
-            return $this->getRelation('contentData');
-        }
-
-        $relation = $this->contentData()->get();
-        $this->setRelation('contentData', $relation);
-        return $relation;*/
-
          return $this->contentData()->get();
     }
 
     public function contentData()
     {
-
         return $this->morphMany(ContentData::class, 'rel');
-        //  return $this->hasMany(ContentData::class, 'rel_type','rel_id');
     }
 
     /**
@@ -71,10 +68,8 @@ trait ContentDataTrait
      */
     public function setContentData($values)
     {
-        foreach ($values as $key => $val) {
-            $this->contentData()->where('field_name', $key)->updateOrCreate(['field_name' => $key],
-                ['field_name' => $key, 'field_value' => $val]);
-        }
+        $this->_addContentData = $values;
+        return $this;
     }
 
     public function getContentDataByFieldName($name)

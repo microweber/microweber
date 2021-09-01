@@ -39,28 +39,28 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
     }
 
 
-    public function testSpeedOfGetingCacheWithTags()
-    {
-
-        $isSpeetTestOk = true;
-        $before = microtime(true);
-
-        for ($i = 1; $i <= 1000; $i++) {
-            Cache::tags('people')->get('firstName');
-            Cache::tags('artists')->get('firstName');
-            Cache::tags('wrongTag')->get('firstName');
-          //  $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
-           // $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
-           // $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
-        }
-
-        $after = microtime(true);
-        if (($after-$before) > 1.50) {
-            $isSpeetTestOk = false;
-        }
-
-        $this->assertEquals(true, $isSpeetTestOk);
-    }
+//    public function testSpeedOfGetingCacheWithTags()
+//    {
+//
+//        $isSpeetTestOk = true;
+//        $before = microtime(true);
+//
+//        for ($i = 1; $i <= 1000; $i++) {
+//            Cache::tags('people')->get('firstName');
+//            Cache::tags('artists')->get('firstName');
+//            Cache::tags('wrongTag')->get('firstName');
+//          //  $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
+//           // $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
+//           // $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
+//        }
+//
+//        $after = microtime(true);
+//        if (($after-$before) > 1.50) {
+//            $isSpeetTestOk = false;
+//        }
+//
+//        $this->assertEquals(true, $isSpeetTestOk);
+//    }
 
 
     public function testFlushByTag()
