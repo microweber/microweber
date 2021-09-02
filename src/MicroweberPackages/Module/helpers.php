@@ -143,6 +143,11 @@ function is_module($module_name)
     return mw()->module_manager->exists($module_name);
 }
 
+function is_module_installed($module_name)
+{
+    return mw()->module_manager->is_installed($module_name);
+}
+
 function module_admin_url($module_name = false)
 {
     return admin_url() . 'view:modules/load_module:' . module_name_encode(strtolower($module_name));

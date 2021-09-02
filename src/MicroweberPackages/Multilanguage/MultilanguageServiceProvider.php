@@ -41,7 +41,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         $isMultilanguageActive = false;
 
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
+        if (is_module('multilanguage') && is_module_installed('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
             $isMultilanguageActive = true;
         }
 
@@ -50,7 +50,6 @@ class MultilanguageServiceProvider extends ServiceProvider
         }
 
         MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
-
 
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();
