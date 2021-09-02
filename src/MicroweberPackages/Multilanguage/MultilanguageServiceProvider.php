@@ -25,6 +25,12 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+    }
+    public function boot(){
+
         $isMultilanguageActive = MultilanguageHelpers::multilanguageIsEnabled();
 
         $this->app->bind('multilanguage_repository', function () {
@@ -37,8 +43,6 @@ class MultilanguageServiceProvider extends ServiceProvider
                 return new MultilanguageFormElementBuilder();
             });
         }
-
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 
 }
