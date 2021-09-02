@@ -76,7 +76,8 @@ class Lang
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
             $lang = $_COOKIE['lang'];
-            if ($lang != $app_locale) {
+            $is_real_lang = is_lang_correct($lang);
+            if ($is_real_lang and $lang != $app_locale) {
                 set_current_lang($lang);
                 $app_locale = app()->getLocale();
             }

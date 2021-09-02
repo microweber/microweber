@@ -429,6 +429,17 @@ class TranslateManager
             }
 
 
+            if (!$autodetected_lang and !$lang_is_set) {
+                $homepageLanguage = get_option('homepage_language', 'website');
+                if ($homepageLanguage) {
+                    if (is_lang_supported($homepageLanguage)) {
+                        change_language_by_locale($homepageLanguage);
+                        \Cookie::queue('autodetected_lang', 1, 600);
+                        return;
+                    }
+                }
+            }
+
             if ($detect['target_lang']) {
                 if (!$lang_is_set or ($lang_is_set and $lang_is_set != $detect['target_lang'])) {
 
