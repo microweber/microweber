@@ -21,6 +21,7 @@ class TranslateMenu extends TranslateTable {
 
     protected $repositoryClass = MicroweberPackages\Menu\Repositories\MenuRepository::class;
     protected $repositoryMethods = [
-        'getMenusByParentId'
+        'getById',
+        'getMenusByParentId',
     ];
 }
