@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Content\Content;
@@ -6,7 +7,7 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
 
-class MultilanguageContentTest extends \Microweber\tests\TestCase
+class MultilanguageContentTest extends MultilanguageTestBase
 {
 
     public function testSaveContentFromApiController()

@@ -1,12 +1,14 @@
 <?php
 
+namespace MicroweberPackages\Multilanguage\tests;
+
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
 
-class MultilanguageProductTest extends \Microweber\tests\TestCase
+class MultilanguageProductTest extends MultilanguageTestBase
 {
 
     public function testSaveProductFromApiController()
@@ -41,21 +43,21 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
-        $rand = time().rand(111,999);
+        $rand = time() . rand(111, 999);
 
         $apiProductStore = [];
         $apiProductStore['title'] = 'Product ' . $rand;
-        $apiProductStore['content'] = 'Product description' .$rand;
+        $apiProductStore['content'] = 'Product description' . $rand;
 
-        $apiProductStore['multilanguage']['title']['bg_BG'] = 'Съдържание'.$rand;
-        $apiProductStore['multilanguage']['content']['bg_BG'] = 'Съдържание описание'.$rand;
+        $apiProductStore['multilanguage']['title']['bg_BG'] = 'Съдържание' . $rand;
+        $apiProductStore['multilanguage']['content']['bg_BG'] = 'Съдържание описание' . $rand;
 
-        $apiProductStore['multilanguage']['title']['ar_SA'] = 'فئة'.$rand;
-        $apiProductStore['multilanguage']['content']['ar_SA'] = 'وصف التصنيف'.$rand;
+        $apiProductStore['multilanguage']['title']['ar_SA'] = 'فئة' . $rand;
+        $apiProductStore['multilanguage']['content']['ar_SA'] = 'وصف التصنيف' . $rand;
 
 
-        $apiProductStore['multilanguage']['title']['ru_RU'] = 'Съдържание'.$rand;
-        $apiProductStore['multilanguage']['content']['ru_RU'] = 'Описание Съдържание'.$rand;
+        $apiProductStore['multilanguage']['title']['ru_RU'] = 'Съдържание' . $rand;
+        $apiProductStore['multilanguage']['content']['ru_RU'] = 'Описание Съдържание' . $rand;
 
         $response = $this->call(
             'POST',
@@ -79,7 +81,7 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
 
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
-            'locale'=> 'bg_BG'
+            'locale' => 'bg_BG'
         ]);
 
         $getProduct = Product::where('id', $ProductSaved->id)->first();
@@ -91,7 +93,7 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
 
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
-            'locale'=> 'ar_SA'
+            'locale' => 'ar_SA'
         ]);
 
         $getProduct = Product::where('id', $ProductSaved->id)->first();
@@ -102,7 +104,7 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
         // TEST RUSSIAN
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
-            'locale'=> 'ru_RU'
+            'locale' => 'ru_RU'
         ]);
 
         $getProduct = Product::where('id', $ProductSaved->id)->first();

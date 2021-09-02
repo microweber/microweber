@@ -1,13 +1,17 @@
 <?php
-use MicroweberPackages\Multilanguage\MultilanguageApi;
 
-class MultilanguageTest extends \Microweber\tests\TestCase
+namespace MicroweberPackages\Multilanguage\tests;
+
+use \MicroweberPackages\Multilanguage\MultilanguageApi;
+
+
+class MultilanguageTest extends MultilanguageTestBase
 {
 
     public function testSupportedLanguages()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
-        
+
         add_supported_language('en_US', 'English');
 
         // Set default lang
