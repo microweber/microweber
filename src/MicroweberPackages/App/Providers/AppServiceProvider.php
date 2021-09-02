@@ -279,6 +279,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(DuskServiceProvider::class);
+        $this->app->register(MultilanguageServiceProvider::class);
 
     }
 
@@ -444,6 +445,9 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
+
+
+
             $language = get_option('language', 'website');
             if ($language != false and $language != 'en') {
                 set_current_lang($language);
@@ -451,7 +455,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
-            $this->app->register(MultilanguageServiceProvider::class);
+
 
             load_all_functions_files_for_modules($this->app);
 

@@ -27,10 +27,10 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
+
+
     public function boot(){
 
         if (!mw_is_installed()) {
