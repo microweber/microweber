@@ -31,7 +31,8 @@ class MultilanguageServiceProvider extends ServiceProvider
     }
 
 
-    public function boot(){
+    public function boot()
+    {
 
         if (!mw_is_installed()) {
             return;
@@ -49,11 +50,17 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
 
+
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();
         });
 
         if ($isMultilanguageActive) {
+
+            $this->app->bind('permalink_manager', function () {
+                return new MultilanguagePermalinkManager();
+            });
+
             // $this->app->register(MultilanguageEventServiceProvider::class);
             $this->app->bind(FormElementBuilder::class, function ($app) {
                 return new MultilanguageFormElementBuilder();
