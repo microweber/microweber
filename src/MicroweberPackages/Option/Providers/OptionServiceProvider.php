@@ -44,26 +44,18 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         });
 
 
-
-
-
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Option::class, function () {
                 return new OptionRepository();
             });
         });
 
-
-
         /**
          * @property OptionRepository   $option_repository
          */
         $this->app->bind('option_repository', function () {
-            return $this->app->repository_manager->driver(Option::class);;
+            return app()->make(OptionRepository::class);
         });
-
-
-
 
     }
 

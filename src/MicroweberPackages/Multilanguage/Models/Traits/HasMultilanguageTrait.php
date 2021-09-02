@@ -2,23 +2,21 @@
 
 namespace MicroweberPackages\Multilanguage\Models\Traits;
 
-
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
 
     private $_addMultilanguage = [];
-    public static $_isMultilanguageEnabled = false;
 
     public function initializeHasMultilanguageTrait()
     {
-        $this->fillable[] = 'multilanguage';
-
-        self::$_isMultilanguageEnabled = multilanguage_is_enabled();
-
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            $this->fillable[] = 'multilanguage';
+        }
     }
 
     protected function __getDefaultLocale()
@@ -28,37 +26,55 @@ trait HasMultilanguageTrait
 
     protected function __getLocale()
     {
+
         return mw()->lang_helper->current_lang();
     }
 
     public static function bootHasMultilanguageTrait()
     {
-        if (self::$_isMultilanguageEnabled) {
+        static::saving(function ($model) {
+            if (isset($model->attributes['multilanguage'])) {
+                $model->_addMultilanguage = $model->attributes['multilanguage'];
+                unset($model->attributes['multilanguage']);
+            }
+        });
+
+        static::creating(function ($model) {
+            if (isset($model->attributes['multilanguage'])) {
+                $model->_addMultilanguage = $model->attributes['multilanguage'];
+                unset($model->attributes['multilanguage']);
+            }
+        });
+
+        static::updating(function ($model) {
+            if (isset($model->attributes['multilanguage'])) {
+                $model->_addMultilanguage = $model->attributes['multilanguage'];
+                unset($model->attributes['multilanguage']);
+            }
+        });
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
+/*
             static::retrieved(function ($model) {
                 $mlobs = new MultilanguageObserver();
                 $mlobs->retrieved($model);
-            });
+            });*/
 
-            static::saving(function ($model) {
-                if (isset($model->attributes['multilanguage'])) {
-                    $model->_addMultilanguage = $model->attributes['multilanguage'];
-                    unset($model->attributes['multilanguage']);
-                }
-            });
-
-            static::created(function ($model) {
+/*            static::created(function ($model) {
                 $model->_saveMultilanguageTranslation();
             });
 
             static::saved(function ($model) {
                 $model->_saveMultilanguageTranslation();
-            });
+            });*/
+
         }
     }
 
     public function _saveMultilanguageTranslation()
     {
-        if (!self::$_isMultilanguageEnabled or empty($this->_addMultilanguage)) {
+        if (!MultilanguageHelpers::multilanguageIsEnabled() || empty($this->_addMultilanguage)) {
             return;
         }
 

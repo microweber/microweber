@@ -25,8 +25,24 @@ class ContentManagerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function register()
     {
+
+        /**
+         * @property ContentRepository   $content_repository
+         */
+        $this->app->bind('content_repository', function ($app) {
+            return $this->app->repository_manager->driver(Content::class);;
+        });
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Content::class, function () {
+                return new ContentRepository();
+            });
+        });
+
+
         /**
          * @property \MicroweberPackages\Content\ContentManager    $content_manager
          */
@@ -47,26 +63,6 @@ class ContentManagerServiceProvider extends ServiceProvider
         $this->app->singleton('attributes_manager', function ($app) {
             return new AttributesManager();
         });
-
-
-
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Content::class, function () {
-                 return new ContentRepository();
-            });
-        });
-
-
-
-        /**
-         * @property ContentRepository   $content_repository
-         */
-        $this->app->bind('content_repository', function ($app) {
-            return $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);;
-        });
-
-
-
 
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
