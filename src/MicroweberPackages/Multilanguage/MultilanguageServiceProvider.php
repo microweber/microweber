@@ -11,8 +11,10 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Form\FormElementBuilder;
+use MicroweberPackages\Module\Module;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 
@@ -31,11 +33,25 @@ class MultilanguageServiceProvider extends ServiceProvider
     }
     public function boot(){
 
+        if (!mw_is_installed()) {
+            return;
+        }
+
         $isMultilanguageActive = false;
 
         if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
             $isMultilanguageActive = true;
         }
+
+       /* $getModule = DB::table('modules')->where('module', '=','multilanguage')->where('installed',1)->count();
+        $getOption = DB::table('options')
+            ->where('option_group', 'multilanguage_settings')
+            ->where('option_key','is_active')
+            ->where('option_value', 'y')
+            ->count();
+        if ($getModule && $getOption) {
+            $isMultilanguageActive = true;
+        }*/
 
         if (defined('MW_DISABLE_MULTILANGUAGE')) {
             $isMultilanguageActive = false;

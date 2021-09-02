@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
@@ -11,7 +12,8 @@ class MultilanguageCategoryTest extends \Microweber\tests\TestCase
 
     public function testSaveCategoryFromApiController()
     {
-
+        MultilanguageHelpers::setMultilanguageEnabled(1);
+        
         $params = [
             'for_module' => 'multilanguage'
         ];
