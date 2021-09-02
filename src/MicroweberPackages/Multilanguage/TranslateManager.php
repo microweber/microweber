@@ -430,13 +430,17 @@ class TranslateManager
 
 
             if ($detect['target_lang']) {
-                // display locale
-                $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
-                if ($localeSettings) {
-                    change_language_by_locale($localeSettings['locale']);
-                } else {
-                    change_language_by_locale($detect['target_lang']);
+                if (!$lang_is_set or ($lang_is_set and $lang_is_set != $detect['target_lang'])) {
+
+                    $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
+                    if ($localeSettings) {
+
+                        change_language_by_locale($localeSettings['locale']);
+                    } else {
+                        change_language_by_locale($detect['target_lang']);
+                    }
                 }
+
             }
             // Debugbar::stopMeasure('mw.controller.index');
 
