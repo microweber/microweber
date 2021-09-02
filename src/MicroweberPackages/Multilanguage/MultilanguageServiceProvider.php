@@ -43,16 +43,6 @@ class MultilanguageServiceProvider extends ServiceProvider
             $isMultilanguageActive = true;
         }
 
-       /* $getModule = DB::table('modules')->where('module', '=','multilanguage')->where('installed',1)->count();
-        $getOption = DB::table('options')
-            ->where('option_group', 'multilanguage_settings')
-            ->where('option_key','is_active')
-            ->where('option_value', 'y')
-            ->count();
-        if ($getModule && $getOption) {
-            $isMultilanguageActive = true;
-        }*/
-
         if (defined('MW_DISABLE_MULTILANGUAGE')) {
             $isMultilanguageActive = false;
         }

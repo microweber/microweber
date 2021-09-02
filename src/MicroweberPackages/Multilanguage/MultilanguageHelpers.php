@@ -13,7 +13,6 @@ class MultilanguageHelpers
 
     public static function multilanguageIsEnabled()
     {
-        return true;
         return self::$isEnabled;
     }
 

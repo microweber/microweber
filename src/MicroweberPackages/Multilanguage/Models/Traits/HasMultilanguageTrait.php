@@ -9,14 +9,11 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
-
     private $_addMultilanguage = [];
 
     public function initializeHasMultilanguageTrait()
     {
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $this->fillable[] = 'multilanguage';
-        }
+        $this->fillable[] = 'multilanguage';
     }
 
     protected function __getDefaultLocale()
@@ -26,7 +23,6 @@ trait HasMultilanguageTrait
 
     protected function __getLocale()
     {
-
         return mw()->lang_helper->current_lang();
     }
 
@@ -39,23 +35,24 @@ trait HasMultilanguageTrait
             }
         });
 
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
-
-            static::retrieved(function ($model) {
+        static::retrieved(function ($model) {
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $mlobs = new MultilanguageObserver();
                 $mlobs->retrieved($model);
-            });
+            }
+        });
 
-            static::saved(function ($model) {
+        static::saved(function ($model) {
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $model->_saveMultilanguageTranslation();
-            });
+            }
+        });
 
-        }
     }
 
     public function _saveMultilanguageTranslation()
     {
-        if (!MultilanguageHelpers::multilanguageIsEnabled() || empty($this->_addMultilanguage)) {
+        if (empty($this->_addMultilanguage)) {
             return;
         }
 
