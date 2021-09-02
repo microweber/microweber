@@ -63,9 +63,7 @@ class MultilanguageCategoryTest extends \Microweber\tests\TestCase
         $this->assertEquals(201, $response->status());
         $categorySaved = $response->getData()->data;
 
-
         $getCategory = Category::where('id', $categorySaved->id)->first();
-
 
         $this->assertEquals($getCategory->multilanguage['bg_BG']['title'], $apiCategoryStore['multilanguage']['title']['bg_BG']);
         $this->assertEquals($getCategory->multilanguage['bg_BG']['description'], $apiCategoryStore['multilanguage']['description']['bg_BG']);

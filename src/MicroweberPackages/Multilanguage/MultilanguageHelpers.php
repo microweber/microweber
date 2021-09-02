@@ -9,20 +9,16 @@ use MicroweberPackages\Option\Repositories\OptionRepository;
 class MultilanguageHelpers
 {
 
+    public static $isEnabled = false;
+
     public static function multilanguageIsEnabled()
     {
-        $isMultilanguageActive = false;
+        return self::$isEnabled;
+    }
 
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
-            $isMultilanguageActive = true;
-        }
-
-
-        if (defined('MW_DISABLE_MULTILANGUAGE')) {
-            $isMultilanguageActive = false;
-        }
-
-        return $isMultilanguageActive;
+    public static function setMultilanguageEnabled($enabled)
+    {
+        return self::$isEnabled = $enabled;
     }
 
 }
