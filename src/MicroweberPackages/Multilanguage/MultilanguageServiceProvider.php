@@ -28,6 +28,7 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        include_once(__DIR__ . '/helpers/multilanguage_functions.php');
     }
 
 
@@ -65,7 +66,42 @@ class MultilanguageServiceProvider extends ServiceProvider
             $this->app->bind(FormElementBuilder::class, function ($app) {
                 return new MultilanguageFormElementBuilder();
             });
+
+            $this->bootTranlateManager();
+
         }
+
+
     }
+
+
+    public function bootTranlateManager()
+    {
+        event_bind('mw.after.boot', function () {
+
+            $autodetected_lang = \Cookie::get('autodetected_lang');
+            $lang_is_set = \Cookie::get('lang');
+
+            // if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
+            if (!$autodetected_lang and !$lang_is_set) {
+                $homepageLanguage = get_option('homepage_language', 'website');
+                if ($homepageLanguage) {
+                    if (is_lang_supported($homepageLanguage)) {
+                        change_language_by_locale($homepageLanguage);
+                        \Cookie::queue('autodetected_lang', 1, 60);
+
+                        //setcookie('autodetected_lang', 1, false, '/');
+                        // $_COOKIE['autodetected_lang'] = 1;
+                    }
+                }
+            }
+
+            $currentUrl = mw()->url_manager->current();
+            if ($currentUrl !== api_url('multilanguage/change_language')) {
+                run_translate_manager();
+            }
+        });
+    }
+
 
 }
