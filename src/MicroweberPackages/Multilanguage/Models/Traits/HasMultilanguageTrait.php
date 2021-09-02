@@ -39,35 +39,16 @@ trait HasMultilanguageTrait
             }
         });
 
-        static::creating(function ($model) {
-            if (isset($model->attributes['multilanguage'])) {
-                $model->_addMultilanguage = $model->attributes['multilanguage'];
-                unset($model->attributes['multilanguage']);
-            }
-        });
-
-        static::updating(function ($model) {
-            if (isset($model->attributes['multilanguage'])) {
-                $model->_addMultilanguage = $model->attributes['multilanguage'];
-                unset($model->attributes['multilanguage']);
-            }
-        });
-
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
-/*
             static::retrieved(function ($model) {
                 $mlobs = new MultilanguageObserver();
                 $mlobs->retrieved($model);
-            });*/
-
-/*            static::created(function ($model) {
-                $model->_saveMultilanguageTranslation();
             });
 
             static::saved(function ($model) {
                 $model->_saveMultilanguageTranslation();
-            });*/
+            });
 
         }
     }

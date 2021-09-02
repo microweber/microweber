@@ -11,7 +11,7 @@ class MultilanguageHelpers
 
     public static function multilanguageIsEnabled()
     {
-        return false;
+        return true;
         $isMultilanguageActive = false;
 
         if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
