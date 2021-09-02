@@ -7,6 +7,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
     public function testSupportedLanguages()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+        
         add_supported_language('en_US', 'English');
 
         // Set default lang
