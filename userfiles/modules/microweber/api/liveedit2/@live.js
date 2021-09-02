@@ -122,6 +122,7 @@ export class LiveEdit {
         const elementHandleContent = new ElementHandleContent(this);
         const moduleHandleContent = new ModuleHandleContent(this);
         const layoutHandleContent = new LayoutHandleContent(this);
+        const imageHandleContent = new IayoutHandleContent(this);
 
         this.dialog = function (options) {
             if(!options){
