@@ -12,6 +12,8 @@ class MultilanguageContentTest extends \Microweber\tests\TestCase
     public function testSaveContentFromApiController()
     {
 
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+
         $params = [
             'for_module' => 'multilanguage'
         ];
@@ -62,6 +64,7 @@ class MultilanguageContentTest extends \Microweber\tests\TestCase
         );
         $this->assertEquals(201, $response->status());
         $contentSaved = $response->getData()->data;
+
 
         $getContent = Content::where('id', $contentSaved->id)->first();
 

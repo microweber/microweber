@@ -11,6 +11,7 @@ class MultilanguageProductTest extends \Microweber\tests\TestCase
 
     public function testSaveProductFromApiController()
     {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
 
         $params = [
             'for_module' => 'multilanguage'

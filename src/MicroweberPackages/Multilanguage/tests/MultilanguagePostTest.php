@@ -12,6 +12,8 @@ class MultilanguagePostTest extends \Microweber\tests\TestCase
     public function testSavePostFromApiController()
     {
 
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+
         $params = [
             'for_module' => 'multilanguage'
         ];
