@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
 
 class TranslateContentFields extends TranslateTable {
@@ -18,7 +19,7 @@ class TranslateContentFields extends TranslateTable {
         'value'
     ];
 
-    protected $repositoryClass = MicroweberPackages\Content\Repositories\ContentRepository::class;
+    protected $repositoryClass = ContentRepository::class;
     protected $repositoryMethods = [
         'getEditField',
     ];

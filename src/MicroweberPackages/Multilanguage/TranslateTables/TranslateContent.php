@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
 
 class TranslateContent extends TranslateTable {
@@ -24,7 +25,7 @@ class TranslateContent extends TranslateTable {
         'content_meta_keywords'
     ];
 
-    protected $repositoryClass = MicroweberPackages\Content\Repositories\ContentRepository::class;
+    protected $repositoryClass = ContentRepository::class;
     protected $repositoryMethods = [
         'getById',
         'getByParams'

@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
 
 class TranslateMenu extends TranslateTable {
@@ -19,7 +20,7 @@ class TranslateMenu extends TranslateTable {
         'description',
     ];
 
-    protected $repositoryClass = MicroweberPackages\Menu\Repositories\MenuRepository::class;
+    protected $repositoryClass = MenuRepository::class;
     protected $repositoryMethods = [
         'getById',
         'getMenusByParentId',

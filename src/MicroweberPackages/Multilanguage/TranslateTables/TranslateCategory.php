@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage\TranslateTables;
 
+use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
 
 class TranslateCategory extends TranslateTable {
@@ -23,7 +24,7 @@ class TranslateCategory extends TranslateTable {
         'category_meta_description'
     ];
 
-    protected $repositoryClass = MicroweberPackages\Category\Repositories\CategoryRepository::class;
+    protected $repositoryClass = CategoryRepository::class;
     protected $repositoryMethods = [
         'getById',
         'getByColumnNameAndColumnValue',
