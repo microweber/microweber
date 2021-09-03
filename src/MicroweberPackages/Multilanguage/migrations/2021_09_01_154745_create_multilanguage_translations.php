@@ -14,7 +14,7 @@ class CreateMultilanguageTranslations extends Migration
     public function up()
     {
         Schema::create('multilanguage_translations', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
 
             $table->string('rel_id');
             $table->string('rel_type');

@@ -14,7 +14,7 @@ class CreateMultilanguageSupportedLocales extends Migration
     public function up()
     {
         Schema::create('multilanguage_supported_locales', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
 
             $table->string('locale');
             $table->string('language')->nullable();
