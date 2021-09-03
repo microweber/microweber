@@ -42,7 +42,7 @@ class TranslateManager
                 $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
             }
         }
-        
+
         if (!empty(self::$translateProviders)) {
             foreach (self::$translateProviders as $provider) {
 

@@ -18,6 +18,7 @@ use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use MicroweberPackages\Category\TranslateTables\TranslateCategory;
 
 class CategoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -28,6 +29,9 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function boot()
     {
+
+        $this->app->translate_manager->addTranslateProvider(TranslateCategory::class);
+
         /**
          * @property \MicroweberPackages\Category\CategoryManager    $category_manager
          */
