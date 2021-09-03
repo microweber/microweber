@@ -24,12 +24,19 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         }
     }
 
+
+    public static $_linkContent = [];
     public function linkContent($contentId)
     {
+
+        if (isset(self::$_linkContent[$contentId])) {
+            return self::$_linkContent[$contentId];
+        }
+
         $link = [];
 
-        $content = \MicroweberPackages\Content\Content::find($contentId);
-        //$content = app()->content_repository->findById($contentId);
+        ///$content = \MicroweberPackages\Content\Content::find($contentId);
+        $content = app()->content_repository->findById($contentId);
         if ($content) {
 
             if ($content['content_type'] == 'page') {
@@ -82,17 +89,31 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             }
         }
 
+        self::$_linkContent[$contentId] = $link;
+
         return $link;
     }
 
+    public function clearCache()
+    {
+        self::$__getLinkAfterDefaultLang = false;
+        self::$__getLinkAfterLocaleSettings = false;
+    }
+
+    private static $__getLinkAfterDefaultLang = false;
+    private static $__getLinkAfterLocaleSettings = false;
     public function __getLinkAfter()
     {
+
         $rewriteUrl = false;
-        $defaultLang = get_option('language', 'website');
+
+        if (!self::$__getLinkAfterDefaultLang) {
+            self::$__getLinkAfterDefaultLang = get_option('language', 'website');
+        }
 
         $currentLang = $this->language;
 
-        if ($defaultLang !== $currentLang) {
+        if (self::$__getLinkAfterDefaultLang !== $currentLang) {
             $rewriteUrl = true;
         }
 
@@ -103,13 +124,15 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         }
         if ($rewriteUrl) {
             // Display locale
-            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);
+            if (!self::$__getLinkAfterLocaleSettings) {
+                self::$__getLinkAfterLocaleSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);
+            }
 
-            if ($localeSettings !== null) {
-                if (!empty($localeSettings['display_locale'])) {
-                    $currentLang = $localeSettings['display_locale'];
-                } elseif (!empty($localeSettings['locale']))  {
-                    $currentLang = $localeSettings['locale'];
+            if (self::$__getLinkAfterLocaleSettings !== null) {
+                if (!empty(self::$__getLinkAfterLocaleSettings['display_locale'])) {
+                    $currentLang = self::$__getLinkAfterLocaleSettings['display_locale'];
+                } elseif (!empty(self::$__getLinkAfterLocaleSettings['locale']))  {
+                    $currentLang = self::$__getLinkAfterLocaleSettings['locale'];
                 }
             }
         }
