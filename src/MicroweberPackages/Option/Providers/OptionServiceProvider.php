@@ -14,6 +14,8 @@ namespace MicroweberPackages\Option\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
+use MicroweberPackages\Option\TranslateTables\TranslateOption;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\GlobalOptions;
 use MicroweberPackages\Option\Models\Option as OptionModel;
@@ -67,6 +69,8 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
     public function boot()
     {
         $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
+
+        $this->app->translate_manager->addTranslateProvider(TranslateOption::class);
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', OptionFacade::class);

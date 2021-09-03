@@ -12,9 +12,12 @@
 namespace MicroweberPackages\Tag;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Multilanguage\TranslateTables\TranslateOption;
 use MicroweberPackages\Tag\Model\Tag;
 use MicroweberPackages\Tag\Model\Tagged;
 use MicroweberPackages\Tag\Model\TagGroup;
+use MicroweberPackages\Tag\TranslateTables\TranslateTaggingTagged;
+use MicroweberPackages\Tag\TranslateTables\TranslateTaggingTags;
 
 class TagsManagerServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,9 @@ class TagsManagerServiceProvider extends ServiceProvider
         \Config::set('tagging.tag_model', Tag::class);
         \Config::set('tagging.tagged_model', Tagged::class);
         \Config::set('tagging.tag_group_model', TagGroup::class);
+
+        $this->app->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
+        $this->app->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
 
         /**
          * @property \MicroweberPackages\Tag\TagsManager    $tags_manager
