@@ -70,9 +70,6 @@ class Lang
 
     function current_lang()
     {
-//        if($this->lang){
-//            return $this->lang;
-//        }
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
@@ -96,8 +93,13 @@ class Lang
         return $this->current_lang();
     }
 
+    public static $_defaultLang = false;
     function default_lang()
     {
+        if (self::$_defaultLang) {
+            return self::$_defaultLang;
+        }
+
         $lang = 'en_US'; // dont use current language
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
@@ -106,16 +108,16 @@ class Lang
             }
         }
 
+        self::$_defaultLang = $lang;
+
         return $lang;
     }
 
     function __store_lang_file_ns($lang = false)
     {
-
         if (!is_admin()) {
             return;
         }
-
 
         global $mw_new_language_entries_ns;
 
