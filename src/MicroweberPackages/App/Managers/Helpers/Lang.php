@@ -67,6 +67,7 @@ class Lang
      *  print $current_lang;
      * </code>
      */
+
     function current_lang()
     {
 //        if($this->lang){
