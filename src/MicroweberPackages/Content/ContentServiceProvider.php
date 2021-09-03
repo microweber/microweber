@@ -2,9 +2,9 @@
 namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Content\TranslateTables\TranslateContent;
+use MicroweberPackages\Content\TranslateTables\TranslateContentFields;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-use MicroweberPackages\Database\Observers\CreatedByObserver;
-use MicroweberPackages\Content\Content;
 
 /**
  * Class ConfigSaveServiceProvider
@@ -20,6 +20,9 @@ class ContentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->translate_manager->addTranslateProvider(TranslateContent::class);
+        $this->app->translate_manager->addTranslateProvider(TranslateContentFields::class);
+
         Content::observe(BaseModelObserver::class);
       //  Content::observe(CreatedByObserver::class);
 
