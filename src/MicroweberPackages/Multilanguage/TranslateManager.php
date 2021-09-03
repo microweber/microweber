@@ -22,7 +22,13 @@ use MicroweberPackages\Multilanguage\TranslateTables\TranslateTestimonials;
 class TranslateManager
 {
 
-    public $translateProviders = [];
+    public static $translateProviders = [];
+
+    public function addTranslateProvider($providerClass)
+    {
+        self::$translateProviders[] = $providerClass;
+        return $this;
+    }
 
     public function run()
     {
@@ -36,9 +42,9 @@ class TranslateManager
                 $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
             }
         }
-
-        if (!empty($this->translateProviders)) {
-            foreach ($this->translateProviders as $provider) {
+        
+        if (!empty(self::$translateProviders)) {
+            foreach (self::$translateProviders as $provider) {
 
                 $providerInstance = new $provider();
                 $providerTable = $providerInstance->getRelType();

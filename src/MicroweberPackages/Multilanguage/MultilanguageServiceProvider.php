@@ -28,13 +28,17 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
+        $this->app->singleton('translate_manager', function ($app) {
+            return new TranslateManager();
+        });
+
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
     }
 
 
     public function boot()
     {
-
         if (!mw_is_installed()) {
             return;
         }
@@ -50,6 +54,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         }
 
         MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
+
 
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();

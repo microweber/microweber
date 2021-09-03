@@ -15,6 +15,8 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
+use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
+use MicroweberPackages\Multilanguage\TranslateTablesRegistrator;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,9 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
+
         /**
          * @property \MicroweberPackages\Menu\MenuManager    $menu_manager
          */
@@ -40,8 +45,6 @@ class MenuServiceProvider extends ServiceProvider
                 return new MenuRepository();
             });
         });
-
-
 
         /**
          * @property MenuRepository   $menu_repository
