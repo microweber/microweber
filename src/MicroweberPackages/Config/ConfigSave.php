@@ -100,7 +100,7 @@ class ConfigSave extends Repository
         if(isset(self::$configCache[$key])){
             return self::$configCache[$key];
         }
-        self::$configCache[$key] = parent::get($key, $val)
+        self::$configCache[$key] = parent::get($key, $val);
         return self::$configCache[$key];
     }
 
