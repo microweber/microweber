@@ -22,19 +22,7 @@ use MicroweberPackages\Multilanguage\TranslateTables\TranslateTestimonials;
 class TranslateManager
 {
 
-    public $translateProviders = [
-        TranslateMenu::class,
-        TranslateOption::class,
-        TranslateCategory::class,
-        TranslateContent::class,
-        // 'TranslateContentData::class,
-        TranslateContentFields::class,
-        TranslateCustomFields::class,
-        TranslateTestimonials::class,
-        TranslateTaggingTags::class,
-        TranslateTaggingTagged::class,
-        TranslateDynamicTextVariables::class
-    ];
+    public $translateProviders = [];
 
     public function run()
     {

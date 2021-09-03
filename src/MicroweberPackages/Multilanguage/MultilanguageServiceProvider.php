@@ -70,7 +70,6 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         }
 
-
     }
 
 
