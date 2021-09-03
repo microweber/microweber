@@ -71,6 +71,9 @@ class Lang
     public static $_currentLang = false;
     function current_lang()
     {
+        if ($this->lang) {
+            return $this->lang;
+        }
         if (self::$_currentLang) {
             return self::$_currentLang;
         }
