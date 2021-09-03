@@ -13,20 +13,19 @@ class ChangeEnUkToEnGbLocale extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('multilanguage_supported_locales')) {
 
-            Schema::table('multilanguage_supported_locales', function (Blueprint $table) {
-                \DB::table('multilanguage_supported_locales')
-                    ->where('locale', 'LIKE', "%en_uk%")
-                    ->update(['locale' => 'en_GB']);
-            });
-            Schema::table('multilanguage_translations', function (Blueprint $table) {
-                \DB::table('multilanguage_translations')
-                    ->where('locale', 'LIKE', "%en_uk%")
-                    ->update(['locale' => 'en_GB']);
-            });
+        if (Schema::hasTable('multilanguage_supported_locales')) {
+            \DB::table('multilanguage_supported_locales')
+                ->where('locale', 'LIKE', "%en_uk%")
+                ->update(['locale' => 'en_GB']);
+
         }
 
+        if (Schema::hasTable('multilanguage_translations')) {
+            \DB::table('multilanguage_translations')
+                ->where('locale', 'LIKE', "%en_uk%")
+                ->update(['locale' => 'en_GB']);
+        }
 
     }
 
