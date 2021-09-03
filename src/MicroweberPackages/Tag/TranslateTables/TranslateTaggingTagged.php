@@ -5,18 +5,18 @@
  * Date: 2/27/2020
  * Time: 12:50 PM
  */
-namespace MicroweberPackages\Multilanguage\TranslateTables;
+namespace MicroweberPackages\Tag\TranslateTables;
 
 use MicroweberPackages\Multilanguage\TranslateTable;
 
-class TranslateCustomFields extends TranslateTable {
-
+class TranslateTaggingTagged extends TranslateTable
+{
     protected $relId = 'id';
-    protected $relType = 'custom_fields';
+    protected $relType = 'tagging_tagged';
 
     protected $columns = [
-        'name',
-        'placeholder'
+        'tag_name',
+       // 'tag_slug',
+        'tag_description'
     ];
-
 }
