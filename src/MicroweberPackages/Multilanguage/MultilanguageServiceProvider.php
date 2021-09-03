@@ -11,10 +11,13 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Form\FormElementBuilder;
 use MicroweberPackages\Module\Module;
+use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 
@@ -61,6 +64,9 @@ class MultilanguageServiceProvider extends ServiceProvider
         });
 
         if ($isMultilanguageActive) {
+
+            $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
+
 
             $this->app->bind('permalink_manager', function () {
                 return new MultilanguagePermalinkManager();

@@ -16,14 +16,26 @@ trait HasMultilanguageTrait
         $this->fillable[] = 'multilanguage';
     }
 
+    private static $__getDefaultLocale = false;
     protected function __getDefaultLocale()
     {
-        return mw()->lang_helper->default_lang();
+        if (self::$__getDefaultLocale) {
+            return self::$__getDefaultLocale;
+        }
+
+        self::$__getDefaultLocale = mw()->lang_helper->default_lang();
+
+        return self::$__getDefaultLocale;
     }
 
+    private static $__getLocale = false;
     protected function __getLocale()
     {
-        return mw()->lang_helper->current_lang();
+        if (self::$__getLocale) {
+            return self::$__getLocale;
+        }
+        self::$__getLocale = mw()->lang_helper->current_lang();
+        return self::$__getLocale;
     }
 
     public static function bootHasMultilanguageTrait()

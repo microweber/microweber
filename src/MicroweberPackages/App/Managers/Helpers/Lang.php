@@ -67,11 +67,14 @@ class Lang
      *  print $current_lang;
      * </code>
      */
+
+    public static $_currentLang = false;
     function current_lang()
     {
-//        if($this->lang){
-//            return $this->lang;
-//        }
+        if (self::$_currentLang) {
+            return self::$_currentLang;
+        }
+
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
@@ -83,6 +86,7 @@ class Lang
             }
         }
 
+        self::$_currentLang = $app_locale;
         return $app_locale;
     }
 
@@ -95,8 +99,18 @@ class Lang
         return $this->current_lang();
     }
 
+    public static $_defaultLang = false;
+
+    public function clearCache(){
+        self::$_defaultLang = null;
+    }
+
     function default_lang()
     {
+        if (self::$_defaultLang) {
+            return self::$_defaultLang;
+        }
+
         $lang = 'en_US'; // dont use current language
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
@@ -105,21 +119,16 @@ class Lang
             }
         }
 
+        self::$_defaultLang = $lang;
+
         return $lang;
     }
-    /**
-     * Saves the language file after page load.
-     *
-      * @deprecated
-     */
+
     function __store_lang_file_ns($lang = false)
     {
-         //deprecated
-        return;
         if (!is_admin()) {
             return;
         }
-
 
         global $mw_new_language_entries_ns;
 
@@ -234,11 +243,9 @@ class Lang
      * Saves the language file after page load.
      *
      * @internal
-     * @deprecated
      */
     function __store_lang_file($lang = false)
     {
-        return;
         if (!is_admin()) {
             return;
         }
@@ -469,7 +476,6 @@ class Lang
      * Gets all the language file contents.
      *
      * @internal its used via ajax in the admin panel under Settings->Language
-     * @deprecated
      */
     function get_language_file_content($namespace = false)
     {
@@ -481,10 +487,7 @@ class Lang
         }
     }
 
-    /**
-     *
-     * @deprecated
-     */
+
     function get_all_language_file_namespaces()
     {
 
@@ -517,10 +520,7 @@ class Lang
         return $ns;
     }
 
-    /**
-     *
-     * @deprecated
-     */
+
     function _mw_get_language_file_content_core()
     {
         global $mw_language_content;
@@ -573,10 +573,7 @@ class Lang
 
         return $mw_language_content[$lang];
     }
-    /**
-     *
-     * @deprecated
-     */
+
     function _mw_get_language_file_content_namespaced($namespace)
     {
         if ($namespace == false) {
@@ -684,8 +681,9 @@ class Lang
      * Saves your custom language translation.
      *
      * @internal its used via ajax in the admin panel under Settings->Language
-     * @deprecated
      */
+
+
     function save_language_file_content($data)
     {
         // Decode json from post
@@ -1165,7 +1163,7 @@ class Lang
      * Get all available languages as array.
      *
      * To set user language you must create cookie named "lang"
-     * @deprecated
+     *
      * @return array The languages array
      *
      * @example
