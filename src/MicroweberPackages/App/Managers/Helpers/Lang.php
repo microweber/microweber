@@ -68,8 +68,13 @@ class Lang
      * </code>
      */
 
+    public static $_currentLang = false;
     function current_lang()
     {
+        if (self::$_currentLang) {
+            return self::$_currentLang;
+        }
+        
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
@@ -81,6 +86,7 @@ class Lang
             }
         }
 
+        self::$_currentLang = $app_locale;
         return $app_locale;
     }
 
