@@ -11,11 +11,12 @@ class MultilanguageTest extends MultilanguageTestBase
     public function testSupportedLanguages()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+        $lang = app()->getLocale();
 
-        add_supported_language('en_US', 'English');
+        add_supported_language($lang, 'English');
 
         // Set default lang
-        $lang = 'en_US';
+      //  $lang = 'en_US';
         $option = array();
         $option['option_value'] = $lang;
         $option['option_key'] = 'language';
@@ -37,6 +38,12 @@ class MultilanguageTest extends MultilanguageTestBase
         $default_lang = $default_lang;
 
         $this->assertEquals(true, in_array($default_lang, $locales));
+        $this->assertEquals(true, is_lang_supported($lang));
+        $this->assertEquals(true, is_lang_correct($lang));
+
+
+
+
 
     }
 

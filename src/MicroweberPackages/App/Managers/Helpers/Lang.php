@@ -42,7 +42,7 @@ class Lang
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-
+        $this->clearCache();
         mw()->option_manager->clear_memory();
 
 //        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
@@ -111,12 +111,15 @@ class Lang
             return self::$_defaultLang;
         }
 
-        $lang = 'en_US'; // dont use current language
+       // $lang = 'en_US'; // dont use current language
+        $lang =  app()->getLocale();
+
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
             if ($lang_opt) {
                 $lang = $lang_opt;
             }
+
         }
 
         self::$_defaultLang = $lang;
