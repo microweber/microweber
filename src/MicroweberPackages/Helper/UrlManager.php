@@ -509,14 +509,8 @@ class UrlManager
         }
 
         if (is_string($arr)) {
-            $parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
-            if (isset($this->repaced_urls[$parser_mem_crc])) {
-                $ret = $this->repaced_urls[$parser_mem_crc];
-            } else {
-                $site = $this->site_url();
-                $ret = str_replace('{SITE_URL}', $site, $arr);
-                $this->repaced_urls[$parser_mem_crc] = $ret;
-            }
+            $site = $this->site_url();
+            $ret = str_replace('{SITE_URL}', $site, $arr);
 
             return $ret;
         }
@@ -524,20 +518,12 @@ class UrlManager
         if (is_array($arr) and !empty($arr)) {
             $ret = array();
             foreach ($arr as $k => $v) {
-                $parser_mem_crc = 'replace_site_vars_back_' . crc32(serialize($k) . serialize($v));
-                if (isset($this->repaced_urls[$parser_mem_crc])) {
-                    $ret[$k] = $this->repaced_urls[$parser_mem_crc];
-                } else {
-                    if (is_array($v) ) {
-                        $v = $this->replace_site_url_back($v);
-                    } elseif (is_string($v) and $v !== '0') {
-                        $v = $this->replace_site_url_back($v);
-                    }
-                    $this->repaced_urls[$parser_mem_crc] = $v;
-
-                    $ret[$k] = $v;
+                if (is_array($v) ) {
+                    $v = $this->replace_site_url_back($v);
+                } elseif (is_string($v) and $v !== '0') {
+                    $v = $this->replace_site_url_back($v);
                 }
-
+                $ret[$k] = $v;
             }
 
             return $ret;
@@ -583,7 +569,7 @@ class UrlManager
                 if(is_string($item)){
               //  if($item != 'http'){
               // dd($url_str);
-                    $url_str = str_ireplace($item . '://', '//', $url_str); 
+                    $url_str = str_ireplace($item . '://', '//', $url_str);
                 }
               //  }
             }

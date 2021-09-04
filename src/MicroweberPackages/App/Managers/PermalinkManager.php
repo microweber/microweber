@@ -327,4 +327,10 @@ class PermalinkManager
             //'page_category_sub_categories_post' => 'sample-page/sample-category/sub-category/sample-post'
         );
     }
+    public function clearCache()
+    {
+        //...
+    }
+
+
 }

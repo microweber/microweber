@@ -98,6 +98,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         self::$__getLinkAfterDefaultLang = false;
         self::$__getLinkAfterLocaleSettings = false;
+        self::$_linkContent = [];
     }
 
     private static $__getLinkAfterDefaultLang = false;

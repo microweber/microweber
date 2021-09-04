@@ -9,5 +9,6 @@ class LocaleUpdatedListener
     public function handle(LocaleUpdated $event)
     {
         app()->lang_helper->clearCache();
+        app()->permalink_manager->clearCache();
     }
 }
