@@ -32,7 +32,12 @@
             @foreach($posts->results() as $post)
                 <div class="col-md-6 mb-5">
                     <a href="{{site_url($post->url)}}">
-                        <img src="{{$post->thumbnail(800,500, true)}}" alt="">
+
+                        <?php
+                        /*<img src="{{$post->thumbnail(800,500, true)}}" alt="">*/
+                        ?>
+
+                        <img src="{{app()->content_repository->getThumbnail($post->id,800,500, true)}}" alt="">
 
                         <h4 class="mt-3">{{$post->title}}</h4>
                     </a>

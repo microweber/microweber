@@ -415,7 +415,8 @@ class TemplateCssParser
     private function _getOptionVariables($optionGroupName)
     {
 
-        $optionGroup = mw()->option_manager->get_all('option_group=' . $optionGroupName);
+       // $optionGroup = mw()->option_manager->get_all('option_group=' . $optionGroupName);
+        $optionGroup = app()->option_repository->getOptionsByGroup($optionGroupName);
 
 
         $variables = array();
