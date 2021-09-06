@@ -72,6 +72,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
             $cacheKey = $this->getCacheKey($columns);
             $cacheTags = $this->generateCacheTags();
 
+
             $cacheMem_key =  implode('-',$cacheTags).'-'.$cacheKey;
 
             if(isset(self::$_loaded_models_cache_get[$cacheMem_key])){
@@ -117,7 +118,6 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
                 }
             }
         }*/
-
 
 
 
@@ -199,7 +199,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = $this->getModel()->getTable() . '_' . md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
+        $key = $this->getModel()->getTable() . '_' . crc32($name .  implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 

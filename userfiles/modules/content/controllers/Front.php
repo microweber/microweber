@@ -3,6 +3,7 @@
 
 namespace content\controllers;
 
+use Illuminate\Support\Collection;
 use MicroweberPackages\SiteStats\Models\ContentViewCounter;
 use MicroweberPackages\View\View;
 use DB;
@@ -48,7 +49,13 @@ class Front
     function index($params, $config)
     {
         $params['exclude_shorthand'] = 'keyword, data-keyword';
-        $options = Option::where('option_group', $params['id'])->get();
+       // $options = Option::where('option_group', $params['id'])->get();
+        $getOpts = app()->option_repository->getOptionsByGroup($params['id']);
+        $options = new Collection();
+        if($getOpts){
+            $options = $options->merge($getOpts);
+        }
+       // $options =collect( app()->option_repository->getOptionsByGroup($params['id']));
 
         $current_page = $current_page = 1;
         $post_params = $params;
@@ -422,7 +429,13 @@ class Front
             if ($related_category_ids and is_array($related_category_ids) and !empty($related_category_ids)) {
 
 
-                $get_subcats = mw()->database_manager->table('categories')->select('id')->where('data_type', 'category')->whereIn('parent_id', $related_category_ids)->get();
+//                $get_subcats = mw()->database_manager->table('categories')
+//                    ->select('id')->where('data_type', 'category')
+//                    ->whereIn('parent_id', $related_category_ids)->get();
+
+                $get_subcats = app()->category_repository->getSubCategories($related_category_ids);
+
+
                 if ($get_subcats) {
                     $related_cats = array();
                     $get_subcats = collection_to_array($get_subcats);
