@@ -119,12 +119,10 @@ class Crud
             $params['table'] = $table;
             $params['single'] = true;
 
-            if($field_name == 'id'){
-                $data =  app()->content_repository->getById($id);
-            } else {
+
             $data = $this->get($params);
-            }
-            return $data;
+
+        return $data;
       // }
     }
 

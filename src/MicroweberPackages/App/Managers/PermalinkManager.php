@@ -202,7 +202,9 @@ class PermalinkManager
 
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                     //   $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
@@ -218,7 +220,9 @@ class PermalinkManager
 
                 if ($this->structure == 'page_category_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                      //  $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }

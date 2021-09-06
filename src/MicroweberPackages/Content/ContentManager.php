@@ -208,7 +208,9 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-       return $this->crud->get_by_id($id);
+        return app()->content_repository->getById($id);
+
+      //  return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)

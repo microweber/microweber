@@ -36,7 +36,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         $link = [];
 
         ///$content = \MicroweberPackages\Content\Content::find($contentId);
-        $content = app()->content_repository->findById($contentId);
+        $content = app()->content_repository->getById($contentId);
         if ($content) {
 
             if ($content['content_type'] == 'page') {
@@ -52,7 +52,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                     //   $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
@@ -68,7 +70,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
                 if ($this->structure == 'page_category_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                      //  $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
