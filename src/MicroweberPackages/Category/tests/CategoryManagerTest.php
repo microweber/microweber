@@ -157,6 +157,19 @@ class CategoryManagerTest extends TestCase
         $get_categories_kw = get_categories(['keyword'=>$category2->title]);
         $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
 
+        $title = $category2->title;
+
+        $params = [];
+        $params['__query_test_if_callback_works'] = function ($query) use($title){
+            return $query->whereIn('id', function ($subQuery)   use($title)  {
+                $subQuery->select('categories.id');
+                $subQuery->from('categories');
+                $subQuery->where('categories.title', '=', $title);
+            });
+        };
+        $get_categories_kw = get_categories($params);
+        $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
+ 
 
     }
     public function testCategoryJsonTreeAdmin()
