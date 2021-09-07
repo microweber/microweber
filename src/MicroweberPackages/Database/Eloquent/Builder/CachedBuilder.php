@@ -199,7 +199,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = $this->getModel()->getTable() . '_' . crc32($name .  implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
+        $key = $this->getModel()->getTable() . '_' . crc32($name .$this->toSql().  implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
