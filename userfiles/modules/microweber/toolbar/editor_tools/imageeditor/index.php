@@ -134,7 +134,9 @@
         }
 
         #the-image-holder {
-            position: relative;
+            position: sticky;
+            top:0;
+            z-index: 10;
             text-align: center;
             max-width: 100%;
             height: 200px;
@@ -414,7 +416,7 @@
                 <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setColor()" />
             </div>
             <div class="mw-ui-field-holder imeditor-image-link" style="padding-bottom: 20px;">
-                <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
+                <label class="mw-ui-label"><?php _e('Links to'); ?>:</label>
                 <input type="text" class="mw-ui-field w100" id="link" placeholder="Enter URL"/>
             </div>
 
