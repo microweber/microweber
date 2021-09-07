@@ -169,7 +169,7 @@ class CategoryManagerTest extends TestCase
         };
         $get_categories_kw = get_categories($params);
         $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
- 
+
 
     }
     public function testCategoryJsonTreeAdmin()
@@ -209,6 +209,18 @@ class CategoryManagerTest extends TestCase
         $category3->title = 'New cat3 testCategoryJsonTreeAdmin_'.uniqid();
         $category3->parent_id = $category2->id;
         $category3->save();
+
+        $children_test = $category->children;
+
+        $this->assertEquals($children_test[0]->id, $category2->id);
+        $this->assertEquals($children_test[0]->title, $category2->title);
+        $this->assertEquals($children_test[0]->parent_id, $category2->parent_id);
+
+        $children_test = $category2->children;
+        $this->assertEquals($children_test[0]->id, $category3->id);
+        $this->assertEquals($children_test[0]->title, $category3->title);
+        $this->assertEquals($children_test[0]->parent_id, $category3->parent_id);
+
 
 
 
