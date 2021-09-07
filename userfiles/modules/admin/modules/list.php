@@ -430,31 +430,37 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
     <?php if (isset($modules) and !empty($modules)): ?>
-
+        <?php if($show_grouped_by_cats)  { ?>
 <script>
 
-    <?php if($show_grouped_by_cats)  { ?>
+
 
 
 
    $(document).ready(function (){
-      $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
+       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
    })
-    <?php } ?>
+
 </script>
 
-    <style>
 
-        #default-layouts-holder .mw_module_hold{
-            padding: 0;
-        }
-        #default-layouts-holder .default-layouts{
-            padding: 0;
-            margin-bottom: 35px;
-            display: none;
-        }
+    <?php }
 
-    </style>
+
+
+    ?>
+        <style>
+
+            #default-layouts-holder .mw_module_hold{
+                padding: 0;
+            }
+            #default-layouts-holder .default-layouts{
+                padding: 0;
+                margin-bottom: 35px;
+
+            }
+
+        </style>
     <div id="default-layouts-holder">
         <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
