@@ -237,9 +237,10 @@ class CategoryManager
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
 
-        if($type == false and $visible_on_frontend==false){
-         return app()->category_repository->getSubCategories($parent_id);
-        }
+//        if($type == false and $visible_on_frontend==false){
+        // bug in get_admin_js_tree_json
+//         return app()->category_repository->getSubCategories($parent_id);
+//        }
 
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
