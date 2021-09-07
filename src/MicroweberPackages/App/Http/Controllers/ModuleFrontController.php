@@ -16,6 +16,7 @@ class ModuleFrontController
     {
         $this->moduleParams = $params;
         $this->moduleOptions = Option::where('option_group', $this->moduleParams['id'])->get();
+     //   $this->moduleOptions = app()->option_repository->getOptionsByGroup($this->moduleParams['id']);
     }
 
     public function setModuleConfig($config)
