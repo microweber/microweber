@@ -3502,12 +3502,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6de01746680d7bc7e239b20ec5cdfe70ce586235"
+                "reference": "e7f075f596da3904c75c487b01d0e9dad5db4755"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6de01746680d7bc7e239b20ec5cdfe70ce586235",
-                "reference": "6de01746680d7bc7e239b20ec5cdfe70ce586235",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e7f075f596da3904c75c487b01d0e9dad5db4755",
+                "reference": "e7f075f596da3904c75c487b01d0e9dad5db4755",
                 "shasum": ""
             },
             "require": {
@@ -3663,7 +3663,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-08-27T13:34:11+00:00"
+            "time": "2021-09-02T08:41:11+00:00"
         },
         {
             "name": "laravel/passport",
@@ -12816,12 +12816,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d9ac797190c0389aa7a4b03c6f130f764a6115e8"
+                "reference": "464842c41f63254eaf06a26489b773b956127f9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9ac797190c0389aa7a4b03c6f130f764a6115e8",
-                "reference": "d9ac797190c0389aa7a4b03c6f130f764a6115e8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/464842c41f63254eaf06a26489b773b956127f9d",
+                "reference": "464842c41f63254eaf06a26489b773b956127f9d",
                 "shasum": ""
             },
             "require": {
@@ -12885,7 +12885,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-29T07:09:30+00:00"
+            "time": "2021-08-11T07:52:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14077,12 +14077,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3"
+                "reference": "4ce3fcc8606d0c72d504abd33862fb8dcded9761"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3",
-                "reference": "ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/4ce3fcc8606d0c72d504abd33862fb8dcded9761",
+                "reference": "4ce3fcc8606d0c72d504abd33862fb8dcded9761",
                 "shasum": ""
             },
             "require": {
@@ -14142,7 +14142,7 @@
                 "issues": "https://github.com/mockery/mockery/issues",
                 "source": "https://github.com/mockery/mockery/tree/master"
             },
-            "time": "2021-07-19T08:40:21+00:00"
+            "time": "2021-09-01T09:38:59+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -16112,5 +16112,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
