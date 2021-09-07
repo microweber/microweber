@@ -139,15 +139,41 @@ class CategoryManagerTest extends TestCase
 
 
     }
+    public function testCategorySearchByKeyword()
+    {
+        $clean = Category::truncate();
 
+        $category = new Category();
+        $category->title = 'New cat testCategorySearchByKeyword'.uniqid();
+        $category->save();
+
+
+        $category2 = new Category();
+        $category2->title = 'New cat2 testCategorySearchByKeyword'.uniqid();
+        $category2->parent_id = $category->id;
+        $category2->save();
+
+
+        $get_categories_kw = get_categories(['keyword'=>$category2->title]);
+        $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
+
+
+    }
     public function testCategoryJsonTreeAdmin()
     {
 
         $clean = Content::truncate();
         $clean = Category::truncate();
 
+        $newSimplePage = new Page();
+        $newSimplePage->title = 'testCategoryJsonTreeAdminPageStatic0_'.uniqid();
+        $newSimplePage->content_type = 'page';
+        $newSimplePage->subtype = 'static';
+        $newSimplePage->save();
+
+
         $newBlogPage = new Page();
-        $newBlogPage->title = uniqid();
+        $newBlogPage->title = 'testCategoryJsonTreeAdmin_'.uniqid();
         $newBlogPage->content_type = 'page';
         $newBlogPage->subtype = 'dynamic';
         $newBlogPage->save();
@@ -155,25 +181,25 @@ class CategoryManagerTest extends TestCase
 
 
         $category = new Category();
-        $category->title = 'New cat';
+        $category->title = 'New cat testCategoryJsonTreeAdmin_'.uniqid();
         $category->rel_type = 'content';
         $category->rel_id = $newBlogPage->id;
         $category->save();
 
 
         $category2 = new Category();
-        $category2->title = 'New sub cat';
+        $category2->title = 'New cat2 testCategoryJsonTreeAdmin_'.uniqid();
         $category2->parent_id = $category->id;
         $category2->save();
 
         $category3 = new Category();
-        $category3->title = 'New sub cat2';
+        $category3->title = 'New cat3 testCategoryJsonTreeAdmin_'.uniqid();
         $category3->parent_id = $category2->id;
         $category3->save();
 
 
 
-        $jsonTree= app()->category_manager->get_admin_js_tree_json([]);
+        $jsonTree= app()->category_manager->get_admin_js_tree_json(['from_content_id'=>$newBlogPage->id]);
 
         $this->assertEquals($jsonTree[0]['id'], $newBlogPage->id);
         $this->assertEquals($jsonTree[0]['parent_type'], 'page');
@@ -195,6 +221,24 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($jsonTree[3]['parent_type'], 'category');
         $this->assertEquals($jsonTree[3]['type'], 'category');
         $this->assertEquals($jsonTree[3]['parent_id'], $category2->id);
+
+
+
+        $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>$newBlogPage->title]);
+
+        $this->assertEquals($jsonTreeKw[0]['id'], $newBlogPage->id);
+        $this->assertEquals($jsonTreeKw[0]['parent_type'], 'page');
+        $this->assertEquals($jsonTreeKw[0]['type'], 'page');
+        $this->assertEquals($jsonTreeKw[0]['parent_id'], 0);
+
+
+        $get_content_kw = get_content(['keyword'=>$newBlogPage->title]);
+        $this->assertEquals($get_content_kw[0]['id'], $newBlogPage->id);
+
+
+
+
+
 
     }
 
