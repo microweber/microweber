@@ -140,4 +140,62 @@ class CategoryManagerTest extends TestCase
 
     }
 
+    public function testCategoryJsonTreeAdmin()
+    {
+
+        $clean = Content::truncate();
+        $clean = Category::truncate();
+
+        $newBlogPage = new Page();
+        $newBlogPage->title = uniqid();
+        $newBlogPage->content_type = 'page';
+        $newBlogPage->subtype = 'dynamic';
+        $newBlogPage->save();
+
+
+
+        $category = new Category();
+        $category->title = 'New cat';
+        $category->rel_type = 'content';
+        $category->rel_id = $newBlogPage->id;
+        $category->save();
+
+
+        $category2 = new Category();
+        $category2->title = 'New sub cat';
+        $category2->parent_id = $category->id;
+        $category2->save();
+
+        $category3 = new Category();
+        $category3->title = 'New sub cat2';
+        $category3->parent_id = $category2->id;
+        $category3->save();
+
+
+
+        $jsonTree= app()->category_manager->get_admin_js_tree_json([]);
+
+        $this->assertEquals($jsonTree[0]['id'], $newBlogPage->id);
+        $this->assertEquals($jsonTree[0]['parent_type'], 'page');
+        $this->assertEquals($jsonTree[0]['type'], 'page');
+        $this->assertEquals($jsonTree[0]['parent_id'], 0);
+
+        $this->assertEquals($jsonTree[1]['id'], $category->id);
+        $this->assertEquals($jsonTree[1]['parent_type'], 'page');
+        $this->assertEquals($jsonTree[1]['type'], 'category');
+        $this->assertEquals($jsonTree[1]['parent_id'], $newBlogPage->id);
+
+        $this->assertEquals($jsonTree[2]['id'], $category2->id);
+        $this->assertEquals($jsonTree[2]['parent_type'], 'category');
+        $this->assertEquals($jsonTree[2]['type'], 'category');
+        $this->assertEquals($jsonTree[2]['parent_id'], $category->id);
+
+
+        $this->assertEquals($jsonTree[3]['id'], $category3->id);
+        $this->assertEquals($jsonTree[3]['parent_type'], 'category');
+        $this->assertEquals($jsonTree[3]['type'], 'category');
+        $this->assertEquals($jsonTree[3]['parent_id'], $category2->id);
+
+    }
+
 }
