@@ -49,8 +49,11 @@ mw.layoutPlus = {
 
             var name = $active.attr('data-module-name');
             var template = $(this).attr('template');
-            var conf = {class: mw.layoutPlus._active.className, template: template};
 
+            var conf = {};
+            if(mw.layoutPlus._active){
+            var conf = {class: mw.layoutPlus._active.className, template: template};
+            }
             /*mw.liveEditState.record({
                 action: function () {
                     mw.$('#' + id).replaceWith('<div id="' + id + '"></div>');
