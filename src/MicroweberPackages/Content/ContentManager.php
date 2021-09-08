@@ -420,26 +420,26 @@ class ContentManager
 
     public function tags($content_id = false, $return_full = false)
     {
-       /* $data = array();
-        $data['table'] = $this->tables['content'];
-        if ($content_id) {
-            $data['id'] = intval($content_id);
-        }
-        return $this->app->tags_manager->get_values($data, $return_full);*/
-
-        $query = Tagged::query();
+        $query = \Illuminate\Support\Facades\DB::table('tagging_tagged');
         $query->where('taggable_type','content');
-
         if ($content_id) {
             $query->where('taggable_id', $content_id);
         }
-        $tags = $query->get();
-        $pluck = $tags->pluck('tag_name');
+
+        $getTagged = $query->get();
+        $getTagged = collect($getTagged)->map(function ($item) {
+            return (array)$item;
+        })->toArray();
+
         if ($return_full) {
-            return $tags;
-        } else {
-            return $pluck->toArray();
+            return $getTagged;
         }
+        $tagNames = [];
+        foreach ($getTagged as $tagged) {
+            $tagNames[] = $tagged['tag_name'];
+        }
+
+        return $tagNames;
     }
 
     public function attributes($content_id)
