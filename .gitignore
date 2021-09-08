@@ -51,7 +51,6 @@ node_modules/
 /bootstrap/cache/*
 /webpack/dist/*
 /.rnd
-/userfiles/modules/multilanguage
 config/app.php
 config/database.php
 bootstrap/cache/services.8.32.1.php
