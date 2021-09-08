@@ -36,7 +36,7 @@ class ModuleFrontController
         } else {
             $templateFile = module_templates($this->moduleConfig['module'], 'default');
         }
-
+        
         if ($templateFile) {
             $templateDir = dirname($templateFile);
             if (is_dir($templateDir)) {
