@@ -33,6 +33,7 @@
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
         mod_id_orig = window.mw.parent().$('#' + mod_id_for_presets).attr("data-module-original-id");
         mw_existing_modules_presets_ids = [];
+        mw_existing_modules_presets_ids_attrs = [];
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
             var parent_el = mw.top().win.document.getElementById(mod_id_for_presets);
@@ -132,7 +133,7 @@
 
                 var parent_el2 = parent_el2_window.document.getElementById(mod_id_for_presets);
             }
-
+            var orig_attrs_encoded = null;
             if (parent_el != null) {
                 var orig_attrs = mw.top().tools.getAttrs(parent_el);
                 if (orig_attrs) {
@@ -140,9 +141,30 @@
                 }
             }
 
+
+
+
             var set_orig_id = mw.top().$(parent_el).attr("id");
             var have_orig_id = mw.top().$(parent_el).attr("data-module-original-id");
             var have_orig_attr = mw.top().$(parent_el).attr("data-module-original-attrs");
+
+            var presets_data_prepopulated_index = mw_existing_modules_presets_ids_attrs.map((o) => o.module_id).indexOf(is_use);
+
+            if(presets_data_prepopulated_index !== -1){
+                var presets_data_prepopulated = mw_existing_modules_presets_ids_attrs[presets_data_prepopulated_index];
+                if(presets_data_prepopulated && typeof presets_data_prepopulated['module_attrs_encoded'] !== 'undefined'   ){
+                     var have_orig_attr_decoded_atob  = mw.top().win.atob(presets_data_prepopulated['module_attrs_encoded'])
+                    if(have_orig_attr_decoded_atob){
+                        var have_orig_attr_decoded = JSON.parse(have_orig_attr_decoded_atob);
+                         if(have_orig_attr_decoded && have_orig_attr_decoded.template) {
+                            mw.top().$(parent_el).attr("template",have_orig_attr_decoded.template);
+                        }
+                    }
+                }
+            }
+
+
+
 
             // if(typeof(use_attrs.module_settings) != 'undefined'){
             //     delete(use_attrs.module_settings);
@@ -159,11 +181,12 @@
                 mw.top().$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
             }
             if (!have_orig_id) {
-                ///   alert(set_orig_id);
                 mw.top().$(parent_el).attr("data-module-original-id", set_orig_id);
             }
 
             mw.top().$(parent_el).attr("id", is_use);
+
+            mw.top().$(parent_el).removeAttr("parent-module-id");
             if (parent_el2) {
                 parent_el2_window.mw.$(parent_el2).attr("id", is_use);
                 if (use_attrs) {
@@ -225,10 +248,17 @@
                         //    mw.module_preset_set_release(is_release);
                     }
 
-                    if (attrs) {
-                        var attrs_json = (JSON.stringify(attrs));
-                        var append_attrs_field = '<textarea style="display: none" name="module_attrs">' + attrs_json + '</textarea>';
-                        $(temp_form1).append(append_attrs_field);
+                    if(is_new){
+                        if (attrs) {
+                            // var orig_attrs_decoded = JSON.parse(window.atob(orig_attr));
+
+                            var attrs_json = window.btoa((JSON.stringify(attrs)));
+                            var append_attrs_field = '<textarea xxstyle="display: none" name="module_attrs">' + attrs_json + '</textarea>';
+                            $(temp_form1).append(append_attrs_field);
+
+
+                        }
+
                     }
 
                     //save
@@ -306,9 +336,19 @@
                     if ($item['module_id'] == $module_id) {
                         $fffound_module_id = $fffound = $module_id;
                     }
+
                     ?>
 
                     <script>mw_existing_modules_presets_ids.push('<?php print  $item['module_id'] ?>');</script>
+                    <script>
+
+                        var valueToPush = { };
+                        valueToPush["module_id"] = '<?php print  $item['module_id'] ?>';
+                        valueToPush["module_attrs_encoded"] = '<?php print  $item['module_attrs'] ?>';
+
+                        mw_existing_modules_presets_ids_attrs.push(valueToPush);
+
+                    </script>
                     <div class="card w-100 mb-2 p-2 mw-presets-list js-module-preset-item-form-holder <?php if ($fffound): ?>bg-primary-opacity-3<?php endif; ?>" js-mod-id="<?php print  $item['module_id'] ?>">
                         <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                         <input type="hidden" name="module" value="<?php print  $item['module'] ?>">

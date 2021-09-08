@@ -992,12 +992,10 @@ class ParserProcessor
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-                unset($mw_replaced_textarea_tag[$key]);
+              //  unset($mw_replaced_textarea_tag[$key]);
             }
         }
 
-
-      ///  dump($this->have_more);
 
         if (!$coming_from_parent or   !$this->have_more or $it_loop == 0 ) {
 
@@ -1009,9 +1007,17 @@ class ParserProcessor
 
 
 
+        if (!empty($mw_replaced_textarea_tag)) {
+            foreach ($mw_replaced_textarea_tag as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+                unset($mw_replaced_textarea_tag[$key]);
+            }
+        }
 
 
- 
+
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
