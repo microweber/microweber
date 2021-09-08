@@ -253,7 +253,7 @@
                             // var orig_attrs_decoded = JSON.parse(window.atob(orig_attr));
 
                             var attrs_json = window.btoa((JSON.stringify(attrs)));
-                            var append_attrs_field = '<textarea xxstyle="display: none" name="module_attrs">' + attrs_json + '</textarea>';
+                            var append_attrs_field = '<textarea style="display: none" name="module_attrs">' + attrs_json + '</textarea>';
                             $(temp_form1).append(append_attrs_field);
 
 
