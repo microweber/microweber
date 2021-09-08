@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\CustomField\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -21,7 +22,7 @@ class CustomFieldRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
-            $getCustomFields = CustomField::query();
+            $getCustomFields = DB::table('custom_fields');
 
             if (!empty($params['id'])) {
                 $getCustomFields->where('id', $params['id']);
@@ -43,23 +44,30 @@ class CustomFieldRepository extends AbstractRepository
             $getCustomFields->orderBy('position', 'asc');
 
             $getCustomFields = $getCustomFields->get();
+            $getCustomFields = collect($getCustomFields)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
 
             $customFields = [];
 
             if ($getCustomFields) {
                 foreach ($getCustomFields as $customField) {
 
-                    $readyCustomField = $customField->toArray();
+                    $readyCustomField = $customField;
 
                     $readyCustomField['value'] = '';
                     $readyCustomField['values'] = [];
                     $readyCustomField['values_plain'] = '';
 
-                    $getCustomFieldValue = $customField->fieldValue()->get();
+                    $getCustomFieldValue = DB::table('custom_fields_values')->where('custom_field_id',$customField['id'])->get();
+                    $getCustomFieldValue = collect($getCustomFieldValue)->map(function ($item) {
+                        return (array)$item;
+                    })->toArray();
+
                     if (isset($getCustomFieldValue[0])) {
-                        $readyCustomField['value'] = $getCustomFieldValue[0]->value;
+                        $readyCustomField['value'] = $getCustomFieldValue[0]['value'];
                         foreach ($getCustomFieldValue as $customFieldValue) {
-                            $readyCustomField['values'][] = $customFieldValue->value;
+                            $readyCustomField['values'][] = $customFieldValue['value'];
                         }
                     }
 
