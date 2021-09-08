@@ -12,7 +12,7 @@ class Format
 
     public function array_to_seperator($array, $seperator = '|')
     {
-        return implode($array, $seperator);
+        return implode($seperator,$array);
     }
 
     /**
@@ -1051,7 +1051,7 @@ class Format
                         }
                     }
                 }
-                
+
                 $tmp_val = $this->array_to_ul($itemCustomFields);
                 $item['custom_fields'] = $tmp_val;
             }
