@@ -58,9 +58,9 @@ class Product extends Content
     ];
 
     public static $contentDataDefault = [
+        'qty'=>'nolimit',
         'sku'=>'',
         'barcode'=>'',
-        'qty'=>'nolimit',
         'track_quantity'=>'',
         'max_quantity_per_order'=>'',
         'sell_oos'=>'',
