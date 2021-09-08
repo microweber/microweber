@@ -672,7 +672,7 @@ abstract class AbstractRepository
     public function makeModel()
     {
         if (empty($this->model)) {
-             throw new RepositoryException('The model class must be set on the repository.');
+            throw new RepositoryException('The model class must be set on the repository.');
         }
 
         return $this->modelInstance = new $this->model;
@@ -938,7 +938,7 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-      $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+        $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
             $searchable = [];
             $model = $this->getModel();
@@ -954,9 +954,7 @@ abstract class AbstractRepository
 //            }
 
 
-          $params =  self::unifyParams($params);
-
-
+            $params = self::unifyParams($params);
 
 
             $columns = $model->getFillable();
@@ -1004,7 +1002,18 @@ abstract class AbstractRepository
                 $count = true;
             } else if (isset($params['page_count'])) {
 
-                $exec = $this->query->count();
+
+                $limit = self::$limit;
+                if (isset($params['limit']) and ($params['limit'] != 'no_limit')) {
+                    $limit = intval($params['limit']);
+                }
+                $page_count = $this->query->count();
+                if($page_count > 0){
+                    $exec =intval(ceil($page_count / $limit));
+                } else {
+                    $exec =0;
+                }
+
 
                 $count = true;
             } else if (isset($params['single']) || isset($params['one'])) {
@@ -1070,8 +1079,13 @@ abstract class AbstractRepository
                 unset($params['count_paging']);
             }
 
+            if (isset($params['orderby'])) {
+                $params['order_by'] = $params['orderby'];
+                unset($params['orderby']);
+            }
+
             if (!isset($params['current_page']) and isset($params['page'])) {
-                // old parameter page, must be removed
+                // old parameter 'page', must be removed and 'current_page' must be used
                 $params['current_page'] = $params['page'];
                 unset($params['page']);
             }
@@ -1093,37 +1107,39 @@ abstract class AbstractRepository
         if (isset($params['no_limit'])) {
             $no_limit = true;
         }
+        if (!isset($params['page_count'])) {
+            if (!$no_limit) {
+                if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+                    $no_limit = true;
+                    unset($params['limit']);
+                }
 
-        if (!$no_limit) {
-            if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
-                $no_limit = true;
-                unset($params['limit']);
-            }
-
-            if (isset($params['limit']) and $params['limit']) {
-                $limit = intval($params['limit']);
-            }
-        }
-
-        if (!$no_limit) {
-            $model->limit($limit);
-
-            if(isset($params['paging_param']) and $params['paging_param']){
-                if(isset($params[$params['paging_param']]) and $params[$params['paging_param']]){
-                    $params['current_page'] = $params[$params['paging_param']];
+                if (isset($params['limit']) and $params['limit']) {
+                    $limit = intval($params['limit']);
                 }
             }
 
+            if (!$no_limit) {
+                $model->limit($limit);
 
-            if (isset($params['current_page']) and $params['current_page']) {
-                $currentPageValue = intval($params['current_page']);
-                if ($currentPageValue > 1) {
-                    $criteria = intval($currentPageValue - 1) * intval($limit);
-
-                    $model->skip($criteria);
+                if (isset($params['paging_param']) and $params['paging_param']) {
+                    if (isset($params[$params['paging_param']]) and $params[$params['paging_param']]) {
+                        $params['current_page'] = $params[$params['paging_param']];
+                    }
                 }
-            }
 
+
+                if (isset($params['current_page']) and $params['current_page']) {
+
+                    $currentPageValue = intval($params['current_page']);
+                    if ($currentPageValue > 1) {
+                        $criteria = intval($currentPageValue - 1) * intval($limit);
+
+                        $model->skip($criteria);
+                    }
+                }
+
+            }
         }
 
         return $model;

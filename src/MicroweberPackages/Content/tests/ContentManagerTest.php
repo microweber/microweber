@@ -69,12 +69,27 @@ class ContentManagerTest extends TestCase
             "paging_param" => "pg",
             "orderby" => "position desc",
             "no_cache" => 1,
-            "limit" => 1,
+            "limit" => 3,
             "page_count" => true
         );
 
         $get = get_content($params);
-        $this->assertEquals(2, $get);
+        $this->assertEquals(1, $get);
+
+        $params = array(
+            "content_type" => "page",
+
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1,
+            "page_count" => true
+        );
+
+        $get_count = get_content('count=1');
+
+        $get = get_content($params);
+        $this->assertEquals($get_count, $get);
+
 
 
         $params = array(
