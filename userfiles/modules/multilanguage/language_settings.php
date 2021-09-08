@@ -17,6 +17,13 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
         add_language_key = false;
         add_language_value = false;
 
+        $('#is_active_quick').on('change', function () {
+            $.post(mw.settings.api_url + "multilanguage/active_language", {active: $(this).is(':checked')}).done(function (data) {
+                mw.reload_module_everywhere('multilanguage');
+                mw.reload_module_everywhere('multilanguage/language_settings');
+            });
+        });
+
         $('.js-add-language').on('click', function () {
 
             $('.js-add-language').html('<?php _e('Importing the language..'); ?>');
@@ -36,8 +43,8 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
                 if (typeof(mw.notification) != 'undefined') {
                     mw.notification.success('Language added...',10000);
-
                 }
+
                 mw.reload_module_everywhere('multilanguage');
                 mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
@@ -227,7 +234,12 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active_quick"><?php _e('No'); ?></label>
-                    <input class="mw_option_field custom-control-input" id="is_active_quick" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                    <input class="custom-control-input" id="is_active_quick"
+                           type="checkbox"
+                           autocomplete="off"
+                           name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?>
+                           data-value-checked="y"
+                           data-value-unchecked="n">
                     <label class="custom-control-label" for="is_active_quick"><?php _e('Yes'); ?></label>
                 </div>
             </div>
