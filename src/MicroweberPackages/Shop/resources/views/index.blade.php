@@ -1,6 +1,6 @@
 {!! $products->scripts() !!}
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
             <div class="card border-0 text-dark bg-white">
@@ -20,12 +20,12 @@
 
         <div class="col-md-9">
             <div class="row">
-                <div class="col-8">
+                <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
                     <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
-                <div class="col-4 d-flex justify-content-end">
-                    <div class="px-1">{!! $products->limit(); !!}</div>
-                    <div class="px-1">{!! $products->sort(); !!}</div>
+                <div class="col-xl-6 col-lg-7 col-lg-5 d-block d-sm-flex justify-content-end ms-auto">
+                    <div class="col-12 col-sm px-1 ms-auto">{!! $products->limit(); !!}</div>
+                    <div class="col-12 col-sm px-1 ms-auto">{!! $products->sort(); !!}</div>
                 </div>
             </div>
             <div class="row">
@@ -34,17 +34,20 @@
                         <a href="{{site_url($product->url)}}">
                             <img src="{{$product->thumbnail(800,800, true)}}" alt="">
 
-                            <h4 class="mt-3">{{$product->title}}</h4>
+                            <h6 class="mt-3">{{$product->title}}</h6>
                         </a>
                         <p>{{$product->content_text}}</p>
 
                         <div class="d-flex py-2">
-                            <p class="col-6 px-0">{{$product->price}}</p>
+                            <p class="col-6 mb-0">
+                                @if($product->hasSpecialPrice())
+                                    <span class="price-old"><?php print currency_format($product->specialPrice); ?></span>
+                                @endif
+                                <span class="money"><?php print currency_format($product->price); ?></span>
+                            </p>
 
                             <a class="col-6 text-end align-self-center" href="{{site_url($product->url)}}"> View</a>
                         </div>
-
-                        <hr />
 
                         @foreach($product->tags as $tag)
                             <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
@@ -56,6 +59,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 
 
