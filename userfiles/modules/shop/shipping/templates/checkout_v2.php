@@ -34,8 +34,8 @@ if (isset($params['selected_provider'])) {
          foreach ($shipping_options as $item) : $count++; ?>
                 <div class="form-group">
                     <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-3">
-                        <label class="control-label">
-                        <input type="radio" onchange="showShippingModule('<?php echo md5($item['module_base']); ?>','<?php echo $item['module_base']; ?>');" name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> checked="checked" <?php endif; ?>">
+                        <label class="control-label d-flex align-items-center">
+                        <input class="mr-2 ms-2" type="radio" onchange="showShippingModule('<?php echo md5($item['module_base']); ?>','<?php echo $item['module_base']; ?>');" name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> checked="checked" <?php endif; ?>">
 
                             <?php
                             if (isset($item['settings']['icon_class'])):
@@ -44,16 +44,17 @@ if (isset($params['selected_provider'])) {
                             <?php
                             endif;
                             ?>
+
+                                <?php print $item['name']; ?>
+                                <?php
+                                if (isset($item['settings']['help_text'])):
+                                ?>
+                                <small class="text-muted">(<?php echo $item['settings']['help_text']; ?>)</small>
+                                <?php
+                                endif;
+                                ?>
                         </label>
-                        <br>
-                    <?php print $item['name']; ?>
-                        <?php
-                        if (isset($item['settings']['help_text'])):
-                        ?>
-                        <small class="text-muted">(<?php echo $item['settings']['help_text']; ?>)</small>
-                        <?php
-                        endif;
-                        ?>
+
                     </div>
                 </div>
 
