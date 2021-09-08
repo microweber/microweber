@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
 
                 {!! $products->filtersActive() !!}
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-lg-9">
             <div class="row">
                 <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
                     <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
@@ -38,7 +38,7 @@
                         </a>
                         <p>{{$product->content_text}}</p>
 
-                        <div class="d-flex py-2">
+                        <div class="d-flex">
                             <p class="col-6 mb-0">
                                 @if($product->hasSpecialPrice())
                                     <span class="price-old"><?php print currency_format($product->specialPrice); ?></span>
@@ -49,9 +49,9 @@
                             <a class="col-6 text-end align-self-center" href="{{site_url($product->url)}}"> View</a>
                         </div>
 
-                        @foreach($product->tags as $tag)
-                            <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
-                        @endforeach
+                        {{--@foreach($product->tags as $tag)--}}
+                            {{--<span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>--}}
+                        {{--@endforeach--}}
                     </div>
                 @endforeach
             </div>
