@@ -5,12 +5,12 @@ if (!function_exists('run_translate_manager')) {
     {
         $currentLocale = mw()->lang_helper->current_lang();
         if (is_lang_correct($currentLocale)) {
-
             $translate = new \MicroweberPackages\Multilanguage\TranslateManager();
             $translate->run();
         }
     }
 }
+
 if (!function_exists('get_rel_id_by_multilanguage_url')) {
     function get_rel_id_by_multilanguage_url($url, $relType = false)
     {
