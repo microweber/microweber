@@ -55,7 +55,13 @@ class CustomFieldRepository extends AbstractRepository
 
                     $readyCustomField = $customField;
 
-                    $readyCustomField['options'] = json_decode($customField['options'], true);
+                    $options = [];
+                    $decodeOptions = json_decode($customField['options'], true);
+                    if (is_array($decodeOptions)) {
+                        $options = $decodeOptions;
+                    }
+
+                    $readyCustomField['options'] = $options;
                     $readyCustomField['value'] = '';
                     $readyCustomField['values'] = [];
                     $readyCustomField['values_plain'] = '';
