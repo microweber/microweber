@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/multilanguage",
+  "description": "Multilanguage",
+  "license": "MIT",
+  "homepage": "https://microweber.org/modules/microweber-modules/multilanguage",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "multilanguage"
+  ],
+  "type": "microweber-module",
+  "target-dir": "multilanguage"
+}
