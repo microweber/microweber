@@ -7,8 +7,27 @@
  */
 namespace MicroweberPackages\Multilanguage;
 
+use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
+
 class MultilanguageApi
 {
+    public function activateLanguage($params)
+    {
+        if (isset($params['active'])) {
+            if ($params['active'] == 'true') {
+                $defaultLang = mw()->lang_helper->default_lang();
+                $findDefaultLangInSupportedLocales = MultilanguageSupportedLocales::where('locale', $defaultLang)->first();
+                if ($findDefaultLangInSupportedLocales == null) {
+                    add_supported_language($defaultLang, $defaultLang);
+                }
+                save_option('is_active','y','multilanguage_settings');
+            } else {
+                save_option('is_active','n','multilanguage_settings');
+            }
+            clearcache();
+        }
+    }
+
     public function deleteLanguage($params)
     {
         if (isset($params['id'])) {

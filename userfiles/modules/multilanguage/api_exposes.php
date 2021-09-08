@@ -58,6 +58,13 @@ api_expose_admin('multilanguage/edit_locale', function ($params) {
     return ['error'=>true];
 });
 
+api_expose_admin('multilanguage/active_language', function ($params) {
+
+    $api = new MultilanguageApi();
+    return $api->activateLanguage($params);
+
+});
+
 
 api_expose_admin('multilanguage/delete_language', function ($params) {
 
