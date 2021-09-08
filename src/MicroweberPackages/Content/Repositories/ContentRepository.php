@@ -287,7 +287,7 @@ class ContentRepository extends AbstractRepository
             }
 
             return $tagNames;
-            
+
         });
     }
 

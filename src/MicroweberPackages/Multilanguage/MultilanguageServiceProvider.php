@@ -19,6 +19,7 @@ use MicroweberPackages\Form\FormElementBuilder;
 use MicroweberPackages\Module\Module;
 use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
 class MultilanguageServiceProvider extends ServiceProvider
@@ -56,12 +57,17 @@ class MultilanguageServiceProvider extends ServiceProvider
             $isMultilanguageActive = false;
         }
 
-        MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
-
-
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();
         });
+
+        $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
+        if (empty($getSupportedLocales)) {
+            $isMultilanguageActive = false;
+        }
+
+        MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
+
 
         if ($isMultilanguageActive) {
 
