@@ -849,18 +849,23 @@ class FormsManager
         //this function is experimental
         set_time_limit(0);
 
-        //   $data_for_csv = array();
 
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
         if (!isset($params['id'])) {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
             $lid = intval($params['id']);
-           // $data = get_form_entires('limit=100000&list_id=' . $lid);
-            $data = get_form_entires('limit=100000');
+            if($lid != 0){
+             $data = get_form_entires('nolimit=true');
+            } else {
+                $data = get_form_entires('nolimit=true&list_id=' . $lid);
+
+            }
+             if(!$data){
+                 return array('warning' => 'This list is empty');
+
+             }
+
+          //  $data = get_form_entires('limit=100000');
 
             $surl = $this->app->url_manager->site();
             $csv_output = '';

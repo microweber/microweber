@@ -178,6 +178,13 @@ class ContactFormTest extends TestCase
             $this->assertTrue(in_array($to, $customReceivers));
         }
 
+
+
+
+        // test the export
+        $export = app()->forms_manager->export_to_excel(['id'=>0]);
+        $this->assertTrue(isset($export['success']));
+        $this->assertTrue(isset($export['download']));
     }
 
     public function testCustomContactFormSettingsSubmit()
