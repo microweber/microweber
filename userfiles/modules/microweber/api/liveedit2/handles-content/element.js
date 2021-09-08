@@ -46,11 +46,13 @@ export const ElementHandleContent = function (proto) {
             className: 'mw-handle-item-element-image-control'
         }
     });
-    this.imageControl.on('click', function (){
-        proto.dialog({
-
-        })
+    const filemng = new proto.settings.filePickerAdapter({
+        element: this.imageControl.get(0),
+        onResult: (res) => {
+            this.menu.getTarget().src = res
+        }
     })
+
     this.root.append(this.imageControl)
 
 }

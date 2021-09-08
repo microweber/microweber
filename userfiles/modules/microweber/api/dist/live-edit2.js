@@ -1717,11 +1717,13 @@ const ElementHandleContent = function (proto) {
             className: 'mw-handle-item-element-image-control'
         }
     });
-    this.imageControl.on('click', function (){
-        proto.dialog({
-
-        })
+    const filemng = new proto.settings.filePickerAdapter({
+        element: this.imageControl.get(0),
+        onResult: (res) => {
+            this.menu.getTarget().src = res
+        }
     })
+
     this.root.append(this.imageControl)
 
 }
@@ -2751,6 +2753,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+class FilePickerAdapter {
+    constructor(options) {
+        if(!options) {
+            options = {}
+        }
+        const defaults = {
+            element: null,
+            onResult: null
+        }
+        this.settings = Object.assign({}, defaults, options);
+        this.create()
+    }
+
+    create() {
+        const input = (0,_element__WEBPACK_IMPORTED_MODULE_10__.ElementManager)({
+            tag: 'input',
+            props: {
+                type: 'file',
+                accept: 'image/*'
+            }
+        })
+        input.on('input', () => {
+            var reader = new FileReader();
+            reader.readAsDataURL(input.get(0).files[0]);
+            reader.onload = () => {
+                if(this.settings.onResult) {
+                    this.settings.onResult.call(this, reader.result)
+                }
+            };
+        });
+        this.settings.element.appendChild(input.get(0))
+    }
+}
+
 class LiveEdit {
 
     constructor(options) {
@@ -2776,6 +2813,7 @@ class LiveEdit {
             emptyElementClass: 'empty-element',*/
             nodrop: 'nodrop',
             allowDrop: 'allow-drop',
+            filePickerAdapter: FilePickerAdapter,
             unEditableModules: [
                 '[type="template_settings"]'
             ],
