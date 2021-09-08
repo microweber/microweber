@@ -420,26 +420,7 @@ class ContentManager
 
     public function tags($content_id = false, $return_full = false)
     {
-        $query = \Illuminate\Support\Facades\DB::table('tagging_tagged');
-        $query->where('taggable_type','content');
-        if ($content_id) {
-            $query->where('taggable_id', $content_id);
-        }
-
-        $getTagged = $query->get();
-        $getTagged = collect($getTagged)->map(function ($item) {
-            return (array)$item;
-        })->toArray();
-
-        if ($return_full) {
-            return $getTagged;
-        }
-        $tagNames = [];
-        foreach ($getTagged as $tagged) {
-            $tagNames[] = $tagged['tag_name'];
-        }
-
-        return $tagNames;
+        return $this->app->content_repository->tags($content_id, $return_full);
     }
 
     public function attributes($content_id)
