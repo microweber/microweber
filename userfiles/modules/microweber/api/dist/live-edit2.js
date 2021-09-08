@@ -1669,8 +1669,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../element */ "./userfiles/modules/microweber/api/liveedit2/element.js");
-/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
-
 
 
 
@@ -1714,6 +1712,17 @@ const ElementHandleContent = function (proto) {
     this.menu.show()
 
     this.root.append(this.menu.root)
+    this.imageControl = (0,_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+        props: {
+            className: 'mw-handle-item-element-image-control'
+        }
+    });
+    this.imageControl.on('click', function (){
+        proto.dialog({
+
+        })
+    })
+    this.root.append(this.imageControl)
 
 }
 
@@ -2879,6 +2888,8 @@ class LiveEdit {
                 title = scope.lang('Paragraph')
             } else if(/(H[1-6])/.test(target.nodeName)) {
                 title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
+            } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
+                title = scope.lang('Image');
             } else {
                 title = scope.lang('Text')
             }

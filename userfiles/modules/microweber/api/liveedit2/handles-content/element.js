@@ -1,6 +1,5 @@
 import {HandleMenu} from "../handle-menu";
 import {ElementManager} from "../element";
-import {Dialog} from "../dialog";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({
@@ -42,6 +41,17 @@ export const ElementHandleContent = function (proto) {
     this.menu.show()
 
     this.root.append(this.menu.root)
+    this.imageControl = ElementManager({
+        props: {
+            className: 'mw-handle-item-element-image-control'
+        }
+    });
+    this.imageControl.on('click', function (){
+        proto.dialog({
+
+        })
+    })
+    this.root.append(this.imageControl)
 
 }
 

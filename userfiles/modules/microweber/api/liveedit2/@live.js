@@ -122,7 +122,6 @@ export class LiveEdit {
         const elementHandleContent = new ElementHandleContent(this);
         const moduleHandleContent = new ModuleHandleContent(this);
         const layoutHandleContent = new LayoutHandleContent(this);
-        const imageHandleContent = new IayoutHandleContent(this);
 
         this.dialog = function (options) {
             if(!options){
@@ -150,6 +149,8 @@ export class LiveEdit {
                 title = scope.lang('Paragraph')
             } else if(/(H[1-6])/.test(target.nodeName)) {
                 title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
+            } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
+                title = scope.lang('Image');
             } else {
                 title = scope.lang('Text')
             }
