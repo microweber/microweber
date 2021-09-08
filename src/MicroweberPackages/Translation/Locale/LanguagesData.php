@@ -8,8 +8,14 @@ use WhiteCube\Lingua\LanguagesRepository;
 
 class LanguagesData
 {
+    public static $cache = [];
+
     public static function getLanguagesWithLocales()
     {
+        if(self::$cache){
+            return self::$cache;
+        }
+
         $ready = [];
 
         $langs = new LanguagesRepository();
@@ -64,6 +70,7 @@ class LanguagesData
                 }
             }
         }
+        self::$cache = $ready;
         return $ready;
 
     }

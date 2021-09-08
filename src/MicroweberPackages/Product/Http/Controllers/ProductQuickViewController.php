@@ -19,7 +19,8 @@ class ProductQuickViewController
                 $productAsArray =  [
                     'id'=>$product->id,
                     'url'=>$product->url,
-                    'thumbnail'=>$product->thumbnail(800,800, true),
+                  //  'thumbnail'=>$product->thumbnail(800,800, true),
+                    'thumbnail'=>app()->content_repository->getThumbnail($product->id,800,800, true),
                     'title'=>$product->title,
                     'description'=>$product->description,
                     'shortDescription'=>$product->shortDescription(200),

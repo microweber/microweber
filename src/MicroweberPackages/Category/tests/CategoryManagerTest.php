@@ -139,5 +139,132 @@ class CategoryManagerTest extends TestCase
 
 
     }
+    public function testCategorySearchByKeyword()
+    {
+        $clean = Category::truncate();
+
+        $category = new Category();
+        $category->title = 'New cat testCategorySearchByKeyword'.uniqid();
+        $category->save();
+
+
+        $category2 = new Category();
+        $category2->title = 'New cat2 testCategorySearchByKeyword'.uniqid();
+        $category2->parent_id = $category->id;
+        $category2->save();
+
+
+        $get_categories_kw = get_categories(['keyword'=>$category2->title]);
+        $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
+
+        $title = $category2->title;
+
+        $params = [];
+        $params['__query_test_if_callback_works'] = function ($query) use($title){
+            return $query->whereIn('id', function ($subQuery)   use($title)  {
+                $subQuery->select('categories.id');
+                $subQuery->from('categories');
+                $subQuery->where('categories.title', '=', $title);
+            });
+        };
+        $get_categories_kw = get_categories($params);
+        $this->assertEquals($get_categories_kw[0]['id'], $category2->id);
+
+
+    }
+    public function testCategoryJsonTreeAdmin()
+    {
+
+        $clean = Content::truncate();
+        $clean = Category::truncate();
+
+        $newSimplePage = new Page();
+        $newSimplePage->title = 'testCategoryJsonTreeAdminPageStatic0_'.uniqid();
+        $newSimplePage->content_type = 'page';
+        $newSimplePage->subtype = 'static';
+        $newSimplePage->save();
+
+
+        $newBlogPage = new Page();
+        $newBlogPage->title = 'testCategoryJsonTreeAdmin_'.uniqid();
+        $newBlogPage->content_type = 'page';
+        $newBlogPage->subtype = 'dynamic';
+        $newBlogPage->save();
+
+
+
+        $category = new Category();
+        $category->title = 'New cat testCategoryJsonTreeAdmin_'.uniqid();
+        $category->rel_type = 'content';
+        $category->rel_id = $newBlogPage->id;
+        $category->save();
+
+
+        $category2 = new Category();
+        $category2->title = 'New cat2 testCategoryJsonTreeAdmin_'.uniqid();
+        $category2->parent_id = $category->id;
+        $category2->save();
+
+        $category3 = new Category();
+        $category3->title = 'New cat3 testCategoryJsonTreeAdmin_'.uniqid();
+        $category3->parent_id = $category2->id;
+        $category3->save();
+
+        $children_test = $category->children;
+
+        $this->assertEquals($children_test[0]->id, $category2->id);
+        $this->assertEquals($children_test[0]->title, $category2->title);
+        $this->assertEquals($children_test[0]->parent_id, $category2->parent_id);
+
+        $children_test = $category2->children;
+        $this->assertEquals($children_test[0]->id, $category3->id);
+        $this->assertEquals($children_test[0]->title, $category3->title);
+        $this->assertEquals($children_test[0]->parent_id, $category3->parent_id);
+
+
+
+
+        $jsonTree= app()->category_manager->get_admin_js_tree_json(['from_content_id'=>$newBlogPage->id]);
+
+        $this->assertEquals($jsonTree[0]['id'], $newBlogPage->id);
+        $this->assertEquals($jsonTree[0]['parent_type'], 'page');
+        $this->assertEquals($jsonTree[0]['type'], 'page');
+        $this->assertEquals($jsonTree[0]['parent_id'], 0);
+
+        $this->assertEquals($jsonTree[1]['id'], $category->id);
+        $this->assertEquals($jsonTree[1]['parent_type'], 'page');
+        $this->assertEquals($jsonTree[1]['type'], 'category');
+        $this->assertEquals($jsonTree[1]['parent_id'], $newBlogPage->id);
+
+        $this->assertEquals($jsonTree[2]['id'], $category2->id);
+        $this->assertEquals($jsonTree[2]['parent_type'], 'category');
+        $this->assertEquals($jsonTree[2]['type'], 'category');
+        $this->assertEquals($jsonTree[2]['parent_id'], $category->id);
+
+
+        $this->assertEquals($jsonTree[3]['id'], $category3->id);
+        $this->assertEquals($jsonTree[3]['parent_type'], 'category');
+        $this->assertEquals($jsonTree[3]['type'], 'category');
+        $this->assertEquals($jsonTree[3]['parent_id'], $category2->id);
+
+
+
+        $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>$newBlogPage->title]);
+
+        $this->assertEquals($jsonTreeKw[0]['id'], $newBlogPage->id);
+        $this->assertEquals($jsonTreeKw[0]['parent_type'], 'page');
+        $this->assertEquals($jsonTreeKw[0]['type'], 'page');
+        $this->assertEquals($jsonTreeKw[0]['parent_id'], 0);
+
+
+        $get_content_kw = get_content(['keyword'=>$newBlogPage->title]);
+        $this->assertEquals($get_content_kw[0]['id'], $newBlogPage->id);
+
+
+
+
+
+
+    }
 
 }

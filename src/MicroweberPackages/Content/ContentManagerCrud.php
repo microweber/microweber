@@ -548,13 +548,18 @@ class ContentManagerCrud extends Crud
 
             $data_to_save['title'] = $data['title'];
         }
-
+        $thetitle = false;
+        $theurl = false;
         if (!isset($data['url']) and intval($data['id']) != 0) {
             $q = $this->get_by_id($data_to_save['id']);
+            if(isset($q['title'])){
+                $thetitle = $q['title'];
+            }
+            if(isset($q['url'])){
+                $q = $q['url'];
+                $theurl = $q;
+            }
 
-            $thetitle = $q['title'];
-            $q = $q['url'];
-            $theurl = $q;
         } else {
             $thetitle = date("Ymdhis");
             if (isset($data['title']) and $data['title']) {

@@ -208,7 +208,9 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-       return $this->crud->get_by_id($id);
+        return app()->content_repository->getById($id);
+
+      //  return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -418,26 +420,7 @@ class ContentManager
 
     public function tags($content_id = false, $return_full = false)
     {
-       /* $data = array();
-        $data['table'] = $this->tables['content'];
-        if ($content_id) {
-            $data['id'] = intval($content_id);
-        }
-        return $this->app->tags_manager->get_values($data, $return_full);*/
-
-        $query = Tagged::query();
-        $query->where('taggable_type','content');
-
-        if ($content_id) {
-            $query->where('taggable_id', $content_id);
-        }
-        $tags = $query->get();
-        $pluck = $tags->pluck('tag_name');
-        if ($return_full) {
-            return $tags;
-        } else {
-            return $pluck->toArray();
-        }
+        return $this->app->content_repository->tags($content_id, $return_full);
     }
 
     public function attributes($content_id)
@@ -2754,6 +2737,8 @@ class ContentManager
         if (!isset($params['content_type'])) {
             $params['content_type'] = 'page';
         }
+
+
 
         return $this->get($params);
     }

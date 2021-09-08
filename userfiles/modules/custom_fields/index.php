@@ -7,11 +7,6 @@ if (isset($params['for'])) {
     $for = $params['for'];
 }
 
-
-
-
-
-
 if (isset($params['data-skip-type'])) {
     $skip_types = explode(',', $params['data-skip-type']);
     $skip_types = array_trim($skip_types);

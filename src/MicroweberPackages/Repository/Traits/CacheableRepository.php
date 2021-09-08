@@ -95,6 +95,21 @@ trait CacheableRepository
      */
     public function getCacheKey($method, $args = null, $tag =[])
     {
+
+        if($method==='getById' and is_array($args) and isset($args[0]) and is_numeric($args[0])){
+
+            return sprintf(
+                '%s-%s--%s-%s',
+                app()->getLocale(),
+                implode('-',$tag),
+                $method,
+                intval($args[0])
+            );
+        }
+
+
+
+
         $hashArgs = [];
         // Sort through arguments
         foreach ($args as $k=>$a) {
@@ -109,6 +124,8 @@ trait CacheableRepository
 //                //$a = get_class($a) . '|' . $a->getKey();
 //            }
         }
+
+
 
 
 
@@ -152,7 +169,7 @@ trait CacheableRepository
             // return from local memory to prevent cache hits
             return self::$_cacheCallbackMemory[$_cacheCallback_memory_key];
         }
-      
+
 
         return self::$_cacheCallbackMemory[$_cacheCallback_memory_key] = self::getCacheInstance()->tags($tag)->remember(
             $cacheKey,

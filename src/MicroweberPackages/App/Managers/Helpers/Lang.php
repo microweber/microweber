@@ -42,7 +42,7 @@ class Lang
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-
+        $this->clearCache();
         mw()->option_manager->clear_memory();
 
 //        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
@@ -67,21 +67,29 @@ class Lang
      *  print $current_lang;
      * </code>
      */
+
+    public static $_currentLang = false;
     function current_lang()
     {
-//        if($this->lang){
-//            return $this->lang;
-//        }
+        if ($this->lang) {
+            return $this->lang;
+        }
+        if (self::$_currentLang) {
+            return self::$_currentLang;
+        }
+
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
             $lang = $_COOKIE['lang'];
-            if ($lang != $app_locale) {
+            $is_real_lang = is_lang_correct($lang);
+            if ($is_real_lang and $lang != $app_locale) {
                 set_current_lang($lang);
                 $app_locale = app()->getLocale();
             }
         }
 
+        self::$_currentLang = $app_locale;
         return $app_locale;
     }
 
@@ -94,26 +102,39 @@ class Lang
         return $this->current_lang();
     }
 
+    public static $_defaultLang = false;
+
+    public function clearCache(){
+        self::$_defaultLang = null;
+    }
+
     function default_lang()
     {
-        $lang = 'en_US'; // dont use current language
+        if (self::$_defaultLang) {
+            return self::$_defaultLang;
+        }
+
+       // $lang = 'en_US'; // dont use current language
+        $lang =  app()->getLocale();
+
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
             if ($lang_opt) {
                 $lang = $lang_opt;
             }
+
         }
+
+        self::$_defaultLang = $lang;
 
         return $lang;
     }
 
     function __store_lang_file_ns($lang = false)
     {
-
         if (!is_admin()) {
             return;
         }
-
 
         global $mw_new_language_entries_ns;
 

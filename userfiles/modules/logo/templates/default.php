@@ -33,7 +33,7 @@ $size = $size . 'px';
         if (is_live_edit()) { ?><span class="mw-logo-no-values"><?php _e('Click to add logo'); ?></span><?php }
     } else { ?>
         <?php if ($logotype == 'image' or $logotype == false or $logotype == 'both') { ?><?php if($logoimage != '' and $logoimage != false){ ?><span class="mw-ui-col" style="width: <?php print $size; ?>">
-            <img src="<?php print $logoimage; ?>" alt="" style="max-width: 100%;width: <?php print $size; ?>;"/>
+            <img src="<?php print $logoimage; ?>" alt="<?php print htmlentities(addslashes($logo_title)); ?>" style="max-width: 100%;width: <?php print $size; ?>;"/>
             </span><?php }} ?>
         <?php if ($logotype == 'text' or $logotype == false or $logotype == 'both') { ?><span class="mw-ui-col"><span
                 class="module-logo-text"

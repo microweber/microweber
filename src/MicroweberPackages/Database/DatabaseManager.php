@@ -948,7 +948,7 @@ class DatabaseManager extends DbUtils
 
     public function table($table, $params = [])
     {
-       // return DB::table($table);
+     // return DB::table($table);
 
 //        if (isset(self::$model_cache_mem[$table])) {
 //           // $instance = self::$model_cache_mem[$table]->newInstance($params, true);

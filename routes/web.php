@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('mw-test-api', function () {
 
+    $get = MicroweberPackages\Content\Content::where('id', '17')->first();
+
+    dd($get);
+
     /*$menuModel = \MicroweberPackages\Menu\Menu::where('id', 16)->first();
     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 

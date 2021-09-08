@@ -17,6 +17,10 @@ if (isset($params['logo-name'])) {
  * Example with one get with model by group:
  * Rendering logo (12.4ms)
  */
+
+$logo_title = app()->option_manager->get('website_title', 'website');
+
+
 $logo_options = [];
 $logo_options['logotype'] = '';
 $logo_options['logoimage'] = '';
@@ -169,9 +173,6 @@ if (!empty($logoimage_inverse)) {
 if ($hideUploadLogoText == false) {
     print lnotif("Upload your logo");
 }
-
-
-
 
 
 

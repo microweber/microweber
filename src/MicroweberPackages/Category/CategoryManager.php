@@ -236,6 +236,12 @@ class CategoryManager
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
+
+//        if($type == false and $visible_on_frontend==false){
+        // bug in get_admin_js_tree_json
+//         return app()->category_repository->getSubCategories($parent_id);
+//        }
+
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
 
@@ -427,7 +433,14 @@ class CategoryManager
             }
         }
 
-        $data = $this->app->database_manager->get($data);
+
+  //  $data = $this->app->database_manager->get($data);
+     $data = $this->app->category_repository->getByParams($data);
+
+
+
+
+
 
         return $data;
     }
@@ -974,8 +987,12 @@ class CategoryManager
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
 
+
+        if (isset($params['from_content_id'])) {
+            $pages_params['id'] = intval($params['from_content_id']);
+        }
         if (isset($params['is_shop'])) {
-            $pages_params['is_shop'] = intval($params['is_shop']);
+            $pages_params['is_shop'] = trim($params['is_shop']);
         }
 
         if (isset($params['keyword'])) {

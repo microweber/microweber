@@ -10,10 +10,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 class Format
 {
 
-    public function array_to_seperator($array, $seperator = '|')
-    {
-        return implode($array, $seperator);
-    }
+  
 
     /**
      * Prints an array in unordered list - <ul>.
@@ -1051,7 +1048,7 @@ class Format
                         }
                     }
                 }
-                
+
                 $tmp_val = $this->array_to_ul($itemCustomFields);
                 $item['custom_fields'] = $tmp_val;
             }

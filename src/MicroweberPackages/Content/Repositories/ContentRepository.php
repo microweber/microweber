@@ -38,10 +38,10 @@ class ContentRepository extends AbstractRepository
      */
     public function getMedia($id)
     {
-        $existingIds = $this->getIdsThatHaveRelation('media', 'content');
-        if (!in_array($id, $existingIds)) {
-            return [];
-        }
+//        $existingIds = $this->getIdsThatHaveRelation('media', 'content');
+//        if (!in_array($id, $existingIds)) {
+//            return [];
+//        }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -106,10 +106,10 @@ class ContentRepository extends AbstractRepository
      */
     public function getContentData($id)
     {
-        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
-        if (!in_array($id, $existingIds)) {
-            return [];
-        }
+//        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
+//        if (!in_array($id, $existingIds)) {
+//            return [];
+//        }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -135,10 +135,10 @@ class ContentRepository extends AbstractRepository
      */
     public function getCustomFields($id)
     {
-        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
-        if (!in_array($id, $existingIds)) {
-            return [];
-        }
+//        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
+//        if (!in_array($id, $existingIds)) {
+//            return [];
+//        }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
@@ -263,9 +263,37 @@ class ContentRepository extends AbstractRepository
 
     }
 
+    public function tags($content_id = false, $return_full = false)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use($content_id, $return_full) {
+
+            $query = \Illuminate\Support\Facades\DB::table('tagging_tagged');
+            $query->where('taggable_type', 'content');
+            if ($content_id) {
+                $query->where('taggable_id', $content_id);
+            }
+
+            $getTagged = $query->get();
+            $getTagged = collect($getTagged)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            if ($return_full) {
+                return $getTagged;
+            }
+            $tagNames = [];
+            foreach ($getTagged as $tagged) {
+                $tagNames[] = $tagged['tag_name'];
+            }
+
+            return $tagNames;
+
+        });
+    }
+
     public function getFirstShopPage()
     {
-        $shop_page = $this->cacheCallback(__FUNCTION__, func_get_args(), function ()  {
+        $shop_page = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
             $check = DB::table('content')
                 ->select('id')
                 ->where('content_type', '=', 'page')
@@ -279,9 +307,39 @@ class ContentRepository extends AbstractRepository
         });
 
         if ($shop_page and isset($shop_page['id'])) {
-           return $this->getById($shop_page['id']);
+            return $this->getById($shop_page['id']);
         }
 
     }
+
+    public function getThumbnail($contentId, $width = false, $height = false, $crop = false)
+    {
+
+        $media_filename = $this->cacheCallback(__FUNCTION__ . '_media__filename', func_get_args(), function () use ($contentId, $width, $height, $crop) {
+
+            $check = DB::table('media');
+            $check->select('filename');
+            $check->where('rel_id', $contentId);
+            $check->where('rel_type', 'content');
+            $check->orderBy('position', 'asc');
+            $check->limit(1);
+
+            $media = $check->first();
+            if ($media) {
+                return $media->filename;
+            }
+            return false;
+
+        });
+
+        if ($media_filename and is_string($media_filename)) {
+            return thumbnail($media_filename, $width, $height, $crop);
+        }
+
+        return pixum($width, $height);
+
+
+    }
+
 
 }

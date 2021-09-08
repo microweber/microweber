@@ -31,6 +31,7 @@ class ModuleManager
     public $tables = array();
     public $app = null;
     public $ui = array();
+    private $activeLicenses = array();
     public $table_prefix = false;
     public $current_module = false;
     public $current_module_params = false;
@@ -54,6 +55,11 @@ class ModuleManager
             }
         }
         $this->set_table_names();
+        if(mw_is_installed()){
+            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table='.$this->tables['system_licenses']);
+         }
+
+
     }
 
     public function set_table_names($tables = false)
@@ -823,7 +829,8 @@ class ModuleManager
     {
         $module_name = str_replace('\\', '/', $module_name);
         //   $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
-        $licenses = $this->app->update->get_licenses('nolimit=1&status=active');
+        $licenses = $this->activeLicenses;
+        //$licenses = $this->app->update->get_licenses('nolimit=1&status=active');
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {

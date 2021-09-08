@@ -16,6 +16,7 @@ class ModuleFrontController
     {
         $this->moduleParams = $params;
         $this->moduleOptions = Option::where('option_group', $this->moduleParams['id'])->get();
+     //   $this->moduleOptions = app()->option_repository->getOptionsByGroup($this->moduleParams['id']);
     }
 
     public function setModuleConfig($config)
@@ -35,7 +36,7 @@ class ModuleFrontController
         } else {
             $templateFile = module_templates($this->moduleConfig['module'], 'default');
         }
-
+        
         if ($templateFile) {
             $templateDir = dirname($templateFile);
             if (is_dir($templateDir)) {

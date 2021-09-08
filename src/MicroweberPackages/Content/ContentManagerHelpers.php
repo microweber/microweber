@@ -1113,6 +1113,9 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($opts_saved)) {
             $this->app->cache_manager->delete('options');
         }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
 
         return $json_print;
     }

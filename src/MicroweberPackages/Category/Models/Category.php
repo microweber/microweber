@@ -5,16 +5,20 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Category extends Model
 {
+    use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;
     use Filterable;
+    use HasSearchableTrait;
     use ContentDataTrait;
     use HasCreatedByFieldsTrait;
     use MaxPositionTrait;
@@ -48,6 +52,27 @@ class Category extends Model
       //  "thumbnail",
         "url",
         "users_can_create_content",
+        "category_subtype",
+        "category_meta_title",
+        "category_meta_description",
+        "category_meta_keywords"
+    ];
+
+    protected $searchable = [
+        "id",
+        "rel_type",
+        "rel_id",
+        "data_type",
+        "parent_id",
+        "title",
+        "content",
+        "description",
+        "position",
+        "url",
+        "is_hidden",
+        "is_deleted",
+        "users_can_create_content",
+        "users_can_create_content_allowed_usergroups",
         "category_subtype",
         "category_meta_title",
         "category_meta_description",

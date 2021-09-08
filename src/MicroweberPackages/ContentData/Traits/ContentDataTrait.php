@@ -31,10 +31,7 @@ trait ContentDataTrait
             if (!empty($model->_addContentData) && is_array($model->_addContentData)) {
 
                 foreach($model->_addContentData as $fieldName=>$fieldValue) {
-                    $fieldValue = trim($fieldValue);
-                    if ($fieldValue == '') {
-                        continue;
-                    }
+
                     $findContentData = ContentData::where('rel_id', $model->id)
                         ->where('rel_type', $model->getMorphClass())
                         ->where('field_name', $fieldName)

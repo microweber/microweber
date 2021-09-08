@@ -271,7 +271,7 @@ class OptionManager
             if(isset($this->options_memory[$optionGroup])){
                 $allOptions = $this->options_memory[$optionGroup];
             } else {
-                $this->options_memory[$optionGroup] =  $allOptions =  app()->option_repository->getByParams('no_limit=1&fields=id,option_key,option_group,option_value&option_group='.$optionGroup);
+                $this->options_memory[$optionGroup] =  $allOptions =  app()->option_repository->getOptionsByGroup($optionGroup);
 
 
             }
@@ -485,6 +485,7 @@ class OptionManager
 
                 $this->app->cache_manager->delete('options');
                 $this->app->cache_manager->delete('content');
+                $this->app->cache_manager->delete('repositories');
                 $this->clear_memory();
 
                 return $save;

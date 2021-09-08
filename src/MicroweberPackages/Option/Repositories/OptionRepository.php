@@ -49,8 +49,9 @@ class OptionRepository extends AbstractRepository
         if (!mw_is_installed()) {
             return $websiteOptions;
         }
+        $getWebsiteOptions = $this->getOptionsByGroup('website');
 
-        $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
+      //  $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
         if (!empty($getWebsiteOptions)) {
             foreach ($getWebsiteOptions as $websiteOption) {
                 $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];

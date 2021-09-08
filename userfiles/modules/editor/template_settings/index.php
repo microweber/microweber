@@ -5,8 +5,10 @@
 <script>mw.lib.require('bootstrap3ns');</script>
 <script>
     function resetToDefault() {
-        mw.tools.confirm_reset_module_by_id('<?php echo $option_group; ?>')
-        window.parent.location.reload(false);
+        mw.tools.confirm_reset_module_by_id('<?php echo $option_group; ?>', function (){
+            parent.location.reload(false);
+        })
+
     }
 
 </script>

@@ -13,11 +13,13 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
+    use HasMultilanguageTrait;
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;

@@ -672,7 +672,7 @@ abstract class AbstractRepository
     public function makeModel()
     {
         if (empty($this->model)) {
-            throw new RepositoryException('The model class must be set on the repository.');
+             throw new RepositoryException('The model class must be set on the repository.');
         }
 
         return $this->modelInstance = new $this->model;
@@ -943,6 +943,16 @@ abstract class AbstractRepository
             $searchable = [];
             $model = $this->getModel();
             $table = $model->getTable();
+//            if($table == 'content'){
+//
+//                if(isset($params['single'])) {
+//                    if (isset($params['id'])) {
+//                        //  dump($params);
+//                        dd(debug_backtrace(1));
+//                    }
+//                }
+//            }
+
             $columns = $model->getFillable();
             if (method_exists($model, 'getSearchable')) {
                 $searchable = $model->getSearchable();

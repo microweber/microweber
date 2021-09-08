@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
     <div class="row pt-5">
-        <div class="col-md-3">
+        <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
 
                 {!! $posts->filtersActive() !!}
@@ -18,7 +18,7 @@
              </div>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-lg-9">
             <div class="row">
                 <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
                     <p> <?php _e("Displaying"); ?> {{$posts->count()}} <?php _e("of"); ?> {{ $posts->total() }}  <?php _e("result(s)"); ?>.</p>
@@ -32,7 +32,12 @@
             @foreach($posts->results() as $post)
                 <div class="col-md-6 mb-5">
                     <a href="{{site_url($post->url)}}">
-                        <img src="{{$post->thumbnail(800,500, true)}}" alt="">
+
+                        <?php
+                        /*<img src="{{$post->thumbnail(800,500, true)}}" alt="">*/
+                        ?>
+
+                        <img src="{{app()->content_repository->getThumbnail($post->id,800,500, true)}}" alt="">
 
                         <h4 class="mt-3">{{$post->title}}</h4>
                     </a>
