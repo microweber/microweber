@@ -255,10 +255,13 @@ class ContentManagerCrud extends Crud
 
 
 
-        if (!isset($params['fields']) and !isset($params['count']) and !isset($params['count_paging'])) {
+        if (!isset($params['fields']) and !isset($params['count']) and !isset($params['page_count'])) {
             $get = false;
             $params['fields'] = 'id';
             $getIds = app()->content_repository->getByParams($params);
+
+
+
             if ($getIds) {
                 if(isset($params['single']) or isset($params['one'])){
                     $getIds = array_values($getIds);
@@ -287,6 +290,9 @@ class ContentManagerCrud extends Crud
             $get = app()->content_repository->getByParams($params);
 
         }
+
+
+
       //$get = app()->content_repository->getByParams($params);
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Content\tests;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class ContentManagerTest extends TestCase
@@ -34,6 +35,8 @@ class ContentManagerTest extends TestCase
 
     public function testPages()
     {
+        $clean = Content::truncate();
+
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
@@ -58,6 +61,58 @@ class ContentManagerTest extends TestCase
             'is_active' => 1,);
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
+
+
+
+        $params = array(
+            "content_type" => "page",
+            "paging_param" => "pg",
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1,
+            "page_count" => true
+        );
+
+        $get = get_content($params);
+        $this->assertEquals(2, $get);
+
+
+        $params = array(
+            "content_type" => "page",
+            "page" => 2, // old parameter for current_page
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+        $params = array(
+            "content_type" => "page",
+            "current_page" => 2,
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+        $params = array(
+            "content_type" => "page",
+            "paging_param" => "mypagingparam",
+            "mypagingparam" => 2,
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+
         //clean
         $delete_parent = delete_content($parent_page);
         $delete_sub_page = delete_content($sub_page);
@@ -71,6 +126,12 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
         $this->assertEquals('My test sub page', $get_sub_page['title']);
         $this->assertEquals($sub_page, $get_sub_page['id']);
+
+
+
+
+
+
     }
 
     public function testGetPages()

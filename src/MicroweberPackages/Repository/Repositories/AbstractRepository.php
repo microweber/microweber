@@ -938,7 +938,7 @@ abstract class AbstractRepository
      */
     public function getByParams($params = [])
     {
-        $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
+      $result = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($params) {
 
             $searchable = [];
             $model = $this->getModel();
@@ -952,6 +952,12 @@ abstract class AbstractRepository
 //                    }
 //                }
 //            }
+
+
+          $params =  self::unifyParams($params);
+
+
+
 
             $columns = $model->getFillable();
             if (method_exists($model, 'getSearchable')) {
@@ -984,6 +990,7 @@ abstract class AbstractRepository
             $this->query = self::queryClosureLogic($this->query, $table, $columns, $params);
             $this->query = self::queryExcludeIdsLogic($this->query, $table, $columns, $params);
             $this->query = self::queryIncludeIdsLogic($this->query, $table, $columns, $params);
+
             $this->query = self::queryLimitLogic($this->query, $table, $columns, $params);
             $this->query = self::queryGroupByLogic($this->query, $table, $columns, $params);
             $this->query = self::queryOrderByLogic($this->query, $table, $columns, $params);
@@ -994,6 +1001,11 @@ abstract class AbstractRepository
             $count = false;
             if (isset($params['count']) and $params['count']) {
                 $exec = $this->query->count();
+                $count = true;
+            } else if (isset($params['page_count'])) {
+
+                $exec = $this->query->count();
+
                 $count = true;
             } else if (isset($params['single']) || isset($params['one'])) {
                 $exec = $this->query->first();
@@ -1050,6 +1062,27 @@ abstract class AbstractRepository
 
     }
 
+    public static function unifyParams($params)
+    {
+        if (is_array($params)) {
+            if (isset($params['count_paging'])) {
+                $params['page_count'] = $params['count_paging'];
+                unset($params['count_paging']);
+            }
+
+            if (!isset($params['current_page']) and isset($params['page'])) {
+                // old parameter page, must be removed
+                $params['current_page'] = $params['page'];
+                unset($params['page']);
+            }
+
+            if (!isset($params['no_limit']) and isset($params['nolimit'])) {
+                $params['no_limit'] = $params['nolimit'];
+                unset($params['nolimit']);
+            }
+        }
+        return $params;
+    }
 
     public static function queryLimitLogic($model, $table, $columns, $params)
     {
@@ -1057,7 +1090,7 @@ abstract class AbstractRepository
         $limit = self::$limit;
         $no_limit = false;
 
-        if (isset($params['no_limit']) or isset($params['nolimit'])) {
+        if (isset($params['no_limit'])) {
             $no_limit = true;
         }
 
@@ -1074,10 +1107,19 @@ abstract class AbstractRepository
 
         if (!$no_limit) {
             $model->limit($limit);
+
+            if(isset($params['paging_param']) and $params['paging_param']){
+                if(isset($params[$params['paging_param']]) and $params[$params['paging_param']]){
+                    $params['current_page'] = $params[$params['paging_param']];
+                }
+            }
+
+
             if (isset($params['current_page']) and $params['current_page']) {
                 $currentPageValue = intval($params['current_page']);
                 if ($currentPageValue > 1) {
                     $criteria = intval($currentPageValue - 1) * intval($limit);
+
                     $model->skip($criteria);
                 }
             }

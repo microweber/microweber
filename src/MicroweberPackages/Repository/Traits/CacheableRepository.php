@@ -156,9 +156,19 @@ trait CacheableRepository
     public function cacheCallback($method, $args, Closure $callback, $time = null)
     {
         // Cache disabled, just execute query & return result
+        $skipCache = false;
+
+
         if ($this->skippedCache() === true) {
+            $skipCache = true;
+        } else if(is_array($args) and isset($args[0]) and is_array($args[0]) and isset($args[0]['no_cache']) and $args[0]['no_cache']){
+            $skipCache = true;
+        }
+
+        if ($skipCache === true) {
             return call_user_func($callback);
         }
+
          // Use the called class name as the tag
         $tag = $this->generateCacheTags();
         $cacheKey =  $this->getCacheKey($method, $args, $tag);
