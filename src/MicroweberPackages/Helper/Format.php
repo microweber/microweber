@@ -10,10 +10,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 class Format
 {
 
-    public function array_to_seperator($array, $seperator = '|')
-    {
-        return implode($seperator,$array);
-    }
+  
 
     /**
      * Prints an array in unordered list - <ul>.
