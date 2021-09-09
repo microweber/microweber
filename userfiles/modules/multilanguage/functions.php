@@ -49,7 +49,6 @@ template_head(function () {
         $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
         $content_link = $pm->link(CONTENT_ID, 'content');
 
-
         if ($currentLang == $locale['locale']) {
             $locale['locale'] = 'x-default';
         }
