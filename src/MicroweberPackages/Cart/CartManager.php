@@ -663,7 +663,7 @@ class CartManager extends Crud
 
         $product_prices = array();
         if ($for == 'content') {
-            $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
+            $prices_data = app()->shop_manager->get_product_prices($for_id, true);
             if ($prices_data) {
                 foreach ($prices_data as $price_data) {
                     if (isset($price_data['name'])) {
@@ -675,10 +675,17 @@ class CartManager extends Crud
 
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
-//            // dont allow custom price
-//            if (isset($data['price'])) {
-//                $found_price = $data['price'];
-//            }
+
+            if (isset($data['price'])) {
+
+                if ($product_prices) {
+                    foreach ($product_prices as $price) {
+                        if ($price['value'] == $data['price']) {
+                            $found_price = $data['price'];
+                        }
+                    }
+                }
+            }
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
