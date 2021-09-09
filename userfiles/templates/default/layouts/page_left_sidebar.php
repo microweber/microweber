@@ -27,8 +27,8 @@ description: Page with left sidebar
 				</div>
 			</div>
 			<div class="col-sm-7 col-md-8">
-				<h1 class="edit"  field="title" rel="content">New page</h1>
-				<div class="edit"  field="content" rel="content">
+				<h1 class="edit"  field="title" rel="module">New page</h1>
+				<div class="edit"  field="content" rel="module">
 					<p>You can edit this text</p>
 				</div>
 			</div>

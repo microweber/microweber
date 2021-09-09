@@ -19,8 +19,8 @@ description: Page with right sidebar
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-				<h2 class="edit"  field="title" rel="content">New page</h2>
-				<div class="edit"  field="content" rel="content">
+				<h2 class="edit"  field="title" rel="module">New page</h2>
+				<div class="edit"  field="content" rel="module">
 					<p>You can edit this text</p>
 				</div>
 			</div>
