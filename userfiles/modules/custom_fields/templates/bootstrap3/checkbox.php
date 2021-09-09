@@ -11,7 +11,7 @@
                 <?php $i++; ?>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="<?php echo $data["name"]; ?>[]" id="field-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/> <?php echo $value; ?>
+                        <input type="checkbox" name="<?php echo $data["name_key"]; ?>[]" id="field-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/> <?php echo $value; ?>
                     </label>
                 </div>
 

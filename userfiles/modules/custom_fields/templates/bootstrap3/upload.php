@@ -19,7 +19,7 @@
       <span class="mw-ui-btn" id="upload_button_<?php echo($rand); ?>">
         <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
         </span>
-                    <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"/>
+                    <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name_key"]; ?>" autocomplete="off"/>
 
                     <input type="hidden" <?php if ($settings['required']) { ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name_key"]; ?>" autocomplete="off"/>
 
@@ -43,7 +43,7 @@
     $(document).ready(function () {
         var uploader = mw.files.uploader({
             multiple: false,
-            name: '<?php echo $data["name"]; ?>',
+            name: '<?php echo $data["name_key"]; ?>',
             autostart: true,
             element: document.getElementById('upload_button_<?php echo($rand); ?>'),
             filetypes: '<?php if ($settings['options']['file_types']): ?><?php echo implode(",", $settings['options']['file_types']); ?> <?php endif ?>'
@@ -54,7 +54,7 @@
 
         $(uploader).on('FilesAdded', function (frame, file) {
 
-            document.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
+            document.getElementById('file_name<?php echo $data["name_key"]; ?>').value = file[0].name;
 
         });
 
