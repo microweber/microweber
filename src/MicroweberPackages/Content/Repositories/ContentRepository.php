@@ -88,7 +88,10 @@ class ContentRepository extends AbstractRepository
         $ready = [];
         if ($categoryIds) {
             foreach ($categoryIds as $k => $v) {
-                $ready[] = app()->category_repository->getById($v);
+                $is_cat = app()->category_repository->getById($v);
+                if ($is_cat) {
+                    $ready[] = $is_cat;
+                }
             }
         }
 
