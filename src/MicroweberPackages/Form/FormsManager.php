@@ -399,6 +399,7 @@ class FormsManager
                     $validatorMessages = reset($inputFieldErros);
                 }
                 return array(
+                    'form_errors'=>$validator->messages()->toArray(),
                     'error' => $validatorMessages
                 );
             }
@@ -493,6 +494,7 @@ class FormsManager
                         $validatorMessages = reset($inputFieldErros);
                     }
                     return array(
+                        'form_errors'=>$validator->messages()->toArray(),
                         'error' => $validatorMessages
                     );
                 }
