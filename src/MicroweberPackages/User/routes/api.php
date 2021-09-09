@@ -27,6 +27,13 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');
+
+        Route::post('api/save_user', function (Request $request) {
+            $input = Input::all();
+            return save_user($input);
+        });
+
+
     });
 
 Route::post('api/save_user', function (Request $request) {
