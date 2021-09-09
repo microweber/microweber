@@ -675,9 +675,10 @@ class CartManager extends Crud
 
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
-            if (isset($data['price'])) {
-                $found_price = $data['price'];
-            }
+//            // dont allow custom price
+//            if (isset($data['price'])) {
+//                $found_price = $data['price'];
+//            }
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
