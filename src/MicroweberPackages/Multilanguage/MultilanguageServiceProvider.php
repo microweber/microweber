@@ -63,7 +63,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         });
 
         if (!Schema::hasTable('multilanguage_supported_locales')) {
-            return;
+            mw_post_update();
         }
 
         $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
