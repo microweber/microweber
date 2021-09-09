@@ -508,26 +508,30 @@ class FrontendController extends Controller
         }
 
         if (in_array($api_function, $api_auth_exposed)) {
-            $request = request();
-            $request->merge($_GET);
-            $request->merge($_POST);
-            $ref = $request->headers->get('referer');
+            if($api_function != 'clearcache') {
 
-            $same_site = app()->make(SameSiteRefererMiddleware::class);
-            $is_same_site = $same_site->isSameSite($ref);
 
-            if (!$is_same_site) {
-                $bearer_token = $request->bearerToken();
-                $is_bearer_token_valid = false;
-                if($bearer_token){
-                    $validator = app()->make(ApiAuth::class);
-                    $is_bearer_token_valid = $validator->validateBearerToken($bearer_token);
-                }
-                if (!$is_bearer_token_valid) {
-                    $validator = app()->make(VerifyCsrfTokenHelper::class);
-                    $is_token_valid = $validator->isValid($request);
-                    if (!$is_token_valid) {
-                        App::abort(403, 'Unauthorized action. Token is invalid for the API function.');
+                $request = request();
+                $request->merge($_GET);
+                $request->merge($_POST);
+                $ref = $request->headers->get('referer');
+
+                $same_site = app()->make(SameSiteRefererMiddleware::class);
+                $is_same_site = $same_site->isSameSite($ref);
+
+                if (!$is_same_site) {
+                    $bearer_token = $request->bearerToken();
+                    $is_bearer_token_valid = false;
+                    if ($bearer_token) {
+                        $validator = app()->make(ApiAuth::class);
+                        $is_bearer_token_valid = $validator->validateBearerToken($bearer_token);
+                    }
+                    if (!$is_bearer_token_valid) {
+                        $validator = app()->make(VerifyCsrfTokenHelper::class);
+                        $is_token_valid = $validator->isValid($request);
+                        if (!$is_token_valid) {
+                            App::abort(403, 'Unauthorized action. Token is invalid for the API function.');
+                        }
                     }
                 }
             }
