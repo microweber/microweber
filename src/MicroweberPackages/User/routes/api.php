@@ -6,12 +6,16 @@
 * Time: 5:50 PM
 */
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 // OLD API SAVE USER
 Route::post('api/save_user', function (Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
+    }
+    if(!is_logged()){
+        App::abort(403, 'Unauthorized action.');
     }
     $input = Input::all();
     return save_user($input);
