@@ -12,10 +12,8 @@ use Illuminate\Http\Request;
 
 class FormController
 {
-
     public function post(Request $request)
     {
         return mw()->forms_manager->post($request->all());
-
     }
 }
