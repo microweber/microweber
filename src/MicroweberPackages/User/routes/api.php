@@ -8,6 +8,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+// OLD API SAVE USER
+Route::post('api/save_user', function (Request $request) {
+    if (!defined('MW_API_CALL')) {
+        define('MW_API_CALL', true);
+    }
+    $input = Input::all();
+    return save_user($input);
+});
+
+
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
     Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
@@ -27,19 +37,4 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');
-
-        Route::post('api/save_user', function (Request $request) {
-            $input = Input::all();
-            return save_user($input);
-        });
-
-
     });
-
-Route::post('api/save_user', function (Request $request) {
-    if (!defined('MW_API_CALL')) {
-        define('MW_API_CALL', true);
-    }
-    $input = Input::all();
-    return save_user($input);
-});
