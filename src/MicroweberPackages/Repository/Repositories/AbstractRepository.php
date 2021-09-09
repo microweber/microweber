@@ -1331,7 +1331,10 @@ abstract class AbstractRepository
         if (is_array($id)) {
             $ready = [];
             foreach ($id as $k => $v) {
-                $ready[$k] = $this->getById($v);
+                $get =  $this->getById($v);
+                if($get){
+                    $ready[$k] = $get;
+                }
             }
             return $ready;
         }
