@@ -2,7 +2,13 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
+use MicroweberPackages\App\Http\Middleware\ApiAuth;
+use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
+use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -12,6 +18,7 @@ use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response;
 use voku\helper\AntiXSS;
 
@@ -265,19 +272,27 @@ class FrontendController extends Controller
 
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
-
+        $api_auth_exposed = ' ';
         if (mw()->user_manager->is_logged()) {
-            $api_exposed .= (api_expose_user(true));
+            $get_exposed = (api_expose_user(true));
+            $api_exposed .= $get_exposed;
+            $api_auth_exposed .= $get_exposed;
         }
 
         if (is_admin()) {
-            $api_exposed .= (api_expose_admin(true));
+            $get_exposed = (api_expose_admin(true));
+            $api_exposed .= $get_exposed;
+            $api_auth_exposed .= $get_exposed;
         }
 
 
         $api_exposed = explode(' ', $api_exposed);
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
+
+        $api_auth_exposed = explode(' ', $api_auth_exposed);
+        $api_auth_exposed = array_unique($api_auth_exposed);
+        $api_auth_exposed = array_trim($api_auth_exposed);
 
         $hooks = api_bind(true);
         if (mw()->user_manager->is_logged()) {
@@ -492,6 +507,32 @@ class FrontendController extends Controller
             $err = true;
         }
 
+        if (in_array($api_function, $api_auth_exposed)) {
+            $request = request();
+            $request->merge($_GET);
+            $request->merge($_POST);
+            $ref = $request->headers->get('referer');
+
+            $same_site = app()->make(SameSiteRefererMiddleware::class);
+            $is_same_site = $same_site->isSameSite($ref);
+
+            if (!$is_same_site) {
+                $bearer_token = $request->bearerToken();
+                $is_bearer_token_valid = false;
+                if($bearer_token){
+                    $validator = app()->make(ApiAuth::class);
+                    $is_bearer_token_valid = $validator->validateBearerToken($bearer_token);
+                }
+                if (!$is_bearer_token_valid) {
+                    $validator = app()->make(VerifyCsrfTokenHelper::class);
+                    $is_token_valid = $validator->isValid($request);
+                    if (!$is_token_valid) {
+                        App::abort(403, 'Unauthorized action. Token is invalid for the API function.');
+                    }
+                }
+            }
+        }
+
         if ($err == true) {
             foreach ($api_exposed as $api_exposed_item) {
                 if ($api_exposed_item == $api_function) {
@@ -599,7 +640,12 @@ class FrontendController extends Controller
         } else {
             $api_function = mw()->format->clean_html($api_function);
             $api_function = mw()->format->clean_xss($api_function);
-            mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+
+            App::abort(403, 'The api function is not defined in the allowed functions list');
+
+
+
+          //  mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
         }
 
         if (isset($res)) {

@@ -21,7 +21,7 @@ class SameSiteRefererMiddleware
         $full_url = $request->headers->get('referer');
 
         if ($full_url) {
-            $result = Str::startsWith($full_url, site_url());
+            $result = $this->isSameSite($full_url);
             if (!$result) {
                 $error = 'You are not allowed to make requests from this address';
                 return abort(403, $error);
@@ -29,6 +29,11 @@ class SameSiteRefererMiddleware
         }
         return $next($request);
 
+    }
+
+    public function isSameSite($url)
+    {
+        return Str::startsWith($url, site_url());
     }
 
 
