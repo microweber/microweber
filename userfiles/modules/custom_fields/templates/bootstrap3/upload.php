@@ -21,7 +21,7 @@
         </span>
                     <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"/>
 
-                    <input type="hidden" <?php if ($settings['required']) { ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name"]; ?>" autocomplete="off"/>
+                    <input type="hidden" <?php if ($settings['required']) { ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name_key"]; ?>" autocomplete="off"/>
 
                     <span class="ellipsis" id="val_<?php echo $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
 
