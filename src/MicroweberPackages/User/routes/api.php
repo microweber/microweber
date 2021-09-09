@@ -17,7 +17,6 @@ Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namesp
     Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
 
-
     Route::post('/profile-update', 'UserProfileController@update')->name('profile.update');
 
 });
@@ -27,11 +26,13 @@ Route::name('api.')
     ->middleware(['api'])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
-
-        Route::post('save_user', function (Request $request) {
-            $input = Input::all();
-            return save_user($input);
-        });
-
         Route::apiResource('user', 'UserApiController');
     });
+
+Route::post('api/save_user', function (Request $request) {
+    if (!defined('MW_API_CALL')) {
+        define('MW_API_CALL', true);
+    }
+    $input = Input::all();
+    return save_user($input);
+});
