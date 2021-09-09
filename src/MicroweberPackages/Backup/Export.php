@@ -335,6 +335,7 @@ class Export
         $this->skipTables[] = 'translation_keys';
         $this->skipTables[] = 'translation_texts';
         $this->skipTables[] = 'media_thumbnails';
+        $this->skipTables[] = 'personal_access_tokens';
 
         return $this->skipTables;
     }
