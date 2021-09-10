@@ -61,7 +61,7 @@ $saveRoute = route('api.user.store');
         var userId = <?php print $data['id']; ?>;
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {
             if (confirm("Are you sure you want to delete this user?")) {
-                $.post("<?php print api_url('delete_user') ?>", {id: $user_id})
+                $.post("<?php print api_link() ?>delete_user", {id: $user_id})
                     .done(function (data) {
                         location.href = "<?php print admin_url('view:modules/load_module:users'); ?>";
                     });

@@ -19,8 +19,18 @@ Route::post('api/save_user', function (Request $request) {
     }
     $input = Input::all();
     return save_user($input);
-});
+})->middleware(['api']);
 
+Route::post('api/delete_user', function (Request $request) {
+    if (!defined('MW_API_CALL')) {
+        define('MW_API_CALL', true);
+    }
+    if(!is_admin()){
+        App::abort(403, 'Unauthorized action.');
+    }
+    $input = Input::all();
+    return delete_user($input);
+})->middleware(['api']);
 
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
