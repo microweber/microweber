@@ -13,11 +13,18 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'email' => 'required|unique:users',
-            'api_key' => 'unique:users',
-            'username' => 'unique:users',
+        $ignore_id =  \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id);
+        $ignore_api_key =  \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->api_key);
+        $ignore_username =  \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->username);
+        $ignore_email =  \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->email);
+
+        return [
+            'email' => ['required', 'email',$ignore_email],
+            'username' => ['required',$ignore_username],
+            'api_key' => [$ignore_api_key]
         ];
+
+
 
         return $rules;
     }

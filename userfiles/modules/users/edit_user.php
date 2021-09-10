@@ -42,8 +42,12 @@ if (isset($data[0]) == false) {
 
 if(isset( $data['id']) and  $data['id'] != 0){
 $saveRoute = route('api.user.update',$data['id']);
+    $saveRouteMethod = "PATCH";
+
 } else {
 $saveRoute = route('api.user.store');
+    $saveRouteMethod = "PUT";
+
 }
 
 
@@ -119,7 +123,7 @@ $saveRoute = route('api.user.store');
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
-            },false,false,false,false,'PUT');
+            },false,false,false,false,'<?php print $saveRouteMethod ?>');
         }
 
 
@@ -243,6 +247,10 @@ $saveRoute = route('api.user.store');
 
                         <input type="hidden" name="id" value="<?php print $data['id']; ?>">
                         <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
+
+                        <?php if ($data['id'] > 0): ?>
+                            <input name="_method" type="hidden" value="PATCH">
+                        <?php endif; ?>
 
                         <div class="d-block">
                             <small class="d-block text-muted text-center mb-4 mt-2"><?php _e("Fill in the fields to create a new user"); ?></small>
