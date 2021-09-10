@@ -943,16 +943,6 @@ abstract class AbstractRepository
             $searchable = [];
             $model = $this->getModel();
             $table = $model->getTable();
-//            if($table == 'content'){
-//
-//                if(isset($params['single'])) {
-//                    if (isset($params['id'])) {
-//                        //  dump($params);
-//                        dd(debug_backtrace(1));
-//                    }
-//                }
-//            }
-
 
             $params = self::unifyParams($params);
 
