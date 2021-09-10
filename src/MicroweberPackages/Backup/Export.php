@@ -145,7 +145,7 @@ class Export
     public function start()
     {
 
-        $readyData = $this->_getReadyDataCached();
+        $readyData = $this->_getReadyData();
 
         if (empty($readyData)) {
             return array("error" => "Empty content data.");
@@ -157,29 +157,6 @@ class Export
     private function _getExportDataHash()
     {
         return md5(json_encode($this->exportData));
-    }
-
-    private function _getReadyDataCached()
-    {
-
-        return $this->_getReadyData();
-
-        /* $exportDataHash = $this->_getExportDataHash();
-
-        $zipExport = new ZipExport();
-        $currentStep = $zipExport->getCurrentStep();
-
-        if ($currentStep == 0) {
-            // This is frist step
-            Cache::forget($exportDataHash);
-            return Cache::rememberForever($exportDataHash, function () {
-                return $this->_getReadyData();
-            });
-        } else {
-            BackupExportLogger::setLogInfo('Start exporting selected data...');
-            // This is for the next steps from wizard
-            return Cache::get($exportDataHash);
-        } */
     }
 
     private function _getReadyData()
@@ -238,7 +215,6 @@ class Export
             }
 
             $tableContent = $this->_getTableContent($table, $ids);
-
             if (!empty($tableContent)) {
 
                 $exportTables->addItemsToTable($table, $tableContent);
@@ -266,6 +242,8 @@ class Export
 
             }
         }
+
+        
 
         $exportTablesReady = $exportTables->getAllTableItems();
         $exportTablesReady['__table_structures'] = $tablesStructures;
