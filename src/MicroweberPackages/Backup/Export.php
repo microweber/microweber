@@ -44,6 +44,7 @@ class Export
 
         if (array_key_exists('media', $data)) {
             $exportMediaUserFiles = true;
+            $this->exportMedia = true;
         }
 
         $export = $this->_getExporter($data);
