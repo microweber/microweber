@@ -2,10 +2,12 @@
 namespace MicroweberPackages\Menu;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Menu extends Model
 {
+    use CacheableQueryBuilderTrait;
     use HasMultilanguageTrait;
 
     public $fillable = [
@@ -28,4 +30,5 @@ class Menu extends Model
 
     public $translatable = ['title'];
 
+    public $cacheTagsToClear = ['menus','repositories','content'];
 }
