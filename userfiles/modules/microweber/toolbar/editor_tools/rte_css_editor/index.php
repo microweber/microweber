@@ -311,6 +311,22 @@ var _populate = {
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
                 this.value = mw.color.rgbOrRgbaToHex(color);
+
+                this.type = 'text'
+                 var el = this;
+                mw.colorPicker({
+                    element: this,
+                    position: 'bottom-right',
+                    onchange: function (color){
+                        if(el.dataset.prop) {
+                            output(el.dataset.prop, color);
+                        } else if(el.dataset.func) {
+                            eval(el.dataset.func + '(' + color + ')');
+                        } else {
+                            $(el).trigger('colorChange', color)
+                        }
+                    }
+                })
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -548,7 +564,7 @@ var init = function(){
 
 
 mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
-    if(nodes && nodes[0]){
+    if(nodes && nodes[0] && nodes[0].nodeType === 1){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
         ActiveNode = nodes[0];
@@ -761,6 +777,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </label>
             </div>
         </div>
+
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
