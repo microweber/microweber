@@ -641,7 +641,7 @@ var domHelp = {
         return false;
     },
     generateSelectorForNode: function (node, strict) {
-        if(typeof strict === 'undefined') {
+         if(typeof strict === 'undefined') {
             strict = true;
         }
         if (node === null || node.nodeType === 3) {
