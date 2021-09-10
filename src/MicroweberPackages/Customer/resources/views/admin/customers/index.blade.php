@@ -109,6 +109,7 @@
                     <label class="custom-control-label" for="delete-all">&nbsp;</label>
                 </div>
             </th>
+            <th class="border-0 font-weight-bold">ID</th>
             <th class="border-0 font-weight-bold"><?php _e('Client'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('E-mail'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('Phone'); ?></th>
@@ -126,6 +127,7 @@
                     <label class="custom-control-label" for="delete-{{$customer->id}}">&nbsp;</label>
                 </div>
             </th>
+            <td>{{ $customer->id }}</td>
             <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
             <td>{{ $customer->email }}</td>
             <td>{{ $customer->phone }}</td>
