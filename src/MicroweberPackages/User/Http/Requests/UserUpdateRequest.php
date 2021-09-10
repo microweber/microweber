@@ -17,6 +17,7 @@ class UserUpdateRequest extends FormRequest
 
         $user =$this->user();
         $ignore = false;
+        
         if($user){
             $ignore =   Rule::unique('users')->ignore($this->user);
         }
@@ -26,11 +27,5 @@ class UserUpdateRequest extends FormRequest
             'username' => ['required',$ignore],
         ];
 
-
-
-
-
-
-        return $rules;
     }
 }
