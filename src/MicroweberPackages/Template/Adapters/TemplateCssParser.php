@@ -186,6 +186,8 @@ class TemplateCssParser
          $variables =  $this->_getOptionVariables($optionGroupName);
 
         if(!$variables){
+            $cssOrigFileDistContent = $this->replaceAssetsRelativePaths($cssOrigFileDistContent,$params);
+
             $response = \Response::make($cssOrigFileDistContent);
             $response->header('Content-Type', 'text/css');
             return $response;
@@ -196,7 +198,7 @@ class TemplateCssParser
         $compiler->addImportPath(dirname($outputFileLocations['styleFilePath']).'/');
 
         $cssContent = $compiler->compile($cssOrig,dirname($outputFileLocations['styleFilePath']).'/');
-       // dump($cssContent);
+
 
         $cssContent = $this->replaceAssetsRelativePaths($cssContent,$params);
 
@@ -226,14 +228,12 @@ class TemplateCssParser
 
     public function replaceAssetsRelativePaths($cssContent, $params)
     {
+
         if ($cssContent and isset($params['template_folder']) and isset($params['path'])) {
 
             $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname(dirname($params['path'])) . '/';
             $cssContent = str_replace('../', $template_url_css_assets, $cssContent);
-//
-//
-//            $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname($params['path']) . '/';
-//            $cssContent = str_replace('./', $template_url_css_assets, $cssContent);
+
         }
         return $cssContent;
     }
