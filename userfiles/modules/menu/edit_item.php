@@ -260,7 +260,7 @@ if ($id == 0) {
                     }
 
 
-                    console.log(ldata)
+
 
                     var url = ldata.url,
                         target = ldata.target,
@@ -269,8 +269,7 @@ if ($id == 0) {
 
                     root.find('[name="title"]').val(name);
                     root.find('[name="url"]').val(url);
-                    console.log(scope)
-                    console.log(scope.dataset)
+
 
                     var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
                     var fields = mw.$('[name="content_id"], [name="categories_id"]', parent).val('0');
@@ -282,8 +281,6 @@ if ($id == 0) {
                             fields.filter('[name="categories_id"]').val(data.id);
                         }
                     }
-                    field.trigger('change')
-
                     if (scope.nodeName === 'INPUT') {
                         scope.value = url;
                         $(scope).trigger('change')
@@ -291,6 +288,7 @@ if ($id == 0) {
                         if (scope.dataset.for) {
                             var field = $('#' + scope.dataset.for);
                             field.val(url);
+                            field.trigger('change')
                         }
                     }
                     //link.dialog.remove();

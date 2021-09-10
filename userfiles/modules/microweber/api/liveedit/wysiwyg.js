@@ -1751,6 +1751,7 @@ mw.wysiwyg = {
     link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
         mw.wysiwyg.save_selection();
+
         var el = node_id ? document.getElementById(node_id) : mw.tools.firstParentWithTag(getSelection().focusNode, 'a');
         var val;
         var sel = getSelection();
@@ -1784,6 +1785,8 @@ mw.wysiwyg = {
         .then(function (result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
+
+            mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(mw.top().win.getSelection().focusNode.parentElement, 'edit'))
         });
 
 

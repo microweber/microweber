@@ -6,7 +6,31 @@
 * Time: 5:50 PM
 */
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+
+// OLD API SAVE USER
+Route::post('api/save_user', function (Request $request) {
+    if (!defined('MW_API_CALL')) {
+        define('MW_API_CALL', true);
+    }
+    if(!is_logged()){
+        App::abort(403, 'Unauthorized action.');
+    }
+    $input = Input::all();
+    return save_user($input);
+})->middleware(['api']);
+
+Route::post('api/delete_user', function (Request $request) {
+    if (!defined('MW_API_CALL')) {
+        define('MW_API_CALL', true);
+    }
+    if(!is_admin()){
+        App::abort(403, 'Unauthorized action.');
+    }
+    $input = Input::all();
+    return delete_user($input);
+})->middleware(['api']);
 
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
@@ -16,7 +40,6 @@ Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namesp
 
     Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
-
 
     Route::post('/profile-update', 'UserProfileController@update')->name('profile.update');
 
@@ -29,4 +52,3 @@ Route::name('api.')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');
     });
-

@@ -455,6 +455,8 @@ class FieldsManager
             }
         }
 
+        app()->custom_field_repository->flushCache();
+
         return $customField->id;
     }
 

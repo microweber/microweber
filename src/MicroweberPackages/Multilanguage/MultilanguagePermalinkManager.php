@@ -19,6 +19,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         $this->structureMapPrefix[] = 'locale';
 
         $getLinkAfter = $this->__getLinkAfter();
+
         if ($getLinkAfter) {
             $this->linkAfter[] = $getLinkAfter;
         }
@@ -100,50 +101,28 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
     public function clearCache()
     {
-        self::$__getLinkAfterDefaultLang = false;
         self::$__getLinkAfterLocaleSettings = false;
         self::$_linkContent = [];
     }
 
-    private static $__getLinkAfterDefaultLang = false;
     private static $__getLinkAfterLocaleSettings = false;
     public function __getLinkAfter()
     {
-
-        $rewriteUrl = false;
-
-        if (!self::$__getLinkAfterDefaultLang) {
-            self::$__getLinkAfterDefaultLang = get_option('language', 'website');
-        }
-
         $currentLang = $this->language;
 
-        if (self::$__getLinkAfterDefaultLang !== $currentLang) {
-            $rewriteUrl = true;
+        // Display locale
+        if (!isset(self::$__getLinkAfterLocaleSettings[$currentLang])) {
+            self::$__getLinkAfterLocaleSettings[$currentLang] = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);
         }
 
-        // needs fix
-        $prefixForAll = 'y';
-        if ($prefixForAll == 'y') {
-            $rewriteUrl = true;
-        }
-        if ($rewriteUrl) {
-            // Display locale
-            if (!self::$__getLinkAfterLocaleSettings) {
-                self::$__getLinkAfterLocaleSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);
-            }
-
-            if (self::$__getLinkAfterLocaleSettings !== null) {
-                if (!empty(self::$__getLinkAfterLocaleSettings['display_locale'])) {
-                    $currentLang = self::$__getLinkAfterLocaleSettings['display_locale'];
-                } elseif (!empty(self::$__getLinkAfterLocaleSettings['locale']))  {
-                    $currentLang = self::$__getLinkAfterLocaleSettings['locale'];
-                }
+        if (isset(self::$__getLinkAfterLocaleSettings[$currentLang]) && self::$__getLinkAfterLocaleSettings[$currentLang] !== null) {
+            if (!empty(self::$__getLinkAfterLocaleSettings[$currentLang]['display_locale'])) {
+                $currentLang = self::$__getLinkAfterLocaleSettings[$currentLang]['display_locale'];
+            } elseif (!empty(self::$__getLinkAfterLocaleSettings[$currentLang]['locale']))  {
+                $currentLang = self::$__getLinkAfterLocaleSettings[$currentLang]['locale'];
             }
         }
 
-        if ($rewriteUrl) {
-            return $currentLang;
-        }
+        return $currentLang;
     }
 }

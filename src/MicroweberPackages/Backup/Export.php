@@ -335,6 +335,7 @@ class Export
         $this->skipTables[] = 'translation_keys';
         $this->skipTables[] = 'translation_texts';
         $this->skipTables[] = 'media_thumbnails';
+        $this->skipTables[] = 'personal_access_tokens';
 
         return $this->skipTables;
     }
@@ -355,6 +356,21 @@ class Export
         if (!empty($this->exportData['contentIds'])) {
             if (!in_array('content', $this->exportData['tables'])) {
                 $this->exportData['tables'][] = 'content';
+                $this->exportData['tables'][] = 'categories';
+                $this->exportData['tables'][] = 'categories_items';
+                $this->exportData['tables'][] = 'content_data';
+                $this->exportData['tables'][] = 'content_fields';
+                $this->exportData['tables'][] = 'content_related';
+                $this->exportData['tables'][] = 'custom_fields';
+                $this->exportData['tables'][] = 'custom_fields_values';
+                $this->exportData['tables'][] = 'elements';
+                $this->exportData['tables'][] = 'media';
+                $this->exportData['tables'][] = 'menus';
+                $this->exportData['tables'][] = 'testimonials';
+                $this->exportData['tables'][] = 'tagging_tagged';
+                $this->exportData['tables'][] = 'tagging_tags';
+                $this->exportData['tables'][] = 'tagging_tag_groups';
+                $this->exportData['tables'][] = 'options';
             }
         }
 

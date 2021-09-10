@@ -17,6 +17,7 @@ class CheckoutTest extends TestCase
 
     private function _addProductToCart($title)
     {
+        app()->database_manager->extended_save_set_permission(true);
 
         $productPrice = rand(1, 4444);
 
@@ -26,7 +27,7 @@ class CheckoutTest extends TestCase
             'subtype' => 'product',
             'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
-                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+                array('type' => 'price', 'name' => 'Price', 'value' => $productPrice),
 
             ),
             'is_active' => 1,);
@@ -51,6 +52,7 @@ class CheckoutTest extends TestCase
 
     public function testCheckout()
     {
+        empty_cart();
 
      \Config::set('mail.transport', 'array');
 

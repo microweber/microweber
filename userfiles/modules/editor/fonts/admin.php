@@ -36,6 +36,7 @@
                     el.href = custom_fonts_stylesheet_restyled;
                 }
                 mw.reload_module_everywhere('editor/fonts/select_option');
+                mw.reload_module_everywhere('settings/template');
                 mw.notification.success('<?php _ejs('Fonts updated'); ?>');
             }
         });

@@ -10,6 +10,7 @@ use MicroweberPackages\Page\Models\Page;
 class CheckoutControllerTest extends TestCase
 {
     public static $content_id = 1;
+    public static $productPrice = 0;
     public $session_cookie;
     public $session_id;
 
@@ -19,10 +20,14 @@ class CheckoutControllerTest extends TestCase
 
         $this->session_id = session()->getId();
         $this->session_cookie = [session()->getName() => $this->session_id];
+
+
     }
 
     private function _addProductToCart($title)
     {
+        app()->database_manager->extended_save_set_permission(true);
+
 
         $productPrice = rand(1, 4444);
 
@@ -30,9 +35,10 @@ class CheckoutControllerTest extends TestCase
             'title' => $title,
             'content_type' => 'product',
             'subtype' => 'product',
+
             'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
-                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+                array('type' => 'price', 'name' => 'Price', 'value' => $productPrice),
 
             ),
             'is_active' => 1, 'is_deleted' => 0);
@@ -40,9 +46,13 @@ class CheckoutControllerTest extends TestCase
 
         $saved_id = save_content($params);
         $get = get_content_by_id($saved_id);
+        $prices_data = app()->shop_manager->get_product_prices($saved_id, false);
+
+        $this->assertEquals($prices_data['Price'],$productPrice);
 
         $this->assertEquals($saved_id, ($get['id']));
         self::$content_id = $saved_id;
+        self::$productPrice = $productPrice;
 
         $add_to_cart = array(
             'content_id' => self::$content_id,
@@ -53,6 +63,11 @@ class CheckoutControllerTest extends TestCase
         $this->assertEquals(isset($cart_add['success']), true);
         $this->assertEquals(isset($cart_add['product']), true);
         $this->assertEquals($cart_add['product']['price'], $productPrice);
+
+
+
+
+
     }
 
 
@@ -60,6 +75,7 @@ class CheckoutControllerTest extends TestCase
     {
         //app()->user_manager->logout();
         empty_cart();
+
         $controller = app()->make(CheckoutController::class);
         $cookies = array_merge($_COOKIE, $this->session_cookie);
 
@@ -88,6 +104,23 @@ class CheckoutControllerTest extends TestCase
 
         $rand = uniqid();
         $this->_addProductToCart('some product');
+
+
+
+        // should not add product with non exisintg price
+        $productPrice2 = rand(5555, 6677);
+
+        $add_to_cart = array(
+            'content_id' => self::$content_id,
+            'price' => $productPrice2,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+        $this->assertEquals($cart_add["cart_sum"], self::$productPrice);
+
+
+
+
         $params = [];
         $params['id'] = 'shop-checkout';
 

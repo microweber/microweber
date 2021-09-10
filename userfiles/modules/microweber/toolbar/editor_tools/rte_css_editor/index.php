@@ -311,6 +311,22 @@ var _populate = {
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
                 this.value = mw.color.rgbOrRgbaToHex(color);
+
+                this.type = 'text'
+                 var el = this;
+                mw.colorPicker({
+                    element: this,
+                    position: 'bottom-right',
+                    onchange: function (color){
+                        if(el.dataset.prop) {
+                            output(el.dataset.prop, color);
+                        } else if(el.dataset.func) {
+                            eval(el.dataset.func + '(' + color + ')');
+                        } else {
+                            $(el).trigger('colorChange', color)
+                        }
+                    }
+                })
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -322,7 +338,12 @@ var _populate = {
     },
     regular: function(css){
         $(".regular").each(function(){
-            $(this).val(css.css[this.dataset.prop])
+            var propName =this.dataset.prop;
+            if(propName === 'fontFamily'){
+                $(this).val(css.css[this.dataset.prop].replace(/\"/g, ""))
+            } else {
+                $(this).val(css.css[this.dataset.prop])
+            }
         });
     }
 };
@@ -543,7 +564,7 @@ var init = function(){
 
 
 mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
-    if(nodes && nodes[0]){
+    if(nodes && nodes[0] && nodes[0].nodeType === 1){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
         ActiveNode = nodes[0];
@@ -756,6 +777,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </label>
             </div>
         </div>
+
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
@@ -780,8 +802,43 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 </mw-accordion-item>
 
         <mw-accordion-item>
+
+            <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
+
+            $enabled_custom_fonts_array = array();
+
+            if (is_string($enabled_custom_fonts) and $enabled_custom_fonts) {
+                $enabled_custom_fonts_array = explode(',', $enabled_custom_fonts);
+            }
+
+            ?>
+
+
             <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
+
+                <div class="s-field">
+                    <label><?php _e("Font Family"); ?></label>
+                    <div class="s-field-content">
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field" data-size="medium">
+                                <select class="regular" data-prop="fontFamily">
+                                    <option value="inherit">Default</option>
+
+                                    <?php if($enabled_custom_fonts_array): ?>
+                                    <?php foreach ($enabled_custom_fonts_array as $font): ?>
+                                        <option value='<?php print $font; ?>'><?php print $font; ?></option>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div
+
+
+
                 <div class="s-field">
                     <label><?php _e("Text align"); ?></label>
                     <div class="s-field-content">

@@ -42,8 +42,16 @@ mw.options = {
             option_group: group,
             option_key: key,
             option_value: value,
-            lang: lang
+
         };
+
+        if(lang){
+            // for multilanguage module
+            data.lang=lang;
+        }
+
+
+
         return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",

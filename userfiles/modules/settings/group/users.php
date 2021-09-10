@@ -216,7 +216,7 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-3">
                                         <label class="control-label"><?php _e("Disable registration with temporary email?"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla...s"); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla... etc"); ?></small>
                                     </div>
 
                                     <div class="form-group mb-4">

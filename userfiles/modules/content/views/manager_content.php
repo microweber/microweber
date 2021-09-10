@@ -54,7 +54,7 @@
                                         }
 
                                         $target = '_self';
-                                        
+
                                         if(isset($params['no_page_edit']) and $params['no_page_edit']){
                                             $target = '_top';
 

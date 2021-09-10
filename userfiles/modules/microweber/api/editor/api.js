@@ -377,6 +377,9 @@ MWEditor.api = function (scope) {
             range.deleteContents()
             range.insertNode(frag)
         },
+        cleanHTML: function (target){
+
+        },
         cssApplier: function (css) {
             var styles = '';
             if (typeof css === 'object') {

@@ -39,6 +39,18 @@ if (isset($data[0]) == false) {
 } else {
     $data = $data[0];
 }
+
+if(isset( $data['id']) and  $data['id'] != 0){
+$saveRoute = route('api.user.update',$data['id']);
+    $saveRouteMethod = "PATCH";
+
+} else {
+$saveRoute = route('api.user.store');
+    $saveRouteMethod = "PUT";
+
+}
+
+
 ?>
 
 <script>mw.lib.require("mwui_init");</script>
@@ -53,7 +65,7 @@ if (isset($data[0]) == false) {
         var userId = <?php print $data['id']; ?>;
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {
             if (confirm("Are you sure you want to delete this user?")) {
-                $.post("<?php print api_url('delete_user') ?>", {id: $user_id})
+                $.post("<?php print api_link() ?>delete_user", {id: $user_id})
                     .done(function (data) {
                         location.href = "<?php print admin_url('view:modules/load_module:users'); ?>";
                     });
@@ -95,19 +107,23 @@ if (isset($data[0]) == false) {
                 document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
-            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print api_link('save_user') ?>', function (scopeEl) {
+            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print $saveRoute  ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
                 }
+                saveduserid = 0;
+                if(this.data){
+                   var saveduserid = this.data.id;
+                }
 
                 mw.notification.success(mw.lang('All changes saved'));
                 if (userId === 0) {
-                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + this.toString();
+                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + saveduserid;
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
-            });
+            },false,false,false,false,'<?php print $saveRouteMethod ?>');
         }
 
 
@@ -231,6 +247,10 @@ if (isset($data[0]) == false) {
 
                         <input type="hidden" name="id" value="<?php print $data['id']; ?>">
                         <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
+
+                        <?php if ($data['id'] > 0): ?>
+                            <input name="_method" type="hidden" value="PATCH">
+                        <?php endif; ?>
 
                         <div class="d-block">
                             <small class="d-block text-muted text-center mb-4 mt-2"><?php _e("Fill in the fields to create a new user"); ?></small>

@@ -1,13 +1,8 @@
 <?php
 
-
 api_expose('user_social_login');
 
 api_expose('logout');
-
-api_expose_user('save_user');
-
-api_expose_admin('delete_user');
 
 api_expose('user_register');
 

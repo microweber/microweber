@@ -5,13 +5,31 @@
 
 </style>
 
+
+<?php
+
+if (!isset($contentData['sku'])) {
+    $contentData['sku'] = '';
+}
+if (!isset($contentData['track_quantity'])) {
+    $contentData['track_quantity'] = '';
+}
+if (!isset($contentData['barcode'])) {
+    $contentData['barcode'] = '';
+}
+if (!isset($contentData['sell_oos'])) {
+    $contentData['sell_oos'] = '';
+}
+
+?>
+
 <script>
     $(document).ready(function () {
         $('.js-track-quantity-check').click(function () {
             mw.toggle_inventory_forms_fields();
         });
 
-        <?php if ($contentData['track_quantity'] != 0):?>
+        <?php if (isset($contentData['track_quantity']) and intval($contentData['track_quantity']) != 0):?>
         mw.toggle_inventory_forms_fields();
         enableTrackQuantityFields();
         <?php else: ?>
