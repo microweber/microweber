@@ -39,6 +39,14 @@ if (isset($data[0]) == false) {
 } else {
     $data = $data[0];
 }
+
+if(isset( $data['id']) and  $data['id'] != 0){
+$saveRoute = route('api.user.update',$data['id']);
+} else {
+$saveRoute = route('api.user.store');
+}
+
+
 ?>
 
 <script>mw.lib.require("mwui_init");</script>
@@ -95,15 +103,19 @@ if (isset($data[0]) == false) {
                 document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
-            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print route('api.user.update',$data['id']) ?>', function (scopeEl) {
+            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print $saveRoute  ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
                 }
+                saveduserid = 0;
+                if(this.data){
+                   var saveduserid = this.data.id;
+                }
 
                 mw.notification.success(mw.lang('All changes saved'));
                 if (userId === 0) {
-                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + this.toString();
+                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + saveduserid;
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
