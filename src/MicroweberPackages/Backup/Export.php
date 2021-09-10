@@ -47,6 +47,10 @@ class Export
             $this->exportMedia = true;
         }
 
+        if (!empty($this->exportData['contentIds'])) {
+            $this->exportMedia = true;
+        }
+
         $export = $this->_getExporter($data);
 
         if (isset($export['files']) && count($export['files']) > 1) {
