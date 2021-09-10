@@ -121,7 +121,7 @@ if ($stylesheet_settings) {
 
 
                 <?php if ($setting['type'] == 'delimiter'): ?>
- 
+
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
                         <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>

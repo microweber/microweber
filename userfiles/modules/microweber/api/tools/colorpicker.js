@@ -9,20 +9,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        // var colorpicker_els = mw.top().$("body *");
-        // if(colorpicker_els.length > 0){
-        //     colorpicker_els.each(function () {
-        //         var css = parent.getComputedStyle(this, null);
-        //         if (css !== null) {
-        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-        //             }
-        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-        //             }
-        //         }
-        //     });
-        // }
+         var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+         if(colorpicker_els.length > 0){
+             colorpicker_els.each(function () {
+                 var css = parent.getComputedStyle(this, null);
+                 if (css !== null) {
+                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                     }
+                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                     }
+                 }
+             });
+         }
 
     }
     var proto = this;
@@ -104,7 +104,9 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty();
+        mw.$('.mw-tooltip-content', tip).empty().css({
+            padding: 0
+        });
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
         frame = AColorPicker.createPicker(sett);
