@@ -15,7 +15,7 @@ position: 6
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit our-team">
-	<div id="about-us-content" class="edit" field="content" rel="content">
+	<div id="about-us-content" class="edit" field="content" rel="module">
 		<p class="element">&nbsp;</p>
 		<div class="mw-row">
 			<div class="mw-col" style="width:33.33%">
@@ -65,7 +65,7 @@ position: 6
 			</div>
 		</div>
 	</div>
-	<div id="about-us-content" class="edit" field="sub-content" rel="content">
+	<div id="about-us-content" class="edit" field="sub-content" rel="module">
 		<p class="element">&nbsp;</p>
 		<div class="mw-row">
 			<div class="mw-col" style="width:33.33%">

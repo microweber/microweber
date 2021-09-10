@@ -561,6 +561,7 @@ class AppServiceProvider extends ServiceProvider
             'xss',
             AuthenticateSessionForUser::class,
         ]);
+
         $router->middlewareGroup('api',[
             'xss',
            // 'throttle:1000,1',

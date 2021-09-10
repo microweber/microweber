@@ -19,6 +19,8 @@ class CustomFieldValue extends Model
 
     public $timestamps = false;
 
+    public $cacheTagsToClear = ['custom_fields_values','repositories','content'];
+
    // public $translatable = ['value'];
 
     public function customField()

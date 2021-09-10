@@ -10,7 +10,7 @@
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <div id="content">
-     <div class="container edit"  field="content" rel="content">
+     <div class="container edit"  field="content" rel="module">
         <div class="small-layout headed-box" id="sign-box">
             <module type="users/login" />
         </div>

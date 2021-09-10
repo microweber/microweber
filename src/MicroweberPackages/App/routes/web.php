@@ -165,13 +165,24 @@ Route::group([
     Route::any('module/{all}', array('as' => 'module', 'uses' => '\MicroweberPackages\App\Http\Controllers\FrontendController@module'))->where('all', '.*');
 });
 
+Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+    Route::any('/api', 'FrontendController@api');
+    Route::any('/api/{slug}', 'FrontendController@api');
+
+    Route::any('api/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
+    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'FrontendController@api_html'))->where('all', '.*');
+    Route::any('/api_html', 'FrontendController@api_html');
+    //
+    Route::any('/editor_tools', 'FrontendController@editor_tools');
+    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'FrontendController@editor_tools'))->where('all', '.*');
+
+});
 // 'middleware' => 'web',
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
     Route::any('/', 'FrontendController@index');
 
-    Route::any('/api', 'FrontendController@api');
-    Route::any('/api/{slug}', 'FrontendController@api');
+
 
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
@@ -185,12 +196,6 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
     Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
 
 
-    Route::any('api/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
-    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'FrontendController@api_html'))->where('all', '.*');
-    Route::any('/api_html', 'FrontendController@api_html');
-    //
-    Route::any('/editor_tools', 'FrontendController@editor_tools');
-    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'FrontendController@editor_tools'))->where('all', '.*');
 
 
 

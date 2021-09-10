@@ -732,6 +732,9 @@ class Front
         if (!empty($content)) {
 
             foreach ($content as $item) {
+                if(!isset($item['id'])){
+                    continue;
+                }
 
                 $iu = get_picture($item['id'], $for = 'post', $full = false);
 

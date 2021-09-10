@@ -28,7 +28,7 @@ position: 7
 				</div>
 				<div class="mw-col" style="width:20%">
 					<div class="mw-col-container">
-						<h2 align="center" class="edit element" field="title" rel="content"><?php _e('Page Title'); ?></h2>
+						<h2 align="center" class="edit element" field="title" rel="module"><?php _e('Page Title'); ?></h2>
 					</div>
 				</div>
 				<div class="mw-col" style="width:40%">
@@ -40,7 +40,7 @@ position: 7
 				</div>
 			</div>
 		</h2>
-		<div class="edit" field="content" rel="content">
+		<div class="edit" field="content" rel="module">
 			<module type="google_maps" />
 			<div class="element page-post-content"><?php _e('This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.'); ?></div>
 

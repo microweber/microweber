@@ -12,7 +12,5 @@ Route::name('api.')
    // ->middleware(['api'])
     ->namespace('\MicroweberPackages\Form\Http\Controllers\ApiPublic')
     ->group(function () {
-
         Route::post('post_form', 'FormController@post')->name('post.form');
-
     });

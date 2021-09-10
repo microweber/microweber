@@ -28,6 +28,8 @@ class CustomField extends Model
 
     public $translatable = ['name','options', 'placeholder','error_text'];
 
+    public $cacheTagsToClear = ['custom_fields','repositories','content'];
+
     /**
      * The attributes that should be cast.
      *

@@ -14,8 +14,9 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-
-             //'title' => 'required',
+            'email' => 'required|unique:users',
+            'api_key' => 'unique:users',
+            'username' => 'unique:users',
         ];
 
         return $rules;

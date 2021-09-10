@@ -95,7 +95,7 @@ if (isset($data[0]) == false) {
                 document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
-            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print api_link('save_user') ?>', function (scopeEl) {
+            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print route('api.user.update',$data['id']) ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
@@ -107,7 +107,7 @@ if (isset($data[0]) == false) {
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
-            });
+            },false,false,false,false,'PUT');
         }
 
 

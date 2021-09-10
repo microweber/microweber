@@ -72,7 +72,7 @@ function template_row_class()
         return 'mw-flex-row';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'row';
     }
 }
@@ -85,7 +85,7 @@ function template_form_row_class()
         return 'mw-flex-row';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'form-row';
     }
 }
@@ -98,7 +98,7 @@ function template_form_group_class()
         return '';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'form-group';
     }
 }
@@ -111,7 +111,7 @@ function template_form_group_label_class()
         return '';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'control-label';
     }
 }
@@ -124,7 +124,7 @@ function template_input_field_class()
         return 'mw-ui-field';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4'|| $css_framework == 'bootstrap5') {
         return 'form-control';
     }
 }
@@ -151,6 +151,10 @@ function template_field_size_class($field_size = false)
         return 'col-' . $field_size . ' ' . 'col-md-' . $field_size;
     }
 
+    if ($css_framework == 'bootstrap5') {
+        return 'col-' . $field_size . ' ' . 'col-md-' . $field_size;
+    }
+
     return $field_size;
 }
 
@@ -167,6 +171,10 @@ function template_default_field_size_option($field = array())
     }
 
     if ($css_framework == 'bootstrap4') {
+        return 'col-12 col-sm-12 col-xs-12';
+    }
+
+    if ($css_framework == 'bootstrap5') {
         return 'col-12 col-sm-12 col-xs-12';
     }
 
