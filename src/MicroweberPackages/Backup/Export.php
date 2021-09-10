@@ -49,6 +49,8 @@ class Export
 
         if (!empty($this->exportData['contentIds'])) {
             $this->exportMedia = true;
+			$exportMediaUserFiles = true;
+			$exportWithZip = true;
         }
 
         $export = $this->_getExporter($data);
