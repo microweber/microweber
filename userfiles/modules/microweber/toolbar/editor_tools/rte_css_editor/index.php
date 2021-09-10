@@ -626,10 +626,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         if(mw.top().liveEditSelector.selected[0]){
             ActiveNode = mw.top().liveEditSelector.selected[0];
 
-            var css = mw.CSSParser(ActiveNode);
-            populate(css);
-            activeTree();
-            if(ActiveNode){
+             if(ActiveNode){
+                var css = mw.CSSParser(ActiveNode);
+                populate(css);
+                activeTree();
                 var can = ActiveNode.innerText === ActiveNode.innerHTML;
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 

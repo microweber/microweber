@@ -1826,11 +1826,19 @@ mw.wysiwyg = {
         .then(function (result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
+            var fc = mw.top().win.getSelection().focusNode;
+            if(fc.querySelector) {
+                Array.from(fc.querySelectorAll('a')).forEach(function(link) {
+                    //if(mw.tools.isEditable(link)) {
+                        link.id = mw.id('mw-link-');
+                    //}
+                })
+            }
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(fc.parentElement, 'edit'))
+            }
 
-            mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(mw.top().win.getSelection().focusNode.parentElement, 'edit'))
         });
-
-
 
     },
 

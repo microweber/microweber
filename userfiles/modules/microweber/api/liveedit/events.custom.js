@@ -9,21 +9,23 @@ mw.liveedit.handleCustomEvents = function() {
 
     mw.$(document.body).on('click', function (e) {
         var target = e.target;
+        if (target.nodeName === 'A' && mw.tools.isEditable(target)) {
+            mw.liveEditSelector.select(target);
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.select(target);
+            }
+            return;
+        }
         var can = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, [
            'edit', 'module', 'element'
         ]);
-        if(can) {
+        if (can) {
             var toSelect = mw.tools.firstNotInlineLevel(target);
-
             mw.liveEditSelector.select(target);
-
             if(mw.liveEditDomTree) {
                 mw.liveEditDomTree.select(mw.wysiwyg.validateCommonAncestorContainer(target));
-
             }
         }
-
-
     });
 
 

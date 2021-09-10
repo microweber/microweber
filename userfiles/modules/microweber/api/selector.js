@@ -157,7 +157,7 @@ mw.Selector = function(options) {
 
     this.setItem = function(e, item, select, extend){
         if(!e || !this.active()) return;
-        var target = e.target ? e.target : e;
+        var target = e.target && !e.nodeType ? e.target : e;
         if (this.options.strict) {
             target = mw.tools.first(target, ['[id]', '.edit']);
         }
@@ -180,7 +180,6 @@ mw.Selector = function(options) {
                 }
                 mw.$(this).trigger('select', [this.selected]);
             }
-
         }
 
 
