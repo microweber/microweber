@@ -11,10 +11,35 @@
 
     }
 
+
+
 </script>
 
 
 <style>
+    .bootstrap-select .dropdown-menu li a span.text{
+        display: block;
+    }
+    .image-option, .background-option {
+        background: transparent;
+        display: block;
+        width: 100%;
+        min-height: 20px;
+        z-index: 999;
+        background-repeat: repeat-x;
+    }
+
+    .image-option span.text {
+        height: 20px;
+        display: block;
+        width: 100%;
+    }
+
+    .image-option li.active,
+    .image-option a.active {
+        background: #e2e2e2 !important;
+    }
+
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
         padding-left: 0;
     }
@@ -23,14 +48,16 @@
 <div id="settings-holder" >
 
     <div data-mw-component="accordion" data-options="openFirst: false" class="mw-ui-box mw-accordion">
-        <mw-accordion-item>
-
-            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Template Settings"); ?></div>
 
 
-    <div class="bootstrap3ns mw-accordion-content mw-ui-box-content">
+
+
+
+
         <?php if ($template_settings): ?>
-
+        <mw-accordion-item>
+            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Template Settings"); ?></div>
+            <div class="bootstrap3ns mw-accordion-content mw-ui-box-content">
             <?php foreach ($template_settings as $key => $setting): ?>
 
                     <h5 >
@@ -41,7 +68,7 @@
 
                     <div class="  ">
                         <?php if ($setting['type'] == 'delimiter'): ?>
-
+<hr>
                         <?php elseif ($setting['type'] == 'text'): ?>
                             <div class="form-group ">
                                 <label class="control-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>"><span class="red">?</span></span><?php endif; ?></label>
@@ -64,30 +91,18 @@
                                 </div>
                             </div>
                         <?php elseif ($setting['type'] == 'dropdown_image'): ?>
-                            <style>
-                                .image-option .background-option {
-                                    background: transparent;
-                                    display: inline-block;
-                                    width: 100%;
-                                    height: 20px;
-                                    z-index: 999;
-                                    background-repeat: repeat-x;
-                                }
 
-                                .image-option span.text {
-                                    height: 20px;
-                                    display: block;
-                                    width: 100%;
-                                }
-
-                                .image-option li.active,
-                                .image-option a.active {
-                                    background: #e2e2e2 !important;
-                                }
-                            </style>
 
                             <div class="form-group image-option ">
-                                <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                                <label
+                                    for="<?php echo $key; ?>"
+                                    class="control-label">
+                                        <?php echo $setting['label']; ?>
+                                        <?php if (isset($setting['help'])): ?>
+                                            <span class="tip" data-tip="<?php echo $setting['help']; ?>">
+                                                (<span class="red">?</span>)</span>
+                                        <?php endif; ?>
+                                </label>
                                 <div>
                                     <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
                                         <?php if (isset($setting['options'])): ?>
@@ -153,7 +168,7 @@
                     </div>
 
             <?php endforeach; ?>
-                    <mw-accordion-item></div>
+            </div> </mw-accordion-item>
         <?php endif; ?>
 
 

@@ -104,34 +104,24 @@ if ($stylesheet_settings) {
         <?php if ($stylesheet_settings): ?>
             <div data-mw-component="accordion" class="mw-ui-box">
             <?php
-
-            $count = -1;
-            $total = count($stylesheet_settings);
-
-            foreach ($stylesheet_settings as $key => $setting):
-
-            $count++;
-
+                $count = -1;
+                $total = count($stylesheet_settings);
+                foreach ($stylesheet_settings as $key => $setting):
+                $count++;
             ?>
-
-
-
-
-
                 <?php if ($setting['type'] == 'title') { ?>
-                <?php if ($count > 0 ){ ?>
-                    </div>
-                    </mw-accordion-item>
-                <?php } ?>
+                    <?php if ($count > 0 ){ ?>
+                        </div>
+                        </mw-accordion-item>
+                    <?php } ?>
                     <mw-accordion-item>
                         <div class="mw-accordion-title mw-ui-box-header"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></div>
                         <div class="mw-accordion-content mw-ui-box-content">
-                <?php }   ?>
-
+                <?php } ?>
 
 
                 <?php if ($setting['type'] == 'delimiter'): ?>
-
+ 
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
                         <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
@@ -264,8 +254,10 @@ if ($stylesheet_settings) {
 
 
     </div>
-<br>
+    </div>
+
 <div class="form-group text-center">
     <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="deleteCompiledCSS();" style="margin-top: 4px;"><?php _e("Reset Stylesheet Settings"); ?></span>
 </div>
 </div>
+
