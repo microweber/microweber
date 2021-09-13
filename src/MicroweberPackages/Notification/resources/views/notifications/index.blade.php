@@ -327,6 +327,7 @@
                         <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> <?php _e("Comments"); ?></option>
                         <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> <?php _e("Orders"); ?></option>
                         <option value="?type=Product"<?php if ($type == 'Product'): ?> selected="selected" <?php endif; ?>> <?php _e("Products"); ?></option>
+                        <option value="?type=NewFormEntry"<?php if ($type == 'NewFormEntry'): ?> selected="selected" <?php endif; ?>> <?php _e("Contact forms"); ?></option>
                         <option value="?type=NewRegistration"<?php if ($type == 'NewRegistration'): ?> selected="selected" <?php endif; ?>> <?php _e("New Registrations"); ?></option>
                         <option value="?type=Customer"<?php if ($type == 'Customer'): ?> selected="selected" <?php endif; ?>> <?php _e("Customers"); ?></option>
 

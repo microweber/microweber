@@ -2,7 +2,6 @@
 $order = false;
 $order_products = false;
 $order_first_product = false;
-$is_read = false;
 
 $item_id = $id;
 
