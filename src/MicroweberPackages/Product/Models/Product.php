@@ -138,6 +138,13 @@ class Product extends Content
         return null;
     }
 
+    public function getUrlAttribute()
+    {
+        $fullLink = content_link($this->id);
+        $fullLink = str_replace(site_url(), '', $fullLink);
+        return $fullLink;
+    }
+
     public function getPriceAttribute()
     {
         return $this->fetchSingleAttributeByType('price');

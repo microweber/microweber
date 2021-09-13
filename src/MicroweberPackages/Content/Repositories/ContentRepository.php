@@ -248,7 +248,7 @@ class ContentRepository extends AbstractRepository
 
             if ($check and !empty($check)) {
 
-                $check = (array)$check;
+                $check = (array) $check;
 
                 $hookParams = [];
                 $hookParams['data'] = $check;
