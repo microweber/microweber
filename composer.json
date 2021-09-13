@@ -32,6 +32,7 @@
         "ext-mbstring": "*",
         "ext-gd": "*",
         "laravel/framework": "^v8.59.0",
+        "ramsey/uuid": "4.2.1",
         "laravel/tinker": "^2.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
