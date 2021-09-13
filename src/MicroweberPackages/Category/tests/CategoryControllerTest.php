@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Media\tests;
 
 
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\User\Models\User;
@@ -39,8 +40,10 @@ class CategoryControllerTest extends TestCase
         $categorySaved = $response->getData()->data;
         $this->assertEquals($categorySaved->title, $title);
         $this->assertEquals($categorySaved->description, $title);
-      //  $this->assertEquals($categorySaved->contentData[0]->field_name, 'label');
-      //  $this->assertEquals($categorySaved->contentData[0]->field_value, 'test');
+
+        $find = Category::find($categorySaved->id);
+        $this->assertEquals($find->contentData[0]->field_name, 'label');
+        $this->assertEquals($find->contentData[0]->field_value, 'test');
 
 
         $response = $this->call(
