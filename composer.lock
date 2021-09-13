@@ -5425,7 +5425,7 @@
             "target-dir": "new-world",
             "source": {
                 "type": "git",
-                "url": "git@github.com:microweber-templates/new-world.git",
+                "url": "https://github.com/microweber-templates/new-world.git",
                 "reference": "db83c06e0d988b74a6666a14f080ba1ef300987a"
             },
             "dist": {
@@ -5537,6 +5537,10 @@
                 "ecommerce",
                 "microweber"
             ],
+            "support": {
+                "source": "https://github.com/microweber-templates/new-world/tree/3.1",
+                "issues": "https://github.com/microweber-templates/new-world/issues"
+            },
             "time": "2021-09-13T12:57:02+00:00"
         },
         {
@@ -14180,12 +14184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "9f83feffc986d6245cc48b1dc4de9000f4394ed9"
+                "reference": "e01123a0e847d52d186c5eb4b9bf58b0c6d00346"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/9f83feffc986d6245cc48b1dc4de9000f4394ed9",
-                "reference": "9f83feffc986d6245cc48b1dc4de9000f4394ed9",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/e01123a0e847d52d186c5eb4b9bf58b0c6d00346",
+                "reference": "e01123a0e847d52d186c5eb4b9bf58b0c6d00346",
                 "shasum": ""
             },
             "require": {
@@ -14243,9 +14247,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/master"
+                "source": "https://github.com/mockery/mockery/tree/1.4.4"
             },
-            "time": "2021-09-13T15:21:07+00:00"
+            "time": "2021-09-13T15:28:59+00:00"
         },
         {
             "name": "myclabs/deep-copy",
