@@ -311,7 +311,6 @@ class ContactFormTest extends TestCase
             $this->assertTrue(str_contains($body,'CloudVisionLtd'));
             $this->assertTrue(str_contains($body,'Bozhidar Slaveykov'));
             $this->assertTrue(str_contains($body,'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
-
         }
 
         // The User must receive auto respond data
