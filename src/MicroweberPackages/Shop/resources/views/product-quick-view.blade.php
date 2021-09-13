@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-6">
 
-        <a href="{{site_url($product->url)}}">
+        <a href="{{content_link($product->id)}}">
             <div class="title pb-3">{{$product->title}}</div>
         </a>
 

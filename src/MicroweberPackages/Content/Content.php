@@ -98,13 +98,6 @@ class Content extends Model
 //        return $this->belongsToMany(Taggable::class);
 //    }
 
-    public function getUrlAttribute()
-    {
-        $fullLink = content_link($this->id);
-        $fullLink = str_replace(site_url(), '', $fullLink);
-        return $fullLink;
-    }
-
     public function related()
     {
         return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
