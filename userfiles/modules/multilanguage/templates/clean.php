@@ -27,7 +27,7 @@ description: Clean
     });
 </script>
 
-<select name="switch-language" class="mw-ui-field js-switch-language-dropdown">
+<select name="switch-language" class="form-control js-switch-language-dropdown">
     <?php foreach($supported_languages as $language): ?>
         <option value="<?php echo $language['locale']; ?>">
 
