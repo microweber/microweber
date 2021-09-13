@@ -771,6 +771,9 @@ class CategoryManager
 
     public function get_by_id($id = 0, $by_field_name = 'id')
     {
+        if($by_field_name == 'id'){
+            return app()->category_repository->getById($id);
+        }
         return app()->category_repository->getByColumnNameAndColumnValue($by_field_name, $id);
     }
 
