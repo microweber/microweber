@@ -85,7 +85,7 @@ class Lang
         }
 
        // $lang = 'en_US'; // dont use current language
-        $lang =  app()->getLocale();
+        $lang = app()->getLocale();
 
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
