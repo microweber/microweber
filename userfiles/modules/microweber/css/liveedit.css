@@ -231,7 +231,7 @@ body.mw-live-edit .plain-text {
 .mw-link-tip-edit:hover,
 .mw-link-tip-link:focus,
 .mw-link-tip-edit:focus {
-    color: #f2f2f2;
+    color: #f2f2f2 !important;
 }
 
 .mw-link-tip-edit {
