@@ -466,8 +466,7 @@ if (isset($params['quick_edit'])) {
                                 <script>
                                     $(document).ready(function () {
                                         setTimeout(function () {
-                                            $('#content-title-field').focus();
-                                            if (typeof(mw.adminPagesTree) != 'undefined') {
+                                             if (typeof(mw.adminPagesTree) != 'undefined') {
                                                 mw.adminPagesTree.select({
                                                     id:<?php print $edit_page_info['id']  ?>,
                                                     type: 'page'

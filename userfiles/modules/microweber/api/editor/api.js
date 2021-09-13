@@ -439,6 +439,7 @@ MWEditor.api = function (scope) {
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
+                            scope.registerChange();
                         });
                     }
                 }

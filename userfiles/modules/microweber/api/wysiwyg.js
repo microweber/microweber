@@ -1537,7 +1537,12 @@ mw.wysiwyg = {
     fontFamily: function (font_name) {
         var range = getSelection().getRangeAt(0);
         document.execCommand("styleWithCSS", null, true);
+
         var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
         if (range.collapsed) {
 
             mw.wysiwyg.select_all(el);
@@ -1549,6 +1554,10 @@ mw.wysiwyg = {
         }
 
         mw.wysiwyg.change(el)
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
 
     },
     nestingFixes: function (root) {  /*

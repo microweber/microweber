@@ -1,4 +1,4 @@
-(function(expose){
+;(function(expose){
     var helpers = {
         fragment: function(){
             if(!this._fragment){
@@ -271,6 +271,7 @@
             }
         },
         scrollTo: function (el, callback, minus) {
+
             minus = minus || 0;
             if ($(el).length === 0) {
                 return false;

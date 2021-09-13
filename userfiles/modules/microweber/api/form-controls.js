@@ -811,9 +811,18 @@ mw.emitter = {
                     description: options.text.description,
                     name: 'text'
                 });
+                setTimeout(function (){
+                     _linkText.querySelector('input').addEventListener('keyup', function (){
+                        scope.shouldChange = false;
+                    })
+                    _linkText.querySelector('input').addEventListener('paste', function (){
+                        scope.shouldChange = false;
+                    })
+                }, 78)
             }
-             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js')
+            var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
+            mw.require('tree.js');
+            scope.shouldChange = !_linkText.querySelector('input').value.trim();
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -828,7 +837,8 @@ mw.emitter = {
                     dialog.center();
                 }
                 scope.tree.on("selectionChange", function(selection){
-                    if (textField && selection && selection[0]) {
+
+                    if (textField && selection && selection[0] && scope.shouldChange) {
                         textField.value = selection[0].title;
                     }
                     if(scope.valid()) {

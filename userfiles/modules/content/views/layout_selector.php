@@ -166,8 +166,6 @@ if (!empty($recomended_layouts)) {
             var iframe = document.querySelector('.preview_frame_wrapper iframe');
             var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
-
-            mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
          },
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
@@ -191,8 +189,6 @@ if (!empty($recomended_layouts)) {
                     element: '.preview_frame_wrapper',
                 }).hide()
             };
-
-
             holder.empty();
             mw.spinner({
                 element: '.preview_frame_wrapper',
@@ -256,19 +252,19 @@ if (!empty($recomended_layouts)) {
             var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
 
 
-            if (form != undefined && form != false) {
-                if (is_shop != undefined) {
+            if (form) {
+                if (is_shop ) {
                     if (is_shop != undefined && is_shop == 'y') {
 
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = true;
                         }
                     }
                     else {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                         }
-                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input-is-shop)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
@@ -276,7 +272,7 @@ if (!empty($recomended_layouts)) {
                     <?php if(!isset($params['no_content_type_setup'])): ?>
 
 
-                    if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                    if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                         form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                     }
 
@@ -285,17 +281,17 @@ if (!empty($recomended_layouts)) {
                 }
                 <?php if(!isset($params['no_content_type_setup'])): ?>
                 if (ctype == 'static' || ctype == 'dynamic') {
-                    if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                    if (form && form.querySelector('input[name="subtype"]') != null) {
                         form.querySelector('input[name="subtype"]').value = ctype
                     }
                 }
                 if (stype) {
-                    if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                    if (form && form.querySelector('input[name="subtype"]') != null) {
                         form.querySelector('input[name="subtype"]').value = stype
                     }
                 }
                 if (stype_val) {
-                    if (form != undefined && form.querySelector('input[name="subtype_value"]') != null) {
+                    if (form && form.querySelector('input[name="subtype_value"]') != null) {
                         form.querySelector('input[name="subtype_value"]').value = stype_val
                     }
                 }
@@ -622,15 +618,7 @@ if (!empty($recomended_layouts)) {
                                                 </select>
                                             </div>
 
-                                            <script>
-                                                $(document).ready(function () {
-                                                    $(document).ready(function () {
-                                                        setTimeout(function () {
-                                                            $('#content-title-field').focus();
-                                                        }, 100);
-                                                    });
-                                                });
-                                            </script>
+
                                         </div>
                                     </div>
                                 </div>
