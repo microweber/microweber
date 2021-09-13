@@ -15,8 +15,9 @@ class Notification extends Model
     protected $casts = [
         'data' => 'json',
         'id' => 'string'
-
     ];
+
+    public $cacheTagsToClear = ['repositories']; 
 
     public function modelFilter()
     {
