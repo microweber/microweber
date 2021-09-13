@@ -52,7 +52,6 @@ if ($show_testimonials_per_project) {
     }
 
     $data = get_testimonials($get);
-
 }
 
 
