@@ -148,6 +148,7 @@ ul.mw-default-layout-un-ordered-t4 li {
     list-style-position: inside;
     margin-inline-start: 17px;
     text-indent: -17px;
+    line-height: 25px;
 }
 
 ul.mw-default-layout-un-ordered-t4 li ul li {
