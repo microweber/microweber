@@ -445,17 +445,14 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
-
-
-
-            $language = get_option('language', 'website');
-            if ($language != false and $language != 'en') {
-                set_current_lang($language);
-                //     app()->setLocale($language);
+            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
+                set_current_lang($_COOKIE['lang']);
+            } else {
+                $language = get_option('language', 'website');
+                if ($language != false and $language != 'en') {
+                    set_current_lang($language);
+                }
             }
-
-
-
 
             load_all_functions_files_for_modules($this->app);
 

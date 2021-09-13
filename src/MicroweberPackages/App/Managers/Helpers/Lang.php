@@ -36,23 +36,15 @@ class Lang
 
 
     function set_current_lang($lang = 'en')
-    {/*
+    {
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
         $this->clearCache();
         mw()->option_manager->clear_memory();
 
-//        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
-//
-//        if ($loc_data and isset($loc_data['locale'])) {
-//            // en = en_US
-//            $lang = $loc_data['locale'];
-//        }
-
         $this->lang = $lang;
-        //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
-        return app()->setLocale($lang);*/
+        return app()->setLocale($lang);
     }
 
     /**

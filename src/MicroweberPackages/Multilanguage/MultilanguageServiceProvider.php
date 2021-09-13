@@ -39,9 +39,6 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
 
-        if (isset($_COOKIE['lang'])) {
-            app()->setLocale($_COOKIE['lang']);
-        }
     }
 
 
