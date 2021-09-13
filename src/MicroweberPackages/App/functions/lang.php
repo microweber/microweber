@@ -19,15 +19,12 @@ function set_current_lang($lang = 'en')
 function current_lang()
 {
     return mw()->lang_helper->current_lang();
-
 }
 
 function lang_attributes()
 {
     return mw()->lang_helper->lang_attributes();
-
 }
-
 
 function _lang_is_rtl($lang = false)
 {

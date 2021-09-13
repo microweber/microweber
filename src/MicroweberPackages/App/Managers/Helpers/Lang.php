@@ -25,8 +25,6 @@ class Lang
 
     public function __construct()
     {
-
-
         if (mw_is_installed()) {
             $this->is_enabled = true;
         }
@@ -38,7 +36,7 @@ class Lang
 
 
     function set_current_lang($lang = 'en')
-    {
+    {/*
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
@@ -54,7 +52,7 @@ class Lang
 
         $this->lang = $lang;
         //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
-        return app()->setLocale($lang);
+        return app()->setLocale($lang);*/
     }
 
     /**
@@ -68,29 +66,9 @@ class Lang
      * </code>
      */
 
-    public static $_currentLang = false;
     function current_lang()
     {
-        if ($this->lang) {
-            return $this->lang;
-        }
-        if (self::$_currentLang) {
-            return self::$_currentLang;
-        }
-
-        $app_locale = app()->getLocale();
-
-        if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
-            $lang = $_COOKIE['lang'];
-            $is_real_lang = is_lang_correct($lang);
-            if ($is_real_lang and $lang != $app_locale) {
-                set_current_lang($lang);
-                $app_locale = app()->getLocale();
-            }
-        }
-
-        self::$_currentLang = $app_locale;
-        return $app_locale;
+        return app()->getLocale();
     }
 
     function current_lang_display()

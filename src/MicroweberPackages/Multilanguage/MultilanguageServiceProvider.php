@@ -33,12 +33,15 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-
         $this->app->singleton('translate_manager', function ($app) {
             return new TranslateManager();
         });
 
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
+
+        if (isset($_COOKIE['lang'])) {
+            app()->setLocale($_COOKIE['lang']);
+        }
     }
 
 
