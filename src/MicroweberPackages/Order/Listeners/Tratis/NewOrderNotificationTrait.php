@@ -42,7 +42,5 @@ trait NewOrderNotificationTrait {
             $notifiable->notifyNow($newOrderEvent);
         }
 
-        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
-
     }
 }

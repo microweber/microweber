@@ -672,7 +672,7 @@ class FormsManager
             event_trigger('mw.mail_subscribe', $params);
         }
 
-        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel)); 
+        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
 
         $success = array();
         $success['id'] = $save;
