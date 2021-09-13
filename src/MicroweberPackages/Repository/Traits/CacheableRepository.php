@@ -216,7 +216,7 @@ trait CacheableRepository
 
         $this->eventFlushCache = false;
        self::$disableCache = true; //disabling repository cache
-       // return self::getCacheInstance()->tags($tag)->flush();
+      // return self::getCacheInstance()->tags($this->generateCacheTags())->flush();
     }
 
     /**
