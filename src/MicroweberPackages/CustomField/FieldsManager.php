@@ -452,7 +452,7 @@ class FieldsManager
             }
         }
 
-        app()->custom_field_repository->flushCache();
+        app()->custom_field_repository->clearCache();
 
         return $customField->id;
     }

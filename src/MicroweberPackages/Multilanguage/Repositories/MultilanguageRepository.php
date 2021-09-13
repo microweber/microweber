@@ -1,8 +1,10 @@
 <?php
+
 namespace MicroweberPackages\Multilanguage\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -11,12 +13,12 @@ class MultilanguageRepository extends AbstractRepository
     public $model = MultilanguageTranslations::class;
 
 
-    public function getAllTranslationsByFieldNameAndRelType($fieldName,$relType)
+    public function getAllTranslationsByFieldNameAndRelType($fieldName, $relType)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($fieldName, $relType) {
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
-            $getMultilangTranslatesQuery->select(['field_value','field_name','rel_type','rel_id']);
+            $getMultilangTranslatesQuery->select(['field_value', 'field_name', 'rel_type', 'rel_id']);
             $getMultilangTranslatesQuery->where('field_name', $fieldName);
             $getMultilangTranslatesQuery->where('rel_type', $relType);
 
@@ -31,9 +33,9 @@ class MultilanguageRepository extends AbstractRepository
         });
     }
 
-    public function getTranslationByFieldNameFieldValueAndRelType($fieldName,$fieldValue,$relType)
+    public function getTranslationByFieldNameFieldValueAndRelType($fieldName, $fieldValue, $relType)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($fieldName,$fieldValue,$relType) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($fieldName, $fieldValue, $relType) {
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
 
@@ -55,38 +57,54 @@ class MultilanguageRepository extends AbstractRepository
 
     public function getSupportedLocales($onlyActive = false)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($onlyActive) {
-            $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
-            if ($onlyActive) {
-                $getSupportedLocalesQuery->where('is_active', 'y');
-            }
-            $getSupportedLocalesQuery->orderBy('position', 'asc');
+        try {
 
-            $executeQuery = $getSupportedLocalesQuery->get();
+            return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($onlyActive) {
+                $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
+                if ($onlyActive) {
+                    $getSupportedLocalesQuery->where('is_active', 'y');
+                }
+                $getSupportedLocalesQuery->orderBy('position', 'asc');
 
-            $languages = [];
-            if ($executeQuery !== null) {
-                $languages = collect($executeQuery)->map(function ($item) {
-                    return (array)$item;
-                })->toArray();
+                $executeQuery = $getSupportedLocalesQuery->get();
+
+                $languages = [];
+                if ($executeQuery !== null) {
+                    $languages = collect($executeQuery)->map(function ($item) {
+                        return (array)$item;
+                    })->toArray();
+                }
+                return $languages;
+            });
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            if (!Schema::hasTable('multilanguage_supported_locales')) {
+                echo 'Multilanguage exception: ', $e->getMessage(), "\n";
+                mw_post_update();
+            } else {
+                echo 'Caught exception: ', $e->getMessage(), "\n";
             }
-            return $languages;
-        });
+            exit();
+        }
+
+
     }
 
-    public function getSupportedLocaleByLocale($locale) {
+    public function getSupportedLocaleByLocale($locale)
+    {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($locale) {
             $locale = DB::table('multilanguage_supported_locales')->where('locale', $locale)->first();
-            $locale = (array) $locale;
+            $locale = (array)$locale;
 
             return $locale;
         });
     }
 
-    public function getTranslationByLocale($locale) {
+    public function getTranslationByLocale($locale)
+    {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($locale) {
             $locale = DB::table('multilanguage_translations')->where('locale', $locale)->first();
-            $locale = (array) $locale;
+            $locale = (array)$locale;
 
             return $locale;
         });
@@ -116,6 +134,7 @@ class MultilanguageRepository extends AbstractRepository
     }
 
     public static $_getTranslationsByRelTypeAndLocale = [];
+
     public function getTranslationsByRelTypeAndLocale($relType, $locale)
     {
         if (isset(self::$_getTranslationsByRelTypeAndLocale[$relType][$locale])) {

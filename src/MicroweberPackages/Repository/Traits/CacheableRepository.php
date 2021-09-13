@@ -201,7 +201,7 @@ trait CacheableRepository
      *
      * @return bool
      */
-    public function flushCache()
+    public function clearCache()
     {
         self::$_cacheCallbackMemory = [];
         self::$_loaded_models_cache_get = [];
