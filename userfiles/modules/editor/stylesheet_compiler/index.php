@@ -261,7 +261,7 @@ if ($stylesheet_settings) {
     </div>
 
 <div class="form-group text-center">
-    <span class="mw-ui-btn mw-ui-btn-medium mw-full-width" onclick="deleteCompiledCSS();" style="margin-top: 4px;"><?php _e("Reset Stylesheet Settings"); ?></span>
+    <span class="btn btn-outline-secondary btn-sm justify-content-center d-block mt-2" onclick="deleteCompiledCSS();"><?php _e("Reset Stylesheet Settings"); ?></span>
 </div>
 </div>
 
