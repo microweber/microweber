@@ -177,6 +177,6 @@
     </div>
     <br>
 
-    <span class="btn btn-danger justify-content-center d-block" onclick="resetToDefault();" style="margin-top: 4px;"><?php _e("Reset Template Settings"); ?></span>
+    <span class="btn btn-outline-secondary btn-sm justify-content-center d-block" onclick="resetToDefault();"><?php _e("Reset Template Settings"); ?></span>
 </div>
 <!-- /#settings-holder -->
