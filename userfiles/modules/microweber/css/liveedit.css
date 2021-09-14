@@ -2854,7 +2854,12 @@ div[id*='SSDIVEL'] {
 .video-module-default-view {
     padding: 50px 0;
     background-color: #111111;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
+
 
 .mwInaccessibleModulesMenu {
     position: absolute;
