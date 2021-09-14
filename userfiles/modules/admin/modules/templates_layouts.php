@@ -43,6 +43,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         }
 
+        $filter = false;
+        if(isset($params['template-filter'])){
+            $filter = trim($params['template-filter']);
+        }
+
+
+
         $site_templates = site_templates();
 
         $module_templates = module_templates($params['parent-module']);
@@ -54,10 +61,33 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $mod_name = rtrim($mod_name, DS);
         $mod_name = rtrim($mod_name, '/');
 
+        if ($filter) {
+            if ($module_templates) {
+                foreach ($module_templates as $key => $temp) {
+                    if (!str_contains($temp['layout_file'], $filter)) {
+                        unset($module_templates[$key]);
+                    }
+                }
+            }
+
+            if ($templates) {
+                foreach ($templates as $key => $temp) {
+                    if (!str_contains($temp['layout_file'], $filter)) {
+                        unset($templates[$key]);
+                    }
+                }
+            }
+        }
+
+
         $screenshots = false;
         if (isset($params['data-screenshots'])) {
             $screenshots = $params['data-screenshots'];
         }
+
+
+
+
 
         $search_bar = false;
         if (isset($params['data-search'])) {
@@ -107,6 +137,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         if ($screenshots) {
             foreach ($module_templates as $temp) {
+
+
                 if ($temp['layout_file'] == $cur_template) {
                     if (!isset($temp['screenshot'])) {
                         $temp['screenshot'] = '';
