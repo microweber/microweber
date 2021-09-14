@@ -73,13 +73,13 @@ class UserLoginController extends Controller
 
             // This will be used for whmcs login redirect
 			if (isset($redirectParams['http_redirect'])) {
-                if (Auth::user()->is_admin === 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                if (intval(Auth::user()->is_admin) == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
                 } else {
                     return redirect(site_url());
                 }
             }
-			
+
             $message = [];
             if (Auth::user()->is_admin == 1) {
                 //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
