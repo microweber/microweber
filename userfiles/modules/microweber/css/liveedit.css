@@ -231,7 +231,7 @@ body.mw-live-edit .plain-text {
 .mw-link-tip-edit:hover,
 .mw-link-tip-link:focus,
 .mw-link-tip-edit:focus {
-    color: #f2f2f2;
+    color: #f2f2f2 !important;
 }
 
 .mw-link-tip-edit {
@@ -2842,7 +2842,12 @@ div[id*='SSDIVEL'] {
 .video-module-default-view {
     padding: 50px 0;
     background-color: #111111;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
+
 
 .mwInaccessibleModulesMenu {
     position: absolute;

@@ -12,7 +12,7 @@ if (isset($data['content-id'])) {
 <script>
 
     mw.load_editor_internal = function (element_id) {
-        var element_id = element_id || 'mw-admin-content-iframe-editor';
+        element_id = element_id || 'mw-admin-content-iframe-editor';
         var area = document.getElementById(element_id);
 
         if (area !== null) {
@@ -40,64 +40,6 @@ if (isset($data['content-id'])) {
             params.preview_layout = '<?php print module_name_encode($data['active_site_layout']) ?>'
             <?php endif; ?>
 
-
-            // mweditor = mw.admin.editor.init(area, params);
-
-
-          /*  mweditor = mw.Editor({
-                selector: '#content_template',
-                mode: 'div',
-                smallEditor: false,
-                minHeight: 250,
-                maxHeight: '70vh',
-                controls: [
-                    [
-                        'undoRedo', '|', 'image', '|',
-                        {
-                            group: {
-                                controller: 'bold',
-                                controls: ['italic', 'underline', 'strikeThrough']
-                            }
-                        },
-                        '|',
-                        {
-                            group: {
-                                icon: 'mdi mdi-format-align-left',
-                                controls: ['align']
-                            }
-                        },
-                        '|', 'format',
-                        {
-                            group: {
-                                icon: 'mdi mdi-format-list-bulleted-square',
-                                controls: ['ul', 'ol']
-                            }
-                        },
-                        '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
-                    ],
-                ]
-            });*/
-
-
-
-           /* if (document.getElementById('content-title-field') !== null) {
-                mweditor.onload = function () {
-                    if (mweditor.contentWindow) {
-                        var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
-                        if (titleel !== null) {
-                            var rel = mw.tools.mwattr(titleel, 'rel');
-                            if (rel === 'post' || rel === 'page' || rel === 'product' || rel === 'content') {
-                                mw.tools.mapNodeValues(titleel, document.getElementById('content-title-field'))
-                            }
-                        }
-                    }
-
-                    mw.admin.postImageUploader();
-
-                }
-            }
-
-            mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;*/
         }
     }
 </script>

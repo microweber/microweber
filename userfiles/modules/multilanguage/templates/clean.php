@@ -27,7 +27,18 @@ description: Clean
     });
 </script>
 
-<select name="switch-language" class="mw-ui-field js-switch-language-dropdown">
+<select name="switch-language" class="form-control js-switch-language-dropdown">
+
+
+    <option value="<?php echo $current_language['locale']; ?>">
+    <?php if (!empty($current_language['display_name'])): ?>
+        <?php echo $current_language['display_name']; ?>
+    <?php else: ?>
+        <?php echo \Symfony\Component\Intl\Languages::getName($current_language['locale']); ?>
+    <?php endif; ?>
+    </option>
+
+
     <?php foreach($supported_languages as $language): ?>
         <option value="<?php echo $language['locale']; ?>">
 

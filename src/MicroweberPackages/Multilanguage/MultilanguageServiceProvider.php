@@ -11,11 +11,13 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Application;
 use MicroweberPackages\Form\FormElementBuilder;
 use MicroweberPackages\Module\Module;
 use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
@@ -26,6 +28,15 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class MultilanguageServiceProvider extends ServiceProvider
 {
     /**
+     * The application instance.
+     *
+     * @var  Application
+     */
+    protected $app;
+
+
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -33,12 +44,12 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-
         $this->app->singleton('translate_manager', function ($app) {
             return new TranslateManager();
         });
 
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
+
     }
 
 
@@ -57,16 +68,18 @@ class MultilanguageServiceProvider extends ServiceProvider
         if (defined('MW_DISABLE_MULTILANGUAGE')) {
             $isMultilanguageActive = false;
         }
-
+        /**
+         * @property MultilanguageRepository $multilanguage_repository
+         */
         $this->app->bind('multilanguage_repository', function () {
             return new MultilanguageRepository();
         });
 
-        if (!Schema::hasTable('multilanguage_supported_locales')) {
-            mw_post_update();
-        }
 
-        $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
+
+       $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
+
+
         if (empty($getSupportedLocales)) {
             $isMultilanguageActive = false;
         }

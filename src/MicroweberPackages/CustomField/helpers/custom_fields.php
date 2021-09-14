@@ -1,5 +1,10 @@
 <?php
 
+api_expose_admin('fields/reorder');
+api_expose_admin('fields/delete');
+api_expose_admin('fields/make');
+api_expose_admin('fields/save');
+
 function get_custom_field_by_id($id)
 {
     return mw()->fields_manager->getById($id);

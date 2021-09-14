@@ -19,11 +19,13 @@
     add_testimonial = function () {
         $('.js-add-new-button').hide();
         $("#edit-testimonials").attr("edit-id", "0");
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
     }
 
     add_new_testimonial = function () {
         $("#edit-testimonials").attr("edit-id", 0);
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
         $('.js-add-new-testimonials').trigger('click');
     }
@@ -35,6 +37,7 @@
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
         $('.js-add-new-testimonials').trigger('click');
     }
@@ -109,8 +112,18 @@ if (empty($selected_project)) {
     }
 }
 
-$data = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_name', $selected_project)->orderBy('id','DESC')->get();
+$testimonialsQuery = \Illuminate\Support\Facades\DB::table('testimonials');
+if (trim($selected_project) != '') {
+    $testimonialsQuery->where('project_name', $selected_project);
+}
+$data = $testimonialsQuery->orderBy('id','DESC')->get();
+
 ?>
+
+<?php if ((trim($selected_project) != '') && $data->count()==0): ?>
+    No testimonials data found for the project <b><?php echo $selected_project; ?></b>.
+<?php endif; ?>
+
 <?php if ($data != null): ?>
     <script>
         $(document).ready(function () {

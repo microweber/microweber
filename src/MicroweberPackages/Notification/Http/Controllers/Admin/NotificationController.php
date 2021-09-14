@@ -37,14 +37,11 @@ class NotificationController extends AdminController
                 continue;
             }
 
-
             try {
                 $messageType = new $notification->type();
             } catch (\ArgumentCountError $e) {
-                //$notification->delete();
                 continue;
             } catch (\Exception $e) {
-
                 continue;
             }
 
@@ -61,7 +58,6 @@ class NotificationController extends AdminController
                 $icon = $messageType->icon();
             }
 
-
             $read = false;
             if ($notification->read_at > 0) {
                 $read = true;
@@ -74,7 +70,6 @@ class NotificationController extends AdminController
                 'message' => $messageType->message()
             ];
         }
-
 
         return $this->view('notification::notifications.index', [
             'is_quick' => 1,

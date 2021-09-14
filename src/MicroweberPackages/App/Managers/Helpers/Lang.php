@@ -25,8 +25,6 @@ class Lang
 
     public function __construct()
     {
-
-
         if (mw_is_installed()) {
             $this->is_enabled = true;
         }
@@ -45,15 +43,7 @@ class Lang
         $this->clearCache();
         mw()->option_manager->clear_memory();
 
-//        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
-//
-//        if ($loc_data and isset($loc_data['locale'])) {
-//            // en = en_US
-//            $lang = $loc_data['locale'];
-//        }
-
         $this->lang = $lang;
-        //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
         return app()->setLocale($lang);
     }
 
@@ -68,29 +58,9 @@ class Lang
      * </code>
      */
 
-    public static $_currentLang = false;
     function current_lang()
     {
-        if ($this->lang) {
-            return $this->lang;
-        }
-        if (self::$_currentLang) {
-            return self::$_currentLang;
-        }
-
-        $app_locale = app()->getLocale();
-
-        if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
-            $lang = $_COOKIE['lang'];
-            $is_real_lang = is_lang_correct($lang);
-            if ($is_real_lang and $lang != $app_locale) {
-                set_current_lang($lang);
-                $app_locale = app()->getLocale();
-            }
-        }
-
-        self::$_currentLang = $app_locale;
-        return $app_locale;
+        return app()->getLocale();
     }
 
     function current_lang_display()
@@ -115,7 +85,7 @@ class Lang
         }
 
        // $lang = 'en_US'; // dont use current language
-        $lang =  app()->getLocale();
+        $lang = app()->getLocale();
 
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');

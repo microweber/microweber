@@ -9,10 +9,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\View\View;
 
-api_expose_admin('fields/reorder');
-api_expose_admin('fields/delete');
-api_expose_admin('fields/make');
-api_expose_admin('fields/save');
+
 $_mw_made_default_fields_register = array();
 
 class FieldsManager
@@ -455,7 +452,7 @@ class FieldsManager
             }
         }
 
-        app()->custom_field_repository->flushCache();
+        app()->custom_field_repository->clearCache();
 
         return $customField->id;
     }

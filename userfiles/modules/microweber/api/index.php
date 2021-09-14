@@ -1,3 +1,9 @@
+<?php
+if(!defined('MW_VERSION')){
+    return;
+}
+
+?>
 <!DOCTYPE HTML>
 <html>
     <head>

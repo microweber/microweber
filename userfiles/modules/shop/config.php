@@ -5,8 +5,8 @@ $config['author'] = "Microweber";
 $config['ui_admin'] = true;
 $config['ui'] = true;
 $config['categories'] = "online shop";
-$config['position'] = 2;
-$config['version'] = 0.3;
+$config['position'] = 200;
+$config['version'] = 0.4;
 
 $config['permissions'] = [
     'index' => 'module.admin.shop.index',

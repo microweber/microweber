@@ -5,6 +5,7 @@ $current_language = array();
 
 // Current language
 $current_language_abr = mw()->lang_helper->current_lang();
+
 // $current_language_abr = get_short_abr($current_language_abr);
 
 $current_language['locale'] = $current_language_abr;

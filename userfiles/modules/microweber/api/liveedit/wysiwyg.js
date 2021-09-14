@@ -1500,7 +1500,12 @@ mw.wysiwyg = {
     fontFamily: function (font_name) {
         var range = getSelection().getRangeAt(0);
         document.execCommand("styleWithCSS", null, true);
+
         var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
         if (range.collapsed) {
 
             mw.wysiwyg.select_all(el);
@@ -1512,6 +1517,10 @@ mw.wysiwyg = {
         }
 
         mw.wysiwyg.change(el)
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
 
     },
     nestingFixes: function (root) {  /*
@@ -1785,11 +1794,19 @@ mw.wysiwyg = {
         .then(function (result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
+            var fc = mw.top().win.getSelection().focusNode;
+            if(fc.querySelector) {
+                Array.from(fc.querySelectorAll('a')).forEach(function(link) {
+                    //if(mw.tools.isEditable(link)) {
+                        link.id = mw.id('mw-link-');
+                    //}
+                })
+            }
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(fc.parentElement, 'edit'))
+            }
 
-            mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(mw.top().win.getSelection().focusNode.parentElement, 'edit'))
         });
-
-
 
     },
 

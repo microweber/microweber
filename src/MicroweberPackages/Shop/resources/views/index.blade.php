@@ -31,7 +31,7 @@
             <div class="row">
                 @foreach($products->results() as $product)
                     <div class="col-4 mb-5">
-                        <a href="{{site_url($product->url)}}">
+                        <a href="{{content_link($product->id)}}">
                             <img src="{{$product->thumbnail(800,800, true)}}" alt="">
 
                             <h6 class="mt-3">{{$product->title}}</h6>
@@ -46,7 +46,7 @@
                                 <span class="money"><?php print currency_format($product->price); ?></span>
                             </p>
 
-                            <a class="col-6 text-end align-self-center" href="{{site_url($product->url)}}"> View</a>
+                            <a class="col-6 text-end align-self-center" href="{{content_link($product->id)}}"> View</a>
                         </div>
 
                         {{--@foreach($product->tags as $tag)--}}

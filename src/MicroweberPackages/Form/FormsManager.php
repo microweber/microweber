@@ -672,6 +672,8 @@ class FormsManager
             event_trigger('mw.mail_subscribe', $params);
         }
 
+        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+
         $success = array();
         $success['id'] = $save;
         $success['success'] = _e('Your message has been sent', true);

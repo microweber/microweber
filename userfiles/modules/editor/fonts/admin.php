@@ -37,6 +37,15 @@
                 }
                 mw.reload_module_everywhere('editor/fonts/select_option');
                 mw.reload_module_everywhere('settings/template');
+
+                var iframe_sidebar_style_editor = mw.top().$('#mw-css-editor-sidebar-iframe');
+                if(iframe_sidebar_style_editor.length){
+                    iframe_sidebar_style_editor.remove();
+                    if(mw.top().liveEditWidgets){
+                        mw.top().liveEditWidgets._cssEditorInSidebarAccordion = null
+                    }
+                }
+
                 mw.notification.success('<?php _ejs('Fonts updated'); ?>');
             }
         });
@@ -54,12 +63,18 @@
             fileref.setAttribute("rel", "stylesheet")
             fileref.setAttribute("type", "text/css")
             fileref.setAttribute("href", filename)
+            fileref.setAttribute("crossorigin", "anonymous")
+            fileref.setAttribute("data-noprefix", "1")
+
+
 
 
             var fileref2 = document.createElement("link")
             fileref2.setAttribute("rel", "stylesheet")
             fileref2.setAttribute("type", "text/css")
             fileref2.setAttribute("href", filename);
+            fileref2.setAttribute("crossorigin", "anonymous")
+            fileref2.setAttribute("data-noprefix", "1")
 
             if(self !== top){
 

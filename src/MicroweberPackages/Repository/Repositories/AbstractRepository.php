@@ -120,7 +120,7 @@ abstract class AbstractRepository
 
 
         Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
-            $this->flushCache();
+            $this->clearCache();
         });
 
         //    $this->getModel()::observe(RepositoryModelObserver::class);
@@ -612,7 +612,7 @@ abstract class AbstractRepository
         $entity = $this->getNew($attributes);
 
         if ($entity->save()) {
-            $this->flushCache();
+            $this->clearCache();
 
             return $entity;
         }
@@ -631,7 +631,7 @@ abstract class AbstractRepository
     public function update(Model $entity, array $attributes)
     {
         if ($entity->update($attributes)) {
-            $this->flushCache();
+            $this->clearCache();
 
             return true;
         }
@@ -655,7 +655,7 @@ abstract class AbstractRepository
         }
 
         if ($entity->delete()) {
-            $this->flushCache();
+            $this->clearCache();
 
             return true;
         }
@@ -943,16 +943,6 @@ abstract class AbstractRepository
             $searchable = [];
             $model = $this->getModel();
             $table = $model->getTable();
-//            if($table == 'content'){
-//
-//                if(isset($params['single'])) {
-//                    if (isset($params['id'])) {
-//                        //  dump($params);
-//                        dd(debug_backtrace(1));
-//                    }
-//                }
-//            }
-
 
             $params = self::unifyParams($params);
 

@@ -12,9 +12,11 @@ use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
+use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
@@ -70,12 +72,11 @@ use MicroweberPackages\Utils\Http\Http;
  * @property CartManager              $cart_manager
  * @property CartRepository         $cart_repository
  * @property OrderManager             $order_manager
+ * @property CustomFieldRepository $custom_field_repository
  * @property OfferRepository             $offer_repository
  * @property TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
  * @property ShippingManager          $shipping_manager
- * @property ClientsManager           $clients_manager
- * @property InvoicesManager          $invoices_manager
  * @property OptionManager                 $option_manager
  * @property OptionRepository                 $option_repository
  * @property CacheManager                  $cache_manager
@@ -101,7 +102,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property ModuleManager              $module_manager
  * @property ModuleRepository              $module_repository
  * @property Translator                    $translator
-
+ * @property MultilanguageRepository       $multilanguage_repository
  */
 class Application
 {

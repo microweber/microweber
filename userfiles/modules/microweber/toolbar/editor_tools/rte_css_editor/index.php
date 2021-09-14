@@ -312,12 +312,21 @@ var _populate = {
                 var color = css.css[this.dataset.prop];
                 this.value = mw.color.rgbOrRgbaToHex(color);
 
+                if(this.value === '#00000000') {
+                    this.value = '#000000'
+                }
+
                 this.type = 'text'
-                 var el = this;
+
+                var el = this;
+                el.style.backgroundColor = color;
+                el.style.color = 'transparent';
+                el.style.cursor = 'pointer';
                 mw.colorPicker({
                     element: this,
                     position: 'bottom-right',
                     onchange: function (color){
+                        el.style.backgroundColor = color;
                         if(el.dataset.prop) {
                             output(el.dataset.prop, color);
                         } else if(el.dataset.func) {
@@ -325,8 +334,10 @@ var _populate = {
                         } else {
                             $(el).trigger('colorChange', color)
                         }
-                    }
+                    },
+                    color: this.value
                 })
+                this.readOnly = true;
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -626,10 +637,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         if(mw.top().liveEditSelector.selected[0]){
             ActiveNode = mw.top().liveEditSelector.selected[0];
 
-            var css = mw.CSSParser(ActiveNode);
-            populate(css);
-            activeTree();
-            if(ActiveNode){
+             if(ActiveNode){
+                var css = mw.CSSParser(ActiveNode);
+                populate(css);
+                activeTree();
                 var can = ActiveNode.innerText === ActiveNode.innerHTML;
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 

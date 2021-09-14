@@ -8,6 +8,6 @@ $config['author'] = "Bozhidar Slaveykov";
 $config['author_website'] = "cloudvision.bg";
 $config['ui'] = true;
 $config['ui_admin'] = true;
-$config['categories'] = "other";
+$config['categories'] = "content";
 $config['position'] = "100";
 $config['version'] = 0.1;

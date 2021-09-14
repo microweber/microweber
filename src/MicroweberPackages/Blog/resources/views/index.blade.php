@@ -31,7 +31,7 @@
             <div class="row">
             @foreach($posts->results() as $post)
                 <div class="col-md-6 mb-5">
-                    <a href="{{site_url($post->url)}}">
+                    <a href="{{content_link($post->id)}}"> 
 
                         <?php
                         /*<img src="{{$post->thumbnail(800,500, true)}}" alt="">*/
