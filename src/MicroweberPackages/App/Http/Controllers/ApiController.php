@@ -212,7 +212,7 @@ class ApiController  extends FrontendController
             define('MW_API_FUNCTION_CALL', $api_function);
         }
 
-        $api_skip_token_validation_items = ['clearcache','logout'];
+        $api_skip_token_validation_items = ['clearcache','logout','user_login'];
 
         if (in_array($api_function, $api_auth_exposed)) {
             if(in_array($api_function, $api_skip_token_validation_items)) {
