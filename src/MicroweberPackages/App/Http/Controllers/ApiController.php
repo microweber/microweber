@@ -215,8 +215,7 @@ class ApiController  extends FrontendController
         $api_skip_token_validation_items = ['clearcache','logout','user_login'];
 
         if (in_array($api_function, $api_auth_exposed)) {
-            if(in_array($api_function, $api_skip_token_validation_items)) {
-
+            if(!in_array($api_function, $api_skip_token_validation_items)) {
 
                 $request = request();
                 $request->merge($_GET);
