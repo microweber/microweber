@@ -133,18 +133,18 @@ class UserManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
         $url = $this->app->url->current(1);
         if ($check == 5) {
             $url_href = "<a href='$url' target='_blank'>$url</a>";
-            $this->app->log_manager->save('title=User IP ' . MW_USER_IP . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . MW_USER_IP);
+            $this->app->log_manager->save('title=User IP ' . user_ip() . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . user_ip());
         }
         if ($check > 5) {
             $check = $check - 1;
 
             return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
         }
-        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
         if ($check2 > 25) {
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
@@ -219,18 +219,18 @@ class UserManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
         $url = $this->app->url->current(1);
         if ($check == 5) {
             $url_href = "<a href='$url' target='_blank'>$url</a>";
-            $this->app->log_manager->save('title=User IP ' . MW_USER_IP . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . MW_USER_IP);
+            $this->app->log_manager->save('title=User IP ' . user_ip() . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . user_ip());
         }
         if ($check > 5) {
             $check = $check - 1;
 
             return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
         }
-        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
         if ($check2 > 25) {
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
@@ -1371,7 +1371,7 @@ class UserManager
         $params['success'] = true;
         $this->login_set_attempt($params);
 
-        $this->app->log_manager->save('title=Success login&is_system=y&rel_type=login_succes&user_ip=' . MW_USER_IP);
+        $this->app->log_manager->save('title=Success login&is_system=y&rel_type=login_succes&user_ip=' . user_ip());
     }
 
     public function login_set_failed_attempt($params = array())
@@ -1379,7 +1379,7 @@ class UserManager
         $params['success'] = false;
         $this->login_set_attempt($params);
 
-        $this->app->log_manager->save('title=Failed login&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+        $this->app->log_manager->save('title=Failed login&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
     }
 
     public function get($params = false)
@@ -1592,9 +1592,9 @@ class UserManager
                 if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                     $subject = 'Password reset!';
                     $content = "Hello, {$data_res['username']} <br> ";
-                    $content .= 'You have requested a password reset link from IP address: ' . MW_USER_IP . '<br><br> ';
+                    $content .= 'You have requested a password reset link from IP address: ' . user_ip() . '<br><br> ';
                     $security = array();
-                    $security['ip'] = MW_USER_IP;
+                    $security['ip'] = user_ip();
                     //  $security['hash'] = $this->app->format->array_to_base64($data_res);
                     // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
                     $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
@@ -1787,12 +1787,12 @@ class UserManager
             $data_to_save = array();
             $data_to_save['id'] = $uid;
             $data_to_save['last_login'] = date('Y-m-d H:i:s');
-            $data_to_save['last_login_ip'] = MW_USER_IP;
+            $data_to_save['last_login_ip'] = user_ip();
 
             $table = $this->tables['users'];
             $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->log_manager->delete('is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
+            $this->app->log_manager->delete('is_system=y&rel_type=login_failed&user_ip=' . user_ip());
         }
     }
 

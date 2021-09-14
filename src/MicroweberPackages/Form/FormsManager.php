@@ -418,7 +418,7 @@ class FormsManager
             $to_save['rel_id'] = $for_id;
             $to_save['rel_type'] = $for;
 
-            $to_save['user_ip'] = MW_USER_IP;
+            $to_save['user_ip'] = user_ip();
 
             if (isset($params['module_name'])) {
                 $to_save['module_name'] = $params['module_name'];
@@ -573,7 +573,7 @@ class FormsManager
         if (isset($params['module_name'])) {
 
             $pp_arr = $params;
-            $pp_arr['ip'] = MW_USER_IP;
+            $pp_arr['ip'] = user_ip();
 
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel_type'])) {

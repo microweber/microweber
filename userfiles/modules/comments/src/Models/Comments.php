@@ -306,7 +306,7 @@ class Comments extends Crud
 
 
                 $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
-                $message .= "IP:" . MW_USER_IP . ' <br /> ';
+                $message .= "IP:" . user_ip() . ' <br /> ';
                 $message .= mw('format')->array_to_ul($data3);
 
                 $sender = new MailSender();

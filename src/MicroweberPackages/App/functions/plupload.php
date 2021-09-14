@@ -370,13 +370,13 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 
 if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
     $filename_log = mw()->url_manager->slug($fileName);
-    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . MW_USER_IP);
+    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . user_ip());
     $upl_size_log = $_SERVER['CONTENT_LENGTH'];
     if (is_array($check) and isset($check['id'])) {
         $upl_size_log = intval($upl_size_log) + intval($check['value']);
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP . '&id=' . $check['id']);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip() . '&id=' . $check['id']);
     } else {
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip());
     }
 }
 

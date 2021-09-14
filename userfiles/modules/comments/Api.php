@@ -189,7 +189,7 @@ class Api extends Crud
 
 
                 $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
-                $message .= "IP:" . MW_USER_IP . ' <br /> ';
+                $message .= "IP:" . user_ip() . ' <br /> ';
                 $message .= mw('format')->array_to_ul($data3);
                 MailSender::send($email_on_new_comment_value, $subject, $message, 1);
             }
