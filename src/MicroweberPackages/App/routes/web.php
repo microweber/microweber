@@ -161,20 +161,20 @@ Route::group([
         \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class
     ],
 ], function () {
-    Route::any('/module/', '\MicroweberPackages\App\Http\Controllers\FrontendController@module');
-    Route::any('module/{all}', array('as' => 'module', 'uses' => '\MicroweberPackages\App\Http\Controllers\FrontendController@module'))->where('all', '.*');
+    Route::any('/module/', '\MicroweberPackages\App\Http\Controllers\ApiController@module');
+    Route::any('module/{all}', array('as' => 'module', 'uses' => '\MicroweberPackages\App\Http\Controllers\ApiController@module'))->where('all', '.*');
 });
 
 Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-    Route::any('/api', 'FrontendController@api');
-    Route::any('/api/{slug}', 'FrontendController@api');
+    Route::any('/api', 'ApiController@api');
+    Route::any('/api/{slug}', 'ApiController@api');
 
-    Route::any('api/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
-    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'FrontendController@api_html'))->where('all', '.*');
-    Route::any('/api_html', 'FrontendController@api_html');
+    Route::any('api/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
+    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'ApiController@api_html'))->where('all', '.*');
+    Route::any('/api_html', 'ApiController@api_html');
     //
-    Route::any('/editor_tools', 'FrontendController@editor_tools');
-    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'FrontendController@editor_tools'))->where('all', '.*');
+    Route::any('/editor_tools', 'ApiController@editor_tools');
+    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'ApiController@editor_tools'))->where('all', '.*');
 
 });
 // 'middleware' => 'web',
