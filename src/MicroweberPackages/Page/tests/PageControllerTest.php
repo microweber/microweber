@@ -4,6 +4,7 @@ namespace MicroweberPackages\Page\tests;
 
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,6 +77,14 @@ class PageControllerTest extends TestCase
 
     public function testSavePageFromController()
     {
+
+
+        $menu = new Menu();
+        $menu->title = 'my_new_menu';
+        $menu->item_type = 'menu';
+        $menu->is_active = 1;
+        $menu->save();
+
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -88,6 +97,7 @@ class PageControllerTest extends TestCase
             [
                 'title' => $title,
                 'content_body' => '<b>Bold text</b>',
+                'add_content_to_menu' => [$menu->id],
                 'content' => '<b onmouseover=alert(‘XSS testing!‘)>XSS</b>   <IMG SRC=j&#X41vascript:alert(\'test2\')>'
             ]
         );
@@ -97,7 +107,11 @@ class PageControllerTest extends TestCase
         $pageData = $response->getData();
         $this->assertEquals($pageData->data->title, $title);
 
+
         $pageId = $pageData->data->id;
+
+        $is_in_menu = app()->menu_manager->is_in_menu($menu->id,$pageId);
+        $this->assertEquals(true, $is_in_menu);
 
 
         $response = $this->call(
