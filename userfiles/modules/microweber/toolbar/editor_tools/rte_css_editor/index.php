@@ -310,9 +310,12 @@ var _populate = {
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
-                this.value = mw.color.rgbOrRgbaToHex(color);
+                if(color) {
+                    this.value = mw.color.rgbOrRgbaToHex(color);
 
-                if(this.value === '#00000000') {
+                }
+
+                if(!color || this.value === '#00000000') {
                     this.value = '#000000'
                 }
 
@@ -405,9 +408,15 @@ var scColumns = function (property, value){
     }
 }
 
+var OverlayNode = null;
+
 var specialCases = function (property, value){
     if(property.includes('col-')){
         scColumns(property, value)
+        return true;
+    } else if(OverlayNode && property === 'overlay-color') {
+        OverlayNode.style.backgroundColor = value;
+        mw.top().wysiwyg.change(OverlayNode);
         return true;
     }
 
@@ -425,8 +434,9 @@ var populateSpecials = function (css) {
 
     var containerType = document.querySelector('#field-conatiner-type');
     containerType.style.display = 'none';
-
-
+    var ol = document.getElementById('overlay-edit');
+    ol.style.display = 'none';
+    OverlayNode = null;
 
     if(ActiveNode) {
          var cnt = mw.tools.firstParentOrCurrentWithAnyOfClasses(ActiveNode, ['container', 'container-fluid']);
@@ -439,6 +449,20 @@ var populateSpecials = function (css) {
             }
         }
 
+        var layout = mw.tools.firstParentOrCurrentWithAnyOfClasses(ActiveNode, ['module-layouts']);
+        if(layout) {
+            var overlay = layout.querySelector('.mw-layout-overlay');
+            OverlayNode = overlay;
+            if(overlay) {
+                var overlayCss = getComputedStyle(overlay);
+                var bgColor = overlayCss.backgroundColor;
+                var oc = document.getElementById('overlay-color')
+                oc.value = bgColor
+                oc.style.backgroundColor = bgColor
+                ol.style.display = '';
+            }
+
+        }
 
 
 
@@ -961,6 +985,19 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </mw-accordion-item>
 
+    <mw-accordion-item id="overlay-edit">
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Overlay"); ?></div>
+        <div class="mw-accordion-content mw-ui-box-content">
+            <div class="s-field">
+                <label><?php _e("Color"); ?></label>
+                <div class="s-field-content">
+                    <div class="mw-field" data-size="medium">
+                        <input type="color" class="colorField unit" id="overlay-color" data-prop="overlay-color">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mw-accordion-item>
     <mw-accordion-item id="columns-edit">
 
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Grid"); ?></div>
