@@ -15,7 +15,7 @@ class MicroweberComposerClient
     public $logfile = false;
     public $licenses = [];
     public $packageServers = [
-        'https://packages-satis.microweberapi.com/packages.json',
+        'https://packages.microweberapi.com/packages.json',
     ];
 
     public function __construct()
