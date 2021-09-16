@@ -269,15 +269,17 @@ class ContentTest extends TestCase
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
         $save_post3 = save_content($params);
+
         //getting
         $next = next_content($save_post1);
-
         $prev = prev_content($save_post2);
 
         $this->assertEquals($save_post2, ($next['id']));
         $this->assertEquals($save_post1, ($prev['id']));
+
         $next = next_content($save_post2);
         $prev = prev_content($save_post3);
+        
         $this->assertEquals($save_post3, ($next['id']));
         $this->assertEquals($save_post2, ($prev['id']));
         $del1 = delete_content($save_post1);

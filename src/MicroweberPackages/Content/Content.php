@@ -95,11 +95,6 @@ class Content extends Model
         "created_at",
     ];
 
-//    public function tags()
-//    {
-//        return $this->belongsToMany(Taggable::class);
-//    }
-
     public function related()
     {
         return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');

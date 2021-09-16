@@ -1179,7 +1179,7 @@ class ApiController  extends FrontendController
                 }
 
                 $this->return_data = 1;
-                $page = $this->frontend();
+                 $page = $this->frontend();
             } else {
                 $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
             }
@@ -1368,11 +1368,14 @@ class ApiController  extends FrontendController
         }
 
         //    $page['render_file'] = $render_file;
-        if (!$standalone_edit) {
+
+        if (!$standalone_edit and $tool == 'wysiwyg') {
             if (isset($page['render_file'])) {
                 if (!isset($page['layout_file'])) {
                     $page['layout_file'] = str_replace(template_dir(), '', $page['render_file']);
                 }
+
+
                 event_trigger('mw.front', $page);
                 $l = new View($page['render_file']);
                 $l->page_id = PAGE_ID;
