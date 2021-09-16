@@ -24,7 +24,7 @@
         <?php
         if (is_module('standalone-updater')) {
         ?>
-            <button class="btn btn-primary"><i class="fa fa-clock-o"></i> <?php _e('Check for system updates'); ?></button>
+            <a href="<?php echo admin_url('view:modules/load_module:standalone-updater');?>" class="btn btn-primary"><i class="fa fa-clock"></i> <?php _e('Check for system updates'); ?></a>
         <?php
         } else {
         ?>
