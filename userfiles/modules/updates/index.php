@@ -33,7 +33,7 @@
 
             <script>
                 $(document).ready(function () {
-                    $(window).on('adminPackageManagerDoneInstalling', function () {
+                    mw.on('adminPackageManagerDoneInstalling', function (e, data) {
                         window.location.href = '<?php echo admin_url('view:modules/load_module:standalone-updater');?>';
                     });
                 });
