@@ -7,12 +7,17 @@ if(typeof  processContactForm !== 'object'){
 
     processContactForm = {
        send: function(selector, msgselector){
-            mw.tools.loading(selector);
-
+           var spinner = mw.spinner({
+               element: selector,
+               size: 60,
+               decorate: true
+           });
+           spinner.show()
+           spinner.setState('loading')
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
 
             mw.form.post(selector, undefined, function(form){
-                mw.tools.loading(selector, false);
+                spinner.setState('done')
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
@@ -20,21 +25,20 @@ if(typeof  processContactForm !== 'object'){
                      window.location.href = data2.redirect;
                 }
                 else {
-                    processContactForm.done(form, msgselector);
+                    processContactForm.done(form, msgselector, spinner);
                 }
-         	}, true );
+         	}, true, function () {
+                spinner.remove()
+                mw.$('input[type="submit"]',selector).attr('disabled', false);
+            } );
        },
-       done: function(form, selector){
-          var form = mw.$(form);
-          form.addClass("deactivated");
+       done: function(form, selector, spinner){
+          form = mw.$(form);
           form.removeClass("was-validated");
-
-          mw.$(selector).css("top", "20%");
           if(typeof form.find(".mw-captcha-img")[0] !== 'undefined'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
           }
 		  mw.$('input[type="submit"]',form).removeAttr('disabled');
-
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
@@ -43,8 +47,9 @@ if(typeof  processContactForm !== 'object'){
 			    mw.tools.refresh_image(cap);
 			  }
 			  mw.$(selector).show();
-              mw.$(selector).css("top", "30%");
-              form.removeClass("deactivated");
+                if(spinner) {
+                  spinner.remove()
+              }
           }, 3200);
 
 

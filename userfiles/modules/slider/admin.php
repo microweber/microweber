@@ -118,6 +118,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     multiple: 2
                                 },
                                 {
+                                    interface: 'color',
+                                    label: ['Overlay color'],
+                                    id: 'overlaycolor'
+                                },
+                                {
                                     interface: 'select',
                                     label: ['Skin'],
                                     id: 'skin',

@@ -36,8 +36,13 @@ mw.Spinner = function(options){
         });
     };
 
+    this.setState = function(state) {
+        mw.tools.classNamespaceDelete(this.$spinner[0], 'mw-spinner-state-');
+        mw.tools.addClass(this.$spinner[0], 'mw-spinner-state-' + state);
+    }
+
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
         this.$element[this.options.insertMode](this.$spinner);
