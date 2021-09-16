@@ -965,7 +965,6 @@ abstract class AbstractRepository
                         $this->query->$whereMethodName($paramValue);
                         unset($params[$paramKey]);
                     } else {
-
                         if (in_array($paramKey, $searchable)) {
                             $parseCompareSign = db_query_parse_compare_sign_value($paramValue);
                             $this->query->where($table . '.' . $paramKey, $parseCompareSign['compare_sign'], $parseCompareSign['value']);

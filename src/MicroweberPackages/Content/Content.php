@@ -100,6 +100,12 @@ class Content extends Model
 //        return $this->belongsToMany(Taggable::class);
 //    }
 
+    public function whereTagsNames($query, $tags = false) {
+
+        return $query;
+
+    }
+
     public function related()
     {
         return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
