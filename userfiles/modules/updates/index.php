@@ -9,6 +9,7 @@
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
+
 <div class="card style-1 mb-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
@@ -30,14 +31,21 @@
         ?>
             <button class="btn btn-primary" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/standalone-updater');"><i class="fa fa-download"></i> <?php _e('Install Standalone Updater'); ?></button>
 
+            <script>
+                $(document).ready(function () {
+                    mw.on('install_composer_package_success', function (e, data) {
+                        window.location.href = '<?php echo admin_url('view:modules/load_module:standalone-updater');?>';
+                    });
+                });
+            </script>
         <?php
         }
         ?>
 
     </div>
 </div>
-
-
+<br />
+<br />
 
 <module type="admin/packages" show_only_updates="true" />
 

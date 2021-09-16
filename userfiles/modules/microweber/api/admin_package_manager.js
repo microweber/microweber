@@ -110,8 +110,6 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
 
                 mw.$('#update_queue_set_modal').remove();
 
-
-                mw.trigger('adminPackageManagerDoneInstalling');
             }
 
 
