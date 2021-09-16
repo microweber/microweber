@@ -2532,7 +2532,7 @@ class ContentManager
             $contentData['position'] = 0;
         }
 
-        $query = \MicroweberPackages\Content\Content::query();
+        $query = \MicroweberPackages\Content\Content::query()->select('content.*');
         $categories = array();
         $params = array();
 
