@@ -946,7 +946,6 @@ abstract class AbstractRepository
 
             $params = self::unifyParams($params);
 
-
             $columns = $model->getFillable();
             if (method_exists($model, 'getSearchable')) {
                 $searchable = $model->getSearchable();
@@ -1228,6 +1227,10 @@ abstract class AbstractRepository
 
     public static function queryTagsLogic($model, $table, $columns, $params)
     {
+
+        if (isset($params['tags'])) {
+            $model->filter(['tags' => $params['tags']]);
+        }
 
         if (isset($params['tag_names'])) {
             $model->filter(['tags' => $params['tag_names']]);
