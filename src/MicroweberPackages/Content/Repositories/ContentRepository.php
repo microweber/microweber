@@ -19,7 +19,7 @@ class ContentRepository extends AbstractRepository
     protected $filterMethods = [
         'tags' => 'whereTagsNames',
         'tags_names' => 'whereTagsNames',
-       'category' => 'whereCategoryIds',
+        'category' => 'whereCategoryIds',
         'categories' => 'whereCategoryIds',
     ];
 
