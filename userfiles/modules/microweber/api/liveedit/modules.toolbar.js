@@ -26,7 +26,7 @@ mw.liveedit.modulesToolbar = {
                         el = document.querySelector('[data-layout-container]');
 
                         action = 'append';
-                        if(el && mw.tools.isEditable(el.parentNode)) {
+                        if(el && mw.tools.isEditable(el)) {
                             mw.element(el)[action](this.outerHTML);
                             setTimeout(function (){
                                 mw.drag.load_new_modules();
@@ -48,7 +48,7 @@ mw.liveedit.modulesToolbar = {
                                 mw.tools.scrollTo(layout.nextElementSibling, undefined, 200)
                                 mw.wysiwyg.change(layout.nextElementSibling)
                             }, 78)
-                        }  
+                        }
                     } else {
                         mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
                     }
