@@ -963,6 +963,7 @@ abstract class AbstractRepository
                     if (isset($this->filterMethods[$paramKey])) {
                         $whereMethodName = $this->filterMethods[$paramKey];
                         $this->query->$whereMethodName($paramValue);
+                        unset($params[$paramKey]);
                     } else {
 
                         if (in_array($paramKey, $searchable)) {
