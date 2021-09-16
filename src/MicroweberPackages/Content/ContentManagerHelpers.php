@@ -9,6 +9,7 @@ use DB;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
+use voku\helper\AntiXSS;
 
 class ContentManagerHelpers extends ContentManagerCrud
 {
@@ -971,7 +972,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
+                        $html_to_save = $this->app->parser->make_tags($html_to_save);
+
+                        $antixss = new AntiXSS();
+                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
+
+
+
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
