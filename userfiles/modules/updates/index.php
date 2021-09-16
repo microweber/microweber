@@ -9,6 +9,7 @@
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
+
 <div class="card style-1 mb-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
@@ -43,8 +44,8 @@
 
     </div>
 </div>
-
-
+<br />
+<br />
 
 <module type="admin/packages" show_only_updates="true" />
 
