@@ -30,6 +30,13 @@
         ?>
             <button class="btn btn-primary" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/standalone-updater');"><i class="fa fa-download"></i> <?php _e('Install Standalone Updater'); ?></button>
 
+            <script>
+                $(document).ready(function () {
+                    $(window).on('adminPackageManagerDoneInstalling', function () {
+                        window.location.href = '<?php echo admin_url('view:modules/load_module:standalone-updater');?>';
+                    });
+                });
+            </script>
         <?php
         }
         ?>
