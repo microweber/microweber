@@ -157,15 +157,7 @@ api_expose_admin('shop/export_orders', function ($data) {
 
 // media
 
-api_expose('delete_media_file');
-api_expose('upload_progress_check');
-api_expose('upload');
-api_expose('reorder_media');
-api_expose('delete_media');
-api_expose('save_media');
 
-api_expose('pixum_img');
-api_expose('thumbnail_img');
 
 
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
@@ -186,8 +178,8 @@ api_expose('thumbnail_img');
     return mw()->media_manager->pixum_img();
 });
 
-api_expose('create_media_dir');
-api_expose('media/delete_media_file');
+
+
 
 // queue
 api_expose('queue_dispatch', function () {

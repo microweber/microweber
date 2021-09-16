@@ -358,19 +358,19 @@ function clearcache()
     $empty_folder = userfiles_path() . 'cache' . DS;
 
     if (is_dir($empty_folder)) {
-        rmdir_recursive($empty_folder, true);
+        @rmdir_recursive($empty_folder, true);
     }
 
     if (!is_dir($empty_folder)) {
-        mkdir_recursive($empty_folder);
+        @mkdir_recursive($empty_folder);
     }
 
     $empty_folder = mw_cache_path().'composer';
     if (is_dir($empty_folder)) {
-        rmdir_recursive($empty_folder, false);
+        @rmdir_recursive($empty_folder, false);
     }
     if (!is_dir($empty_folder)) {
-        mkdir_recursive($empty_folder);
+        @mkdir_recursive($empty_folder);
     }
 
     if (isset($_GET['redirect_to'])) {

@@ -12,6 +12,12 @@ trait HasMenuItem
 {
     public static $addContentToMenu = [];
 
+
+    public function initializeHasMenuItem()
+    {
+         $this->fillable[] = 'add_content_to_menu';
+    }
+
     public function addToMenu($contentId)
     {
         self::$addContentToMenu[] = $contentId;
@@ -19,6 +25,17 @@ trait HasMenuItem
 
     public static function bootHasMenuItem()
     {
+
+        static::saving(function ($model) {
+
+            // append content to categories
+            if (isset($model->add_content_to_menu)) {
+                self::$addContentToMenu = $model->add_content_to_menu;
+            }
+            unset($model->add_content_to_menu);
+        });
+
+
         static::saved(function ($model) {
 
             if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {

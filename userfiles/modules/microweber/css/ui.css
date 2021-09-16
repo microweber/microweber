@@ -5,7 +5,7 @@
  * Do not change anything!
  *
  */
-
+@import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
 * {
   margin: 0;
   padding: 0;
@@ -637,11 +637,6 @@ span.mw-powered-by {
 .css-preset-dropdown:after {
   margin-left: 0 !important;
   font-size: 20px;
-}
-.mw-bg-mask {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: rgba(0, 0, 0, 0) !important;
 }
 .mw-template-document-preview *,
 .mw-template-document-preview {
@@ -3198,7 +3193,6 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-
 }
 .mw-ui-box-header {
   padding: 15px 25px 10px 25px;
@@ -3208,7 +3202,6 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   position: relative;
-    font-weight: bold;
 }
 .mw-ui-box-header a {
   text-decoration: none;
@@ -6756,6 +6749,8 @@ html[dir='rtl'] .mw-dialog-close {
   padding: 5px;
   text-align: center;
   font-size: 12px;
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0%) 0px 3px 8px;
 }
 .mw-notification-lite {
   display: block;
@@ -7335,20 +7330,20 @@ body.bup.dragStart.state-element .edit .element:empty {
   cursor: pointer;
   position: relative;
 }
-/*.mw-ui-box-header.mw-accordion-title:after {*/
-  /*position: absolute;*/
-  /*content: "\0118";*/
-  /*display: inline-block;*/
-  /*font-family: Microweber !important;*/
-  /*text-transform: none !important;*/
-  /*transition: 0.4s;*/
-  /*z-index: 1;*/
-  /*color: #4592ff;*/
-  /*transform: rotate(-90deg);*/
-  /*top: 12px;*/
-  /*right: 12px;*/
-  /*font-size: 15px;*/
-/*}*/
+.mw-ui-box-header.mw-accordion-title:after {
+  position: absolute;
+  content: "\0118";
+  display: inline-block;
+  font-family: Microweber !important;
+  text-transform: none !important;
+  transition: 0.4s;
+  z-index: 1;
+  color: #4592ff;
+  transform: rotate(-90deg);
+  top: 12px;
+  right: 12px;
+  font-size: 15px;
+}
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
 }
@@ -7600,6 +7595,34 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-spinner.mw-spinner-mode-prepend {
   margin-right: 8px;
 }
+.mw-spinner .mw-spinner-checkmark-check {
+  display: none;
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+.mw-spinner.mw-spinner-state-done .mw-spinner-checkmark-check {
+  display: block;
+  animation: mw-spinner-checkmark-check-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0s forwards;
+}
+.mw-spinner.mw-spinner-state-done svg,
+.mw-spinner.mw-spinner-state-done circle {
+  -webkit-animation: none;
+  animation: none;
+  transition: 0.3s;
+}
+.mw-spinner.mw-spinner-state-done circle {
+  fill: #7ac142;
+  stroke: #7ac142 !important;
+}
+@keyframes mw-spinner-checkmark-check-stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
 @-webkit-keyframes mw-spinnerrotate {
   100% {
     -webkit-transform: rotate(360deg);
@@ -7673,7 +7696,6 @@ body.bup.dragStart.state-element .edit .element:empty {
   padding: 5px;
   min-height: 100px;
   overflow: auto;
-  cursor: auto;
 }
 .mw-editor-frame-area ul:not([class]),
 .mw-editor-area ul:not([class]),

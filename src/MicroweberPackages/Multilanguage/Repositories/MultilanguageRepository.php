@@ -79,12 +79,14 @@ class MultilanguageRepository extends AbstractRepository
 
         } catch (\Illuminate\Database\QueryException $e) {
             if (!Schema::hasTable('multilanguage_supported_locales')) {
-                echo 'Multilanguage exception: ', $e->getMessage(), "\n";
-                mw_post_update();
+                $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+                $system_refresh->createSchema();
+                return false;
             } else {
                 echo 'Caught exception: ', $e->getMessage(), "\n";
+                exit();
             }
-            exit();
+
         }
 
 

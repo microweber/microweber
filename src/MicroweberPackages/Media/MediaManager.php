@@ -930,6 +930,7 @@ class MediaManager
             //$check = MediaThumbnail::where('filename', $cache_id_without_ext)->first();
             $check = app()->media_repository->getThumbnailCachedItem($cache_id_without_ext);
 
+
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
@@ -945,7 +946,7 @@ class MediaManager
                 }
 
             }
-
+ 
             return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['id'] . '?finded';
         }
 

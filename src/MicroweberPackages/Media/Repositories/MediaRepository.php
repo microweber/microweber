@@ -25,7 +25,7 @@ class MediaRepository extends AbstractRepository
 
             if ($getMedia !== null) {
 
-                $getMedia = (array) $getMedia;
+                $getMedia = (array)$getMedia;
                 $surl = app()->url_manager->site();
                 $getMedia['filename'] = app()->format->replace_once('{SITE_URL}', $surl, $getMedia['filename']);
 
@@ -43,9 +43,16 @@ class MediaRepository extends AbstractRepository
 
             $check = \DB::table('media_thumbnails')->where('filename', $tn_cache_id)->first();
 
-             //$check = MediaThumbnail::where('filename', $tn_cache_id)->first();
+            //$check = MediaThumbnail::where('filename', $tn_cache_id)->first();
             if ($check and !empty($check)) {
-                return (array) $check;
+
+                $ready = (array)$check;
+
+                if (isset($ready['image_options']) and is_string($ready['image_options'])) {
+                    $ready['image_options'] = @json_decode($ready['image_options'], true);
+                }
+
+                return $ready;
             }
 
             return false;

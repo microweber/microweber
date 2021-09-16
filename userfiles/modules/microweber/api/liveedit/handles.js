@@ -936,7 +936,7 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            var isLayout = element && element.getAttribute('data-type') === 'layouts';
+            var isLayout = element && element.classList.contains('module') && element.getAttribute('data-type') === 'layouts';
             handle.isLayout = isLayout;
             handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
             mw.$('.mw_handle_module_clone').hide();

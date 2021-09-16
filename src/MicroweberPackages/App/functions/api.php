@@ -18,6 +18,7 @@ function api_expose($function_name, $callback = null)
 
 function api_expose_admin($function_name, $callback = null)
 {
+
     static $index = ' ';
     if (is_bool($function_name)) {
         return $index;
@@ -29,6 +30,8 @@ function api_expose_admin($function_name, $callback = null)
     } else {
         $index .= ' ' . $function_name;
     }
+
+
 }
 
 function api_bind($function_name, $callback = false)

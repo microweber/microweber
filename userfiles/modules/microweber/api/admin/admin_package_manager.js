@@ -64,6 +64,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values, $callback);
 
+
+
+
+
 }
 
 mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = null;
@@ -104,6 +108,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
                 mw.admin.admin_package_manager.set_loading(false);
 
                 mw.$('#update_queue_set_modal').remove();
+
             }
 
 

@@ -31,9 +31,40 @@
     &.mw-spinner-mode-prepend{
         margin-right: 8px;
     }
+    .mw-spinner-checkmark-check{
+        display: none;
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        fill: none;
+        stroke: #ffffff;
+        stroke-width: 2;
+     }
+    &.mw-spinner-state-done{
+
+
+        .mw-spinner-checkmark-check{
+            display: block;
+            animation: mw-spinner-checkmark-check-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0s forwards;
+
+        }
+        svg, circle {
+            -webkit-animation: none;
+            animation: none;
+            transition: .3s;
+        }
+        circle{
+            fill: #7ac142;
+            stroke: #7ac142 !important;
+        }
+    }
 }
 
-
+@keyframes mw-spinner-checkmark-check-stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
 
 @-webkit-keyframes mw-spinnerrotate {
     100% {

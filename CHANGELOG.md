@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.2.9] - 2021-09-16
+- Updated Laravel to 8.61
+- Fixes on the loading speed
+- Fixes on the security
+- Fixes on live edit
+- Added service provider for templates
+- Added new repository classes
+- Added multilanguage module
+- Added new icons for modules
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.8...1.2.9 "")
+
+
 ## [1.2.8] - 2021-07-08
 - Updated Laravel to 8.4
 - Fixes the custom fields
@@ -11,7 +25,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability for shop and blog to have filters
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.7...1.2.8 "")
-
 
 
 ## [1.2.7] - 2021-05-14

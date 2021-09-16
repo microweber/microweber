@@ -36,7 +36,7 @@ class LogManager
         $params['table'] = $table;
 
         if (is_admin() == false) {
-            $params['user_ip'] = MW_USER_IP;
+            $params['user_ip'] = user_ip();
         }
 
         $q = $this->app->database_manager->get($params);
@@ -64,7 +64,7 @@ class LogManager
         $table = $this->table;
         $params['table'] = $table;
         if (is_admin() == false) {
-            $params['user_ip'] = MW_USER_IP;
+            $params['user_ip'] = user_ip();
         }
         $q = $this->app->database_manager->get($params);
         if (is_array($q)) {
@@ -82,7 +82,7 @@ class LogManager
     {
         $table = $this->table;
         $params = parse_params($params);
-        $params['user_ip'] = MW_USER_IP;
+        $params['user_ip'] = user_ip();
         $params['table'] = $table;
 
         $save = $this->app->database_manager->save($params);

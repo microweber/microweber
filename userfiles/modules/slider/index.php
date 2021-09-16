@@ -97,7 +97,6 @@ if (is_file($template_file)) {
 
     <script>
         $(document).ready(function () {
-            console.log();
             var bxPager = '<?php print $pager ? $pager : 'undefined'; ?>';
             if ($('.bxSlider', '#<?php print $params['id'] ?>').children().length > 1) {
                 bxPager = 'false';
@@ -181,7 +180,6 @@ if (is_file($template_file)) {
                     }
                 ]
             };
-            console.log(config);
             var stime = 0;
             mw.onLive(function () {
                 stime = 500;

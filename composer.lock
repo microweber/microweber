@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f58e647bbf38a1e9429d235ce212d4aa",
+    "content-hash": "a4608b1495fb8c9ebdef850d9b62a08f",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -866,12 +866,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "b174585d1fe49ceed21928a945138948cb394600"
+                "reference": "1927b0a81e48643ca45c4a55b34a7645b04f3acc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/b174585d1fe49ceed21928a945138948cb394600",
-                "reference": "b174585d1fe49ceed21928a945138948cb394600",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/1927b0a81e48643ca45c4a55b34a7645b04f3acc",
+                "reference": "1927b0a81e48643ca45c4a55b34a7645b04f3acc",
                 "shasum": ""
             },
             "require": {
@@ -916,7 +916,7 @@
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "support": {
                 "issues": "https://github.com/composer/package-versions-deprecated/issues",
-                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.4"
+                "source": "https://github.com/composer/package-versions-deprecated/tree/master"
             },
             "funding": [
                 {
@@ -932,7 +932,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T08:41:34+00:00"
+            "time": "2021-09-16T13:11:31+00:00"
         },
         {
             "name": "composer/semver",
@@ -3591,12 +3591,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "55d3f78b115d191b810435b4b370251af469004c"
+                "reference": "5398fbbbf81ed842cf0430b278f07eb0f869cf8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/55d3f78b115d191b810435b4b370251af469004c",
-                "reference": "55d3f78b115d191b810435b4b370251af469004c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5398fbbbf81ed842cf0430b278f07eb0f869cf8f",
+                "reference": "5398fbbbf81ed842cf0430b278f07eb0f869cf8f",
                 "shasum": ""
             },
             "require": {
@@ -3606,7 +3606,8 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "league/commonmark": "^1.3|^2.0",
+                "laravel/serializable-closure": "^1.0",
+                "league/commonmark": "^1.3|^2.0.2",
                 "league/flysystem": "^1.1",
                 "monolog/monolog": "^2.0",
                 "nesbot/carbon": "^2.31",
@@ -3671,21 +3672,21 @@
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^3.189.0",
-                "doctrine/dbal": "^2.6|^3.0",
+                "doctrine/dbal": "^2.13.3|^3.1.2",
                 "filp/whoops": "^2.8",
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
                 "league/flysystem-cached-adapter": "^1.0",
-                "mockery/mockery": "^1.4.2",
+                "mockery/mockery": "^1.4.4",
                 "orchestra/testbench-core": "^6.23",
                 "pda/pheanstalk": "^4.0",
-                "phpunit/phpunit": "^8.5.8|^9.3.3",
+                "phpunit/phpunit": "^8.5.19|^9.5.8",
                 "predis/predis": "^1.1.2",
                 "symfony/cache": "^5.1.4"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.189.0).",
                 "brianium/paratest": "Required to run tests in parallel (^6.0).",
-                "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6|^3.0).",
+                "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.13.3|^3.1.2).",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
                 "ext-memcached": "Required to use the memcache cache driver.",
@@ -3699,10 +3700,10 @@
                 "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (^1.0).",
                 "league/flysystem-cached-adapter": "Required to use the Flysystem cache (^1.0).",
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
-                "mockery/mockery": "Required to use mocking (^1.4.2).",
+                "mockery/mockery": "Required to use mocking (^1.4.4).",
                 "nyholm/psr7": "Required to use PSR-7 bridging features (^1.2).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (^4.0).",
-                "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3).",
+                "phpunit/phpunit": "Required to use assertions and run tests (^8.5.19|^9.5.8).",
                 "predis/predis": "Required to use the predis connector (^1.1.2).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0).",
@@ -3753,7 +3754,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-09-13T16:16:22+00:00"
+            "time": "2021-09-15T16:45:42+00:00"
         },
         {
             "name": "laravel/passport",
@@ -3895,6 +3896,66 @@
                 "source": "https://github.com/laravel/sanctum"
             },
             "time": "2021-06-17T17:33:33+00:00"
+        },
+        {
+            "name": "laravel/serializable-closure",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/serializable-closure.git",
+                "reference": "2f4d826e04f2f54df30716b6d3a5dbe761b14a4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/2f4d826e04f2f54df30716b6d3a5dbe761b14a4e",
+                "reference": "2f4d826e04f2f54df30716b6d3a5dbe761b14a4e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.18",
+                "phpstan/phpstan": "^0.12.98",
+                "symfony/var-dumper": "^5.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\SerializableClosure\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Nuno Maduro",
+                    "email": "nuno@laravel.com"
+                }
+            ],
+            "description": "Laravel Serializable Closure provides an easy and secure way to serialize closures in PHP.",
+            "keywords": [
+                "closure",
+                "laravel",
+                "serializable"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/serializable-closure/issues",
+                "source": "https://github.com/laravel/serializable-closure"
+            },
+            "time": "2021-09-14T15:41:19+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -5426,98 +5487,98 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "db83c06e0d988b74a6666a14f080ba1ef300987a"
+                "reference": "679d0021c100228b3fc6e3890a64ad66fc2efa45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com//dist/microweber-templates/new-world/microweber-templates-new-world-db83c06e0d988b74a6666a14f080ba1ef300987a-zip-c87df4.zip",
-                "reference": "db83c06e0d988b74a6666a14f080ba1ef300987a",
-                "shasum": "8bdc14cd75f3afab8b723932a15419a6a6e42184"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-679d0021c100228b3fc6e3890a64ad66fc2efa45-zip-6a873c.zip",
+                "reference": "679d0021c100228b3fc6e3890a64ad66fc2efa45",
+                "shasum": "1aa5cf21de95b9c465c86bac8dcb93896e81d1f7"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "http://templates.microweber.com/new-world/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/screenshot.jpg",
-                    "features": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/features.jpg",
-                    "fa-brands-400": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/fa-brands-400.svg",
-                    "fa-regular-400": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/fa-regular-400.svg",
-                    "fa-solid-900": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/fa-solid-900.svg",
-                    "slick": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/slick.svg",
-                    "hr-line": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/hr-line.svg",
-                    "prev_next": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/prev_next.png",
-                    "logo_footer": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/logo_footer.png",
-                    "2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/2.png",
-                    "hr-vertical": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/hr-vertical.svg",
-                    "map": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/map.png",
-                    "blue-bg": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/blue-bg.png",
-                    "people-4": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-4.jpg",
-                    "quotes": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/quotes.png",
-                    "people-5": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-5.png",
-                    "white-4": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-4.png",
-                    "img-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-1.png",
-                    "img-4": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-4.png",
-                    "img-5": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-5.png",
-                    "img-3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-3.png",
-                    "img-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-2.png",
-                    "img-6": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-6.png",
-                    "white-6": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-6.png",
-                    "white-5": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-5.png",
-                    "white-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-2.png",
-                    "white-3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-3.png",
-                    "white-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/white-1.png",
-                    "people-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-1.jpg",
-                    "parallax": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/parallax.png",
-                    "1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/1.jpg",
-                    "video_for_layouts": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/video_for_layouts.png",
-                    "img-7": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-7.png",
-                    "people-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-2.jpg",
-                    "logo": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/logo.png",
-                    "people-3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-3.png",
-                    "avatar": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/avatar.png",
-                    "feature-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/feature-2.jpg",
-                    "img-8": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-8.png",
-                    "blockquote": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/blockquote.png",
-                    "feature-3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/feature-3.jpg",
-                    "people-6": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/people-6.png",
-                    "blockquote-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/blockquote-1.png",
-                    "hr-old": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/hr-old.svg",
-                    "input-black": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/input-black.png",
-                    "slide-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/slide-2.jpg",
-                    "404_graphic": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/404_graphic.png",
-                    "slide-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/slide-1.png",
-                    "hr-zigzag": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/hr-zigzag.svg",
-                    "testimonial": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/testimonial.png",
-                    "meeting": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/meeting.png",
-                    "video-bg": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/video-bg.png",
-                    "features-bg": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/features-bg.png",
-                    "hr": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/hr.svg",
-                    "header_style_9": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_9.jpg",
-                    "header_style_6": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_6.jpg",
-                    "header_style_8": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_8.jpg",
-                    "header_style_5": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_5.jpg",
-                    "header_style_1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_1.jpg",
-                    "header_style_4": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_4.jpg",
-                    "header_style_3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_3.jpg",
-                    "header_style_7": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_7.jpg",
-                    "header_style_2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/header_style_2.jpg",
-                    "img-9": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/img-9.png",
-                    "feature-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/feature-1.jpg",
-                    "logo-dark": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/logo-dark.png",
-                    "video": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/video.png",
-                    "default_icon": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/default_icon.png",
-                    "skin-1": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-1.jpg",
-                    "skin-2": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-2.jpg",
-                    "skin-3": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-3.jpg",
-                    "skin-4": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-4.jpg",
-                    "skin-5": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-5.jpg",
-                    "skin-6": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-6.jpg",
-                    "skin-8": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-8.jpg",
-                    "skin-10": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-10.jpg",
-                    "skin-9": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-9.jpg",
-                    "skin-7": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/skin-7.jpg",
-                    "404": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/404.jpg",
-                    "readme": "https://packages.microweberapi.com/meta/8bdc14cd75f3afab8b723932a15419a6a6e42184/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/screenshot.jpg",
+                    "features": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/features.jpg",
+                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/fa-brands-400.svg",
+                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/fa-regular-400.svg",
+                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/fa-solid-900.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/slick.svg",
+                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/hr-line.svg",
+                    "prev_next": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/prev_next.png",
+                    "logo_footer": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/logo_footer.png",
+                    "2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/2.png",
+                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/hr-vertical.svg",
+                    "map": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/map.png",
+                    "blue-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/blue-bg.png",
+                    "people-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-4.jpg",
+                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/quotes.png",
+                    "people-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-5.png",
+                    "white-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-4.png",
+                    "img-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-1.png",
+                    "img-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-4.png",
+                    "img-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-5.png",
+                    "img-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-3.png",
+                    "img-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-2.png",
+                    "img-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-6.png",
+                    "white-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-6.png",
+                    "white-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-5.png",
+                    "white-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-2.png",
+                    "white-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-3.png",
+                    "white-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/white-1.png",
+                    "people-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-1.jpg",
+                    "parallax": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/parallax.png",
+                    "1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/1.jpg",
+                    "video_for_layouts": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/video_for_layouts.png",
+                    "img-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-7.png",
+                    "people-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-2.jpg",
+                    "logo": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/logo.png",
+                    "people-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-3.png",
+                    "avatar": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/avatar.png",
+                    "feature-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/feature-2.jpg",
+                    "img-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-8.png",
+                    "blockquote": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/blockquote.png",
+                    "feature-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/feature-3.jpg",
+                    "people-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/people-6.png",
+                    "blockquote-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/blockquote-1.png",
+                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/hr-old.svg",
+                    "input-black": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/input-black.png",
+                    "slide-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/slide-2.jpg",
+                    "404_graphic": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/404_graphic.png",
+                    "slide-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/slide-1.png",
+                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/hr-zigzag.svg",
+                    "testimonial": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/testimonial.png",
+                    "meeting": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/meeting.png",
+                    "video-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/video-bg.png",
+                    "features-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/features-bg.png",
+                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/hr.svg",
+                    "header_style_9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_9.jpg",
+                    "header_style_6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_6.jpg",
+                    "header_style_8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_8.jpg",
+                    "header_style_5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_5.jpg",
+                    "header_style_1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_1.jpg",
+                    "header_style_4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_4.jpg",
+                    "header_style_3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_3.jpg",
+                    "header_style_7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_7.jpg",
+                    "header_style_2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/header_style_2.jpg",
+                    "img-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/img-9.png",
+                    "feature-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/feature-1.jpg",
+                    "logo-dark": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/logo-dark.png",
+                    "video": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/video.png",
+                    "default_icon": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/default_icon.png",
+                    "skin-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-1.jpg",
+                    "skin-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-2.jpg",
+                    "skin-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-3.jpg",
+                    "skin-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-4.jpg",
+                    "skin-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-5.jpg",
+                    "skin-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-6.jpg",
+                    "skin-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-8.jpg",
+                    "skin-10": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-10.jpg",
+                    "skin-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-9.jpg",
+                    "skin-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/skin-7.jpg",
+                    "404": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/404.jpg",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/1aa5cf21de95b9c465c86bac8dcb93896e81d1f7/readme.md"
                 }
             },
             "license": [
@@ -5537,7 +5598,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-09-13T12:57:02+00:00"
+            "time": "2021-09-15T14:19:52+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
@@ -5550,7 +5611,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com//dist/microweber-templates/shopmag/microweber-templates-shopmag-f2c7984e5673089adddf25cb2bd530ed61d28874-zip-0495c3.zip",
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-f2c7984e5673089adddf25cb2bd530ed61d28874-zip-0495c3.zip",
                 "reference": "f2c7984e5673089adddf25cb2bd530ed61d28874",
                 "shasum": "c84fff5845c402f738be2b484c4a61bd79a2546e"
             },
@@ -5558,27 +5619,27 @@
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/screenshot.jpg",
-                    "home-2": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-2.jpg",
-                    "404_graphic": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/404_graphic.png",
-                    "home-1": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-1.jpg",
-                    "home-3": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-3.jpg",
-                    "seaside_groove-webfont": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/seaside_groove-webfont.svg",
-                    "ventoux": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/ventoux.svg",
-                    "slick": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/slick.svg",
-                    "video": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/video.png",
-                    "default_icon": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/default_icon.png",
-                    "skin-1": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-1.jpg",
-                    "skin-2": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-2.jpg",
-                    "skin-3": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-3.jpg",
-                    "skin-11": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-11.png",
-                    "skin-13": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-13.jpg",
-                    "skin-15": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-15.png",
-                    "skin-14": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-14.png",
-                    "skin-12": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-12.png",
-                    "skin-4": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-4.jpg",
-                    "skin-16": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-16.png",
-                    "readme": "https://packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/screenshot.jpg",
+                    "home-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-2.jpg",
+                    "404_graphic": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/404_graphic.png",
+                    "home-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-1.jpg",
+                    "home-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/home-3.jpg",
+                    "seaside_groove-webfont": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/seaside_groove-webfont.svg",
+                    "ventoux": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/ventoux.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/slick.svg",
+                    "video": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/video.png",
+                    "default_icon": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/default_icon.png",
+                    "skin-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-1.jpg",
+                    "skin-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-2.jpg",
+                    "skin-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-3.jpg",
+                    "skin-11": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-11.png",
+                    "skin-13": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-13.jpg",
+                    "skin-15": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-15.png",
+                    "skin-14": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-14.png",
+                    "skin-12": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-12.png",
+                    "skin-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-4.jpg",
+                    "skin-16": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/skin-16.png",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/c84fff5845c402f738be2b484c4a61bd79a2546e/readme.md"
                 }
             },
             "license": [
@@ -5753,20 +5814,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f2156cdd55f960432c332d4da1cd53c7fccf075f"
+                "reference": "437e7a1c50044b92773b361af77620efb76fff59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f2156cdd55f960432c332d4da1cd53c7fccf075f",
-                "reference": "f2156cdd55f960432c332d4da1cd53c7fccf075f",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/437e7a1c50044b92773b361af77620efb76fff59",
+                "reference": "437e7a1c50044b92773b361af77620efb76fff59",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2",
-                "psr/log": "^1.0.1"
+                "psr/log": "^1.0.1 || ^2.0 || ^3.0"
             },
             "provide": {
-                "psr/log-implementation": "1.0.0"
+                "psr/log-implementation": "1.0.0 || 2.0.0 || 3.0.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
@@ -5781,7 +5842,7 @@
                 "phpunit/phpunit": "^8.5",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3",
-                "ruflin/elastica": ">=0.90 <7.0.1",
+                "ruflin/elastica": ">=0.90@dev",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
@@ -5789,8 +5850,11 @@
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
                 "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-curl": "Required to send log messages using the IFTTTHandler, the LogglyHandler, the SendGridHandler, the SlackWebhookHandler or the TelegramBotHandler",
                 "ext-mbstring": "Allow to work properly with unicode symbols",
                 "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+                "ext-openssl": "Required to send log messages using SSL",
+                "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
@@ -5830,7 +5894,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/main"
+                "source": "https://github.com/Seldaek/monolog/tree/2.3.4"
             },
             "funding": [
                 {
@@ -5842,7 +5906,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-17T12:13:55+00:00"
+            "time": "2021-09-15T11:27:21+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
@@ -5969,12 +6033,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "6903cba31b75b7ef271854ecd77bd543e8b9dd15"
+                "reference": "11ddc9473ca25db88ab9023218951fe014474d4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/6903cba31b75b7ef271854ecd77bd543e8b9dd15",
-                "reference": "6903cba31b75b7ef271854ecd77bd543e8b9dd15",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/11ddc9473ca25db88ab9023218951fe014474d4e",
+                "reference": "11ddc9473ca25db88ab9023218951fe014474d4e",
                 "shasum": ""
             },
             "require": {
@@ -6056,7 +6120,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-11T05:54:12+00:00"
+            "time": "2021-09-15T09:40:14+00:00"
         },
         {
             "name": "nette/finder",
@@ -6131,12 +6195,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "bf9ed31f52fea0ef5f09d0999006a0f3f568cd50"
+                "reference": "125411f4e15cf0bc42ae3805f84fa31cdbe96895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/bf9ed31f52fea0ef5f09d0999006a0f3f568cd50",
-                "reference": "bf9ed31f52fea0ef5f09d0999006a0f3f568cd50",
+                "url": "https://api.github.com/repos/nette/utils/zipball/125411f4e15cf0bc42ae3805f84fa31cdbe96895",
+                "reference": "125411f4e15cf0bc42ae3805f84fa31cdbe96895",
                 "shasum": ""
             },
             "require": {
@@ -6208,7 +6272,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v3.2"
             },
-            "time": "2021-09-13T11:13:59+00:00"
+            "time": "2021-09-16T13:09:45+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -8629,7 +8693,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com//dist/ramsey/uuid/ramsey-uuid-fe665a03df4f056aa65af552a96e1976df8c8dae-zip-55c3f5.zip",
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/ramsey/uuid/ramsey-uuid-fe665a03df4f056aa65af552a96e1976df8c8dae-zip-55c3f5.zip",
                 "reference": "fe665a03df4f056aa65af552a96e1976df8c8dae",
                 "shasum": "01c53beb3e1c2ac7d37bcce2a2dd33386a0a2f49"
             },
@@ -8682,7 +8746,7 @@
                     "force-install": true
                 },
                 "_meta": {
-                    "README": "https://packages.microweberapi.com/meta/01c53beb3e1c2ac7d37bcce2a2dd33386a0a2f49/README.md"
+                    "README": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/01c53beb3e1c2ac7d37bcce2a2dd33386a0a2f49/README.md"
                 }
             },
             "autoload": {
@@ -9798,12 +9862,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "c4521837d1a0bc118740c766bbce94acde46dd5c"
+                "reference": "50aecc237b1e370564420a16b4d2ef2e2ffcbb17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/c4521837d1a0bc118740c766bbce94acde46dd5c",
-                "reference": "c4521837d1a0bc118740c766bbce94acde46dd5c",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/50aecc237b1e370564420a16b4d2ef2e2ffcbb17",
+                "reference": "50aecc237b1e370564420a16b4d2ef2e2ffcbb17",
                 "shasum": ""
             },
             "require": {
@@ -9861,7 +9925,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T16:28:55+00:00"
+            "time": "2021-09-13T19:56:21+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -10423,12 +10487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "8eca69cd313cc7ec08ce83ff30995e290e02d0cc"
+                "reference": "d62f1e7f082bfecb9309628dd8de915e3388352f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/8eca69cd313cc7ec08ce83ff30995e290e02d0cc",
-                "reference": "8eca69cd313cc7ec08ce83ff30995e290e02d0cc",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/d62f1e7f082bfecb9309628dd8de915e3388352f",
+                "reference": "d62f1e7f082bfecb9309628dd8de915e3388352f",
                 "shasum": ""
             },
             "require": {
@@ -10503,7 +10567,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-17T14:20:01+00:00"
+            "time": "2021-09-14T15:58:30+00:00"
         },
         {
             "name": "symfony/mime",
@@ -10663,12 +10727,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce"
+                "reference": "f24ae462b1d60c333df104f0b81ec7d0e12f6e9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/46cd95797e9df938fdd2b03693b5fca5e64b01ce",
-                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f24ae462b1d60c333df104f0b81ec7d0e12f6e9f",
+                "reference": "f24ae462b1d60c333df104f0b81ec7d0e12f6e9f",
                 "shasum": ""
             },
             "require": {
@@ -10719,7 +10783,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.23.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/main"
             },
             "funding": [
                 {
@@ -10735,7 +10799,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-19T12:13:01+00:00"
+            "time": "2021-09-14T14:02:44+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
@@ -10906,12 +10970,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "65bd267525e82759e7d8c4e8ceea44f398838e65"
+                "reference": "749045c69efb97c70d25d7463abba812e91f3a44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/65bd267525e82759e7d8c4e8ceea44f398838e65",
-                "reference": "65bd267525e82759e7d8c4e8ceea44f398838e65",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/749045c69efb97c70d25d7463abba812e91f3a44",
+                "reference": "749045c69efb97c70d25d7463abba812e91f3a44",
                 "shasum": ""
             },
             "require": {
@@ -10970,7 +11034,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.23.0"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/main"
             },
             "funding": [
                 {
@@ -10986,7 +11050,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-27T09:27:20+00:00"
+            "time": "2021-09-14T14:02:44+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -16015,7 +16079,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
