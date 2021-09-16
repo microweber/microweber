@@ -17,8 +17,7 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class ContentRepository extends AbstractRepository
 {
     protected $filterMethods = [
-        'tags' => 'whereTagsNames',
-       'category' => 'whereCategoryIds',
+        'category' => 'whereCategoryIds',
         'categories' => 'whereCategoryIds',
     ];
 
