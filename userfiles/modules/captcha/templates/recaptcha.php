@@ -111,7 +111,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
         <h6><?php _e("Please confirm form submit"); ?></h6>
     <?php } else { ?>
 
-    <?php } ?>
+    <?php } ?> 
 
     <input type="hidden" name="captcha" data-captcha-version="v3" id="<?php print $input_id ?>">
 <?php else: ?>
