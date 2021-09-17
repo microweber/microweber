@@ -12,12 +12,13 @@ class ModuleListTest extends TestCase
     {
         $getModules = app()->module_repository->getAllModules();
 
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         // Test modules index
         foreach ($getModules as $module) {
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
+            $this->assertTrue($moduleOutput);
         }
     }
 
@@ -26,12 +27,12 @@ class ModuleListTest extends TestCase
     {
         $getModules = app()->module_repository->getAllModules();
 
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         // Test modules admin
         foreach ($getModules as $module) {
-            $moduleOutput = app()->parser->process('<module type="'.$module['module'].'/admin">');
+            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin">');
         }
 
     }
