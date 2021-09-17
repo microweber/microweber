@@ -17,13 +17,14 @@ class MarketplaceTest extends TestCase
         $composerClient = new MicroweberComposerClient();
         $composerSearch = $composerClient->search();
 
-        foreach( $composerSearch as $packageName=>$versions) {
-            if(!is_array($versions)){
+        foreach($composerSearch as $packageName=>$versions) {
+            if (!is_array($versions)) {
                 continue;
             }
             foreach($versions as $version) {
                 if (strpos($version['name'], 'template') !== false) {
                     $this->assertNotEmpty($version['extra']['_meta']['screenshot']);
+                    $this->assertNotEmpty($version['dist']['url']);
                 }
             }
         }
