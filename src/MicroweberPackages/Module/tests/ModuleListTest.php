@@ -18,6 +18,7 @@ class ModuleListTest extends TestCase
 
         // Test modules index
         foreach ($getModules as $module) {
+            echo $module['module'] . PHP_EOL;
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
         }
     }
