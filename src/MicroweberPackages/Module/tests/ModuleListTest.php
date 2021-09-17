@@ -17,7 +17,7 @@ class ModuleListTest extends TestCase
 
         // Test modules index
         foreach ($getModules as $module) {
-            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
+            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '" />');
             $this->assertNotEmpty($moduleOutput);
         }
     }
@@ -32,8 +32,10 @@ class ModuleListTest extends TestCase
 
         // Test modules admin
         foreach ($getModules as $module) {
-            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin">');
+            if(isset($module['ui_admin']) and $module['ui_admin']){
+            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin" />');
             $this->assertNotEmpty($moduleOutput);
+            }
         }
 
     }
