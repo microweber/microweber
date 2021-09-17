@@ -1,5 +1,11 @@
 <?php must_have_access(); ?>
 
+<?php
+if (!isset($params['project_name'])) {
+    $params['project_name'] = '';
+}
+?>
+
 <script>
     function delete_testimonial(id) {
         var are_you_sure = confirm('<?php _e('Are you sure?'); ?>');
