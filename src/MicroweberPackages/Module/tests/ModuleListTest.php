@@ -33,6 +33,7 @@ class ModuleListTest extends TestCase
         // Test modules admin
         foreach ($getModules as $module) {
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin">');
+            $this->assertTrue($moduleOutput);
         }
 
     }
