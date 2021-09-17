@@ -106,12 +106,14 @@ if(typeof  processContactForm !== 'object'){
 }
 
 $(document).ready(function(){
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print($params['module']); ?>" />');
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
-		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
-		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
-    	return false;
-    });
+	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>')
+        .append('<input type="hidden" name="module_name"  value="<?php print($params['module']); ?>" />')
+        .on('submit', function() {
+
+            processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
+            mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
+            return false;
+        });
 	$('body').click(function(){
 	   if( $('#msg<?php print $form_id; ?>').is(":visible") ) {
 		  $('#msg<?php print $form_id; ?>').hide();
