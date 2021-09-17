@@ -54,6 +54,9 @@ class OptionRepository extends AbstractRepository
       //  $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
         if (!empty($getWebsiteOptions)) {
             foreach ($getWebsiteOptions as $websiteOption) {
+
+                $websiteOption  = app()->url_manager->replace_site_url_back($websiteOption);
+
                 $websiteOptions[$websiteOption['option_key']] = $websiteOption['option_value'];
             }
         }
@@ -127,10 +130,12 @@ class OptionRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
 
             $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
+
             $allOptions = collect($allOptions)->map(function ($option) {
                 return (array)$option;
             })->toArray();
 
+            $allOptions  = app()->url_manager->replace_site_url_back($allOptions);
             self::$_getOptionsByGroup[$optionGroup] = $allOptions;
 
             return $allOptions;
