@@ -10,7 +10,6 @@ class ModuleListTest extends TestCase
 {
     public function testModuleIndex()
     {
-
         $getModules = app()->module_repository->getAllModules();
 
         $user = User::where('is_admin','=', '1')->first();
@@ -18,7 +17,6 @@ class ModuleListTest extends TestCase
 
         // Test modules index
         foreach ($getModules as $module) {
-            echo $module['module'] . PHP_EOL;
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
         }
     }
@@ -26,7 +24,6 @@ class ModuleListTest extends TestCase
 
     public function testModuleAdmin()
     {
-
         $getModules = app()->module_repository->getAllModules();
 
         $user = User::where('is_admin','=', '1')->first();
