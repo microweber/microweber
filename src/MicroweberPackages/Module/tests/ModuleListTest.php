@@ -20,6 +20,16 @@ class ModuleListTest extends TestCase
         foreach ($getModules as $module) {
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
         }
+    }
+
+
+    public function testModuleAdmin()
+    {
+
+        $getModules = app()->module_repository->getAllModules();
+
+        $user = User::where('is_admin','=', '1')->first();
+        Auth::login($user);
 
         // Test modules admin
         foreach ($getModules as $module) {
@@ -27,5 +37,4 @@ class ModuleListTest extends TestCase
         }
 
     }
-
 }
