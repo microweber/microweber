@@ -974,7 +974,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $html_to_save = $the_field_data['html'];
                         $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
 
-// makes bug on save 
+
+
+//  AntiXSS makes bug on save convertind comments to htmlentities
 //                        $antixss = new AntiXSS();
 //                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
 
