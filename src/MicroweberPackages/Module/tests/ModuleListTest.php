@@ -13,14 +13,15 @@ class ModuleListTest extends TestCase
 
         $getModules = app()->module_repository->getAllModules();
 
+        $user = User::where('is_admin','=', '1')->first();
+        Auth::login($user);
+
         // Test modules index
         foreach ($getModules as $module) {
-           $moduleOutput = app()->parser->process('<module type="'.$module['module'].'">');
+            $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '">');
         }
 
         // Test modules admin
-        $user = User::where('is_admin','=', '1')->first();
-        Auth::login($user);
         foreach ($getModules as $module) {
             $moduleOutput = app()->parser->process('<module type="'.$module['module'].'/admin">');
         }
