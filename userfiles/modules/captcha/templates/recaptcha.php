@@ -72,25 +72,25 @@ if ($captcha_provider == 'google_recaptcha_v2'):
             if (captcha_el) {
                 var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
                 if (parent_form) {
-                    parent_form.$beforepost = runRecaptchaV3
+                    parent_form.$beforepost = runRecaptchaV3<?php print md5($params['id']) ?>
                 }
             }
         });
 
-        var runRecaptchaV3 = function () {
-             return new Promise(function (resolve){
-                 grecaptcha.ready(function () {
-                     grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {
-                         action: '<?php echo $captcha_name; ?>'
-                     }).then(function (token) {
-                             var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
-                             if (recaptchaResponse) {
-                                 recaptchaResponse.value = token;
-                             }
-                             resolve(token)
-                     });
-                 });
-             })
+        var runRecaptchaV3<?php print md5($params['id']) ?> = function () {
+            return new Promise(function (resolve){
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {
+                        action: '<?php echo $captcha_name; ?>'
+                    }).then(function (token) {
+                        var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
+                        if (recaptchaResponse) {
+                            recaptchaResponse.value = token;
+                        }
+                        resolve(token)
+                    });
+                });
+            })
         };
     </script>
 
@@ -98,7 +98,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
         <h6><?php _e("Please confirm form submit"); ?></h6>
     <?php } else { ?>
 
-    <?php } ?> 
+    <?php } ?>
 
     <input type="hidden" name="captcha" data-captcha-version="v3" id="<?php print $input_id ?>">
 <?php else: ?>
