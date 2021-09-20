@@ -20,32 +20,54 @@ class TranslationKeyRepository extends AbstractRepository
 
     public function getTranslatedNamespacesThatHaveTexts()
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function ()   {
 
-            $result = [];
 
-            $translation_namespaces = \DB::table('translation_keys')
-                ->select('translation_namespace')
-                ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
-                ->groupBy('translation_namespace')
-                ->get();
 
-            if ($translation_namespaces) {
-                $result = $translation_namespaces->toArray();
-                if ($result and is_array($result)) {
-                    $result = array_map(function ($value) {
-                        return (array)$value;
-                    }, $result);
-                    $result = array_values($result);
-                    $result = array_flatten($result);
-                    $result = array_flip($result);
-                    $result = array_keys($result);
+            try {
+                return $this->cacheCallback(__FUNCTION__, func_get_args(), function ()   {
+
+                $result = [];
+
+                $translation_namespaces = \DB::table('translation_keys')
+                    ->select('translation_namespace')
+                    ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
+                    ->groupBy('translation_namespace')
+                    ->get();
+
+                if ($translation_namespaces) {
+                    $result = $translation_namespaces->toArray();
+                    if ($result and is_array($result)) {
+                        $result = array_map(function ($value) {
+                            return (array)$value;
+                        }, $result);
+                        $result = array_values($result);
+                        $result = array_flatten($result);
+                        $result = array_flip($result);
+                        $result = array_keys($result);
+                    }
+
+                }
+
+                return $result;
+                });
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                if (!\Schema::hasTable('translation_keys')) {
+                    $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+                    $system_refresh->createSchema();
+                    return false;
+                } else {
+                    echo 'Caught exception: ', $e->getMessage(), "\n";
+                    exit();
                 }
 
             }
 
-            return $result;
-        });
+
+
+
+
+
 
     }
 
@@ -53,7 +75,7 @@ class TranslationKeyRepository extends AbstractRepository
     {
 
         $namespaces = $this->getTranslatedNamespacesThatHaveTexts();
-        if (!in_array($namespace, $namespaces)) {
+        if (!is_array($namespaces) or (!in_array($namespace, $namespaces))) {
             return [];
         }
 
