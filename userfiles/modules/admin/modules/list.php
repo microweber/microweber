@@ -341,20 +341,20 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <script>
 
             $(document).ready(function(){
-                $(".mw-liveedit-sidebar-h2").click(function(){
-                    $(".mw-liveedit-layouts-li").not(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
+                $(".mw-liveedit-sidebar-h2", '#<?php print $params['id'] ?>').click(function(){
+                    $(".mw-liveedit-layouts-li", '#<?php print $params['id'] ?>').not(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
                    if ($(this.parentNode.nextElementSibling).is(":visible")) {
                        $(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
                    } else {
                        $(this.parentNode).addClass("mw-liveedit-sidebar-background-active");
                    }
                 })
-                  $('[class*="module-cat-toggle-"]').hide();
+                  $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').hide();
             })
             var handleModuleCatToggle = function ($dynamic_layouts_group_name, el){
                 var lis = $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
                 // $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
-                $('[class*="module-cat-toggle-"]').not('.module-cat-toggle-'+($dynamic_layouts_group_name)).hide();
+                $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').not('.module-cat-toggle-'+($dynamic_layouts_group_name)).hide();
                 lis.find('[data-url]').each(function (){
                     if(this.dataset.url) {
                         this.src = this.dataset.url;
