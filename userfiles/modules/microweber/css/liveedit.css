@@ -4695,14 +4695,14 @@ html.padding-control-start .mw-handle-item {
     top: 2px;
 }
 
-h1.element,
-h2.element,
-h3.element,
-h4.element,
-h5.element,
-h6.element,
-p.element,
-div.element {
+h1.element:not(.background-image-holder),
+h2.element:not(.background-image-holder),
+h3.element:not(.background-image-holder),
+h4.element:not(.background-image-holder),
+h5.element:not(.background-image-holder),
+h6.element:not(.background-image-holder),
+p.element:not(.background-image-holder),
+div.element:not(.background-image-holder) {
     min-height: 15px;
 }
 
