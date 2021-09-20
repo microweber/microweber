@@ -403,16 +403,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         </div>
                         <span class="mw_module_image">
                             <span class="mw_module_image_holder">
-                                <img
-                                        alt="<?php print $dynamic_layout['name'] ?>"
+                                <img alt="<?php print $dynamic_layout['name'] ?>"
                                         title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?> [<?php print str_replace('.php', '', $dynamic_layout['layout_file']); ?>]"
                                         class="module_draggable"
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-
-                                        src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
-                                />
+                                        data-url="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
                             </span>
                         </span>
                         <span class="module_name"
