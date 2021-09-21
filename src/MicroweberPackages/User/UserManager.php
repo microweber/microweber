@@ -129,7 +129,7 @@ class UserManager
             return false;
         }
 
-        $code = $_GET['code'];
+        $code = $_GET['code_login'];
         $parse = parse_url(site_url());
         if (!isset($parse['host'])) {
             return redirect(admin_url());
@@ -179,8 +179,8 @@ class UserManager
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-        if (isset($params['code'])) {
-            return $this->codeLogin($params['code']);
+        if (isset($params['code_login'])) {
+            return $this->codeLogin($params['code_login']);
         }
 
         // So we use second parameter
@@ -205,10 +205,7 @@ class UserManager
             unset($params['password_encoded'] );
         }
 
-
-
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
-
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
 
