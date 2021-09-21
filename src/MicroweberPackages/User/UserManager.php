@@ -123,16 +123,46 @@ class UserManager
      * @see      _table() For the database table fields
      */
 
+    public function codeLogin()
+    {
+        if (!function_exists('get_whitelabel_whmcs_settings')) {
+            return false;
+        }
 
+        $code = $_GET['code'];
+        $parse = parse_url(site_url());
+        if (!isset($parse['host'])) {
+            return false;
+        }
+
+        $domain = $parse['host'];
+        $domain = str_replace('www.','', $domain);
+
+        $whmcsSettings = get_whitelabel_whmcs_settings();
+        if (!isset($whmcsSettings['whmcs_url']) && !empty($whmcsSettings['whmcs_url'])) {
+            return false;
+        }
+
+        $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
+        $verifyCheck = @file_get_contents($verifyUrl);
+        $verifyCheck = @json_decode($verifyCheck, true);
+
+        if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
+            $user = User::where('is_admin', '=', '1')->first();
+            \Illuminate\Support\Facades\Auth::login($user);
+            return redirect(admin_url());
+        }
+        
+        return false;
+    }
 
     public function login($params)
     {
         $params = parse_params($params);
-
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
+
         $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
         $url = $this->app->url->current(1);
         if ($check == 5) {
@@ -141,16 +171,17 @@ class UserManager
         }
         if ($check > 5) {
             $check = $check - 1;
-
             return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
         }
+
         $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
         if ($check2 > 25) {
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-
-
+        if (isset($params['code'])) {
+            return $this->codeLogin($params['code']);
+        }
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
