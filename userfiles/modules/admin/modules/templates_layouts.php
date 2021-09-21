@@ -367,7 +367,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <?php endif; ?>
 
 
-                            <div class="module-layouts-viewer">
+                            <div class="module-layouts-viewer one-column-module-layouts-viewer">
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>

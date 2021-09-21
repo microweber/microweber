@@ -489,3 +489,7 @@ div.form-control {
     z-index: 3;
     cursor: pointer;
 }
+
+.one-column-module-layouts-viewer {
+    column-count: 1!important;
+}
