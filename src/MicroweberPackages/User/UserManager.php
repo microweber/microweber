@@ -132,7 +132,7 @@ class UserManager
         $code = $_GET['code'];
         $parse = parse_url(site_url());
         if (!isset($parse['host'])) {
-            return false;
+            return redirect(admin_url());
         }
 
         $domain = $parse['host'];
@@ -140,7 +140,7 @@ class UserManager
 
         $whmcsSettings = get_whitelabel_whmcs_settings();
         if (!isset($whmcsSettings['whmcs_url']) && !empty($whmcsSettings['whmcs_url'])) {
-            return false;
+            return redirect(admin_url());
         }
 
         $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
@@ -152,8 +152,8 @@ class UserManager
             \Illuminate\Support\Facades\Auth::login($user);
             return redirect(admin_url());
         }
-        
-        return false;
+
+        return redirect(admin_url());
     }
 
     public function login($params)
