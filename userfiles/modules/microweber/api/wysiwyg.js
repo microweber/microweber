@@ -491,9 +491,18 @@ mw.wysiwyg = {
         var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
         var align;
         var node = window.getSelection().focusNode;
-        var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        var elementNode = mw.tools.firstBlockLevel( mw.wysiwyg.validateCommonAncestorContainer(node));
+        var parent = elementNode.parentNode
+        mw.liveEditState.record({
+            target: parent,
+            value: parent.innerHTML
+        });
         if (a === 'insertorderedlist' || a === 'insertunorderedlist') {
             this.insertList(a, b, c, elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return;
         }
 
@@ -504,6 +513,10 @@ mw.wysiwyg = {
             }
             elementNode.style.textAlign = align;
             mw.wysiwyg.change(elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return false;
         }
         if (mw.is.firefox && arr.indexOf(a) !== -1) {
@@ -515,6 +528,10 @@ mw.wysiwyg = {
                 }
                 elementNode.style.textAlign = align;
                 mw.wysiwyg.change(elementNode)
+                mw.liveEditState.record({
+                    target: parent,
+                    value: parent.innerHTML
+                });
                 return false;
             }
         }
