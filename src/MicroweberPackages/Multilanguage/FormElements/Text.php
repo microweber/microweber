@@ -13,6 +13,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
+        $firstLanguages = [];
         $supportedLanguages = [];
         $unsortedSupportedLanguages = get_supported_languages(true);
         foreach ($unsortedSupportedLanguages as $language) {

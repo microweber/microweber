@@ -292,7 +292,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <label class="control-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
                                         <div class="screenshot">
                                             <div class="holder">
-                                                <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                                <img src="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
                                                 <div class="title"><?php print $current_template['name']; ?></div>
                                             </div>
                                         </div>
@@ -367,7 +367,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <?php endif; ?>
 
 
-                            <div class="module-layouts-viewer">
+                            <div class="module-layouts-viewer one-column-module-layouts-viewer">
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
@@ -386,7 +386,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     ?>
 
                                                     <div class="holder">
-                                                        <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
+                                                        <img src="<?php echo thumbnail($item_screenshot, 800, 400); ?>" alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
                                                         <div class="title"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
@@ -413,7 +413,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     ?>
 
                                                     <div class="holder">
-                                                        <img src="<?php echo $item_screenshot; ?>"
+                                                        <img src="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
                                                              alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                              style="max-width:100%;"
                                                              title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>

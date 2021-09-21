@@ -60,6 +60,12 @@ class DefaultField
         $this->adminView = $adminView;
     }
 
+    public function mergeRenderSettings($settings){
+        if(is_array($settings)){
+            $this->renderSettings = array_merge($this->renderSettings,$settings);
+        }
+    }
+
     public function preparePreview()
     {
         // Render settings
@@ -114,6 +120,7 @@ class DefaultField
             || (strpos($renderSettings['show_placeholder'], 'false') !== false)
             ){
             $renderData['placeholder'] = '';
+        } else {
         }
 
         $this->renderData = $renderData;
@@ -124,6 +131,7 @@ class DefaultField
         $this->preparePreview();
 
         $parseView = new View($this->getTempalteFile());
+
         $parseView->assign('data', $this->renderData);
         $parseView->assign('settings', $this->renderSettings);
 

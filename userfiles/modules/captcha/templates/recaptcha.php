@@ -68,42 +68,29 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
     <script>
         $(document).ready(function () {
-            setTimeout(function () {
-                if (typeof (grecaptcha) !== 'undefined') {
-                    runRecaptchaV3();
-                }
-            }, 1000);
-
             var captcha_el = $('#js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input')
             if (captcha_el) {
                 var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
                 if (parent_form) {
-                    mw.$(parent_form).submit(function () {
-                        runRecaptchaV3();
-                    });
+                    parent_form.$beforepost = runRecaptchaV3<?php print md5($params['id']) ?>
                 }
             }
-
         });
 
-        var runRecaptchaV3 = function () {
-            try {
+        var runRecaptchaV3<?php print md5($params['id']) ?> = function () {
+            return new Promise(function (resolve){
                 grecaptcha.ready(function () {
                     grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {
-
                         action: '<?php echo $captcha_name; ?>'
                     }).then(function (token) {
-                        setTimeout(function () {
-                            var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
-                            if (recaptchaResponse) {
-                                recaptchaResponse.value = token;
-                            }
-                        }, 1500);
+                        var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
+                        if (recaptchaResponse) {
+                            recaptchaResponse.value = token;
+                        }
+                        resolve(token)
                     });
                 });
-            } catch (error) {
-
-            }
+            })
         };
     </script>
 

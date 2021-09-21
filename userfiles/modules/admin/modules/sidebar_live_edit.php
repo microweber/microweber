@@ -142,7 +142,7 @@
                     var show = false;
 
                     var description = $(this).attr('description') || false;
-                    var description = description || $(this).attr('data-filter');
+                     description = description || $(this).attr('data-filter');
                     var title = $(this).attr('title') || false;
                     var template = $(this).attr('template') || false;
 
@@ -159,12 +159,15 @@
                         $(this).hide();
 
                     } else {
-                        $(this).show();
+                        $(this).show().find('img[data-url]').each(function (){
+                            this.src = this.dataset.url;
+                            delete this.dataset.url;
+                        });
                         numberOfResults++;
                     }
                 });
 
-                if (numberOfResults == 0) {
+                if (numberOfResults === 0) {
                     $('.mw-search-no-results', '.' + what).show();
                 } else {
                     $('.mw-search-no-results', '.' + what).hide();

@@ -341,15 +341,27 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <script>
 
             $(document).ready(function(){
-                $(".mw-liveedit-sidebar-h2").click(function(){
-                    $(".mw-liveedit-layouts-li").not(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
+                $(".mw-liveedit-sidebar-h2", '#<?php print $params['id'] ?>').click(function(){
+                    $(".mw-liveedit-layouts-li", '#<?php print $params['id'] ?>').not(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
                    if ($(this.parentNode.nextElementSibling).is(":visible")) {
                        $(this.parentNode).removeClass("mw-liveedit-sidebar-background-active");
                    } else {
                        $(this.parentNode).addClass("mw-liveedit-sidebar-background-active");
                    }
-                }).click();
-            });
+                })
+                  $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').hide();
+            })
+            var handleModuleCatToggle = function ($dynamic_layouts_group_name, el){
+                var lis = $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
+                // $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
+                $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').not('.module-cat-toggle-'+($dynamic_layouts_group_name)).hide();
+                lis.find('[data-url]').each(function (){
+                    if(this.dataset.url) {
+                        this.src = this.dataset.url;
+                        delete this.dataset.url;
+                    }
+                })
+            }
         </script>
 
 
@@ -366,7 +378,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
-            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="$('.module-cat-toggle-<?php print($dynamic_layouts_group_name); ?>', this.parentNode).toggle();event.stopImmediatePropagation()">
+            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="handleModuleCatToggle('<?php print($dynamic_layouts_group_name); ?>', this.parentNode);event.stopImmediatePropagation()">
                 <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
             </li>
 
@@ -403,16 +415,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         </div>
                         <span class="mw_module_image">
                             <span class="mw_module_image_holder">
-                                <img
-                                        alt="<?php print $dynamic_layout['name'] ?>"
+                                <img alt="<?php print $dynamic_layout['name'] ?>"
                                         title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?> [<?php print str_replace('.php', '', $dynamic_layout['layout_file']); ?>]"
                                         class="module_draggable"
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-
-                                        src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
-                                />
+                                        data-url="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
                             </span>
                         </span>
                         <span class="module_name"

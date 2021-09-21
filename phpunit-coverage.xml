@@ -39,7 +39,7 @@
 
     </testsuites>
     <php>
-        <env name="CACHE_DRIVER" value="array"/>
+        <env name="CACHE_DRIVER" value="file"/>
         <env name="SESSION_DRIVER" value="array"/>
         <ini name="memory_limit" value="-1"/>
         <env name="MAIL_DRIVER" value="array"/>
