@@ -110,7 +110,7 @@ class TranslateTable
                         foreach ($this->columns as $column) {
                             if (isset($translate_item['field_name']) and $translate_item['field_name'] == $column) {
                                 if (!empty($translate_item['field_value'])) {
-                                    if (isset($data[$column])) {
+                                    if (array_key_exists($column, $data)) {
                                         $data[$column] = $translate_item['field_value'];
                                     }
                                 }
