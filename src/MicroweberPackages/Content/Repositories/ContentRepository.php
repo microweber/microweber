@@ -256,6 +256,7 @@ class ContentRepository extends AbstractRepository
 
         if (!empty($cacheResponse)) {
             $hookParams = [];
+            $hookParams['getEditField'] = true;
             $hookParams['data'] = $cacheResponse;
             $hookParams['hook_overwrite_type'] = 'single';
             $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);

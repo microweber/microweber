@@ -55,6 +55,11 @@ class TranslateManager
                         //   dump($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod);
 
                         event_bind($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod, function ($data) use ($providerInstance) {
+/*
+                            if (isset($data['getEditField'])) {
+                                dump($data);
+                            }*/
+
                             if (isset($data['data']) && !empty($data['data']) && isset($data['hook_overwrite_type'])) {
                                 if ($data['hook_overwrite_type'] == 'multiple') {
 
