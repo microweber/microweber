@@ -458,9 +458,18 @@ mw.wysiwyg = {
         var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
         var align;
         var node = window.getSelection().focusNode;
-        var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        var elementNode = mw.tools.firstBlockLevel( mw.wysiwyg.validateCommonAncestorContainer(node));
+        var parent = elementNode.parentNode
+        mw.liveEditState.record({
+            target: parent,
+            value: parent.innerHTML
+        });
         if (a === 'insertorderedlist' || a === 'insertunorderedlist') {
             this.insertList(a, b, c, elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return;
         }
 
@@ -471,18 +480,27 @@ mw.wysiwyg = {
             }
             elementNode.style.textAlign = align;
             mw.wysiwyg.change(elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return false;
         }
 
 
-        if (elementNode.nodeName === 'P') {
-            align = a.split('justify')[1].toLowerCase();
-            if (align === 'full') {
-                align = 'justify';
+            if (elementNode.nodeName === 'P') {
+                align = a.split('justify')[1].toLowerCase();
+                if (align === 'full') {
+                    align = 'justify';
+                }
+                elementNode.style.textAlign = align;
+                mw.wysiwyg.change(elementNode)
+                mw.liveEditState.record({
+                    target: parent,
+                    value: parent.innerHTML
+                });
+                return false;
             }
-            elementNode.style.textAlign = align;
-            mw.wysiwyg.change(elementNode);
-            return false;
         }
         return true;
     },
@@ -587,7 +605,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        mw.$('.mw-skip-and-remove', body).remove();
+        mw.$('.mw-skip-and-remove,script', body).remove();
         return body;
     },
     doLocalPaste: function (clipboard) {

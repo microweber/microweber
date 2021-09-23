@@ -384,19 +384,24 @@ class ShopManager
         }
     }
 
+    public function get_default_currency()
+    {
+
+        $curr = $this->app->option_manager->get('currency', 'payments');
+        if (!$curr) {
+            $curr = 'USD';
+        }
+        return $curr;
+
+    }
     public function currency_format($amount, $curr = false)
     {
         if(is_array($amount)){
             return;
         }
 
-        if ($curr == false) {
-            $curr = $this->app->option_manager->get('currency', 'payments');
-        }
 
-        if (is_null($curr)) {
-            $curr = 'USD';
-        }
+        $curr = $this->get_default_currency();
 
         $need_float = true;
         if (strstr($amount, '.')) {
