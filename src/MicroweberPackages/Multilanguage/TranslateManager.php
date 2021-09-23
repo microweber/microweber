@@ -463,7 +463,7 @@ class TranslateManager
             if (isset($content['id']) and $content['id']) {
                 $redirect = mw_var('should_redirect');
                 if ($redirect) {
-                    $content['original_link'] = $redirect;
+                  //  $content['original_link'] = $redirect;
                 }
 
                 // Debugbar::stopMeasure('mw.front.content_data');
