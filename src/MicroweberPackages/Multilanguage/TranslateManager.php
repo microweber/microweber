@@ -456,7 +456,7 @@ class TranslateManager
 
         });
 
-        event_bind('mw.front.content_data', function ($content) {
+  /*      event_bind('mw.front.content_data', function ($content) {
 
             // Debugbar::startMeasure('mw.front.content_data','mw.front.content_data');
 
@@ -470,7 +470,7 @@ class TranslateManager
 
                 return $content;
             }
-        });
+        });*/
 
         /*
         event_bind('mw.frontend.404', function ($content) {
