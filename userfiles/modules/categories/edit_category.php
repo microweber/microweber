@@ -576,11 +576,38 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     <?php endif; ?>
 
+
+
+                                  <!--  <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php /*_e("Slug"); */?></label>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="url" value="<?php /*(isset($data['url'])) ? print ($data['url']) : '' */?>"/>
+                                            </div>
+                                        </div>
+                                    </div>-->
+
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="control-label"><?php _e("Slug"); ?></label>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
+                                                <?php
+                                                $url = '';
+                                                if ($data['id'] > 0) {
+                                                    $url = $data['url'];
+                                                }
+
+                                                echo $formBuilder
+                                                    ->text('url')
+                                                    ->setModel($categoryModel)
+                                                    ->prepend('<div class="input-group-prepend">
+                                                     <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
+                                                     </div>')
+                                                    ->value($url)
+                                                    ->id('url')
+                                                    ->spellcheck(false);
+
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
