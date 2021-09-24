@@ -256,6 +256,7 @@ if (isset($params['quick_edit'])) {
 
                     <?php if (isset($edit_page_info['title'])): ?>
                         <div class="card-body pt-3">
+
                             <div class="form-group" id="slug-field-holder">
                                 <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
@@ -273,6 +274,9 @@ if (isset($params['quick_edit'])) {
                                     ->autocomplete(false);
                                 ?>
 
+                                <?php
+                                if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                ?>
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
                                     <span class="mw-admin-post-slug-text">
@@ -343,7 +347,34 @@ if (isset($params['quick_edit'])) {
 
                                     </script>
                                 </div>
+
+                                <?php
+                                endif;
+                                ?>
                             </div>
+
+
+                            <?php
+                            if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                ?>
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e($type) ?> <?php _e("Url"); ?></label>
+
+                                    <?php
+                                    echo $formBuilder->text('url')
+                                        ->setModel($contentModel)
+                                        ->prepend('<div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
+                                             </div>')
+                                        ->value($data['url'])
+                                        ->id('content-slug-field')
+                                        ->autocomplete(false);
+                                    ?>
+                                </div>
+                            <?php
+                            endif;
+                            ?>
+
 
 
                             <?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>

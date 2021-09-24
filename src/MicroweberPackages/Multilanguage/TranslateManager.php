@@ -55,6 +55,11 @@ class TranslateManager
                         //   dump($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod);
 
                         event_bind($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod, function ($data) use ($providerInstance) {
+/*
+                            if (isset($data['getEditField'])) {
+                                dump($data);
+                            }*/
+
                             if (isset($data['data']) && !empty($data['data']) && isset($data['hook_overwrite_type'])) {
                                 if ($data['hook_overwrite_type'] == 'multiple') {
 
@@ -451,21 +456,21 @@ class TranslateManager
 
         });
 
-        event_bind('mw.front.content_data', function ($content) {
+  /*      event_bind('mw.front.content_data', function ($content) {
 
             // Debugbar::startMeasure('mw.front.content_data','mw.front.content_data');
 
             if (isset($content['id']) and $content['id']) {
                 $redirect = mw_var('should_redirect');
                 if ($redirect) {
-                    $content['original_link'] = $redirect;
+                  //  $content['original_link'] = $redirect;
                 }
 
                 // Debugbar::stopMeasure('mw.front.content_data');
 
                 return $content;
             }
-        });
+        });*/
 
         /*
         event_bind('mw.frontend.404', function ($content) {

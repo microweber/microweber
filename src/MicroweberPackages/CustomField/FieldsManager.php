@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\CustomField;
 
+use MicroweberPackages\CustomField\Fields\Text;
 use function Matrix\trace;
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
 use MicroweberPackages\CustomField\Fields\Address;
@@ -703,7 +704,11 @@ class FieldsManager
     public function instanceField($type)
     {
         $fieldClass = 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($type);
-        $field = new $fieldClass ();
+        if (class_exists($fieldClass, true)) {
+            $field = new $fieldClass ();
+        } else {
+            $field = new Text();
+        }
 
         return $field;
     }
