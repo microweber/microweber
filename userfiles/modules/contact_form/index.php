@@ -13,11 +13,15 @@ if(typeof  processContactForm !== 'object'){
                decorate: true
            });
            spinner.show()
+           if(spinner && spinner.setState){
            spinner.setState('loading')
+           }
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
 
             mw.form.post(selector, undefined, function(form){
+                if(spinner && spinner.setState){
                 spinner.setState('done')
+                }
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
