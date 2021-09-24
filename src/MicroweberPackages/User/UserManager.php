@@ -1758,6 +1758,8 @@ class UserManager
                     }
 
                     $old_sid = Session::getId();
+                    $this->session_set('old_sid',$old_sid);
+
                     $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
                     $current_user = Auth::user();
