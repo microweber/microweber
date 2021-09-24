@@ -29,3 +29,14 @@
 
     <div class="alert alert-danger" id="upload_err<?php echo($rand); ?>" style="display:none;"></div>
 </div>
+
+
+<script>
+    $(document).ready(function (){
+        $('#customFile<?php echo($rand); ?>').change(function(e) {
+            var fileName = e.target.files[0].name;
+            // change name of actual input that was uploaded
+            $(e.target).next().html(fileName);
+        });
+    });
+</script>
