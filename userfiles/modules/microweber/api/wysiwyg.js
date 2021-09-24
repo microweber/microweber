@@ -638,7 +638,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        mw.$('.mw-skip-and-remove', body).remove();
+        mw.$('.mw-skip-and-remove,script', body).remove();
         return body;
     },
     doLocalPaste: function (clipboard) {
