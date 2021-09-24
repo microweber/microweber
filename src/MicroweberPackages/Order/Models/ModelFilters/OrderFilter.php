@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
@@ -20,7 +21,6 @@ class OrderFilter extends ModelFilter
 
     public function keyword($keyword)
     {
-
         $keyword = trim($keyword);
         if (empty($keyword)) {
             return;
@@ -57,8 +57,8 @@ class OrderFilter extends ModelFilter
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        
-
+        $this->query->where('amount', '>', $minPrice);
+        $this->query->where('amount', '<', $maxPrice);
 
     }
 }

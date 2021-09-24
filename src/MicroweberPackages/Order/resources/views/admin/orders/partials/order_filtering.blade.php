@@ -48,9 +48,6 @@
     </div>
 
 
-    <?php if (count($orders) != 0 || count($newOrders) != 0) { ?>
-
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -87,13 +84,12 @@
 
         <div class="col-md-3">
             <div class="d-inline-block mx-1">
-                <button type="submit" class="btn btn-success btn-block"><i
+                <button type="submit" name="filteringResults" value="true" class="btn btn-success btn-block"><i
                         class="mdi mdi-filter"></i> <?php _e("Submit filter"); ?></button>
             </div>
         </div>
     </div>
 
 
-    <?php } ?>
 
 </form>

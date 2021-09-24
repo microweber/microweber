@@ -13,12 +13,11 @@ class OrderController extends AdminController
 
     public function index(Request $request)
     {
-        $filteringResults = false;
-
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
         $minPrice = $request->get('minPrice', 0);
         $maxPrice = $request->get('maxPrice', 1000);
+        $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -28,7 +27,7 @@ class OrderController extends AdminController
       // $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
 
         $filterFields = $request->all();
-        if ($minPrice && $maxPrice) {
+        if ($maxPrice) {
             $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
         }
 
@@ -47,7 +46,7 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-         //   'newOrders'=>$newOrders,
+            'newOrders'=>[],
             'orders'=>$orders
         ]);
     }
