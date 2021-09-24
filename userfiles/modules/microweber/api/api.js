@@ -62,7 +62,21 @@ jQuery.ajax = function(url, options){
     }
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
+        settings._error = settings.error;
         delete settings.success;
+        settings.error = function (xhr) {
+            var data = xhr.responseJSON;
+            if (data && (data.form_data_required || data.form_data_module)) {
+                mw.extradataForm(settings, data);
+            }
+            else {
+                if (typeof this._error === 'function') {
+                    var scope = this;
+                    scope._error.call(scope, data, xhr.status, xhr);
+
+                }
+            }
+        }
         settings.success = function (data, status, xhr) {
             if(xhr.status === 200) {
                 if (data && (data.form_data_required || data.form_data_module)) {
