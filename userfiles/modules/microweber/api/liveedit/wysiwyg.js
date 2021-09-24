@@ -501,7 +501,7 @@ mw.wysiwyg = {
                 });
                 return false;
             }
-        }
+
         return true;
     },
     execCommand: function (a, b, c) {

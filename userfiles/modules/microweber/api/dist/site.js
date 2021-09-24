@@ -2949,8 +2949,16 @@ mw.options = {
             option_group: group,
             option_key: key,
             option_value: value,
-            lang: lang
+
         };
+
+        if(lang){
+            // for multilanguage module
+            data.lang=lang;
+        }
+
+
+
         return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",
@@ -7818,27 +7826,29 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            var target = data.active.target;
-            if(typeof target === 'string'){
-                target = document.querySelector(data.active.target);
-            }
-
-            if(!data.active || (!target && !data.active.action)) {
-                mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-                mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-                return;
-            }
-            if(data.active.action) {
-                data.active.action();
-            } else if(document.body.contains(target)) {
-                mw.$(target).html(data.active.value);
-            } else{
-                if(target.id) {
-                    mw.$(document.getElementById(target.id)).html(data.active.value);
+            if(data.active) {
+                var target = data.active.target;
+                if(typeof target === 'string'){
+                    target = document.querySelector(data.active.target);
                 }
-            }
-            if(data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
+
+                if(!data.active || (!target && !data.active.action)) {
+                    mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+                    mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+                    return;
+                }
+                if(data.active.action) {
+                    data.active.action();
+                } else if(document.body.contains(target)) {
+                    mw.$(target).html(data.active.value);
+                } else{
+                    if(target.id) {
+                        mw.$(document.getElementById(target.id)).html(data.active.value);
+                    }
+                }
+                if(data.active.prev) {
+                    mw.$(data.active.prev).html(data.active.prevValue);
+                }
             }
             mw.drag.load_new_modules();
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
@@ -7849,14 +7859,17 @@ mw.propEditor = {
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
         mw.element(document.body).on('keydown', function(e) {
-            var key = e.key.toLowerCase();
-            if (e.ctrlKey && key === 'z' && !e.shiftKey) {
-                e.preventDefault();
-                mw.liveEditState.undo();
-            } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
-                e.preventDefault();
-                mw.liveEditState.redo();
+            if( e.key )  {
+                var key = e.key.toLowerCase();
+                if (e.ctrlKey && key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    mw.liveEditState.undo();
+                } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
+                    e.preventDefault();
+                    mw.liveEditState.redo();
+                }
             }
+
         });
     });
 })();
@@ -9024,7 +9037,7 @@ var domHelp = {
         return false;
     },
     generateSelectorForNode: function (node, strict) {
-        if(typeof strict === 'undefined') {
+         if(typeof strict === 'undefined') {
             strict = true;
         }
         if (node === null || node.nodeType === 3) {
@@ -9891,7 +9904,7 @@ mw.extradataForm = function (options, data, func) {
   \**********************************************************************/
 /***/ (() => {
 
-(function(expose){
+;(function(expose){
     var helpers = {
         fragment: function(){
             if(!this._fragment){
@@ -10164,6 +10177,7 @@ mw.extradataForm = function (options, data, func) {
             }
         },
         scrollTo: function (el, callback, minus) {
+
             minus = minus || 0;
             if ($(el).length === 0) {
                 return false;

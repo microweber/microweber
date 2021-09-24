@@ -878,9 +878,9 @@ mw.image.settings = function () {
             }
             return frame;
         },
-          confirm_reset_module_by_id: function (module_id) {
-
-              if (confirm("Are you sure you want to reset this module?")) {
+          confirm_reset_module_by_id: function (module_id, cb) {
+            var result = confirm("Are you sure you want to reset this module?");
+            if (result) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -919,8 +919,10 @@ mw.image.settings = function () {
           });
 
             window.mw.on.DOMChangePause = true;
+            var done = 0, alldone = 1;
 
             if (childs_arr.length) {
+                alldone++;
                 $.ajax({
                     type: "POST",
                    // dataType: "json",
@@ -929,6 +931,13 @@ mw.image.settings = function () {
                     data: {reset:childs_arr}
                   //  success: success,
                   //  dataType: dataType
+                }).always(function (){
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
                 });
            }
 
@@ -951,10 +960,17 @@ mw.image.settings = function () {
                         window.mw.on.DOMChangePause = false;
 
                     }, 1000);
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
 
                  },
             });
         }
+              return result;
     },
     open_reset_content_editor: function (root_element_id) {
 
@@ -1095,20 +1111,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        // var colorpicker_els = mw.top().$("body *");
-        // if(colorpicker_els.length > 0){
-        //     colorpicker_els.each(function () {
-        //         var css = parent.getComputedStyle(this, null);
-        //         if (css !== null) {
-        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-        //             }
-        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-        //             }
-        //         }
-        //     });
-        // }
+         var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+         if(colorpicker_els.length > 0){
+             colorpicker_els.each(function () {
+                 var css = parent.getComputedStyle(this, null);
+                 if (css !== null) {
+                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                     }
+                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                     }
+                 }
+             });
+         }
 
     }
     var proto = this;
@@ -1190,7 +1206,9 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty();
+        mw.$('.mw-tooltip-content', tip).empty().css({
+            padding: 0
+        });
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
         frame = AColorPicker.createPicker(sett);
@@ -2810,8 +2828,13 @@ mw.Spinner = function(options){
         });
     };
 
+    this.setState = function(state) {
+        mw.tools.classNamespaceDelete(this.$spinner[0], 'mw-spinner-state-');
+        mw.tools.addClass(this.$spinner[0], 'mw-spinner-state-' + state);
+    }
+
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
         this.$element[this.options.insertMode](this.$spinner);
@@ -4503,9 +4526,18 @@ mw.emitter = {
                     description: options.text.description,
                     name: 'text'
                 });
+                setTimeout(function (){
+                     _linkText.querySelector('input').addEventListener('keyup', function (){
+                        scope.shouldChange = false;
+                    })
+                    _linkText.querySelector('input').addEventListener('paste', function (){
+                        scope.shouldChange = false;
+                    })
+                }, 78)
             }
-             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js')
+            var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
+            mw.require('tree.js');
+            scope.shouldChange = !_linkText.querySelector('input').value.trim();
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -4520,7 +4552,8 @@ mw.emitter = {
                     dialog.center();
                 }
                 scope.tree.on("selectionChange", function(selection){
-                    if (textField && selection && selection[0]) {
+
+                    if (textField && selection && selection[0] && scope.shouldChange) {
                         textField.value = selection[0].title;
                     }
                     if(scope.valid()) {

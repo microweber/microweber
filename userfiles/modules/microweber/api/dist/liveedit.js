@@ -2949,8 +2949,16 @@ mw.options = {
             option_group: group,
             option_key: key,
             option_value: value,
-            lang: lang
+
         };
+
+        if(lang){
+            // for multilanguage module
+            data.lang=lang;
+        }
+
+
+
         return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",
@@ -6050,7 +6058,7 @@ mw.drag = {
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
 
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-                        var moduleEl = mw.tools.firstMatchesOnNodeOrParent(target, ['.module:not(.no-settings)']);
+                        var moduleEl = mw.tools.firstMatchesOnNodeOrParent(target, ['.module:not(.no-settings):not(.inaccessibleModule)']);
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
@@ -7995,21 +8003,23 @@ mw.liveedit.handleCustomEvents = function() {
 
     mw.$(document.body).on('click', function (e) {
         var target = e.target;
+        if (target.nodeName === 'A' && mw.tools.isEditable(target)) {
+            mw.liveEditSelector.select(target);
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.select(target);
+            }
+            return;
+        }
         var can = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, [
            'edit', 'module', 'element'
         ]);
-        if(can) {
+        if (can) {
             var toSelect = mw.tools.firstNotInlineLevel(target);
-
             mw.liveEditSelector.select(target);
-
             if(mw.liveEditDomTree) {
                 mw.liveEditDomTree.select(mw.wysiwyg.validateCommonAncestorContainer(target));
-
             }
         }
-
-
     });
 
 
@@ -9450,7 +9460,7 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            var isLayout = element && element.getAttribute('data-type') === 'layouts';
+            var isLayout = element && element.classList.contains('module') && element.getAttribute('data-type') === 'layouts';
             handle.isLayout = isLayout;
             handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
             mw.$('.mw_handle_module_clone').hide();
@@ -10208,8 +10218,11 @@ mw.layoutPlus = {
 
             var name = $active.attr('data-module-name');
             var template = $(this).attr('template');
-            var conf = {class: mw.layoutPlus._active.className, template: template};
 
+            var conf = {};
+            if(mw.layoutPlus._active){
+            var conf = {class: mw.layoutPlus._active.className, template: template};
+            }
             /*mw.liveEditState.record({
                 action: function () {
                     mw.$('#' + id).replaceWith('<div id="' + id + '"></div>');
@@ -11306,7 +11319,7 @@ mw.liveedit.manageContent = {
 
         var actionType = '';
 
-        if (id === 0) {
+        if (id == 0) {
             actionType = 'Add';
         } else {
             actionType = 'Edit';
@@ -11323,11 +11336,11 @@ mw.liveedit.manageContent = {
             actionOf = 'Category'
         }
 
+
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
-       //     width: '800px',
             width: this.w,
-            height: 'auto',
+            height: 300,
             autoHeight: true,
             name: 'quick_page',
             id: 'quick_page',
@@ -11335,7 +11348,18 @@ mw.liveedit.manageContent = {
             title: actionType + ' ' + actionOf,
             scrollMode: 'inside'
         });
-        mw.$(modal.main).addClass('mw-add-content-modal');
+        mw.spinner({
+            element: modal.main,
+            decorate: true
+        }).show()
+        mw.$(modal.main).addClass('mw-add-content-modal').find('iframe').on('load', function (){
+            modal.height('auto');
+            modal.center()
+            mw.spinner({
+                element: modal.main,
+            }).remove()
+
+        });
     },
     page_2: function () {
         var modal = mw.dialogIframe({
@@ -11387,19 +11411,21 @@ mw.liveedit.manageContent = {
 mw.liveedit.modulesToolbar = {
     init: function (selector) {
         var items = selector || ".modules-list li[data-module-name]";
-        var $items = mw.$(items);
+        var $items = mw.$(items).not('.mt-ready').addClass('mt-ready');
         $items.on('mouseup touchend', function (){
             if(!document.body.classList.contains('dragStart')/* && !this.classList.contains('module-item-layout')*/) {
                 if(this.classList.contains('module-item-layout')) {
 
                     var el = mw.liveEditSelector.selected[0];
                     var action = 'after';
-                    var all
-                    if(!el || !document.body.contains(el)) {
+                    var all;
+                     if(!el || !document.body.contains(el) || !mw.tools.isEditable(el.parentNode)) {
+
                         el = null
                         all = document.querySelectorAll('.module-layouts'), i = 0, l = all.length;
                         for ( ; i < l; i++ ) {
-                            if(mw.tools.inview(all[i])) {
+                            if(mw.tools.inview(all[i]) && mw.tools.isEditable(all[i].parentNode)) {
+
                                 el = all[i];
                                 break;
                             }
@@ -11408,8 +11434,9 @@ mw.liveedit.modulesToolbar = {
 
                     if(!el){
                         el = document.querySelector('[data-layout-container]');
+
                         action = 'append';
-                        if(el) {
+                        if(el && mw.tools.isEditable(el)) {
                             mw.element(el)[action](this.outerHTML);
                             setTimeout(function (){
                                 mw.drag.load_new_modules();
@@ -11421,20 +11448,23 @@ mw.liveedit.modulesToolbar = {
                     }
 
                     if(el) {
+
                         var layout = mw.tools.firstParentOrCurrentWithClass(el, 'module-layouts');
 
-                        mw.element(layout)[action](this.outerHTML);
-                        setTimeout(function (){
-                            mw.drag.load_new_modules();
-                            mw.tools.scrollTo(layout.nextElementSibling, undefined, 200)
-                            mw.wysiwyg.change(layout.nextElementSibling)
-                        }, 78)
+                        if(mw.tools.isEditable(layout.parentNode)){
+                            mw.element(layout)[action](this.outerHTML);
+                            setTimeout(function (){
+                                mw.drag.load_new_modules();
+                                mw.tools.scrollTo(layout.nextElementSibling, undefined, 200)
+                                mw.wysiwyg.change(layout.nextElementSibling)
+                            }, 78)
+                        }
                     } else {
                         mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
                     }
                 } else {
-                    if(mw.liveEditSelector.selected[0] && document.body.contains(mw.liveEditSelector.selected[0])) {
-                        mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
+                    if(mw.liveEditSelector.selected[0] && document.body.contains(mw.liveEditSelector.selected[0]) && mw.tools.isEditable(mw.liveEditSelector.selected[0].parentNode)) {
+                         mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
                         setTimeout(function (){
                             mw.drag.load_new_modules();
                             mw.tools.scrollTo(mw.liveEditSelector.selected[0].nextElementSibling, undefined, 200)
@@ -12187,7 +12217,7 @@ mw.Selector = function(options) {
 
     this.setItem = function(e, item, select, extend){
         if(!e || !this.active()) return;
-        var target = e.target ? e.target : e;
+        var target = e.target && !e.nodeType ? e.target : e;
         if (this.options.strict) {
             target = mw.tools.first(target, ['[id]', '.edit']);
         }
@@ -12210,7 +12240,6 @@ mw.Selector = function(options) {
                 }
                 mw.$(this).trigger('select', [this.selected]);
             }
-
         }
 
 
@@ -13107,9 +13136,18 @@ mw.wysiwyg = {
         var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
         var align;
         var node = window.getSelection().focusNode;
-        var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        var elementNode = mw.tools.firstBlockLevel( mw.wysiwyg.validateCommonAncestorContainer(node));
+        var parent = elementNode.parentNode
+        mw.liveEditState.record({
+            target: parent,
+            value: parent.innerHTML
+        });
         if (a === 'insertorderedlist' || a === 'insertunorderedlist') {
             this.insertList(a, b, c, elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return;
         }
 
@@ -13120,19 +13158,28 @@ mw.wysiwyg = {
             }
             elementNode.style.textAlign = align;
             mw.wysiwyg.change(elementNode);
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             return false;
         }
 
 
-        if (elementNode.nodeName === 'P') {
-            align = a.split('justify')[1].toLowerCase();
-            if (align === 'full') {
-                align = 'justify';
+            if (elementNode.nodeName === 'P') {
+                align = a.split('justify')[1].toLowerCase();
+                if (align === 'full') {
+                    align = 'justify';
+                }
+                elementNode.style.textAlign = align;
+                mw.wysiwyg.change(elementNode)
+                mw.liveEditState.record({
+                    target: parent,
+                    value: parent.innerHTML
+                });
+                return false;
             }
-            elementNode.style.textAlign = align;
-            mw.wysiwyg.change(elementNode);
-            return false;
-        }
+
         return true;
     },
     execCommand: function (a, b, c) {
@@ -13236,7 +13283,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        mw.$('.mw-skip-and-remove', body).remove();
+        mw.$('.mw-skip-and-remove,script', body).remove();
         return body;
     },
     doLocalPaste: function (clipboard) {
@@ -14149,7 +14196,12 @@ mw.wysiwyg = {
     fontFamily: function (font_name) {
         var range = getSelection().getRangeAt(0);
         document.execCommand("styleWithCSS", null, true);
+
         var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
         if (range.collapsed) {
 
             mw.wysiwyg.select_all(el);
@@ -14161,6 +14213,10 @@ mw.wysiwyg = {
         }
 
         mw.wysiwyg.change(el)
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
 
     },
     nestingFixes: function (root) {  /*
@@ -14400,6 +14456,7 @@ mw.wysiwyg = {
     link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
         mw.wysiwyg.save_selection();
+
         var el = node_id ? document.getElementById(node_id) : mw.tools.firstParentWithTag(getSelection().focusNode, 'a');
         var val;
         var sel = getSelection();
@@ -14433,9 +14490,19 @@ mw.wysiwyg = {
         .then(function (result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
+            var fc = mw.top().win.getSelection().focusNode;
+            if(fc.querySelector) {
+                Array.from(fc.querySelectorAll('a')).forEach(function(link) {
+                    //if(mw.tools.isEditable(link)) {
+                        link.id = mw.id('mw-link-');
+                    //}
+                })
+            }
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(fc.parentElement, 'edit'))
+            }
+
         });
-
-
 
     },
 
@@ -18725,27 +18792,29 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            var target = data.active.target;
-            if(typeof target === 'string'){
-                target = document.querySelector(data.active.target);
-            }
-
-            if(!data.active || (!target && !data.active.action)) {
-                mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-                mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-                return;
-            }
-            if(data.active.action) {
-                data.active.action();
-            } else if(document.body.contains(target)) {
-                mw.$(target).html(data.active.value);
-            } else{
-                if(target.id) {
-                    mw.$(document.getElementById(target.id)).html(data.active.value);
+            if(data.active) {
+                var target = data.active.target;
+                if(typeof target === 'string'){
+                    target = document.querySelector(data.active.target);
                 }
-            }
-            if(data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
+
+                if(!data.active || (!target && !data.active.action)) {
+                    mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+                    mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+                    return;
+                }
+                if(data.active.action) {
+                    data.active.action();
+                } else if(document.body.contains(target)) {
+                    mw.$(target).html(data.active.value);
+                } else{
+                    if(target.id) {
+                        mw.$(document.getElementById(target.id)).html(data.active.value);
+                    }
+                }
+                if(data.active.prev) {
+                    mw.$(data.active.prev).html(data.active.prevValue);
+                }
             }
             mw.drag.load_new_modules();
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
@@ -18756,14 +18825,17 @@ mw.propEditor = {
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
         mw.element(document.body).on('keydown', function(e) {
-            var key = e.key.toLowerCase();
-            if (e.ctrlKey && key === 'z' && !e.shiftKey) {
-                e.preventDefault();
-                mw.liveEditState.undo();
-            } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
-                e.preventDefault();
-                mw.liveEditState.redo();
+            if( e.key )  {
+                var key = e.key.toLowerCase();
+                if (e.ctrlKey && key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    mw.liveEditState.undo();
+                } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
+                    e.preventDefault();
+                    mw.liveEditState.redo();
+                }
             }
+
         });
     });
 })();
@@ -19931,7 +20003,7 @@ var domHelp = {
         return false;
     },
     generateSelectorForNode: function (node, strict) {
-        if(typeof strict === 'undefined') {
+         if(typeof strict === 'undefined') {
             strict = true;
         }
         if (node === null || node.nodeType === 3) {
@@ -20798,7 +20870,7 @@ mw.extradataForm = function (options, data, func) {
   \**********************************************************************/
 /***/ (() => {
 
-(function(expose){
+;(function(expose){
     var helpers = {
         fragment: function(){
             if(!this._fragment){
@@ -21071,6 +21143,7 @@ mw.extradataForm = function (options, data, func) {
             }
         },
         scrollTo: function (el, callback, minus) {
+
             minus = minus || 0;
             if ($(el).length === 0) {
                 return false;
@@ -23823,9 +23896,9 @@ mw.image.settings = function () {
             }
             return frame;
         },
-          confirm_reset_module_by_id: function (module_id) {
-
-              if (confirm("Are you sure you want to reset this module?")) {
+          confirm_reset_module_by_id: function (module_id, cb) {
+            var result = confirm("Are you sure you want to reset this module?");
+            if (result) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -23864,8 +23937,10 @@ mw.image.settings = function () {
           });
 
             window.mw.on.DOMChangePause = true;
+            var done = 0, alldone = 1;
 
             if (childs_arr.length) {
+                alldone++;
                 $.ajax({
                     type: "POST",
                    // dataType: "json",
@@ -23874,6 +23949,13 @@ mw.image.settings = function () {
                     data: {reset:childs_arr}
                   //  success: success,
                   //  dataType: dataType
+                }).always(function (){
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
                 });
            }
 
@@ -23896,10 +23978,17 @@ mw.image.settings = function () {
                         window.mw.on.DOMChangePause = false;
 
                     }, 1000);
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
 
                  },
             });
         }
+              return result;
     },
     open_reset_content_editor: function (root_element_id) {
 
@@ -24042,20 +24131,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        // var colorpicker_els = mw.top().$("body *");
-        // if(colorpicker_els.length > 0){
-        //     colorpicker_els.each(function () {
-        //         var css = parent.getComputedStyle(this, null);
-        //         if (css !== null) {
-        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-        //             }
-        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-        //             }
-        //         }
-        //     });
-        // }
+         var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+         if(colorpicker_els.length > 0){
+             colorpicker_els.each(function () {
+                 var css = parent.getComputedStyle(this, null);
+                 if (css !== null) {
+                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                     }
+                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                     }
+                 }
+             });
+         }
 
     }
     var proto = this;
@@ -24137,7 +24226,9 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty();
+        mw.$('.mw-tooltip-content', tip).empty().css({
+            padding: 0
+        });
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
         frame = AColorPicker.createPicker(sett);
@@ -25771,8 +25862,13 @@ mw.Spinner = function(options){
         });
     };
 
+    this.setState = function(state) {
+        mw.tools.classNamespaceDelete(this.$spinner[0], 'mw-spinner-state-');
+        mw.tools.addClass(this.$spinner[0], 'mw-spinner-state-' + state);
+    }
+
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
         this.$element[this.options.insertMode](this.$spinner);
@@ -27476,9 +27572,18 @@ mw.emitter = {
                     description: options.text.description,
                     name: 'text'
                 });
+                setTimeout(function (){
+                     _linkText.querySelector('input').addEventListener('keyup', function (){
+                        scope.shouldChange = false;
+                    })
+                    _linkText.querySelector('input').addEventListener('paste', function (){
+                        scope.shouldChange = false;
+                    })
+                }, 78)
             }
-             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js')
+            var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
+            mw.require('tree.js');
+            scope.shouldChange = !_linkText.querySelector('input').value.trim();
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -27493,7 +27598,8 @@ mw.emitter = {
                     dialog.center();
                 }
                 scope.tree.on("selectionChange", function(selection){
-                    if (textField && selection && selection[0]) {
+
+                    if (textField && selection && selection[0] && scope.shouldChange) {
                         textField.value = selection[0].title;
                     }
                     if(scope.valid()) {

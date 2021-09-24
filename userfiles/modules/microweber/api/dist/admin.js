@@ -573,6 +573,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values, $callback);
 
+
+
+
+
 }
 
 mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = null;
@@ -613,6 +617,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
                 mw.admin.admin_package_manager.set_loading(false);
 
                 mw.$('#update_queue_set_modal').remove();
+
             }
 
 
@@ -3861,8 +3866,16 @@ mw.options = {
             option_group: group,
             option_key: key,
             option_value: value,
-            lang: lang
+
         };
+
+        if(lang){
+            // for multilanguage module
+            data.lang=lang;
+        }
+
+
+
         return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",
@@ -8730,27 +8743,29 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            var target = data.active.target;
-            if(typeof target === 'string'){
-                target = document.querySelector(data.active.target);
-            }
-
-            if(!data.active || (!target && !data.active.action)) {
-                mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-                mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-                return;
-            }
-            if(data.active.action) {
-                data.active.action();
-            } else if(document.body.contains(target)) {
-                mw.$(target).html(data.active.value);
-            } else{
-                if(target.id) {
-                    mw.$(document.getElementById(target.id)).html(data.active.value);
+            if(data.active) {
+                var target = data.active.target;
+                if(typeof target === 'string'){
+                    target = document.querySelector(data.active.target);
                 }
-            }
-            if(data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
+
+                if(!data.active || (!target && !data.active.action)) {
+                    mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+                    mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+                    return;
+                }
+                if(data.active.action) {
+                    data.active.action();
+                } else if(document.body.contains(target)) {
+                    mw.$(target).html(data.active.value);
+                } else{
+                    if(target.id) {
+                        mw.$(document.getElementById(target.id)).html(data.active.value);
+                    }
+                }
+                if(data.active.prev) {
+                    mw.$(data.active.prev).html(data.active.prevValue);
+                }
             }
             mw.drag.load_new_modules();
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
@@ -8761,14 +8776,17 @@ mw.propEditor = {
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
         mw.element(document.body).on('keydown', function(e) {
-            var key = e.key.toLowerCase();
-            if (e.ctrlKey && key === 'z' && !e.shiftKey) {
-                e.preventDefault();
-                mw.liveEditState.undo();
-            } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
-                e.preventDefault();
-                mw.liveEditState.redo();
+            if( e.key )  {
+                var key = e.key.toLowerCase();
+                if (e.ctrlKey && key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    mw.liveEditState.undo();
+                } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
+                    e.preventDefault();
+                    mw.liveEditState.redo();
+                }
             }
+
         });
     });
 })();
@@ -9936,7 +9954,7 @@ var domHelp = {
         return false;
     },
     generateSelectorForNode: function (node, strict) {
-        if(typeof strict === 'undefined') {
+         if(typeof strict === 'undefined') {
             strict = true;
         }
         if (node === null || node.nodeType === 3) {
@@ -10803,7 +10821,7 @@ mw.extradataForm = function (options, data, func) {
   \**********************************************************************/
 /***/ (() => {
 
-(function(expose){
+;(function(expose){
     var helpers = {
         fragment: function(){
             if(!this._fragment){
@@ -11076,6 +11094,7 @@ mw.extradataForm = function (options, data, func) {
             }
         },
         scrollTo: function (el, callback, minus) {
+
             minus = minus || 0;
             if ($(el).length === 0) {
                 return false;
@@ -13828,9 +13847,9 @@ mw.image.settings = function () {
             }
             return frame;
         },
-          confirm_reset_module_by_id: function (module_id) {
-
-              if (confirm("Are you sure you want to reset this module?")) {
+          confirm_reset_module_by_id: function (module_id, cb) {
+            var result = confirm("Are you sure you want to reset this module?");
+            if (result) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -13869,8 +13888,10 @@ mw.image.settings = function () {
           });
 
             window.mw.on.DOMChangePause = true;
+            var done = 0, alldone = 1;
 
             if (childs_arr.length) {
+                alldone++;
                 $.ajax({
                     type: "POST",
                    // dataType: "json",
@@ -13879,6 +13900,13 @@ mw.image.settings = function () {
                     data: {reset:childs_arr}
                   //  success: success,
                   //  dataType: dataType
+                }).always(function (){
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
                 });
            }
 
@@ -13901,10 +13929,17 @@ mw.image.settings = function () {
                         window.mw.on.DOMChangePause = false;
 
                     }, 1000);
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
 
                  },
             });
         }
+              return result;
     },
     open_reset_content_editor: function (root_element_id) {
 
@@ -14047,20 +14082,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        // var colorpicker_els = mw.top().$("body *");
-        // if(colorpicker_els.length > 0){
-        //     colorpicker_els.each(function () {
-        //         var css = parent.getComputedStyle(this, null);
-        //         if (css !== null) {
-        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-        //             }
-        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-        //             }
-        //         }
-        //     });
-        // }
+         var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+         if(colorpicker_els.length > 0){
+             colorpicker_els.each(function () {
+                 var css = parent.getComputedStyle(this, null);
+                 if (css !== null) {
+                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                     }
+                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                     }
+                 }
+             });
+         }
 
     }
     var proto = this;
@@ -14142,7 +14177,9 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty();
+        mw.$('.mw-tooltip-content', tip).empty().css({
+            padding: 0
+        });
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
         frame = AColorPicker.createPicker(sett);
@@ -15776,8 +15813,13 @@ mw.Spinner = function(options){
         });
     };
 
+    this.setState = function(state) {
+        mw.tools.classNamespaceDelete(this.$spinner[0], 'mw-spinner-state-');
+        mw.tools.addClass(this.$spinner[0], 'mw-spinner-state-' + state);
+    }
+
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
         this.$element[this.options.insertMode](this.$spinner);
@@ -17481,9 +17523,18 @@ mw.emitter = {
                     description: options.text.description,
                     name: 'text'
                 });
+                setTimeout(function (){
+                     _linkText.querySelector('input').addEventListener('keyup', function (){
+                        scope.shouldChange = false;
+                    })
+                    _linkText.querySelector('input').addEventListener('paste', function (){
+                        scope.shouldChange = false;
+                    })
+                }, 78)
             }
-             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js')
+            var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
+            mw.require('tree.js');
+            scope.shouldChange = !_linkText.querySelector('input').value.trim();
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -17498,7 +17549,8 @@ mw.emitter = {
                     dialog.center();
                 }
                 scope.tree.on("selectionChange", function(selection){
-                    if (textField && selection && selection[0]) {
+
+                    if (textField && selection && selection[0] && scope.shouldChange) {
                         textField.value = selection[0].title;
                     }
                     if(scope.valid()) {

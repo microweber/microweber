@@ -53,7 +53,7 @@ window.MWEditor = function (options) {
 
     options = options || {};
 
-    this.settings = mw.object.extend({}, defaults, options);
+    this.settings = Object.assign({}, defaults, options);
 
 
     if (typeof this.settings.controls === 'string') {
@@ -84,7 +84,7 @@ window.MWEditor = function (options) {
         return;
     }
 
-    this.settings.selectorNode = mw.$(this.settings.selector)[0];
+    this.settings.selectorNode = mw.element(this.settings.selector)[0];
 
     if (this.settings.selectorNode) {
         this.settings.selectorNode.__MWEditor = this;
@@ -682,15 +682,15 @@ window.MWEditor = function (options) {
 
     this.__insertEditor = function () {
         if (this.settings.isTextArea) {
-            var el = mw.$(this.settings.selector);
-            el[0].mwEditor = this;
+            var el = mw.element(this.settings.selector);
+            el.get(0).mwEditor = this;
             el.hide();
             var areaWrapper = mw.element();
             areaWrapper.node.mwEditor = this;
             el.after(areaWrapper.node);
             areaWrapper.append(this.wrapper);
         } else {
-            mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
+            mw.element(this.settings.selector).append(this.wrapper).get(0).mwEditor = this;
         }
     };
 
@@ -1222,6 +1222,9 @@ MWEditor.api = function (scope) {
             range.deleteContents()
             range.insertNode(frag)
         },
+        cleanHTML: function (target){
+
+        },
         cssApplier: function (css) {
             var styles = '';
             if (typeof css === 'object') {
@@ -1281,6 +1284,7 @@ MWEditor.api = function (scope) {
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
+                            scope.registerChange();
                         });
                     }
                 }
