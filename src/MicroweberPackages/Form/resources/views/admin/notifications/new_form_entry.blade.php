@@ -20,7 +20,7 @@
             </div>
         @endif
 
-        <div class="row align-items-center">
+            <div class="row align-items-center" data-toggle="collapse" data-target="#notif-entry-item-{{$id}}" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>

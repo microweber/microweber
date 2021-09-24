@@ -124,8 +124,8 @@ if (isset($item['created_by'])) {
                             <div>
                                 <small class="text-muted"><?php echo $fileNameKey; ?></small> <br />
                                 <a href="<?php echo $fileSettings['url']; ?>" target="_blank">
-                                    <i class="mdi mdi-file-check text-primary mdi-18px"></i> <?php echo str_limit(basename($fileSettings['url']),30); ?>
-                                    (<?php echo app()->format->human_filesize($fileSettings['file_size']); ?>)
+                                    <i class="mdi mdi-file-check text-primary mdi-18px"></i> <?php echo str_limit(basename($fileSettings['url']),20); ?>
+                                    (<?php echo app()->format->human_filesize($fileSettings['file_size']) ?>)
                                 </a>
                             </div>
                             <?php
