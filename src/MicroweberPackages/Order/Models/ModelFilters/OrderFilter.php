@@ -18,7 +18,8 @@ class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
 
-    public function keyword($keyword) {
+    public function keyword($keyword)
+    {
 
         $keyword = trim($keyword);
         if (empty($keyword)) {
@@ -42,4 +43,22 @@ class OrderFilter extends ModelFilter
     }
 
 
+    public function priceBetween($price)
+    {
+        $minPrice = $price;
+        $maxPrice = false;
+
+        if (strpos($price, ',') !== false) {
+            $price = explode(',', $price);
+            $minPrice = $price[0];
+            $maxPrice = $price[1];
+        }
+
+        $minPrice = intval($minPrice);
+        $maxPrice = intval($maxPrice);
+
+        
+
+
+    }
 }

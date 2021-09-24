@@ -12,12 +12,12 @@
         <div class="card-body pt-3 pb-0">
             @include('order::admin.orders.partials.order_filtering')
 
-            <?php if (count($newOrders) > 0): ?>
+          {{--  <?php if (count($newOrders) > 0): ?>
                  <label class="control-label mb-3 mt-3"><?php _e('New orders'); ?></label>
             <?php foreach ($newOrders as $order): ?>
                 @include('order::admin.orders.order_card')
             <?php endforeach;?>
-            <?php endif; ?>
+            <?php endif; ?>--}}
 
             <?php if (count($orders) > 0): ?>
             <label class="control-label mb-3 mt-3"><?php _e('All orders'); ?></label>

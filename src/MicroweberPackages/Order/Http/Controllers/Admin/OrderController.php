@@ -25,9 +25,14 @@ class OrderController extends AdminController
             $filteringResults = true;
         }
 
-        $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
+      // $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
 
-        $orders = Order::filter($request->all())
+        $filterFields = $request->all();
+        if ($minPrice && $maxPrice) {
+            $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
+        }
+
+        $orders = Order::filter($filterFields)
             ->where('order_status', '!=', 'new')
             ->orderBy('id', 'desc')
             ->paginate($request->get('limit', $this->pageLimit))
@@ -42,7 +47,7 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'newOrders'=>$newOrders,
+         //   'newOrders'=>$newOrders,
             'orders'=>$orders
         ]);
     }
