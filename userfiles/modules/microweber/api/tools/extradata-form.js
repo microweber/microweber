@@ -61,8 +61,8 @@ mw.extradataForm = function (options, data, func) {
             mw.$(form).on('submit', function (e) {
                 e.preventDefault();
                 var when = form.$beforepost ? form.$beforepost : function () {};
-                var exdata = mw.serializeFields(this);
                 $.when(when()).then(function() {
+                    var exdata = mw.serializeFields(form);
                     if(typeof options.data === 'string'){
                         var params = {};
                         options.data.split('&').forEach(function(a){
