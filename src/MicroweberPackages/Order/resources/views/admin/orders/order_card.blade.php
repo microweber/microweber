@@ -1,7 +1,6 @@
 <?php
 
-
-if(!$order){
+if (!$order) {
     return;
 }
 
@@ -10,30 +9,19 @@ if ($order->customer_id > 0) {
     $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
 }
 
-if($order){
-    $carts = $order->cart()->with('products')->get();
-    $firstProduct = [];
-    foreach ($carts as $cart) {
-        if(isset($cart->products[0])){
-            $firstProduct = $cart->products[0];
-            break;
-        }
+$carts = $order->cart()->with('products')->get();
+$firstProduct = [];
+foreach ($carts as $cart) {
+    if (isset($cart->products[0])) {
+        $firstProduct = $cart->products[0];
+        break;
     }
-
-    $item = $order->toArray();
-
-    $is_order = true;
-
-    include module_dir('admin/notifications') . 'notif_order.php';
 }
 
-return;
+$item = $order->toArray();
 ?>
-<?php
 
-/*<div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
-
-        " data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-3 not-collapsed-border collapsed card-order-holder" data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -41,14 +29,15 @@ return;
 
                     <div class="col item-image">
                         <?php if (count($carts) > 1): ?>
-                        <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
+                        <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm"
+                                style="width: 30px; right: 0; z-index: 9;">
                             <?php echo count($carts); ?>
                         </button>
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
                             <?php
                             $firstProductImage = '';
-                            if(is_object($firstProduct) and is_object($firstProduct->media()->first())){
+                            if (is_object($firstProduct) and is_object($firstProduct->media()->first())) {
                                 $firstProductImage = $firstProduct->media()->first()->filename;
                             }
                             ?>
@@ -88,7 +77,8 @@ return;
             <div class="col-12 col-md-6">
                 <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
-                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
+                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
+                        <br/><?php endif; ?>
                         <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
 
                         <?php if (isset($order['payment_status']) && $order['payment_status']): ?>
@@ -108,9 +98,11 @@ return;
                         <?php endif; ?>
                     </div>
 
-                    <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip" title="<?php print mw('format')->ago($order['created_at']); ?>">
+                    <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
+                         title="<?php print mw('format')->ago($order['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($order['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($order['created_at'])); ?><span class="text-success"><?php _e("h"); ?></span><br/></small>
+                        <small class="text-muted"><?php print date('h:s', strtotime($order['created_at'])); ?><span
+                                class="text-success"><?php _e("h"); ?></span><br/></small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">
@@ -125,7 +117,8 @@ return;
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php echo route('admin.order.show', $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
+                <a href="<?php echo route('admin.order.show', $order['id']); ?>"
+                   class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 
@@ -237,5 +230,4 @@ return;
             </div>
         </div>
     </div>
-</div>*/
-?>
+</div>
