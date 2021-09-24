@@ -17,14 +17,14 @@ class FormController
         $response = mw()->forms_manager->post($request->all());
 
         $responseCode = 200;
-
-        if (isset($response['error'])) {
-            $responseCode = 422;
-        }
-
-        if (isset($response['form_errors'])) {
-            $responseCode = 422;
-        }
+//   @todo return proper code status when we fix the frontend part $.ajax
+//        if (isset($response['error'])) {
+//            $responseCode = 422;
+//        }
+//
+//        if (isset($response['form_errors'])) {
+//            $responseCode = 422;
+//        }
 
         return response()->json($response, $responseCode);
     }
