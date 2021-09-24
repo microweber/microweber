@@ -17,6 +17,8 @@ class OrderController extends AdminController
 
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $minPrice = $request->get('minPrice', 0);
+        $maxPrice = $request->get('maxPrice', 1000);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -33,6 +35,10 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.index', [
             'orderBy'=>$orderBy,
+            'ordersMinPrice'=>0,
+            'ordersMaxPrice'=>1000,
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
@@ -47,6 +53,7 @@ class OrderController extends AdminController
 
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $priceBetween = $request->get('priceBetween', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -62,6 +69,7 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.abandoned', [
             'abandoned'=>true,
+            'priceBetween'=>$priceBetween,
             'orderBy'=>$orderBy,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
