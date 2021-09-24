@@ -59,37 +59,41 @@ mw.extradataForm = function (options, data, func) {
 
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
-
                 e.preventDefault();
+                var when = form.$beforepost ? form.$beforepost : function () {};
                 var exdata = mw.serializeFields(this);
-
-                if(typeof options.data === 'string'){
-                    var params = {};
-                    options.data.split('&').forEach(function(a){
-                        var c = a.split('=');
-                        params[c[0]] = decodeURIComponent(c[1]);
-                    });
-                    options.data = params;
-                }
-                var isFormData = options.data.constructor.name === 'FormData';
-                if(isFormData) {
-                    for (var i in exdata) {
-                        options.data.set(i, exdata[i]);
+                $.when(when()).then(function() {
+                    if(typeof options.data === 'string'){
+                        var params = {};
+                        options.data.split('&').forEach(function(a){
+                            var c = a.split('=');
+                            params[c[0]] = decodeURIComponent(c[1]);
+                        });
+                        options.data = params;
                     }
+                    var isFormData = options.data.constructor.name === 'FormData';
+                    if(isFormData) {
+                        for (var i in exdata) {
+                            options.data.set(i, exdata[i]);
+                        }
 
-                } else {
-                    for (var i in exdata) {
-                        options.data[i] = exdata[i];
+                    } else {
+                        for (var i in exdata) {
+                            options.data[i] = exdata[i];
+                        }
                     }
-                }
-                if(func) {
-                    func(options);
+                    if(func) {
+                        func(options);
 
-                } else {
-                    mw.ajax(options);
+                    } else {
+                        mw.ajax(options);
 
-                }
-                form.__modal.remove();
+                    }
+                    form.__modal.remove();
+                })
+
+
+
             });
         }
     });
