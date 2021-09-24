@@ -27,7 +27,10 @@ if(typeof  processContactForm !== 'object'){
                 else {
                     processContactForm.done(form, msgselector, spinner);
                 }
-         	}, true, function (data2) {
+         	}, true, function () {
+
+                var data2 = this.responseJSON;
+
                 spinner.remove()
                 mw.$('input[type="submit"]',selector).attr('disabled', false);
 

@@ -352,11 +352,20 @@ class FormsManager
         if (!empty($more)) {
             foreach ($more as $item) {
 
+                $appendToRequired = false;
+
                 if ($item['required'] == 1) {
+                    $appendToRequired = true;
+                }
+                if (isset($item['type']) && $item['type'] == 'upload') {
+                    $appendToRequired = false;
+                }
+                if ($appendToRequired) {
                     $requiredFields[$item['name_key']] = [
                         'required'
                     ];
                 }
+
 
                  if (isset($item['name'])) {
                     $cfn = ($item['name']);
@@ -434,7 +443,6 @@ class FormsManager
                 foreach ($more as $field) {
 
                     $fieldRules = [];
-
                     if ($field['type'] != 'upload') {
                         continue;
                     }
