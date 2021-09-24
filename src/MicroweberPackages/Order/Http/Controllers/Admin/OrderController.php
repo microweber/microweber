@@ -13,19 +13,25 @@ class OrderController extends AdminController
 
     public function index(Request $request)
     {
-        $filteringResults = false;
-
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $minPrice = $request->get('minPrice', 0);
+        $maxPrice = $request->get('maxPrice', 1000);
+        $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
             $filteringResults = true;
         }
 
-        $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
+      // $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
 
-        $orders = Order::filter($request->all())
+        $filterFields = $request->all();
+        if ($maxPrice) {
+            $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
+        }
+
+        $orders = Order::filter($filterFields)
             ->where('order_status', '!=', 'new')
             ->orderBy('id', 'desc')
             ->paginate($request->get('limit', $this->pageLimit))
@@ -33,10 +39,14 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.index', [
             'orderBy'=>$orderBy,
+            'ordersMinPrice'=>0,
+            'ordersMaxPrice'=>1000,
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'newOrders'=>$newOrders,
+            'newOrders'=>[],
             'orders'=>$orders
         ]);
     }
@@ -47,6 +57,7 @@ class OrderController extends AdminController
 
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $priceBetween = $request->get('priceBetween', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -62,6 +73,7 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.abandoned', [
             'abandoned'=>true,
+            'priceBetween'=>$priceBetween,
             'orderBy'=>$orderBy,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
