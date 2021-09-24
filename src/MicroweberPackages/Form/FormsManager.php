@@ -58,7 +58,6 @@ class FormsManager
         if (isset($params['single']) and $params['single']) {
             $is_single = true;
             unset($params['single']);
-
         }
 
         $data = $this->app->database_manager->get($params);
@@ -367,10 +366,10 @@ class FormsManager
                 }
 
 
-                 if (isset($item['name'])) {
+                if (isset($item['name'])) {
                     $cfn = ($item['name']);
 
-                  //  $cfn2 = str_replace(' ', '_', $cfn);
+                    //  $cfn2 = str_replace(' ', '_', $cfn);
                     $cfn2 = str_replace(' ', '_', trim($cfn));
 
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
@@ -383,15 +382,15 @@ class FormsManager
                         $cfToSave[$cfn] = $item;
                     } else {
                         $cfn3 = \Str::slug($item['name'], '-');
-                         foreach ($params as $param_key=>$param_vals){
+                        foreach ($params as $param_key => $param_vals) {
                             $cfn_url = \Str::slug($param_key, '-');
-                             if($cfn3 == $cfn_url){
+                            if ($cfn3 == $cfn_url) {
 
-                                 $item['value'] = $params[$param_key];
-                                 $cfToSave[$cfn] = $param_vals;
-                                 $fields_data[$cfn] = $params[$param_key];
+                                $item['value'] = $params[$param_key];
+                                $cfToSave[$cfn] = $param_vals;
+                                $fields_data[$cfn] = $params[$param_key];
 
-                             }
+                            }
                         }
                     }
                 }
@@ -408,13 +407,13 @@ class FormsManager
                     $validatorMessages = reset($inputFieldErros);
                 }
                 return array(
-                    'form_errors'=>$validator->messages()->toArray(),
+                    'form_errors' => $validator->messages()->toArray(),
                     'error' => $validatorMessages
                 );
             }
         }
 
-          $save = 1;
+        $save = 1;
 
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
         if (!$skip_saving_emails) {
@@ -502,7 +501,7 @@ class FormsManager
                         $validatorMessages = reset($inputFieldErros);
                     }
                     return array(
-                        'form_errors'=>$validator->messages()->toArray(),
+                        'form_errors' => $validator->messages()->toArray(),
                         'error' => $validatorMessages
                     );
                 }
@@ -646,9 +645,9 @@ class FormsManager
                     }
 
                     if (empty(!$sendFormDataToReceivers)) {
-                        $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
+                        $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
-                            foreach($receivers as $receiver) {
+                            foreach ($receivers as $receiver) {
                                 Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
                             }
                         }
@@ -719,7 +718,8 @@ class FormsManager
         return $emailsList;
     }
 
-    public function getAutoRespondSettings($formId) {
+    public function getAutoRespondSettings($formId)
+    {
 
         $systemEmailOptionGroup = 'email';
         $contactFormGlobalOptionGroup = 'contact_form_default';
@@ -754,12 +754,12 @@ class FormsManager
         $emailAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
 
         return [
-            'emailContent'=>$emailContent,
-            'emailSubject'=>$emailSubject,
-            'emailReplyTo'=>$emailReplyTo,
-            'emailAppendFiles'=>$emailAppendFiles,
-            'emailFrom'=>$emailFrom,
-            'emailFromName'=>$emailFromName
+            'emailContent' => $emailContent,
+            'emailSubject' => $emailSubject,
+            'emailReplyTo' => $emailReplyTo,
+            'emailAppendFiles' => $emailAppendFiles,
+            'emailFrom' => $emailFrom,
+            'emailFromName' => $emailFromName
         ];
     }
 
@@ -862,75 +862,23 @@ class FormsManager
         //this function is experimental
         set_time_limit(0);
 
-
         if (!isset($params['id'])) {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
             $lid = intval($params['id']);
-            if($lid != 0){
-             $data = get_form_entires('nolimit=true');
+            if ($lid == 0) {
+                $data = get_form_entires('nolimit=true');
             } else {
                 $data = get_form_entires('nolimit=true&list_id=' . $lid);
-
             }
-             if(!$data){
-                 return array('warning' => 'This list is empty');
 
-             }
-
-          //  $data = get_form_entires('limit=100000');
-
-            $surl = $this->app->url_manager->site();
-            $csv_output = '';
-            /*   if (is_array($data)) {
-                   $csv_output = 'id,';
-                   $csv_output .= 'created_at,';
-                   $csv_output .= 'user_ip,';
-                   foreach ($data as $item) {
-                       if (isset($item['custom_fields'])) {
-                           foreach ($item['custom_fields'] as $k => $v) {
-                               $csv_output .= $this->app->format->no_dashes($k) . ',';
-                               //      $csv_output .= "\t";
-                           }
-                       }
-                   }
-
-                   $csv_output .= "\n";
-
-                   foreach ($data as $item) {
-                       if (isset($item['custom_fields'])) {
-                           $csv_output .= $item['id'] . ',';
-                           //   $csv_output .= "\t";
-                           $csv_output .= $item['created_at'] . ',';
-                           //  $csv_output .= "\t";
-                           $csv_output .= $item['user_ip'] . ',';
-                           //   $csv_output .= "\t";
-
-                           foreach ($item['custom_fields'] as $item1 => $val) {
-                               $output_val = $val;
-
-                               if (is_array($output_val)) {
-                                   $output_val = mw()->format->array_to_ul($output_val);
-                               }
-                               //  $output_val = nl2br($output_val);
-                               $output_val = str_replace('{SITE_URL}', $surl, $output_val);
-
-
-                               $csv_output .= $output_val . ',';
-                               //   $csv_output .= "\t";
-                           }
-                           $csv_output .= "\n";
-                       }
-                   }
-               }*/
-
+            if (!$data) {
+                return array('warning' => 'This list is empty');
+            }
 
             $data_for_csv = array();
             $data_known_keys = array();
-
-
             foreach ($data as $item) {
-
 
                 $item_for_csv = array();
                 $item_for_csv['id'] = $item['id'];
@@ -941,7 +889,7 @@ class FormsManager
                         $output_val = $v1;
 
                         if (is_array($output_val)) {
-                            $output_val =  implode('|',$output_val);
+                            $output_val = implode('|', $output_val);
                         }
                         $item_for_csv[$k1] = $output_val;
 

@@ -1,22 +1,7 @@
 <script>
     $(document).ready(function() {
-        $('.js-sort-btn').click(function (e) {
 
-            var direction = $('.js-form-order-filtering-direction').val();
 
-            if (direction == '') {
-                $('.js-form-order-filtering-direction').val('desc');
-            }
-
-            if (direction == 'desc') {
-                $('.js-form-order-filtering-direction').val('asc');
-            }
-
-            if (direction == 'asc') {
-                $('.js-form-order-filtering-direction').val('desc');
-            }
-
-        });
     });
 </script>
 
@@ -34,35 +19,17 @@
             <small><?php _e("Sort By"); ?>: &nbsp;</small>
 
             <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="created_at">
-                    <?php _e("Date"); ?>
-                    <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
+                <select class="form-control" name="orderBy">
+                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="created_at"><?php _e("Date"); ?></option>
+                    <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="order_status"><?php _e("Status"); ?></option>
+                    <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="amount"><?php _e("Amount"); ?></option>
+                </select>
             </div>
+
             <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="order_status">
-                    <?php _e("Status"); ?>
-                    <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
+                <button type="submit" class="btn btn-success"><i class="mdi mdi-filter"></i> <?php _e("Submit filter"); ?></button>
             </div>
-            <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="amount">
-                    <?php _e("Amount"); ?>
-                    <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
-            </div>
+
         </div>
         <?php } ?>
     </div>
