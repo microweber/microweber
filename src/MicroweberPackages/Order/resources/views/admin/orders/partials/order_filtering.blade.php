@@ -23,13 +23,13 @@
             <small><?php _e("Sort By"); ?>: &nbsp;</small>
 
             <div class="d-inline-block mx-1">
-                <select class="form-control" onchange="location = this.value;">
-                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Date [DESC]"); ?></option>
-                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Date [ASC]"); ?></option>
-                    <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status [ASC]"); ?></option>
-                    <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status [DESC]"); ?></option>
-                    <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount [ASC]"); ?></option>
-                    <option <?php if($orderBy == 'amount' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount [DESC]"); ?></option>
+                <select class="form-control" onchange="location = this.value;"> 
+                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=asc"><?php _e("Date"); ?> <?php _e("[ASC]"); ?></option>
+                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Date"); ?> <?php _e("[DESC]"); ?></option>
+                    <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=asc"><?php _e("Status"); ?> <?php _e("[ASC]"); ?></option>
+                    <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status"); ?> <?php _e("[DESC]"); ?></option>
+                    <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=asc"><?php _e("Amount"); ?> <?php _e("[ASC]"); ?></option>
+                    <option <?php if($orderBy == 'amount' && $orderDirection == 'desc'): ?>selected="selected"<?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount"); ?> <?php _e("[DESC]"); ?></option>
                 </select>
             </div>
 
