@@ -14,6 +14,18 @@ class FormController
 {
     public function post(Request $request)
     {
-        return mw()->forms_manager->post($request->all());
+        $response = mw()->forms_manager->post($request->all());
+
+        $responseCode = 200;
+
+        if (isset($response['error'])) {
+            $responseCode = 422;
+        }
+
+        if (isset($response['form_errors'])) {
+            $responseCode = 422;
+        }
+
+        return response()->json($response, $responseCode);
     }
 }

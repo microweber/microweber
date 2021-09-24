@@ -373,9 +373,9 @@ class FormsManager
                         $item['value'] = $params[$cfn2];
                         $cfToSave[$cfn] = $item;
                     } else {
-                        $cfn3 = url_title($item['name']);
+                        $cfn3 = \Str::slug($item['name'], '-');
                          foreach ($params as $param_key=>$param_vals){
-                            $cfn_url = url_title($param_key);
+                            $cfn_url = \Str::slug($param_key, '-');
                              if($cfn3 == $cfn_url){
 
                                  $item['value'] = $params[$param_key];
@@ -551,6 +551,7 @@ class FormsManager
                     }
                 }
             }
+
             // End of attachments
             if (!empty($fields_data)) {
                 $to_save['form_values'] = json_encode($fields_data);
