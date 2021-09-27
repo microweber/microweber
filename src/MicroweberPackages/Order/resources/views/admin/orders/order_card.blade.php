@@ -33,7 +33,7 @@ $item = $order->toArray();
 <div class="js-order-card-<?php print $order['id'] ?> card mb-3 not-collapsed-border collapsed card-order-holder" data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6" data-toggle="collapse" data-target="#notif-order-item-<?php print $order['id'] ?>">
                 <div class="row align-items-center">
 
                     <div class="col item-image">
@@ -132,7 +132,6 @@ $item = $order->toArray();
         </div>
 
         <div class="collapse" id="notif-order-item-<?php echo $order['id']; ?>">
-
 
             <hr class="thin"/>
 
