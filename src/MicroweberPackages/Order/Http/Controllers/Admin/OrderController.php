@@ -4,6 +4,7 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
 
@@ -21,8 +22,10 @@ class OrderController extends AdminController
 
         $minDate = $request->get('minDate', false);
         $maxDate = $request->get('maxDate', false);
+
         $id = $request->get('id', false);
 
+        $exportResults = $request->get('exportResults', false);
         $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
@@ -40,9 +43,24 @@ class OrderController extends AdminController
             $filterFields['orderDirection'] = 'desc';
         }
 
-        $orders = Order::filter($filterFields)
-            ->paginate($request->get('limit', $this->pageLimit))
-            ->appends($request->except('page'));
+        $ordersQuery = Order::filter($filterFields);
+
+        if ($exportResults) {
+            $orders = $ordersQuery->get();
+
+            $exportExcel = new XlsxExport();
+            $exportExcel->data['mw_export_orders_' . date('Y-m-d-H-i-s')] = $orders->toArray();
+            $exportExcel = $exportExcel->start();
+            $exportExcelFile = $exportExcel['files']['0']['filepath'];
+
+            return response()->download($exportExcelFile);
+
+        } else {
+            $orders = $ordersQuery
+                ->paginate($request->get('limit', $this->pageLimit))
+                ->appends($request->except('page'));
+        }
+
 
 
         $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
@@ -58,8 +76,11 @@ class OrderController extends AdminController
             }
         }
 
+        $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
+
         return $this->view('order::admin.orders.index', [
             'id'=>$id,
+            'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,
             'maxPrice'=>$maxPrice,

@@ -5,18 +5,28 @@
                 <h5><i class="mdi mdi-post-outline text-primary mr-3"></i><strong><?php _e("List of orders"); ?></strong></h5>
                 <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php _e('Add new order'); ?></button>
             </div>
-               <div class="col-5 d-flex justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
-                   @include('order::admin.orders.partials.order_search')
-               </div>
+
         </div>
         <div class="card-body pt-3 pb-0">
             @include('order::admin.orders.partials.order_filtering')
 
 
-            <div class="row d-flex justify-content-between align-content-end">
-                <div class="col-md-4">
+            <div class="row d-flex justify-content-between align-content-end" onclick="$('.js-filtering-orders-box').slideToggle()" style="margin-top:20px">
+
+                <div class="col-md-6">
+
+                    <button type="button" class="btn btn-outline-primary mr-2">
+                        <i class="mdi mdi-filter"></i> <?php _e("Advanced filtering"); ?>
+                    </button>
 
                 </div>
+
+                <div class="col-md-2">
+                    <a href="{{$exportUrl}}" class="btn btn-outline-success btn-block mr-2">
+                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?>
+                    </a>
+                </div>
+
                 <div class="col-md-4">
             <div class="form-group">
                 <div class="input-group mb-0">
