@@ -24,6 +24,11 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
+    public function orderStatus($orderStatus)
+    {
+        $this->query->where('order_status', $orderStatus);
+    }
+
     public function keyword($keyword)
     {
         $keyword = trim($keyword);

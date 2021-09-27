@@ -13,7 +13,7 @@
 
             <div class="row d-flex justify-content-between align-content-end" style="margin-top:20px">
 
-                <div class="col-md-6">
+                <div class="col-md-5">
 
                     <button type="button" class="btn btn-outline-primary mr-2" onclick="$('.js-filtering-orders-box').slideToggle()" >
                         <i class="mdi mdi-filter"></i> <?php _e("Advanced filtering"); ?>
@@ -21,10 +21,13 @@
 
                 </div>
 
-                <div class="col-md-2 text-right">
+                <div class="col-md-3 text-right">
+                    @if ($orders->count() > 0)
                     <a href="{{$exportUrl}}" class="btn btn-outline-success">
-                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?>
+                        <i class="mdi mdi-download"></i>
+                        <?php _e("Export"); ?> {{$orders->count()}} @if($orders->count()==1) <?php _e("order"); ?> @else <?php _e("orders"); ?> @endif
                     </a>
+                    @endif
                 </div>
 
                 <div class="col-md-4">

@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order ID"); ?></label>
                 <div class="input-group mb-0">
-                    <input type="text" class="form-control" value="{{$id}}" name="id" aria-label="">
+                    <input type="text" class="form-control" value="{{$id}}" name="id" placeholder="<?php _e("Order ID");?>">
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
-                        <input type="text" class="form-control" value="{{$minDate}}" name="minDate" id="js-order-filter-date-from" aria-label="">
+                        <input type="text" class="form-control" value="{{$minDate}}" name="minDate" id="js-order-filter-date-from" placeholder="<?php _e("Set the orders from date");?>">
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
-                        <input type="text" class="form-control" value="{{$maxDate}}" name="maxDate" id="js-order-filter-date-to" aria-label="">
+                        <input type="text" class="form-control" value="{{$maxDate}}" name="maxDate" id="js-order-filter-date-to" placeholder="<?php _e("Set the orders to date");?>">
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-currency-usd"></i> </span>
                         </div>
-                        <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" aria-label="">
+                        <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" placeholder="<?php _e("Show the order with minimum amount");?>">
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-currency-usd"></i> </span>
                         </div>
-                        <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" aria-label="">
+                        <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" placeholder="<?php _e("Show the order with maximum amount");?>">
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                         </div>
-                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="Search orders by keyword, customer or products...">
+                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="<?php _e("Search orders by keyword, customer or products...");?>">
                     </div>
                 </div>
             </div>
