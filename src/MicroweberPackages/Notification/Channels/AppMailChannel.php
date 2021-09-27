@@ -32,7 +32,7 @@ class AppMailChannel extends MailChannel
         } catch (\Swift_RfcComplianceException $e) {
            // \Log::error($e);
         } catch (\Swift_TransportException $e) {
-            \Log::error($e);
+           // \Log::error($e);
         }
 
 //        catch (\Exception $e) {
