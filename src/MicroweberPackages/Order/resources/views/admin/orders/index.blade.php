@@ -23,7 +23,7 @@
 
                 <div class="col-md-2">
                     <a href="{{$exportUrl}}" class="btn btn-outline-success btn-block mr-2">
-                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?>
+                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?> 
                     </a>
                 </div>
 
