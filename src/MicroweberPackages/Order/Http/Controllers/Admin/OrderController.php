@@ -21,6 +21,7 @@ class OrderController extends AdminController
 
         $minDate = $request->get('minDate', false);
         $maxDate = $request->get('maxDate', false);
+        $id = $request->get('id', false);
 
         $filteringResults = $request->get('filteringResults', false);
 
@@ -58,6 +59,7 @@ class OrderController extends AdminController
         }
 
         return $this->view('order::admin.orders.index', [
+            'id'=>$id,
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,
             'maxPrice'=>$maxPrice,
