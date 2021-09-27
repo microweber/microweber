@@ -15,8 +15,13 @@ class OrderController extends AdminController
     {
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);
+
+        $minDate = $request->get('minDate', false);
+        $maxDate = $request->get('maxDate', false);
+
         $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
@@ -56,6 +61,8 @@ class OrderController extends AdminController
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,
             'maxPrice'=>$maxPrice,
+            'minDate'=>$minDate,
+            'maxDate'=>$maxDate,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
