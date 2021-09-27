@@ -139,28 +139,44 @@
 
         </script>
 
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Search by products"); ?></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="mdi mdi-package-variant-closed"></i></span>
+                        </div>
+                        <input type="text" class="form-control" value="" name="products" placeholder="<?php _e("Search orders by products...");?>">
+                    </div>
+                </div>
+            </div>
 
-            <div class="col-md-12">
+
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Search"); ?></label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                         </div>
-                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="<?php _e("Search orders by keyword, customer or products...");?>">
+                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="<?php _e("Free search by phone, name, email etc...");?>">
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <button type="submit" name="filteringResults" value="true" class="btn btn-outline-primary mr-2">
-                     <?php _e("Submit"); ?>
-                </button>
+
+
             </div>
 
             <div class="col-md-6">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{{route('admin.order.index')}}" class="btn btn-link">
+
+                    <button type="submit" name="filteringResults" value="true" class="js-submit-order-filtering btn btn-primary mr-2">
+                        <?php _e("Submit this criteria"); ?>
+                    </button>
+
+                    <a href="{{route('admin.order.index')}}" class="btn btn-outline-primary">
                         <?php _e("Reset filter"); ?>
                     </a>
                 </div>

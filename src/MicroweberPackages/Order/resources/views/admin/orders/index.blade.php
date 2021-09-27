@@ -25,7 +25,11 @@
                     @if ($orders->count() > 0)
                     <a href="{{$exportUrl}}" class="btn btn-outline-success">
                         <i class="mdi mdi-download"></i>
+                        @if($filteringResults)
                         <?php _e("Export"); ?> {{$orders->count()}} @if($orders->count()==1) <?php _e("order"); ?> @else <?php _e("orders"); ?> @endif
+                        @else
+                            <?php _e("Export all"); ?>
+                        @endif
                     </a>
                     @endif
                 </div>

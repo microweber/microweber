@@ -31,6 +31,7 @@ class OrderController extends AdminController
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
+            $keyword = trim($keyword);
             $filteringResults = true;
         }
 
