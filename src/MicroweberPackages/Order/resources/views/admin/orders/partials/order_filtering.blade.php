@@ -84,7 +84,7 @@
                     <label for="" class="form-label"><?php _e("Order amount from"); ?></label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="mdi mdi-currency-usd"></i> </span>
+                            <span class="input-group-text">{{get_currency_symbol()}}</span>
                         </div>
                         <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" placeholder="<?php _e("Show the order with minimum amount");?>">
                     </div>
@@ -96,7 +96,7 @@
                     <label for="" class="form-label"><?php _e("Order amount to"); ?></label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="mdi mdi-currency-usd"></i> </span>
+                            <span class="input-group-text">{{get_currency_symbol()}} </span>
                         </div>
                         <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" placeholder="<?php _e("Show the order with maximum amount");?>">
                     </div>
