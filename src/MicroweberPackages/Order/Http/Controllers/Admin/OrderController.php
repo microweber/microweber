@@ -29,6 +29,11 @@ class OrderController extends AdminController
             $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
         }
 
+        if (!isset($filterFields['orderBy'])) {
+            $filterFields['orderBy'] = 'created_at';
+            $filterFields['orderDirection'] = 'desc';
+        }
+
         $orders = Order::filter($filterFields)
             ->paginate($request->get('limit', $this->pageLimit))
             ->appends($request->except('page'));
