@@ -11,19 +11,19 @@
             @include('order::admin.orders.partials.order_filtering')
 
 
-            <div class="row d-flex justify-content-between align-content-end" onclick="$('.js-filtering-orders-box').slideToggle()" style="margin-top:20px">
+            <div class="row d-flex justify-content-between align-content-end" style="margin-top:20px">
 
                 <div class="col-md-6">
 
-                    <button type="button" class="btn btn-outline-primary mr-2">
+                    <button type="button" class="btn btn-outline-primary mr-2" onclick="$('.js-filtering-orders-box').slideToggle()" >
                         <i class="mdi mdi-filter"></i> <?php _e("Advanced filtering"); ?>
                     </button>
 
                 </div>
 
-                <div class="col-md-2">
-                    <a href="{{$exportUrl}}" class="btn btn-outline-success btn-block mr-2">
-                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?> 
+                <div class="col-md-2 text-right">
+                    <a href="{{$exportUrl}}" class="btn btn-outline-success">
+                        <i class="mdi mdi-download"></i> <?php _e("Export"); ?>
                     </a>
                 </div>
 

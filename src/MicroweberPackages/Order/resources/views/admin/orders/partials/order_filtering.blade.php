@@ -42,8 +42,13 @@
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0">
-                    <select class="form-control" name="status">
-                        <option></option>
+                    <select name="orderStatus" class="selectpicker" data-width="100%">
+                        <option value="pending" @if($orderStatus == 'pending') selected="selected" @endif>Pending
+                            <small class="text-muted">(<?php _e('the order is not completed yet'); ?>)</small>
+                        </option>
+                        <option value="completed" @if($orderStatus == 'completed') selected="selected" @endif><?php _e('Completed'); ?>
+                            <small class="text-muted">(<?php _e('the order is completed'); ?>)</small>
+                        </option>
                     </select>
                 </div>
             </div>
@@ -147,7 +152,13 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <button type="submit" name="filteringResults" value="true" class="btn btn-outline-primary mr-2">
+                     <?php _e("Submit"); ?>
+                </button>
+            </div>
+
+            <div class="col-md-6">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a href="{{route('admin.order.index')}}" class="btn btn-link">
                         <?php _e("Reset filter"); ?>
@@ -162,8 +173,5 @@
 
     <?php } ?>
 
-    <button type="submit" name="filteringResults" value="true" class="btn btn-outline-primary mr-2" style="display: none">
-        <i class="mdi mdi-filter"></i> <?php _e("Submit"); ?>
-    </button>
 
 </form>

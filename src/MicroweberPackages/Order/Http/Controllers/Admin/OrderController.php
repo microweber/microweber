@@ -16,6 +16,7 @@ class OrderController extends AdminController
     {
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $orderStatus = $request->get('orderStatus', false);
 
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);
@@ -80,6 +81,7 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.index', [
             'id'=>$id,
+            'orderStatus'=>$orderStatus,
             'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,
