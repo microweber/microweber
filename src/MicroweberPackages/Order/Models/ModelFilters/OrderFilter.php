@@ -19,6 +19,11 @@ class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
 
+    public function id($id)
+    {
+        $this->query->where('id', $id);
+    }
+
     public function keyword($keyword)
     {
         $keyword = trim($keyword);
