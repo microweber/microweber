@@ -12,13 +12,6 @@
         <div class="card-body pt-3 pb-0">
             @include('order::admin.orders.partials.order_filtering')
 
-          {{--  <?php if (count($newOrders) > 0): ?>
-                 <label class="control-label mb-3 mt-3"><?php _e('New orders'); ?></label>
-            <?php foreach ($newOrders as $order): ?>
-                @include('order::admin.orders.order_card')
-            <?php endforeach;?>
-            <?php endif; ?>--}}
-
             <?php if (count($orders) > 0): ?>
             <label class="control-label mb-3 mt-3"><?php _e('All orders'); ?></label>
             <?php foreach ($orders as $order): ?>
@@ -26,11 +19,11 @@
             <?php endforeach;?>
              <?php endif; ?>
 
-            <?php if (($filteringResults == true) && (count($orders) == 0 && count($newOrders) == 0)): ?>
+            <?php if (($filteringResults == true) && (count($orders) == 0)): ?>
             <div class="no-items-found orders">
                 <div class="row">
                     <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_results.png'); ">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
                             <h4><?php _e("No orders found for this query filtering"); ?></h4>
                             <p><?php _e("Try with other filters"); ?></p>
                         </div>
@@ -39,7 +32,7 @@
             </div>
             <?php endif; ?>
 
-            <?php if (($filteringResults == false) && (count($orders) == 0 && count($newOrders) == 0)): ?>
+            <?php if (($filteringResults == false) && (count($orders) == 0)): ?>
             <div class="no-items-found orders">
                 <div class="row">
                     <div class="col-12">
