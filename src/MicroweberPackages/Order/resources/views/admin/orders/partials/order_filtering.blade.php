@@ -50,7 +50,7 @@
 
     <div class="row" style="margin-top:25px;">
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="form-group">
                 <div class="input-group mb-0">
                     <div class="input-group-prepend">

@@ -15,8 +15,8 @@ class OrderController extends AdminController
     {
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
-        $minPrice = $request->get('minPrice', 0);
-        $maxPrice = $request->get('maxPrice', 1000);
+        $minPrice = $request->get('minPrice', false);
+        $maxPrice = $request->get('maxPrice', false);
         $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
@@ -33,10 +33,22 @@ class OrderController extends AdminController
             ->paginate($request->get('limit', $this->pageLimit))
             ->appends($request->except('page'));
 
+
+        $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
+        if ($getMinPriceOrder !== null) {
+            if (!$minPrice) {
+                $minPrice = $getMinPriceOrder->amount;
+            }
+        }
+        $getMaxnPriceOrder = Order::select(['amount'])->orderBy('amount','desc')->first();
+        if ($getMaxnPriceOrder !== null) {
+            if (!$maxPrice) {
+                $maxPrice = $getMaxnPriceOrder->amount;
+            }
+        }
+
         return $this->view('order::admin.orders.index', [
             'orderBy'=>$orderBy,
-            'ordersMinPrice'=>0,
-            'ordersMaxPrice'=>1000,
             'minPrice'=>$minPrice,
             'maxPrice'=>$maxPrice,
             'orderDirection'=>$orderDirection,
