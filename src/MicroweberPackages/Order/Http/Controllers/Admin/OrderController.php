@@ -13,30 +13,61 @@ class OrderController extends AdminController
 
     public function index(Request $request)
     {
-        $filteringResults = false;
-
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+
+        $minPrice = $request->get('minPrice', false);
+        $maxPrice = $request->get('maxPrice', false);
+
+        $minDate = $request->get('minDate', false);
+        $maxDate = $request->get('maxDate', false);
+        $id = $request->get('id', false);
+
+        $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
             $filteringResults = true;
         }
 
-        $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
+        $filterFields = $request->all();
+        if ($maxPrice) {
+            $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
+        }
 
-        $orders = Order::filter($request->all())
-            ->where('order_status', '!=', 'new')
-            ->orderBy('id', 'desc')
+        if (!isset($filterFields['orderBy'])) {
+            $filterFields['orderBy'] = 'created_at';
+            $filterFields['orderDirection'] = 'desc';
+        }
+
+        $orders = Order::filter($filterFields)
             ->paginate($request->get('limit', $this->pageLimit))
             ->appends($request->except('page'));
 
+
+        $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
+        if ($getMinPriceOrder !== null) {
+            if (!$minPrice) {
+                $minPrice = $getMinPriceOrder->amount;
+            }
+        }
+        $getMaxnPriceOrder = Order::select(['amount'])->orderBy('amount','desc')->first();
+        if ($getMaxnPriceOrder !== null) {
+            if (!$maxPrice) {
+                $maxPrice = $getMaxnPriceOrder->amount;
+            }
+        }
+
         return $this->view('order::admin.orders.index', [
+            'id'=>$id,
             'orderBy'=>$orderBy,
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice,
+            'minDate'=>$minDate,
+            'maxDate'=>$maxDate,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'newOrders'=>$newOrders,
             'orders'=>$orders
         ]);
     }
@@ -47,6 +78,7 @@ class OrderController extends AdminController
 
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
+        $priceBetween = $request->get('priceBetween', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -62,6 +94,7 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.abandoned', [
             'abandoned'=>true,
+            'priceBetween'=>$priceBetween,
             'orderBy'=>$orderBy,
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
