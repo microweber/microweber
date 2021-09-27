@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="d-inline-block mx-1">
                 <button type="submit" name="filteringResults" value="true" class="btn btn-success btn-block">
                 <i class="mdi mdi-filter"></i> <?php _e("Filter"); ?></button>
@@ -57,23 +57,29 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="js-table-sorting text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                 <small><?php _e("Sort By"); ?>: &nbsp;</small>
                 <div class="d-inline-block mx-1">
                     <select class="form-control" onchange="location = this.value;">
-                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=asc"><?php _e("Date"); ?> <?php _e("[ASC]"); ?></option>
+
                         <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Date"); ?> <?php _e("[DESC]"); ?></option>
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Order date"); ?> <?php _e("[New > Old]"); ?></option>
+                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=asc"><?php _e("Order date"); ?> <?php _e("[Old > New]"); ?></option>
+
+                       {{-- <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status"); ?> <?php _e("[NEW]"); ?></option>
                         <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=asc"><?php _e("Status"); ?> <?php _e("[ASC]"); ?></option>
-                        <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status"); ?> <?php _e("[DESC]"); ?></option>
-                        <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=asc"><?php _e("Amount"); ?> <?php _e("[ASC]"); ?></option>
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=asc"><?php _e("Status"); ?> <?php _e("[OLD]"); ?></option>
+--}}
+
                         <option <?php if($orderBy == 'amount' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount"); ?> <?php _e("[DESC]"); ?></option>
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount"); ?> <?php _e("[High > Low]"); ?></option>
+                        <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"
+                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=asc"><?php _e("Amount"); ?> <?php _e("[Low > High]"); ?></option>
+
+
                     </select>
                 </div>
             </div>
