@@ -71,4 +71,20 @@ class OrderFilter extends ModelFilter
         $this->query->where('amount', '<', $maxPrice);
 
     }
+
+    public function dateBetween($date)
+    {
+        $minDate = $date;
+        $maxDate = false;
+
+        if (strpos($date, ',') !== false) {
+            $date = explode(',', $date);
+            $minDate = $date[0];
+            $maxDate = $date[1];
+        }
+
+        $this->query->where('created_at', '>', $minDate);
+        $this->query->where('created_at', '<', $maxDate);
+
+    }
 }

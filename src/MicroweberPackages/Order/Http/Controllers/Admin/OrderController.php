@@ -39,6 +39,10 @@ class OrderController extends AdminController
             $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
         }
 
+        if ($minDate || $maxDate) {
+            $filterFields['dateBetween'] = $minDate . ',' . $maxDate;
+        }
+
         if (!isset($filterFields['orderBy'])) {
             $filterFields['orderBy'] = 'created_at';
             $filterFields['orderDirection'] = 'desc';
