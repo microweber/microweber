@@ -70,7 +70,7 @@ class OrderController extends AdminController
         }
 
 
-
+/*
         $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
         if ($getMinPriceOrder !== null) {
             if (!$minPrice) {
@@ -82,7 +82,7 @@ class OrderController extends AdminController
             if (!$maxPrice) {
                 $maxPrice = $getMaxnPriceOrder->amount;
             }
-        }
+        }*/
 
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 

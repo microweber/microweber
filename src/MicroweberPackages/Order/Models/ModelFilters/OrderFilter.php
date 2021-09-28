@@ -26,10 +26,15 @@ class OrderFilter extends ModelFilter
 
     public function productId($productId)
     {
-        return $this->query->where(function ($query) use ($productId) {
-            $query->whereHas('cart', function ($query) use ($productId) {
-                $query->where('rel_id', $productId);
+        $table = $this->getModel()->getTable();
+
+    /*    return $this->query->where(function ($query) use ($productId,$table) {
+            return $query->join('cart', function ($join) use ($productId,$table) {
+                $join->on('cart.order_id', '=', $table . '.id')->where('cart.rel_id', $productId);
             });
+        });*/
+        return $this->query->where(function ($query) use ($productId,$table) {
+            return $query->join('cart', 'cart.order_id', '=', $table . '.id')->where('rel_id', $productId);
         });
     }
 
@@ -92,8 +97,10 @@ class OrderFilter extends ModelFilter
             $maxDate = $date[1];
         }
 
-        $this->query->where('created_at', '>', $minDate);
-        $this->query->where('created_at', '<', $maxDate);
+        $table = $this->getModel()->getTable();
+
+        $this->query->where($table.'.created_at', '>', $minDate);
+        $this->query->where($table.'.created_at', '<', $maxDate);
 
     }
 }
