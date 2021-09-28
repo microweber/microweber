@@ -264,9 +264,11 @@ mw.html_editor.apply = function () {
 
         }
 
-
+        var selected_el =  $(el);
         var modules_ids = {};
-        var modules_list = $('.module', $(el));
+        var modules_list = $('.module', selected_el);
+
+
         $(modules_list).each(function () {
             var id = $(this).attr('id');
             if (id) {
@@ -324,8 +326,29 @@ mw.html_editor.reset_content = function (also_reset_modules) {
 
 
         var el = mw.html_editor.map[cur].el;
+        var mod_ids = [];
 
-        var mod_ids = mw.html_editor.find_all_module_ids_in_element(el);
+        var mod_ids_inside_el = mw.html_editor.find_all_module_ids_in_element(el);
+        if(mod_ids_inside_el){
+            mod_ids = mod_ids.concat(mod_ids_inside_el);
+        }
+
+        // if we are in layout, we will also reset layout settings
+        var is_inside_layout = mw.tools.firstParentWithClass(el, 'module');
+        if (is_inside_layout) {
+            var is_inside_layout_attr = $(is_inside_layout).attr('type');
+            if (typeof is_inside_layout_attr === 'undefined') {
+                is_inside_layout_attr = $(is_inside_layout).attr('data-type');
+            }
+            if (typeof is_inside_layout_attr !== 'undefined' && is_inside_layout_attr === 'layouts') {
+                var is_inside_layout_attr_id = $(is_inside_layout).attr('id');
+                if(is_inside_layout_attr_id){
+                    mod_ids = mod_ids.concat([is_inside_layout_attr_id]);
+                }
+            }
+        }
+
+
         var mod_ids_with_presets = mw.html_editor.find_all_module_ids_in_element(el, true);
 
 
