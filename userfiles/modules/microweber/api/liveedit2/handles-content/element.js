@@ -1,5 +1,5 @@
 import {HandleMenu} from "../handle-menu";
-import {ElementManager} from "../element";
+import {ElementManager} from "../../classes/element";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({

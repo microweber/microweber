@@ -491,7 +491,7 @@ DomQuery.module = function (name, func) {
 
 
 const nodeName = 'mw-le-element';
-if (window.customElements) {
+if (window.customElements && !customElements.get(nodeName)) {
     customElements.define( nodeName,
         class extends HTMLElement {
             constructor() {

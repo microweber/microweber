@@ -1,3 +1,5 @@
+import {ObjectService} from "../classes/object.service";
+import {ElementManager} from "../classes/element";
 MWEditor.core = {
     button: function(config) {
         config = config || {};
@@ -11,8 +13,8 @@ MWEditor.core = {
         if (config.props && config.props.className){
             config.props.className = defaults.props.className + ' ' + config.props.className;
         }
-        var settings = mw.object.extend(true, {}, defaults, config);
-        return mw.element(settings);
+        var settings = ObjectService.extend(true, {}, defaults, config);
+        return ElementManager(settings);
     },
     colorPicker: function(config) {
         config = config || {};
@@ -21,11 +23,11 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = mw.object.extend(true, {}, defaults, config);
+        var settings = ObjectService.extend(true, {}, defaults, config);
 
         var el = MWEditor.core.button(settings);
         el.addClass('mw-editor-color-picker')
-        var input = mw.element({
+        var input = ElementManager({
             tag: 'input',
             props: {
                 type: 'color',
@@ -50,8 +52,8 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = mw.object.extend(true, {}, defaults, config);
-        var el = mw.element(settings);
+        var settings = ObjectService.extend(true, {}, defaults, config);
+        var el = ElementManager(settings);
         el.on('mousedown touchstart', function (e) {
             e.preventDefault();
         });
@@ -129,12 +131,12 @@ MWEditor.core = {
                 });
             }
 
-            mw.element('.mw-editor-controller-component-select').each(function (){
+            ElementManager('.mw-editor-controller-component-select').each(function (){
                 if (this !== curr ) {
                     this.classList.remove('active');
                 }
             });
-            mw.element(this).toggleClass('active');
+            ElementManager(this).toggleClass('active');
         });
         this.root.append(this.select);
     },

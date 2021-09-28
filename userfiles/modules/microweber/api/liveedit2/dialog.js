@@ -1,4 +1,4 @@
-import {ElementManager} from "./element";
+import {ElementManager} from "../classes/element";
 
 const dialogFooter = (okLabel, cancelLabel) => {
     const footer = ElementManager({

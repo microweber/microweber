@@ -1,14 +1,818 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./userfiles/modules/microweber/api/classes/element.js":
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/element.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ElementManager": () => (/* binding */ ElementManager)
+/* harmony export */ });
+/* harmony import */ var _object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object.service */ "./userfiles/modules/microweber/api/classes/object.service.js");
+
+
+
+
+    var MWElement = function(options, root){
+        var scope = this;
+
+        this.isMWElement = true;
+
+        this.toggle = function () {
+            this.css('display', this.css('display') === 'none' ? 'block' : 'none');
+        };
+
+        this._active = function () {
+            return this.nodes[this.nodes.length - 1];
+        };
+
+        this.getDocument = function () {
+            return this._active().ownerDocument;
+        }
+
+        this.getWindow = function () {
+            return this.getDocument().defaultView;;
+        }
+
+        this.get = function(selector, scope){
+            this.nodes = (scope || document).querySelectorAll(selector);
+        };
+
+        this.each = function(cb){
+            if(this.nodes) {
+                for (var i = 0; i < this.nodes.length; i++) {
+                    cb.call(this.nodes[i], i);
+                }
+            } else if(this.node) {
+                cb.call(this.node, 0);
+            }
+            return this;
+        };
+
+        this.encapsulate = function () {
+
+        };
+
+        var contentManage = function (content, scope) {
+            if (content) {
+                if (Array.isArray(content)) {
+                    content.forEach(function (el){
+                        contentManage(el, scope);
+                    });
+                } else if (content instanceof MWElement) {
+                    scope.append(content);
+                } else if (typeof content === 'object') {
+                    scope.append(new MWElement(content));
+                }
+            }
+        }
+
+        this.create = function() {
+            var el = this.document.createElement(this.settings.tag);
+            this.node = el;
+
+            if (this.settings.encapsulate === true) {
+                var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
+                el.attachShadow({
+                    mode: mode
+                });
+            }
+            this.nodes = [el];
+
+            if (this.settings.content) {
+                contentManage(this.settings.content, this)
+            }
+        };
+
+        this._specialProps = function(dt, val){
+            if(dt === 'tooltip') {
+                this.node.dataset[dt] = val;
+                return true;
+            }
+        };
+
+        this.setProps = function(){
+            for(var i in this.settings.props) {
+                if (i === 'dataset') {
+                    for(var dt in this.settings.props[i]) {
+                        this.node.dataset[dt] = this.settings.props[i][dt];
+                    }
+                } else if (i === 'style') {
+                    for(var st in this.settings.props[i]) {
+                        this.node.style[st] = this.settings.props[i][st];
+                    }
+                } else {
+                    var val = this.settings.props[i];
+                    if(!this._specialProps(i, val)) {
+                        this.node[i] = val;
+                    }
+                }
+            }
+        };
+
+        this.__ = {
+            cssNumber: [
+                'animationIterationCount',
+                'columnCount',
+                'fillOpacity',
+                'flexGrow',
+                'flexShrink',
+                'fontWeight',
+                'gridArea',
+                'gridColumn',
+                'gridColumnEnd',
+                'gridColumnStart',
+                'gridRow',
+                'gridRowEnd',
+                'gridRowStart',
+                'lineHeight',
+                'opacity',
+                'order',
+                'orphans',
+                'widows',
+                'zIndex',
+                'zoom'
+            ]
+        };
+
+        this._normalizeCSSValue = function (prop, val) {
+            if(typeof val === 'number') {
+                if(this.__.cssNumber.indexOf(prop) === -1) {
+                    val = val + 'px';
+                }
+            }
+            return val;
+        };
+
+        this.css = function(css, val){
+            if(typeof css === 'string') {
+                if(typeof val !== 'undefined'){
+                    var nval =  this._normalizeCSSValue(css, val);
+                    this.each(function (){
+                        this.style[css] = nval;
+                    });
+                } else {
+                    return this.document.defaultView.getComputedStyle(this.node)[css];
+                }
+            }
+            if(typeof css === 'object') {
+                for (var i in css) {
+
+                    this.each(function (){
+                        this.style[i] = scope._normalizeCSSValue(i, css[i]);
+                    });
+                }
+            }
+            return this;
+        };
+
+        this.dataset = function(prop, val){
+            if(typeof val === 'undefined') {
+                return this._active()[prop];
+            }
+            this.each(function (){
+                this.dataset[prop] = val;
+            });
+            return this;
+        };
+
+        this.attr = function(prop, val){
+            if(typeof val === 'undefined') {
+                return this._active()[prop];
+            }
+            this.each(function (){
+                this.setAttribute(prop, val);
+            });
+            return this;
+        };
+
+        this.val = function(val){
+            if(typeof val === 'undefined') {
+                return this._active().value;
+            }
+            this.each(function (){
+                this.value = val;
+            });
+            return this;
+        };
+
+        this.prop = function(prop, val){
+            var active = this._active();
+            if(typeof val === 'undefined') {
+                return active[prop];
+            }
+            if(active[prop] !== val){
+                active[prop] = val;
+                this.trigger('propChange', [prop, val]);
+            }
+            return this;
+        };
+
+        this.hide = function () {
+            return this.each(function (){
+                this.style.display = 'none';
+            });
+        };
+        this.show = function () {
+            return this.each(function (){
+                this.style.display = '';
+            });
+        };
+
+        this.find = function (sel) {
+            var el = mw.element('#r' + new Date().getTime());
+            this.each(function (){
+                var all = this.querySelectorAll(sel);
+                for(var i = 0; i < all.length; i++) {
+                    if(el.nodes.indexOf(all[i]) === -1) {
+                        el.nodes.push(all[i]);
+                    }
+                }
+            });
+            return el;
+        };
+
+        this.addClass = function (cls) {
+            cls = cls.trim().split(' ');
+            return this.each(function (){
+                var node = this;
+                cls.forEach(function (singleClass){
+                    node.classList.add(singleClass);
+                });
+
+            });
+        };
+
+        this.toggleClass = function (cls) {
+            return this.each(function (){
+                this.classList.toggle(cls.trim());
+            });
+        };
+
+        this.removeClass = function (cls) {
+            var isArray = Array.isArray(cls);
+            if(!isArray) {
+                cls = cls.trim();
+                var isMultiple = cls.split(' ');
+                if(isMultiple.length > 1) {
+                    return this.removeClass(isMultiple)
+                }
+                return this.each(function (){
+                    this.classList.remove(cls);
+                });
+            } else {
+                return this.each(function (){
+                    var i = 0, l = cls.length;
+                    for ( ; i < l; i++) {
+                        this.classList.remove(cls[i]);
+                    }
+                });
+            }
+        };
+
+        this.remove = function () {
+            return this.each(function (){
+                this.remove();
+            });
+        };
+
+        this.empty = function () {
+            return this.html('');
+        };
+
+        this.html = function (val) {
+            if (typeof val === 'undefined') {
+                return this._active().innerHTML;
+            }
+            return this.each(function (){
+                this.innerHTML = val;
+            });
+        };
+        this.text = function (val, clean) {
+            if(typeof val === 'undefined') {
+                return this.node.textContent;
+            }
+            if(typeof clean === 'undefined') {
+                clean = true;
+            }
+            if (clean) {
+                val = this.document.createRange().createContextualFragment(val).textContent;
+            }
+            this.node.innerHTML = val;
+        };
+
+        this._asdom = function (obj) {
+            if (typeof obj === 'string') {
+                return this.document.createRange().createContextualFragment(obj);
+            } else if (obj.node){
+                return obj.node;
+            }
+            else if (obj.nodes){
+                return obj.nodes[obj.nodes.length - 1];
+            } else {
+                return obj;
+            }
+        };
+
+        this.offset = function () {
+            var curr = this._active();
+            var win = this.getWindow();
+            var rect = curr.getBoundingClientRect();
+            rect.offsetTop = rect.top + win.pageYOffset;
+            rect.offsetBottom = rect.bottom + win.pageYOffset;
+            rect.offsetLeft = rect.left + win.pageXOffset;
+            return rect;
+        };
+
+
+        this.width = function (val) {
+            if(val) {
+                return this.css('width', val);
+            }
+            return this._active().offsetWidth;
+        };
+
+        this.height = function (val) {
+            if(val) {
+                return this.css('height', val);
+            }
+            return this._active().offsetHeight;
+        };
+
+        this.parent = function () {
+            return mw.element(this._active().parentNode);
+        };
+        this.parents = function (selector) {
+            selector = selector || '*';
+            var el = this._active();
+            var curr = el.parentElement;
+            var res = mw.element();
+            res.nodes = []
+            while (curr) {
+                if(curr.matches(selector)) {
+                    res.nodes.push(curr);
+                }
+                curr = curr.parentElement;
+            }
+            return res;
+        };
+        this.append = function (el) {
+
+            if (el) {
+                this.each(function (){
+                    this.append(scope._asdom(el));
+                });
+            }
+            return this;
+        };
+
+        this.before = function (el) {
+            if (el) {
+                this.each(function (){
+                    if(this.parentNode){
+                        this.parentNode.insertBefore(scope._asdom(el), this);
+                    }
+                });
+            }
+            return this;
+        };
+
+        this.after = function (el) {
+            if (el) {
+                this.each(function (){
+                    if(this.parentNode) {
+                        this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    }
+                });
+            }
+        };
+
+        this.prepend = function (el) {
+            if (el) {
+                this.each(function (){
+                    this.prepend(scope._asdom(el));
+                });
+            }
+            return this;
+        };
+        this._disabled = false;
+
+        Object.defineProperty(this, "disabled", {
+            get : function () { return this._disabled; },
+            set : function (value) {
+                this._disabled = value;
+                this.node.disabled = this._disabled;
+                this.node.dataset.disabled = this._disabled;
+            }
+        });
+
+        this.trigger = function(event, data){
+            data = data || {};
+            this.each(function (){
+                this.dispatchEvent(new CustomEvent(event, {
+                    detail: data,
+                    cancelable: true,
+                    bubbles: true
+                }));
+                if(scope._on[event]) {
+                    scope._on[event].forEach(function(cb){
+                        cb.call(this, event, data);
+                    });
+                }
+            });
+            return this;
+        };
+
+        this.get = function (i) {
+            return this.nodes[i];
+        };
+
+        this._on = {};
+        this.on = function(events, cb){
+            events = events.trim().split(' ');
+            events.forEach(function (ev) {
+                if(!scope._on[ev]) {  scope._on[ev] = []; }
+                scope._on[ev].push(cb);
+                scope.each(function (){
+                    /*this.addEventListener(ev, function(e) {
+                        cb.call(scope, e, e.detail, this);
+                    }, false);*/
+                    this.addEventListener(ev, cb, false);
+                });
+            });
+            return this;
+        };
+        this.init = function(){
+            this.nodes = [];
+            this.root = root || document;
+            if(this.root instanceof MWElement) {
+                this.root = this.root.get(0)
+            }
+            this._asElement = false;
+            this.document =  (this.root.body ? this.root : this.root.ownerDocument);
+
+            options = options || {};
+
+            if(options.nodeName && options.nodeType) {
+                this.nodes.push(options);
+                this.node = (options);
+                options = {};
+                this._asElement = true;
+            } else if(typeof options === 'string') {
+                if(options.indexOf('<') === -1) {
+
+                    this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
+                    options = {};
+                    this._asElement = true;
+                } else if(this.settings.content instanceof MWElement) {
+                    this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(new MWElement(this.settings.content));
+                }else {
+                    var el = this._asdom(options);
+
+                    this.nodes = [].slice.call(el.children);
+                    this._asElement = true;
+                }
+            }
+
+            options = options || {};
+
+            var defaults = {
+                tag: 'div',
+                props: {}
+            };
+
+            this.settings = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, defaults, options);
+
+            if(this._asElement) return;
+            this.create();
+            this.setProps();
+        };
+        this.init();
+    };
+const DomQuery = function(options, root){
+    return new MWElement(options, root);
+};
+DomQuery.module = function (name, func) {
+    MWElement.prototype[name] = func;
+};
+
+
+
+
+const nodeName = 'mw-le-element';
+if (window.customElements && !customElements.get(nodeName)) {
+    customElements.define( nodeName,
+        class extends HTMLElement {
+            constructor() {
+                super();
+            }
+        }
+    );
+}
+const ElementManager = (config, root) => {
+    if (config instanceof Object && !config.nodeType) {
+        config = _object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend({}, config || {}, { tag: config.tag || nodeName });
+    }
+    return DomQuery(config, root)
+}
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/classes/object.service.js":
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/object.service.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ObjectService": () => (/* binding */ ObjectService)
+/* harmony export */ });
+class ObjectService {
+    static extend () {
+        const extended = {};
+        let deep = false;
+        let i = 0;
+        const l = arguments.length;
+
+        if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+            deep = arguments[0];
+            i++;
+        }
+        const merge = function (obj) {
+            for ( const prop in obj ) {
+                if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                        extended[prop] = ObjectService.extend( true, extended[prop], obj[prop] );
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+        for ( ; i < l; i++ ) {
+            const obj = arguments[i];
+            merge(obj);
+        }
+        return extended;
+
+    }
+}
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/classes/state.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/state.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "State": () => (/* binding */ State)
+/* harmony export */ });
+const State = function(options){
+
+    var scope = this;
+    var defaults = {
+        maxItems: 1000
+    };
+    this.options = $.extend({}, defaults, (options || {}));
+    this._state = this.options.state || [];
+    this._active = null;
+    this._activeIndex = -1;
+
+    this.hasNext = false;
+    this.hasPrev = false;
+
+    this.state = function(state){
+        if(!state){
+            return this._state;
+        }
+        this._state = state;
+        return this;
+    };
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+
+    this.active = function(active){
+        if(!active){
+            return this._active;
+        }
+    };
+
+    this.activeIndex = function(activeIndex){
+        if(!activeIndex){
+            return this._activeIndex;
+        }
+    };
+
+    this._timeout = null;
+    this.timeoutRecord = function(item){
+        clearTimeout(this._timeout);
+        this._timeout = setTimeout(function(scope, item){
+            scope.record(item);
+        }, 333, this, item);
+    };
+
+    var recentRecordIsEqual = function (item) {
+        const curr = scope._state[0];
+        if(!curr) return false;
+        for (var n in item) {
+            if(curr[n] !== item[n]) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    this.record = function(item){
+        if(this._activeIndex>-1) {
+            var i = 0;
+            while ( i <  this._activeIndex) {
+                this._state.shift();
+                i++;
+            }
+        }
+        if (recentRecordIsEqual(item)) {
+            return;
+        }
+        this._state.unshift(item);
+        if(this._state.length >= this.options.maxItems) {
+            this._state.splice(-1,1);
+        }
+        this._active = null;
+        this._activeIndex = -1;
+        this.afterChange(false);
+        $(this).trigger('stateRecord', [this.eventData()]);
+        this.dispatch('record', [this.eventData()]);
+        return this;
+    };
+
+    this.actionRecord = function(recordGenFunc, action){
+        this.record(recordGenFunc());
+        action.call();
+        this.record(recordGenFunc());
+    };
+
+    this.redo = function(){
+        this._activeIndex--;
+        this._active = this._state[this._activeIndex];
+        this.afterChange('stateRedo');
+        this.dispatch('redo');
+        return this;
+    };
+
+    this.undo = function(){
+        if(this._activeIndex === -1) {
+            this._activeIndex = 1;
+        }
+        else{
+            this._activeIndex++;
+        }
+        this._active = this._state[this._activeIndex];
+        this.afterChange('stateUndo');
+        this.dispatch('undo');
+        return this;
+    };
+
+    this.hasRecords = function(){
+        return !!this._state.length;
+    };
+
+    this.eventData = function(){
+        return {
+            hasPrev: this.hasPrev,
+            hasNext: this.hasNext,
+            active: this.active(),
+            activeIndex: this.activeIndex()
+        };
+    };
+    this.afterChange = function(action){
+        this.hasNext = true;
+        this.hasPrev = true;
+
+        if(action) {
+            if(this._activeIndex >= this._state.length) {
+                this._activeIndex = this._state.length - 1;
+                this._active = this._state[this._activeIndex];
+            }
+        }
+
+        if(this._activeIndex <= 0) {
+            this.hasPrev = false;
+        }
+        if(this._activeIndex === this._state.length-1 || (this._state.length === 1 && this._state[0].$initial)) {
+            this.hasNext = false;
+        }
+
+        if(action){
+
+            mw.$(this).trigger(action, [this.eventData()]);
+        }
+        if(action !== false){
+            mw.$(this).trigger('change', [this.eventData()]);
+        }
+        return this;
+    };
+
+    this.reset = function(){
+        this._state = this.options.state || [];
+        this.afterChange('reset');
+        return this;
+    };
+
+    this.clear = function(){
+        this._state = [];
+        this.afterChange('clear');
+        return this;
+    };
+
+
+};
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!***********************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/editor.js ***!
   \***********************************************************/
-
-
-
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+/* harmony import */ var _classes_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/state */ "./userfiles/modules/microweber/api/classes/state.js");
 
 
 
@@ -84,7 +888,7 @@ window.MWEditor = function (options) {
         return;
     }
 
-    this.settings.selectorNode = mw.element(this.settings.selector)[0];
+    this.settings.selectorNode = $(this.settings.selector)[0];
 
     if (this.settings.selectorNode) {
         this.settings.selectorNode.__MWEditor = this;
@@ -222,7 +1026,7 @@ window.MWEditor = function (options) {
                 return;
             }
             var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
-            var css = mw.CSSParser(target);
+            var css = getComputedStyle(target);
             var api = scope.api;
 
 
@@ -231,8 +1035,7 @@ window.MWEditor = function (options) {
                 target: target,
                 localTarget: localTarget,
                 isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
-                css: css.get,
-                cssNative: css.css,
+                css: css,
                 event: event,
                 api: api,
                 scope: scope,
@@ -317,7 +1120,7 @@ window.MWEditor = function (options) {
         };
     };
     this.initState = function () {
-        this.state = this.settings.state || (new mw.State());
+        this.state = this.settings.state || (new _classes_state__WEBPACK_IMPORTED_MODULE_1__.State());
     };
 
     this.controllerActive = function (node, active) {
@@ -396,7 +1199,7 @@ window.MWEditor = function (options) {
         if(!content && this.settings.isTextArea) {
             content = this.settings.selectorNode.value;
         }
-        this.area = mw.element({
+        this.area = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             props: { className: 'mw-editor-area', innerHTML: content }
         });
         this.area.node.contentEditable = true;
@@ -404,7 +1207,7 @@ window.MWEditor = function (options) {
             scope.registerChange();
         };
         this.wrapper.appendChild(this.area.node);
-        scope.$editArea = this.area.$node;
+        scope.$editArea = this.area;
         scope.preventEvents();
         $(scope).trigger('ready');
     };
@@ -414,7 +1217,7 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = mw.element(this.document.body);
+        this.$editArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
         this.$editArea.append(this.wrapper)[0].mwEditor = this;
         $(scope).trigger('ready');
@@ -444,14 +1247,14 @@ window.MWEditor = function (options) {
         }
         var group = obj.group;
         var id = mw.id('mw.editor-group-');
-        var el = mw.element({
+        var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             props: {
                 className: 'mw-bar-control-item mw-bar-control-item-group',
                 id:id
             }
         });
 
-        var groupel = mw.element({
+        var groupel = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props:{
                     className: 'mw-bar-control-item-group-contents'
                 }
@@ -476,7 +1279,7 @@ window.MWEditor = function (options) {
                 var ctrl = new scope.controllers[group.controller](scope, scope.api, scope);
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
-                mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
+                (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
                     MWEditor.core._preSelect(this.parentNode.parentNode);
                     this.parentNode.parentNode.classList.toggle('active');
                 });
@@ -566,7 +1369,7 @@ window.MWEditor = function (options) {
         if (!this.settings.smallEditor) {
             return;
         }
-        this.smallEditor = mw.element({
+        this.smallEditor = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             props: {
                 className: 'mw-small-editor mw-small-editor-skin-' + this.settings.skin
             }
@@ -627,8 +1430,8 @@ window.MWEditor = function (options) {
             if(!scope.state.hasRecords()){
                 scope.state.record({
                     $initial: true,
-                    target: scope.$editArea[0],
-                    value: scope.$editArea[0].innerHTML
+                    target: scope.$editArea.get(0),
+                    value: scope.$editArea.get(0).innerHTML
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
@@ -672,7 +1475,7 @@ window.MWEditor = function (options) {
             clearTimeout(scope._initInputRecordTime);
             scope._initInputRecordTime = setTimeout(function () {
                 scope.state.record({
-                    target: scope.$editArea[0],
+                    target: scope.$editArea.get(0),
                     value: html
                 });
             }, 600);
@@ -682,15 +1485,15 @@ window.MWEditor = function (options) {
 
     this.__insertEditor = function () {
         if (this.settings.isTextArea) {
-            var el = mw.element(this.settings.selector);
+            var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.settings.selector);
             el.get(0).mwEditor = this;
             el.hide();
-            var areaWrapper = mw.element();
+            var areaWrapper = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)();
             areaWrapper.node.mwEditor = this;
             el.after(areaWrapper.node);
             areaWrapper.append(this.wrapper);
         } else {
-            mw.element(this.settings.selector).append(this.wrapper).get(0).mwEditor = this;
+            (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.settings.selector).append(this.wrapper).get(0).mwEditor = this;
         }
     };
 
@@ -737,6 +1540,8 @@ if (window.mw) {
    };
 }
 
+window.MWEditor = MWEditor
+
 
 /*mw.require('filemanager.js');
 
@@ -764,11 +1569,17 @@ mw.require('control_box.js');*/
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!********************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/bar.js ***!
   \********************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
 (function(){
     var Bar = function(options) {
 
@@ -777,7 +1588,7 @@ mw.require('control_box.js');*/
             document: document,
             register: null
         };
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = Object.assign({}, defaults, options);
         this.document = this.settings.document || document;
 
         this.register = [];
@@ -791,7 +1602,7 @@ mw.require('control_box.js');*/
         this.create = function(){
             this.bar = this.document.createElement('div');
             this.bar.className = 'mw-bar';
-            this.element = mw.element(this.bar);
+            this.element = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.bar);
         };
 
         this.rows = [];
@@ -1409,14 +2220,20 @@ MWEditor.api = function (scope) {
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!************************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/helpers.js ***!
   \************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
 MWEditor.controllersHelpers = {
     '|' : function () {
-        return mw.element({
+        return (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
             tage: 'span',
             props: {
                 className: 'mw-bar-delimiter'
@@ -1434,13 +2251,22 @@ MWEditor.controllersHelpers = {
   \**********************************************************/
 MWEditor.tools = { };
 
+
+
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!*********************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/core.js ***!
   \*********************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/object.service */ "./userfiles/modules/microweber/api/classes/object.service.js");
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
 MWEditor.core = {
     button: function(config) {
         config = config || {};
@@ -1454,8 +2280,8 @@ MWEditor.core = {
         if (config.props && config.props.className){
             config.props.className = defaults.props.className + ' ' + config.props.className;
         }
-        var settings = mw.object.extend(true, {}, defaults, config);
-        return mw.element(settings);
+        var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
+        return (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(settings);
     },
     colorPicker: function(config) {
         config = config || {};
@@ -1464,11 +2290,11 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = mw.object.extend(true, {}, defaults, config);
+        var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
 
         var el = MWEditor.core.button(settings);
         el.addClass('mw-editor-color-picker')
-        var input = mw.element({
+        var input = (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
             tag: 'input',
             props: {
                 type: 'color',
@@ -1493,8 +2319,8 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = mw.object.extend(true, {}, defaults, config);
-        var el = mw.element(settings);
+        var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
+        var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(settings);
         el.on('mousedown touchstart', function (e) {
             e.preventDefault();
         });
@@ -1572,12 +2398,12 @@ MWEditor.core = {
                 });
             }
 
-            mw.element('.mw-editor-controller-component-select').each(function (){
+            (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)('.mw-editor-controller-component-select').each(function (){
                 if (this !== curr ) {
                     this.classList.remove('active');
                 }
             });
-            mw.element(this).toggleClass('active');
+            (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(this).toggleClass('active');
         });
         this.root.append(this.select);
     },
@@ -1947,30 +2773,6 @@ MWEditor.controllers = {
             });
             dropdown.select.on('change', function (e, val) {
                 api.execCommand('formatBlock', false, e.detail.value);
-                /*var sel = scope.getSelection();
-                var range = sel.getRangeAt(0);
-                var el = scope.actionWindow.document.createElement(val.value);
-
-                var disableSelection = true;
-
-                if(sel.isCollapsed || disableSelection) {
-                    var selectionElement = api.elementNode(sel.focusNode);
-                    if(scope.$editArea[0] !== selectionElement) {
-                        mw.tools.setTag(selectionElement, val.value);
-                    } else {
-                        while (selectionElement.firstChild) {
-                            el.appendChild(selectionElement.firstChild);
-                        }
-                        selectionElement.appendChild(el);
-                    }
-                    var newRange = scope.actionWindow.document.createRange();
-                    newRange.setStart(sel.anchorNode, sel.anchorOffset);
-                    newRange.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                } else {
-                    range.surroundContents(el);
-                }*/
             });
             return dropdown.root;
         };
@@ -2457,11 +3259,19 @@ MWEditor.addInteractionController = function (name, render, interact, dependenci
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!*************************************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/interaction-controls.js ***!
   \*************************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
+
+
 /*
 *
 *  interface data {
@@ -2478,12 +3288,12 @@ MWEditor.interactionControls = {
     linkTooltip: function (rootScope) {
         this.render = function () {
             var scope = this;
-            var el = mw.element({
+            var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     className: 'mw-editor-link-tooltip'
                 }
             });
-            var urlElement = mw.element({
+            var urlElement = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 tag: 'a',
                 props: {
                     className: 'mw-editor-link-tooltip-url',
@@ -2528,12 +3338,12 @@ MWEditor.interactionControls = {
         this.nodes = [];
         this.render = function () {
             var scope = this;
-            var el = mw.element({
+            var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     className: 'mw-editor-image-handle-wrap'
                 }
             });
-            var changeButton = mw.element({
+            var changeButton = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     innerHTML: '<i class="mdi mdi-folder-multiple-image"></i>',
                     className: 'mw-ui-btn mw-ui-btn-medium tip',
@@ -2565,7 +3375,7 @@ MWEditor.interactionControls = {
                 })
 
             });
-            var editButton = mw.element({
+            var editButton = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     innerHTML: '<i class="mdi mdi-image-edit"></i>',
                     className: 'mw-ui-btn mw-ui-btn-medium tip',
@@ -2574,7 +3384,7 @@ MWEditor.interactionControls = {
                     }
                 }
             });
-            var nav = mw.element({
+            var nav = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     className: 'mw-ui-btn-nav'
                 }
@@ -2587,7 +3397,8 @@ MWEditor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
-            if(mw.tools.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
+
+            if(MWEditor.tools.dom.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
             if(this.nodes.indexOf(data.target) !== -1) {
@@ -2632,7 +3443,7 @@ MWEditor.interactionControls = {
         };
 
         this.render = function () {
-            var root = mw.element({
+            var root = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
                 props: {
                     className: 'mw-editor-table-manager'
                 }

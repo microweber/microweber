@@ -1,5 +1,5 @@
-import {DomService} from "./dom";
-import {ElementManager} from "./element";
+import {DomService} from '../classes/dom';
+import {ElementManager} from "../classes/element";
 import {Tooltip} from "./tooltip";
 
 export const HandleMenu = function(options) {

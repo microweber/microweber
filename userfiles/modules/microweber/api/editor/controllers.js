@@ -345,30 +345,6 @@ MWEditor.controllers = {
             });
             dropdown.select.on('change', function (e, val) {
                 api.execCommand('formatBlock', false, e.detail.value);
-                /*var sel = scope.getSelection();
-                var range = sel.getRangeAt(0);
-                var el = scope.actionWindow.document.createElement(val.value);
-
-                var disableSelection = true;
-
-                if(sel.isCollapsed || disableSelection) {
-                    var selectionElement = api.elementNode(sel.focusNode);
-                    if(scope.$editArea[0] !== selectionElement) {
-                        mw.tools.setTag(selectionElement, val.value);
-                    } else {
-                        while (selectionElement.firstChild) {
-                            el.appendChild(selectionElement.firstChild);
-                        }
-                        selectionElement.appendChild(el);
-                    }
-                    var newRange = scope.actionWindow.document.createRange();
-                    newRange.setStart(sel.anchorNode, sel.anchorOffset);
-                    newRange.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                } else {
-                    range.surroundContents(el);
-                }*/
             });
             return dropdown.root;
         };

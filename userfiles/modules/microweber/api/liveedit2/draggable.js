@@ -1,8 +1,8 @@
 
-import {ObjectService} from './object.service';
+import {ObjectService} from '../classes/object.service';
 import {DroppableElementAnalyzerService} from "./analizer";
  import {DropPosition} from "./drop-position";
-import {ElementManager} from "./element";
+import {ElementManager} from "../classes/element";
 
 export const Draggable = function (options, rootSettings) {
     var defaults = {

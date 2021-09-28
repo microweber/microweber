@@ -1,3 +1,5 @@
+
+import {ElementManager} from "../classes/element";
 (function(){
     var Bar = function(options) {
 
@@ -6,7 +8,7 @@
             document: document,
             register: null
         };
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = Object.assign({}, defaults, options);
         this.document = this.settings.document || document;
 
         this.register = [];
@@ -20,7 +22,7 @@
         this.create = function(){
             this.bar = this.document.createElement('div');
             this.bar.className = 'mw-bar';
-            this.element = mw.element(this.bar);
+            this.element = ElementManager(this.bar);
         };
 
         this.rows = [];

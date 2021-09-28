@@ -2,13 +2,13 @@ import {Handle} from "./handle";
 import {GetPointerTargets} from "./pointer";
 import {ModeAuto} from "./mode-auto";
 import {Handles} from "./handles";
-import {ObjectService} from "./object.service";
+import {ObjectService} from "../classes/object.service";
 import {DroppableElementAnalyzerService} from "./analizer";
 import {DropIndicator} from "./interact";
 import {ElementHandleContent} from "./handles-content/element";
 import {ModuleHandleContent} from "./handles-content/module";
 import {LayoutHandleContent} from "./handles-content/layout";
-import {ElementManager} from "./element";
+import {ElementManager} from "../classes/element";
 import {lang} from "./i18n";
 import {Dialog} from "./dialog";
 

@@ -1,6 +1,182 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./userfiles/modules/microweber/api/classes/state.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/state.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "State": () => (/* binding */ State)
+/* harmony export */ });
+const State = function(options){
+
+    var scope = this;
+    var defaults = {
+        maxItems: 1000
+    };
+    this.options = $.extend({}, defaults, (options || {}));
+    this._state = this.options.state || [];
+    this._active = null;
+    this._activeIndex = -1;
+
+    this.hasNext = false;
+    this.hasPrev = false;
+
+    this.state = function(state){
+        if(!state){
+            return this._state;
+        }
+        this._state = state;
+        return this;
+    };
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+
+    this.active = function(active){
+        if(!active){
+            return this._active;
+        }
+    };
+
+    this.activeIndex = function(activeIndex){
+        if(!activeIndex){
+            return this._activeIndex;
+        }
+    };
+
+    this._timeout = null;
+    this.timeoutRecord = function(item){
+        clearTimeout(this._timeout);
+        this._timeout = setTimeout(function(scope, item){
+            scope.record(item);
+        }, 333, this, item);
+    };
+
+    var recentRecordIsEqual = function (item) {
+        const curr = scope._state[0];
+        if(!curr) return false;
+        for (var n in item) {
+            if(curr[n] !== item[n]) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    this.record = function(item){
+        if(this._activeIndex>-1) {
+            var i = 0;
+            while ( i <  this._activeIndex) {
+                this._state.shift();
+                i++;
+            }
+        }
+        if (recentRecordIsEqual(item)) {
+            return;
+        }
+        this._state.unshift(item);
+        if(this._state.length >= this.options.maxItems) {
+            this._state.splice(-1,1);
+        }
+        this._active = null;
+        this._activeIndex = -1;
+        this.afterChange(false);
+        $(this).trigger('stateRecord', [this.eventData()]);
+        this.dispatch('record', [this.eventData()]);
+        return this;
+    };
+
+    this.actionRecord = function(recordGenFunc, action){
+        this.record(recordGenFunc());
+        action.call();
+        this.record(recordGenFunc());
+    };
+
+    this.redo = function(){
+        this._activeIndex--;
+        this._active = this._state[this._activeIndex];
+        this.afterChange('stateRedo');
+        this.dispatch('redo');
+        return this;
+    };
+
+    this.undo = function(){
+        if(this._activeIndex === -1) {
+            this._activeIndex = 1;
+        }
+        else{
+            this._activeIndex++;
+        }
+        this._active = this._state[this._activeIndex];
+        this.afterChange('stateUndo');
+        this.dispatch('undo');
+        return this;
+    };
+
+    this.hasRecords = function(){
+        return !!this._state.length;
+    };
+
+    this.eventData = function(){
+        return {
+            hasPrev: this.hasPrev,
+            hasNext: this.hasNext,
+            active: this.active(),
+            activeIndex: this.activeIndex()
+        };
+    };
+    this.afterChange = function(action){
+        this.hasNext = true;
+        this.hasPrev = true;
+
+        if(action) {
+            if(this._activeIndex >= this._state.length) {
+                this._activeIndex = this._state.length - 1;
+                this._active = this._state[this._activeIndex];
+            }
+        }
+
+        if(this._activeIndex <= 0) {
+            this.hasPrev = false;
+        }
+        if(this._activeIndex === this._state.length-1 || (this._state.length === 1 && this._state[0].$initial)) {
+            this.hasNext = false;
+        }
+
+        if(action){
+
+            mw.$(this).trigger(action, [this.eventData()]);
+        }
+        if(action !== false){
+            mw.$(this).trigger('change', [this.eventData()]);
+        }
+        return this;
+    };
+
+    this.reset = function(){
+        this._state = this.options.state || [];
+        this.afterChange('reset');
+        return this;
+    };
+
+    this.clear = function(){
+        this._state = [];
+        this.afterChange('clear');
+        return this;
+    };
+
+
+};
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/core/@core.js":
 /*!********************************************************!*\
   !*** ./userfiles/modules/microweber/api/core/@core.js ***!
@@ -7589,176 +7765,16 @@ mw.propEditor = {
 /*!**********************************************************!*\
   !*** ./userfiles/modules/microweber/api/system/state.js ***!
   \**********************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-(function (){
-    if(mw.State) return;
-    var State = function(options){
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/state */ "./userfiles/modules/microweber/api/classes/state.js");
 
-        var scope = this;
-        var defaults = {
-            maxItems: 1000
-        };
-        this.options = $.extend({}, defaults, (options || {}));
-        this._state = this.options.state || [];
-        this._active = null;
-        this._activeIndex = -1;
-
-        this.hasNext = false;
-        this.hasPrev = false;
-
-        this.state = function(state){
-            if(!state){
-                return this._state;
-            }
-            this._state = state;
-            return this;
-        };
-        var _e = {};
-        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
-
-
-        this.active = function(active){
-            if(!active){
-                return this._active;
-            }
-        };
-
-        this.activeIndex = function(activeIndex){
-            if(!activeIndex){
-                return this._activeIndex;
-            }
-        };
-
-        this._timeout = null;
-        this.timeoutRecord = function(item){
-            clearTimeout(this._timeout);
-            this._timeout = setTimeout(function(scope, item){
-                scope.record(item);
-            }, 333, this, item);
-        };
-
-        var recentRecordIsEqual = function (item) {
-            const curr = scope._state[0];
-            if(!curr) return false;
-            for (var n in item) {
-                if(curr[n] !== item[n]) {
-                    return false;
-                }
-            }
-            return true;
-        };
-
-        this.record = function(item){
-            if(this._activeIndex>-1) {
-                var i = 0;
-                while ( i <  this._activeIndex) {
-                    this._state.shift();
-                    i++;
-                }
-            }
-            if (recentRecordIsEqual(item)) {
-                return;
-            }
-            this._state.unshift(item);
-            if(this._state.length >= this.options.maxItems) {
-                this._state.splice(-1,1);
-            }
-            this._active = null;
-            this._activeIndex = -1;
-            this.afterChange(false);
-            mw.$(this).trigger('stateRecord', [this.eventData()]);
-            this.dispatch('record', [this.eventData()]);
-            return this;
-        };
-
-        this.actionRecord = function(recordGenFunc, action){
-            this.record(recordGenFunc());
-            action.call();
-            this.record(recordGenFunc());
-        };
-
-        this.redo = function(){
-            this._activeIndex--;
-            this._active = this._state[this._activeIndex];
-            this.afterChange('stateRedo');
-            this.dispatch('redo');
-            return this;
-        };
-
-        this.undo = function(){
-            if(this._activeIndex === -1) {
-                this._activeIndex = 1;
-            }
-            else{
-                this._activeIndex++;
-            }
-            this._active = this._state[this._activeIndex];
-            this.afterChange('stateUndo');
-            this.dispatch('undo');
-            return this;
-        };
-
-        this.hasRecords = function(){
-            return !!this._state.length;
-        };
-
-        this.eventData = function(){
-            return {
-                hasPrev: this.hasPrev,
-                hasNext: this.hasNext,
-                active: this.active(),
-                activeIndex: this.activeIndex()
-            };
-        };
-        this.afterChange = function(action){
-            this.hasNext = true;
-            this.hasPrev = true;
-
-            if(action) {
-                if(this._activeIndex >= this._state.length) {
-                    this._activeIndex = this._state.length - 1;
-                    this._active = this._state[this._activeIndex];
-                }
-            }
-
-            if(this._activeIndex <= 0) {
-                this.hasPrev = false;
-            }
-            if(this._activeIndex === this._state.length-1 || (this._state.length === 1 && this._state[0].$initial)) {
-                this.hasNext = false;
-            }
-
-            if(action){
-
-                mw.$(this).trigger(action, [this.eventData()]);
-            }
-            if(action !== false){
-                mw.$(this).trigger('change', [this.eventData()]);
-            }
-            return this;
-        };
-
-        this.reset = function(){
-            this._state = this.options.state || [];
-            this.afterChange('reset');
-            return this;
-        };
-
-        this.clear = function(){
-            this._state = [];
-            this.afterChange('clear');
-            return this;
-        };
-
-
-    };
-    mw.State = State;
-})();
 
 (function(){
     if(mw.liveEditState) return;
+    mw.State = _classes_state__WEBPACK_IMPORTED_MODULE_0__.State
     mw.liveEditState = new mw.State();
     mw.liveEditState.record({
          value: null,
@@ -9859,37 +9875,41 @@ mw.extradataForm = function (options, data, func) {
 
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
-
                 e.preventDefault();
-                var exdata = mw.serializeFields(this);
-
-                if(typeof options.data === 'string'){
-                    var params = {};
-                    options.data.split('&').forEach(function(a){
-                        var c = a.split('=');
-                        params[c[0]] = decodeURIComponent(c[1]);
-                    });
-                    options.data = params;
-                }
-                var isFormData = options.data.constructor.name === 'FormData';
-                if(isFormData) {
-                    for (var i in exdata) {
-                        options.data.set(i, exdata[i]);
+                var when = form.$beforepost ? form.$beforepost : function () {};
+                $.when(when()).then(function() {
+                    var exdata = mw.serializeFields(form);
+                    if(typeof options.data === 'string'){
+                        var params = {};
+                        options.data.split('&').forEach(function(a){
+                            var c = a.split('=');
+                            params[c[0]] = decodeURIComponent(c[1]);
+                        });
+                        options.data = params;
                     }
+                    var isFormData = options.data.constructor.name === 'FormData';
+                    if(isFormData) {
+                        for (var i in exdata) {
+                            options.data.set(i, exdata[i]);
+                        }
 
-                } else {
-                    for (var i in exdata) {
-                        options.data[i] = exdata[i];
+                    } else {
+                        for (var i in exdata) {
+                            options.data[i] = exdata[i];
+                        }
                     }
-                }
-                if(func) {
-                    func(options);
+                    if(func) {
+                        func(options);
 
-                } else {
-                    mw.ajax(options);
+                    } else {
+                        mw.ajax(options);
 
-                }
-                form.__modal.remove();
+                    }
+                    form.__modal.remove();
+                })
+
+
+
             });
         }
     });
@@ -12476,59 +12496,112 @@ mw.image = {
 
 /******/ 	});
 /************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/@core.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/ajax.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/common.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/components.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/custom_fields.js"]();
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/@core.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/ajax.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/common.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/components.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/custom_fields.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/events.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/files.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/fonts.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/forms.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/i18n.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/libs.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/modules.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/mw-require.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/options.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/polyfills.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/response.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/session.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/shop.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/upgrades.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/uploader.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/url.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/color.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/css_parser.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/filepicker.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/icon_selector.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/module_settings.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/prop_editor.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/state.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/@tools.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/common-extend.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/common.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/cookie.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/domhelpers.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/dropdown.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/element.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/external.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/extradata-form.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/helpers.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/images.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/jquery.tools.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/loading.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/loops.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/notification.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/objects.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tabs.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tooltip.js"]();
-/******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/images.js"]();
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/events.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/files.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/fonts.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/forms.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/i18n.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/libs.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/modules.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/mw-require.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/options.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/polyfills.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/response.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/session.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/shop.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/upgrades.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/uploader.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/core/url.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/color.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/css_parser.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/filepicker.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/icon_selector.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/module_settings.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/prop_editor.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/system/state.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/@tools.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/common-extend.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/common.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/cookie.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/domhelpers.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/dropdown.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/element.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/external.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/extradata-form.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/helpers.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/images.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/jquery.tools.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/loading.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/loops.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/notification.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/objects.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/tabs.js");
+/******/ 	__webpack_require__("./userfiles/modules/microweber/api/tools/core-tools/tooltip.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./userfiles/modules/microweber/api/tools/images.js");
 /******/ 	
 /******/ })()
 ;

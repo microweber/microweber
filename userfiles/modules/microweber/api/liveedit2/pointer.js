@@ -1,5 +1,5 @@
-import {ObjectService} from './object.service';
-import {DomService} from './dom';
+import {ObjectService} from '../classes/object.service';
+import {DomService} from '../classes/dom';
 
 export const GetPointerTargets = function(options)  {
 

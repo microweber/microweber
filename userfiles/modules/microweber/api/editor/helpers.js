@@ -1,6 +1,8 @@
+import {ElementManager} from  '../classes/element'
+
 MWEditor.controllersHelpers = {
     '|' : function () {
-        return mw.element({
+        return ElementManager({
             tage: 'span',
             props: {
                 className: 'mw-bar-delimiter'

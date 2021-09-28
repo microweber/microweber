@@ -1,7 +1,7 @@
-import {ObjectService} from "./object.service";
+import {ObjectService} from "../classes/object.service";
 import {Draggable} from "./draggable";
-import {DomService} from "./dom";
-import {ElementManager} from "./element";
+import {DomService} from '../classes/dom';
+import {ElementManager} from "../classes/element";
 
 export const Handle = function (options) {
 

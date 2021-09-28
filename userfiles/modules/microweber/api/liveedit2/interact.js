@@ -1,7 +1,7 @@
 
-import {ObjectService} from "./object.service";
-import {DomService} from "./dom";
-import {ElementManager} from "./element";
+import {ObjectService} from "../classes/object.service";
+import {DomService} from '../classes/dom';
+import {ElementManager} from "../classes/element";
 
 export const DropIndicator = function (options) {
 

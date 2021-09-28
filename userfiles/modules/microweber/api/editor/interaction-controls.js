@@ -1,3 +1,7 @@
+
+import {ElementManager} from  '../classes/element'
+
+
 /*
 *
 *  interface data {
@@ -14,12 +18,12 @@ MWEditor.interactionControls = {
     linkTooltip: function (rootScope) {
         this.render = function () {
             var scope = this;
-            var el = mw.element({
+            var el = ElementManager({
                 props: {
                     className: 'mw-editor-link-tooltip'
                 }
             });
-            var urlElement = mw.element({
+            var urlElement = ElementManager({
                 tag: 'a',
                 props: {
                     className: 'mw-editor-link-tooltip-url',
@@ -64,12 +68,12 @@ MWEditor.interactionControls = {
         this.nodes = [];
         this.render = function () {
             var scope = this;
-            var el = mw.element({
+            var el = ElementManager({
                 props: {
                     className: 'mw-editor-image-handle-wrap'
                 }
             });
-            var changeButton = mw.element({
+            var changeButton = ElementManager({
                 props: {
                     innerHTML: '<i class="mdi mdi-folder-multiple-image"></i>',
                     className: 'mw-ui-btn mw-ui-btn-medium tip',
@@ -101,7 +105,7 @@ MWEditor.interactionControls = {
                 })
 
             });
-            var editButton = mw.element({
+            var editButton = ElementManager({
                 props: {
                     innerHTML: '<i class="mdi mdi-image-edit"></i>',
                     className: 'mw-ui-btn mw-ui-btn-medium tip',
@@ -110,7 +114,7 @@ MWEditor.interactionControls = {
                     }
                 }
             });
-            var nav = mw.element({
+            var nav = ElementManager({
                 props: {
                     className: 'mw-ui-btn-nav'
                 }
@@ -123,7 +127,8 @@ MWEditor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
-            if(mw.tools.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
+
+            if(MWEditor.tools.dom.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
             if(this.nodes.indexOf(data.target) !== -1) {
@@ -168,7 +173,7 @@ MWEditor.interactionControls = {
         };
 
         this.render = function () {
-            var root = mw.element({
+            var root = ElementManager({
                 props: {
                     className: 'mw-editor-table-manager'
                 }

@@ -1,10 +1,6 @@
 
-
-
-
-
-
-
+import {ElementManager} from "../classes/element";
+import {State} from "../classes/state";
 
 
 
@@ -77,7 +73,7 @@ window.MWEditor = function (options) {
         return;
     }
 
-    this.settings.selectorNode = mw.element(this.settings.selector)[0];
+    this.settings.selectorNode = $(this.settings.selector)[0];
 
     if (this.settings.selectorNode) {
         this.settings.selectorNode.__MWEditor = this;
@@ -215,7 +211,7 @@ window.MWEditor = function (options) {
                 return;
             }
             var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
-            var css = mw.CSSParser(target);
+            var css = getComputedStyle(target);
             var api = scope.api;
 
 
@@ -224,8 +220,7 @@ window.MWEditor = function (options) {
                 target: target,
                 localTarget: localTarget,
                 isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
-                css: css.get,
-                cssNative: css.css,
+                css: css,
                 event: event,
                 api: api,
                 scope: scope,
@@ -310,7 +305,7 @@ window.MWEditor = function (options) {
         };
     };
     this.initState = function () {
-        this.state = this.settings.state || (new mw.State());
+        this.state = this.settings.state || (new State());
     };
 
     this.controllerActive = function (node, active) {
@@ -389,7 +384,7 @@ window.MWEditor = function (options) {
         if(!content && this.settings.isTextArea) {
             content = this.settings.selectorNode.value;
         }
-        this.area = mw.element({
+        this.area = ElementManager({
             props: { className: 'mw-editor-area', innerHTML: content }
         });
         this.area.node.contentEditable = true;
@@ -397,7 +392,7 @@ window.MWEditor = function (options) {
             scope.registerChange();
         };
         this.wrapper.appendChild(this.area.node);
-        scope.$editArea = this.area.$node;
+        scope.$editArea = this.area;
         scope.preventEvents();
         $(scope).trigger('ready');
     };
@@ -407,7 +402,7 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = mw.element(this.document.body);
+        this.$editArea = ElementManager(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
         this.$editArea.append(this.wrapper)[0].mwEditor = this;
         $(scope).trigger('ready');
@@ -437,14 +432,14 @@ window.MWEditor = function (options) {
         }
         var group = obj.group;
         var id = mw.id('mw.editor-group-');
-        var el = mw.element({
+        var el = ElementManager({
             props: {
                 className: 'mw-bar-control-item mw-bar-control-item-group',
                 id:id
             }
         });
 
-        var groupel = mw.element({
+        var groupel = ElementManager({
                 props:{
                     className: 'mw-bar-control-item-group-contents'
                 }
@@ -469,7 +464,7 @@ window.MWEditor = function (options) {
                 var ctrl = new scope.controllers[group.controller](scope, scope.api, scope);
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
-                mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
+                ElementManager(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
                     MWEditor.core._preSelect(this.parentNode.parentNode);
                     this.parentNode.parentNode.classList.toggle('active');
                 });
@@ -559,7 +554,7 @@ window.MWEditor = function (options) {
         if (!this.settings.smallEditor) {
             return;
         }
-        this.smallEditor = mw.element({
+        this.smallEditor = ElementManager({
             props: {
                 className: 'mw-small-editor mw-small-editor-skin-' + this.settings.skin
             }
@@ -620,8 +615,8 @@ window.MWEditor = function (options) {
             if(!scope.state.hasRecords()){
                 scope.state.record({
                     $initial: true,
-                    target: scope.$editArea[0],
-                    value: scope.$editArea[0].innerHTML
+                    target: scope.$editArea.get(0),
+                    value: scope.$editArea.get(0).innerHTML
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
@@ -665,7 +660,7 @@ window.MWEditor = function (options) {
             clearTimeout(scope._initInputRecordTime);
             scope._initInputRecordTime = setTimeout(function () {
                 scope.state.record({
-                    target: scope.$editArea[0],
+                    target: scope.$editArea.get(0),
                     value: html
                 });
             }, 600);
@@ -675,15 +670,15 @@ window.MWEditor = function (options) {
 
     this.__insertEditor = function () {
         if (this.settings.isTextArea) {
-            var el = mw.element(this.settings.selector);
+            var el = ElementManager(this.settings.selector);
             el.get(0).mwEditor = this;
             el.hide();
-            var areaWrapper = mw.element();
+            var areaWrapper = ElementManager();
             areaWrapper.node.mwEditor = this;
             el.after(areaWrapper.node);
             areaWrapper.append(this.wrapper);
         } else {
-            mw.element(this.settings.selector).append(this.wrapper).get(0).mwEditor = this;
+            ElementManager(this.settings.selector).append(this.wrapper).get(0).mwEditor = this;
         }
     };
 
@@ -729,6 +724,8 @@ if (window.mw) {
        return new MWEditor(options);
    };
 }
+
+window.MWEditor = MWEditor
 
 
 /*mw.require('filemanager.js');
