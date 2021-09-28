@@ -29,7 +29,7 @@
         <div class="row d-flex justify-content-between align-content-end">
 
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order ID"); ?></label>
                 <div class="input-group mb-0">
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0">
@@ -63,28 +63,9 @@
                 </div>
             </div>
         </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
-                    <div class="input-group mb-0">
-                        <select name="isPaid" class="selectpicker" data-width="100%">
 
-                            <option value="" @if($isPaid == '') selected="selected" @endif>
-                                <?php _e('All'); ?>
-                            </option>
 
-                            <option value="1" @if($isPaid == '1') selected="selected" @endif>
-                                <?php _e('Paid'); ?>
-                            </option>
 
-                            <option value="0" @if($isPaid == '0') selected="selected" @endif>
-                                <?php _e('Unpaid'); ?>
-                            </option>
-
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Date from"); ?></label>
@@ -201,8 +182,31 @@
                 </div>
             </div>
 
-
             <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
+                    <div class="input-group mb-0">
+                        <select name="isPaid" class="selectpicker" data-width="100%">
+
+                            <option value="" @if($isPaid == '') selected="selected" @endif>
+                                <?php _e('All'); ?>
+                            </option>
+
+                            <option value="1" @if($isPaid == '1') selected="selected" @endif>
+                                <?php _e('Paid'); ?>
+                            </option>
+
+                            <option value="0" @if($isPaid == '0') selected="selected" @endif>
+                                <?php _e('Unpaid'); ?>
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Search"); ?></label>
                     <div class="input-group">
