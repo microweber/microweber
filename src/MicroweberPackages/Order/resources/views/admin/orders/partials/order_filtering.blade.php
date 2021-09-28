@@ -44,11 +44,11 @@
                 <div class="input-group mb-0">
                     <select name="orderStatus" class="selectpicker" data-width="100%">
 
-                        <option value="pending" @if($orderStatus == '') selected="selected" @endif>
+                        <option value="" @if($orderStatus == '') selected="selected" @endif>
                             <?php _e('All'); ?>
                         </option>
 
-                        <option value="pending" @if($orderStatus == 'new') selected="selected" @endif>
+                        <option value="new" @if($orderStatus == 'new') selected="selected" @endif>
                             <?php _e('New'); ?>
                         </option>
 
