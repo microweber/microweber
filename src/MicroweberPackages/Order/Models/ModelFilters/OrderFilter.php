@@ -24,6 +24,11 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
+    public function isPaid($isPaid)
+    {
+        $this->query->where('is_paid', $isPaid);
+    }
+
     public function productId($productId)
     {
         $this->query->whereHas('cart', function ($query) use($productId) {
