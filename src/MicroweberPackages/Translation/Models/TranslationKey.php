@@ -56,6 +56,8 @@ class TranslationKey extends Model
             $filter['page'] = 1;
         }
 
+         $like = 'like';
+        
         if (!isset($filter['translation_namespace'])) {
             $filter['translation_namespace'] = '*';
         }
@@ -66,18 +68,20 @@ class TranslationKey extends Model
 
         if (isset($filter['search']) && !empty($filter['search'])) {
 
-			$queryModel->where(function($subQuery) use ($filter) {
-				$subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
-				$subQuery->where('translation_namespace', $filter['translation_namespace']);
-			});
+            $queryModel->where(function($subQuery) use ($filter ,$like) {
+              //  $subQuery->where('translation_key', $like, '%' . $filter['search'] . '%');.
+                $subQuery->where(\DB::raw('lower(translation_key)'), 'like', '%' . strtolower($filter['search']) . '%');
 
-            $queryModel->orWhereHas('texts', function($subQuery) use ($filter) {
-                $subQuery->where('translation_text', 'like', '%' . $filter['search'] . '%');
-				$subQuery->where('translation_namespace', $filter['translation_namespace']);
+                $subQuery->where('translation_namespace', $filter['translation_namespace']);
+            });
+
+            $queryModel->orWhereHas('texts', function($subQuery) use ($filter,$like) {
+             //   $subQuery->where('translation_text', $like, '%' . $filter['search'] . '%');
+                $subQuery->where(\DB::raw('lower(translation_text)'), 'like', '%' . strtolower($filter['search']) . '%');
+                $subQuery->where('translation_namespace', $filter['translation_namespace']);
             });
 
         }
-
         $queryModel->orderBy('id', 'asc');
 
          Paginator::currentPageResolver(function() use ($filter) {
