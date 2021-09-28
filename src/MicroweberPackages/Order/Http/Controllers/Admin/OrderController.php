@@ -4,6 +4,7 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
 
@@ -14,19 +15,25 @@ class OrderController extends AdminController
     public function index(Request $request)
     {
         $orderBy = $request->get('orderBy', 'id');
+        $productId = $request->get('productId', false);
+        $productKeyword = $request->get('productKeyword', false);
         $orderDirection = $request->get('orderDirection', 'desc');
+        $orderStatus = $request->get('orderStatus', false);
 
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);
 
         $minDate = $request->get('minDate', false);
         $maxDate = $request->get('maxDate', false);
+
         $id = $request->get('id', false);
 
+        $exportResults = $request->get('exportResults', false);
         $filteringResults = $request->get('filteringResults', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
+            $keyword = trim($keyword);
             $filteringResults = true;
         }
 
@@ -35,14 +42,33 @@ class OrderController extends AdminController
             $filterFields['priceBetween'] = $minPrice . ',' . $maxPrice;
         }
 
+        if ($minDate || $maxDate) {
+            $filterFields['dateBetween'] = $minDate . ',' . $maxDate;
+        }
+
         if (!isset($filterFields['orderBy'])) {
             $filterFields['orderBy'] = 'created_at';
             $filterFields['orderDirection'] = 'desc';
         }
 
-        $orders = Order::filter($filterFields)
-            ->paginate($request->get('limit', $this->pageLimit))
-            ->appends($request->except('page'));
+        $ordersQuery = Order::filter($filterFields);
+
+        if ($exportResults) {
+            $orders = $ordersQuery->get();
+
+            $exportExcel = new XlsxExport();
+            $exportExcel->data['mw_export_orders_' . date('Y-m-d-H-i-s')] = $orders->toArray();
+            $exportExcel = $exportExcel->start();
+            $exportExcelFile = $exportExcel['files']['0']['filepath'];
+
+            return response()->download($exportExcelFile);
+
+        } else {
+            $orders = $ordersQuery
+                ->paginate($request->get('limit', $this->pageLimit))
+                ->appends($request->except('page'));
+        }
+
 
 
         $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
@@ -58,8 +84,14 @@ class OrderController extends AdminController
             }
         }
 
+        $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
+
         return $this->view('order::admin.orders.index', [
             'id'=>$id,
+            'productId'=>$productId,
+            'productKeyword'=>$productKeyword,
+            'orderStatus'=>$orderStatus,
+            'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,
             'maxPrice'=>$maxPrice,

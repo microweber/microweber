@@ -24,6 +24,20 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
+    public function productId($productId)
+    {
+        return $this->query->where(function ($query) use ($productId) {
+            $query->whereHas('cart', function ($query) use ($productId) {
+                $query->where('rel_id', $productId);
+            });
+        });
+    }
+
+    public function orderStatus($orderStatus)
+    {
+        $this->query->where('order_status', $orderStatus);
+    }
+
     public function keyword($keyword)
     {
         $keyword = trim($keyword);
@@ -64,6 +78,22 @@ class OrderFilter extends ModelFilter
 
         $this->query->where('amount', '>', $minPrice);
         $this->query->where('amount', '<', $maxPrice);
+
+    }
+
+    public function dateBetween($date)
+    {
+        $minDate = $date;
+        $maxDate = false;
+
+        if (strpos($date, ',') !== false) {
+            $date = explode(',', $date);
+            $minDate = $date[0];
+            $maxDate = $date[1];
+        }
+
+        $this->query->where('created_at', '>', $minDate);
+        $this->query->where('created_at', '<', $maxDate);
 
     }
 }

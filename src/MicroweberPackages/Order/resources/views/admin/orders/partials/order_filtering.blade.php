@@ -25,93 +25,84 @@
 
     <?php if ($orders->count() > 0 || $filteringResults) { ?>
 
-    <div class="bg-primary-opacity-1 rounded p-2 mb-4">
+    <div class="js-filtering-orders-box bg-primary-opacity-1 rounded p-4 mb-4" <?php if (!$filteringResults): ?>style="display: none"<?php endif;?>>
         <div class="row d-flex justify-content-between align-content-end">
 
-        <div class="col-md-4">
+
+        <div class="col-md-6">
             <div class="form-group">
+                <label for="" class="form-label"><?php _e("Order ID"); ?></label>
                 <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?php _e("Order ID"); ?></span>
-                    </div>
-                    <input type="text" class="form-control" value="{{$id}}" name="id" aria-label="">
+                    <input type="text" class="form-control" value="{{$id}}" name="id" placeholder="<?php _e("Order ID");?>">
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
+                <label for="" class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?php _e("Order Status"); ?></span>
-                    </div>
-                    <select class="form-control" name="status">
-                        <option></option>
+                    <select name="orderStatus" class="selectpicker" data-width="100%">
+                        <option value="pending" @if($orderStatus == 'pending') selected="selected" @endif>
+                            <?php _e('Pending'); ?>
+                        </option>
+                        <option value="completed" @if($orderStatus == 'completed') selected="selected" @endif>
+                            <?php _e('Completed'); ?>
+                        </option>
                     </select>
                 </div>
             </div>
         </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Date from"); ?></label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><?php _e("Date from"); ?></span>
-                        </div>
-                        <input type="text" class="form-control" value="{{$minDate}}" name="minDate" id="js-order-filter-date-from" aria-label="">
-                        <div class="input-group-append">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
+                        <input type="text" class="form-control" value="{{$minDate}}" name="minDate" id="js-order-filter-date-from" placeholder="<?php _e("Set the orders from date");?>">
                     </div>
                 </div>
             </div>
 
-
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Date to"); ?></label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><?php _e("Customer"); ?></span>
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
-                        <input type="text" class="form-control" value="" name="" aria-label="">
+                        <input type="text" class="form-control" value="{{$maxDate}}" name="maxDate" id="js-order-filter-date-to" placeholder="<?php _e("Set the orders to date");?>">
                     </div>
                 </div>
             </div>
 
 
-
-            <div class="col-md-4">
-            <div class="form-group">
-                <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?php _e("From"); ?></span>
-                    </div>
-                    <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" aria-label="">
-                    <div class="input-group-append">
-                        <span class="input-group-text"><?php _e("To"); ?></span>
-                    </div>
-                    <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" aria-label="">
-                    <div class="input-group-append">
-                        <span class="input-group-text">$</span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Order amount from"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{get_currency_symbol()}}</span>
+                        </div>
+                        <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" placeholder="<?php _e("Show the order with minimum amount");?>">
                     </div>
                 </div>
             </div>
-        </div>
 
-
-            <div class="col-md-4">
-            <div class="form-group">
-                <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?php _e("Date to"); ?></span>
-                    </div>
-                    <input type="text" class="form-control" value="{{$maxDate}}" name="maxDate" id="js-order-filter-date-to" aria-label="">
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Order amount to"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{get_currency_symbol()}} </span>
+                        </div>
+                        <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" placeholder="<?php _e("Show the order with maximum amount");?>">
                     </div>
                 </div>
             </div>
-        </div>
+
 
         <script>
             mw.lib.require("air_datepicker");
@@ -146,32 +137,76 @@
                 $('#js-order-filter-date-to').datepicker(datePickerBaseSetup);
             }
 
+            $(document).ready(function () {
+                var searchOrdersByProduct = new mw.autoComplete({
+                    element: "#js-orders-search-by-products",
+                    placeholder: "<?php if ($productKeyword) { echo $productKeyword; } else { _e("Search by products..."); }?>",
+                    autoComplete:true,
+                    ajaxConfig: {
+                        method: 'get',
+                        url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}'
+                    },
+                    map: {
+                        value: 'id',
+                        title: 'title',
+                        image: 'picture'
+                    }
+                });
+                $(searchOrdersByProduct).on("change", function (e, val) {
+                    $(".js-orders-search-product").val(val[0].id).trigger('change')
+                    $(".js-orders-search-product-keyword").val(val[0].title).trigger('change')
+                });
+            });
         </script>
 
-
-
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Search by products"); ?></label>
+                    <div class="input-group">
+                        <input type="hidden" class="js-orders-search-product-keyword" name="productKeyword" value="{{$productKeyword}}" />
+                        <input type="hidden" class="js-orders-search-product" name="productId" value="{{$productId}}" />
+                        <div id="js-orders-search-by-products"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Search"); ?></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="<?php _e("Free search by phone, name, email etc...");?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+
+            </div>
+
+            <div class="col-md-6">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" name="filteringResults" value="true" class="btn btn-outline-primary mr-3">
-                        <i class="mdi mdi-filter"></i> <?php _e("Filter"); ?>
+
+                    <button type="submit" name="filteringResults" value="true" class="js-submit-order-filtering btn btn-primary mr-2">
+                        <?php _e("Submit this criteria"); ?>
                     </button>
+
                     <a href="{{route('admin.order.index')}}" class="btn btn-outline-primary">
-                        <i class="mdi mdi-notification-clear-all"></i>  <?php _e("Clear"); ?>
+                        <?php _e("Reset filter"); ?>
                     </a>
                 </div>
             </div>
 
 
-
     </div>
     </div>
-
-
 
 
     <?php } ?>
+
 
 </form>
