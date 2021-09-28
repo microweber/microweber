@@ -274,6 +274,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->cache_manager->delete('options');
 
         return true;
 

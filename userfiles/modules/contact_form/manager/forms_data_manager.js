@@ -49,10 +49,7 @@ mw.forms_data_manager = {
    	});
   },
 
-
   export_to_excel:function(id){
-
-
 
 	  data = {}
       data.id = id;
@@ -61,16 +58,11 @@ mw.forms_data_manager = {
          function(resp) {
             mw.notification.msg(resp);
 			if(resp.download != undefined){
-				    window.location= resp.download;
-
-
+			    window.location= resp.download;
 			}
          });
 
   }
-
-
-
 
 
 }
