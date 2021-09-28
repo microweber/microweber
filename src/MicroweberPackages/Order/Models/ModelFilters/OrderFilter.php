@@ -24,6 +24,11 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
+    public function productId($id)
+    {
+        $this->query->where('id', $id);
+    }
+
     public function orderStatus($orderStatus)
     {
         $this->query->where('order_status', $orderStatus);

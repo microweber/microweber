@@ -15,6 +15,7 @@ class OrderController extends AdminController
     public function index(Request $request)
     {
         $orderBy = $request->get('orderBy', 'id');
+        $productId = $request->get('productId', false);
         $orderDirection = $request->get('orderDirection', 'desc');
         $orderStatus = $request->get('orderStatus', false);
 
@@ -86,6 +87,7 @@ class OrderController extends AdminController
 
         return $this->view('order::admin.orders.index', [
             'id'=>$id,
+            'productId'=>$productId,
             'orderStatus'=>$orderStatus,
             'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,

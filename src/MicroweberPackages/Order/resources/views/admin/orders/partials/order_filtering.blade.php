@@ -137,16 +137,33 @@
                 $('#js-order-filter-date-to').datepicker(datePickerBaseSetup);
             }
 
+            $(document).ready(function () {
+                var searchOrdersByProduct = new mw.autoComplete({
+                    element: "#js-orders-search-by-products",
+                    placeholder: "<?php _e("Search by products...");?>",
+                    autoComplete:true,
+                    ajaxConfig: {
+                        method: 'get',
+                        url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}'
+                    },
+                    map: {
+                        value: 'id',
+                        title: 'title',
+                        image: 'picture'
+                    }
+                });
+                $(searchOrdersByProduct).on("change", function (e, val) {
+                    $(".js-orders-search-product").val(val[0].id).trigger('change')
+                });
+            });
         </script>
 
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Search by products"); ?></label>
                     <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="mdi mdi-package-variant-closed"></i></span>
-                        </div>
-                        <input type="text" class="form-control" value="" name="products" placeholder="<?php _e("Search orders by products...");?>">
+                        <input type="hidden" class="js-orders-search-product" name="productId" value="{{$productId}}" />
+                        <div id="js-orders-search-by-products"></div>
                     </div>
                 </div>
             </div>
