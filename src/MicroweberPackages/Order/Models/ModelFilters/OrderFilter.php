@@ -24,18 +24,33 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
+    public function isPaid($isPaid)
+    {
+        $this->query->where('is_paid', $isPaid);
+    }
+
     public function productId($productId)
     {
-        return $this->query->where(function ($query) use ($productId) {
+        $this->query->whereHas('cart', function ($query) use($productId) {
+            $query->where('rel_id', '=', $productId);
+        });
+
+
+     //   $this->query->cart()->where('rel_id', $productId);
+
+       /* return $this->query->where(function ($query) use ($productId) {
             $query->whereHas('cart', function ($query) use ($productId) {
                 $query->where('rel_id', $productId);
             });
-        });
+        });*/
     }
 
     public function orderStatus($orderStatus)
     {
-        $this->query->where('order_status', $orderStatus);
+        $orderStatus = trim($orderStatus);
+        if (!empty($orderStatus)) {
+            $this->query->where('order_status', $orderStatus);
+        }
     }
 
     public function keyword($keyword)
@@ -92,8 +107,10 @@ class OrderFilter extends ModelFilter
             $maxDate = $date[1];
         }
 
-        $this->query->where('created_at', '>', $minDate);
-        $this->query->where('created_at', '<', $maxDate);
+        $table = $this->getModel()->getTable();
+
+        $this->query->where($table.'.created_at', '>', $minDate);
+        $this->query->where($table.'.created_at', '<', $maxDate);
 
     }
 }

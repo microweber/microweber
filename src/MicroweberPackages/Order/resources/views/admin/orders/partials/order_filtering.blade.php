@@ -43,9 +43,19 @@
                 <label for="" class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0">
                     <select name="orderStatus" class="selectpicker" data-width="100%">
+
+                        <option value="" @if($orderStatus == '') selected="selected" @endif>
+                            <?php _e('All'); ?>
+                        </option>
+
+                        <option value="new" @if($orderStatus == 'new') selected="selected" @endif>
+                            <?php _e('New'); ?>
+                        </option>
+
                         <option value="pending" @if($orderStatus == 'pending') selected="selected" @endif>
                             <?php _e('Pending'); ?>
                         </option>
+
                         <option value="completed" @if($orderStatus == 'completed') selected="selected" @endif>
                             <?php _e('Completed'); ?>
                         </option>
@@ -53,6 +63,8 @@
                 </div>
             </div>
         </div>
+
+
 
             <div class="col-md-6">
                 <div class="form-group">
@@ -170,8 +182,31 @@
                 </div>
             </div>
 
-
             <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
+                    <div class="input-group mb-0">
+                        <select name="isPaid" class="selectpicker" data-width="100%">
+
+                            <option value="" @if($isPaid == '') selected="selected" @endif>
+                                <?php _e('All'); ?>
+                            </option>
+
+                            <option value="1" @if($isPaid == '1') selected="selected" @endif>
+                                <?php _e('Paid'); ?>
+                            </option>
+
+                            <option value="0" @if($isPaid == '0') selected="selected" @endif>
+                                <?php _e('Unpaid'); ?>
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Search"); ?></label>
                     <div class="input-group">

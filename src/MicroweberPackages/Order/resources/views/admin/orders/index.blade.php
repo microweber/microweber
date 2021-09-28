@@ -16,10 +16,7 @@
         </div>
         <div class="card-body pt-3 pb-0">
 
-
-
             @include('order::admin.orders.partials.order_filtering')
-
 
             <div class="row d-flex justify-content-between align-content-end" style="margin-top:20px">
 
