@@ -26,16 +26,26 @@ class OrderFilter extends ModelFilter
 
     public function productId($productId)
     {
-        return $this->query->where(function ($query) use ($productId) {
+        $this->query->whereHas('cart', function ($query) use($productId) {
+            $query->where('rel_id', '=', $productId);
+        });
+
+
+     //   $this->query->cart()->where('rel_id', $productId);
+
+       /* return $this->query->where(function ($query) use ($productId) {
             $query->whereHas('cart', function ($query) use ($productId) {
                 $query->where('rel_id', $productId);
             });
-        });
+        });*/
     }
 
     public function orderStatus($orderStatus)
     {
-        $this->query->where('order_status', $orderStatus);
+        $orderStatus = trim($orderStatus);
+        if (!empty($orderStatus)) {
+            $this->query->where('order_status', $orderStatus);
+        }
     }
 
     public function keyword($keyword)
