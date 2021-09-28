@@ -19,6 +19,7 @@ class OrderController extends AdminController
         $productKeyword = $request->get('productKeyword', false);
         $orderDirection = $request->get('orderDirection', 'desc');
         $orderStatus = $request->get('orderStatus', false);
+        $isPaid = $request->get('isPaid', false);
 
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);
@@ -70,7 +71,7 @@ class OrderController extends AdminController
         }
 
 
-
+/*
         $getMinPriceOrder = Order::select(['amount'])->orderBy('amount','asc')->first();
         if ($getMinPriceOrder !== null) {
             if (!$minPrice) {
@@ -82,7 +83,7 @@ class OrderController extends AdminController
             if (!$maxPrice) {
                 $maxPrice = $getMaxnPriceOrder->amount;
             }
-        }
+        }*/
 
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 
@@ -91,6 +92,7 @@ class OrderController extends AdminController
             'productId'=>$productId,
             'productKeyword'=>$productKeyword,
             'orderStatus'=>$orderStatus,
+            'isPaid'=>$isPaid,
             'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,
             'minPrice'=>$minPrice,

@@ -56,6 +56,12 @@ class TranslationKey extends Model
             $filter['page'] = 1;
         }
 
+        $engine = mw()->database_manager->get_sql_engine();
+        $like = 'like';
+        if ($engine == 'mysql') {
+            $like = 'ilike';
+        }
+
         if (!isset($filter['translation_namespace'])) {
             $filter['translation_namespace'] = '*';
         }
@@ -66,13 +72,14 @@ class TranslationKey extends Model
 
         if (isset($filter['search']) && !empty($filter['search'])) {
 
-			$queryModel->where(function($subQuery) use ($filter) {
-				$subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
+			$queryModel->where(function($subQuery) use ($filter,$like) {
+
+				$subQuery->where('translation_key', $like, '%' . $filter['search'] . '%');
 				$subQuery->where('translation_namespace', $filter['translation_namespace']);
 			});
 
-            $queryModel->orWhereHas('texts', function($subQuery) use ($filter) {
-                $subQuery->where('translation_text', 'like', '%' . $filter['search'] . '%');
+            $queryModel->orWhereHas('texts', function($subQuery) use ($filter,$like) {
+                $subQuery->where('translation_text', $like, '%' . $filter['search'] . '%');
 				$subQuery->where('translation_namespace', $filter['translation_namespace']);
             });
 
