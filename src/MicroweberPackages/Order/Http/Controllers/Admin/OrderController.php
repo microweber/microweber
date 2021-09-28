@@ -16,6 +16,7 @@ class OrderController extends AdminController
     {
         $orderBy = $request->get('orderBy', 'id');
         $productId = $request->get('productId', false);
+        $productKeyword = $request->get('productKeyword', false);
         $orderDirection = $request->get('orderDirection', 'desc');
         $orderStatus = $request->get('orderStatus', false);
 
@@ -88,6 +89,7 @@ class OrderController extends AdminController
         return $this->view('order::admin.orders.index', [
             'id'=>$id,
             'productId'=>$productId,
+            'productKeyword'=>$productKeyword,
             'orderStatus'=>$orderStatus,
             'exportUrl'=>$exportUrl,
             'orderBy'=>$orderBy,

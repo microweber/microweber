@@ -140,7 +140,7 @@
             $(document).ready(function () {
                 var searchOrdersByProduct = new mw.autoComplete({
                     element: "#js-orders-search-by-products",
-                    placeholder: "<?php _e("Search by products...");?>",
+                    placeholder: "<?php if ($productKeyword) { echo $productKeyword; } else { _e("Search by products..."); }?>",
                     autoComplete:true,
                     ajaxConfig: {
                         method: 'get',
@@ -154,6 +154,7 @@
                 });
                 $(searchOrdersByProduct).on("change", function (e, val) {
                     $(".js-orders-search-product").val(val[0].id).trigger('change')
+                    $(".js-orders-search-product-keyword").val(val[0].title).trigger('change')
                 });
             });
         </script>
@@ -162,6 +163,7 @@
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Search by products"); ?></label>
                     <div class="input-group">
+                        <input type="hidden" class="js-orders-search-product-keyword" name="productKeyword" value="{{$productKeyword}}" />
                         <input type="hidden" class="js-orders-search-product" name="productId" value="{{$productId}}" />
                         <div id="js-orders-search-by-products"></div>
                     </div>

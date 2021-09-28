@@ -24,9 +24,13 @@ class OrderFilter extends ModelFilter
         $this->query->where('id', $id);
     }
 
-    public function productId($id)
+    public function productId($productId)
     {
-        $this->query->where('id', $id);
+        return $this->query->where(function ($query) use ($productId) {
+            $query->whereHas('cart', function ($query) use ($productId) {
+                $query->where('rel_id', $productId);
+            });
+        });
     }
 
     public function orderStatus($orderStatus)
