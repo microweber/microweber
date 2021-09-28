@@ -7331,6 +7331,12 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
 }
+
+.mw-ui-box-header.mw-accordion-title.mw-liveedit-sidebar-background-active:after {
+  transform: rotate(0deg);
+}
+
+
 .mw-badge {
   display: inline-block;
   position: absolute;
