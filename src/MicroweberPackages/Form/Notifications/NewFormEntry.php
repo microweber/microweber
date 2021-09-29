@@ -1,4 +1,7 @@
 <?php
+/***
+ * This notifications is only for admin panel
+ */
 
 namespace MicroweberPackages\Form\Notifications;
 
@@ -10,7 +13,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
-
 
 class NewFormEntry extends Notification
 {
@@ -54,8 +56,6 @@ class NewFormEntry extends Notification
         if (!$skipSavingEmails) {
             $channels[] = 'database';
         }
-
-        $channels[] = AppMailChannel::class;
 
         return $channels;
     }
