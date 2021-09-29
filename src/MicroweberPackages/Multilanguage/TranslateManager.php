@@ -385,21 +385,7 @@ class TranslateManager
 
 
         event_bind('mw.controller.index', function ($content) {
-
-         /*   if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                $currentUri = request()->path();
-                $linkSegments = url_segment(-1, $currentUri);
-                $linkSegments = array_filter($linkSegments, 'strlen');
-                if (isset($linkSegments[0]) and is_lang_supported($linkSegments[0])) {
-                    $localeFromUrl = $linkSegments[0];
-                    if (isset($_COOKIE['lang']) && $_COOKIE['lang'] !== $localeFromUrl) {
-                        setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
-                        $_COOKIE['lang'] = $localeFromUrl;
-                        \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
-                    }
-                }
-            }*/
-
+            
             // Debugbar::startMeasure('mw.controller.index','mw.controller.index');
 
             $autodetected_lang = \Cookie::get('autodetected_lang');
