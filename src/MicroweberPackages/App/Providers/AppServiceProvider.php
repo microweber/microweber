@@ -502,9 +502,6 @@ class AppServiceProvider extends ServiceProvider
                 }
             }*/
 
-
-
-
             if (is_cli()) {
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
