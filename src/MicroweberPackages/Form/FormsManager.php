@@ -11,6 +11,7 @@ use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
+use MicroweberPackages\Form\Notifications\NewFormEntryToMail;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -457,16 +458,11 @@ class FormsManager
 
                     $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
-                    $mimeTypes = [];
 
+                    $mimeTypes = [];
                     if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
                         foreach ($field['options']['file_types'] as $optionFileTypes) {
                             if (!empty($optionFileTypes)) {
-
-                                if ($optionFileTypes == 'images') {
-                                    $fieldRules[] = 'valid_image';
-                                }
-
                                 $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
                                 $mimeTypesArray = explode(',', $mimeTypesString);
                                 $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
@@ -480,6 +476,15 @@ class FormsManager
 
                     if (!empty($mimeTypes) && is_array($mimeTypes)) {
                         $mimeTypes = implode(',', $mimeTypes);
+                    }
+
+                    if (isset($allowedFilesForSave[$field['name_key']])) {
+                        $uploadedField = $allowedFilesForSave[$field['name_key']];
+                        if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
+                            if ($optionFileTypes == 'images') {
+                                $fieldRules[] = 'valid_image';
+                            }
+                        }
                     }
 
                     $fieldRules[] = 'mimes:' . $mimeTypes;
@@ -648,7 +653,7 @@ class FormsManager
                         $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
                             foreach ($receivers as $receiver) {
-                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
+                                Notification::route('mail', $receiver)->notify(new NewFormEntryToMail($formModel));
                             }
                         }
                     }
