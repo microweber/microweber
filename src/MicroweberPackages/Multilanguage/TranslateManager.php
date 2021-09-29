@@ -428,11 +428,11 @@ class TranslateManager
             }
 
 
-            if (!$autodetected_lang and !$lang_is_set) {
+            if (!$autodetected_lang and !$lang_is_set and !$autodetected_lang) {
                 $homepageLanguage = get_option('homepage_language', 'website');
                 if ($homepageLanguage) {
                     if (is_lang_supported($homepageLanguage)) {
-                        change_language_by_locale($homepageLanguage);
+                        change_language_by_locale($homepageLanguage,true);
                         \Cookie::queue('autodetected_lang', 1, 600);
                         return;
                     }

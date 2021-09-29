@@ -226,6 +226,10 @@ class ContentManager
         }
     }
 
+    public function clearCache()
+    {
+        $this->crud->clearCache();
+    }
 
     /**
      * Get array of content items from the database.

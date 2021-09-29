@@ -88,6 +88,8 @@ class MultilanguageApi
         $locale = $params['locale'];
         $localeSettings = get_supported_locale_by_locale($locale);
 
+
+
         /*
         if (!empty($localeSettings['display_locale'])) {
             $locale = $localeSettings['display_locale'];
@@ -99,7 +101,7 @@ class MultilanguageApi
 
         $mlPermalink = new MultilanguagePermalinkManager($locale);
 
-        change_language_by_locale($locale);
+        change_language_by_locale($locale,true);
         run_translate_manager();
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
@@ -115,7 +117,9 @@ class MultilanguageApi
             $location = false;
 
             $categoryId = get_category_id_from_url($url);
+
             $contentId = mw()->content_manager->get_content_id_from_url($url);
+
             $contentCheck = get_content_by_id($contentId);
 
         /*  var_dump([

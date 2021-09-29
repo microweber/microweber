@@ -10,5 +10,6 @@ class LocaleUpdatedListener
     {
         app()->lang_helper->clearCache();
         app()->permalink_manager->clearCache();
+        app()->content_manager->clearCache();
     }
 }
