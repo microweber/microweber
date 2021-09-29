@@ -386,8 +386,7 @@ class TranslateManager
 
         event_bind('mw.controller.index', function ($content) {
 
-
-            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+         /*   if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
                 $linkSegments = array_filter($linkSegments, 'strlen');
@@ -399,7 +398,7 @@ class TranslateManager
                         \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
                     }
                 }
-            }
+            }*/
 
             // Debugbar::startMeasure('mw.controller.index','mw.controller.index');
 
