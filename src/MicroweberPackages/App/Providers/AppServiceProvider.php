@@ -22,6 +22,7 @@ use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
@@ -443,19 +444,19 @@ class AppServiceProvider extends ServiceProvider
 
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
-
-            $currentUri = request()->path();
-            $linkSegments = url_segment(-1, $currentUri);
-            $linkSegments = array_filter($linkSegments, 'strlen');
-            if (isset($linkSegments[0])) {
-                $localeFromUrl = $linkSegments[0];
-                if (isset($_COOKIE['lang']) && $_COOKIE['lang'] !== $localeFromUrl) {
-                    setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
-                    $_COOKIE['lang'] = $localeFromUrl;
-                    \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
-                }
-            }
-
+//            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+//                $currentUri = request()->path();
+//                $linkSegments = url_segment(-1, $currentUri);
+//                $linkSegments = array_filter($linkSegments, 'strlen');
+//                if (isset($linkSegments[0]) and is_lang_supported($linkSegments[0])) {
+//                    $localeFromUrl = $linkSegments[0];
+//                    if (isset($_COOKIE['lang']) && $_COOKIE['lang'] !== $localeFromUrl) {
+//                        setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
+//                        $_COOKIE['lang'] = $localeFromUrl;
+//                        \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
+//                    }
+//                }
+//            }
             if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
                 set_current_lang($_COOKIE['lang']);
             } else {
