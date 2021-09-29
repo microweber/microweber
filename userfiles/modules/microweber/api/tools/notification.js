@@ -15,6 +15,7 @@ mw.errorsHandle = function (obj) {
         mw.session.logRequest();
 
     }
+    obj.errors = obj.errors || obj.form_errors;
     if(obj.errors) {
         var html = [];
         for (var key in obj.errors) {
