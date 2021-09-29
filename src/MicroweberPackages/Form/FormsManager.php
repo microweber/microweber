@@ -482,9 +482,6 @@ class FormsManager
                         if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
                             if ($optionFileTypes == 'images') {
                                 $fieldRules[] = 'valid_image';
-                                /**
-                                 * This validation must be apply when only we have images files uploaded.
-                                 */
                             }
                         }
                     }
