@@ -7314,6 +7314,27 @@ body.bup.dragStart.state-element .edit .element:empty {
   cursor: pointer;
   position: relative;
 }
+
+.mw-ui-box-header-2.mw-accordion-title-2 {
+    cursor: pointer;
+    position: relative;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2:after {
+    position: absolute;
+    content: "";
+    border-left: 3px solid blue;
+    display: block;
+    z-index: 1;
+    color: #4592ff;
+    top: 0px;
+    height: 46px;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2.mw-liveedit-sidebar-background-active:after {
+    border-color: red;
+}
+
 .mw-ui-box-header.mw-accordion-title:after {
   position: absolute;
   content: "\0118";
