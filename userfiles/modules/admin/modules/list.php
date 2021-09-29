@@ -380,7 +380,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
-            <li unselectable="on" class="mw-ui-box-header mw-accordion-title mw-liveedit-layouts-li" onclick="handleModuleCatToggle('<?php print($dynamic_layouts_group_name); ?>', this.parentNode);event.stopImmediatePropagation()">
+            <li unselectable="on" class="mw-ui-box-header-2 mw-accordion-title-2 mw-liveedit-layouts-li" onclick="handleModuleCatToggle('<?php print($dynamic_layouts_group_name); ?>', this.parentNode);event.stopImmediatePropagation()">
                 <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
             </li>
 
@@ -486,7 +486,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li class="mw-ui-box-header mw-accordion-title mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
+                <li class="mw-ui-box-header-2 mw-accordion-title mw-liveedit-layouts-li-2" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>
