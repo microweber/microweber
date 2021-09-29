@@ -11,6 +11,7 @@ use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
+use MicroweberPackages\Form\Notifications\NewFormEntryToMail;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -652,7 +653,7 @@ class FormsManager
                         $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
                             foreach ($receivers as $receiver) {
-                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
+                                Notification::route('mail', $receiver)->notify(new NewFormEntryToMail($formModel));
                             }
                         }
                     }
