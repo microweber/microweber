@@ -101,7 +101,7 @@ class MultilanguageApi
 
         $mlPermalink = new MultilanguagePermalinkManager($locale);
 
-        change_language_by_locale($locale,true);
+        change_language_by_locale($locale);
         run_translate_manager();
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {

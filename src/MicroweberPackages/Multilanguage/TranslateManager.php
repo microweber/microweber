@@ -432,7 +432,7 @@ class TranslateManager
                 $homepageLanguage = get_option('homepage_language', 'website');
                 if ($homepageLanguage) {
                     if (is_lang_supported($homepageLanguage)) {
-                        change_language_by_locale($homepageLanguage,true);
+                        change_language_by_locale($homepageLanguage);
                         \Cookie::queue('autodetected_lang', 1, 600);
                         return;
                     }
