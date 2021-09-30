@@ -9,6 +9,13 @@
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
+    <?php
+
+    $sitemapUrls = new FullpageCacheHelper();
+    $sitemapUrls->getUrls();
+
+    ?>
+
     <script>
 
         nextPageIteration = 0;
