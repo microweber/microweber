@@ -16,8 +16,8 @@
     ?>
 
     <script>
-        var totalSlugs = <?php echo count($slugsWithGroups['All']);?>;
-        var slugsWithGroups = <?php echo json_encode($slugsWithGroups['All']); ?>;
+        totalSlugs = <?php echo count($slugsWithGroups['All']); ?>;
+        slugsWithGroups = <?php echo json_encode($slugsWithGroups['All']); ?>;
         nextPageIteration = 0;
         isPaused = false;
         function nextPageForCache(index) {
@@ -47,8 +47,8 @@
             nextPageIteration = (index + 1);
             var modalHtml = '';
 
-            modalHtml = '<h4 class="text-center">Caching pages ' + index + ' of '.totalSlugs.' </h4> <br />';
-            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
+            modalHtml = '<h4 class="text-center">Caching pages ' + index + ' of ' + totalSlugs + ' </h4> <br />';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+index+'&total_slugs='+totalSlugs+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
         }
@@ -95,7 +95,7 @@
     </div>
 
     <?php
-    $isFullpageCached = get_option('is_full_page_cached','fullpage_cache');
+    $isFullpageCached = \Cache::get('is_fullpage_cached');
     ?>
 
     <div class="card-body border-0">

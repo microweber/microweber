@@ -5,8 +5,17 @@ use MicroweberPackages\App\Http\Controllers\Traits\SitemapHelpersTrait;
 api_expose_admin('fullpage-cache-open-iframe', function ($params) {
 
     if (isset($params['slug'])) {
-        $pageOpen = app()->url_manager->download(site_url($params['slug']));
 
+        if (isset($params['iteration']) && isset($params['total_slugs'])) {
+
+            \Cache::put('fullpage_cached_last_iteration', $params['iteration']);
+
+            if ($params['iteration'] >= $params['total_slugs']) {
+                \Cache::put('is_fullpage_cached', true);
+            }
+        }
+
+        $pageOpen = app()->url_manager->download(site_url($params['slug']));
         echo $pageOpen;
     }
 
