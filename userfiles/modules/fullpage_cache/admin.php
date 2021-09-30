@@ -41,7 +41,7 @@
             nextPageIteration = (index + 1);
             var modalHtml = '';
 
-            modalHtml = '<h4 class="text-center">Caching pages 0 of ' + index + '</h4> <br />';
+            modalHtml = '<h4 class="text-center">Caching pages <?php echo count($slugsWithGroups['All']);?> of ' + index + '</h4> <br />';
             modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
