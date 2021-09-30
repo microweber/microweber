@@ -258,45 +258,4 @@
   }
 }
 
-html[dir="rtl"] {
-  .mw-tree-nav-skin-default {
-    padding-right: 20px;
-    padding-left: 0;
-    .mw-tree-toggler {
-      margin-right: 0;
-      margin-left: 0px;
-    }
-    .mw-tree-toggler:not(.opened) {
-      transform: rotate(180deg);
-    }
-    .mw-tree-item-title {
-      padding-left: 42px;
-      padding-right: 5px;
-      [class*=mw-icon-],
-      [class*=mai-],
-      &:before {
-        margin-left: 3px;
-        margin-right: 0;
-      }
-    }
-    li {
-      &:before {
-        left: auto;
-        right: 8px;
-      }
-      &:after {
-        left: auto;
-        right: 7px;
-        bottom: 0;
-      }
-      li {
-        padding-right: 30px;
-        padding-left: 0;
-      }
-    }
-    .mw-tree-context-menu {
-      right: auto;
-      left: 5px;
-    }
-  }
-}
+
