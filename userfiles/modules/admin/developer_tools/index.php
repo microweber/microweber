@@ -58,6 +58,7 @@
 <div class="form-group">
     <label class="control-label"><?php _e("Cache settings"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Speed up your website load speed'); ?>.</small>
+    <a href="<?php echo admin_url('view:modules/load_module:fullpage_cache');?>" class="btn btn-outline-success"><?php _e("Run fullpage cache"); ?></a>
 </div>
 
 <script>

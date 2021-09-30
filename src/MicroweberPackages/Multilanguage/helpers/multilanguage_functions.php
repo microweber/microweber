@@ -77,6 +77,8 @@ if (!function_exists('get_short_abr')) {
 if (!function_exists('change_language_by_locale')) {
     function change_language_by_locale($locale, $set_cookie = true)
     {
+
+
         if (!is_cli() and $set_cookie) {
             $skip = false;
 

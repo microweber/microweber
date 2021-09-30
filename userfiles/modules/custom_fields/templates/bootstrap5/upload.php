@@ -17,7 +17,7 @@
                 <div class="col">
 
                     <div class="custom-file custom-file-<?php echo($rand); ?>">
-                        <input type="file" name="<?php echo $data["name_key"]; ?>" class="custom-file-input custom-file-input-<?php echo($rand); ?>" id="customFile<?php echo($rand); ?>">
+                        <input type="file" name="<?php echo $data["name_key"]; ?>" class="custom-file-input form-control custom-file-input-<?php echo($rand); ?>" id="customFile<?php echo($rand); ?>">
                         <label class="custom-file-label custom-file-label-<?php echo($rand); ?>" for="customFile<?php echo($rand); ?>"><i class="mdi mdi-upload"></i> <?php _e("Browse"); ?></label>
                     </div>
 

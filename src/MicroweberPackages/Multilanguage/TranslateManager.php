@@ -385,7 +385,7 @@ class TranslateManager
 
 
         event_bind('mw.controller.index', function ($content) {
-
+            
             // Debugbar::startMeasure('mw.controller.index','mw.controller.index');
 
             $autodetected_lang = \Cookie::get('autodetected_lang');
@@ -428,7 +428,7 @@ class TranslateManager
             }
 
 
-            if (!$autodetected_lang and !$lang_is_set) {
+            if (!$autodetected_lang and !$lang_is_set and !$autodetected_lang) {
                 $homepageLanguage = get_option('homepage_language', 'website');
                 if ($homepageLanguage) {
                     if (is_lang_supported($homepageLanguage)) {
