@@ -10,13 +10,54 @@
     </div>
 
     <script>
+
+        function nextPageForCache(index) {
+            openPageIframe(index);
+        }
+
         $(document).ready(function () {
             $('.js-fullpage-cache-button').click(function () {
-
-
+                $('#js-full-page-cache-modal').modal('show');
+                openPageIframe(0);
             });
-        })
+        });
+
+        function openPageIframe(index)
+        {
+            var nextPageNumber = (index + 1);
+            var modalHtml = '';
+
+            modalHtml = '<h4 class="text-center">Caching pages 0 of ' + index + '</h4> <br />';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageNumber+');" src="<?php echo site_url(); ?>?editmode=n&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
+
+            $('#js-full-page-cache-modal-body').html(modalHtml);
+        }
+        function stopFullpageCache()
+        {
+            $('#js-full-page-cache-modal-body').html('Loading..');
+        }
     </script>
+
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="js-full-page-cache-modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Full page cache wizard</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="js-full-page-cache-modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary">Pause</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="stopFullpageCache()">Stop Process</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <?php
     $isFullpageCached = false;
@@ -46,11 +87,11 @@
 
 
                     <?php if ($isFullpageCached) { ?>
-                        <button method="submit" class="btn btn-success js-fullpage-cache-button"> Recache</button>
+                        <button type="button" class="btn btn-success js-fullpage-cache-button"> Recache</button>
                         <?php
                     } else {
                         ?>
-                        <button method="submit" class="btn btn-success js-fullpage-cache-buttonn"> Run full page cache </button>
+                        <button type="button" class="btn btn-success js-fullpage-cache-button"> Run full page cache </button>
                         <?php
                     }
                     ?>
