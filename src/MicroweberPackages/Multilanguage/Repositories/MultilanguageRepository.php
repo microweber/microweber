@@ -101,6 +101,15 @@ class MultilanguageRepository extends AbstractRepository
             return $locale;
         });
     }
+    public function getSupportedLocaleByDisplayLocale($display_locale)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($display_locale) {
+            $display_locale = DB::table('multilanguage_supported_locales')->where('display_locale', $display_locale)->first();
+            $display_locale = (array)$display_locale;
+
+            return $display_locale;
+        });
+    }
 
     public function getTranslationByLocale($locale)
     {

@@ -17,6 +17,7 @@ use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
@@ -103,6 +104,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property ModuleRepository              $module_repository
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
+ * @property TranslateManager       $translate_manager
  */
 class Application
 {

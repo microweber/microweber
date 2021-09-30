@@ -448,18 +448,26 @@ class AppServiceProvider extends ServiceProvider
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
-                $linkSegments = array_filter($linkSegments, 'strlen');
-                if (isset($linkSegments[0])) {
-                    $localeFromUrl = $linkSegments[0];
-                    $applyCookieLang = true;
-                    if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $localeFromUrl) {
-                        $applyCookieLang = false;
+                $linkSegments = array_filter($linkSegments, 'trim');
+                if (isset($linkSegments[0]) and $linkSegments[0]) {
+                  
+                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
+                    if(!$localeSettings){
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                     }
-                    if ($applyCookieLang) {
-                        if (is_lang_correct($localeFromUrl)) {
-                            setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
-                            $_COOKIE['lang'] = $localeFromUrl;
-                            \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
+
+                    if($localeSettings and isset($localeSettings['locale'])) {
+                        $localeFromUrl = $localeSettings['locale'];
+                        $applyCookieLang = true;
+                        if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $localeFromUrl) {
+                            $applyCookieLang = false;
+                        }
+                        if ($applyCookieLang) {
+                            if (is_lang_correct($localeFromUrl)) {
+                                setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
+                                $_COOKIE['lang'] = $localeFromUrl;
+                                \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
+                            }
                         }
                     }
                 }
