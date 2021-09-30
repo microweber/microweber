@@ -86,6 +86,9 @@ class CategoryManagerTest extends TestCase
     public function testCategoryInStockFilter()
     {
 
+        $clean = Content::truncate();
+        $clean = Product::truncate();
+
         // check when in stock
 
         $category = new Category();
@@ -110,9 +113,12 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($content_data['qty'],1);
 
 
+        $check  = app()->category_repository->countProductsInStock($category->id);
+        $this->assertEquals($check,1);
+
+        
 
         // check when out of stock
-
 
         $category = new Category();
         $category->title = 'New cat for my Product to test filter';
@@ -136,6 +142,8 @@ class CategoryManagerTest extends TestCase
         $check  = app()->category_repository->hasProductsInStock($category->id);
         $this->assertFalse($check);
         $this->assertEquals($content_data['qty'],0);
+
+
 
 
     }
