@@ -11,11 +11,17 @@
 
     <script>
 
+        nextPageIteration = 0;
+        isPaused = false;
         function nextPageForCache(index) {
-            openPageIframe(index);
+            if (isPaused === false) {
+                openPageIframe(index);
+            }
         }
 
         $(document).ready(function () {
+            $('#js-full-page-cache-pause').show();
+            $('#js-full-page-cache-continue').hide();
             $('.js-fullpage-cache-button').click(function () {
                 $('#js-full-page-cache-modal').modal('show');
                 openPageIframe(0);
@@ -24,13 +30,27 @@
 
         function openPageIframe(index)
         {
-            var nextPageNumber = (index + 1);
+            nextPageIteration = (index + 1);
             var modalHtml = '';
 
             modalHtml = '<h4 class="text-center">Caching pages 0 of ' + index + '</h4> <br />';
-            modalHtml += '<iframe  onload="nextPageForCache('+nextPageNumber+');" src="<?php echo site_url(); ?>?editmode=n&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo site_url(); ?>?editmode=n&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
+        }
+
+        function pauseFullpageCache()
+        {
+            isPaused = true;
+            $('#js-full-page-cache-pause').hide();
+            $('#js-full-page-cache-continue').show();
+        }
+        function continueFullpageCache()
+        {
+            isPaused = false;
+            openPageIframe(nextPageIteration);
+            $('#js-full-page-cache-pause').show();
+            $('#js-full-page-cache-continue').hide();
         }
         function stopFullpageCache()
         {
@@ -52,7 +72,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary">Pause</button>
+                    <button type="button" class="btn btn-outline-success" id="js-full-page-cache-continue" onclick="continueFullpageCache()"><i class="mdi mdi-play"></i> Continue</button>
+                    <button type="button" class="btn btn-outline-primary" id="js-full-page-cache-pause" onclick="pauseFullpageCache()">Pause</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="stopFullpageCache()">Stop Process</button>
                 </div>
             </div>
@@ -69,10 +90,7 @@
                 <i class="mdi mdi-rocket" style="font-size:62px;color:#4592ff;"></i>
                 <h4>Increase speed of your website</h4>
                 <h5>with Fullpage Cache Module</h5>
-                <br><br>
-                <div class="d-flex justify-content-center ">
-                    <p>The 3210 pages not cached.</p>
-                </div>
+                <br>
                 <?php if ($isFullpageCached) { ?>
                 <br> <br>
                 <h1 class="text-success"><i class="mw-standalone-icons mdi mdi-check-circle-outline"></i>
@@ -80,8 +98,8 @@
                     <?php
                     } else { ?>
                         <br> <br>
-                        <h1 class="text-danger"><i class="mw-standalone-icons mdi mdi-close-circle-outline"></i></h1>
-                        <h5 class="text-danger font-weight-bold"> Not cached</h5><br/>
+                        <h1 class="text-danger"><i class="mw-standalone-icons mdi mdi-emoticon-sad-outline"></i></h1>
+                        <h5 class="text-danger font-weight-bold text-uppercase"> The 3210 pages not cached.</h5><br/>
                     <?php } ?>
                     <br><br>
 
@@ -91,7 +109,7 @@
                         <?php
                     } else {
                         ?>
-                        <button type="button" class="btn btn-success js-fullpage-cache-button"> Run full page cache </button>
+                        <button type="button" class="btn btn-success js-fullpage-cache-button text-uppercase"> Run full page cache </button>
                         <?php
                     }
                     ?>
