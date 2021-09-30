@@ -260,6 +260,7 @@ class Template
                 if (!is_dir($userfiles_cache_dir)) {
                     mkdir_recursive($userfiles_cache_dir);
                 }
+
                 if (is_dir($userfiles_cache_dir)) {
                     @file_put_contents($userfiles_cache_filename, $l);
                 }
@@ -274,7 +275,32 @@ class Template
 
         return $l;
     }
+    public function get_custom_css_url()
+    {
+        $content = $this->get_custom_css_content();
 
+        if(trim($content) == ''){
+            return false;
+        }
+
+        $url = api_nosession_url('template/print_custom_css');
+        if (in_live_edit() and is_admin()) {
+            return $url;
+        }
+
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+            if (is_file($userfiles_cache_filename)) {
+                $custom_live_editmtime = filemtime($userfiles_cache_filename);
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver=' . $custom_live_editmtime;
+            }
+        }
+
+        return $url;
+    }
 
     public function optimize_page_loading($layout)
     {
@@ -334,26 +360,7 @@ class Template
         return $layout;
     }
 
-    public function get_custom_css_url()
-    {
-        $url = api_nosession_url('template/print_custom_css');
-        if (in_live_edit()) {
-            return $url;
-        }
 
-        $compile_assets = \Config::get('microweber.compile_assets');
-        if ($compile_assets and defined('MW_VERSION')) {
-            $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
-            if (is_file($userfiles_cache_filename)) {
-                $custom_live_editmtime = filemtime($userfiles_cache_filename);
-                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver=' . $custom_live_editmtime;
-            }
-        }
-
-        return $url;
-    }
 
 
     public function add_csrf_token_meta_tags($layout)

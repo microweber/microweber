@@ -10,7 +10,7 @@ class LocaleUpdatedListener
     {
         app()->lang_helper->clearCache();
         app()->permalink_manager->clearCache();
-//        app()->content_manager->clearCache();
+//   app()->content_manager->clearCache();
 //        app()->content_repository->clearCache();
 //        app()->category_repository->clearCache();
 //        app()->option_repository->clearCache();
