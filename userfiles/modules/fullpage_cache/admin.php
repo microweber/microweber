@@ -11,8 +11,10 @@
 
     <script>
         $(document).ready(function () {
+            $('.js-fullpage-cache-button').click(function () {
 
 
+            });
         })
     </script>
 
@@ -22,7 +24,7 @@
 
     <div class="card-body border-0">
         <div class="text-center <?php if ($isFullpageCached): ?>card-success<?php else: ?> card-danger <?php endif; ?>">
-            <div class="card-body p-5">
+            <div class="card-body p-4">
                 <i class="mdi mdi-rocket" style="font-size:62px;color:#4592ff;"></i>
                 <h4>Increase speed of your website</h4>
                 <h5>with Fullpage Cache Module</h5>
@@ -41,6 +43,17 @@
                         <h5 class="text-danger font-weight-bold"> Not cached</h5><br/>
                     <?php } ?>
                     <br><br>
+
+
+                    <?php if ($isFullpageCached) { ?>
+                        <button method="submit" class="btn btn-success js-fullpage-cache-button"> Recache</button>
+                        <?php
+                    } else {
+                        ?>
+                        <button method="submit" class="btn btn-success js-fullpage-cache-buttonn"> Run full page cache </button>
+                        <?php
+                    }
+                    ?>
 
 
             </div>
