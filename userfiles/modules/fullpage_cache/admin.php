@@ -12,12 +12,11 @@
     <?php
 
     $sitemapUrls = new FullpageCacheHelper();
-    $sitemapUrls->getUrls();
-
+    $slugsWithGroups = $sitemapUrls->getSlugsWithGroups();
     ?>
 
     <script>
-
+        var slugsWithGroups = <?php echo json_encode($slugsWithGroups); ?>;
         nextPageIteration = 0;
         isPaused = false;
         function nextPageForCache(index) {
