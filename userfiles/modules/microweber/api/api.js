@@ -60,40 +60,31 @@ jQuery.ajax = function(url, options){
     else{
         settings.url = url;
     }
+
+
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
-        settings._error = settings.error;
         delete settings.success;
-        settings.error = function (xhr) {
-            var data = xhr.responseJSON;
+    }
+
+    settings.success = function (data, status, xhr) {
+        if(xhr.status === 200) {
             if (data && (data.form_data_required || data.form_data_module)) {
                 mw.extradataForm(settings, data);
             }
             else {
-                if (typeof this._error === 'function') {
+                if (typeof this._success === 'function') {
                     var scope = this;
-                    scope._error.call(scope, data, xhr.status, xhr);
+                    scope._success.call(scope, data, status, xhr);
 
                 }
             }
         }
-        settings.success = function (data, status, xhr) {
-            if(xhr.status === 200) {
-                if (data && (data.form_data_required || data.form_data_module)) {
-                    mw.extradataForm(settings, data);
-                }
-                else {
-                    if (typeof this._success === 'function') {
-                        var scope = this;
-                        scope._success.call(scope, data, status, xhr);
+    };
 
-                    }
-                }
-            }
-        };
-    }
     settings = $.extend({}, settings, options);
     var xhr = _jqxhr(settings);
+    xhr._settings = settings;
     return xhr;
 };
 
@@ -113,7 +104,12 @@ mw.safeCall = function(hash, call){
 
 $.ajaxSetup({
     cache: false,
-    error: function (xhr, e) {
+    error: function (xhr, e, c, d) {
+        var data = xhr.responseJSON;
+        if (data && (data.form_data_required || data.form_data_module)) {
+            mw.extradataForm(xhr._settings, data);
+            return;
+        }
          if(xhr.status === 422){
             mw.errorsHandle(xhr.responseJSON)
         } else if(xhr.status !== 200 && xhr.status !== 0){
@@ -124,9 +120,6 @@ $.ajaxSetup({
         }
     }
 });
-
-
-
 
 
 jQuery.cachedScript = function( url, options ) {
@@ -188,8 +181,6 @@ mw.askusertostay = false;
   mwd = document;
 
   mww = window;
-
-
 
   mwhead = document.head || document.getElementsByTagName('head')[0];
 

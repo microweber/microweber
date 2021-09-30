@@ -71,8 +71,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
                 if (captcha_el) {
                     var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
                    //   runRecaptchaV3<?php print md5($params['id']) ?>();
-                    mw.log(parent_form);
-                    if (parent_form) {
+                     if (parent_form) {
                         parent_form.$beforepost = runRecaptchaV3<?php print md5($params['id']) ?>
                     }
                 }
