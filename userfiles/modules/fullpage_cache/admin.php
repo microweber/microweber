@@ -27,9 +27,9 @@
                 return;
             }
             if (isPaused === false) {
-                setTimeout(function() {
+            //    setTimeout(function() {
                     openPageIframe(index);
-                },400);
+             //   },400);
             }
         }
 
@@ -48,7 +48,7 @@
             var modalHtml = '';
 
             modalHtml = '<h4 class="text-center">Caching pages ' + index + ' of ' + totalSlugs + ' </h4> <br />';
-            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+index+'&total_slugs='+totalSlugs+'" style="border:0px;width:100%;height:500px;"></div>';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+nextPageIteration+'&total_slugs='+totalSlugs+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
         }
