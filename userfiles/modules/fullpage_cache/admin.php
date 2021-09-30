@@ -29,7 +29,7 @@
             if (isPaused === false) {
                 setTimeout(function() {
                     openPageIframe(index);
-                },600);
+                },400);
             }
         }
 
