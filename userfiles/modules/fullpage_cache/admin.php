@@ -15,7 +15,9 @@
         isPaused = false;
         function nextPageForCache(index) {
             if (isPaused === false) {
-                openPageIframe(index);
+                setTimeout(function() {
+                    openPageIframe(index);
+                },300);
             }
         }
 
@@ -34,7 +36,7 @@
             var modalHtml = '';
 
             modalHtml = '<h4 class="text-center">Caching pages 0 of ' + index + '</h4> <br />';
-            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo site_url(); ?>?editmode=n&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug=waw&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
         }
