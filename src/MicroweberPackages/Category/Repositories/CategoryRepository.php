@@ -140,4 +140,15 @@ class CategoryRepository extends AbstractRepository
         });
     }
 
+    public function countProductsInStock($categoryId)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
+
+            $categoryModelHasAviableProductsCount = Category::filter(['hasProductsInStock' => true])->count();
+            return $categoryModelHasAviableProductsCount;
+
+
+        });
+    }
+
 }
