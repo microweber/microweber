@@ -23,6 +23,7 @@
         function nextPageForCache(index) {
             if (index >= totalSlugs) {
                 $('#js-full-page-cache-modal-body').html('<h4>Done!</h1< All pages are cached.');
+                window.location.href = window.location.href;
                 isPaused = true;
                 return;
             }
