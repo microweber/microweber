@@ -107,7 +107,7 @@
                 <br>
                 <?php if ($isFullpageCached) { ?>
                 <br> <br>
-                <h1 class="text-success"><i class="mw-standalone-icons mdi mdi-check-circle-outline"></i>
+                <h1 class="text-success"><i class="mw-standalone-icons mdi mdi-emoticon-cool-outline"></i>
                     <h4><h5 class="text-success font-weight-bold"> Fullpage Cached</h5></h4>
                     <?php
                     } else { ?>
