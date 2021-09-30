@@ -74,7 +74,8 @@ $my_tree_id = ''
                 element: "#category-parent-selector",
                 selectable: true,
                 selectedData: selectedData,
-                data: data
+                data: data,
+                searchInput: '#tree-search'
             })
 
             $(categoryParentSelector).on("selectionChange", function (e, selected) {
@@ -121,8 +122,13 @@ $my_tree_id = ''
                        class="mw_option_field"/>
 
                 <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
+                <div class="mw-ui-field-holder">
 
-                <div id="category-parent-selector"></div>
+                    <input type="text" style="min-width: 200px"  class="mw-ui-searchfield" placeholder="Search categories" id="tree-search" />
+                </div>
+
+
+                <div id="category-parent-selector" dir="ltr"></div>
 
                 <br>
                 <hr>
