@@ -31,6 +31,12 @@ function _lang_is_rtl($lang = false)
     return mw()->lang_helper->lang_is_rtl($lang);
 }
 
+
+function app_name()
+{
+    return 'Microweber';
+}
+
 function _lang($key, $namespace = false, $return = false)
 {
     if ($return) {
