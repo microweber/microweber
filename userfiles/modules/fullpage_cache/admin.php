@@ -101,8 +101,8 @@
                         <h1 class="text-danger"><i class="mw-standalone-icons mdi mdi-emoticon-sad-outline"></i></h1>
                         <h5 class="text-danger font-weight-bold text-uppercase"> The 3210 pages not cached.</h5><br/>
                     <?php } ?>
-                    <br><br>
-
+                    <br>
+                    <br>
 
                     <?php if ($isFullpageCached) { ?>
                         <button type="button" class="btn btn-success js-fullpage-cache-button"> Recache</button>
@@ -113,7 +113,6 @@
                         <?php
                     }
                     ?>
-
 
             </div>
         </div>
