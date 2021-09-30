@@ -4,9 +4,11 @@ use MicroweberPackages\App\Http\Controllers\Traits\SitemapHelpersTrait;
 
 api_expose_admin('fullpage-cache-open-iframe', function ($params) {
 
-    $pageOpen = app()->url_manager->download(site_url());
+    if (isset($params['slug'])) {
+        $pageOpen = app()->url_manager->download(site_url($params['slug']));
 
-    echo $pageOpen;
+        echo $pageOpen;
+    }
 
 });
 
