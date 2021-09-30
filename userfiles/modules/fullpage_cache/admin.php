@@ -38,7 +38,7 @@
             $('#js-full-page-cache-continue').hide();
             $('.js-fullpage-cache-button').click(function () {
                 $('#js-full-page-cache-modal').modal('show');
-                openPageIframe(0);
+                openPageIframe(1);
             });
         });
 
