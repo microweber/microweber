@@ -350,6 +350,20 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                    }
                 })
                   $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').hide();
+
+                var categories = document.querySelectorAll('.mw-liveedit-layouts-li');
+                if(categories.length < 2) {
+                    $(categories).remove();
+                    $('[data-url]').each(function (){
+                        if(this.dataset.url) {
+                            this.src = this.dataset.url;
+                            delete this.dataset.url;
+                        }
+                    })
+                    $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').show();
+                }
+
+
             })
             var handleModuleCatToggle = function ($dynamic_layouts_group_name, el){
                 var lis = $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
@@ -486,7 +500,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li class="mw-ui-box-header-2 mw-accordion-title mw-liveedit-layouts-li-2" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
+                <li class="mw-ui-box-header-2 mw-accordion-title mw-liveedit-layouts-li mw-liveedit-layouts-li-2" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>

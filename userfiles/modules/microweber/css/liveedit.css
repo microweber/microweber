@@ -3179,7 +3179,7 @@ body.dragStart .module-item{ cursor: grabbing;}
 
 .module-item-layout:hover {
     box-shadow: 0 5px 5px #00000026;
-    transform: scale(1.025);
+
 }
 
 /* Modules */
