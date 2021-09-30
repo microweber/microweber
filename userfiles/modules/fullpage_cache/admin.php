@@ -16,7 +16,7 @@
     ?>
 
     <script>
-        var slugsWithGroups = <?php echo json_encode($slugsWithGroups); ?>;
+        var slugsWithGroups = <?php echo json_encode($slugsWithGroups['All']); ?>;
         nextPageIteration = 0;
         isPaused = false;
         function nextPageForCache(index) {
@@ -42,7 +42,7 @@
             var modalHtml = '';
 
             modalHtml = '<h4 class="text-center">Caching pages 0 of ' + index + '</h4> <br />';
-            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug=waw&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
+            modalHtml += '<iframe  onload="nextPageForCache('+nextPageIteration+');" src="<?php echo api_url(); ?>fullpage-cache-open-iframe?slug='+slugsWithGroups[index]+'&iteration='+index+'" style="border:0px;width:100%;height:500px;"></div>';
 
             $('#js-full-page-cache-modal-body').html(modalHtml);
         }
@@ -89,7 +89,7 @@
     </div>
 
     <?php
-    $isFullpageCached = false;
+    $isFullpageCached = get_option('is_full_page_cached','fullpage_cache');
     ?>
 
     <div class="card-body border-0">
@@ -107,7 +107,7 @@
                     } else { ?>
                         <br> <br>
                         <h1 class="text-danger"><i class="mw-standalone-icons mdi mdi-emoticon-sad-outline"></i></h1>
-                        <h5 class="text-danger font-weight-bold text-uppercase"> The 3210 pages not cached.</h5><br/>
+                        <h5 class="text-danger font-weight-bold text-uppercase"> The <?php echo count($slugsWithGroups['All']);?> pages not cached.</h5><br/>
                     <?php } ?>
                     <br>
                     <br>

@@ -80,7 +80,13 @@ class FullpageCacheHelper {
             }
         }
 
+        $allSlugs = $categorySlugs;
+        $allSlugs = array_merge($allSlugs, $tagSlugs);
+        $allSlugs = array_merge($allSlugs, $postSlugs);
+        $allSlugs = array_merge($allSlugs, $pageSlugs);
+
         return [
+            'All'=>$allSlugs,
             'Categories'=>$categorySlugs,
             'Tags'=>$tagSlugs,
             'Posts'=>$postSlugs,
