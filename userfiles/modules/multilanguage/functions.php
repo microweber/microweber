@@ -46,14 +46,11 @@ event_bind('mw.controller.index', function () {
         if ($supportedLanguages) {
             foreach ($supportedLanguages as $locale) {
 
+
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
 
+                $content_link = $pm->link(CONTENT_ID, 'content');
 
-                if (is_category()) {
-                    $content_link = $pm->link(CATEGORY_ID, 'category');
-                } else {
-                    $content_link = $pm->link(CONTENT_ID, 'content');
-                }
                 if ($currentLang == $locale['locale']) {
                     $locale['locale'] = 'x-default';
                 }
