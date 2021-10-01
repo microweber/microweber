@@ -56,8 +56,9 @@ event_bind('mw.controller.index', function () {
                 }
 
                 $locale['locale'] = str_replace('_', '-', $locale['locale']);
-
-                $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+                if ($content_link) {
+                    $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+                }
             }
         }
         return $link;
