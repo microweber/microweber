@@ -29,6 +29,6 @@ $rand = uniqid();
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.js-bootstrap3-datepicker').datepicker();
+        $('.js-bootstrap3-datepicker').datepicker({ language: "<?php echo current_lang_abbr(); ?>"});
     });
 </script>
