@@ -101,6 +101,7 @@ class MultilanguageRepository extends AbstractRepository
             return $locale;
         });
     }
+
     public function getSupportedLocaleByDisplayLocale($display_locale)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($display_locale) {
