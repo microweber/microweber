@@ -40,7 +40,6 @@ event_bind('mw.controller.index', function () {
 
         $link = '';
 
-        $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
 
         $supportedLanguages = get_supported_languages();
         if ($supportedLanguages) {
@@ -57,9 +56,19 @@ event_bind('mw.controller.index', function () {
 
                 $locale['locale'] = str_replace('_', '-', $locale['locale']);
                 if ($content_link) {
+                    if ($locale['locale'] == 'x-default') {
+                        if (is_home()) {
+                            $content_link = site_url();
+                        }
+                        $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
+                    }
+
                     $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
                 }
             }
+        } else {
+            $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
+
         }
         return $link;
     });
