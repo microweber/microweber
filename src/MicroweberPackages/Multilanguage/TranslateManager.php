@@ -305,16 +305,8 @@ class TranslateManager
             }
 
         });
-        $that = $this;
-        event_bind('app.permalink.slug.before', function ($params) use($that) {
-
-
-            $currentLocale = $that->getCurrentLocale();
-            $defaultLocale = $that->getDefaultLocale();
-
-            if($currentLocale == $defaultLocale){
-                return;
-            }
+        
+        event_bind('app.permalink.slug.before', function ($params) {
 
             // Debugbar::addMessage('app.permalink.slug.before', '1');
             // Debugbar::startMeasure('app.permalink.slug.before','app.permalink.slug.before');

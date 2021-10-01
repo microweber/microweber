@@ -27,9 +27,6 @@ class MultilanguageObserver
         $defaultLocale = app()->translate_manager->getDefaultLocale();
 
 
-        if($currentLocale == $defaultLocale){
-            return;
-        }
 
 
         /**
@@ -74,19 +71,14 @@ class MultilanguageObserver
                     }
                 }
             }
-
-
         }
 
         $model->multilanguage = $multilanguage;
         $model->makeHidden(['multilanguage', 'translatable']);
     }
-
+/*
     public function saving(Model $model)
     {
-
-        dd($model);
-
         if (isset($model->multilanguage)) {
             self::$multipleTranslationsToSave = $model->multilanguage;
             unset($model->multilanguage);
@@ -127,7 +119,7 @@ class MultilanguageObserver
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Handle the Page "saving" event.
