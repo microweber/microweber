@@ -189,8 +189,6 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any('/', 'FrontendController@index');
 
-
-
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
     if ($custom_admin_url) {
@@ -201,10 +199,6 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
     Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
 
     Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
-
-
-
-
 
     Route::any('robots.txt', 'FrontendController@robotstxt');
     Route::get('sitemap.xml', 'SitemapController@index');

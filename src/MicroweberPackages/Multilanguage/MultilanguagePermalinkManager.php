@@ -29,15 +29,13 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     public static $_linkContent = [];
     public function linkContent($contentId)
     {
-
-        if (isset(self::$_linkContent[$contentId])) {
-            return self::$_linkContent[$contentId];
+        if (isset(self::$_linkContent[$this->language][$contentId])) {
+            return self::$_linkContent[$this->language][$contentId];
         }
 
         $link = [];
 
-        ///$content = \MicroweberPackages\Content\Content::find($contentId);
-        $content = app()->content_repository->getById($contentId);
+        $content = app()->content_repository->findById($contentId);
         if ($content) {
 
             if ($content['content_type'] == 'page') {
@@ -50,7 +48,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             }
 
             if ($content['content_type'] != 'page') {
-
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
                      //   $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
@@ -94,7 +91,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             }
         }
 
-        self::$_linkContent[$contentId] = $link;
+        self::$_linkContent[$this->language][$contentId] = $link;
 
         return $link;
     }
