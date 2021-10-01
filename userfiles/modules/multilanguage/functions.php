@@ -18,35 +18,54 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
 // Event binds must be only when multilanguage is active
 require_once 'event_binds_general.php';
 
-event_bind('mw.controller.index', function() {
+event_bind('mw.controller.index', function () {
     template_head(function () {
 
         $currentLang = mw()->lang_helper->default_lang();
 
         $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
+
         $content_link = $pm->link(CONTENT_ID, 'content');
+
         if (defined('IS_HOME') and IS_HOME) {
             $content_link = site_url();
         }
+        if (is_category()) {
+            $content_link = $pm->link(CATEGORY_ID, 'category');
+        }
+        if (is_post()) {
+            $content_link = $pm->link(CONTENT_ID, 'content');
+        }
+
+
         $link = '';
 
         $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
 
         $supportedLanguages = get_supported_languages();
-        foreach ($supportedLanguages as $locale) {
+        if ($supportedLanguages) {
+            foreach ($supportedLanguages as $locale) {
 
-            $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-            $content_link = $pm->link(CONTENT_ID, 'content');
+                $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
+                $content_link = $pm->link(CONTENT_ID, 'content');
+                if (defined('IS_HOME') and IS_HOME) {
+                    $content_link = site_url();
+                }
+                if (is_category()) {
+                    $content_link = $pm->link(CATEGORY_ID, 'category');
+                }
+                if (is_post()) {
+                    $content_link = $pm->link(CONTENT_ID, 'content');
+                }
+                if ($currentLang == $locale['locale']) {
+                    $locale['locale'] = 'x-default';
+                }
 
-            if ($currentLang == $locale['locale']) {
-                $locale['locale'] = 'x-default';
+                $locale['locale'] = str_replace('_', '-', $locale['locale']);
+
+                $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
             }
-
-            $locale['locale'] = str_replace('_', '-', $locale['locale']);
-
-            $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
         }
-
         return $link;
     });
 });
