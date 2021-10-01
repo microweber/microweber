@@ -25,6 +25,10 @@ event_bind('mw.controller.index', function() {
 
         $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
         $content_link = $pm->link(CONTENT_ID, 'content');
+        if (defined('IS_HOME') and IS_HOME) {
+            $content_link = site_url();
+        }
+        $link = '';
 
         $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
 
