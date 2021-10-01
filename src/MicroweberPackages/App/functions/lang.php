@@ -21,6 +21,18 @@ function current_lang()
     return mw()->lang_helper->current_lang();
 }
 
+function current_lang_abbr()
+{
+    $lang = mw()->lang_helper->current_lang();
+    $langExp = explode('_',$lang);
+
+    if (isset($langExp[0])) {
+        return $langExp[0];
+    }
+
+    return $lang;
+}
+
 function lang_attributes()
 {
     return mw()->lang_helper->lang_attributes();
