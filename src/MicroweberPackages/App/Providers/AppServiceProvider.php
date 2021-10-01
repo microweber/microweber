@@ -445,7 +445,7 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            if (MultilanguageHelpers::multilanguageIsEnabled() and !is_ajax()) {
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
                 $linkSegments = array_filter($linkSegments, 'trim');
@@ -457,12 +457,13 @@ class AppServiceProvider extends ServiceProvider
                     }
 
                     if($localeSettings and isset($localeSettings['locale'])) {
-                        change_language_by_locale($localeSettings['locale'],true);
+                      change_language_by_locale($localeSettings['locale'],true);
 //
 //                        $localeFromUrl = $localeSettings['locale'];
+//
 //                        $applyCookieLang = true;
 //                        if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $localeFromUrl) {
-//                            $applyCookieLang = false;
+//                            $applyCookieLang = true;
 //                        }
 //                        if ($applyCookieLang) {
 //                            if (is_lang_correct($localeFromUrl)) {
