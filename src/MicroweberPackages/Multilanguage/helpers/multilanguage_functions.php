@@ -223,45 +223,29 @@ if (!function_exists('is_lang_correct_by_display_locale')) {
 if (!function_exists('detect_lang_from_url')) {
     function detect_lang_from_url($targetUrl)
     {
+        $targetUrl = str_replace(site_url(), false, $targetUrl);
+
         $targetLang = mw()->lang_helper->current_lang();
-        $findedLangAbr = 0;
         $segments = explode('/', $targetUrl);
-        if (count($segments) < 1) {
-            array('target_lang' => $targetLang, 'target_url' => $targetUrl);
-        }
 
-        // Find target lang in segments
-        foreach ($segments as $segment) {
-            if (is_lang_correct($segment)) {
-                $findedLangAbr++;
+        if (count($segments) > 1) {
+            // Find target lang in segments
+            $findedLangAbr = false;
+            foreach ($segments as $segment) {
+                if (is_lang_correct($segment)) {
+                    $findedLangAbr = $segment;
+                    break;
+                }
             }
-
-            // display locale
-            if (is_lang_correct_by_display_locale($segment)) {
-                $findedLangAbr++;
-            }
-        }
-
-        if ($findedLangAbr == 0) {
-            return array(
-                'target_lang' => $targetLang,
-                'target_url' => $targetUrl
-            );
-        }
-        $targetUrlSegments = array();
-        foreach ($segments as $key => $segment) {
-            if ($key == 0) {
-                $targetLang = $segment; // This is the lang abr
-            } else {
-                $targetUrlSegments[] = $segment;
+            if ($findedLangAbr) {
+                array('target_lang' => $findedLangAbr);
             }
         }
 
-        $targetUrl = implode('/', $targetUrlSegments);
-
-        return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
+        return array('target_lang' => $targetLang);
     }
 }
+
 if (!function_exists('get_supported_languages')) {
 
     function get_supported_languages($only_active = false)

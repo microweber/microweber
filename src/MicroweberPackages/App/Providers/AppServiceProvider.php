@@ -22,6 +22,7 @@ use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
@@ -441,8 +442,6 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            $this->_localeSetup();
-
             load_all_functions_files_for_modules($this->app);
 
             if (is_cli()) {
@@ -505,6 +504,7 @@ class AppServiceProvider extends ServiceProvider
 
         $router->middlewareGroup('public.web',[
             'xss',
+            MultilanguageMiddleware::class,
             AuthenticateSessionForUser::class,
         ]);
 
@@ -597,49 +597,6 @@ class AppServiceProvider extends ServiceProvider
 
         if (!empty($files_map)) {
             file_put_contents($cached, json_encode($files_map));
-        }
-    }
-
-    private function _localeSetup()
-    {
-        $isLocaleChangedFromLink = false;
-        //  Change language if user request language with LINK has lang abr
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $currentUri = request()->path();
-            $linkSegments = url_segment(-1, $currentUri);
-            $linkSegments = array_filter($linkSegments, 'trim');
-            if (!empty($linkSegments)) {
-                if (isset($linkSegments[0]) and $linkSegments[0]) {
-                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
-                    if (!$localeSettings) {
-                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
-                    }
-                    if ($localeSettings and isset($localeSettings['locale'])) {
-                        $isLocaleChangedFromLink = true;
-                        change_language_by_locale($localeSettings['locale'], true);
-                    }
-                }
-            }
-        }
-
-        // If locale is not changed from link
-        if (!$isLocaleChangedFromLink) {
-
-            // If we have a lang cookie read from theere
-            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
-                $setCurrentLangTo = $_COOKIE['lang'];
-            } else {
-                if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                    // Set from default homepage lang settings
-                    $setCurrentLangTo = get_option('homepage_language', 'website');
-                } else {
-                    // Set from default language language settings
-                    $setCurrentLangTo = get_option('language', 'website');
-                }
-            }
-            if ($setCurrentLangTo) {
-                set_current_lang($setCurrentLangTo);
-            }
         }
     }
 }

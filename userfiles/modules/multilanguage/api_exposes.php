@@ -89,7 +89,9 @@ api_expose_admin('multilanguage/add_language', function ($params) {
 
 Route::any('api/multilanguage/change_language', function () {
     $api = new MultilanguageApi();
-    return $api->changeLanguage(Input::all());
+    $response = $api->changeLanguage(Input::all());
+  //  dd($response);
+    return $response;
 });
 
 //api_expose('multilanguage/change_language', function ($params) {
