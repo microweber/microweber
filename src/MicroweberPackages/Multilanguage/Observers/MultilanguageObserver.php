@@ -38,7 +38,6 @@ class MultilanguageObserver
 
         if (!empty($model->translatable)) {
 
-
             $findTranslations = app()->multilanguage_repository->getTranslationsByRelTypeAndRelId($model->getTable(), $model->id);
 
             foreach ($model->translatable as $fieldName) {
