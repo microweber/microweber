@@ -604,30 +604,43 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupAppLocale()
     {
-        $isLocaleChangedFromLink = false;
+        $currentUri = request()->path();
+
+        $isLocaleChangedFromMultilanguageLogics = false;
+
         //  Change language if user request language with LINK has lang abr
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $currentUri = request()->path();
-            $linkSegments = url_segment(-1, $currentUri);
-            $linkSegments = array_filter($linkSegments, 'trim');
-            if (!empty($linkSegments)) {
-                if (isset($linkSegments[0]) and $linkSegments[0]) {
-                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
-                    if (!$localeSettings) {
-                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
-                    }
-                    if ($localeSettings and isset($localeSettings['locale'])) {
-                        $isLocaleChangedFromLink = true;
-                        change_language_by_locale($localeSettings['locale'], true);
+
+            $localeIsChangedFromGetRequest = false;
+            $locale = request()->get('locale');
+            if (is_lang_correct($locale)) {
+                $localeIsChangedFromGetRequest = true;
+                $isLocaleChangedFromMultilanguageLogics = true;
+                change_language_by_locale($locale, true);
+            }
+
+            // if locale is not changed from get request we must to chek URL SLUGS
+            if (!$localeIsChangedFromGetRequest) {
+                $linkSegments = url_segment(-1, $currentUri);
+                $linkSegments = array_filter($linkSegments, 'trim');
+
+                if (!empty($linkSegments)) {
+                    if (isset($linkSegments[0]) and $linkSegments[0]) {
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
+                        if (!$localeSettings) {
+                            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
+                        }
+                        if ($localeSettings and isset($localeSettings['locale'])) {
+                            $isLocaleChangedFromMultilanguageLogics = true;
+                            change_language_by_locale($localeSettings['locale'], true);
+                        }
                     }
                 }
             }
         }
 
-        //  dd($_COOKIE, $_REQUEST);
-
         // If locale is not changed from link
-        if (!$isLocaleChangedFromLink) {
+        if (!$isLocaleChangedFromMultilanguageLogics) {
             // If we have a lang cookie read from theere
             if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
                 $setCurrentLangTo = $_COOKIE['lang'];
