@@ -441,7 +441,8 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            //  Change language if user requtest language with LINK has lang abr
+            $isLocaleChangedFromLink = false;
+            //  Change language if user request language with LINK has lang abr
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
@@ -453,18 +454,28 @@ class AppServiceProvider extends ServiceProvider
                             $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                         }
                         if ($localeSettings and isset($localeSettings['locale'])) {
+                            $isLocaleChangedFromLink = true;
                             change_language_by_locale($localeSettings['locale'], true);
                         }
                     }
                 }
             }
 
-            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
-                set_current_lang($_COOKIE['lang']);
-            } else {
-                $language = get_option('language', 'website');
-                if ($language != false and $language != 'en') {
-                    set_current_lang($language);
+            // If locale is not changed from link
+            if (!$isLocaleChangedFromLink) {
+                $setCurrentLangTo = false;
+                // If we have a lang cookie read from theere
+                if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
+                    $setCurrentLangTo = $_COOKIE['lang'];
+                } else {
+                    if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                        $setCurrentLangTo = get_option('homepage_language', 'website');
+                    } else {
+                        $setCurrentLangTo = get_option('language', 'website');
+                    }
+                }
+                if ($setCurrentLangTo) {
+                    set_current_lang($setCurrentLangTo);
                 }
             }
 
