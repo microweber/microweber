@@ -4,9 +4,7 @@
  */
 namespace MicroweberPackages\Multilanguage\Http\Middleware;
 
-
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
