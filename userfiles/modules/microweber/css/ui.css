@@ -3127,44 +3127,6 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
   display: none;
 }
-html[dir="rtl"] .mw-tree-nav-skin-default {
-  padding-right: 20px;
-  padding-left: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler {
-  margin-right: 0;
-  margin-left: 0px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:not(.opened) {
-  transform: rotate(180deg);
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title {
-  padding-left: 42px;
-  padding-right: 5px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title [class*=mw-icon-],
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title [class*=mai-],
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title:before {
-  margin-left: 3px;
-  margin-right: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li:before {
-  left: auto;
-  right: 8px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li:after {
-  left: auto;
-  right: 7px;
-  bottom: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li li {
-  padding-right: 30px;
-  padding-left: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
-  right: auto;
-  left: 5px;
-}
 /****************************
             Boxes
 *****************************/
@@ -7347,12 +7309,6 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
 }
-
-.mw-ui-box-header.mw-accordion-title.mw-liveedit-sidebar-background-active:after {
-  transform: rotate(0deg);
-}
-
-
 .mw-badge {
   display: inline-block;
   position: absolute;

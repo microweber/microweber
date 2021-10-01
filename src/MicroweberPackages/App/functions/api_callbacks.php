@@ -69,6 +69,7 @@ api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
 
 api_expose('template/print_custom_css', function ($data) {
 
+
     $contents = mw()->template->get_custom_css($data);
 
     $response = Response::make($contents);

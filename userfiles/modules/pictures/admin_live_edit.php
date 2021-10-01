@@ -4,12 +4,12 @@ if (isset($params['rel'])) {
     $params['rel_type'] = $params['rel'];
 }
 
+$is_post = false;
 $the_content_id = false;
-
 if (defined('POST_ID') and POST_ID != false) {
+    $is_post = true;
     $the_content_id = POST_ID;
 } else if (defined('PAGE_ID') and PAGE_ID != false) {
-
     $the_content_id = PAGE_ID;
 }
 
@@ -127,24 +127,27 @@ $rand = uniqid();
 
     <div class="tab-content py-3">
         <div class="tab-pane fade show active" id="list">
-            <?php if ($quick_add == false and $use_from_post_forced == false): ?>
-                <div class="form-group" id="mw-pic-scope">
 
-                    <table width="100%">
-                        <tr>
-                            <td width="50%">
-                                <div class="custom-control custom-checkbox" id="mw-use-post-pics-scope" >
-                                    <input autocomplete="off"  type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
-                                    <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>
-                                </div>
-                            </td> <td width="50%" align="right">
-                                <div class="pull-right">
-                                <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <?php if ($is_post): ?>
+                <?php if ($quick_add == false and $use_from_post_forced == false): ?>
+                    <div class="form-group" id="mw-pic-scope">
+                        <table width="100%">
+                            <tr>
+                                <td width="50%">
+                                    <div class="custom-control custom-checkbox" id="mw-use-post-pics-scope" >
+                                        <input autocomplete="off"  type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
+                                        <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>
+                                    </div>
+                                </td>
+                                <td width="50%" align="right">
+                                    <div class="pull-right">
+                                        <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
 
             <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed"/>

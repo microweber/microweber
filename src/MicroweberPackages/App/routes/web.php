@@ -133,8 +133,7 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
 
-    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
-    Route::any('/api_nosession', 'FrontendController@api');
+
     Route::any('/favicon.ico', function () {
         return;
     });
@@ -177,6 +176,14 @@ Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackag
     Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'ApiController@editor_tools'))->where('all', '.*');
 
 });
+
+
+Route::group(['middleware' => ['public.web' , \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
+    Route::any('/api_nosession', 'ApiController@api');
+});
+
+
 // 'middleware' => 'web',
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 

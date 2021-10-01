@@ -291,7 +291,8 @@ class TranslateManager
 
             if ($rewriteUrl) {
                 // display locale
-                $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $currentLang . '&single=1');
+               // $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $currentLang . '&single=1');
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);
                 if ($localeSettings && !empty($localeSettings['display_locale'])) {
                     $currentLang = $localeSettings['display_locale'];
                 }
@@ -304,8 +305,16 @@ class TranslateManager
             }
 
         });
+        $that = $this;
+        event_bind('app.permalink.slug.before', function ($params) use($that) {
 
-        event_bind('app.permalink.slug.before', function ($params) {
+
+            $currentLocale = $that->getCurrentLocale();
+            $defaultLocale = $that->getDefaultLocale();
+
+            if($currentLocale == $defaultLocale){
+                return;
+            }
 
             // Debugbar::addMessage('app.permalink.slug.before', '1');
             // Debugbar::startMeasure('app.permalink.slug.before','app.permalink.slug.before');
@@ -428,7 +437,7 @@ class TranslateManager
             }
 
 
-            if (!$autodetected_lang and !$lang_is_set) {
+            if (!$autodetected_lang and !$lang_is_set and !$autodetected_lang) {
                 $homepageLanguage = get_option('homepage_language', 'website');
                 if ($homepageLanguage) {
                     if (is_lang_supported($homepageLanguage)) {

@@ -393,7 +393,7 @@ class ContentManagerCrud extends Crud
 
         $link_hash = 'link' . crc32($url);
         if (isset(self::$precached_links[$link_hash])) {
-            return self::$precached_links[$link_hash];
+             return self::$precached_links[$link_hash];
         }
 
         if ($url == '') {
@@ -1418,5 +1418,11 @@ class ContentManagerCrud extends Crud
         }
 
         return false;
+    }
+
+
+    public function clearCache()
+    {
+        self::$precached_links = [];
     }
 }

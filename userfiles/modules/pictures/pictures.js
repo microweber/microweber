@@ -97,7 +97,8 @@ mw.module_pictures = {
     del: function (id) {
         if(typeof id === 'string'){
           if (confirm('Are you sure you want to delete this image?')) {
-              $.post(mw.settings.api_url + 'delete_media', { id: id  }, function (data) {
+
+              $.post(mw.settings.api_url + 'delete_media', { id: id , csrf: $('meta[name="csrf-token"]').attr('content') }, function (data) {
                   $('.admin-thumb-item-' + id).fadeOut(function () {
                         $(this).remove();
                   });
@@ -109,7 +110,7 @@ mw.module_pictures = {
         }
         else{
           if (confirm('Are you sure you want to delete selected images?')) {
-              $.post(mw.settings.api_url + 'delete_media', { ids: id  }, function (data) {
+              $.post(mw.settings.api_url + 'delete_media', { ids: id, csrf: $('meta[name="csrf-token"]').attr('content')  }, function (data) {
                 $.each(id, function(){
                   $('.admin-thumb-item-' + this).fadeOut(function () {
                       $(this).remove();

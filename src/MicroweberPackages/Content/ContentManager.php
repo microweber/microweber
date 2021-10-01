@@ -227,6 +227,7 @@ class ContentManager
     }
 
 
+
     /**
      * Get array of content items from the database.
      *

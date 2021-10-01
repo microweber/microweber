@@ -23,6 +23,15 @@ class MultilanguageObserver
     {
         $multilanguage = [];
 
+        $currentLocale = app()->translate_manager->getCurrentLocale();
+        $defaultLocale = app()->translate_manager->getDefaultLocale();
+
+
+        if($currentLocale == $defaultLocale){
+            return;
+        }
+
+
         /**
          * Translatable module options
          *  This will append translatable fields in model option
@@ -37,6 +46,7 @@ class MultilanguageObserver
         }
 
         if (!empty($model->translatable)) {
+
 
             $findTranslations = app()->multilanguage_repository->getTranslationsByRelTypeAndRelId($model->getTable(), $model->id);
 
@@ -64,6 +74,8 @@ class MultilanguageObserver
                     }
                 }
             }
+
+
         }
 
         $model->multilanguage = $multilanguage;
