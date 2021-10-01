@@ -2293,9 +2293,9 @@ class ContentManager
         }
 
         $permalinkGenerated = $this->app->permalink_manager->link($link['id'], 'content');
+
         if ($permalinkGenerated) {
             $link['url'] = $permalinkGenerated;
-           // $link = ($link['url']);
 
             if (!stristr($link['url'], $site_url)) {
                 $link = site_url($link['url']);
@@ -2304,13 +2304,6 @@ class ContentManager
             }
             return $link;
         }
-
-
-        /* $override = $this->app->event_manager->trigger('content.link.after', $link);
-         if (is_array($override) && isset($override[0])) {
-             $link = $override[0];
-         }*/
-
 
     }
 
