@@ -47,14 +47,11 @@ event_bind('mw.controller.index', function () {
             foreach ($supportedLanguages as $locale) {
 
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-                $content_link = $pm->link(CONTENT_ID, 'content');
-                if (defined('IS_HOME') and IS_HOME) {
-                    $content_link = site_url();
-                }
+
+
                 if (is_category()) {
                     $content_link = $pm->link(CATEGORY_ID, 'category');
-                }
-                if (is_post()) {
+                } else {
                     $content_link = $pm->link(CONTENT_ID, 'content');
                 }
                 if ($currentLang == $locale['locale']) {
