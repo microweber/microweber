@@ -23,19 +23,7 @@ event_bind('mw.controller.index', function () {
 
         $currentLang = mw()->lang_helper->default_lang();
 
-        $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
 
-        $content_link = $pm->link(CONTENT_ID, 'content');
-
-        if (defined('IS_HOME') and IS_HOME) {
-            $content_link = site_url();
-        }
-        if (is_category()) {
-            $content_link = $pm->link(CATEGORY_ID, 'category');
-        }
-        if (is_post()) {
-            $content_link = $pm->link(CONTENT_ID, 'content');
-        }
 
 
         $link = '';
@@ -60,13 +48,33 @@ event_bind('mw.controller.index', function () {
                         if (is_home()) {
                             $content_link = site_url();
                         }
-                        $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
+                        $link .= '<link rel="canonical" href="' . $content_link . '" />' . "\n";
+                        $link .= '<link rel="alternate" href="' . url_current(1) . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+
+                    } else {
+                        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+
                     }
 
-                    $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
                 }
             }
         } else {
+            $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
+
+            $content_link = $pm->link(CONTENT_ID, 'content');
+
+            if (defined('IS_HOME') and IS_HOME) {
+                $content_link = site_url();
+            }
+            if (is_category()) {
+                $content_link = $pm->link(CATEGORY_ID, 'category');
+            }
+            if (is_post()) {
+                $content_link = $pm->link(CONTENT_ID, 'content');
+            }
+
+
+
             $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
 
         }
