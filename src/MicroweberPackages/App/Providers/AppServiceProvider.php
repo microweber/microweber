@@ -418,17 +418,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(\Illuminate\Routing\Router $router)
     {
-
         View::addNamespace('app', __DIR__ . '/../resources/views');
-
-//        $this->app->singleton('lang_helper', function ($app) {
-//            return new Lang($app);
-//        });
 
         \App::instance('path.public', base_path());
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
+
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 
@@ -445,18 +441,20 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
+            //  Change language if user requtest language with LINK has lang abr
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                //  Change language if user requtest language with LINK lang abr
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
                 $linkSegments = array_filter($linkSegments, 'trim');
-                if (isset($linkSegments[0]) and $linkSegments[0]) {
-                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
-                    if(!$localeSettings){
-                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
-                    }
-                    if($localeSettings and isset($localeSettings['locale'])) {
-                      change_language_by_locale($localeSettings['locale'],true);
+                if (!empty($linkSegments)) {
+                    if (isset($linkSegments[0]) and $linkSegments[0]) {
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
+                        if (!$localeSettings) {
+                            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
+                        }
+                        if ($localeSettings and isset($localeSettings['locale'])) {
+                            change_language_by_locale($localeSettings['locale'], true);
+                        }
                     }
                 }
             }
@@ -471,41 +469,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
             load_all_functions_files_for_modules($this->app);
-
-
-          /*  // Register module service providers
-            $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
-            if ($modules) {
-                foreach ($modules as $module) {
-                    if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-
-                        $loadProviders = [];
-                        if (is_array($module['settings']['service_provider'])) {
-                            foreach ($module['settings']['service_provider'] as $serviceProvider) {
-                                $loadProviders[] = $serviceProvider;
-                            }
-                        } else {
-                            $loadProviders[] = $module['settings']['service_provider'];
-                        }
-                        foreach ($loadProviders as $loadProvider) {
-                            if (class_exists($loadProvider)) {
-                                $this->app->register($loadProvider);
-//                               if(! app()->bound($loadProvider)){
-//
-//                               }
-//                                if (app()->getProvider($classname)) {
-//                                    // Do what you want when it exists.
-//                                }
-
-                                $this->app->register($loadProvider);
-                            }
-                        }
-
-
-//
-                    }
-                }
-            }*/
 
             if (is_cli()) {
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
@@ -528,9 +491,7 @@ class AppServiceProvider extends ServiceProvider
 
          $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
-
         if (mw_is_installed()) {
-
              $this->app->event_manager->trigger('mw.after.boot', $this);
         }
 
