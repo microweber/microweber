@@ -463,14 +463,16 @@ class AppServiceProvider extends ServiceProvider
 
             // If locale is not changed from link
             if (!$isLocaleChangedFromLink) {
-                $setCurrentLangTo = false;
+
                 // If we have a lang cookie read from theere
                 if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
                     $setCurrentLangTo = $_COOKIE['lang'];
                 } else {
                     if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                        // Set from default homepage lang settings
                         $setCurrentLangTo = get_option('homepage_language', 'website');
                     } else {
+                        // Set from default language language settings
                         $setCurrentLangTo = get_option('language', 'website');
                     }
                 }
