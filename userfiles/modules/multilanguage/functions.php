@@ -47,9 +47,11 @@ event_bind('mw.controller.index', function () {
                     if ($locale['locale'] == 'x-default') {
                         if (is_home()) {
                             $content_link = site_url();
+                        } else {
+                            $content_link = url_current(1);
                         }
                         $link .= '<link rel="canonical" href="' . $content_link . '" />' . "\n";
-                        $link .= '<link rel="alternate" href="' . url_current(1) . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+                        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
 
                     } else {
                         $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
