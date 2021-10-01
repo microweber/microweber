@@ -1,3 +1,5 @@
+import {DomService} from "../classes/dom";
+
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
         this.root = MWEditor.core.element();
@@ -182,7 +184,20 @@ MWEditor.controllers = {
                 api.saveSelection();
                 var sel = scope.getSelection();
 
-                var target = mw.tools.firstParentWithTag(sel.focusNode, 'a');
+                var target;
+                if(sel.focusNode.nodeName === 'A') {
+                    target = sel.focusNode;
+                } else {
+                    var curr = sel.focusNode;
+                    while(curr && curr.nodeName){
+                        if(curr.nodeName === 'A') {
+                            target = curr;
+                            break;
+                        } else {
+                            curr = curr.parentNode;
+                        }
+                    }
+                }
 
                 var val;
                 if(target) {

@@ -1,10 +1,4 @@
-
-
-
-
-
-
-
+import {DomService} from "../classes/dom";
 
 
 MWEditor.api = function (scope) {
@@ -274,11 +268,15 @@ MWEditor.api = function (scope) {
 
         },
         action: function(targetParent, func) {
+
             scope.state.record({
                 target: targetParent,
                 value: targetParent.innerHTML
             });
-            func.call();
+            console.log(1, func)
+            func();
+            console.log(8)
+
             setTimeout(function(){
                 scope.state.record({
                     target: targetParent,
@@ -377,9 +375,7 @@ MWEditor.api = function (scope) {
             range.deleteContents()
             range.insertNode(frag)
         },
-        cleanHTML: function (target){
 
-        },
         cssApplier: function (css) {
             var styles = '';
             if (typeof css === 'object') {
@@ -451,14 +447,15 @@ MWEditor.api = function (scope) {
              scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
             try {  // 0x80004005
-                 if (scope.actionWindow.document.queryCommandSupported(cmd) && scope.api.isSelectionEditable()) {
+                  if (scope.actionWindow.document.queryCommandSupported(cmd) && scope.api.isSelectionEditable()) {
                      def = def || false;
                     val = val || false;
                     if (sel.rangeCount > 0) {
                          var node = scope.api.elementNode(sel.focusNode);
-                        scope.api.action(mw.tools.firstBlockLevel(node), function () {
-                            scope.actionWindow.document.execCommand(cmd, def, val);
-                            mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
+
+                        scope.api.action(DomService.firstBlockLevel(node), function () {
+                             scope.actionWindow.document.execCommand(cmd, def, val);
+                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                         });
                     }
@@ -500,13 +497,13 @@ MWEditor.api = function (scope) {
             scope.api.savedSelection = {
                 selection: sel,
                 range: sel.getRangeAt(0),
-                element: mw.$(scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer))
+                element: scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
             };
         },
         restoreSelection: function () {
             if (scope.api.savedSelection) {
                 var sel = scope.getSelection();
-                scope.api.savedSelection.element.attr("contenteditable", "true");
+                DomService.firstParentOrCurrentWithAnyOfClasses(scope.api.savedSelection.element, ['edit', 'safe-element']).contentEditable = true;
                 scope.api.savedSelection.element.focus();
                 scope.api.savedSelection.selection.removeAllRanges();
                 scope.api.savedSelection.selection.addRange(scope.api.savedSelection.range);

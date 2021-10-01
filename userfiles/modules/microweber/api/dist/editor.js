@@ -1,6 +1,470 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./userfiles/modules/microweber/api/classes/css.js":
+/*!*********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/css.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CSSParser": () => (/* binding */ CSSParser)
+/* harmony export */ });
+
+
+
+
+const CSSParser = function(el) {
+    if(!el || !el.nodeName) return false;
+    if(el.nodeName === '#text') return false;
+
+
+
+    const css = window.getComputedStyle(el, null);
+
+
+
+    var f = {};
+
+    f.display = function(){
+        return css.display;
+    };
+
+    f.is = function(){
+        return {
+            bold: parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
+            italic: css.fontStyle === 'italic'||css.fontStyle === 'oblique',
+            underlined: css.textDecoration === 'underline',
+            striked: css.textDecoration.indexOf('line-through') === 0,
+        };
+    };
+    f.font = function(){
+        if(css === null) return false;
+        return {
+            size:css.fontSize,
+            weight:css.fontWeight,
+            style:css.fontStyle,
+            height:css.lineHeight,
+            family:css.fontFamily,
+            color:css.color
+        };
+    }
+    f.alignNormalize = function(){
+        if(!!css){
+            var a = css.textAlign;
+            return a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
+        }
+    }
+    f.border = function(parse){
+        if(!parse){
+            return {
+                top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
+                left:{width:css.borderLeftWidth, style:css.borderLeftStyle, color:css.borderLeftColor},
+                right:{width:css.borderRightWidth, style:css.borderRightStyle, color:css.borderRightColor},
+                bottom:{width:css.borderBottomWidth, style:css.borderBottomStyle, color:css.borderBottomColor}
+            }
+        }
+        else{
+            return {
+                top:{width:parseFloat(css.borderTopWidth), style:css.borderTopStyle, color:css.borderTopColor},
+                left:{width:parseFloat(css.borderLeftWidth), style:css.borderLeftStyle, color:css.borderLeftColor},
+                right:{width:parseFloat(css.borderRightWidth), style:css.borderRightStyle, color:css.borderRightColor},
+                bottom:{width:parseFloat(css.borderBottomWidth), style:css.borderBottomStyle, color:css.borderBottomColor}
+            }
+        }
+
+    }
+    f.width = function(){
+        return css.width;
+    }
+    f.position = function(){
+        return css.position;
+    }
+    f.background = function(){
+        return {
+            image:css.backgroundImage,
+            color:css.backgroundColor,
+            position:css.backgroundPosition,
+            repeat:css.backgroundRepeat
+        }
+    }
+    f.margin = function(parse, actual){
+        if(actual){
+            var _parent = el.parentNode;
+            var parentOff = mw.$(_parent).offset();
+            var elOff = mw.$(el).offset();
+            if(elOff.left > parentOff.left && css.marginLeft === css.marginRight && elOff.left - parentOff.left === parseInt(css.marginLeft, 10)){
+                return {
+                    top:css.marginTop,
+                    left:'auto',
+                    right:'auto',
+                    bottom:css.marginBottom
+                };
+            }
+        }
+        if(!parse){
+            return {
+                top:css.marginTop,
+                left:css.marginLeft,
+                right:css.marginRight,
+                bottom:css.marginBottom
+            }
+        }
+        else{
+            return {
+                top:parseFloat(css.marginTop),
+                left:parseFloat(css.marginLeft),
+                right:parseFloat(css.marginRight),
+                bottom:parseFloat(css.marginBottom)
+            }
+        }
+    }
+    f.padding = function(parse){
+        if(!parse){
+            return {
+                top:css.paddingTop,
+                left:css.paddingLeft,
+                right:css.paddingRight,
+                bottom:css.paddingBottom
+            }
+        }
+        else{
+            return {
+                top:parseFloat(css.paddingTop),
+                left:parseFloat(css.paddingLeft),
+                right:parseFloat(css.paddingRight),
+                bottom:parseFloat(css.paddingBottom)
+            }
+        }
+    }
+    f.opacity = function(){return css.opacity}
+
+    f.radius = function(parse){
+        if(!parse){
+            return {
+                tl:css.borderTopLeftRadius,
+                tr:css.borderTopRightRadius,
+                br:css.borderBottomRightRadius,
+                bl:css.borderBottomLeftRadius
+            }
+        }
+        else{
+            return {
+                tl:parseFloat(css.borderTopLeftRadius),
+                tr:parseFloat(css.borderTopRightRadius),
+                br:parseFloat(css.borderBottomRightRadius),
+                bl:parseFloat(css.borderBottomLeftRadius)
+            }
+        }
+    }
+
+    f.transform = function(){
+        let transform = css['transform'] || css['WebkitTransform'];
+        if(transform==="" || transform==="none"){
+            return [1, 0, 0, 1, 0, 0];
+        }
+        else{
+            transform = transform.substr(7, transform.length - 8).split(", ");
+            return transform;
+        }
+    }
+
+    f.shadow = function(){
+         const shadow = (css['boxShadow'] || css['WebkitBoxShadow']).replace(/, /g, ",").split(" ");
+        return {
+            color: shadow[0],
+            left: shadow[1],
+            top: shadow[2],
+            blur: shadow[3],
+            spread: shadow[3]
+        }
+    }
+
+    return {
+        el: el,
+        css: css,
+        get: f
+    }
+}
+
+
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/classes/dom.js":
+/*!*********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/dom.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DomService": () => (/* binding */ DomService)
+/* harmony export */ });
+
+let matches;
+const el = document.documentElement;
+if(!!el.matches) matches = 'matches';
+else if (!!el.matchesSelector) matches = 'matchesSelector';
+else if (!!el.mozMatchesSelector) matches = 'mozMatchesSelector';
+else if (!!el.webkitMatchesSelector) matches = 'webkitMatchesSelector';
+
+class DomService {
+    static _isBlockCache = {};
+    static _fragment;
+
+    static fragment (){
+        if(!this._fragment){
+            this._fragment = document.createElement('div');
+            this._fragment.style.visibility = 'hidden';
+            this._fragment.style.position = 'absolute';
+            this._fragment.style.width = '1px';
+            this._fragment.style.height = '1px';
+            document.body.appendChild(this._fragment);
+        }
+        return this._fragment;
+    }
+
+    static matches(node, selector) {
+        return node[matches](selector)
+    }
+
+
+    static isBlockLevel (node){
+        if(!node || node.nodeType === 3){
+            return false;
+        }
+        var name = node.nodeName;
+         if(typeof this._isBlockCache[name] !== 'undefined'){
+            return this._isBlockCache[name];
+        }
+        var test = document.createElement(name);
+        this.fragment().appendChild(test);
+        this._isBlockCache[name] = getComputedStyle(test).display === 'block';
+        this.fragment().removeChild(test);
+        return this._isBlockCache[name];
+    }
+
+    static firstBlockLevel (el) {
+        while(el && el.classList) {
+            if(this.isBlockLevel(el)) {
+                return el;
+            }
+            el = el.parentNode;
+        }
+    }
+
+    static firstWithBackgroundImage (node) {
+        if (!node) {
+            return null;
+        }
+        while(node && node.nodeName !== 'BODY') {
+            if (!!node.style.backgroundImage) {
+                return node;
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
+    static hasAnyOfClassesOnNodeOrParent(node, arr) {
+        while (node && node.nodeName !== 'BODY') {
+            let i = 0, l = arr.length;
+            for ( ; i < l ; i++ ) {
+                if (node.classList.contains(arr[i])) {
+                    return true;
+                }
+            }
+            node = node.parentElement;
+        }
+        return false;
+    }
+
+    static hasParentsWithClass (el, cls) {
+        if (!el) return;
+        var curr = el.parentNode;
+        while (curr && curr.classList) {
+            if (curr.classList.contains(cls)) {
+                return true;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static hasParentWithId (el, id) {
+        if (!el) return;
+        var curr = el.parentNode;
+        while (curr && curr !== document.body) {
+            if (curr.id === id) {
+                return true;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static firstWithAyOfClassesOnNodeOrParent(node, arr) {
+        while (node && node.nodeName !== 'BODY') {
+            let i = 0, l = arr.length;
+            for ( ; i < l ; i++ ) {
+                if (node.classList.contains(arr[i])) {
+                    return node;
+                }
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
+    static firstParentOrCurrentWithTag (el, tag) {
+        if (!el || !tag) return;
+        tag = typeof tag !== 'string' ? tag : [tag];
+        var curr = el;
+        while (curr && curr.classList) {
+            if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static index(el, parent, selector) {
+        selector = selector || el.tagName.toLowerCase();
+        parent = parent || el.parentNode;
+        var all;
+        if (parent.constructor === [].constructor) {
+            all = parent;
+        }
+        else {
+            all = parent.querySelectorAll(selector)
+        }
+        var i = 0, l = all.length;
+        for (; i < l; i++) {
+            if (el === all[i]) return i;
+        }
+    }
+
+    static firstParentOrCurrentWithClass (el, cls) {
+        if (!el) return false;
+        var curr = el;
+        while (curr && curr.classList) {
+            if (curr.classList.contains(cls)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static firstParentOrCurrentWithAnyOfClasses (node, arr) {
+        if (!node) return false;
+        var curr = node;
+        while (curr && curr.classList) {
+            if (!curr) return false;
+            if (this.hasAnyOfClasses(curr, arr)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(arr[1]);
+            if (h1 && h2) {
+                return false;
+            }
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
+
+    static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.contains(arr[0]);
+            const h2 = curr.classList.contains(arr[1]);
+            if (h1 && h2) {
+                return false;
+            } else {
+                if (h1) {
+                    return true;
+                } else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return true;
+    }
+
+    static hasAnyOfClasses (node, arr) {
+        if (!node) return;
+        let i = 0, l = arr.length;
+        for (; i < l; i++) {
+            if (node.classList.contains(arr[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static offset (node) {
+        if(!node) return;
+        var off = node.getBoundingClientRect();
+        var res = {top: off.top, left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
+        res.top += scrollY;
+        res.bottom += scrollY;
+        res.left += scrollX;
+        res.right += scrollX;
+        return res;
+    }
+    static parentsOrder (node, arr) {
+        var only_first = [];
+        var obj = {}, l = arr.length, i = 0, count = -1;
+        for (; i < l; i++) {
+            obj[arr[i]] = -1;
+        }
+        if (!node) return obj;
+
+        var curr = node.parentNode;
+        while (curr && curr.nodeName !== 'BODY') {
+            count++;
+            i = 0;
+            for ( ; i < l; i++) {
+                if (curr.classList.contains(arr[i]) && only_first.indexOf(arr[i]) === -1) {
+                    obj[arr[i]] = count;
+                    only_first.push(arr[i]);
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return obj;
+    }
+
+
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/classes/element.js":
 /*!*************************************************************!*\
   !*** ./userfiles/modules/microweber/api/classes/element.js ***!
@@ -813,6 +1277,10 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
 /* harmony import */ var _classes_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/state */ "./userfiles/modules/microweber/api/classes/state.js");
+/* harmony import */ var _classes_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../classes/css */ "./userfiles/modules/microweber/api/classes/css.js");
+/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+
+
 
 
 
@@ -1026,7 +1494,7 @@ window.MWEditor = function (options) {
                 return;
             }
             var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
-            var css = getComputedStyle(target);
+            var css = (0,_classes_css__WEBPACK_IMPORTED_MODULE_2__.CSSParser)(target);
             var api = scope.api;
 
 
@@ -1035,7 +1503,8 @@ window.MWEditor = function (options) {
                 target: target,
                 localTarget: localTarget,
                 isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
-                css: css,
+                css: css.get,
+                cssNative: css.css,
                 event: event,
                 api: api,
                 scope: scope,
@@ -1392,9 +1861,9 @@ window.MWEditor = function (options) {
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
             if (scope.selection && !scope.selection.isCollapsed) {
-                if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
+                if(!_classes_dom__WEBPACK_IMPORTED_MODULE_3__.DomService.hasParentsWithClass(e.target, 'mw-bar')){
                     scope.smallEditor.css({
-                        top: scope.interactionData.pageY - scope.smallEditor.$node.height() - 20,
+                        top: scope.interactionData.pageY - scope.smallEditor.height() - 20,
                         left: scope.interactionData.pageX,
                         display: 'block'
                     });
@@ -1649,17 +2118,15 @@ __webpack_require__.r(__webpack_exports__);
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!********************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/api.js ***!
   \********************************************************/
-
-
-
-
-
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
 
 
 
@@ -1930,11 +2397,17 @@ MWEditor.api = function (scope) {
 
         },
         action: function(targetParent, func) {
+
             scope.state.record({
                 target: targetParent,
                 value: targetParent.innerHTML
             });
-            func.call();
+            console.log(1, func)
+
+
+            func();
+            console.log(8)
+
             setTimeout(function(){
                 scope.state.record({
                     target: targetParent,
@@ -2033,9 +2506,7 @@ MWEditor.api = function (scope) {
             range.deleteContents()
             range.insertNode(frag)
         },
-        cleanHTML: function (target){
 
-        },
         cssApplier: function (css) {
             var styles = '';
             if (typeof css === 'object') {
@@ -2107,14 +2578,15 @@ MWEditor.api = function (scope) {
              scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
             try {  // 0x80004005
-                 if (scope.actionWindow.document.queryCommandSupported(cmd) && scope.api.isSelectionEditable()) {
+                  if (scope.actionWindow.document.queryCommandSupported(cmd) && scope.api.isSelectionEditable()) {
                      def = def || false;
                     val = val || false;
                     if (sel.rangeCount > 0) {
                          var node = scope.api.elementNode(sel.focusNode);
-                        scope.api.action(mw.tools.firstBlockLevel(node), function () {
-                            scope.actionWindow.document.execCommand(cmd, def, val);
-                            mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
+
+                        scope.api.action(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node), function () {
+                             scope.actionWindow.document.execCommand(cmd, def, val);
+                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                         });
                     }
@@ -2156,13 +2628,13 @@ MWEditor.api = function (scope) {
             scope.api.savedSelection = {
                 selection: sel,
                 range: sel.getRangeAt(0),
-                element: mw.$(scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer))
+                element: scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
             };
         },
         restoreSelection: function () {
             if (scope.api.savedSelection) {
                 var sel = scope.getSelection();
-                scope.api.savedSelection.element.attr("contenteditable", "true");
+                _classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstParentOrCurrentWithAnyOfClasses(scope.api.savedSelection.element, ['edit', 'safe-element']).contentEditable = true;
                 scope.api.savedSelection.element.focus();
                 scope.api.savedSelection.selection.removeAllRanges();
                 scope.api.savedSelection.selection.addRange(scope.api.savedSelection.range);
@@ -2265,6 +2737,8 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_object_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/object.service */ "./userfiles/modules/microweber/api/classes/object.service.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+
 
 
 MWEditor.core = {
@@ -2409,7 +2883,7 @@ MWEditor.core = {
     },
     _preSelect: function (node) {
         var all = document.querySelectorAll('.mw-editor-controller-component-select.active, .mw-bar-control-item-group.active');
-        var parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
+        var parent = _classes_dom__WEBPACK_IMPORTED_MODULE_2__.DomService.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
         var i = 0, l = all.length;
         for ( ; i < l; i++) {
             if(!node || (all[i] !== node && all[i] !== parent)) {
@@ -2421,11 +2895,17 @@ MWEditor.core = {
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!****************************************************************!*\
   !*** ./userfiles/modules/microweber/api/editor/controllers.js ***!
   \****************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+
+
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
         this.root = MWEditor.core.element();
@@ -2610,7 +3090,20 @@ MWEditor.controllers = {
                 api.saveSelection();
                 var sel = scope.getSelection();
 
-                var target = mw.tools.firstParentWithTag(sel.focusNode, 'a');
+                var target;
+                if(sel.focusNode.nodeName === 'A') {
+                    target = sel.focusNode;
+                } else {
+                    var curr = sel.focusNode;
+                    while(curr && curr.nodeName){
+                        if(curr.nodeName === 'A') {
+                            target = curr;
+                            break;
+                        } else {
+                            curr = curr.parentNode;
+                        }
+                    }
+                }
 
                 var val;
                 if(target) {
@@ -3268,6 +3761,8 @@ var __webpack_exports__ = {};
   \*************************************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+
 
 
 
@@ -3319,7 +3814,7 @@ MWEditor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
-            var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
+            var tg = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.firstParentOrCurrentWithTag(data.target,'a');
             if(!tg) {
                 this.element.hide();
                 return;
@@ -3398,11 +3893,11 @@ MWEditor.interactionControls = {
         };
         this.interact = function (data) {
 
-            if(MWEditor.tools.dom.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
+            if(_classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
             if(this.nodes.indexOf(data.target) !== -1) {
-                this.element.$node.hide();
+                this.element.hide();
                 return;
             }
             if (data.isImage) {
@@ -3422,7 +3917,7 @@ MWEditor.interactionControls = {
         var lscope = this;
         this.interact = function (data) {
             if (!data.eventIsActionLike) { return; }
-            var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            var td = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.firstParentOrCurrentWithTag(data.localTarget, 'td');
             if (td) {
                 var $target = $(td);
                 this.$target = $target;
@@ -3430,12 +3925,12 @@ MWEditor.interactionControls = {
                 css.top -= lscope.element.node.offsetHeight;
                 this.element.$node.css(css).show();
             } else {
-                this.element.$node.hide();
+                this.element.hide();
             }
         };
 
         this._afterAction = function () {
-            this.element.$node.hide();
+            this.element.hide();
             rootScope.state.record({
                 target: rootScope.$editArea[0],
                 value: rootScope.$editArea[0].innerHTML
@@ -3502,7 +3997,7 @@ MWEditor.interactionControls = {
 
         this.deleteColumn = function (cell) {
             cell = cell || this.getActiveCell();
-            var index = mw.tools.index(cell),
+            var index = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.index(cell),
                 body = cell.parentNode.parentNode,
                 rows = mw.$(body).children('tr'),
                 l = rows.length,
@@ -3515,7 +4010,7 @@ MWEditor.interactionControls = {
 
         this.getActiveCell = function () {
             var node = rootScope.api.elementNode( rootScope.getSelection().focusNode);
-            return mw.tools.firstParentOrCurrentWithTag(node,'td');
+            return _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.firstParentOrCurrentWithTag(node,'td');
         };
 
         this.insertColumn = function (dir, cell) {
@@ -3526,7 +4021,7 @@ MWEditor.interactionControls = {
             }
             dir = dir || 'right';
             var rows = mw.$(cell.parentNode.parentNode).children('tr');
-            var i = 0, l = rows.length, index = mw.tools.index(cell);
+            var i = 0, l = rows.length, index = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.index(cell);
             for (; i < l; i++) {
                 var row = rows[i];
                 cell = mw.$(row).children('td')[index];
@@ -3564,7 +4059,7 @@ MWEditor.interactionControls = {
         };
         this.deleteColumn = function (cell) {
             cell = cell || this.getActiveCell();
-            var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
+            var index = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
             for (; i < l; i++) {
                 var row = rows[i];
                 mw.$(row.getElementsByTagName('td')[index]).remove();
@@ -3573,8 +4068,8 @@ MWEditor.interactionControls = {
 
         this.setStyle = function (cls, cell) {
             cell = cell || this.getActiveCell();
-            var table = mw.tools.firstParentWithTag(cell, 'table');
-            mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
+            var table = _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.firstParentWithTag(cell, 'table');
+            _classes_dom__WEBPACK_IMPORTED_MODULE_1__.DomService.classNamespaceDelete(table, 'mw-wysiwyg-table');
             mw.$(table).addClass(cls);
         };
         this.element = this.render();

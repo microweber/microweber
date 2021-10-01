@@ -151,19 +151,19 @@ mw.CSSParser = function(el){
 
     f.transform = function(){
      var transform = mw.JSPrefix('transform');
-     var transform = css[transform];
+     transform = css[transform];
      if(transform==="" || transform==="none"){
        return [1, 0, 0, 1, 0, 0];
      }
      else{
-       var transform = transform.substr(7, transform.length - 8).split(", ");
+       transform = transform.substr(7, transform.length - 8).split(", ");
        return transform;
      }
     }
 
     f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
-      var shadow = css[shadow].replace(/, /g, ",").split(" ");
+      shadow = css[shadow].replace(/, /g, ",").split(" ");
       return {
         color: shadow[0],
         left:shadow[1],

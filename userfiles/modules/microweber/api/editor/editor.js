@@ -1,6 +1,8 @@
 
 import {ElementManager} from "../classes/element";
 import {State} from "../classes/state";
+import {CSSParser} from "../classes/css";
+import {DomService} from "../classes/dom";
 
 
 
@@ -211,7 +213,7 @@ window.MWEditor = function (options) {
                 return;
             }
             var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
-            var css = getComputedStyle(target);
+            var css = CSSParser(target);
             var api = scope.api;
 
 
@@ -220,7 +222,8 @@ window.MWEditor = function (options) {
                 target: target,
                 localTarget: localTarget,
                 isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
-                css: css,
+                css: css.get,
+                cssNative: css.css,
                 event: event,
                 api: api,
                 scope: scope,
@@ -577,9 +580,9 @@ window.MWEditor = function (options) {
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
             if (scope.selection && !scope.selection.isCollapsed) {
-                if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
+                if(!DomService.hasParentsWithClass(e.target, 'mw-bar')){
                     scope.smallEditor.css({
-                        top: scope.interactionData.pageY - scope.smallEditor.$node.height() - 20,
+                        top: scope.interactionData.pageY - scope.smallEditor.height() - 20,
                         left: scope.interactionData.pageX,
                         display: 'block'
                     });

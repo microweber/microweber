@@ -1,5 +1,6 @@
 import {ObjectService} from "../classes/object.service";
 import {ElementManager} from "../classes/element";
+import {DomService} from "../classes/dom";
 MWEditor.core = {
     button: function(config) {
         config = config || {};
@@ -142,7 +143,7 @@ MWEditor.core = {
     },
     _preSelect: function (node) {
         var all = document.querySelectorAll('.mw-editor-controller-component-select.active, .mw-bar-control-item-group.active');
-        var parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
+        var parent = DomService.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
         var i = 0, l = all.length;
         for ( ; i < l; i++) {
             if(!node || (all[i] !== node && all[i] !== parent)) {

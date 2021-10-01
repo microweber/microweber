@@ -1,5 +1,6 @@
 
 import {ElementManager} from  '../classes/element'
+import {DomService} from  '../classes/dom'
 
 
 /*
@@ -49,7 +50,7 @@ MWEditor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
-            var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
+            var tg = DomService.firstParentOrCurrentWithTag(data.target,'a');
             if(!tg) {
                 this.element.hide();
                 return;
@@ -128,11 +129,11 @@ MWEditor.interactionControls = {
         };
         this.interact = function (data) {
 
-            if(MWEditor.tools.dom.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
+            if(DomService.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
             if(this.nodes.indexOf(data.target) !== -1) {
-                this.element.$node.hide();
+                this.element.hide();
                 return;
             }
             if (data.isImage) {
@@ -152,7 +153,7 @@ MWEditor.interactionControls = {
         var lscope = this;
         this.interact = function (data) {
             if (!data.eventIsActionLike) { return; }
-            var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            var td = DomService.firstParentOrCurrentWithTag(data.localTarget, 'td');
             if (td) {
                 var $target = $(td);
                 this.$target = $target;
@@ -160,12 +161,12 @@ MWEditor.interactionControls = {
                 css.top -= lscope.element.node.offsetHeight;
                 this.element.$node.css(css).show();
             } else {
-                this.element.$node.hide();
+                this.element.hide();
             }
         };
 
         this._afterAction = function () {
-            this.element.$node.hide();
+            this.element.hide();
             rootScope.state.record({
                 target: rootScope.$editArea[0],
                 value: rootScope.$editArea[0].innerHTML
@@ -232,7 +233,7 @@ MWEditor.interactionControls = {
 
         this.deleteColumn = function (cell) {
             cell = cell || this.getActiveCell();
-            var index = mw.tools.index(cell),
+            var index = DomService.index(cell),
                 body = cell.parentNode.parentNode,
                 rows = mw.$(body).children('tr'),
                 l = rows.length,
@@ -245,7 +246,7 @@ MWEditor.interactionControls = {
 
         this.getActiveCell = function () {
             var node = rootScope.api.elementNode( rootScope.getSelection().focusNode);
-            return mw.tools.firstParentOrCurrentWithTag(node,'td');
+            return DomService.firstParentOrCurrentWithTag(node,'td');
         };
 
         this.insertColumn = function (dir, cell) {
@@ -256,7 +257,7 @@ MWEditor.interactionControls = {
             }
             dir = dir || 'right';
             var rows = mw.$(cell.parentNode.parentNode).children('tr');
-            var i = 0, l = rows.length, index = mw.tools.index(cell);
+            var i = 0, l = rows.length, index = DomService.index(cell);
             for (; i < l; i++) {
                 var row = rows[i];
                 cell = mw.$(row).children('td')[index];
@@ -294,7 +295,7 @@ MWEditor.interactionControls = {
         };
         this.deleteColumn = function (cell) {
             cell = cell || this.getActiveCell();
-            var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
+            var index = DomService.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
             for (; i < l; i++) {
                 var row = rows[i];
                 mw.$(row.getElementsByTagName('td')[index]).remove();
@@ -303,8 +304,8 @@ MWEditor.interactionControls = {
 
         this.setStyle = function (cls, cell) {
             cell = cell || this.getActiveCell();
-            var table = mw.tools.firstParentWithTag(cell, 'table');
-            mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
+            var table = DomService.firstParentWithTag(cell, 'table');
+            DomService.classNamespaceDelete(table, 'mw-wysiwyg-table');
             mw.$(table).addClass(cls);
         };
         this.element = this.render();

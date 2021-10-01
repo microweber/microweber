@@ -1,6 +1,7 @@
 (function(){
 var domHelp = {
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
+        var exceptions, el;
         if (el_obj.element && el_obj.namespace) {
             el = el_obj.element;
             namespace = el_obj.namespace;

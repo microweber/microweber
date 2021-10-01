@@ -16354,19 +16354,19 @@ mw.CSSParser = function(el){
 
     f.transform = function(){
      var transform = mw.JSPrefix('transform');
-     var transform = css[transform];
+     transform = css[transform];
      if(transform==="" || transform==="none"){
        return [1, 0, 0, 1, 0, 0];
      }
      else{
-       var transform = transform.substr(7, transform.length - 8).split(", ");
+       transform = transform.substr(7, transform.length - 8).split(", ");
        return transform;
      }
     }
 
     f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
-      var shadow = css[shadow].replace(/, /g, ",").split(" ");
+      shadow = css[shadow].replace(/, /g, ",").split(" ");
       return {
         color: shadow[0],
         left:shadow[1],
@@ -19386,6 +19386,7 @@ mw.cookie = {
 (function(){
 var domHelp = {
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
+        var exceptions, el;
         if (el_obj.element && el_obj.namespace) {
             el = el_obj.element;
             namespace = el_obj.namespace;
@@ -19438,7 +19439,7 @@ var domHelp = {
 
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -19458,7 +19459,7 @@ var domHelp = {
     },
     parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -19481,7 +19482,7 @@ var domHelp = {
             match = {a: 0, b: 0},
             count = 1,
             hadA = false;
-        while (curr !== document.body) {
+        while (curr && curr.classList) {
             count++;
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
@@ -19513,7 +19514,7 @@ var domHelp = {
             match = {a: 0, b: 0},
             count = 1,
             hadA = false;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             count++;
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
@@ -19541,7 +19542,7 @@ var domHelp = {
         var curr = node,
             has1 = false,
             has2 = false;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -19561,7 +19562,7 @@ var domHelp = {
     },
     matchesAnyOnNodeOrParent: function (node, arr) {
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var i = 0;
             for (; i < arr.length; i++) {
                 if (mw.tools.matches(curr, arr[i])) {
@@ -19578,7 +19579,7 @@ var domHelp = {
             arr = [arr];
         }
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var i = 0;
             for (; i < arr.length; i++) {
                 if (mw.tools.matches(curr, arr[i])) {
@@ -19595,7 +19596,7 @@ var domHelp = {
             arr = [arr];
         }
         var curr = node, result;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var i = 0;
             for (; i < arr.length; i++) {
                 if (mw.tools.matches(curr, arr[i])) {
@@ -19608,7 +19609,7 @@ var domHelp = {
     },
     hasAnyOfClassesOnNodeOrParent: function (node, arr) {
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             var i = 0;
             for (; i < arr.length; i++) {
                 if (mw.tools.hasClass(curr, arr[i])) {
@@ -19657,7 +19658,7 @@ var domHelp = {
     hasParentsWithClass: function (el, cls) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (mw.tools.hasClass(curr, cls)) {
                 return true;
             }
@@ -19668,7 +19669,7 @@ var domHelp = {
     hasParentWithId: function (el, id) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (curr.id === id) {
                 return true;
             }
@@ -19678,7 +19679,7 @@ var domHelp = {
     },
 
     hasChildrenWithTag: function (el, tag) {
-        var tag = tag.toLowerCase();
+        tag = tag.toLowerCase();
         var has = false;
         mw.tools.foreachChildren(el, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
@@ -19692,7 +19693,7 @@ var domHelp = {
         if (!el || !tag) return;
         tag = tag.toLowerCase();
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (curr.nodeName.toLowerCase() === tag) {
                 return true;
             }
@@ -19704,7 +19705,7 @@ var domHelp = {
         if (!el) return;
         var h = /^(h[1-6])$/i;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (h.test(curr.nodeName.toLowerCase())) {
                 return true;
             }
@@ -19867,7 +19868,7 @@ var domHelp = {
         if (!node) return obj;
 
         var curr = node.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             count++;
             var cls = curr.className;
             i = 0;
@@ -19890,7 +19891,7 @@ var domHelp = {
         if (!node) return obj;
 
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             count++;
             var cls = curr.className;
             i = 0;
@@ -19907,7 +19908,7 @@ var domHelp = {
     firstParentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -19918,7 +19919,7 @@ var domHelp = {
     firstParentOrCurrentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (mw.tools.hasClass(curr, cls)) {
                 return curr;
             }
@@ -19927,7 +19928,7 @@ var domHelp = {
         return false;
     },
     firstBlockLevel: function (el) {
-        while(el && el !== document.body) {
+        while(el && el.classList) {
             if(mw.tools.isBlockLevel(el)) {
                 return el;
             }
@@ -19941,7 +19942,7 @@ var domHelp = {
         if(!el) {
             return;
         }
-        while(el && el !== document.body) {
+        while(el && el.classList) {
             if(!mw.tools.isInlineLevel(el)) {
                 return el;
             }
@@ -19951,7 +19952,7 @@ var domHelp = {
     firstParentOrCurrentWithId: function (el, id) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr !== document.body) {
+        while (curr && el.classList) {
             if (curr.id === id) {
                 return curr;
             }
@@ -19962,7 +19963,7 @@ var domHelp = {
     firstParentOrCurrentWithAllClasses: function (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (mw.tools.hasAllClasses(curr, arr)) {
                 return curr;
             }
@@ -19973,7 +19974,7 @@ var domHelp = {
     firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (!curr) return false;
             if (mw.tools.hasAnyOfClasses(curr, arr)) {
                 return curr;
@@ -19986,7 +19987,7 @@ var domHelp = {
         if (!el) return;
         var _has = false;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (mw.tools.hasClass(curr, cls)) {
                 _has = curr;
             }
@@ -19998,7 +19999,7 @@ var domHelp = {
         if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
@@ -20010,7 +20011,7 @@ var domHelp = {
         if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el;
-        while (curr && curr !== document.body) {
+        while (curr && curr.classList) {
             if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
@@ -22139,6 +22140,7 @@ mw.errorsHandle = function (obj) {
         mw.session.logRequest();
 
     }
+    obj.errors = obj.errors || obj.form_errors;
     if(obj.errors) {
         var html = [];
         for (var key in obj.errors) {
