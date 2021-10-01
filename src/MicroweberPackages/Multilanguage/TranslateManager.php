@@ -305,7 +305,7 @@ class TranslateManager
             }
 
         });
-        
+
         event_bind('app.permalink.slug.before', function ($params) {
 
             // Debugbar::addMessage('app.permalink.slug.before', '1');
@@ -400,7 +400,6 @@ class TranslateManager
 
 
             $detect = detect_lang_from_url($targetUrl);
-
 
             $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
             if ($useGeolocation && $useGeolocation == 'y') {

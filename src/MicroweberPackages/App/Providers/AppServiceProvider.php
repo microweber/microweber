@@ -445,33 +445,18 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            if (MultilanguageHelpers::multilanguageIsEnabled() and !is_ajax()) {
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                //  Change language if user requtest language with LINK lang abr
                 $currentUri = request()->path();
                 $linkSegments = url_segment(-1, $currentUri);
                 $linkSegments = array_filter($linkSegments, 'trim');
                 if (isset($linkSegments[0]) and $linkSegments[0]) {
-
                     $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
                     if(!$localeSettings){
                         $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                     }
-
                     if($localeSettings and isset($localeSettings['locale'])) {
                       change_language_by_locale($localeSettings['locale'],true);
-//
-//                        $localeFromUrl = $localeSettings['locale'];
-//
-//                        $applyCookieLang = true;
-//                        if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $localeFromUrl) {
-//                            $applyCookieLang = true;
-//                        }
-//                        if ($applyCookieLang) {
-//                            if (is_lang_correct($localeFromUrl)) {
-//                                setcookie('lang', $localeFromUrl, time() + (86400 * 30), "/");
-//                                $_COOKIE['lang'] = $localeFromUrl;
-//                                \Cookie::queue('lang', $localeFromUrl, 86400 * 30);
-//                            }
-//                        }
                     }
                 }
             }
