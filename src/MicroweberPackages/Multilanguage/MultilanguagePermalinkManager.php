@@ -25,7 +25,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         }
     }
 
-
     public static $_linkContent = [];
     public function linkContent($contentId)
     {
@@ -101,10 +100,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         $link = [];
 
-        $category = get_category_by_id($categoryId);
+        $category = $this->app->category_repository->findById($categoryId);
         if ($category) {
             switch ($this->structure) {
                 case 'category_post':
+                    /// do nothing
+                    break;
                 case 'page_post':
                 case 'post':
                 case 'page_category_post':
@@ -121,7 +122,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     break;
             }
 
-            $link['original_slug'] = $category['url'];
+            $categoryMultilanguage = (array) $category->multilanguage;
+            $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
         }
 
         return $link;
