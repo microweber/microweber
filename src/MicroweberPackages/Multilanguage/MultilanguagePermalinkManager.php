@@ -50,6 +50,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                 if (isset($linkSegments[$structureMapIndex])) {
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
+                    $findSlugByType = urldecode($findSlugByType);
 
                     $relType = 'content';
                     if ($type== 'category') {
@@ -100,6 +101,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                             return $findPostsBySlug['field_value'];
                         }
                     }
+
 
                     if ($type == 'content') {
                         $findContentBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
