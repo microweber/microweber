@@ -39,7 +39,8 @@ if (!empty($supportedLanguages)) {
              */
             $canonicalLink = url_current(true);
             $metaTagsHtml = '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
-            $metaTagsHtml .= '<link rel="alternate" href="'.$canonicalLink.'" hreflang="x-default" />' . PHP_EOL;
+
+            $metaTagsHtml .= '<link rel="alternate" href="'.site_url().'" hreflang="x-default" />' . PHP_EOL;
 
             $currentLang = mw()->lang_helper->default_lang();
             foreach ($supportedLanguages as $locale) {
