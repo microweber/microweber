@@ -12,7 +12,6 @@ mw.content = mw.content || {
     },
     deleteCategory: function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
-
          $.ajax({
                 url: mw.settings.api_url + 'category/delete/' + id,
                 method: 'DELETE',
