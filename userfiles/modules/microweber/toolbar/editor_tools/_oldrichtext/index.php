@@ -143,7 +143,7 @@
     </script>
 
 
-    <style type="text/css">
+    <style >
 
         * {
             margin: 0;

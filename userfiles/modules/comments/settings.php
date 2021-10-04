@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <div>
-    <style type="text/css" scoped="scoped">
+    <style  scoped="scoped">
         #other-settings {
             position: relative;
             overflow: hidden;

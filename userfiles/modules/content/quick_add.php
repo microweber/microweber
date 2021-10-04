@@ -1,5 +1,5 @@
 <?php exit('this is old file and will be removed'); ?><link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
-<style type="text/css">
+<style >
 #le_create_content_sidebar {
 	width: 10%;
 	min-width: 120px;

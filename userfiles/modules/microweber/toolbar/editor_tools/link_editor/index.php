@@ -131,7 +131,7 @@
 </script>
 
 
-<style type="text/css">
+<style >
 
     #insert_link_list .mw-dropdown-content{
         position: relative;

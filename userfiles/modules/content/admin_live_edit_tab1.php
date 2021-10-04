@@ -238,7 +238,7 @@ $rand = uniqid(); ?>
     }
     ?>
 
-    <style type="text/css">
+    <style >
         .setting-row {
             padding: 10px;
         }

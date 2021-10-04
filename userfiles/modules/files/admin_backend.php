@@ -40,7 +40,7 @@
 
 
 
-    <style type="text/css">
+    <style >
         .mw-file-browser-popup .modules-index-bar {
             padding-top: 12px;
         }

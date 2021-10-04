@@ -129,6 +129,8 @@ if ($screenshots) {
     <div class="mw-mod-template-settings-holder">
         <?php $default_item_names = array(); ?>
 
+
+
         <label class="form-group d-block">
             <label class="control-label"><?php _e("Current Skin / Template"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>

@@ -247,7 +247,7 @@
             mw.liveEditDynamicTemp = {};
         </script>
 
-        <style type="text/css" id="mw-dynamic-css">
+        <style  id="mw-dynamic-css">
 
         </style>
     </div>

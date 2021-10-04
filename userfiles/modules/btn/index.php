@@ -22,7 +22,12 @@ if (!empty($get_btn_options)) {
 
 $align = get_module_option('align', $params['id']);
 
-
+$backgroundColor = get_module_option('backgroundColor', $params['id']);
+$color = get_module_option('color', $params['id']);
+$borderColor = get_module_option('borderColor', $params['id']);
+$borderWidth = get_module_option('borderWidth', $params['id']);
+$borderRadius = get_module_option('borderRadius', $params['id']);
+$shadow = get_module_option('shadow', $params['id']);
 
 
 
@@ -145,14 +150,45 @@ if (is_file($template_file) != false) {
 ?>
 
 
-<?php if($align){ ?>
-<style type="text/css">
-    #<?php print $params['id']; ?> {
-        text-align: <?php print $align; ?>;
-    }
-</style>
-<?php } ?>
+<?php
 
+$cssWrapper = '';
+$cssButton = '';
+
+
+if($backgroundColor){
+    $cssButton .= 'background-color:' . $backgroundColor . '!important;';
+}
+if($color){
+    $cssButton .= 'color:' . $color . '!important;';
+}
+
+if($borderColor){
+    $cssButton .= 'border-color:' . $borderColor . '!important;';
+}
+
+if($borderWidth){
+    $cssButton .= 'border-width:' . $borderWidth . 'px!important;';
+}
+
+if($borderRadius){
+    $cssButton .= 'border-radius:' . $borderRadius . 'px!important;';
+}
+
+if($shadow){
+    $cssButton .= 'box-shadow:' . $shadow . '!important;';
+}
+
+if($align){
+    $cssWrapper .= 'text-align:' . $align . ' !important;';
+}
+
+?>
+    <style >
+        #<?php print $params['id']; ?> { <?php print $cssWrapper; ?> }
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>,#<?php print $params['id']; ?> > a, #<?php print $params['id']; ?> > button { <?php print $cssButton; ?> }
+
+    </style>
 <?php
 
 if ($action == 'popup') { ?>

@@ -7,7 +7,7 @@ $show_subcats = get_option('show-subcats', $params['id']);
 $hide_pages = get_option('hide-pages', $params['id']);
 $my_tree_id = ''
 ?>
-<style type="text/css" scoped="scoped">
+<style  scoped="scoped">
     #parentcat .depth-1 {
         padding-left: 10px;
     }
