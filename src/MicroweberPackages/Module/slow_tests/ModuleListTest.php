@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Module\tests;
+namespace MicroweberPackages\Module\slow_tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;

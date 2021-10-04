@@ -20,7 +20,7 @@
           <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
       <testsuite name="MicroweberModuleListTests">
-          <directory>./src/MicroweberPackages/Module/tests/</directory>
+          <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
         </testsuite>
   </testsuites>
   <php>
