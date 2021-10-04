@@ -97,6 +97,36 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         return $link;
     }
 
+    public function linkCategory($categoryId)
+    {
+        $link = [];
+
+        $category = get_category_by_id($categoryId);
+        if ($category) {
+            switch ($this->structure) {
+                case 'category_post':
+                case 'page_post':
+                case 'post':
+                case 'page_category_post':
+                case 'page_category_sub_categories_post':
+                    $pageCategory = $this->app->category_manager->get_page($categoryId);
+                    $pageId = $pageCategory['id'];
+                    $pageCategory = app()->content_repository->findById($pageId);
+                    if ($pageCategory != null) {
+                        $pageCategoryMultilanguage = (array) $pageCategory->multilanguage;
+                        if (isset($pageCategoryMultilanguage[$this->language]['url'])) {
+                            $link[] = $pageCategoryMultilanguage[$this->language]['url'];
+                        }
+                    }
+                    break;
+            }
+
+            $link['original_slug'] = $category['url'];
+        }
+
+        return $link;
+    }
+
     public function getCategorySlugForPost($postId)
     {
         $slug = false;
