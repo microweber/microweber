@@ -39,15 +39,18 @@ if (!empty($supportedLanguages)) {
             $canonicalLink = urldecode($canonicalLink);
 
             $metaTagsHtml = '';
-            // $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+            $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
             $currentLang = mw()->lang_helper->default_lang();
             foreach ($supportedLanguages as $locale) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                 $contentLink = $pm->link(CONTENT_ID, 'content');
 
-                $metaLocale = str_replace('_', '-', $locale['locale']);
+                if ($canonicalLink == $contentLink) {
+                    continue;
+                }
 
+                $metaLocale = str_replace('_', '-', $locale['locale']);
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
 
