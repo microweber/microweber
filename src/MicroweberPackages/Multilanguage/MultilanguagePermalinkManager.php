@@ -211,7 +211,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     break;
             }
 
-            if (isset($categoryMultilanguage[$this->language])) {
+            if (isset($category->multilanguage[$this->language])) {
                 $categoryMultilanguage = (array)$category->multilanguage;
                 $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
             } else {
