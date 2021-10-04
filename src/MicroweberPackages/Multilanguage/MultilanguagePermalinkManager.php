@@ -199,6 +199,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $pageCategoryMultilanguage = (array) $pageCategory->multilanguage;
                         if (isset($pageCategoryMultilanguage[$this->language]['url'])) {
                             $link[] = $pageCategoryMultilanguage[$this->language]['url'];
+                        } else {
+                            $link[] = $pageCategory->getOriginal('url');
                         }
                     }
                     break;
@@ -207,7 +209,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                 $categoryMultilanguage = (array)$category->multilanguage;
                 $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
             } else {
-                $link['original_slug'] = $category->url;
+                $link['original_slug'] = $category->getOriginal('url');
             }
         }
 
