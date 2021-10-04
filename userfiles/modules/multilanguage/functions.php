@@ -46,10 +46,6 @@ if (!empty($supportedLanguages)) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                 $contentLink = $pm->link(CONTENT_ID, 'content');
 
-                if ($canonicalLink == $contentLink) {
-                    continue;
-                }
-
                 $metaLocale = str_replace('_', '-', $locale['locale']);
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
