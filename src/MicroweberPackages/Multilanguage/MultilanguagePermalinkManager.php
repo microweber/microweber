@@ -196,18 +196,16 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     $pageId = $pageCategory['id'];
                     $pageCategory = app()->content_repository->findById($pageId);
                     if ($pageCategory != null) {
-                        $pageCategoryMultilanguage = (array) $pageCategory->multilanguage;
-                        if (isset($pageCategoryMultilanguage[$this->language]['url'])) {
-                            $link[] = $pageCategoryMultilanguage[$this->language]['url'];
+                        if (isset($pageCategory->multilanguage[$this->language]['url'])) {
+                            $link[] = $pageCategory->multilanguage[$this->language]['url'];
                         } else {
                             $link[] = $pageCategory->getOriginal('url');
                         }
                     }
                     break;
             }
-            if (isset($category->multilanguage[$this->language])) {
-                $categoryMultilanguage = (array)$category->multilanguage;
-                $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
+            if (isset($category->multilanguage[$this->language]['url'])) {
+                $link['original_slug'] = $category->multilanguage[$this->language]['url'];
             } else {
                 $link['original_slug'] = $category->getOriginal('url');
             }
