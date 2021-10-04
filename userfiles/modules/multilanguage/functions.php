@@ -28,24 +28,24 @@ if (!empty($supportedLanguages)) {
              * Links must look like
              *
                 <link rel="canonical" href="https://localhost/microweber/ar_SA/others/apple-computer" />
-                <link rel="alternate" href="https://localhost/microweber/ar_SA/others/apple-computer" hreflang="x-default" />
                 <link rel="alternate" href="https://localhost/microweber/bg_BG/others/apple-computer" hreflang="bg-BG" />
                 <link rel="alternate" href="https://localhost/microweber/ar_SA/others/apple-computer" hreflang="ar-SA" />
              */
 
             /**
              * 1.Canonical links is current page url
-             * 2.X-default is the current page
              */
             $canonicalLink = url_current(true);
-            $metaTagsHtml = '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+            $canonicalLink = urldecode($canonicalLink);
 
-            $metaTagsHtml .= '<link rel="alternate" href="'.site_url().'" hreflang="x-default" />' . PHP_EOL;
+            $metaTagsHtml = '';
+            // $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
             $currentLang = mw()->lang_helper->default_lang();
             foreach ($supportedLanguages as $locale) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                 $contentLink = $pm->link(CONTENT_ID, 'content');
+
                 $metaLocale = str_replace('_', '-', $locale['locale']);
 
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
