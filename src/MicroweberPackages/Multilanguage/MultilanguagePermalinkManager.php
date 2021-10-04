@@ -130,12 +130,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         if ($content) {
 
             $originalSlug = $content->getOriginal('url');
-
-            if ($content['content_type'] == 'page') {
-                if ($this->language) {
-                    if (isset($content->multilanguage[$this->language]['url'])) {
-                        $originalSlug = $content->multilanguage[$this->language]['url'];
-                    }
+            if ($this->language) {
+                if (isset($content->multilanguage[$this->language]['url'])) {
+                    $originalSlug = $content->multilanguage[$this->language]['url'];
                 }
             }
 
@@ -144,7 +141,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
                         $postParentPage = app()->content_repository->getById($content['parent']);
-
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
