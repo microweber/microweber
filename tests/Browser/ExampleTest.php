@@ -15,8 +15,10 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')->dump();
+        $websiteUrl = site_url();
+
+        $this->browse(function (Browser $browser) use($websiteUrl) {
+            $browser->visit($websiteUrl)->dump();
         });
     }
 }
