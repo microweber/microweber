@@ -10,7 +10,7 @@ class DuskServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        if ($this->app->environment('local', 'testing')) {
+        if (is_cli()) {
             if (\class_exists('\Laravel\Dusk\DuskServiceProvider')) {
                 app()->register(\Laravel\Dusk\DuskServiceProvider::class);
                 // php artisan dusk:serve --env=testing
