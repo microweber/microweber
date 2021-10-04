@@ -46,7 +46,12 @@ if (!empty($supportedLanguages)) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                 $contentLink = $pm->link(CONTENT_ID, 'content');
 
-                $metaLocale = str_replace('_', '-', $locale['locale']);
+                $metaLocale = $locale['locale'];
+                $expMetaLocale = explode('_', $metaLocale);
+                if (count($expMetaLocale) > 1) {
+                    $metaLocale = $expMetaLocale[0];
+                }
+
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
 
