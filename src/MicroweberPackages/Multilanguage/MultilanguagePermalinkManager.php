@@ -3,7 +3,6 @@ namespace MicroweberPackages\Multilanguage;
 
 class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManager
 {
-
     public $language = false;
 
     public function __construct($language = false)
@@ -23,6 +22,96 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         if ($getLinkAfter) {
             $this->linkAfter[] = $getLinkAfter;
         }
+    }
+
+    public function slug($link, $type)
+    {
+        if (!$link) {
+            $link = $this->app->url_manager->current(true);
+        }
+
+        $linkSegments = url_segment(-1, $link);
+        $linkSegments = array_filter($linkSegments, 'strlen');
+
+        if (empty($linkSegments)) {
+            return false;
+        }
+
+        $structureMap = $this->getStructuresReadMap();
+        foreach ($structureMap as $structureMapIndex => $structureMapItem) {
+            if (strpos($structureMapItem, $type) !== false) {
+                if (isset($linkSegments[$structureMapIndex])) {
+
+                    $findSlugByType = $linkSegments[$structureMapIndex];
+
+                    $relType = 'content';
+                    if ($type== 'category') {
+                        $relType = 'categories';
+                    }
+                    if ($relType == 'post' or $relType == 'page' or $relType == 'product') {
+                        $relType = 'content';
+                    }
+
+                    if ($type == 'category') {
+                        $findCategoryBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
+                        if ($findCategoryBySlug) {
+                            return $findCategoryBySlug['field_value'];
+                        }
+                    }
+
+                    if ($type == 'page') {
+
+                        // If page found return slug
+                        $findPageBySlug = get_pages('url=' . $findSlugByType . '&single=1');
+                        if ($findPageBySlug) {
+                            return $findPageBySlug['url'];
+                        }
+
+                        // If page not found try to find page from category
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            $findCategoryPage = get_page_for_category($findCategoryBySlug['id']);
+                            if ($findCategoryPage && isset($findCategoryPage['url'])) {
+                                return $findCategoryPage['url'];
+                            }
+                        }
+
+                        // If page not fond & category not found we try to find post
+                        $findPostBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
+                        if ($findPostBySlug && isset($findPostBySlug['parent']) && $findPostBySlug['parent'] != false) {
+                            //  $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
+                            $findPostPageBySlug =  app()->content_repository->getById($findPostBySlug['parent']);
+                            if ($findPostPageBySlug) {
+                                return $findPostPageBySlug['url'];
+                            }
+                        }
+                    }
+
+                    if ($type == 'post') {
+                        $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
+
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
+                            return $findPostsBySlug['url'];
+                        }
+                    }
+
+                    if ($type == 'content') {
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public static $_linkContent = [];
@@ -122,8 +211,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     break;
             }
 
-            $categoryMultilanguage = (array) $category->multilanguage;
-            $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
+            if (isset($categoryMultilanguage[$this->language])) {
+                $categoryMultilanguage = (array)$category->multilanguage;
+                $link['original_slug'] = $categoryMultilanguage[$this->language]['url'];
+            } else {
+                $link['original_slug'] = $category->url;
+            }
         }
 
         return $link;
