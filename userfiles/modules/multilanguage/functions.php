@@ -43,16 +43,23 @@ if (!empty($supportedLanguages)) {
             if (is_home()) {
 
                 $currentLocale = app()->getLocale();
+                $homepageLanguage = get_option('homepage_language', 'website');
+                if (empty($homepageLanguage)) {
+                    $homepageLanguage = $currentLocale;
+                }
 
                 $canonicalLink = url_current(true);
                 $canonicalLink = urldecode($canonicalLink);
                 $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
+                $metaTagsHtml .= '<link rel="alternate" href="' . site_url() . '" hreflang="' . $homepageLanguage . '" />' . "\n";
+
                 foreach ($supportedLanguages as $locale) {
                     $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                     $contentLink = $pm->link(CONTENT_ID, 'content');
 
-                    if ($locale['locale'] == $currentLocale) {
+                    if ($homepageLanguage == $locale['locale']) {
+                        // Skip this alternate links
                         continue;
                     }
 
