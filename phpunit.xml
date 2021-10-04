@@ -15,12 +15,13 @@
     <testdoxText outputFile="php://stdout"/>
   </logging>
   <testsuites>
-    <testsuite name="Microweber Test Suite">
-      <directory>./src/MicroweberPackages/*/tests/</directory>
-    </testsuite>
-    <testsuite name="Microweber Modules Test Suite">
-      <directory>./userfiles/modules/*/tests/</directory>
-    </testsuite>
+        <testsuite name="MicroweberCoreTests">
+          <directory>./src/MicroweberPackages/*/tests/</directory>
+          <directory>./userfiles/modules/*/tests/</directory>
+        </testsuite>
+      <testsuite name="MicroweberModuleListTests">
+          <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
+        </testsuite>
   </testsuites>
   <php>
     <env name="CACHE_DRIVER" value="array"/>

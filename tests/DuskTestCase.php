@@ -16,7 +16,6 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-
     protected function getBasePath()
     {
         return \realpath(__DIR__.'/../');
@@ -36,30 +35,6 @@ abstract class DuskTestCase extends BaseTestCase
             static::startChromeDriver();
         }
     }
-    protected function aaresolveApplication()
-    {
-        return \tap(new LaravelApplication($this->getBasePath()), static function ($app) {
-
-            $app->alias('Config', ConfigSave::class);
-
-
-
-            return $app;
-        });
-    }
-
-//    protected function resolveApplicationConfiguration($app)
-//    {
-//        $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
-//
-//        \tap($this->getApplicationTimezone($app), static function ($timezone) {
-//            ! \is_null($timezone) && \date_default_timezone_set($timezone);
-//        });
-//
-//        $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
-//        $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
-//    }
-//
 
     protected function getPackageProviders($app)
     {
@@ -76,8 +51,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
 
         $app = $this->resolveApplication();
-      //  $app->registerBaseServiceProviders();
-
+        //  $app->registerBaseServiceProviders();
 
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
@@ -91,8 +65,8 @@ abstract class DuskTestCase extends BaseTestCase
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
-         //   dump($is_installed);
-         //   $app->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
+            //   dump($is_installed);
+            //   $app->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
 
 
             $tc = new TestCase();
@@ -154,15 +128,11 @@ abstract class DuskTestCase extends BaseTestCase
     protected function hasHeadlessDisabled()
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-               isset($_ENV['DUSK_HEADLESS_DISABLED']);
+            isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
-
 
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('app.key', 'tQbgKF5NH5zMyGh4vCNypFAzx9trCkE6x');
-
-     //   $app['config']->set('database.default', 'testing');
-
     }
 }

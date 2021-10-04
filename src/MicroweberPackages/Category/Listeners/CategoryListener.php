@@ -6,7 +6,5 @@ class CategoryListener
     public function handle($event)
     {
         $data = $event->getData();
-
-        dd($data);
     }
 }
