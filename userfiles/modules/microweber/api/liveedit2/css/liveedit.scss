@@ -6,17 +6,19 @@
 mw-le-element{
     display: block;
 }
-mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
-    margin: 0;
-    padding: 0;
-    font-family: Verdana, sans-serif;
-    box-sizing: border-box;
+mw-le-element{
     line-height: normal;
     font-weight: normal;
     font-style: normal;
     list-style: none;
     letter-spacing: normal;
     word-spacing: normal;
+}
+mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, sans-serif;
+    box-sizing: border-box;
 }
 
 .edit,
