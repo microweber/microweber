@@ -21,22 +21,28 @@
     }
     mw.content.deleteCategory = function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
-            $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                mw.notification.success('Category deleted');
-                if (callback) {
-                    callback.call(data, data);
-                }
-                mw.reload_module_everywhere('content/manager');
-                mw.reload_module_everywhere('categories/manage');
-                mw.reload_module_everywhere('categories/admin_backend');
-                mw.reload_module_everywhere('categories/admin_backend_modal');
-                mw.url.windowDeleteHashParam('action');
+            $.ajax({
+                url: mw.settings.api_url + 'category/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                success: function(result) {
 
+                    mw.notification.success('Category deleted');
+
+                    if (callback) {
+                        callback.call(data, data);
+                    }
+
+                    mw.reload_module_everywhere('content/manager');
+                    mw.reload_module_everywhere('categories/manage');
+                    mw.reload_module_everywhere('categories/admin_backend');
+                    mw.reload_module_everywhere('categories/admin_backend_modal');
+
+                    mw.url.windowDeleteHashParam('action');
+                }
             });
         });
     }
-
-
 
     mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
 
@@ -101,24 +107,28 @@
         mw.quick_cat_edit = mw_select_category_for_editing_from_modal;
         mw.quick_cat_delete =   function (id, callback) {
             mw.tools.confirm('Are you sure you want to delete this?', function () {
-                $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                    mw.notification.success('Category deleted');
-                    if (callback) {
-                        callback.call(data, data);
+                $.ajax({
+                    url: mw.settings.api_url + "category/delete/" + id,
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    success: function(result) {
+
+                        mw.notification.success('Category deleted');
+
+                        if (callback) {
+                            callback.call(data, data);
+                        }
+
+                        mw.reload_module_everywhere('content/manager');
+                        mw.reload_module_everywhere('categories/manage');
+                        mw.reload_module_everywhere('categories/admin_backend');
+                        mw.reload_module_everywhere('categories/admin_backend_modal');
+
+                        mw.url.windowDeleteHashParam('action');
                     }
-
-
-
-                    mw.reload_module_everywhere('content/manager');
-                    mw.reload_module_everywhere('categories/manage');
-                    mw.reload_module_everywhere('categories/admin_backend');
-                    mw.reload_module_everywhere('categories/admin_backend_modal');
-                    mw.url.windowDeleteHashParam('action');
-
                 });
             });
         };
-
 
 
         mw.on.hashParam("action", function (pval) {

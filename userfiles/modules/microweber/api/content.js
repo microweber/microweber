@@ -12,15 +12,21 @@ mw.content = mw.content || {
     },
     deleteCategory: function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
-            $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                mw.notification.success('Category deleted');
-                if (callback) {
-                    callback.call(data, data);
-                }
-                mw.reload_module_everywhere('content/manager');
-                mw.url.windowDeleteHashParam('action');
 
+         $.ajax({
+                url: mw.settings.api_url + 'category/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                success: function (result) {
+                    mw.notification.success('Category deleted');
+                    if (callback) {
+                        callback.call(result, result);
+                    }
+                    mw.reload_module_everywhere('content/manager');
+                    mw.url.windowDeleteHashParam('action');
+                }
             });
+
         });
     },
     publish: function ($id) {
