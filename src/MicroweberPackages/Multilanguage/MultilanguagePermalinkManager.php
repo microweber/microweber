@@ -233,6 +233,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     $selected_cat_multilanguage = (array) $selected_cat->multilanguage;
                     if (isset($selected_cat_multilanguage[$this->language]['url'])) {
                         $slug = $selected_cat_multilanguage[$this->language]['url'];
+                    } else {
+                        $slug = $selected_cat->getOriginal('url');
                     }
                 }
             }
