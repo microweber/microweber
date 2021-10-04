@@ -171,6 +171,8 @@ trait SitemapHelpersTrait
 
     private function needToUpdateSitemap($sitemapFileLocation)
     {
+        return true;
+
         $updateSitemap = false;
 
         if (is_file($sitemapFileLocation)) {
