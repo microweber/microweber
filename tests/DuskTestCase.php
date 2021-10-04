@@ -16,7 +16,6 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-
     protected function getBasePath()
     {
         return \realpath(__DIR__.'/../');
