@@ -18,68 +18,39 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
 // Event binds must be only when multilanguage is active
 require_once 'event_binds_general.php';
 
-event_bind('mw.controller.index', function () {
-    template_head(function () {
 
-        $currentLang = mw()->lang_helper->default_lang();
+$supportedLanguages = get_supported_languages();
+if (!empty($supportedLanguages)) {
+    event_bind('mw.controller.index', function () use ($supportedLanguages) {
+        template_head(function () use ($supportedLanguages) {
 
+            /**
+             * Links must look like
+             *
+                <link rel="canonical" href="https://localhost/microweber/ar_SA/others/apple-computer" />
+                <link rel="alternate" href="https://localhost/microweber/ar_SA/others/apple-computer" hreflang="x-default" />
+                <link rel="alternate" href="https://localhost/microweber/bg_BG/others/apple-computer" hreflang="bg-BG" />
+                <link rel="alternate" href="https://localhost/microweber/ar_SA/others/apple-computer" hreflang="ar-SA" />
+             */
 
+            /**
+             * 1.Canonical links is current page url
+             * 2.X-default is the current page
+             */
+            $canonicalLink = url_current(true);
+            $metaTagsHtml = '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+            $metaTagsHtml .= '<link rel="alternate" href="'.$canonicalLink.'" hreflang="x-default" />' . PHP_EOL;
 
-
-        $link = '';
-
-
-        $supportedLanguages = get_supported_languages();
-        if ($supportedLanguages) {
+            $currentLang = mw()->lang_helper->default_lang();
             foreach ($supportedLanguages as $locale) {
-
-
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
+                $contentLink = $pm->link(CONTENT_ID, 'content');
+                $metaLocale = str_replace('_', '-', $locale['locale']);
 
-                $content_link = $pm->link(CONTENT_ID, 'content');
-
-                if ($currentLang == $locale['locale']) {
-                    $locale['locale'] = 'x-default';
-                }
-
-                $locale['locale'] = str_replace('_', '-', $locale['locale']);
-                if ($content_link) {
-                    if ($locale['locale'] == 'x-default') {
-                        if (is_home()) {
-                            $content_link = site_url();
-                        } else {
-                            $content_link = url_current(1);
-                        }
-                        $link .= '<link rel="canonical" href="' . $content_link . '" />' . "\n";
-                        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
-
-                    } else {
-                        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
-
-                    }
-
-                }
-            }
-        } else {
-            $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
-
-            $content_link = $pm->link(CONTENT_ID, 'content');
-
-            if (defined('IS_HOME') and IS_HOME) {
-                $content_link = site_url();
-            }
-            if (is_category()) {
-                $content_link = $pm->link(CATEGORY_ID, 'category');
-            }
-            if (is_post()) {
-                $content_link = $pm->link(CONTENT_ID, 'content');
+                $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
 
-
-
-            $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
-
-        }
-        return $link;
+            return $metaTagsHtml;
+        });
     });
-});
+}
