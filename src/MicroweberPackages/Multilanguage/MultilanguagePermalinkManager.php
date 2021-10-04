@@ -34,15 +34,16 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         }
 
         $link = [];
+        $originalSlug = false;
 
         $content = app()->content_repository->findById($contentId);
         if ($content) {
 
             if ($content['content_type'] == 'page') {
-                $link['original_slug'] = $content['url'];
+                $originalSlug = $content['url'];
                 if ($this->language) {
                     if (isset($content->multilanguage[$this->language]['url'])) {
-                        $link['original_slug'] = $content->multilanguage[$this->language]['url'];
+                        $originalSlug = $content->multilanguage[$this->language]['url'];
                     }
                 }
             }
@@ -50,7 +51,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             if ($content['content_type'] != 'page') {
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                     //   $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
                         $postParentPage = app()->content_repository->getById($content['parent']);
 
                         if ($postParentPage) {
@@ -68,7 +68,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
                 if ($this->structure == 'page_category_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                      //  $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
                         $postParentPage = app()->content_repository->getById($content['parent']);
 
                         if ($postParentPage) {
@@ -82,18 +81,47 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     }
                 }
 
-                $link['original_slug'] = $content['url'];
+                $originalSlug = $content['url'];
                 if ($this->language) {
                     if (isset($content->multilanguage[$this->language]['url'])) {
-                        $link['original_slug'] = $content->multilanguage[$this->language]['url'];
+                        $originalSlug = $content->multilanguage[$this->language]['url'];
                     }
                 }
             }
         }
 
+        $link['original_slug'] = $originalSlug;
+
         self::$_linkContent[$this->language][$contentId] = $link;
 
         return $link;
+    }
+
+    public function getCategorySlugForPost($postId)
+    {
+        $slug = false;
+        $categories = get_categories_for_content($postId);
+
+        if ($categories && isset($categories[0])) {
+            $main_cat  = $selected_cat = $categories[0];
+            foreach ($categories as $category){
+                if(isset($category['parent_id']) and isset($main_cat['id']) and $category['parent_id'] == $main_cat['id']){
+                    $selected_cat = $category;
+                }
+            }
+
+            if ($selected_cat and isset($selected_cat['id'])) {
+                $selected_cat = app()->category_repository->findById($selected_cat['id']);
+                if ($selected_cat != null) {
+                    $selected_cat_multilanguage = (array) $selected_cat->multilanguage;
+                    if (isset($selected_cat_multilanguage[$this->language]['url'])) {
+                        $slug = $selected_cat_multilanguage[$this->language]['url'];
+                    }
+                }
+            }
+        }
+
+        return $slug;
     }
 
     public function clearCache()
