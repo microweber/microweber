@@ -80,9 +80,27 @@ if (!empty($supportedLanguages)) {
             $canonicalLink = urldecode($canonicalLink);
             $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
+            $inPage = false;
+            $inProduct = false;
+            $inCategory = false;
+            if (PAGE_ID == CONTENT_ID) {
+                $inPage = true;
+            } else {
+                $inProduct = true;
+            }
+
+            if ($inPage && CATEGORY_ID !== 0) {
+                $inCategory = true;
+            }
+
             foreach ($supportedLanguages as $locale) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-                $contentLink = $pm->link(CONTENT_ID, 'content');
+
+                if ($inCategory) {
+                    $contentLink = $pm->link(CATEGORY_ID, 'category');
+                } else {
+                    $contentLink = $pm->link(CONTENT_ID, 'content');
+                }
 
                 $metaLocale = $locale['locale'];
                 $expMetaLocale = explode('_', $metaLocale);
