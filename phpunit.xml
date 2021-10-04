@@ -15,11 +15,11 @@
     <testdoxText outputFile="php://stdout"/>
   </logging>
   <testsuites>
-        <testsuite name="MicroweberFastTests">
+        <testsuite name="MicroweberCoreTests">
           <directory>./src/MicroweberPackages/*/tests/</directory>
           <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
-      <testsuite name="MicroweberSlowTests">
+      <testsuite name="MicroweberModuleListTests">
           <directory>./src/MicroweberPackages/Module/tests/</directory>
         </testsuite>
   </testsuites>

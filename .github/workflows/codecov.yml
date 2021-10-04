@@ -35,7 +35,7 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Run PHPUnit
-      run: phpunit -c phpunit-coverage.xml --debug
+      run: phpunit --testsuite MicroweberCoreTests -c phpunit-coverage.xml --debug
     - name: Code Cov
       uses: codecov/codecov-action@v2
       with:
