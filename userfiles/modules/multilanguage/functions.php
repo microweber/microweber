@@ -35,11 +35,42 @@ if (!empty($supportedLanguages)) {
             /**
              * 1.Canonical links is current page url
              */
-            $canonicalLink = url_current(true);
-            $canonicalLink = urldecode($canonicalLink);
 
             $metaTagsHtml = '';
 
+
+            // In homepage logis
+            if (is_home()) {
+
+                $currentLocale = app()->getLocale();
+
+                $canonicalLink = url_current(true);
+                $canonicalLink = urldecode($canonicalLink);
+                $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+
+                foreach ($supportedLanguages as $locale) {
+                    $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
+                    $contentLink = $pm->link(CONTENT_ID, 'content');
+
+                    if ($locale['locale'] == $currentLocale) {
+                        continue;
+                    }
+
+                    $metaLocale = $locale['locale'];
+                    $expMetaLocale = explode('_', $metaLocale);
+                    if (count($expMetaLocale) > 1) {
+                        $metaLocale = $expMetaLocale[0];
+                    }
+
+                    $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
+                }
+
+                return $metaTagsHtml;
+            }
+
+            // In other pages
+            $canonicalLink = url_current(true);
+            $canonicalLink = urldecode($canonicalLink);
             $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
             foreach ($supportedLanguages as $locale) {
