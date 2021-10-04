@@ -18,31 +18,40 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
 // Event binds must be only when multilanguage is active
 require_once 'event_binds_general.php';
 
-event_bind('mw.controller.index', function() {
-    template_head(function () {
 
-        $currentLang = mw()->lang_helper->default_lang();
+$supportedLanguages = get_supported_languages();
+if (!empty($supportedLanguages)) {
+    event_bind('mw.controller.index', function () use ($supportedLanguages) {
+        template_head(function () use ($supportedLanguages) {
 
-        $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager(app()->getLocale());
-        $content_link = $pm->link(CONTENT_ID, 'content');
+            /**
+             * Links must look like
+             *
+                <link rel="canonical" href="https://localhost/microweber/ar_SA/others/apple-computer" />
+                <link rel="alternate" href="https://localhost/microweber/bg_BG/others/apple-computer" hreflang="bg-BG" />
+                <link rel="alternate" href="https://localhost/microweber/ar_SA/others/apple-computer" hreflang="ar-SA" />
+             */
 
-        $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
+            /**
+             * 1.Canonical links is current page url
+             */
+            $canonicalLink = url_current(true);
+            $canonicalLink = urldecode($canonicalLink);
 
-        $supportedLanguages = get_supported_languages();
-        foreach ($supportedLanguages as $locale) {
+            $metaTagsHtml = '';
+            // $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
-            $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-            $content_link = $pm->link(CONTENT_ID, 'content');
+            $currentLang = mw()->lang_helper->default_lang();
+            foreach ($supportedLanguages as $locale) {
+                $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
+                $contentLink = $pm->link(CONTENT_ID, 'content');
 
-            if ($currentLang == $locale['locale']) {
-                $locale['locale'] = 'x-default';
+                $metaLocale = str_replace('_', '-', $locale['locale']);
+
+                $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
 
-            $locale['locale'] = str_replace('_', '-', $locale['locale']);
-
-            $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
-        }
-
-        return $link;
+            return $metaTagsHtml;
+        });
     });
-});
+}

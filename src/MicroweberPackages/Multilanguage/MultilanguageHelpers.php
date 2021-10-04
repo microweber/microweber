@@ -13,6 +13,10 @@ class MultilanguageHelpers
 
     public static function multilanguageIsEnabled()
     {
+        if (self::$isEnabled && defined('MW_DISABLE_MULTILANGUAGE')) {
+            return false;
+        }
+
         return self::$isEnabled;
     }
 

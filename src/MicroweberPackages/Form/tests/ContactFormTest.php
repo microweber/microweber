@@ -156,7 +156,7 @@ class ContactFormTest extends TestCase
         }
 
         // Receivers must receive the contact form data
-        $this->assertEquals(count($mailToReceivers), 5); // 4 custom receivers + 1 admin
+        $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
             $to = key($email->getTo());
@@ -296,7 +296,7 @@ class ContactFormTest extends TestCase
         }
 
         // Receivers must receive the contact form data
-        $this->assertEquals(count($mailToReceivers), 5); // 4 custom receivers
+        $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
             $to = key($email->getTo());

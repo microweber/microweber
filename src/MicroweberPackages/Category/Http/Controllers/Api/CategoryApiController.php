@@ -95,8 +95,7 @@ class CategoryApiController extends AdminDefaultController
     public function delete($id)
     {
         $result = $this->category->delete($id);
-
-        //      return (new JsonResource($result))->response();
+        // return (new JsonResource($result))->response();
         return true;
     }
 
