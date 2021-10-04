@@ -39,9 +39,9 @@ if (!empty($supportedLanguages)) {
             $canonicalLink = urldecode($canonicalLink);
 
             $metaTagsHtml = '';
+
             $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
 
-            $currentLang = mw()->lang_helper->default_lang();
             foreach ($supportedLanguages as $locale) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                 $contentLink = $pm->link(CONTENT_ID, 'content');
