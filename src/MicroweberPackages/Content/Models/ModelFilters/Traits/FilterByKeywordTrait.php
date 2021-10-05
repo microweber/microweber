@@ -10,6 +10,7 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use voku\helper\AntiXSS;
 
@@ -31,7 +32,6 @@ trait FilterByKeywordTrait
 
 
         if ($keywordToSearch) {
-
             if (isset($this->input['searchInFields'])) {
                 $searchInFieldsNew = [];
                 $searchInFieldsInput = $this->input['searchInFields'];
@@ -63,20 +63,25 @@ trait FilterByKeywordTrait
                         $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
                     }
                 }
-
-                if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                    $subQuerySearch->orWhereHas('translations', function ($query) use ($table, $keywordToSearch) {
-                     //   dump($keywordToSearch);
-                        $query->where('rel_type', $table);
-                        $query->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
-                    });
-                }
-
                 return $subQuerySearch;
             });
 
+
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                $multilanguageTranslationsQuery = MultilanguageTranslations::query();
+                $multilanguageTranslationsQuery->where('rel_type', $table);
+                $multilanguageTranslationsQuery->whereIn('field_name', ['url', 'description', 'title']);
+                $multilanguageTranslationsQuery->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
+                $multilanguageTranslationsQuery->limit(3000); // MYSQL LIMIT FOR WHERE IN
+                $multilanguageTranslations = $multilanguageTranslationsQuery->get();
+                $relIds = $multilanguageTranslations->pluck('rel_id');
+                if (!empty($relIds)) {
+                    $this->query->orWhereIn('id', $relIds);
+                }
+            }
+
+            return $this->query;
         }
-        return $this->query;
     }
 
 }
