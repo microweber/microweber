@@ -69,51 +69,7 @@ class MultilanguageObserver
         $model->multilanguage = $multilanguage;
         $model->makeHidden(['multilanguage', 'translatable']);
     }
-/*
-    public function saving(Model $model)
-    {
-        if (isset($model->multilanguage)) {
-            self::$multipleTranslationsToSave = $model->multilanguage;
-            unset($model->multilanguage);
-        }
-
-        // Bug with custom field value
-        if (strpos($model->getMorphClass(), 'CustomFieldValue') !== false) {
-            return;
-        }
-
-        $langToSave = $this->getLocale();
-        if (isset($model->lang)) {
-            self::$langToSave = $model->lang;
-            $langToSave = $model->lang;
-            unset($model->lang);
-        }
-
-        if ($langToSave == $this->getDefaultLocale()) {
-            return;
-        }
-
-        // Translatable module options
-        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
-            if (!empty($model->module)) {
-                $translatableModuleOptions = $this->getTranslatableModuleOptions();
-                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
-                    $model->translatable = ['option_value'];
-                }
-            }
-        }
-
-        if (!empty($model->translatable)) {
-            foreach ($model->translatable as $fieldName) {
-                self::$fieldsToSave[$model->getTable()][$fieldName] = $model->$fieldName;
-                $fieldValue = $model->getOriginal($fieldName);
-                if (!empty($fieldValue)) {
-                    $model->$fieldName = $fieldValue;
-                }
-            }
-        }
-    }*/
-
+    
     /**
      * Handle the Page "saving" event.
      *
