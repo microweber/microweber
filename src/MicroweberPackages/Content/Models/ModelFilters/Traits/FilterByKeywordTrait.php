@@ -76,7 +76,7 @@ trait FilterByKeywordTrait
                 $multilanguageTranslations = $multilanguageTranslationsQuery->get();
                 $relIds = $multilanguageTranslations->pluck('rel_id');
                 if (!empty($relIds)) {
-                    $this->query->orWhereIn('id', $relIds);
+                    $this->query->orWhereIn($table.'.id', $relIds);
                 }
             }
 
