@@ -52,6 +52,7 @@ trait HasMultilanguageTrait
                     }
                 }
                 unset($model->attributes['lang']);
+                unset($model->attributes['multilanguage']);
             }
 
             /**
@@ -123,4 +124,15 @@ trait HasMultilanguageTrait
             }
         });
     }
+
+    public static function getTranslatableModuleOptions() {
+        $translatableModuleOptions = [];
+        foreach (get_modules_from_db() as $module) {
+            if (isset($module['settings']['translatable_options'])) {
+                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+            }
+        }
+        return $translatableModuleOptions;
+    }
+
 }
