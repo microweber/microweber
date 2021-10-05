@@ -10,6 +10,7 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use voku\helper\AntiXSS;
 
 trait FilterByKeywordTrait
@@ -27,7 +28,6 @@ trait FilterByKeywordTrait
                 $keywordToSearch = $keyword;
             }
         }
-
 
 
         if ($keywordToSearch) {
@@ -57,13 +57,22 @@ trait FilterByKeywordTrait
                 }
             }
 
-            $this->query->where(function ($query2) use ($table, $searchInFields, $keywordToSearch) {
+            $this->query->where(function ($subQuerySearch) use ($table, $searchInFields, $keywordToSearch) {
                 if ($searchInFields) {
                     foreach ($searchInFields as $field) {
-                        $query2->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
+                        $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
                     }
-                    return $query2;
                 }
+
+                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                    $subQuerySearch->orWhereHas('translations', function ($query) use ($table, $keywordToSearch) {
+                     //   dump($keywordToSearch);
+                        $query->where('rel_type', $table);
+                        $query->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
+                    });
+                }
+
+                return $subQuerySearch;
             });
 
         }
