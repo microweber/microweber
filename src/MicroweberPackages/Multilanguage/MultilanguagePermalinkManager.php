@@ -93,6 +93,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                                 return $findPostPageBySlug['url'];
                             }
                         }
+
+                        // If page found return slug
+                        $findPageBySlug = get_pages('url=' . $findSlugByType . '&single=1');
+                        if ($findPageBySlug) {
+                            return $findPageBySlug['url'];
+                        }
                     }
 
                     if ($type == 'post') {

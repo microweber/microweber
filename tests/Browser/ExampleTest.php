@@ -15,12 +15,9 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-        $adminUrl = '/admin';
-
-        $this->browse(function (Browser $browser) use($adminUrl) {
-            $browser->visit($adminUrl);
-            $browser->script(['console.log(22)']);
-            $browser->pause(10000);
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')
+                    ->assertSee('Laravel');
         });
     }
 }
