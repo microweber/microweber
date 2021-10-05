@@ -62,6 +62,10 @@ trait HasMultilanguageTrait
 
     }
 
+    public function translations() {
+        return $this->hasMany(MultilanguageTranslations::class, 'rel_id', 'id');
+    }
+
     public function _saveMultilanguageTranslation()
     {
         if (empty($this->_addMultilanguage)) {
