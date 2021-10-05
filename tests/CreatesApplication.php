@@ -6,6 +6,8 @@ use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplication
 {
+    public $testEnvironment = 'dusk_testing';
+
     /**
      * Creates the application.
      *
@@ -18,16 +20,30 @@ trait CreatesApplication
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
 
+
+        $testEnvironment = $this->testEnvironment;
+        $app->detectEnvironment(function () use ($testEnvironment) {
+            return $testEnvironment;
+        });
+        $app['config']->set('cache.default', 'file');
+        $app['config']->set('cache.stores.file',
+            [
+                'driver' => 'file',
+                'path' => storage_path('framework/cache'),
+                'separator' => '~#~'
+            ]
+        );
+
+
+        echo 1;
+
         return $app;
     }
 
     public function setupConfigFolder()
     {
-        $testEnvironment = 'dusk_testing';
         $configFolder = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
-        if ($testEnvironment == 'dusk_testing') {
-            $configFolder = $configFolder . 'dusk_testing/';
-        }
+        $configFolder = $configFolder . $this->testEnvironment . DIRECTORY_SEPARATOR;
 
         if (!is_dir($configFolder)) {
             mkdir($configFolder);
@@ -41,6 +57,7 @@ trait CreatesApplication
             @unlink($mwFileDatabase);
             file_put_contents($mwFile, "<?php return array (
                 'dusk_testing' => 1,
+                'environment' => '$this->testEnvironment',
                 'is_installed' => 0,
                 'compile_assets' => 0,
                 'install_default_template' => 'default',
@@ -48,9 +65,6 @@ trait CreatesApplication
             );"
             );
         }
-
-
-        
 
     }
 
