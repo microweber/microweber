@@ -4,7 +4,7 @@ namespace MicroweberPackages\Option\Models;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
-use MicroweberPackages\Option\Models\Traits\HasMultilanguageModuleOptionTrait;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class ModuleOption extends Model
 {
@@ -17,7 +17,7 @@ class ModuleOption extends Model
 
     public $translatable = [];
 
-    use HasMultilanguageModuleOptionTrait;
+    use HasMultilanguageTrait;
     use CacheableQueryBuilderTrait;
 
     protected $casts = [
