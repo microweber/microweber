@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplication
 {
+    public $sqliteFile;
     public $testEnvironment = 'dusk_testing';
 
     /**
@@ -34,8 +35,41 @@ trait CreatesApplication
             ]
         );
 
+        $environment = $app->environment();
+        $this->sqliteFile = $this->normalizePath(storage_path() . '/dbtest_' . $environment . '.sqlite', false);
+        if (is_file($this->sqliteFile)) {
+            @unlink($this->sqliteFile);
+        }
 
-        echo 1;
+        $installParams = array(
+            'username' => 'dusktest' . uniqid(),
+            'password' => 'dusktest',
+            'email' => 'dusktest' . uniqid() . '@example.com',
+            'db_driver' => 'sqlite',
+            'db_host' => '127.0.0.1',
+            'db_user' => '',
+            'db_pass' => '',
+            'db_name' => $this->sqliteFile,
+            'prefix' => 'dusktest_',
+            '--env' => $environment,
+        );
+        $install = \Artisan::call('microweber:install', $installParams);
+
+        dd($install);
+
+        $this->assertEquals(0, $install);
+
+        // Clear caches
+        \Artisan::call('config:cache');
+        \Artisan::call('config:clear');
+        \Artisan::call('cache:clear');
+
+        $is_installed = mw_is_installed();
+        $this->assertEquals(1, $is_installed);
+
+        \Config::set('mail.driver', 'array');
+        \Config::set('queue.driver', 'sync');
+        \Config::set('mail.transport', 'array');
 
         return $app;
     }
