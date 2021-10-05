@@ -27,6 +27,7 @@ $color = get_module_option('color', $params['id']);
 $borderColor = get_module_option('borderColor', $params['id']);
 $borderWidth = get_module_option('borderWidth', $params['id']);
 $borderRadius = get_module_option('borderRadius', $params['id']);
+$customSize = get_module_option('customSize', $params['id']);
 $shadow = get_module_option('shadow', $params['id']);
 
 
@@ -173,6 +174,10 @@ if($borderWidth){
 
 if($borderRadius){
     $cssButton .= 'border-radius:' . $borderRadius . 'px!important;';
+}
+
+if($customSize){
+    $cssButton .= 'font-size: '.(intval($customSize) + 10).'px!important;padding: .7em 1.1em!important;';
 }
 
 if($shadow){
