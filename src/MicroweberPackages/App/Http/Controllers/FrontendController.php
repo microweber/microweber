@@ -459,7 +459,9 @@ class FrontendController extends Controller
                 }
 
                 if ($redirectLink && $multilanguageIsActive) {
-                    return redirect($redirectLink);
+                    if (urldecode(url_current(true)) !== $redirectLink) {
+                          return redirect($redirectLink);
+                    }
                 }
 
                 $page_url_segment_1 = app()->url_manager->segment(0, $page_url);
