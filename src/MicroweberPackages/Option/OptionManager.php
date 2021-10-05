@@ -426,9 +426,13 @@ class OptionManager
                         $findModuleOption->option_key = $data['option_key'];
                         $findModuleOption->option_group = $data['option_group'];
                     }
+
                     if (isset($data['lang'])) {
                         $findModuleOption->lang = $data['lang'];
+                    } else {
+                        $findModuleOption->lang = app()->getLocale();
                     }
+
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
