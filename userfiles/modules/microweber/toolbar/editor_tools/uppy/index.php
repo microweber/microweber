@@ -9,7 +9,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
     mw.require('events.js');
     mw.lib.require('uppy');
 </script>
-<style type="text/css">
+<style >
     html, body, #container, #pickfiles_<?php print $uid  ?> {
         position: absolute;
         width: 100%;

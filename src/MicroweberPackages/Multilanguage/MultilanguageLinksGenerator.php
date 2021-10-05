@@ -32,7 +32,18 @@ class MultilanguageLinksGenerator
         foreach ($multilangUrlsMapId as $contentId=>$contentData) {
             $multiCatLangUrls = [];
             foreach ($contentData as $contentDataLang=>$contentDataDetails) {
-                $multiCatLangUrls[$contentDataLang] = $contentDataDetails['link'];
+
+                $metaLocale = $contentDataLang;
+                $expMetaLocale = explode('_', $metaLocale);
+                if (count($expMetaLocale) > 1) {
+                    $metaLocale = $expMetaLocale[0];
+                }
+
+                $multiCatLangUrls[$contentDataLang] = [
+                    'link'=>$contentDataDetails['link'],
+                    'locale'=>$contentDataLang,
+                    'meta_locale'=> $metaLocale
+                ];
             }
 
             foreach ($contentData as $contentDataLocale=>$contentDataFull) {

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Site Error</title>
-	<style type="text/css">
+	<style >
 		#exception { font: 12px Arial; border: 1px solid #6d0019; padding: 0 2em; margin: 2em; }
 		pre {background: #EDF8FC; border: 1px solid #D9F1F9; margin: 2em 0; padding: 1em;}
 		h1 { color: #6d0019; }

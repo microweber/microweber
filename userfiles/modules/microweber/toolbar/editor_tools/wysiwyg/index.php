@@ -239,7 +239,7 @@ delete_module = function(inner_node){
 
 
 
-<style type="text/css">
+<style >
 
 *{
   margin: 0;

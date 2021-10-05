@@ -1,7 +1,9 @@
 <?php
     $url = get_option('url', $params['id']);
     if(!isset($url)) {
-        $url = $params['url'];
+        if (isset($params['url'])) {
+            $url = $params['url'];
+        }
     }
 
 ?>

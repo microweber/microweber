@@ -34,6 +34,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $url_blank = get_module_option('url_blank', $params['id']);
         $icon = get_module_option('icon', $params['id']);
 
+        $backgroundColor = get_module_option('backgroundColor', $params['id']);
+        $color = get_module_option('color', $params['id']);
+        $borderColor = get_module_option('borderColor', $params['id']);
+        $borderWidth = get_module_option('borderWidth', $params['id']);
+        $borderRadius = get_module_option('borderRadius', $params['id']);
+        $shadow = get_module_option('shadow', $params['id']);
+        $customSize = get_module_option('customSize', $params['id']);
+
         $link_to_content_by_id = 'content:';
         $link_to_category_by_id = 'category:';
 
@@ -68,6 +76,27 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 margin-inline-start: -10px;
                 margin-inline-end: 8px;
             }
+
+            .shadow-selector{
+                max-height: 70vh;
+                overflow: auto;
+
+            }
+            .shadow-selector > div .shadow-example{
+                display: inline-block;
+                width: 150px;
+                height: 50px;
+                vertical-align: middle;
+            }
+            .shadow-selector > div + div{
+                border-top: 1px solid rgba(0, 0, 0, 0.125) ;
+            }
+            .shadow-selector > div{
+                padding: 20px;
+                cursor: pointer;
+            }
+
+
 
         </style>
 
@@ -230,9 +259,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         if(!btnUrl.html()) {
                             btnUrl.html(parent.location.href.split('?')[0])
                         }
+
                     })
 
                 </script>
+
+
+
+
 
                 <div class="form-group">
                     <span class="btn btn-primary">
@@ -264,7 +298,128 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
                 <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
 
-                <module type="admin/modules/templates" simple="true"/>
+
+
+
+                <div class="mw-accordion">
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+
+                                <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                            <module type="admin/modules/templates" simple="true"/>
+                        </div>
+                        </div>
+                    </div>
+
+
+                <div class="mw-accordion-item">
+                    <div class="mw-ui-box-header mw-accordion-title">
+
+                            <i class="mw-icon-gear"></i> <?php _e('Advanced'); ?>
+
+                    </div>
+                    <div class="mw-accordion-content">
+                        <div class="mw-ui-box mw-ui-box-content">
+                            <div class="button-custom-design" >
+                                <script>
+
+                                    $(document).ready(function (){
+                                        Array.from(document.querySelectorAll('.button-color-field')).forEach(function (field){
+                                            mw.colorPicker({
+                                                element: field,
+                                                position: 'bottom-center',
+                                                value: 'red',
+                                                onchange: function (color) {
+                                                    $(field).trigger('change')
+                                                }
+                                            })
+                                        })
+
+                                    })
+
+
+                                </script>
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Background color'); ?></label>
+                                    <input type="text" class="form-control button-color-field mw_option_field" value="<?php print $backgroundColor ?>" autocomplete="off" name="backgroundColor">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Text color'); ?></label>
+                                    <input type="text" class="form-control button-color-field mw_option_field" name="color" value="<?php print $color ?>" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Border color'); ?></label>
+                                    <input type="text" class="form-control button-color-field mw_option_field" name="borderColor" value="<?php print $borderColor ?>" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Border size'); ?></label>
+                                    <input type="number" min="0" max="100" class="form-control mw_option_field" name="borderWidth" value="<?php print $borderWidth ?>" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Radius'); ?></label>
+                                    <input type="number" min="0" max="100" class="form-control mw_option_field" name="borderRadius" value="<?php print $borderRadius ?>" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Size'); ?></label>
+                                    <input type="range" min="1" max="40" class="form-control mw_option_field" name="customSize" value="<?php print $customSize ?>" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e('Shadow'); ?></label>
+                                    <div class="mw-ui-box shadow-selector">
+                                        <?php
+                                        $shadows = array(
+                                            'none;',
+                                            'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+                                            'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
+                                            'rgba(0, 0, 0, 0.35) 0px 5px 15px;',
+                                            'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
+                                            'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                                            'rgba(0, 0, 0, 0.1) 0px 4px 12px;',
+                                            'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
+                                            'rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;',
+                                            'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;',
+                                            'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;',
+                                            'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;',
+                                            'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;',
+                                            'rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;',
+                                        );
+
+                                        foreach ($shadows as $shd) {
+                                            print '<div><label class="mw-ui-check" ><input class="mw_option_field" type="radio" name="shadow" '.($shadow == $shd ? 'checked="true"' : '').' value="'.$shd.'" > <span></span> <span>'.($shd == 'none;' ? 'None' : '').'</span> </label><span class="shadow-example" style="box-shadow: '.$shd.'"></span> </div>';
+                                        }
+                                        ?>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+
+                                            $('.shadow-selector > div').on('click', function (){
+                                                var node = this.querySelector('input');
+                                                node.checked = true;
+                                                $(node).trigger('change')
+                                            })
+
+                                        })
+
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+
+
             </div>
         </div>
     </div>

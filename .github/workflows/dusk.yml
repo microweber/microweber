@@ -1,4 +1,4 @@
-name: PHP Code Coverage Tests
+name: Dusk
 on: [push,pull_request]
 
 jobs:
@@ -17,8 +17,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        tools: phpunit:5.7
-        coverage: xdebug
+        coverage: xdebug #optional
     - name: zstd act workaround
       run: sudo apt install zstd
     - name: Get composer cache directory
@@ -34,12 +33,13 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Run PHPUnit
-      run: phpunit --testsuite MicroweberCoreTests -c phpunit-coverage.xml --debug
-    - name: Code Cov
-      uses: codecov/codecov-action@v2
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: coverage.xml
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
+    - name: Upgrade Chrome Driver
+      run: php artisan dusk:chrome-driver
+    - name: Start Chrome Driver
+      run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+    - name: Run Laravel Server
+      run: php artisan serve > /dev/null 2>&1 &
+    - name: Run Dusk Tests
+      run: |
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        php artisan dusk

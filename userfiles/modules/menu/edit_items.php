@@ -112,7 +112,7 @@ if ($id != 0) {
     </div>
 
     <div class="menu-module-wrapper">
-        <style type="text/css" scoped="scoped">
+        <style  scoped="scoped">
             #mw_admin_menu_items_sort_<?php print $rand; ?> > ul {
                 height: auto !important;
             }

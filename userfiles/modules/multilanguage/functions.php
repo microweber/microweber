@@ -35,22 +35,79 @@ if (!empty($supportedLanguages)) {
             /**
              * 1.Canonical links is current page url
              */
-            $canonicalLink = url_current(true);
-            $canonicalLink = urldecode($canonicalLink);
 
             $metaTagsHtml = '';
 
+
+            // In homepage logis
+            if (is_home()) {
+
+                $currentLocale = app()->getLocale();
+                $homepageLanguage = get_option('homepage_language', 'website');
+                if (empty($homepageLanguage)) {
+                    $homepageLanguage = $currentLocale;
+                }
+
+                $canonicalLink = url_current(true);
+                $canonicalLink = urldecode($canonicalLink);
+                $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+
+                $metaTagsHtml .= '<link rel="alternate" href="' . site_url() . '" hreflang="' . $homepageLanguage . '" />' . "\n";
+
+                foreach ($supportedLanguages as $locale) {
+                    $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
+                    $contentLink = $pm->link(CONTENT_ID, 'content');
+
+                    if ($homepageLanguage == $locale['locale']) {
+                        // Skip this alternate links
+                        continue;
+                    }
+
+                    $metaLocale = $locale['locale'];
+                    $expMetaLocale = explode('_', $metaLocale);
+                    if (count($expMetaLocale) > 1) {
+                        $metaLocale = $expMetaLocale[0];
+                    }
+
+                    $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
+                }
+
+                return $metaTagsHtml;
+            }
+
+            // In other pages
+            $canonicalLink = url_current(true);
+            $canonicalLink = urldecode($canonicalLink);
             $metaTagsHtml .= '<link rel="canonical" href="'.$canonicalLink.'" />' . PHP_EOL;
+
+            $inPage = false;
+            $inProduct = false;
+            $inCategory = false;
+            if (PAGE_ID == CONTENT_ID) {
+                $inPage = true;
+            } else {
+                $inProduct = true;
+            }
+
+            if ($inPage && CATEGORY_ID !== 0) {
+                $inCategory = true;
+            }
 
             foreach ($supportedLanguages as $locale) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-                $contentLink = $pm->link(CONTENT_ID, 'content');
 
-                if ($canonicalLink == $contentLink) {
-                    continue;
+                if ($inCategory) {
+                    $contentLink = $pm->link(CATEGORY_ID, 'category');
+                } else {
+                    $contentLink = $pm->link(CONTENT_ID, 'content');
                 }
 
-                $metaLocale = str_replace('_', '-', $locale['locale']);
+                $metaLocale = $locale['locale'];
+                $expMetaLocale = explode('_', $metaLocale);
+                if (count($expMetaLocale) > 1) {
+                    $metaLocale = $expMetaLocale[0];
+                }
+
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }
 

@@ -80,7 +80,7 @@ $(document).ready(function(){
 
 });
 </script>
-<style type="text/css">
+<style >
 .pattern {
 	float: left;
 	display: block;

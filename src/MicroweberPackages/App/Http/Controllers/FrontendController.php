@@ -10,6 +10,7 @@ use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
 use MicroweberPackages\App\Traits\LiveEditTrait;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use Illuminate\Routing\Controller;
@@ -417,32 +418,51 @@ class FrontendController extends Controller
                 $slug_category = $this->app->permalink_manager->slug($page_url, 'category');
 
                 $found_mod = false;
-
                 $try_content = false;
-
+                $redirectLink = false;
+                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 
                 if ($slug_post) {
                     $page = $this->app->content_manager->get_by_url($slug_post);
                     $page_exact = $this->app->content_manager->get_by_url($slug_post, true);
+                    if ($page) {
+                        if ($multilanguageIsActive) {
+                            if ($page['url'] !== $slug_post) {
+                                $redirectLink = content_link($page['id']);
+                            }
+                        }
+                    }
                 }
-
 
                 if ($slug_page and !$page) {
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
                 }
 
-                if ($slug_category and !$page) {
-
+                if ($slug_category) {
                     $cat = $this->app->category_manager->get_by_url($slug_category);
                     if ($cat) {
-                        $content_for_cat = $this->app->category_manager->get_page($cat['id']);
-                        if ($content_for_cat) {
-                            $page = $page_exact = $content_for_cat;
+                        if ($slug_category and !$page) {
+                            $content_for_cat = $this->app->category_manager->get_page($cat['id']);
+                            if ($content_for_cat) {
+                                $page = $page_exact = $content_for_cat;
+                            }
+                        }
+                        if ($multilanguageIsActive) {
+                            if ($redirectLink == false) {
+                                if ($cat['url'] !== $slug_category) {
+                                    $redirectLink = category_link($cat['id']);
+                                }
+                            }
                         }
                     }
                 }
 
+                if ($redirectLink && $multilanguageIsActive) {
+                    if (urldecode(url_current(true)) !== $redirectLink) {
+                          return redirect($redirectLink);
+                    }
+                }
 
                 $page_url_segment_1 = app()->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {

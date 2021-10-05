@@ -191,7 +191,7 @@
 </script>
 
 
-<style type="text/css">
+<style >
 
     [data-ctype]{
         display: none;

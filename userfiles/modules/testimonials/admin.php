@@ -18,7 +18,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
 
-        <style type="text/css">
+        <style >
             #testimonials-list tbody tr {
                 cursor: move;
                 cursor: -moz-grab;

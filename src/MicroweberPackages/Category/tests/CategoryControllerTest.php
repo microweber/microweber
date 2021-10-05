@@ -45,31 +45,24 @@ class CategoryControllerTest extends TestCase
         $this->assertEquals($find->contentData[0]->field_name, 'label');
         $this->assertEquals($find->contentData[0]->field_value, 'test');
 
-
         $response = $this->call(
             'PUT',
             route('api.category.update', [
                 'category' => $categorySaved->id,
                 'title' => $title2,
             ])
-
         );
 
         $this->assertEquals(200, $response->status());
         $categorySaved = $response->getData()->data;
 
-
-
-
         $this->assertEquals($categorySaved->title, $title2);
-
 
         $response = $this->call(
             'GET',
             route('api.category.show', [
                 'category' => $categorySaved->id,
             ])
-
         );
         $this->assertEquals(200, $response->status());
 
