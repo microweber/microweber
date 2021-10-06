@@ -69,7 +69,8 @@ mw._colorPicker = function (options) {
     };
 
     if(settings.value) {
-        sett.color = settings.value
+        sett.color = settings.value;
+
     }
     if(typeof settings.showRGB !== 'undefined') {
         sett.showRGB = settings.showRGB
@@ -96,6 +97,9 @@ mw._colorPicker = function (options) {
             if ($el[0].nodeName === 'INPUT') {
                 var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
+                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+                    $el[0].previousElementSibling.style.backgroundColor = val
+                }
             }
         }
 
@@ -123,6 +127,9 @@ mw._colorPicker = function (options) {
 
             if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
+                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+                    $el[0].previousElementSibling.style.backgroundColor = data.color
+                }
             }
         };
         if ($el[0].nodeName === 'INPUT') {
@@ -178,7 +185,9 @@ mw._colorPicker = function (options) {
             }
         }
     }
-
+    if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+        $el[0].previousElementSibling.style.backgroundColor = $el[0].value
+    }
 };
 mw.colorPicker = function (o) {
 

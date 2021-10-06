@@ -4561,6 +4561,26 @@ mw-field textarea[type='range']:focus {
   cursor: grabbing;
   box-shadow: none;
 }
+.mw-field.mw-field-flat input,
+mw-field.mw-field-flat input,
+.mw-field.mw-field-flat select,
+mw-field.mw-field-flat select,
+.mw-field.mw-field-flat textarea,
+mw-field.mw-field-flat textarea {
+  border-radius: 0 !important;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  box-shadow: none;
+}
+.mw-field.mw-field-flat input:focus,
+mw-field.mw-field-flat input:focus,
+.mw-field.mw-field-flat select:focus,
+mw-field.mw-field-flat select:focus,
+.mw-field.mw-field-flat textarea:focus,
+mw-field.mw-field-flat textarea:focus {
+  background-color: #F5F5F5;
+}
 .mw-field .mw-field-prepend + input,
 mw-field .mw-field-prepend + input {
   border-radius: 0 5px 5px 0;
@@ -4750,6 +4770,23 @@ mw-field[size="large"][data-after]:after,
 mw-field[data-size="large"][data-after]:after {
   height: 50px;
   line-height: 50px;
+}
+.mw-field-color-indicator {
+  display: inline-block;
+  vertical-align: middle;
+  align-self: center;
+  width: 25px;
+  min-width: 25px;
+  height: 25px;
+  min-height: 25px;
+  border: 1px solid #B9B9B9;
+  border-radius: 100px;
+  position: absolute;
+  left: 5px;
+  pointer-events: none;
+}
+.mw-field-color-indicator + input {
+  padding-left: 40px;
 }
 /****************************
  Buttons & button navigation
