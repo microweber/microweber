@@ -130,6 +130,7 @@ export const Draggable = function (options, rootSettings) {
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
+                Array.from(scope.element.ownerDocument.querySelectorAll('[contenteditable]')).forEach(el => el.contentEditable = false)
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
                 e.dataTransfer.effectAllowed = "move";
