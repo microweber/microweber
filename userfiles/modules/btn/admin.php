@@ -87,6 +87,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             .shadow-selector > div{
                 padding: 10px;
                 position: relative;
+                text-align: center;
             }
             .shadow-selector > div input{
                 visibility: hidden;
@@ -108,7 +109,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
-                padding: 20px 10px;
+                padding: 20px 0;
             }
             .shadow-selector > div{
                 width: 33%;
@@ -234,12 +235,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
-                            /*controllers: [
-                                { type: 'url', config: {target: false, text: false}},
-                                { type: 'page', config: {target: false, text: false} },
-                                { type: 'post', config: {target: false, text: false}},
-                                { type: 'layout', config: {target: false, text: false} }
-                            ]*/
                         });
 
                         linkEditor.setValue({
@@ -322,22 +317,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
-                <div class="mw-accordion">
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
-                            <div class="mw-ui-box mw-ui-box-content">
-                            <module type="admin/modules/templates" simple="true"/>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Advanced'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
+
+
+                        <label class="control-label"><?php _e("Design"); ?></label>
+
+                        <div class="form-group">
                             <div class="mw-ui-box mw-ui-box-content">
                                 <div class="button-custom-design" >
                                     <script>
@@ -417,7 +401,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e('Shadow'); ?></label>
-                                        <div class="mw-ui-box shadow-selector">
+                                        <div class=" shadow-selector">
                                             <?php
                                             $shadows = array(
                                                 'none;',
@@ -453,8 +437,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                         </div>
-                    </div>
-                </div>
+
 
 
             </div>
