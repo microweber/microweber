@@ -42,6 +42,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $shadow = get_module_option('shadow', $params['id']);
         $customSize = get_module_option('customSize', $params['id']);
 
+
+        $hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
+        $hovercolor = get_module_option('hovercolor', $params['id']);
+        $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
+
+
+
         $link_to_content_by_id = 'content:';
         $link_to_category_by_id = 'category:';
 
@@ -115,7 +122,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 width: 33%;
             }
 
-
+            #hover-styles{
+                display: none;
+            }
 
         </style>
 
@@ -159,6 +168,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.$("#action").change(function () {
                     btn_action();
                 });
+
+
             });
         </script>
 
@@ -336,7 +347,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                         $(field).trigger('change')
                                                     }
                                                 })
-                                            })
+                                            });
+                                            document.getElementById('set-hover-button').addEventListener('click', function () {
+                                                document.getElementById('hover-styles').style.display = 'block';
+                                                this.style.display = 'none';
+                                            });
 
                                         })
 
@@ -367,6 +382,38 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 <input type="text" class="button-color-field mw_option_field" name="borderColor" value="<?php print $borderColor ?>" autocomplete="off">
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <span class="mw-ui-link" id="set-hover-button"><br>Set hover styles</span>
+
+                                    <div  id="hover-styles">
+                                        <br><br>
+                                    <label class="control-label"><?php _e('Hover Color'); ?></label>
+                                    <div class="row" >
+                                        <div class="col-4">
+                                            <label  ><?php _e('Background'); ?></label>
+                                            <div class="mw-field mw-field-flat">
+                                                <span class="mw-field-color-indicator"></span>
+                                                <input type="text" class="form-control button-color-field mw_option_field" value="<?php print $hoverbackgroundColor ?>" autocomplete="off" name="hoverbackgroundColor">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label><?php _e('Text'); ?></label>
+                                            <div class="mw-field mw-field-flat">
+                                                <span class="mw-field-color-indicator"></span>
+                                                <input type="text" class="button-color-field mw_option_field" name="hovercolor" value="<?php print $hovercolor ?>" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label><?php _e('Border'); ?></label>
+                                            <div class="mw-field mw-field-flat">
+
+                                                <span class="mw-field-color-indicator"></span>
+                                                <input type="text" class="button-color-field mw_option_field" name="hoverborderColor" value="<?php print $hoverborderColor ?>" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
 
                                     <br>
