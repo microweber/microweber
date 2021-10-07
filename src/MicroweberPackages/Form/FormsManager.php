@@ -864,7 +864,6 @@ class FormsManager
 
     public function export_to_excel($params)
     {
-        //this function is experimental
         set_time_limit(0);
 
         if (!isset($params['id'])) {
@@ -907,9 +906,10 @@ class FormsManager
             }
 
             foreach ($data_known_keys as $k => $v) {
-                $data_known_keys[$k] = $this->app->format->no_dashes($v);
+                $column = $this->app->format->no_dashes($v);
+                $column = str_slug($column);
+                $data_known_keys[$k] = $column;
             }
-
 
             $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
             $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
