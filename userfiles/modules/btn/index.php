@@ -31,6 +31,11 @@ $customSize = get_module_option('customSize', $params['id']);
 $shadow = get_module_option('shadow', $params['id']);
 
 
+$hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
+$hovercolor = get_module_option('hovercolor', $params['id']);
+$hoverborderColor = get_module_option('hoverborderColor', $params['id']);
+
+
 
 $style = $btn_options['button_style'];
 $size = $btn_options['button_size'];
@@ -155,6 +160,7 @@ if (is_file($template_file) != false) {
 
 $cssWrapper = '';
 $cssButton = '';
+$cssHoverButton = '';
 
 
 if($backgroundColor){
@@ -188,10 +194,28 @@ if($align){
     $cssWrapper .= 'text-align:' . $align . ' !important;';
 }
 
+if($hoverbackgroundColor){
+    $cssHoverButton .= 'background-color:' . $hoverbackgroundColor . ' !important;';
+}
+
+if($hovercolor){
+    $cssHoverButton .= 'color:' . $hovercolor . ' !important;';
+}
+
+if($hoverborderColor){
+    $cssHoverButton .= 'border-color:' . $hoverborderColor . ' !important;';
+}
+
+
+
+
+
+
 ?>
     <style >
         #<?php print $params['id']; ?> { <?php print $cssWrapper; ?> }
         #<?php print $params['id']; ?> > #<?php print $btn_id; ?>,#<?php print $params['id']; ?> > a, #<?php print $params['id']; ?> > button { <?php print $cssButton; ?> }
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>:hover,#<?php print $params['id']; ?> > a:hover, #<?php print $params['id']; ?> > button:hover { <?php print $cssHoverButton; ?> }
 
     </style>
 <?php
