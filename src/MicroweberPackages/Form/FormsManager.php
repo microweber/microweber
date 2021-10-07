@@ -908,7 +908,7 @@ class FormsManager
                 $readyDataValue['created_at'] = $formItem['created_at'];
                 $readyDataValue['user_ip'] = $formItem['user_ip'];
                 if (isset($formItem['custom_fields'])) {
-                    foreach ($formItem['custom_fields'] as $customFieldKey=>$customFieldData) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey => $customFieldData) {
 
                         $customFieldKey = $this->app->format->no_dashes($customFieldKey);
                         $customFieldKey = str_slug($customFieldKey);
@@ -922,11 +922,10 @@ class FormsManager
                 }
                 $dataValues[] = $readyDataValue;
             }
-
             $export = new XlsxExport();
             $export->data['mw_export_contact_form_' . date('Y-m-d-H-i-s')] = $dataValues;
             $export = $export->start();
-            $exportFile = $export['files']['0']['download'];
+            $exportFile = $export['files']['0']['download']; 
 
             return array('success' => 'Your file has been exported!', 'download' => $exportFile);
         }
