@@ -130,6 +130,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         if ($findContentBySlug && isset($findContentBySlug['field_value'])) {
                             return $findContentBySlug['field_value'];
                         }
+
+                        //Check original
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
                     }
                 }
             }
