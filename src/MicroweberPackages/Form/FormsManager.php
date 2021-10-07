@@ -869,66 +869,74 @@ class FormsManager
         if (!isset($params['id'])) {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
-            $lid = intval($params['id']);
-            if ($lid == 0) {
+            $listId = intval($params['id']);
+            if ($listId == 0) {
                 $data = get_form_entires('nolimit=true');
             } else {
-                $data = get_form_entires('nolimit=true&list_id=' . $lid);
+                $data = get_form_entires('nolimit=true&list_id=' . $listId);
             }
 
             if (!$data) {
                 return array('warning' => 'This list is empty');
             }
 
-            $data_for_csv = array();
-            $data_known_keys = array();
-            foreach ($data as $item) {
-
-                $item_for_csv = array();
-                $item_for_csv['id'] = $item['id'];
-                $item_for_csv['created_at'] = $item['created_at'];
-                $item_for_csv['user_ip'] = $item['user_ip'];
-                if (isset($item['custom_fields'])) {
-                    foreach ($item['custom_fields'] as $k1 => $v1) {
-                        $output_val = $v1;
-
-                        if (is_array($output_val)) {
-                            $output_val = implode('|', $output_val);
-                        }
-                        $item_for_csv[$k1] = $output_val;
-
+            // First get all keys
+            $dataKeysMap = ['id','created_at','user_ip'];
+            foreach ($data as $formItem) {
+                if (isset($formItem['custom_fields'])) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey=>$customFieldData) {
+                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = str_slug($customFieldKey);
+                        $dataKeysMap[] = $customFieldKey;
                     }
                 }
-
-                $data_known_keys = array_merge($data_known_keys, array_keys($item_for_csv));
-                $data_known_keys = array_unique($data_known_keys);
-                $data_for_csv[] = $item_for_csv;
             }
+            $dataKeysMap = array_filter($dataKeysMap);
 
-            foreach ($data_known_keys as $k => $v) {
-                $column = $this->app->format->no_dashes($v);
-                $column = str_slug($column);
-                $data_known_keys[$k] = $column;
+            // Next add these values to keys
+            $dataValues = [];
+            foreach ($data as $formItem) {
+                $readyDataValue = [];
+                foreach ($dataKeysMap as $dataKey) {
+                    $readyDataValue[$dataKey] = '';
+                }
+                $readyDataValue['id'] = $formItem['id'];
+                $readyDataValue['created_at'] = $formItem['created_at'];
+                $readyDataValue['user_ip'] = $formItem['user_ip'];
+                if (isset($formItem['custom_fields'])) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey=>$customFieldData) {
+
+                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = str_slug($customFieldKey);
+
+                        if (is_array($customFieldData)) {
+                            $customFieldData = implode('|', $customFieldData);
+                        }
+
+                        $readyDataValue[$customFieldKey] = $customFieldData;
+                    }
+                }
+                $dataValues[] = $readyDataValue;
             }
 
             $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-            $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
-            $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
-            if (!is_dir($filename_path)) {
-                mkdir_recursive($filename_path);
+            $filenamePath = userfiles_path() . 'export' . DS . 'forms' . DS;
+            $filenamePathIndex = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
+            if (!is_dir($filenamePath)) {
+                mkdir_recursive($filenamePath);
             }
-            if (!is_file($filename_path_index)) {
-                @touch($filename_path_index);
+            if (!is_file($filenamePathIndex)) {
+                @touch($filenamePathIndex);
             }
-            $filename_path_full = $filename_path . $filename;
-            
-            $writer = Writer::createFromPath($filename_path_full, 'w+');
+
+            $filenamePathFull = $filenamePath . $filename;
+
+            $writer = Writer::createFromPath($filenamePathFull, 'w+');
             $writer->setNewline("\r\n");
-            $writer->insertOne($data_known_keys);
+            $writer->insertOne($dataKeysMap);
+            $writer->insertAll($dataValues);
 
-            $writer->insertAll($data_for_csv);
-
-            $download = $this->app->url_manager->link_to_file($filename_path_full);
+            $download = $this->app->url_manager->link_to_file($filenamePathFull);
 
             return array('success' => 'Your file has been exported!', 'download' => $download);
         }
