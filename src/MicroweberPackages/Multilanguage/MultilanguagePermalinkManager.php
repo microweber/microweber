@@ -65,6 +65,11 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         if ($findCategoryBySlug && isset($findCategoryBySlug['field_value'])) {
                             return $findCategoryBySlug['field_value'];
                         }
+                        // Check original
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            return $findCategoryBySlug['url'];
+                        }
                     }
 
                     if ($type == 'page') {
@@ -106,6 +111,16 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         if ($findPostsBySlug && isset($findPostsBySlug['field_value'])) {
                             return $findPostsBySlug['field_value'];
                         }
+
+                        // Check original
+                        $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
+                            return $findPostsBySlug['url'];
+                        }
                     }
 
 
@@ -113,6 +128,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $findContentBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
                         if ($findContentBySlug && isset($findContentBySlug['field_value'])) {
                             return $findContentBySlug['field_value'];
+                        }
+
+                        //Check original
+                        $findContentBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findContentBySlug) {
+                            return $findContentBySlug['url'];
                         }
                     }
                 }
