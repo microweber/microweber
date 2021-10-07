@@ -16,17 +16,20 @@ $form_files = [];
 $form_values = [];
 if (isset($entry['form_values'])) {
     $form_values = json_decode($entry['form_values'], true);
+    
     // seperate uploads from this array
     $new_form_values = [];
-    foreach ($form_values as $form_key=>$form_value) {
-        if (isset($form_value['type']) && $form_value['type']=='upload') {
-            $form_files[$form_key] = $form_value;
-            continue;
+    if (!empty($form_values)) {
+        foreach ($form_values as $form_key => $form_value) {
+            if (isset($form_value['type']) && $form_value['type'] == 'upload') {
+                $form_files[$form_key] = $form_value;
+                continue;
+            }
+            if (empty($form_value)) {
+                continue;
+            }
+            $new_form_values[$form_key] = $form_value;
         }
-        if (empty($form_value)) {
-            continue;
-        }
-        $new_form_values[$form_key] = $form_value;
     }
     $form_values = $new_form_values;
 }
