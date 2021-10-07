@@ -600,6 +600,19 @@ div.mw-ui-field:after {
         }
     }
 
+    &.mw-field-flat{
+        input,select,textarea{
+            border-radius: 0 !important;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            box-shadow: none;
+            &:focus{
+                background-color: #F5F5F5;
+            }
+        }
+    }
+
     .mw-field-prepend{
         & + input{
             border-radius: 0 @radius @radius 0;
@@ -707,6 +720,24 @@ div.mw-ui-field:after {
             line-height: @largeHeight;
 
         }
+    }
+}
+
+.mw-field-color-indicator{
+    display: inline-block;
+    vertical-align: middle;
+    align-self: center;
+    width: 25px;
+    min-width: 25px;
+    height: 25px;
+    min-height: 25px;
+    border: 1px solid #B9B9B9;
+    border-radius: 100px;
+    position: absolute;
+    left: 5px;
+    pointer-events: none;
+    &+input{
+        padding-left: 40px;
     }
 }
 

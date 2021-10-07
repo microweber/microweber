@@ -250,8 +250,42 @@
     <br>
     <br>
 
-    <div class="mw-field" data-before="Distance">
+    <br>
+
+    <div class="mw-field mw-field-flat" size="small">
+        <input type="text" placeholder="Small">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field mw-field-flat" size="medium">
+        <input type="text" placeholder="Medium">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field mw-field-flat">
+        <input type="text" placeholder="Default">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field mw-field-flat" size="large">
+        <input type="text" placeholder="Large">
+    </div>
+    <br>
+    <br>
+
+    <div class="mw-field" data-before="Attribute">
         <input type="text" placeholder="Distance">
+    </div>
+
+    <div class="mw-field">
+        <span class="mw-field-prepend mw-ui-btn">
+            Button before
+        </span>
+
+        <input type="text" placeholder="Distance">
+        <span class="mw-field-append mw-ui-btn">
+            Button after
+        </span>
     </div>
     <br>
     <br>
