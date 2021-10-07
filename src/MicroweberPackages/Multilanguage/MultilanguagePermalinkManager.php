@@ -107,7 +107,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     }
 
                     if ($type == 'post') {
-
                         $findPostsBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
                         if ($findPostsBySlug && isset($findPostsBySlug['field_value'])) {
                             return $findPostsBySlug['field_value'];
@@ -132,9 +131,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         }
 
                         //Check original
-                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
-                        if ($findPostsBySlug) {
-                            return $findPostsBySlug['url'];
+                        $findContentBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findContentBySlug) {
+                            return $findContentBySlug['url'];
                         }
                     }
                 }
