@@ -940,6 +940,9 @@ mw.emitter = {
             this.valid();
 
             this.root = root;
+            setTimeout(function (){
+                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+            }, 10)
         },
         file: function (options) {
             var scope = this;
