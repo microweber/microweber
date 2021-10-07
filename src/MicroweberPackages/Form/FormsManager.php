@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use League\Csv\Writer;
+use MicroweberPackages\Backup\Exporters\CsvExport;
+use MicroweberPackages\Backup\Exporters\DefaultExport;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
+use MicroweberPackages\Backup\Exporters\XmlExport;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
@@ -919,26 +923,12 @@ class FormsManager
                 $dataValues[] = $readyDataValue;
             }
 
-            $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-            $filenamePath = userfiles_path() . 'export' . DS . 'forms' . DS;
-            $filenamePathIndex = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
-            if (!is_dir($filenamePath)) {
-                mkdir_recursive($filenamePath);
-            }
-            if (!is_file($filenamePathIndex)) {
-                @touch($filenamePathIndex);
-            }
+            $export = new XlsxExport();
+            $export->data['mw_export_contact_form_' . date('Y-m-d-H-i-s')] = $dataValues;
+            $export = $export->start();
+            $exportFile = $export['files']['0']['download'];
 
-            $filenamePathFull = $filenamePath . $filename;
-
-            $writer = Writer::createFromPath($filenamePathFull, 'w+');
-            $writer->setNewline("\r\n");
-            $writer->insertOne($dataKeysMap);
-            $writer->insertAll($dataValues);
-
-            $download = $this->app->url_manager->link_to_file($filenamePathFull);
-
-            return array('success' => 'Your file has been exported!', 'download' => $download);
+            return array('success' => 'Your file has been exported!', 'download' => $exportFile);
         }
     }
 }
