@@ -16,6 +16,7 @@ $form_files = [];
 $form_values = [];
 if (isset($entry['form_values'])) {
     $form_values = json_decode($entry['form_values'], true);
+    
     // seperate uploads from this array
     $new_form_values = [];
     if (!empty($form_values)) {

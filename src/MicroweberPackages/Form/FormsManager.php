@@ -566,9 +566,9 @@ class FormsManager
 
             // End of attachments
             if (!empty($fields_data)) {
-                $to_save['form_values'] = json_encode($fields_data);
+                $to_save['form_values'] = json_encode($fields_data, JSON_HEX_QUOT | JSON_HEX_APOS);
             } else {
-                $to_save['form_values'] = json_encode($params);
+                $to_save['form_values'] = json_encode($params, JSON_HEX_QUOT | JSON_HEX_APOS);
             }
 
             $save = $this->app->database_manager->save($table, $to_save);
