@@ -66,10 +66,11 @@ class MultilanguageObserver
             }
         }
 
+        $model->multilanguage_translations_count = count($findTranslations);
         $model->multilanguage = $multilanguage;
-        $model->makeHidden(['multilanguage', 'translatable']);
+        $model->makeHidden(['multilanguage_translations_count','multilanguage', 'translatable']);
     }
-    
+
     /**
      * Handle the Page "saving" event.
      *
