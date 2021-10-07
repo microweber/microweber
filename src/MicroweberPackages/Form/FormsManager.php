@@ -921,8 +921,7 @@ class FormsManager
                 @touch($filename_path_index);
             }
             $filename_path_full = $filename_path . $filename;
-
-
+            
             $writer = Writer::createFromPath($filename_path_full, 'w+');
             $writer->setNewline("\r\n");
             $writer->insertOne($data_known_keys);
