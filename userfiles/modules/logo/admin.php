@@ -434,7 +434,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     }
                                                 },
                                                     'fontSize',
-                                                '|', 'wordPaste', 'textColor', 'textBackgroundColor'
+                                                '|', 'wordPaste', 'textColor', 'textBackgroundColor',
+
+                                                'removeFormat'
+
                                             ],
                                         ]
                                     });
