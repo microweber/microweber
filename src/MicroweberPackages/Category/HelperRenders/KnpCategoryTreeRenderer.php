@@ -110,6 +110,7 @@ class KnpCategoryTreeRenderer
         $ul_class_name = '';
         $ul_class_name_deep = '';
         $li_class_name_deep = '';
+        $hidden_class= '';
         $link_class = '';
         $extra_attributes = array();
         if (isset($params['link_class'])) {
@@ -119,7 +120,9 @@ class KnpCategoryTreeRenderer
             $link_class = $params['a_class'];
 
         }
-
+        if (isset($params['hidden_class'])) {
+            $hidden_class = $params['hidden_class'];
+        }
         if (isset($params['extra_attributes'])) {
             $extra_attributes = $params['extra_attributes'];
         }
@@ -218,6 +221,7 @@ class KnpCategoryTreeRenderer
 
 
             'link_class' => $link_class,
+            'hidden_class' => $hidden_class,
 
 
             'branch_tag' => $list_tag,
@@ -331,6 +335,11 @@ class KnpCategoryTreeRenderer
             $ul_class = $options['branch_class_deep'];
             $li_class = $options['leaf_class'];
             $link_class = $options['link_class'];
+
+            $hidden_class = '';
+            if (isset($options['hidden_class'])) {
+                $hidden_class = $options['hidden_class'];
+            }
 
             $active_ids = array($this->active_item_id);
             if (isset($params['active_ids']) and $params['active_ids']) {
@@ -483,6 +492,8 @@ class KnpCategoryTreeRenderer
             //  $classes[] = 'category_element';
 
 
+
+
             $children_attrs['class'] = implode(' ', $classes);
 
 
@@ -505,6 +516,10 @@ class KnpCategoryTreeRenderer
             $classes = array();
             $classes[] = $li_class;
             $classes[] = 'depth-' . $level;
+
+            if(isset($data['is_hidden']) and $data['is_hidden'] and  $hidden_class){
+                $classes[] = $hidden_class;
+            }
 
             if ($active_ids and !empty($active_ids)) {
                 foreach ($active_ids as $active_id) {
@@ -533,6 +548,8 @@ class KnpCategoryTreeRenderer
                         // if ($this->active_item_id == $data['id']) {
                         $menu[$data['id']]->setCurrent(true);
                         $classes[] = $active_class;
+
+
 
 
                         $extra_attributes['set_active_class'] = $active_class;

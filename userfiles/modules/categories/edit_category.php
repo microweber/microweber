@@ -669,6 +669,10 @@ if (isset($params['live_edit'])) {
                                         <?php endif; ?>
                                     </div>
 
+
+
+
+
                                     <div class="col-md-12 mt-3">
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
@@ -694,6 +698,33 @@ if (isset($params['live_edit'])) {
                                             <label class="control-label"><?php _e("Meta Keywords"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Separate keywords with a comma and space"); ?></small>
                                             <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-group">
+                                            <?php
+                                            if (!isset($data['is_hidden'])) {
+                                                $data['is_hidden'] = 0;
+                                            }
+                                            ?>
+                                            <label class="control-label"><?php _e("Is category hidden?"); ?>
+
+                                                <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
+                                              </label>
+
+                                            <div>
+                                                <div class="custom-control custom-radio d-inline-block mr-3">
+                                                    <input type="radio" id="is_hidden_1" name="is_hidden" class="custom-control-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <label class="custom-control-label" for="is_hidden_1"><?php _e("Yes"); ?></label>
+                                                </div>
+                                                <div class="custom-control custom-radio d-inline-block">
+                                                    <input type="radio" id="is_hidden_2" name="is_hidden" class="custom-control-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <label class="custom-control-label" for="is_hidden_2"><?php _e("No"); ?></label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 

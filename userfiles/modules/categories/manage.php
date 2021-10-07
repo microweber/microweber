@@ -34,6 +34,7 @@
                 $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
                 $mainFilterTree['li_class'] = 'sub-nav';
                 $mainFilterTree['rel_type'] = 'content';
+                $mainFilterTree['hidden_class'] = 'text-muted';
 
                 if (isset($params['page-id']) and $params['page-id'] != false) {
                     $mainFilterTree['rel_id'] = intval($params['page-id']);
