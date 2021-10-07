@@ -65,6 +65,11 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         if ($findCategoryBySlug && isset($findCategoryBySlug['field_value'])) {
                             return $findCategoryBySlug['field_value'];
                         }
+                        // Check original
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            return $findCategoryBySlug['url'];
+                        }
                     }
 
                     if ($type == 'page') {
@@ -102,7 +107,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     }
 
                     if ($type == 'post') {
-                        
+
                         $findPostsBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
                         if ($findPostsBySlug && isset($findPostsBySlug['field_value'])) {
                             return $findPostsBySlug['field_value'];

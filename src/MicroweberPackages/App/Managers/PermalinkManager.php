@@ -101,7 +101,6 @@ class PermalinkManager
                         }
                     }
 
-
                     if ($type == 'content') {
                         $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
 
