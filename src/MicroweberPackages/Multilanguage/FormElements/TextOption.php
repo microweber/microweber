@@ -33,6 +33,8 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
             $this->setValue($inputValue);
         }
 
+        $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+
         $this->randId = random_int(111,999).time();
 
         $html = $this->getJavaScript();
