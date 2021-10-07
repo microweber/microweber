@@ -1062,13 +1062,16 @@ mw._initHandles = {
                 mw.$(settings).each(function () {
 
                     var handleDynamicView = false;
+
+
+
                     if(typeof(this) == 'object' && typeof(this[0]) !== 'undefined'){
                         handleDynamicView  = this[0];
                     } else {
-                        handleDynamicView =  this
+                        handleDynamicView =  this;
                     }
 
-                    if (handleDynamicView) {
+                    if (handleDynamicView && typeof(handleDynamicView.view) !== 'undefined') {
                         var new_el = document.createElement('a');
                         new_el.className = 'mw_edit_settings_multiple';
                         new_el.title = handleDynamicView.title;
