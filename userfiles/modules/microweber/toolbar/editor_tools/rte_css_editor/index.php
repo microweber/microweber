@@ -1208,8 +1208,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <div class="mw-field mw-field-flat" data-size="medium">
                     <div class="mw-multiple-fields">
                         <div class="mw-field mw-field-flat" data-size="medium">
-                            <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-left"></i></span>
-                            <input type="text" class="regular" data-prop="borderTopLeftRadius">
+                            <input type="text" class="regular order-1" data-prop="borderTopLeftRadius">
+                            <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-top-left"></i></span>
                         </div>
                         <div class="mw-field mw-field-flat" data-size="medium">
                             <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
@@ -1220,8 +1220,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <div class="mw-field mw-field-flat" data-size="medium">
                     <div class="mw-multiple-fields">
                         <div class="mw-field mw-field-flat" data-size="medium">
-                            <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-left"></i></span>
-                            <input class="regular" type="text" data-prop="borderBottomLeftRadius">
+                            <input class="regular order-1" type="text" data-prop="borderBottomLeftRadius">
+                            <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i></span>
                         </div>
                         <div class="mw-field mw-field-flat" data-size="medium">
                             <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
