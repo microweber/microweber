@@ -33,7 +33,7 @@ class FullpageCacheHelper {
             foreach ($categories as $category) {
                 if (isset($category['multilanguage_links'])) {
                     foreach ($category['multilanguage_links'] as $multilanguageLink) {
-                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink);
+                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink['link']);
                         $categorySlugs[] = $multilanguageLink;
                     }
                 } else {
@@ -49,7 +49,7 @@ class FullpageCacheHelper {
             foreach ($tags as $tag) {
                 if (isset($tag['multilanguage_links'])) {
                     foreach ($tag['multilanguage_links'] as $multilanguageLink) {
-                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink);
+                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink['link']);
                         $tagSlugs[] = $multilanguageLink;
                     }
                 } else {
@@ -65,7 +65,7 @@ class FullpageCacheHelper {
             foreach ($posts as $post) {
                 if (isset($post['multilanguage_links'])) {
                     foreach ($post['multilanguage_links'] as $multilanguageLink) {
-                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink);
+                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink['link']);
                         $postSlugs[] = $multilanguageLink;
                     }
                 } else {
@@ -81,7 +81,7 @@ class FullpageCacheHelper {
             foreach ($pages as $page) {
                 if (isset($page['multilanguage_links'])) {
                     foreach ($page['multilanguage_links'] as $multilanguageLink) {
-                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink);
+                        $multilanguageLink = str_replace(site_url(),'',$multilanguageLink['link']);
                         $pageSlugs[] = $multilanguageLink;
                     }
                 } else {
@@ -95,6 +95,7 @@ class FullpageCacheHelper {
         $allSlugs = array_merge($allSlugs, $tagSlugs);
         $allSlugs = array_merge($allSlugs, $postSlugs);
         $allSlugs = array_merge($allSlugs, $pageSlugs);
+        $allSlugs = array_filter($allSlugs);
 
         return [
             'All'=>$allSlugs,
