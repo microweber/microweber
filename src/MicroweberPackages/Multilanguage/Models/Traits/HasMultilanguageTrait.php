@@ -90,6 +90,12 @@ trait HasMultilanguageTrait
     public function getTranslationsFormated()
     {
         $formated = [];
+
+        $locale = mw()->lang_helper->default_lang();
+        foreach ($this->translatable as $fieldName) {
+            $formated[$locale][$fieldName] = $this->getOriginal($fieldName);
+        }
+        
         foreach ($this->translations as $translation) {
             $formated[$translation->locale][$translation->field_name] = $translation->field_value;
         }
