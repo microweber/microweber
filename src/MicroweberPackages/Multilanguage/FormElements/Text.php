@@ -30,6 +30,8 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             $modelAttributes = $this->model->getAttributes();
         }
 
+        $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+
         $fieldName = $this->getAttribute('name');
 
         $this->randId = random_int(111,999).time().rand(111,999);
