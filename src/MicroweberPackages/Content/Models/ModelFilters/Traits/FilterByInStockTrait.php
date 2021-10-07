@@ -14,7 +14,7 @@ trait FilterByInStockTrait
 {
 
     /**
-     * Filter by qty
+     * Filter by in stock
      *
      * @param bool isInStock
      * @return mixed

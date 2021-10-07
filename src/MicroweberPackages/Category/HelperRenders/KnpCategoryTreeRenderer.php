@@ -110,7 +110,7 @@ class KnpCategoryTreeRenderer
         $ul_class_name = '';
         $ul_class_name_deep = '';
         $li_class_name_deep = '';
-        $hidden_class= '';
+        $li_hidden_class= '';
         $link_class = '';
         $extra_attributes = array();
         if (isset($params['link_class'])) {
@@ -120,8 +120,8 @@ class KnpCategoryTreeRenderer
             $link_class = $params['a_class'];
 
         }
-        if (isset($params['hidden_class'])) {
-            $hidden_class = $params['hidden_class'];
+        if (isset($params['li_hidden_class'])) {
+            $li_hidden_class = $params['li_hidden_class'];
         }
         if (isset($params['extra_attributes'])) {
             $extra_attributes = $params['extra_attributes'];
@@ -221,7 +221,7 @@ class KnpCategoryTreeRenderer
 
 
             'link_class' => $link_class,
-            'hidden_class' => $hidden_class,
+            'li_hidden_class' => $li_hidden_class,
 
 
             'branch_tag' => $list_tag,
@@ -336,9 +336,9 @@ class KnpCategoryTreeRenderer
             $li_class = $options['leaf_class'];
             $link_class = $options['link_class'];
 
-            $hidden_class = '';
-            if (isset($options['hidden_class'])) {
-                $hidden_class = $options['hidden_class'];
+            $li_hidden_class = '';
+            if (isset($options['li_hidden_class'])) {
+                $li_hidden_class = $options['li_hidden_class'];
             }
 
             $active_ids = array($this->active_item_id);
@@ -517,8 +517,8 @@ class KnpCategoryTreeRenderer
             $classes[] = $li_class;
             $classes[] = 'depth-' . $level;
 
-            if(isset($data['is_hidden']) and $data['is_hidden'] and  $hidden_class){
-                $classes[] = $hidden_class;
+            if(isset($data['is_hidden']) and $data['is_hidden'] and  $li_hidden_class){
+                $classes[] = $li_hidden_class;
             }
 
             if ($active_ids and !empty($active_ids)) {
