@@ -6,7 +6,9 @@ input,select{
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
 }
-
+.mw-multiple-fields{
+    position: relative;
+}
 .mw-field{
     width: 100%;
 }
@@ -161,6 +163,10 @@ input,select{
         align-self: center;
         text-transform: uppercase;
         font-size: 10px;
+        color:#7c7c7c
+    }
+    .s-field-content {
+
     }
     .s-field-content{
         flex: 1;
@@ -266,17 +272,31 @@ input,select{
         pointer-events: none;
     }
     .mw-field.unit [type='text']{
-        width: 45px;
-        text-align: center;
-        margin-left: 10px;
+        width: 100%;
+        text-align: left;
+        margin-left: 0;
     }
 
+.mw-range, .mw-range.ui-widget{
+    height: 1px;
+}
+
+.mw-field.unit .mw-range .ui-slider-handle {
+    top: -7px;
+}
+
     .mw-field.unit .mw-range{
-        top: 12px !important;
+        top: 100% !important;
+        width: 100%;
+        position: absolute;
     }
-    .mw-field.unit .mw-range .ui-slider-handle{
-        top: -6px;
+    .mw-field.unit + .mw-field{
+        position: absolute;
+        right: 25px;
+        width: auto;
+        z-index: 2;
     }
+
     .mw-field.unit .mw-range + input{
         text-align: center;
         margin-left: 10px;
@@ -327,8 +347,16 @@ input,select{
     }
 
 
+    .reset-field{
+        top: 5px;
+        right: 0;
+        width: auto;
+        display: block;
+        position: absolute;
+        z-index: 1;
+    }
 
-#domtree .ui-resizable-s:after{
+    #domtree .ui-resizable-s:after{
     content: '...';
     color: #a4a4a4;
     font-size: 17px;

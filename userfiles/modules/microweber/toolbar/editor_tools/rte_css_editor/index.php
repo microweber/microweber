@@ -235,14 +235,13 @@ var _prepare = {
         units = [];
         $('.unit').each(function(){
             // var select = $('<select style="width: 60px"/>');
-            var select = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-link tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
+            var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).parent().prev();
                 output( prev.attr('data-prop'), '');
                 prev.find('input').val(this._defaultValue);
                 $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
             });
-            var selectHolder = $('<div class="mw-field mw-field-flat" data-size="medium"></div>');
             $('input', this)
                 .attr('type', 'range');
 
@@ -254,8 +253,8 @@ var _prepare = {
                 var prev = $(this).parent().prev();
                 output(prev.attr('data-prop'), prev.find('input').val() + this.value)
             });
-            selectHolder.append(select);
-            $(this).after(selectHolder)
+
+            $(this).after(select)
             $('input',this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
@@ -322,15 +321,19 @@ var _populate = {
                 this.type = 'text'
 
                 var el = this;
-                el.style.backgroundColor = color;
-                el.style.color = 'transparent';
-                el.style.cursor = 'pointer';
+
+                // el.style.color = 'transparent';
+                // el.style.cursor = 'pointer';
+                el.placeholder = '#ffffff';
+                if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
+                    $(this).before('<span class="mw-field-color-indicator"></span>')
+                }
+
                 mw.colorPicker({
                     element: this,
                     position: 'bottom-right',
                     onchange: function (color){
-                        el.style.backgroundColor = color;
-                        if(el.dataset.prop) {
+                         if(el.dataset.prop) {
                             output(el.dataset.prop, color);
                         } else if(el.dataset.func) {
                             eval(el.dataset.func + '(' + color + ')');
@@ -340,7 +343,7 @@ var _populate = {
                     },
                     color: this.value
                 })
-                this.readOnly = true;
+
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -352,9 +355,15 @@ var _populate = {
     },
     regular: function(css){
         $(".regular").each(function(){
-            var propName =this.dataset.prop;
+            var propName = this.dataset.prop;
             if(propName === 'fontFamily'){
-                $(this).val(css.css[this.dataset.prop].replace(/\"/g, ""))
+                var val = css.css[this.dataset.prop].replace(/\"/g, "");
+                var el = $(this)
+                el.val(val);
+                if(el.val() === null) {
+                    el.append('<option value="'+val+'">'+val+'</option>');
+                    el.val(val);
+                }
             } else {
                 $(this).val(css.css[this.dataset.prop])
             }
@@ -736,8 +745,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         };
 
 
-        $(window).on('load', function(){
+         $(window).on('load', function(){
             initClasses()
+
+
         })
 
     </script>
@@ -753,8 +764,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
 
-                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
-                <span id="background-remove"><span class="mw-icon-close"></span></span>
+                <span
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium"
+                    id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
+                <span id="background-remove" class="tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
             </div>
         </div>
         <div class="s-field">

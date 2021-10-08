@@ -363,7 +363,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <label  ><?php _e('Background'); ?></label>
                                             <div class="mw-field mw-field-flat">
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="form-control button-color-field mw_option_field" value="<?php print $backgroundColor ?>" autocomplete="off" name="backgroundColor">
+                                                <input type="text" placeholder="#ffffff" class="form-control button-color-field mw_option_field" value="<?php print $backgroundColor ?>" autocomplete="off" name="backgroundColor">
                                             </div>
                                         </div>
 
@@ -371,7 +371,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <label><?php _e('Text'); ?></label>
                                             <div class="mw-field mw-field-flat">
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="button-color-field mw_option_field" name="color" value="<?php print $color ?>" autocomplete="off">
+                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="color" value="<?php print $color ?>" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -379,7 +379,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <div class="mw-field mw-field-flat">
 
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="button-color-field mw_option_field" name="borderColor" value="<?php print $borderColor ?>" autocomplete="off">
+                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="borderColor" value="<?php print $borderColor ?>" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <label  ><?php _e('Background'); ?></label>
                                             <div class="mw-field mw-field-flat">
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="form-control button-color-field mw_option_field" value="<?php print $hoverbackgroundColor ?>" autocomplete="off" name="hoverbackgroundColor">
+                                                <input type="text" placeholder="#ffffff" class="form-control button-color-field mw_option_field" value="<?php print $hoverbackgroundColor ?>" autocomplete="off" name="hoverbackgroundColor">
                                             </div>
                                         </div>
 
@@ -402,7 +402,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <label><?php _e('Text'); ?></label>
                                             <div class="mw-field mw-field-flat">
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="button-color-field mw_option_field" name="hovercolor" value="<?php print $hovercolor ?>" autocomplete="off">
+                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="hovercolor" value="<?php print $hovercolor ?>" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -410,7 +410,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <div class="mw-field mw-field-flat">
 
                                                 <span class="mw-field-color-indicator"></span>
-                                                <input type="text" class="button-color-field mw_option_field" name="hoverborderColor" value="<?php print $hoverborderColor ?>" autocomplete="off">
+                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="hoverborderColor" value="<?php print $hoverborderColor ?>" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
