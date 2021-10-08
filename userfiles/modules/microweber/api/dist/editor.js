@@ -1688,7 +1688,8 @@ window.MWEditor = function (options) {
         }
         this.$editArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
-        this.$editArea.append(this.wrapper)[0].mwEditor = this;
+         this.$editArea.append(this.wrapper)
+        this.document.body.mwEditor = this;
         $(scope).trigger('ready');
     };
 

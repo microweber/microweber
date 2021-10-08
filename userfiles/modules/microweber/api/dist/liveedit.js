@@ -9772,32 +9772,42 @@ mw._initHandles = {
 
             mw.tools.classNamespaceDelete(handle, 'module-active-');
             mw.tools.addClass(handle, 'module-active-' + module_type.replace(/\//g, '-'));
-
-            if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
+             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
 
                 var new_el = document.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
 
                 var settings = mw.live_edit_module_settings_array[module_type];
                 mw.$(settings).each(function () {
-                    if (this.view) {
+
+                    var handleDynamicView = false;
+
+
+
+                    if(typeof(this) == 'object' && typeof(this[0]) !== 'undefined'){
+                        handleDynamicView  = this[0];
+                    } else {
+                        handleDynamicView =  this;
+                    }
+
+                    if (handleDynamicView && typeof(handleDynamicView.view) !== 'undefined') {
                         var new_el = document.createElement('a');
                         new_el.className = 'mw_edit_settings_multiple';
-                        new_el.title = this.title;
+                        new_el.title = handleDynamicView.title;
                         new_el.draggable = 'false';
                         var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
                         new_el.id = btn_id;
-                        if (this.type && this.type === 'tooltip') {
-                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
+                        if (handleDynamicView.type && handleDynamicView.type === 'tooltip') {
+                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + handleDynamicView.view + '", "tooltip"); void(0);';
 
                         } else {
-                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
+                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + handleDynamicView.view + '"); void(0);';
                         }
                         var icon = '';
-                        if (this.icon) {
-                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
+                        if (handleDynamicView.icon) {
+                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + handleDynamicView.icon + '"></i>';
                         }
-                        new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
+                        new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + handleDynamicView.title+'</span>');
                         mw.$(".mw_handle_module_spacing", handle.wrapper).append(new_el);
                     }
                 });
@@ -24213,7 +24223,8 @@ mw._colorPicker = function (options) {
     };
 
     if(settings.value) {
-        sett.color = settings.value
+        sett.color = settings.value;
+
     }
     if(typeof settings.showRGB !== 'undefined') {
         sett.showRGB = settings.showRGB
@@ -24240,6 +24251,9 @@ mw._colorPicker = function (options) {
             if ($el[0].nodeName === 'INPUT') {
                 var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
+                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+                    $el[0].previousElementSibling.style.backgroundColor = val
+                }
             }
         }
 
@@ -24267,6 +24281,9 @@ mw._colorPicker = function (options) {
 
             if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
+                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+                    $el[0].previousElementSibling.style.backgroundColor = data.color
+                }
             }
         };
         if ($el[0].nodeName === 'INPUT') {
@@ -24322,7 +24339,9 @@ mw._colorPicker = function (options) {
             }
         }
     }
-
+    if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
+        $el[0].previousElementSibling.style.backgroundColor = $el[0].value
+    }
 };
 mw.colorPicker = function (o) {
 
@@ -27723,6 +27742,9 @@ mw.emitter = {
             this.valid();
 
             this.root = root;
+            setTimeout(function (){
+                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+            }, 10)
         },
         file: function (options) {
             var scope = this;

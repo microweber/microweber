@@ -127,4 +127,5 @@ export const Handle = function (options) {
     if(this.settings.content) {
         this.setContent(this.settings.content);
     }
+    this.hide()
 };

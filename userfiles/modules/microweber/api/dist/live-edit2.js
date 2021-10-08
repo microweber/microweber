@@ -1223,6 +1223,7 @@ const Draggable = function (options, rootSettings) {
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
+                 console.log(targetAction)
                  if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
@@ -1230,10 +1231,10 @@ const Draggable = function (options, rootSettings) {
                          scope.action = pos.action;
                          scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
                      } else {
-                        // scope.dropIndicator.hide();
+                         scope.dropIndicator.hide();
                      }
                  } else {
-                     //scope.dropIndicator.hide();
+                     scope.dropIndicator.hide();
                  }
                  if (scope.isDragging) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});
@@ -1257,8 +1258,7 @@ const Draggable = function (options, rootSettings) {
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
-                Array.from(scope.element.ownerDocument.querySelectorAll('[contenteditable]')).forEach(el => el.contentEditable = false)
-                scope.element.classList.add('mw-element-is-dragged');
+                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
                 e.dataTransfer.effectAllowed = "move";
 
