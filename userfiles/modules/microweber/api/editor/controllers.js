@@ -349,7 +349,7 @@ MWEditor.controllers = {
 
         this.checkSelection = function (opt) {
             var el = opt.api.elementNode(opt.selection.focusNode);
-            var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
+            var parentEl = DomService.firstParentOrCurrentWithTag(el, this.availableTags());
             opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
             opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
