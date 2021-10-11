@@ -31,6 +31,6 @@ $rand = uniqid();
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.js-bootstrap4-datepicker').datepicker({ language: "<?php echo current_lang_abbr(); ?>"});
+        $('.js-bootstrap4-datepicker').datepicker({ dateFormat: '<?php echo $settings['date_format'];?>', language: "<?php echo current_lang_abbr(); ?>"});
     });
 </script>

@@ -14,7 +14,7 @@ $rand = uniqid();
         <?php endif; ?>
 
         <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?> data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>"
-               class="form-control js-bootstrap4-datepicker" autocomplete="off"/>
+               class="form-control js-bootstrap5-datepicker" autocomplete="off"/>
         <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
         <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
 
@@ -31,6 +31,6 @@ $rand = uniqid();
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.js-bootstrap4-datepicker').datepicker({ language: "<?php echo current_lang_abbr(); ?>"});
+        $('.js-bootstrap5-datepicker').datepicker({ dateFormat: '<?php echo $settings['date_format'];?>', language: "<?php echo current_lang_abbr(); ?>"});
     });
 </script>
