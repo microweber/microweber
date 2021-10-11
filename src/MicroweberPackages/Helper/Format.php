@@ -1183,7 +1183,7 @@ class Format
 
         $formats[] = [
             'php' => 'm/d/y',
-            'js' => 'm/d/y',
+            'js' => 'm/d/yyyy',
         ];
 
         $formats[] = [
