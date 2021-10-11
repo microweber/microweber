@@ -113,7 +113,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <script>
 
     var contentChanged = function (state) {
-        document.querySelector('.btn-save').disabled = !state;
+     //   document.querySelector('.btn-save').disabled = !state;
         mw.askusertostay = state;
         document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
     }
@@ -291,7 +291,7 @@ if (isset($params['quick_edit'])) {
 
 
 
-                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
