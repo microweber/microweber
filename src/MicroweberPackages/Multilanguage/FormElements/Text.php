@@ -30,7 +30,9 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             $modelAttributes = $this->model->getAttributes();
         }
 
-        $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
 
         $fieldName = $this->getAttribute('name');
 
