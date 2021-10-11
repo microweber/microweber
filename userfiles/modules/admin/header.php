@@ -644,7 +644,7 @@ $user = get_user_by_id($user_id);
                         }
                     }).on('mousedown touchstart', function (event){
                         var el = this;
-                    
+
                         if(event.which === 1 || event.type === 'touchstart') {
                             handleConfirmBeforeLeave(function (shouldSave){
                                 if(shouldSave) {
