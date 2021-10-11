@@ -118,9 +118,14 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
                             var valueLangElement = document.getElementById("js-multilanguage-value-lang-' . $this->randId . '-" + selectLang.value);
                             valueLangElement.style.display = "block";
+                            mw.trigger("mlChangedLanguage", selectLang.value);
                         });
                     }
                     $(document).ready(function() {
+                         mw.on("mlChangedLanguage", function (e, data) {
+                            var applyChangedLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
+                            $(applyChangedLang).selectpicker("val", data);
+                         });
                         runMlTextField' . $this->randId . '();
                     });
                 </script>';
