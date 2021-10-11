@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use MicroweberPackages\Form\Elements\MwModuleSettings;
 use MicroweberPackages\Form\FormElementBuilder;
 use MicroweberPackages\Multilanguage\FormElements\MwEditor;
 use MicroweberPackages\Multilanguage\FormElements\Text;
@@ -14,6 +15,7 @@ class MultilanguageFormElementBuilder extends FormElementBuilder
     protected $formElementsClasses = [
         'Text'=>Text::class,
         'MwEditor'=>MwEditor::class,
+        'MwModuleSettings'=>MwModuleSettings::class,
         'TextOption'=>TextOption::class,
         'TextArea'=>TextArea::class,
         'TextAreaOption'=>TextAreaOption::class,
