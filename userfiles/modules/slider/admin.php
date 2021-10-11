@@ -23,13 +23,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="list">
-
-
-
+                <module type="slider/list" />
             </div>
 
             <div class="tab-pane fade" id="settings">
-                <module type="admin/modules/settings"/>
+                <module type="slider/settings" />
             </div>
 
             <div class="tab-pane fade" id="templates">

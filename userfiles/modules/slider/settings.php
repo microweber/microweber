@@ -1,5 +1,4 @@
 <?php
-
 include('options.php');
 ?>
 <div class="module-live-edit-settings module-bxslider">
