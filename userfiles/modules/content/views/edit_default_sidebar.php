@@ -52,7 +52,7 @@
                         saveState: false,
                         on: {
                             selectionChange: function () {
-                                document.querySelector('.btn-save').disabled = false;
+                              //  document.querySelector('.btn-save').disabled = false;
                                 mw.askusertostay = true;
                             }
                         }

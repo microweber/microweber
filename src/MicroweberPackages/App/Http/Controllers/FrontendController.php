@@ -1274,7 +1274,7 @@ class FrontendController extends Controller
             }
 
 
-            if ($show_404_to_non_admin) {
+            if ($show_404_to_non_admin and !$is_admin) {
                 $response = \Response::make($l);
                 $response->setStatusCode(404);
                 return $response;
