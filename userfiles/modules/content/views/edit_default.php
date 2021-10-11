@@ -287,10 +287,6 @@ if (isset($params['quick_edit'])) {
 
                                 <?php } ?>
 
-
-
-
-
                                 <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
