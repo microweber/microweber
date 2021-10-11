@@ -66,12 +66,12 @@ class MultilanguageObserver
             }
         }
 
-        if (isset($findTranslations)) {
+    /*    if (isset($findTranslations)) {
             $model->multilanguage_translations_count = count($findTranslations);
-        }
+        }*/
 
         $model->multilanguage = $multilanguage;
-        $model->makeHidden(['multilanguage_translations_count','multilanguage', 'translatable']);
+        $model->makeHidden(['multilanguage', 'translatable']);
     }
 
     /**
