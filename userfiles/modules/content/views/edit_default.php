@@ -273,15 +273,15 @@ if (isset($params['quick_edit'])) {
 
                                 if($wrapper_class=='in-popup'){ ?>
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-link  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn">
-                                            <i class=" d-sm-inline mdi  mdi-eye"></i><span class="d-none"><?php _e("Live Edit"); ?></span>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span ><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
                                 <?php } else { ?>
 
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-link  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn">
-                                            <i class=" d-sm-inline mdi  mdi-eye"></i><span class="d-none"><?php _e("Live Edit"); ?></span>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
 
