@@ -644,13 +644,14 @@ $user = get_user_by_id($user_id);
                         }
                     }).on('mousedown touchstart', function (event){
                         var el = this;
+
                         if(event.which === 1 || event.type === 'touchstart') {
                             handleConfirmBeforeLeave(function (shouldSave){
                                 if(shouldSave) {
                                     var edit_cont_form =  $('#quickform-edit-content');
                                     var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').attr('disabled');
                                     var edit_cont_title =  $('#content-title-field').val();
-                                    if (edit_cont_form.length && mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn) {
+                                    if (edit_cont_form.length /*&& mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn*/) {
                                         event.stopPropagation();
                                         event.preventDefault();
                                         mw.askusertostay = false;

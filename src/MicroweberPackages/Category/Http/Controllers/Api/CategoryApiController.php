@@ -50,7 +50,14 @@ class CategoryApiController extends AdminDefaultController
      */
     public function store(CategoryRequest $request)
     {
-        $result = $this->category->create($request->all());
+
+        $data = $request->all();
+        if($data and isset($data['id']) and $data['id']==0 ){
+            unset($data['id']);
+        }
+
+
+        $result = $this->category->create($data);
 
         return (new JsonResource($result))->response();
 
