@@ -22,7 +22,7 @@ $(window).on(\'load\', function () {
     this.bxSettings = new mw.moduleSettings({
         element: \'#settings-box\',
         header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
-        data: data, 
+        data: data,
         key: \'settings\',
         group: \'id\',
         autoSave: true,

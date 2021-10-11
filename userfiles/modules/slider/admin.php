@@ -26,7 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <?php
 
-                $moduleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'settings')
+            /*    $moduleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'settings')
                                 ->where('option_group',$params['id'])
                                 ->where('module',$params['module'])
                                 ->first();
@@ -37,7 +37,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     ->setModel($moduleOption)
                     ->prepend('')
                     ->placeholder('')
-                    ->value('');
+                    ->value('');*/
                 ?>
 
                 <module type="slider/list" />
