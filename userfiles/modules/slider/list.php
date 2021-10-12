@@ -1,65 +1,20 @@
-
-
 <?php
-$defaults = array(
-    'images' => '',
-    'primaryText' => 'My Slider',
-    'secondaryText' => 'Your slogan here',
-    'seemoreText' => 'See more',
-    'url' => '',
-    'urlText' => '',
-    'skin' => 'default'
-);
-
-$settings = get_module_option('settings', $params['id']);
-$json = json_decode($settings, true);
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
-}
-
-$module_template = get_module_option('data-template', $params['id']);
-if (!$module_template OR $module_template == 'default') {
-    $module_template = 'bxslider-skin-1';
-}
-$module_template_clean = str_replace('.php', '', $module_template);
-
-$default_skins_path = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins';
-$template_skins_path = template_dir() . 'modules/slider/templates/' . $module_template_clean . '/skins';
-$skins = array();
-
-if (is_dir($template_skins_path)) {
-    $skins = scandir($template_skins_path);
-}
-
-if (empty($skins) and is_dir($default_skins_path)) {
-    $skins = scandir($default_skins_path);
-}
-
-$count = 0;
-
-$module_template_check = get_module_option('data-template', $params['id']);
-if ($module_template_check == false AND isset($params['template'])) {
-    $module_template = $params['template'];
-}
+include('skins_variables.php');
 ?>
-
-
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
 <script>mw.require('icon_selector.js')</script>
 <script>mw.require('wysiwyg.css')</script>
+
 <script>
     $(document).ready(function () {
         $('select[name="data-template"]').on('change', function () {
             var thisVal = $(this).find(':selected').val();
-
             var first = thisVal.slice(0, thisVal.lastIndexOf('-skin'));
-
             $('select[name="engine"]').val(first).trigger('change');
-        })
-    })
-</script>
-<script>
+        });
+    });
+
     $(window).on('load', function () {
 
         var skins = [];
