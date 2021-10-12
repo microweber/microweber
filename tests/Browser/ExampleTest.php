@@ -21,6 +21,7 @@ class ExampleTest extends DuskTestCase
 
             $browser->visit($siteUrl)->assertSee('install');
 
+            // Fill the install fields
             $browser->type('admin_username', '1');
             $browser->type('admin_password', '1');
             $browser->type('admin_password2', '1');
@@ -28,9 +29,15 @@ class ExampleTest extends DuskTestCase
 
             $browser->pause(100);
             $browser->click('@install-button');
-            $browser->waitForLocation('/admin', 120);
 
-         //   $browser->dump();
+            // Wait for redirect after installation
+            $browser->waitForLocation('/admin/login', 120);
+
+            // Login to admin panel
+            $browser->type('username', '1');
+            $browser->type('password', '1');
+
+          //  $browser->dump();
 
         });
     }
