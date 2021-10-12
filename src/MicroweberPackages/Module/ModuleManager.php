@@ -337,7 +337,7 @@ class ModuleManager
                     ob_start();
 
                     $is_mw_ignore = dirname($value) . DS . '.mwignore';
-                    if (!is_file($is_mw_ignore)) {
+                    if (!is_file($is_mw_ignore) and is_file($value)) {
                         include $value;
                     }
 
