@@ -33,7 +33,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
-                echo $formBuilder->mwModuleSettings('option_value')
+                echo $formBuilder->mwModuleSettings('settings')
                     ->setModel($moduleOption)
                     ->schema([
                         [

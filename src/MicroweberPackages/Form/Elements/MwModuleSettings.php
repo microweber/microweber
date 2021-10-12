@@ -6,7 +6,7 @@ class MwModuleSettings extends TextArea
 {
     public function render()
     {
-        $mwModuleSettingsId = rand(1111, 9999) . time();
+        $mwModuleSettingsId = str_random(9);
 
         $fieldsData = [];
 
@@ -52,8 +52,8 @@ $(window).on(\'load\', function () {
 </script>
 
 <!-- Settings Content -->
-<div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
-    <input type="hidden" name="settings" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
+<div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings"> 
+    <input type="hidden" name="'.$this->getAttribute('name').'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
     <div class="mb-3">
         <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
     </div>
