@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Config;
 
 trait CreatesApplication
 {
@@ -20,7 +21,6 @@ trait CreatesApplication
 
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
-
 
         $testEnvironment = $this->testEnvironment;
         $app->detectEnvironment(function () use ($testEnvironment) {
@@ -55,9 +55,14 @@ trait CreatesApplication
             'prefix' => 'dusktest_',
             '--env' => $environment,
         );
+
+        // Clear caches
+        \Artisan::call('config:cache');
+        \Artisan::call('optimize:clear');
+
         $install = \Artisan::call('microweber:install', $installParams);
 
-       // dd($installParams);
+       dd($install);
 
         $this->assertEquals(0, $install);
 
@@ -65,6 +70,7 @@ trait CreatesApplication
         \Artisan::call('config:cache');
         \Artisan::call('config:clear');
         \Artisan::call('cache:clear');
+
 
         $is_installed = mw_is_installed();
         $this->assertEquals(1, $is_installed);
