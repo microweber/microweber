@@ -328,10 +328,6 @@ var _populate = {
 
                 }
 
-                if(!color || this.value === '#00000000') {
-                    this.value = '#000000'
-                }
-
                 this.type = 'text'
 
                 var el = this;
@@ -342,6 +338,7 @@ var _populate = {
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
+                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
 
                 mw.colorPicker({
                     element: this,
