@@ -27,7 +27,8 @@ class Guzzle
 
         $response = $client->get($this->url, [
             'timeout' => $this->timeout,
-            'verify'=>__DIR__.DS.'cacert.pem.txt'
+            'verify'=>false
+           // 'verify'=>__DIR__.DS.'cacert.pem.txt'
         ]);
 
       	return $response->getBody()->getContents();
@@ -79,7 +80,8 @@ class Guzzle
         $form_params  = [
             'form_params' => $data,
             'timeout' => $this->timeout,
-            'verify'=>__DIR__.DS.'cacert.pem.txt'
+            'verify'=>false
+            //'verify'=>__DIR__.DS.'cacert.pem.txt'
         ];
 
         $response = $client->post($this->url,$form_params );
