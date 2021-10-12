@@ -30,7 +30,7 @@ $(window).on(\'load\', function () {
     });
 
     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
-        element: \'#settings-box\',
+        element: \'#settings-box'.$mwModuleSettingsId.'\',
         header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
         data: data'.$mwModuleSettingsId.',
         key: \'settings\',
@@ -57,7 +57,7 @@ $(window).on(\'load\', function () {
     <div class="mb-3">
         <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
     </div>
-    <div id="settings-box"></div>
+    <div id="settings-box'.$mwModuleSettingsId.'"></div>
 </div>
 <!-- Settings Content - End -->';
 
