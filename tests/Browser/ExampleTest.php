@@ -20,7 +20,17 @@ class ExampleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $browser->visit($siteUrl)->assertSee('install');
+
+            $browser->type('admin_username', '1');
+            $browser->type('admin_password', '1');
+            $browser->type('admin_password2', '1');
+            $browser->type('admin_email', '1');
+
+            $browser->pause(100);
             $browser->click('@install-button');
+            $browser->waitForLocation('/admin', 120);
+
+         //   $browser->dump();
 
         });
     }
