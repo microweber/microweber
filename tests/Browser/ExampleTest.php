@@ -48,7 +48,7 @@ class ExampleTest extends DuskTestCase
             $browser->click('@login-button');
 
             // Wait for redirect after login
-            $browser->waitForLocation('admin/', 120);
+            $browser->waitForLocation('/admin/', 120);
 
             $browser->assertSee('Statistics');
             $browser->assertSee('Live Edit');
