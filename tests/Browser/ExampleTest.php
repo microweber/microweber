@@ -14,9 +14,14 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/');
-            $browser->pause(1000);
+        define('MW_SITE_URL', 'http://localhost/microweber');
+
+        $siteUrl = site_url();
+
+        $this->browse(function (Browser $browser) use($siteUrl) {
+            $browser->visit($siteUrl);
+         //   dump($browser->dump());
+            $browser->assertSee('Installation is completed');
         });
     }
 }
