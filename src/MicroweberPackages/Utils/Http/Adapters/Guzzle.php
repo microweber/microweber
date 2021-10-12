@@ -23,9 +23,12 @@ class Guzzle
 
     public function get()
     {
-        $client = new Client();
+        $client = new Client([ 'verify' => false ]);
 
-        $response = $client->get($this->url, ['timeout' => $this->timeout, 'verify'=>__DIR__.DS.'cacert.pem.txt']);
+        $response = $client->get($this->url, [
+            'timeout' => $this->timeout,
+            'verify'=>__DIR__.DS.'cacert.pem.txt'
+        ]);
 
       	return $response->getBody()->getContents();
 
@@ -53,6 +56,8 @@ class Guzzle
                 curl_setopt($ch, CURLOPT_TIMEOUT, 120);
                 curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
                 curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
                 curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
 
@@ -69,7 +74,7 @@ class Guzzle
 
     public function post($data = false)
     {
-        $client = new Client();
+        $client = new Client([ 'verify' => false ]);
 
         $form_params  = [
             'form_params' => $data,
