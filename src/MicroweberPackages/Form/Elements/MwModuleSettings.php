@@ -8,21 +8,10 @@ class MwModuleSettings extends TextArea
     {
         $mwModuleSettingsId = rand(1111, 9999) . time();
 
-        $fieldsSchema = [];
-
-        $fieldsSchema[] = [
-            'interface'=>'text',
-            'label'=>['ebasigo'],
-            'id'=>'manqk',
-        ];
-
         $fieldsData = [];
-        $fieldsData[]['manqk'] = 'ti ibesh lisa';
-        $fieldsData[]['manqk'] = 'ti ibesh lisa2';
-        $fieldsData[]['manqk'] = 'ti ibesh lisa3';
 
         $data = json_encode($fieldsData);
-        $schema = json_encode($fieldsSchema);
+        $schema = json_encode($this->getAttribute('schema'));
 
         $html = '
 <script>mw.require(\'prop_editor.js\')</script>
