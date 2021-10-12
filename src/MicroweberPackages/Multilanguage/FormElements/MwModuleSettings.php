@@ -125,8 +125,6 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
            </div>';
         }
 
-        $this->id('js-multilanguage-hidden-input-' . $this->randId);
-
         $html .= '
                     </div>
                   </div>';
