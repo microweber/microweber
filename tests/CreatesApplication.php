@@ -23,9 +23,12 @@ trait CreatesApplication
         $app->make(Kernel::class)->bootstrap();
 
         $testEnvironment = $this->testEnvironment;
-        $app->detectEnvironment(function () use ($testEnvironment) {
+        app()->detectEnvironment(function () use ($testEnvironment) {
             return $testEnvironment;
         });
+
+
+        $app['config']->set('database.default', 'xx');
         $app['config']->set('microweber.is_installed', false);
         $app['config']->set('cache.default', 'file');
         $app['config']->set('cache.stores.file',
@@ -35,7 +38,6 @@ trait CreatesApplication
                 'separator' => '~#~'
             ]
         );
-
         $environment = $app->environment();
 
         $this->sqliteFile = $this->normalizePath(storage_path() . '/dbtest_' . $environment . '.sqlite', false);
@@ -55,14 +57,7 @@ trait CreatesApplication
             'prefix' => 'dusktest_',
             '--env' => $environment,
         );
-
-        // Clear caches
-        \Artisan::call('config:cache');
-        \Artisan::call('optimize:clear');
-
         $install = \Artisan::call('microweber:install', $installParams);
-
-       dd($install);
 
         $this->assertEquals(0, $install);
 
@@ -95,9 +90,8 @@ trait CreatesApplication
         $mwFileDatabase = $configFolder . 'database.php';
         $mwFile = $this->normalizePath($mwFile, false);
 
-        if (!defined('MW_DUSK_TEST_CONF_FILE_CREATED')) {
-            @unlink($mwFileDatabase);
-            file_put_contents($mwFile, "<?php return array (
+        @unlink($mwFileDatabase);
+        file_put_contents($mwFile, "<?php return array (
                 'dusk_testing' => 1,
                 'environment' => '$this->testEnvironment',
                 'is_installed' => 0,
@@ -105,8 +99,7 @@ trait CreatesApplication
                 'install_default_template' => 'default',
                 'install_default_template_content' => 1,
             );"
-            );
-        }
+        );
 
     }
 
