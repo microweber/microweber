@@ -18,8 +18,10 @@ class ExampleTest extends DuskTestCase
         $siteUrl = 'http://127.0.0.1:8000/';
 
         $this->browse(function (Browser $browser) use($siteUrl) {
-            $browser->visit($siteUrl)
-                    ->assertSee('install');
+
+            $browser->visit($siteUrl)->assertSee('install');
+            $browser->click('@install-button');
+
         });
     }
 }
