@@ -1,9 +1,12 @@
 <?php
+namespace MicroweberPackages\Multilanguage\FormElements;
 
-namespace MicroweberPackages\Form\Elements;
-
-class MwModuleSettings extends TextArea
+class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSettings
 {
+    public $randId;
+    public $currentLanguage;
+    public $defaultLanguage;
+
     public function render()
     {
         $mwModuleSettingsId = str_random(9);
