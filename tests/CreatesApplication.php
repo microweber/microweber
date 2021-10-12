@@ -61,10 +61,10 @@ trait CreatesApplication
 
         $this->assertEquals(0, $install);
 
-        // Clear caches
+     /*   // Clear caches
         \Artisan::call('config:cache');
         \Artisan::call('config:clear');
-        \Artisan::call('cache:clear');
+        \Artisan::call('cache:clear');*/
 
 
         $is_installed = mw_is_installed();
