@@ -60,7 +60,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 $showTab = 'show active';
             }
 
-            $inputValue = '';
+            $inputValue = json_encode([]);
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
