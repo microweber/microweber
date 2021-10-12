@@ -1,5 +1,4 @@
 <?php
-
 include('options.php');
 ?>
 <div class="module-live-edit-settings module-bxslider">
@@ -19,6 +18,12 @@ include('options.php');
 
                 selectedEngine = $(this).find(":selected").val();
                 showOptionsForSlider(selectedEngine);
+            });
+
+            $('select[name="data-template"]').on('change', function () {
+                var thisVal = $(this).find(':selected').val();
+                var first = thisVal.slice(0, thisVal.lastIndexOf('-skin'));
+                $('select[name="engine"]').val(first).trigger('change');
             });
         });
     </script>

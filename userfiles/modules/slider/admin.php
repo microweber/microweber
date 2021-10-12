@@ -24,12 +24,63 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="list">
 
+                <?php
 
+               $moduleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'settings')
+                                ->where('option_group',$params['id'])
+                                ->where('module',$params['module'])
+                                ->first();
+
+                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+                echo $formBuilder->mwModuleSettings('settings')
+                    ->setModel($moduleOption)
+                    ->schema([
+                        [
+                            'interface' => 'file',
+                            'id' => 'images',
+                            'label' => 'Add Image',
+                            'types' => 'images',
+                            'multiple' => 2,
+                        ],
+                        [
+                            'interface' => 'select',
+                            'label' => ['Skin'],
+                            'id' => 'skin',
+                            'options' => 'skins'
+                        ],
+                        [
+                            'interface' => 'icon',
+                            'label' => ['Icon'],
+                            'id' => 'icon'
+                        ],
+                        [
+                            'interface' => 'text',
+                            'label' => ['Slide Heading'],
+                            'id' => 'primaryText'
+                        ],
+                        [
+                            'interface' => 'text',
+                            'label' => ['Slide Description'],
+                            'id' => 'secondaryText'
+                        ],
+                        [
+                            'interface' => 'text',
+                            'label' => ['URL'],
+                            'id' => 'url'
+                        ],
+                        [
+                            'interface' => 'text',
+                            'label' => ['See more text'],
+                            'id' => 'seemoreText'
+                        ]
+                    ]);
+                ?>
 
             </div>
 
             <div class="tab-pane fade" id="settings">
-                <module type="admin/modules/settings"/>
+                <module type="slider/settings" />
             </div>
 
             <div class="tab-pane fade" id="templates">
