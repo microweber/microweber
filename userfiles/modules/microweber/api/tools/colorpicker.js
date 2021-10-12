@@ -97,8 +97,12 @@ mw._colorPicker = function (options) {
             if ($el[0].nodeName === 'INPUT') {
                 var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
-                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
-                    $el[0].previousElementSibling.style.backgroundColor = val
+                var prev = $el[0].previousElementSibling
+                if( prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display')
+                    if(dp) {
+                        dp.style.backgroundColor = val
+                    }
                 }
             }
         }
@@ -127,8 +131,13 @@ mw._colorPicker = function (options) {
 
             if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
-                if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
-                    $el[0].previousElementSibling.style.backgroundColor = data.color
+                var prev = $el[0].previousElementSibling
+                if(prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display');
+                    if(dp) {
+                        dp.style.backgroundColor = data.color
+                    }
+
                 }
             }
         };
@@ -185,9 +194,14 @@ mw._colorPicker = function (options) {
             }
         }
     }
-    if($el[0].previousElementSibling && $el[0].previousElementSibling.classList.contains('mw-field-color-indicator')) {
-        $el[0].previousElementSibling.style.backgroundColor = $el[0].value
+    var prev = $el[0].previousElementSibling
+    if( prev && prev.classList.contains('mw-field-color-indicator')) {
+        var dp = prev.querySelector('.mw-field-color-indicator-display')
+        if(dp) {
+            dp.style.backgroundColor = $el[0].value
+        }
     }
+
 };
 mw.colorPicker = function (o) {
 
