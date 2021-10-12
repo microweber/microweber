@@ -26,6 +26,7 @@ trait CreatesApplication
         $app->detectEnvironment(function () use ($testEnvironment) {
             return $testEnvironment;
         });
+        $app['config']->set('microweber.is_installed', false);
         $app['config']->set('cache.default', 'file');
         $app['config']->set('cache.stores.file',
             [
@@ -36,6 +37,7 @@ trait CreatesApplication
         );
 
         $environment = $app->environment();
+
         $this->sqliteFile = $this->normalizePath(storage_path() . '/dbtest_' . $environment . '.sqlite', false);
         if (is_file($this->sqliteFile)) {
             @unlink($this->sqliteFile);
@@ -55,7 +57,7 @@ trait CreatesApplication
         );
         $install = \Artisan::call('microweber:install', $installParams);
 
-        dd($install);
+       // dd($installParams);
 
         $this->assertEquals(0, $install);
 
