@@ -195,6 +195,9 @@ var activeTree = function(){
 var _prepare = {
     shadow: function () {
         var root = document.querySelector('#shadow');
+        if(!root) {
+            return;
+        }
         CSSShadow = new mw.propEditor.schema({
             schema: [
                 {
@@ -214,6 +217,17 @@ var _prepare = {
     },
     border: function () {
 
+        var bordercolor = document.querySelector('#border-color')
+        mw.colorPicker({
+            element: bordercolor,
+            position: 'bottom-right',
+            onchange: function (color){
+
+                    $(bordercolor).trigger('colorChange', color)
+
+            },
+            color: this.value
+        })
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -237,7 +251,7 @@ var _prepare = {
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
-                var prev = $(this).parent().prev();
+                var prev = $(this).prev();
                 output( prev.attr('data-prop'), '');
                 prev.find('input').val(this._defaultValue);
                 $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
@@ -314,10 +328,6 @@ var _populate = {
 
                 }
 
-                if(!color || this.value === '#00000000') {
-                    this.value = '#000000'
-                }
-
                 this.type = 'text'
 
                 var el = this;
@@ -326,8 +336,9 @@ var _populate = {
                 // el.style.cursor = 'pointer';
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
-                    $(this).before('<span class="mw-field-color-indicator"></span>')
+                    $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
+                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
 
                 mw.colorPicker({
                     element: this,
@@ -420,6 +431,7 @@ var scColumns = function (property, value){
 var OverlayNode = null;
 
 var specialCases = function (property, value){
+    if(!property) return;
     if(property.includes('col-')){
         scColumns(property, value)
         return true;
@@ -561,6 +573,9 @@ var init = function(){
     $("#background-remove").on("click", function () {
         $('.background-preview').css('backgroundImage', 'none');
         output('backgroundImage', 'none')
+    });
+    $("#background-reset").on("click", function () {
+        output('backgroundImage', '');
     });
     $("#background-select-item").on("click", function () {
         var dialog;
@@ -763,11 +778,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
+            <div class="mw-ui-btn-nav" id="background-image-nav">
 
                 <span
-                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium"
-                    id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
-                <span id="background-remove" class="tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Select background image"
+                    id="background-select-item"><span class="background-preview"></span></span>
+                <span id="background-remove" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
+                <span id="background-reset" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Reset background" data-tipposition="top-right"><span class="mdi mdi-history"></span></span>
+            </div>
             </div>
         </div>
         <div class="s-field">
@@ -1187,8 +1205,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <input type="color" class="colorField unit" id="border-color">
+                    <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                    <input type="text" placeholder="#ffffff" class="colorField unit" id="border-color">
                 </div>
+
             </div>
         </div>
         <div class="s-field">
@@ -1244,8 +1264,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
-        <label><?php _e("Element shadow"); ?></label>
-        <div id="shadow"></div>
+
 
     </div>
 </mw-accordion-item>

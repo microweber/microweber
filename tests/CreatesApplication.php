@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Config;
 
 trait CreatesApplication
 {
@@ -21,11 +22,11 @@ trait CreatesApplication
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
 
-
         $testEnvironment = $this->testEnvironment;
         $app->detectEnvironment(function () use ($testEnvironment) {
             return $testEnvironment;
         });
+        $app['config']->set('microweber.is_installed', false);
         $app['config']->set('cache.default', 'file');
         $app['config']->set('cache.stores.file',
             [
@@ -36,6 +37,7 @@ trait CreatesApplication
         );
 
         $environment = $app->environment();
+
         $this->sqliteFile = $this->normalizePath(storage_path() . '/dbtest_' . $environment . '.sqlite', false);
         if (is_file($this->sqliteFile)) {
             @unlink($this->sqliteFile);
@@ -53,9 +55,14 @@ trait CreatesApplication
             'prefix' => 'dusktest_',
             '--env' => $environment,
         );
+
+        // Clear caches
+        \Artisan::call('config:cache');
+        \Artisan::call('optimize:clear');
+
         $install = \Artisan::call('microweber:install', $installParams);
 
-        dd($install);
+       dd($install);
 
         $this->assertEquals(0, $install);
 
@@ -63,6 +70,7 @@ trait CreatesApplication
         \Artisan::call('config:cache');
         \Artisan::call('config:clear');
         \Artisan::call('cache:clear');
+
 
         $is_installed = mw_is_installed();
         $this->assertEquals(1, $is_installed);

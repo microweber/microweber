@@ -30,6 +30,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
         }
 
         $html = '
+            <script>mw.lib.require(\'flag_icons\')</script>
             <script>mw.require(\'prop_editor.js\')</script>
             <script>mw.require(\'module_settings.js\')</script>
             <script>mw.require(\'icon_selector.js\')</script>
@@ -88,7 +89,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                     });
 
                     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
-                        element: \'#settings-box\',
+                        element: \'#settings-box'.$mwModuleSettingsId.'\',
                         header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
                         key: \'settings\',
@@ -111,20 +112,18 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
-                    <input type="hidden" name="" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
+                    <input type="hidden" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
                     <div class="mb-3">
                         <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
                     </div>
-                    <div id="settings-box"></div>
+                    <div id="settings-box'.$mwModuleSettingsId.'"></div>
                 </div>
-                <!-- Settings Content - End --> 
+                <!-- Settings Content - End -->
 
 
 
            </div>';
         }
-
-        $this->id('js-multilanguage-hidden-input-' . $this->randId);
 
         $html .= '
                     </div>
