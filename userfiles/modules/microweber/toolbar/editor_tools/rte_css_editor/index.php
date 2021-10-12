@@ -195,6 +195,9 @@ var activeTree = function(){
 var _prepare = {
     shadow: function () {
         var root = document.querySelector('#shadow');
+        if(!root) {
+            return;
+        }
         CSSShadow = new mw.propEditor.schema({
             schema: [
                 {
@@ -214,6 +217,17 @@ var _prepare = {
     },
     border: function () {
 
+        var bordercolor = document.querySelector('#border-color')
+        mw.colorPicker({
+            element: bordercolor,
+            position: 'bottom-right',
+            onchange: function (color){
+
+                    $(bordercolor).trigger('colorChange', color)
+
+            },
+            color: this.value
+        })
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -237,7 +251,7 @@ var _prepare = {
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
-                var prev = $(this).parent().prev();
+                var prev = $(this).prev();
                 output( prev.attr('data-prop'), '');
                 prev.find('input').val(this._defaultValue);
                 $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
@@ -326,7 +340,7 @@ var _populate = {
                 // el.style.cursor = 'pointer';
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
-                    $(this).before('<span class="mw-field-color-indicator"></span>')
+                    $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
 
                 mw.colorPicker({
@@ -420,6 +434,7 @@ var scColumns = function (property, value){
 var OverlayNode = null;
 
 var specialCases = function (property, value){
+    if(!property) return;
     if(property.includes('col-')){
         scColumns(property, value)
         return true;
@@ -1187,8 +1202,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <input type="color" class="colorField unit" id="border-color">
+                    <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                    <input type="text" placeholder="#ffffff" class="colorField unit" id="border-color">
                 </div>
+
             </div>
         </div>
         <div class="s-field">
@@ -1244,8 +1261,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
-        <label><?php _e("Element shadow"); ?></label>
-        <div id="shadow"></div>
+
 
     </div>
 </mw-accordion-item>
