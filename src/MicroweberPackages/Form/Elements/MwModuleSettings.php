@@ -8,6 +8,22 @@ class MwModuleSettings extends TextArea
     {
         $mwModuleSettingsId = rand(1111, 9999) . time();
 
+        $fieldsSchema = [];
+
+        $fieldsSchema[] = [
+            'interface'=>'text',
+            'label'=>['ebasigo'],
+            'id'=>'manqk',
+        ];
+
+        $fieldsData = [];
+        $fieldsData[]['manqk'] = 'ti ibesh lisa';
+        $fieldsData[]['manqk'] = 'ti ibesh lisa2';
+        $fieldsData[]['manqk'] = 'ti ibesh lisa3';
+
+        $data = json_encode($fieldsData);
+        $schema = json_encode($fieldsSchema);
+
         $html = '
 <script>mw.require(\'prop_editor.js\')</script>
 <script>mw.require(\'module_settings.js\')</script>
@@ -17,28 +33,40 @@ class MwModuleSettings extends TextArea
 <script>
 $(window).on(\'load\', function () {
 
-    var data = [{"images":"","primaryText":"My Slider","secondaryText":"Your slogan here","seemoreText":"See more222","url":"","urlText":"","skin":"default","icon":""}];
+    var data = '.$data.';
+    $.each(data, function (key) {
+        if (typeof data[key].images === \'string\') {
+            data[key].images = data[key].images.split(\',\');
+        }
+    });
 
-    this.bxSettings = new mw.moduleSettings({
+    this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
         element: \'#settings-box\',
         header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
         data: data,
         key: \'settings\',
         group: \'id\',
         autoSave: true,
-        schema: []
+        schema: '.$schema.'
     });
 
-    alert(2);
-
+    $(bxSettings_'.$mwModuleSettingsId.').on(\'change\', function (e, val) {
+        var final = [];
+        $.each(val, function () {
+            var curr = $.extend({}, this);
+            curr.images = curr.images.join(\',\');
+            final.push(curr)
+        });
+        $(\'#settingsfield'.$mwModuleSettingsId.'\').val(JSON.stringify(final)).trigger(\'change\')
+    });
 });
 </script>
 
 <!-- Settings Content -->
 <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
-    <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
+    <input type="hidden" name="settings" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
     <div class="mb-3">
-        <span class="btn btn-primary btn-rounded" onclick="bxSettings.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
+        <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
     </div>
     <div id="settings-box"></div>
 </div>
