@@ -30,6 +30,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
         }
 
         $html = '
+            <script>mw.lib.require(\'flag_icons\')</script>
             <script>mw.require(\'prop_editor.js\')</script>
             <script>mw.require(\'module_settings.js\')</script>
             <script>mw.require(\'icon_selector.js\')</script>
