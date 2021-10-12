@@ -112,7 +112,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
-                    <input type="hidden" name="" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
+                    <input type="hidden" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
                     <div class="mb-3">
                         <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
                     </div>
