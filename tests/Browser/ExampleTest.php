@@ -15,9 +15,11 @@ class ExampleTest extends DuskTestCase
      */
     public function testBasicExample()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                    ->assertSee('Laravel');
+        $siteUrl = 'http://127.0.0.1:8000/';
+
+        $this->browse(function (Browser $browser) use($siteUrl) {
+            $browser->visit($siteUrl)
+                    ->assertSee('install');
         });
     }
 }
