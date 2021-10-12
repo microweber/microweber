@@ -577,6 +577,9 @@ var init = function(){
         $('.background-preview').css('backgroundImage', 'none');
         output('backgroundImage', 'none')
     });
+    $("#background-reset").on("click", function () {
+        output('backgroundImage', '');
+    });
     $("#background-select-item").on("click", function () {
         var dialog;
         var picker = new mw.filePicker({
@@ -778,11 +781,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
+            <div class="mw-ui-btn-nav" id="background-image-nav">
 
                 <span
-                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium"
-                    id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
-                <span id="background-remove" class="tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Select background image"
+                    id="background-select-item"><span class="background-preview"></span></span>
+                <span id="background-remove" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
+                <span id="background-reset" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Reset background" data-tipposition="top-right"><span class="mdi mdi-history"></span></span>
+            </div>
             </div>
         </div>
         <div class="s-field">
