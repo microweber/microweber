@@ -21,9 +21,23 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         }
         $localesJson = json_encode($locales);
 
+        $modelTranslations = [];
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelTranslations = $this->model->getTranslationsFormated();
+        }
+
         $translations = [];
+        // Fill with empty values
         foreach ($locales as $locale) {
-            $translations[$locale] = 'test';
+            $translations[$locale] = '';
+        }
+        // Fill the translations if available
+        if (!empty($modelTranslations)) {
+            foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
+                if (isset($modelTranslation[$fieldName])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                }
+            }
         }
         $translationsJson = json_encode($translations);
 
@@ -38,7 +52,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                 });
             });
         </script>
-        <input type=\"text\" class=\"form-control\" id=\"$this->randId\" />";
+        <input type=\"text\" name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\" />";
 
     }
 }
