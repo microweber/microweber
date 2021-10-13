@@ -100,6 +100,12 @@ include(__DIR__.'/ui_app.php');
             reload_admin_css()
         });
     }
+    function reset_admin_css_colors() {
+
+        $.get("<?php print api_url('mw_admin_colors/reset_main_stylesheet_colors'); ?>", function (data) {
+            reload_admin_css()
+        });
+    }
 
 
 
@@ -145,6 +151,7 @@ include(__DIR__.'/ui_app.php');
         </select>
     </div>
 
+<button onclick="reset_admin_css_colors()">Reset colors</button>
 
     <module type="white_label/admin_colors/vars" id="admin-theme-vars" />
 

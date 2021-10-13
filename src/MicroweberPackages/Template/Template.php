@@ -3,6 +3,7 @@
 
 namespace MicroweberPackages\Template;
 
+use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
@@ -275,11 +276,12 @@ class Template
 
         return $l;
     }
+
     public function get_custom_css_url()
     {
         $content = $this->get_custom_css_content();
 
-        if(trim($content) == ''){
+        if (trim($content) == '') {
             return false;
         }
 
@@ -359,8 +361,6 @@ class Template
 
         return $layout;
     }
-
-
 
 
     public function add_csrf_token_meta_tags($layout)
@@ -480,6 +480,39 @@ class Template
         return $templates;
     }
 
+    public function get_admin_supported_theme_scss_vars($theme)
+    {
+        if (!$theme) {
+            return;
+        }
+        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
+        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
+        $theme = str_replace('..', '', $theme);
+        $vars_file = normalize_path($themes_dir . $theme . '/_variables.scss', false);
+
+        if (is_file($vars_file)) {
+            $input = file_get_contents($vars_file);
+            $scss = new \ScssPhp\ScssPhp\Parser($input);
+            $parsed = $scss->parse($input);
+            $vars = [];
+            if (isset($parsed->children)) {
+                $children = $parsed->children;
+                if ($children) {
+                    foreach ($children as $item) {
+                        if (isset($item[0]) and $item[0] == 'assign') {
+                            if (isset($item[1][0]) and isset($item[2][1]) and isset($item[1][1]) and $item[1][0] == 'var') {
+
+                                $vars[$item[1][1]] = $item[2][1];
+                            }
+                        }
+                    }
+                }
+
+            }
+            return $vars;
+        }
+    }
+
     public function get_admin_system_ui_css_url()
     {
 
@@ -576,6 +609,13 @@ class Template
             if ($vars) {
                 $scss->setVariables($vars);
             }
+        } elseif ($vars){
+
+            $cont = "@import 'main_with_mw';";
+
+            if ($vars) {
+                $scss->setVariables($vars);
+            }
         }
 
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
@@ -584,6 +624,9 @@ class Template
         }
 
         $output = str_replace('../img', $url_images_dir, $output);
+        if(!is_dir(dirname($compiled_css_output_path_file_css))){
+            mkdir_recursive(dirname($compiled_css_output_path_file_css));
+        }
         file_put_contents($compiled_css_output_path_file_css, $output);
         return $compiled_css_output_path_file_css_url;
     }
