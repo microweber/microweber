@@ -60,8 +60,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 $showTab = 'show active';
             }
 
-            $inputValue = '';
-
+            $inputValue = json_encode([]);
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
@@ -72,8 +71,6 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 }
             }
 
-            $data = json_encode([]);
-
             $mwModuleSettingsId = $this->randId . $language['locale'];
 
             $html .= '<div class="tab-pane fade '.$showTab.' js-multilanguage-tab-'.$this->randId.'" id="mlfield' . $this->randId . $language['locale'] . '">
@@ -81,7 +78,8 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 <script>
                 $(window).on(\'load\', function () {
 
-                    var data'.$mwModuleSettingsId.' = '.$data.';
+                    var data'.$mwModuleSettingsId.' = '.$inputValue.';
+
                     $.each(data'.$mwModuleSettingsId.', function (key) {
                         if (typeof data'.$mwModuleSettingsId.'[key].images === \'string\') {
                             data'.$mwModuleSettingsId.'[key].images = data'.$mwModuleSettingsId.'[key].images.split(\',\');

@@ -33,4 +33,11 @@ class ModulesInstaller
         mw()->module_manager->logger = $this->logger;
         mw()->module_manager->install();
     }
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
 }

@@ -28,12 +28,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                $moduleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'settings')
                                 ->where('option_group',$params['id'])
-                                ->where('module',$params['module'])
+                                ->where('module',$params['parent-module'])
                                 ->first();
 
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
-                echo $formBuilder->mwModuleSettings('settings')
+                echo $formBuilder->mwModuleSettings('option_value')
                     ->setModel($moduleOption)
                     ->schema([
                         [
