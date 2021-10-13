@@ -26,11 +26,9 @@
 
             var outputHtml = '<div class="input-group">';
 
-                let mlInputLocaleChangeId = 'ml-input-'+name+'-change';
-
                 let mlInputLocaleIds = [];
-                for (let i = 0; i < locales.length; i++) {
-                    let mlInputLocaleId = 'ml-input-'+name+'-'+i;
+                for (var i = 0; i < locales.length; i++) {
+                    var mlInputLocaleId = 'ml-input-'+name+'-'+i;
                     outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
 
                     // If ml input is changed change and the value attr
@@ -41,10 +39,11 @@
                     mlInputLocaleIds[i] = mlInputLocaleId;
                 }
 
+                var mlInputLocaleChangeId = 'ml-input-'+name+'-change';
                 outputHtml += '<div class="input-group-append">';
                     outputHtml += '<span>';
                         outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';
-                        for (let i = 0; i < locales.length; i++) {
+                        for (var i = 0; i < locales.length; i++) {
                             outputHtml += '<option value="'+locales[i]+'">' + locales[i].toUpperCase() + '</option>';
                         }
                         outputHtml += '</select>';
@@ -54,13 +53,10 @@
             outputHtml += '</div>';
             $(obj).after(outputHtml);
 
-            $('body').on('change','#' + mlInputLocaleChangeId, function (){
-                mw.trigger("mlChangedLanguage", $(this).val());
-            });
-
-            mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
+            // Switch fields
+            function switchInputFieldsToLanguage(mlCurrentLanguage) {
                 $('#' + mlInputLocaleChangeId).selectpicker("val", mlCurrentLanguage);
-                for (let i = 0; i < mlInputLocaleIds.length; i++) {
+                for (var i = 0; i < mlInputLocaleIds.length; i++) {
                     // If ml locale is changed hide all fields except current lang
                     if ($('#' + mlInputLocaleIds[i]).attr('lang') !== mlCurrentLanguage) {
                         $('#' + mlInputLocaleIds[i]).hide();
@@ -68,6 +64,19 @@
                         $('#' + mlInputLocaleIds[i]).show();
                     }
                 }
+            }
+
+            // Show for current lang
+            switchInputFieldsToLanguage(currentLocale);
+
+            // If dropdown is changed
+            $('body').on('change','#' + mlInputLocaleChangeId, function (){
+                mw.trigger("mlChangedLanguage", $(this).val());
+            });
+
+            // Listen for events
+            mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
+                switchInputFieldsToLanguage(mlCurrentLanguage);
             });
 
         });
