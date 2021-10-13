@@ -58,7 +58,7 @@ class BlogFilterTest extends TestCase
         $htmlString = $html->__toString();
 
         foreach ($posts as $post) {
-            $findPostTitle = (strpos($htmlString, $post->title) !== false);
+            $findPostTitle = (strpos($htmlString, strval($post->title)) !== false);
             $this->assertTrue($findPostTitle);
         }
 
