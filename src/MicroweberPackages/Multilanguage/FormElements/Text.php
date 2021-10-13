@@ -13,6 +13,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->randId = str_random();
         $fieldName = $this->getAttribute('name');
+        $fieldValue = $this->model->{$fieldName};
 
         $locales = [];
         $supportedLanguages = get_supported_languages(true);
@@ -36,6 +37,9 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
                 if (isset($modelTranslation[$fieldName])) {
                     $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                    if ($this->currentLanguage == $modelTranslationLocale) {
+                        $fieldValue = $modelTranslation[$fieldName];
+                    }
                 }
             }
         }
@@ -52,7 +56,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                 });
             });
         </script>
-        <input type=\"text\" name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\" />";
+        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" />";
 
     }
 }
