@@ -50,7 +50,7 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
 <style>
     .theme-color-picker {
         width: 300px;
-        height: 300px;
+        height: 90%;
         position: fixed;
         right: 0;
         bottom: 0;
@@ -101,13 +101,20 @@ include(__DIR__.'/ui_app.php');
     }
 
     $(document).ready(function () {
-        $('.js-color').colorpicker();
+        $('.js-color').each(function(){
+            mw.colorPicker({
+                element: this,
+                position: 'bottom-left',
+                onchange: function (color) {
+                    stopSaveSelectedColors();
+                    saveSelectedColors();
 
-        $('.js-color').on('change', function () {
-            stopSaveSelectedColors();
-            saveSelectedColors();
-        });
+                }
+            });
+        })
     })
+
+
 
 
     var setColorTemeout;
@@ -146,6 +153,7 @@ include(__DIR__.'/ui_app.php');
             <?php } ?>
         </select>
     </div>
+
 
     <?php foreach ($vars as $k => $v) : ?>
         <?php if ($k != 'color_scheme'): ?>
