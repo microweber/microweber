@@ -23,7 +23,7 @@
             }
 
             $(obj).css('opacity', 0.2).css('display','none');
-            $(obj).attr('value', translations[currentLocale]);
+          //  $(obj).attr('value', translations[currentLocale]);
 
             var outputHtml = '<div class="input-group">';
 
@@ -36,7 +36,7 @@
                     $('body').on('keyup','#' + mlInputLocaleId, function () {
                         if (currentLocale == $(this).attr('lang')) {
                             // Change original field to this current lang value
-                            $(obj).attr('value', $(this).val());
+                            //$(obj).attr('value', $(this).val());
                         }
                         $(this).attr('value', $(this).val());
                     });
