@@ -137,10 +137,10 @@ export const State = function(options){
 
         if(action){
 
-            mw.$(this).trigger(action, [this.eventData()]);
+            $(this).trigger(action, [this.eventData()]);
         }
         if(action !== false){
-            mw.$(this).trigger('change', [this.eventData()]);
+            $(this).trigger('change', [this.eventData()]);
         }
         return this;
     };
