@@ -61,7 +61,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         $isMultilanguageActive = false;
 
-        if (is_module('multilanguage') && is_module_installed('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
+        if (is_module('multilanguage') && is_module_installed('multilanguage') && get_option('is_active', 'multilanguage_settings') === 'y') {
             $isMultilanguageActive = true;
         }
 
@@ -132,8 +132,13 @@ class MultilanguageServiceProvider extends ServiceProvider
             $currentUrl = mw()->url_manager->current();
             if ($currentUrl !== api_url('multilanguage/change_language')) {
                 if (!defined('MW_DISABLE_MULTILANGUAGE')) {
-                    run_translate_manager();
+                    if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                        run_translate_manager();
+                    }
                 }
+//                if (!defined('MW_DISABLE_MULTILANGUAGE')) {
+//                    run_translate_manager();
+//                }
             }
         });
     }

@@ -60,7 +60,12 @@ class Lang
 
     function current_lang()
     {
-        return app()->getLocale();
+        $locale = app()->getLocale();
+        if($locale ==='en'){
+            $locale = 'en_US'; // for the multi language
+        }
+
+        return $locale;
     }
 
     function current_lang_display()

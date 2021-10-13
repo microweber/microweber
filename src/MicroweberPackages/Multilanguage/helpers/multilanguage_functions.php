@@ -231,18 +231,22 @@ if (!function_exists('detect_lang_from_url')) {
         if (count($segments) > 1) {
             // Find target lang in segments
             $findedLangAbr = false;
+            $urlSegs = [];
             foreach ($segments as $segment) {
                 if (is_lang_correct($segment)) {
                     $findedLangAbr = $segment;
-                    break;
+
+                } else {
+                    $urlSegs[] = $segment;
                 }
             }
             if ($findedLangAbr) {
-                array('target_lang' => $findedLangAbr);
+                $targetUrl = implode('/',$urlSegs);
+                return array('target_lang' => $findedLangAbr,'target_url' => $targetUrl);
             }
         }
 
-        return array('target_lang' => $targetLang);
+        return array('target_lang' => $targetLang,'target_url' => $targetUrl);
     }
 }
 

@@ -84,7 +84,7 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.get.query_filter', function ($params) use ($providerTable, $providerInstance) {
 
-                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                    if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                         return;
                     }
 
@@ -135,7 +135,7 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $translatableModuleOptions) {
 
-                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                    if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                         return;
                     }
                     $cache_exp = 3600;
@@ -177,7 +177,7 @@ class TranslateManager
                 // BIND SAVE TABLES
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance, $translatableModuleOptions) {
 
-                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                    if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                         return;
                     }
 
@@ -236,7 +236,7 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance, $currentLocale, $defaultLocale) {
 
-                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                    if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                         return;
                     }
 
