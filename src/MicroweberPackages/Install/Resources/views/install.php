@@ -752,7 +752,7 @@
                                     <input type="hidden" value="UTC" name="default_timezone"/>
 
                                     <div class="text-end">
-                                        <button type="submit" name="submit" class="btn btn-primary" tabindex="16"><?php _e('Install'); ?></button>
+                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" tabindex="16"><?php _e('Install'); ?></button>
                                     </div>
                                 </form>
                             <?php endif; ?>

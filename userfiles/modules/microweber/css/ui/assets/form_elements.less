@@ -734,10 +734,27 @@ div.mw-ui-field:after {
     border: 1px solid #B9B9B9;
     border-radius: 100px;
     position: absolute;
+    z-index: 2;
     left: 5px;
     pointer-events: none;
+    overflow: hidden;
+    background-image: linear-gradient(
+        -45deg,#cdcdcd 25%,transparent 0),linear-gradient(
+        45deg,#cdcdcd 25%,transparent 0),linear-gradient(
+        -45deg,transparent 75%,#cdcdcd 0),linear-gradient(
+        45deg,transparent 75%,#cdcdcd 0);
+    background-size: 11px 11px;
+    background-position: 0 0,0 -5.5px,-5.5px 5.5px,5.5px 0;
     &+input{
         padding-left: 40px;
+    }
+    .mw-field-color-indicator-display{
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
     }
 }
 

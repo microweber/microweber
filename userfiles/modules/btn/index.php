@@ -183,7 +183,7 @@ if($borderRadius){
 }
 
 if($customSize){
-    $cssButton .= 'font-size: '.(intval($customSize) + 10).'px!important;padding: .7em 1.1em!important;';
+    $cssButton .= 'font-size: '.(intval($customSize)).'px!important;padding: .9em 2em!important;';
 }
 
 if($shadow){

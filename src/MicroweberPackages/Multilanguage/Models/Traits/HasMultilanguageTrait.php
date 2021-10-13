@@ -87,6 +87,26 @@ trait HasMultilanguageTrait
         return $this->hasMany(MultilanguageTranslations::class, 'rel_id');
     }
 
+    public function getTranslationsFormated()
+    {
+        $formated = [];
+
+        $locale = mw()->lang_helper->default_lang();
+        if (!empty($this->translatable)) {
+            foreach ($this->translatable as $fieldName) {
+                $formated[$locale][$fieldName] = $this->getOriginal($fieldName);
+            }
+        }
+
+        if (!empty($this->translations)) {
+            foreach ($this->translations as $translation) {
+                $formated[$translation->locale][$translation->field_name] = $translation->field_value;
+            }
+        }
+
+        return $formated;
+    }
+
     public function _saveMultilanguageTranslation()
     {
         if (empty($this->_addMultilanguage)) {

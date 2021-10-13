@@ -14,7 +14,7 @@ $rand = uniqid();
         <?php endif; ?>
 
         <div class="mw-custom-field-form-controls">
-            <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?> data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>" class="form-control js-bootstrap3-datepicker" autocomplete="off"/>
+            <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?> data-date-format="<?php echo $settings['date_format'];?>"  data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>" class="form-control js-bootstrap3-datepicker" autocomplete="off"/>
         </div>
 
         <?php if ($data['help']): ?>
@@ -29,6 +29,8 @@ $rand = uniqid();
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.js-bootstrap3-datepicker').datepicker({ language: "<?php echo current_lang_abbr(); ?>"});
+        if($('#date_<?php echo $rand; ?>') && $('#date_<?php echo $rand; ?>').datepicker){
+            $('#date_<?php echo $rand; ?>').datepicker({ dateFormat: '<?php echo $settings['date_format'];?>', language: "<?php echo current_lang_abbr(); ?>"});
+        }
     });
 </script>

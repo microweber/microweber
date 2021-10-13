@@ -245,6 +245,7 @@ trait ExtendedSave
     public function extended_save_data_fields($params)
     {
         if ($this->extended_save_has_permission()) {
+
             event_trigger('mw.database.extended_save_data_fields', $params);
             $data_to_save = $params;
             $modified = false;
@@ -252,12 +253,25 @@ trait ExtendedSave
                 $data_fields = $data_to_save['data_fields'];
                 if (is_array($data_fields) and !empty($data_fields)) {
                     foreach ($data_fields as $k => $v) {
-                        $save_cat_item = array();
-                        $save_cat_item['rel_type'] = $data_to_save['table'];
-                        $save_cat_item['rel_id'] = $data_to_save['id'];
-                        $save_cat_item['field_name'] = $k;
-                        $save_cat_item['field_value'] = $v;
-                        $this->app->data_fields_manager->save($save_cat_item);
+
+                        $save_content_data_item = array();
+                        $save_content_data_item['rel_type'] = $data_to_save['table'];
+                        $save_content_data_item['rel_id'] = $data_to_save['id'];
+                        $save_content_data_item['field_name'] = $k;
+                        $save_content_data_item['field_value'] = $v;
+
+                        $current_data = \DB::table('content_data')
+                            ->where('rel_type', $data_to_save['table'])
+                            ->where('rel_id', $data_to_save['id'])
+                            ->where('field_name', $k)
+                             ->first();
+                        if (is_object($current_data) and $current_data->id) {
+                            $save_content_data_item['id'] = $current_data->id;
+                        }
+
+
+
+                        $this->app->data_fields_manager->save($save_content_data_item);
                     }
                 }
             }
@@ -315,14 +329,14 @@ trait ExtendedSave
                                 $this->app->category_manager->save_item($save_cat_item);
                             }
                         } elseif(is_string($category)) {
-                        	
+
                         	$save_cat_item = array();
                         	$save_cat_item['single'] = true;
                         	$save_cat_item['rel_type'] = $data_to_save['table'];
                         	$save_cat_item['title'] = $category;
-							
 
-							
+
+
                         	$check = $this->app->category_manager->get($save_cat_item);
                         	if (!$check) {
                                 if (isset($data_to_save['parent'])) {
@@ -334,7 +348,7 @@ trait ExtendedSave
                         	} else {
                         		$cat_id = $check['id'];
                         	}
-                         
+
                         }  elseif (is_array($category)) {
                             if (isset($category['title']) and isset($data_to_save['id'])) {
                                 $save_cat_item = array();
@@ -359,9 +373,9 @@ trait ExtendedSave
                                 }
                             }
                         }
-                        
+
                         if ($cat_id != false) {
-                        	
+
 							$save_cat_item = array();
 							$save_cat_item['rel_type'] = $data_to_save['table'];
 							$save_cat_item['rel_id'] = $data_to_save['id'];
@@ -370,13 +384,13 @@ trait ExtendedSave
 							} elseif($cat_id) {
 								$save_cat_item['parent_id'] = $cat_id;
 							}
-                            
+
 							$check = $this->app->category_manager->get_items($save_cat_item);
 							if ($check == false) {
 								$save_item = $this->app->category_manager->save_item($save_cat_item);
 							}
 						}
-                        
+
                     }
                 }
             } else if (isset($data_to_save['categories']) and !$data_to_save['categories']) {

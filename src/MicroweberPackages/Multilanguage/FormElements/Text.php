@@ -30,6 +30,10 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             $modelAttributes = $this->model->getAttributes();
         }
 
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
+
         $fieldName = $this->getAttribute('name');
 
         $this->randId = random_int(111,999).time().rand(111,999);
@@ -114,9 +118,15 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
                             var valueLangElement = document.getElementById("js-multilanguage-value-lang-' . $this->randId . '-" + selectLang.value);
                             valueLangElement.style.display = "block";
+                            mw.trigger("mlChangedLanguage", selectLang.value);
                         });
                     }
                     $(document).ready(function() {
+                         mw.on("mlChangedLanguage", function (e, data) {
+                            var applyChangedLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
+                            $(applyChangedLang).selectpicker("val", data);
+                             $(\'a[data-toggle="tab"][href*="\'+data+\'"]\').tab(\'show\')
+                         });
                         runMlTextField' . $this->randId . '();
                     });
                 </script>';

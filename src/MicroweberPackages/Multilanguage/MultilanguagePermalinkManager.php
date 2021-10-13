@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Multilanguage;
 
 class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManager
@@ -53,7 +54,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     $findSlugByType = urldecode($findSlugByType);
 
                     $relType = 'content';
-                    if ($type== 'category') {
+                    if ($type == 'category') {
                         $relType = 'categories';
                     }
                     if ($relType == 'post' or $relType == 'page' or $relType == 'product') {
@@ -64,6 +65,11 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $findCategoryBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
                         if ($findCategoryBySlug && isset($findCategoryBySlug['field_value'])) {
                             return $findCategoryBySlug['field_value'];
+                        }
+                        // Check original
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            return $findCategoryBySlug['url'];
                         }
                     }
 
@@ -88,7 +94,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $findPostBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
                         if ($findPostBySlug && isset($findPostBySlug['parent']) && $findPostBySlug['parent'] != false) {
                             //  $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
-                            $findPostPageBySlug =  app()->content_repository->getById($findPostBySlug['parent']);
+                            $findPostPageBySlug = app()->content_repository->getById($findPostBySlug['parent']);
                             if ($findPostPageBySlug) {
                                 return $findPostPageBySlug['url'];
                             }
@@ -106,6 +112,16 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         if ($findPostsBySlug && isset($findPostsBySlug['field_value'])) {
                             return $findPostsBySlug['field_value'];
                         }
+
+                        // Check original
+                        $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
+                            return $findPostsBySlug['url'];
+                        }
                     }
 
 
@@ -113,6 +129,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $findContentBySlug = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $findSlugByType, $relType);
                         if ($findContentBySlug && isset($findContentBySlug['field_value'])) {
                             return $findContentBySlug['field_value'];
+                        }
+
+                        //Check original
+                        $findContentBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findContentBySlug) {
+                            return $findContentBySlug['url'];
                         }
                     }
                 }
@@ -123,6 +145,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     }
 
     public static $_linkContent = [];
+
     public function linkContent($contentId)
     {
         if (isset(self::$_linkContent[$this->language][$contentId])) {
@@ -199,13 +222,15 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                 case 'page_category_post':
                 case 'page_category_sub_categories_post':
                     $pageCategory = $this->app->category_manager->get_page($categoryId);
-                    $pageId = $pageCategory['id'];
-                    $pageCategory = app()->content_repository->findById($pageId);
-                    if ($pageCategory != null) {
-                        if (isset($pageCategory->multilanguage[$this->language]['url'])) {
-                            $link[] = $pageCategory->multilanguage[$this->language]['url'];
-                        } else {
-                            $link[] = $pageCategory->getOriginal('url');
+                    if ($pageCategory) {
+                        $pageId = $pageCategory['id'];
+                        $pageCategory = app()->content_repository->findById($pageId);
+                        if ($pageCategory != null) {
+                            if (isset($pageCategory->multilanguage[$this->language]['url'])) {
+                                $link[] = $pageCategory->multilanguage[$this->language]['url'];
+                            } else {
+                                $link[] = $pageCategory->getOriginal('url');
+                            }
                         }
                     }
                     break;
@@ -226,9 +251,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         $categories = get_categories_for_content($postId);
 
         if ($categories && isset($categories[0])) {
-            $main_cat  = $selected_cat = $categories[0];
-            foreach ($categories as $category){
-                if(isset($category['parent_id']) and isset($main_cat['id']) and $category['parent_id'] == $main_cat['id']){
+            $main_cat = $selected_cat = $categories[0];
+            foreach ($categories as $category) {
+                if (isset($category['parent_id']) and isset($main_cat['id']) and $category['parent_id'] == $main_cat['id']) {
                     $selected_cat = $category;
                 }
             }
@@ -236,7 +261,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             if ($selected_cat and isset($selected_cat['id'])) {
                 $selected_cat = app()->category_repository->findById($selected_cat['id']);
                 if ($selected_cat != null) {
-                    $selected_cat_multilanguage = (array) $selected_cat->multilanguage;
+                    $selected_cat_multilanguage = (array)$selected_cat->multilanguage;
                     if (isset($selected_cat_multilanguage[$this->language]['url'])) {
                         $slug = $selected_cat_multilanguage[$this->language]['url'];
                     } else {
@@ -256,6 +281,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     }
 
     private static $__getLinkAfterLocaleSettings = false;
+
     public function __getLinkAfter()
     {
         $currentLang = $this->language;
@@ -268,7 +294,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         if (isset(self::$__getLinkAfterLocaleSettings[$currentLang]) && self::$__getLinkAfterLocaleSettings[$currentLang] !== null) {
             if (!empty(self::$__getLinkAfterLocaleSettings[$currentLang]['display_locale'])) {
                 $currentLang = self::$__getLinkAfterLocaleSettings[$currentLang]['display_locale'];
-            } elseif (!empty(self::$__getLinkAfterLocaleSettings[$currentLang]['locale']))  {
+            } elseif (!empty(self::$__getLinkAfterLocaleSettings[$currentLang]['locale'])) {
                 $currentLang = self::$__getLinkAfterLocaleSettings[$currentLang]['locale'];
             }
         }

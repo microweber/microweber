@@ -139,7 +139,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                             <?php endif; ?>
                                             <div class="form-group">
                                                 <label class="d-none d-sm-block">&nbsp;</label>
-                                                <button class="btn btn-outline-primary btn-sm" type="submit"><?php _e("Login"); ?></button>
+                                                <button class="btn btn-outline-primary btn-sm" dusk="login-button" type="submit"><?php _e("Login"); ?></button>
                                             </div>
                                         </div>
                                     </div>

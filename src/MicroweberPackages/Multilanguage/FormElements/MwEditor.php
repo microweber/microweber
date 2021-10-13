@@ -24,6 +24,10 @@ class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
             $modelAttributes = $this->model->getAttributes();
         }
 
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
+
         $html = ' <div class="bs-component">
                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
                 ';

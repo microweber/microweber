@@ -34,6 +34,7 @@
                 $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
                 $mainFilterTree['li_class'] = 'sub-nav';
                 $mainFilterTree['rel_type'] = 'content';
+                $mainFilterTree['li_hidden_class'] = 'text-muted';
 
                 if (isset($params['page-id']) and $params['page-id'] != false) {
                     $mainFilterTree['rel_id'] = intval($params['page-id']);
@@ -54,7 +55,7 @@
                         $more_link_params_txt   =$more_link_params_txt. "<span class=\"mr-1 btn btn-outline-primary mdi mdi-folder-edit btn-sm\"  onclick='mw.quick_cat_edit({id})'>  </span>  <span class=\" mr-1 btn btn-outline-danger mdi mdi-delete btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>"."</span></span>";
 
                     } else {
-                        $more_link_params_txt   =$more_link_params_txt. "<span class=\"mr-1 btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
+                        $more_link_params_txt   =$more_link_params_txt. "<span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span> <span class=\"mr-1 btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  </span>";
 
                     }
 

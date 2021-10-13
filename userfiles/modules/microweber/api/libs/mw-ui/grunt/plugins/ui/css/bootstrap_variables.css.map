@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AA8EA;;+CAE+C;AAoC/C,sEAAsE;AACtE,mDAAmD",
+"mappings": "AA2EA;;+CAE+C;AAoC/C,sEAAsE;AACtE,mDAAmD",
 "sources": ["bootstrap_variables.scss"],
 "names": [],
 "file": "bootstrap_variables.css"

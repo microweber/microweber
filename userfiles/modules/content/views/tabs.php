@@ -149,7 +149,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
         setTimeout(function (){
             mw.askusertostay = false;
-            document.querySelector('.js-bottom-save').disabled = true;
+          //  document.querySelector('.js-bottom-save').disabled = true;
         }, 999)
 
     });

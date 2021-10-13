@@ -107,7 +107,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <script>
 
     var contentChanged = function (state) {
-        document.querySelector('.btn-save').disabled = !state;
+     //   document.querySelector('.btn-save').disabled = !state;
         mw.askusertostay = state;
         document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
     }
@@ -231,25 +231,21 @@ if (isset($params['quick_edit'])) {
 
                                 if($wrapper_class=='in-popup'){ ?>
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-link  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn">
-                                            <i class=" d-sm-inline mdi  mdi-eye"></i><span class="d-none"><?php _e("Live Edit"); ?></span>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span ><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
                                 <?php } else { ?>
 
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-link  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn">
-                                            <i class=" d-sm-inline mdi  mdi-eye"></i><span class="d-none"><?php _e("Live Edit"); ?></span>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
 
                                 <?php } ?>
 
-
-
-
-
-                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>

@@ -33,6 +33,10 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
             $this->setValue($inputValue);
         }
 
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
+
         $this->randId = random_int(111,999).time();
 
         $html = $this->getJavaScript();
@@ -67,9 +71,11 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
             $value = '';
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
-                    if ($locale == $language['locale']) {
-                        $value = $multilanguageFields['option_value'];
-                        break;
+                    if (isset($multilanguageFields['option_value'])) {
+                        if ($locale == $language['locale']) {
+                            $value = $multilanguageFields['option_value'];
+                            break;
+                        }
                     }
                 }
             }

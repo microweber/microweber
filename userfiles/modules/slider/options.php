@@ -4,8 +4,7 @@
  * USER FIELDS
  *
  */
-
-//$sliderEngine = explode('-', $module_template_clean)[0];
+include('skins_variables.php');
 
 $engine_by_module_template = $module_template;
 $engine_by_module_template = explode('-', $engine_by_module_template);

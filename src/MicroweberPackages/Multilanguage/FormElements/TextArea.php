@@ -24,6 +24,10 @@ class TextArea extends \MicroweberPackages\Form\Elements\TextArea
             $modelAttributes = $this->model->getAttributes();
         }
 
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
+
         $html = ' <div class="bs-component">
                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
                 ';
@@ -37,7 +41,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\TextArea
 
                     $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
                     $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
+                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#mlfield' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
                 }
 
                 $html .='</nav>
@@ -61,7 +65,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\TextArea
                             }
                         }
 
-                        $html .= '<div class="tab-pane fade '.$showTab.'" id="' . $this->randId . $language['locale'] . '">
+                        $html .= '<div class="tab-pane fade '.$showTab.' js-multilanguage-tab-'.$this->randId.'" id="mlfield' . $this->randId . $language['locale'] . '">
                                    <textarea name="multilanguage['.$fieldName.']['.$language['locale'].']" onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
                                    </div>';
                     }
@@ -71,13 +75,26 @@ class TextArea extends \MicroweberPackages\Form\Elements\TextArea
                         function applyMlFieldChanges(element) {
                              if (element.getAttribute("lang") == "'. $this->defaultLanguage .'") {
                                 var applyToElement = document.getElementById("js-multilanguage-textarea-' . $this->randId . '");
-                                applyToElement.value = element.value
+                                applyToElement.value = element.value;
                                 applyToElement.setAttribute("lang", element.getAttribute("lang"));
 
                                 var changeEvent = new Event("change");
                                 applyToElement.dispatchEvent(changeEvent);
                             }
                         }
+                        $(document).ready(function() {
+
+                            var tabElement = document.querySelector(".js-multilanguage-tab-'.$this->randId.'");
+                            tabElement.addEventListener("shown.bs.tab", function (event) {
+                                alert(87777);
+                            });
+
+                             mw.on("mlChangedLanguage", function (e, data) {
+                                var triggerEl = document.getElementById("mlfield' . $this->randId . '" + data)
+
+
+                             });
+                         });
                    </script>
                     ';
 

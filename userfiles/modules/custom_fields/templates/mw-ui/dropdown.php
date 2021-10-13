@@ -29,7 +29,7 @@ $(document).ready(function () {
 		<select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="mw-ui-field js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>" />
 
             <?php if (!empty($data['placeholder'])): ?>
-                <option><?php echo $data['placeholder']; ?></option>
+                <option disabled selected value><?php echo $data['placeholder']; ?></option>
             <?php endif; ?>
 
 			<?php foreach($data['values'] as $key=>$value): ?>

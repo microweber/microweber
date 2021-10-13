@@ -1,0 +1,132 @@
+<?php
+namespace MicroweberPackages\Multilanguage\FormElements;
+
+class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSettings
+{
+    public $randId;
+    public $currentLanguage;
+    public $defaultLanguage;
+
+    public function render()
+    {
+        $fieldName = $this->getAttribute('name');
+
+        $this->currentLanguage = mw()->lang_helper->current_lang();
+        $this->defaultLanguage = mw()->lang_helper->default_lang();
+
+        $this->randId = str_random();
+
+        $schema = json_encode($this->getAttribute('schema'));
+
+        $supportedLanguages = get_supported_languages(true);
+
+        $modelAttributes = [];
+        if ($this->model) {
+            $modelAttributes = $this->model->getAttributes();
+        }
+
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
+        }
+
+        $html = '
+            <script>mw.lib.require(\'flag_icons\')</script>
+            <script>mw.require(\'prop_editor.js\')</script>
+            <script>mw.require(\'module_settings.js\')</script>
+            <script>mw.require(\'icon_selector.js\')</script>
+            <script>mw.require(\'wysiwyg.css\')</script>
+            <div class="bs-component">
+            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
+            ';
+
+        foreach($supportedLanguages as $language) {
+
+            $showTab= '';
+            if ($this->currentLanguage == $language['locale']) {
+                $showTab = 'active';
+            }
+
+            $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
+            $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
+            $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#mlfield' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
+        }
+
+        $html .='</nav>
+                <div id="js-multilanguage-tab-'.$this->randId.'" class="tab-content py-3">
+                ';
+        foreach($supportedLanguages as $language) {
+            $showTab= '';
+            if ($this->currentLanguage == $language['locale']) {
+                $showTab = 'show active';
+            }
+
+            $inputValue = json_encode([]);
+            if (isset($modelAttributes['multilanguage'])) {
+                foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
+                    if ($locale == $language['locale']) {
+                        if (isset($multilanguageFields[$fieldName])) {
+                            $inputValue = $multilanguageFields[$fieldName];
+                        }
+                    }
+                }
+            }
+
+            $mwModuleSettingsId = $this->randId . $language['locale'];
+
+            $html .= '<div class="tab-pane fade '.$showTab.' js-multilanguage-tab-'.$this->randId.'" id="mlfield' . $this->randId . $language['locale'] . '">
+
+                <script>
+                $(window).on(\'load\', function () {
+
+                    var data'.$mwModuleSettingsId.' = '.$inputValue.';
+
+                    $.each(data'.$mwModuleSettingsId.', function (key) {
+                        if (typeof data'.$mwModuleSettingsId.'[key].images === \'string\') {
+                            data'.$mwModuleSettingsId.'[key].images = data'.$mwModuleSettingsId.'[key].images.split(\',\');
+                        }
+                    });
+
+                    this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
+                        element: \'#settings-box'.$mwModuleSettingsId.'\',
+                        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
+                        data: data'.$mwModuleSettingsId.',
+                        key: \'settings\',
+                        group: \'id\',
+                        autoSave: true,
+                        schema: '.$schema.'
+                    });
+
+                    $(bxSettings_'.$mwModuleSettingsId.').on(\'change\', function (e, val) {
+                        var final = [];
+                        $.each(val, function () {
+                            var current = $.extend({}, this);
+                            current.images = (current.images||[]).join(\',\');
+                            final.push(current)
+                        });
+                        $(\'#settingsfield'.$mwModuleSettingsId.'\').val(JSON.stringify(final)).trigger(\'change\')
+                    });
+                });
+                </script>
+
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
+                    <input type="hidden" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
+                    <div class="mb-3">
+                        <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
+                    </div>
+                    <div id="settings-box'.$mwModuleSettingsId.'"></div>
+                </div>
+                <!-- Settings Content - End -->
+
+
+
+           </div>';
+        }
+
+        $html .= '
+                    </div>
+                  </div>';
+
+        return $html;
+    }
+}

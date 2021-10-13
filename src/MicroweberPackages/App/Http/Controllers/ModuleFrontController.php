@@ -36,7 +36,7 @@ class ModuleFrontController
         } else {
             $templateFile = module_templates($this->moduleConfig['module'], 'default');
         }
-        
+
         if ($templateFile) {
             $templateDir = dirname($templateFile);
             if (is_dir($templateDir)) {
@@ -56,6 +56,8 @@ class ModuleFrontController
                     1 => "\userfiles\templates\theme\modules\blog\templates\default"
                     2 => "\src\MicroweberPackages\Blog\resources\views\"
                  */
+
+            } else {
 
             }
         }
