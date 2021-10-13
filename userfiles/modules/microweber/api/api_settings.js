@@ -328,7 +328,11 @@
         anchorific: [
             function () {
                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
-
+            }
+        ],
+        multilanguage: [
+            function () {
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
             }
         ],
     };
