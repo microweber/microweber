@@ -49,6 +49,7 @@ class MultilanguageObserver
                 $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
 
                 if ($findTranslations !== null) {
+
                     foreach ($findTranslations as $findedTranslation) {
                         if ($findedTranslation['field_name'] == $fieldName) {
 
@@ -82,9 +83,11 @@ class MultilanguageObserver
      */
     public function saved(Model $model)
     {
-        $langToSave = $this->getLocale();
         if (self::$langToSave) {
             $langToSave = self::$langToSave;
+        } else {
+            $langToSave = $this->getLocale();
+
         }
 
         if ($langToSave == $this->getDefaultLocale()) {
@@ -131,7 +134,7 @@ class MultilanguageObserver
             }
             self::$fieldsToSave = [];
         }
-        clearcache();
+
     }
 
     private function getTranslatableModuleOptions() {

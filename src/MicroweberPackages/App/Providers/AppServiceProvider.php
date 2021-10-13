@@ -610,7 +610,7 @@ class AppServiceProvider extends ServiceProvider
 
         $isLocaleChangedFromMultilanguageLogics = false;
 
- 
+
         $currentUri = request()->path();
 
         //  Change language if user request language with LINK has lang abr

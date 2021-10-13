@@ -17,6 +17,7 @@ trait HasMultilanguageTrait
     }
 
     private static $__getDefaultLocale = false;
+
     protected function __getDefaultLocale()
     {
         if (self::$__getDefaultLocale) {
@@ -29,6 +30,7 @@ trait HasMultilanguageTrait
     }
 
     private static $__getLocale = false;
+
     protected function __getLocale()
     {
         if (self::$__getLocale) {
@@ -43,47 +45,50 @@ trait HasMultilanguageTrait
         $defaultLocale = mw()->lang_helper->default_lang();
 
         static::saving(function ($model) use ($defaultLocale) {
-
-            // When receive a save_option
-            if (isset($model->attributes['lang']) && isset($model->attributes['module'])) {
-                $translatableModuleOptions = self::getTranslatableModuleOptions();
-                if (isset($translatableModuleOptions[$model->attributes['module']])) {
-                    $translatableModuleOptionKeys = $translatableModuleOptions[$model->attributes['module']];
-                    if (in_array($model->attributes['option_key'], $translatableModuleOptionKeys)) {
-                        $model->_addMultilanguage['option_value'][$model->attributes['lang']] = $model->attributes['option_value'];
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                // When receive a save_option
+                if (isset($model->attributes['lang']) && isset($model->attributes['module'])) {
+                    $translatableModuleOptions = self::getTranslatableModuleOptions();
+                    if (isset($translatableModuleOptions[$model->attributes['module']])) {
+                        $translatableModuleOptionKeys = $translatableModuleOptions[$model->attributes['module']];
+                        if (in_array($model->attributes['option_key'], $translatableModuleOptionKeys)) {
+                            $model->_addMultilanguage['option_value'][$model->attributes['lang']] = $model->attributes['option_value'];
+                        }
                     }
+                    unset($model->attributes['lang']);
+                    unset($model->attributes['multilanguage']);
                 }
-                unset($model->attributes['lang']);
-                unset($model->attributes['multilanguage']);
-            }
 
-            /**
-             * When you add multilanguage fields
-             *
-             * EXAMPLE:
-             * multilanguage[title][en_US]	"Apple+iTunes+KSA+SAR+50"
-             * multilanguage[title][ar]	"Apple Ar"
-             */
-            if (isset($model->attributes['multilanguage'])) {
-                $model->_addMultilanguage = $model->attributes['multilanguage'];
-                unset($model->attributes['multilanguage']);
-            }
-
-            // Backup the original model fields
-            if (isset($model->translatable)) {
-                foreach ($model->translatable as $translatableField) {
-                    $model->$translatableField = $model->getOriginal($translatableField);
+                /**
+                 * When you add multilanguage fields
+                 *
+                 * EXAMPLE:
+                 * multilanguage[title][en_US]    "Apple+iTunes+KSA+SAR+50"
+                 * multilanguage[title][ar]    "Apple Ar"
+                 */
+                if (isset($model->attributes['multilanguage'])) {
+                    $model->_addMultilanguage = $model->attributes['multilanguage'];
+                    unset($model->attributes['multilanguage']);
                 }
-                // Append to model if we want to save changes for original model
-                if (!empty($model->_addMultilanguage)) {
-                    foreach ($model->_addMultilanguage as $field=>$multilanguage) {
-                        if (isset($multilanguage[$defaultLocale])) {
-                            $model->$field = $multilanguage[$defaultLocale];
+
+                // Backup the original model fields
+                if (isset($model->translatable)) {
+                    foreach ($model->translatable as $translatableField) {
+                        $orig  = $model->getOriginal($translatableField);
+                        if(!$model->$translatableField and $orig){
+                            $model->$translatableField = $orig;
+                        }
+                     }
+                    // Append to model if we want to save changes for original model
+                    if (!empty($model->_addMultilanguage)) {
+                        foreach ($model->_addMultilanguage as $field => $multilanguage) {
+                            if (isset($multilanguage[$defaultLocale])) {
+                                $model->$field = $multilanguage[$defaultLocale];
+                            }
                         }
                     }
                 }
             }
-
         });
 
         static::retrieved(function ($model) {
@@ -101,7 +106,8 @@ trait HasMultilanguageTrait
 
     }
 
-    public function translations() {
+    public function translations()
+    {
         return $this->hasMany(MultilanguageTranslations::class, 'rel_id');
     }
 
@@ -155,15 +161,16 @@ trait HasMultilanguageTrait
                         $findTranslate->rel_id = $model->id;
                         $findTranslate->locale = $fieldLocale;
                     }
-
                     $findTranslate->field_value = $fieldValue;
                     $findTranslate->save();
+                    $model->refresh();
                 }
             }
         });
     }
 
-    public static function getTranslatableModuleOptions() {
+    public static function getTranslatableModuleOptions()
+    {
         $translatableModuleOptions = [];
         foreach (get_modules_from_db() as $module) {
             if (isset($module['settings']['translatable_options'])) {
