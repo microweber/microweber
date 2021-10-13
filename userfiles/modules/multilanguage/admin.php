@@ -5,9 +5,9 @@
 <?php endif; ?>
 
 <script>
-        mw.lib.require('multilanguage');
+    mw.lib.require('multilanguage');
 
-        $(document).ready(function () {
+    $(document).ready(function () {
         $('#js-field-4').mlInput({
             name: 'bojkata',
             currentLocale: 'ar_SA',

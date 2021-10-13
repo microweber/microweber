@@ -23,7 +23,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
         $translations = [];
         foreach ($locales as $locale) {
-            $translations[$locale] = 'test';
+            $translations[$locale] = $locale . '-top';
         }
         $translationsJson = json_encode($translations);
 

@@ -30,7 +30,7 @@
 
                 for (let i = 0; i < locales.length; i++) {
                     let mlInputLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml +='<input type="text" class="form-control" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="' + locales[i].toUpperCase() + '" />';
+                    outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
 
                     // If ml input is changed change and the value attr
                     $('body').on('keyup','#' + mlInputLocaleId, function (){
