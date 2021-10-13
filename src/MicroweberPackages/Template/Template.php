@@ -593,7 +593,7 @@ class Template
              @import '../../bootstrap/scss/bootstrap';
 
              //Bootswatch structure
-             //@import 'bootswatch/_bootswatch';
+             @import 'bootswatch/_bootswatch';
              @import 'bootswatch/themes/{$theme_file_rel_path}';
 
              //UI
@@ -611,7 +611,7 @@ class Template
             }
         } elseif ($vars){
 
-            $cont = "@import 'main_with_mw';";
+           // $cont = "@import 'main_with_mw';";
 
             if ($vars) {
                 $scss->setVariables($vars);
