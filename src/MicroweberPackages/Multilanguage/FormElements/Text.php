@@ -125,6 +125,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                          mw.on("mlChangedLanguage", function (e, data) {
                             var applyChangedLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
                             $(applyChangedLang).selectpicker("val", data);
+                             $(\'a[data-toggle="tab"][href*="\'+data+\'"]\').tab(\'show\')
                          });
                         runMlTextField' . $this->randId . '();
                     });
