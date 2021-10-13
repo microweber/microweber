@@ -74,8 +74,8 @@ trait HasMultilanguageTrait
                 // Backup the original model fields
                 if (isset($model->translatable)) {
                     foreach ($model->translatable as $translatableField) {
-                        $orig  = $model->getOriginal($translatableField);
-                        if(!$model->$translatableField and $orig){
+                        $orig = $model->getOriginal($translatableField);
+                        if ($orig) {
                             $model->$translatableField = $orig;
                         }
                      }
