@@ -23,6 +23,7 @@
             }
 
             $(obj).css('opacity', 0.2).css('display','none');
+            $(obj).attr('value', translations[currentLocale]);
 
             var outputHtml = '<div class="input-group">';
 
@@ -32,7 +33,11 @@
                     outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
 
                     // If ml input is changed change and the value attr
-                    $('body').on('keyup','#' + mlInputLocaleId, function (){
+                    $('body').on('keyup','#' + mlInputLocaleId, function () {
+                        if (currentLocale == $(this).attr('lang')) {
+                            // Change original field to this current lang value
+                            $(obj).attr('value', $(this).val());
+                        }
                         $(this).attr('value', $(this).val());
                     });
 
