@@ -233,3 +233,130 @@ input,
 // Progress bars ===============================================================
 
 // Containers ==================================================================
+
+
+//New variables for custom themes
+
+#mw-admin-container {
+    background: $body-bg;
+
+    .card-order-holder {
+        background: $body-bg;
+        border-color: $body-bg;
+    }
+
+    .module-white-label-admin-colors {
+        background: $white;
+    }
+
+    .btn-hover-style-2 .btn-outline-secondary:hover {
+        background: $transparent;
+        color: $primary;
+        border-color: $primary;
+    }
+
+    a.active i {
+        color: $primary!important;
+    }
+
+    i.mdi.active, i.mdi:hover {
+        color: $primary!important;
+    }
+
+    i.mdi {
+        color: $silver!important;
+    }
+
+    .card-header i.mdi {
+        color: $primary!important;
+    }
+
+
+    h1,h2,h3,h4,h5,h6, a span, .btn span{
+        color: $secondary!important;
+    }
+
+    .stats_box_footer, .show-more-stats {
+        color: $secondary!important;
+
+         &:hover {
+            color: $black!important;
+             //background-color: $primary;
+        }
+
+        span , a{
+            color: $secondary!important;
+
+            &:hover {
+                color: $black!important;
+                background-color: $primary;
+                border-color: $primary;
+
+            }
+        }
+    }
+
+    .dashboard-recent {
+        color: $secondary!important;
+
+         a {
+            color: $secondary!important;
+
+            &:hover {
+                color: $black!important;
+                background-color: $primary;
+                border-color: $primary;
+            }
+        }
+    }
+
+
+    .main aside > ul > li.nav-item > a {
+        color: $secondary!important;
+    }
+
+    .badge-pill {
+        background: $textGray;
+    }
+
+    .card-message-holder {
+        div, a{
+            color: $secondary;
+        }
+    }
+
+    .dropdown-item {
+        color: $secondary!important;
+
+        &:hover, &:focus {
+            color: $white;
+            text-decoration: none;
+            background-color: $primary;
+        }
+    }
+
+
+    svg {
+        fill: $primary;
+    }
+
+    .add-new {
+        background: $primary;
+        border-color: $primary;
+    }
+
+    .tooltip-arrow,
+    .red-tooltip + .tooltip > .tooltip-inner {
+        background-color: $primary!important;
+        color: $primary!important;
+    }
+
+
+    tspan {
+        color: $secondary !important;
+        fill: $secondary !important;
+        -webkit-text-fill-color: $secondary !important;
+    }
+}
+
+
