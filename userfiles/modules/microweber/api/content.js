@@ -110,7 +110,6 @@ mw.content = mw.content || {
             if (typeof e.onError === 'function') {
                 e.onError.call(calc);
             }
-            return false;
         }
         if (!data.content_type) {
             data.content_type = "post";
