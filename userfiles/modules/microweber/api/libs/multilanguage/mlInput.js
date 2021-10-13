@@ -28,6 +28,7 @@
 
                 let mlInputLocaleChangeId = 'ml-input-'+name+'-change';
 
+                let mlInputLocaleIds = [];
                 for (let i = 0; i < locales.length; i++) {
                     let mlInputLocaleId = 'ml-input-'+name+'-'+i;
                     outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
@@ -36,15 +37,8 @@
                     $('body').on('keyup','#' + mlInputLocaleId, function (){
                         $(this).attr('value', $(this).val());
                     });
-                    // If ml locale is changed hide all fields except current lang
-                    $('body').on('change','#' + mlInputLocaleChangeId, function (){
-                        let mlCurrentLanguage = $(this).val();
-                        if ($('#' + mlInputLocaleId).attr('lang') !== mlCurrentLanguage) {
-                            $('#' + mlInputLocaleId).hide();
-                        } else {
-                            $('#' + mlInputLocaleId).show();
-                        }
-                    });
+
+                    mlInputLocaleIds[i] = mlInputLocaleId;
                 }
 
                 outputHtml += '<div class="input-group-append">';
@@ -58,10 +52,23 @@
                 outputHtml += '</div>';
 
             outputHtml += '</div>';
-
             $(obj).after(outputHtml);
-            $('#' + mlInputLocaleChangeId).selectpicker("val", currentLocale);
-            $('#' + mlInputLocaleChangeId).trigger('change');
+
+            $('body').on('change','#' + mlInputLocaleChangeId, function (){
+                mw.trigger("mlChangedLanguage", $(this).val());
+            });
+
+            mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
+                $('#' + mlInputLocaleChangeId).selectpicker("val", mlCurrentLanguage);
+                for (let i = 0; i < mlInputLocaleIds.length; i++) {
+                    // If ml locale is changed hide all fields except current lang
+                    if ($('#' + mlInputLocaleIds[i]).attr('lang') !== mlCurrentLanguage) {
+                        $('#' + mlInputLocaleIds[i]).hide();
+                    } else {
+                        $('#' + mlInputLocaleIds[i]).show();
+                    }
+                }
+            });
 
         });
         return this;
