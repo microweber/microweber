@@ -7,10 +7,8 @@ class MwModuleSettings extends TextArea
     public function render()
     {
         $mwModuleSettingsId = str_random(9);
-
-        $fieldsData = [];
-
-        $data = json_encode($fieldsData);
+        
+        $data = $this->model->option_value;
         $schema = json_encode($this->getAttribute('schema'));
 
         $html = '
