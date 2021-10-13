@@ -1012,7 +1012,7 @@ class ParserProcessor
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-                unset($mw_replaced_textarea_tag[$key]);
+                //unset($mw_replaced_textarea_tag[$key]);
             }
         }
 
