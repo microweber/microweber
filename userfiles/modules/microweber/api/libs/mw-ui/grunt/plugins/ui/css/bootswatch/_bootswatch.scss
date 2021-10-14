@@ -559,5 +559,22 @@ input,
     color: $secondary!important;
 }
 
+.mw-browser-list-folder .mw-browser-list-create {
+    &:hover {
+        opacity: 0.1;
+    }
+}
 
+.mw-alert-holder {
+    color: black!important;
+}
 
+.theme-color-picker {
+    background: $body-bg!important;
+}
+
+input {
+    background: $black!important;
+
+    border-color: $primary!important;
+}
