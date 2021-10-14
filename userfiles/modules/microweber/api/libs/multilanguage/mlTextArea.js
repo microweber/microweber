@@ -5,6 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
+            applyMwEditor: false,
         }, options);
 
         this.each(function (index, obj) {
@@ -12,6 +13,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
+            var applyMwEditor = settings.applyMwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
                 console.log('Please fill the name and locales.');
@@ -23,7 +25,9 @@
             $(obj).attr('lang', currentLocale);
 
             var outputHtml = '<div class="bs-component">';
-                outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">';
+
+                var mwNavLocaleId = 'ml-nav-'+name;
+                outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" id="'+mwNavLocaleId+'">';
 
                 // tab buttons
                 for (var i = 0; i < locales.length; i++) {
@@ -38,7 +42,8 @@
                 outputHtml += '</nav>';
 
                 // tab contents
-                outputHtml += '<div id="" class="tab-content py-3">';
+                var mwTabContentLocaleId = 'ml-tab-content-'+name;
+                outputHtml += '<div id="'+mwTabContentLocaleId+'" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
@@ -61,7 +66,10 @@
 
             // Switch tabs
             function switchTabsToLanguage(language) {
-
+                $('#'+mwNavLocaleId).find('.btn').removeClass('active');
+                $('#'+mwNavLocaleId).find(`[lang='${language}']`).addClass('active');
+                $('#'+mwTabContentLocaleId).find('.tab-pane').removeClass('active show');
+                $('#'+mwTabContentLocaleId).find(`.tab-pane[lang='${language}']`).addClass('active show');
             }
 
             // Show for current lang
@@ -71,6 +79,44 @@
             mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
                 switchTabsToLanguage(mlCurrentLanguage);
             });
+
+            if (applyMwEditor) {
+                $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
+                    mw.Editor({
+                        selector: $(this),
+                        mode: 'div',
+                        smallEditor: false,
+                        minHeight: 250,
+                        maxHeight: '70vh',
+                        controls: [
+                            [
+                                'undoRedo', '|', 'image', '|',
+                                {
+                                    group: {
+                                        controller: 'bold',
+                                        controls: ['italic', 'underline', 'strikeThrough']
+                                    }
+                                },
+                                '|',
+                                {
+                                    group: {
+                                        icon: 'mdi mdi-format-align-left',
+                                        controls: ['align']
+                                    }
+                                },
+                                '|', 'format',
+                                {
+                                    group: {
+                                        icon: 'mdi mdi-format-list-bulleted-square',
+                                        controls: ['ul', 'ol']
+                                    }
+                                },
+                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
+                            ],
+                        ]
+                    });
+                });
+            }
 
         });
         return this;
