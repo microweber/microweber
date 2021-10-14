@@ -891,6 +891,11 @@ class ParserProcessor
 
                                         if ($proceed_with_parse == true) {
 
+
+
+
+
+
 //                                            if (!empty($global_mw_replaced_modules)) {
 //                                                foreach ($global_mw_replaced_modules as $key => $value) {
 //                                                    if ($value != '') {
@@ -1002,6 +1007,16 @@ class ParserProcessor
           $layout = $this->_replace_tags_with_placeholders_back($layout);
 
             $layout = $this->replace_url_placeholders($layout);
+        } else {
+            if ($layout and is_string($layout) and str_contains($layout, 'mw_replace_back_this_module_')) {
+                if (!empty($global_mw_replaced_modules[$static_parser_mem_crc])) {
+                    foreach ($global_mw_replaced_modules[$static_parser_mem_crc] as $key => $value) {
+                        if ($value != '') {
+                            $layout = str_replace($key, $value, $layout);
+                        }
+                    }
+                }
+            }
         }
 
 
