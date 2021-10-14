@@ -89,7 +89,10 @@ class Parser
 
     }
 
-
+    public function load($module_name, $attrs = array())
+    {
+        return $this->processor->load($module_name, $attrs);
+    }
 
 
     public $filter = array();

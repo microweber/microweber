@@ -5,7 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
-            applyMwEditor: false,
+            mwEditor: false,
         }, options);
 
         this.each(function (index, obj) {
@@ -13,7 +13,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
-            var applyMwEditor = settings.applyMwEditor;
+            var mwEditor = settings.mwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
                 console.log('Please fill the name and locales.');
@@ -73,14 +73,24 @@
             }
 
             // Show for current lang
-            switchTabsToLanguage(currentLocale);
+            var mlLangIsSupported = false;
+            for (var i = 0; i < locales.length; i++) {
+                if (locales[i] == currentLocale) {
+                    mlLangIsSupported = true;
+                }
+            }
+            if (mlLangIsSupported) {
+                switchTabsToLanguage(currentLocale);
+            } else {
+                switchTabsToLanguage(locales[0]);
+            }
 
             // Listen for events
             mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
                 switchTabsToLanguage(mlCurrentLanguage);
             });
 
-            if (applyMwEditor) {
+            if (mwEditor) {
                 $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
                     mw.Editor({
                         selector: $(this),

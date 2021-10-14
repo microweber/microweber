@@ -233,7 +233,7 @@ if (isset($params['viewsize'])) {
     <div class="row">
 
         <div class="col-md-12">
-            <div class="card style-1 mb-1" style="background-color: #fafafa">
+            <div class="card style-1 mb-1">
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-12 justify-content-between">
