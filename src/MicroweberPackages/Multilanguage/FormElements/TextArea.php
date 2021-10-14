@@ -13,7 +13,11 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->randId = str_random();
         $fieldName = $this->getAttribute('name');
-        $fieldValue = $this->model->{$fieldName};
+
+        $fieldValue = '';
+        if (isset($this->model->{$fieldName})) {
+            $fieldValue = $this->model->{$fieldName};
+        }
 
         $locales = [];
         $supportedLanguages = get_supported_languages(true);

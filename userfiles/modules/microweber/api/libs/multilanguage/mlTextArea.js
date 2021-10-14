@@ -67,7 +67,7 @@
                 $('#'+mwNavLocaleId).find('.btn').removeClass('active');
                 $('#'+mwNavLocaleId).find(`[lang='${language}']`).addClass('active');
                 $('#'+mwTabContentLocaleId).find('.tab-pane').removeClass('active show');
-                $('#'+mwTabContentLocaleId).find(`.tab-pane[lang='${language}']`).addClass('active show'); 
+                $('#'+mwTabContentLocaleId).find(`.tab-pane[lang='${language}']`).addClass('active show');
             }
 
             // Show for current lang
