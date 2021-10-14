@@ -484,11 +484,13 @@ input,
         color: $primary!important;
     }
 
+    .page-link {
+        border-color: $secondary!important;
+    }
 
     .page-item.active .page-link {
         color: $secondary!important;
-        border-color: $primary!important;
-
+        border-color: $secondary!important;
     }
 
     .mw-paging a {
