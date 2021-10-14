@@ -259,6 +259,8 @@ class Export
             foreach ($exportTablesReady['content'] as $tableData) {
                 if (in_array($tableData['id'], $this->exportData['contentIds'])) {
                     $contentTableData[] = $tableData;
+                } else {
+                    $contentTableData = $this->_getTableContent('content');
                 }
             }
             $exportTablesReady['content'] = $contentTableData;
