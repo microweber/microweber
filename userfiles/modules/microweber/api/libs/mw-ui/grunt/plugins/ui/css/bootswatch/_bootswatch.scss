@@ -273,7 +273,7 @@ input,
     }
 
     a.active i {
-        color: $primary!important;
+        color: $primary;
     }
 
     i.mdi.active, i.mdi:hover {
@@ -292,9 +292,17 @@ input,
         color: $secondary!important;
     }
 
-    .main aside > ul > li.nav-item .dropdown-menu .dropdown-item {
+    .dropdown-item {
         color: $secondary !important;
+
+        &:active {
+            .mdi .mdi-plus{
+                color: $secondary!important;
+            }
+        }
     }
+
+
 
     h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control{
         color: $secondary!important;
