@@ -485,7 +485,7 @@ input,
             color: $primary!important;
         }
 
-        background: white;
+        background-color: white!important;
     }
 
     .navbar-expand-xl .navbar-nav {
@@ -610,6 +610,10 @@ input {
     label {
         border-color: $primary!important;
     }
+}
+
+.module-uninstall-btn {
+    border: unset!important;
 }
 
 
