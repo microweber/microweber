@@ -1,21 +1,21 @@
-@import '../../../bootstrap_variables';
+//@import '../../../bootstrap_variables';
 @import '_hidden_vars';
 
-$body-bg: #1b1c1d;
-$white: #0f0f0f;
-$black: black;
-$primary: #ffa513;
-$success: #ffa513;
-$info: transparent;
-$transparent: transparent;
+$body-bg: #1b1c1d!default;
+$white: #0f0f0f!default;
+$black: black!default;
+$primary: #ffa513!default;
+$success: #ffa513!default;
+$info: transparent!default;
+$transparent: transparent!default;
 
-$textGray: #29696b;
-$secondary: #ffffff;
-$silver: #f0e7d8;;
+$textGray: #29696b!default;
+$secondary: #ffffff!default;
+$silver: #f0e7d8!default;
 
 
-$light: #2D353C;
-$dark: #2b2b2b;
-$body-color: #212529;
-$textDark: #2B2B2B;
-$textLight: #fff;
+$light: #2D353C!default;
+$dark: #2b2b2b!default;
+$body-color: #212529!default;
+$textDark: #2B2B2B!default;
+$textLight: #fff default;
