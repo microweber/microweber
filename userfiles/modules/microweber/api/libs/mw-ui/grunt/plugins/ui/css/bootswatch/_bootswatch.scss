@@ -240,7 +240,7 @@ input,
 #mw-admin-container {
     background: $body-bg;
 
-    .card-order-holder {
+    .card-order-holder, .messages-holder div{
         background: $body-bg;
         border-color: $body-bg;
     }
@@ -292,6 +292,9 @@ input,
         color: $secondary!important;
 
     }
+     textarea {
+        border-color: $primary;
+     }
     small {
         background: transparent!important;
     }
@@ -491,6 +494,15 @@ input,
         //background: none;
         color: $primary!important;
 
+    }
+
+    .input-group-text {
+        border-color: $primary;
+        background: $primary;
+    }
+
+    .lang-key-holder {
+        background: $white;
     }
 }
 
