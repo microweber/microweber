@@ -481,14 +481,15 @@ input,
         color: $primary!important;
     }
 
-    .page-item .page-link {
-        a {
-            color: $primary!important;
-        }
-    }
 
     .page-item.active .page-link {
-        color: $black!important;
+        color: $secondary!important;
+
+    }
+
+    .mw-paging a {
+        //background: none;
+        color: $primary!important;
 
     }
 }
