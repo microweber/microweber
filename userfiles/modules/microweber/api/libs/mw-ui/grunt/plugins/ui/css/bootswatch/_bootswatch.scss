@@ -239,6 +239,7 @@ input,
 
 #mw-admin-container {
     background: $body-bg;
+}
 
     .card-order-holder, .messages-holder div{
         background: $body-bg;
@@ -287,8 +288,11 @@ input,
         color: $primary;
     }
 
+    .main aside > ul > li.nav-item .dropdown-menu .dropdown-item {
+        color: $secondary !important;
+    }
 
-    h1,h2,h3,h4,h5,h6, label, span, div, small, button, .form-control{
+    h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control{
         color: $secondary!important;
 
     }
@@ -334,12 +338,9 @@ input,
     }
 
 
-    .main aside > ul > li.nav-item > a {
-        color: $secondary!important;
-    }
 
     .badge-pill {
-        background: $textGray;
+        background: $textGray!important;
     }
 
     .card-message-holder {
@@ -348,24 +349,34 @@ input,
         }
     }
 
-    .dropdown-item {
+
+    .dropdown-item, .dropdown-item a, .dropdown-item.active {
         color: $secondary!important;
 
-        &:hover, &:focus {
+        &:hover, &:focus, &:active {
             color: $white;
             text-decoration: none;
             background-color: $primary;
         }
+
+
     }
 
+    .bootstrap-select .dropdown-menu .dropdown-item {
+        color: $secondary!important;
+        border-color: $primary!important;
+    }
 
     svg {
         fill: $primary;
     }
 
     .add-new {
-        background: $primary;
-        border-color: $primary;
+        background: $primary!important;
+        border-color: $primary!important;
+        &:hover {
+            color: $secondary!important;
+        }
     }
 
     tspan {
@@ -524,7 +535,7 @@ input,
         }
     }
 
-}
+
 
 
 .tooltip-inner {
