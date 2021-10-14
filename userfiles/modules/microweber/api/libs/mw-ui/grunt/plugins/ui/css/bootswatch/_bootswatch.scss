@@ -374,8 +374,11 @@ input,
     .add-new {
         background: $primary!important;
         border-color: $primary!important;
-        &:hover {
-            color: $secondary!important;
+        &:hover, &:active, &:focus {
+            i {
+
+                color: $secondary!important;
+            }
         }
     }
 
