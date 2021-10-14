@@ -249,7 +249,11 @@ input,
         a {
             color: $secondary;
         }
-        //background: $white;
+
+    }
+
+    .card.card-product-holder {
+        background: $body-bg;
     }
 
     .module-white-label-admin-colors {
@@ -477,7 +481,7 @@ input,
         color: $primary!important;
     }
 
-    .page-item .page-ling {
+    .page-item .page-link {
         a {
             color: $primary!important;
         }
