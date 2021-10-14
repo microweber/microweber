@@ -333,6 +333,7 @@
         multilanguage: [
             function () {
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
             }
         ],
     };
