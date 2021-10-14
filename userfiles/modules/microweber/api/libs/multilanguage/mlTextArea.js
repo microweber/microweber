@@ -25,13 +25,26 @@
             var outputHtml = '<div class="bs-component">';
                 outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">';
                 for (var i = 0; i < locales.length; i++) {
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#">' + locales[i] + '</a>';
+                    var mwBtnTabLocaleId = 'ml-input-'+name+'-'+i;
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#'+mwBtnTabLocaleId+'">' + locales[i] + '</a>';
                 }
                 outputHtml += '</nav>';
 
-                outputHtml += '<div id="js-multilanguage-tab-" class="tab-content py-3">';
+                outputHtml += '<div id="" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
-                    outputHtml += '<div class="tab-pane" id="mlfield"></div>';
+                    var mwTabPaneLocaleId = 'ml-input-'+name+'-'+i;
+                    outputHtml += '<div class="tab-pane fade show" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
+                    outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
+                    outputHtml += '</div>';
+
+                    // If ml input is changed change and the value attr
+                    $('body').on('keyup','#' + mwTabPaneLocaleId+' textarea', function () {
+                        if (currentLocale == $(this).attr('lang')) {
+                            // Change original field to this current lang value
+                            $(obj).html($(this).val());
+                        }
+                        $(this).html($(this).val());
+                    });
                 }
                 outputHtml += '</div>';
             outputHtml += '</div>';
