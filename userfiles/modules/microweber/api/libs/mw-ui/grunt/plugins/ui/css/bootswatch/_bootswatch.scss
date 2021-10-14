@@ -304,13 +304,14 @@ input,
 
 
 
-    h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control{
+    h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control, span.text-dark {
         color: $secondary!important;
 
     }
-     textarea, .form-control {
-        border-color: $primary;
+     button, textarea, .form-control {
+        border-color: $primary!important;
      }
+
 
     small, small.bg-secondary {
         background-color: transparent!important;
@@ -508,6 +509,14 @@ input,
         border-radius: 8px;
     }
 
+    .js-package-install-content {
+        img {
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+        }
+    }
+
     .mw-ui-link {
         color: $primary!important;
     }
@@ -529,14 +538,14 @@ input,
 
     .input-group-text, .mw-ui-btn  {
         border-color: $primary!important;
-        background: $primary!important;
-    }
+            background: $primary!important;
+        }
 
-    .mw-dropdown-content {
-        border-color: $black!important;
-        background: $black!important;
-        li {
-            color: $secondary!important;
+        .mw-dropdown-content {
+            border-color: $black!important;
+            background: $black!important;
+            li {
+                color: $secondary!important;
 
         }
     }
@@ -547,12 +556,14 @@ input,
 
 
     table {
-        td {
+        td, th{
             color: $secondary;
         }
     }
 
-
+.module-shop-offers .js-table-active {
+    background: $black!important;
+}
 
 
 .tooltip-inner {
@@ -588,3 +599,17 @@ input {
         color: $secondary!important;
     }
 }
+
+#settings-admin-mw-main-module-backend-shop-offers-admin-block-shop-offers {
+   a {
+    color: $secondary!important;
+   }
+}
+
+.custom-file {
+    label {
+        border-color: $primary!important;
+    }
+}
+
+
