@@ -4,3 +4,4 @@
     <option value="library"><?php _e("Choose from Unsplash"); ?></option>
     <option value="file"><?php _e("Upload file"); ?></option>
 </select>
+<div id="mw-admin-post-media-type-select"></div>
