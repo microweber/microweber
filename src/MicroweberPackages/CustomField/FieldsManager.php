@@ -141,7 +141,7 @@ class FieldsManager
 
         $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
-      //  $is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
+        //  $is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
 
         $make_field = array();
 
@@ -153,9 +153,9 @@ class FieldsManager
             return $_mw_made_default_fields_register[$function_cache_id];
         }
 
-       /* if ($is_made) {
-            return;
-        }*/
+        /* if ($is_made) {
+             return;
+         }*/
 
         /* if (is_array($is_made) and !empty($is_made)) {
              return;
@@ -180,6 +180,7 @@ class FieldsManager
                     $field_name = $field['name'];
 
                     $show_placeholder = false;
+                    $required = false;
                     $show_label = true;
                     $existing = array();
                     $as_text_area = false;
@@ -219,6 +220,15 @@ class FieldsManager
                         }
                     }
 
+                    if (isset($field['settings']['required'])) {
+                        if ($field['settings']['required'] == 'false' || $field['settings']['required'] == 0 || $field['settings']['required'] == '0') {
+                            $required = false;
+                        }
+                        if ($field['settings']['required'] == 'true' || $field['settings']['required'] == 1 || $field['settings']['required'] == '1') {
+                            $required = true;
+                        }
+                    }
+
                     $show_placeholder = false;
                     if (isset($field['settings']['show_placeholder'])) {
                         switch ($field['settings']['show_placeholder']) {
@@ -248,6 +258,7 @@ class FieldsManager
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['show_label'] = $show_label;
+                        $make_field['required'] = $required;
 
                         $make_field['show_placeholder'] = $show_placeholder;
                         if ($show_placeholder) {
@@ -271,12 +282,12 @@ class FieldsManager
                     }
                 }
 
-            /*    $option = array();
-                $option['option_value'] = true;
-                $option['option_key'] = $function_cache_id;
-                $option['option_group'] = 'make_default_custom_fields';
+                /*    $option = array();
+                    $option['option_value'] = true;
+                    $option['option_key'] = $function_cache_id;
+                    $option['option_group'] = 'make_default_custom_fields';
 
-                $this->app->option_manager->save($option);*/
+                    $this->app->option_manager->save($option);*/
 
                 if ($pos > 0) {
                     $this->app->cache_manager->delete('custom_fields');

@@ -178,7 +178,57 @@ class ContactFormTest extends TestCase
         $this->assertTrue(isset($export['success']));
         $this->assertTrue(isset($export['download']));
     }
+    public function testCustomContactFormSettingsRequiredSubmit()
+    {
 
+
+        $rel = 'module';
+        $rel_id = 'layouts-testCustomContactFormSettingsRequiredSubmit'.rand(1111,9999).'-contact-form';
+        $fields_csv_str = 'PersonNameRequired[type=text,field_size=6,show_placeholder=true,required=true],';
+        $fields_csv_str .= 'PersonTelephoneRequired[type=phone,field_size=6,show_placeholder=true,required=true],';
+        $fields_csv_str .= 'PersonMessageRequired[type=textarea,field_size=12,show_placeholder=true,required=true]';
+
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
+        // Disable captcha
+        save_option(array(
+            'option_group'=>$rel_id,
+            'option_key'=> 'disable_captcha',
+            'option_value'=> 'y'
+        ));
+
+        $fields = mw()->fields_manager->get(['rel_type'=>$rel,'rel_id'=>$rel_id]);
+        $this->assertTrue(!empty($fields));
+
+
+
+
+
+        $params = array();
+        $params['for_id'] = $rel_id;
+        $params['for'] = $rel;
+         // must return validation error
+        $response = mw()->forms_manager->post($params);
+
+        foreach ($fields as $field){
+            $this->assertTrue(array_key_exists($field['name_key'],$response['form_errors']));
+        }
+
+
+        $params = array();
+        $params['for_id'] = $rel_id;
+        $params['for'] = $rel;
+        foreach ($fields as $field){
+            $params[$field['name_key']] = 'test';
+         }
+
+
+        $response = mw()->forms_manager->post($params);
+        $this->assertTrue(array_key_exists('success',$response));
+        $this->assertTrue(array_key_exists('id',$response));
+
+
+
+    }
     public function testCustomContactFormSettingsSubmit()
     {
 

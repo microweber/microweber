@@ -405,6 +405,7 @@ class FormsManager
         }
 
         if (!empty($requiredFields)) {
+
             $validator = Validator::make($params, $requiredFields);
             if ($validator->fails()) {
                 $validatorMessages = false;
