@@ -268,11 +268,11 @@ input,
     }
 
     .card-header i.mdi {
-        color: $primary!important;
+        color: $primary;
     }
 
 
-    h1,h2,h3,h4,h5,h6, label, span, div, small, button{
+    h1,h2,h3,h4,h5,h6, label, span, div, small, button, .form-control{
         color: $secondary!important;
 
     }
@@ -376,6 +376,41 @@ input,
     .apexcharts-tooltip.apexcharts-theme-light span , .apexcharts-tooltip-title {
         color: $black!important;
     }
+
+    .mdi-magnify {
+        color: $secondary!important;
+    }
+
+
+    .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root {
+
+        &:hover, &:active, &:focus {
+            background: $primary;
+        }
+
+        .mw-tree-item-title {
+            color: $secondary!important;
+
+        }
+    }
+
+    .custom-fields-add-buttons {
+
+        button {
+
+            &:hover {
+                color: $white!important;
+                background: $primary;
+            }
+        }
+
+    }
+
+    .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+        background: $primary;
+    }
+
 }
+
 
 
