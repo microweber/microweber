@@ -311,8 +311,9 @@ input,
      textarea, .form-control {
         border-color: $primary;
      }
-    small {
-        background: transparent!important;
+
+    small, small.bg-secondary {
+        background-color: transparent!important;
     }
 
     .stats_box_footer, .show-more-stats {
