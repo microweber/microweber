@@ -58,7 +58,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
                     currentLocale: '$this->currentLanguage',
                     locales: $localesJson,
                     translations: $translationsJson,
-                    applyMwEditor: true
+                    mwEditor: true
                 });
             });
         </script>
