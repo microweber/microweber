@@ -111,7 +111,7 @@ $rand = 'pic-sorter-' . uniqid();
             }
 
         }
-        
+
         var dropdownData = [
             {value: 'url', title: '<?php _e("Add image from URL"); ?>' },
             {value: 'server', title: '<?php _e("Browse uploaded"); ?>' },
@@ -137,7 +137,7 @@ $rand = 'pic-sorter-' . uniqid();
         });
         slct.on('optionsReady', function (options) {
             var file = options.find(function (itm){
-                return itm.$value.value === 'file'
+                return itm.$value.value === 'file';
             });
             if(file) {
                 var up = mw.upload({
