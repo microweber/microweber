@@ -249,7 +249,12 @@ input,
         background: $white;
     }
 
-    .btn-hover-style-2 .btn-outline-secondary:hover {
+    .btn-hover-style-2 .btn-outline-secondary{
+
+        color: $secondary;
+
+    }
+    .btn-outline-secondary:hover {
         background: $transparent;
         color: $primary;
         border-color: $primary;
