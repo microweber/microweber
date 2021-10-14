@@ -27,7 +27,7 @@
 
             var outputHtml = '<div class="input-group">';
 
-                let mlInputLocaleIds = [];
+                var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
                     outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
