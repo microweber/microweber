@@ -292,7 +292,7 @@ input,
         color: $secondary!important;
 
     }
-     textarea {
+     textarea, .form-control {
         border-color: $primary;
      }
     small {
@@ -487,6 +487,7 @@ input,
 
     .page-item.active .page-link {
         color: $secondary!important;
+        border-color: $primary!important;
 
     }
 
@@ -496,14 +497,24 @@ input,
 
     }
 
-    .input-group-text {
-        border-color: $primary;
-        background: $primary;
+    .input-group-text, .mw-ui-btn  {
+        border-color: $primary!important;
+        background: $primary!important;
+    }
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background: $black!important;
+        li {
+            color: $secondary!important;
+
+        }
     }
 
     .lang-key-holder {
         background: $white;
     }
+
 }
 
 
