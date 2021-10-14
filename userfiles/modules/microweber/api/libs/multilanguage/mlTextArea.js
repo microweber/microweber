@@ -23,7 +23,9 @@
             $(obj).attr('lang', currentLocale);
 
             var outputHtml = '<div class="bs-component">';
-                outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">';
+
+                var mwNavLocaleId = 'ml-nav-'+name;
+                outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" id="'+mwNavLocaleId+'">';
 
                 // tab buttons
                 for (var i = 0; i < locales.length; i++) {
@@ -38,7 +40,8 @@
                 outputHtml += '</nav>';
 
                 // tab contents
-                outputHtml += '<div id="" class="tab-content py-3">';
+                var mwTabContentLocaleId = 'ml-tab-content-'+name;
+                outputHtml += '<div id="'+mwTabContentLocaleId+'" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
@@ -61,7 +64,10 @@
 
             // Switch tabs
             function switchTabsToLanguage(language) {
-
+                $('#'+mwNavLocaleId).find('.btn').removeClass('active');
+                $('#'+mwNavLocaleId).find(`[lang='${language}']`).addClass('active');
+                $('#'+mwTabContentLocaleId).find('.tab-pane').removeClass('active show');
+                $('#'+mwTabContentLocaleId).find(`.tab-pane[lang='${language}']`).addClass('active show');
             }
 
             // Show for current lang
