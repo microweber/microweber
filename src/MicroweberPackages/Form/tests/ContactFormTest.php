@@ -199,6 +199,16 @@ class ContactFormTest extends TestCase
         $fields = mw()->fields_manager->get(['rel_type'=>$rel,'rel_id'=>$rel_id]);
         $this->assertTrue(!empty($fields));
 
+        $list_title = 'My forms list'.rand(1111,9999);
+        $params = array();
+        $params['for_module_id'] = $rel_id;
+        $params['for_module'] = $rel;
+        $params['title'] = $list_title;
+
+        $list_response = mw()->forms_manager->save_list($params);
+        $this->assertTrue(array_key_exists('success',$list_response));
+        $this->assertTrue(isset($list_response['data']['id']));
+        $list_id = $list_response['data']['id'];
 
 
 
@@ -226,6 +236,21 @@ class ContactFormTest extends TestCase
         $this->assertTrue(array_key_exists('success',$response));
         $this->assertTrue(array_key_exists('id',$response));
 
+        $list_get = mw()->forms_manager->get_lists('single=1&id='.$list_id);
+        $this->assertSame($list_get['title'], $list_title);
+
+
+        $params = array();
+        $params['list_id'] = $list_id;
+        $response = mw()->forms_manager->get_entires($params);
+        $this->assertTrue(!empty($response[0]));
+        $this->assertTrue(array_key_exists('custom_fields',$response[0]));
+
+        //must be in the order of custom fields
+        $custom_fields_order = array_keys($response[0]['custom_fields']);
+        $this->assertSame($custom_fields_order[0], 'PersonNameRequired');
+        $this->assertSame($custom_fields_order[1], 'PersonTelephoneRequired');
+        $this->assertSame($custom_fields_order[2], 'PersonMessageRequired');
 
 
     }

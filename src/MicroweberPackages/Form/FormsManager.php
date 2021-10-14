@@ -76,7 +76,7 @@ class FormsManager
                 }
 
                 if (is_array($fields)) {
-                    ksort($fields);
+                    //ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
                         $item['custom_fields'][$key] = $value;
@@ -110,6 +110,7 @@ class FormsManager
 
         $params['table'] = $table;
         $id = $this->app->database_manager->save($table, $params);
+        $params['id'] = $id;
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
@@ -117,9 +118,10 @@ class FormsManager
             $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
             $this->app->option_manager->save($data);
+
         }
 
-        return array('success' => 'List is updated', $params);
+        return array('success' => 'List is updated', 'data'=>$params);
     }
 
     public function post($params)
