@@ -272,8 +272,12 @@ input,
     }
 
 
-    h1,h2,h3,h4,h5,h6, a span, .btn span{
+    h1,h2,h3,h4,h5,h6, label, span, div, small, button{
         color: $secondary!important;
+
+    }
+    small {
+        background: transparent!important;
     }
 
     .stats_box_footer, .show-more-stats {
@@ -356,6 +360,21 @@ input,
         color: $secondary !important;
         fill: $secondary !important;
         -webkit-text-fill-color: $secondary !important;
+    }
+
+    .apexcharts-menu-item {
+        color: $primary!important;
+
+    }
+
+    .js-search-by {
+        i.mdi {
+            color: $white;
+        }
+    }
+
+    .apexcharts-tooltip.apexcharts-theme-light span , .apexcharts-tooltip-title {
+        color: $black!important;
     }
 }
 
