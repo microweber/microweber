@@ -476,6 +476,17 @@ input,
     .mw-ui-link {
         color: $primary!important;
     }
+
+    .page-item .page-ling {
+        a {
+            color: $primary!important;
+        }
+    }
+
+    .page-item.active .page-link {
+        color: $black!important;
+
+    }
 }
 
 
