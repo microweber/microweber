@@ -29,11 +29,7 @@
                 for (var i = 0; i < locales.length; i++) {
                     var mwBtnTabLocaleId = 'ml-tab-btn-'+name+'-'+i;
                     var mwBtnTabContentLocaleId = 'ml-tab-content-'+name+'-'+i;
-                    var mwBtnTabLocaleClass = '';
-                    if (currentLocale == locales[i]) {
-                        mwBtnTabLocaleClass = 'active';
-                    }
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center '+mwBtnTabLocaleClass+'" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'">' + locales[i] + '</a>';
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'">' + locales[i] + '</a>';
 
                     $('body').on('click','#' + mwBtnTabLocaleId, function (){
                         mw.trigger("mlChangedLanguage", $(this).attr('lang'));
@@ -45,11 +41,7 @@
                 outputHtml += '<div id="" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
-                    var mwTabPaneLocaleClass = '';
-                    if (currentLocale == locales[i]) {
-                        mwTabPaneLocaleClass = 'show active';
-                    }
-                    outputHtml += '<div class="tab-pane fade '+mwTabPaneLocaleClass+'" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
+                    outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
                     outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
 
@@ -66,6 +58,19 @@
             outputHtml += '</div>';
 
             $(obj).after(outputHtml);
+
+            // Switch tabs
+            function switchTabsToLanguage(language) {
+
+            }
+
+            // Show for current lang
+            switchTabsToLanguage(currentLocale);
+
+            // Listen for events
+            mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
+                switchTabsToLanguage(mlCurrentLanguage);
+            });
 
         });
         return this;

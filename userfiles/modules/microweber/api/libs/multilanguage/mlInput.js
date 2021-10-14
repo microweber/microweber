@@ -59,11 +59,11 @@
             $(obj).after(outputHtml);
 
             // Switch fields
-            function switchInputFieldsToLanguage(mlCurrentLanguage) {
-                $('#' + mlInputLocaleChangeId).selectpicker("val", mlCurrentLanguage);
+            function switchInputFieldsToLanguage(language) {
+                $('#' + mlInputLocaleChangeId).selectpicker("val", language);
                 for (var i = 0; i < mlInputLocaleIds.length; i++) {
                     // If ml locale is changed hide all fields except current lang
-                    if ($('#' + mlInputLocaleIds[i]).attr('lang') !== mlCurrentLanguage) {
+                    if ($('#' + mlInputLocaleIds[i]).attr('lang') !== language) {
                         $('#' + mlInputLocaleIds[i]).hide();
                     } else {
                         $('#' + mlInputLocaleIds[i]).show();
