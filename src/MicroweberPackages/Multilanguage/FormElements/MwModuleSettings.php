@@ -64,8 +64,8 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
-                        if (isset($multilanguageFields[$fieldName])) {
-                            $inputValue = $multilanguageFields[$fieldName];
+                        if (isset($multilanguageFields['option_value'])) {
+                            $inputValue = $multilanguageFields['option_value']; // its harcoded only for module options
                         }
                     }
                 }
