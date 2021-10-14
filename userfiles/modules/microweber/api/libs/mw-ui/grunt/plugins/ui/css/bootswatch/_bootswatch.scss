@@ -249,7 +249,7 @@ input,
         a {
             color: $secondary;
         }
-        background: $white;
+        //background: $white;
     }
 
     .module-white-label-admin-colors {
@@ -361,13 +361,6 @@ input,
         border-color: $primary;
     }
 
-    .tooltip-arrow,
-    .red-tooltip + .tooltip > .tooltip-inner {
-        background-color: $primary!important;
-        color: $primary!important;
-    }
-
-
     tspan {
         color: $secondary !important;
         fill: $secondary !important;
@@ -455,6 +448,8 @@ input,
         i.mdi {
             color: $primary!important;
         }
+
+        background: white;
     }
 
     .navbar-expand-xl .navbar-nav {
@@ -465,13 +460,28 @@ input,
         background: $body-bg!important;
     }
 
-    .card.bg-silver {
-        background: $body-bg!important;
-    }
+    //.card.bg-silver {
+    //    background: $body-bg!important;
+    //}
 
     #mw-content-backend.has-mw-spinner:after {
-        background: $white;
+        background: $body-bg;
     }
+
+    .module-icon-svg-fill {
+        background: white;
+        border-radius: 8px;
+    }
+
+    .mw-ui-link {
+        color: $primary!important;
+    }
+}
+
+
+.tooltip-inner {
+    background-color: $white!important;
+    color: $secondary!important;
 }
 
 
