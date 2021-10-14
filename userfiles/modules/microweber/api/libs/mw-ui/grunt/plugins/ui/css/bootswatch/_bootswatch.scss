@@ -431,6 +431,10 @@ input,
         color: $secondary!important;
     }
 
+    .form-control:disabled, .form-control[readonly] {
+        background: $white;
+    }
+
 }
 
 
