@@ -7,8 +7,6 @@ use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Post\Models\Post;
 
 
-
-
 /**
  * Run test
  * @author Bobi Microweber
@@ -91,6 +89,12 @@ class BackupV2Test extends TestCase
 
 			$i++;
 		}
+        
+
+        $contentCount = get_content('count=1');
+        $json_expor_test = json_decode(file_get_contents(self::$_exportedFile),true);
+        $this->assertTrue(!empty($json_expor_test['content']));
+        $this->assertEquals(count($json_expor_test['content']),$contentCount);
 
 	}
 
