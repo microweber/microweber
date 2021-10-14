@@ -1,5 +1,7 @@
 <script>
+    mw.require('editor.js');
     mw.lib.require('multilanguage');
+
     $(document).ready(function () {
         $('#js-field-4').mlInput({
             name: 'bojkata',
