@@ -435,6 +435,15 @@ input,
         background: $white;
     }
 
+    .module-img {
+        filter: invert(1);
+    }
+
+    .mw-modules-badge {
+        i.mdi {
+            color: $primary!important;
+        }
+    }
 }
 
 
