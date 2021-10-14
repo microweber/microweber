@@ -238,18 +238,23 @@ input,
 //New variables for custom themes
 
 #mw-admin-container {
-    background: $body-bg;
+    background: $body-bg!important;
+}
 
-    .card-order-holder {
-        background: $body-bg;
-        border-color: $body-bg;
+    .card-order-holder, .messages-holder div{
+        background: $body-bg!important;
+        border-color: $body-bg!important;
     }
 
     .card-body {
         a {
             color: $secondary;
         }
-        background: $white;
+
+    }
+
+    .card.card-product-holder {
+        background: $body-bg;
     }
 
     .module-white-label-admin-colors {
@@ -268,7 +273,7 @@ input,
     }
 
     a.active i {
-        color: $primary!important;
+        color: $primary;
     }
 
     i.mdi.active, i.mdi:hover {
@@ -283,13 +288,33 @@ input,
         color: $primary;
     }
 
+    .main aside > ul > li.nav-item > a {
+        color: $secondary!important;
+    }
 
-    h1,h2,h3,h4,h5,h6, label, span, div, small, button, .form-control{
+    .dropdown-item {
+        color: $secondary !important;
+
+        &:active {
+            .mdi .mdi-plus{
+                color: $secondary!important;
+            }
+        }
+    }
+
+
+
+    h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
         color: $secondary!important;
 
     }
-    small {
-        background: transparent!important;
+     button, textarea, .form-control {
+        border-color: $primary!important;
+     }
+
+
+    small, small.bg-secondary {
+        background-color: transparent!important;
     }
 
     .stats_box_footer, .show-more-stats {
@@ -327,12 +352,10 @@ input,
     }
 
 
-    .main aside > ul > li.nav-item > a {
-        color: $secondary!important;
-    }
+
 
     .badge-pill {
-        background: $textGray;
+        background: $textGray!important;
     }
 
     .card-message-holder {
@@ -341,32 +364,38 @@ input,
         }
     }
 
-    .dropdown-item {
+
+    .dropdown-item, .dropdown-item a, .dropdown-item.active {
         color: $secondary!important;
 
-        &:hover, &:focus {
+        &:hover, &:focus, &:active {
             color: $white;
             text-decoration: none;
             background-color: $primary;
         }
+
+
     }
 
+    .bootstrap-select .dropdown-menu .dropdown-item {
+        color: $secondary!important;
+        border-color: $primary!important;
+    }
 
     svg {
         fill: $primary;
     }
 
     .add-new {
-        background: $primary;
-        border-color: $primary;
-    }
+        background: $primary!important;
+        border-color: $primary!important;
+        &:hover, &:active, &:focus {
+            i {
 
-    .tooltip-arrow,
-    .red-tooltip + .tooltip > .tooltip-inner {
-        background-color: $primary!important;
-        color: $primary!important;
+                color: $secondary!important;
+            }
+        }
     }
-
 
     tspan {
         color: $secondary !important;
@@ -419,7 +448,7 @@ input,
     }
 
     .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
-        background: $primary;
+        background: $primary!important;
 
     }
 
@@ -455,6 +484,8 @@ input,
         i.mdi {
             color: $primary!important;
         }
+
+        background-color: white!important;
     }
 
     .navbar-expand-xl .navbar-nav {
@@ -465,14 +496,126 @@ input,
         background: $body-bg!important;
     }
 
-    .card.bg-silver {
-        background: $body-bg!important;
-    }
+    //.card.bg-silver {
+    //    background: $body-bg!important;
+    //}
 
     #mw-content-backend.has-mw-spinner:after {
+        background: $body-bg;
+    }
+
+    .module-icon-svg-fill {
+        background: white;
+        border-radius: 8px;
+    }
+
+    .js-package-install-content {
+        img {
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+        }
+    }
+
+    .mw-ui-link {
+        color: $primary!important;
+    }
+
+    .page-link {
+        border-color: $secondary!important;
+    }
+
+    .page-item.active .page-link {
+        color: $secondary!important;
+        border-color: $secondary!important;
+    }
+
+    .mw-paging a {
+        //background: none;
+        color: $primary!important;
+
+    }
+
+    .input-group-text, .mw-ui-btn  {
+        border-color: $primary!important;
+            background: $primary!important;
+        }
+
+        .mw-dropdown-content {
+            border-color: $black!important;
+            background: $black!important;
+            li {
+                color: $secondary!important;
+
+        }
+    }
+
+    .lang-key-holder {
         background: $white;
     }
+
+
+    table {
+        td, th{
+            color: $secondary;
+        }
+    }
+
+.module-shop-offers .js-table-active {
+    background: $black!important;
 }
 
 
+.tooltip-inner {
+    background-color: $white!important;
+    color: $secondary!important;
+}
 
+.mw-browser-list-folder .mw-browser-list-create {
+    &:hover {
+        opacity: 0.1;
+    }
+}
+
+.mw-alert-holder {
+    color: black!important;
+}
+
+.theme-color-picker {
+    background: $body-bg!important;
+}
+
+input {
+    background: $black!important;
+
+    border-color: $primary!important;
+}
+
+.muted-cards .card:hover {
+    background: $black!important;
+    border-color: $black!important;
+
+    h5 {
+        color: $secondary!important;
+    }
+}
+
+#settings-admin-mw-main-module-backend-shop-offers-admin-block-shop-offers {
+   a {
+    color: $secondary!important;
+   }
+}
+
+.custom-file {
+    label {
+        border-color: $primary!important;
+    }
+}
+
+.module-uninstall-btn {
+    border: unset!important;
+}
+
+.mw-ui-box {
+    background: $white!important;
+}

@@ -112,37 +112,52 @@ $rand = 'pic-sorter-' . uniqid();
 
         }
 
-        var dropdownUploader;
+        var dropdownData = [
+            {value: 'url', title: '<?php _e("Add image from URL"); ?>' },
+            {value: 'server', title: '<?php _e("Browse uploaded"); ?>' },
+            {value: 'library', title: '<?php _e("Choose from Unsplash"); ?>' },
+            {value: 'file', title: '<?php _e("Upload file"); ?>' },
+        ];
 
-        mw.$('#mw-admin-post-media-type')
-            .selectpicker()
-            .on('changed.bs.select', function () {
-                mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                setTimeout(function () {
-                    mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
-                }, 10)
-
-            })
-            .on('show.bs.select', function () {
-                if (!!dropdownUploader) return;
-                var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                dropdownUploader = mw.upload({
-                    element: item,
+        var dropdownConfig = {
+            placeholder: '<?php _e("Add media from"); ?>',
+            data: dropdownData,
+            element: '#mw-admin-post-media-type-select',
+            size: 'small',
+            color: 'default',
+            showSelected: false
+        }
+        var slct = mw.select(dropdownConfig)
+        slct.on('change', function (value){
+            var val = value[0].value;
+            if(val !== 'file') {
+                mw._postsImageUploader.displayControllerByType(val)
+            }
+            slct.displayValue('<?php _e("Add media from"); ?>')
+        });
+        slct.on('optionsReady', function (options) {
+            var file = options.find(function (itm){
+                return itm.$value.value === 'file';
+            });
+            if(file) {
+                var up = mw.upload({
+                    element: file,
                     accept: 'image/*',
                     multiple: true
                 });
-                $(dropdownUploader).on('FileAdded', function (e, res) {
+                $(up).on('FileAdded', function (e, res) {
                     mw._postsImageUploader._thumbpreload()
                 })
-                $(dropdownUploader).on('FileUploaded', function (e, res) {
+                $(up).on('FileUploaded', function (e, res) {
                     var url = res.src ? res.src : res;
                     if (window.after_upld) {
                         after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                         after_upld(url, 'done');
-                        mw._postsImageUploader.hide()
+                        mw._postsImageUploader.hide();
                     }
                 });
-            })
+            }
+        });
 
         var dragTimer;
         $(document).on('dragover', function (e) {

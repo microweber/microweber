@@ -376,7 +376,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="text" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
+                                    <input type="text" class="mwtb-search mw-dropdown-search" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();
@@ -390,8 +390,8 @@ if (isset($_COOKIE['mw_exp'])) {
                                 mw()->content_manager->pages_tree($pt_opts);
                                 ?>
                                 <a id="backtoadminindropdown"
-                                   href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span
-                                            class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a>
+                                   href="<?php print $back_url; ?>"
+                                   ><span class="mdi mdi-arrow-left"></span><span><?php _e("Back to Admin"); ?></span> </a>
                             </div>
                         </li>
                         <?php event_trigger('live_edit_toolbar_menu_start'); ?>

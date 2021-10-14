@@ -427,15 +427,19 @@ mw.wysiwyg = {
     },
     isSelectionEditable: function (sel) {
         try {
-            var node = (sel || window.getSelection()).focusNode;
+            var activeCase = true;
+            if(!sel) {
+                activeCase = document.activeElement.nodeName !== 'INPUT' && document.activeElement.nodeName !== 'TEXTAREA'
+            }
+             var node = (sel || window.getSelection()).focusNode;
             if (node === null) {
                 return false;
             }
             if (node.nodeType === 1) {
-                return node.isContentEditable;
+                return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
             else {
-                return node.parentNode.isContentEditable;
+                return activeCase && node.parentNode.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
         }
         catch (e) {
