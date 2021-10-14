@@ -42,8 +42,8 @@ class ModuleListTest extends TestCase
 
     public function testLoadFromModuleManager()
     {
-        if(!defined('IN_EDIT')){
-            define('IN_EDIT',1);
+        if (!defined('IN_EDIT')) {
+            define('IN_EDIT', 1);
         }
         $getModules = app()->module_repository->getAllModules();
 
@@ -52,13 +52,16 @@ class ModuleListTest extends TestCase
 
         // Test modules
         foreach ($getModules as $i => $module) {
-            if($module['ui_admin']){
-                $moduleOutput = app()->module_manager->load($module['module'].'/admin', ['id' => 'mod-' . $i]);
-                $this->assertNotEmpty($moduleOutput);
-            }
-            if($module['ui']){
-                $moduleOutput = app()->module_manager->load($module['module'], ['id' => 'mod-' . $i]);
-                $this->assertNotEmpty($moduleOutput);
+
+            if (intval($module['installed']) == 1) {
+                if ($module['ui_admin']) {
+                    $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-' . $i]);
+                    $this->assertNotEmpty($moduleOutput);
+                }
+                if ($module['ui']) {
+                    $moduleOutput = app()->module_manager->load($module['module'], ['id' => 'mod-' . $i]);
+                    $this->assertNotEmpty($moduleOutput);
+                }
             }
         }
     }
