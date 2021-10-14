@@ -288,6 +288,10 @@ input,
         color: $primary;
     }
 
+    .main aside > ul > li.nav-item > a {
+        color: $secondary!important;
+    }
+
     .main aside > ul > li.nav-item .dropdown-menu .dropdown-item {
         color: $secondary !important;
     }
@@ -336,6 +340,7 @@ input,
             }
         }
     }
+
 
 
 
