@@ -449,6 +449,14 @@ input,
             color: $primary!important;
         }
     }
+
+    .navbar-expand-xl .navbar-nav {
+        background: $white;
+    }
+
+    .page-settings .select-settings a .icon-holder {
+        background: $body-bg!important;
+    }
 }
 
 
