@@ -451,12 +451,11 @@ class FormsManager
                         continue;
                     }
 
-                    if (!isset($_FILES[$field['name_key']]) && isset($field['options']['required']) && $field['options']['required'] == 1) {
+                    if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
                         $fieldRules[] = 'required';
                         $_FILES[$field['name_key']] = true;
-                    }
 
-                    if (!isset($_FILES[$field['name_key']])) {
+                    } else if (!isset($_FILES[$field['name_key']])) {
                         continue;
                     }
 
@@ -483,6 +482,7 @@ class FormsManager
                     }
 
                     if (isset($allowedFilesForSave[$field['name_key']])) {
+
                         $uploadedField = $allowedFilesForSave[$field['name_key']];
                         if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
                             if ($optionFileTypes == 'images') {
@@ -925,7 +925,7 @@ class FormsManager
             $export = new XlsxExport();
             $export->data['mw_export_contact_form_' . date('Y-m-d-H-i-s')] = $dataValues;
             $export = $export->start();
-            $exportFile = $export['files']['0']['download']; 
+            $exportFile = $export['files']['0']['download'];
 
             return array('success' => 'Your file has been exported!', 'download' => $exportFile);
         }
