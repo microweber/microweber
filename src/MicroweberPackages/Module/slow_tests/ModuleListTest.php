@@ -55,7 +55,7 @@ class ModuleListTest extends TestCase
 
             if (intval($module['installed']) == 1) {
                 if ($module['ui_admin']) {
-                    $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-' . $i]);
+                    $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-admin-' . $i ]);
                     $this->assertNotEmpty($moduleOutput);
                 }
                 if ($module['ui']) {
