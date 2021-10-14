@@ -408,6 +408,23 @@ input,
 
     .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
         background: $primary;
+
+    }
+
+    .mw-select-options {
+        background: $black!important;
+        border-color: $primary;
+    }
+
+    .mw-ui-field, .mw-select-options label {
+        color: $secondary!important;
+        background: $black!important;
+        border-color: $primary;
+
+        &:hover {
+            background: $primary!important;
+
+        }
     }
 
 }
