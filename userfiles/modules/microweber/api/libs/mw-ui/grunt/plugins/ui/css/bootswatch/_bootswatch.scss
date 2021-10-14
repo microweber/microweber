@@ -238,12 +238,12 @@ input,
 //New variables for custom themes
 
 #mw-admin-container {
-    background: $body-bg;
+    background: $body-bg!important;
 }
 
     .card-order-holder, .messages-holder div{
-        background: $body-bg;
-        border-color: $body-bg;
+        background: $body-bg!important;
+        border-color: $body-bg!important;
     }
 
     .card-body {
