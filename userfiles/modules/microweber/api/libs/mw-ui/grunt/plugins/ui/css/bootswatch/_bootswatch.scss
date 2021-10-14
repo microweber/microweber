@@ -245,6 +245,13 @@ input,
         border-color: $body-bg;
     }
 
+    .card-body {
+        a {
+            color: $secondary;
+        }
+        background: $white;
+    }
+
     .module-white-label-admin-colors {
         background: $white;
     }
@@ -456,6 +463,14 @@ input,
 
     .page-settings .select-settings a .icon-holder {
         background: $body-bg!important;
+    }
+
+    .card.bg-silver {
+        background: $body-bg!important;
+    }
+
+    #mw-content-backend.has-mw-spinner:after {
+        background: $white;
     }
 }
 
