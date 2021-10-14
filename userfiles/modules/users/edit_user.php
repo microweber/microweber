@@ -467,7 +467,7 @@ $saveRoute = route('api.user.store');
             <hr class="thin"/>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-secondary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
+                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
                 <button id="user-save-button" class="btn btn-success btn-sm" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
             </div>
         </div>
