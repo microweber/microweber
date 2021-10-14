@@ -26,14 +26,22 @@
                 outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwBtnTabLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#'+mwBtnTabLocaleId+'">' + locales[i] + '</a>';
+                    var mwBtnTabLocaleClass = '';
+                    if (currentLocale == locales[i]) {
+                        mwBtnTabLocaleClass = 'active';
+                    }
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center '+mwBtnTabLocaleClass+'" data-toggle="tab" href="#'+mwBtnTabLocaleId+'">' + locales[i] + '</a>';
                 }
                 outputHtml += '</nav>';
 
                 outputHtml += '<div id="" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml += '<div class="tab-pane fade show" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
+                    var mwTabPaneLocaleClass = '';
+                    if (currentLocale == locales[i]) {
+                        mwTabPaneLocaleClass = 'show active';
+                    }
+                    outputHtml += '<div class="tab-pane fade '+mwTabPaneLocaleClass+'" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
                     outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
 
