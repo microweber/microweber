@@ -24,20 +24,28 @@
 
             var outputHtml = '<div class="bs-component">';
                 outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">';
+
+                // tab buttons
                 for (var i = 0; i < locales.length; i++) {
-                    var mwBtnTabLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#'+mwBtnTabLocaleId+'">' + locales[i] + '</a>';
+                    var mwBtnTabLocaleId = 'ml-tab-btn-'+name+'-'+i;
+                    var mwBtnTabContentLocaleId = 'ml-tab-content-'+name+'-'+i;
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'">' + locales[i] + '</a>';
+
+                    $('body').on('click','#' + mwBtnTabLocaleId, function (){
+                        mw.trigger("mlChangedLanguage", $(this).attr('lang'));
+                    });
                 }
                 outputHtml += '</nav>';
 
+                // tab contents
                 outputHtml += '<div id="" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
-                    var mwTabPaneLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml += '<div class="tab-pane fade show" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
+                    var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
+                    outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
                     outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
 
-                    // If ml input is changed change and the value attr
+                    // If ml textarea is changed change and the value
                     $('body').on('keyup','#' + mwTabPaneLocaleId+' textarea', function () {
                         if (currentLocale == $(this).attr('lang')) {
                             // Change original field to this current lang value
@@ -50,6 +58,19 @@
             outputHtml += '</div>';
 
             $(obj).after(outputHtml);
+
+            // Switch tabs
+            function switchTabsToLanguage(language) {
+
+            }
+
+            // Show for current lang
+            switchTabsToLanguage(currentLocale);
+
+            // Listen for events
+            mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
+                switchTabsToLanguage(mlCurrentLanguage);
+            });
 
         });
         return this;
