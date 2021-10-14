@@ -5,7 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
-            applyMwEditor: false,
+            mwEditor: false,
         }, options);
 
         this.each(function (index, obj) {
@@ -13,7 +13,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
-            var applyMwEditor = settings.applyMwEditor;
+            var mwEditor = settings.mwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
                 console.log('Please fill the name and locales.');
@@ -90,7 +90,7 @@
                 switchTabsToLanguage(mlCurrentLanguage);
             });
 
-            if (applyMwEditor) {
+            if (mwEditor) {
                 $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
                     mw.Editor({
                         selector: $(this),
