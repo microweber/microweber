@@ -579,3 +579,12 @@ input {
 
     border-color: $primary!important;
 }
+
+.muted-cards .card:hover {
+    background: $black!important;
+    border-color: $black!important;
+
+    h5 {
+        color: $secondary!important;
+    }
+}
