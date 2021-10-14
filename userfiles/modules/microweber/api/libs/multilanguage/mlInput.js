@@ -60,6 +60,7 @@
 
             // Switch fields
             function switchInputFieldsToLanguage(language) {
+
                 $('#' + mlInputLocaleChangeId).selectpicker("val", language);
                 for (var i = 0; i < mlInputLocaleIds.length; i++) {
                     // If ml locale is changed hide all fields except current lang
@@ -72,7 +73,17 @@
             }
 
             // Show for current lang
-            switchInputFieldsToLanguage(currentLocale);
+            var mlLangIsSupported = false;
+            for (var i = 0; i < locales.length; i++) {
+                if (locales[i] == currentLocale) {
+                    mlLangIsSupported = true;
+                }
+            }
+            if (mlLangIsSupported) {
+                switchInputFieldsToLanguage(currentLocale);
+            } else {
+                switchInputFieldsToLanguage(locales[0]);
+            }
 
             // If dropdown is changed
             $('body').on('change','#' + mlInputLocaleChangeId, function (){

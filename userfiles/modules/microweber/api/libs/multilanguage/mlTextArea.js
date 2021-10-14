@@ -73,7 +73,17 @@
             }
 
             // Show for current lang
-            switchTabsToLanguage(currentLocale);
+            var mlLangIsSupported = false;
+            for (var i = 0; i < locales.length; i++) {
+                if (locales[i] == currentLocale) {
+                    mlLangIsSupported = true;
+                }
+            }
+            if (mlLangIsSupported) {
+                switchTabsToLanguage(currentLocale);
+            } else {
+                switchTabsToLanguage(locales[0]);
+            }
 
             // Listen for events
             mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
