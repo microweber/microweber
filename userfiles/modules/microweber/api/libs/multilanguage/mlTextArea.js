@@ -5,6 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
+            applyMwEditor: false,
         }, options);
 
         this.each(function (index, obj) {
@@ -12,6 +13,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
+            var applyMwEditor = settings.applyMwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
                 console.log('Please fill the name and locales.');
@@ -77,6 +79,44 @@
             mw.on("mlChangedLanguage", function (e, mlCurrentLanguage) {
                 switchTabsToLanguage(mlCurrentLanguage);
             });
+
+            if (applyMwEditor) {
+                $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
+                    mw.Editor({
+                        selector: $(this),
+                        mode: 'div',
+                        smallEditor: false,
+                        minHeight: 250,
+                        maxHeight: '70vh',
+                        controls: [
+                            [
+                                'undoRedo', '|', 'image', '|',
+                                {
+                                    group: {
+                                        controller: 'bold',
+                                        controls: ['italic', 'underline', 'strikeThrough']
+                                    }
+                                },
+                                '|',
+                                {
+                                    group: {
+                                        icon: 'mdi mdi-format-align-left',
+                                        controls: ['align']
+                                    }
+                                },
+                                '|', 'format',
+                                {
+                                    group: {
+                                        icon: 'mdi mdi-format-list-bulleted-square',
+                                        controls: ['ul', 'ol']
+                                    }
+                                },
+                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
+                            ],
+                        ]
+                    });
+                });
+            }
 
         });
         return this;
