@@ -206,7 +206,7 @@ if ($id == 0) {
                 <hr class="thin no-padding">
 
                 <div class="d-flex justify-content-between">
-                    <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-secondary btn-sm"><?php _e("Cancel"); ?></button>
+                    <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-outline-primary btn-sm"><?php _e("Cancel"); ?></button>
                     <button class="btn btn-success btn-sm" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
                 </div>
 
