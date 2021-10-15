@@ -44,10 +44,11 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 .btn {
   @extend .sandstone;
 
+    color: $secondary!important;
   &:hover {
     border-color: transparent;
       a, span, i {
-          color: $primary!important;
+          color: $secondary!important;
       }
   }
 
@@ -57,6 +58,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
   }
 }
 
+
+.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger {
+    color: $secondary!important;
+
+    span {
+        color: $secondary!important;
+
+    }
+}
 // Typography ==================================================================
 
 // Tables ======================================================================
@@ -142,6 +152,17 @@ input,
   .dropdown-item {
     @extend .sandstone;
   }
+}
+
+.nav {
+    li {
+
+        &:hover {
+            span, i {
+                color: $primary!important;
+            }
+        }
+    }
 }
 
 // Indicators ==================================================================
@@ -250,7 +271,7 @@ input,
 }
 
 .card-body, .card {
-    a {
+    a , a.btn{
         color: $secondary!important;
     }
 
@@ -287,7 +308,7 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row, .comments-holder {
+.card-header, .card-body .row a, .comments-holder, .card-message-holder {
     &:hover {
          span, strong, i {
             color: $primary!important;
@@ -305,9 +326,9 @@ i.mdi {
 .main aside > ul > li.nav-item > a {
     color: $secondary!important;
 
-    &:hover {
-        background: $primary!important;
-    }
+    //&:hover {
+    //    background: $primary!important;
+    //}
 }
 
 .dropdown-item {
@@ -322,7 +343,7 @@ i.mdi {
 
 
 
-h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
+h1,h2,h3,h4,h5,h6, label, div, a span, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
     color: $secondary!important;
 
 }
@@ -343,7 +364,7 @@ small, small.bg-secondary {
          //background-color: $primary;
     }
 
-    span , a{
+     a{
         color: $secondary!important;
 
         &:hover {
@@ -362,7 +383,7 @@ small, small.bg-secondary {
         color: $secondary!important;
 
         &:hover {
-            color: $primary!important;
+            color: $secondary!important;
             background-color: $primary;
             border-color: $primary;
         }
@@ -706,4 +727,9 @@ input, .custom-select {
 .mw-selectable-list > label, #save-menu-wrapper {
     background: $white!important;
 }
+
+.mw-colorscheme-text-white {
+    color: $secondary!important;
+}
+
 
