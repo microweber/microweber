@@ -592,9 +592,8 @@ input,
     background: $body-bg!important;
 }
 
-input {
+input, .custom-select {
     background: $black!important;
-
     border-color: $primary!important;
 }
 
