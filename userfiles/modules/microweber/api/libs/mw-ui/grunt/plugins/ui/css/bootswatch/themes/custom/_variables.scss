@@ -1,20 +1,14 @@
-@import '../../../bootstrap_variables';
+//@import '../../../bootstrap_variables';
+@import '_hidden_vars';
 
-$white: green;
-$black: red;
-$silver: #bcbfc2;
+$body-bg: #1b1c1d!default;
+$primary: #ffa513!default;
+$secondary: #ffffff!default;
+$white: #0f0f0f!default;
+$black: black!default;
+$success: #ffa513!default;
+$info: transparent!default;
+$transparent: transparent!default;
 
-$primary: red;
-$secondary: #eeefef;
-$success: #5bce93;
-$info: #FF5C5C;
-$light: #2D353C;
-$dark: #2b2b2b;
-
-$body-bg: whitesmoke;
-$body-color: #212529;
-
-
-$textDark: #2B2B2B;
-$textGray: #7e7e7e;
-$textLight: #fff;
+$textGray: #29696b!default;
+$secondary: #ffffff!default;

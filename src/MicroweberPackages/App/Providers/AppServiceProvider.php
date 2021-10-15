@@ -607,9 +607,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupAppLocale()
     {
-        $currentUri = request()->path();
 
         $isLocaleChangedFromMultilanguageLogics = false;
+
+
+        $currentUri = request()->path();
 
         //  Change language if user request language with LINK has lang abr
         if (MultilanguageHelpers::multilanguageIsEnabled()) {

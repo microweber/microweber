@@ -233,3 +233,454 @@ input,
 // Progress bars ===============================================================
 
 // Containers ==================================================================
+
+
+//New variables for custom themes
+
+#mw-admin-container {
+    background: $body-bg!important;
+}
+
+    .card-order-holder, .messages-holder div{
+        background: $body-bg!important;
+        border-color: $body-bg!important;
+    }
+
+    .card-body {
+        a {
+            color: $secondary;
+        }
+
+    }
+
+    .card.card-product-holder {
+        background: $body-bg;
+    }
+
+    .module-white-label-admin-colors {
+        background: $white;
+    }
+
+    .btn-hover-style-2 .btn-outline-secondary{
+
+        color: $secondary!important;
+
+    }
+    .btn-outline-secondary:hover {
+        background: $transparent!important;
+        color: $primary!important;
+        border-color: $primary!important;
+    }
+
+    a.active i {
+        color: $primary;
+    }
+
+    i.mdi.active, i.mdi:hover {
+        color: $primary!important;
+    }
+
+    i.mdi {
+        color: $silver!important;
+    }
+
+    .card-header i.mdi {
+        color: $primary;
+    }
+
+    .main aside > ul > li.nav-item > a {
+        color: $secondary!important;
+    }
+
+    .dropdown-item {
+        color: $secondary !important;
+
+        &:active {
+            .mdi .mdi-plus{
+                color: $secondary!important;
+            }
+        }
+    }
+
+
+
+    h1,h2,h3,h4,h5,h6, label, span, div, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
+        color: $secondary!important;
+
+    }
+     button, textarea, .form-control {
+        border-color: $primary!important;
+     }
+
+
+    small, small.bg-secondary {
+        background-color: transparent!important;
+    }
+
+    .stats_box_footer, .show-more-stats {
+        color: $secondary!important;
+
+         &:hover {
+            color: $black!important;
+             //background-color: $primary;
+        }
+
+        span , a{
+            color: $secondary!important;
+
+            &:hover {
+                color: $black!important;
+                background-color: $primary;
+                border-color: $primary;
+
+            }
+        }
+    }
+
+    .dashboard-recent {
+        color: $secondary!important;
+
+         a {
+            color: $secondary!important;
+
+            &:hover {
+                color: $black!important;
+                background-color: $primary;
+                border-color: $primary;
+            }
+        }
+    }
+
+
+
+
+    .badge-pill {
+        background: $textGray!important;
+    }
+
+    .card-message-holder {
+        div, a{
+            color: $secondary;
+        }
+    }
+
+
+    .dropdown-item, .dropdown-item a, .dropdown-item.active {
+        color: $secondary!important;
+
+        &:hover, &:focus, &:active {
+            color: $white;
+            text-decoration: none;
+            background-color: $primary;
+        }
+
+
+    }
+
+    .bootstrap-select .dropdown-menu .dropdown-item {
+        color: $secondary!important;
+        border-color: $primary!important;
+
+        &:hover {
+
+            background-color: $primary!important;
+        }
+    }
+
+    svg {
+        fill: $primary;
+    }
+
+    .add-new {
+        background: $primary!important;
+        border-color: $primary!important;
+        &:hover, &:active, &:focus {
+            i {
+
+                color: $secondary!important;
+            }
+        }
+    }
+
+    tspan {
+        color: $secondary !important;
+        fill: $secondary !important;
+        -webkit-text-fill-color: $secondary !important;
+    }
+
+    .apexcharts-menu-item {
+        color: $primary!important;
+
+    }
+
+    .js-search-by {
+        i.mdi {
+            color: $white;
+        }
+    }
+
+    .apexcharts-tooltip.apexcharts-theme-light span , .apexcharts-tooltip-title {
+        color: $black!important;
+    }
+
+    .mdi-magnify {
+        color: $secondary!important;
+    }
+
+
+    .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root {
+
+        &:hover, &:active, &:focus {
+            background: $primary;
+        }
+
+        .mw-tree-item-title {
+            color: $secondary!important;
+
+        }
+    }
+
+    .custom-fields-add-buttons {
+
+        button {
+
+            &:hover {
+                color: $white!important;
+                background: $primary;
+            }
+        }
+
+    }
+
+    .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+        background: $primary!important;
+
+    }
+
+    .mw-select-options {
+        background: $black!important;
+        border-color: $primary;
+    }
+
+    .mw-ui-field, .mw-select-options label {
+        color: $secondary!important;
+        background: $black!important;
+        border-color: $primary;
+
+        &:hover {
+            background: $primary!important;
+
+        }
+    }
+
+    input.mw-ui-invisible-field {
+        color: $secondary!important;
+    }
+
+    .form-control:disabled, .form-control[readonly] {
+        background: $white;
+    }
+
+    .module-img {
+        filter: invert(1);
+    }
+
+    .mw-modules-badge {
+        i.mdi {
+            color: $primary!important;
+        }
+
+        background-color: white!important;
+    }
+
+    .navbar-expand-xl .navbar-nav {
+        background: $white;
+    }
+
+    .page-settings .select-settings a .icon-holder {
+        background: $body-bg!important;
+    }
+
+    //.card.bg-silver {
+    //    background: $body-bg!important;
+    //}
+
+    #mw-content-backend.has-mw-spinner:after {
+        background: $body-bg!important;
+    }
+
+    .module-icon-svg-fill {
+        background: white;
+        border-radius: 8px;
+    }
+
+    .js-package-install-content {
+        img {
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+        }
+    }
+
+    .mw-ui-link {
+        color: $primary!important;
+    }
+
+    .page-link {
+        border-color: $secondary!important;
+    }
+
+    .page-item.active .page-link {
+        color: $secondary!important;
+        border-color: $secondary!important;
+    }
+
+    .mw-paging a {
+        //background: none;
+        color: $primary!important;
+
+    }
+
+    .input-group-text, .mw-ui-btn  {
+        border-color: $primary!important;
+            background: $primary!important;
+        }
+
+        .mw-dropdown-content {
+            border-color: $black!important;
+            background: $black!important;
+            li {
+                color: $secondary!important;
+
+        }
+    }
+
+    .lang-key-holder {
+        background: $white;
+    }
+
+
+    table {
+        td, th{
+            color: $secondary;
+            background: $black!important;
+            border-color: $secondary!important;
+        }
+    }
+
+.module-shop-offers .js-table-active {
+    background: $black!important;
+}
+
+
+.tooltip-inner {
+    background-color: $white!important;
+    color: $secondary!important;
+}
+
+.mw-browser-list-folder .mw-browser-list-create {
+    &:hover {
+        opacity: 0.1;
+    }
+}
+
+.mw-alert-holder {
+    color: black!important;
+}
+
+.theme-color-picker {
+    background: $body-bg!important;
+}
+
+input, .custom-select {
+    background: $black!important;
+    border-color: $primary!important;
+}
+
+.muted-cards .card:hover {
+    background: $black!important;
+    border-color: $black!important;
+
+    h5 {
+        color: $secondary!important;
+    }
+}
+
+#settings-admin-mw-main-module-backend-shop-offers-admin-block-shop-offers {
+   a {
+    color: $secondary!important;
+   }
+}
+
+.custom-file {
+    label {
+        border-color: $primary!important;
+    }
+}
+
+.module-uninstall-btn {
+    border: unset!important;
+}
+
+.mw-ui-box {
+    background: $white!important;
+}
+
+.btn-hover-style-3 .btn.active {
+    a{
+     color: $secondary!important;
+
+    }
+}
+
+.btn-hover-style-3 .btn:hover {
+    color: $secondary !important;
+    background-color: $primary!important;
+}
+
+.js-post-box:hover {
+    border-color: $primary!important;
+}
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
+}
+
+.custom-fields-add-buttons button:hover {
+    background: $primary!important;
+}
+
+.mw-ui-category-tree-row {
+    background: $black!important;
+}
+
+.mw-ui-searchfield {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.mw-ui-box-header, .card-header {
+    background-color: $black!important;
+}
+
+.mw-editor-area, .mw-bar-row,.deactivated:before {
+    background: $black!important;
+}
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header {
+    background: $black!important;
+}
+
+
+.mw-dialog-skin-default .mw-dialog-close {
+    border-color: $primary!important;
+
+    &:hover {
+        background: $primary!important;
+    }
+}

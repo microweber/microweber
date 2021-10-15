@@ -376,6 +376,9 @@ Trait ParserLoadModuleTrait
             if (!isset($attrs['module'])) {
                 $attrs['module'] = $module_name;
             }
+            if (!isset($attrs['type'])) {
+                $attrs['type'] = $module_name;
+            }
 
 //            if (!isset($attrs['parent-module'])) {
 //                $attrs['parent-module'] = $module_name;

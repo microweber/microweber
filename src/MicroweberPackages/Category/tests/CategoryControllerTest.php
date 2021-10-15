@@ -38,6 +38,11 @@ class CategoryControllerTest extends TestCase
         $this->assertEquals(201, $response->status());
 
         $categorySaved = $response->getData()->data;
+
+        $this->assertEquals($categorySaved->title, $title);
+        $this->assertEquals($categorySaved->description, $title);
+
+        $categorySaved = Category::where('id', $categorySaved->id)->first();
         $this->assertEquals($categorySaved->title, $title);
         $this->assertEquals($categorySaved->description, $title);
 

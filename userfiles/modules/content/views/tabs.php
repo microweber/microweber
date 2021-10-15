@@ -20,7 +20,13 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             </div>
         </div>
         <div class="card-body pt-3">
-            <module id="edit-post-gallery-main" type="pictures/admin" class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>" for="content" content_type="<?php print trim($data['content_type']) ?>" for-id="<?php print $data['id']; ?>"/>
+            <module
+                id="edit-post-gallery-main"
+                type="pictures/admin"
+                class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
+                for="content"
+                content_type="<?php print trim($data['content_type']) ?>"
+                for-id="<?php print $data['id']; ?>"/>
         </div>
     </div>
 

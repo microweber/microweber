@@ -178,7 +178,82 @@ class ContactFormTest extends TestCase
         $this->assertTrue(isset($export['success']));
         $this->assertTrue(isset($export['download']));
     }
+    public function testCustomContactFormSettingsRequiredSubmit()
+    {
 
+
+        $rel = 'module';
+        $rel_id = 'layouts-testCustomContactFormSettingsRequiredSubmit'.rand(1111,9999).'-contact-form';
+        $fields_csv_str = 'PersonNameRequired[type=text,field_size=6,show_placeholder=true,required=true],';
+        $fields_csv_str .= 'PersonTelephoneRequired[type=phone,field_size=6,show_placeholder=true,required=true],';
+        $fields_csv_str .= 'PersonMessageRequired[type=textarea,field_size=12,show_placeholder=true,required=true]';
+
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
+        // Disable captcha
+        save_option(array(
+            'option_group'=>$rel_id,
+            'option_key'=> 'disable_captcha',
+            'option_value'=> 'y'
+        ));
+
+        $fields = mw()->fields_manager->get(['rel_type'=>$rel,'rel_id'=>$rel_id]);
+        $this->assertTrue(!empty($fields));
+
+        $list_title = 'My forms list'.rand(1111,9999);
+        $params = array();
+        $params['for_module_id'] = $rel_id;
+        $params['for_module'] = $rel;
+        $params['title'] = $list_title;
+
+        $list_response = mw()->forms_manager->save_list($params);
+        $this->assertTrue(array_key_exists('success',$list_response));
+        $this->assertTrue(isset($list_response['data']['id']));
+        $list_id = $list_response['data']['id'];
+
+
+
+
+        $params = array();
+        $params['for_id'] = $rel_id;
+        $params['for'] = $rel;
+         // must return validation error
+        $response = mw()->forms_manager->post($params);
+
+        foreach ($fields as $field){
+            $this->assertTrue(array_key_exists($field['name_key'],$response['form_errors']));
+        }
+
+
+        $params = array();
+        $params['for_id'] = $rel_id;
+        $params['for'] = $rel;
+        foreach ($fields as $field){
+            $params[$field['name_key']] = 'test';
+         }
+
+
+        $response = mw()->forms_manager->post($params);
+        $this->assertTrue(array_key_exists('success',$response));
+        $this->assertTrue(array_key_exists('id',$response));
+
+        $list_get = mw()->forms_manager->get_lists('single=1&id='.$list_id);
+        $this->assertSame($list_get['title'], $list_title);
+
+
+        $params = array();
+        $params['list_id'] = $list_id;
+        $response = mw()->forms_manager->get_entires($params);
+        $this->assertTrue(!empty($response[0]));
+        $this->assertTrue(array_key_exists('custom_fields',$response[0]));
+
+        //must be in the order of custom fields
+        $custom_fields_order = array_keys($response[0]['custom_fields']);
+        $this->assertSame($custom_fields_order[0], 'PersonNameRequired');
+        $this->assertSame($custom_fields_order[1], 'PersonTelephoneRequired');
+        $this->assertSame($custom_fields_order[2], 'PersonMessageRequired');
+
+
+    }
     public function testCustomContactFormSettingsSubmit()
     {
 

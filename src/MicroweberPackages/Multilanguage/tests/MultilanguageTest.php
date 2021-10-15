@@ -10,7 +10,7 @@ class MultilanguageTest extends MultilanguageTestBase
 
     public function testSupportedLanguages()
     {
-        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+       // \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
         $lang = app()->getLocale();
 
         add_supported_language($lang, 'English');
@@ -35,7 +35,6 @@ class MultilanguageTest extends MultilanguageTestBase
             $locales[] = $language['locale'];
         }
         $default_lang = mw()->lang_helper->default_lang();
-        $default_lang = $default_lang;
 
         $this->assertEquals(true, in_array($default_lang, $locales));
         $this->assertEquals(true, is_lang_supported($lang));
@@ -248,7 +247,7 @@ class MultilanguageTest extends MultilanguageTestBase
         $this->assertEquals(true, $output['refresh']);
     }
 
-    private function testGetContentFunction()
+    private function aaaatestGetContentFunction()
     {
 
         $api = new MultilanguageApi();

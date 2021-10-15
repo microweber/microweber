@@ -23,6 +23,9 @@ api_expose_admin('multilanguage/supported_locale/set_active', function ($params)
             }
 
             $save = db_save('multilanguage_supported_locales', $localeUpdate);
+            cache_clear('options');
+            cache_clear('content');
+            cache_clear('repositories');
             if ($save) {
                 return ['success'=>true];
             }

@@ -1378,7 +1378,10 @@ body.has-opened-sidebar #live_edit_toolbar {
     width: 25px;
 }
 
-.liveeditcreatecontentmenu
+#backtoadminindropdown .mdi{
+    font-size: 21px;
+    margin-inline-end: 10px;
+}
 .create-content-dropdown-list .mw-icon-back {
     top: -2px;
 }

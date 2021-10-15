@@ -4,6 +4,7 @@ namespace MicroweberPackages\Backup;
 use MicroweberPackages\Backup\Loggers\BackupImportLogger;
 use MicroweberPackages\Backup\Loggers\BackupExportLogger;
 use MicroweberPackages\Backup\Traits\ExportGetSet;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class BackupManager
 {
@@ -118,9 +119,9 @@ class BackupManager
 	 */
 	public function startExport()
 	{
-        if (!defined('MW_DISABLE_MULTILANGUAGE')) {
-            define('MW_DISABLE_MULTILANGUAGE', true);
-        }
+
+
+        MultilanguageHelpers::setMultilanguageEnabled(false);
 		try {
 
 			/* // If we want export media
@@ -152,11 +153,10 @@ class BackupManager
 	 */
 	public function startImport()
 	{
-        if (!defined('MW_DISABLE_MULTILANGUAGE')) {
-            define('MW_DISABLE_MULTILANGUAGE', true);
-        }
+        MultilanguageHelpers::setMultilanguageEnabled(false);
 
-		try {
+
+        try {
 			$import = new Import();
             $import->setStep($this->importStep);
 			$import->setType($this->importType);

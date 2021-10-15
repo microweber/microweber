@@ -58,14 +58,14 @@ class BlogFilterTest extends TestCase
         $htmlString = $html->__toString();
 
         foreach ($posts as $post) {
-            $findPostTitle = (strpos($htmlString, $post->title) !== false);
+            $findPostTitle = (str_contains($htmlString, $post->title) !== false);
             $this->assertTrue($findPostTitle);
         }
 
-        $findJs = (strpos($htmlString, 'filter.js') !== false);
+        $findJs = (str_contains($htmlString, 'filter.js') !== false);
         $this->assertTrue($findJs);
 
-        $findCss = (strpos($htmlString, 'filter.css') !== false);
+        $findCss = (str_contains($htmlString, 'filter.css') !== false);
         $this->assertTrue($findCss);
 
     }

@@ -3,6 +3,7 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
@@ -111,6 +112,17 @@ class MultilanguageContentTest extends MultilanguageTestBase
         $getContent = Content::where('id', $contentSaved->id)->first();
         $this->assertEquals($getContent->title, $apiContentStore['multilanguage']['title']['ru_RU']);
         $this->assertEquals($getContent->description, $apiContentStore['multilanguage']['description']['ru_RU']);
+
+
+
+        //delete content and check if it's deleted from the multilanguage table
+        $table = $getContent->getTable();
+        $rel_id = $contentSaved->id;
+        $getContent->delete();
+        $checkIfDeleted = MultilanguageTranslations::where('rel_type', $table)
+            ->where('rel_id', $rel_id)
+            ->count();
+        $this->assertEquals($checkIfDeleted,0);
 
 
     }

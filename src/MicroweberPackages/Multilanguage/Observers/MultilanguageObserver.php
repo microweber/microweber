@@ -49,6 +49,7 @@ class MultilanguageObserver
                 $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
 
                 if ($findTranslations !== null) {
+
                     foreach ($findTranslations as $findedTranslation) {
                         if ($findedTranslation['field_name'] == $fieldName) {
 
@@ -82,9 +83,11 @@ class MultilanguageObserver
      */
     public function saved(Model $model)
     {
-        $langToSave = $this->getLocale();
         if (self::$langToSave) {
             $langToSave = self::$langToSave;
+        } else {
+            $langToSave = $this->getLocale();
+
         }
 
         if ($langToSave == $this->getDefaultLocale()) {
@@ -131,9 +134,27 @@ class MultilanguageObserver
             }
             self::$fieldsToSave = [];
         }
-        clearcache();
+
     }
 
+    /**
+     * Handle the "deleted" event.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @return void
+     */
+    public function deleted(Model $model)
+    {
+
+        $table = $model->getTable();
+        $rel_id = $model->id;
+        if ($table and $rel_id) {
+            MultilanguageTranslations::where('rel_type', $table)
+                ->where('rel_id', $rel_id)
+                ->delete();
+        }
+
+    }
     private function getTranslatableModuleOptions() {
         $translatableModuleOptions = [];
         foreach (get_modules_from_db() as $module) {

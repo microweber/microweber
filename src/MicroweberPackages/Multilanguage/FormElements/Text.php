@@ -1,7 +1,6 @@
 <?php
-namespace MicroweberPackages\Multilanguage\FormElements;
 
-use MicroweberPackages\Multilanguage\FormElements\Traits\JavascriptOptionChangerTrait;
+namespace MicroweberPackages\Multilanguage\FormElements;
 
 class Text extends \MicroweberPackages\Form\Elements\Text
 {
@@ -12,125 +11,56 @@ class Text extends \MicroweberPackages\Form\Elements\Text
     {
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
-
-        $firstLanguages = [];
-        $supportedLanguages = [];
-        $unsortedSupportedLanguages = get_supported_languages(true);
-        foreach ($unsortedSupportedLanguages as $language) {
-            if ($language['locale'] == $this->currentLanguage) {
-                $firstLanguages[] = $language;
-            } else {
-                $supportedLanguages[] = $language;
-            }
-        }
-        $supportedLanguages = array_merge($firstLanguages, $supportedLanguages);
-
-        $modelAttributes = [];
-        if ($this->model) {
-            $modelAttributes = $this->model->getAttributes();
-        }
-
-        if (method_exists($this->model, 'getTranslationsFormated')) {
-            $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
-        }
-
+        $this->randId = str_random();
         $fieldName = $this->getAttribute('name');
 
-        $this->randId = random_int(111,999).time().rand(111,999);
-
-        $html = '<div class="input-group">';
-
-        if ($this->prepend) {
-            $html .= $this->prepend;
+        $fieldValue = '';
+        if (isset($this->model->{$fieldName})) {
+            $fieldValue = $this->model->{$fieldName};
         }
 
-        $csli=0;
-        foreach($supportedLanguages as $language) {
+        $locales = [];
+        $supportedLanguages = get_supported_languages(true);
+        foreach ($supportedLanguages as $language) {
+            $locales[] = $language['locale'];
+        }
+        $localesJson = json_encode($locales);
 
-            $value = '';
+        $modelTranslations = [];
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelTranslations = $this->model->getTranslationsFormated();
+        }
 
-            if (isset($modelAttributes['multilanguage'])) {
-                foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
-                    if ($locale == $language['locale']) {
-                        if (isset($multilanguageFields[$fieldName])) {
-                            $value = $multilanguageFields[$fieldName];
-                        }
+        $translations = [];
+        // Fill with empty values
+        foreach ($locales as $locale) {
+            $translations[$locale] = '';
+        }
+        // Fill the translations if available
+        if (!empty($modelTranslations)) {
+            foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
+                if (isset($modelTranslation[$fieldName])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                    if ($this->currentLanguage == $modelTranslationLocale) {
+                        $fieldValue = $modelTranslation[$fieldName];
                     }
                 }
             }
-
-            $displayField = 'style="display:none;"';
-            if ($csli == 0) {
-                $displayField = '';
-            }
-            $defaultLangFieldOnChange = '';
-            if ($language['locale'] == $this->defaultLanguage) {
-                $defaultLangFieldOnChange = 'onChange="changeOriginalFieldValue' . $this->randId . '(this.value)"';
-            }
-
-            $html .= '<input type="text" '.$defaultLangFieldOnChange.' name="multilanguage['.$fieldName.']['.$language['locale'].']" '.$displayField.' class="js-multilanguage-value-lang-elements-'.$this->randId.' form-control" id="js-multilanguage-value-lang-'.$this->randId.'-'.$language['locale'].'"  lang="'.$language['locale'].'" value="'.$value.'">';
-            $csli ++;
         }
+        $translationsJson = json_encode($translations);
 
-        $originalFieldAttributes = '';
-        if (isset($this->attributes['onkeyup'])) {
-            $originalFieldAttributes .= ' onkeyup="'.$this->attributes['onkeyup'].'" ';
-        }
+        return "<script>
+            mw.lib.require('multilanguage');
+            $(document).ready(function () {
+                $('#$this->randId').mlInput({
+                    name: '$fieldName',
+                    currentLocale: '$this->currentLanguage',
+                    locales: $localesJson,
+                    translations: $translationsJson,
+                });
+            });
+        </script>
+        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" />";
 
-        // Original field hidden
-        $html .= '<input type="hidden" '.$originalFieldAttributes.' id="js-multilanguage-value-lang-original-field-'.$this->randId.'" name="'.$fieldName.'" value="'.$this->getAttribute('value').'" />';
-
-        if ($this->append) {
-            $html .= $this->append;
-        }
-
-        $html .= '
-        <div class="input-group-append">
-            <span>
-                <select class="selectpicker" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
-
-        foreach($supportedLanguages as $language) {
-            $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
-            $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-            $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
-        }
-
-        $html .= '</select>
-           </span>
-        </div>
-    </div>';
-
-
-        $html .='<script>
-
-                   function changeOriginalFieldValue' . $this->randId . '(value) {
-                        var valueOriginalFieldLangElement = document.getElementById("js-multilanguage-value-lang-original-field-' . $this->randId . '");
-                        valueOriginalFieldLangElement.value = value;
-                    }
-
-                    function runMlTextField' . $this->randId . '() {
-                        var selectLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
-                        selectLang.addEventListener("change", (event) => {
-                            var valueLangElements = document.getElementsByClassName("js-multilanguage-value-lang-elements-'.$this->randId.'");
-                            for (var i = 0; i < valueLangElements.length; i++) {
-                               valueLangElements.item(i).style.display = "none";
-                            }
-
-                            var valueLangElement = document.getElementById("js-multilanguage-value-lang-' . $this->randId . '-" + selectLang.value);
-                            valueLangElement.style.display = "block";
-                            mw.trigger("mlChangedLanguage", selectLang.value);
-                        });
-                    }
-                    $(document).ready(function() {
-                         mw.on("mlChangedLanguage", function (e, data) {
-                            var applyChangedLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
-                            $(applyChangedLang).selectpicker("val", data);
-                             $(\'a[data-toggle="tab"][href*="\'+data+\'"]\').tab(\'show\')
-                         });
-                        runMlTextField' . $this->randId . '();
-                    });
-                </script>';
-
-        return $html;
     }
 }
