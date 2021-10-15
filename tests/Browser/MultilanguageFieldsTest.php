@@ -70,8 +70,6 @@ class MultilanguageFieldsTest extends DuskTestCase
             $browser->acceptDialog();
             $browser->pause(1000);
 
-
-
         });
 
     }

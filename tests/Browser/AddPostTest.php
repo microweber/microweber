@@ -15,7 +15,10 @@ class AddPostTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
+
             $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
+
+            $browser->waitFor('@login-button');
 
             // Login to admin panel
             $browser->type('username', '1');
@@ -37,7 +40,7 @@ class AddPostTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
 
 
-            $browser->pause(1000);
+            $browser->pause(1500);
             $browser->assertSee('Content saved');
 
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class ExampleTest extends DuskTestCase
+class AbppInstallTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
@@ -23,6 +23,9 @@ class ExampleTest extends DuskTestCase
             $browser->type('admin_password', '1');
             $browser->type('admin_password2', '1');
             $browser->type('admin_email', '1');
+
+            $browser->pause(300);
+            $browser->select('#default_template', 'new-world');
 
             $browser->pause(100);
             $browser->click('@install-button');
@@ -50,6 +53,8 @@ class ExampleTest extends DuskTestCase
             // Wait for redirect after login
             $browser->waitForLocation('/admin/', 120);
 
+            $browser->pause(1500);
+
             $browser->assertSee('Statistics');
             $browser->assertSee('Live Edit');
             $browser->assertSee('Website');
@@ -59,6 +64,8 @@ class ExampleTest extends DuskTestCase
             $browser->assertSee('Settings');
             $browser->assertSee('Users');
             $browser->assertSee('Log out');
+
+            $browser->pause(1500);
 
         });
 
