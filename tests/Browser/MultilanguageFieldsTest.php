@@ -36,6 +36,19 @@ class MultilanguageFieldsTest extends DuskTestCase
             $browser->assertAttribute('#js-field-box-4 .input-group input','name','multilanguage[bojkata][bg_BG]');
             $browser->assertAttribute('#js-field-box-4 .input-group input','lang','bg_BG');
 
+            // Switch to another language
+            $browser->select('#js-field-box-4 .input-group-append select', 'ar_SA');
+            $browser->pause(500);
+            $browser->assertAttribute('#js-field-box-4 .input-group input','value','ARABSKI BRAT');
+            $browser->assertAttribute('#js-field-box-4 .input-group input','name','multilanguage[bojkata][ar_AR]');
+            $browser->assertAttribute('#js-field-box-4 .input-group input','lang','ar_AR');
+
+            // Switch to another language
+            $browser->select('#js-field-box-4 .input-group-append select', 'en_US');
+            $browser->pause(500);
+            $browser->assertAttribute('#js-field-box-4 .input-group input','value','Text on English');
+            $browser->assertAttribute('#js-field-box-4 .input-group input','name','multilanguage[bojkata][en_US]');
+            $browser->assertAttribute('#js-field-box-4 .input-group input','lang','en_US');
 
             $browser->pause(8000);
 
