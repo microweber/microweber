@@ -248,7 +248,7 @@ input,
 
     .card-body {
         a {
-            color: $secondary;
+            color: $secondary!important;
         }
 
     }
@@ -622,7 +622,7 @@ input, .custom-select {
     border: unset!important;
 }
 
-.mw-ui-box {
+.mw-ui-box, .mw-ui-box2 {
     background: $white!important;
 }
 
@@ -684,3 +684,8 @@ input, .custom-select {
         background: $primary!important;
     }
 }
+
+.mw-selectable-list > label, #save-menu-wrapper {
+    background: $white!important;
+}
+
