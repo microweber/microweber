@@ -563,6 +563,8 @@ input,
     table {
         td, th{
             color: $secondary;
+            background: $black!important;
+            border-color: $secondary!important;
         }
     }
 
