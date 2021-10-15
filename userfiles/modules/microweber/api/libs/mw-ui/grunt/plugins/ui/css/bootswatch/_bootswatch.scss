@@ -287,7 +287,7 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header {
+.card-header, .card-body .row, .comments-holder {
     &:hover {
          span, strong, i {
             color: $primary!important;
@@ -347,7 +347,7 @@ small, small.bg-secondary {
         color: $secondary!important;
 
         &:hover {
-            color: $black!important;
+            color: $primary!important;
             background-color: $primary;
             border-color: $primary;
 
