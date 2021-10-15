@@ -624,6 +624,11 @@ input {
     color: $secondary!important;
 }
 
+.btn-hover-style-3 .btn:hover {
+    color: $secondary !important;
+    background-color: $primary!important;
+}
+
 .js-post-box:hover {
     border-color: $primary!important;
 }
