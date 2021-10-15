@@ -289,7 +289,7 @@ i.mdi {
 
 .card-header {
     &:hover {
-        a, span, strong, i {
+         span, strong, i {
             color: $primary!important;
 
         }
@@ -304,6 +304,10 @@ i.mdi {
 
 .main aside > ul > li.nav-item > a {
     color: $secondary!important;
+
+    &:hover {
+        background: $primary!important;
+    }
 }
 
 .dropdown-item {
