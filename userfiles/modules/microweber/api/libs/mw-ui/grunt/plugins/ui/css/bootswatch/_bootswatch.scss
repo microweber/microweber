@@ -501,7 +501,7 @@ input,
     //}
 
     #mw-content-backend.has-mw-spinner:after {
-        background: $body-bg;
+        background: $body-bg!important;
     }
 
     .module-icon-svg-fill {
@@ -622,4 +622,13 @@ input {
 
 .btn-hover-style-3 .btn.active {
     color: $secondary!important;
+}
+
+.js-post-box:hover {
+    border-color: $primary!important;
+}
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
 }
