@@ -246,7 +246,7 @@ input,
         border-color: $body-bg!important;
     }
 
-    .card-body {
+    .card-body, .card {
         a {
             color: $secondary!important;
         }
