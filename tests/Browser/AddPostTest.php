@@ -15,7 +15,10 @@ class AddPostTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
+
             $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
+
+            $browser->waitFor('@login-button');
 
             // Login to admin panel
             $browser->type('username', '1');
