@@ -263,7 +263,7 @@ input,
 
     .btn-hover-style-2 .btn-outline-secondary{
 
-        color: $secondary;
+        color: $secondary!important;
 
     }
     .btn-outline-secondary:hover {
@@ -618,4 +618,8 @@ input {
 
 .mw-ui-box {
     background: $white!important;
+}
+
+.btn-hover-style-3 .btn.active {
+    color: $secondary!important;
 }
