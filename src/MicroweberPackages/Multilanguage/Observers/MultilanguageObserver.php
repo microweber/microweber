@@ -137,6 +137,24 @@ class MultilanguageObserver
 
     }
 
+    /**
+     * Handle the "deleted" event.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @return void
+     */
+    public function deleted(Model $model)
+    {
+
+        $table = $model->getTable();
+        $rel_id = $model->id;
+        if ($table and $rel_id) {
+            MultilanguageTranslations::where('rel_type', $table)
+                ->where('rel_id', $rel_id)
+                ->delete();
+        }
+
+    }
     private function getTranslatableModuleOptions() {
         $translatableModuleOptions = [];
         foreach (get_modules_from_db() as $module) {
