@@ -685,6 +685,7 @@ input, .custom-select {
     }
 }
 
-.mw-selectable-list > label {
+.mw-selectable-list > label, #save-menu-wrapper {
     background: $white!important;
 }
+
