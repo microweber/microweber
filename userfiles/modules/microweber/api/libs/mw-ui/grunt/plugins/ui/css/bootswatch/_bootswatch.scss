@@ -263,13 +263,13 @@ input,
 
     .btn-hover-style-2 .btn-outline-secondary{
 
-        color: $secondary;
+        color: $secondary!important;
 
     }
     .btn-outline-secondary:hover {
-        background: $transparent;
-        color: $primary;
-        border-color: $primary;
+        background: $transparent!important;
+        color: $primary!important;
+        border-color: $primary!important;
     }
 
     a.active i {
@@ -501,7 +501,7 @@ input,
     //}
 
     #mw-content-backend.has-mw-spinner:after {
-        background: $body-bg;
+        background: $body-bg!important;
     }
 
     .module-icon-svg-fill {
@@ -618,4 +618,38 @@ input {
 
 .mw-ui-box {
     background: $white!important;
+}
+
+.btn-hover-style-3 .btn.active {
+    a{
+     color: $secondary!important;
+
+    }
+}
+
+.btn-hover-style-3 .btn:hover {
+    color: $secondary !important;
+    background-color: $primary!important;
+}
+
+.js-post-box:hover {
+    border-color: $primary!important;
+}
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
+}
+
+.custom-fields-add-buttons button:hover {
+    background: $primary!important;
+}
+
+.mw-ui-category-tree-row {
+    background: $black!important;
+}
+
+.mw-ui-searchfield {
+    background-color: $primary!important;
+    border-color: $primary!important;
 }
