@@ -18,6 +18,7 @@ var EditorPredefinedControls = {
 window.MWEditor = function (options) {
     var defaults = {
         regions: null,
+        notEditableSelector: '.module',
         document: document,
         executionDocument: document,
         mode: 'div', // iframe | div | document
@@ -391,6 +392,7 @@ window.MWEditor = function (options) {
             props: { className: 'mw-editor-area', innerHTML: content }
         });
         this.area.node.contentEditable = true;
+
         this.area.node.oninput = function() {
             scope.registerChange();
         };
@@ -624,7 +626,16 @@ window.MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
-            $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
+
+            Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.regions)).forEach(function (el){
+                el.contentEditable = true;
+            })
+
+            Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.notEditableSelector)).forEach(function (el){
+                el.contentEditable = false;
+            })
+
+
             if (scope.settings.editMode === 'liveedit') {
                 scope.liveEditMode();
             }

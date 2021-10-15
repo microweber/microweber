@@ -13258,15 +13258,19 @@ mw.wysiwyg = {
     },
     isSelectionEditable: function (sel) {
         try {
-            var node = (sel || window.getSelection()).focusNode;
+            var activeCase = true;
+            if(!sel) {
+                activeCase = document.activeElement.nodeName !== 'INPUT' && document.activeElement.nodeName !== 'TEXTAREA'
+            }
+             var node = (sel || window.getSelection()).focusNode;
             if (node === null) {
                 return false;
             }
             if (node.nodeType === 1) {
-                return node.isContentEditable;
+                return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
             else {
-                return node.parentNode.isContentEditable;
+                return activeCase && node.parentNode.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
         }
         catch (e) {
@@ -25442,7 +25446,9 @@ mw.Select = function(options) {
     options  = options || {};
     this.settings = $.extend({}, defaults, options);
 
-
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; return this; };
 
     if(this.settings.ajaxMode && !this.settings.ajaxMode.endpoint){
         this.settings.ajaxMode = false;
@@ -25594,6 +25600,7 @@ mw.Select = function(options) {
                 };
             }
 
+
             return oh;
         },
         value: function() {
@@ -25646,10 +25653,18 @@ mw.Select = function(options) {
             scope.optionsHolder = scope.document.createElement('div');
             scope.holder = scope.document.createElement('div');
             scope.optionsHolder.className = 'mw-select-options';
+            var options = [];
             $.each(scope.settings.data, function(){
-                scope.holder.appendChild(scope.rend.option(this))
+                var opt = scope.rend.option(this);
+                options.push(opt)
+                scope.holder.appendChild(opt)
             });
             scope.optionsHolder.appendChild(scope.holder);
+
+            setTimeout(function (){
+                scope.dispatch('optionsReady', options)
+            }, 10)
+
             return scope.optionsHolder;
         },
         root: function () {
@@ -25754,6 +25769,7 @@ mw.Select = function(options) {
             });
         }
         $(this).trigger('change', [this._value]);
+        this.dispatch('change', [this._value])
     };
 
     this.valueRemove = function(val) {
@@ -25812,9 +25828,15 @@ mw.Select = function(options) {
     this.setData = function (data) {
         $(scope.holder).empty();
         scope.settings.data = data;
+        var options = []
         $.each(scope.settings.data, function(){
-            scope.holder.appendChild(scope.rend.option(this))
+            var opt = scope.rend.option(this)
+            options.push(opt)
+            scope.holder.appendChild(opt)
         });
+        setTimeout(function (){
+            scope.dispatch('optionsReady', options)
+        }, 10)
         return scope.holder;
     };
 
