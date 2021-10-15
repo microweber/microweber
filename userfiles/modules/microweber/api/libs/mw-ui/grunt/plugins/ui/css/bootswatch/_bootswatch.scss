@@ -668,4 +668,19 @@ input, .custom-select {
     background: $black!important;
 }
 
-.
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header {
+    background: $black!important;
+}
+
+
+.mw-dialog-skin-default .mw-dialog-close {
+    border-color: $primary!important;
+    
+    &:hover {
+        background: $primary!important;
+    }
+}
