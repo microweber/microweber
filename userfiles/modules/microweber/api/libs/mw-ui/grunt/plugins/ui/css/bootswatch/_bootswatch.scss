@@ -622,7 +622,7 @@ input, .custom-select {
     border: unset!important;
 }
 
-.mw-ui-box {
+.mw-ui-box, .mw-ui-box2 {
     background: $white!important;
 }
 
@@ -683,4 +683,8 @@ input, .custom-select {
     &:hover {
         background: $primary!important;
     }
+}
+
+.mw-selectable-list > label {
+    background: $white!important;
 }
