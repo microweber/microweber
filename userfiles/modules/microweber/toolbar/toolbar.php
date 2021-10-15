@@ -89,11 +89,9 @@ if (isset($_COOKIE['mw_exp'])) {
         });
 
     </script>
-    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-    <?php if (_lang_is_rtl()) { ?>
-        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
-    <?php } ?>
+
+    <?php print app()->template->admin->getLiveEditTemplateHeadHtml(); ?>
+
     <?php
 
     $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");

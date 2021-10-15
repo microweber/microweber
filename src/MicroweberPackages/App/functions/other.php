@@ -975,6 +975,34 @@ api_expose_admin('template/delete_compiled_css', function ($params) {
     return mw()->template->delete_compiled_css($params);
 });
 
+api_expose_admin('mw_admin_colors/reset_main_stylesheet', function ($params){
+
+    return mw()->template->admin->resetSelectedStyle();
+
+} );
+
+api_expose_admin('mw_admin_colors/reset_main_stylesheet_colors', function ($params){
+    return mw()->template->admin->resetSelectedStyleVariables();
+} );
+
+api_expose_admin('mw_admin_colors/get_main_stylesheet_url', function ($params){
+
+    $compiled_output_path = userfiles_path() . 'css/admin-css/';
+    $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_main.css', false);
+    // delete and recompile
+    if(is_file($compiled_css_output_path_file_css)){
+        @unlink($compiled_css_output_path_file_css);
+    }
+
+    $main_css_url = app()->template->get_admin_system_ui_css_url();
+
+    return $main_css_url;
+} );
+
+
+
+
+
 if (!function_exists('br2nl')) {
     function br2nl($string)
     {
