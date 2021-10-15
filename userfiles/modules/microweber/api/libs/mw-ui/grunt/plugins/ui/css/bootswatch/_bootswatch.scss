@@ -267,9 +267,9 @@ input,
 
     }
     .btn-outline-secondary:hover {
-        background: $transparent;
-        color: $primary;
-        border-color: $primary;
+        background: $transparent!important;
+        color: $primary!important;
+        border-color: $primary!important;
     }
 
     a.active i {
@@ -621,7 +621,10 @@ input {
 }
 
 .btn-hover-style-3 .btn.active {
-    color: $secondary!important;
+    a{
+     color: $secondary!important;
+
+    }
 }
 
 .btn-hover-style-3 .btn:hover {
@@ -642,4 +645,11 @@ input {
     background: $primary!important;
 }
 
+.mw-ui-category-tree-row {
+    background: $black!important;
+}
 
+.mw-ui-searchfield {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
