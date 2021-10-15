@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class AddPostTest extends DuskTestCase
+class MultilanguageFieldsTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
@@ -26,20 +26,18 @@ class AddPostTest extends DuskTestCase
             // Wait for redirect after login
             $browser->waitForLocation('/admin/', 120);
 
-            $browser->pause(100);
-
-            $browser->visit($siteUrl.'admin/view:content#action=new:post?dusk=1');
-
-            $browser->pause(3000);
-            $browser->value('#slug-field-holder input', 'This is the post title');
 
             $browser->pause(1000);
-            $browser->click('#js-admin-save-content-main-btn');
-
-
+            $browser->visit($siteUrl.'admin/view:modules/load_module:multilanguage?dusk=1');
             $browser->pause(1000);
-            $browser->assertSee('Content saved');
 
+            // Test input dropdown
+            $browser->assertAttribute('#js-field-box-4 input','value','ARABSKI BRAT');
+            $browser->assertAttribute('#js-field-box-4 input','name','multilanguage[bojkata][ar_SA]');
+            $browser->assertAttribute('#js-field-box-4 input','lang','ar_SA');
+
+
+            $browser->pause(8000);
 
         });
 
