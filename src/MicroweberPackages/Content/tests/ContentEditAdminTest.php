@@ -23,7 +23,7 @@ class ContentEditAdminTest extends TestCase
         $editController = new Edit();
         $html = $editController->index($params);
 
-        $this->assertContains('Page title', $html);
+        $this->assertTrue(str_contains($html,'Page title')); 
 
     }
 }
