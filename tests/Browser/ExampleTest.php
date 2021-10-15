@@ -65,7 +65,7 @@ class ExampleTest extends DuskTestCase
             $browser->assertSee('Users');
             $browser->assertSee('Log out');
 
-            $browser->pause(11500);
+            $browser->pause(1500);
 
         });
 
