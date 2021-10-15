@@ -653,3 +653,11 @@ input {
     background-color: $primary!important;
     border-color: $primary!important;
 }
+
+.mw-ui-box-header, .card-header {
+    background-color: $black!important;
+}
+
+.mw-editor-area, mw-bar-row {
+    background: $black!important;
+}
