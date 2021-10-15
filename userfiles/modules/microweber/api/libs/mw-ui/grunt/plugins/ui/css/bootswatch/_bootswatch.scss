@@ -46,6 +46,9 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 
   &:hover {
     border-color: transparent;
+      a, span, i {
+          color: $primary!important;
+      }
   }
 
   &-success,
@@ -246,7 +249,7 @@ input,
         border-color: $body-bg!important;
     }
 
-    .card-body {
+    .card-body, .card {
         a {
             color: $secondary!important;
         }
@@ -284,8 +287,19 @@ input,
         color: $silver!important;
     }
 
+    .card-header {
+        &:hover {
+            a, span, strong, i {
+                color: $secondary!important;
+
+            }
+        }
+    }
+
     .card-header i.mdi {
         color: $primary;
+
+
     }
 
     .main aside > ul > li.nav-item > a {
