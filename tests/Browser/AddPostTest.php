@@ -37,7 +37,7 @@ class AddPostTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
 
 
-            $browser->pause(1000);
+            $browser->pause(1500);
             $browser->assertSee('Content saved');
 
 
