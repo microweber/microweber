@@ -57,6 +57,18 @@ class MultilanguageFieldsTest extends DuskTestCase
             $browser->pause(1000);
 
 
+            // Test english switch
+            $browser->select('#js-field-box-4 .input-group-append select', 'en_US');
+            $browser->pause(1000);
+
+            $browser->script("
+                var jsFieldBox4 = $('#js-field-box-4 .input-group input:visible');
+                alert(jsFieldBox4.val());
+            ");
+            $browser->pause(1000);
+            $browser->assertDialogOpened('Text on English');
+            $browser->acceptDialog();
+            $browser->pause(1000);
 
 
 
