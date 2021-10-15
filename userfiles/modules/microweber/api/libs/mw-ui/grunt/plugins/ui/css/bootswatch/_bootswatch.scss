@@ -663,6 +663,6 @@ input {
     background-color: $black!important;
 }
 
-.mw-editor-area, .mw-bar-row {
+.mw-editor-area, .mw-bar-row,.deactivated:before {
     background: $black!important;
 }
