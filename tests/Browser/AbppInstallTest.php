@@ -14,7 +14,7 @@ class AbppInstallTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
-        $this->browse(function (Browser $browser) use($siteUrl) { 
+        $this->browse(function (Browser $browser) use($siteUrl) {
 
             $browser->visit($siteUrl)->assertSee('install');
 
