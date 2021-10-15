@@ -380,6 +380,11 @@ input,
     .bootstrap-select .dropdown-menu .dropdown-item {
         color: $secondary!important;
         border-color: $primary!important;
+
+        &:hover {
+
+            background-color: $primary!important;
+        }
     }
 
     svg {
@@ -658,6 +663,6 @@ input {
     background-color: $black!important;
 }
 
-.mw-editor-area, mw-bar-row {
+.mw-editor-area, .mw-bar-row {
     background: $black!important;
 }
