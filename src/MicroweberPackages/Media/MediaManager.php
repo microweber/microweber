@@ -200,7 +200,7 @@ class MediaManager
             //$upl = $this->app->cache_manager->save($_FILES, $cache_id, $cache_group);
             foreach ($_FILES as $item) {
                 $item['name'] = mw()->url_manager->clean_url_wrappers($item['name']);
-                $extension = end(explode('.', $item['name']));
+                $extension = get_file_extension($item['name']);
 
                 $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
                 if ($is_dangerous_file) {
@@ -946,7 +946,7 @@ class MediaManager
                 }
 
             }
- 
+
             return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['id'] . '?finded';
         }
 
