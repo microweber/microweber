@@ -19,6 +19,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
            'title' => 'LiveEditMultilanguagePage',
            'url' => 'liveeditmultilanguagepage',
            'preview_layout_file' => 'clean.php',
+           'active_site_template'=> 'default',
            'is_active' => 1,
         ]);
 
@@ -29,9 +30,9 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
-                    'class'=>'edit main-content',
-                    'rel'=>'content',
-                    'field'=>'new-world_content',
+                    'class'=>'container edit',
+                    'rel'=>'module',
+                    'field'=>'content',
                 ],
                 'html'=>'Example content saved from live edit api'
             ]
@@ -54,9 +55,15 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
-        $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
-        $this->assertEquals($fieldSaved[0]['field'], 'new-world_content');
+        $this->assertEquals($fieldSaved[0]['rel_type'], 'module');
+        $this->assertEquals($fieldSaved[0]['field'], 'content');
 
+        $getEditedPageSource = $this->call(
+            'GET',
+            content_link($fingPage->id)
+        );
+
+      //  dd($getEditedPageSource);
 
 
 
