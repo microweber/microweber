@@ -532,7 +532,12 @@ class FormsManager
                 }
                 if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
                     foreach ($allowedFilesForSave as $fieldName => $file) {
-
+                        if(!is_array($file)){
+                            continue;
+                        }
+                        if(!isset($file['name'])){
+                            continue;
+                        }
                         $targetFileName = $target_path_name . '/' . $file['name'];
 
                         if (is_file($target_path . '/' . $file['name'])) {
