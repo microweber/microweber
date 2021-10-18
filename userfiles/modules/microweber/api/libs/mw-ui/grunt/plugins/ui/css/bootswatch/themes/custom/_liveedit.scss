@@ -37,6 +37,21 @@
     }
 }
 
+.mw-ui-box.mw-ui-navigation {
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background-color: $black!important;
+        li {
+            color: $secondary !important;
+
+            &:hover {
+                background-color: $primary!important;
+                border-color: $secondary!important;
+            }
+        }
+
+    }
+}
 .mw_editor_btn .ed-ico, .mw-dropdown-type-wysiwyg, .mw-single-arrow-dropdown > *  {
     color: $secondary!important;
 
