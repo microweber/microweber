@@ -730,7 +730,9 @@ input, .custom-select {
 
     &:hover {
         background: $primary!important;
+        color: $secondary!important;
     }
+
 }
 
 .mw-selectable-list > label, #save-menu-wrapper {
