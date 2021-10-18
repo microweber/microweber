@@ -20,6 +20,7 @@
 .input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
     background-color: $primary!important;
+    color: $secondary!important;
 
        &:hover {
            background-color: $primary!important;
@@ -115,7 +116,6 @@
 }
 
 
-
 #liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
     background: unset!important;
 
@@ -143,11 +143,50 @@
     background-color: $primary!important;
 }
 
+.tst-logo:hover {
+    background-color: $primary!important;
+
+}
 
 .wysiwyg-undo-redo {
-
     .mw-icon-reply, .mw-icon-forward {
         color: $secondary!important;
+        border-color: $primary!important;
     }
 }
 
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header {
+    background: $black!important;
+}
+
+.mw-ac-editor-nav > .mw-ui-btn-tab.active {
+    color: $primary!important;
+}
+
+.mw-ui-btn-tab.active {
+    border-bottom-color: $primary!important;
+    text-decoration: none;
+}
+
+
+.mw-ui-btn-tab:hover {
+    background-color: $primary!important;
+    color: white !important;
+}
+
+.mw-ui-label {
+    color: $secondary!important;
+}
+
+.mw-dialog-skin-default .mw-dialog-close {
+    border-color: $primary!important;
+
+    &:hover {
+        background: $primary!important;
+        color: $secondary!important;
+    }
+}
