@@ -26,8 +26,8 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
         add_supported_language('ar_SA', 'Arabic');
         add_supported_language('ru_RU', 'Russian');
 
-        $currentLang = current_lang();
-        $defaultLang = get_default_language();
+        $currentLang = app()->lang_helper->current_lang();
+        $defaultLang = app()->lang_helper->default_lang();
         $activeLanguages = get_supported_languages(true);
 
         $user = User::where('is_admin','=', '1')->first();
@@ -55,7 +55,7 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
         $this->assertEquals($findCategory->title, $saveMultilanguage['title'][$currentLang]);
 
         foreach ($activeLanguages as $language) {
-            $this->assertEquals($findCategory->multilanguage[$language['locale']]['url'], $saveMultilanguage['url'][$language['locale']]);
+            $this->assertEquals(strtolower($findCategory->multilanguage[$language['locale']]['url']), $saveMultilanguage['url'][$language['locale']]);
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['title'], $saveMultilanguage['title'][$language['locale']]);
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['description'], $saveMultilanguage['description'][$language['locale']]);
         }
