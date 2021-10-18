@@ -456,13 +456,14 @@ class FormsManager
 
                     if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
                         $fieldRules[] = 'required';
-                        $_FILES[$field['name_key']] = true;
+                      //  $_FILES[$field['name_key']] = true;
+                        $allowedFilesForSave[$field['name_key']] = true;
 
                     } else if (!isset($_FILES[$field['name_key']])) {
                         continue;
                     }
 
-                    $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+                 //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
 
                     $mimeTypes = [];
@@ -531,13 +532,22 @@ class FormsManager
                     mkdir_recursive($target_path);
                 }
                 if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
-                    foreach ($allowedFilesForSave as $fieldName => $file) {
+                    foreach ($allowedFilesForSave as $fieldName => $file_up) {
+
+
+                        if(!isset($_FILES[$fieldName])){
+                            continue;
+                        }
+
+                        $file =  $_FILES[$fieldName];
+
                         if(!is_array($file)){
                             continue;
                         }
                         if(!isset($file['name'])){
                             continue;
                         }
+
                         $targetFileName = $target_path_name . '/' . $file['name'];
 
                         if (is_file($target_path . '/' . $file['name'])) {
