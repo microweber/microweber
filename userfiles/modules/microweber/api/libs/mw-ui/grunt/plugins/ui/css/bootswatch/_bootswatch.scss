@@ -154,16 +154,16 @@ input,
   }
 }
 
-.nav {
-    li {
-
-        &:hover {
-            span, i {
-                color: $primary!important;
-            }
-        }
-    }
-}
+//.nav {
+//    li {
+//
+//        &:hover {
+//            span, i {
+//                color: $primary;
+//            }
+//        }
+//    }
+//}
 
 // Indicators ==================================================================
 
@@ -271,7 +271,7 @@ input,
 }
 
 .card-body, .card {
-    a , a.btn{
+    a , a.btn, a.text-dark:hover, a.text-dark:focus {
         color: $secondary!important;
     }
 
@@ -360,7 +360,7 @@ small, small.bg-secondary {
     color: $secondary!important;
 
      &:hover {
-        color: $black!important;
+        color: $secondary!important;
          //background-color: $primary;
     }
 
@@ -368,7 +368,7 @@ small, small.bg-secondary {
         color: $secondary!important;
 
         &:hover {
-            color: $primary!important;
+            color: $secondary!important;
             background-color: $primary;
             border-color: $primary;
 
@@ -391,8 +391,6 @@ small, small.bg-secondary {
 }
 
 
-
-
 .badge-pill {
     background: $textGray!important;
 }
@@ -408,9 +406,9 @@ small, small.bg-secondary {
     color: $secondary!important;
 
     &:hover, &:focus, &:active {
-        color: $white;
+        color: $secondary!important;
         text-decoration: none;
-        background-color: $primary;
+        background-color: $primary!important;
     }
 
 
@@ -677,6 +675,12 @@ input, .custom-select {
     background-color: $primary!important;
 }
 
+.btn-outline-success {
+    &:hover {
+        color: $secondary!important;
+    }
+}
+
 .js-post-box:hover {
     border-color: $primary!important;
 }
@@ -728,8 +732,20 @@ input, .custom-select {
     background: $white!important;
 }
 
-.mw-colorscheme-text-white {
-    color: $secondary!important;
+.admin-navigation-colorscheme {
+    a.text-dark:hover, a.text-dark:focus {
+            color: $primary!important;
+
+            .mw-colorscheme-text-white, .notif-label, i {
+                color: $primary!important;
+            }
+        }
+
+    .mw-colorscheme-text-white {
+        color: $secondary!important;
+    }
 }
+
+
 
 
