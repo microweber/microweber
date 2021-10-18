@@ -675,11 +675,10 @@ input, .custom-select {
     background: $white!important;
 }
 
-.btn-hover-style-3 .btn.active {
-    a{
+.btn-hover-style-3 .btn.btn-outline-secondary.active {
+
      color: $secondary!important;
 
-    }
 }
 
 .btn-hover-style-3 .btn:hover {
@@ -785,3 +784,10 @@ input, .custom-select {
     background-color: $primary!important;
 }
 
+.mw-modules-toolbar-back-button-holder {
+    &:hover {
+       a {
+        color: $primary;
+       }
+    }
+}
