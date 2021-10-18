@@ -35,12 +35,17 @@
             }
         }
 
-        #toolbar-dropdown-actions a {
-            color: $secondary !important;
-
-        }
 
     }
+}
+#toolbar-dropdown-actions {
+    a {
+        color: $secondary !important;
+        &:hover {
+            background-color: $primary!important;
+        }
+    }
+
 }
 
 
