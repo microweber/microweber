@@ -45,9 +45,11 @@
     }
 }
 
-.mw_editor_btn_active {
+.mw_editor_btn:hover, .mw_editor_btn_active, #liveedit_wysiwyg_main_prev:hover, #liveedit_wysiwyg_main_next:hover, #liveedit_wysiwyg_main_prev:focus, #liveedit_wysiwyg_main_next:focus {
     background: $primary!important;
     border-color: $primary!important;
+
+    color: $secondary!important;
 
 }
 
@@ -67,4 +69,9 @@
          }
      }
 }
+
+.mw-toolbar-add-new-content-ctrl i {
+    color: $secondary!important;
+}
+
 
