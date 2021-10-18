@@ -752,7 +752,7 @@ input, .custom-select {
 }
 
 
-.mw-domtree li > span {
+.mw-domtree li > span, .colorField, .mw-element-spacing-editor input {
     color: $secondary!important;
 }
 .mw_module_settings_sidebar_icon {
