@@ -308,7 +308,7 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row a, .comments-holder, .card-message-holder {
+.card-header, .card-body .row a, .comments-holder, .card-message-holder .card-body .row{
     &:hover {
          span, strong, i {
             color: $primary!important;
