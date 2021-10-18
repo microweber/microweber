@@ -46,8 +46,6 @@
     }
 }
 
-
-
 #toolbar-dropdown-actions{
     a {
         background-color: $body-bg!important;
@@ -56,7 +54,6 @@
             background-color: $primary!important;
         }
     }
-
 }
 
 
@@ -126,7 +123,7 @@
 .tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lslayout-tab {
     &:hover{
         i {
-            background-color: $primary!important;
+            border-color: $primary!important;
         }
     }
 }
@@ -134,5 +131,9 @@
 .mw_module_image_holder {
     background-color: $secondary!important;
     padding: 3px;
+}
+
+.mw-ese-holder {
+    background-color: $primary!important;
 }
 
