@@ -754,13 +754,10 @@ input, .custom-select {
 
 .mw-domtree li > span {
     color: $secondary!important;
-
-    &:hover {
-        background-color: $primary!important;
-    }
 }
 
 .mw-domtree li.selected > span {
     color: $secondary!important;
+    background: $primary!important;
 }
 
