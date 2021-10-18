@@ -314,6 +314,11 @@ i.mdi {
             color: $primary!important;
 
         }
+
+        .mdi.mdi-magnify {
+            color: $secondary!important;
+        }
+
     }
 }
 
@@ -791,3 +796,4 @@ input, .custom-select {
        }
     }
 }
+
