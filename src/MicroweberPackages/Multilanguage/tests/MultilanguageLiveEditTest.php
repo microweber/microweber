@@ -51,8 +51,14 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
             [],//files
             $_SERVER //server
         );
+        $fieldSaved = $response->getData();
 
-        dd($response->getContent());
+        $this->assertEquals($fieldSaved[0]['id'], $fingPage->id);
+        $this->assertEquals($fieldSaved[0]['rel_id'], $fingPage->id);
+        $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
+        $this->assertEquals($fieldSaved[0]['rel_type'], 'new-world_content');
+
+
 
     }
 }
