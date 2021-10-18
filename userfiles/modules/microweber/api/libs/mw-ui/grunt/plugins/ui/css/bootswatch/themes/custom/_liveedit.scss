@@ -37,11 +37,11 @@
     }
 }
 
-.create-content-dropdown {
+.toolbar-sections-tabs {
      .mw-dropdown-list {
          border-color: $black!important;
          background: $black!important;
-         li {
+         li, a {
              color: $secondary !important;
 
              &:hover {
