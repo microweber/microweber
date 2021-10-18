@@ -310,9 +310,8 @@ i.mdi {
 
 .card-header, .card-body .row a, .comments-holder, .card-message-holder .card-body .row{
     &:hover {
-         span, strong, i {
+            strong, i {
             color: $primary!important;
-
         }
 
         .mdi.mdi-magnify {
@@ -322,10 +321,12 @@ i.mdi {
     }
 }
 
+.quick-links span:hover {
+    color: $primary!important;
+}
+
 .card-header i.mdi {
     color: $primary;
-
-
 }
 
 .main aside > ul > li.nav-item > a {
@@ -388,7 +389,7 @@ small, small.bg-secondary {
     }
 }
 
-.dashboard-recent {
+.dashboard-recent, .module-contact-form-dashboard-recent-messages {
     color: $secondary!important;
 
      a {
@@ -804,4 +805,12 @@ input, .custom-select {
 
 .card.style-1 .card-header-fix .card-header.post-header-content-changed {
     background-color: $body-bg!important;
+    border: 1px solid $primary!important;
 }
+
+
+.mw-select-display-value.mw-ui-size-normal {
+
+    color: $secondary!important;
+}
+
