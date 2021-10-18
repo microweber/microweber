@@ -20,15 +20,14 @@
                         <input type="file" name="<?php echo $data["name_key"]; ?>" class="custom-file-input custom-file-input-<?php echo($rand); ?>" id="customFile<?php echo($rand); ?>">
                         <label class="custom-file-label custom-file-label-<?php echo($rand); ?>" for="customFile<?php echo($rand); ?>"><i class="mdi mdi-upload"></i> <?php _e("Browse"); ?></label>
                     </div>
-
-                    <div class="alert alert-success mt-3" style="display: none;" id="val_<?php echo $rand; ?>"></div>
-                </div>
+                    <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
+                    <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
+                 </div>
             </div>
         </div>
     </div>
 
-    <div class="alert alert-danger" id="upload_err<?php echo($rand); ?>" style="display:none;"></div>
-</div>
+ </div>
 
 <script>
     $(document).ready(function (){
