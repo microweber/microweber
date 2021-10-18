@@ -1,4 +1,7 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper, .mw-ui-box-content
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right,
+.mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper,
+.mw-ui-box-content, #modules-and-layouts-sidebar .mw-live-edit-sidebar-iframe-holder,
+#modules-and-layouts-sidebar .mw-scroll-box
 {
     background-color: $body-bg!important;
 }
@@ -122,5 +125,12 @@
         }
     }
 }
+
+.mw_module_image_holder {
+    background-color: $secondary!important;
+    padding: 6px;
+    border-radius: 40px;
+}
+
 
 
