@@ -63,6 +63,20 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
         }
 
         // Switch to another language
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => 'bg_BG',
+            ]
+        );
+        $this->assertEquals('bg_BG', app()->lang_helper->current_lang());
+        $response = $response->decodeResponseJson();
+        $this->assertEquals($response['refresh'],true);
+
+        $findCategory = Category::where('id',$categorySaved->id)->first();
+
+     //   dd($findCategory->title);
 
 
     }
