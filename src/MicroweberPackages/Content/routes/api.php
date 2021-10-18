@@ -13,6 +13,10 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
+        Route::post('save_edit', function (\Illuminate\Http\Request $request) {
+            return save_edit($request->all());
+        })->name('content.save_edit');
+
         Route::get('content/get_admin_js_tree_json', function(\Illuminate\Http\Request $request){
             return mw()->category_manager->get_admin_js_tree_json($request->all());
         });
