@@ -755,6 +755,13 @@ input, .custom-select {
 .mw-domtree li > span {
     color: $secondary!important;
 }
+.mw_module_settings_sidebar_icon {
+    background-color: $secondary!important;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
 
 .mw-domtree li.selected > span {
     color: $secondary!important;
