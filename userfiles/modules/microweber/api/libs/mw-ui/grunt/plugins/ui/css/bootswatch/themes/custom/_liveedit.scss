@@ -40,9 +40,13 @@
 .mw_editor_btn .ed-ico, .mw-dropdown-type-wysiwyg  {
     color: $secondary!important;
 
-    &:hover, &:focus, &:active {
+    &:hover, &:focus, &:active,  {
         background: $primary!important;
     }
+}
+
+.mw_editor_btn_active {
+    background: $primary!important;
 }
 
 .toolbar-sections-tabs {
