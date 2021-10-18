@@ -16,12 +16,14 @@ mw.errorsHandle = function (obj) {
 
     }
     obj.errors = obj.errors || obj.form_errors;
+    if(!obj.errors) {
+        $('.invalid-feedback').hide();
+        $('.valid-feedback').hide();
+    }
     if(obj.errors) {
         var html = [];
         for (var key in obj.errors) {
-
             var bsel = $('.custom-file-input[name="' + key + '"], .form-control[name="' + key + '"]').last()[0]
-
             if(!bsel) {
                 var err = obj.errors[key].map ? obj.errors[key][0] : obj.errors[key];
                 html.push(err);
@@ -34,11 +36,13 @@ mw.errorsHandle = function (obj) {
                     errorsHandlePrev.push(next);
                 }
                 next.style.display = 'block';
+
+                $(next).css('display','block');
                 next.innerHTML = obj.errors[key];
             }
         }
         if (html.length) {
-            console.log(html)
+     
             mw.notification.warning(html.join('<br>'))
         }
     }

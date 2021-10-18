@@ -406,6 +406,7 @@ class FormsManager
             $cfToSave = $params;
         }
 
+        $validationErrorsReturn = [];
         if (!empty($requiredFields)) {
 
             $validator = Validator::make($params, $requiredFields);
@@ -416,7 +417,7 @@ class FormsManager
                     $validatorMessages = implode("\n",$inputFieldErros);
                     //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
                 }
-                return array(
+                $validationErrorsReturn = array(
                     'form_errors' => $validator->messages()->toArray(),
                     'error' => $validatorMessages
                 );
@@ -507,6 +508,7 @@ class FormsManager
                 }
             }
 
+
             // Validation is ok
             if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
 
@@ -517,10 +519,18 @@ class FormsManager
                     foreach ($validator->messages()->toArray() as $inputFieldErros) {
                         $validatorMessages = reset($inputFieldErros);
                     }
-                    return array(
+                    $validationErrorsReturn_upload = array(
                         'form_errors' => $validator->messages()->toArray(),
                         'error' => $validatorMessages
                     );
+
+                    if($validationErrorsReturn){
+                        $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
+                    } else {
+                        $validationErrorsReturn = $validationErrorsReturn_upload;
+                    }
+
+                    return $validationErrorsReturn;
                 }
 
                 if (isset($params['module_name'])) {
@@ -588,6 +598,8 @@ class FormsManager
                         }
                     }
                 }
+            } else  if($validationErrorsReturn)  {
+                return $validationErrorsReturn;
             }
 
             // End of attachments
