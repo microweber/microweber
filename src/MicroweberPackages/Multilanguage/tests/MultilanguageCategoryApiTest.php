@@ -53,9 +53,11 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
         $findCategory = Category::where('id',$categorySaved->id)->first();
 
         $this->assertEquals($findCategory->title, $saveMultilanguage['title'][$currentLang]);
+        $this->assertEquals($findCategory->url, str_slug($saveMultilanguage['url'][$currentLang]));
+        $this->assertEquals($findCategory->description, $saveMultilanguage['description'][$currentLang]);
 
         foreach ($activeLanguages as $language) {
-            $this->assertEquals(strtolower($findCategory->multilanguage[$language['locale']]['url']), $saveMultilanguage['url'][$language['locale']]);
+            $this->assertEquals($findCategory->multilanguage[$language['locale']]['url'], str_slug($saveMultilanguage['url'][$language['locale']]));
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['title'], $saveMultilanguage['title'][$language['locale']]);
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['description'], $saveMultilanguage['description'][$language['locale']]);
         }
