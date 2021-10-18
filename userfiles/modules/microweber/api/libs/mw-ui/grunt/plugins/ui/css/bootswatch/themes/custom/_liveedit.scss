@@ -1,7 +1,14 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right {
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right,
+.mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper,
+.mw-ui-box-content, #modules-and-layouts-sidebar .mw-live-edit-sidebar-iframe-holder,
+#modules-and-layouts-sidebar .mw-scroll-box
+{
     background-color: $body-bg!important;
 }
 
+.mw-live-edit-tab-title h6 {
+    color: $secondary!important;
+}
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     background-color: $primary!important;
@@ -38,8 +45,12 @@
 
     }
 }
-#toolbar-dropdown-actions {
+
+
+
+#toolbar-dropdown-actions{
     a {
+        background-color: $body-bg!important;
         color: $secondary !important;
         &:hover {
             background-color: $primary!important;
@@ -82,9 +93,18 @@
      }
 }
 
-.mw-toolbar-add-new-content-ctrl i {
+.mw-toolbar-add-new-content-ctrl i, .mw-liveedit-sidebar-h2 {
     color: $secondary!important;
 }
+
+.mw-liveedit-layouts-li:hover {
+    background-color: $primary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2:hover:after {
+    border-color: $secondary!important;
+}
+
 
 
 #liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
@@ -92,3 +112,26 @@
 
 }
 
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i, #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
+    background-color: $primary!important;
+}
+
+.tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lslayout-tab {
+    &:hover{
+        i {
+            background-color: $primary!important;
+        }
+    }
+}
+
+.mw_module_image_holder {
+    background-color: $secondary!important;
+    padding: 6px;
+    border-radius: 40px;
+}
+
+#background-image-nav {
+    i.mdi {
+        color: $secondary!important;
+    }
+}

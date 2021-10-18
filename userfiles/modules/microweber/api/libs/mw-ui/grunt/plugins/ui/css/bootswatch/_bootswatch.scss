@@ -752,5 +752,19 @@ input, .custom-select {
 }
 
 
+.mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
+    color: $secondary!important;
+}
+.mw_module_settings_sidebar_icon {
+    background-color: $secondary!important;
+    border-radius: 5px;
+    padding: 5px;
+}
 
+
+
+.mw-domtree li.selected > span {
+    color: $secondary!important;
+    background: $primary!important;
+}
 
