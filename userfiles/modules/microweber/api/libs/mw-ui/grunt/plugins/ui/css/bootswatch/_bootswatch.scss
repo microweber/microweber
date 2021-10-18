@@ -761,10 +761,6 @@ input, .custom-select {
 }
 
 .mw-domtree li.selected > span {
-    background-color: $primary!important;
     color: $secondary!important;
 }
-.mw-domtree-item:hover {
-    background-color: $primary!important;
 
-}
