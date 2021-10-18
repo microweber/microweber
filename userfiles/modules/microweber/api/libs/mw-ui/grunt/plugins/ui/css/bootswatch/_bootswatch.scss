@@ -797,3 +797,11 @@ input, .custom-select {
     }
 }
 
+.card.style-1 .card-header-fix .card-header {
+
+    background-color: $black;
+}
+
+.card.style-1 .card-header-fix .card-header.post-header-content-changed {
+    background-color: $body-bg!important;
+}
