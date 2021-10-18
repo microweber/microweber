@@ -1,7 +1,14 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right {
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right,
+.mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper,
+.mw-ui-box-content, #modules-and-layouts-sidebar .mw-live-edit-sidebar-iframe-holder,
+#modules-and-layouts-sidebar .mw-scroll-box
+{
     background-color: $body-bg!important;
 }
 
+.mw-live-edit-tab-title h6 {
+    color: $secondary!important;
+}
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     background-color: $primary!important;
@@ -13,6 +20,7 @@
 .input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
     background-color: $primary!important;
+    color: $secondary!important;
 
        &:hover {
            background-color: $primary!important;
@@ -38,14 +46,15 @@
 
     }
 }
-#toolbar-dropdown-actions {
+
+#toolbar-dropdown-actions{
     a {
+        background-color: $body-bg!important;
         color: $secondary !important;
         &:hover {
             background-color: $primary!important;
         }
     }
-
 }
 
 
@@ -82,8 +91,28 @@
      }
 }
 
-.mw-toolbar-add-new-content-ctrl i {
+.mw-toolbar-add-new-content-ctrl i, .mw-liveedit-sidebar-h2 {
     color: $secondary!important;
+}
+
+.mw-liveedit-layouts-li {
+    &:hover, &:active, &:focus {
+        background-color: $primary !important;
+    }
+}
+
+.mw-liveedit-sidebar-background-active {
+    background-color: $primary !important;
+    border-color: $secondary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2.mw-liveedit-sidebar-background-active:after {
+    background-color: $primary !important;
+    border-color: $secondary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2:hover:after {
+    border-color: $secondary!important;
 }
 
 
@@ -92,3 +121,72 @@
 
 }
 
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i, #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
+    background-color: $primary!important;
+}
+
+.tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lslayout-tab {
+    &:hover{
+        i {
+            border: 1px solid $primary!important;
+            background-color: transparent!important;
+        }
+    }
+}
+
+.mw_module_image_holder {
+    background-color: $secondary!important;
+    padding: 3px;
+}
+
+.mw-ese-holder {
+    background-color: $primary!important;
+}
+
+.tst-logo:hover {
+    background-color: $primary!important;
+
+}
+
+.wysiwyg-undo-redo {
+    .mw-icon-reply, .mw-icon-forward {
+        color: $secondary!important;
+        border-color: $primary!important;
+    }
+}
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header {
+    background: $black!important;
+}
+
+.mw-ac-editor-nav > .mw-ui-btn-tab.active {
+    color: $primary!important;
+}
+
+.mw-ui-btn-tab.active {
+    border-bottom-color: $primary!important;
+    text-decoration: none;
+}
+
+
+.mw-ui-btn-tab:hover {
+    background-color: $primary!important;
+    color: white !important;
+}
+
+.mw-ui-label {
+    color: $secondary!important;
+}
+
+.mw-dialog-skin-default .mw-dialog-close, .mw-icon-close {
+    border-color: $primary!important;
+
+    &:hover {
+        background: $primary!important;
+        color: $secondary!important;
+    }
+}

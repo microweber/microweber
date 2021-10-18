@@ -30,14 +30,14 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
         $defaultLang = app()->lang_helper->default_lang();
         $activeLanguages = get_supported_languages(true);
 
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         $saveMultilanguage = [];
         foreach ($activeLanguages as $language) {
-            $timeRand = time() . rand(111,999);
+            $timeRand = time() . rand(111, 999);
             $saveMultilanguage['title'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
-            $saveMultilanguage['url'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
+            $saveMultilanguage['url'][$language['locale']] = $language['id'] . $timeRand;
             $saveMultilanguage['description'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
         }
 
@@ -50,16 +50,38 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
             ]
         );
         $categorySaved = $response->getData()->data;
-        $findCategory = Category::where('id',$categorySaved->id)->first();
+        $findCategory = Category::where('id', $categorySaved->id)->first();
 
         $this->assertEquals($findCategory->title, $saveMultilanguage['title'][$currentLang]);
+        $this->assertEquals($findCategory->url, $saveMultilanguage['url'][$currentLang]);
+        $this->assertEquals($findCategory->description, $saveMultilanguage['description'][$currentLang]);
 
         foreach ($activeLanguages as $language) {
-            $this->assertEquals(strtolower($findCategory->multilanguage[$language['locale']]['url']), $saveMultilanguage['url'][$language['locale']]);
+            $this->assertEquals($findCategory->multilanguage[$language['locale']]['url'], $saveMultilanguage['url'][$language['locale']]);
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['title'], $saveMultilanguage['title'][$language['locale']]);
             $this->assertEquals($findCategory->multilanguage[$language['locale']]['description'], $saveMultilanguage['description'][$language['locale']]);
         }
 
-    }
+        // Switch to another language
+        $switchedLangAbr = 'bg_BG';
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => $switchedLangAbr,
+            ]
+        );
 
+        $switchedLang = app()->lang_helper->current_lang();
+        $this->assertEquals($switchedLangAbr, $switchedLang);
+        $response = $response->decodeResponseJson();
+        $this->assertEquals($response['refresh'], true);
+
+        $getByCategory = get_category_by_id($findCategory->id);
+
+        $this->assertEquals($getByCategory['title'], $saveMultilanguage['title'][$switchedLang]);
+        $this->assertEquals($getByCategory['url'], $saveMultilanguage['url'][$switchedLang]);
+        $this->assertEquals($getByCategory['description'], $saveMultilanguage['description'][$switchedLang]);
+
+    }
 }

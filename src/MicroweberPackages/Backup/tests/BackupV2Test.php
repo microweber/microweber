@@ -140,6 +140,8 @@ class BackupV2Test extends TestCase
 			return;
 		}
 
+        $this->assertFalse(empty($posts));
+
 		foreach($posts->toArray() as $post) {
 			if (array_key_exists($post['url'], $urls)) {
 				$this->assertSame($urls[$post['url']]['title'], $post['title']);

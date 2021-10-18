@@ -730,7 +730,9 @@ input, .custom-select {
 
     &:hover {
         background: $primary!important;
+        color: $secondary!important;
     }
+
 }
 
 .mw-selectable-list > label, #save-menu-wrapper {
@@ -752,5 +754,27 @@ input, .custom-select {
 }
 
 
+.mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
+    color: $secondary!important;
+}
+.mw_module_settings_sidebar_icon {
+    background-color: $secondary!important;
+    border-radius: 5px;
+    padding: 5px;
+}
 
+
+
+.mw-domtree li.selected > span {
+    color: $secondary!important;
+    background: $primary!important;
+}
+
+#background-image-nav .mw-ui-btn .mdi {
+    color: $secondary!important;
+
+}
+.text-align .active, .mw-ese-holder {
+    background-color: $primary!important;
+}
 
