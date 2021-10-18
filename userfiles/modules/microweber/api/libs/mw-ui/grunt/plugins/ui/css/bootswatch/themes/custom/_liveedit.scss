@@ -22,9 +22,10 @@
 }
 .mw-dropdown, .mw-ui-dropdown {
 
-    .mw-dropdown-content {
+    .mw-dropdown-content, .mw-ui-box.mw-ui-navigation {
         border-color: $black!important;
         background-color: $black!important;
+
         li {
             color: $secondary !important;
 
@@ -32,6 +33,11 @@
                 background-color: $primary!important;
                 border-color: $secondary!important;
             }
+        }
+
+        #toolbar-dropdown-actions a {
+            color: $secondary !important;
+
         }
 
     }
