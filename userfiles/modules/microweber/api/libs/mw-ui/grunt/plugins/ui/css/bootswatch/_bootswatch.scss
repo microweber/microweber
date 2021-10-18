@@ -580,14 +580,15 @@ input.mw-ui-invisible-field {
 
 .input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
-        background: $primary!important;
-    }
+    background: $primary!important;
+
 
     .mw-dropdown-content {
         border-color: $black!important;
         background: $black!important;
         li {
-            color: $secondary!important;
+            color: $secondary !important;
+        }
 
     }
 }
