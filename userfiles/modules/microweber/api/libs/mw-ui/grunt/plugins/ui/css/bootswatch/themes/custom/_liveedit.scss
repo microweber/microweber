@@ -132,18 +132,3 @@
     border-radius: 40px;
 }
 
-
-
-.mw-domtree li > span {
-    color: $secondary!important;
-
-    &:hover {
-        background-color: $primary!important;
-    }
-}
-
-.mw-domtree li.selected > span {
-    background-color: $primary!important;
-    color: $secondary!important;
-}
-
