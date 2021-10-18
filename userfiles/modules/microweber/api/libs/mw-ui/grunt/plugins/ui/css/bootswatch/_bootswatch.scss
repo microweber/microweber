@@ -301,7 +301,7 @@ a.active i {
 }
 
 i.mdi.active, i.mdi:hover {
-    color: $primary!important;
+    color: $primary;
 }
 
 i.mdi {
@@ -332,7 +332,7 @@ i.mdi {
     }
 }
 
-.main aside > ul > li.nav-item > i {
+.main aside > ul > li.nav-item > i.mdi {
     &:hover {
         color: $secondary!important;
     }
