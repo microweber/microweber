@@ -25,6 +25,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $fingPage = Page::whereId($newCleanMlPage)->first();
         $this->assertEquals($fingPage->id, $newCleanMlPage);
 
+        // save on default lang
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -51,12 +52,11 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
             [],//files
             $_SERVER //server
         );
-        $fieldSaved = (array) $response->getData();
+        $fieldSaved = $response->decodeResponseJson();
 
-        $this->assertEquals($fieldSaved[0]['id'], $fingPage->id);
-        $this->assertEquals($fieldSaved[0]['rel_id'], $fingPage->id);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
-        $this->assertEquals($fieldSaved[0]['rel_type'], 'new-world_content');
+        $this->assertEquals($fieldSaved[0]['field'], 'new-world_content');
+
 
 
 
