@@ -1,4 +1,5 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right {
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title
+{
     background-color: $body-bg!important;
 }
 
@@ -91,4 +92,5 @@
     background: unset!important;
 
 }
+
 
