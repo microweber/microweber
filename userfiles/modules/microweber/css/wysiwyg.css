@@ -70,7 +70,7 @@
     cursor: pointer;
     height: 25px;
     padding: 1px;
-    border-radius: 1px;
+    border-radius: 3px;
     position: relative;
 }
 
@@ -99,8 +99,7 @@
 }
 
 .mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyg-convertible-toggler.active {
-    border: 1px solid #dadada;
-    padding: 0;
+
     background: #fff;
 }
 
@@ -114,8 +113,7 @@
 .mw_editor_btn.disabled.mw_editor_btn_mousedown:hover {
     cursor: default;
     background: none;
-    border-color: transparent;
-    box-shadow: none;
+     box-shadow: none;
 }
 
 .mw_editor_btn_active {
@@ -273,11 +271,11 @@
 .mw-dropdown-type-wysiwyg {
     height: 25px;
     float: left;
-    border: 1px solid transparent;
     color: #595959;
     white-space: nowrap;
     border-radius: 3px;
     cursor: pointer;
+    transition: background-color .2s,  box-shadow .2s;
 
 }
 .mw-dropdown-type-wysiwyg.disabled{
@@ -404,6 +402,8 @@
     top: 100%;
     padding: 0;
     margin-left: -1px;
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-content ul {

@@ -336,7 +336,6 @@
 
                         curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
                         mw.top().wysiwyg.bgQuotesFix(curr);
-                        //mw.top().trigger('nodeBackgroundChanged', [curr, b])
                       }
                     }
                   }
@@ -577,15 +576,12 @@
                 mw.image.preload(mw.image.current.src, function (w, h) {
                     SelectedImage.style.width = w + 'px';
                     SelectedImage.style.height = 'auto';
-                    // mw.parent().wysiwyg.normalizeBase64Image(theImage);
-                    if(window.thismodal) {
+                     if(window.thismodal) {
                         thismodal.remove()
                     }
 
                 });
             }
-
-            mw.parent().wysiwyg.normalizeBase64Image(SelectedImage);
 
             var link_url = ($("#link").val() || '').trim();
             if (!link_url){
