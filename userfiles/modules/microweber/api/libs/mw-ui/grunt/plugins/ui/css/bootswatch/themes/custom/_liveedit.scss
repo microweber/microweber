@@ -19,19 +19,20 @@
            border-color: $secondary!important;
        }
 
+}
+.mw-dropdown {
+
     .mw-dropdown-content {
         border-color: $black!important;
         background: $black!important;
         li {
             color: $secondary !important;
-            
+
             &:hover {
                 background: $primary!important;
                 border-color: $secondary!important;
             }
         }
-
-
 
     }
 }
