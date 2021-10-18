@@ -15,7 +15,8 @@ class MultilanguageFieldsTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
-            $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
+            $browser->visit($siteUrl . 'admin/login');
+            $browser->pause(1000);
 
             // Login to admin panel
             $browser->type('username', '1');
