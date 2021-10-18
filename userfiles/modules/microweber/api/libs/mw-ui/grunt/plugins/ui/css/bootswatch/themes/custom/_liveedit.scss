@@ -97,8 +97,15 @@
     color: $secondary!important;
 }
 
-.mw-liveedit-layouts-li:hover {
-    background-color: $primary!important;
+.mw-liveedit-layouts-li {
+    &:hover, &:active, &:focus {
+        background-color: $primary !important;
+    }
+}
+
+.mw-liveedit-sidebar-background-active {
+    background-color: $primary !important;
+
 }
 
 .mw-ui-box-header-2.mw-accordion-title-2:hover:after {
@@ -126,7 +133,6 @@
 
 .mw_module_image_holder {
     background-color: $secondary!important;
-    padding: 6px;
-    border-radius: 40px;
+    padding: 3px;
 }
 
