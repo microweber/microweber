@@ -463,6 +463,8 @@ class FormsManager
                         continue;
                     }
 
+                    $allowedFilesForSave[$field['name_key']] = true;
+
                  //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
 
