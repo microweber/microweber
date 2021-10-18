@@ -1,8 +1,11 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title, .modules-list list-elements
 {
     background-color: $body-bg!important;
 }
 
+.mw-live-edit-tab-title h6 {
+    color: $secondary!important;
+}
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     background-color: $primary!important;
