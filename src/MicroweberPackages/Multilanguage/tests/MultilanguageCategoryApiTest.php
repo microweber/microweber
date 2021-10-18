@@ -1,0 +1,65 @@
+<?php
+namespace MicroweberPackages\Multilanguage\tests;
+
+
+use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\User\Models\User;
+
+class MultilanguageCategoryApiTest extends MultilanguageTestBase
+{
+
+    public function testSave()
+    {
+        MultilanguageHelpers::setMultilanguageEnabled(1);
+
+        $params = [
+            'for_module' => 'multilanguage'
+        ];
+        app()->module_manager->set_installed($params);
+        $test = app()->module_manager->is_installed($params['for_module']);
+        $this->assertEquals(true, $test);
+
+        add_supported_language('en_US', 'English');
+        add_supported_language('bg_BG', 'Bulgarian');
+        add_supported_language('ar_SA', 'Arabic');
+        add_supported_language('ru_RU', 'Russian');
+
+        $currentLang = current_lang();
+        $defaultLang = get_default_language();
+        $activeLanguages = get_supported_languages(true);
+
+        $user = User::where('is_admin','=', '1')->first();
+        Auth::login($user);
+
+        $saveMultilanguage = [];
+        foreach ($activeLanguages as $language) {
+            $timeRand = time() . rand(111,999);
+            $saveMultilanguage['title'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
+            $saveMultilanguage['url'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
+            $saveMultilanguage['description'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
+        }
+
+        $response = $this->call(
+            'POST',
+            route('api.category.store'),
+            [
+                'title' => 'TitleApiCategoryStore', // this text must be overrwrite from multilanguage field
+                'multilanguage' => $saveMultilanguage,
+            ]
+        );
+        $categorySaved = $response->getData()->data;
+        $findCategory = Category::where('id',$categorySaved->id)->first();
+
+        $this->assertEquals($findCategory->title, $saveMultilanguage['title'][$currentLang]);
+
+        foreach ($activeLanguages as $language) {
+            $this->assertEquals($findCategory->multilanguage[$language['locale']]['url'], $saveMultilanguage['url'][$language['locale']]);
+            $this->assertEquals($findCategory->multilanguage[$language['locale']]['title'], $saveMultilanguage['title'][$language['locale']]);
+            $this->assertEquals($findCategory->multilanguage[$language['locale']]['description'], $saveMultilanguage['description'][$language['locale']]);
+        }
+
+    }
+
+}
