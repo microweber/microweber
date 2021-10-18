@@ -114,8 +114,6 @@
 
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i, #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
     background-color: $primary!important;
-
-
 }
 
 .tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lslayout-tab {
@@ -132,3 +130,8 @@
     border-radius: 40px;
 }
 
+#background-image-nav {
+    i.mdi {
+        color: $secondary!important;
+    }
+}
