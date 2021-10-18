@@ -1,4 +1,4 @@
-#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title, .modules-list.list-elements
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right, .mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper
 {
     background-color: $body-bg!important;
 }
@@ -42,8 +42,12 @@
 
     }
 }
-#toolbar-dropdown-actions {
+
+
+
+#toolbar-dropdown-actions{
     a {
+        background-color: $body-bg!important;
         color: $secondary !important;
         &:hover {
             background-color: $primary!important;
@@ -95,7 +99,7 @@
 }
 
 .mw-ui-box-header-2.mw-accordion-title-2:hover:after {
-    border-color: $primary!important;
+    border-color: $secondary!important;
 }
 
 
@@ -103,6 +107,21 @@
 #liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
     background: unset!important;
 
+}
+
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i, #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
+    background-color: $primary!important;
+
+
+}
+
+.tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lsmodules-tab {
+    &:hover{
+        i {
+            background-color: $primary!important;
+        }
+
+    }
 }
 
 
