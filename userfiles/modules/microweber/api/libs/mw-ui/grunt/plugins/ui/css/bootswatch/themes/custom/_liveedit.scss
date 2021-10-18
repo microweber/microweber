@@ -130,8 +130,7 @@
     border-radius: 40px;
 }
 
-#background-image-nav {
-    i.mdi {
-        color: $secondary!important;
-    }
+#background-image-nav .mw-ui-btn .mdi {
+    color: $secondary!important;
+
 }
