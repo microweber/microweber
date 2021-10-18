@@ -86,9 +86,18 @@
      }
 }
 
-.mw-toolbar-add-new-content-ctrl i {
+.mw-toolbar-add-new-content-ctrl i, .mw-liveedit-sidebar-h2 {
     color: $secondary!important;
 }
+
+.mw-liveedit-layouts-li:hover {
+    background-color: $primary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2:hover:after {
+    border-color: $primary!important;
+}
+
 
 
 #liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
