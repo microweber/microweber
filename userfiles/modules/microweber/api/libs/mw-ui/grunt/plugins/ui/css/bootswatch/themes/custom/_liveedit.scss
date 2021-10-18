@@ -37,7 +37,7 @@
     }
 }
 
-.mw_editor_btn .ed-ico, .mw-dropdown-type-wysiwyg  {
+.mw_editor_btn .ed-ico, .mw-dropdown-type-wysiwyg, .mw-single-arrow-dropdown > *  {
     color: $secondary!important;
 
     &:hover, &:focus, &:active  {
@@ -76,7 +76,7 @@
 
 
 #liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
-    background-color: unset!important;
+    background: unset!important;
 
 }
 
