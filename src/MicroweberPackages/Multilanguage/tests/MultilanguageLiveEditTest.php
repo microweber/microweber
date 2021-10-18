@@ -51,7 +51,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
             [],//files
             $_SERVER //server
         );
-        $fieldSaved = $response->getData();
+        $fieldSaved = (array) $response->getData();
 
         $this->assertEquals($fieldSaved[0]['id'], $fingPage->id);
         $this->assertEquals($fieldSaved[0]['rel_id'], $fingPage->id);
