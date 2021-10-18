@@ -326,9 +326,11 @@ i.mdi {
 .main aside > ul > li.nav-item > a {
     color: $secondary!important;
 
-    //&:hover {
-    //    background: $primary!important;
-    //}
+    &:hover {
+        background: $primary!important;
+        color: $secondary!important;
+    }
+
 }
 
 .dropdown-item {
