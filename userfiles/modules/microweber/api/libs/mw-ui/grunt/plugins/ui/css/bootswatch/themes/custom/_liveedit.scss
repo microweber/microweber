@@ -182,7 +182,7 @@
     color: $secondary!important;
 }
 
-.mw-dialog-skin-default .mw-dialog-close {
+.mw-dialog-skin-default .mw-dialog-close, .mw-icon-close {
     border-color: $primary!important;
 
     &:hover {
