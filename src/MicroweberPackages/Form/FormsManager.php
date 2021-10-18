@@ -412,7 +412,9 @@ class FormsManager
             if ($validator->fails()) {
                 $validatorMessages = false;
                 foreach ($validator->messages()->toArray() as $inputFieldErros) {
-                    $validatorMessages = reset($inputFieldErros);
+                   // $validatorMessages = reset($inputFieldErros);
+                    $validatorMessages = implode("\n",$inputFieldErros);
+                    //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
                 }
                 return array(
                     'form_errors' => $validator->messages()->toArray(),

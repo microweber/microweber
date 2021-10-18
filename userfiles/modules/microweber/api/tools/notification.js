@@ -19,8 +19,10 @@ mw.errorsHandle = function (obj) {
     if(obj.errors) {
         var html = [];
         for (var key in obj.errors) {
-            var bsel = document.querySelector('.form-control[name="' + key + '"]');
-             if(!bsel) {
+
+            var bsel = $('.custom-file-input[name="' + key + '"], .form-control[name="' + key + '"]').last()[0]
+
+            if(!bsel) {
                 var err = obj.errors[key].map ? obj.errors[key][0] : obj.errors[key];
                 html.push(err);
             } else if ( bsel ) {
