@@ -837,3 +837,13 @@ input, .custom-select {
 .js-search-by-keywords-input {
     padding-left: 5px!important;
 }
+
+.mw-select-display-value {
+    color: $secondary!important;
+}
+
+.mw-select.mw-select-dropmode-over.active {
+    .mw-select-display-value {
+        color: $secondary!important;
+    }
+}
