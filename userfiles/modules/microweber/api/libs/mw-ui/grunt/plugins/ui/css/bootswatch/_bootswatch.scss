@@ -377,6 +377,10 @@ h1,h2,h3,h4,h5,h6, label, div, a span, small, small a.btn, button, .form-control
     border-color: $primary!important;
  }
 
+ .btn.btn-text {
+     border: none!important;
+ }
+
 
 small, small.bg-secondary {
     background-color: transparent!important;
@@ -834,7 +838,7 @@ input, .custom-select {
     }
 }
 
-.js-search-by-keywords-input {
+.prepend-transparent .form-control{
     padding-left: 5px!important;
 }
 
@@ -842,8 +846,21 @@ input, .custom-select {
     color: $secondary!important;
 }
 
+.mw-custom-field-icon-text, .mw-custom-field-icon-price, .mw-custom-field-title {
+    color: $secondary!important;
+
+}
+
 .mw-select.mw-select-dropmode-over.active {
     .mw-select-display-value {
         color: $secondary!important;
+    }
+}
+
+.module-users-profile-my-profile-admin {
+    a:hover {
+       i.mdi {
+            color: $secondary!important;
+        }
     }
 }
