@@ -865,7 +865,12 @@ input, .custom-select {
     }
 }
 
-
 .btn.btn-link:hover {
     color: $primary!important;
+}
+
+.module-users-login {
+    .text-dark {
+        color: $secondary!important;
+    }
 }
