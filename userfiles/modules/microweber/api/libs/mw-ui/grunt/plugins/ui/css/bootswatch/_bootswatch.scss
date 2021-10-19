@@ -743,14 +743,12 @@ input, .custom-select {
     background-color: $black!important;
 }
 
-#mw-template-settings {
-     .mw-accordion-title.mw-ui-box-header {
-         border: 1px solid rgba(219, 219, 191, 0.16)!important;
-     }
+ .mw-accordion-title.mw-ui-box-header {
+     border: 1px solid rgba(219, 219, 191, 0.16)!important;
+ }
 
-     .mw-accordion-title.mw-ui-box-header.active {
-         border-color: $primary!important;
-     }
+ .mw-accordion-title.mw-ui-box-header.active {
+     border-color: $primary!important;
  }
 
 .mw-editor-area, .mw-bar-row,.deactivated:before {
