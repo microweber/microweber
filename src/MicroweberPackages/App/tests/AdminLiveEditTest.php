@@ -9,7 +9,7 @@ use MicroweberPackages\User\Models\User;
 
 class AdminLiveEditTest extends TestCase
 {
-    public function testSaveContactUsPage()
+    public function testSaveCustomFieldOnPage()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
