@@ -827,3 +827,9 @@ input, .custom-select {
     color: $secondary!important;
 }
 
+
+.stats_box_footer .stats-box-colorscheme:hover {
+    i, span {
+        color: $primary!important;
+    }
+}
