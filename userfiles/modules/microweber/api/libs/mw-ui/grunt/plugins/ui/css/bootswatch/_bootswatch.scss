@@ -804,7 +804,8 @@ input, .custom-select {
 
 }
 .text-align .active, .mw-ese-holder {
-    background-color: $primary!important;
+    border-color: $primary!important;
+    background-color: $body-bg!important;
 }
 
 .mw-modules-toolbar-back-button-holder {
@@ -878,4 +879,11 @@ input, .custom-select {
 .admin-thumb-item-uploader-holder {
     width: 12%!important;
     height: 112px!important;
+}
+
+
+.angle {
+    .angle-top-left, .angle-top-right, .angle-bottom-left, .angle-bottom-right {
+        border-color: $secondary!important;
+    }
 }
