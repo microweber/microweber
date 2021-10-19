@@ -203,3 +203,9 @@
         border-color: $primary !important;
     }
 }
+
+.nav-pills {
+    .btn-hover-style-3 .btn.btn-outline-secondary:hover {
+        color: $secondary !important;
+    }
+}
