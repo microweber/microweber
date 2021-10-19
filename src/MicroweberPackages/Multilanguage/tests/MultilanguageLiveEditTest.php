@@ -97,8 +97,11 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $switchedLang = app()->lang_helper->current_lang();
         $this->assertEquals($switchedLangAbr, $switchedLang);
+
         $response = $response->decodeResponseJson();
         $this->assertEquals($response['refresh'], true);
+
+
 
 
 
