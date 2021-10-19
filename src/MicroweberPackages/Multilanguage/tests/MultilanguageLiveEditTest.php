@@ -65,7 +65,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $frontRender = new FrontendController();
         $html = $frontRender->index();
 
-        $this->assertContains($contentFieldHtml, $html);
+        $this->assertTrue(str_contains($contentFieldHtml, $html));
 
     }
 }
