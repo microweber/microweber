@@ -137,7 +137,13 @@ class MenuManager
         }
 
         $saveMenu->save();
-
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->content_repository->clearCache();
+        $this->app->category_repository->clearCache();
+        $this->app->menu_repository->clearCache();
         event(new MenuWasUpdated($saveMenu, $data_to_save));
 
         return $saveMenu->id;
@@ -393,8 +399,8 @@ class MenuManager
 
         }
         $cur_content_id_data = [];
-        if(defined('CONTENT_ID')){
-            $cur_content_id_data = get_content_by_id(CONTENT_ID);
+        if(content_id()){
+            $cur_content_id_data = get_content_by_id(content_id());
 
         }
 
@@ -512,15 +518,15 @@ class MenuManager
             } elseif (trim($item['url'] == '') and $cur_content_id_data and isset($cur_content_id_data['parent']) and $cur_content_id_data['parent'] and $item['content_id'] == $cur_content_id_data['parent']) {
                 $active_class = 'active';
                  // $active_class = 'active-parent';
-            } elseif (trim($item['url'] == '') and defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
+            } elseif (trim($item['url'] == '') and content_id() and $item['content_id'] == content_id()) {
                 $active_class = 'active';
-             } elseif (trim($item['url'] == '') and defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
+             } elseif (trim($item['url'] == '') and page_id() and $item['content_id'] == page_id()) {
                 $active_class = 'active';
-            } elseif (trim($item['url'] == '') and defined('POST_ID') and POST_ID != 0 and $item['content_id'] == POST_ID) {
+            } elseif (trim($item['url'] == '') and post_id() and $item['content_id'] == post_id()) {
                 $active_class = 'active';
-            } elseif (trim($item['url'] == '') and defined('CATEGORY_ID') and CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
+            } elseif (trim($item['url'] == '') and category_id() and intval($item['categories_id']) != 0 and $item['categories_id'] == category_id()) {
                 $active_class = 'active';
-            } elseif (isset($cont['parent']) and defined('PAGE_ID') and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
+            } elseif (isset($cont['parent']) and page_id()  and $cont['parent'] == page_id() ) {
                 // $active_class = 'active';
             } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
@@ -528,9 +534,9 @@ class MenuManager
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
                 $active_class = 'active';
                 $active_class = 'active-parent';
-            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
-                 $cont_link = $this->app->content_manager->link(PAGE_ID);
-                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
+            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and page_id() ) {
+                 $cont_link = $this->app->content_manager->link(page_id() );
+                 if ($item['content_id'] == page_id()  and $cont_link == $item['url']) {
                     $active_class = 'active';
                 } elseif ($cont_link == $item['url']) {
                     $active_class = 'active';

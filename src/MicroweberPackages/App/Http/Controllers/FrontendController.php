@@ -56,13 +56,14 @@ class FrontendController extends Controller
             }
         }
 
+        event_trigger('mw.init');
+
         $this->websiteOptions = app()->option_repository->getWebsiteOptions();
 
-        event_trigger('mw.init');
 
     }
 
-    public function index()
+    public function index($request_params = [])
     {
         $is_installed = mw_is_installed();
         if (!$is_installed) {
@@ -82,17 +83,22 @@ class FrontendController extends Controller
             return mw()->url_manager->redirect($https);
         }
 
-        return $this->frontend();
+        return $this->frontend($request_params);
     }
 
 
 
-    public function frontend()
+    public function frontend($request_params = [])
     {
         if (isset($_GET['debug'])) {
             if ($this->app->make('config')->get('app.debug')) {
                 DB::enableQueryLog();
             }
+        }
+
+        if(empty($request_params) and (!empty($_REQUEST))){
+            $request_params = $_REQUEST;
+
         }
 
         event_trigger('mw.controller.index');
@@ -152,8 +158,8 @@ class FrontendController extends Controller
         $enable_full_page_cache = false;
 
         // if this is a file path it will load it
-        if (isset($_REQUEST['view'])) {
-            $is_custom_view = $_REQUEST['view'];
+        if (isset($request_params['view'])) {
+            $is_custom_view = $request_params['view'];
         } else {
             $is_custom_view = app()->url_manager->param('view');
             if ($is_custom_view and $is_custom_view != false) {
@@ -258,31 +264,32 @@ class FrontendController extends Controller
             $page_url = app()->url_manager->param_unset('preview_layout', $page_url);
         }
 
-        if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
-            $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
+        if (isset($request_params['content_id']) and intval($request_params['content_id']) != 0) {
+            $page = $this->app->content_manager->get_by_id($request_params['content_id']);
         }
 
         $output_cache_timeout = false;
 
 
-        if ($is_quick_edit or $is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
-            if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
-                $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
+        if ($is_quick_edit or $is_preview_template == true or isset($request_params['isolate_content_field']) or $this->create_new_page == true) {
+            if (isset($request_params['content_id']) and intval($request_params['content_id']) != 0) {
+                $page = $this->app->content_manager->get_by_id($request_params['content_id']);
             } else {
+
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
-                if (isset($_REQUEST['content_type'])) {
-                    $page['content_type'] = app()->database_manager->escape_string($_REQUEST['content_type']);
+                if (isset($request_params['content_type'])) {
+                    $page['content_type'] = app()->database_manager->escape_string($request_params['content_type']);
                 }
 
-                if (isset($_REQUEST['subtype'])) {
-                    $page['subtype'] = app()->database_manager->escape_string($_REQUEST['subtype']);
+                if (isset($request_params['subtype'])) {
+                    $page['subtype'] = app()->database_manager->escape_string($request_params['subtype']);
                 }
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
 
-                if (isset($_REQUEST['parent_id']) and $_REQUEST['parent_id'] != 0) {
-                    $page['parent'] = intval($_REQUEST['parent_id']);
+                if (isset($request_params['parent_id']) and $request_params['parent_id'] != 0) {
+                    $page['parent'] = intval($request_params['parent_id']);
                 }
 
                 //$page['url'] = app()->url_manager->string();
@@ -293,9 +300,9 @@ class FrontendController extends Controller
                 if (isset($is_layout_file) and $is_layout_file != false) {
                     $page['layout_file'] = $is_layout_file;
                 }
-                if (isset($_REQUEST['inherit_template_from']) and $_REQUEST['inherit_template_from'] != 0) {
-                    $page['parent'] = intval($_REQUEST['inherit_template_from']);
-                    $inherit_from = $this->app->content_manager->get_by_id($_REQUEST['inherit_template_from']);
+                if (isset($request_params['inherit_template_from']) and $request_params['inherit_template_from'] != 0) {
+                    $page['parent'] = intval($request_params['inherit_template_from']);
+                    $inherit_from = $this->app->content_manager->get_by_id($request_params['inherit_template_from']);
 
                     //$page['parent'] =  $inherit_from ;
                     if (isset($inherit_from['layout_file']) and $inherit_from['layout_file'] == 'inherit') {
@@ -308,8 +315,8 @@ class FrontendController extends Controller
                         $is_layout_file = $page['layout_file'] = $inherit_from['layout_file'];
                     }
                 }
-                if (isset($_REQUEST['content_type']) and $_REQUEST['content_type'] != false) {
-                    $page['content_type'] = $_REQUEST['content_type'];
+                if (isset($request_params['content_type']) and $request_params['content_type'] != false) {
+                    $page['content_type'] = $request_params['content_type'];
                 }
 
                 if ($this->content_data != false) {
@@ -320,15 +327,15 @@ class FrontendController extends Controller
         } else {
 
             $enable_full_page_cache = $this->websiteOptions['enable_full_page_cache'] == 'y';
-         //   $enable_full_page_cache = 1;
+            //   $enable_full_page_cache = 1;
             if ($is_editmode == false
                 and !$is_preview_template
                 and !$is_no_editmode
                 and !$is_preview_module
                 and $this->isolate_by_html_id == false
-                and !isset($_REQUEST['isolate_content_field'])
-                and !isset($_REQUEST['content_id'])
-                and !isset($_REQUEST['embed_id'])
+                and !isset($request_params['isolate_content_field'])
+                and !isset($request_params['content_id'])
+                and !isset($request_params['embed_id'])
                 and !is_cli()
                 and !defined('MW_API_CALL')
                 and !defined('MW_NO_SESSION')
@@ -349,8 +356,8 @@ class FrontendController extends Controller
             }
         }
 
-        if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
-            event_trigger('recover_shopping_cart', $_REQUEST['recart']);
+        if (isset($request_params['recart']) and $request_params['recart'] != false) {
+            event_trigger('recover_shopping_cart', $request_params['recart']);
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
             if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
@@ -460,7 +467,7 @@ class FrontendController extends Controller
 
                 if ($redirectLink && $multilanguageIsActive) {
                     if (urldecode(url_current(true)) !== $redirectLink) {
-                          return redirect($redirectLink);
+                        return redirect($redirectLink);
                     }
                 }
 
@@ -769,8 +776,8 @@ class FrontendController extends Controller
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
             if ($is_layout_file == 'inherit') {
-                if (isset($_REQUEST['inherit_template_from']) and intval($_REQUEST['inherit_template_from']) != 0) {
-                    $inherit_layout_from_this_page = $this->app->content_manager->get_by_id($_REQUEST['inherit_template_from']);
+                if (isset($request_params['inherit_template_from']) and intval($request_params['inherit_template_from']) != 0) {
+                    $inherit_layout_from_this_page = $this->app->content_manager->get_by_id($request_params['inherit_template_from']);
 
                     if (isset($inherit_layout_from_this_page['layout_file']) and $inherit_layout_from_this_page['layout_file'] != 'inherit') {
                         $is_layout_file = $inherit_layout_from_this_page['layout_file'];
@@ -840,11 +847,12 @@ class FrontendController extends Controller
         if (!defined('IS_HOME')) {
             if (isset($content['is_home']) and $content['is_home'] == 1) {
                 define('IS_HOME', true);
-               // $this->app->template->head('<link rel="canonical" href="' . site_url() . '">');
+                // $this->app->template->head('<link rel="canonical" href="' . site_url() . '">');
             }
         }
 
         $this->app->content_manager->define_constants($content);
+        $this->app->content_manager->content_id=intval($content['id']);
 
 
         event_trigger('mw.front', $content);
@@ -880,6 +888,8 @@ class FrontendController extends Controller
         if (!isset($content['title'])) {
             $content['title'] = 'New content';
         }
+
+
         $category = false;
         if (defined('CATEGORY_ID')) {
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
@@ -937,10 +947,10 @@ class FrontendController extends Controller
              }*/
 
             $render_params['render_file'] = $render_file;
-            $render_params['page_id'] = PAGE_ID;
-            $render_params['content_id'] = CONTENT_ID;
-            $render_params['post_id'] = POST_ID;
-            $render_params['category_id'] = CATEGORY_ID;
+            $render_params['page_id'] = page_id();
+            $render_params['content_id'] = content_id();
+            $render_params['post_id'] = post_id();
+            $render_params['category_id'] = category_id();
             $render_params['content'] = $content;
             $render_params['category'] = $category;
             $render_params['page'] = $page;
@@ -952,14 +962,14 @@ class FrontendController extends Controller
             }
 
             // used for preview from the admin wysiwyg
-            if (isset($_REQUEST['isolate_content_field'])) {
+            if (isset($request_params['isolate_content_field'])) {
                 require_once MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
                 $pq = \phpQuery::newDocument($l);
 
                 $isolated_head = pq('head')->eq(0)->html();
 
                 $found_field = false;
-                if (isset($_REQUEST['isolate_content_field'])) {
+                if (isset($request_params['isolate_content_field'])) {
                     foreach ($pq['[field=content]'] as $elem) {
                         $isolated_el = $l = pq($elem)->htmlOuter();
                     }
@@ -992,16 +1002,19 @@ class FrontendController extends Controller
             if ($this->debugbarEnabled) {
                 \Debugbar::startMeasure('render', 'Time for rendering');
             }
-            $l = $this->app->parser->process($l, $options = false);
+
+
+            $l = $this->app->parser->process($l);
+
 
             if ($this->debugbarEnabled) {
                 \Debugbar::stopMeasure('render');
             }
             if ($preview_module_id != false) {
-                $_REQUEST['embed_id'] = $preview_module_id;
+                $request_params['embed_id'] = $preview_module_id;
             }
-            if (isset($_REQUEST['embed_id'])) {
-                $find_embed_id = trim($_REQUEST['embed_id']);
+            if (isset($request_params['embed_id'])) {
+                $find_embed_id = trim($request_params['embed_id']);
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
@@ -1009,8 +1022,8 @@ class FrontendController extends Controller
                 and !$is_preview_template
                 and !$is_preview_module
                 and $this->isolate_by_html_id == false
-                and !isset($_REQUEST['isolate_content_field'])
-                and !isset($_REQUEST['embed_id'])
+                and !isset($request_params['isolate_content_field'])
+                and !isset($request_params['embed_id'])
                 and !is_cli()
                 and !defined('MW_API_CALL')
             ) {
@@ -1181,7 +1194,6 @@ class FrontendController extends Controller
 
 
             $template_config = $this->app->template->get_config();
-
             $enable_default_css = true;
             if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
                 if (!$is_editmode and !$back_to_editmode) {
@@ -1201,12 +1213,12 @@ class FrontendController extends Controller
                 }
             }
 
-            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
+            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
                     $l = $this->liveEditToolbar($l);
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
-                if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
+                if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {
 
                     if ($back_to_editmode == true) {
                         $l = $this->liveEditToolbarBack($l);
@@ -1264,7 +1276,7 @@ class FrontendController extends Controller
                     }
                 }
             }
-            if (isset($_REQUEST['debug'])) {
+            if (isset($request_params['debug'])) {
                 if ($this->app->make('config')->get('app.debug')) {
                     $is_admin = app()->user_manager->is_admin();
                     if ($is_admin == true) {
@@ -1294,7 +1306,7 @@ class FrontendController extends Controller
         } else {
             echo 'Error! Page is not found? Please login in the admin and make a page.';
 
-            $this->app->cache_manager->clear();
+           // $this->app->cache_manager->clear();
 
             return;
         }

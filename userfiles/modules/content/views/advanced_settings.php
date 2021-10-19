@@ -437,7 +437,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-12">
 
 
-                            <button type="button" class="btn btn-sm btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+                            <button type="button" class="btn btn-sm btn-link" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
 
 

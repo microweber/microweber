@@ -45,7 +45,7 @@ Trait ParserEditFieldsTrait
                 $this->_current_parser_rel = $this->_mw_edit_field_map[$parser_mem_crc]['rel'];
             }
 
-            return $this->_mw_parser_passed_replaces[$parser_mem_crc];
+           return $this->_mw_parser_passed_replaces[$parser_mem_crc];
         }
 
 
@@ -129,15 +129,15 @@ Trait ParserEditFieldsTrait
 
                         if ($rel == 'page') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if ($rel == 'post') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = POST_ID;
+                                $data_id = post_id();;
                             }
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if (!isset($data_id) or $data_id == false) {
@@ -155,7 +155,7 @@ Trait ParserEditFieldsTrait
                     } elseif ($rel == 'inherit') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
-                            $data_id = PAGE_ID;
+                            $data_id = page_id();
                         }
 //                        $data_inh_check = app()->content_manager->get_by_id($data_id);
 //

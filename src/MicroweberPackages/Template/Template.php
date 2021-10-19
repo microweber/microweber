@@ -5,6 +5,7 @@ namespace MicroweberPackages\Template;
 
 use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
+use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
@@ -37,6 +38,7 @@ class Template
 
     public $adapter_current = null;
     public $adapter_default = null;
+    public $admin = null;
     public $stylesheet_adapter = null;
     public $js_adapter = null;
     public $stack_compiler_adapter = null;
@@ -56,6 +58,7 @@ class Template
         $this->js_adapter = new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
+        $this->admin = new AdminTemplateStyle($app);
     }
 
 
@@ -461,23 +464,7 @@ class Template
 
     public function get_admin_supported_themes()
     {
-        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
-        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
-
-        $dirs = scandir($themes_dir);
-        $templates = [];
-        if ($dirs) {
-            foreach ($dirs as $dir) {
-                if ($dir != '.' and $dir != '..') {
-                    if (is_file($themes_dir . $dir . '/_bootswatch.scss')) {
-                        $templates[] = $dir;
-                    }
-                }
-            }
-        }
-
-
-        return $templates;
+        return $this->admin->getAdminTemplates();
     }
 
     public function get_admin_supported_theme_scss_vars($theme)
@@ -485,150 +472,12 @@ class Template
         if (!$theme) {
             return;
         }
-        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
-        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
-        $theme = str_replace('..', '', $theme);
-        $vars_file = normalize_path($themes_dir . $theme . '/_variables.scss', false);
-
-        if (is_file($vars_file)) {
-            $input = file_get_contents($vars_file);
-            $scss = new \ScssPhp\ScssPhp\Parser($input);
-            $parsed = $scss->parse($input);
-            $vars = [];
-            if (isset($parsed->children)) {
-                $children = $parsed->children;
-                if ($children) {
-                    foreach ($children as $item) {
-                        if (isset($item[0]) and $item[0] == 'assign') {
-                            if (isset($item[1][0]) and isset($item[2][1]) and isset($item[1][1]) and $item[1][0] == 'var') {
-
-                                $vars[$item[1][1]] = $item[2][1];
-                            }
-                        }
-                    }
-                }
-
-            }
-            return $vars;
-        }
+        return $this->admin->getAdminTemplateVars($theme);
     }
 
     public function get_admin_system_ui_css_url()
     {
-
-        $selected_theme = get_option('admin_theme_name', 'admin');
-        $cont = false;
-
-        $selected_vars = get_option('admin_theme_vars', 'admin');
-
-        $vars = [];
-        if ($selected_vars) {
-            $vars = json_decode($selected_vars, true);
-        }
-
-        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css';
-        $url_images_dir = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/img';
-        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
-        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
-
-        $compiled_output_path = userfiles_path() . 'css/admin-css/';
-        $compiled_output_url = userfiles_url() . 'css/admin-css/';
-        if (!is_dir($compiled_output_path)) {
-            mkdir_recursive($compiled_output_path);
-        }
-
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_main.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_main.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_main.css';
-
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_main.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_main.scss.map';
-
-
-        $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
-        $theme_file_abs_path = normalize_path($themes_dir . $theme_file_rel_path, false);
-
-        $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
-        $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
-
-        if (!$selected_theme and !$vars) {
-            return $url;
-        }
-
-        if ($selected_theme) {
-            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
-                return $url;
-            }
-
-            if (is_file($compiled_css_output_path_file_css)) {
-                return $compiled_css_output_path_file_css_url;
-            }
-        }
-
-        $scss = new \ScssPhp\ScssPhp\Compiler();
-        $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
-        $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compact');
-
-        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_INLINE);
-
-
-        $scss->setSourceMapOptions([
-            'sourceMapWriteTo' => $compiled_css_map_output_path_file,
-            'sourceMapURL' => $compiled_css_map_output_path_url,
-            'sourceMapBasepath' => $compiled_output_path,
-            'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
-        ]);
-
-
-        if ($selected_theme) {
-            $cont = "
-             //Bootswatch variables
-             //@import 'bootswatch/_variables';
-             @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
-
-             //UI Variables
-             @import 'bootstrap_variables';
-
-             //Bootstrap
-             @import '../../bootstrap/scss/bootstrap';
-
-             //Bootswatch structure
-             @import 'bootswatch/_bootswatch';
-             @import 'bootswatch/themes/{$theme_file_rel_path}';
-
-             //UI
-             //@import '_ui';
-             //@import '_mw';
-             @import 'main_with_mw';
-            ";
-        }
-
-        if (!$selected_theme and $vars) {
-            $cont = "@import 'main_with_mw';";
-
-            if ($vars) {
-                $scss->setVariables($vars);
-            }
-        } elseif ($vars){
-
-           // $cont = "@import 'main_with_mw';";
-
-            if ($vars) {
-                $scss->setVariables($vars);
-            }
-        }
-
-        $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-        if (!$output) {
-            return $url;
-        }
-
-        $output = str_replace('../img', $url_images_dir, $output);
-        if(!is_dir(dirname($compiled_css_output_path_file_css))){
-            mkdir_recursive(dirname($compiled_css_output_path_file_css));
-        }
-        file_put_contents($compiled_css_output_path_file_css, $output);
-        return $compiled_css_output_path_file_css_url;
+        return $this->admin->getAdminCssUrl();
     }
 
     public function clear_cached_custom_css()

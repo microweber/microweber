@@ -186,7 +186,7 @@ $user = get_user_by_id($user_id);
 
 
 <div id="mw-admin-container">
-    <header class="position-sticky sticky-top bg-white">
+    <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
                 <ul class="nav">
@@ -270,7 +270,7 @@ $user = get_user_by_id($user_id);
                             <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted m-0"></i>
-                                <span class="d-none d-xl-block">
+                                <span class="d-none d-xl-block mw-colorscheme-text-white">
                                     <?php if ($new_orders_count == 1): ?>
                                         <?php _e("New order"); ?>
                                     <?php elseif ($new_orders_count > 1): ?>
@@ -285,7 +285,7 @@ $user = get_user_by_id($user_id);
                         <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $comments_notif_html; ?>&nbsp;
                             <i class="mdi mdi-comment-account text-muted m-0"></i>
-                            <span class="d-none d-xl-block">
+                            <span class="d-none d-xl-block mw-colorscheme-text-white">
                                 <?php if ($new_comments_count == 1): ?>
                                     <?php _e("New comment"); ?>
                                 <?php elseif ($new_comments_count > 1): ?>

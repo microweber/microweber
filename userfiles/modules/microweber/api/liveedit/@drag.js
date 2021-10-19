@@ -1183,21 +1183,26 @@ mw.drag = {
         if (mw.drag.draftDisabled) return false;
         if (mw.drag.DraftSaving) return false;
         if (!mw.drag.initDraft) return false;
-        if (document.body.textContent != mw.drag.saveDraftOld) {
-            mw.drag.saveDraftOld = document.body.textContent;
-            var body = mw.drag.parseContent().body,
-                edits = body.querySelectorAll('.edit.changed'),
-                data = mw.drag.collectData(edits);
-            if (mw.tools.isEmptyObject(data)) return false;
-            data['is_draft'] = true;
-            mw.drag.DraftSaving = true;
-            var xhr = mw.drag.coreSave(data);
-            xhr.always(function(msg) {
-                mw.drag.DraftSaving = false;
-                mw.drag.initDraft = false;
-                mw.trigger('saveDraftCompleted');
 
-            });
+        if (document.body.textContent !== mw.drag.saveDraftOld) {
+            mw.drag.DraftSaving = true;
+            mw.wysiwyg.normalizeBase64Images(undefined, function (){
+                mw.drag.saveDraftOld = document.body.textContent;
+                var body = mw.drag.parseContent().body,
+                    edits = body.querySelectorAll('.edit.changed'),
+                    data = mw.drag.collectData(edits);
+                if (mw.tools.isEmptyObject(data)) { mw.drag.DraftSaving = false; return false };
+                data['is_draft'] = true;
+
+                var xhr = mw.drag.coreSave(data);
+                xhr.always(function(msg) {
+                    mw.drag.DraftSaving = false;
+                    mw.drag.initDraft = false;
+                    mw.trigger('saveDraftCompleted');
+
+                });
+            })
+
         }
     }
 }

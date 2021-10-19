@@ -309,7 +309,8 @@ img{
 
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
-<link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+    <?php print  app()->template->admin->getLiveEditTemplateHeadHtml(); ?>
+
 
 
     <script>

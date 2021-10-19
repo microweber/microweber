@@ -15,7 +15,7 @@ description: Clean layout
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <section id="content">
-  <div class="container edit"  field="content" rel="module">
+  <div class="container edit" field="content" rel="content">
     <p class="element">Type your text here</p>
   </div>
 </section>

@@ -184,7 +184,7 @@ body.mw-live-edit .plain-text {
 }
 
 .mw-liveedit-layouts-li {
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid rgba(219, 219, 191, 0.12);
  }
 
 .mw-liveedit-layouts-li:hover {
@@ -2007,7 +2007,7 @@ body.dragStart .empty-element {
     width: 55px;
     height: 53px;
     text-align: center;
-    border-right: 1px solid #EAEAEA;
+    /*border-right: 1px solid #EAEAEA;*/
     border-bottom: 1px solid transparent;
     text-decoration: none !important;
 
@@ -3482,10 +3482,7 @@ body.isTyping .mw-cloneable-control {
     height: auto;
 }
 
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo:hover,
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo:hover {
-    border: 1px solid #e5e5e5;
-}
+
 
 #history_panel_toggle {
     height: 30px;

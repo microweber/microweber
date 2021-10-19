@@ -39,10 +39,19 @@
         });
     });
 </script>
+
+<div id="js-field-box-4">
 <input type="text" class="form-control" id="js-field-4"/>
+</div>
+
 <br/>
+<div id="js-field-box-5">
 <textarea id="js-field-5" class="form-control"></textarea>
+</div>
 <br/>
-<br/><textarea id="js-field-6" class="form-control"></textarea>
+<br/>
+<div id="js-field-box-6">
+<textarea id="js-field-6" class="form-control"></textarea>
+</div>
 <br/>
 <br/>

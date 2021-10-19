@@ -9,13 +9,14 @@ if(user_id() == 0){
   mw.settings.liveEdit = true;
 
   mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
-  mw.require(mw.settings.includes_url + "css/liveedit.css",true);
-  mw.require(mw.settings.includes_url + "css/components.css");
-  mw.require(mw.settings.includes_url + "css/wysiwyg.css");
+
 
 
 
 </script>
+
+<?php print app()->template->admin->getLiveEditTemplateHeadHtml(); ?>
+
 <style>
 .mw-sorthandle, .mw_master_handle {
 	display:none !important;

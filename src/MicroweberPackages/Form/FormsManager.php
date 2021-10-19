@@ -406,15 +406,18 @@ class FormsManager
             $cfToSave = $params;
         }
 
+        $validationErrorsReturn = [];
         if (!empty($requiredFields)) {
 
             $validator = Validator::make($params, $requiredFields);
             if ($validator->fails()) {
                 $validatorMessages = false;
                 foreach ($validator->messages()->toArray() as $inputFieldErros) {
-                    $validatorMessages = reset($inputFieldErros);
+                   // $validatorMessages = reset($inputFieldErros);
+                    $validatorMessages = implode("\n",$inputFieldErros);
+                    //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
                 }
-                return array(
+                $validationErrorsReturn = array(
                     'form_errors' => $validator->messages()->toArray(),
                     'error' => $validatorMessages
                 );
@@ -456,13 +459,16 @@ class FormsManager
 
                     if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
                         $fieldRules[] = 'required';
-                        $_FILES[$field['name_key']] = true;
+                      //  $_FILES[$field['name_key']] = true;
+                        $allowedFilesForSave[$field['name_key']] = true;
 
                     } else if (!isset($_FILES[$field['name_key']])) {
                         continue;
                     }
 
-                    $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+                    $allowedFilesForSave[$field['name_key']] = true;
+
+                 //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
 
                     $mimeTypes = [];
@@ -502,6 +508,7 @@ class FormsManager
                 }
             }
 
+
             // Validation is ok
             if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
 
@@ -512,10 +519,18 @@ class FormsManager
                     foreach ($validator->messages()->toArray() as $inputFieldErros) {
                         $validatorMessages = reset($inputFieldErros);
                     }
-                    return array(
+                    $validationErrorsReturn_upload = array(
                         'form_errors' => $validator->messages()->toArray(),
                         'error' => $validatorMessages
                     );
+
+                    if($validationErrorsReturn){
+                        $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
+                    } else {
+                        $validationErrorsReturn = $validationErrorsReturn_upload;
+                    }
+
+                    return $validationErrorsReturn;
                 }
 
                 if (isset($params['module_name'])) {
@@ -531,7 +546,21 @@ class FormsManager
                     mkdir_recursive($target_path);
                 }
                 if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
-                    foreach ($allowedFilesForSave as $fieldName => $file) {
+                    foreach ($allowedFilesForSave as $fieldName => $file_up) {
+
+
+                        if(!isset($_FILES[$fieldName])){
+                            continue;
+                        }
+
+                        $file =  $_FILES[$fieldName];
+
+                        if(!is_array($file)){
+                            continue;
+                        }
+                        if(!isset($file['name'])){
+                            continue;
+                        }
 
                         $targetFileName = $target_path_name . '/' . $file['name'];
 
@@ -569,6 +598,8 @@ class FormsManager
                         }
                     }
                 }
+            } else  if($validationErrorsReturn)  {
+                return $validationErrorsReturn;
             }
 
             // End of attachments

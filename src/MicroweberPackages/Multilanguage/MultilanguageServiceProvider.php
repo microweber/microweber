@@ -55,6 +55,9 @@ class MultilanguageServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
+
         if (!mw_is_installed()) {
             return;
         }

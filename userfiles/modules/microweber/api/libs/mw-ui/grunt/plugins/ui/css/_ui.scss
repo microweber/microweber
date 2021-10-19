@@ -345,7 +345,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $textDark !important;
+      color: $textDark;
       //background-color: $gray-100;
       background-color: $secondary;
     }
@@ -355,7 +355,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $textDark !important;
+      color: $textDark;
       background-color: transparent !important;
       border-bottom: 4px solid $primary !important;
     }
@@ -1924,6 +1924,6 @@ textarea.form-control {
   &.btn-success,
   &.btn-warning,
   &.btn-danger {
-    color: $textLight !important;
+    color: $textLight;
   }
 }

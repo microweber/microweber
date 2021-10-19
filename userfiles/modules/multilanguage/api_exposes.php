@@ -90,25 +90,4 @@ api_expose_admin('multilanguage/add_language', function ($params) {
 
 });
 
-Route::any('api/multilanguage/change_language', function () {
 
-    $api = new MultilanguageApi();
-    $response = $api->changeLanguage(Input::all());
-
-    return $response;
-});
-
-//api_expose('multilanguage/change_language', function ($params) {
-//
-//    $api = new MultilanguageApi();
-//    return $api->changeLanguage($params);
-//
-//});
-
-api_expose('multilanguage/geolocaiton_test', function ($params) {
-
-    $geo = get_geolocation_detailed();
-
-    echo json_encode($geo,JSON_PRETTY_PRINT);
-
-});

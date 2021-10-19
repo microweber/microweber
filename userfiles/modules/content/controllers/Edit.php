@@ -51,6 +51,7 @@ class Edit
 
     function index($params)
     {
+
         if (!user_can_access('module.content.edit')) {
             return;
         }
