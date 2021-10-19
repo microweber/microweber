@@ -887,3 +887,6 @@ input, .custom-select {
     border-color: $secondary!important;
 }
 
+.mw-tree-nav-skin-default .mw-tree-item-title:before, .mw-tree-nav-skin-default li .mdi-pencil {
+    color: $secondary!important;
+}
