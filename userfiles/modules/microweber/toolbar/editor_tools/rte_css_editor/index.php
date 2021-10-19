@@ -641,7 +641,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     }
 
     if(ActiveNode){
-        var can = ActiveNode.textContent === ActiveNode.innerHTML && ActiveNode.nodeName();
+        var can = ActiveNode.textContent === ActiveNode.innerHTML;
         mw.$('#text-mask')[can ? 'show' : 'hide']();
         mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
         if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {
