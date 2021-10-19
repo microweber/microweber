@@ -37,6 +37,7 @@ class ContentManager
     public $content_id = false;
     public $product_id = false;
     public $page_id = false;
+    public $main_page_id = false;
     public $post_id = false;
     public $category_id = false;
 
@@ -1779,6 +1780,8 @@ class ContentManager
 
                     if (defined('MAIN_PAGE_ID') == false) {
                         define('MAIN_PAGE_ID', $inherit_from_id);
+                        $this->main_page_id=intval($inherit_from_id);
+
                     }
                 }
 

@@ -9,10 +9,14 @@ use MicroweberPackages\User\Models\User;
 
 class AdminLiveEditTest extends TestCase
 {
+    protected $preserveGlobalState = FALSE;
+
     public function testSaveCustomFieldOnPage()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
+
+
 
         $newCleanPage = save_content([
             'subtype' => 'static',
@@ -22,13 +26,14 @@ class AdminLiveEditTest extends TestCase
             'url' => 'liveedit-contact-us-url',
             'preview_layout_file' => 'clean.php',
             'active_site_template'=> 'default',
+            //'content'=> $contentFieldHtml,
             'is_active' => 1,
         ]);
 
-        $fingPage = Page::whereId($newCleanPage)->first();
-        $this->assertEquals($fingPage->id, $newCleanPage);
+        $findPage = Page::whereId($newCleanPage)->first();
+        $this->assertEquals($findPage->id, $newCleanPage);
 
-        // Save on default lang
+
         $contentFieldHtml = '<module type="custom_fields" template="bootstrap4" default-fields="Your Name[type=text,field_size=6,show_placeholder=true],Voornaamm[type=text,field_size=6,show_placeholder=true],Your.email@domain.com[type=email,field_size=6,show_placeholder=true],Telefonnummer[type=phone, field_size=6, show_placeholder=true],Naam club[type=number,field_size=6,show_placeholder=true],Aantal leden[type=number,field_size=6,show_placeholder=true],Beoefende sporttakken[type=textarea,field_size=12,show_placeholder=true],Ja ik wil op de hoogte gehouden worden via de nieuwsbrief[type=checkbox,field_size=12,show_placeholder=true]"/>';
 
         $fieldsData = [
@@ -36,6 +41,7 @@ class AdminLiveEditTest extends TestCase
                 'attributes'=>[
                     'class'=>'container edit',
                     'rel'=>'content',
+                    'rel_id'=>$findPage->id,
                     'field'=>'content',
                 ],
                 'html'=>$contentFieldHtml
@@ -44,7 +50,7 @@ class AdminLiveEditTest extends TestCase
 
         $encoded = base64_encode(json_encode($fieldsData));
 
-        $_SERVER['HTTP_REFERER'] = content_link($fingPage->id);
+        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -62,10 +68,15 @@ class AdminLiveEditTest extends TestCase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        $_REQUEST['content_id'] = $fingPage->id;
-
+        $_REQUEST['content_id'] = $findPage->id;
+        $params = [];
+        $params['content_id'] = $findPage->id;
         $frontRender = new FrontendController();
-        $html = $frontRender->index();
+        $html = $frontRender->frontend($params);
+
+        $get_cont = get_content_by_id($findPage->id);
+
+        $this->assertTrue(str_contains($get_cont['content'], 'Voornaamm'));
 
         $this->assertTrue(str_contains($html, 'Voornaamm'));
         $this->assertTrue(str_contains($html, 'Your.email@domain.com'));
@@ -93,8 +104,8 @@ class AdminLiveEditTest extends TestCase
             'is_active' => 1,
         ]);
 
-        $fingPage = Page::whereId($newCleanPage)->first();
-        $this->assertEquals($fingPage->id, $newCleanPage);
+        $findPage = Page::whereId($newCleanPage)->first();
+        $this->assertEquals($findPage->id, $newCleanPage);
 
         // Save on default lang
         $contentFieldHtml = 'Example content saved from live edit api'. uniqid('_unit');
@@ -103,7 +114,9 @@ class AdminLiveEditTest extends TestCase
                 'attributes'=>[
                     'class'=>'container edit',
                     'rel'=>'content',
+                    'rel_id'=>$findPage->id,
                     'field'=>'content',
+
                 ],
                 'html'=>$contentFieldHtml
             ]
@@ -111,7 +124,7 @@ class AdminLiveEditTest extends TestCase
 
         $encoded = base64_encode(json_encode($fieldsData));
 
-        $_SERVER['HTTP_REFERER'] = content_link($fingPage->id);
+        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -129,7 +142,7 @@ class AdminLiveEditTest extends TestCase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        $_REQUEST['content_id'] = $fingPage->id;
+        $_REQUEST['content_id'] = $findPage->id;
 
         $frontRender = new FrontendController();
         $html = $frontRender->index();

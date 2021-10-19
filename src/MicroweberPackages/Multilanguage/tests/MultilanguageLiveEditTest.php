@@ -45,8 +45,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
            'is_active' => 1,
         ]);
 
-        $fingPage = Page::whereId($newCleanMlPage)->first();
-        $this->assertEquals($fingPage->id, $newCleanMlPage);
+        $findPage = Page::whereId($newCleanMlPage)->first();
+        $this->assertEquals($findPage->id, $newCleanMlPage);
 
         // Save on default lang
         $contentFieldHtml = 'Example content saved from live edit api'. uniqid('_unit');
@@ -55,6 +55,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
                 'attributes'=>[
                     'class'=>'container edit',
                     'rel'=>'content',
+                    'rel_id'=>$findPage->id,
                     'field'=>'content',
                 ],
                 'html'=>$contentFieldHtml
@@ -62,7 +63,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         ];
 
         $encoded = base64_encode(json_encode($fieldsData));
-        $_SERVER['HTTP_REFERER'] = content_link($fingPage->id);
+        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -80,7 +81,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        self::$saved_id=$fingPage->id;
+        self::$saved_id=$findPage->id;
         self::$saved_content=$contentFieldHtml;
 
 

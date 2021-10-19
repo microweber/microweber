@@ -947,10 +947,10 @@ class FrontendController extends Controller
              }*/
 
             $render_params['render_file'] = $render_file;
-            $render_params['page_id'] = PAGE_ID;
-            $render_params['content_id'] = CONTENT_ID;
-            $render_params['post_id'] = POST_ID;
-            $render_params['category_id'] = CATEGORY_ID;
+            $render_params['page_id'] = page_id();
+            $render_params['content_id'] = content_id();
+            $render_params['post_id'] = post_id();
+            $render_params['category_id'] = category_id();
             $render_params['content'] = $content;
             $render_params['category'] = $category;
             $render_params['page'] = $page;
@@ -1306,7 +1306,7 @@ class FrontendController extends Controller
         } else {
             echo 'Error! Page is not found? Please login in the admin and make a page.';
 
-            $this->app->cache_manager->clear();
+           // $this->app->cache_manager->clear();
 
             return;
         }

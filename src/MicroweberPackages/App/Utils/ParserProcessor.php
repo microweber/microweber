@@ -473,8 +473,8 @@ class ParserProcessor
                                                     }
                                                     $last_content_id = intval($last_content_id) + 1;
                                                     $mod_id = $mod_id . '-' . $last_content_id;
-                                                } elseif (defined('CONTENT_ID')) {
-                                                    $mod_id = $mod_id . '-' . CONTENT_ID;
+                                                } elseif (content_id()) {
+                                                    $mod_id = $mod_id . '-' . content_id();
                                                 }
 
                                                 if($mod_id_was_not_found and isset($options['populate_module_ids_in_elements']) and $options['populate_module_ids_in_elements']){

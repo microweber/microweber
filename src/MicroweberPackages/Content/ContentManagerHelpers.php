@@ -905,6 +905,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $the_field_data['attributes']['data-id'] = $content_id;
                         }
 
+                        if (!isset($the_field_data['attributes']['data-id']) and isset($the_field_data['attributes']['rel_id'])) {
+                            $the_field_data['attributes']['data-id'] = $the_field_data['attributes']['rel_id'];
+                        }
+
 
                         if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {
                             $rel_ch = trim($the_field_data['attributes']['rel_type']);
@@ -976,7 +980,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
                         $html_to_save = $the_field_data['html'];
                         $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
-
 
 
 //  AntiXSS makes bug on save convertind comments to htmlentities
@@ -1063,7 +1066,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
-
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
                                 }
@@ -1105,6 +1107,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             } else {
 
+
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             }
 
@@ -1128,7 +1131,11 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('repositories');
+        $this->app->content_repository->clearCache();
+        $this->app->category_repository->clearCache();
+       $this->app->menu_repository->clearCache();
 
         return $json_print;
     }
