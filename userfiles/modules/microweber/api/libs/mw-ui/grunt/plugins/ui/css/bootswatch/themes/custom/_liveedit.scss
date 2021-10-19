@@ -17,7 +17,7 @@
 }
 
 
-.input-group-text, .mw-ui-btn  {
+.input-group-text  {
     border-color: $primary!important;
     background-color: $primary!important;
     color: $secondary!important;
@@ -149,12 +149,12 @@
 
 }
 
-.wysiwyg-undo-redo {
-    .mw-icon-reply, .mw-icon-forward {
-        color: $secondary!important;
-        border-color: $primary!important;
-    }
-}
+//.wysiwyg-undo-redo {
+//    .mw-icon-reply, .mw-icon-forward {
+//        color: $secondary!important;
+//        border-color: $primary!important;
+//    }
+//}
 
 .mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
     background: $body-bg;
@@ -178,6 +178,21 @@
     background-color: $primary!important;
     color: white !important;
 }
+.module-multilanguage {
+    .mw-ui-btn-info {
+        border-color: $primary !important;
+        background: $primary !important;
+
+        .mw-dropdown-content {
+            border-color: $black !important;
+            background: $black !important;
+            li {
+                color: $secondary !important;
+            }
+
+        }
+    }
+}
 
 .mw-ui-label {
     color: $secondary!important;
@@ -197,8 +212,26 @@
     color: $secondary!important;
 }
 
-.mw_module_hold {
-    .module_name:hover {
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item-layout:hover {
+    .module_name {
         background-color: $primary!important;
+        border-color: $primary !important;
+    }
+}
+
+.nav-pills {
+    .btn-hover-style-3 .btn.btn-outline-secondary:hover {
+        color: $secondary !important;
+    }
+}
+
+
+#mw-css-editor-sidebar-iframe-holder {
+    .mw-accordion-title.mw-ui-box-header {
+        border: 1px solid rgba(219, 219, 191, 0.16)!important;
+    }
+
+    .mw-accordion-title.mw-ui-box-header.active {
+        border-color: $primary!important;
     }
 }

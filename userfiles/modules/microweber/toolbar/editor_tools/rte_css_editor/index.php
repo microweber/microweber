@@ -792,7 +792,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <input type="color" class="colorField unit" data-prop="backgroundColor">
+                    <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                    <input type="text" class="colorField unit" data-prop="backgroundColor">
                 </div>
             </div>
         </div>
@@ -832,6 +833,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     $node[action]('mw-bg-mask');
                     if (action === 'addClass') {
                         output('color', 'transparent')
+                    } else {
+                        output('color', '')
                     }
                     mw.top().wysiwyg.change($node[0]);
                 }
@@ -937,7 +940,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat" data-size="medium">
-                                <input type="color" class="colorField unit" data-prop="color">
+                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                                <input type="text" class="colorField unit" data-prop="color">
                             </div>
                         </div>
                     </div>
@@ -1023,7 +1027,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <label><?php _e("Color"); ?></label>
                 <div class="s-field-content">
                     <div class="mw-field mw-field-flat" data-size="medium">
-                        <input type="color" class="colorField unit" id="overlay-color" data-prop="overlay-color">
+                        <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                        <input type="text" class="colorField unit" id="overlay-color" data-prop="overlay-color">
                     </div>
                 </div>
             </div>

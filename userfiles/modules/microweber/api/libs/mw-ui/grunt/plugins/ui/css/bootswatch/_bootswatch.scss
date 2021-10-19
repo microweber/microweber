@@ -699,14 +699,16 @@ input, .custom-select {
 }
 
 .btn-hover-style-3 .btn.btn-outline-secondary.active {
-
      color: $secondary!important;
-
 }
 
-.btn-hover-style-3 .btn:hover {
+.btn-hover-style-3 .btn:hover, #mw-packages-browser-nav-tabs-nav .btn:hover {
     color: $secondary !important;
     background-color: $primary!important;
+
+    i {
+        color: $secondary !important;
+    }
 }
 
 .btn-outline-success {
@@ -741,6 +743,14 @@ input, .custom-select {
     background-color: $black!important;
 }
 
+ .mw-accordion-title.mw-ui-box-header {
+     border: 1px solid rgba(219, 219, 191, 0.16)!important;
+ }
+
+ .mw-accordion-title.mw-ui-box-header.active {
+     border-color: $primary!important;
+ }
+
 .mw-editor-area, .mw-bar-row,.deactivated:before {
     background: $black!important;
 }
@@ -753,7 +763,6 @@ input, .custom-select {
     background: $black!important;
 }
 
-
 .mw-dialog-skin-default .mw-dialog-close {
     border-color: $primary!important;
 
@@ -761,7 +770,6 @@ input, .custom-select {
         background: $primary!important;
         color: $secondary!important;
     }
-
 }
 
 .mw-selectable-list > label, #save-menu-wrapper {
@@ -782,7 +790,6 @@ input, .custom-select {
     }
 }
 
-
 .mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
     color: $secondary!important;
 }
@@ -791,8 +798,6 @@ input, .custom-select {
     border-radius: 5px;
     padding: 5px;
 }
-
-
 
 .mw-domtree li.selected > span {
     color: $secondary!important;
@@ -804,7 +809,8 @@ input, .custom-select {
 
 }
 .text-align .active, .mw-ese-holder {
-    background-color: $primary!important;
+    border-color: $primary!important;
+    background-color: $body-bg!important;
 }
 
 .mw-modules-toolbar-back-button-holder {
@@ -824,7 +830,6 @@ input, .custom-select {
     background-color: $body-bg!important;
     border: 1px solid $primary!important;
 }
-
 
 .mw-select-display-value.mw-ui-size-normal {
 
@@ -878,4 +883,49 @@ input, .custom-select {
 .admin-thumb-item-uploader-holder {
     width: 12%!important;
     height: 112px!important;
+}
+
+.angle-top-left, .angle-top-right, .angle-bottom-left, .angle-bottom-right {
+    border-color: $secondary!important;
+}
+
+.mw-tree-nav-skin-default .mw-tree-item-title:before, .mw-tree-nav-skin-default li .mdi-pencil {
+    color: $secondary!important;
+}
+
+.mw-ac-editor-nav > .mw-ui-btn-tab.active {
+    color: $primary!important;
+}
+
+.mw-ui-btn-tab.active {
+    border-bottom-color: $primary!important;
+    text-decoration: none;
+}
+
+.mw-ui-btn-tab:hover {
+    background-color: $primary!important;
+    color: white !important;
+}
+
+.mw-select {
+    input {
+        border: none!important;
+    }
+}
+
+.mw-editor-controller-component-select-values-holder, .mw-bar-control-item-group-contents {
+    background: $black!important;
+
+    .mw-editor-dropdown-option:hover {
+        background-color: $primary!important;
+    }
+}
+
+.mw-editor-controller-button:hover  {
+    background-color: $primary!important;
+    border-color: $secondary!important;
+}
+
+.mw-ui-box-header.mw-accordion-title:after {
+    color: $primary!important;
 }
