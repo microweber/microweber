@@ -58,8 +58,21 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
   }
 }
 
+.select-settings {
+    a:hover {
+        i, span {
+            color: $primary!important;
+        }
+    }
+}
 
-.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger {
+.mw-main-module-backend-users-profile-my-profile-admin {
+    a:hover {
+        background: $black!important;
+    }
+}
+
+.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger, .js-standalone-updater-update-button {
     color: $secondary!important;
 
     span {
