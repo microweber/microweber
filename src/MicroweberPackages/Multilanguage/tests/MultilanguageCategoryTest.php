@@ -43,10 +43,13 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
-        $api = new MultilanguageApi();
-        $output = $api->changeLanguage([
-            'locale'=>app()->lang_helper->default_lang()
-        ]);
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => app()->lang_helper->default_lang(),
+            ]
+        );
 
         $rand = time().rand(111,999);
 
@@ -69,8 +72,6 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         );
         $this->assertEquals(201, $response->status());
         $categorySaved = $response->getData()->data;
-
-
         $getCategory = Category::where('id', $categorySaved->id)->first();
 
         $this->assertEquals($getCategory->title, $apiCategoryStore['title']);
