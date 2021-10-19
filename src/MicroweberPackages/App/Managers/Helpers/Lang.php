@@ -85,22 +85,19 @@ class Lang
 
     function default_lang()
     {
-        if (self::$_defaultLang) {
+        if ($this->is_enabled && self::$_defaultLang) {
             return self::$_defaultLang;
         }
 
-       // $lang = 'en_US'; // dont use current language
         $lang = app()->getLocale();
 
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
             if ($lang_opt) {
                 $lang = $lang_opt;
+                self::$_defaultLang = $lang;
             }
-
         }
-
-        self::$_defaultLang = $lang;
 
         return $lang;
     }
