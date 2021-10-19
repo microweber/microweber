@@ -7,7 +7,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
-class LiveEditTest extends TestCase
+class AdminLiveEditTest extends TestCase
 {
     public function testSaveContentOnPage()
     {
