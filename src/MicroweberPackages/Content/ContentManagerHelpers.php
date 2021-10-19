@@ -723,8 +723,9 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
-                $guess_page_data->create_new_page = true;
+                $guess_page_data->create_new_page = false;
                 $pd = $guess_page_data->index();
+
                 if (isset($pd['id'])) {
                     $pd1 = DB::table('content')->where('id', $pd['id'])->first();
                     $pd1 = (array)$pd1;

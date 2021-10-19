@@ -27,12 +27,18 @@ class ContentManager
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
-    /** @var \Microweber\Providers\Content\ContentManagerCrud */
+    /** @var ContentManagerCrud */
     public $crud;
 
-    /** @var \Microweber\Providers\Content\ContentManagerHelpers */
+    /** @var ContentManagerHelpers */
     public $helpers;
 
+
+    public $content_id = false;
+    public $product_id = false;
+    public $page_id = false;
+    public $post_id = false;
+    public $category_id = false;
 
 
     /**
@@ -61,6 +67,71 @@ class ContentManager
 
 
     }
+
+
+    function post_id()
+    {
+        if ($this->post_id) {
+            return $this->post_id;
+        }
+
+        if (defined('POST_ID')) {
+            return POST_ID;
+        }
+    }
+
+
+    function product_id()
+    {
+        if ($this->product_id) {
+            return $this->product_id;
+        }
+
+        if (defined('PRODUCT_ID')) {
+            return PRODUCT_ID;
+        }
+    }
+
+    function content_id()
+    {
+        if ($this->content_id) {
+            return $this->content_id;
+        }
+        if ($this->post_id()) {
+            return $this->post_id();
+        } elseif ($this->product_id()) {
+            return $this->product_id();
+        } elseif ($this->page_id()) {
+            return $this->page_id();
+        } elseif (defined('CONTENT_ID')) {
+            return CONTENT_ID;
+        }
+    }
+
+    function category_id()
+    {
+        if ($this->category_id) {
+            return $this->category_id;
+        }
+        if (defined('CATEGORY_ID')) {
+            return CATEGORY_ID;
+        }
+
+    }
+
+    function page_id()
+    {
+        if ($this->page_id) {
+            return $this->page_id;
+        }
+
+        if (defined('PAGE_ID')) {
+            return PAGE_ID;
+        }
+    }
+
+
+
 
     /**
      * Sets the database table names to use by the class.
@@ -1631,6 +1702,7 @@ class ContentManager
             $cat_url = $this->app->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
+                $this->category_id=intval($cat_url);
             }
         }
         // dd(debug_backtrace(1));
@@ -1648,6 +1720,8 @@ class ContentManager
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', intval($current_category['id']));
+                            $this->category_id=intval($current_category['id']);
+
                         }
                     }
 
@@ -1655,11 +1729,14 @@ class ContentManager
 
                     if (defined('POST_ID') == false) {
                         define('POST_ID', intval($content['id']));
+                        $this->post_id=intval($content['id']);
+
                     }
 
                     if (is_array($page) and $page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
                             define('PRODUCT_ID', intval($content['id']));
+                            $this->product_id=intval($content['id']);
                         }
                     }
                 }
@@ -1684,10 +1761,14 @@ class ContentManager
 
             if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
+                $this->content_id=intval($content['id']);
+
             }
 
             if (defined('PAGE_ID') == false and isset($content['id'])) {
                 define('PAGE_ID', $page['id']);
+                $this->page_id=intval($content['id']);
+
             }
 
             if (isset($page['parent'])) {
@@ -1741,6 +1822,8 @@ class ContentManager
             $cat_id = $this->app->category_manager->get_category_id_from_url();
             if ($cat_id != false) {
                 define('CATEGORY_ID', intval($cat_id));
+                $this->category_id=intval($cat_id);
+
             }
         }
         if (!defined('CATEGORY_ID')) {
@@ -1753,6 +1836,8 @@ class ContentManager
                 $page = $pageFromSlug;
                 $content = $pageFromSlug;
                 define('PAGE_ID', intval($page['id']));
+                $this->page_id=intval($page['id']);
+
             }
         }
 

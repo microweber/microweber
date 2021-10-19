@@ -467,7 +467,7 @@ class ParserProcessor
 
                                         } else {
                                             if (!$coming_from_parent    ) {
-                                                if (defined('CONTENT_ID') and CONTENT_ID == 0) {
+                                                if (content_id() == 0) {
                                                     if ($last_content_id == null) {
                                                         $last_content_id = app()->database_manager->last_id('content');
                                                     }

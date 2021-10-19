@@ -28,53 +28,39 @@ function is_category()
         return true;
     }
 }
+function is_product()
+{
+    if (product_id()) {
+        return true;
+    }
+}
+
 
 function page_id()
 {
-    if (defined('PAGE_ID')) {
-        return PAGE_ID;
-    }
+    return app()->content_manager->page_id();
 }
+
+
 
 function post_id()
 {
-    if (defined('POST_ID')) {
-        return POST_ID;
-    }
-}
-
-function is_product()
-{
-    if (defined('PRODUCT_ID')) {
-        return PRODUCT_ID;
-    }
+    return app()->content_manager->post_id();
 }
 
 function product_id()
 {
-    if (defined('PRODUCT_ID')) {
-        return PRODUCT_ID;
-    }
+    return app()->content_manager->product_id();
 }
 
 function content_id()
 {
-    if (post_id()) {
-        return post_id();
-    } elseif (product_id()) {
-        return product_id();
-    } elseif (page_id()) {
-        return page_id();
-    } elseif (defined('CONTENT_ID')) {
-        return CONTENT_ID;
-    }
+    return app()->content_manager->content_id();
 }
 
 function category_id()
 {
-    if (defined('CATEGORY_ID')) {
-        return CATEGORY_ID;
-    }
+    return app()->content_manager->category_id();
 }
 
 /**

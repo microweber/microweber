@@ -129,15 +129,15 @@ Trait ParserEditFieldsTrait
 
                         if ($rel == 'page') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if ($rel == 'post') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = POST_ID;
+                                $data_id = post_id();;
                             }
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if (!isset($data_id) or $data_id == false) {

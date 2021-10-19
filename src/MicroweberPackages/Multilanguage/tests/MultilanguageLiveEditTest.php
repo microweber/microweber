@@ -9,6 +9,8 @@ use MicroweberPackages\User\Models\User;
 
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
+    public static $saved_id;
+    public static $saved_content;
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
@@ -60,7 +62,6 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         ];
 
         $encoded = base64_encode(json_encode($fieldsData));
-
         $_SERVER['HTTP_REFERER'] = content_link($fingPage->id);
 
         $response = $this->call(
@@ -79,10 +80,17 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        $_REQUEST['content_id'] = $fingPage->id;
+        self::$saved_id=$fingPage->id;
+        self::$saved_content=$contentFieldHtml;
+
+
+
+        $params = [];
+        $params['content_id'] = self::$saved_id;
 
         $frontRender = new FrontendController();
-        $html = $frontRender->index();
+        $html = $frontRender->frontend($params);
+        $contentFieldHtml = self::$saved_content;
 
         $this->assertTrue(str_contains($html, $contentFieldHtml));
 
@@ -100,12 +108,6 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
 
         $response = $response->decodeResponseJson();
         $this->assertEquals($response['refresh'], true);
-
-
-
-
-
-
 
     }
 }
