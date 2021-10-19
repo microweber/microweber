@@ -309,7 +309,7 @@
 
                   var CurrSRC = function(b){
                     var curr = mw.parent().image.currentResizing ? mw.parent().image.currentResizing[0] : new Image();
-                    if(curr.nodeName == 'IMG'){
+                    if(curr.nodeName === 'IMG'){
                       if(!b){
                         return curr.src;
                       }
@@ -553,6 +553,7 @@
         //if(!!alt)mw.$("#image-alt").val(alt);
 
         mw.$(".mw-ui-btn-savetheimage").on('click', function () {
+
 
             mw.top().wysiwyg.change(SelectedImage);
             if(isBG) {

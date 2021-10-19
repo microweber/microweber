@@ -789,6 +789,9 @@ body.mw-external-loading:after {
     border: none;
 }
 
+.mw-range .ui-slider-handle:hover{
+    background-color: #0086db;
+}
 .mw-range .ui-slider-handle {
     width: 15px;
     height: 15px;

@@ -2643,6 +2643,12 @@ mw.wysiwyg = {
         var all = root.querySelectorAll(".edit img[src*='data:image/'], .edit [style*='data:image/'][style*='background-image']"),
             l = all.length, i = 0, count = 0;
         if (l > 0) {
+            var btn = document.getElementById('main-save-btn');
+            var btnPrev;
+            if(btn){
+                btnPrev = btn.disabled;
+                btn.disabled = true;
+            }
             for (; i < l; i++) {
                 mw.tools.addClass(all[i], 'element');
                 mw.wysiwyg.normalizeBase64Image(all[i], function (){
@@ -2652,6 +2658,9 @@ mw.wysiwyg = {
                            setTimeout(function(){
                                callback.call();
                            }, 10)
+                        }
+                        if(btn){
+                            btn.disabled = btnPrev;
                         }
                     }
                 });
