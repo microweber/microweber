@@ -805,8 +805,8 @@ input, .custom-select {
 
 .mw-modules-toolbar-back-button-holder {
     &:hover {
-       a {
-        color: $primary;
+       a, i {
+        color: $primary!important;
        }
     }
 }
@@ -827,3 +827,13 @@ input, .custom-select {
     color: $secondary!important;
 }
 
+
+.stats_box_footer .stats-box-colorscheme:hover {
+    i, span {
+        color: $primary!important;
+    }
+}
+
+.js-search-by-keywords-input {
+    padding-left: 5px!important;
+}
