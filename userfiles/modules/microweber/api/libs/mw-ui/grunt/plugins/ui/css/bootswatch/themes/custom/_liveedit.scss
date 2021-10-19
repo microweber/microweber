@@ -178,6 +178,21 @@
     background-color: $primary!important;
     color: white !important;
 }
+.module-multilanguage {
+    .mw-ui-btn-info {
+        border-color: $primary !important;
+        background: $primary !important;
+
+        .mw-dropdown-content {
+            border-color: $black !important;
+            background: $black !important;
+            li {
+                color: $secondary !important;
+            }
+
+        }
+    }
+}
 
 .mw-ui-label {
     color: $secondary!important;
