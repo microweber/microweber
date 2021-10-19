@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
@@ -26,15 +27,16 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $fingPage = Page::whereId($newCleanMlPage)->first();
         $this->assertEquals($fingPage->id, $newCleanMlPage);
 
-        // save on default lang
+        // Save on default lang
+        $contentFieldHtml = 'Example content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
                     'class'=>'container edit',
-                    'rel'=>'module',
+                    'rel'=>'content',
                     'field'=>'content',
                 ],
-                'html'=>'Example content saved from live edit api'
+                'html'=>$contentFieldHtml
             ]
         ];
 
@@ -55,17 +57,15 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
-        $this->assertEquals($fieldSaved[0]['rel_type'], 'module');
+        $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        $getEditedPageSource = $this->call(
-            'GET',
-            content_link($fingPage->id)
-        );
+        $_REQUEST['content_id'] = $fingPage->id;
 
-      //  dd($getEditedPageSource);
+        $frontRender = new FrontendController();
+        $html = $frontRender->index();
 
-
+        $this->assertContains($contentFieldHtml, $html);
 
     }
 }

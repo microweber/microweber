@@ -40,7 +40,7 @@ position: 7
 				</div>
 			</div>
 		</h2>
-		<div class="edit" field="content" rel="module">
+		<div class="edit" field="content" rel="content">
 			<module type="google_maps" />
 			<div class="element page-post-content"><?php _e('This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.'); ?></div>
 
