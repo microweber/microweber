@@ -73,7 +73,7 @@ class AdminLiveEditTest extends TestCase
         $this->assertTrue(str_contains($html, 'Naam club'));
         $this->assertTrue(str_contains($html, 'Aantal leden'));
         $this->assertTrue(str_contains($html, 'Beoefende sporttakken'));
-        $this->assertTrue(str_contains($html, 'Ja ik wil op de hoogte gehouden worden via de nieuwsbrief')); 
+        $this->assertTrue(str_contains($html, 'Ja ik wil op de hoogte gehouden worden via de nieuwsbrief'));
 
     }
 
