@@ -196,3 +196,9 @@
 .mw-search-no-results {
     color: $secondary!important;
 }
+
+.mw_module_hold {
+    .module_name:hover {
+        background-color: $primary!important;
+    }
+}
