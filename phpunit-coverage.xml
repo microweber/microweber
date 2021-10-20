@@ -26,6 +26,7 @@
         </include>
         <exclude>
             <directory suffix="Facade.php">./src</directory>
+            <directory>./src/MicroweberPackages/*/tests/</directory>
             <directory suffix=".php">./src/MicroweberPackages/Utils/ThirdPartyLibs</directory>
         </exclude>
     </coverage>
@@ -33,12 +34,16 @@
 
 
     <testsuites>
-        <testsuite name="MicroweberTestSuite">
+        <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>
+            <directory>./userfiles/modules/*/tests/</directory>
             <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
         </testsuite>
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberModuleListTests">
+            <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
         </testsuite>
     </testsuites>
     <php>

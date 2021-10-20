@@ -591,14 +591,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         $is_module = false;
 
 
-        if (php_can_use_func('ini_set')) {
-            @ini_set('memory_limit', '512M');
-        }
-
-        if (php_can_use_func('set_time_limit')) {
-            set_time_limit(60);
-        }
-
         $save_as_draft = false;
         if (isset($post_data['save_draft'])) {
             $save_as_draft = true;
