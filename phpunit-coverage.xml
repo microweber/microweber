@@ -90,13 +90,13 @@
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
-        <testsuite name="MicroweberTestTranslation">
-            <directory>./src/MicroweberPackages/Translation/tests/</directory>
-        </testsuite>
+
         <testsuite name="MicroweberTestBackup">
             <directory>./src/MicroweberPackages/Backup/tests/</directory>
         </testsuite>
-
+        <testsuite name="MicroweberTestTranslation">
+            <directory>./src/MicroweberPackages/Translation/tests/</directory>
+        </testsuite>
     </testsuites>
     <php>
         <env name="CACHE_DRIVER" value="file"/>
