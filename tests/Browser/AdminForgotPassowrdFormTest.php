@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\User\Models\PasswordReset;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -82,6 +83,10 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->waitForText('Invalid captcha answer');
             $browser->assertSee('Invalid captcha answer');
+
+            $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->first();
+            $this->assertNotEmpty($findPasswordReset);
+
         });
     }
 }
