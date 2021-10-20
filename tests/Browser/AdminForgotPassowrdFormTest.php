@@ -71,6 +71,8 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
+            $sendTime = time();
+
             $browser->visit($siteUrl . 'admin/login');
             $browser->pause('2000');
 
@@ -86,6 +88,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->first();
             $this->assertNotEmpty($findPasswordReset);
+            $this->assertTrue($sendTime > $findPasswordReset->created_at);
 
         });
     }
