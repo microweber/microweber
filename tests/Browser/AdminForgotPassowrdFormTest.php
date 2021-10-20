@@ -56,4 +56,32 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->assertSee('We can\'t find a user with that email address');
         });
     }
+
+
+    public function testCaptchaValidation()
+    {
+        $data = [];
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'captcha_disabled';
+        $data['option_group'] = 'users';
+        save_option($data);
+
+        $siteUrl = $this->siteUrl;
+
+        $this->browse(function (Browser $browser) use($siteUrl) {
+
+            $browser->visit($siteUrl . 'admin/login');
+            $browser->pause('2000');
+
+            $browser->click('@forgot-password-link');
+            $browser->pause('2000');
+
+            $browser->type('username', 'bobi@microweber.com');
+            $browser->click('@reset-password-button');
+            $browser->pause('2000');
+
+            $browser->waitForText('Invalid captcha answer');
+            $browser->assertSee('Invalid captcha answer');
+        });
+    }
 }
