@@ -6,7 +6,7 @@ use \MicroweberPackages\Multilanguage\MultilanguageApi;
 
 class MultilanguageTestBase extends \Microweber\tests\TestCase
 {
-   // protected $preserveGlobalState = FALSE;
+    protected $preserveGlobalState = FALSE;
  //   protected $runTestInSeparateProcess = TRUE;
     /**
      * This method is called before the first test of this test class is run.
@@ -19,11 +19,11 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
     protected function assertPostConditions(): void
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
-        $option = array();
-        $option['option_value'] = 'n';
-        $option['option_key'] = 'is_active';
-        $option['option_group'] = 'multilanguage_settings';
-        save_option($option);
+
+           \DB::table('options')
+            ->where('option_group', 'multilanguage_settings')
+            ->delete();
+
     }
 
     /**
