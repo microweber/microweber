@@ -30,6 +30,7 @@
             <input type="text" class="form-control" name="username" placeholder="<?php _e("Enter Email or Username"); ?>">
         </div>
 
+        <?php if (get_option('captcha_disabled', 'users') !== 'y'): ?>
         <div class="form-group">
             <div class="row">
                 <div class="col-auto">
@@ -40,6 +41,8 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+
         <div class="form-group text-end">
             <button type="submit" id="submit" dusk="reset-password-button" class="btn btn-outline-primary btn-sm"><?php print $form_btn_title; ?></button>
         </div>

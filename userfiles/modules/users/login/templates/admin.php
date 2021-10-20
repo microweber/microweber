@@ -85,25 +85,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                             </div>
                                         </div>
 
-                                        <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                                            <?php
-                                            /* <div class="col-12">
-                                                <div class="form-group mb-3">
-                                                    <label class="text-muted" for="captcha-field-<?php print $params['id']; ?>">Captcha:</label>
-
-                                                    <div class="input-group mb-3 prepend-transparent">
-                                                        <div class="input-group-prepend">
-                                                        <span class="input-group-text p-0 overflow-hidden">
-                                                            <img onclick="mw.tools.refresh_image(this);" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>" style="max-height: 38px;"/>
-                                                        </span>
-                                                        </div>
-
-                                                        <input name="captcha" type="text" required class="form-control" placeholder="<?php _e("Security code"); ?>" id="captcha-field-<?php print $params['id']; ?>"/>
-                                                    </div>
-                                                </div>
-                                            </div>*/
-
-                                            ?>
+                                        <?php if (get_option('login_captcha_enabled', 'users') == 'y'): ?>
                                             <div class="col-12">
                                                 <module type="captcha" template="admin"/>
                                             </div>

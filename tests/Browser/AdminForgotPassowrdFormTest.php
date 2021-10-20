@@ -11,6 +11,12 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
     public function testSubmitEmail()
     {
+        $data = [];
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'captcha_disabled';
+        $data['option_group'] = 'users';
+        save_option($data);
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
@@ -25,8 +31,8 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->click('@reset-password-button');
             $browser->pause('2000');
 
-            $browser->waitForText('We can\'t find a user with that email address');
-            $browser->assertSee('We can\'t find a user with that email address');
+            $browser->waitForText('We have emailed your password reset link');
+            $browser->assertSee('We have emailed your password reset link');
         });
     }
 
