@@ -87,12 +87,11 @@
             <directory>./src/MicroweberPackages/View/tests/</directory>
             <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
-        <testsuite name="MicroweberTestMultilanguage">
-            <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
-        </testsuite>
-
         <testsuite name="MicroweberTestBackup">
             <directory>./src/MicroweberPackages/Backup/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberTestMultilanguage">
+            <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
         <testsuite name="MicroweberTestTranslation">
             <directory>./src/MicroweberPackages/Translation/tests/</directory>
