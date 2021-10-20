@@ -548,22 +548,27 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function related_content_remove($data)
     {
-        if (isset($data['id'])) {
+        if (isset($data['content_id']) and isset($data['related_content_id'])) {
+            $related = ContentRelated::where(
+                ['content_id' => $data['content_id'], 'related_content_id' => $data['related_content_id']]
+            )->delete();
+
+        } else if (isset($data['id'])) {
             $related = ContentRelated::where(
                 'id', $data['id']
             )->delete();
 
-            $this->app->cache_manager->delete('content');
 
-            return true;
         }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('repositories');
+
+        return true;
     }
 
 
     public function related_content_reorder($data)
     {
-
-
         if (isset($data['ids'])) {
             $value = $data['ids'];
             if (is_array($value)) {
