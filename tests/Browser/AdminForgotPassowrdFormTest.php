@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Carbon\Carbon;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use Tests\DuskTestCase;
@@ -71,7 +72,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
-            $sendTime = time();
+            $sendTime = Carbon::now();
 
             $browser->visit($siteUrl . 'admin/login');
             $browser->pause('2000');
