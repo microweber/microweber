@@ -34,8 +34,7 @@ class ContactFormTest extends DuskTestCase
             $browser->type('message', 'Hello, i\'m very happy to use this software.');
             $browser->script('$("#contactform").submit()');
 
-            $browser->pause('6000');
-
+            $browser->waitForText('Your message successfully sent');
             $browser->assertSee('Your message successfully sent');
         });
     }
