@@ -35,12 +35,12 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Run PHPUnit
-      run: phpunit --testsuite MicroweberCoreTests -c phpunit-coverage.xml --debug
+      run: phpunit --testsuite MicroweberCoreTests -c coverage.xml --debug
     - name: Code Cov
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: phpunit-coverage.xml
+        files: coverage.xml
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
     - name: Upload coverage results to Coveralls
@@ -48,6 +48,6 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         composer global require twinh/php-coveralls
-        php-coveralls --coverage_clover=phpunit-coverage.xml -v
+        php-coveralls --coverage_clover=coverage.xml -v
 
 
