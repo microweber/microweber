@@ -13,6 +13,14 @@ class ContactFormTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
+        // Disable captcha
+        save_option(array(
+            'option_group' => 'module-layouts-5--3-contact-form',
+            'module' => 'contact_form',
+            'option_key' => 'disable_captcha',
+            'option_value' => 'y'
+        ));
+
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $browser->visit($siteUrl . 'contact-us');
@@ -26,7 +34,9 @@ class ContactFormTest extends DuskTestCase
             $browser->type('message', 'Hello, i\'m very happy to use this software.');
             $browser->script('$("#contactform").submit()');
 
-            $browser->pause('8000');
+            $browser->pause('4000');
+
+            $browser->assertSee('Your message successfully sent');
         });
     }
 }
