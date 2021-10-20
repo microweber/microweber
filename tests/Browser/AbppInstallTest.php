@@ -14,16 +14,16 @@ class AbppInstallTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
-        $deleteDbFiles = [];
-        $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
-        $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
-        foreach ($deleteDbFiles as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
-
         $this->browse(function (Browser $browser) use($siteUrl) {
+
+           /* $deleteDbFiles = [];
+            $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
+            $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
+            foreach ($deleteDbFiles as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
+            }*/
 
             $browser->visit($siteUrl)->assertSee('install');
 
