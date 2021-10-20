@@ -34,8 +34,7 @@
 
     <testsuites>
         <testsuite name="MicroweberCoreTests">
-
-
+            <directory>./src/MicroweberPackages/Backup/tests/</directory>
             <directory>./src/MicroweberPackages/Admin/tests/</directory>
             <directory>./src/MicroweberPackages/App/tests/</directory>
              <directory>./src/MicroweberPackages/Blog/tests/</directory>
@@ -87,9 +86,7 @@
             <directory>./src/MicroweberPackages/View/tests/</directory>
             <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
-        <testsuite name="MicroweberTestBackup">
-            <directory>./src/MicroweberPackages/Backup/tests/</directory>
-        </testsuite>
+
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
