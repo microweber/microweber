@@ -83,7 +83,7 @@
 
             <module type="shop/checkout/terms" template="checkout_v2" class="no-settings" />
         </div>
-        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"> {{ _e('Complete your order') }}</button>
+        <button type="submit" class="btn btn-primary w-100 js-finish-your-order" dusk="checkout-continue"> {{ _e('Complete your order') }}</button>
     </form>
 
 @endsection
