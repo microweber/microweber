@@ -912,6 +912,14 @@ input, .custom-select {
         border: none!important;
     }
 }
+a.btn-link {
+    color: $primary!important;
+
+    small {
+        color: $primary!important;
+
+    }
+}
 
 .mw-editor-controller-component-select-values-holder, .mw-bar-control-item-group-contents {
     background: $black!important;
@@ -921,11 +929,27 @@ input, .custom-select {
     }
 }
 
-.mw-editor-controller-button:hover  {
+.mw-editor-controller-button:hover, .mw-range .ui-slider-range, .mw-range .ui-slider-handle:hover {
     background-color: $primary!important;
     border-color: $primary!important;
 }
 
 .mw-ui-box-header.mw-accordion-title:after {
     color: $primary!important;
+}
+
+.mw-ui-field:focus, .mw-ui-field:hover, .mw-select .mw-select-options, .mw-select-option {
+    border-color: $primary!important;
+    box-shadow: 0 0 3px $primary!important;
+}
+
+#content-tags-search-block .mw-ui-field:hover {
+    background: transparent!important;
+
+}
+
+.reset-field:hover {
+   i.mdi {
+        color: $primary !important;
+   }
 }
