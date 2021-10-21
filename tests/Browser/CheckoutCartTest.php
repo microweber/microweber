@@ -83,7 +83,7 @@ class CheckoutCartTest extends DuskTestCase
 
             $this->assertEquals($findOrder->country, 'Bulgaria');
             $this->assertEquals($findOrder->city, 'Sofia'.$uniqueId);
-            $this->assertEquals($findOrder->state, 'Bozhidar'.$uniqueId);
+            $this->assertEquals($findOrder->state, 'Sofia'.$uniqueId);
             $this->assertEquals($findOrder->zip, '1000'.$uniqueId);
             $this->assertEquals($findOrder->address, 'Vitosha 143'.$uniqueId);
         });
