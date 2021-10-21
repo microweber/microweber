@@ -115,13 +115,18 @@ class TranslationTest extends TestCase
 
     }
 
-    public function testImportAllLanguages() {
+    public function testImportSomeLanguages() {
 
         $availableTranslations = TranslationPackageInstallHelper::getAvailableTranslations();
 
         $this->assertNotEmpty($availableTranslations);
 
+        $i =0;
         foreach($availableTranslations as $availableLocale=>$availableLanguage) {
+            $i++;
+            if($i > 3){
+                continue;
+            }
             $installResponse = TranslationPackageInstallHelper::installLanguage($availableLocale);
             $this->assertNotEmpty($installResponse);
             $this->assertArrayHasKey('success', $installResponse);

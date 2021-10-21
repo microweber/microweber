@@ -39,7 +39,7 @@ if (!function_exists('is_closure')) {
     }
 }
 
-if (!function_exists('php_can_use_func')) { 
+if (!function_exists('php_can_use_func')) {
     /**
      * Function to check if you can use a PHP function
      */
@@ -63,6 +63,10 @@ if (!function_exists('php_can_use_func')) {
                     $available = false;
                 }
             }
+        }
+
+        if (str_contains(INI_SYSTEM_CHECK_DISABLED,  (string)$func_name)) {
+            return false;
         }
 
         return $available;

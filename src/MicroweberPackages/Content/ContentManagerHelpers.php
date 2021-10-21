@@ -548,22 +548,27 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function related_content_remove($data)
     {
-        if (isset($data['id'])) {
+        if (isset($data['content_id']) and isset($data['related_content_id'])) {
+            $related = ContentRelated::where(
+                ['content_id' => $data['content_id'], 'related_content_id' => $data['related_content_id']]
+            )->delete();
+
+        } else if (isset($data['id'])) {
             $related = ContentRelated::where(
                 'id', $data['id']
             )->delete();
 
-            $this->app->cache_manager->delete('content');
 
-            return true;
         }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('repositories');
+
+        return true;
     }
 
 
     public function related_content_reorder($data)
     {
-
-
         if (isset($data['ids'])) {
             $value = $data['ids'];
             if (is_array($value)) {
@@ -590,6 +595,14 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $is_module = false;
 
+
+//        if (php_can_use_func('ini_set')) {
+//            @ini_set('memory_limit', '512M');
+//        }
+//
+//        if (php_can_use_func('set_time_limit')) {
+//            @set_time_limit(60);
+//        }
 
         $save_as_draft = false;
         if (isset($post_data['save_draft'])) {

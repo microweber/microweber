@@ -26,7 +26,6 @@
         </include>
         <exclude>
             <directory suffix="Facade.php">./src</directory>
-            <directory>./src/MicroweberPackages/*/tests/</directory>
             <directory suffix=".php">./src/MicroweberPackages/Utils/ThirdPartyLibs</directory>
         </exclude>
     </coverage>
@@ -34,12 +33,10 @@
 
     <testsuites>
         <testsuite name="MicroweberCoreTests">
-
-
+            <directory>./src/MicroweberPackages/Backup/tests/</directory>
             <directory>./src/MicroweberPackages/Admin/tests/</directory>
             <directory>./src/MicroweberPackages/App/tests/</directory>
-            <directory>./src/MicroweberPackages/Backup/tests/</directory>
-            <directory>./src/MicroweberPackages/Blog/tests/</directory>
+             <directory>./src/MicroweberPackages/Blog/tests/</directory>
             <directory>./src/MicroweberPackages/Cache/tests/</directory>
             <directory>./src/MicroweberPackages/Cart/tests/</directory>
             <directory>./src/MicroweberPackages/Category/tests/</directory>
@@ -83,17 +80,17 @@
             <directory>./src/MicroweberPackages/Tag/tests/</directory>
             <directory>./src/MicroweberPackages/Tax/tests/</directory>
             <directory>./src/MicroweberPackages/Template/tests/</directory>
-            <directory>./src/MicroweberPackages/Translation/tests/</directory>
             <directory>./src/MicroweberPackages/User/tests/</directory>
             <directory>./src/MicroweberPackages/Utils/tests/</directory>
             <directory>./src/MicroweberPackages/View/tests/</directory>
             <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
+
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
-        <testsuite name="MicroweberModuleListTests">
-            <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
+        <testsuite name="MicroweberTestTranslation">
+            <directory>./src/MicroweberPackages/Translation/tests/</directory>
         </testsuite>
     </testsuites>
     <php>

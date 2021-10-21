@@ -33,6 +33,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100" dusk="checkout-continue">{{ _e('Continue') }}</button>
     </form>
 @endsection
