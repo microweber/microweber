@@ -321,7 +321,7 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row a, .comments-holder, .card-message-holder .card-body .row{
+.card-header, .card-body .row a, .comments-holder .card-body .row{
     &:hover {
             strong, i {
             color: $primary!important;
@@ -952,4 +952,11 @@ a.btn-link {
    i.mdi {
         color: $primary !important;
    }
+}
+
+.mw-bar-row {
+
+    button {
+        border: none!important;
+    }
 }
