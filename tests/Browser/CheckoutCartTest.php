@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Order\Models\Order;
 use Tests\DuskTestCase;
 
 class CheckoutCartTest extends DuskTestCase
@@ -64,6 +65,27 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->waitForText('Your order is completed');
             $browser->assertSee('Your order is completed');
+
+            $orderNumber = $browser->text('@order-number');
+
+            $findOrder = Order::where('id', $orderNumber)->first();
+
+            $this->assertNotEmpty($findOrder);
+
+            $this->assertEquals($findOrder->first_name, 'Bozhidar');
+            $this->assertEquals($findOrder->last_name, 'Slaveykov');
+            $this->assertEquals($findOrder->email, 'bobi@microweber.com');
+            $this->assertEquals($findOrder->phone, '088123456');
+
+
+            $this->assertEquals($findOrder->country, 'Bulgaria');
+            $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.');
+
+            /*$browser->type('Address[city]', 'Sofia');
+            $browser->type('Address[zip]', '1000');
+            $browser->type('Address[state]', 'Sofia');
+            $browser->type('Address[address]', 'Vitosha 143');
+            */
 
         });
     }
