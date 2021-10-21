@@ -4979,3 +4979,14 @@ body.dragStart picture img{
 }
 
 
+.css-preset-dropdown {
+    border: none!important;
+    line-height: 1.2 !important;
+    padding: 8px !important;
+    background: none!important;
+    color: whitesmoke!important;
+}
+
+.css-preset-dropdown:hover {
+    border: 1px solid whitesmoke!important;
+}

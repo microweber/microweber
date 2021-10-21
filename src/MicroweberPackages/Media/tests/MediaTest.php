@@ -49,6 +49,12 @@ class MediaTest extends TestCase
         $this->assertNotEmpty($newPage->media());
         $this->assertNotEmpty($newPage->media);
 
+
+        $media_content_repository = app()->content_repository->getMedia($newPage->id);
+
+        $this->assertNotEmpty($media_content_repository);
+        $this->assertEquals($media_content_repository[0]['title'],'View from Vitosha');
+
     }
 
     public function testDeleteMediaToModel()
@@ -80,5 +86,10 @@ class MediaTest extends TestCase
         }
 
         $this->assertEmpty($newPage->media->toArray());
+
+        $media_content_repository = app()->content_repository->getMedia($newPage->id);
+        $this->assertEmpty($media_content_repository);
+
+
     }
 }

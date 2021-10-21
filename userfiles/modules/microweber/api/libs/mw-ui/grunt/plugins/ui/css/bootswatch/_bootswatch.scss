@@ -657,7 +657,7 @@ table {
 }
 
 .mw-alert-holder {
-    color: black!important;
+    color: black;
 }
 
 .theme-color-picker {
@@ -923,7 +923,7 @@ input, .custom-select {
 
 .mw-editor-controller-button:hover  {
     background-color: $primary!important;
-    border-color: $secondary!important;
+    border-color: $primary!important;
 }
 
 .mw-ui-box-header.mw-accordion-title:after {

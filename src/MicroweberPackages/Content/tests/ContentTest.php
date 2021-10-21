@@ -59,6 +59,26 @@ class ContentTest extends TestCase
             'is_active' => 1,);
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
+
+
+        // test related
+        $params = [
+            'content_id'=>$parent_page,
+            'related_content_id'=>$get_sub_page['id'],
+        ];
+        $add = mw()->content_manager->helpers->related_content_add($params);
+        $related = mw()->content_manager->get_related_content_ids_for_content_id($parent_page);
+        $this->assertEquals($related[0], $get_sub_page['id']);
+
+        $params = [
+            'content_id'=>$parent_page,
+            'related_content_id'=>$get_sub_page['id'],
+        ];
+        mw()->content_manager->helpers->related_content_remove($params);
+        $related = mw()->content_manager->get_related_content_ids_for_content_id($get_sub_page['id']);
+        $this->assertTrue(empty($related));
+
+
         //clean
         $delete_parent = delete_content($parent_page);
         $delete_sub_page = delete_content($sub_page);
@@ -72,6 +92,10 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
         $this->assertEquals('My test sub page', $get_sub_page['title']);
         $this->assertEquals($sub_page, $get_sub_page['id']);
+
+
+
+
     }
 
     public function testGetPages()
@@ -279,7 +303,7 @@ class ContentTest extends TestCase
 
         $next = next_content($save_post2);
         $prev = prev_content($save_post3);
-        
+
         $this->assertEquals($save_post3, ($next['id']));
         $this->assertEquals($save_post2, ($prev['id']));
         $del1 = delete_content($save_post1);
