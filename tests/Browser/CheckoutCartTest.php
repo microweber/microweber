@@ -37,7 +37,25 @@ class CheckoutCartTest extends DuskTestCase
             $browser->type('phone', '088123456');
             $browser->click('@checkout-continue');
 
-            $browser->pause('13000');
+            $browser->waitForLocation('/checkout/shipping-method');
+            $browser->waitForText('Address for delivery');
+            $browser->assertSee('Address for delivery');
+            $browser->select('country', 'Bulgaria');
+            $browser->type('Address[city]', 'Sofia');
+            $browser->type('Address[zip]', '1000');
+            $browser->type('Address[state]', 'Sofia');
+            $browser->type('Address[address]', 'Vitosha 143');
+            $browser->type('other_info', 'I want my order soon as posible.');
+            $browser->click('@checkout-continue');
+
+            $browser->waitForText('Payment method');
+            $browser->assertSee('Payment method');
+
+            $browser->select('payment_gw', 'shop/payments/gateways/bank_transfer');
+            $browser->click('@checkout-continue');
+
+            $browser->waitForText('Your order is completed');
+            $browser->assertSee('Your order is completed');
 
         });
     }
