@@ -759,8 +759,8 @@ input, .custom-select {
     background: $body-bg;
 }
 
-.mw-dialog-skin-default .mw-dialog-header {
-    background: $black!important;
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
+    background-color: $black!important;
 }
 
 .mw-dialog-skin-default .mw-dialog-close {
