@@ -29,11 +29,12 @@ class CheckoutCartTest extends DuskTestCase
             $browser->clickLink('Proceed to Checkout');
             $browser->pause(1000);
 
-            $browser->waitForLocation($siteUrl . 'checkout/contact-information');
-            $browser->pause(2000);
+            $browser->waitForLocation(  '/checkout/contact-information');
+
             $browser->type('first_name', 'Bozhidar');
             $browser->type('last_name', 'Slaveykov');
             $browser->type('email', 'bobi@microweber.com');
+            $browser->type('phone', '088123456');
             $browser->click('@checkout-continue');
 
             $browser->pause('13000');
