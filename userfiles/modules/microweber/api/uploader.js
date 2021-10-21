@@ -230,7 +230,12 @@
                 scope.upload(data, function (res) {
                     var dataProgress;
                     if(chunks.length) {
-                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){}, function (xhr){
+                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){
+                            if (done) {
+                                done.call(file, res);
+                            }
+                            resolve(file);
+                        }, function (xhr){
                              if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr);
                             }
@@ -242,8 +247,10 @@
                         if(scope.settings.on.progress) {
                             scope.settings.on.progress(dataProgress, res);
                         }
+                        console.log('a1', res)
 
                     } else {
+                        console.log('a2', res)
                         dataProgress = {
                             percent: '100'
                         };
@@ -286,6 +293,7 @@
 
         this.uploadFiles = function () {
             if (this.settings.async) {
+                console.log(7777, this.files)
                 if (this.files.length) {
                     this.uploading(true);
                     var file = this.files[0]
@@ -293,7 +301,7 @@
                         .then(function (){
                         scope.files.shift();
                         scope.uploadFiles();
-                    }, function (xhr){console.log(2, scope.settings.on.fileUploadError)
+                    }, function (xhr){
                             scope.removeFile(file);
                             if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr)
