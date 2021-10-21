@@ -35,7 +35,6 @@
         li {
             color: $secondary !important;
         }
-
     }
 }
 
@@ -257,4 +256,9 @@
     .mw-accordion-title.mw-ui-box-header.active {
         border-color: $primary!important;
     }
+}
+
+
+#modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
+    background-color: $primary!important;
 }
