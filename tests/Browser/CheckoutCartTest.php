@@ -17,10 +17,11 @@ class CheckoutCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
+            $uniqueId = time();
+
             $browser->visit($siteUrl . 'shop');
             $browser->pause('2000');
-            //$browser->scrollTo('.name-of-product-shop');
-           // $browser->pause('2000');
+
             $browser->script('$(".name-of-product-shop").first().click()');
 
             $browser->waitForText('Proceed to Checkout');
@@ -32,21 +33,21 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->waitForLocation(  '/checkout/contact-information');
 
-            $browser->type('first_name', 'Bozhidar');
-            $browser->type('last_name', 'Slaveykov');
-            $browser->type('email', 'bobi@microweber.com');
-            $browser->type('phone', '088123456');
+            $browser->type('first_name', 'Bozhidar' . $uniqueId);
+            $browser->type('last_name', 'Slaveykov' . $uniqueId);
+            $browser->type('email', 'bobi'.$uniqueId.'@microweber.com');
+            $browser->type('phone', $uniqueId);
             $browser->click('@checkout-continue');
 
             $browser->waitForLocation('/checkout/shipping-method');
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
             $browser->select('country', 'Bulgaria');
-            $browser->type('Address[city]', 'Sofia');
-            $browser->type('Address[zip]', '1000');
-            $browser->type('Address[state]', 'Sofia');
-            $browser->type('Address[address]', 'Vitosha 143');
-            $browser->type('other_info', 'I want my order soon as posible.');
+            $browser->type('Address[city]', 'Sofia'.$uniqueId);
+            $browser->type('Address[zip]', '1000'.$uniqueId);
+            $browser->type('Address[state]', 'Sofia'.$uniqueId);
+            $browser->type('Address[address]', 'Vitosha 143'.$uniqueId);
+            $browser->type('other_info', 'I want my order soon as posible.'.$uniqueId);
 
             $browser->scrollTo('@checkout-continue');
             $browser->pause(1000);
@@ -72,21 +73,19 @@ class CheckoutCartTest extends DuskTestCase
 
             $this->assertNotEmpty($findOrder);
 
-            $this->assertEquals($findOrder->first_name, 'Bozhidar');
-            $this->assertEquals($findOrder->last_name, 'Slaveykov');
-            $this->assertEquals($findOrder->email, 'bobi@microweber.com');
-            $this->assertEquals($findOrder->phone, '088123456');
+            $this->assertEquals($findOrder->first_name, 'Bozhidar'.$uniqueId);
+            $this->assertEquals($findOrder->last_name, 'Slaveykov'.$uniqueId);
+            $this->assertEquals($findOrder->email, 'bobi'.$uniqueId.'@microweber.com');
+            $this->assertEquals($findOrder->phone, $uniqueId);
+
+            $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.'.$uniqueId);
 
 
             $this->assertEquals($findOrder->country, 'Bulgaria');
-            $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.');
-
-            /*$browser->type('Address[city]', 'Sofia');
-            $browser->type('Address[zip]', '1000');
-            $browser->type('Address[state]', 'Sofia');
-            $browser->type('Address[address]', 'Vitosha 143');
-            */
-
+            $this->assertEquals($findOrder->city, 'Sofia'.$uniqueId);
+            $this->assertEquals($findOrder->state, 'Bozhidar'.$uniqueId);
+            $this->assertEquals($findOrder->zip, '1000'.$uniqueId);
+            $this->assertEquals($findOrder->address, 'Vitosha 143'.$uniqueId);
         });
     }
 }
