@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Order\Models\Order;
 use Tests\DuskTestCase;
 
 class CheckoutCartTest extends DuskTestCase
@@ -29,14 +30,62 @@ class CheckoutCartTest extends DuskTestCase
             $browser->clickLink('Proceed to Checkout');
             $browser->pause(1000);
 
-            $browser->waitForLocation($siteUrl . 'checkout/contact-information');
-            $browser->pause(2000);
+            $browser->waitForLocation(  '/checkout/contact-information');
+
             $browser->type('first_name', 'Bozhidar');
             $browser->type('last_name', 'Slaveykov');
             $browser->type('email', 'bobi@microweber.com');
+            $browser->type('phone', '088123456');
             $browser->click('@checkout-continue');
 
-            $browser->pause('13000');
+            $browser->waitForLocation('/checkout/shipping-method');
+            $browser->waitForText('Address for delivery');
+            $browser->assertSee('Address for delivery');
+            $browser->select('country', 'Bulgaria');
+            $browser->type('Address[city]', 'Sofia');
+            $browser->type('Address[zip]', '1000');
+            $browser->type('Address[state]', 'Sofia');
+            $browser->type('Address[address]', 'Vitosha 143');
+            $browser->type('other_info', 'I want my order soon as posible.');
+
+            $browser->scrollTo('@checkout-continue');
+            $browser->pause(1000);
+
+            $browser->click('@checkout-continue');
+
+            $browser->waitForText('Payment method');
+            $browser->assertSee('Payment method');
+            $browser->pause(1000);
+
+            $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
+            $browser->pause(1000);
+
+            $browser->click('@checkout-continue');
+            $browser->pause(1000);
+
+            $browser->waitForText('Your order is completed');
+            $browser->assertSee('Your order is completed');
+
+            $orderNumber = $browser->text('@order-number');
+
+            $findOrder = Order::where('id', $orderNumber)->first();
+
+            $this->assertNotEmpty($findOrder);
+
+            $this->assertEquals($findOrder->first_name, 'Bozhidar');
+            $this->assertEquals($findOrder->last_name, 'Slaveykov');
+            $this->assertEquals($findOrder->email, 'bobi@microweber.com');
+            $this->assertEquals($findOrder->phone, '088123456');
+
+
+            $this->assertEquals($findOrder->country, 'Bulgaria');
+            $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.');
+
+            /*$browser->type('Address[city]', 'Sofia');
+            $browser->type('Address[zip]', '1000');
+            $browser->type('Address[state]', 'Sofia');
+            $browser->type('Address[address]', 'Vitosha 143');
+            */
 
         });
     }
