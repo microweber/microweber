@@ -41,7 +41,7 @@ window.MWEditor = function (options) {
         bar: null,
     };
 
-    this.actionWindow = window;
+
 
     options = options || {};
 
@@ -61,6 +61,10 @@ window.MWEditor = function (options) {
     }
 
     this.document = this.settings.document;
+    this.executionDocument = this.settings.executionDocument;
+
+    this.actionWindow = this.document.defaultView;
+    this.executionWindow = this.executionDocument.defaultView;
 
     var scope = this;
 
@@ -720,6 +724,8 @@ window.MWEditor = function (options) {
 
     };
     this.init();
+
+    this.actionWindow
 };
 
 if (window.mw) {

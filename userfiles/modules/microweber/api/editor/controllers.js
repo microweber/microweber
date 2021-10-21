@@ -707,6 +707,49 @@ MWEditor.controllers = {
         this.element = this.render();
     },
 
+    mobilePreview: function(scope, api, rootScope){
+         this.render = function () {
+            var el = MWEditor.core.element({
+                props: {
+                    className: 'mobilePreview-block',
+                 }
+            })
+             var phone = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-cellphone',
+                     tooltip: rootScope.lang('Phone'),
+                 }
+             });
+             phone.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '400px';
+             });
 
+             var tablet = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-tablet-android',
+                     tooltip: rootScope.lang('Tablet'),
+                 }
+             });
+             tablet.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '800px';
+             });
+
+             var pc = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-laptop',
+                     tooltip: rootScope.lang('Desktop'),
+                 }
+             });
+             pc.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '100%';
+             });
+             el.append(phone)
+             el.append(tablet)
+             el.append(pc)
+            return el;
+        };
+
+        this.element = this.render();
+    },
 
 };

@@ -202,8 +202,10 @@ export class LiveEdit {
             stateManager: this.settings.stateManager
         });
 
+
+
         moduleHandle.on('targetChange', function (node){
-            console.log(node.dataset.type);
+
             moduleHandle.menu.setTitle(node.dataset.type);
         })
 
@@ -265,8 +267,7 @@ export class LiveEdit {
                     if(first) {
                        const type = this.elementAnalyzer.getType(first);
                        if(type && type !== 'edit') {
-                           console.log(type)
-                           this.handles.set(type, elements[0])
+                            this.handles.set(type, elements[0])
                            if(type === 'element') {
                                this.handles.hide('module')
                            } else if(type === 'module') {

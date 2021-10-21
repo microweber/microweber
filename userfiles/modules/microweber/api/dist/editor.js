@@ -287,7 +287,7 @@ class DomService {
     static hasParentsWithClass (el, cls) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return true;
             }
@@ -299,7 +299,7 @@ class DomService {
     static hasParentWithId (el, id) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.id === id) {
                 return true;
             }
@@ -325,7 +325,7 @@ class DomService {
         if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
@@ -353,7 +353,7 @@ class DomService {
     static firstParentOrCurrentWithClass (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -365,7 +365,7 @@ class DomService {
     static firstParentOrCurrentWithAnyOfClasses (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (!curr) return false;
             if (this.hasAnyOfClasses(curr, arr)) {
                 return curr;
@@ -377,7 +377,7 @@ class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
@@ -398,7 +398,8 @@ class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
+
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
@@ -1322,7 +1323,7 @@ window.MWEditor = function (options) {
         bar: null,
     };
 
-    this.actionWindow = window;
+
 
     options = options || {};
 
@@ -1342,6 +1343,10 @@ window.MWEditor = function (options) {
     }
 
     this.document = this.settings.document;
+    this.executionDocument = this.settings.executionDocument;
+
+    this.actionWindow = this.document.defaultView;
+    this.executionWindow = this.executionDocument.defaultView;
 
     var scope = this;
 
@@ -2001,6 +2006,8 @@ window.MWEditor = function (options) {
 
     };
     this.init();
+
+    this.actionWindow
 };
 
 if (window.mw) {
@@ -3620,7 +3627,50 @@ MWEditor.controllers = {
         this.element = this.render();
     },
 
+    mobilePreview: function(scope, api, rootScope){
+         this.render = function () {
+            var el = MWEditor.core.element({
+                props: {
+                    className: 'mobilePreview-block',
+                 }
+            })
+             var phone = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-cellphone',
+                     tooltip: rootScope.lang('Phone'),
+                 }
+             });
+             phone.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '400px';
+             });
 
+             var tablet = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-tablet-android',
+                     tooltip: rootScope.lang('Tablet'),
+                 }
+             });
+             tablet.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '800px';
+             });
+
+             var pc = MWEditor.core.button({
+                 props: {
+                     className: 'mdi-laptop',
+                     tooltip: rootScope.lang('Desktop'),
+                 }
+             });
+             pc.on('mousedown touchstart', function (e) {
+                 scope.executionDocument.defaultView.frameElement.style.width = '100%';
+             });
+             el.append(phone)
+             el.append(tablet)
+             el.append(pc)
+            return el;
+        };
+
+        this.element = this.render();
+    },
 
 };
 

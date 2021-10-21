@@ -80,7 +80,7 @@ export class DomService {
     static hasParentsWithClass (el, cls) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return true;
             }
@@ -92,7 +92,7 @@ export class DomService {
     static hasParentWithId (el, id) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.id === id) {
                 return true;
             }
@@ -118,7 +118,7 @@ export class DomService {
         if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
@@ -146,7 +146,7 @@ export class DomService {
     static firstParentOrCurrentWithClass (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -158,7 +158,7 @@ export class DomService {
     static firstParentOrCurrentWithAnyOfClasses (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (!curr) return false;
             if (this.hasAnyOfClasses(curr, arr)) {
                 return curr;
@@ -170,7 +170,7 @@ export class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
@@ -191,7 +191,8 @@ export class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
+
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {

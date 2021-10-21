@@ -73,7 +73,7 @@ export const GetPointerTargets = function(options)  {
     }
     this.fromPoint = function (x, y) {
         var res = [];
-        var el = scope.document.elementFromPoint(x, y);
+         var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
         addNode(el, res);
         var dots = getNearCoordinates(x, y);

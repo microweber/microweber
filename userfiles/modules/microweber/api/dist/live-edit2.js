@@ -94,7 +94,7 @@ class DomService {
     static hasParentsWithClass (el, cls) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return true;
             }
@@ -106,7 +106,7 @@ class DomService {
     static hasParentWithId (el, id) {
         if (!el) return;
         var curr = el.parentNode;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.id === id) {
                 return true;
             }
@@ -132,7 +132,7 @@ class DomService {
         if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
@@ -160,7 +160,7 @@ class DomService {
     static firstParentOrCurrentWithClass (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -172,7 +172,7 @@ class DomService {
     static firstParentOrCurrentWithAnyOfClasses (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr && curr.classList) {
+        while (curr && curr.nodeName !== 'BODY') {
             if (!curr) return false;
             if (this.hasAnyOfClasses(curr, arr)) {
                 return curr;
@@ -184,7 +184,7 @@ class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirst (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
@@ -205,7 +205,8 @@ class DomService {
 
     static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
         let curr = node;
-        while (curr && curr !== document.body) {
+        while (curr && curr.nodeName !== 'BODY') {
+
             const h1 = curr.classList.contains(arr[0]);
             const h2 = curr.classList.contains(arr[1]);
             if (h1 && h2) {
@@ -2730,7 +2731,7 @@ const GetPointerTargets = function(options)  {
     }
     this.fromPoint = function (x, y) {
         var res = [];
-        var el = scope.document.elementFromPoint(x, y);
+         var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
         addNode(el, res);
         var dots = getNearCoordinates(x, y);
@@ -3050,8 +3051,10 @@ class LiveEdit {
             stateManager: this.settings.stateManager
         });
 
+
+
         moduleHandle.on('targetChange', function (node){
-            console.log(node.dataset.type);
+
             moduleHandle.menu.setTitle(node.dataset.type);
         })
 
@@ -3113,8 +3116,7 @@ class LiveEdit {
                     if(first) {
                        const type = this.elementAnalyzer.getType(first);
                        if(type && type !== 'edit') {
-                           console.log(type)
-                           this.handles.set(type, elements[0])
+                            this.handles.set(type, elements[0])
                            if(type === 'element') {
                                this.handles.hide('module')
                            } else if(type === 'module') {
