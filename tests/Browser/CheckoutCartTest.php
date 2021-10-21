@@ -46,13 +46,21 @@ class CheckoutCartTest extends DuskTestCase
             $browser->type('Address[state]', 'Sofia');
             $browser->type('Address[address]', 'Vitosha 143');
             $browser->type('other_info', 'I want my order soon as posible.');
+
+            $browser->scrollTo('@checkout-continue');
+            $browser->pause(1000);
+
             $browser->click('@checkout-continue');
 
             $browser->waitForText('Payment method');
             $browser->assertSee('Payment method');
+            $browser->pause(1000);
 
-            $browser->select('payment_gw', 'shop/payments/gateways/bank_transfer');
+            $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
+            $browser->pause(1000);
+
             $browser->click('@checkout-continue');
+            $browser->pause(1000);
 
             $browser->waitForText('Your order is completed');
             $browser->assertSee('Your order is completed');
