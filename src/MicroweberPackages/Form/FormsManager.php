@@ -387,7 +387,8 @@ class FormsManager
                                 'field_type' => $customFieldType,
                                 'field_name' => $customFieldName,
                                 'field_key' => $customFieldNameKey,
-                                'field_value' => $paramValues
+                                'field_value' => $paramValues,
+                                'field_value_json' => []
                             ];
                         }
                     }
@@ -575,7 +576,8 @@ class FormsManager
                                     'field_type' => 'upload',
                                     'field_key' => $file['name'],
                                     'field_name' => $fieldName,
-                                    'field_value'=> [
+                                    'field_value' => false,
+                                    'field_value_json'=> [
                                         'url' => $mediaFileUrl,
                                         'file_name' => $file['name'],
                                         'file_extension' => $fileExtension,
@@ -608,15 +610,17 @@ class FormsManager
             $formModel = FormData::find($save);
 
             foreach ($fieldsData as $dataValue) {
+
                 $formDataValue = new FormDataValue();
                 $formDataValue->field_type = $dataValue['field_type'];
                 $formDataValue->field_name = $dataValue['field_name'];
                 $formDataValue->field_key = $dataValue['field_key'];
                 $formDataValue->field_value = $dataValue['field_value'];
+                $formDataValue->field_value_json = $dataValue['field_value_json'];
                 $formDataValue->form_data_id = $formModel->id;
                 $formDataValue->save();
-            }
 
+            }
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 

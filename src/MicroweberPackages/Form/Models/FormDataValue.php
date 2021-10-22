@@ -14,10 +14,11 @@ class FormDataValue extends Model
       'field_key',
       'field_name',
       'field_value',
+      'field_value_json',
     ];
 
     public $casts = [
-        'field_value'=>'json'
+        'field_value_json'=>'json'
     ];
 
     public function formData()
