@@ -118,7 +118,7 @@ if (isset($item['created_by'])) {
                         <?php } ?>
 
                     <?php
-                    if ($iformVr == count($form_values_formated)) {
+                    if ($iformVr == count($form_values_formated) && !empty($form_files)) {
                         ?>
                         <h6><strong><?php _e("Attached files"); ?></strong></h6>
                         <?php
