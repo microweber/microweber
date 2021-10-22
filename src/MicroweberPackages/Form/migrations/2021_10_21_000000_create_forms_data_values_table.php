@@ -19,6 +19,7 @@ class CreateFormsDataValuesTable extends Migration
             $table->string('field_key')->nullable();
             $table->string('field_name')->nullable();
             $table->longText('field_value')->nullable();
+            $table->longText('field_value_json')->nullable();
         });
     }
 }
