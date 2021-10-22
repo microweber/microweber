@@ -613,6 +613,7 @@ class FormsManager
                 $formDataValue->field_name = $dataValue['field_name'];
                 $formDataValue->field_key = $dataValue['field_key'];
                 $formDataValue->field_value = $dataValue['field_value'];
+                $formDataValue->form_data_id = $formModel->id;
                 $formDataValue->save();
             }
 

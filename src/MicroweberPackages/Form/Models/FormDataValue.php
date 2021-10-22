@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormDataValue extends Model
 {
+    public $timestamps = false;
     protected $table = 'forms_data_values';
 
     public $fillable = [
