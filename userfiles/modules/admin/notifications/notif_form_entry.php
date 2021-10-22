@@ -14,21 +14,22 @@ if (isset($item['rel_id']) AND !isset($is_entry)) {
 
 $form_files = [];
 $form_values = [];
-if (isset($entry['form_values'])) {
-    $form_values = json_decode($entry['form_values'], true);
-    
+
+$find_form_values = \MicroweberPackages\Form\Models\FormDataValue::where('form_data_id', $item_id)->get();
+if ($find_form_values != null) {
     // seperate uploads from this array
     $new_form_values = [];
-    if (!empty($form_values)) {
-        foreach ($form_values as $form_key => $form_value) {
-            if (isset($form_value['type']) && $form_value['type'] == 'upload') {
-                $form_files[$form_key] = $form_value;
-                continue;
-            }
-            if (empty($form_value)) {
-                continue;
-            }
-            $new_form_values[$form_key] = $form_value;
+    foreach ($find_form_values->toArray() as $form_value) {
+
+        if (isset($form_value['field_type']) && $form_value['field_type'] == 'upload') {
+            $form_files[$form_value['field_name']] = $form_value['field_value_json'];
+            continue;
+        }
+
+        if (!empty($form_value['field_value_json'])) {
+            $new_form_values[$form_value['field_name']] = $form_value['field_value_json'];
+        } else {
+            $new_form_values[$form_value['field_name']] = $form_value['field_value'];
         }
     }
     $form_values = $new_form_values;
@@ -60,7 +61,6 @@ if (isset($item['created_by'])) {
             $('.js-form-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
         });
     });
-
 </script>
 
 <div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">

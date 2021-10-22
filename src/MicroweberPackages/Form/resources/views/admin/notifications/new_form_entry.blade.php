@@ -5,7 +5,6 @@
             $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-toggle');
         });
     });
-
 </script>
 
 <div class="js-form-entry-{{ $id }} card mb-2 not-collapsed-border collapsed card-message-holder {{ isset($id) ? 'card-bubble' : '' }} {{ !empty($is_read) ? 'active' : '' }} bg-silver"
