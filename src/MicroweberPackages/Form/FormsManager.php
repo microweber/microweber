@@ -2,16 +2,12 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use League\Csv\Writer;
-use MicroweberPackages\Backup\Exporters\CsvExport;
-use MicroweberPackages\Backup\Exporters\DefaultExport;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
-use MicroweberPackages\Backup\Exporters\XmlExport;
-use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Form\Models\FormData;
+use MicroweberPackages\Form\Models\FormDataValue;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
@@ -343,7 +339,7 @@ class FormsManager
         }
 
         $to_save = array();
-        $fields_data = array();
+        $fieldsData = array();
 
         $get_fields = array();
         $get_fields['rel_type'] = $for;
@@ -372,34 +368,30 @@ class FormsManager
                     ];
                 }
 
-
                 if (isset($item['name'])) {
-                    $cfn = ($item['name']);
 
-                    //  $cfn2 = str_replace(' ', '_', $cfn);
-                    $cfn2 = str_replace(' ', '_', trim($cfn));
+                    $customFieldName = $item['name']; // custom field name
+                    $customFieldNameKey = $item['name_key']; // custom field name key
+                    $customFieldType = 'text'; // custom field type
+                    if (isset($item['options']['field_type'])) {
+                        $customFieldType = $item['options']['field_type'];
+                    }
 
-                    if (isset($params[$cfn2]) and $params[$cfn2] != false) {
-                        $fields_data[$cfn2] = $params[$cfn2];
-                        $item['value'] = $params[$cfn2];
-                        $cfToSave[$cfn] = $item;
-                    } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
-                        $fields_data[$cfn] = $params[$cfn];
-                        $item['value'] = $params[$cfn2];
-                        $cfToSave[$cfn] = $item;
-                    } else {
-                        $cfn3 = \Str::slug($item['name'], '-');
-                        foreach ($params as $param_key => $param_vals) {
-                            $cfn_url = \Str::slug($param_key, '-');
-                            if ($cfn3 == $cfn_url) {
+                    foreach ($params as $paramKey => $paramValues) {
+                        if ($paramKey == $customFieldNameKey) {
 
-                                $item['value'] = $params[$param_key];
-                                $cfToSave[$cfn] = $param_vals;
-                                $fields_data[$cfn] = $params[$param_key];
+                            $item['value'] = $params[$paramKey];
+                            $cfToSave[$customFieldNameKey] = $paramValues;
 
-                            }
+                            $fieldsData[] = [
+                                'field_type' => $customFieldType,
+                                'field_name' => $customFieldName,
+                                'field_key' => $customFieldNameKey,
+                                'field_value' => $paramValues
+                            ];
                         }
                     }
+
                 }
             }
         } else {
@@ -467,9 +459,7 @@ class FormsManager
                     }
 
                     $allowedFilesForSave[$field['name_key']] = true;
-
                  //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
-
 
                     $mimeTypes = [];
                     if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
@@ -548,7 +538,6 @@ class FormsManager
                 if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
                     foreach ($allowedFilesForSave as $fieldName => $file_up) {
 
-
                         if(!isset($_FILES[$fieldName])){
                             continue;
                         }
@@ -575,19 +564,24 @@ class FormsManager
 
                                 $realPath = Storage::disk('media')->path($targetFileName);
 
-                                $file_mime = \Illuminate\Support\Facades\File::mimeType($realPath);
-                                $file_extension = \Illuminate\Support\Facades\File::extension($realPath);
-                                $file_size = \Illuminate\Support\Facades\File::size($realPath);
+                                $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
+                                $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
+                                $fileSize = \Illuminate\Support\Facades\File::size($realPath);
 
                                 $mediaFileUrl = Storage::disk('media')->url($targetFileName);
                                 $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-                                $fields_data[$fieldName] = [
-                                    'type' => 'upload',
-                                    'url' => $mediaFileUrl,
-                                    'file_name' => $file['name'],
-                                    'file_extension' => $file_extension,
-                                    'file_mime' => $file_mime,
-                                    'file_size' => $file_size,
+
+                                $fieldsData[] = [
+                                    'field_type' => 'upload',
+                                    'field_key' => $file['name'],
+                                    'field_name' => $fieldName,
+                                    'field_value'=> [
+                                        'url' => $mediaFileUrl,
+                                        'file_name' => $file['name'],
+                                        'file_extension' => $fileExtension,
+                                        'file_mime' => $fileMime,
+                                        'file_size' => $fileSize,
+                                    ]
                                 ];
                             }
 
@@ -603,19 +597,25 @@ class FormsManager
             }
 
             // End of attachments
-            if (!empty($fields_data)) {
-                $to_save['form_values'] = json_encode($fields_data, JSON_HEX_QUOT | JSON_HEX_APOS);
-            } else {
-                $to_save['form_values'] = json_encode($params, JSON_HEX_QUOT | JSON_HEX_APOS);
+            if (empty($fieldsData)) {
+                return ['errors' => 'Fields data is empty'];
             }
 
             $save = $this->app->database_manager->save($table, $to_save);
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
-            $formModel = Form::find($save);
+            $formModel = FormData::find($save);
 
-            // Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+            foreach ($fieldsData as $dataValue) {
+                $formDataValue = new FormDataValue();
+                $formDataValue->field_type = $dataValue['field_type'];
+                $formDataValue->field_name = $dataValue['field_name'];
+                $formDataValue->field_key = $dataValue['field_key'];
+                $formDataValue->field_value = $dataValue['field_value'];
+                $formDataValue->save();
+            }
+
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
