@@ -29,6 +29,9 @@ class MigrateOldFormsData extends Migration
                             $formDataValue->field_name = $dataKey;
 
                             if (is_array($dataValue)) {
+                                if ($dataValue['type'] == 'upload') {
+                                    $formDataValue->field_type = 'upload';
+                                }
                                 $formDataValue->field_value_json = $dataValue;
                             } else {
                                 $formDataValue->field_value = $dataValue;
