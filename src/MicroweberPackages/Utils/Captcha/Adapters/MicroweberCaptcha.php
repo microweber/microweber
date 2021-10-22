@@ -53,6 +53,15 @@ class MicroweberCaptcha
         }
     }
 
+    public function reset($captcha_id = null)
+    {
+        $old = app()->user_manager->session_set('captcha',[]);
+        $old = app()->user_manager->session_set('captcha_recent',[]);
+        if($captcha_id){
+        $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
+        }
+    }
+
     public function render($params = array())
     {
         sleep(1);

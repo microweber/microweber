@@ -16,7 +16,7 @@ use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator;
 
 
-class CaptchaManagerServiceProvider extends ServiceProvider
+class CaptchaServiceProvider extends ServiceProvider
 {
 
     /**
