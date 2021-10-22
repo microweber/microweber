@@ -253,6 +253,45 @@
                 },
                 version: 'mw_local'
             },
+            SVGIcons: {
+                cssSelector: 'svg[viewBox]',
+                detect: function (target) {
+                    return target.nodeName === 'SVG'
+                },
+                render: function (icon, target) {
+                     target.innerHTML = icon.source;
+                     var svg = target.querySelector('svg');
+                     if (svg) {
+                         svg.setAttribute('width', '1em');
+                         svg.setAttribute('fill', 'currentColor');
+                         svg.setAttribute('height', '1em');
+                         svg.style.width = '1em';
+                         svg.style.height = '1em';
+                         svg.style.fill = 'currentColor';
+                     }
+                },
+                remove: function (target) {
+                    target.innerHTML = ''
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        if(window.TemplateVectorIcons) {
+                            resolve(TemplateVectorIcons)
+                        } else {
+                            $.getScript(mw.settings.template_url + 'template_icons.js', function (){
+                                resolve(TemplateVectorIcons)
+                            })
+                        }
+
+                    });
+                },
+                name: 'Vector Icons',
+                load:  null,
+                unload: function () {
+
+                },
+                version: 'mw_local'
+            },
         };
 
         var storage = function () {
@@ -590,7 +629,7 @@
                 return;
             }
 
-            var all = conf.set._iconsLists.filter(function (f){ return f.toLowerCase().indexOf(conf.term) !== -1; });
+            var all = conf.set._iconsLists.filter(function (f){ return (f.name || f).toLowerCase().indexOf(conf.term) !== -1; });
 
             var off = scope.settings.iconsPerPage * (conf.page - 1);
             var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
@@ -627,6 +666,9 @@
                                     return res.set.render(iconItem, scope.target);
                                 }
                             });
+                            setTimeout(function (){
+                                mw.trigger('iconInserted')
+                            })
                         }
                     }
                 });

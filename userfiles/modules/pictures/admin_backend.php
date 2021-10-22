@@ -218,7 +218,6 @@ if (!isset($data["thumbnail"])) {
 
 <div class="left m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader_<?php print $rand?>"></div>
-
     <div class="admin-thumbs-holder">
         <?php if ($for_id != false) : ?>
             <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" for_id="<?php print $for_id ?>"/>

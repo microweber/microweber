@@ -127,13 +127,12 @@ $rand = uniqid();
 
     <div class="tab-content py-3">
         <div class="tab-pane fade show active" id="list">
-
             <?php if ($is_post): ?>
                 <?php if ($quick_add == false and $use_from_post_forced == false): ?>
                     <div class="form-group" id="mw-pic-scope">
                         <table width="100%">
                             <tr>
-                                <td width="50%">
+                                <td width="50%">333
                                     <div class="custom-control custom-checkbox" id="mw-use-post-pics-scope" >
                                         <input autocomplete="off"  type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
                                         <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>

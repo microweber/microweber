@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -167,6 +169,65 @@ class UserLoginControllerTest extends TestCase
         $this->assertNotEmpty($userData['errors']['captcha']);
 
 
+    }
+
+    public function testUserIsLoggedAfterChangeOfIsActive()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+        $this->_disableLoginCaptcha();
+
+
+        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $password = 'pass__' . uniqid();
+
+        $user = $this->_registerUserWithEmail($email, $password);
+
+        $response = $this->json(
+            'POST',
+            route('api.user.login'),
+            [
+                'username' => $email,
+                'password' => $password,
+                'where_to' => 'home',
+            ]
+        );
+
+        $userData = $response->getData(true);
+
+        $this->assertArrayHasKey("redirect", $userData);
+        $this->assertArrayHasKey("success", $userData);
+
+        $is_logged = is_logged();
+        $this->assertTrue($is_logged);
+        $loginData = [
+            'username' => $email,
+            'password' => $password,
+            'where_to' => 'home'
+        ];
+
+        $user = User::find($userData['data']['id']);
+        $user->is_active = 0;
+        $user->save();
+
+        $response = $this->json(
+            'POST',
+            route('api.user.login'),
+            $loginData
+        );
+        $userData = $response->getData(true);
+        $this->assertEquals($userData['error'], "Your account is disabled");
+
+        Auth::logout();
+        $response = $this->json(
+            'POST',
+            route('api.user.login'),
+            $loginData
+        );
+        $userData = $response->getData(true);
+
+        $this->assertEquals($userData['error'], "Your account is disabled");
     }
 
 

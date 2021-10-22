@@ -25,7 +25,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
   font-size: 11px;
   line-height: 22px;
   font-weight: 500;
-  text-transform: uppercase;
+  //text-transform: uppercase;
 }
 
 .navbar {
@@ -321,7 +321,7 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row a, .comments-holder, .card-message-holder .card-body .row{
+.card-header, .card-body .row a, .comments-holder .card-body .row{
     &:hover {
             strong, i {
             color: $primary!important;
@@ -759,8 +759,8 @@ input, .custom-select {
     background: $body-bg;
 }
 
-.mw-dialog-skin-default .mw-dialog-header {
-    background: $black!important;
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
+    background-color: $black!important;
 }
 
 .mw-dialog-skin-default .mw-dialog-close {
@@ -912,6 +912,14 @@ input, .custom-select {
         border: none!important;
     }
 }
+a.btn-link {
+    color: $primary!important;
+
+    small {
+        color: $primary!important;
+
+    }
+}
 
 .mw-editor-controller-component-select-values-holder, .mw-bar-control-item-group-contents {
     background: $black!important;
@@ -921,11 +929,34 @@ input, .custom-select {
     }
 }
 
-.mw-editor-controller-button:hover  {
+.mw-editor-controller-button:hover, .mw-range .ui-slider-range, .mw-range .ui-slider-handle:hover {
     background-color: $primary!important;
     border-color: $primary!important;
 }
 
 .mw-ui-box-header.mw-accordion-title:after {
     color: $primary!important;
+}
+
+.mw-ui-field:focus, .mw-ui-field:hover, .mw-select .mw-select-options, .mw-select-option {
+    border-color: $primary!important;
+    box-shadow: 0 0 3px $primary!important;
+}
+
+#content-tags-search-block .mw-ui-field:hover {
+    background: transparent!important;
+
+}
+
+.reset-field:hover {
+   i.mdi {
+        color: $primary !important;
+   }
+}
+
+.mw-bar-row {
+
+    button {
+        border: none!important;
+    }
 }

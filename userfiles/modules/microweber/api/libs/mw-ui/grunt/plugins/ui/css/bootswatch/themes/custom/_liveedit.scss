@@ -16,6 +16,28 @@
     border-color: $primary!important;
 }
 
+.input-group-text, .mw-ui-btn  {
+    border-color: $primary!important;
+    background: $primary!important;
+    color: $secondary !important;
+
+
+    &:hover, &:active {
+
+            background-color: $primary!important;
+            color: $secondary !important;
+
+    }
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background: $black!important;
+        li {
+            color: $secondary !important;
+        }
+    }
+}
+
 
 .input-group-text  {
     border-color: $primary!important;
@@ -160,8 +182,8 @@
     background: $body-bg;
 }
 
-.mw-dialog-skin-default .mw-dialog-header {
-    background: $black!important;
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
+    background-color: $black!important;
 }
 
 .mw-ac-editor-nav > .mw-ui-btn-tab.active {
@@ -234,4 +256,9 @@
     .mw-accordion-title.mw-ui-box-header.active {
         border-color: $primary!important;
     }
+}
+
+
+#modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
+    background-color: $primary!important;
 }

@@ -442,6 +442,13 @@ class UserManager
         }
 
         if (Auth::check()) {
+            $user =Auth::user();
+            if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
+                // logout user if its set inactive in database
+                $this->logout();
+                return false;
+            }
+
             return true;
         } else {
             return false;

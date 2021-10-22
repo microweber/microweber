@@ -38,7 +38,7 @@
             </div>
 
             <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
-            <h4><?php print($order['id']); ?></h4>
+            <h4 dusk="order-number"><?php print($order['id']); ?></h4>
 
             <div class="edit" field="checkout_finish_button" rel="global">
                 <div class="mt-4">
