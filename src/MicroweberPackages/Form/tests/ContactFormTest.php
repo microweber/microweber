@@ -243,9 +243,9 @@ class ContactFormTest extends TestCase
 
         //must be in the order of custom fields
         $custom_fields_order = array_keys($response[0]['custom_fields']);
-        $this->assertSame($custom_fields_order[0], 'PersonNameRequired');
-        $this->assertSame($custom_fields_order[1], 'PersonTelephoneRequired');
-        $this->assertSame($custom_fields_order[2], 'PersonMessageRequired');
+        $this->assertSame($custom_fields_order[0], 'personnamerequired');
+        $this->assertSame($custom_fields_order[1], 'persontelephonerequired');
+        $this->assertSame($custom_fields_order[2], 'personmessagerequired');
 
 
     }
