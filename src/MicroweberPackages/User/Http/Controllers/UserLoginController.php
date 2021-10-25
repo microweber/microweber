@@ -92,7 +92,7 @@ class UserLoginController extends Controller
 //              //  $message['token'] = auth()->user()->createToken('authToken');
 //            }
 
-            if(!$is_logged_out){
+            if(!$is_logged_out and $user and isset($user->is_active) and intval($user->is_active) == 0){
                 $message['data'] = [];
                 $message['error'] = 'Your account is disabled';
                 return response()->json($message, 200);
