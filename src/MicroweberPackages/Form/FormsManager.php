@@ -77,7 +77,7 @@ class FormsManager
                     $fields = [];
                     if ($findFormsDataValues->count()>0) {
                         foreach ($findFormsDataValues as $formsDataValue) {
-                            if (is_array($formsDataValue->field_value_json)) {
+                            if (is_array($formsDataValue->field_value_json) && !empty($formsDataValue->field_value_json)) {
                                 $fields[$formsDataValue->field_key] = $formsDataValue->field_value_json;
                             } else {
                                 $fields[$formsDataValue->field_key] = $formsDataValue->field_value;
@@ -87,7 +87,6 @@ class FormsManager
                 }
 
                 if (is_array($fields)) {
-                    //ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
                         $item['custom_fields'][$key] = $value;
@@ -423,7 +422,7 @@ class FormsManager
                     $formDataKey = str_slug($formDataName);
                     $formDataKey = str_replace('-','_', $formDataKey);
 
-                    if (is_array($formDataValue)) {
+                    if (is_array($formDataValue) && !empty($formDataValue)) {
                         $fieldsData[] = [
                             'field_type' => 'options',
                             'field_name' => $formDataName,
