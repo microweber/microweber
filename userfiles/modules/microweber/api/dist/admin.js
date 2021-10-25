@@ -5658,7 +5658,12 @@ window.onmessage = function (e) {
                 scope.upload(data, function (res) {
                     var dataProgress;
                     if(chunks.length) {
-                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){}, function (xhr){
+                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){
+                            if (done) {
+                                done.call(file, res);
+                            }
+                            resolve(file);
+                        }, function (xhr){
                              if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr);
                             }
@@ -5670,8 +5675,10 @@ window.onmessage = function (e) {
                         if(scope.settings.on.progress) {
                             scope.settings.on.progress(dataProgress, res);
                         }
+                        console.log('a1', res)
 
                     } else {
+                        console.log('a2', res)
                         dataProgress = {
                             percent: '100'
                         };
@@ -5714,6 +5721,7 @@ window.onmessage = function (e) {
 
         this.uploadFiles = function () {
             if (this.settings.async) {
+                console.log(7777, this.files)
                 if (this.files.length) {
                     this.uploading(true);
                     var file = this.files[0]
@@ -5721,7 +5729,7 @@ window.onmessage = function (e) {
                         .then(function (){
                         scope.files.shift();
                         scope.uploadFiles();
-                    }, function (xhr){console.log(2, scope.settings.on.fileUploadError)
+                    }, function (xhr){
                             scope.removeFile(file);
                             if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr)
@@ -7060,6 +7068,45 @@ mw.filePicker = function (options) {
                 },
                 version: 'mw_local'
             },
+            SVGIcons: {
+                cssSelector: 'svg[viewBox]',
+                detect: function (target) {
+                    return target.nodeName === 'SVG'
+                },
+                render: function (icon, target) {
+                     target.innerHTML = icon.source;
+                     var svg = target.querySelector('svg');
+                     if (svg) {
+                         svg.setAttribute('width', '1em');
+                         svg.setAttribute('fill', 'currentColor');
+                         svg.setAttribute('height', '1em');
+                         svg.style.width = '1em';
+                         svg.style.height = '1em';
+                         svg.style.fill = 'currentColor';
+                     }
+                },
+                remove: function (target) {
+                    target.innerHTML = ''
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        if(window.TemplateVectorIcons) {
+                            resolve(TemplateVectorIcons)
+                        } else {
+                            $.getScript(mw.settings.template_url + 'template_icons.js', function (){
+                                resolve(TemplateVectorIcons)
+                            })
+                        }
+
+                    });
+                },
+                name: 'Vector Icons',
+                load:  null,
+                unload: function () {
+
+                },
+                version: 'mw_local'
+            },
         };
 
         var storage = function () {
@@ -7397,7 +7444,7 @@ mw.filePicker = function (options) {
                 return;
             }
 
-            var all = conf.set._iconsLists.filter(function (f){ return f.toLowerCase().indexOf(conf.term) !== -1; });
+            var all = conf.set._iconsLists.filter(function (f){ return (f.name || f).toLowerCase().indexOf(conf.term) !== -1; });
 
             var off = scope.settings.iconsPerPage * (conf.page - 1);
             var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
@@ -7434,6 +7481,9 @@ mw.filePicker = function (options) {
                                     return res.set.render(iconItem, scope.target);
                                 }
                             });
+                            setTimeout(function (){
+                                mw.trigger('iconInserted')
+                            })
                         }
                     }
                 });

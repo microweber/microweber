@@ -361,6 +361,17 @@ class DomService {
         }
         return false;
     }
+    static firstParentOrCurrent (el, selector) {
+        if (!el) return false;
+        var curr = el;
+        while (curr && curr.nodeName !== 'BODY') {
+            if (curr.matches(selector)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
 
     static firstParentOrCurrentWithAnyOfClasses (node, arr) {
         if (!node) return false;
@@ -430,11 +441,11 @@ class DomService {
     static offset (node) {
         if(!node) return;
         var off = node.getBoundingClientRect();
-        var res = {top: off.top, left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
-        res.top += scrollY;
-        res.bottom += scrollY;
-        res.left += scrollX;
-        res.right += scrollX;
+        var res = {top: off.top , left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
+        res.top += node.ownerDocument.defaultView.scrollY;
+        res.bottom += node.ownerDocument.defaultView.scrollY;
+        res.left += node.ownerDocument.defaultView.scrollX;
+        res.right += node.ownerDocument.defaultView.scrollX;
         return res;
     }
     static parentsOrder (node, arr) {
@@ -1563,7 +1574,7 @@ window.MWEditor = function (options) {
                 _observe();
             }, 123);
         });
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
+
         this.createInteractionControls();
     };
 
@@ -1625,7 +1636,7 @@ window.MWEditor = function (options) {
                 this.contentWindow.document.body.append(area);
                 area.style.minHeight = '100px';
             }
-            scope.$iframeArea = $(scope.settings.iframeAreaSelector, this.contentWindow.document);
+            scope.$iframeArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(scope.settings.iframeAreaSelector, this.contentWindow.document);
 
             scope.$iframeArea.html(scope.settings.content || '');
             scope.$iframeArea.on('input', function () {
@@ -1693,9 +1704,8 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
-         this.$editArea.append(this.wrapper)
+        (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(this.document.body).append(this.wrapper)
         this.document.body.mwEditor = this;
         $(scope).trigger('ready');
     };
@@ -1899,11 +1909,13 @@ window.MWEditor = function (options) {
     };
 
     this._onReady = function () {
+
         $(this).on('ready', function () {
             scope.initInteraction();
             scope.api.execCommand('enableObjectResizing', false, 'false');
             scope.api.execCommand('2D-Position', false, false);
             scope.api.execCommand("enableInlineTableEditing", null, false);
+            console.log(scope.$editArea)
             if(!scope.state.hasRecords()){
                 scope.state.record({
                     $initial: true,
@@ -1912,9 +1924,18 @@ window.MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
+            scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
 
             Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.regions)).forEach(function (el){
-                el.contentEditable = true;
+                el.contentEditable = false;
+                (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(el).on('mousedown touchstart', function (e){
+
+                    e.stopPropagation();
+                    var curr = _classes_dom__WEBPACK_IMPORTED_MODULE_3__.DomService.firstParentOrCurrent(e.target, scope.settings.regions);
+                    Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.regions)).forEach(function (el){
+                        el.contentEditable = el === curr;
+                    });
+                })
             })
 
             Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.notEditableSelector)).forEach(function (el){
@@ -1987,7 +2008,7 @@ window.MWEditor = function (options) {
         this.controllers = MWEditor.controllers;
         this.controllersHelpers = MWEditor.controllersHelpers;
         this.initState();
-        this._onReady();
+
         this.createWrapper();
         this.createBar();
 
@@ -1998,6 +2019,29 @@ window.MWEditor = function (options) {
         } else if (this.settings.mode === 'document') {
             this.documentMode();
         }
+
+        this._onReady();
+
+        if(this.settings.iframe) {
+            this.actionWindow = this.settings.iframe.contentWindow;
+            this.executionDocument = this.settings.iframe.contentWindow.document;
+            scope.$iframeArea = $(scope.settings.iframeAreaSelector, scope.executionDocument);
+             if(this.executionDocument.readyState === 'complete') {
+                scope.$iframeArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(scope.settings.iframeAreaSelector, scope.executionDocument);
+                scope.$editArea = scope.$iframeArea;
+                $(scope).trigger('ready');
+            } else {
+                this.actionWindow.addEventListener('load', function (){
+                    scope.$iframeArea = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(scope.settings.iframeAreaSelector, scope.executionDocument);
+                    scope.$editArea = scope.$iframeArea;
+                     $(scope).trigger('ready');
+                })
+            }
+
+        }
+
+
+
         if (this.settings.mode !== 'document') {
             this._initInputRecord();
             this.__insertEditor();
@@ -2007,8 +2051,7 @@ window.MWEditor = function (options) {
     };
     this.init();
 
-    this.actionWindow
-};
+ };
 
 if (window.mw) {
    mw.Editor = function (options){
@@ -2533,6 +2576,7 @@ MWEditor.api = function (scope) {
             }
             var sel = scope.getSelection();
             var el = scope.api.elementNode(sel.focusNode);
+            console.log(el, styles)
             var range = sel.getRangeAt(0);
             var frag = range.cloneContents();
             var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
@@ -2540,6 +2584,7 @@ MWEditor.api = function (scope) {
                 var el = scope.actionWindow.document.createElement('span');
                 el.className = 'mw-richtext-cssApplier';
                 el.setAttribute('style', styles);
+                console.log(el, styles)
                 el.textContent = node.textContent;
                 node.parentNode.replaceChild(el, node);
             });
@@ -2572,12 +2617,17 @@ MWEditor.api = function (scope) {
         },
         domCommand: function (method, options) {
             var sel = scope.getSelection();
+            console.log(1)
             try {  // 0x80004005
                 if (  scope.api.isSelectionEditable()) {
-
+                    console.log(2)
                     if (sel.rangeCount > 0) {
+                        console.log(3)
                         var node = scope.api.elementNode(sel.focusNode);
-                        scope.api.action(mw.tools.firstBlockLevel(node), function () {
+                        console.log(node)
+                        console.log(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node))
+                        scope.api.action(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node), function () {
+                            console.log(4)
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
@@ -2967,7 +3017,9 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('bold');
+                // api.execCommand('bold');
+
+                api.domCommand('cssApplier', {'font-weight': 'bold'});
             });
             return el;
         };

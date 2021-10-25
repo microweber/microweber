@@ -154,6 +154,17 @@ export class DomService {
         }
         return false;
     }
+    static firstParentOrCurrent (el, selector) {
+        if (!el) return false;
+        var curr = el;
+        while (curr && curr.nodeName !== 'BODY') {
+            if (curr.matches(selector)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    }
 
     static firstParentOrCurrentWithAnyOfClasses (node, arr) {
         if (!node) return false;
@@ -223,11 +234,11 @@ export class DomService {
     static offset (node) {
         if(!node) return;
         var off = node.getBoundingClientRect();
-        var res = {top: off.top, left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
-        res.top += scrollY;
-        res.bottom += scrollY;
-        res.left += scrollX;
-        res.right += scrollX;
+        var res = {top: off.top , left: off.left, width: off.width, height: off.height, bottom: off.bottom, right: off.right};;
+        res.top += node.ownerDocument.defaultView.scrollY;
+        res.bottom += node.ownerDocument.defaultView.scrollY;
+        res.left += node.ownerDocument.defaultView.scrollX;
+        res.right += node.ownerDocument.defaultView.scrollX;
         return res;
     }
     static parentsOrder (node, arr) {

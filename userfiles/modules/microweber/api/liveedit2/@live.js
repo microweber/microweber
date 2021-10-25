@@ -205,8 +205,7 @@ export class LiveEdit {
 
 
         moduleHandle.on('targetChange', function (node){
-
-            moduleHandle.menu.setTitle(node.dataset.type);
+            moduleHandleContent.menu.setTitle(node.dataset.type);
         })
 
         var layoutHandle = new Handle({

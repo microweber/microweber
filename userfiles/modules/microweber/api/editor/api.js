@@ -385,6 +385,7 @@ MWEditor.api = function (scope) {
             }
             var sel = scope.getSelection();
             var el = scope.api.elementNode(sel.focusNode);
+            console.log(el, styles)
             var range = sel.getRangeAt(0);
             var frag = range.cloneContents();
             var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
@@ -392,6 +393,7 @@ MWEditor.api = function (scope) {
                 var el = scope.actionWindow.document.createElement('span');
                 el.className = 'mw-richtext-cssApplier';
                 el.setAttribute('style', styles);
+                console.log(el, styles)
                 el.textContent = node.textContent;
                 node.parentNode.replaceChild(el, node);
             });
@@ -424,12 +426,17 @@ MWEditor.api = function (scope) {
         },
         domCommand: function (method, options) {
             var sel = scope.getSelection();
+            console.log(1)
             try {  // 0x80004005
                 if (  scope.api.isSelectionEditable()) {
-
+                    console.log(2)
                     if (sel.rangeCount > 0) {
+                        console.log(3)
                         var node = scope.api.elementNode(sel.focusNode);
-                        scope.api.action(mw.tools.firstBlockLevel(node), function () {
+                        console.log(node)
+                        console.log(DomService.firstBlockLevel(node))
+                        scope.api.action(DomService.firstBlockLevel(node), function () {
+                            console.log(4)
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');

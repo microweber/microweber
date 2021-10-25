@@ -281,7 +281,7 @@ window.MWEditor = function (options) {
                 _observe();
             }, 123);
         });
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
+
         this.createInteractionControls();
     };
 
@@ -343,7 +343,7 @@ window.MWEditor = function (options) {
                 this.contentWindow.document.body.append(area);
                 area.style.minHeight = '100px';
             }
-            scope.$iframeArea = $(scope.settings.iframeAreaSelector, this.contentWindow.document);
+            scope.$iframeArea = ElementManager(scope.settings.iframeAreaSelector, this.contentWindow.document);
 
             scope.$iframeArea.html(scope.settings.content || '');
             scope.$iframeArea.on('input', function () {
@@ -411,9 +411,8 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = ElementManager(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
-         this.$editArea.append(this.wrapper)
+        ElementManager(this.document.body).append(this.wrapper)
         this.document.body.mwEditor = this;
         $(scope).trigger('ready');
     };
@@ -617,11 +616,13 @@ window.MWEditor = function (options) {
     };
 
     this._onReady = function () {
+
         $(this).on('ready', function () {
             scope.initInteraction();
             scope.api.execCommand('enableObjectResizing', false, 'false');
             scope.api.execCommand('2D-Position', false, false);
             scope.api.execCommand("enableInlineTableEditing", null, false);
+            console.log(scope.$editArea)
             if(!scope.state.hasRecords()){
                 scope.state.record({
                     $initial: true,
@@ -630,9 +631,18 @@ window.MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
+            scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
 
             Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.regions)).forEach(function (el){
-                el.contentEditable = true;
+                el.contentEditable = false;
+                ElementManager(el).on('mousedown touchstart', function (e){
+
+                    e.stopPropagation();
+                    var curr = DomService.firstParentOrCurrent(e.target, scope.settings.regions);
+                    Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.regions)).forEach(function (el){
+                        el.contentEditable = el === curr;
+                    });
+                })
             })
 
             Array.from(scope.actionWindow.document.querySelectorAll(scope.settings.notEditableSelector)).forEach(function (el){
@@ -705,7 +715,7 @@ window.MWEditor = function (options) {
         this.controllers = MWEditor.controllers;
         this.controllersHelpers = MWEditor.controllersHelpers;
         this.initState();
-        this._onReady();
+
         this.createWrapper();
         this.createBar();
 
@@ -716,6 +726,29 @@ window.MWEditor = function (options) {
         } else if (this.settings.mode === 'document') {
             this.documentMode();
         }
+
+        this._onReady();
+
+        if(this.settings.iframe) {
+            this.actionWindow = this.settings.iframe.contentWindow;
+            this.executionDocument = this.settings.iframe.contentWindow.document;
+            scope.$iframeArea = $(scope.settings.iframeAreaSelector, scope.executionDocument);
+             if(this.executionDocument.readyState === 'complete') {
+                scope.$iframeArea = ElementManager(scope.settings.iframeAreaSelector, scope.executionDocument);
+                scope.$editArea = scope.$iframeArea;
+                $(scope).trigger('ready');
+            } else {
+                this.actionWindow.addEventListener('load', function (){
+                    scope.$iframeArea = ElementManager(scope.settings.iframeAreaSelector, scope.executionDocument);
+                    scope.$editArea = scope.$iframeArea;
+                     $(scope).trigger('ready');
+                })
+            }
+
+        }
+
+
+
         if (this.settings.mode !== 'document') {
             this._initInputRecord();
             this.__insertEditor();
@@ -725,8 +758,7 @@ window.MWEditor = function (options) {
     };
     this.init();
 
-    this.actionWindow
-};
+ };
 
 if (window.mw) {
    mw.Editor = function (options){
