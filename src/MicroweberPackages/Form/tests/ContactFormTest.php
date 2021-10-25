@@ -146,31 +146,27 @@ class ContactFormTest extends TestCase
             }
         }
 
+
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
-        foreach ($mailToUser as $email) {
+        $this->assertTrue(str_contains($mailToUser[0]['body'],'This is the autorespond text - global'));
+        $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
+        $this->assertSame($mailToUser[0]['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
+        $this->assertSame($mailToUser[0]['to'], 'unit.b.slaveykov@unittest-global.com');
+        $this->assertSame($mailToUser[0]['from'], 'global-sender-email-from@unittest.bg');
 
-            $this->assertTrue(str_contains($email['body'],'This is the autorespond text - global'));
-            $this->assertSame($email['subject'], 'This is the autorespond subject - global');
-            $this->assertSame($email['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
-            $this->assertSame($email['to'], 'unit.b.slaveykov@unittest-global.com');
-            $this->assertSame($email['from'], 'global-sender-email-from@unittest.bg');
-
-        }
-
-        return;
 
         // Receivers must receive the contact form data
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
+
         foreach ($mailToReceivers as $email) {
-            $body = $email->getBody();
+            $body = $email['body'];
             $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest-global.com'));
             $this->assertTrue(str_contains($body,'0885451012-Global'));
             $this->assertTrue(str_contains($body,'CloudVisionLtd-Global'));
             $this->assertTrue(str_contains($body,'Bozhidar Veselinov Slaveykov'));
             $this->assertTrue(str_contains($body,'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE'));
 
-          //  $this->assertTrue(in_array($to, $customReceivers));
         }
 
         // test the export
@@ -352,14 +348,23 @@ class ContactFormTest extends TestCase
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
         foreach ($emails as $email) {
 
-            $subject = $email->getSubject();
+            $emailAsArray = [];
+            $emailAsArray['subject'] = $email->getSubject();
+            $emailAsArray['body'] = $email->getBody();
+            $emailAsArray['to'] = key($email->getTo());
+            $emailAsArray['from'] = key($email->getFrom());
 
-            if (strpos($subject, $formName) !== false) {
+            $emailAsArray['replyTo'] = false;
+            if (!empty($email->getReplyTo())) {
+                $emailAsArray['replyTo'] = key($email->getReplyTo());
+            }
+
+            if (strpos($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
                 $mailToReceivers[] = $email;
             }
 
-            if (strpos($subject, 'This is the autorespond subject') !== false) {
+            if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
                 // Mail to user
                 $mailToUser[] = $email;
             }
@@ -371,10 +376,9 @@ class ContactFormTest extends TestCase
 
             $to = key($email->getTo());
             $body = $email->getBody();
+
             $replyTo = key($email->getReplyTo()); // Reply to must be the user email
-
             $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest.com');
-
 
             $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest.com'));
             $this->assertTrue(str_contains($body,'0885451012'));

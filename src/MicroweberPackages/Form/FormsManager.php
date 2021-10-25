@@ -651,8 +651,6 @@ class FormsManager
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
-            $formModel = FormData::find($save);
-
             foreach ($fieldsData as $dataValue) {
 
                 $formDataValue = new FormDataValue();
@@ -661,10 +659,12 @@ class FormsManager
                 $formDataValue->field_key = $dataValue['field_key'];
                 $formDataValue->field_value = $dataValue['field_value'];
                 $formDataValue->field_value_json = $dataValue['field_value_json'];
-                $formDataValue->form_data_id = $formModel->id;
+                $formDataValue->form_data_id = $save;
                 $formDataValue->save();
 
             }
+
+            $formModel = FormData::find($save)->with('formDataValues');
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 

@@ -11,7 +11,7 @@ class FormData extends Model
         'form_values' => 'array',
     ];
 
-    public function formData()
+    public function formDataValues()
     {
         return $this->hasMany(FormDataValue::class);
     }

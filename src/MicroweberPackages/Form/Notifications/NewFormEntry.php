@@ -81,6 +81,9 @@ class NewFormEntry extends Notification
         $data = $this->notification->data;
         $data['ago'] = app()->format->ago($data['created_at']);
 
+
+        dd($data);
+
         // >>> Move files in separate key
         if(!empty($data['form_values']) && is_array($data['form_values'])) {
             $formValuesArrCopy = $data['form_values']; //make copy in order not to edit the variable in iteration
