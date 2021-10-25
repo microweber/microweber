@@ -18,7 +18,7 @@ class ContactFormTest extends DuskTestCase
 
         // Disable captcha
         save_option(array(
-            'option_group' => 'module-layouts-5--3-contact-form',
+            'option_group' => 'contact_form_default',
             'module' => 'contact_form',
             'option_key' => 'disable_captcha',
             'option_value' => 'y'
@@ -32,6 +32,8 @@ class ContactFormTest extends DuskTestCase
             $browser->pause('2000');
             $browser->scrollTo('#contactform');
             $browser->pause('3000');
+
+
             $browser->type('your-name', 'Bozhidar Slaveykov' . $uniqueId);
             $browser->type('e-mail-address', 'bobi'.$uniqueId.'@microweber.com');
             $browser->type('phone', $uniqueId);
@@ -53,7 +55,6 @@ class ContactFormTest extends DuskTestCase
 
                 }
             }
-
 
             $this->assertEquals($findedData['Message'], 'Hello, i\'m very happy to use this software.'.$uniqueId);
             $this->assertEquals($findedData['Company'], 'Microweber ORG'.$uniqueId);
