@@ -24,7 +24,8 @@ class ContactFormTest extends TestCase
 
         $response = mw()->forms_manager->post($params);
 
-        $this->assertArrayHasKey('success', $response);
+        $this->assertArrayHasKey('errors', $response);
+        $this->assertEquals('Fields data is empty', $response['errors']);
 
     }
 
