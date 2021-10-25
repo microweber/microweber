@@ -56,6 +56,7 @@ class ContactFormTest extends DuskTestCase
                 }
             }
 
+
             $this->assertEquals($findedData['Message'], 'Hello, i\'m very happy to use this software.'.$uniqueId);
             $this->assertEquals($findedData['Company'], 'Microweber ORG'.$uniqueId);
             $this->assertEquals($findedData['Phone'], $uniqueId);

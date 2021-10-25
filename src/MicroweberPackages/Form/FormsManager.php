@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Form;
 
+use Arcanedev\Html\Elements\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -62,13 +63,27 @@ class FormsManager
         }
 
         $data = $this->app->database_manager->get($params);
+        $findFormsDataValues = FormDataValue::where('form_data_id', $data)->get();
 
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
+
                 $fields = @json_decode($item['form_values'], true);
                 if (!$fields) {
                     $fields = @json_decode(html_entity_decode($item['form_values']), true);
+                }
+                if (empty($item['form_values'])) {
+                    $fields = [];
+                    if ($findFormsDataValues->count()>0) {
+                        foreach ($findFormsDataValues as $formsDataValue) {
+                            if (is_array($formsDataValue->field_value_json)) {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value_json;
+                            } else {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value;
+                            }
+                        }
+                    }
                 }
 
                 if (is_array($fields)) {
@@ -403,20 +418,24 @@ class FormsManager
             unset($formsDataClean['for_id']);
             unset($formsDataClean['module_name']);
             if (!empty($formsDataClean)) {
-                foreach ($formsDataClean as $formDataKey=>$formDataValue) {
+                foreach ($formsDataClean as $formDataName=>$formDataValue) {
+
+                    $formDataKey = str_slug($formDataName);
+                    $formDataKey = str_replace('-','_', $formDataKey);
+
                     if (is_array($formDataValue)) {
                         $fieldsData[] = [
                             'field_type' => 'options',
-                            'field_name' => $formDataKey,
-                            'field_key' => str_slug($formDataKey),
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
                             'field_value' => '',
                             'field_value_json' => $formDataValue
                         ];
                     } else {
                         $fieldsData[] = [
                             'field_type' => 'text',
-                            'field_name' => $formDataKey,
-                            'field_key' => str_slug($formDataKey),
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
                             'field_value' => $formDataValue,
                             'field_value_json' => []
                         ];
