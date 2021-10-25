@@ -396,7 +396,33 @@ class FormsManager
                 }
             }
         } else {
+            // Custom fields are not found in db
             $cfToSave = $params;
+            $formsDataClean = $params;
+            unset($formsDataClean['for']);
+            unset($formsDataClean['for_id']);
+            unset($formsDataClean['module_name']);
+            if (!empty($formsDataClean)) {
+                foreach ($formsDataClean as $formDataKey=>$formDataValue) {
+                    if (is_array($formDataValue)) {
+                        $fieldsData[] = [
+                            'field_type' => 'options',
+                            'field_name' => $formDataKey,
+                            'field_key' => str_slug($formDataKey),
+                            'field_value' => '',
+                            'field_value_json' => $formDataValue
+                        ];
+                    } else {
+                        $fieldsData[] = [
+                            'field_type' => 'text',
+                            'field_name' => $formDataKey,
+                            'field_key' => str_slug($formDataKey),
+                            'field_value' => $formDataValue,
+                            'field_value_json' => []
+                        ];
+                    }
+                }
+            }
         }
 
         $validationErrorsReturn = [];
