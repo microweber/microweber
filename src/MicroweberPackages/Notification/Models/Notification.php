@@ -3,13 +3,10 @@ namespace MicroweberPackages\Notification\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Notification\Models\ModelFilters\NotificationFilter;
 
 class Notification extends Model
 {
-
-    use CacheableQueryBuilderTrait;
     use Filterable;
 
     protected $casts = [
@@ -17,7 +14,7 @@ class Notification extends Model
         'id' => 'string'
     ];
 
-    public $cacheTagsToClear = ['repositories']; 
+    public $cacheTagsToClear = ['repositories'];
 
     public function modelFilter()
     {

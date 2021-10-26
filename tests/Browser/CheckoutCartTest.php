@@ -14,7 +14,6 @@ class CheckoutCartTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
-
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $uniqueId = time();
@@ -23,12 +22,16 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause('2000');
 
             $browser->script('$(".name-of-product-shop").first().click()');
+            $browser->pause('1000');
 
             $browser->waitForText('Proceed to Checkout');
             $browser->assertSee('Proceed to Checkout');
+
             $browser->pause('1000');
+
             $browser->seeLink('Proceed to Checkout');
             $browser->clickLink('Proceed to Checkout');
+
             $browser->pause(1000);
 
             $browser->waitForLocation(  '/checkout/contact-information');
@@ -79,7 +82,6 @@ class CheckoutCartTest extends DuskTestCase
             $this->assertEquals($findOrder->phone, $uniqueId);
 
             $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.'.$uniqueId);
-
 
             $this->assertEquals($findOrder->country, 'Bulgaria');
             $this->assertEquals($findOrder->city, 'Sofia'.$uniqueId);
