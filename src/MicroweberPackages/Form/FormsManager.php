@@ -397,12 +397,21 @@ class FormsManager
                             $item['value'] = $params[$paramKey];
                             $cfToSave[$customFieldNameKey] = $paramValues;
 
+                            //$paramValues
+                            $customFieldValue = [];
+                            $customFieldValueJson = [];
+                            if (is_array($paramValues) && !empty($paramValues)) {
+                                $customFieldValueJson = $paramValues;
+                            } else {
+                                $customFieldValue = $paramValues;
+                            }
+
                             $fieldsData[] = [
                                 'field_type' => $customFieldType,
                                 'field_name' => $customFieldName,
                                 'field_key' => $customFieldNameKey,
-                                'field_value' => $paramValues,
-                                'field_value_json' => []
+                                'field_value' => $customFieldValue,
+                                'field_value_json' => $customFieldValueJson
                             ];
                         }
                     }
@@ -652,7 +661,6 @@ class FormsManager
             $event_params['saved_form_entry_id'] = $save;
 
             foreach ($fieldsData as $dataValue) {
-
                 $formDataValue = new FormDataValue();
                 $formDataValue->field_type = $dataValue['field_type'];
                 $formDataValue->field_name = $dataValue['field_name'];
@@ -661,7 +669,6 @@ class FormsManager
                 $formDataValue->field_value_json = $dataValue['field_value_json'];
                 $formDataValue->form_data_id = $save;
                 $formDataValue->save();
-
             }
 
             $formModel = FormData::find($save)->with('formDataValues');
