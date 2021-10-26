@@ -13,8 +13,7 @@ class CheckoutCartTest extends DuskTestCase
     public function testSubmit()
     {
         $siteUrl = $this->siteUrl;
-
-
+        
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $uniqueId = time();
@@ -32,7 +31,7 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->seeLink('Proceed to Checkout');
             $browser->clickLink('Proceed to Checkout');
-            
+
             $browser->pause(1000);
 
             $browser->waitForLocation(  '/checkout/contact-information');
