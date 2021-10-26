@@ -13,7 +13,7 @@ class CheckoutCartTest extends DuskTestCase
     public function testSubmit()
     {
         $siteUrl = $this->siteUrl;
-        
+
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $uniqueId = time();
@@ -82,7 +82,6 @@ class CheckoutCartTest extends DuskTestCase
             $this->assertEquals($findOrder->phone, $uniqueId);
 
             $this->assertEquals($findOrder->other_info, 'I want my order soon as posible.'.$uniqueId);
-
 
             $this->assertEquals($findOrder->country, 'Bulgaria');
             $this->assertEquals($findOrder->city, 'Sofia'.$uniqueId);
