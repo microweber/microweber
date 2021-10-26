@@ -292,14 +292,13 @@ class CartManager extends Crud
 
     public function get($params = false)
     {
-        $time = time();
-
         $params2 = array();
 
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
         }
+        
         $table = $this->table;
         $params['table'] = $table;
         $skip_sid = false;
