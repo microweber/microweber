@@ -852,8 +852,9 @@ class FrontendController extends Controller
         }
 
         $this->app->content_manager->define_constants($content);
+        if($content and isset($content['id'])){
         $this->app->content_manager->content_id=intval($content['id']);
-
+        }
 
         event_trigger('mw.front', $content);
 
