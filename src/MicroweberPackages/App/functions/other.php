@@ -237,7 +237,7 @@ function module_templates($module_name, $template_name = false, $is_settings = f
  */
 function site_templates($options = false)
 {
-    return mw()->template_manager->site_templates($options);
+    return mw()->template->site_templates($options);
 }
 
 function layouts_list($options = false)
@@ -965,40 +965,6 @@ function mw_composer_replace_vendor_from_cache($params)
 
     return $update_api->composer_replace_vendor_from_cache($params);
 }
-
-
-api_expose('template/compile_css', function ($params) {
-    return mw()->template->compile_css($params);
-});
-
-api_expose_admin('template/delete_compiled_css', function ($params) {
-    return mw()->template->delete_compiled_css($params);
-});
-
-api_expose_admin('mw_admin_colors/reset_main_stylesheet', function ($params){
-
-    return mw()->template->admin->resetSelectedStyle();
-
-} );
-
-api_expose_admin('mw_admin_colors/reset_main_stylesheet_colors', function ($params){
-    return mw()->template->admin->resetSelectedStyleVariables();
-} );
-
-api_expose_admin('mw_admin_colors/get_main_stylesheet_url', function ($params){
-
-    $compiled_output_path = userfiles_path() . 'css/admin-css/';
-    $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_main.css', false);
-    // delete and recompile
-    if(is_file($compiled_css_output_path_file_css)){
-        @unlink($compiled_css_output_path_file_css);
-    }
-
-    $main_css_url = app()->template->get_admin_system_ui_css_url();
-
-    return $main_css_url;
-} );
-
 
 
 

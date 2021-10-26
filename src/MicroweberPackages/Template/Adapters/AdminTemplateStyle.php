@@ -145,7 +145,7 @@ class AdminTemplateStyle
         return $return;
     }
 
-    public function getLiveEditAdminCssUrl()
+    public function compileLiveEditCss()
     {
         $selected_theme = false;
         $vars = false;
@@ -173,12 +173,12 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.css';
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.css';
 
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.scss.map';
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.scss.map';
 
 
         $theme_file_rel_path = $selected_theme . '/_liveedit.scss';
@@ -220,7 +220,7 @@ class AdminTemplateStyle
         $scss = new \ScssPhp\ScssPhp\Compiler();
         $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
 
-        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_INLINE);
+        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
 
 
         $scss->setSourceMapOptions([
@@ -241,9 +241,6 @@ class AdminTemplateStyle
         if (!$selected_theme and $vars) {
             return false;
         } elseif ($vars) {
-
-            // $cont = "@import 'main_with_mw';";
-
             if ($vars) {
                 $scss->setVariables($vars);
             }
@@ -262,11 +259,134 @@ class AdminTemplateStyle
         return $compiled_css_output_path_file_css_url;
     }
 
+    public function getLiveEditAdminCssUrl()
+    {
+        $selected_theme = false;
+        $vars = false;
+        $get_vars = $this->getVars();
+
+        if (isset($get_vars['admin_theme_name'])) {
+            $selected_theme = $get_vars['admin_theme_name'];
+        }
+        if (isset($get_vars['admin_theme_vars'])) {
+            $vars = $get_vars['admin_theme_vars'];
+        }
+
+
+        if (!$selected_theme and !$vars) {
+            return false;
+        }
+
+
+        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
+        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
+
+        $compiled_output_path = userfiles_path() . 'css/admin-css/';
+        $compiled_output_url = userfiles_url() . 'css/admin-css/';
+        if (!is_dir($compiled_output_path)) {
+            mkdir_recursive($compiled_output_path);
+        }
+
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.css';
+
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.scss.map';
+
+
+        $theme_file_rel_path = $selected_theme . '/_liveedit.scss';
+        $theme_file_abs_path = normalize_path($themes_dir . $theme_file_rel_path, false);
+
+        $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
+        $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
+
+        if (!is_file($theme_file_abs_path)) {
+            return false;
+        }
+
+        if (!is_file($theme_file_vars_abs_path)) {
+            return false;
+        }
+
+        if (!$selected_theme and !$vars) {
+            return false;
+        }
+
+
+        if ($selected_theme) {
+            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
+                return false;
+            }
+
+            if (is_file($compiled_css_output_path_file_css)) {
+                return $compiled_css_output_path_file_css_url;
+            }
+
+
+            return route('api.template.compile_admin_live_edit_css');
+
+
+
+        }
+
+    }
+
 
     public function getAdminCssUrl()
     {
-        $cont = false;
 
+        $selected_theme = false;
+        $vars = false;
+        $get_vars = $this->getVars();
+
+        if (isset($get_vars['admin_theme_name'])) {
+            $selected_theme = $get_vars['admin_theme_name'];
+        }
+        if (isset($get_vars['admin_theme_vars'])) {
+            $vars = $get_vars['admin_theme_vars'];
+        }
+
+
+        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css';
+        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
+        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
+
+        $compiled_output_path = userfiles_path() . 'css/admin-css/';
+        $compiled_output_url = userfiles_url() . 'css/admin-css/';
+
+
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.css';
+
+
+        $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
+        $theme_file_abs_path = normalize_path($themes_dir . $theme_file_rel_path, false);
+
+        $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
+        $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
+
+        if (!$selected_theme and !$vars) {
+            return $url;
+        }
+
+        if ($selected_theme) {
+            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
+                return $url;
+            }
+
+            if (is_file($compiled_css_output_path_file_css)) {
+                return $compiled_css_output_path_file_css_url;
+            }
+        }
+
+
+        return route('api.template.compile_admin_css');
+
+    }
+
+    public function compileAdminCss()
+    {
 
         $selected_theme = false;
         $vars = false;
@@ -291,12 +411,12 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_main.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_main.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_main.css';
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_admin.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.css';
 
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_main.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_main.scss.map';
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.scss.map';
 
 
         $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
@@ -305,25 +425,11 @@ class AdminTemplateStyle
         $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
         $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
 
-        if (!$selected_theme and !$vars) {
-            return $url;
-        }
-
-        if ($selected_theme) {
-            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
-                return $url;
-            }
-
-            if (is_file($compiled_css_output_path_file_css)) {
-                return $compiled_css_output_path_file_css_url;
-            }
-        }
-
 
         $scss = new \ScssPhp\ScssPhp\Compiler();
         $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
 
-        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_INLINE);
+        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
 
 
         $scss->setSourceMapOptions([
@@ -373,16 +479,14 @@ class AdminTemplateStyle
         }
 
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-        if (!$output) {
-            return $url;
-        }
+
 
         $output = str_replace('../img', $url_images_dir, $output);
         if (!is_dir(dirname($compiled_css_output_path_file_css))) {
             mkdir_recursive(dirname($compiled_css_output_path_file_css));
         }
         file_put_contents($compiled_css_output_path_file_css, $output);
-        return $compiled_css_output_path_file_css_url;
+        return $output;
     }
 
 
@@ -396,7 +500,10 @@ class AdminTemplateStyle
         if ($selected_vars and is_string($selected_vars)) {
             $vars = json_decode($selected_vars, true);
         }
-        return ['admin_theme_name' => $selected_theme, 'admin_theme_vars' => $vars];
+        return [
+            'admin_theme_name' => $selected_theme,
+            'admin_theme_vars' => $vars
+        ];
 
     }
 
