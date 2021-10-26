@@ -23,12 +23,16 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause('2000');
 
             $browser->script('$(".name-of-product-shop").first().click()');
+            $browser->pause('1000');
 
             $browser->waitForText('Proceed to Checkout');
             $browser->assertSee('Proceed to Checkout');
+
             $browser->pause('1000');
+
             $browser->seeLink('Proceed to Checkout');
             $browser->clickLink('Proceed to Checkout');
+            
             $browser->pause(1000);
 
             $browser->waitForLocation(  '/checkout/contact-information');
