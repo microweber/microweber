@@ -18,7 +18,7 @@ class FormDataValue extends Model
     ];
 
     public $casts = [
-        'field_value_json'=>'json'
+        'field_value_json'=>'array'
     ];
 
     public function formData()

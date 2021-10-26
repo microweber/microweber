@@ -398,7 +398,7 @@ class FormsManager
                             $cfToSave[$customFieldNameKey] = $paramValues;
 
                             //$paramValues
-                            $customFieldValue = [];
+                            $customFieldValue = '';
                             $customFieldValueJson = [];
                             if (is_array($paramValues) && !empty($paramValues)) {
                                 $customFieldValueJson = $paramValues;
@@ -671,8 +671,8 @@ class FormsManager
                 $formDataValue->save();
             }
 
-            $formModel = FormData::find($save)->with('formDataValues');
-
+            $formModel = FormData::with('formDataValues')->find($save);
+            
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         }
