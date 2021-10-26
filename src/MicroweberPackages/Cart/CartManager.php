@@ -20,6 +20,7 @@ class CartManager extends Crud
     public $app;
 
     public $table = 'cart';
+    public $coupon_data = false;
 
     public function __construct($app = null)
     {
@@ -28,6 +29,14 @@ class CartManager extends Crud
         } else {
             $this->app = mw();
         }
+
+        $coupon_code = $this->app->user_manager->session_get('coupon_code');
+    /*    $this->coupon_data = db_get("cart_coupons", array(
+            'is_active' => 1,
+            'coupon_code' => $coupon_code,
+            'single' => true,
+            'no_cache' => true
+        ));*/
     }
 
     /**
@@ -178,18 +187,29 @@ class CartManager extends Crud
 
     public function get_discount_type()
     {
-        return $this->app->user_manager->session_get('discount_type');
+        if (empty( $this->coupon_data)) {
+            return false;
+        }
+
+        return  $this->coupon_data['discount_type'];
     }
 
     public function get_discount_value()
     {
-        $discount_value = $this->app->user_manager->session_get('discount_value');
-
-        if (empty($discount_value)) {
+        if (empty( $this->coupon_data)) {
             return false;
         }
 
-        return floatval($discount_value);
+        $apply_code = false;
+        if ($this->total() >=  $this->coupon_data['total_amount']) {
+            $apply_code = true;
+        }
+
+        if ($apply_code) {
+            return floatval( $this->coupon_data['discount_value']);
+        }
+
+        return false;
     }
 
     public function get_discount_text()

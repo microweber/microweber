@@ -238,12 +238,14 @@ function coupon_get_by_code($coupon_code)
 {
     $table = "cart_coupons";
 
-    return db_get($table, array(
+    $get = db_get($table, array(
         'is_active' => 1,
         'coupon_code' => $coupon_code,
         'single' => true,
         'no_cache' => true
     ));
+
+    return $get;
 }
 
 api_expose('coupon_delete');
