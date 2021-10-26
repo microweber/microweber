@@ -43,40 +43,6 @@ class CartManager extends Crud
             return $this->app->cart_repository->getCartItemsCount();
         }
 
-
-//        $sid = $this->app->user_manager->session_id();
-//        $different_items = 0;
-//        $amount = floatval(0.00);
-//        $get_params = array();
-//        $get_params['order_completed'] = 0;
-//        $get_params['session_id'] = $sid;
-//        //$get_params['no_cache'] = true;
-//        $sumq = $this->app->database_manager->get($this->table, $get_params);
-//
-//        if (is_array($sumq)) {
-//            foreach ($sumq as $value) {
-//                $different_items = $different_items + $value['qty'];
-//                $amount = $amount + (intval($value['qty']) * floatval($value['price']));
-//            }
-//        }
-//
-//        $modify_amount = $this->app->event_manager->trigger('mw.cart.sum', $amount);
-//        if ($modify_amount !== null and $modify_amount !== false) {
-//            if (is_array($modify_amount)) {
-//                $pop = array_pop($modify_amount);
-//                if ($pop != false) {
-//                    $amount = $pop;
-//                }
-//            } else {
-//                $amount = $modify_amount;
-//            }
-//        }
-//
-//        if ($return_amount == false) {
-//            return $different_items;
-//        }
-//
-//        return $amount;
     }
 
     public function totals($return = 'all')
@@ -86,34 +52,8 @@ class CartManager extends Crud
 
         $tax = $shipping_cost = $discount_sum = 0;
 
-//        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
-//        if ($shipping_sess) {
-//            $shipping_cost = floatval($shipping_sess);
-//        }
-
         $shipping_cost = $this->app->checkout_manager->getShippingCost();
         $shipping_modules = $this->app->checkout_manager->getShippingModules();
-
-//        if ($this->app->user_manager->session_get('shipping_cost')) {
-//            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
-//        }
-
-
-//        $shipping_data = [];
-//        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
-//        if(!isset($shipping_data['shipping_gw']) and $shipping_gw_from_session){
-//            $shipping_data['shipping_gw'] = $shipping_gw_from_session;
-//        }
-//        if(isset($shipping_data['shipping_gw']) and $shipping_data['shipping_gw']){
-//            try {
-//                $shipping_cost = $this->app->shipping_manager->driver($shipping_data['shipping_gw'])->cost();
-//
-//            } catch (\InvalidArgumentException $e) {
-//                $shipping_cost = 0;
-//                unset($shipping_data['shipping_gw']);
-//            }
-//        }
-
 
         // Coupon code discount
         $discount_value = $this->get_discount_value();
@@ -220,35 +160,6 @@ class CartManager extends Crud
         if (isset($total['value'])) {
             return $total['value'];
         }
-
-//
-//        $sum = $this->sum();
-//
-//        // Coupon code discount
-//        $discount_value = $this->get_discount_value();
-//        $discount_type = $this->get_discount_type();
-//
-//        if ($discount_type == 'precentage' or $discount_type == 'percentage') {
-//            // Discount with precentage
-//            $sum = $sum - ($sum * ($discount_value / 100));
-//        } else if ($discount_type == 'fixed_amount') {
-//            // Discount with amount
-//            $sum = $sum - $discount_value;
-//        }
-//
-//
-//        $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
-//        $total = $sum + $shipping;
-//
-//        if (get_option('enable_taxes', 'shop') == 1) {
-//            if ($total > 0) {
-//                $tax = $this->app->tax_manager->calculate($sum);
-//                $total = $total + $tax;
-//            }
-//        }
-//
-//
-//        return $total;
     }
 
 
@@ -298,7 +209,7 @@ class CartManager extends Crud
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        
+
         $table = $this->table;
         $params['table'] = $table;
         $skip_sid = false;
