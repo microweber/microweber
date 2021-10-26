@@ -250,3 +250,83 @@ if (!function_exists('reduce_double_slashes')) {
         return preg_replace('#([^:])//+#', '\\1/', $str);
     }
 }
+
+
+if (!function_exists('directory_map')) {
+
+    /**
+     * Create a Directory Map.
+     *
+     *
+     * Reads the specified directory and builds an array
+     * representation of it.  Sub-folders contained with the
+     * directory will be mapped as well.
+     *
+     * @param string     path to source
+     * @param int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
+     *
+     * @return array
+     * @link          http://codeigniter.com/user_guide/helpers/directory_helper.html
+     *
+     * @author        ExpressionEngine Dev Team
+     *
+     */
+    function directory_map($source_dir, $directory_depth = 0, $hidden = false, $full_path = false)
+    {
+        if ($fp = @opendir($source_dir)) {
+            $filedata = array();
+            $new_depth = $directory_depth - 1;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+            while (false !== ($file = readdir($fp))) {
+                // Remove '.', '..', and hidden files [optional]
+                if (!trim($file, '.') or ($hidden == false && $file[0] == '.')) {
+                    continue;
+                }
+
+                if (($directory_depth < 1 or $new_depth > 0) && @is_dir($source_dir . $file)) {
+                    $filedata[$file] = directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
+                } else {
+                    if ($full_path == false) {
+                        $filedata[] = $file;
+                    } else {
+                        $filedata[] = $source_dir . $file;
+                    }
+                }
+            }
+
+            closedir($fp);
+
+            return $filedata;
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('url2dir')) {
+    function url2dir($path)
+    {
+        if (trim($path) == '') {
+            return false;
+        }
+
+        $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+
+        return normalize_path($path, false);
+    }
+}
+
+if (!function_exists('dir2url')) {
+    function dir2url($path)
+    {
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+
+        //var_dump($path);
+        return site_url($path);
+    }
+}
