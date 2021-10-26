@@ -2489,6 +2489,41 @@ MWEditor.api = function (scope) {
                 return null;
             }
         },
+        bold: function () {
+            var opt = {
+                css: {'font-weight': 'bold'},
+                className: 'format-bold',
+                fragmentModifier: function (frag) {
+                    var el = frag.querySelector('b,strong,.format-bold')
+                    while (el) {
+                        el.replaceWith(...el.childNodes);
+                        el = frag.querySelector('b,strong,.format-bold')
+                    }
+
+                },
+            }
+            scope.api.domCommand('cssApplier', opt);
+        },
+        unBold: function () {
+            var opt = {
+                fragmentModifier: function (frag) {
+                    var el = frag.querySelector('b,strong,.format-bold')
+                    while (el) {
+                        el.replaceWith(...el.childNodes);
+                        el = frag.querySelector('b,strong,.format-bold')
+                    }
+                },
+            }
+            scope.api.domCommand('cssApplier', opt);
+        },
+        boldToggle: function (){
+            var sel = scope.api.getSelectionHTML();
+            if(sel.includes('<b') || sel.includes('<strong') || sel.includes('format-bold')) {
+                scope.api.unBold();
+            } else {
+                scope.api.bold();
+            }
+        },
         fontFamily: function (font_name, sel) {
             var range = (sel || scope.getSelection()).getRangeAt(0);
             scope.api.execCommand("styleWithCSS", null, true);
@@ -2565,7 +2600,8 @@ MWEditor.api = function (scope) {
             range.insertNode(frag)
         },
 
-        cssApplier: function (css) {
+        cssApplier: function (options) {
+            const {css, className, fragmentModifier} = options;
             var styles = '';
             if (typeof css === 'object') {
                 for (var i in css) {
@@ -2576,18 +2612,21 @@ MWEditor.api = function (scope) {
             }
             var sel = scope.getSelection();
             var el = scope.api.elementNode(sel.focusNode);
-            console.log(el, styles)
             var range = sel.getRangeAt(0);
             var frag = range.cloneContents();
+            if(typeof fragmentModifier === 'function') {
+                fragmentModifier(frag)
+            }
             var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
-            nodes.forEach(function (node){
-                var el = scope.actionWindow.document.createElement('span');
-                el.className = 'mw-richtext-cssApplier';
-                el.setAttribute('style', styles);
-                console.log(el, styles)
-                el.textContent = node.textContent;
-                node.parentNode.replaceChild(el, node);
-            });
+            if(styles || className) {
+                nodes.forEach(function (node){
+                    var el = scope.actionWindow.document.createElement('span');
+                    el.className = 'mw-richtext-cssApplier' + (!!className ? (' ' + className) : '');
+                    el.setAttribute('style', styles);
+                    el.textContent = node.textContent;
+                    node.parentNode.replaceChild(el, node);
+                });
+            }
             range.deleteContents();
             range.insertNode(frag);
         },
@@ -2617,17 +2656,12 @@ MWEditor.api = function (scope) {
         },
         domCommand: function (method, options) {
             var sel = scope.getSelection();
-            console.log(1)
+
             try {  // 0x80004005
                 if (  scope.api.isSelectionEditable()) {
-                    console.log(2)
                     if (sel.rangeCount > 0) {
-                        console.log(3)
                         var node = scope.api.elementNode(sel.focusNode);
-                        console.log(node)
-                        console.log(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node))
                         scope.api.action(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node), function () {
-                            console.log(4)
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
@@ -3019,7 +3053,9 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 // api.execCommand('bold');
 
-                api.domCommand('cssApplier', {'font-weight': 'bold'});
+                api.boldToggle()
+
+
             });
             return el;
         };

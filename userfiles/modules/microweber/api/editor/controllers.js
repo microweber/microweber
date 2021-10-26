@@ -49,7 +49,9 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 // api.execCommand('bold');
 
-                api.domCommand('cssApplier', {'font-weight': 'bold'});
+                api.boldToggle()
+
+
             });
             return el;
         };
