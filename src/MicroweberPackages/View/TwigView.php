@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Template\Adapters\RenderHelpers;
+namespace MicroweberPackages\View;
 
-class TwigRenderHelper
+class TwigView
 {
     public function render($html, array $data = [],$options = [])
     {

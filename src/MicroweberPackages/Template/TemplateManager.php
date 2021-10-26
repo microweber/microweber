@@ -39,50 +39,7 @@ class TemplateManager
         }
     }
 
-    public function get_styles()
-    {
-        $config = app()->template->get_config();
-        if (isset($config['styles'])) {
-            $styles = $config['styles'];
 
-            if (is_array($styles) and !empty($styles)) {
-                foreach ($styles as $k => $style) {
-                    if (isset($style['name']) and isset($style['tag'])) {
-                        $style['tag_string'] = '';
-                        if (isset($style['tag'])) {
-                            if (is_array($style['tag'])) {
-                                $style['tag_string'] = implode(',', $style['tag']);
-                            } elseif (is_string($style['tag'])) {
-                                $style['tag_string'] = $style['tag'];
-                            }
-                        }
-                        $style['class_string'] = '';
-                        if (isset($style['class'])) {
-                            if (is_array($style['class'])) {
-                                $style['class_string'] = implode(',', $style['class']);
-                            } elseif (is_string($style['class'])) {
-                                $style['class_string'] = $style['class'];
-                            }
-                        }
-
-                        $style['except_string'] = '';
-                        if (isset($style['except'])) {
-                            if (is_array($style['except'])) {
-                                $style['except_string'] = implode(',', $style['except']);
-                            } elseif (is_string($style['except'])) {
-                                $style['except_string'] = $style['except'];
-                            }
-                        }
-                    }
-                    $styles[$k] = $style;
-                }
-            }
-
-            return $styles;
-        }
-
-        return false;
-    }
 
     /**
      * @desc      Get the template layouts info under the layouts subdir on your active template
