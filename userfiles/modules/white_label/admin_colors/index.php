@@ -88,21 +88,25 @@ include(__DIR__.'/ui_app.php');
     });
 
     function reload_admin_css() {
-        $.get("<?php print api_url('mw_admin_colors/get_main_stylesheet_url'); ?>", function (data) {
+        $.get("<?php print route('api.template.compile_admin_live_edit_css'); ?>", function (data) {
+
+       });
+
+        $.get("<?php print route('api.template.get_admin_css_url'); ?>", function (data) {
+            mw.notification.success("Compiling new CSS file...", 3000);
             $('#admin-main-css-style').attr("href", data + "?rand=" + new Date().getMilliseconds());
         });
-    //    mw.reload_module('#admin-theme-vars')
     }
 
     function reset_admin_css() {
 
-        $.get("<?php print api_url('mw_admin_colors/reset_main_stylesheet'); ?>", function (data) {
+        $.get("<?php print route('api.template.reset_admin_stylesheet'); ?>", function (data) {
             reload_admin_css()
         });
     }
     function reset_admin_css_colors() {
 
-        $.get("<?php print api_url('mw_admin_colors/reset_main_stylesheet_colors'); ?>", function (data) {
+        $.get("<?php print route('api.template.reset_admin_stylesheet_colors'); ?>", function (data) {
             reload_admin_css()
         });
     }

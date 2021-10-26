@@ -23,6 +23,9 @@ class TemplateManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+
+
         /**
          * @property \MicroweberPackages\Template\TemplateManager    $template_manager
          */

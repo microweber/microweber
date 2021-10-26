@@ -185,8 +185,19 @@ class CommentsTest extends TestCase
             route('api.comment.post'),
             $req
         );
-
         $this->assertNotEmpty($commentData['data']);
+
+
+
+        //try to post again with the same captcha
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $req
+        );
+        $this->assertEquals("captcha", $commentData['form_data_required']);
+        $this->assertEquals("captcha", $commentData['form_data_module']);
+
+
     }
 
 

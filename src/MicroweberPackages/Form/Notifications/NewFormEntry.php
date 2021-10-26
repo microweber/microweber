@@ -82,25 +82,30 @@ class NewFormEntry extends Notification
         $data['ago'] = app()->format->ago($data['created_at']);
 
         // >>> Move files in separate key
-        if(!empty($data['form_values']) && is_array($data['form_values'])) {
-            $formValuesArrCopy = $data['form_values']; //make copy in order not to edit the variable in iteration
+        if(!empty($data['form_data_values']) && is_array($data['form_data_values'])) {
+            $formValuesArrCopy = $data['form_data_values']; //make copy in order not to edit the variable in iteration
             $uploads = [];
-
-            foreach($formValuesArrCopy as $key => $val) {
-                if(isset($val['type']) && $val['type'] == 'upload') {
+            $formValues = [];
+            foreach($formValuesArrCopy as $fieldData) {
+                if(isset($fieldData['field_type']) && $fieldData['field_type'] == 'upload') {
                     //Add to uploads arr
-                    $uploads[] = [$key => $val];
-
+                    $uploads[] = [$fieldData['field_name'] => $fieldData['field_value_json']];
                     //Remove from form_values in order no to iterate them as normal key value pair in the view
-                    unset($data['form_values'][$key]);
+                    unset($data['form_values'][$fieldData['field_name']]);
+                } else {
+                    if (is_array($fieldData['field_value_json']) && !empty($fieldData['field_value_json'])) {
+                        $formValues[$fieldData['field_name']] = $fieldData['field_value_json'];
+                    } else {
+                        $formValues[$fieldData['field_name']] = $fieldData['field_value'];
+                    }
                 }
             }
-
+            $data['form_values'] = $formValues;
             $data['form_values']['uploads'] = $uploads;
         }
         // <<< Move files in separate key
 
-        $data['vals']= !empty($data['form_values']) ? collect($data['form_values']) : []; //cast them to collection in order to be able to use ->split
+        $data['vals'] = !empty($data['form_values']) ? collect($data['form_values']) : []; //cast them to collection in order to be able to use ->split
 
         return view('form::admin.notifications.new_form_entry', $data);
     }

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Form;
 
+use Arcanedev\Html\Elements\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -62,17 +63,30 @@ class FormsManager
         }
 
         $data = $this->app->database_manager->get($params);
+        $findFormsDataValues = FormDataValue::where('form_data_id', $data)->get();
 
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
+
                 $fields = @json_decode($item['form_values'], true);
                 if (!$fields) {
                     $fields = @json_decode(html_entity_decode($item['form_values']), true);
                 }
+                if (empty($item['form_values'])) {
+                    $fields = [];
+                    if ($findFormsDataValues->count()>0) {
+                        foreach ($findFormsDataValues as $formsDataValue) {
+                            if (is_array($formsDataValue->field_value_json) && !empty($formsDataValue->field_value_json)) {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value_json;
+                            } else {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value;
+                            }
+                        }
+                    }
+                }
 
                 if (is_array($fields)) {
-                    //ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
                         $item['custom_fields'][$key] = $value;
@@ -249,7 +263,6 @@ class FormsManager
             unset($params['id']);
         }
 
-
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
         if (!$user_require_terms) {
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
@@ -266,7 +279,6 @@ class FormsManager
             } else {
 
                 $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
-
                 if (!$check_term) {
                     if (isset($params['terms']) and $params['terms']) {
                         $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
@@ -383,12 +395,21 @@ class FormsManager
                             $item['value'] = $params[$paramKey];
                             $cfToSave[$customFieldNameKey] = $paramValues;
 
+                            //$paramValues
+                            $customFieldValue = '';
+                            $customFieldValueJson = [];
+                            if (is_array($paramValues) && !empty($paramValues)) {
+                                $customFieldValueJson = $paramValues;
+                            } else {
+                                $customFieldValue = $paramValues;
+                            }
+
                             $fieldsData[] = [
                                 'field_type' => $customFieldType,
                                 'field_name' => $customFieldName,
                                 'field_key' => $customFieldNameKey,
-                                'field_value' => $paramValues,
-                                'field_value_json' => []
+                                'field_value' => $customFieldValue,
+                                'field_value_json' => $customFieldValueJson
                             ];
                         }
                     }
@@ -396,7 +417,37 @@ class FormsManager
                 }
             }
         } else {
+            // Custom fields are not found in db
             $cfToSave = $params;
+            $formsDataClean = $params;
+            unset($formsDataClean['for']);
+            unset($formsDataClean['for_id']);
+            unset($formsDataClean['module_name']);
+            if (!empty($formsDataClean)) {
+                foreach ($formsDataClean as $formDataName=>$formDataValue) {
+
+                    $formDataKey = str_slug($formDataName);
+                    $formDataKey = str_replace('-','_', $formDataKey);
+
+                    if (is_array($formDataValue) && !empty($formDataValue)) {
+                        $fieldsData[] = [
+                            'field_type' => 'options',
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
+                            'field_value' => '',
+                            'field_value_json' => $formDataValue
+                        ];
+                    } else {
+                        $fieldsData[] = [
+                            'field_type' => 'text',
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
+                            'field_value' => $formDataValue,
+                            'field_value_json' => []
+                        ];
+                    }
+                }
+            }
         }
 
         $validationErrorsReturn = [];
@@ -607,20 +658,18 @@ class FormsManager
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
-            $formModel = FormData::find($save);
-
             foreach ($fieldsData as $dataValue) {
-
                 $formDataValue = new FormDataValue();
                 $formDataValue->field_type = $dataValue['field_type'];
                 $formDataValue->field_name = $dataValue['field_name'];
                 $formDataValue->field_key = $dataValue['field_key'];
                 $formDataValue->field_value = $dataValue['field_value'];
                 $formDataValue->field_value_json = $dataValue['field_value_json'];
-                $formDataValue->form_data_id = $formModel->id;
+                $formDataValue->form_data_id = $save;
                 $formDataValue->save();
-
             }
+
+            $formModel = FormData::with('formDataValues')->find($save);
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 

@@ -79,12 +79,19 @@ class NewFormEntryToMail extends Notification
             $emailSubject = '[' . $hostname . '] ' . _e('New form entry', true);
         }
 
-        $content = app()->format->array_to_ul($this->formEntry->form_values);
+        $formDataValues = [];
+        if (!empty($this->formEntry->formDataValues)) {
+            foreach ($this->formEntry->formDataValues as $formDataValue) {
+                $formDataValues[$formDataValue['field_name']] = $formDataValue['field_value'];
+            }
+        }
+
+        $content = app()->format->array_to_ul($formDataValues);
 
         $userEmails = false;
-        $formValues = $this->formEntry->form_values;
-        if (!empty($formValues)) {
-            foreach ($formValues as $value) {
+
+        if (!empty($formDataValues)) {
+            foreach ($formDataValues as $value) {
                 if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $userEmails[] = $value;
                 }

@@ -49,7 +49,7 @@ class MailResetPasswordNotification extends ResetPassword {
         $template = get_mail_template_by_id($templateId, 'forgot_password');
 
         if ($template) {
-            $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+            $twig = new \MicroweberPackages\View\TwigView();
             $parsedEmail = $twig->render($template['message'], [
                     'email'=>$notifiable->getEmailForPasswordReset(),
                     'username'=>$notifiable->username,

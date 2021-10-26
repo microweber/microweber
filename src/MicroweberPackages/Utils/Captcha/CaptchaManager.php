@@ -62,6 +62,13 @@ class CaptchaManager
         return $this->adapter->render($params);
     }
 
+    public function reset($captcha_id = null)
+    {
+        if (method_exists($this->adapter, 'reset')) {
+            return $this->adapter->reset($captcha_id);
+        }
+    }
+
 
     public function setAdapter($adapter)
     {

@@ -78,7 +78,8 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
-use MicroweberPackages\Utils\Captcha\Providers\CaptchaManagerServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;
@@ -257,7 +258,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FormServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
-        $this->app->register(CaptchaManagerServiceProvider::class);
+        $this->app->register(CaptchaServiceProvider::class);
+        $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);

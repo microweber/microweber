@@ -7,11 +7,7 @@ class FormData extends Model
 {
     protected $table = 'forms_data';
 
-    protected $casts = [
-        'form_values' => 'array',
-    ];
-
-    public function formData()
+    public function formDataValues()
     {
         return $this->hasMany(FormDataValue::class);
     }
