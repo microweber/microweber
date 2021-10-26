@@ -210,13 +210,14 @@ class UserLoginControllerTest extends TestCase
         $user = User::find($userData['data']['id']);
         $user->is_active = 0;
         $user->save();
-
+        Auth::logout();
         $response = $this->json(
             'POST',
             route('api.user.login'),
             $loginData
         );
         $userData = $response->getData(true);
+
         $this->assertEquals($userData['error'], "Your account is disabled");
 
         Auth::logout();

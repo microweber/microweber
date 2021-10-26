@@ -87,7 +87,7 @@ class NewFormEntryAutoRespond extends Notification
             $mail->subject($autoRespondSettings['emailSubject']);
         }
 
-        $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+        $twig = new \MicroweberPackages\View\TwigView();
         $string = $autoRespondSettings['emailContent'];
 
         if($string == strip_tags($string)) {

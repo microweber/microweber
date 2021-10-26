@@ -185,22 +185,7 @@
                     </li>
 
 
-                    <?php
-                    if(isset($_GET['d'])): ?>
-                        <?php $styles = mw()->template_manager->get_styles(); ?>
-                        <?php if(is_array($styles) and !empty($styles)): ?>
-                            <?php foreach($styles as $style): ?>
-                                <?php if(isset($style['name']) and isset($style['tag_string'])): ?>
-                                    <li class="mw-editor-custom-css-element-class-applier" value="custom_css" data-tags="<?php echo $style['tag_string']; ?>"  data-except="<?php echo $style['except_string']; ?>" data-class-name="<?php echo $style['class_string']; ?>">
 
-                                        <a href="#">
-                                            <div><?php print $style['name']; ?></div>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
 
                 </ul>
             </div>

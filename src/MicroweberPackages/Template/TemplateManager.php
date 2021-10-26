@@ -39,50 +39,6 @@ class TemplateManager
         }
     }
 
-    public function get_styles()
-    {
-        $config = app()->template->get_config();
-        if (isset($config['styles'])) {
-            $styles = $config['styles'];
-
-            if (is_array($styles) and !empty($styles)) {
-                foreach ($styles as $k => $style) {
-                    if (isset($style['name']) and isset($style['tag'])) {
-                        $style['tag_string'] = '';
-                        if (isset($style['tag'])) {
-                            if (is_array($style['tag'])) {
-                                $style['tag_string'] = implode(',', $style['tag']);
-                            } elseif (is_string($style['tag'])) {
-                                $style['tag_string'] = $style['tag'];
-                            }
-                        }
-                        $style['class_string'] = '';
-                        if (isset($style['class'])) {
-                            if (is_array($style['class'])) {
-                                $style['class_string'] = implode(',', $style['class']);
-                            } elseif (is_string($style['class'])) {
-                                $style['class_string'] = $style['class'];
-                            }
-                        }
-
-                        $style['except_string'] = '';
-                        if (isset($style['except'])) {
-                            if (is_array($style['except'])) {
-                                $style['except_string'] = implode(',', $style['except']);
-                            } elseif (is_string($style['except'])) {
-                                $style['except_string'] = $style['except'];
-                            }
-                        }
-                    }
-                    $styles[$k] = $style;
-                }
-            }
-
-            return $styles;
-        }
-
-        return false;
-    }
 
     /**
      * @desc      Get the template layouts info under the layouts subdir on your active template
@@ -118,7 +74,7 @@ class TemplateManager
 
         $path_to_layouts = $path;
         $layout_path = $path;
-        $map = $this->directory_map($path, true, true);
+        $map = directory_map($path, true, true);
         $to_return = array();
         if (!is_array($map) or empty($map)) {
             return false;
@@ -181,54 +137,7 @@ class TemplateManager
         return $to_return;
     }
 
-    /**
-     * Create a Directory Map.
-     *
-     *
-     * Reads the specified directory and builds an array
-     * representation of it.  Sub-folders contained with the
-     * directory will be mapped as well.
-     *
-     * @param string     path to source
-     * @param int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
-     *
-     * @return array
-     * @link          http://codeigniter.com/user_guide/helpers/directory_helper.html
-     *
-     * @author        ExpressionEngine Dev Team
-     *
-     */
-    private function directory_map($source_dir, $directory_depth = 0, $hidden = false, $full_path = false)
-    {
-        if ($fp = @opendir($source_dir)) {
-            $filedata = array();
-            $new_depth = $directory_depth - 1;
-            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-            while (false !== ($file = readdir($fp))) {
-                // Remove '.', '..', and hidden files [optional]
-                if (!trim($file, '.') or ($hidden == false && $file[0] == '.')) {
-                    continue;
-                }
-
-                if (($directory_depth < 1 or $new_depth > 0) && @is_dir($source_dir . $file)) {
-                    $filedata[$file] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
-                } else {
-                    if ($full_path == false) {
-                        $filedata[] = $file;
-                    } else {
-                        $filedata[] = $source_dir . $file;
-                    }
-                }
-            }
-
-            closedir($fp);
-
-            return $filedata;
-        }
-
-        return false;
-    }
 
 
     public $isBooted = false;
