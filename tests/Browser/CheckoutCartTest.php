@@ -27,7 +27,7 @@ class CheckoutCartTest extends DuskTestCase
             $browser->waitForText('Proceed to Checkout');
             $browser->assertSee('Proceed to Checkout');
 
-            $browser->pause('1000');
+            $browser->pause('4000');
 
             $browser->seeLink('Proceed to Checkout');
             $browser->clickLink('Proceed to Checkout');
