@@ -12,6 +12,10 @@ class FormData extends Model
         return $this->hasMany(FormDataValue::class);
     }
 
+    /**
+     * This functions is backward compatibility with old format data values
+     * @return array
+     */
     public function getFormValuesAttribute()
     {
         $values = [];
