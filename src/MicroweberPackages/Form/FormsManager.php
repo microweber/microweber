@@ -672,7 +672,7 @@ class FormsManager
             }
 
             $formModel = FormData::with('formDataValues')->find($save);
-            
+
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         }
