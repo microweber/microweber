@@ -263,7 +263,6 @@ class FormsManager
             unset($params['id']);
         }
 
-
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
         if (!$user_require_terms) {
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
@@ -280,7 +279,6 @@ class FormsManager
             } else {
 
                 $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
-
                 if (!$check_term) {
                     if (isset($params['terms']) and $params['terms']) {
                         $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
