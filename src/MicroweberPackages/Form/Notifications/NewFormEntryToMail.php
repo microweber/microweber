@@ -80,8 +80,8 @@ class NewFormEntryToMail extends Notification
         }
 
         $formDataValues = [];
-        if (!empty($this->formEntry->form_data_values) && is_array($this->formEntry->form_data_values)) {
-            foreach ($this->formEntry->form_data_values as $formDataValue) {
+        if (!empty($this->formEntry->formDataValues)) {
+            foreach ($this->formEntry->formDataValues as $formDataValue) {
                 $formDataValues[$formDataValue['field_name']] = $formDataValue['field_value'];
             }
         }
