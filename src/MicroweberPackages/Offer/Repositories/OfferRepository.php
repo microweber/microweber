@@ -89,7 +89,7 @@ class OfferRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $result = [];
+            $productIds = [];
 
             $getOffers = \DB::table('offers')
                 ->select('product_id')
@@ -97,14 +97,14 @@ class OfferRepository extends AbstractRepository
                 ->get();
 
             if ($getOffers->count() > 0) {
-                $result = $getOffers->toArray();
-                $result = array_values($result);
-                $result = array_flatten($result);
-            //    $result = array_flip($result);
-                $result = array_keys($result);
+                foreach ($getOffers as $offer) {
+                    if ($offer->product_id > 0) {
+                        $productIds[] = $offer->product_id;
+                    }
+                }
             }
 
-            return $result;
+            return $productIds;
        });
     }
 
