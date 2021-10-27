@@ -37,4 +37,64 @@ class SitemapControllerTest extends TestCase
         $this->assertTrue(in_array('pages', $locations));
 
     }
+
+    public function testCategories()
+    {
+        $response = $this->call('GET', route('sitemap.categories'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $sitemapXmlContent = $response->getOriginalContent();
+
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertIsObject($sitemapXml);
+
+    }
+
+    public function testTags()
+    {
+        $response = $this->call('GET', route('sitemap.tags'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $sitemapXmlContent = $response->getOriginalContent();
+
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertIsObject($sitemapXml);
+
+    }
+
+    public function testProducts()
+    {
+        $response = $this->call('GET', route('sitemap.products'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $sitemapXmlContent = $response->getOriginalContent();
+
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertIsObject($sitemapXml);
+
+    }
+
+    public function testPosts()
+    {
+        $response = $this->call('GET', route('sitemap.posts'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $sitemapXmlContent = $response->getOriginalContent();
+
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertIsObject($sitemapXml);
+
+    }
+
+    public function testPages()
+    {
+        $response = $this->call('GET', route('sitemap.pages'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $sitemapXmlContent = $response->getOriginalContent();
+
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertIsObject($sitemapXml);
+
+    }
 }
