@@ -10,9 +10,31 @@
                 <title>{{ $item['title'] }}</title>
                 <link>{{ $item['url'] }}</link>
                 <description>{{ $item['url'] }}</description>
+
                 @if(!empty($item['image_url']))
                     <enclosure url="{{ $item['image_url'] }}" length="{{ $item['image_size'] }}" type="{{ $item['image_type'] }}" />
                 @endif
+
+                @php
+                    if (!empty($item['categories'])) {
+                        foreach ($item['categories'] as $catItem) {
+                            echo '<category term="'.$catItem['title'].'"></category>';
+                        }
+                    }
+               @endphp
+
+                @php
+                    if (!empty($item['tags'])) {
+                        foreach ($item['tags'] as $tag) {
+                            echo '<tag term="'.$tag.'"></tag>';
+                        }
+                    }
+               @endphp
+
+                <content type="html" xml:base="{{ $item['url'] }}">
+                    <![CDATA[ {{ $item['description'] }} ]]>
+                </content>
+
             </item>
         @endforeach
     </channel>
