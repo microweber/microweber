@@ -4,6 +4,7 @@
 
 [![codecov](https://codecov.io/gh/microweber/microweber/branch/dev/graph/badge.svg?token=aLAgaSMcbZ)](https://codecov.io/gh/microweber/microweber)
 
+![PHP Unit Tests](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg)
 
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
