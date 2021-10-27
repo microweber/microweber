@@ -221,6 +221,23 @@ function coupon_get_all()
     return $readyCoupons;
 }
 
+
+api_expose_admin('coupon_logs');
+function coupon_logs()
+{
+    $table = 'cart_coupon_logs';
+    $coupons = DB::table($table)->select('*')
+        ->get()
+        ->toArray();
+
+    $readyCoupons = array();
+    foreach ($coupons as $coupon) {
+        $readyCoupons[] = get_object_vars($coupon);
+    }
+
+    return $readyCoupons;
+}
+
 api_expose_admin('coupon_get_by_id');
 function coupon_get_by_id($coupon_id)
 {
@@ -295,21 +312,3 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
 event_bind('mw.admin.shop.settings.coupons', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
-
-/*
-event_bind('mw.shop.cart.init', function ($params) {
-    //register_component($type,$params)
-
-    $cart_price_summary['discount'] = array(
-        'label' => _e("Discount", true),
-        'value' => '-' . cart_get_discount_text()
-    );
-
-
-    mw()->app->ui->register_component('price_summary', '');
-});
-
-
-*/
-
-
