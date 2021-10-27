@@ -51,7 +51,7 @@ class SitemapController extends Controller
        fpassthru($fp);
 
        //TODO event_trigger('mw_robot_url_hit');
-       exit();
+       return;
    }
 
    public function tags()
@@ -83,7 +83,7 @@ class SitemapController extends Controller
        fpassthru($fp);
 
        //TODO event_trigger('mw_robot_url_hit');
-       exit();
+        return;
    }
 
    public function products()
@@ -111,7 +111,7 @@ class SitemapController extends Controller
        fpassthru($fp);
 
        //TODO event_trigger('mw_robot_url_hit');
-       exit();
+       return;
    }
 
    public function posts()
@@ -139,7 +139,7 @@ class SitemapController extends Controller
        fpassthru($fp);
 
        //TODO event_trigger('mw_robot_url_hit');
-       exit();
+       return;
    }
 
    public function pages()
@@ -167,7 +167,7 @@ class SitemapController extends Controller
        fpassthru($fp);
 
        //TODO event_trigger('mw_robot_url_hit');
-       exit();
+       return;
    }
 
 }
