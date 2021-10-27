@@ -323,8 +323,15 @@ var _populate = {
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
+
+                var hasColor = color !== 'rgba(0, 0, 0, 0)';
+
                 if(color) {
-                    this.value = mw.color.rgbOrRgbaToHex(color);
+                    if(hasColor) {
+                        this.value = mw.color.rgbOrRgbaToHex(color);
+                    } else {
+                        this.value = 'none';
+                    }
 
                 }
 
