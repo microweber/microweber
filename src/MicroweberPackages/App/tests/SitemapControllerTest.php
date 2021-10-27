@@ -63,6 +63,7 @@ class SitemapControllerTest extends TestCase
 
         $sitemapXmlContent = $response->getOriginalContent();
 
+        // TODO
       //  $sitemapXml = simplexml_load_string($sitemapXmlContent);
       //  $this->assertIsObject($sitemapXml);
 
