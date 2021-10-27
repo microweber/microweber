@@ -2,9 +2,13 @@
 
 **Current version: 1.2 running on Laravel 8!**
 
-[![codecov](https://codecov.io/gh/microweber/microweber/branch/dev/graph/badge.svg?token=aLAgaSMcbZ)](https://codecov.io/gh/microweber/microweber)
+![Codecoverage](https://codecov.io/gh/microweber/microweber/branch/dev/graph/badge.svg?token=aLAgaSMcbZ)](https://codecov.io/gh/microweber/microweber)
+![PHP Unit Tests](https://github.com/microweber/microweber/actions/workflows/ci.yml/badge.svg)
+![Microweber build & upload](https://github.com/microweber/microweber/actions/workflows/build-and-upload.yml/badge.svg)
+![PHP Code Coverage Tests](https://github.com/microweber/microweber/actions/workflows/codecov.yml/badge.svg)
+![Visual Tests](https://github.com/microweber/microweber/actions/workflows/visual-tests.yml/badge.svg)
+![Dusk](https://github.com/microweber/microweber/actions/workflows/dusk.yml/badge.svg)
 
-![PHP Unit Tests](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg)
 
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
