@@ -14,6 +14,7 @@ namespace MicroweberPackages\Comment;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
+
 class CommentServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +24,7 @@ class CommentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        include_once (__DIR__.'/helpers/comments_helpers.php');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 

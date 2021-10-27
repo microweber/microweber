@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\Comment\Comment;
+use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Comment\Models\Comment;
 use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Comment\Notifications\NewCommentNotification;
 use MicroweberPackages\Option\Facades\Option;
@@ -33,23 +34,46 @@ class CommentController
         }
 
 
+
+
+
         $rules = [];
         $inputs = $request->all();
+        if(isset($inputs['rel']) and !isset($inputs['rel_type'])){
+            $inputs['rel_type'] = $inputs['rel'];
+            unset($inputs['rel']);
+        }
+
+
+        if(isset($inputs['id'])) {
+            $comment = get_comments('single=1&id=' . $inputs['id']);
+            if (empty($comment)) {
+                return \Response::make(['errors' => ['Cannot find comment']]);
+            }
+            if (mw()->user_manager->session_id() != $comment['session_id']) {
+                return \Response::make(['errors' => ['Cannot edit comment']]);
+            }
+
+        }
+
 
         $rules['rel_id'] = 'required';
         $rules['rel_type'] = 'required';
         $rules['comment_body'] = 'required';
 
-        if (!empty($inputs['comment_email'])) {
-            $inputs['email'] = $inputs['comment_email'];
+        if (!empty($inputs['email'])) {
+            $inputs['comment_email'] = $inputs['email'];
+            unset( $inputs['email']);
         }
 
         if (Option::getValue('require_terms', 'comments')) {
-            $rules['terms'] = 'terms:terms_comments';
-            if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
-                $rules['terms'] = $rules['terms'] . ', terms_newsletter';
+            if(!isset($inputs['terms'])) {
+                $rules['terms'] = 'terms:terms_comments';
+                if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
+                    $rules['terms'] = $rules['terms'] . ', terms_newsletter';
+                }
+                $rules['comment_email'] = 'required';
             }
-            $rules['comment_email'] = 'required';
         }
 
         $rules['captcha'] = 'captcha';
@@ -59,13 +83,23 @@ class CommentController
 
         $validator = \Validator::make($inputs, $rules);
         if ($validator->fails()) {
-            return ['errors'=>$validator->messages()->toArray()];
+
+
+            $response = \Response::make(['errors'=>$validator->messages()->toArray()]);
+
+            $response->setStatusCode(422);
+
+            $response = RequestRoute::formatFrontendResponse($response);
+
+            return $response;
         }
 
-        $saveComment = $request->all();
+        $saveComment = $inputs;
 
         $requireModeration = Option::getValue('require_moderation', 'comments');
         if ($requireModeration) {
+            $saveComment['is_moderated'] = 0;
+        } else {
             $saveComment['is_moderated'] = 1;
         }
 
@@ -78,6 +112,9 @@ class CommentController
         event(new NewComment($save));
 
         Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($save));
+
+        cache_clear('comments');
+
 
         return (new JsonResource($save))->response();
     }

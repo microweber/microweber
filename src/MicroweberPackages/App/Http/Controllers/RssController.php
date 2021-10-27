@@ -15,12 +15,15 @@ class RssController extends Controller
 
     public function index(Request $request)
     {
-        if (mw_is_installed()) {
-            //TODO event_trigger('mw_cron');
+
+        $showImages = $request->images;
+        $view = 'atom';
+        if ($request->get('format') == 'wordpress') {
+            $view = 'wordpress';
+            $showImages = 1;
         }
 
         $contentData = [];
-
         if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
             change_language_by_locale($request->lang,false);
         }
@@ -33,11 +36,14 @@ class RssController extends Controller
         if (!empty($cont)) {
             foreach ($cont as $k => $item) {
                 $tmp = [];
+                $tmp['id'] = $item['id'];
                 $tmp['url'] = content_link($item['id']);
                 $tmp['title'] = $item['title'];
                 $tmp['description'] = content_description($item['id']);
+                $tmp['tags'] = content_tags($item['id']);
+                $tmp['tags'] = content_tags($item['id']);
 
-                if ($request->images == 1) {
+                if ($showImages == 1) {
                     $imgUrl = get_picture($item['id']);
                     if (!empty($imgUrl)) {
                         $imgData = $this->getFileData($imgUrl);
@@ -58,9 +64,7 @@ class RssController extends Controller
             'rssData' => $contentData,
         ];
 
-        return response()
-            ->view('rss::index', $data)
-            ->header('Content-Type', 'text/xml');
+        return response()->view('rss::'.$view, $data)->header('Content-Type', 'text/xml');
     }
 
     public function products(Request $request)
@@ -110,7 +114,7 @@ class RssController extends Controller
     {
         $size = null;
         $type = '';
-        $data = get_headers($urlPath, 1);
+        $data = @get_headers($urlPath, 1);
 
         if(isset($data['Content-Length'])) {
             $size = $data['Content-Length'];

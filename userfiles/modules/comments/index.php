@@ -178,7 +178,6 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
 
-
     $cur_user_data = array();
     $cur_user = user_id();
     if ($cur_user != false) {
@@ -239,7 +238,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
             $comments = $comments_new;
        // }
     }
-    
+
     $template = get_option('data-template', $params['id']);
     if (($template == false or ($template == '')) and isset($params['template'])) {
         $template = $params['template'];
@@ -258,7 +257,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
         mw.require("url.js", true);
         mw.require("forms.js", true);
     </script>
-    
+
     <script>
 	function edit_comment_user(id) {
 		var data = {};
@@ -266,7 +265,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
 		edit_list_modal = mw.tools.open_module_modal('comments/edit_comment_user', data, {height:500,overlay: true, skin: 'simple'});
 	}
 	function delete_comment_user(id) {
-		
+
 		$.ajax({
 			  type: "POST",
 			  url: mw.settings.api_url + 'delete_comment_user',
@@ -276,7 +275,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
 				mw.notification.success('Comment deleted!');
 			  }
 		});
-		
+
 	}
 	</script>
 
@@ -317,7 +316,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
                 }
 
                 mw.comments_is_saving = true;
-                mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print api_link('post_comment'); ?>',
+                mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print route('api.comment.post'); ?>',
                     function (msg) {
                         mw.comments_is_saving = false;
                         var resp = this;

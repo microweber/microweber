@@ -13,12 +13,7 @@
 
 namespace MicroweberPackages\Template;
 
-/**
- * Content class is used to get and save content in the database.
- *
- * @category Content
- * @desc     These functions will allow you to get and save content in the database.
- */
+
 class TemplateManager
 {
     /**

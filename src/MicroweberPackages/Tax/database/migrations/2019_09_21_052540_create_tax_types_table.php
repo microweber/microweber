@@ -21,7 +21,6 @@ class CreateTaxTypesTable extends Migration
             $table->tinyInteger('compound_tax')->default(0);
             $table->tinyInteger('collective_tax')->default(0);
             $table->text('description')->nullable();
-            $table->integer('company_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

@@ -1,11 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Comment;
+namespace MicroweberPackages\Comment\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
-use MicroweberPackages\Database\Casts\MarkdownCast;
 
 class Comment extends Model
 {
