@@ -200,15 +200,18 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
 
-    Route::any('robots.txt', 'FrontendController@robotstxt');
-    Route::get('sitemap.xml', 'SitemapController@index');
-    Route::get('sitemap.xml/categories', 'SitemapController@categories');
-    Route::get('sitemap.xml/tags', 'SitemapController@tags');
-    Route::get('sitemap.xml/products', 'SitemapController@products');
-    Route::get('sitemap.xml/posts', 'SitemapController@posts');
-    Route::get('sitemap.xml/pages', 'SitemapController@pages');
-    Route::any('rss', 'RssController@index');
-    Route::any('rss-products', 'RssController@products');
+    Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
+
+    Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap.index');
+    Route::get('sitemap.xml/categories', 'SitemapController@categories')->name('sitemap.categories');
+    Route::get('sitemap.xml/tags', 'SitemapController@tags')->name('sitemap.tags');
+    Route::get('sitemap.xml/products', 'SitemapController@products')->name('sitemap.products');
+    Route::get('sitemap.xml/posts', 'SitemapController@posts')->name('sitemap.posts');
+    Route::get('sitemap.xml/pages', 'SitemapController@pages')->name('sitemap.pages');
+
+    Route::any('rss', 'RssController@index')->name('rss.index');
+    Route::any('rss-products', 'RssController@products')->name('rss.products');
+
     Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 
 });
