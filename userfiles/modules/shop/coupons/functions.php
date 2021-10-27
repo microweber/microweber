@@ -41,7 +41,7 @@ function coupon_apply($params = array())
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
         if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
-            $errorMessage .= _e('The coupon can\'t be applied cause maximum uses is', true) .' '. $coupon['uses_per_customer'] . "<br />";
+            $errorMessage .= _e('The coupon cannot be applied cause maximum uses exceeded.', true) . "<br />";
         }
     }
 
