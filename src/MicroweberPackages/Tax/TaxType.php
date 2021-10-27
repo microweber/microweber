@@ -13,7 +13,6 @@ class TaxType extends Model
         'name',
         'type',
         'rate',
-        'company_id',
         'compound_tax',
         'collective_tax',
         'description'
@@ -23,13 +22,4 @@ class TaxType extends Model
         'percent' => 'float'
     ];
 
-    public function taxes()
-    {
-        return $this->hasMany(Tax::class);
-    }
-
-    public function scopeWhereCompany($query, $company_id)
-    {
-        $query->where('company_id', $company_id);
-    }
 }
