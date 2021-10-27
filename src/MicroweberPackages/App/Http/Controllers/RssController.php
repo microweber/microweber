@@ -40,6 +40,8 @@ class RssController extends Controller
                 $tmp['url'] = content_link($item['id']);
                 $tmp['title'] = $item['title'];
                 $tmp['description'] = content_description($item['id']);
+                $tmp['tags'] = content_tags($item['id']);
+                $tmp['categories'] = content_categories($item['id']);
 
                 if ($showImages == 1) {
                     $imgUrl = get_picture($item['id']);
