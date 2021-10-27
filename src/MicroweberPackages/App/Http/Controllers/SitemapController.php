@@ -33,25 +33,13 @@ class SitemapController extends Controller
        $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
        if($updateSitemap) {
-
            $categoriesData = $this->fetchCategoriesLinks();
-
            $sitemap = view('sitemap::items', ['itemsData' => $categoriesData])->render();
-
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
 
-       $fp = fopen($generatedSiteMapFile, 'r');
+       return response(file_get_contents($generatedSiteMapFile), 200)->header('Content-Type', 'text/xml');
 
-       // send the right headers
-       header('Content-Type: text/xml');
-       header('Content-Length: ' . filesize($generatedSiteMapFile));
-
-       // dump the file and stop the script
-       fpassthru($fp);
-
-       //TODO event_trigger('mw_robot_url_hit');
-       return;
    }
 
    public function tags()
@@ -73,17 +61,7 @@ class SitemapController extends Controller
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
 
-       $fp = fopen($generatedSiteMapFile, 'r');
-
-       // send the right headers
-       header('Content-Type: text/xml');
-       header('Content-Length: ' . filesize($generatedSiteMapFile));
-
-       // dump the file and stop the script
-       fpassthru($fp);
-
-       //TODO event_trigger('mw_robot_url_hit');
-        return;
+       return response(file_get_contents($generatedSiteMapFile), 200)->header('Content-Type', 'text/xml');
    }
 
    public function products()
@@ -101,17 +79,7 @@ class SitemapController extends Controller
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
 
-       $fp = fopen($generatedSiteMapFile, 'r');
-
-       // send the right headers
-       header('Content-Type: text/xml');
-       header('Content-Length: ' . filesize($generatedSiteMapFile));
-
-       // dump the file and stop the script
-       fpassthru($fp);
-
-       //TODO event_trigger('mw_robot_url_hit');
-       return;
+       return response(file_get_contents($generatedSiteMapFile), 200)->header('Content-Type', 'text/xml');
    }
 
    public function posts()
@@ -129,17 +97,7 @@ class SitemapController extends Controller
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
 
-       $fp = fopen($generatedSiteMapFile, 'r');
-
-       // send the right headers
-       header('Content-Type: text/xml');
-       header('Content-Length: ' . filesize($generatedSiteMapFile));
-
-       // dump the file and stop the script
-       fpassthru($fp);
-
-       //TODO event_trigger('mw_robot_url_hit');
-       return;
+       return response(file_get_contents($generatedSiteMapFile), 200)->header('Content-Type', 'text/xml');
    }
 
    public function pages()
@@ -157,17 +115,7 @@ class SitemapController extends Controller
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
 
-       $fp = fopen($generatedSiteMapFile, 'r');
-
-       // send the right headers
-       header('Content-Type: text/xml');
-       header('Content-Length: ' . filesize($generatedSiteMapFile));
-
-       // dump the file and stop the script
-       fpassthru($fp);
-
-       //TODO event_trigger('mw_robot_url_hit');
-       return;
+       return response(file_get_contents($generatedSiteMapFile), 200)->header('Content-Type', 'text/xml');
    }
 
 }

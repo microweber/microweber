@@ -16,9 +16,11 @@ class RssController extends Controller
     public function index(Request $request)
     {
 
+        $showImages = $request->images;
         $view = 'atom';
         if ($request->get('format') == 'wordpress') {
             $view = 'wordpress';
+            $showImages = 1;
         }
 
         $contentData = [];
@@ -26,12 +28,7 @@ class RssController extends Controller
             change_language_by_locale($request->lang,false);
         }
 
-        $filter = '';
-        if ($request->get('parent_id')) {
-            $filter .='&parent=' . intval($request->get('parent_id'));
-        }
-
-        $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc'.$filter);
+        $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc');
 
         $siteTitle = app()->option_manager->get('website_title', 'website');
         $siteDesc = app()->option_manager->get('website_description', 'website');
@@ -44,16 +41,18 @@ class RssController extends Controller
                 $tmp['title'] = $item['title'];
                 $tmp['description'] = content_description($item['id']);
                 $tmp['tags'] = content_tags($item['id']);
-                $tmp['categories'] = content_categories($item['id']);
+                $tmp['tags'] = content_tags($item['id']);
 
-                $imgUrl = get_picture($item['id']);
-                if (!empty($imgUrl)) {
-                    $imgData = $this->getFileData($imgUrl);
-                    $tmp['image_url'] = $imgUrl;
-                    $tmp['image_size'] = $imgData['size'];
-                    $tmp['image_type'] = $imgData['type'];
+                if ($showImages == 1) {
+                    $imgUrl = get_picture($item['id']);
+                    if (!empty($imgUrl)) {
+                        $imgData = $this->getFileData($imgUrl);
+
+                        $tmp['image_url'] = $imgUrl;
+                        $tmp['image_size'] = $imgData['size'];
+                        $tmp['image_type'] = $imgData['type'];
+                    }
                 }
-
                 $contentData[] = $tmp;
             }
         }
