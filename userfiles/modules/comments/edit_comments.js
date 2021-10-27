@@ -3,19 +3,22 @@
 
 mw.edit_comments = {
 
+    api_url : '',
+
     save_form: function (form_id) {
-        var url = mw.settings.api_url + 'post_comment';
+        var url = this.api_url;
 
         mw.form.post(form_id, url)
         mw.notification.success('Comment saved')
     },
 
     mark_as_spam: function (comment_id) {
-        var url = mw.settings.api_url + 'mark_comment_as_spam';
+        var url = this.api_url;
         var conf = confirm('Are you sure you want to mark this comment as spam?');
         if (conf) {
             var data = {};
             data.comment_id = comment_id;
+            data.action = 'spam';
             $.post(url, data, function (data) {
                 mw.notification.success('Comment is marked as spam')
 
@@ -24,7 +27,7 @@ mw.edit_comments = {
     },
 
     delete: function (comment_id) {
-        var url = mw.settings.api_url + 'post_comment';
+        var url = this.api_url;
         var conf = confirm('Are you sure you want to delete this comment?');
         if (conf) {
             var data = {};
@@ -38,7 +41,7 @@ mw.edit_comments = {
 
 
     publish: function (comment_id) {
-        var url = mw.settings.api_url + 'post_comment';
+        var url = this.api_url;
         var conf = true;
         if (conf) {
             var data = {};
@@ -51,7 +54,7 @@ mw.edit_comments = {
     },
 
     unpublish: function (comment_id) {
-        var url = mw.settings.api_url + 'post_comment';
+        var url = this.api_url;
         var conf = true;
         if (conf) {
             var data = {};

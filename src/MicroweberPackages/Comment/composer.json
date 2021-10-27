@@ -16,7 +16,10 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Comment\\": ""
-    }
+    },
+      "files": [
+          "helpers/comments_helpers.php"
+      ]
   },
   "config": {
     "sort-packages": true

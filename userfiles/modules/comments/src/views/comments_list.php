@@ -73,9 +73,7 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
     $(document).ready(function () {
 
-
-
-
+        mw.edit_comments.api_url = '<?php print route('api.comment.admin.edit') ?>';
 
 
         $('.new-close', '#<?php print $params['id'] ?>').on('click', function (e) {

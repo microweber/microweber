@@ -1,20 +1,11 @@
 <?php
 
+namespace MicroweberPackages\Comment\Models;
 
-namespace Microweber\Comments\Models;
-
-use Illuminate\Support\Facades\Notification;
-use MicroweberPackages\Comment\Events\NewComment;
-use MicroweberPackages\Comment\Notifications\NewCommentNotification;
 use MicroweberPackages\Database\Crud;
-use Microweber\Utils\Http;
-use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Mail\MailSender;
-use MicroweberPackages\View\View;
-use GrahamCampbell\Markdown\Facades\Markdown;
 
 
-class Comments extends Crud
+class CommentsCrud extends Crud
 {
 
     public $app;
