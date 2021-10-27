@@ -18,16 +18,23 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.index'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getContent();
-        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $sitemapXmlContent = $response->getOriginalContent();
 
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
         $this->assertIsObject($sitemapXml);
 
-        $this->asserTrue(str_contains($sitemapXmlContent, '/sitemap.xml/categories'));
-        $this->asserTrue(str_contains($sitemapXmlContent, '/sitemap.xml/products'));
-        $this->asserTrue(str_contains($sitemapXmlContent, '/sitemap.xml/posts'));
-        $this->asserTrue(str_contains($sitemapXmlContent, '/sitemap.xml/tags'));
-        $this->asserTrue(str_contains($sitemapXmlContent, '/sitemap.xml/pages'));
+        $locations = [];
+        foreach ($sitemapXml as $item) {
+            $loc = $item->loc[0];
+            $locExp = explode('sitemap.xml/', $loc);
+            $locations[] = $locExp[1];
+        }
+
+        $this->assertTrue(in_array('categories', $locations));
+        $this->assertTrue(in_array('products', $locations));
+        $this->assertTrue(in_array('posts', $locations));
+        $this->assertTrue(in_array('tags', $locations));
+        $this->assertTrue(in_array('pages', $locations));
 
     }
 }
