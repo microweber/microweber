@@ -31,17 +31,12 @@ class CartManager extends Crud
         }
 
         $coupon_code = $this->app->user_manager->session_get('coupon_code');
-    /*    $this->coupon_data = db_get("cart_coupons", array(
-            'is_active' => 1,
-            'coupon_code' => $coupon_code,
-            'single' => true,
-            'no_cache' => true
-        ));*/
+        $this->coupon_data = coupon_get_by_code($coupon_code);
     }
 
     /**
+     * This will sum all cart items amount
      * @param bool $return_amount
-     *
      * @return array|false|float|int|mixed
      */
     public function sum($return_amount = true)
@@ -187,7 +182,7 @@ class CartManager extends Crud
 
     public function get_discount_type()
     {
-        if (empty( $this->coupon_data)) {
+        if (empty($this->coupon_data)) {
             return false;
         }
 
@@ -196,17 +191,17 @@ class CartManager extends Crud
 
     public function get_discount_value()
     {
-        if (empty( $this->coupon_data)) {
+        if (empty($this->coupon_data)) {
             return false;
         }
 
         $apply_code = false;
-        if ($this->total() >=  $this->coupon_data['total_amount']) {
+        if ($this->sum() >= $this->coupon_data['total_amount']) {
             $apply_code = true;
         }
 
         if ($apply_code) {
-            return floatval( $this->coupon_data['discount_value']);
+            return floatval($this->coupon_data['discount_value']);
         }
 
         return false;

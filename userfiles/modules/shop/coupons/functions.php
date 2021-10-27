@@ -296,7 +296,7 @@ event_bind('mw.admin.shop.settings.coupons', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
 
-
+/*
 event_bind('mw.shop.cart.init', function ($params) {
     //register_component($type,$params)
 
@@ -310,6 +310,6 @@ event_bind('mw.shop.cart.init', function ($params) {
 });
 
 
-
+*/
 
 
