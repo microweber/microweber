@@ -31,12 +31,24 @@ class AdminShopOffersTest extends DuskTestCase
 
             $browser->pause(100);
 
-            $browser->visit($siteUrl.'admin/view:shop/action:options#option_group=shop/offers/admin_block?dusk=1');
+            $browser->visit($siteUrl.'admin/view:shop/action:options#option_group=shop/settings');
+            $browser->pause(1000);
+            $browser->clickLink('Promotions');
+            $browser->waitForText('Offers');
+            $browser->assertSee('Add new offer');
 
-            $browser->pause(3000);
+            $browser->pause(1000);
+            $browser->click('.js-add-new-offer');
 
+            $browser->waitForText('Add new offer');
+            $browser->waitForText('Offer status');
 
-
+            $browser->assertSee('Add new offer');
+            $browser->assertSee('Offer status');
+            $browser->assertSee('Save');
+            $browser->assertSee('Offer price');
+            $browser->assertSee('Offer start at');
+            $browser->assertSee('Offer expiry at');
 
 
         });
