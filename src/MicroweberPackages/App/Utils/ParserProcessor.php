@@ -1030,6 +1030,7 @@ class ParserProcessor
                 //unset($mw_replaced_textarea_tag[$key]);
             }
         }
+        $layout = $this->_replace_tags_with_placeholders_back($layout);
 
 
 
