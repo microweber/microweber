@@ -56,7 +56,12 @@ class TemplateTest extends TestCase
         $this->assertTrue(str_contains($compile, '#efecec'));
 
         $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
+        $this->assertTrue(str_contains($admin_template, 'compile_admin_live_edit_css'));
+
+        $compile = app()->template->admin->compileLiveEditCss();
+        $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
         $this->assertTrue(str_contains($admin_template, 'css/admin-css/__compiled_liveedit'));
+
 
         $admin_template = app()->template->admin->getAdminCssUrl();
         $this->assertTrue(str_contains($admin_template, 'css/admin-css/__compiled_admin'));
