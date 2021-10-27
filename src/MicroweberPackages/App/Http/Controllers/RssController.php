@@ -57,10 +57,8 @@ class RssController extends Controller
             'siteUrl' => mw()->url_manager->hostname(),
             'rssData' => $contentData,
         ];
-
-        return response()
-            ->view('rss::index', $data)
-            ->header('Content-Type', 'text/xml');
+        
+        return response()->view('rss::index', $data)->header('Content-Type', 'text/xml');
     }
 
     public function products(Request $request)
