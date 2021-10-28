@@ -79,7 +79,7 @@ class OrderApiControllerTest extends TestCase
             ])
 
         );
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(200, $response->status());
 
     }
 
