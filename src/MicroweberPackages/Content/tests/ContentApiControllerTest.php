@@ -203,7 +203,7 @@ class ContentApiControllerTest extends TestCase
             ])
         );
 
-        $this->assertEquals(500, $response->status());
+        $this->assertEquals(200, $response->status());
         $contentData = $response->getData()->data->ids;
 
         $this->assertNotEmpty($contentData);
