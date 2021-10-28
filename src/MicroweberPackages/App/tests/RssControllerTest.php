@@ -11,7 +11,6 @@ class RssControllerTest extends TestCase
     public function testIndex()
     {
         $tag = new Post();
-        $tag->slug = 'slug-'.str_random();
         $tag->title = 'title-'.str_random();
         $tag->content = 'content-'.str_random();
         $tag->save();
@@ -28,7 +27,6 @@ class RssControllerTest extends TestCase
     public function testProducts()
     {
         $tag = new Product();
-        $tag->slug = 'slug-'.str_random();
         $tag->title = 'title-'.str_random();
         $tag->content = 'content-'.str_random();
         $tag->save();
