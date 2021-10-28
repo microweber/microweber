@@ -19,10 +19,10 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.index'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertIsObject($sitemapXml);
+        $this->assertTrue(is_object($sitemapXml));
 
         $locations = [];
         foreach ($sitemapXml as $item) {
@@ -44,10 +44,10 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.categories'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertIsObject($sitemapXml);
+        $this->assertTrue(is_object($sitemapXml));
 
     }
 
@@ -63,9 +63,8 @@ class SitemapControllerTest extends TestCase
 
         $sitemapXmlContent = $response->getContent();
 
-        // TODO
-      //  $sitemapXml = simplexml_load_string($sitemapXmlContent);
-      //  $this->assertIsObject($sitemapXml);
+        $sitemapXml = simplexml_load_string($sitemapXmlContent);
+        $this->assertTrue(is_object($sitemapXml));
 
     }
 
@@ -77,7 +76,7 @@ class SitemapControllerTest extends TestCase
         $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertIsObject($sitemapXml);
+        $this->assertTrue(is_object($sitemapXml));
 
     }
 
@@ -89,7 +88,7 @@ class SitemapControllerTest extends TestCase
         $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertIsObject($sitemapXml);
+        $this->assertTrue(is_object($sitemapXml));
 
     }
 
@@ -101,7 +100,7 @@ class SitemapControllerTest extends TestCase
         $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertIsObject($sitemapXml);
+        $this->assertTrue(is_object($sitemapXml));
 
     }
 }
