@@ -8,7 +8,7 @@ use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class PageControllerTest extends TestCase
+class PageApiControllerTest extends TestCase
 {
 
     public function testAddPageFull()
