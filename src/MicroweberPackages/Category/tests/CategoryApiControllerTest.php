@@ -9,7 +9,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryControllerTest extends TestCase
+class CategoryApiControllerTest extends TestCase
 {
     public function testAddCategoriesFromController()
     {
