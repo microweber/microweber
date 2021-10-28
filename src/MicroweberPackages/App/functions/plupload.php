@@ -526,11 +526,12 @@ if (!$chunks || $chunk == $chunks - 1) {
             }else if ($ext === 'svg') {
 
                 if (is_file($filePath)) {
-                    $svg_clean = new \MicroweberPackages\Utils\ThirdPartyLibs\SvgSanitizer();
-                    $svg_clean->load($filePath);
-                    $svg_clean->sanitize();
-                    $svg_clean = $svg_clean->saveSVG();
-                    file_put_contents($filePath,$svg_clean);
+                    $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                    // Load the dirty svg
+                    $dirtySVG = file_get_contents($filePath);
+                     // Pass it to the sanitizer and get it back clean
+                    $cleanSVG = $sanitizer->sanitize($dirtySVG);
+                    file_put_contents($filePath, $cleanSVG);
 
                 }
                $valid = true;
