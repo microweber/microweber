@@ -73,9 +73,6 @@ class CheckoutProcessControllerTest extends TestCase
         $response = $this->call('GET', route('checkout.payment_method', []));
         $response->assertStatus(200);
 
-
-        
-
     }
 
 }
