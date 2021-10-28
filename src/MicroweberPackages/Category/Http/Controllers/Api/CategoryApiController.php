@@ -107,7 +107,7 @@ class CategoryApiController extends AdminDefaultController
     }
 
     /**
-     * Delete resources by given ids. 
+     * Delete resources by given ids.
      *
      * @param string $ids
      */
