@@ -61,9 +61,7 @@
 
                 <div class="step-actions step-1-actions d-flex justify-content-between mt-3">
 
-                    <button type="button" class="btn btn-primary" onclick="mw.backup_export.export_fullbackup_start()">
-                        <?php _e("Create Full Backup"); ?>
-                    </button>
+
 
                     <!--
                     <span class="btn btn-link btn-outline-primary js-toggle-backup-select-items" onclick="mw.$('.js-toggle-backup-select-items').toggleClass('d-none')" >
@@ -76,6 +74,10 @@
                         <i class="mdi mdi-database-export"></i> <?php _e("Custom"); ?>
                     </button>
 
+
+                    <button type="button" class="btn btn-primary" onclick="mw.backup_export.export_fullbackup_start()">
+                        <?php _e("Create Full Backup"); ?>
+                    </button>
                 </div>
 
             </div>

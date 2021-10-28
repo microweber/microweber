@@ -26,6 +26,7 @@ if (count($payment_options) == 0) {
     $(document).ready(function () {
 
         mw.$('.mw-payment-gateway-<?php print $params['id']; ?> input').commuter(function () {
+            mw.trigger('mw.cart.paymentMethodChange');
             mw.$('.mw-payment-gateway-selected-<?php print $params['id']; ?> .module:first').attr('data-selected-gw', this.value);
             mw.load_module('' + this.value, '#mw-payment-gateway-selected-<?php print $params['id']; ?>');
         });

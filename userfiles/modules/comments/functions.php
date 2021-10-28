@@ -8,17 +8,6 @@ if (!defined("MODULE_DB_COMMENTS")) {
 
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
-//api_expose_admin('mark_comment_as_spam', function ($params) {
-//    $comments = new \Microweber\Comments\Models\Comments();
-//    return $comments->mark_as_spam($params);
-//
-//});
-//
-//
-//api_expose_admin('mark_comments_as_old', function ($params) {
-//    $comments = new \Microweber\Comments\Models\Comments();
-//    return $comments->mark_as_old($params);
-//});
 
 api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
 

@@ -23,14 +23,13 @@ class OrderApiController extends AdminDefaultController
     public function __construct(OrderRepository $order)
     {
         $this->order = $order;
-
     }
 
     /**
     /**
      * Display a listing of the order.
      *
-     * @param orderRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
@@ -48,10 +47,10 @@ class OrderApiController extends AdminDefaultController
     /**
      * Store order in database
      *
-     * @param orderCreateRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(orderCreateRequest $request)
+    public function store(Request $request)
     {
         $result = $this->order->create($request->all());
         return (new JsonResource($result))->response();
@@ -74,11 +73,11 @@ class OrderApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  orderRequest $request
+     * @param  Request $request
      * @param  string $order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(orderUpdateRequest $request, $order)
+    public function update(Request $request, $order)
     {
 
         $result = $this->order->update($request->all(), $order);
@@ -86,24 +85,12 @@ class OrderApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
      * @return void
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        return $this->order->delete($id);
-    }
-
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     * @return void
-     */
-    public function destroy($ids)
-    {
-        return $this->order->destroy($ids);
+        return (new JsonResource(['id'=>$this->order->delete($id)]));
     }
 }

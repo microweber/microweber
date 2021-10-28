@@ -94,28 +94,13 @@ class CategoryApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
      * @return void
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        $result = $this->category->delete($id);
-        // return (new JsonResource($result))->response();
-        return true;
-    }
-
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     */
-    public function destroy($ids)
-    {
-        $result = $this->category->destroy($ids);
-        return true;
-        //     return (new JsonResource($result))->response();
+        return (new JsonResource(['id'=>$this->category->delete($id)]));
     }
 
 }

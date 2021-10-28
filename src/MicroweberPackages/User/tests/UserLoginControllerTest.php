@@ -14,6 +14,12 @@ class UserLoginControllerTest extends TestCase
 
     public function testUserLoginWithUsername()
     {
+
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'enable_user_microweber_registration';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();

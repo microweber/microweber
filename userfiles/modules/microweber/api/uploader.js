@@ -247,10 +247,8 @@
                         if(scope.settings.on.progress) {
                             scope.settings.on.progress(dataProgress, res);
                         }
-                        console.log('a1', res)
 
                     } else {
-                        console.log('a2', res)
                         dataProgress = {
                             percent: '100'
                         };
@@ -293,8 +291,7 @@
 
         this.uploadFiles = function () {
             if (this.settings.async) {
-                console.log(7777, this.files)
-                if (this.files.length) {
+                 if (this.files.length) {
                     this.uploading(true);
                     var file = this.files[0]
                     scope.uploadFile(file)
