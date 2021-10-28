@@ -187,7 +187,7 @@ Route::group(['middleware' => ['public.web' , \MicroweberPackages\App\Http\Middl
 // 'middleware' => 'web',
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
-    Route::any('/', 'FrontendController@index');
+    Route::any('/', 'FrontendController@index')->name('home');
 
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
