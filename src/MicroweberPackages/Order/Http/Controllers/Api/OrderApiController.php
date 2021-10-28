@@ -30,7 +30,7 @@ class OrderApiController extends AdminDefaultController
     /**
      * Display a listing of the order.
      *
-     * @param orderRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
@@ -48,10 +48,10 @@ class OrderApiController extends AdminDefaultController
     /**
      * Store order in database
      *
-     * @param orderCreateRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(orderCreateRequest $request)
+    public function store(Request $request)
     {
         $result = $this->order->create($request->all());
         return (new JsonResource($result))->response();
@@ -74,11 +74,11 @@ class OrderApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  orderRequest $request
+     * @param  Request $request
      * @param  string $order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(orderUpdateRequest $request, $order)
+    public function update(Request $request, $order)
     {
 
         $result = $this->order->update($request->all(), $order);
