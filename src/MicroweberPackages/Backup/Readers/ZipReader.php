@@ -37,18 +37,19 @@ class ZipReader extends DefaultReader
         $files = array();
 
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($backupLocation));
-        foreach ($rii as $file) {
-            if (! $file->isDir() and $file->isFile()) {
-               $file_check = $file->getPathname();
-                $ext = @get_file_extension($file_check);
-                if($ext == 'css'){
-                    $csscont = file_get_contents($file_check);
-                    $csscont = app()->url_manager->replace_site_url_back($csscont);
-                    @file_put_contents($file_check,$csscont);
+        if ($rii) {
+            foreach ($rii as $file) {
+                if (!$file->isDir() and $file->isFile()) {
+                    $file_check = $file->getPathname();
+                    $ext = @get_file_extension($file_check);
+                    if ($ext == 'css') {
+                        $csscont = file_get_contents($file_check);
+                        $csscont = app()->url_manager->replace_site_url_back($csscont);
+                        @file_put_contents($file_check, $csscont);
+                    }
                 }
             }
         }
-
 
 
 
