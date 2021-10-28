@@ -5,7 +5,9 @@ Route::name('api.')
     ->middleware(['api','admin'])
     ->namespace('\MicroweberPackages\Post\Http\Controllers\Api')
     ->group(function () {
+
     Route::apiResource('post', 'PostApiController');
+
 });
 
 

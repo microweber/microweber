@@ -178,7 +178,7 @@ class PostApiControllerTest extends TestCase
 
     }
 
-    public function testDeleteContentFromController()
+    public function testDestroyContentFromController()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
@@ -202,7 +202,7 @@ class PostApiControllerTest extends TestCase
         );
 
         $this->assertEquals(200, $response->status());
-        $contentData = $response->getData()->data->ids;
+        $contentData = $response->getData()->data->id;
 
         $this->assertNotEmpty($contentData);
     }
