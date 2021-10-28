@@ -110,6 +110,4 @@ class FileManagerApiController extends Controller {
         ];
     }
 
-
-
 }

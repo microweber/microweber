@@ -19,6 +19,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             zoommap = function (val) {
                 mw.$("#zoom_level").val(val).trigger("change");
             }
+
+            mapstyle = function (val) {
+                mw.$("#map_style").val(val).trigger("change");
+            }
         </script>
 
         <div class="module-live-edit-settings  module-google-maps-settings">
@@ -41,6 +45,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input name="data-zoom" class="mw-ui-field-range mw_option_field mw-full-width" max="21" min="0" type="range" id="zoom_level" value="<?php print get_option('data-zoom', $params['id']) ?>"/>
                 </div>
             </div>
+
+
+            <div class="form-group">
+                <label for="map_style" class="control-label"><?php _e("Map style"); ?></label>
+                <select class="mw_option_field form-control" name="map_style" id="map_style" value="<?php print get_option('map_style', $params['id']) ?>">
+                    <option value=""><?php _e("Choose a style") ?></option>
+                    <option value="dark_style"><?php _e("Dark style"); ?></option>
+                    <option value="silver_style"><?php _e("Silver style"); ?></option>
+                </select>
         </div>
     </div>
 </div>
+

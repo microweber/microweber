@@ -1,40 +1,43 @@
 <?php
 namespace MicroweberPackages\App\tests;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Http\Request;
-use MicroweberPackages\Blog\Http\Controllers\BlogController;
-use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Shop\Http\Controllers\ShopController;
-use MicroweberPackages\Tag\Model\Tag;
+
 
 class RssControllerTest extends TestCase
 {
     public function testIndex()
     {
+        $tag = new Post();
+        $tag->title = 'title-'.str_random();
+        $tag->content = 'content-'.str_random();
+        $tag->save();
+
         $response = $this->call('GET', route('rss.index'),[]);
         $this->assertEquals(200, $response->status());
 
-        $rssXmlContent = $response->getOriginalContent();
+        $rssXmlContent = $response->getContent();
 
         $rssXml = simplexml_load_string($rssXmlContent);
-        $this->assertIsObject($rssXml);
-
+        $this->assertTrue(is_object($rssXml));
     }
 
     public function testProducts()
     {
+        $tag = new Product();
+        $tag->title = 'title-'.str_random();
+        $tag->content = 'content-'.str_random();
+        $tag->save();
+
         $response = $this->call('GET', route('rss.products'),[]);
         $this->assertEquals(200, $response->status());
 
-        $rssXmlContent = $response->getOriginalContent();
+        $rssXmlContent = $response->getContent();
 
         $rssXml = simplexml_load_string($rssXmlContent);
-        $this->assertIsObject($rssXml);
+        $this->assertTrue(is_object($rssXml));
 
     }
 }

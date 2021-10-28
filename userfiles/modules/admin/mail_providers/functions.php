@@ -9,6 +9,10 @@ function save_mail_provider()
 {
 	must_have_access();
 
+	if (!isset($_POST['mail_provider_name'])) {
+	    return false;
+    }
+
 	$providerName = $_POST['mail_provider_name'];
 	unset($_POST['mail_provider_name']);
 
@@ -71,13 +75,13 @@ function test_mail_provider()
 {
 
 	if (isset($_POST['mail_provider_name'])) {
-		
+
 		$mailProviderName = 'test_mail_' . $_POST['mail_provider_name'];
-		
+
 		if (function_exists($mailProviderName)) {
 			return $mailProviderName();
 		}
-		
+
 		return false;
 	}
 }
@@ -106,30 +110,30 @@ function get_mail_provider_settings($providerName)
 
 
 function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
-	
+
 
 	$provider = get_mail_provider($providerName);
-	
+
 	if (isset($provider['id'])) {
-		
+
 		$params = array();
 		$params['mail_address'] = $mailAddress;
 		$params['rel_type'] = $subscribeSource;
 		$params['rel_id'] = $subscribeSourceId;
 		$params['mail_provider_id'] = $provider['id'];
-		
+
 		return db_save('mail_subscribers', $params);
-		
+
 	}
 }
 
 function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
-	
+
 
 	$provider = get_mail_provider($providerName);
-	
+
 	if (isset($provider['id'])) {
-		
+
 		$params = array();
 		$params['mail_address'] = $mailAddress;
 		$params['rel_type'] = $subscribeSource;
@@ -137,9 +141,9 @@ function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId,
 		$params['mail_provider_id'] = $provider['id'];
 		$params['single'] = true;
 		$params['no_cache'] = true;
-		
+
 		return db_get('mail_subscribers', $params);
-	
+
 	}
 }
 

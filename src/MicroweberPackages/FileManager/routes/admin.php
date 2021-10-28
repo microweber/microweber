@@ -12,7 +12,7 @@ Route::name('api.')
     ->middleware(['xss','admin'])
     ->group(function () {
 
-    Route::get('file-manager/list', 'FileManagerApiController@listFiles');
+    Route::get('file-manager/list', 'FileManagerApiController@listFiles')->name('file-manager.list');
 
 
 });
