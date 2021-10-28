@@ -31,9 +31,11 @@
                     }
                @endphp
 
+                @if(!empty($item['description']))
                 <content type="html" xml:base="{{ $item['url'] }}">
                     <![CDATA[ {{ $item['description'] }} ]]>
                 </content>
+                @endif
 
             </item>
         @endforeach

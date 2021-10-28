@@ -20,10 +20,8 @@ class RssControllerTest extends TestCase
 
         $rssXmlContent = $response->getContent();
 
-        echo $rssXmlContent;
-
         $rssXml = simplexml_load_string($rssXmlContent);
-        $this->assertIsObject($rssXml);
+        $this->assertIsObject($rssXml); 
     }
 
     public function testProducts()
