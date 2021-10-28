@@ -26,9 +26,6 @@ class CategoryEventServiceProvider extends EventServiceProvider
         ],
         CategoryWasUpdated::class => [
             CategoryListener::class
-        ],
-        CategoryWasDeleted::class => [
-            CategoryListener::class
         ]
     ];
 

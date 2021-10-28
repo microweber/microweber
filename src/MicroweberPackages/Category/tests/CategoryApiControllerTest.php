@@ -81,6 +81,7 @@ class CategoryApiControllerTest extends TestCase
             ])
 
         );
+
         $this->assertEquals(200, $response->status());
 
     }
