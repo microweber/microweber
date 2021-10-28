@@ -9,7 +9,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class ProductControllerTest extends TestCase
+class ProductApiControllerTest extends TestCase
 {
 
     public function testAddProductFull()
