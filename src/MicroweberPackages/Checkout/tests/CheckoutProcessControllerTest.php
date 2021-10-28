@@ -27,10 +27,10 @@ class CheckoutProcessControllerTest extends TestCase
         $get = get_content_by_id($saved_id);
 
         $this->assertEquals($saved_id, ($get['id']));
-        self::$content_id = $saved_id;
+        $content_id = $saved_id;
 
         $add_to_cart = array(
-            'content_id' => self::$content_id,
+            'content_id' => $content_id,
             // 'price' => 4444,
         );
         $cart_add = update_cart($add_to_cart);
@@ -41,7 +41,8 @@ class CheckoutProcessControllerTest extends TestCase
 
         $response = $this->call('GET', route('checkout.cart', []));
 
-        dd($response);
+        $response->assertRedirect(route('checkout.contact_information'));
+
 
 
     }
