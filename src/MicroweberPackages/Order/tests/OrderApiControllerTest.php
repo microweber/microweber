@@ -142,7 +142,7 @@ class OrderApiControllerTest extends TestCase
 
         $contentData = $response->getData();
 
-        $this->assertEquals($contentData->data->title, $first_name2);
+        $this->assertEquals($contentData->data->first_name, $first_name2);
 
 
 
