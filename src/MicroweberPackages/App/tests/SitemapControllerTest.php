@@ -61,11 +61,6 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.tags'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getContent();
-
-        $sitemapXml = simplexml_load_string($sitemapXmlContent);
-        $this->assertTrue(is_object($sitemapXml));
-
     }
 
     public function testProducts()
