@@ -13,18 +13,8 @@
 
 namespace MicroweberPackages\Module;
 
-use Illuminate\Support\Facades\Config;
-
-//use Illuminate\Support\Facades\Schema;
-//use Illuminate\Database\;
-//use Illuminate\Database\Eloquent\Builder as Eloquent;
-//use Microweber\Providers\Database\Utils;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
-use QueryPath\Exception;
-
-//use Config;
-//use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class ModuleManager
 {
