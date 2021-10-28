@@ -14,28 +14,26 @@ class OrderApiControllerTest extends TestCase
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
-        $title = 'Iphone and spire 4ever! - '. rand();
-        $title2 = 'Iphone and spire 4ever! - '. rand();
+        $first_name = 'Iphone and spire 4ever! - '. rand();
+        $first_name2 = 'Iphone and spire 4ever! - '. rand();
 
         $response = $this->call(
             'POST',
             route('api.order.store'),
             [
-                'title' => $title,
-                'content' => '',
+                'first_name' => $first_name,
             ]
         );
 
         $contentDataSaved = $response->getData()->data;
-        $this->assertEquals($contentDataSaved->title, $title);
-
+        $this->assertEquals($contentDataSaved->first_name, $first_name);
 
 
         $response = $this->call(
             'PUT',
             route('api.order.update', [
                 'order' => $contentDataSaved->id,
-                'title' => $title2,
+                'first_name' => $first_name2,
             ])
 
         );
@@ -43,35 +41,35 @@ class OrderApiControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
         $contentDataSaved = $response->getData()->data;
 
-        $this->assertEquals($contentDataSaved->title, $title2);
+        $this->assertEquals($contentDataSaved->first_name, $first_name2);
 
 
         $response = $this->call(
             'PUT',
             route('api.order.update', [
                 'order' => $contentDataSaved->id,
-                'title' => 'new title',
+                'first_name' => 'new first_name',
             ])
 
         );
         $this->assertEquals(200, $response->status());
 
         $contentDataSaved = $response->getData()->data;
-        $this->assertEquals($contentDataSaved->title, 'new title');
+        $this->assertEquals($contentDataSaved->first_name, 'new first_name');
 
 
         $response = $this->call(
             'PUT',
             route('api.order.update', [
                 'order' => $contentDataSaved->id,
-                'title' => '0',
+                'first_name' => '0',
             ])
 
         );
         $this->assertEquals(200, $response->status());
 
         $contentDataSaved = $response->getData()->data;
-        $this->assertEquals($contentDataSaved->title, 0);
+        $this->assertEquals($contentDataSaved->first_name, 0);
 
 
         $response = $this->call(
@@ -90,21 +88,21 @@ class OrderApiControllerTest extends TestCase
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
-        $title = 'Test add content from api ' . rand();
-        $title2 = 'Test update content from api ' . rand();
+        $first_name = 'Test add content from api ' . rand();
+        $first_name2 = 'Test update content from api ' . rand();
 
         $response = $this->call(
             'POST',
             route('api.order.store'),
             [
-                'title' => $title,
+                'first_name' => $first_name,
             ]
         );
 
 
         $this->assertEquals(201, $response->status());
         $contentData = $response->getData();
-        $this->assertEquals($contentData->data->title, $title);
+        $this->assertEquals($contentData->data->title, $first_name);
 
         $content_id = $contentData->data->id;
 
@@ -120,14 +118,14 @@ class OrderApiControllerTest extends TestCase
         $contentData = $response->getData();
 
 
-        $this->assertEquals($contentData->data->title, $title);
+        $this->assertEquals($contentData->data->first_name, $first_name);
 
 
         $response = $this->call(
             'PUT',
             route('api.order.update', [
                 'order' => $content_id,
-                'title' => $title2,
+                'first_name' => $first_name2,
             ])
 
         );
@@ -144,7 +142,7 @@ class OrderApiControllerTest extends TestCase
 
         $contentData = $response->getData();
 
-        $this->assertEquals($contentData->data->title, $title2);
+        $this->assertEquals($contentData->data->title, $first_name2);
 
 
 
@@ -165,13 +163,13 @@ class OrderApiControllerTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
-        $title = 'Test add menu from api ' . rand();
+        $first_name = 'Test add menu from api ' . rand();
 
         $response = $this->call(
             'POST',
             route('api.order.store'),
             [
-                'title' => $title,
+                'first_name' => $first_name,
             ]
         );
 
