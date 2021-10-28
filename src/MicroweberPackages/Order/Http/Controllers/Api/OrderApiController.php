@@ -86,24 +86,12 @@ class OrderApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
      * @return void
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        return $this->order->delete($id);
-    }
-
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     * @return void
-     */
-    public function destroy($ids)
-    {
-        return (new JsonResource(['ids'=>$this->order->destroy($ids)]));
+        return (new JsonResource(['id'=>$this->order->delete($id)]));
     }
 }

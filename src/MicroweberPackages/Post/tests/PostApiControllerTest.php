@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\tests;
+namespace MicroweberPackages\Post\tests;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -7,7 +7,7 @@ use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
-class ContentApiControllerTest extends TestCase
+class PostApiControllerTest extends TestCase
 {
     public function testAddContentFull()
     {
@@ -34,12 +34,11 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.content.store'),
+            route('api.post.store'),
             [
                 'title' => $title,
                 'category_ids'=>implode(',', $categoryIds),
                 'content_body' => $contentBody,
-                'content' => '',
             ]
         );
 
@@ -50,8 +49,8 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.content.update', [
-                'content' => $contentDataSaved->id,
+            route('api.post.update', [
+                'post' => $contentDataSaved->id,
                 'title' => $title2,
             ])
 
@@ -65,8 +64,8 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.content.update', [
-                'content' => $contentDataSaved->id,
+            route('api.post.update', [
+                'post' => $contentDataSaved->id,
                 'title' => 'new title',
             ])
 
@@ -79,8 +78,8 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.content.update', [
-                'content' => $contentDataSaved->id,
+            route('api.post.update', [
+                'post' => $contentDataSaved->id,
                 'title' => '0',
             ])
 
@@ -93,14 +92,13 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.content.update', [
-                'content' => $contentDataSaved->id,
+            route('api.post.update', [
+                'post' => $contentDataSaved->id,
             ])
 
         );
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(302, $response->status());
 
-        $contentDataSaved = $response->getData()->data;
     }
 
     public function testSaveContentFromController()
@@ -113,7 +111,7 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.content.store'),
+            route('api.post.store'),
             [
                 'title' => $title,
                 'content_body' => '<b>Bold text</b>',
@@ -131,9 +129,9 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.content.show',
+            route('api.post.show',
                 [
-                    'content' => $content_id,
+                    'post' => $content_id,
                 ])
         );
 
@@ -145,8 +143,8 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.content.update', [
-                'content' => $content_id,
+            route('api.post.update', [
+                'post' => $content_id,
                 'title' => $title2,
             ])
 
@@ -156,9 +154,9 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.content.show',
+            route('api.post.show',
                 [
-                    'content' => $content_id,
+                    'post' => $content_id,
                 ])
         );
 
@@ -170,7 +168,7 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.content.index',
+            route('api.post.index',
                 [
                 ])
         );
@@ -180,7 +178,7 @@ class ContentApiControllerTest extends TestCase
 
     }
 
-    public function testDeleteContentFromController()
+    public function testDestroyContentFromController()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
@@ -189,7 +187,7 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.content.store'),
+            route('api.post.store'),
             [
                 'title' => $title,
             ]
@@ -198,8 +196,8 @@ class ContentApiControllerTest extends TestCase
 
         $response = $this->call(
             'DELETE',
-            route('api.content.destroy', [
-                'content' => $response->getData()->data->id,
+            route('api.post.destroy', [
+                'post' => $response->getData()->data->id,
             ])
         );
 

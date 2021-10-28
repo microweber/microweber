@@ -8,7 +8,7 @@ use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class PageControllerTest extends TestCase
+class PageApiControllerTest extends TestCase
 {
 
     public function testAddPageFull()
@@ -151,5 +151,32 @@ class PageControllerTest extends TestCase
         $this->assertEquals($pageData->data->title, 'maiko maiko');
 
     }
+    public function testDestroyContentFromController()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
 
+        $title = 'Test add content from api ' . rand();
+
+        $response = $this->call(
+            'POST',
+            route('api.page.store'),
+            [
+                'title' => $title,
+            ]
+        );
+
+
+        $response = $this->call(
+            'DELETE',
+            route('api.page.destroy', [
+                'page' => $response->getData()->data->id,
+            ])
+        );
+
+        $this->assertEquals(200, $response->status());
+        $contentData = $response->getData()->data->id;
+
+        $this->assertNotEmpty($contentData);
+    }
 }

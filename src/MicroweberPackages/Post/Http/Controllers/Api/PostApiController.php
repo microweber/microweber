@@ -74,25 +74,12 @@ class PostApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
      * @return void
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        return (new JsonResource($this->post->delete($id)));
+        return (new JsonResource(['id'=>$this->post->delete($id)]));
     }
-
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     * @return void
-     */
-    public function destroy($ids)
-    {
-        return (new JsonResource(['ids'=>$this->post->destroy($ids)]));
-    }
-
 }
