@@ -26,7 +26,7 @@ class OrderApiControllerTest extends TestCase
         );
 
         $contentDataSaved = $response->getData()->data;
-        $this->assertEquals($contentDataSaved->first_name, $first_name); 
+        $this->assertEquals($contentDataSaved->first_name, $first_name);
 
 
         $response = $this->call(
