@@ -1,9 +1,13 @@
 <?php
 
 
-function get_comments($params = false)
-{
-    $comments = new  \MicroweberPackages\Comment\Models\CommentsCrud();
+if (!function_exists('get_comments')) {
 
-    return $comments->get($params);
+    function get_comments($params = false)
+    {
+        $comments = new  \MicroweberPackages\Comment\Models\CommentsCrud();
+
+        return $comments->get($params);
+    }
 }
+

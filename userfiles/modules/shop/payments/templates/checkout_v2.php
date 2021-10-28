@@ -14,6 +14,9 @@ description: Checkout V2
 <script type="text/javascript">
     showPaymentModule = function (paymentModule,paymentModulePath) {
 
+        mw.trigger('mw.cart.paymentMethodChange');
+
+
         $('.js-payment-gateway-box').html('');
 
         $.ajax({
