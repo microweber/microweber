@@ -85,6 +85,6 @@ class MenuApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return (new JsonResource($this->menu->destroy($ids)));
+        return (new JsonResource(['ids'=>$this->menu->destroy($ids)]));
     }
 }

@@ -24,6 +24,55 @@ class RssControllerTest extends TestCase
         $this->assertTrue(is_object($rssXml));
     }
 
+    public function testIndexWordpressFormat()
+    {
+        $tag = new Post();
+        $tag->title = 'title-'.str_random();
+        $tag->content = 'content-'.str_random();
+        $tag->save();
+
+        $response = $this->call('GET', route('rss.index'),['format'=>'wordpress']);
+        $this->assertEquals(200, $response->status());
+
+        $rssXmlContent = $response->getContent();
+
+        $rssXml = simplexml_load_string($rssXmlContent);
+        $this->assertTrue(is_object($rssXml));
+    }
+
+    public function testIndexWithParent()
+    {
+        $tag = new Post();
+        $tag->title = 'title-'.str_random();
+        $tag->content = 'content-'.str_random();
+        $tag->save();
+
+        $response = $this->call('GET', route('rss.index'),['parent_id'=>1]);
+        $this->assertEquals(200, $response->status());
+
+        $rssXmlContent = $response->getContent();
+
+        $rssXml = simplexml_load_string($rssXmlContent);
+        $this->assertTrue(is_object($rssXml));
+    }
+
+    public function testPosts()
+    {
+        $tag = new Post();
+        $tag->title = 'title-'.str_random();
+        $tag->content = 'content-'.str_random();
+        $tag->save();
+
+        $response = $this->call('GET', route('rss.posts'),[]);
+        $this->assertEquals(200, $response->status());
+
+        $rssXmlContent = $response->getContent();
+
+        $rssXml = simplexml_load_string($rssXmlContent);
+        $this->assertTrue(is_object($rssXml));
+
+    }
+
     public function testProducts()
     {
         $tag = new Product();

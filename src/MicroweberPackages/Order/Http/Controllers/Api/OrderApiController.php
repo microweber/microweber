@@ -104,6 +104,6 @@ class OrderApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->order->destroy($ids);
+        return (new JsonResource(['ids'=>$this->order->destroy($ids)]));
     }
 }

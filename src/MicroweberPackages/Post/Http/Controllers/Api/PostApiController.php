@@ -92,7 +92,7 @@ class PostApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return (new JsonResource($this->post->destroy($ids)));
+        return (new JsonResource(['ids'=>$this->post->destroy($ids)]));
     }
 
 }

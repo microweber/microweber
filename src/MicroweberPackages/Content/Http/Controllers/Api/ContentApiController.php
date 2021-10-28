@@ -84,7 +84,7 @@ class ContentApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return (new JsonResource($this->content->destroy($ids)));
+        return (new JsonResource(['ids'=>$this->content->destroy($ids)]));
     }
 
 

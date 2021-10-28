@@ -211,6 +211,7 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any('rss', 'RssController@index')->name('rss.index');
     Route::any('rss-products', 'RssController@products')->name('rss.products');
+    Route::any('rss-posts', 'RssController@posts')->name('rss.posts');
 
     Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 

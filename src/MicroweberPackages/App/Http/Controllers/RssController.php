@@ -21,9 +21,15 @@ class RssController extends Controller
             $view = 'wordpress';
         }
 
+        $lang = $request->get('lang', false);
+
         $contentData = [];
-        if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
-            change_language_by_locale($request->lang,false);
+        if ($this->isMutilangOn()) {
+            if ($lang && is_lang_supported($lang)) {
+                change_language_by_locale($lang, false);
+            } else {
+                change_language_by_locale(app()->lang_helper->default_lang(), false);
+            }
         }
 
         $filter = '';
@@ -66,6 +72,49 @@ class RssController extends Controller
         ];
 
         return response()->view('rss::'.$view, $data)->header('Content-Type', 'text/xml');
+    }
+
+    public function posts(Request $request)
+    {
+        $contentData = [];
+
+        if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
+            change_language_by_locale($request->lang,false);
+        }
+
+        $siteTitle = app()->option_manager->get('website_title', 'website');
+        $siteDesc = app()->option_manager->get('website_description', 'website');
+
+        $posts = get_content('is_active=1&is_deleted=0&subtype=post&limit=2500&orderby=updated_at desc');
+
+        if(!empty($posts)) {
+            foreach($posts as $post) {
+                $tmp = [];
+
+                $picture = get_picture($post['id']);
+                $priceData = get_product_prices($post['id'], false);
+                $price = !empty($priceData['price']) ? $priceData['price'] : null;
+
+                $tmp['title'] = $post['title'];
+                $tmp['description'] = $post['description'];
+                $tmp['url'] = content_link($post['id']);
+                $tmp['image'] = $picture;
+                $tmp['price'] = $price;
+
+                $contentData[] = $tmp;
+            }
+        }
+
+        $data = [
+            'siteTitle' => $siteTitle,
+            'siteDescription' => $siteDesc,
+            'siteUrl' => mw()->url_manager->hostname(),
+            'rssData' => $contentData,
+        ];
+
+        return response()
+            ->view('rss::posts', $data)
+            ->header('Content-Type', 'text/xml');
     }
 
     public function products(Request $request)
