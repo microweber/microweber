@@ -104,6 +104,6 @@ class ProductApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->product->destroy($ids);
+        return (new JsonResource(['ids'=>$this->product->destroy($ids)]));
     }
 }

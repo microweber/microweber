@@ -85,6 +85,6 @@ class PageApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return (new JsonResource($this->page->destroy($ids)));
+        return (new JsonResource(['ids'=>$this->page->destroy($ids)]));
     }
 }

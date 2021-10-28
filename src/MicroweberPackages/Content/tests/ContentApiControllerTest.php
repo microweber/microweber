@@ -179,4 +179,33 @@ class ContentApiControllerTest extends TestCase
         $this->assertEquals(true,!empty($contentData->data));
 
     }
+
+    public function testDeleteContentFromController()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $title = 'Test add content from api ' . rand();
+
+        $response = $this->call(
+            'POST',
+            route('api.content.store'),
+            [
+                'title' => $title,
+            ]
+        );
+
+
+        $response = $this->call(
+            'DELETE',
+            route('api.content.destroy', [
+                'content' => $response->getData()->data->id,
+            ])
+        );
+
+//        $this->assertEquals(500, $response->status());
+        $contentData = $response->getContent();
+
+        dd($contentData);
+    }
 }
