@@ -18,11 +18,8 @@ class RssControllerTest extends TestCase
         $response = $this->call('GET', route('rss.index'),[]);
         $this->assertEquals(200, $response->status());
 
-        $rssXmlContent = $response->getOriginalContent();
+        $rssXmlContent = $response->getContent();
 
-
-        dump($rssXmlContent);
-        
         $rssXml = simplexml_load_string($rssXmlContent);
         $this->assertIsObject($rssXml);
     }
@@ -37,7 +34,7 @@ class RssControllerTest extends TestCase
         $response = $this->call('GET', route('rss.products'),[]);
         $this->assertEquals(200, $response->status());
 
-        $rssXmlContent = $response->getOriginalContent();
+        $rssXmlContent = $response->getContent();
 
         $rssXml = simplexml_load_string($rssXmlContent);
         $this->assertIsObject($rssXml);

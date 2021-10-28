@@ -61,7 +61,7 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.tags'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         // TODO
       //  $sitemapXml = simplexml_load_string($sitemapXmlContent);
@@ -74,7 +74,7 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.products'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
         $this->assertIsObject($sitemapXml);
@@ -86,7 +86,7 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.posts'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
         $this->assertIsObject($sitemapXml);
@@ -98,7 +98,7 @@ class SitemapControllerTest extends TestCase
         $response = $this->call('GET', route('sitemap.pages'),[]);
         $this->assertEquals(200, $response->status());
 
-        $sitemapXmlContent = $response->getOriginalContent();
+        $sitemapXmlContent = $response->getContent();
 
         $sitemapXml = simplexml_load_string($sitemapXmlContent);
         $this->assertIsObject($sitemapXml);
