@@ -9,7 +9,7 @@ use MicroweberPackages\User\Models\User;
 
 class OrderApiControllerTest extends TestCase
 {
-    public function testAddContentFull()
+    public function testStore()
     {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
@@ -83,7 +83,7 @@ class OrderApiControllerTest extends TestCase
 
     }
 
-    public function testSaveContentFromController()
+    public function testUpdate()
     {
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
@@ -102,7 +102,7 @@ class OrderApiControllerTest extends TestCase
 
         $this->assertEquals(201, $response->status());
         $contentData = $response->getData();
-        $this->assertEquals($contentData->data->title, $first_name);
+        $this->assertEquals($contentData->data->first_name, $first_name);
 
         $content_id = $contentData->data->id;
 
@@ -158,7 +158,7 @@ class OrderApiControllerTest extends TestCase
 
     }
 
-    public function testDeleteContentFromController()
+    public function testDelete()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
