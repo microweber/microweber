@@ -51,7 +51,7 @@ class MenuApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.v2.menu.update', [
-                'content' => $contentDataSaved->id,
+                'menu' => $contentDataSaved->id,
                 'title' => $title2,
             ])
 
@@ -66,7 +66,7 @@ class MenuApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.v2.menu.update', [
-                'content' => $contentDataSaved->id,
+                'menu' => $contentDataSaved->id,
                 'title' => 'new title',
             ])
 
@@ -80,7 +80,7 @@ class MenuApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.v2.menu.update', [
-                'content' => $contentDataSaved->id,
+                'menu' => $contentDataSaved->id,
                 'title' => '0',
             ])
 
@@ -94,7 +94,7 @@ class MenuApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.v2.menu.update', [
-                'content' => $contentDataSaved->id,
+                'menu' => $contentDataSaved->id,
             ])
 
         );
