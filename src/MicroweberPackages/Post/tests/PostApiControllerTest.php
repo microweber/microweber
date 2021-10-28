@@ -97,9 +97,8 @@ class PostApiControllerTest extends TestCase
             ])
 
         );
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(302, $response->status());
 
-        $contentDataSaved = $response->getData()->data;
     }
 
     public function testSaveContentFromController()
