@@ -18,7 +18,7 @@
                 @php
                     if (!empty($item['categories'])) {
                         foreach ($item['categories'] as $catItem) {
-                            echo '<category term="'.$catItem['title'].'"></category>';
+                            echo '<category term="'.urlencode($catItem['title']).'"></category>';
                         }
                     }
                @endphp

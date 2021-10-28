@@ -21,9 +21,15 @@ class RssController extends Controller
             $view = 'wordpress';
         }
 
+        $lang = $request->get('lang', false);
+
         $contentData = [];
-        if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
-            change_language_by_locale($request->lang,false);
+        if ($this->isMutilangOn()) {
+            if ($lang && is_lang_supported($lang)) {
+                change_language_by_locale($lang, false);
+            } else {
+                change_language_by_locale(app()->lang_helper->default_lang(), false);
+            }
         }
 
         $filter = '';
