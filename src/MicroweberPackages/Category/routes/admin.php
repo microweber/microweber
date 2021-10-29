@@ -10,7 +10,21 @@ Route::name('api.')
             return mw()->category_manager->reorder($request->only('ids'));
         });
 
+
+        Route::delete('category/delete/{id}', 'CategoryApiController@destroy');
+
+
+//
+//        Route::delete('category/delete/{id}', function ($id) {
+//            return delete_category(['id'=>$id]);
+//        });
+//
+
         Route::apiResource('category', 'CategoryApiController');
         Route::post('category/{category}', 'CategoryApiController@update');
 
     });
+
+
+
+

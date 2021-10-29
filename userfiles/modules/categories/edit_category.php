@@ -70,10 +70,30 @@ if (isset($params['live_edit'])) {
     </script>
     <script type="text/javascript">
         function save_cat(el) {
-            if (document.querySelector('.mw-ui-category-selector input:checked') !== null) {
+            var invalid_form_msg = false;
+            if(document.querySelector('.mw-ui-category-selector input:checked') === null){
+                invalid_form_msg = 1;
+            }
+            if (!invalid_form_msg) {
+                var has_title = $('#content-title-field').val();
+                if (!has_title) {
+                    invalid_form_msg = 2;
+                }
+            }
+
+            if (!invalid_form_msg) {
                 $(document.forms['admin_edit_category_form']).submit();
             } else {
-                mw.alert('<?php _e("Please choose Page or Category"); ?>.');
+                if(invalid_form_msg === 1){
+                  mw.alert('<?php _e("Please choose Page or Category"); ?>.');
+                    mw.tools.highlight(document.getElementById("category-dropdown-holder"), "yellow");
+                } else if(invalid_form_msg === 2){
+                    mw.alert('<?php _e("The category must have a name"); ?>.');
+                    mw.tools.highlight(document.getElementById("content-title-field"), "yellow");
+
+                }  else {
+                    mw.alert('<?php _e("Please fill the required fields"); ?>.');
+                }
             }
         }
 
@@ -195,7 +215,7 @@ if (isset($params['live_edit'])) {
                     }
 
 
-                    document.querySelector('.btn-save').disabled = true;
+                   // document.querySelector('.btn-save').disabled = true;
                     mw.askusertostay = false;
 
                     <?php if(intval($data['id']) == 0): ?>

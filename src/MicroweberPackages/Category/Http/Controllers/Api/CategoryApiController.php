@@ -52,7 +52,7 @@ class CategoryApiController extends AdminDefaultController
     {
 
         $data = $request->all();
-        if($data and isset($data['id']) and $data['id']==0 ){
+        if ($data and isset($data['id']) and $data['id'] == 0) {
             unset($data['id']);
         }
 
@@ -98,9 +98,14 @@ class CategoryApiController extends AdminDefaultController
      * @param string $id
      * @return void
      */
-    public function destroy($id)
+    public function destroy(CategoryRequest $request, $id)
     {
-        return (new JsonResource(['id'=>$this->category->delete($id)]));
+
+        $result = $this->category->show($id);
+        if ($result) {
+            return (new JsonResource(['id' => $result->delete()]));
+        }
+
     }
 
 }
