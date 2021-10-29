@@ -48,8 +48,8 @@ jobs:
       run: php artisan dusk:update
     - name: Start Chrome Driver
       run: |
-      ./vendor/laravel/dusk/bin/chromedriver-linux --version
-      ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+        vendor/laravel/dusk/bin/chromedriver-linux --version
+        vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
     - name: Run Laravel Server
       run: php artisan serve > /dev/null 2>&1 &
     - name: Run Dusk Tests
