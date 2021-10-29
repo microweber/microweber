@@ -726,6 +726,13 @@ class UpdateManager
 
             $this->_set_time_limit();
 
+            $option = array();
+            $option['option_value'] = MW_VERSION;
+            $option['option_key'] = 'app_version';
+            $option['option_group'] = 'website';
+            save_option($option);
+
+
             mw()->cache_manager->delete('db');
             mw()->cache_manager->delete('update');
             mw()->cache_manager->delete('elements');
