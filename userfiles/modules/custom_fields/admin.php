@@ -188,23 +188,57 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </div>
                             </div>
                             <div class="card-body collapse" id="add-field-select">
+
+
+
+
                                 <div class="custom-fields-add-buttons">
-                                    <label class="control-label"><?php _e("Existing fields"); ?></label>
-                                    <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
+                                    <?php if (is_array($exiisting_fields)): ?>
+
+                                    <script>
+                                        $(document).ready(function () {
+                                            var cf_existing_search_items = mw.$('.mw-custom-field-existing-item-btn', '.custom-fields-add-buttons');
+
+                                            mw.$('#cf-add-existing-search', '.custom-fields-add-buttons').on('input', function () {
+                                                mw.tools.search(this.value, cf_existing_search_items, function (found) {
+                                                    $(this)[found?'show':'hide']();
+                                                });
+                                            });
+                                        });
+                                    </script>
+
+                                        <div class="mw-flex-row">
+                                            <div class="mw-flex-col-xs-10 mw-flex-col-sm-6 mw-flex-col-md-8 mw-flex-col-lg-10">
+                                                <label class="control-label"><?php _e("Existing fields"); ?></label>
+                                                <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
+                                            </div>
+                                            <div class="mw-flex-col-xs-2 mw-flex-col-sm-6 mw-flex-col-md-4 mw-flex-col-lg-2">
+                                                <input type="text" class="form-control form-control-sm" aria-label="Search" id="cf-add-existing-search" placeholder="Search">
+                                            </div>
+                                        </div>
+
+
+
+
+
 
                                     <div class="row">
-                                        <?php if (is_array($exiisting_fields)): ?>
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button type="button" class="btn btn-link text-dark px-1"
+                                            <button type="button" class="btn btn-link text-dark px-1 mw-custom-field-existing-item-btn"
                                                     onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
 
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
                                                     <span class="mw-custom-field-title  small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                                    <span class="d-none"><?php print $item['name_key']; ?></span>
                                             </button>
                                         <?php endforeach; ?>
                                     </div>
                                         <hr>
                                     <?php endif; ?>
+
+
+
+
                                     <label class="control-label"><?php _e(" Add new fields"); ?></label>
                                     <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
 
@@ -218,23 +252,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         </button>
                                     <?php endforeach; ?>
 
-                                    <select class="js-cf-options" data-live-search="true" data-size="7" style="display: none;">
-                                        <?php if (is_array($exiisting_fields)): ?>
-                                            <?php foreach ($exiisting_fields as $item): ?>
-                                                <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>">
-                                                    <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
-                                                    <span class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
 
-                                        <?php foreach ($fields as $field => $value): ?>
-                                            <option value="<?php print $field; ?>">
-                                                <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title"><?php _e($value); ?></span>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
                                 </div>
                             </div>
                         </div>
