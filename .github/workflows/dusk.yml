@@ -25,6 +25,11 @@ jobs:
         sleep 3
         npm install -g webdriver-manager
         webdriver-manager update
+        sudo apt-get install libxss1 libappindicator1 libindicator7
+        sleep 3
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
+        sudo dpkg -i google-chrome*.deb
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
