@@ -19,8 +19,8 @@ jobs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         coverage: xdebug #optional
     - name: zstd act workaround
-      run: sudo apt install zstd nodejs npm
-    - name: npm webdriver-manager install
+      run: sudo apt install zstd nodejs npm chromium-browser
+    - name: npm webdriver-manager install --silent
       run: |
         sleep 3
         npm install -g webdriver-manager
