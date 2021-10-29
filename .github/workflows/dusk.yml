@@ -20,6 +20,10 @@ jobs:
         coverage: xdebug #optional
     - name: zstd act workaround
       run: sudo apt install zstd
+    - name: npm install
+      uses: bahmutov/npm-install@v1
+      with:
+        install-command: npm install -g webdriver-manager
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -39,6 +43,7 @@ jobs:
       run: |
         composer require --dev staudenmeir/dusk-updater:"^1.1"
         php artisan package:discover --ansi
+        webdriver-manager update
     - name: Dusk update
       run: php artisan dusk:update
     - name: Start Chrome Driver
