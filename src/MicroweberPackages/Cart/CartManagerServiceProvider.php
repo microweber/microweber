@@ -46,6 +46,12 @@ class CartManagerServiceProvider extends ServiceProvider
         });
 
     }
+
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+    }
+
     /**
      * Get the services provided by the provider.
      *
