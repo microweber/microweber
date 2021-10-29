@@ -33,8 +33,12 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Upgrade Chrome Driver
+    - name: Install Chrome Driver
       run: php artisan dusk:chrome-driver
+    - name: Dusk updater install
+      run: composer require --dev staudenmeir/dusk-updater:"^1.1"
+    - name: Dusk update
+      run: php artisan dusk:update
     - name: Start Chrome Driver
       run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
     - name: Run Laravel Server
