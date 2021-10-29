@@ -1,4 +1,4 @@
-<div id="xtree"></div>
+
 <div id="domtree"></div>
 
 <style>
@@ -49,7 +49,7 @@
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
-                    setTimeout(function () {
+                     setTimeout(function () {
                         mw.top().liveEditSelector.select(node);
 
                         mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
@@ -331,6 +331,7 @@ var _populate = {
                         this.value = mw.color.rgbOrRgbaToHex(color);
                     } else {
                         this.value = 'none';
+                        this.previousElementSibling.querySelector('.mw-field-color-indicator-display').style.backgroundColor = 'transparent'
                     }
 
                 }
@@ -339,8 +340,7 @@ var _populate = {
 
                 var el = this;
 
-                // el.style.color = 'transparent';
-                // el.style.cursor = 'pointer';
+
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
@@ -634,7 +634,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
         ActiveNode = nodes[0];
-        activeTree();
+
         populateSpecials(css);
 
         var clsdata = [];
@@ -695,7 +695,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
              if(ActiveNode){
                 var css = mw.CSSParser(ActiveNode);
                 populate(css);
-                activeTree();
+
                 var can = ActiveNode.innerText === ActiveNode.innerHTML;
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 
@@ -1170,15 +1170,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <input class="mw-ese-top margin-top">
-                    <input class="mw-ese-right margin-right">
-                    <input class="mw-ese-bottom margin-bottom">
-                    <input class="mw-ese-left margin-left">
+                    <input type="number" class="mw-ese-top margin-top">
+                    <input type="number" class="mw-ese-right margin-right">
+                    <input type="number" class="mw-ese-bottom margin-bottom">
+                    <input type="number" class="mw-ese-left margin-left">
                     <div class="mw-ese-holder mw-ese-padding">
-                        <input class="mw-ese-top padding-top">
-                        <input class="mw-ese-right padding-right">
-                        <input class="mw-ese-bottom padding-bottom">
-                        <input class="mw-ese-left padding-left">
+                        <input type="number" class="mw-ese-top padding-top">
+                        <input type="number" class="mw-ese-right padding-right">
+                        <input type="number" class="mw-ese-bottom padding-bottom">
+                        <input type="number" class="mw-ese-left padding-left">
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
