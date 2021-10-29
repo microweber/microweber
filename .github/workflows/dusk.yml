@@ -19,11 +19,10 @@ jobs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         coverage: xdebug #optional
     - name: zstd act workaround
-      run: sudo apt install zstd
+      run: sudo apt install zstd nodejs npm
     - name: npm webdriver-manager install
       run: |
-        apt install nodejs
-        apt install npm
+        sleep 3
         npm install -g webdriver-manager
     - name: Get composer cache directory
       id: composer-cache
