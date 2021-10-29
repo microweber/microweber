@@ -24,6 +24,7 @@ jobs:
       run: |
         sleep 3
         npm install -g webdriver-manager
+        webdriver-manager update
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -43,11 +44,12 @@ jobs:
       run: |
         composer require --dev staudenmeir/dusk-updater:"^1.1"
         php artisan package:discover --ansi
-        webdriver-manager update
     - name: Dusk update
       run: php artisan dusk:update
     - name: Start Chrome Driver
-      run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+      run: |
+      ./vendor/laravel/dusk/bin/chromedriver-linux --version
+      ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
     - name: Run Laravel Server
       run: php artisan serve > /dev/null 2>&1 &
     - name: Run Dusk Tests
