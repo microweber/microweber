@@ -14,11 +14,14 @@ class MigrateOldFormsData extends Migration
     {
         $getFormsData = \MicroweberPackages\Form\Models\FormData::all();
 
-        if ($getFormsData->count() >0) {
+        if ($getFormsData and $getFormsData->count() >0) {
             foreach ($getFormsData as $formData) {
                 $findFormDataValues = \MicroweberPackages\Form\Models\FormDataValue::where('form_data_id', $formData->id)->first();
                 if ($findFormDataValues == null) {
                     $formDataFormValues = $formData->form_values;
+                    if(is_string($formDataFormValues)){
+                        $formDataFormValues = json_decode($formDataFormValues,true);
+                    }
                     if (!empty($formDataFormValues)) {
                         foreach ($formDataFormValues as $dataKey=>$dataValue) {
 
