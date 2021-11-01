@@ -103,7 +103,7 @@ class CategoryApiController extends AdminDefaultController
 
         $result = $this->category->show($id);
         if ($result) {
-            return (new JsonResource(['id' => $result->delete()]));
+             (new JsonResource(['id' => $result->delete()]));
         }
 
     }
