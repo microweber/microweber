@@ -19,7 +19,7 @@ jobs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         coverage: xdebug #optional
     - name: zstd act workaround
-      run: sudo apt install zstd 
+      run: sudo apt install zstd
     - name: google-chrome install
       run: |
         sleep 3
