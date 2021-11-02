@@ -159,6 +159,25 @@ input,
   a:hover {
     text-decoration: none;
   }
+
+    .page-item.active .page-link {
+        background-color: $primary;
+        border-color: $secondary!important;
+    }
+    .page-link {
+        border-color: $primary!important;
+
+        &:hover, &:active {
+            background-color: $primary;
+            border-color: $primary!important;
+
+        }
+    }
+
+}
+
+.form-control:disabled, .form-control[readonly], .lang-key-holder {
+    background-color: $body-bg!important;
 }
 
 .dropdown-menu {
@@ -859,6 +878,7 @@ input, .custom-select {
 .mw-select.mw-select-dropmode-over.active {
     .mw-select-display-value {
         color: $secondary!important;
+        opacity: 1;
     }
 }
 
@@ -871,8 +891,10 @@ input, .custom-select {
 }
 
 .btn.btn-link:hover {
-    color: $primary!important;
+    color: $primary;
 }
+
+
 
 .module-users-login {
     .text-dark {
@@ -966,4 +988,14 @@ a.btn-link {
         background-color: $body-bg!important;
         padding: 15px;
     }
+}
+
+#mw-main-module-backend-contact-form-settings {
+    a {
+        color: $primary !important;
+    }
+}
+
+.mw-file-drop-zone {
+    border-color: $priamry!important;
 }
