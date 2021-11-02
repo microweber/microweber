@@ -204,13 +204,13 @@
 }
 
 .mw-link-editor-nav-drop-box {
-    color: $primary!important;
+    i.mdi, span {
+        color: $primary!important;
+    }
 
-    &:hover {
-        span, span i {
-            color: $secondary!important;
-            background-color: $primary!important;
-        }
+    span:hover {
+        color: $secondary!important;
+        background-color: $primary!important;
 
     }
 
