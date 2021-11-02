@@ -42,7 +42,7 @@ function get_white_label_config()
     }
 }
 
-event_bind('mw.init', 'make_white_label');
+event_bind('mw.after.boot', 'make_white_label');
 
 function make_white_label()
 {
@@ -76,7 +76,6 @@ function make_white_label()
     }
     if (isset($settings['powered_by_link']) and $settings['powered_by_link'] != false) {
         $powered_by_link = $settings['powered_by_link'];
-
         mw()->ui->powered_by_link = $powered_by_link;
 
     }
