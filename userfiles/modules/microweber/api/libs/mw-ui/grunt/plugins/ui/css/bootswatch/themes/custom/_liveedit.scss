@@ -182,7 +182,7 @@
     background: $body-bg;
 }
 
-.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal, .mw-dialog-holder {
     background-color: $black!important;
 }
 
@@ -190,13 +190,55 @@
     color: $primary!important;
 }
 
-.mw-ui-btn-tab.active {
-    border-bottom-color: $primary!important;
-    text-decoration: none;
+.mw-ui-btn-tab {
+
+    &:hover {
+        .mdi {
+            color: $secondary !important;
+        }
+    }
+
+    .mdi {
+        color: $primary !important;
+    }
+}
+
+.mw-link-editor-nav-drop-box {
+
+    background-color: $white!important;
+    border-color: $primary!important;
+
+    i.mdi, span {
+        color: $primary!important;
+    }
+
+    span:hover {
+        i {
+            color: $secondary!important;
+        }
+        color: $secondary!important;
+        background-color: $primary!important;
+
+    }
+
+
+}
+
+.mw-dialog-title {
+    i {
+        color: $primary !important;
+    }
 }
 
 
-.mw-ui-btn-tab:hover {
+.mw-ui-btn-tab.active {
+    border-bottom-color: $secondary!important;
+    text-decoration: none;
+    border-bottom-color: $primary!important;
+}
+
+
+.mw-ui-btn-tab:hover, .mw-ui-btn-tab.active:hover  {
     background-color: $primary!important;
     color: white !important;
 }
@@ -262,3 +304,47 @@
 #modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
     background-color: $primary!important;
 }
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
+}
+
+.mw-ui-form-controller-title {
+    color: $secondary;
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root {
+
+    &:hover, &:active, &:focus {
+        background: $primary;
+    }
+
+    .mw-tree-item-title {
+        color: $secondary!important;
+
+    }
+}
+
+.custom-fields-add-buttons {
+
+    button {
+
+        &:hover {
+            color: $white!important;
+            background: $primary;
+        }
+    }
+
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+    background: $primary!important;
+
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title:before {
+    color: $secondary!important;
+}
+
+
