@@ -16,7 +16,7 @@
     border-color: $primary!important;
 }
 
-.input-group-text, .mw-ui-btn  {
+.input-group-text, .mw-ui-btn, .mw-ui-btn.active-info  {
     border-color: $primary!important;
     background: $primary!important;
     color: $secondary !important;
@@ -24,7 +24,8 @@
 
     &:hover, &:active {
 
-            background-color: $primary!important;
+            background-color: transparent!important;
+            border-color: $primary!important;
             color: $secondary !important;
 
     }
