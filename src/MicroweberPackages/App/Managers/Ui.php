@@ -18,6 +18,7 @@ class Ui
     public $marketplace_access_code = false;
     public $enable_service_links = true;
     public $custom_support_url = false;
+    public $admin_colors_sass = false;
     public $brand_favicon = '';
 
     public $modules_ui = array();
@@ -202,6 +203,11 @@ class Ui
     public function brand_name()
     {
         return $this->brand_name;
+    }
+
+    public function admin_colors_sass()
+    {
+        return $this->admin_colors_sass;
     }
 
     public function live_edit_logo()

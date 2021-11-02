@@ -131,7 +131,8 @@ class AdminTemplateStyle
 
     public function getVariablesHashForCssFileSuffix()
     {
-        $hash = '';
+        $hash = 'colors';
+
         $vars = $this->getVars();
         if(defined('MW_VERSION')){
             $hash .= MW_VERSION.'-';
@@ -423,7 +424,7 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_admin.scss', false);
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_admin' . $this->getVariablesHashForCssFileSuffix() . '.scss', false);
         $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css', false);
         $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css';
 
@@ -504,6 +505,17 @@ class AdminTemplateStyle
 
     public function getVars()
     {
+//
+//        $branding_colors = mw()->ui->admin_colors_sass();
+//dd($branding_colors);
+//        if($branding_colors){
+//            $selected_theme = 'custom';
+//            return [
+//                'admin_theme_name' => $selected_theme,
+//                'admin_theme_vars' => $branding_colors
+//            ];
+//        }
+//
 
         $selected_theme = get_option('admin_theme_name', 'admin');
         $selected_vars = get_option('admin_theme_vars', 'admin');

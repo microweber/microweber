@@ -93,6 +93,10 @@ function make_white_label()
         mw()->ui->disable_marketplace = $settings['disable_marketplace'];
     }
 
+    if (isset($settings['admin_colors_sass'])) {
+        mw()->ui->admin_colors_sass = $settings['admin_colors_sass'];
+    }
+
 
     if (isset($settings['disable_powered_by_link']) and intval($settings['disable_powered_by_link']) != 0) {
         mw()->ui->disable_powered_by_link = true;
