@@ -190,8 +190,42 @@
     color: $primary!important;
 }
 
+.mw-ui-btn-tab {
+
+    &:hover {
+        .mdi {
+            color: $secondary !important;
+        }
+    }
+
+    .mdi {
+        color: $primary !important;
+    }
+}
+
+.mw-link-editor-nav-drop-box {
+    color: $primary;
+
+    &:hover {
+        span, span i {
+            color: $secondary!important;
+            background-color: $primary!important;
+        }
+
+    }
+
+
+}
+
+.mw-dialog-title {
+    i {
+        color: $primary !important;
+    }
+}
+
+
 .mw-ui-btn-tab.active {
-    border-bottom-color: $primary!important;
+    border-bottom-color: $secondary!important;
     text-decoration: none;
 }
 
