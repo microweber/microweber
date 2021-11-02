@@ -832,7 +832,7 @@ input, .custom-select {
 }
 .text-align .active, .mw-ese-holder {
     border-color: $primary!important;
-    background-color: $body-bg!important;
+    background-color: $primary!important;
 }
 
 .mw-modules-toolbar-back-button-holder {
@@ -999,6 +999,6 @@ a.btn-link {
     }
 }
 
-.mw-file-drop-zone {
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
     border-color: $primary!important;
 }
