@@ -1,3 +1,13 @@
+<?php if (!have_license('modules/white_label')): ?>
+    <div class="module-live-edit-settings">
+        <module type="admin/modules/activate" prefix="modules/white_label"/>
+    </div>
+    <?php return; ?>
+<?php endif; ?>
+
+
+
+
 <?php
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
