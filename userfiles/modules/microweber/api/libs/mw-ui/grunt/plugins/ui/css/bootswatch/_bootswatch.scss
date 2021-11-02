@@ -22,7 +22,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 }
 
 .sandstone {
-  font-size: 11px;
+  //font-size: 11px;
   line-height: 22px;
   font-weight: 500;
   //text-transform: uppercase;
@@ -161,23 +161,21 @@ input,
   }
 
     .page-item.active .page-link {
-        background-color: $primary;
-        border-color: $secondary!important;
+        background-color: $primary!important;
     }
     .page-link {
         border-color: $primary!important;
+        background-color: $white!important;
+        color: $secondary!important;
+
 
         &:hover, &:active {
-            background-color: $primary;
-            border-color: $primary!important;
+            background-color: $primary!important;
+            border-color: $secondary!important;
 
         }
     }
 
-    .page-item {
-        background-color: $white!important;
-
-    }
 
 }
 
