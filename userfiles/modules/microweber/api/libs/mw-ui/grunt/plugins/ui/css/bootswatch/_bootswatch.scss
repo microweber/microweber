@@ -176,6 +176,10 @@ input,
 
 }
 
+.form-control:disabled, .form-control[readonly], .lang-key-holder {
+    background-color: $body-bg!important;
+}
+
 .dropdown-menu {
   .dropdown-item {
     @extend .sandstone;
