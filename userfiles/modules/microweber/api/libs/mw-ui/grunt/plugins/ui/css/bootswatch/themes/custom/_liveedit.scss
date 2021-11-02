@@ -16,17 +16,15 @@
     border-color: $primary!important;
 }
 
-.input-group-text, .mw-ui-btn, .mw-ui-btn.active-info  {
+.input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
-    background: $transparent!important;
+    background: transparent!important;
     color: $secondary !important;
 
 
     &:hover, &:active {
-
-            background-color: $primary!important;
-            color: $secondary !important;
-
+        background-color: $primary!important;
+        color: $secondary !important;
     }
 
     .mw-dropdown-content {
@@ -38,6 +36,11 @@
     }
 }
 
+.mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+
+}
 
 .input-group-text  {
     border-color: $primary!important;
