@@ -18,14 +18,13 @@
 
 .input-group-text, .mw-ui-btn, .mw-ui-btn.active-info  {
     border-color: $primary!important;
-    background: $primary!important;
+    background: $transparent!important;
     color: $secondary !important;
 
 
     &:hover, &:active {
 
-            background-color: transparent!important;
-            border-color: $primary!important;
+            background-color: $primary!important;
             color: $secondary !important;
 
     }
