@@ -170,7 +170,7 @@
             </div>
 
 
-                <div class="step-actions step-actions-2 text-end mt-3">
+                <div class="step-actions step-actions-2 text-end text-right mt-3">
                     <a href="javascript:;" class="btn btn-primary" data-mwstepper="next"><?php _e("Next"); ?></a>
                 </div>
 

@@ -67,7 +67,7 @@ if (isset($item['created_by'])) {
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
-                <div class="col text-start">
+                <div class="col text-start text-left">
                     <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>

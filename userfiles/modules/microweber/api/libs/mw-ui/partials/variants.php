@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="text-end">
+                        <div class="text-end text-right">
                             <a href="#" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</a>
                             <a href="#" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2">Remove</a>
                         </div>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="text-end">
+                        <div class="text-end text-right">
                             <a href="#" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</a>
                             <a href="#" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2">Remove</a>
                         </div>
