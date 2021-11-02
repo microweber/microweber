@@ -251,6 +251,10 @@ class AdminTemplateStyle
             ";
         }
 
+        if(!$cont){
+            return false;
+        }
+
         if (!$selected_theme and $vars) {
             return false;
         } elseif ($vars) {
