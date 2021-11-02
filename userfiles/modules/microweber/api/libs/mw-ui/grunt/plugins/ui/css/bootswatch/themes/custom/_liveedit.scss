@@ -358,3 +358,19 @@
 .mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
     color: unset!important;
 }
+
+.mw-icon-selector-control-label {
+    color: $secondary!important;
+}
+
+
+.mw-paging a {
+    background: transparent!important;
+    border-color: $primary!important;
+    color: $primary!important;
+}
+
+.mw-paging a.active, .mw-paging a.active:focus, .mw-paging a.active:hover, .mw-paging a:active {
+    background-color: $primary!important;
+    color: $secondary!important;
+}
