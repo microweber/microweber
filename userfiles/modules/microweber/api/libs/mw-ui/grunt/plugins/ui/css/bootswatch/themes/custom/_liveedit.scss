@@ -351,3 +351,7 @@
 .mw-tooltip-default .mw-tooltip-content {
     background-color: $black!important;
 }
+
+.mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
+    color: unset!important;
+}
