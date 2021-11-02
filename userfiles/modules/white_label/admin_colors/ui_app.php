@@ -798,7 +798,7 @@ foreach ($files as $file) {
                         </div>
                         <div class="col-lg-4">
                             <div class="bs-component">
-                                <blockquote class="blockquote text-end">
+                                <blockquote class="blockquote text-end text-right">
                                     <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                                     <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
                                 </blockquote>
@@ -2473,7 +2473,7 @@ foreach ($files as $file) {
                     <div class="col-md-6">
                         <span class="text-primary">Invoice SAJ/2020/003</span>
                     </div>
-                    <div class="col-md-6 text-end">
+                    <div class="col-md-6 text-end text-right">
                         <a href="#" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                 </div>
@@ -2481,7 +2481,7 @@ foreach ($files as $file) {
                     <div class="col-md-6">
                         <span class="text-primary">Invoice SAJ/2020/003</span>
                     </div>
-                    <div class="col-md-6 text-end">
+                    <div class="col-md-6 text-end text-right">
                         <a href="#" class="btn btn-sm btn-outline-secondary">View</a>
                     </div>
                 </div>
@@ -2524,7 +2524,7 @@ foreach ($files as $file) {
                     </div>
                 </div>
 
-                <div class="col-sm-6 text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+                <div class="col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                     <span>Sort by:</span>
                     <div class="d-inline-block mx-1">
                         <button type="button" class="btn btn-outline-secondary btn-sm icon-right">Date <i class="mdi mdi-chevron-up text-muted"></i></button>
@@ -2610,8 +2610,8 @@ foreach ($files as $file) {
                                 </div>
                             </div>
 
-                            <div class="col text-end"><span class="text-muted">Admin</span></div>
-                            <div class="col text-end" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
+                            <div class="col text-end text-right"><span class="text-muted">Admin</span></div>
+                            <div class="col text-end text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
                         </div>
                     </div>
                 </div>
@@ -2649,8 +2649,8 @@ foreach ($files as $file) {
                                 </div>
                             </div>
 
-                            <div class="col text-end"><span class="text-muted">Admin</span></div>
-                            <div class="col text-end" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
+                            <div class="col text-end text-right"><span class="text-muted">Admin</span></div>
+                            <div class="col text-end text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
                         </div>
                     </div>
                 </div>

@@ -116,7 +116,7 @@ if(!isset($item['type'] )){
                             </div>
                         </div>
 
-                        <div class="col text-end">
+                        <div class="col text-end text-right">
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
@@ -167,7 +167,7 @@ if(!isset($item['type'] )){
                                 class="btn btn-lg btn-link text-dark p-0"><?php print $item['description'] ?></a>
                         </div>
 
-                        <div class="col text-end">
+                        <div class="col text-end text-right">
                             <div>
                                 <small class="text-muted"><?php _e('v.'); ?></small>
                                 <div class="d-inline-block">
@@ -206,7 +206,7 @@ if(!isset($item['type'] )){
                             </div>
                         </div>
 
-                        <div class="col text-end">
+                        <div class="col text-end text-right">
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"

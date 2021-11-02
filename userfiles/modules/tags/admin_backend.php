@@ -140,7 +140,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="col-md-6 text-end">
+                    <div class="col-md-6 text-end text-right">
                         <button class="btn btn-success btn-sm" onclick="editTaggingTag(false);"><?php _e("Create new global tag");?></button>
                     </div>
 
