@@ -134,10 +134,10 @@ class AdminTemplateStyle
         $hash = 'colors';
 
         $vars = $this->getVars();
-        if(defined('MW_VERSION')){
-            $hash .= MW_VERSION.'-';
+        if (defined('MW_VERSION')) {
+            $hash .= MW_VERSION . '-';
         }
-        if($vars){
+        if ($vars) {
             $hash .= crc32(json_encode($vars));
         }
         return $hash;
@@ -171,7 +171,6 @@ class AdminTemplateStyle
         if (isset($get_vars['admin_theme_vars'])) {
             $vars = $get_vars['admin_theme_vars'];
         }
-
 
         if (!$selected_theme and !$vars) {
             return false;
@@ -505,20 +504,42 @@ class AdminTemplateStyle
 
     public function getVars()
     {
-//
-//        $branding_colors = mw()->ui->admin_colors_sass();
-//dd($branding_colors);
-//        if($branding_colors){
-//            $selected_theme = 'custom';
-//            return [
-//                'admin_theme_name' => $selected_theme,
-//                'admin_theme_vars' => $branding_colors
-//            ];
-//        }
-//
+
+        $branding_colors = mw()->ui->admin_colors_sass();
 
         $selected_theme = get_option('admin_theme_name', 'admin');
         $selected_vars = get_option('admin_theme_vars', 'admin');
+
+
+        if (!$selected_theme and $branding_colors) {
+            $vars_from_branding_json = [];
+
+            $branding_colors_explode = explode("\n", $branding_colors);
+
+            if ($branding_colors_explode) {
+                foreach ($branding_colors_explode as $item) {
+                    if (trim($item) != '') {
+                        $item_arr = explode(':', $item);
+                        if ($item_arr and isset($item_arr[1])) {
+                            $var_name = trim($item_arr[0]);
+                            $var_val = trim($item_arr[1]);
+                            $var_name = ltrim($var_name, '$');
+                            $var_val = str_ireplace('!default', '', $var_val);
+                            $var_val = str_ireplace(';', '', $var_val);
+                            $vars_from_branding_json[$var_name] = $var_val;
+                        }
+                    }
+                }
+            }
+            if ($vars_from_branding_json) {
+                $selected_theme = 'custom';
+                return [
+                    'admin_theme_name' => $selected_theme,
+                    'admin_theme_vars' => $vars_from_branding_json
+                ];
+            }
+        }
+
 
         $vars = [];
         if ($selected_vars and is_string($selected_vars)) {
