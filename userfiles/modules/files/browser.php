@@ -284,7 +284,7 @@ if (isset($params['viewsize'])) {
                                     <div>
 
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Thumbnail size
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
