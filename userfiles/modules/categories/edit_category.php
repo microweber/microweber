@@ -514,7 +514,7 @@ if (isset($params['live_edit'])) {
                                 })
                                 setTimeout(function (){
                                     mw.askusertostay = false;
-                                    document.querySelector('button[form="quickform-edit-content"]').disabled = true;
+                                 //   document.querySelector('button[form="quickform-edit-content"]').disabled = true;
                                 }, 999)
                             });
 
