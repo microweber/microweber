@@ -155,8 +155,7 @@ mw.content = mw.content || {
                 }
 
             }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
+             mw.askusertostay = false;
         });
     }
 };
