@@ -412,3 +412,8 @@
 .toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active {
     background-color: $primary!important;
 }
+
+
+.mw-dropdown-list-search .mwtb-search.mw-dropdown-search{
+    background-color: $black!important;
+}
