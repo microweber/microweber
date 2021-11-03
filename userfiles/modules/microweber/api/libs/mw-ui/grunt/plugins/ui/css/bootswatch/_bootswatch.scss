@@ -1006,3 +1006,17 @@ a.btn-link {
 .mw-browser-list li:hover .mw-file-item-delete {
     background-color: $primary!important;
 }
+
+
+
+
+.range-slider input[type=range]::-webkit-slider-runnable-track {
+
+    background: $primary!important;
+    border-color: $primary!important;
+}
+
+.range-slider input[type=range]:focus::-webkit-slider-runnable-track, .range-slider input[type=range]::-moz-range-track, .range-slider input[type=range]::-moz-range-thumb
+, .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper {
+    background: $primary!important;
+}
