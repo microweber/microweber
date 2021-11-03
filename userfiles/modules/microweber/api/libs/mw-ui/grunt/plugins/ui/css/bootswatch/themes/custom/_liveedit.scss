@@ -417,3 +417,16 @@
 .mw-dropdown-list-search .mwtb-search.mw-dropdown-search{
     background-color: $black!important;
 }
+
+.mw_module_hold {
+    background-color: $white!important;
+
+    &:hover {
+        border-color: $primary!important;
+    }
+}
+
+
+.module-item-module:hover .module_name {
+    color: $secondary!important;
+}
