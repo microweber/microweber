@@ -428,7 +428,7 @@ if ($last_page_front != false) {
             }
             ?>
 
-            <div class="js-table-sorting col-sm-6 text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="js-table-sorting col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                 <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
 
                 <div class="d-inline-block mx-1">

@@ -237,7 +237,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <?php endif; ?>
 
 
+                                    <select class="js-cf-options" data-live-search="true" data-size="7" style="display: none;">
+                                        <?php if (is_array($exiisting_fields)): ?>
+                                            <?php foreach ($exiisting_fields as $item): ?>
+                                                <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>">
+                                                    <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
+                                                    <span class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
 
+                                        <?php foreach ($fields as $field => $value): ?>
+                                            <option value="<?php print $field; ?>">
+                                                <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
+                                                <span class="mw-custom-field-title"><?php _e($value); ?></span>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
 
                                     <label class="control-label"><?php _e(" Add new fields"); ?></label>
                                     <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>

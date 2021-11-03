@@ -22,7 +22,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 }
 
 .sandstone {
-  font-size: 11px;
+  //font-size: 11px;
   line-height: 22px;
   font-weight: 500;
   //text-transform: uppercase;
@@ -153,12 +153,34 @@ input,
   border: 1px solid $gray-300;
 }
 
-.pagination {
+.pagination, .mw-paging  {
   @extend .sandstone;
 
   a:hover {
     text-decoration: none;
   }
+
+    .page-item.active .page-link {
+        background-color: $primary!important;
+    }
+    .page-link {
+        border-color: $primary!important;
+        background-color: $white!important;
+        color: $secondary!important;
+
+
+        &:hover, &:active {
+            background-color: $primary!important;
+            border-color: $secondary!important;
+
+        }
+    }
+
+
+}
+
+.form-control:disabled, .form-control[readonly], .lang-key-holder {
+    background-color: $body-bg!important;
 }
 
 .dropdown-menu {
@@ -535,7 +557,7 @@ tspan {
     border-color: $primary;
 
     &:hover {
-        background-color: $primary!important;
+        background-color: $primary;
 
     }
 }
@@ -635,7 +657,7 @@ input.mw-ui-invisible-field {
 table {
     td, th{
         color: $secondary;
-        background-color: $black!important;
+        background-color: $body-bg!important;
         border-color: $secondary!important;
     }
 }
@@ -810,7 +832,7 @@ input, .custom-select {
 }
 .text-align .active, .mw-ese-holder {
     border-color: $primary!important;
-    background-color: $body-bg!important;
+    background-color: $primary!important;
 }
 
 .mw-modules-toolbar-back-button-holder {
@@ -859,6 +881,7 @@ input, .custom-select {
 .mw-select.mw-select-dropmode-over.active {
     .mw-select-display-value {
         color: $secondary!important;
+        opacity: 1;
     }
 }
 
@@ -871,8 +894,10 @@ input, .custom-select {
 }
 
 .btn.btn-link:hover {
-    color: $primary!important;
+    color: $primary;
 }
+
+
 
 .module-users-login {
     .text-dark {
@@ -963,7 +988,21 @@ a.btn-link {
 .shadow-selector {
 
     div {
-        background-color: $body-bg!important;
-        padding: 15px;
+        background-color: $secondary!important;
+        padding: 20px;
     }
+}
+
+#mw-main-module-backend-contact-form-settings {
+    a {
+        color: $primary !important;
+    }
+}
+
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: $primary!important;
+}
+
+.mw-browser-list li:hover .mw-file-item-delete {
+    background-color: $primary!important;
 }

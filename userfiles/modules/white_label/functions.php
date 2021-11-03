@@ -42,7 +42,7 @@ function get_white_label_config()
     }
 }
 
-event_bind('mw.init', 'make_white_label');
+event_bind('mw.after.boot', 'make_white_label');
 
 function make_white_label()
 {
@@ -76,7 +76,6 @@ function make_white_label()
     }
     if (isset($settings['powered_by_link']) and $settings['powered_by_link'] != false) {
         $powered_by_link = $settings['powered_by_link'];
-
         mw()->ui->powered_by_link = $powered_by_link;
 
     }
@@ -91,6 +90,10 @@ function make_white_label()
     }
     if (isset($settings['disable_marketplace'])) {
         mw()->ui->disable_marketplace = $settings['disable_marketplace'];
+    }
+
+    if (isset($settings['admin_colors_sass'])) {
+        mw()->ui->admin_colors_sass = $settings['admin_colors_sass'];
     }
 
 

@@ -43,7 +43,7 @@
         </div>
         <?php endif; ?>
 
-        <div class="form-group text-end">
+        <div class="form-group text-end text-right">
             <button type="submit" id="submit" dusk="reset-password-button" class="btn btn-outline-primary btn-sm"><?php print $form_btn_title; ?></button>
         </div>
     </form>

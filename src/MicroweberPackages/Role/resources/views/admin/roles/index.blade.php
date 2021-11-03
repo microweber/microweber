@@ -21,7 +21,7 @@
             <small class="text-muted">List of your user roles below</small>
         </div>
 
-        <div class="col-md-6 text-end">
+        <div class="col-md-6 text-end text-right">
             <a href="{{route('admin.role.create')}}" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add New role</a>
         </div>
     </div>

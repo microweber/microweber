@@ -100,7 +100,7 @@
 
 
 <div class="">
-    <div class="mw-ui-field-holder add-new-button text-end">
+    <div class="mw-ui-field-holder add-new-button text-end text-right">
         <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded m-b-10" href="'javascript:mw.quick_cat_edit(0)"><i class="fas fa-plus-circle"></i> &nbsp;Add New</a>
     </div>
 

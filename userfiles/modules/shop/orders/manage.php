@@ -174,7 +174,7 @@
                         <a href="#orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
                     </div>
 
-                    <div class="js-table-sorting text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+                    <div class="js-table-sorting text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                         <small><?php _e("Sort By"); ?>: &nbsp;</small>
 
                         <div class="d-inline-block mx-1">

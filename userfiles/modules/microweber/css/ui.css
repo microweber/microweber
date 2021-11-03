@@ -7292,7 +7292,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   justify-content: space-between;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
+  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/upload_image.png');
   width: 70px;
   height: 55px;
   background-size: contain;

@@ -210,7 +210,7 @@
                         <div class="card mb-2 not-collapsed-border collapsed card-message-holder card-bubble bg-silver" data-toggle="collapse" data-target="#message-1" aria-expanded="false" aria-controls="collapseExample">
                             <div class="card-body">
                                 <div class="row align-items-center mb-3">
-                                    <div class="col text-start">
+                                    <div class="col text-start text-left">
                                         <span class="text-primary text-break-line-2">New form entry</span>
                                     </div>
                                 </div>
@@ -277,7 +277,7 @@
                         <div class="card mb-2 not-collapsed-border collapsed card-bubble bg-silver" data-toggle="collapse" data-target="#comments-1" aria-expanded="false" aria-controls="collapseExample">
                             <div class="card-body">
                                 <div class="row align-items-center mb-3">
-                                    <div class="col text-start">
+                                    <div class="col text-start text-left">
                                         <span class="text-primary text-break-line-2">New comment</span>
                                     </div>
                                 </div>
@@ -288,11 +288,11 @@
                                             <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
                                         </div>
                                     </div>
-                                    <div class="col text-start">
+                                    <div class="col text-start text-left">
                                         <h5 class="text-primary text-break-line-2">Around the world</h5>
                                     </div>
 
-                                    <div class="col-12 col-sm text-end">5 minutes ago</div>
+                                    <div class="col-12 col-sm text-end text-right">5 minutes ago</div>
                                 </div>
                                 <div class="collapse" id="comments-1">
                                     <div class="row mt-3">
@@ -349,7 +349,7 @@
                                                         <div class="form-group">
                                                             <textarea></textarea>
                                                         </div>
-                                                        <div class="text-end">
+                                                        <div class="text-end text-right">
                                                             <a href="dashboard.html" class="btn btn-outline-secondary btn-sm">Post Comment</a>
                                                         </div>
                                                     </div>

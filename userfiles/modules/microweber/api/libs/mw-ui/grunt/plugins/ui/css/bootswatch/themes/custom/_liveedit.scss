@@ -18,15 +18,13 @@
 
 .input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
-    background: $primary!important;
+    background: transparent!important;
     color: $secondary !important;
 
 
     &:hover, &:active {
-
-            background-color: $primary!important;
-            color: $secondary !important;
-
+        background-color: $primary!important;
+        color: $secondary !important;
     }
 
     .mw-dropdown-content {
@@ -38,6 +36,11 @@
     }
 }
 
+.mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+
+}
 
 .input-group-text  {
     border-color: $primary!important;
@@ -348,3 +351,36 @@
 }
 
 
+.mw-tooltip-default .mw-tooltip-content {
+    background-color: $black!important;
+}
+
+.mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
+    color: unset!important;
+}
+
+.mw-icon-selector-control-label {
+    color: $secondary!important;
+}
+
+
+.mw-paging a {
+    background: transparent!important;
+    border-color: $primary!important;
+    color: $primary!important;
+}
+
+.mw-paging a.active, .mw-paging a.active:focus, .mw-paging a.active:hover, .mw-paging a:active {
+    background-color: $primary!important;
+    color: $secondary!important;
+}
+
+.mw-handle-handler {
+    i.mdi {
+        color: $primary!important;
+    }
+}
+
+#mw_small_editor {
+    background-color: $black!important;
+}
