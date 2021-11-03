@@ -649,7 +649,7 @@ input.mw-ui-invisible-field {
 
 .mw-dropdown-content {
     border-color: $black!important;
-    background: $black!important;
+    background-color: $black!important;
     li {
         color: $secondary !important;
 
@@ -1027,13 +1027,13 @@ a.btn-link {
 
 .range-slider input[type=range]::-webkit-slider-runnable-track {
 
-    background: $primary!important;
+    background-color: $primary!important;
     border-color: $primary!important;
 }
 
 .range-slider input[type=range]:focus::-webkit-slider-runnable-track, .range-slider input[type=range]::-moz-range-track, .range-slider input[type=range]::-moz-range-thumb
 , .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper, input[type=range] {
-    background: $primary!important;
+    background-color: $primary!important;
 }
 
 
@@ -1049,7 +1049,7 @@ a.btn-link {
 
 .input-group-text, .mw-ui-btn  {
     border-color: $primary!important;
-    background: transparent!important;
+    background-color: transparent!important;
     color: $secondary !important;
 
 
@@ -1060,7 +1060,7 @@ a.btn-link {
 
     .mw-dropdown-content {
         border-color: $black!important;
-        background: $black!important;
+        background-color: $black!important;
         li {
             color: $secondary !important;
         }
