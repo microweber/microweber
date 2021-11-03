@@ -1027,6 +1027,33 @@ a.btn-link {
     background-color: $primary!important;
 }
 
+.mw-toolbar-btn-menu > a.mw-ui-btn {
+    background-color: $primary!important;
+    color: $secondary!important;
+    border-color: $primary!important;
+}
+
+.input-group-text, .mw-ui-btn  {
+    border-color: $primary!important;
+    background: transparent!important;
+    color: $secondary !important;
+
+
+    &:hover, &:active {
+        background-color: $primary!important;
+        color: $secondary !important;
+    }
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background: $black!important;
+        li {
+            color: $secondary !important;
+        }
+    }
+}
+
+
 .mw-ui-btn.active-info {
     background-color: $primary!important;
     border-color: $primary!important;
