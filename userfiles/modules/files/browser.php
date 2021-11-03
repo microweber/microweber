@@ -284,10 +284,10 @@ if (isset($params['viewsize'])) {
                                     <div>
 
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonTnSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Thumbnail size
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonTnSize">
                                                 <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', 'small');">Small</a>
                                                 <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', 'big');">Big</a>
                                             </div>
