@@ -56,8 +56,12 @@ class CategoryApiController extends AdminDefaultController
             unset($data['id']);
         }
 
+        if ($data and isset($data['id']) and $data['id'] != 0) {
+            $result = $this->category->update($request->all(), $data['id']);
+        } else {
+            $result = $this->category->create($data);
+        }
 
-        $result = $this->category->create($data);
 
         return (new JsonResource($result))->response();
 
