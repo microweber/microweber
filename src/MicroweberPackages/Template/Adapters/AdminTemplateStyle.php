@@ -163,6 +163,7 @@ class AdminTemplateStyle
     {
         $selected_theme = false;
         $vars = false;
+        $cont = false;
         $get_vars = $this->getVars();
 
         if (isset($get_vars['admin_theme_name'])) {
