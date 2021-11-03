@@ -160,7 +160,7 @@ include(__DIR__.'/ui_app.php');
         </select>
     </div>
 
-<button onclick="reset_admin_css_colors()">Reset colors</button>
+<button class="btn btn-outline-danger" onclick="reset_admin_css_colors()">Reset colors</button>
 
     <module type="white_label/admin_colors/vars" id="admin-theme-vars" />
 
