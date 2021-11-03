@@ -988,8 +988,8 @@ a.btn-link {
 .shadow-selector {
 
     div {
-        background-color: $body-bg!important;
-        padding: 15px;
+        background-color: $secondary!important;
+        padding: 20px;
     }
 }
 
@@ -1001,4 +1001,8 @@ a.btn-link {
 
 .mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
     border-color: $primary!important;
+}
+
+.mw-browser-list li:hover .mw-file-item-delete {
+    background-color: $primary!important;
 }
