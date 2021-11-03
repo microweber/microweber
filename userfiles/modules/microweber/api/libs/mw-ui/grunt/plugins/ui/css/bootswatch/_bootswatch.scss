@@ -647,6 +647,14 @@ input.mw-ui-invisible-field {
     }
 }
 
+.mw-dropdown-content {
+    border-color: $black!important;
+    background: $black!important;
+    li {
+        color: $secondary !important;
+    }
+}
+
 .content-title-field-buttons {
     color: $secondary!important;
 }
