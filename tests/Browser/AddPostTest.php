@@ -50,7 +50,22 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
 
-            $browser->pause(11500);
+            $browser->scrollTo('@show-custom-fields');
+            $browser->pause(1000);
+            $browser->click('@show-custom-fields');
+
+            $browser->pause(1000);
+            $browser->click('@add-custom-field');
+
+            $fields = mw()->ui->custom_fields();
+            foreach ($fields as $field => $value) {
+                dump($field);
+                sleep(3);
+                $browser->pause(2000);
+                $browser->click('@add-custom-field-' . $field);
+            }
+
+            $browser->pause(111500);
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
