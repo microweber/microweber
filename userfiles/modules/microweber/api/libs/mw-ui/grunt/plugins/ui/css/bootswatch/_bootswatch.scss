@@ -652,6 +652,10 @@ input.mw-ui-invisible-field {
     background: $black!important;
     li {
         color: $secondary !important;
+
+        &:hover {
+            background-color: $primary!important;
+        }
     }
 }
 
@@ -1028,7 +1032,7 @@ a.btn-link {
 }
 
 .range-slider input[type=range]:focus::-webkit-slider-runnable-track, .range-slider input[type=range]::-moz-range-track, .range-slider input[type=range]::-moz-range-thumb
-, .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper {
+, .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper, input[type=range] {
     background: $primary!important;
 }
 
