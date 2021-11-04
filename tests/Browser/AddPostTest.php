@@ -54,7 +54,7 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('@show-custom-fields');
 
-            $browser->pause(1000);
+           /* $browser->pause(1000);
             $browser->click('@add-custom-field');
 
             $fields = mw()->ui->custom_fields();
@@ -76,7 +76,7 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->assertValue('#slug-field-holder input', $postTitle);
 
-            $browser->pause(11500);
+            $browser->pause(11500);*/
         });
 
     }
