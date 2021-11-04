@@ -25,7 +25,8 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->pause(2000);
             $browser->visit($siteUrl .  'checkout/contact-information');
-            $browser->pause(3000);
+            $browser->pause(6000);
+            $browser->waitForText('Personal Information');
 
             $browser->type('first_name', 'Bozhidar' . $uniqueId);
             $browser->type('last_name', 'Slaveykov' . $uniqueId);
