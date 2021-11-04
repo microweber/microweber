@@ -5,8 +5,6 @@ if (!defined('MW_WHITE_LABEL_SETTINGS_FILE')) {
     define('MW_WHITE_LABEL_SETTINGS_FILE_LOCAL', storage_path() . DIRECTORY_SEPARATOR . 'branding.json');
 }
 
-include __DIR__ . '/event_binds.php';
-
 api_expose_admin('save_white_label_config');
 function save_white_label_config($params)
 {
@@ -125,3 +123,4 @@ function make_white_label()
 
 }
 
+include __DIR__ . '/event_binds.php';
