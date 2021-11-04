@@ -122,5 +122,3 @@ function make_white_label()
     }
 
 }
-
-include __DIR__ . '/event_binds.php';
