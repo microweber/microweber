@@ -407,6 +407,7 @@ class AdminTemplateStyle
 
         $selected_theme = false;
         $vars = false;
+        $cont = false;
         $get_vars = $this->getVars();
 
         if (isset($get_vars['admin_theme_name'])) {
@@ -494,7 +495,9 @@ class AdminTemplateStyle
                 $scss->setVariables($vars);
             }
         }
-
+        if($cont){
+            return false;
+        }
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
 
 

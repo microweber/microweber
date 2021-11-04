@@ -6,25 +6,6 @@ Route::name('api.template.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        \Route::get('compile_admin_css', function () {
-           $compile = app()->template->admin->compileAdminCss();
-
-            $response = \Response::make($compile);
-            $response->header('Content-Type', 'text/css');
-            return $response;
-
-        })->name('compile_admin_css');
-
-
-        \Route::get('compile_admin_live_edit_css', function () {
-           $compile = app()->template->admin->compileLiveEditCss();
-
-            $response = \Response::make($compile);
-            $response->header('Content-Type', 'text/css');
-            return $response;
-
-        })->name('compile_admin_live_edit_css');
-
 
 
         \Route::get('get_admin_css_url', function () {
@@ -53,6 +34,25 @@ Route::name('api.template.')
 
     });
 
+
+
+\Route::get('compile_admin_css', function () {
+    $compile = app()->template->admin->compileAdminCss();
+
+    $response = \Response::make($compile);
+    $response->header('Content-Type', 'text/css');
+    return $response;
+
+}) ->prefix('api/template')->name('compile_admin_css');
+
+\Route::get('compile_admin_live_edit_css', function () {
+    $compile = app()->template->admin->compileLiveEditCss();
+
+    $response = \Response::make($compile);
+    $response->header('Content-Type', 'text/css');
+    return $response;
+
+})->prefix('api/template')->name('compile_admin_live_edit_css');
 
 
 
