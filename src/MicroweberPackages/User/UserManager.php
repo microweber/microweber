@@ -145,7 +145,8 @@ class UserManager
         }
 
         $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
-        $verifyCheck = @file_get_contents($verifyUrl);
+
+        $verifyCheck = @app()->http->url($verifyUrl)->get();
         $verifyCheck = @json_decode($verifyCheck, true);
 
         if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
