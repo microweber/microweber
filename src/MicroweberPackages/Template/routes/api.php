@@ -13,7 +13,7 @@ Route::name('api.template.')
             $response->header('Content-Type', 'text/css');
             return $response;
 
-        })->name('compile_admin_css')->middleware(['api']);
+        })->name('compile_admin_css');
 
 
         \Route::get('compile_admin_live_edit_css', function () {
@@ -23,7 +23,7 @@ Route::name('api.template.')
             $response->header('Content-Type', 'text/css');
             return $response;
 
-        })->name('compile_admin_live_edit_css')->middleware(['api']);;
+        })->name('compile_admin_live_edit_css');
 
 
 

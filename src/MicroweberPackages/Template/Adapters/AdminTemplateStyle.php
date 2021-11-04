@@ -406,8 +406,7 @@ class AdminTemplateStyle
     {
 
         $selected_theme = false;
-        $vars = false;
-        $cont = false;
+        $vars = $cont = $output = false;
         $get_vars = $this->getVars();
 
         if (isset($get_vars['admin_theme_name'])) {
@@ -495,11 +494,9 @@ class AdminTemplateStyle
                 $scss->setVariables($vars);
             }
         }
-        if($cont){
-            return false;
-        }
+if($cont){
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-
+}
 
         $output = str_replace('../img', $url_images_dir, $output);
         if (!is_dir(dirname($compiled_css_output_path_file_css))) {
