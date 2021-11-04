@@ -867,6 +867,10 @@ input, .custom-select {
     border: 1px solid $primary!important;
 }
 
+.card.style-1 .card-header:after {
+    opacity: 0.5;
+}
+
 .mw-select-display-value.mw-ui-size-normal {
 
     color: $secondary!important;
