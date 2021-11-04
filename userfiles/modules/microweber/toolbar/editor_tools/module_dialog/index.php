@@ -41,7 +41,7 @@
             overflow: hidden;
             position: relative;
             min-height: 300px;
-            padding: 25px 0px;
+            padding: 25px;
         }
 
         #settings-container:after {
