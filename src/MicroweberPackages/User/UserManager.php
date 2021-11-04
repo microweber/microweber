@@ -150,7 +150,14 @@ class UserManager
 
         if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
             $user = User::where('is_admin', '=', '1')->first();
-            \Illuminate\Support\Facades\Auth::login($user);
+            if ($user !== null) {
+                \Illuminate\Support\Facades\Auth::login($user);
+
+                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
+                    return redirect($_GET['http_redirect']);
+                }
+            }
+
             return redirect(admin_url());
         }
 
