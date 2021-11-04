@@ -139,7 +139,8 @@ class UserManager
         $domain = str_replace('www.','', $domain);
 
         $whmcsSettings = get_whitelabel_whmcs_settings();
-        if (!isset($whmcsSettings['whmcs_url']) && !empty($whmcsSettings['whmcs_url'])) {
+
+        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
             return redirect(admin_url());
         }
 
