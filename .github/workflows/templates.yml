@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 1
+      max-parallel: 4
       matrix:
         php-versions: ['7.4']
         templates: ['microweber-templates/new-world','microweber-templates/shopmag']
@@ -37,4 +37,4 @@ jobs:
     - name: Install template
       run: composer require ${{ matrix.templates }}
     - name: Run PHPUnit
-      run: php artisan test --testsuite MicroweberCoreTests
+      run: php artisan test --filter ${{ matrix.templates }}
