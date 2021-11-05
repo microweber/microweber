@@ -17,6 +17,14 @@ class CheckoutCartTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $uniqueId = time();
+            
+            $data = [];
+            $data['option_value'] = 'n';
+            $data['option_key'] = 'shop_disabled';
+            $data['option_group'] = 'website';
+            $save = save_option($data);
+
+
 
             $browser->visit($siteUrl . 'shop');
             $browser->pause('5000');
