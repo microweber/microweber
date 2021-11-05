@@ -45,7 +45,7 @@
         </label>
         <span></span>
     </div>
-    <div class="mw-ui-box-content">
+    <div class="mw-ui-box-content" id="select_edit_field_container">
         <div id="select_edit_field_wrap"></div>
     </div>
 </div>

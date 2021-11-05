@@ -122,14 +122,7 @@ $.ajaxSetup({
 });
 
 
-jQuery.cachedScript = function( url, options ) {
-    options = $.extend( options || {}, {
-    dataType: "script",
-    cache: true,
-    url: url
-});
-    return jQuery.ajax( options );
-};
+
 
 
 mw.version = "<?php print MW_VERSION; ?>";
@@ -298,15 +291,13 @@ mw.getScripts = function (array, callback) {
     });
   var all = array.length, ready = 0;
   $.each(array, function(){
-      var scr = $('<script>');
-      $(scr).on('load', function(){
-        ready++;
-        if(all === ready) {
-            callback.call()
-        }
-      });
-      scr[0].src = this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this;
-      document.body.appendChild(scr[0]);
+      $.getScript(this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this, function (){
+          ready++;
+          if(all === ready) {
+              callback.call()
+          }
+      })
+
   });
 };
 

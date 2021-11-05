@@ -27,7 +27,7 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
     var get_edit_fields = wroot.$('.edit');
 
     if (typeof(root_element_selector) != 'undefined') {
-        var get_edit_fields = wroot.$('.edit', root_element_selector);
+        get_edit_fields = wroot.$('.edit', root_element_selector);
     }
 
 
@@ -45,12 +45,12 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
 mw.html_editor.createItemContent = function (option) {
     var method = 'frame';
     var text = option.el.textContent.trim();
-    if (method == 'text') {
+    if (method === 'text') {
         return text.substring(0, 45) + '...';
     }
     else {
         var framehold = document.createElement('div');
-        framehold.className = 'liframe'
+        framehold.className = 'htmleditliframe'
         var frame = document.createElement('iframe');
         framehold.appendChild(frame)
         frame.src = 'about:blank'

@@ -5,80 +5,107 @@
 <?php must_have_access(); ?>
 
 <style>
-    html,body{
-        direction: initial;
+
+    #code-editor-settings .CodeMirror{
+        width: 100% !important;
+    }
+    #code-editor-settings .CodeMirror-code{
+        min-height: 80vh;
+     }
+
+    #settings-container{
+        padding: 0;
     }
 
-    .CodeMirror-code{
-        min-height: 80vh;
+    .mw-css-editor-c2a-nav > * + *{
+        margin-inline-start: 10px;
+    }
+    .mw-css-editor-c2a-nav{
+        position: sticky;
+        bottom: 0;
+        display: flex;
+        padding: 10px;
+        background: #eeefef;
+        z-index: 4;
+        justify-content: flex-end;
+    }
+
+    #custom_html_code_mirror_container{
+        max-height: calc(100vh - 220px);
+        overflow: auto;
+    }
+    #select_edit_field_container{
+        max-height: calc(100vh - 220px);
+        overflow: auto;
+        padding: 0;
     }
 
 </style>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
-<script type="text/javascript">
+ <script>
+     mw.require('options.js');
+     mw.lib.require('codemirror')
+ </script>
+ <script>
 
     live_edit_css_code_area_editor_value = '';
-        mw.require('options.js');
+
 
         $(document).ready(function(){
 
-                mw.require('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
 
-                mw.getScripts([
-                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
-                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
-                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
-                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
-                ], function(){
-                    css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
-                            lineNumbers: true,
-                            indentWithTabs: true,
-                            matchBrackets: true,
-                            extraKeys: {"Ctrl-Space": "autocomplete"},
-                            mode: {
-                                    name: "css", globalVars: true
 
-                            }
+
+
+
+                css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
+                    lineNumbers: true,
+                    indentWithTabs: true,
+                    matchBrackets: true,
+                    extraKeys: {"Ctrl-Space": "autocomplete"},
+                    mode: {
+                        name: "css", globalVars: true
+                    }
+                });
+
+                css_code_area_editor.setSize("100%", "auto");
+                css_code_area_editor.setOption("theme", 'material');
+                css_code_area_editor.on("change", function (cm, change) {
+
+
+                });
+
+
+                if(document.getElementById("live_edit_custom_css_code_mirror")){
+
+                    live_edit_css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("live_edit_custom_css_code_mirror"), {
+                        lineNumbers: true,
+                        indentWithTabs: true,
+                        matchBrackets: true,
+                        gutter: true,
+
+                        extraKeys: {"Ctrl-Space": "autocomplete"},
+                        mode: {
+                            name: "css", globalVars: true
+
+                        }
                     });
 
-                    css_code_area_editor.setSize("100%", "auto");
-
-                    css_code_area_editor.on("change", function (cm, change) {
-
-
-                    });
-
-
-                    if(document.getElementById("live_edit_custom_css_code_mirror")){
-
-                        live_edit_css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("live_edit_custom_css_code_mirror"), {
-                            lineNumbers: true,
-                            indentWithTabs: true,
-                            matchBrackets: true,
-                            gutter: true,
-
-                            extraKeys: {"Ctrl-Space": "autocomplete"},
-                            mode: {
-                                name: "css", globalVars: true
-
-                            }
-                        });
-
-                        live_edit_css_code_area_editor.setSize("90%", "90%");
-
-                        live_edit_css_code_area_editor.on("change", function (cm, change) {
+                    live_edit_css_code_area_editor.setSize("100%", "90%");
+                    live_edit_css_code_area_editor.setOption("theme", 'material');
+                    live_edit_css_code_area_editor.on("change", function (cm, change) {
 
 //var val  = document.getElementById("live_edit_custom_css_code_mirror").value;
 
-                         //   alert(val);
-                        });
+                        //   alert(val);
+                    });
 
 
 
-                    }
+                }
 
-                })
+
+
 
 
         });
@@ -141,20 +168,16 @@ if ($file and is_file($file)) {
 
 <script>
     $(document).ready(function () {
-        mw.tabs({
-            nav: '.mw-ui-btn-nav-tabs a',
-            tabs: '.mw-ui-box-content',
-            onclick: function(){
 
+        mw.tabs({
+            nav: '#css-type-tabs-nav a',
+            tabs: '#css-type-tabs .mw-ui-box-content',
+            onclick: function(){
                if(typeof live_edit_css_code_area_editor != 'undefined'){
                    setTimeout(function(){
                        live_edit_css_code_area_editor.refresh();
 
                    }, 200);
-
-
-
-
                }
             }
         });
@@ -189,16 +212,16 @@ if ($file and is_file($file)) {
 
 
 
-<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-    <a href="javascript:;" class="mw-ui-btn active"><?php _e("Custom "); ?>CSS</a>
-    <a href="javascript:;" class="mw-ui-btn"><?php _e("Visual Editor"); ?> CSS</a>
+<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="css-type-tabs-nav">
+    <a href="javascript:;" class="mw-ui-btn-tab active"><?php _e("Custom "); ?>CSS</a>
+    <a href="javascript:;" class="mw-ui-btn-tab"><?php _e("Visual Editor"); ?> CSS</a>
 </div>
-<div class="mw-ui-box">
+<div class="mw-ui-box" id="css-type-tabs">
     <div class="mw-ui-box-content">
 
 <textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
-        <div class="mw-ui-btn-nav pull-right" id="csssave">
+        <div class="mw-css-editor-c2a-nav" id="csssave">
             <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
         </div>
 
@@ -213,17 +236,14 @@ if ($file and is_file($file)) {
                   placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
 
 
-        <div>
-            <div class="mw-ui-btn-nav pull-right">
+        <div class="mw-css-editor-c2a-nav">
+
                 <span onclick="live_edit_savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
-            </div>
 
-
-            <div class="mw-ui-btn-nav pull-left">
 
                 <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
 
-            </div>
+
         </div>
 
 
