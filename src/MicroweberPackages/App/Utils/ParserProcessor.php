@@ -192,6 +192,8 @@ class ParserProcessor
                 // bug ?
 
                 $layout = $this->_replace_editable_fields($layout,false,$layout,$coming_from_parent_id);
+                $layout = $this->_replace_tags_with_placeholders_back($layout);
+
             }
 
 
