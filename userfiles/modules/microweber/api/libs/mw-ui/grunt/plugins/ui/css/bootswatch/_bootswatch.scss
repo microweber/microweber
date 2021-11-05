@@ -829,6 +829,21 @@ input, .custom-select {
 .mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
     color: $secondary!important;
 }
+
+.mw-field input, .mw-field input, .mw-field select, .mw-field select, .mw-field textarea, .mw-field textarea {
+    background-color: $black!important;
+    border-color: $primary!important;
+    color: $primary!important;
+
+    option {
+
+        &:hover {
+            background-color: $primary!important;
+        }
+        color: $primary!important;
+    }
+}
+
 .mw_module_settings_sidebar_icon {
     background-color: $secondary!important;
     border-radius: 5px;
