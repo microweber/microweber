@@ -139,17 +139,26 @@ class UserManager
         $domain = str_replace('www.','', $domain);
 
         $whmcsSettings = get_whitelabel_whmcs_settings();
-        if (!isset($whmcsSettings['whmcs_url']) && !empty($whmcsSettings['whmcs_url'])) {
+
+        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
             return redirect(admin_url());
         }
 
         $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
-        $verifyCheck = @file_get_contents($verifyUrl);
+
+        $verifyCheck = @app()->http->url($verifyUrl)->get();
         $verifyCheck = @json_decode($verifyCheck, true);
 
         if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
             $user = User::where('is_admin', '=', '1')->first();
-            \Illuminate\Support\Facades\Auth::login($user);
+            if ($user !== null) {
+                \Illuminate\Support\Facades\Auth::login($user);
+
+                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
+                    return redirect($_GET['http_redirect']);
+                }
+            }
+
             return redirect(admin_url());
         }
 

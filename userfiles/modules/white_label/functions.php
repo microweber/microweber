@@ -122,4 +122,3 @@ function make_white_label()
     }
 
 }
-
