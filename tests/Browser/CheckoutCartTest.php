@@ -17,24 +17,24 @@ class CheckoutCartTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $uniqueId = time();
+            
+            $data = [];
+            $data['option_value'] = 'n';
+            $data['option_key'] = 'shop_disabled';
+            $data['option_group'] = 'website';
+            $save = save_option($data);
+
+
 
             $browser->visit($siteUrl . 'shop');
-            $browser->pause('2000');
+            $browser->pause('5000');
 
             $browser->script('$(".name-of-product-shop").first().click()');
-            $browser->pause('4000');
 
-            $browser->waitForText('Proceed to Checkout');
-            $browser->assertSee('Proceed to Checkout');
-
-            $browser->pause('1000');
-
-            $browser->seeLink('Proceed to Checkout');
-            $browser->clickLink('Proceed to Checkout');
-
-            $browser->pause(1000);
-
-            $browser->waitForLocation(  '/checkout/contact-information');
+            $browser->pause(2000);
+            $browser->visit($siteUrl .  'checkout/contact-information');
+            $browser->pause(6000);
+            $browser->waitForText('Personal Information');
 
             $browser->type('first_name', 'Bozhidar' . $uniqueId);
             $browser->type('last_name', 'Slaveykov' . $uniqueId);

@@ -829,6 +829,21 @@ input, .custom-select {
 .mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
     color: $secondary!important;
 }
+
+.mw-field input, .mw-field input, .mw-field select, .mw-field select, .mw-field textarea, .mw-field textarea {
+    background-color: $black!important;
+    border-color: $primary!important;
+    color: $primary!important;
+
+    option {
+
+        &:hover {
+            background-color: $primary!important;
+        }
+        color: $primary!important;
+    }
+}
+
 .mw_module_settings_sidebar_icon {
     background-color: $secondary!important;
     border-radius: 5px;
@@ -865,6 +880,10 @@ input, .custom-select {
 .card.style-1 .card-header-fix .card-header.post-header-content-changed {
     background-color: $body-bg!important;
     border: 1px solid $primary!important;
+}
+
+.card.style-1 .card-header:after {
+    opacity: 0.5;
 }
 
 .mw-select-display-value.mw-ui-size-normal {
@@ -1080,4 +1099,13 @@ a.btn-link {
 
 .mw-socials-viber-color {
     color: $silver!important;
+}
+
+a.text-dark:hover, a.text-dark:focus {
+    color: $primary!important;
+}
+
+
+.bootstrap-tagsinput {
+    background-color: $black;
 }

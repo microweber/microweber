@@ -349,6 +349,10 @@
 
 }
 
+.mw-field input, .mw-field input, .mw-field select, .mw-field select, .mw-field textarea, .mw-field textarea {
+    background-color: $black!important;
+}
+
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
     background: $primary!important;
 
@@ -407,4 +411,35 @@
 
 .mwiconlist-settings-section-block-item [type="range"] {
     background: $primary!important;
+}
+
+.toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active {
+    background-color: $primary!important;
+}
+
+
+.mw-dropdown-list-search .mwtb-search.mw-dropdown-search{
+    background-color: $black!important;
+}
+
+.mw_module_hold {
+    background-color: $white!important;
+
+    &:hover {
+        border-color: $primary!important;
+    }
+}
+
+
+.module-item-module:hover .module_name {
+    color: $secondary!important;
+}
+
+#background-image-nav .mw-ui-btn .mdi {
+    color: $secondary!important;
+
+}
+
+#image-edit-nav .mw-ui-btn {
+    background-color: $primary!important;
 }

@@ -59,3 +59,9 @@ jobs:
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         php artisan dusk
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
