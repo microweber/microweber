@@ -675,3 +675,4 @@ $user = get_user_by_id($user_id);
             </script>
         </aside>
 
+<?php event_trigger('mw.admin.header.last'); ?>
