@@ -82,7 +82,10 @@ class FrontendController extends Controller
             }
         }
 
-        $this->debugbarEnabled = \Debugbar::isEnabled();;
+        $this->debugbarEnabled = false;
+        if (class_exists('\Debugbar', false)) {
+            $this->debugbarEnabled = \Debugbar::isEnabled();;
+        }
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());

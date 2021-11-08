@@ -27,7 +27,7 @@ class DebugbarServiceProvider extends ServiceProvider
              */
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-            if (class_exists('Barryvdh\Debugbar\LaravelDebugbar')) {
+            if (class_exists('\Barryvdh\Debugbar\Facade', false)) {
                 /*
                  * Load third party local providers
                  */
@@ -44,7 +44,9 @@ class DebugbarServiceProvider extends ServiceProvider
     public function boot()
     {
         if (!\Config::get('debugbar.enabled')) {
-            \Debugbar::disable();
+            if (class_exists('\Debugbar', false)) {
+                \Debugbar::disable();
+            }
         }
     }
 }
