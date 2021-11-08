@@ -42,7 +42,7 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Install Chrome Driver
-      run: php artisan dusk:chrome-driver
+      run: php artisan dusk:install
     - name: Dusk updater install
       run: |
         composer require --dev staudenmeir/dusk-updater:"^1.1"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88149468ea9dc4793f3be487cb3e87fe",
+    "content-hash": "27f3eaaf3b5d00700ca407b0ac1201d6",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "eee8bcc68c268b03f89765ccc0d9730a8c997fed"
+                "reference": "1dbe9893e809d7f5f9d4f238ef1db2f022c29f7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/eee8bcc68c268b03f89765ccc0d9730a8c997fed",
-                "reference": "eee8bcc68c268b03f89765ccc0d9730a8c997fed",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/1dbe9893e809d7f5f9d4f238ef1db2f022c29f7d",
+                "reference": "1dbe9893e809d7f5f9d4f238ef1db2f022c29f7d",
                 "shasum": ""
             },
             "require": {
@@ -306,7 +306,7 @@
                         "Barryvdh\\Debugbar\\ServiceProvider"
                     ],
                     "aliases": {
-                        "Debugbar": "Barryvdh\\Debugbar\\Facade"
+                        "Debugbar": "Barryvdh\\Debugbar\\Facades\\Debugbar"
                     }
                 }
             },
@@ -350,7 +350,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-28T10:13:40+00:00"
+            "time": "2021-11-04T12:35:25+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1484,12 +1484,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "103c42bf9dc74838d86a4fa416308f9ab7cad353"
+                "reference": "0163afb2587fa0a443a2735da3f1b807e68cbe94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/103c42bf9dc74838d86a4fa416308f9ab7cad353",
-                "reference": "103c42bf9dc74838d86a4fa416308f9ab7cad353",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/0163afb2587fa0a443a2735da3f1b807e68cbe94",
+                "reference": "0163afb2587fa0a443a2735da3f1b807e68cbe94",
                 "shasum": ""
             },
             "require": {
@@ -1545,7 +1545,7 @@
                 "issues": "https://github.com/doctrine/collections/issues",
                 "source": "https://github.com/doctrine/collections/tree/1.7.x"
             },
-            "time": "2021-09-20T21:22:09+00:00"
+            "time": "2021-11-04T07:03:46+00:00"
         },
         {
             "name": "doctrine/common",
@@ -2320,16 +2320,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.4.0",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "d2113d9b2e0e349796e72d2a63cf9319100382d2"
+                "reference": "cf814442ce0e9eebe5317d61b63ccda4b85de67a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d2113d9b2e0e349796e72d2a63cf9319100382d2",
-                "reference": "d2113d9b2e0e349796e72d2a63cf9319100382d2",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/cf814442ce0e9eebe5317d61b63ccda4b85de67a",
+                "reference": "cf814442ce0e9eebe5317d61b63ccda4b85de67a",
                 "shasum": ""
             },
             "require": {
@@ -2371,9 +2371,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v5.4.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v5.5.0"
             },
-            "time": "2021-06-23T19:00:23+00:00"
+            "time": "2021-11-04T16:21:41+00:00"
         },
         {
             "name": "florianv/exchanger",
@@ -3235,16 +3235,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.107",
+            "version": "v1.2.108",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "62b9055b555be9e1479d7c37515d7c58975c2aa4"
+                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/62b9055b555be9e1479d7c37515d7c58975c2aa4",
-                "reference": "62b9055b555be9e1479d7c37515d7c58975c2aa4",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
+                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
                 "shasum": ""
             },
             "require": {
@@ -3281,9 +3281,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.107"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.108"
             },
-            "time": "2021-10-12T16:06:07+00:00"
+            "time": "2021-10-21T18:55:50+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -4512,12 +4512,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "776e1731a7df3213207c4046c03dac4e5d45bf3b"
+                "reference": "e0a3046e2785b836210f8588728e75004cb967cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/776e1731a7df3213207c4046c03dac4e5d45bf3b",
-                "reference": "776e1731a7df3213207c4046c03dac4e5d45bf3b",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/e0a3046e2785b836210f8588728e75004cb967cf",
+                "reference": "e0a3046e2785b836210f8588728e75004cb967cf",
                 "shasum": ""
             },
             "require": {
@@ -4529,9 +4529,9 @@
                 "ext-curl": "*",
                 "ext-dom": "*",
                 "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^0.12.99",
-                "phpstan/phpstan-phpunit": "^0.12.22",
-                "phpstan/phpstan-strict-rules": "^0.12.11",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
                 "phpunit/phpunit": "^9.5"
             },
             "suggest": {
@@ -4589,7 +4589,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-15T19:45:18+00:00"
+            "time": "2021-11-02T07:18:54+00:00"
         },
         {
             "name": "league/event",
@@ -5541,103 +5541,103 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "3.2",
+            "version": "3.4",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "458445e6939ba18586d21f77f4839dc6f756a84f"
+                "reference": "3f5a89326d4e673d0204fe577028c6efb99dc4fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-458445e6939ba18586d21f77f4839dc6f756a84f-zip-e4b9a7.zip",
-                "reference": "458445e6939ba18586d21f77f4839dc6f756a84f",
-                "shasum": "aeb1583989c5f903ebcdea709bd34f6f3f823f32"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-3f5a89326d4e673d0204fe577028c6efb99dc4fc-zip-3a595a.zip",
+                "reference": "3f5a89326d4e673d0204fe577028c6efb99dc4fc",
+                "shasum": "b6f35b701a6c120c9846421a16d5195e2051d9c6"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "http://templates.microweber.com/new-world/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/screenshot.jpg",
-                    "features": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/features.jpg",
-                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/fa-brands-400.svg",
-                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/fa-regular-400.svg",
-                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/fa-solid-900.svg",
-                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/slick.svg",
-                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/hr-line.svg",
-                    "prev_next": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/prev_next.png",
-                    "logo_footer": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/logo_footer.png",
-                    "2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/2.png",
-                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/hr-vertical.svg",
-                    "map": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/map.png",
-                    "blue-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/blue-bg.png",
-                    "people-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-4.jpg",
-                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/quotes.png",
-                    "people-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-5.png",
-                    "white-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-4.png",
-                    "img-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-1.png",
-                    "img-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-4.png",
-                    "img-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-5.png",
-                    "img-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-3.png",
-                    "img-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-2.png",
-                    "img-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-6.png",
-                    "white-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-6.png",
-                    "white-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-5.png",
-                    "white-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-2.png",
-                    "white-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-3.png",
-                    "white-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/white-1.png",
-                    "people-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-1.jpg",
-                    "parallax": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/parallax.png",
-                    "1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/1.jpg",
-                    "video_for_layouts": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/video_for_layouts.png",
-                    "img-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-7.png",
-                    "people-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-2.jpg",
-                    "logo": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/logo.png",
-                    "people-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-3.png",
-                    "avatar": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/avatar.png",
-                    "feature-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/feature-2.jpg",
-                    "img-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-8.png",
-                    "blockquote": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/blockquote.png",
-                    "feature-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/feature-3.jpg",
-                    "people-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/people-6.png",
-                    "blockquote-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/blockquote-1.png",
-                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/hr-old.svg",
-                    "input-black": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/input-black.png",
-                    "slide-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/slide-2.jpg",
-                    "404_graphic": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/404_graphic.png",
-                    "slide-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/slide-1.png",
-                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/hr-zigzag.svg",
-                    "testimonial": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/testimonial.png",
-                    "meeting": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/meeting.png",
-                    "video-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/video-bg.png",
-                    "features-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/features-bg.png",
-                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/hr.svg",
-                    "header_style_9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_9.jpg",
-                    "header_style_6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_6.jpg",
-                    "header_style_8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_8.jpg",
-                    "header_style_5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_5.jpg",
-                    "header_style_1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_1.jpg",
-                    "header_style_4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_4.jpg",
-                    "header_style_3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_3.jpg",
-                    "header_style_7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_7.jpg",
-                    "header_style_2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/header_style_2.jpg",
-                    "img-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/img-9.png",
-                    "feature-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/feature-1.jpg",
-                    "logo-dark": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/logo-dark.png",
-                    "video": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/video.png",
-                    "default_icon": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/default_icon.png",
-                    "skin-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-1.jpg",
-                    "skin-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-2.jpg",
-                    "skin-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-3.jpg",
-                    "skin-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-4.jpg",
-                    "skin-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-5.jpg",
-                    "skin-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-6.jpg",
-                    "skin-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-8.jpg",
-                    "skin-10": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-10.jpg",
-                    "skin-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-9.jpg",
-                    "skin-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/skin-7.jpg",
-                    "404": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/404.jpg",
-                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/aeb1583989c5f903ebcdea709bd34f6f3f823f32/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/screenshot.jpg",
+                    "features": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/features.jpg",
+                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/fa-brands-400.svg",
+                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/fa-regular-400.svg",
+                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/fa-solid-900.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/slick.svg",
+                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/hr-line.svg",
+                    "prev_next": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/prev_next.png",
+                    "logo_footer": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/logo_footer.png",
+                    "2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/2.png",
+                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/hr-vertical.svg",
+                    "map": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/map.png",
+                    "blue-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/blue-bg.png",
+                    "people-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-4.jpg",
+                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/quotes.png",
+                    "people-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-5.png",
+                    "white-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-4.png",
+                    "img-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-1.png",
+                    "img-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-4.png",
+                    "img-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-5.png",
+                    "img-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-3.png",
+                    "img-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-2.png",
+                    "img-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-6.png",
+                    "white-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-6.png",
+                    "white-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-5.png",
+                    "white-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-2.png",
+                    "white-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-3.png",
+                    "white-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/white-1.png",
+                    "people-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-1.jpg",
+                    "parallax": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/parallax.png",
+                    "1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/1.jpg",
+                    "video_for_layouts": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/video_for_layouts.png",
+                    "img-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-7.png",
+                    "people-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-2.jpg",
+                    "logo": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/logo.png",
+                    "people-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-3.png",
+                    "avatar": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/avatar.png",
+                    "feature-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/feature-2.jpg",
+                    "img-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-8.png",
+                    "blockquote": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/blockquote.png",
+                    "feature-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/feature-3.jpg",
+                    "people-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/people-6.png",
+                    "blockquote-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/blockquote-1.png",
+                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/hr-old.svg",
+                    "input-black": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/input-black.png",
+                    "slide-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/slide-2.jpg",
+                    "404_graphic": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/404_graphic.png",
+                    "slide-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/slide-1.png",
+                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/hr-zigzag.svg",
+                    "testimonial": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/testimonial.png",
+                    "meeting": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/meeting.png",
+                    "video-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/video-bg.png",
+                    "features-bg": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/features-bg.png",
+                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/hr.svg",
+                    "header_style_9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_9.jpg",
+                    "header_style_6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_6.jpg",
+                    "header_style_8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_8.jpg",
+                    "header_style_5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_5.jpg",
+                    "header_style_1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_1.jpg",
+                    "header_style_4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_4.jpg",
+                    "header_style_3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_3.jpg",
+                    "header_style_7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_7.jpg",
+                    "header_style_2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/header_style_2.jpg",
+                    "img-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/img-9.png",
+                    "feature-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/feature-1.jpg",
+                    "logo-dark": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/logo-dark.png",
+                    "video": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/video.png",
+                    "default_icon": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/default_icon.png",
+                    "skin-1": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-1.jpg",
+                    "skin-2": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-2.jpg",
+                    "skin-3": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-3.jpg",
+                    "skin-4": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-4.jpg",
+                    "skin-5": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-5.jpg",
+                    "skin-6": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-6.jpg",
+                    "skin-8": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-8.jpg",
+                    "skin-10": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-10.jpg",
+                    "skin-9": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-9.jpg",
+                    "skin-7": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/skin-7.jpg",
+                    "404": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/404.jpg",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/b6f35b701a6c120c9846421a16d5195e2051d9c6/readme.md"
                 }
             },
             "license": [
@@ -5657,7 +5657,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-11-01T13:59:15+00:00"
+            "time": "2021-11-08T12:04:33+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
@@ -6093,12 +6093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "434e81b4edc96e0fec1fbc7cd5b81f4d294ed794"
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/434e81b4edc96e0fec1fbc7cd5b81f4d294ed794",
-                "reference": "434e81b4edc96e0fec1fbc7cd5b81f4d294ed794",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/eed83939f1aed3eee517d03a33f5ec587ac529b5",
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5",
                 "shasum": ""
             },
             "require": {
@@ -6181,7 +6181,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-18T21:30:17+00:00"
+            "time": "2021-11-01T21:22:20+00:00"
         },
         {
             "name": "nette/finder",
@@ -6337,16 +6337,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.13.0",
+            "version": "v4.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/63a79e8daa781cac14e5195e63ed8ae231dd10fd",
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd",
                 "shasum": ""
             },
             "require": {
@@ -6387,9 +6387,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.1"
             },
-            "time": "2021-09-20T12:20:58+00:00"
+            "time": "2021-11-03T20:52:16+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -8012,12 +8012,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "878526d7c9fe634e420df185051e37bc1290c669"
+                "reference": "17e79d9341fec73583890fe56b67f02153598f12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/878526d7c9fe634e420df185051e37bc1290c669",
-                "reference": "878526d7c9fe634e420df185051e37bc1290c669",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/17e79d9341fec73583890fe56b67f02153598f12",
+                "reference": "17e79d9341fec73583890fe56b67f02153598f12",
                 "shasum": ""
             },
             "require": {
@@ -8115,7 +8115,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-30T23:16:23+00:00"
+            "time": "2021-11-08T12:44:55+00:00"
         },
         {
             "name": "predis/predis",
@@ -9371,16 +9371,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.52.5",
+            "version": "3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "f1ad60dc92e7edb0898583e16c3e66fe3e9eada2"
+                "reference": "281f46c4f094e298547fcf39c687d11e2d2ccdb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/f1ad60dc92e7edb0898583e16c3e66fe3e9eada2",
-                "reference": "f1ad60dc92e7edb0898583e16c3e66fe3e9eada2",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/281f46c4f094e298547fcf39c687d11e2d2ccdb0",
+                "reference": "281f46c4f094e298547fcf39c687d11e2d2ccdb0",
                 "shasum": ""
             },
             "type": "library",
@@ -9426,9 +9426,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.52.5"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/3.x"
             },
-            "time": "2021-10-14T14:25:14+00:00"
+            "time": "2021-11-02T23:18:17+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -9511,12 +9511,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "f8148c2e1e23ea6c7ee50f53242067c2af9a50e1"
+                "reference": "30727463b7f6af020574e3911a513d40cc9037b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/f8148c2e1e23ea6c7ee50f53242067c2af9a50e1",
-                "reference": "f8148c2e1e23ea6c7ee50f53242067c2af9a50e1",
+                "url": "https://api.github.com/repos/symfony/config/zipball/30727463b7f6af020574e3911a513d40cc9037b9",
+                "reference": "30727463b7f6af020574e3911a513d40cc9037b9",
                 "shasum": ""
             },
             "require": {
@@ -9582,7 +9582,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-30T10:27:42+00:00"
+            "time": "2021-11-03T13:16:59+00:00"
         },
         {
             "name": "symfony/console",
@@ -9590,12 +9590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "4fe16b2abc90eb7df8ee682b071c47de33ae66c6"
+                "reference": "bea7632e3b1d12decedba0a7fe7a7e0ebf7ee2f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/4fe16b2abc90eb7df8ee682b071c47de33ae66c6",
-                "reference": "4fe16b2abc90eb7df8ee682b071c47de33ae66c6",
+                "url": "https://api.github.com/repos/symfony/console/zipball/bea7632e3b1d12decedba0a7fe7a7e0ebf7ee2f4",
+                "reference": "bea7632e3b1d12decedba0a7fe7a7e0ebf7ee2f4",
                 "shasum": ""
             },
             "require": {
@@ -9681,7 +9681,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-30T16:35:42+00:00"
+            "time": "2021-11-04T16:48:04+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -9824,12 +9824,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "9b54d758ec1a63c21a2a725601fa4fda79a0908c"
+                "reference": "8fe6171a41f54e508a37902e249b4f96a47d1202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/9b54d758ec1a63c21a2a725601fa4fda79a0908c",
-                "reference": "9b54d758ec1a63c21a2a725601fa4fda79a0908c",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/8fe6171a41f54e508a37902e249b4f96a47d1202",
+                "reference": "8fe6171a41f54e508a37902e249b4f96a47d1202",
                 "shasum": ""
             },
             "require": {
@@ -9904,7 +9904,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-28T16:25:36+00:00"
+            "time": "2021-11-06T10:24:50+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -10050,12 +10050,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "ac2f062e33c4bb8338cf01fd981baed0028f46cb"
+                "reference": "9c8d6999c25b66f23fe2cb6f801c67b353abb88c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ac2f062e33c4bb8338cf01fd981baed0028f46cb",
-                "reference": "ac2f062e33c4bb8338cf01fd981baed0028f46cb",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/9c8d6999c25b66f23fe2cb6f801c67b353abb88c",
+                "reference": "9c8d6999c25b66f23fe2cb6f801c67b353abb88c",
                 "shasum": ""
             },
             "require": {
@@ -10127,7 +10127,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-25T22:54:27+00:00"
+            "time": "2021-11-03T13:16:59+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -10278,12 +10278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e6c34f742f52cf5c6eae814f925d6654fa7603cd"
+                "reference": "76673e9f82bb6c2fb3b6e9b1673832edb55eee1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e6c34f742f52cf5c6eae814f925d6654fa7603cd",
-                "reference": "e6c34f742f52cf5c6eae814f925d6654fa7603cd",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/76673e9f82bb6c2fb3b6e9b1673832edb55eee1a",
+                "reference": "76673e9f82bb6c2fb3b6e9b1673832edb55eee1a",
                 "shasum": ""
             },
             "require": {
@@ -10333,7 +10333,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-27T13:14:56+00:00"
+            "time": "2021-11-03T13:16:59+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -10419,12 +10419,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "2f128ab8d75069592c8586472acb996ea210bea2"
+                "reference": "6c88b0b9705adb48718b1a9e958bd959c9332fc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/2f128ab8d75069592c8586472acb996ea210bea2",
-                "reference": "2f128ab8d75069592c8586472acb996ea210bea2",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6c88b0b9705adb48718b1a9e958bd959c9332fc5",
+                "reference": "6c88b0b9705adb48718b1a9e958bd959c9332fc5",
                 "shasum": ""
             },
             "require": {
@@ -10484,7 +10484,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-27T13:14:56+00:00"
+            "time": "2021-11-04T16:48:04+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -10492,12 +10492,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "a9f8989b3c7f632f50665b71f90d5b4f91c08f15"
+                "reference": "91ee870fd5236b70e01d8b1aee815f6414a757e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/a9f8989b3c7f632f50665b71f90d5b4f91c08f15",
-                "reference": "a9f8989b3c7f632f50665b71f90d5b4f91c08f15",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/91ee870fd5236b70e01d8b1aee815f6414a757e6",
+                "reference": "91ee870fd5236b70e01d8b1aee815f6414a757e6",
                 "shasum": ""
             },
             "require": {
@@ -10596,7 +10596,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-30T10:22:43+00:00"
+            "time": "2021-11-05T07:17:59+00:00"
         },
         {
             "name": "symfony/intl",
@@ -10604,12 +10604,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "68e5c6f231b8f1e48dd784065d32d982b3ce101c"
+                "reference": "48069c293c530f3ce9bcb2b8740912e25c2b0766"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/68e5c6f231b8f1e48dd784065d32d982b3ce101c",
-                "reference": "68e5c6f231b8f1e48dd784065d32d982b3ce101c",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/48069c293c530f3ce9bcb2b8740912e25c2b0766",
+                "reference": "48069c293c530f3ce9bcb2b8740912e25c2b0766",
                 "shasum": ""
             },
             "require": {
@@ -10684,7 +10684,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T07:48:14+00:00"
+            "time": "2021-11-04T17:53:45+00:00"
         },
         {
             "name": "symfony/mime",
@@ -10692,12 +10692,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "17f3a3d210bdb94824ac3bc48ee6ba57407982e2"
+                "reference": "d75d8cd9aa5ad257ed1b958f042c7a2d7cf505d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/17f3a3d210bdb94824ac3bc48ee6ba57407982e2",
-                "reference": "17f3a3d210bdb94824ac3bc48ee6ba57407982e2",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/d75d8cd9aa5ad257ed1b958f042c7a2d7cf505d5",
+                "reference": "d75d8cd9aa5ad257ed1b958f042c7a2d7cf505d5",
                 "shasum": ""
             },
             "require": {
@@ -10767,7 +10767,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T07:48:14+00:00"
+            "time": "2021-11-04T16:48:04+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -11740,12 +11740,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "b076aa9be226405545de739ef6711f6141651700"
+                "reference": "cbdd4cdf3fc834638c13f3ba26c2ce657a3987ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/b076aa9be226405545de739ef6711f6141651700",
-                "reference": "b076aa9be226405545de739ef6711f6141651700",
+                "url": "https://api.github.com/repos/symfony/process/zipball/cbdd4cdf3fc834638c13f3ba26c2ce657a3987ec",
+                "reference": "cbdd4cdf3fc834638c13f3ba26c2ce657a3987ec",
                 "shasum": ""
             },
             "require": {
@@ -11794,7 +11794,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T07:48:14+00:00"
+            "time": "2021-11-04T16:48:04+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -11802,28 +11802,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/psr-http-message-bridge.git",
-                "reference": "824711c9099e7c6808041e1144eaeac5285e4a67"
+                "reference": "22b37c8a3f6b5d94e9cdbd88e1270d96e2f97b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/824711c9099e7c6808041e1144eaeac5285e4a67",
-                "reference": "824711c9099e7c6808041e1144eaeac5285e4a67",
+                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/22b37c8a3f6b5d94e9cdbd88e1270d96e2f97b34",
+                "reference": "22b37c8a3f6b5d94e9cdbd88e1270d96e2f97b34",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
                 "psr/http-message": "^1.0",
-                "symfony/http-foundation": "^4.4 || ^5.0"
+                "symfony/http-foundation": "^4.4 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.1",
                 "psr/log": "^1.1 || ^2 || ^3",
-                "symfony/browser-kit": "^4.4 || ^5.0",
-                "symfony/config": "^4.4 || ^5.0",
-                "symfony/event-dispatcher": "^4.4 || ^5.0",
-                "symfony/framework-bundle": "^4.4 || ^5.0",
-                "symfony/http-kernel": "^4.4 || ^5.0",
-                "symfony/phpunit-bridge": "^4.4.19 || ^5.2"
+                "symfony/browser-kit": "^4.4 || ^5.0 || ^6.0",
+                "symfony/config": "^4.4 || ^5.0 || ^6.0",
+                "symfony/event-dispatcher": "^4.4 || ^5.0 || ^6.0",
+                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
+                "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
+                "symfony/phpunit-bridge": "^5.4@dev || ^6.0"
             },
             "suggest": {
                 "nyholm/psr7": "For a super lightweight PSR-7/17 implementation"
@@ -11867,7 +11867,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/psr-http-message-bridge/issues",
-                "source": "https://github.com/symfony/psr-http-message-bridge/tree/main"
+                "source": "https://github.com/symfony/psr-http-message-bridge/tree/v2.1.2"
             },
             "funding": [
                 {
@@ -11883,7 +11883,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T15:48:45+00:00"
+            "time": "2021-11-05T13:13:39+00:00"
         },
         {
             "name": "symfony/routing",
@@ -11891,12 +11891,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "d1724729e40db4f3529d7b93fdf23de2b98e28e5"
+                "reference": "c15fd164525234abeb05bfc296ddc4471029937f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/d1724729e40db4f3529d7b93fdf23de2b98e28e5",
-                "reference": "d1724729e40db4f3529d7b93fdf23de2b98e28e5",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/c15fd164525234abeb05bfc296ddc4471029937f",
+                "reference": "c15fd164525234abeb05bfc296ddc4471029937f",
                 "shasum": ""
             },
             "require": {
@@ -11973,7 +11973,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-27T13:15:55+00:00"
+            "time": "2021-11-04T14:23:59+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -12392,20 +12392,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "c55bc64d9fc7102da2254473a55fa100ddbb746b"
+                "reference": "f1dc5832a1ae4e24251360df5c333a3f2040b886"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/c55bc64d9fc7102da2254473a55fa100ddbb746b",
-                "reference": "c55bc64d9fc7102da2254473a55fa100ddbb746b",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/f1dc5832a1ae4e24251360df5c333a3f2040b886",
+                "reference": "f1dc5832a1ae4e24251360df5c333a3f2040b886",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/deprecation-contracts": "^2.1",
-                "symfony/polyfill-ctype": "^1.8",
-                "symfony/polyfill-php80": "^1.16",
-                "symfony/polyfill-php81": "^1.22"
+                "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
                 "symfony/console": "<5.3"
@@ -12461,7 +12459,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-26T08:20:39+00:00"
+            "time": "2021-11-05T13:54:05+00:00"
         },
         {
             "name": "symplify/autowire-array-parameter",
@@ -13113,12 +13111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd"
+                "reference": "7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd",
-                "reference": "3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d",
+                "reference": "7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d",
                 "shasum": ""
             },
             "require": {
@@ -13182,7 +13180,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-18T08:00:25+00:00"
+            "time": "2021-11-05T16:53:41+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -13778,26 +13776,28 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "3.2.3",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "41ed0eb1dacebe2c365623b3f9ab13d1531a03da"
+                "reference": "8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/41ed0eb1dacebe2c365623b3f9ab13d1531a03da",
-                "reference": "41ed0eb1dacebe2c365623b3f9ab13d1531a03da",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a",
+                "reference": "8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.7",
                 "ext-json": "*",
                 "php": ">=7.2",
+                "psr/log": "^1.1",
                 "symfony/finder": ">=2.2",
                 "symfony/yaml": ">=3.3"
             },
             "require-dev": {
+                "composer/package-versions-deprecated": "1.11.99.2",
                 "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
                 "phpunit/phpunit": ">=8"
             },
@@ -13843,9 +13843,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/3.2.3"
+                "source": "https://github.com/zircote/swagger-php/tree/3.3.0"
             },
-            "time": "2021-06-25T04:08:57+00:00"
+            "time": "2021-11-08T00:45:29+00:00"
         }
     ],
     "packages-dev": [
@@ -14794,12 +14794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "cf04e88a2e3c56fc1a65488afd493325b4c1bc3e"
+                "reference": "9f37d464d6bc3cf1b379f785b66a2ce77bf523a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cf04e88a2e3c56fc1a65488afd493325b4c1bc3e",
-                "reference": "cf04e88a2e3c56fc1a65488afd493325b4c1bc3e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9f37d464d6bc3cf1b379f785b66a2ce77bf523a6",
+                "reference": "9f37d464d6bc3cf1b379f785b66a2ce77bf523a6",
                 "shasum": ""
             },
             "require": {
@@ -14855,7 +14855,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.8"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2"
             },
             "funding": [
                 {
@@ -14863,7 +14863,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-30T08:01:38+00:00"
+            "time": "2021-11-06T06:50:45+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
