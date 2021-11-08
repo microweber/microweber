@@ -47,14 +47,33 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('@show-custom-fields');
 
-            $fields = mw()->ui->custom_fields();
-            foreach ($fields as $field => $value) {
-                $browser->waitForText('Add new field');
-                $browser->click('@add-custom-field');
-                $browser->pause(3000);
-                $browser->waitForText($value);
-                $browser->click('@add-custom-field-' . $field);
-            }
+            // add custom field price
+            $browser->waitForText('Add new field');
+            $browser->click('@add-custom-field');
+            $browser->pause(2000);
+            $browser->waitForText('Price');
+            $browser->click('@add-custom-field-price');
+
+            // add custom field dropdown
+            $browser->waitForText('Add new field');
+            $browser->click('@add-custom-field');
+            $browser->pause(2000);
+            $browser->waitForText('Dropdown');
+            $browser->click('@add-custom-field-dropdown');
+
+            // add custom field text
+            $browser->waitForText('Add new field');
+            $browser->click('@add-custom-field');
+            $browser->pause(2000);
+            $browser->waitForText('Text');
+            $browser->click('@add-custom-field-text');
+
+            // add custom field email
+            $browser->waitForText('Add new field');
+            $browser->click('@add-custom-field');
+            $browser->pause(2000);
+            $browser->waitForText('E-mail');
+            $browser->click('@add-custom-field-email');
 
             $browser->pause(3000);
 
