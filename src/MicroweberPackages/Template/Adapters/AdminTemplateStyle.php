@@ -337,9 +337,7 @@ class AdminTemplateStyle
 
 
         if ($selected_theme) {
-            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
-                return false;
-            }
+
 
             if (is_file($compiled_css_output_path_file_css)) {
                 return $compiled_css_output_path_file_css_url;
@@ -412,7 +410,7 @@ class AdminTemplateStyle
         if (php_can_use_func('ini_set')) {
             ini_set('memory_limit', '-1');
         }
-        
+
         $selected_theme = false;
         $vars = $cont = $output = false;
         $get_vars = $this->getVars();
@@ -455,6 +453,9 @@ class AdminTemplateStyle
         $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
 
         $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
+
+        $compiled_output_path = str_replace(mw_root_path(),'',$compiled_output_path);
+
 
 
         $scss->setSourceMapOptions([
@@ -502,9 +503,9 @@ class AdminTemplateStyle
                 $scss->setVariables($vars);
             }
         }
-if($cont){
-        $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-}
+        if($cont){
+                $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
+        }
 
         $output = str_replace('../img', $url_images_dir, $output);
         if (!is_dir(dirname($compiled_css_output_path_file_css))) {
