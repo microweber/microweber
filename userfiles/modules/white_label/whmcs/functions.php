@@ -88,7 +88,7 @@ if (!function_exists('get_whitelabel_whmcs_settings')) {
     }
 
     $whitelabelSettings = get_whitelabel_whmcs_settings();
-    
+
     if (isset($whitelabelSettings['whmcs_url']) && !empty($whitelabelSettings['whmcs_url'])) {
 
         event_bind('mw.admin.sidebar.li.last', function () use ($whitelabelSettings) {
