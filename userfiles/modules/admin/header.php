@@ -412,13 +412,7 @@ $user = get_user_by_id($user_id);
                                 <?php _e("Posts"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
-                            <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
-                                <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
-                                    <?php _e("Products"); ?>
-                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
-                                </a>
-                            <?php endif; ?>
-
+                            
                             <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
                                 <?php _e("Categories"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
