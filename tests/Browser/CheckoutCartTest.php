@@ -19,7 +19,7 @@ class CheckoutCartTest extends DuskTestCase
             $uniqueId = time();
 
             $browser->visit($siteUrl . 'shop');
-            $browser->pause('2000');
+            $browser->pause('2222');
 
             $browser->script('$(".name-of-product-shop").first().click()');
             $browser->pause('1000');
@@ -41,8 +41,13 @@ class CheckoutCartTest extends DuskTestCase
             $browser->click('@checkout-continue');
 
             $browser->waitForLocation('/checkout/shipping-method');
+
+            $browser->pause(1000);
+            $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
+
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
+
             $browser->select('country', 'Bulgaria');
             $browser->type('Address[city]', 'Sofia'.$uniqueId);
             $browser->type('Address[zip]', '1000'.$uniqueId);

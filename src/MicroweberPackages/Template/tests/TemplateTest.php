@@ -25,9 +25,12 @@ class TemplateTest extends TestCase
 
     public function testAdminCssUrl()
     {
-        $admin_template = app()->template->admin->getAdminCssUrl();
-        $this->assertTrue(str_contains($admin_template, 'main_with_mw.css'));
 
+        app()->ui->admin_colors_sass = false;
+        $admin_template = app()->template->admin->getAdminCssUrl();
+
+
+        $this->assertTrue(str_contains($admin_template, 'main_with_mw.css'));
         $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
         $this->assertFalse($admin_template);
 
