@@ -27,15 +27,17 @@ class DebugbarServiceProvider extends ServiceProvider
              */
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-            /*
-             * Load third party local providers
-             */
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            if (class_exists('Barryvdh\Debugbar\LaravelDebugbar')) {
+                /*
+                 * Load third party local providers
+                 */
+                $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
 
-            /*
-             * Load third party local aliases
-             */
-            $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+                /*
+                 * Load third party local aliases
+                 */
+                $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+            }
         }
     }
 
