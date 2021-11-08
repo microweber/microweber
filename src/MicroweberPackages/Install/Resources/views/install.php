@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" Content="en">
     <meta name="robots" content="noindex">
+    <?php get_favicon_tag(); ?>
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
 

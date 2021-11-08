@@ -594,6 +594,22 @@ if (!function_exists('array_recursive_diff')) {
     }
 }
 
+function get_favicon_tag()
+{
+    $favicon_image = get_option('favicon_image', 'website');
+
+    if (!$favicon_image) {
+        $ui_favicon = mw()->ui->brand_favicon();
+        if ($ui_favicon and trim($ui_favicon) != '') {
+            $favicon_image = trim($ui_favicon);
+        }
+    }
+
+    if ($favicon_image) {
+        echo '<link rel="shortcut icon" href="' . $favicon_image . '" />';
+    }
+}
+
 function multilanguage_route_prefix($prefix) {
 
     if (is_module('multilanguage')) {
