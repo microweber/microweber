@@ -399,15 +399,16 @@ mw.wysiwyg = {
                 activeCase = document.activeElement.nodeName !== 'INPUT' && document.activeElement.nodeName !== 'TEXTAREA'
             }
              var node = (sel || window.getSelection()).focusNode;
-            if (node === null) {
+             if (node === null) {
                 return false;
             }
+            if (node.nodeType === 3) {
+                node = mw.wysiwyg.validateCommonAncestorContainer(node)
+            }
             if (node.nodeType === 1) {
-                return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
+                  return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
-            else {
-                return activeCase && node.parentNode.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
-            }
+
         }
         catch (e) {
             return false;
@@ -518,7 +519,7 @@ mw.wysiwyg = {
         }
 
         try {  // 0x80004005
-            if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
+            if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable(getSelection())) {
                 b = b || false;
                 c = c || false;
 
@@ -1945,7 +1946,7 @@ mw.wysiwyg = {
             var dialog;
             var handleResult = function (res) {
                 var url = res.src ? res.src : res;
-                if(action === 'editimage') {
+                 if(action === 'editimage') {
                     if(mw.image.currentResizing) {
                         if (mw.image.currentResizing[0].nodeName === 'IMG') {
                             mw.image.currentResizing.attr("src", url);
@@ -1977,7 +1978,7 @@ mw.wysiwyg = {
                 footer: true,
                 _frameMaxHeight: true,
                 fileUploaded: function (file) {
-                    handleResult(file.src);
+                     handleResult(file.src);
                     dialog.remove()
                 },
                 onResult: handleResult,
@@ -2004,37 +2005,23 @@ mw.wysiwyg = {
         mw.wysiwyg.change('.element-current');
     },
     insert_html: function (html) {
+        var isembed;
         if (typeof html === 'string') {
-            var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
+            isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
         }
         else {
-            var isembed = false;
+            isembed = false;
         }
-        if (isembed) {
+         if (isembed) {
             var id = 'frame-' + mw.random();
             var frame = html;
             html = '<span id="' + id + '"></span>';
         }
-        if (!!window.MSStream) {
-            mw.wysiwyg.restore_selection();
-            if (mw.wysiwyg.isSelectionEditable()) {
-                var range = window.getSelection().getRangeAt(0);
-                var el = document.createElement('span');
-                el.innerHTML = html;
-                range.insertNode(el);
-                mw.$(el).replaceWith(el.innerHTML);
-            }
-        }
-        else {
-            if (!document.selection) {
-                mw.wysiwyg.execCommand('inserthtml', false, html);
-            }
-            else {
-                document.selection.createRange().pasteHTML(html)
-            }
-        }
+
+        mw.wysiwyg.execCommand('insertHTML', false, html);
+
         if (isembed) {
-            var el = document.getElementById(id);
+            el = document.getElementById(id);
             mw.wysiwyg.contentEditable(el.parentNode, false);
             mw.$(el).replaceWith(frame);
         }
@@ -2071,7 +2058,7 @@ mw.wysiwyg = {
                 type = 'video';
             }
         }
-        if(type === 'image') {
+         if(type === 'image') {
             return this.insert_image(url);
         } else if(type === 'video') {
             var id = 'image_' + mw.random();

@@ -22,6 +22,7 @@ mw.content = mw.content || {
                         callback.call(result, result);
                     }
                     mw.reload_module_everywhere('content/manager');
+                    mw.reload_module_everywhere('categories');
                     mw.url.windowDeleteHashParam('action');
                 }
             });
@@ -155,8 +156,7 @@ mw.content = mw.content || {
                 }
 
             }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
+             mw.askusertostay = false;
         });
     }
 };

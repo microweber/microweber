@@ -393,8 +393,7 @@ $user = get_user_by_id($user_id);
                     </a>
                 </li>
 
-                <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
-
+                <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                     <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
@@ -605,7 +604,8 @@ $user = get_user_by_id($user_id);
                 </li>
 
                 <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
-                <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
+
+              <?php event_trigger('mw.admin.sidebar.li.last'); ?>
 
 
             </ul>
@@ -675,3 +675,4 @@ $user = get_user_by_id($user_id);
             </script>
         </aside>
 
+<?php event_trigger('mw.admin.header.last'); ?>

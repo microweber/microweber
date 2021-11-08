@@ -57,7 +57,7 @@
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
-                        <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" placeholder="<?php _e('Search for Layouts'); ?>" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
+                        <input oninput="mwSidebarSearchItems(this.value, 'layouts')" placeholder="<?php _e('Search for Layouts'); ?>" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
                         <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></a>
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
@@ -78,7 +78,7 @@
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
-                        <input onkeyup="mwSidebarSearchItems(this.value, 'modules')"
+                        <input oninput="mwSidebarSearchItems(this.value, 'modules')"
                                placeholder="Search for Modules"
                                autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                                data-id="mw-sidebar-search-input-for-modules-and-layouts">
@@ -115,24 +115,34 @@
                 $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
                 mwSidebarSearchItems('', what);
                 $('.mw-search-no-results', '.' + what).hide();
+                $('.mw-ui-box-header-2', '.' + what).show();
             }
 
             function mwSidebarSearchItems(value, what) {
                 var obj;
-                if (what == 'modules') {
+                if (what === 'modules') {
                     obj = mw.$("#mw-sidebar-modules-list .modules-list li[data-module-name]");
                 } else {
                     obj = mw.$("#mw-sidebar-layouts-list .modules-list li[data-module-name]");
                 }
+                value = value.toLowerCase().trim();
+
                 if (!value) {
-                    $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
-                    obj.show();
+                    $('.mw-sidebar-search-clear-x-btn' ).hide();
+
+                    $('.mw-ui-box-header-2' ).show();
+                    $('.mw-ui-box-header-2~li[data-filter]' ).hide();
+                    $('.mw-search-no-results' ).hide();
+
+
                     return;
+                } else {
+                    $('#mw-sidebar-layouts-list .mw-ui-box-header-2' ).hide();
                 }
 
                 $('.mw-sidebar-search-clear-x-btn', '.' + what).show();
 
-                value = value.toLowerCase();
+
 
                 var numberOfResults = 0;
 

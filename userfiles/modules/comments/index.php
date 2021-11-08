@@ -178,7 +178,6 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
 
-
     $cur_user_data = array();
     $cur_user = user_id();
     if ($cur_user != false) {
@@ -314,7 +313,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
                 }
 
                 mw.comments_is_saving = true;
-                mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print api_link('post_comment'); ?>',
+                mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print route('api.comment.post'); ?>',
                     function (msg) {
                         mw.comments_is_saving = false;
                         var resp = this;

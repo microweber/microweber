@@ -64,11 +64,11 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col text-start">
+            <div class="col text-start text-left">
                 <h5 class="text-primary text-break-line-2"><?php print content_title($comment['rel_id']); ?></h5>
             </div>
 
-            <div class="col-12 col-sm text-end"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
+            <div class="col-12 col-sm text-end text-right"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
         </div>
         <div class="collapse"  id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">
@@ -200,7 +200,7 @@
                                             <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
                                             <textarea placeholder="<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
                                         </div>
-                                        <div class="text-end">
+                                        <div class="text-end text-right">
                                             <button class="btn btn-outline-secondary btn-sm" type="submit"><?php _e('Post Comment'); ?></button>
                                         </div>
                                     </form>

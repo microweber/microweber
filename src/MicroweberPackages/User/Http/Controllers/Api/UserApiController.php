@@ -102,6 +102,6 @@ class UserApiController
      */
     public function destroy($ids)
     {
-        return $this->user->destroy($ids);
+        return (new JsonResource(['ids'=>$this->user->destroy($ids)]));
     }
 }

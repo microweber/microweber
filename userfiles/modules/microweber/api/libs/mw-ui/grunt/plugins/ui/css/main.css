@@ -8251,12 +8251,12 @@ textarea:not(.form-control) {
     .btn-hover-style-3 .btn i {
       color: #cfcfcf; }
     .btn-hover-style-3 .btn:hover {
-      color: #2b2b2b !important;
+      color: #2b2b2b;
       background-color: #f0f0f0; }
       .btn-hover-style-3 .btn:hover i {
         color: #4592ff; }
     .btn-hover-style-3 .btn.active {
-      color: #2b2b2b !important;
+      color: #2b2b2b;
       background-color: transparent !important;
       border-bottom: 4px solid #4592ff !important; }
       .btn-hover-style-3 .btn.active i {
@@ -9295,6 +9295,6 @@ textarea.form-control {
   cursor: pointer; }
 
 .btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger {
-  color: #fff !important; }
+  color: #fff; }
 
 /*# sourceMappingURL=main.css.map */

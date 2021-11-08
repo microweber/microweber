@@ -232,7 +232,7 @@ if ($last_page_front != false) {
         ?>
 
 
-        <div id="content-view-search-bar" class="js-hide-when-no-items col justify-content-md-end justify-content-center my-md-0 mt-2 pr-0">
+        <div id="content-view-search-bar" class="js-hide-when-no-items col justify-content-md-end justify-content-center text-md-right my-md-0 mt-2 pr-0">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -424,7 +424,7 @@ if ($last_page_front != false) {
             }
             ?>
 
-            <div class="js-table-sorting col-sm-6 text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="js-table-sorting col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                 <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
 
                 <div class="d-inline-block mx-1">

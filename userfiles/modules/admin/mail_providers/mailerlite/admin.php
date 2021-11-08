@@ -2,20 +2,24 @@
 <script>
 
     $(document).ready(function () {
+        
+        function getSerializeMailerliteForm()
+        {
+            return $('.mail-provider-mailerlite-settings-form').find('input, select, textarea').serialize();
+        }
 
-        var mail_provider_settings_form_class = '.mail-provider-mailerlite-settings-form';
-        $(mail_provider_settings_form_class).on('change paste', 'input, select, textarea', function () {
-            $.post(mw.settings.api_url + 'save_mail_provider', $(mail_provider_settings_form_class).serialize(), function () {
+        $('.mail-provider-mailerlite-settings-form').on('change paste', 'input, select, textarea', function () {
+            $.post(mw.settings.api_url + 'save_mail_provider', getSerializeMailerliteForm(), function () {
                 mw.notification.success('Settings are saved.');
             });
         });
 
         $('.mail-provider-test-api-mailerlite').click(function () {
 
-            $.post(mw.settings.api_url + 'save_mail_provider', $(mail_provider_settings_form_class).serialize());
+            $.post(mw.settings.api_url + 'save_mail_provider', getSerializeMailerliteForm());
 
             mw.notification.warning('Testing...');
-            $.post(mw.settings.api_url + 'test_mail_provider', $(mail_provider_settings_form_class).serialize(), function (data) {
+            $.post(mw.settings.api_url + 'test_mail_provider', getSerializeMailerliteForm(), function (data) {
                 if (data === '1') {
                     mw.notification.success('Sucessfull connecting.');
                 } else {
@@ -28,8 +32,9 @@
     });
 </script>
 
-<form class="mail-provider-mailerlite-settings-form" method="post">
-    <input type="hidden" name="mail_provider_name" value="mailerlite"/>
+
+<div class="mail-provider-mailerlite-settings-form">
+    <input type="hidden" name="mail_provider_name" value="mailerlite" />
     <?php foreach (get_mailerlite_api_fields() as $field): ?>
         <div class="form-group">
             <label class="control-label"><?php echo $field['title']; ?></label>
@@ -62,4 +67,4 @@
         <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> <?php _e("Test Api"); ?></button>
        <!-- <button type="button" class="btn btn-primary mail-provider-logs-api-mailerlite"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
-</form>
+</div>

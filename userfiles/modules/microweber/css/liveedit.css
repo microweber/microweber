@@ -4990,3 +4990,7 @@ body.dragStart picture img{
 .css-preset-dropdown:hover {
     border: 1px solid whitesmoke!important;
 }
+
+#mw-dialog-module-settings{
+    overflow: hidden;
+}

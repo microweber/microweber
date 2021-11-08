@@ -1,8 +1,6 @@
 <?php
 namespace MicroweberPackages\Backup;
 
-use Illuminate\Support\Facades\Cache;
-
 use MicroweberPackages\Backup\Traits\DatabaseCustomFieldsWriter;
 use MicroweberPackages\Backup\Traits\DatabaseContentFieldsWriter;
 use MicroweberPackages\Backup\Traits\DatabaseContentDataWriter;
@@ -15,7 +13,6 @@ use MicroweberPackages\Backup\Traits\DatabaseMediaWriter;
 use MicroweberPackages\Backup\Loggers\BackupImportLogger;
 use MicroweberPackages\Backup\Traits\DatabaseModuleWriter;
 use MicroweberPackages\Backup\Traits\DatabaseTaggingTaggedWriter;
-use QueryPath\Exception;
 
 /**
  * Microweber - Backup Module Database Writer

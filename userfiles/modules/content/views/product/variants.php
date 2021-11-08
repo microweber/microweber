@@ -73,7 +73,7 @@ $productVariantOptions[] = [
             '</div>\n' +
             '</div>\n' +
             '<div class="col-md-8">\n' +
-            '    <div class="text-end">\n' +
+            '    <div class="text-end text-right">\n' +
             '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
             '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
             '    </div>\n' +

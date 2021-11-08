@@ -129,6 +129,20 @@ class AdminTemplateStyle
 
     }
 
+    public function getVariablesHashForCssFileSuffix()
+    {
+        $hash = 'colors';
+
+        $vars = $this->getVars();
+        if (defined('MW_VERSION')) {
+            $hash .= MW_VERSION . '-';
+        }
+        if ($vars) {
+            $hash .= crc32(json_encode($vars));
+        }
+        return $hash;
+    }
+
     public function getLiveEditStylesheets()
     {
         $return = [];
@@ -147,8 +161,13 @@ class AdminTemplateStyle
 
     public function compileLiveEditCss()
     {
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
         $selected_theme = false;
         $vars = false;
+        $cont = false;
         $get_vars = $this->getVars();
 
         if (isset($get_vars['admin_theme_name'])) {
@@ -157,7 +176,6 @@ class AdminTemplateStyle
         if (isset($get_vars['admin_theme_vars'])) {
             $vars = $get_vars['admin_theme_vars'];
         }
-
 
         if (!$selected_theme and !$vars) {
             return false;
@@ -173,12 +191,12 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.css';
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.css';
 
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.scss.map';
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map';
 
 
         $theme_file_rel_path = $selected_theme . '/_liveedit.scss';
@@ -238,6 +256,10 @@ class AdminTemplateStyle
             ";
         }
 
+        if(!$cont){
+            return false;
+        }
+
         if (!$selected_theme and $vars) {
             return false;
         } elseif ($vars) {
@@ -287,12 +309,12 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.css';
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.css';
 
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.'.MW_VERSION.'.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.'.MW_VERSION.'.scss.map';
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_liveedit.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map';
 
 
         $theme_file_rel_path = $selected_theme . '/_liveedit.scss';
@@ -327,7 +349,6 @@ class AdminTemplateStyle
             return route('api.template.compile_admin_live_edit_css');
 
 
-
         }
 
     }
@@ -356,8 +377,8 @@ class AdminTemplateStyle
         $compiled_output_url = userfiles_url() . 'css/admin-css/';
 
 
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.css';
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css';
 
 
         $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
@@ -388,8 +409,12 @@ class AdminTemplateStyle
     public function compileAdminCss()
     {
 
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
+        
         $selected_theme = false;
-        $vars = false;
+        $vars = $cont = $output = false;
         $get_vars = $this->getVars();
 
         if (isset($get_vars['admin_theme_name'])) {
@@ -411,12 +436,12 @@ class AdminTemplateStyle
             mkdir_recursive($compiled_output_path);
         }
 
-        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_admin.scss', false);
-        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.css', false);
-        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.css';
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_admin' . $this->getVariablesHashForCssFileSuffix() . '.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.css';
 
-        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_admin.' . MW_VERSION . '.scss.map', false);
-        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_admin.' . MW_VERSION . '.scss.map';
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_admin.' . $this->getVariablesHashForCssFileSuffix() . '.scss.map';
 
 
         $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
@@ -477,9 +502,9 @@ class AdminTemplateStyle
                 $scss->setVariables($vars);
             }
         }
-
+if($cont){
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-
+}
 
         $output = str_replace('../img', $url_images_dir, $output);
         if (!is_dir(dirname($compiled_css_output_path_file_css))) {
@@ -493,8 +518,41 @@ class AdminTemplateStyle
     public function getVars()
     {
 
+        $branding_colors = mw()->ui->admin_colors_sass();
+
         $selected_theme = get_option('admin_theme_name', 'admin');
         $selected_vars = get_option('admin_theme_vars', 'admin');
+
+
+        if (!$selected_theme and $branding_colors) {
+            $vars_from_branding_json = [];
+
+            $branding_colors_explode = explode("\n", $branding_colors);
+
+            if ($branding_colors_explode) {
+                foreach ($branding_colors_explode as $item) {
+                    if (trim($item) != '') {
+                        $item_arr = explode(':', $item);
+                        if ($item_arr and isset($item_arr[1])) {
+                            $var_name = trim($item_arr[0]);
+                            $var_val = trim($item_arr[1]);
+                            $var_name = ltrim($var_name, '$');
+                            $var_val = str_ireplace('!default', '', $var_val);
+                            $var_val = str_ireplace(';', '', $var_val);
+                            $vars_from_branding_json[$var_name] = $var_val;
+                        }
+                    }
+                }
+            }
+            if ($vars_from_branding_json) {
+                $selected_theme = 'custom';
+                return [
+                    'admin_theme_name' => $selected_theme,
+                    'admin_theme_vars' => $vars_from_branding_json
+                ];
+            }
+        }
+
 
         $vars = [];
         if ($selected_vars and is_string($selected_vars)) {

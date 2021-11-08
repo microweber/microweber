@@ -323,7 +323,7 @@
 
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 300px) {
             .file_browser_sort_by, .browser-ctrl-bar .form-inline{
                 display: none !important;
             }

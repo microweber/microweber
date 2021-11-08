@@ -113,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (conf) {
                                 var id = form.attr('id');
                                 var data = form.serialize();
-                                $.post("<?php print api_link('post_comment'); ?>", data, function (data) {
+                                $.post("<?php print route('api.comment.post'); ?>", data, function (data) {
                                     mw.reload_module('#mw_comments_for_post_' + connected_id, function () {
                                         $('#mw_comments_for_post_' + connected_id).find(".comments-holder,.new-comments,.old-comments").show();
                                     });

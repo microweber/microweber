@@ -68,23 +68,13 @@ class ContentApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
+     * @return void
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        return (new JsonResource($this->content->delete($id)));
-    }
-
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     */
-    public function destroy($ids)
-    {
-        return (new JsonResource($this->content->destroy($ids)));
+        return (new JsonResource(['id'=>$this->content->delete($id)]));
     }
 
 

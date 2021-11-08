@@ -171,7 +171,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <div class="module-live-edit-settings module-btn-settings">
-            <div class="text-start">
+            <div class="text-start text-left">
                 <div class="row">
                     <div class="form-group col-6">
                         <label class="control-label"><?php _e("Text"); ?></label>

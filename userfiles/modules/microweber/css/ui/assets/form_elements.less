@@ -614,8 +614,15 @@ div.mw-ui-field:after {
     }
 
     .mw-field-prepend{
-        & + input{
-            border-radius: 0 @radius @radius 0;
+        & ~ input{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+    .mw-field-append{
+        & ~ input{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
     }
 
@@ -665,11 +672,17 @@ div.mw-ui-field:after {
         order: 5;
         border-radius: 0 @radius @radius 0;
         border-left: none;
+        .mw-ui-button{
+            border-radius: 0 @radius @radius 0;
+        }
     }
     .mw-field-prepend, &[data-before]:before{
         order: 1;
         border-radius: @radius 0 0 @radius;
         border-right: none;
+        .mw-ui-button{
+            border-radius: @radius 0 0 @radius;;
+        }
     }
 
     input, select,

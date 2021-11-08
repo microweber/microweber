@@ -52,12 +52,16 @@ class CategoryApiController extends AdminDefaultController
     {
 
         $data = $request->all();
-        if($data and isset($data['id']) and $data['id']==0 ){
+        if ($data and isset($data['id']) and $data['id'] == 0) {
             unset($data['id']);
         }
 
+        if ($data and isset($data['id']) and $data['id'] != 0) {
+            $result = $this->category->update($request->all(), $data['id']);
+        } else {
+            $result = $this->category->create($data);
+        }
 
-        $result = $this->category->create($data);
 
         return (new JsonResource($result))->response();
 
@@ -94,28 +98,18 @@ class CategoryApiController extends AdminDefaultController
     }
 
     /**
-     * Destroy resources by given ids.
-     *
-     * @param string $ids
+     * Destroy resources by given id.
+     * @param string $id
      * @return void
      */
-    public function delete($id)
+    public function destroy(CategoryRequest $request, $id)
     {
-        $result = $this->category->delete($id);
-        // return (new JsonResource($result))->response();
-        return true;
-    }
 
-    /**
-     * Delete resources by given ids.
-     *
-     * @param string $ids
-     */
-    public function destroy($ids)
-    {
-        $result = $this->category->destroy($ids);
-        return true;
-        //     return (new JsonResource($result))->response();
+        $result = $this->category->show($id);
+        if ($result) {
+             (new JsonResource(['id' => $result->delete()]));
+        }
+
     }
 
 }

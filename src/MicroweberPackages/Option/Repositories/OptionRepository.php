@@ -42,6 +42,7 @@ class OptionRepository extends AbstractRepository
             'google-analytics-id'=>'',
             'facebook-pixel-id'=>'',
             'robots_txt'=>'' ,
+            'app_version'=>'' ,
             'maintenance_mode'=>'',
             'maintenance_mode_text'=>''
         ];

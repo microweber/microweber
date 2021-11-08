@@ -50,7 +50,6 @@ if (!function_exists('get_whitelabel_whmcs_settings')) {
 
     function get_whitelabel_whmcs_settings()
     {
-
         $whmcs_url = false;
         $whmcs_auth_type = false;
         $whmcs_api_identifier = false;
@@ -86,5 +85,18 @@ if (!function_exists('get_whitelabel_whmcs_settings')) {
             'whmcs_username' => $whmcs_username,
             'whmcs_password' => $whmcs_password
         ];
+    }
+
+    $whitelabelSettings = get_whitelabel_whmcs_settings();
+
+    if (isset($whitelabelSettings['whmcs_url']) && !empty($whitelabelSettings['whmcs_url'])) {
+
+        event_bind('mw.admin.header.last', function () use ($whitelabelSettings) {
+            echo '<div style="bottom:44px;position:absolute;">
+                    <a class="btn btn-outline-primary" href="' . $whitelabelSettings['whmcs_url'] . 'clientarea.php?action=services" target="_blank">
+                        <i class="mdi mdi-account-box-multiple"></i> ' . _e('Members area', true) . '</a>
+                </div>';
+        });
+
     }
 }

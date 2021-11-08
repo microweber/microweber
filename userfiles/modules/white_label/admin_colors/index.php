@@ -84,6 +84,9 @@ include(__DIR__.'/ui_app.php');
 
         $(".js-select-admin-theme").on("change", function () {
             $('#selected_colors_vars').val('').trigger('change');
+            setTimeout(function () {
+            mw.reload_module('#admin-theme-vars')
+            }, 900);
         });
     });
 
@@ -95,6 +98,7 @@ include(__DIR__.'/ui_app.php');
         $.get("<?php print route('api.template.get_admin_css_url'); ?>", function (data) {
             mw.notification.success("Compiling new CSS file...", 3000);
             $('#admin-main-css-style').attr("href", data + "?rand=" + new Date().getMilliseconds());
+
         });
     }
 
@@ -108,6 +112,7 @@ include(__DIR__.'/ui_app.php');
 
         $.get("<?php print route('api.template.reset_admin_stylesheet_colors'); ?>", function (data) {
             reload_admin_css()
+
         });
     }
 
@@ -155,7 +160,7 @@ include(__DIR__.'/ui_app.php');
         </select>
     </div>
 
-<button onclick="reset_admin_css_colors()">Reset colors</button>
+<button class="btn btn-outline-danger" onclick="reset_admin_css_colors()">Reset colors</button>
 
     <module type="white_label/admin_colors/vars" id="admin-theme-vars" />
 
