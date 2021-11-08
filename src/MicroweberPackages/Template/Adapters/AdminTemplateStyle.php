@@ -161,6 +161,10 @@ class AdminTemplateStyle
 
     public function compileLiveEditCss()
     {
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
         $selected_theme = false;
         $vars = false;
         $cont = false;
@@ -405,6 +409,10 @@ class AdminTemplateStyle
     public function compileAdminCss()
     {
 
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
+        
         $selected_theme = false;
         $vars = $cont = $output = false;
         $get_vars = $this->getVars();
