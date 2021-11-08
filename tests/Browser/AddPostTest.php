@@ -50,28 +50,28 @@ class AddPostTest extends DuskTestCase
             // add custom field price
             $browser->waitForText('Add new field');
             $browser->click('@add-custom-field');
-            $browser->pause(2000);
+            $browser->pause(3000);
             $browser->waitForText('Price');
             $browser->click('@add-custom-field-price');
 
             // add custom field dropdown
             $browser->waitForText('Add new field');
             $browser->click('@add-custom-field');
-            $browser->pause(2000);
+            $browser->pause(3000);
             $browser->waitForText('Dropdown');
             $browser->click('@add-custom-field-dropdown');
 
             // add custom field text
             $browser->waitForText('Add new field');
             $browser->click('@add-custom-field');
-            $browser->pause(2000);
+            $browser->pause(3000);
             $browser->waitForText('Text');
             $browser->click('@add-custom-field-text');
 
             // add custom field email
             $browser->waitForText('Add new field');
             $browser->click('@add-custom-field');
-            $browser->pause(2000);
+            $browser->pause(3000);
             $browser->waitForText('E-mail');
             $browser->click('@add-custom-field-email');
 
