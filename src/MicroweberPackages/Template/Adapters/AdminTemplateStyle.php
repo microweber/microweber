@@ -274,7 +274,7 @@ class AdminTemplateStyle
             mkdir_recursive(dirname($compiled_css_output_path_file_css));
         }
         file_put_contents($compiled_css_output_path_file_css, $output);
-        return $compiled_css_output_path_file_css_url;
+        return $output;
     }
 
     public function getLiveEditAdminCssUrl()
