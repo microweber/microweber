@@ -42,7 +42,7 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->waitForLocation('/checkout/shipping-method');
 
-            $browser->pause(2000);
+            $browser->pause(5000);
 
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
