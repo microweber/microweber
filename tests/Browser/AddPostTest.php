@@ -43,29 +43,28 @@ class AddPostTest extends DuskTestCase
             $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
             $browser->pause(1000);
 
+            $browser->scrollTo('@show-custom-fields');
+            $browser->pause(1000);
+            $browser->click('@show-custom-fields');
+
+            $fields = mw()->ui->custom_fields();
+            foreach ($fields as $field => $value) {
+                $browser->waitForText('Add new field');
+                $browser->click('@add-custom-field');
+                $browser->pause(3000);
+                $browser->waitForText($value);
+                $browser->click('@add-custom-field-' . $field);
+            }
+
+            $browser->pause(3000);
+
+            // add images to gallery
             $browser->scrollTo('.mw-uploader-input');
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img1.jpg');
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img2.jpg');
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
-
-            $browser->scrollTo('@show-custom-fields');
-            $browser->pause(1000);
-            $browser->click('@show-custom-fields');
-
-           /* $browser->pause(1000);
-            $browser->click('@add-custom-field');
-
-            $fields = mw()->ui->custom_fields();
-            foreach ($fields as $field => $value) {
-                dump($field);
-                sleep(3);
-                $browser->pause(2000);
-                $browser->click('@add-custom-field-' . $field);
-            }
-
-            $browser->pause(111500);
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
@@ -76,7 +75,7 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->assertValue('#slug-field-holder input', $postTitle);
 
-            $browser->pause(11500);*/
+            $browser->pause(11500);
         });
 
     }
