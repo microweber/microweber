@@ -1109,3 +1109,13 @@ a.text-dark:hover, a.text-dark:focus {
 .bootstrap-tagsinput {
     background-color: $black;
 }
+
+.mw-ui-progress-percent {
+    color: $secondary!important;
+}
+
+.mw-ui-progress .mw-ui-progress-bar {
+    background-color: $primary!important;
+}
+
+
