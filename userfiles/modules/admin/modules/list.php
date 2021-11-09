@@ -341,6 +341,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
       'content',
       'menu'
     ];
+    if (isset($template_config['order_layouts_by_category']) && !empty($template_config['order_layouts_by_category'])) {
+        $module_layouts_skins_grouped_ordered_positions = $template_config['order_layouts_by_category'];
+    }
 
     $module_layouts_skins_grouped_ordered = [];
     foreach ($module_layouts_skins_grouped_ordered_positions as $ordered_position) {
