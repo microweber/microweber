@@ -186,16 +186,7 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         .mw-modules-badge.cog-settings {
             background-color: #f6d9da;
         }
-
-
-        ::part(mw-module-icon-svg)  {
-            fill: red !important;
-        }
-
-        .mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
-            fill: blue !important;
-        }
-
+        
 
     </style>
 
