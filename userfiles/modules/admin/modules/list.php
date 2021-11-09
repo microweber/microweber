@@ -335,6 +335,25 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             }
         }
     }
+
+    $module_layouts_skins_grouped_ordered_positions = [
+      'titles',
+      'content',
+      'menu'
+    ];
+
+    $module_layouts_skins_grouped_ordered = [];
+    foreach ($module_layouts_skins_grouped_ordered_positions as $ordered_position) {
+        foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name => $dynamic_layouts_grouped) {
+            if ($ordered_position == $dynamic_layouts_group_name) {
+                $module_layouts_skins_grouped_ordered[$dynamic_layouts_group_name] = $dynamic_layouts_grouped;
+                unset($module_layouts_skins_grouped[$dynamic_layouts_group_name]);
+            }
+        }
+    }
+    $module_layouts_skins_grouped_ordered = array_merge($module_layouts_skins_grouped_ordered,$module_layouts_skins_grouped);
+    $module_layouts_skins_grouped = $module_layouts_skins_grouped_ordered;
+
     ?>
 
 

@@ -28,7 +28,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings  module-google-maps-settings">
             <div class="form-group">
                 <label class="control-label"><?php _e("Enter Your Address"); ?></label>
-                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?php _e('Example: Bulgaria, Sofia, bul. Cherni Vrah 47'); ?>"/>
+                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?php _e('Example: One Infinite Loop, Cupertino, CA 95014, United States'); ?>"/>
             </div>
 <?php
 
