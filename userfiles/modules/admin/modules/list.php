@@ -679,7 +679,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <span class="mw_module_image_holder">
             <img
                     alt="<?php print $module_item['name'] ?>"
-                    title="1111111111111111<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
+                    title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
                      data-module-icon="<?php print $module_item['icon']; ?>" />
