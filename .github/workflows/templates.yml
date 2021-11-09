@@ -40,17 +40,11 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Add auth composer
-      run: |
-      cat > auth.json <<EOF
-      {
-        "http-basic": {
-          "packages.microweberapi.com": {
-            "username": "${{ secrets.COMPOSER_USERNAME }}",
-            "password": "${{ secrets.COMPOSER_PASSWORD }}"
-          }
-        }
-      }
-      EOF
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "auth.json"
+        json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Install template
