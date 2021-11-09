@@ -168,10 +168,10 @@
     }
 }
 
-.mw_module_image_holder {
-    background-color: $secondary!important;
-    padding: 3px;
-}
+//.mw_module_image_holder {
+//    background-color: $secondary!important;
+//    padding: 3px;
+//}
 
 .mw-ese-holder {
     background-color: $primary!important;
@@ -450,4 +450,23 @@
 
 .mw-ui-progress .mw-ui-progress-bar {
     background-color: $primary!important;
+}
+
+::part(mw-module-icon-svg)  {
+    fill: $primary !important;
+}
+
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+    fill: $primary !important;
+}
+
+.mw-dialog-holder {
+    border: 1px solid $primary!important;
+}
+
+.mw-tooltip-default.mw-tooltip-widget {
+    background-color: $black!important;
+}
+.mw-tooltip-insert-module h3 {
+    color: $secondary!important;
 }
