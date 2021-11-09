@@ -797,8 +797,9 @@ input, .custom-select {
 }
 
 .mw-dialog-holder {
-    border: 2px solid $primary!important;
+    box-shadow: $primary 0px 1px 10px!important;
 }
+
 
 .mw-dialog-skin-default .mw-dialog-close {
     border-color: $primary!important;
