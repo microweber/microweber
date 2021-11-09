@@ -33,6 +33,12 @@ class ContactFormTest extends DuskTestCase
             $browser->scrollTo('#contactform');
             $browser->pause('3000');
 
+            $browser->assertSee('Your Name');
+            $browser->assertSee('E-mail Address');
+            $browser->assertSee('Phone');
+            $browser->assertSee('Company');
+            $browser->assertSee('Message');
+            $browser->assertSee('Send message');
 
             $browser->type('your-name', 'Bozhidar Slaveykov' . $uniqueId);
             $browser->type('e-mail-address', 'bobi'.$uniqueId.'@microweber.com');
@@ -48,20 +54,41 @@ class ContactFormTest extends DuskTestCase
             $browser->waitForText('Your message successfully sent');
             $browser->assertSee('Your message successfully sent');
 
-/*
+            $findFormDataId = false;
             $findFormDataValues = FormDataValue::where('field_value', 'bobi'.$uniqueId.'@microweber.com')->get();
             foreach ($findFormDataValues as $formDataValue) {
                 if ($formDataValue->form_data_id) {
-
+                    $findFormDataId = $formDataValue->form_data_id;
                 }
             }
 
+            $findFrom = FormData::where('id', $findFormDataId)->with('formDataValues')->first();
 
-            $this->assertEquals($findedData['Message'], 'Hello, i\'m very happy to use this software.'.$uniqueId);
-            $this->assertEquals($findedData['Company'], 'Microweber ORG'.$uniqueId);
-            $this->assertEquals($findedData['Phone'], $uniqueId);
-            $this->assertEquals($findedData['Your Name'], 'Bozhidar Slaveykov' . $uniqueId);
-            $this->assertEquals($findedData['E-mail Address'], 'bobi'.$uniqueId.'@microweber.com');*/
+            $formDataValuesMap = [];
+            foreach ($findFrom->formDataValues as $formDataValue) {
+                $formDataValuesMap[$formDataValue->field_key] = $formDataValue->toArray();
+            }
+
+            $this->assertEquals($formDataValuesMap['your-name']['field_name'], 'Your Name');
+            $this->assertEquals($formDataValuesMap['your-name']['field_type'], 'text');
+
+            $this->assertEquals($formDataValuesMap['e-mail-address']['field_name'], 'E-mail Address');
+            $this->assertEquals($formDataValuesMap['e-mail-address']['field_type'], 'email');
+
+            $this->assertEquals($formDataValuesMap['phone']['field_name'], 'Phone');
+            $this->assertEquals($formDataValuesMap['phone']['field_type'], 'phone');
+
+            $this->assertEquals($formDataValuesMap['company']['field_name'], 'Company');
+            $this->assertEquals($formDataValuesMap['company']['field_type'], 'text');
+
+            $this->assertEquals($formDataValuesMap['message']['field_name'], 'Message');
+            $this->assertEquals($formDataValuesMap['message']['field_type'], 'text');
+
+            $this->assertEquals($formDataValuesMap['message']['field_value'], 'Hello, i\'m very happy to use this software.'.$uniqueId);
+            $this->assertEquals($formDataValuesMap['company']['field_value'], 'Microweber ORG'.$uniqueId);
+            $this->assertEquals($formDataValuesMap['phone']['field_value'], $uniqueId);
+            $this->assertEquals($formDataValuesMap['your-name']['field_value'], 'Bozhidar Slaveykov' . $uniqueId);
+            $this->assertEquals($formDataValuesMap['e-mail-address']['field_value'], 'bobi'.$uniqueId.'@microweber.com');
 
         });
     }
