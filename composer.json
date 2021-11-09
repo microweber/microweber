@@ -14,10 +14,6 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/"
-        },
-        {
-            "type": "composer",
-            "url": "https://private-packages.microweberapi.com/"
         }
     ],
     "require": {
