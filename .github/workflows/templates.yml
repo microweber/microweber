@@ -9,7 +9,11 @@ jobs:
       max-parallel: 4
       matrix:
         php-versions: ['7.4']
-        templates: ['microweber-templates/new-world','microweber-templates/shopmag']
+        templates: [
+            'microweber-templates/new-world',
+            'microweber-templates/shopmag',
+            'microweber-templates/notary-services'
+        ]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
