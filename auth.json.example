@@ -1,0 +1,9 @@
+{
+    "http-basic": {
+        "packages.microweberapi.com": {
+            "username": "",
+            "password": "",
+            "license_key": ""
+        }
+    }
+}
