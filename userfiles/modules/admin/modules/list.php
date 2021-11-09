@@ -485,7 +485,49 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
    $(document).ready(function (){
-       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
+       if(!mw._xhrIcons) {
+           mw._xhrIcons = {}
+       }
+       var getIcon = function (url) {
+           return new Promise(function (resolve){
+               if(mw._xhrIcons[url]) {
+                   resolve(mw._xhrIcons[url])
+               } else {
+                   fetch(url)
+                       .then(function (data){
+                           return data.text();
+                       }).then(function (data){
+                       mw._xhrIcons[url] = data;
+                       resolve(mw._xhrIcons[url])
+                   })
+               }
+           })
+       }
+       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+         $('[data-module-icon]').each(function (){
+
+           var src = this.dataset.moduleIcon.trim();
+           delete this.dataset.moduleIcon;
+           var img = this;
+           if(src.includes('.svg')) {
+               var el = document.createElement('div');
+               el.className = img.className;
+               var shadow = el.attachShadow({mode: 'open'});
+               getIcon(src).then(function (data){
+                   var shImg = document.createElement('div');
+                   shImg.innerHTML = data;
+                   shImg.part = 'mw-module-icon';
+                   shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                   Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                       style.remove()
+                   })
+                   shadow.appendChild(shImg);
+                   img.parentNode.replaceChild(el, img);
+               })
+           } else {
+               this.src = src;
+           }
+       })
    })
 
 </script>
@@ -637,10 +679,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <span class="mw_module_image_holder">
             <img
                     alt="<?php print $module_item['name'] ?>"
-                    title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
+                    title="1111111111111111<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                    src="<?php print $module_item['icon']; ?>"/>
+                     data-module-icon="<?php print $module_item['icon']; ?>" />
         </span>
     </span>
                         <?php endif; ?>

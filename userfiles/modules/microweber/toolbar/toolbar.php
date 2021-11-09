@@ -709,7 +709,7 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-top mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 <span class="mw-plus-bottom mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 
-<div style="display: none" id="plus-modules-list">
+<template style="display: none" id="plus-modules-list">
     <h3>Select module</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
@@ -717,9 +717,9 @@ if (isset($_COOKIE['mw_exp'])) {
             <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
-</div>
+</template>
 
-<div style="display: none" id="plus-layouts-list">
+<template style="display: none" id="plus-layouts-list">
     <h3>Select layout</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
@@ -727,7 +727,7 @@ if (isset($_COOKIE['mw_exp'])) {
             <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
-</div>
+</template>
 
 
 
