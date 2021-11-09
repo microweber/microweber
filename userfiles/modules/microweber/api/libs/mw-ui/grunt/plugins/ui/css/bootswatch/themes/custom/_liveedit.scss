@@ -461,8 +461,9 @@
 }
 
 .mw-dialog-holder {
-    border: 2px solid $primary!important;
+    box-shadow: $primary 0px 1px 10px!important;
 }
+
 
 .mw-tooltip-default.mw-tooltip-widget {
     background-color: $black!important;
