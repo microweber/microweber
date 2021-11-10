@@ -1139,6 +1139,10 @@ a.text-dark:hover, a.text-dark:focus {
     fill: $secondary !important;
 }
 
+.module-img path {
+    fill: $secondary !important;
+}
+
 .mw-tooltip-default.mw-tooltip-widget {
     background-color: $black!important;
 }
