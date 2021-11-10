@@ -467,7 +467,8 @@ mw._initHandles = {
                                      if(src.includes('.svg')) {
                                          var el = document.createElement('div');
                                          el.className = img.className;
-                                         var shadow = el.attachShadow({mode: 'open'});
+                                         //var shadow = el.attachShadow({mode: 'open'});
+                                         var shadow = el;
                                          getIcon(src).then(function (data){
                                              var shImg = document.createElement('div');
                                              shImg.innerHTML = data;

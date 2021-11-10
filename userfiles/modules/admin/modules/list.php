@@ -709,7 +709,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             if(src.includes('.svg')) {
                 var el = document.createElement('div');
                 el.className = img.className;
-                var shadow = el.attachShadow({mode: 'open'});
+                // var shadow = el.attachShadow({mode: 'open'});
+                var shadow = el;
                 getIcon(src).then(function (data){
                     var shImg = document.createElement('div');
                     shImg.innerHTML = data;
@@ -717,6 +718,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     shImg.querySelector('svg').part = 'mw-module-icon-svg';
                     Array.from(shImg.querySelectorAll('style')).forEach(function (style){
                         style.remove()
+                    })
+                    Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
+                        item.removeAttribute('class')
+                        item.removeAttribute('id')
                     })
                     shadow.appendChild(shImg);
                     img.parentNode.replaceChild(el, img);

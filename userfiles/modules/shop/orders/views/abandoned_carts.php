@@ -124,7 +124,7 @@ if (!isset($orders) or !$orders) {
                 </label>
                    <div class="text-center col-5 align-self-center">
                        <a class="btn btn-danger btn-sm" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a>
-                       <a class="btn btn-secondary btn-sm" href="<?php print $recart_base . '?recart=' . $item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
+                       <a class="btn btn-outline-secondary btn-sm" href="<?php print $recart_base . '?recart=' . $item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
                    </div>
             </td>
         </tbody>

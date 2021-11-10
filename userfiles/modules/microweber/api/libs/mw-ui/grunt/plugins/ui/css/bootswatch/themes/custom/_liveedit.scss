@@ -453,12 +453,22 @@
     background-color: $primary!important;
 }
 
+
 ::part(mw-module-icon-svg)  {
-    fill: $primary !important;
+    fill: $secondary !important;
 }
 
 .mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
-    fill: $primary !important;
+    fill: $secondary !important;
+}
+
+.module-img path {
+    fill: $secondary !important;
+}
+
+.module_draggable svg {
+    fill: $secondary !important;
+
 }
 
 .mw-dialog-holder {
@@ -480,3 +490,6 @@
 .mw-inline-source-editor textarea {
     color: $secondary!important;
 }
+
+
+
