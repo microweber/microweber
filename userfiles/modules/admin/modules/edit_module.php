@@ -175,7 +175,10 @@ $(document).ready(function (){
                 })
 
                 shadow.appendChild(shImg);
-                img.parentNode.replaceChild(el, img);
+                if(img.parentNode) {
+                    img.parentNode.replaceChild(el, img)
+                }
+
             })
         } else {
             this.src = src;
