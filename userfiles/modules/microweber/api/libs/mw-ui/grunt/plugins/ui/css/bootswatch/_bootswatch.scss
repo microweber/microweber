@@ -1130,7 +1130,16 @@ a.text-dark:hover, a.text-dark:focus {
     box-shadow: 0px 4px 11px $primary!important;
 }
 
-.mw-modules-module-holder:hover ::part(mw-module-icon-svg), .module-img path, ::part(mw-module-icon-svg)   {
+
+::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.module-img path {
     fill: $secondary !important;
 }
 
