@@ -957,15 +957,19 @@ input, .custom-select {
     color: $primary!important;
 }
 
+.mw-ui-btn-tab {
+    color: $secondary!important;
+
+    &:hover {
+        background-color: $primary!important;
+        color: white !important;
+    }
+}
+
 .mw-ui-btn-tab.active {
     border-bottom-color: $primary!important;
     text-decoration: none;
     color: $secondary!important;
-}
-
-.mw-ui-btn-tab:hover {
-    background-color: $primary!important;
-    color: white !important;
 }
 
 .mw-select {
@@ -1164,3 +1168,4 @@ a.text-dark:hover, a.text-dark:focus {
 .mw-css-editor-c2a-nav {
     background-color: $black!important;
 }
+
