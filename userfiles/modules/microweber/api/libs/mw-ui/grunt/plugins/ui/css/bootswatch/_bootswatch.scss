@@ -394,16 +394,16 @@ i.mdi {
 
 
 h1,h2,h3,h4,h5,h6, label, div, a span, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
-    color: $secondary!important;
-
+    color: $secondary;
 }
- button, textarea, .form-control {
-    border-color: $primary!important;
- }
 
- .btn.btn-text {
-     border: none!important;
- }
+button, textarea, .form-control {
+    border-color: $primary!important;
+}
+
+.btn.btn-text {
+    border: none!important;
+}
 
 
 small, small.bg-secondary {
