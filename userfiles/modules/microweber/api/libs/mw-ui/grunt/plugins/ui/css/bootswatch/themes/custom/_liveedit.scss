@@ -453,11 +453,7 @@
     background-color: $primary!important;
 }
 
-::part(mw-module-icon-svg)  {
-    fill: $secondary !important;
-}
-
-.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg), .module-img path, ::part(mw-module-icon-svg)   {
     fill: $secondary !important;
 }
 
