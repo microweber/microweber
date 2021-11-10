@@ -243,11 +243,14 @@
 
 
 .mw-ui-btn-tab.active {
-    border-bottom-color: $secondary!important;
     text-decoration: none;
     border-bottom-color: $primary!important;
+    color: $secondary!important;
 }
 
+.mw-css-editor-c2a-nav {
+    background-color: $black!important;
+}
 
 .mw-ui-btn-tab:hover, .mw-ui-btn-tab.active:hover  {
     background-color: $primary!important;
@@ -311,6 +314,15 @@
     }
 }
 
+.mw-ui-box-header, .card-header, .mw-ui-box-header {
+    background-color: $black!important;
+}
+
+.mw-ui-box-header {
+    span {
+        color: $secondary!important;
+    }
+}
 
 #modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
     background-color: $primary!important;
@@ -493,3 +505,18 @@
 
 
 
+.mw-ui-field:focus, .mw-ui-field:hover, .mw-select .mw-select-options, .mw-select-option {
+    border-color: $primary!important;
+    box-shadow: 0 0 3px $primary!important;
+}
+
+.mw-ui-field, .mw-select-options label {
+    color: $secondary!important;
+    background-color: $black!important;
+    border-color: $primary;
+
+    &:hover {
+        background-color: $primary;
+
+    }
+}
