@@ -162,8 +162,35 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         }
     </style>
 
+    <style>
+        .module-img {
+            height: 35px;
+            margin-bottom: 10px;
+        }
+        div.module-img{
+            width: 35px;
+        }
+
+
+        .mw-modules-module-holder {
+            min-height: 140px;
+            cursor: pointer;
+        }
+
+        .mw-modules-badge.cog-badge {
+
+            background-color: #d5f3e4;
+        }
+
+        .mw-modules-badge.cog-settings {
+            background-color: #f6d9da;
+        }
+
+
+    </style>
+
     <?php if (isset($mods) and is_array($mods) == true and $mods == true): ?>
-        <div class="  mw-modules">
+        <div class="mw-modules">
             <?php if (is_array($upds) == true): ?>
                 <?php foreach ($upds as $upd_mod): ?>
                     <div class="col-xl-3 col-md-4 col-6 mb-3">

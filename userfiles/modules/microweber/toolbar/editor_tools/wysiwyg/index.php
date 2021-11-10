@@ -380,7 +380,7 @@ img{
 
 <span class="mw-plus-top"></span>
 <span class="mw-plus-bottom"></span>
-<div style="display: none" id="plus-modules-list">
+<template style="display: none" id="plus-modules-list">
 <input type="text" class="mw-ui-searchfield" />
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
         <span class="mw-ui-btn mw-ui-btn-medium active"><i class="mw-icon-module"></i> <?php _e("Modules"); ?></span>
@@ -392,5 +392,5 @@ img{
         <div class="module-bubble-tab"><module type="admin/modules/list_layouts" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab-not-found-message"></div>
     </div>
-</div>
+</template>
 

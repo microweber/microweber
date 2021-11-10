@@ -572,9 +572,6 @@ input.mw-ui-invisible-field {
     background-color: $white;
 }
 
-.module-img {
-    filter: invert(1);
-}
 
 .mw-modules-badge {
     i.mdi {
@@ -798,6 +795,11 @@ input, .custom-select {
 .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
     background-color: $black!important;
 }
+
+.mw-dialog-holder {
+    box-shadow: $primary 0px 1px 10px!important;
+}
+
 
 .mw-dialog-skin-default .mw-dialog-close {
     border-color: $primary!important;
@@ -1118,4 +1120,36 @@ a.text-dark:hover, a.text-dark:focus {
     background-color: $primary!important;
 }
 
+.mw-backup-v2-import-option {
+    background-color: $black!important;
+    border-color: $primary!important;
+}
 
+
+.mw-backup-v2-import-option:hover, .mw-backup-v2-import-option.active  {
+    box-shadow: 0px 4px 11px $primary!important;
+}
+
+
+::part(mw-module-icon-svg)  {
+    fill: $primary !important;
+}
+
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+    fill: $primary !important;
+}
+
+.mw-tooltip-default.mw-tooltip-widget {
+    background-color: $black!important;
+}
+.mw-tooltip-insert-module h3 {
+    color: $secondary!important;
+}
+
+.mw-inline-source-editor {
+    background-color: $black!important;
+}
+
+.mw-inline-source-editor textarea {
+    color: $secondary!important;
+}

@@ -59,8 +59,10 @@ class Parser
 
     public function __construct()
     {
-
-        $this->debugbarEnabled = \Debugbar::isEnabled();
+        $this->debugbarEnabled = false;
+        if (class_exists('\Debugbar', false)) {
+            $this->debugbarEnabled = \Debugbar::isEnabled();
+        }
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 

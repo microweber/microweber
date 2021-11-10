@@ -335,6 +335,44 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             }
         }
     }
+
+    $module_layouts_skins_grouped_ordered_positions = [
+        'titles',
+        'text block',
+        'content',
+        'features',
+        'gallery',
+        'call to action',
+        'blog',
+        'team',
+        'testimonials',
+        'contact us',
+        'grids',
+        'misc',
+        'price lists',
+        'video',
+        'ecommerce',
+        'header',
+        'menu',
+        'footers',
+        'other',
+    ];
+    if (isset($template_config['order_layouts_by_category']) && !empty($template_config['order_layouts_by_category'])) {
+        $module_layouts_skins_grouped_ordered_positions = $template_config['order_layouts_by_category'];
+    }
+
+    $module_layouts_skins_grouped_ordered = [];
+    foreach ($module_layouts_skins_grouped_ordered_positions as $ordered_position) {
+        foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name => $dynamic_layouts_grouped) {
+            if ($ordered_position == $dynamic_layouts_group_name) {
+                $module_layouts_skins_grouped_ordered[$dynamic_layouts_group_name] = $dynamic_layouts_grouped;
+                unset($module_layouts_skins_grouped[$dynamic_layouts_group_name]);
+            }
+        }
+    }
+    $module_layouts_skins_grouped_ordered = array_merge($module_layouts_skins_grouped_ordered,$module_layouts_skins_grouped);
+    $module_layouts_skins_grouped = $module_layouts_skins_grouped_ordered;
+
     ?>
 
 
@@ -463,7 +501,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
    $(document).ready(function (){
-       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
+
+       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+
    })
 
 </script>
@@ -618,7 +658,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                    src="<?php print $module_item['icon']; ?>"/>
+                     data-module-icon="<?php print $module_item['icon']; ?>" />
         </span>
     </span>
                         <?php endif; ?>
@@ -641,5 +681,51 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 </ul>
+
+    <script>
+        if(!mw._xhrIcons) {
+            mw._xhrIcons = {}
+        }
+        var getIcon = function (url) {
+            return new Promise(function (resolve){
+                if(mw._xhrIcons[url]) {
+                    resolve(mw._xhrIcons[url])
+                } else {
+                    fetch(url)
+                        .then(function (data){
+                            return data.text();
+                        }).then(function (data){
+                        mw._xhrIcons[url] = data;
+                        resolve(mw._xhrIcons[url])
+                    })
+                }
+            })
+        }
+        $('[data-module-icon]').each(function (){
+
+            var src = this.dataset.moduleIcon.trim();
+            delete this.dataset.moduleIcon;
+            var img = this;
+            if(src.includes('.svg')) {
+                var el = document.createElement('div');
+                el.className = img.className;
+                var shadow = el.attachShadow({mode: 'open'});
+                getIcon(src).then(function (data){
+                    var shImg = document.createElement('div');
+                    shImg.innerHTML = data;
+                    shImg.part = 'mw-module-icon';
+                    shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                    Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                        style.remove()
+                    })
+                    shadow.appendChild(shImg);
+                    img.parentNode.replaceChild(el, img);
+                })
+            } else {
+                this.src = src;
+            }
+        })
+    </script>
+
 
 

@@ -253,16 +253,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
 
                                     <?php foreach ($fields as $field => $value): ?>
-                                        <button type="button" class="btn btn-link text-dark px-1"
-                                                dusk="add-custom-field-<?php print $field; ?>"
-                                                onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+
+                                        <button type="button" class="btn btn-link text-dark px-1" dusk="add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
                                                 <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>
                                             </div>
                                         </button>
                                     <?php endforeach; ?>
-
 
                                 </div>
                             </div>

@@ -432,8 +432,7 @@ mw._initHandles = {
                                      mw.drag.plus.locked = false;
                                  });
                                  mw._initHandles.hideAll();
-
-                                var tip = tooltip.tooltip.get(0);
+                                 var tip = tooltip.tooltip.get(0);
                                 setTimeout(function (){
                                     $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
                                 }, 10);
@@ -463,6 +462,46 @@ mw._initHandles = {
                                         tooltip.remove();
                                     };
                                 });
+                                 var getIcon = function (url) {
+                                     return new Promise(function (resolve){
+                                         if(mw._xhrIcons && mw._xhrIcons[url]) {
+                                             resolve(mw._xhrIcons[url])
+                                         } else {
+                                             fetch(url)
+                                                 .then(function (data){
+                                                     return data.text();
+                                                 }).then(function (data){
+                                                 mw._xhrIcons[url] = data;
+                                                 resolve(mw._xhrIcons[url])
+                                             })
+                                         }
+                                     })
+                                 }
+
+                                 $('[data-module-icon]').each(function (){
+
+                                     var src = this.dataset.moduleIcon.trim();
+                                     delete this.dataset.moduleIcon;
+                                     var img = this;
+                                     if(src.includes('.svg')) {
+                                         var el = document.createElement('div');
+                                         el.className = img.className;
+                                         var shadow = el.attachShadow({mode: 'open'});
+                                         getIcon(src).then(function (data){
+                                             var shImg = document.createElement('div');
+                                             shImg.innerHTML = data;
+                                             shImg.part = 'mw-module-icon';
+                                             shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                                             Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                                                 style.remove()
+                                             })
+                                             shadow.appendChild(shImg);
+                                             img.parentNode.replaceChild(el, img);
+                                         })
+                                     } else {
+                                         this.src = src;
+                                     }
+                                 })
                         }
                     }
                 }
@@ -650,6 +689,8 @@ mw._initHandles = {
                         } else {
                             mw.drag.plus.rendModules(node);
                         }
+
+
 
                     }
                 },
