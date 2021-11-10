@@ -1132,11 +1132,11 @@ a.text-dark:hover, a.text-dark:focus {
 
 
 ::part(mw-module-icon-svg)  {
-    fill: $primary !important;
+    fill: $secondary !important;
 }
 
 .mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
-    fill: $primary !important;
+    fill: $secondary !important;
 }
 
 .mw-tooltip-default.mw-tooltip-widget {
