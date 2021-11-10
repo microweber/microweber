@@ -72,10 +72,10 @@ if ($id != false) {
 
                 return false;
             });
-            $('#module_admin_settings_form_<?php print $params['id']; ?> .module-img').each(function (){
-                var src = this.dataset.src.trim();
+            $('.module-item-module img').each(function (){
+                var src = this.dataset.moduleIcon.trim();
                 var img = this;
-                if(src.includes('.svg')) {
+                 if(src.includes('.svg')) {
                     var el = document.createElement('div');
                     el.className = img.className;
                     var shadow = el.attachShadow({mode: 'open'});
