@@ -72,33 +72,7 @@ if ($id != false) {
 
                 return false;
             });
-            $('.module-item-module img').each(function (){
-                var src = this.dataset.moduleIcon.trim();
-                var img = this;
-                 if(src.includes('.svg')) {
-                    var el = document.createElement('div');
-                    el.className = img.className;
-                    var shadow = el.attachShadow({mode: 'open'});
-                    fetch(src)
-                    .then(function (data){
-                        return data.text();
-                    }).then(function (data){
-                        var shImg = document.createElement('div');
-                        shImg.innerHTML = data;
-                        shImg.part = 'mw-module-icon';
-                        shImg.querySelector('svg').part = 'mw-module-icon-svg';
 
-                        Array.from(shImg.querySelectorAll('style')).forEach(function (style){
-                            style.remove()
-                        })
-
-                        shadow.appendChild(shImg);
-                        img.parentNode.replaceChild(el, img);
-                    })
-                } else {
-                    this.src = src;
-                }
-            })
         });
     </script>
 
@@ -137,7 +111,7 @@ if ($id != false) {
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
                 <div class="d-flex align-items-center justify-content-center flex-column">
                     <?php if (isset($data['icon'])): ?>
-                        <img data-src="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
+                        <img data-module-icon="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
                     <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
@@ -171,3 +145,41 @@ if ($id != false) {
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+$(document).ready(function (){
+    console.log($('.module-item-module img'))
+    $('.module-item-module img,.mw-modules-module-holder img').each(function (){
+        var src = this.dataset.moduleIcon.trim();
+        var img = this;
+        if(src.includes('.svg')) {
+            var el = document.createElement('div');
+            el.className = img.className;
+            // var shadow = el.attachShadow({mode: 'open'});
+            var shadow = el;
+            fetch(src)
+                .then(function (data){
+                    return data.text();
+                }).then(function (data){
+                var shImg = document.createElement('div');
+                shImg.innerHTML = data;
+                shImg.part = 'mw-module-icon';
+                shImg.querySelector('svg').part = 'mw-module-icon-svg';
+
+                Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                    style.remove()
+                })
+                Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
+                    item.removeAttribute('class')
+                    item.removeAttribute('id')
+                })
+
+                shadow.appendChild(shImg);
+                img.parentNode.replaceChild(el, img);
+            })
+        } else {
+            this.src = src;
+        }
+    })
+})
+</script>
