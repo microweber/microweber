@@ -217,7 +217,7 @@
                     @endforeach
 
                     <a href="{{route('admin.role.index')}}" class="btn btn-outline-secondary btn-sm"><?php _e('Cancel'); ?></a>
-                    <button class="btn btn-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
+                    <button class="btn btn-outline-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
 
                     <button class="btn btn-success btn-sm float-right" type="submit"><?php _e('Save'); ?></button>
                 </form>

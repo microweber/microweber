@@ -195,7 +195,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
 
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success btn-sm js-save-offer"><?php _e("Save"); ?></button>
         </div>
     </div>
