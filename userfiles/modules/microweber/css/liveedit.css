@@ -1593,7 +1593,11 @@ body.has-opened-sidebar #live_edit_toolbar {
     display: inline-block;
     position: relative;
     max-width: 100%;
-    /*height: 40px;*/
+    min-height: 30px;
+}
+.module-item-module .mw_module_image_holder {
+    height: 30px;
+    width: 30px;
 }
 
 .mw_module_image_shadow {

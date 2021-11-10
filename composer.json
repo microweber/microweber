@@ -14,10 +14,6 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/"
-        },
-        {
-            "type": "composer",
-            "url": "https://private-packages.microweberapi.com/"
         }
     ],
     "require": {
@@ -77,8 +73,8 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "3.2",
-        "microweber-templates/shopmag": "1.4",
+        "microweber-templates/new-world": "3.5",
+        "microweber-templates/shopmag": "2.1",
         "lcobucci/jwt": "*",
         "laravel/passport": "10.1.2",
         "microweber-packages/microweber-class-alias": "dev-master",

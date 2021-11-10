@@ -38,9 +38,22 @@ mw.layoutPlus = {
         var items = mw.$('.modules-list li', tip);
         items.removeClass('tip')
         mw.$('input', tip).on('input', function () {
-                mw.tools.search(this.value, items, function (found) {
-                    $(this)[found?'show':'hide']();
-                });
+            var val = this.value.trim();
+            if(!val) {
+                items.hide().filter('.mw-accordion-title-2').show()
+                return;
+            }
+            mw.tools.search(this.value, items, function (found) {
+                var visible = found && !this.classList.contains('mw-accordion-title-2')
+                $(this)[ visible ? 'show' : 'hide']();
+                if(visible) {
+                    var img = this.querySelector('[data-url]');
+                    if (img) {
+                        img.src = img.dataset.url;
+                        delete img.dataset.url
+                    }
+                }
+            });
         });
         mw.$('.modules-list li', tip).on('click', function () {
             var id = mw.id('mw-layout-'), el = '<div id="' + id + '"></div>';
