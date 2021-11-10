@@ -337,9 +337,25 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     }
 
     $module_layouts_skins_grouped_ordered_positions = [
-      'titles',
-      'content',
-      'menu'
+        'titles',
+        'text block',
+        'content',
+        'features',
+        'gallery',
+        'call to action',
+        'blog',
+        'team',
+        'testimonials',
+        'contact us',
+        'grids',
+        'misc',
+        'price lists',
+        'video',
+        'ecommerce',
+        'header',
+        'menu',
+        'footers',
+        'other',
     ];
     if (isset($template_config['order_layouts_by_category']) && !empty($template_config['order_layouts_by_category'])) {
         $module_layouts_skins_grouped_ordered_positions = $template_config['order_layouts_by_category'];
@@ -485,49 +501,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
    $(document).ready(function (){
-       if(!mw._xhrIcons) {
-           mw._xhrIcons = {}
-       }
-       var getIcon = function (url) {
-           return new Promise(function (resolve){
-               if(mw._xhrIcons[url]) {
-                   resolve(mw._xhrIcons[url])
-               } else {
-                   fetch(url)
-                       .then(function (data){
-                           return data.text();
-                       }).then(function (data){
-                       mw._xhrIcons[url] = data;
-                       resolve(mw._xhrIcons[url])
-                   })
-               }
-           })
-       }
-       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
-         $('[data-module-icon]').each(function (){
 
-           var src = this.dataset.moduleIcon.trim();
-           delete this.dataset.moduleIcon;
-           var img = this;
-           if(src.includes('.svg')) {
-               var el = document.createElement('div');
-               el.className = img.className;
-               var shadow = el.attachShadow({mode: 'open'});
-               getIcon(src).then(function (data){
-                   var shImg = document.createElement('div');
-                   shImg.innerHTML = data;
-                   shImg.part = 'mw-module-icon';
-                   shImg.querySelector('svg').part = 'mw-module-icon-svg';
-                   Array.from(shImg.querySelectorAll('style')).forEach(function (style){
-                       style.remove()
-                   })
-                   shadow.appendChild(shImg);
-                   img.parentNode.replaceChild(el, img);
-               })
-           } else {
-               this.src = src;
-           }
-       })
+       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+
    })
 
 </script>
@@ -705,5 +681,51 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 </ul>
+
+    <script>
+        if(!mw._xhrIcons) {
+            mw._xhrIcons = {}
+        }
+        var getIcon = function (url) {
+            return new Promise(function (resolve){
+                if(mw._xhrIcons[url]) {
+                    resolve(mw._xhrIcons[url])
+                } else {
+                    fetch(url)
+                        .then(function (data){
+                            return data.text();
+                        }).then(function (data){
+                        mw._xhrIcons[url] = data;
+                        resolve(mw._xhrIcons[url])
+                    })
+                }
+            })
+        }
+        $('[data-module-icon]').each(function (){
+
+            var src = this.dataset.moduleIcon.trim();
+            delete this.dataset.moduleIcon;
+            var img = this;
+            if(src.includes('.svg')) {
+                var el = document.createElement('div');
+                el.className = img.className;
+                var shadow = el.attachShadow({mode: 'open'});
+                getIcon(src).then(function (data){
+                    var shImg = document.createElement('div');
+                    shImg.innerHTML = data;
+                    shImg.part = 'mw-module-icon';
+                    shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                    Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                        style.remove()
+                    })
+                    shadow.appendChild(shImg);
+                    img.parentNode.replaceChild(el, img);
+                })
+            } else {
+                this.src = src;
+            }
+        })
+    </script>
+
 
 
