@@ -387,6 +387,8 @@ class FormsManager
                     $customFieldType = 'text'; // custom field type
                     if (isset($item['options']['field_type'])) {
                         $customFieldType = $item['options']['field_type'];
+                    } else if(isset($item['type'])){
+                        $customFieldType = $item['type'];
                     }
 
                     foreach ($params as $paramKey => $paramValues) {
