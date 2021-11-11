@@ -3071,12 +3071,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "9e3511bee5efa86e591fb27efb7a894571c7a244"
+                "reference": "c55d23ab371b472342bee943a8bdb9c3cf963a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9e3511bee5efa86e591fb27efb7a894571c7a244",
-                "reference": "9e3511bee5efa86e591fb27efb7a894571c7a244",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c55d23ab371b472342bee943a8bdb9c3cf963a18",
+                "reference": "c55d23ab371b472342bee943a8bdb9c3cf963a18",
                 "shasum": ""
             },
             "require": {
@@ -3179,7 +3179,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-21T23:15:39+00:00"
+            "time": "2021-11-11T15:47:52+00:00"
         },
         {
             "name": "halaxa/json-machine",
@@ -5546,17 +5546,31 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "f1c68b79417f19479b3c1afe424a36db26f8cef9"
+                "reference": "1ecc5cd5e71cce2405b3bbe79be580dc878b7a42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-f1c68b79417f19479b3c1afe424a36db26f8cef9-zip-45a088.zip",
-                "reference": "f1c68b79417f19479b3c1afe424a36db26f8cef9",
-                "shasum": "efd21cb9b6666078af7d9062502c6d43ff51e19d"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-1ecc5cd5e71cce2405b3bbe79be580dc878b7a42-zip-59807d.zip",
+                "reference": "1ecc5cd5e71cce2405b3bbe79be580dc878b7a42",
+                "shasum": "82d5a67e80ab9a79b66d3e57d673b9b78d841869"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "http://templates.microweber.com/new-world/"
+                "preview_url": "http://templates.microweber.com/new-world/",
+                "_meta": {
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/screenshot.jpg",
+                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/plugins/slick/fonts/slick.svg",
+                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-line.svg",
+                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-vertical.svg",
+                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/quotes.svg",
+                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-old.svg",
+                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-zigzag.svg",
+                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr.svg",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/readme.md"
+                }
             },
             "license": [
                 "MIT"
@@ -5575,7 +5589,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-11-11T11:21:48+00:00"
+            "time": "2021-11-11T13:52:36+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
@@ -5597,6 +5611,9 @@
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
                     "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/screenshot.jpg",
+                    "seaside_groove-webfont": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
+                    "ventoux": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/fonts/ventoux/fonts/ventoux.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/plugins/slick/fonts/slick.svg",
                     "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/readme.md"
                 }
             },
@@ -15540,12 +15557,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "b4bd13271c2890589c4ac9ba1a243d107c7016e8"
+                "reference": "65e8b7db476c5dd267e65eea9cab77584d3cfff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/b4bd13271c2890589c4ac9ba1a243d107c7016e8",
-                "reference": "b4bd13271c2890589c4ac9ba1a243d107c7016e8",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/65e8b7db476c5dd267e65eea9cab77584d3cfff9",
+                "reference": "65e8b7db476c5dd267e65eea9cab77584d3cfff9",
                 "shasum": ""
             },
             "require": {
@@ -15609,7 +15626,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-11T08:46:30+00:00"
+            "time": "2021-11-11T14:18:36+00:00"
         },
         {
             "name": "sebastian/global-state",
