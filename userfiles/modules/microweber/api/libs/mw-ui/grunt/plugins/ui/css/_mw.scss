@@ -19,7 +19,9 @@ body {
 }
 
 .container {
-  max-width: 90%;
+    width: 1920px;
+    max-width: 90%;
+
     @media screen and (max-width: 1600px) {
         max-width: 90%;
     }

@@ -106,7 +106,7 @@ if ($params['coupon_id'] !== 'false') {
         <?php } ?>
 
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success btn-sm js-save-coupon"><?php _e("Save"); ?></button>
         </div>
     </div>

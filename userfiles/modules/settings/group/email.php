@@ -306,7 +306,7 @@
 
                                         <div class="row">
                                             <div class="col-12 d-flex justify-content-between">
-                                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
                                                 <button type="button" onclick="mw.email_send_test();" class="btn btn-success btn-sm" id="email_send_test_btn"><?php _e("Send Test Email"); ?></button>
                                             </div>
                                         </div>

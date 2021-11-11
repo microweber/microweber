@@ -450,9 +450,10 @@ class AdminTemplateStyle
 
 
         $scss = new \ScssPhp\ScssPhp\Compiler();
+    //    $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
         $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
 
-        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
+        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_NONE);
 
         $compiled_output_path = str_replace(mw_root_path(),'',$compiled_output_path);
 
@@ -462,7 +463,8 @@ class AdminTemplateStyle
             'sourceMapWriteTo' => $compiled_css_map_output_path_file,
             'sourceMapURL' => $compiled_css_map_output_path_url,
             'sourceMapBasepath' => $compiled_output_path,
-            'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
+            //'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
+            'sourceRoot' =>   '../grunt/plugins/ui/css/',
         ]);
 
 

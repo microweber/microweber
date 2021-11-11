@@ -107,9 +107,9 @@
     function getTaggingTagButtonHtml(id, name, slug, posts_count =0) {
 
         var html = '<div class="btn-group tag mb-3 mr-3 btn-tag-id-' + id + '" role="group">' +
-            '    <button type="button" class="btn btn-secondary btn-sm icon-left" data-slug="' + slug + '" onClick="showPostsWithTags(this)"><strong>' + name + '</strong> <small class="ml-1 text-muted">(' + posts_count + ')</small></button>' +
-            '    <button type="button" class="btn btn-secondary btn-sm btn-icon" onClick="editTaggingTag(' + id + ')"><i class="mdi mdi-pencil text-primary"></i></button>' +
-            '    <button type="button" class="btn btn-secondary btn-sm btn-icon" onClick="deleteTaggingTag(' + id + ')"><i class="mdi mdi-close text-danger"></i></button>' +
+            '    <button type="button" class="btn btn-outline-secondary btn-sm icon-left" data-slug="' + slug + '" onClick="showPostsWithTags(this)"><strong>' + name + '</strong> <small class="ml-1 text-muted">(' + posts_count + ')</small></button>' +
+            '    <button type="button" class="btn btn-outline-secondary btn-sm btn-icon" onClick="editTaggingTag(' + id + ')"><i class="mdi mdi-pencil text-primary"></i></button>' +
+            '    <button type="button" class="btn btn-outline-secondary btn-sm btn-icon" onClick="deleteTaggingTag(' + id + ')"><i class="mdi mdi-close text-danger"></i></button>' +
             '</div>';
 
         return html;

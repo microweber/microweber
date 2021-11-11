@@ -252,7 +252,7 @@ if (isset($params['viewsize'])) {
                                         </a>
 
                                         <div class="mw-browser-uploader-path">
-                                            <ol class="breadcrumb bg-transparent p-0 m-0">
+                                            <ol class="breadcrumb bg-transparent py-0 m-0">
                                                 <li class="breadcrumb-item"><a href="#path="><?php _e('Main') ?></a></li>
 
                                                 <a href="#path=" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"></span></a>/
