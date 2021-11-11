@@ -305,6 +305,7 @@ mw.wysiwyg = {
 
     },
     contentEditable: function (el, state) {
+
         if (!el) {
             return;
         }
@@ -332,15 +333,22 @@ mw.wysiwyg = {
             state = 'false';
         }
         if(state === 'true'){
+            if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'noedit'])){
+                state = 'false'
+            }
+        }
+        if(state === 'true'){
             if(mw.wysiwyg.isSafeMode(el)){
             } else {
 
                 el = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode']);
             }
+
         }
         if (typeof(mw.liveedit) != 'undefined' && mw.liveedit.data.set('mouseup', 'isIcon')) {
             state = false;
         }
+
         if(el && el.contentEditable !== state) { // chrome setter needs a check
 
             el.contentEditable = state;
@@ -1334,7 +1342,7 @@ mw.wysiwyg = {
     },
 
     editable: function (el) {
-        var el = mw.wysiwyg.validateCommonAncestorContainer(el);
+        el = mw.wysiwyg.validateCommonAncestorContainer(el);
         return el.isContentEditable && ['SELECT', 'INPUT', 'TEXTAREA'].indexOf(el.nodeName) === -1;
     },
     getNextNode: function (node) {
