@@ -275,10 +275,14 @@ if ($file and is_file($file)) {
 
         <div class="mw-css-editor-c2a-nav">
 
-                <span onclick="live_edit_savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
 
 
                 <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
+
+
+
+              <span onclick="live_edit_savecss();" class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-invert"><?php _e('Save'); ?></span>
+
 
 
         </div>
