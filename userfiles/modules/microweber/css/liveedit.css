@@ -1595,7 +1595,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     max-width: 100%;
     min-height: 30px;
 }
-.module-item-module .mw_module_image_holder {
+.module-item-module:not(.default-layouts) .mw_module_image_holder {
     height: 30px;
     width: 30px;
 }
@@ -5010,3 +5010,11 @@ body.dragStart picture img{
 #mw-dialog-module-settings{
     overflow: hidden;
 }
+
+
+[data-module-icon]{
+
+    min-height: 30px;
+    opacity: 0;
+ }
+

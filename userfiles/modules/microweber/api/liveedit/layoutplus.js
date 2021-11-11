@@ -40,17 +40,24 @@ mw.layoutPlus = {
         mw.$('input', tip).on('input', function () {
             var val = this.value.trim();
             if(!val) {
-                items.hide().filter('.mw-accordion-title-2').show()
+                var all = items.hide();
+                var filtered = all.filter('.mw-accordion-title-2');
+                if (filtered.length > 1 ) {
+                    filtered.show();
+                } else {
+                    all.show();
+                }
+
                 return;
             }
             mw.tools.search(this.value, items, function (found) {
                 var visible = found && !this.classList.contains('mw-accordion-title-2')
                 $(this)[ visible ? 'show' : 'hide']();
                 if(visible) {
-                    var img = this.querySelector('[data-url]');
+                    var img = this.querySelector('[data-module-icon]');
                     if (img) {
-                        img.src = img.dataset.url;
-                        delete img.dataset.url
+                        img.src = img.dataset.moduleIcon;
+                        delete img.dataset.moduleIcon
                     }
                 }
             });
