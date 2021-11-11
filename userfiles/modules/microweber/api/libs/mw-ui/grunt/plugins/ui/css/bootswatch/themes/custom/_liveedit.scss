@@ -525,3 +525,9 @@
 
     }
 }
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primarty!important;
+    color: $sedoncary!important;
+}
