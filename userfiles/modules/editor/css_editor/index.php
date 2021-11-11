@@ -131,18 +131,36 @@
 
 
         savecss = function(){
+
+            var cssval = css_code_area_editor.getValue();
+            var err_text = '';
+            var errors = CodeMirror.lint.css(cssval, []);
+            if (errors.length) {
+                for (var i = 0; i < errors.length; i++) {
+                    message = errors[i];
+                    err_text += "\n" + message.message;
+                }
+            }
+
+            if (err_text != '') {
+                mw.notification.warning(err_text)
+                return;
+            }
+
             mw.options.saveOption({
-                group:'template',
-                key:'custom_css',
-                value:css_code_area_editor.getValue()
-            },
+                    group: 'template',
+                    key: 'custom_css',
+                    value: cssval
+                },
             function(){
                 var el = (window.opener || top).$('#mw-custom-user-css')[0];
 
                 if(el){
+
                 var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                 el.href = custom_fonts_stylesheet_restyled;
                 mw.tools.refresh(el)
+                mw.notification.success('Custom CSS is saved')
                 }
             });
         }
@@ -187,8 +205,27 @@ if ($file and is_file($file)) {
 
     live_edit_savecss = function () {
 
+
+        var cssval = live_edit_css_code_area_editor.getValue();
+        var err_text = '';
+        var errors = CodeMirror.lint.css(cssval, []);
+        if (errors.length) {
+            for (var i = 0; i < errors.length; i++) {
+                message = errors[i];
+                err_text += "\n" + message.message;
+            }
+        }
+
+        if (err_text != '') {
+            mw.notification.warning(err_text)
+            return;
+        }
+
+
+
+
         var css = {
-            css_file_content: live_edit_css_code_area_editor.getValue(),
+            css_file_content: cssval,
             active_site_template: '<?php print $template ?>'
         };
         $.post(mw.settings.api_url + "current_template_save_custom_css", css, function (res) {
