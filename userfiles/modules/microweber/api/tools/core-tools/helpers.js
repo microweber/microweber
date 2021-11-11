@@ -124,7 +124,9 @@
             if (!!item.type && !!item.target) {
                 el = item.target;
             }
-            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+
+            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module'])
+                && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'noedit']);
         },
         eachIframe: function (callback, root, ignore) {
             root = root || document;
