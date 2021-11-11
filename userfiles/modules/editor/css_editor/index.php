@@ -29,9 +29,15 @@
         z-index: 4;
         justify-content: flex-end;
     }
+    #custom_html_code_mirror_save {
+        padding: 15px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
 
     #custom_html_code_mirror_container{
-        max-height: calc(100vh - 220px);
+        max-height: calc(100vh - 240px);
         overflow: auto;
     }
     #select_edit_field_container{

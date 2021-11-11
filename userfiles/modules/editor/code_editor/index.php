@@ -26,9 +26,7 @@
         .module-live-edit-settings > .mw-ui-box-content{
             padding: 0;
         }
-        #code-editor-settings{
-            padding: 20px 0 !important;
-        }
+
         #code_editor_main_tabnav{
             padding: 0 20px;
         }

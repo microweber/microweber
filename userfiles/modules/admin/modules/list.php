@@ -281,7 +281,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             class="module_draggable"
             data-module-name-enc="static_layout_<?php print date("YmdHis") . $i++ ?>"
             data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
-            src="<?php print $dynamic_layout['icon'] ?>"
+            data-module-icon="<?php print $dynamic_layout['icon'] ?>"
     /> </span></span> <span class="module_name"
                             alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
     <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
@@ -475,7 +475,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-                                        data-url="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
+                                     data-module-icon="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
                             </span>
                         </span>
                         <span class="module_name"
@@ -701,8 +701,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 }
             })
         }
+    setInterval(function (){
         $('[data-module-icon]').each(function (){
-
             var src = this.dataset.moduleIcon.trim();
             delete this.dataset.moduleIcon;
             var img = this;
@@ -730,6 +730,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 this.src = src;
             }
         })
+    }, 1000)
     </script>
 
 
