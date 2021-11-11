@@ -65,6 +65,10 @@ if ($json != false) {
 ?>
 
 <style>
+    #settings-container {
+        padding: 0;
+    }
+
     #mw-template-settings-holder .mw-ui-btn {
         white-space: normal;
         padding-top: 5px;

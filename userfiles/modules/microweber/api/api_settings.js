@@ -336,6 +336,10 @@
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
             }
         ],
+        codemirror: [
+            'index.php',
+            'style.css'
+        ]
     };
 
     mw.lib = {
@@ -356,41 +360,6 @@
                 (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
             }
         },
-        get: function (name, done, error) {
-            if (mw.lib._required.indexOf(name) !== -1) {
-                if (typeof done === 'function') {
-                    done.call();
-                }
-                return false;
-            }
-
-            if (typeof mw.settings.libs[name] === 'undefined') return false;
-            if (mw.settings.libs[name].constructor !== [].constructor) return false;
-            mw.lib._required.push(name);
-            var path = mw.settings.libs_url + name + '/',
-                arr = mw.settings.libs[name],
-                l = arr.length,
-                i = 0,
-                c = 1;
-            for (; i < l; i++) {
-                var xhr = $.cachedScript(path + arr[i]);
-                xhr.done(function () {
-                    c++;
-                    if (c === l) {
-                        if (typeof done === 'function') {
-                            done.call();
-                        }
-                    }
-                });
-                xhr.fail(function (jqxhr, settings, exception) {
-
-                    if (typeof error === 'function') {
-                        error.call(jqxhr, settings, exception);
-                    }
-
-                });
-            }
-        }
     };
 
     mw.lang = function (key) {

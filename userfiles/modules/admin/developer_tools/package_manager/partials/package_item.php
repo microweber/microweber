@@ -43,11 +43,11 @@ if(!isset($item['type'] )){
                     <?php
                     $href_open_mod = module_admin_url($item['current_install']['module_details']['module']);
                     ?>
-                    <a href="<?php echo $href_open_mod; ?>" class="btn btn-md btn-link text-dark p-0 font-weight-bold">
+                    <a href="<?php echo $href_open_mod; ?>" class="btn btn-md btn-link  p-0 font-weight-bold">
                         <?php print $item['description'] ?>
                     </a>
                     <?php else: ?>
-                        <span class="text-dark p-0 font-weight-bold">
+                        <span class=" p-0 font-weight-bold">
                             <?php print $item['description'] ?>
                         </span>
                     <?php endif; ?>

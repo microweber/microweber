@@ -772,7 +772,7 @@ input, .custom-select {
     border-color: $primary!important;
 }
 
-.mw-ui-box-header, .card-header {
+.mw-ui-box-header, .card-header, .mw-ui-box-header {
     background-color: $black!important;
 }
 
@@ -957,15 +957,19 @@ input, .custom-select {
     color: $primary!important;
 }
 
+.mw-ui-btn-tab {
+    color: $secondary!important;
+
+    &:hover {
+        background-color: $primary!important;
+        color: white !important;
+    }
+}
+
 .mw-ui-btn-tab.active {
     border-bottom-color: $primary!important;
     text-decoration: none;
     color: $secondary!important;
-}
-
-.mw-ui-btn-tab:hover {
-    background-color: $primary!important;
-    color: white !important;
 }
 
 .mw-select {
@@ -1157,6 +1161,20 @@ a.text-dark:hover, a.text-dark:focus {
 .mw-inline-source-editor textarea {
     color: $secondary!important;
 }
-.theme-color-picker label.control-label, .form-control-plaintext, .form-control, .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+.theme-color-picker label.control-label, .form-control-plaintext, .form-control, .bootstrap-select .dropdown-toggle .filter-option-inner-inner, .mw-editor-controller-button, .mw-alert-holder {
+    color: $secondary!important;
+}
+
+.mw-css-editor-c2a-nav {
+    background-color: $black!important;
+}
+
+.mw-browser-list li.mw-browser-list-folder:hover .as-image {
+    background-color: $primary!important;
+}
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primary!important;
     color: $secondary!important;
 }
