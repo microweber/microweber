@@ -504,7 +504,7 @@
     background-color: $black!important;
 }
 
-.mw-inline-source-editor textarea {
+.mw-inline-source-editor textarea, .mw-editor-controller-button, .mw-alert-holder{
     color: $secondary!important;
 }
 
@@ -524,4 +524,10 @@
         background-color: $primary;
 
     }
+}
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primary!important;
+    color: $secondary!important;
 }

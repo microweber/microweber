@@ -337,8 +337,26 @@
             }
         ],
         codemirror: [
-            'index.php',
-            'style.css'
+            function () {
+                mw.require(mw.settings.libs_url + 'codemirror' + '/codemirror.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/javascript.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/csslint.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css-lint-plugin.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/htmlmixed.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/php.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/autorefresh.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/selection-pointer.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml-fold.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/matchtags.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-html.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/style.css');
+            }
+
         ]
     };
 
