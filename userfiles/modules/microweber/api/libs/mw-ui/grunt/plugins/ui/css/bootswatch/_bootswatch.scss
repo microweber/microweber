@@ -1172,3 +1172,9 @@ a.text-dark:hover, a.text-dark:focus {
 .mw-browser-list li.mw-browser-list-folder:hover .as-image {
     background-color: $primary!important;
 }
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primarty!important;
+    color: $sedoncary!important;
+}
