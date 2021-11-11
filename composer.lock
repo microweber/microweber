@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2a0a674d4d7ba5674cdf8a47aa5b6d8",
+    "content-hash": "47561b52fb516734378bf4b7be31ad35",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5541,26 +5541,22 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "3.5",
+            "version": "3.7",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "d9b5c9c5186710f0bb1cbf0a9602f71bdfcf9649"
+                "reference": "f1c68b79417f19479b3c1afe424a36db26f8cef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-d9b5c9c5186710f0bb1cbf0a9602f71bdfcf9649-zip-e12273.zip",
-                "reference": "d9b5c9c5186710f0bb1cbf0a9602f71bdfcf9649",
-                "shasum": "e57f9b95320f2e65c23006106689c66365caa720"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-f1c68b79417f19479b3c1afe424a36db26f8cef9-zip-45a088.zip",
+                "reference": "f1c68b79417f19479b3c1afe424a36db26f8cef9",
+                "shasum": "efd21cb9b6666078af7d9062502c6d43ff51e19d"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "http://templates.microweber.com/new-world/",
-                "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/e57f9b95320f2e65c23006106689c66365caa720/screenshot.jpg",
-                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/e57f9b95320f2e65c23006106689c66365caa720/readme.md"
-                }
+                "preview_url": "http://templates.microweber.com/new-world/"
             },
             "license": [
                 "MIT"
@@ -5579,7 +5575,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-11-09T11:48:47+00:00"
+            "time": "2021-11-11T11:21:48+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
