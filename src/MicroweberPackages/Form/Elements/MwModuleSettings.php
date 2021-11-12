@@ -14,6 +14,10 @@ class MwModuleSettings extends TextArea
         }
         $schema = json_encode($this->getAttribute('schema'));
 
+        if(!$data or $data == ''){
+        $data = "[]";
+        }
+
         $html = '
 <script>mw.require(\'prop_editor.js\')</script>
 <script>mw.require(\'module_settings.js\')</script>

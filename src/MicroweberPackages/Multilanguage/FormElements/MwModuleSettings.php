@@ -73,6 +73,13 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
             $mwModuleSettingsId = $this->randId . $language['locale'];
 
+
+            if(!$inputValue or $inputValue == ''){
+                $inputValue = "[]";
+            }
+
+
+
             $html .= '<div class="tab-pane fade '.$showTab.' js-multilanguage-tab-'.$this->randId.'" id="mlfield' . $this->randId . $language['locale'] . '">
 
                 <script>
