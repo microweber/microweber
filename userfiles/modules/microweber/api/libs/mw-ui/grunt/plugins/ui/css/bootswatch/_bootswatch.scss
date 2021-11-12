@@ -1154,6 +1154,11 @@ a.text-dark:hover, a.text-dark:focus {
 .a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input {
     color: $secondary!important;
 }
+
+.a-color-picker-row:not(:first-child) {
+    border: 1px solid primary!important;
+}
+
 .mw-tooltip-insert-module h3 {
     color: $secondary!important;
 }
