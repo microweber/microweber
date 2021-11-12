@@ -77,7 +77,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 $('form#add-testimonial-form').submit()
 
             }
+            if(typeof thismodal != 'undefined'){
                 thismodal.resize(800, 800)
+            }
         </script>
 
         <?php

@@ -237,6 +237,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     \DB::table('media')->where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
                 }
             }
+            event_trigger('mw.reset_modules_settings', $modules_ids);
+
             $this->app->cache_manager->delete('options');
             $this->app->cache_manager->delete('media');
 
