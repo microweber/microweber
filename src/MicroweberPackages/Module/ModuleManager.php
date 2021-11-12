@@ -282,17 +282,12 @@ class ModuleManager
             $glob_patern = '*config.php';
         }
 
-        if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
-            define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
-        }
 
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-//            ini_set('memory_limit', '160M');
-//            ini_set('set_time_limit', 0);
-//        }
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-//            set_time_limit(600);
-//        }
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
+ 
 
         $dir = rglob($glob_patern, 0, $dir_name);
 
