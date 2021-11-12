@@ -171,7 +171,7 @@ mw.drag.plus = {
                  var src = this.dataset.moduleIcon.trim();
                  delete this.dataset.moduleIcon;
                  var img = this;
-                 if(src.includes('.svg')) {
+                 if(src.includes('.svg') && src.includes(location.origin)) {
                      var el = document.createElement('div');
                      el.className = img.className;
                      // var shadow = el.attachShadow({mode: 'open'});
