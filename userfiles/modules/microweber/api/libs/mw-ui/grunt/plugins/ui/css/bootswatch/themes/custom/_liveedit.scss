@@ -380,8 +380,12 @@
 }
 
 
-.mw-tooltip-default .mw-tooltip-content {
+.mw-tooltip-default .mw-tooltip-content, .a-color-picker {
     background-color: $black!important;
+}
+
+.a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input {
+    color: $secondary!important;
 }
 
 .mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
