@@ -1156,7 +1156,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .a-color-picker-row:not(:first-child) {
-    border: 1px solid primary!important;
+    border: 1px solid $primary!important;
 }
 
 .mw-tooltip-insert-module h3 {
