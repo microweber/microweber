@@ -2961,7 +2961,7 @@ MWEditor.core = {
         var curr = lscope.select.get(0);
         this.select.on('click', function (e) {
             e.stopPropagation();
-            var wrapper = mw.tools.firstParentWithClass(this, 'mw-editor-wrapper');
+            var wrapper = _classes_dom__WEBPACK_IMPORTED_MODULE_2__.DomService.firstParentOrCurrentWithClass(this, 'mw-editor-wrapper');
             if (wrapper) {
                 var edOff = wrapper.getBoundingClientRect();
                 var selOff = this.getBoundingClientRect();

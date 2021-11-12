@@ -728,6 +728,7 @@ mw.content = mw.content || {
                         callback.call(result, result);
                     }
                     mw.reload_module_everywhere('content/manager');
+                    mw.reload_module_everywhere('categories');
                     mw.url.windowDeleteHashParam('action');
                 }
             });
@@ -861,8 +862,7 @@ mw.content = mw.content || {
                 }
 
             }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
+             mw.askusertostay = false;
         });
     }
 };
@@ -5675,10 +5675,8 @@ window.onmessage = function (e) {
                         if(scope.settings.on.progress) {
                             scope.settings.on.progress(dataProgress, res);
                         }
-                        console.log('a1', res)
 
                     } else {
-                        console.log('a2', res)
                         dataProgress = {
                             percent: '100'
                         };
@@ -5721,8 +5719,7 @@ window.onmessage = function (e) {
 
         this.uploadFiles = function () {
             if (this.settings.async) {
-                console.log(7777, this.files)
-                if (this.files.length) {
+                 if (this.files.length) {
                     this.uploading(true);
                     var file = this.files[0]
                     scope.uploadFile(file)
@@ -11022,7 +11019,9 @@ mw.extradataForm = function (options, data, func) {
             if (!!item.type && !!item.target) {
                 el = item.target;
             }
-            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+
+            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module'])
+                && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'noedit']);
         },
         eachIframe: function (callback, root, ignore) {
             root = root || document;
