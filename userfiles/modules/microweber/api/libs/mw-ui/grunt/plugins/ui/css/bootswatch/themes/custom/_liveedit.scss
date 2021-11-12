@@ -544,3 +544,9 @@
     background-color: $textGray!important;
     color: $secondary!important;
 }
+
+}
+
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: $primary!important;
+}
