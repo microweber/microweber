@@ -187,7 +187,7 @@ function SVGtoCode() {
 
 
         $.ajax({
-            url:imgURL,
+            url: imgURL,
             cache: true,
             success: function(data) {
 

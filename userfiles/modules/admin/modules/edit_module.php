@@ -148,11 +148,11 @@ if ($id != false) {
 
 <script>
 $(document).ready(function (){
-    console.log($('.module-item-module img'))
+
     $('.module-item-module img,.mw-modules-module-holder img').each(function (){
         var src = this.dataset.moduleIcon.trim();
         var img = this;
-        if(src.includes('.svg')) {
+        if(src.includes('.svg') && src.includes(location.origin)) {
             var el = document.createElement('div');
             el.className = img.className;
             // var shadow = el.attachShadow({mode: 'open'});
