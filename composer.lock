@@ -9747,12 +9747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "8fe6171a41f54e508a37902e249b4f96a47d1202"
+                "reference": "7521beb5a984d031f20ef3d9c9bb3f16feab4d1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/8fe6171a41f54e508a37902e249b4f96a47d1202",
-                "reference": "8fe6171a41f54e508a37902e249b4f96a47d1202",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/7521beb5a984d031f20ef3d9c9bb3f16feab4d1b",
+                "reference": "7521beb5a984d031f20ef3d9c9bb3f16feab4d1b",
                 "shasum": ""
             },
             "require": {
@@ -9827,7 +9827,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-06T10:24:50+00:00"
+            "time": "2021-11-12T11:42:37+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -10527,12 +10527,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "48069c293c530f3ce9bcb2b8740912e25c2b0766"
+                "reference": "0ba89e4c54853a8e2b94cdf9a81d345fad32d12a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/48069c293c530f3ce9bcb2b8740912e25c2b0766",
-                "reference": "48069c293c530f3ce9bcb2b8740912e25c2b0766",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/0ba89e4c54853a8e2b94cdf9a81d345fad32d12a",
+                "reference": "0ba89e4c54853a8e2b94cdf9a81d345fad32d12a",
                 "shasum": ""
             },
             "require": {
@@ -10607,7 +10607,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-04T17:53:45+00:00"
+            "time": "2021-11-12T11:42:37+00:00"
         },
         {
             "name": "symfony/mime",
