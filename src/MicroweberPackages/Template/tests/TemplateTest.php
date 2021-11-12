@@ -54,7 +54,7 @@ class TemplateTest extends TestCase
             }'
         ));
 
-
+        app()->ui->admin_colors_sass = false;
         $compile = app()->template->admin->compileAdminCss();
         $this->assertTrue(str_contains($compile, '#efecec'));
 
