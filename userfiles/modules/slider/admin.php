@@ -47,7 +47,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             'interface' => 'select',
                             'label' => ['Skin'],
                             'id' => 'skin',
-                            'options' => 'skins'
+                            'options' => ['default']
                         ],
                         [
                             'interface' => 'icon',
