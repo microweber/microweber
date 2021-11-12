@@ -549,3 +549,13 @@
 .mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
     border-color: $primary!important;
 }
+
+.card.style-1 .card-header-fix .card-header {
+    border-color: $primary!important;
+    background-color: $black;
+}
+
+.card.style-1 .card-header-fix .card-header.post-header-content-changed {
+    background-color: $body-bg!important;
+    border: 1px solid $primary!important;
+}
