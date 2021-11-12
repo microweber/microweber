@@ -388,6 +388,10 @@
     color: $secondary!important;
 }
 
+.a-color-picker-row:not(:first-child) {
+    border: 1px solid primary!important;
+}
+
 .mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
     color: unset!important;
 }
