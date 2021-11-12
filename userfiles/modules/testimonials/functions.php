@@ -1,19 +1,46 @@
 <?php
 
+//event_bind('mw.reset_modules_settings', function ($modules_ids)  {
+//    if($modules_ids and is_array($modules_ids) and !empty($modules_ids)) {
+//        foreach ($modules_ids as  $modules_id) {
+//          //  dd($modules_id);
+//        }
+//    }
+//});
+
+
+
 api_expose('project_testimonial_autocomplete');
 function project_testimonial_autocomplete($params)
 {
     if (!is_admin()) {
         return;
     }
+    $keyword = false;
+    if(isset($params['keyword']) and $params['keyword']){
+        $keyword =htmlentities( $params['keyword'], ENT_QUOTES, 'UTF-8', false);
+    }
 
-    $keyword = $params['keyword'];
-    $getTestimonials = \Illuminate\Support\Facades\DB::table('testimonials')->where('project_name', 'LIKE', '%'.$keyword.'%')->groupBy('project_name')->get();
+
+    $getTestimonials = \Illuminate\Support\Facades\DB::table('testimonials');
+    if ($keyword) {
+        $getTestimonials = $getTestimonials->where('project_name', 'LIKE', '%' . $keyword . '%');
+    }
+    $getTestimonials=$getTestimonials->groupBy('project_name')->get();
+
+
     $testimonials = [];
+    if ($keyword) {
+        $testimonials[] = [
+            'id'=>$keyword,
+            'title'=>$keyword,
+        ];
+    }
     $testimonials[] = [
         'id'=>'All projects',
         'title'=>'All projects',
     ];
+
     foreach ($getTestimonials as $getTestimonial) {
         $testimonials[] = [
             'id' => $getTestimonial->project_name,
