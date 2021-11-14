@@ -5486,7 +5486,7 @@
             "target-dir": "new-world",
             "source": {
                 "type": "git",
-                "url": "git@github.com:microweber-templates/new-world.git",
+                "url": "https://github.com/microweber-templates/new-world.git",
                 "reference": "a9caf30ee5e27baa17755ce6998443fb7361a4ed"
             },
             "dist": {
