@@ -188,6 +188,11 @@ class Template
                 include $file;
                 if (isset($config)) {
                     $config['dir_name'] = basename($dir);
+                    if($dir and is_dir($dir) and is_link($dir) ){
+                        $config['is_symlink'] = true;
+                    } else {
+                        $config['is_symlink'] = false;
+                    }
                     $this->template_config_cache[$file] = $config;
                     return $config;
                 }
@@ -767,18 +772,8 @@ class Template
      */
     public function site_templates($options = false)
     {
-        $args = func_get_args();
-        $function_cache_id = '';
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'templates';
-        $cache_content = false;
-        //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if (($cache_content) != false) {
-            // return $cache_content;
-        }
+
+
         if (!isset($options['path'])) {
             $path = templates_path();
         } else {
@@ -807,7 +802,7 @@ class Template
             $filename = normalize_path($filename);
             $filename = rtrim($filename, '\\');
             $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
-            if (!@is_file($filename) and @is_dir($filename)) {
+            if (!is_file($filename) and is_dir($filename)) {
                 $skip = false;
                 $fn1 = normalize_path($filename, true) . 'config.php';
                 $fn2 = normalize_path($filename);
@@ -815,8 +810,17 @@ class Template
                     $config = false;
                     include $fn1;
                     if (!empty($config)) {
+                        $config['is_symlink'] = false;
+
+                        if($dir and is_dir($filename) and is_link($filename) ){
+                            $config['is_symlink'] = true;
+                        }
+
+
                         $c = $config;
                         $c['dir_name'] = $dir;
+
+
                         $screensshot_file = $fn2 . '/screenshot.jpg';
                         $screensshot_file = normalize_path($screensshot_file, false);
 
