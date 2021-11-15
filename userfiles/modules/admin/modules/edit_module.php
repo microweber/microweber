@@ -147,8 +147,7 @@ if ($id != false) {
 
 <script>
 $(document).ready(function (){
-    console.log($('.module-item-module img'))
-    $('.module-item-module img,.mw-modules-module-holder img').each(function (){
+     $('.module-item-module img,.mw-modules-module-holder img').each(function (){
         var src = this.dataset.moduleIcon.trim();
         var img = this;
         if(src.includes('.svg')) {

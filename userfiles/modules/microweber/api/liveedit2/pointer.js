@@ -73,6 +73,7 @@ export const GetPointerTargets = function(options)  {
     }
     this.fromPoint = function (x, y) {
         var res = [];
+        console.log(scope.document)
          var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
         addNode(el, res);

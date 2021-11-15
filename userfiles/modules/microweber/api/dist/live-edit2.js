@@ -1875,19 +1875,7 @@ const ElementHandleContent = function (proto) {
     this.menu.show()
 
     this.root.append(this.menu.root)
-    this.imageControl = (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
-        props: {
-            className: 'mw-handle-item-element-image-control'
-        }
-    });
-    const filemng = new proto.settings.filePickerAdapter({
-        element: this.imageControl.get(0),
-        onResult: (res) => {
-            this.menu.getTarget().src = res
-        }
-    })
 
-    this.root.append(this.imageControl)
 
 }
 
@@ -2742,6 +2730,7 @@ const GetPointerTargets = function(options)  {
     }
     this.fromPoint = function (x, y) {
         var res = [];
+        console.log(scope.document)
          var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
         addNode(el, res);
@@ -2873,39 +2862,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class FilePickerAdapter {
-    constructor(options) {
-        if(!options) {
-            options = {}
-        }
-        const defaults = {
-            element: null,
-            onResult: null
-        }
-        this.settings = Object.assign({}, defaults, options);
-        this.create()
-    }
-
-    create() {
-        const input = (0,_classes_element__WEBPACK_IMPORTED_MODULE_10__.ElementManager)({
-            tag: 'input',
-            props: {
-                type: 'file',
-                accept: 'image/*'
-            }
-        })
-        input.on('input', () => {
-            var reader = new FileReader();
-            reader.readAsDataURL(input.get(0).files[0]);
-            reader.onload = () => {
-                if(this.settings.onResult) {
-                    this.settings.onResult.call(this, reader.result)
-                }
-            };
-        });
-        this.settings.element.appendChild(input.get(0))
-    }
-}
 
 class LiveEdit {
 
@@ -2932,7 +2888,6 @@ class LiveEdit {
             emptyElementClass: 'empty-element',*/
             nodrop: 'nodrop',
             allowDrop: 'allow-drop',
-            filePickerAdapter: FilePickerAdapter,
             unEditableModules: [
                 '[type="template_settings"]'
             ],
@@ -3119,7 +3074,8 @@ class LiveEdit {
         if(this.settings.mode === 'auto') {
             (0,_mode_auto__WEBPACK_IMPORTED_MODULE_2__.ModeAuto)(this);
         }
-         (0,_classes_element__WEBPACK_IMPORTED_MODULE_10__.ElementManager)(this.root).on('mousemove touchmove', (e) => {
+        console.log(this.root)
+         ;(0,_classes_element__WEBPACK_IMPORTED_MODULE_10__.ElementManager)(this.root).on('mousemove touchmove', (e) => {
                 if (!this.paused && e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);
                     const first = elements[0];

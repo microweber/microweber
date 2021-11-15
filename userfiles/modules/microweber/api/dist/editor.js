@@ -1329,10 +1329,11 @@ window.MWEditor = function (options) {
             'image', 'linkTooltip', 'tableManager'
         ],
         language: 'en',
-        rootPath: mw.settings.modules_url + 'microweber/api/editor',
+        rootPath:  'http://localhost/mw2/userfiles/modules/microweber/api/editor',
         editMode: 'normal', // normal | liveedit
         bar: null,
     };
+
 
 
 
@@ -3002,6 +3003,8 @@ var __webpack_exports__ = {};
   \****************************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
 
 
 MWEditor.controllers = {
@@ -3140,7 +3143,23 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    'image': function(scope, api, rootScope){
+    image2: function(scope, api, rootScope){
+        this.imageControl = (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)({
+            props: {
+                className: 'mw-handle-item-element-image-control'
+            }
+        });
+        const filemng = new proto.settings.filePickerAdapter({
+            element: this.imageControl.get(0),
+            onResult: (res) => {
+                this.menu.getTarget().src = res
+            }
+        })
+
+        this.root.append(this.imageControl)
+    },
+    image: function(scope, api, rootScope){
+
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
@@ -3975,6 +3994,7 @@ MWEditor.interactionControls = {
         this.element = this.render();
     },
     image: function (rootScope) {
+
         this.nodes = [];
         this.render = function () {
             var scope = this;
@@ -4052,6 +4072,8 @@ MWEditor.interactionControls = {
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
                 this.element.css(css).show();
+                console.log( this.element)
+
             } else {
                 this.element.hide();
             }

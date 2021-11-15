@@ -66,6 +66,7 @@ MWEditor.interactionControls = {
         this.element = this.render();
     },
     image: function (rootScope) {
+
         this.nodes = [];
         this.render = function () {
             var scope = this;
@@ -143,6 +144,8 @@ MWEditor.interactionControls = {
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
                 this.element.css(css).show();
+                console.log( this.element)
+
             } else {
                 this.element.hide();
             }

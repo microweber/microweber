@@ -36,10 +36,11 @@ window.MWEditor = function (options) {
             'image', 'linkTooltip', 'tableManager'
         ],
         language: 'en',
-        rootPath: mw.settings.modules_url + 'microweber/api/editor',
+        rootPath:  'http://localhost/mw2/userfiles/modules/microweber/api/editor',
         editMode: 'normal', // normal | liveedit
         bar: null,
     };
+
 
 
 

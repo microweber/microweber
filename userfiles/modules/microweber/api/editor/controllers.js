@@ -1,4 +1,5 @@
 import {DomService} from "../classes/dom";
+import {ElementManager} from "../classes/element";
 
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
@@ -136,7 +137,23 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    'image': function(scope, api, rootScope){
+    image2: function(scope, api, rootScope){
+        this.imageControl = ElementManager({
+            props: {
+                className: 'mw-handle-item-element-image-control'
+            }
+        });
+        const filemng = new proto.settings.filePickerAdapter({
+            element: this.imageControl.get(0),
+            onResult: (res) => {
+                this.menu.getTarget().src = res
+            }
+        })
+
+        this.root.append(this.imageControl)
+    },
+    image: function(scope, api, rootScope){
+
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
