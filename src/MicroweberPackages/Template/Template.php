@@ -148,26 +148,23 @@ class Template
 
     public function folder_name()
     {
-        if (!defined('THIS_TEMPLATE_FOLDER_NAME')) {
-            $this->app->content_manager->define_constants();
+        if (defined('THIS_TEMPLATE_FOLDER_NAME')) {
+            return THIS_TEMPLATE_FOLDER_NAME;
         }
-        return THIS_TEMPLATE_FOLDER_NAME;
+
     }
 
     public function dir($add = false)
     {
-        if (!defined('TEMPLATE_DIR')) {
-            $this->app->content_manager->define_constants();
-        }
         if (defined('TEMPLATE_DIR')) {
             $val = TEMPLATE_DIR;
+            if ($add != false) {
+                $val = $val . $add;
+            }
+            return $val;
         }
 
-        if ($add != false) {
-            $val = $val . $add;
-        }
 
-        return $val;
     }
 
     public $template_config_cache = array();
