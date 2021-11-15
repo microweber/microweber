@@ -179,7 +179,7 @@ if(!isset($item['type'] )){
                         <div class="col text-end text-right">
 
                             <?php
-                            //$item['is_symlink'] = true; // niki otkomentirai tova ako iskash da go stilnesh
+                            //$item['is_symlink'] = true; // niki otkomentirai tova ako iskash da go stilnesh, sled tva pak si go vurni
                             if (isset($item['is_symlink']) && $item['is_symlink']):
                             ?>
 
@@ -227,7 +227,6 @@ if(!isset($item['type'] )){
 
                         <div class="col text-end text-right">
 
-
                             <?php if (template_name() == $item['target-dir']): ?>
                                 <div class="text-success js-package-install-btn-help-text"><?php _e('Current'); ?></div>
                             <?php endif; ?>
@@ -250,8 +249,8 @@ if(!isset($item['type'] )){
                                    class="btn btn-sm btn-success js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
 
-                            <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
-                            <a href="<?php echo admin_url(); ?>view:content/action:settings?template=<?php echo $item['target-dir']; ?>#option_group=template" class="btn btn-sm btn-outline-primary"><?php _e("Use"); ?></a>
+                            <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?> 
+                            <a href="<?php echo admin_url(); ?>view:content/action:settings?group=template&template=<?php echo $item['target-dir']; ?>" class="btn btn-sm btn-outline-primary"><?php _e("Use"); ?></a>
                             <?php endif; ?>
 
                             <div class="js-package-install-preload"></div>
