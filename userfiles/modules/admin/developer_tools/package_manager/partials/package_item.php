@@ -249,7 +249,7 @@ if(!isset($item['type'] )){
                                    class="btn btn-sm btn-success js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
 
-                            <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?> 
+                            <?php if (isset($item['current_install']) and $item['current_install']): ?>
                             <a href="<?php echo admin_url(); ?>view:content/action:settings?group=template&template=<?php echo $item['target-dir']; ?>" class="btn btn-sm btn-outline-primary"><?php _e("Use"); ?></a>
                             <?php endif; ?>
 
