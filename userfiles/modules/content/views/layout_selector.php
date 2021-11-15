@@ -30,7 +30,9 @@ if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
 if (!isset($params["layout_file"]) and $data == false or empty($data)) {
     include('_empty_content_data.php');
 }
-
+if (isset($params["active-site-template"]) and $params["active-site-template"]) {
+    $data['active_site_template']  = $params["active-site-template"];
+}
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
