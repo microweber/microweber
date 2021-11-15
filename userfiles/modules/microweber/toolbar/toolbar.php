@@ -382,7 +382,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $pt_opts['list_tag'] = "ul";
                                 $pt_opts['ul_class'] = "";
                                 $pt_opts['list_item_tag'] = "li";
-                                $pt_opts['active_ids'] = CONTENT_ID;
+                                $pt_opts['active_ids'] = content_id();
                                 $pt_opts['limit'] = 1000;
                                 $pt_opts['active_code_tag'] = 'class="active"';
                                 mw()->content_manager->pages_tree($pt_opts);

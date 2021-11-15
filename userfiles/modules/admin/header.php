@@ -194,7 +194,7 @@ $user = get_user_by_id($user_id);
                         <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
                     </li>
 
-                    <li class="mx-1 logo d-none d-md-block">
+                    <li class="mx-1 logo d-none d-lg-block">
                         <a href="<?php print admin_url('view:dashboard'); ?>">
                             <h5 class="text-white mr-3 d-flex align-items-center h-100">
                                 <?php if (mw()->ui->admin_logo != false): ?>
@@ -251,19 +251,19 @@ $user = get_user_by_id($user_id);
 
 
                 <ul class="nav">
-                    <li class="mx-1 logo d-block d-md-none">
-                        <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-md-3">
-                                <?php if (mw()->ui->logo_live_edit != false): ?>
-                                    <img src="<?php print mw()->ui->logo_live_edit; ?>" style="height: 40px;"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>
-                                <?php endif; ?>
-                            </h5>
-                        </a>
-                    </li>
+<!--                    <li class="mx-1 logo d-block d-xs-none">-->
+<!--                        <a class="mw-admin-logo" href="--><?php //print admin_url('view:dashboard'); ?><!--">-->
+<!--                            <h5 class="text-white mr-md-3">-->
+<!--                                --><?php //if (mw()->ui->logo_live_edit != false): ?>
+<!--                                    <img src="--><?php //print mw()->ui->logo_live_edit; ?><!--" style="height: 40px;"/>-->
+<!--                                --><?php //elseif (mw()->ui->admin_logo_login() != false): ?>
+<!--                                    <img src="--><?php //print mw()->ui->admin_logo_login(); ?><!--" style="height: 40px;"/>-->
+<!--                                --><?php //else: ?>
+<!--                                    <img src="--><?php //print modules_url(); ?><!--microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>-->
+<!--                                --><?php //endif; ?>
+<!--                            </h5>-->
+<!--                        </a>-->
+<!--                    </li>-->
 
                     <?php if ($new_orders_count != ''): ?>
                         <li class="mx-2">
