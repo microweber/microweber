@@ -324,50 +324,35 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         </div>
 
-      <div>
+      <div class="d-flex">
+          <a href="<?php print admin_url() ?>view:modules/load_module:white_label__admin_colors"  class="btn btn-primary mx-1" >Color schemes</a>
 
-          <div class="text-start text-left">
-              <a href="<?php print admin_url() ?>view:modules/load_module:white_label__admin_colors"  class="btn btn-outline-secondary" >Color schemes</a>
+          <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary mx-1" onclick="mw.show_white_label_whmcs_settings();">WHMCS settings</a>
+          <script>
+              mw.show_white_label_whmcs_settings = function () {
 
-          </div>
+                  mw.load_module( 'white_label/whmcs/admin',"#white_label-whmcs-admin-module-holder");
+                  $("#white_label-whmcs-admin-module-link").hide();
+              }
+          </script>
 
 
 
-          <div class="text-start text-left">
-              <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary" onclick="mw.show_white_label_whmcs_settings();">WHMCS settings</a>
-              <script>
-                  mw.show_white_label_whmcs_settings = function () {
-
-                      mw.load_module( 'white_label/whmcs/admin',"#white_label-whmcs-admin-module-holder");
-                      $("#white_label-whmcs-admin-module-link").hide();
-                  }
-              </script>
-          </div>
-
-          <div class="text-start text-left">
-              <a href="javascript:;" class="btn btn-outline-secondary" onclick="mw.show_licenses_modal();">My Licenses</a>
-              <script>
-                  mw.show_licenses_modal = function () {
-                      var data = {}
-                      licensesModal = mw.tools.open_module_modal('settings/group/licenses', data, {
-                          title: 'Licenses',
-                          skin: 'simple'
-                      })
-                  }
-              </script>
-          </div>
+          <a href="javascript:;" class="btn btn-outline-secondary mx-1" onclick="mw.show_licenses_modal();">My Licenses</a>
+          <script>
+              mw.show_licenses_modal = function () {
+                  var data = {}
+                  licensesModal = mw.tools.open_module_modal('settings/group/licenses', data, {
+                      title: 'Licenses',
+                      skin: 'simple'
+                  })
+              }
+          </script>
       </div>
 
-
         <div class="text-end text-right">
-
             <button form="white_label_settings_holder" type="submit" class="btn btn-lg btn-success btn-save " ><span>Save</span></button>
-
-
         </div>
-
-
-
     </div>
 </div>
 
