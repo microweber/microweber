@@ -185,7 +185,7 @@ class Template
                 include $file;
                 if (isset($config)) {
                     $config['dir_name'] = basename($dir);
-                    if($dir and is_dir($dir) and is_link($dir) ){
+                    if(is_link(normalize_path($dir, false))){
                         $config['is_symlink'] = true;
                     } else {
                         $config['is_symlink'] = false;
@@ -809,10 +809,9 @@ class Template
                     if (!empty($config)) {
                         $config['is_symlink'] = false;
 
-                        if($dir and is_dir($filename) and is_link($filename) ){
+                        if(is_link(normalize_path($filename, false))){
                             $config['is_symlink'] = true;
                         }
-
 
                         $c = $config;
                         $c['dir_name'] = $dir;

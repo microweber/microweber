@@ -41,6 +41,7 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 
 $allPackages = [];
 $localPackages = mw()->update->collect_local_data();
+
 foreach($localPackages['modules'] as $package) {
     $allPackages[] = $package;
 }
@@ -73,6 +74,7 @@ foreach( $composerSearch as $packageName=>$versions) {
         $currentInstall = false;
         foreach($allPackages as $module) {
             if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+
                 $currentInstall = [];
                 $currentInstall['composer_type'] = $version['type'];
                 $currentInstall['local_type'] = $version['type'];
@@ -88,6 +90,12 @@ foreach( $composerSearch as $packageName=>$versions) {
                     if (Comparator::greaterThan($v1, $v2)) {
                         $version['has_update'] = true;
                     }
+                }
+
+                $version['is_symlink'] = false;
+                if (isset($module['is_symlink']) && $module['is_symlink']) {
+                    $version['has_update'] = false;
+                    $version['is_symlink'] = true;
                 }
 
                 break;
