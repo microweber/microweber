@@ -393,7 +393,15 @@ class FrontendController extends Controller
             }
         }
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+         if($is_preview_template){
+             $the_active_site_template = $is_preview_template;
 
+             if (!defined('ACTIVE_SITE_TEMPLATE')) {
+                 $content['active_site_template'] = $is_preview_template;
+
+                 $this->app->content_manager->define_constants($content);
+             }
+         }
         $date_format = $this->websiteOptions['date_format'];
         if ($date_format == false) {
             $date_format = 'Y-m-d H:i:s';
@@ -780,7 +788,6 @@ class FrontendController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
-
 
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
