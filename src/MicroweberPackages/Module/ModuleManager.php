@@ -287,7 +287,7 @@ class ModuleManager
         if (php_can_use_func('ini_set')) {
             ini_set('memory_limit', '-1');
         }
- 
+
 
         $dir = rglob($glob_patern, 0, $dir_name);
 
@@ -353,6 +353,11 @@ class ModuleManager
                     $config['module_base'] = str_replace('admin/', '', $moduleDir);
                     $main_try_icon = false;
 
+                    $config['is_symlink'] = false;
+                    if(is_link(normalize_path($moduleDir, false))){
+                        $config['is_symlink'] = true;
+                    }
+
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
@@ -411,7 +416,6 @@ class ModuleManager
                     } else {
                         $config['ui_admin'] = 0;
                     }
-
 
                     if (isset($config['no_cache']) and $config['no_cache'] == true) {
                         $config['allow_caching'] = 0;

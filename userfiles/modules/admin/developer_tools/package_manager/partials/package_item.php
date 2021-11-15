@@ -117,6 +117,12 @@ if(!isset($item['type'] )){
                         </div>
 
                         <div class="col text-end text-right">
+
+                            <?php  if(isset($item['is_symlink']) && $item['is_symlink']): ?>
+
+
+                            <?php else: ?>
+
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
@@ -135,6 +141,8 @@ if(!isset($item['type'] )){
                             <?php endif; ?>
 
                             <div class="js-package-install-preload"></div>
+
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -161,6 +169,41 @@ if(!isset($item['type'] )){
                 <?php endif; ?>
 
                 <div class="package-item-footer">
+
+
+                    <?php if(isset($item['is_symlink'])): ?>
+                    <div class="row">
+                        <div class="col">
+                            <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
+                                class="btn btn-lg btn-link text-dark p-0"><?php print $item['description'] ?></a>
+                        </div>
+
+                        <div class="col text-end text-right">
+                            <div>
+                                <small class="text-muted">&nbsp;</small>
+                                <div class="d-inline-block">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <?php $tooltipid = uniqid('tooltip'); ?>
+                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
+                                  data-trigger="click"><?php _e("Information"); ?>
+                            </span>
+                        </div>
+                        <div class="col text-end text-right">
+                            <?php if(isset($item['current_install']) and $item['current_install']): ?>
+                                <a href="<?php echo admin_url(); ?>view:content/action:settings#option_group=template" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i> <?php _e("Activated"); ?></a>
+                            <?php else: ?>
+                            <a href="<?php echo admin_url(); ?>view:content/action:settings#option_group=template" class="btn btn-sm btn-primary"><?php _e("Activate"); ?></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php else: ?>
+
+
                     <div class="row">
                         <div class="col">
                             <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
@@ -227,6 +270,10 @@ if(!isset($item['type'] )){
                             <div class="js-package-install-preload"></div>
                         </div>
                     </div>
+
+                    <?php endif; ?>
+
+
                 </div>
             </div>
         </div>
