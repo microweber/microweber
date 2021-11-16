@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2499bd867795888d93f9b16207bd6a58",
+    "content-hash": "8253c4038f9b47000924b8efb6422a40",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1554,12 +1554,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "07453f22fe1372c99d766f7ea591b7629d18ff76"
+                "reference": "0edd213bd01a4cf79d4ddc5f63622fa6e2149fe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/07453f22fe1372c99d766f7ea591b7629d18ff76",
-                "reference": "07453f22fe1372c99d766f7ea591b7629d18ff76",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/0edd213bd01a4cf79d4ddc5f63622fa6e2149fe0",
+                "reference": "0edd213bd01a4cf79d4ddc5f63622fa6e2149fe0",
                 "shasum": ""
             },
             "require": {
@@ -1656,7 +1656,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-09T17:41:50+00:00"
+            "time": "2021-11-15T10:02:07+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -3800,12 +3800,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "2049de73aa099a113a287587df4cc522c90961f5"
+                "reference": "d822426d75ecf8e8ccd3ccd404db7202d1a9875e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/2049de73aa099a113a287587df4cc522c90961f5",
-                "reference": "2049de73aa099a113a287587df4cc522c90961f5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d822426d75ecf8e8ccd3ccd404db7202d1a9875e",
+                "reference": "d822426d75ecf8e8ccd3ccd404db7202d1a9875e",
                 "shasum": ""
             },
             "require": {
@@ -3882,12 +3882,12 @@
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^3.198.1",
-                "doctrine/dbal": "^2.13.3|^3.1.2",
+                "doctrine/dbal": "^2.13.3|^3.1.4",
                 "filp/whoops": "^2.14.3",
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
                 "league/flysystem-cached-adapter": "^1.0",
                 "mockery/mockery": "^1.4.4",
-                "orchestra/testbench-core": "^6.23",
+                "orchestra/testbench-core": "^6.27",
                 "pda/pheanstalk": "^4.0",
                 "phpunit/phpunit": "^8.5.19|^9.5.8",
                 "predis/predis": "^1.1.9",
@@ -3896,7 +3896,7 @@
             "suggest": {
                 "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.198.1).",
                 "brianium/paratest": "Required to run tests in parallel (^6.0).",
-                "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.13.3|^3.1.2).",
+                "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.13.3|^3.1.4).",
                 "ext-bcmath": "Required to use the multiple_of validation rule.",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
@@ -3917,7 +3917,7 @@
                 "phpunit/phpunit": "Required to use assertions and run tests (^8.5.19|^9.5.8).",
                 "predis/predis": "Required to use the predis connector (^1.1.9).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
-                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0).",
+                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0|^7.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^5.1.4).",
                 "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
@@ -3965,7 +3965,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-11-11T14:20:15+00:00"
+            "time": "2021-11-16T15:00:50+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5624,35 +5624,35 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "3.7",
+            "version": "3.8",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "1ecc5cd5e71cce2405b3bbe79be580dc878b7a42"
+                "reference": "f2c29f7cad7cff8216a696cd04586f0b1901c691"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-1ecc5cd5e71cce2405b3bbe79be580dc878b7a42-zip-59807d.zip",
-                "reference": "1ecc5cd5e71cce2405b3bbe79be580dc878b7a42",
-                "shasum": "82d5a67e80ab9a79b66d3e57d673b9b78d841869"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-f2c29f7cad7cff8216a696cd04586f0b1901c691-zip-f5fc67.zip",
+                "reference": "f2c29f7cad7cff8216a696cd04586f0b1901c691",
+                "shasum": "3a5dc42ce7eba1a799b5476f0b1f5deaf8fec71e"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "http://templates.microweber.com/new-world/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/screenshot.jpg",
-                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/plugins/slick/fonts/slick.svg",
-                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-line.svg",
-                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-vertical.svg",
-                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/quotes.svg",
-                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-old.svg",
-                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr-zigzag.svg",
-                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/assets/img/hr.svg",
-                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/82d5a67e80ab9a79b66d3e57d673b9b78d841869/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/screenshot.jpg",
+                    "fa-brands-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/plugins/slick/fonts/slick.svg",
+                    "hr-line": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/hr-line.svg",
+                    "hr-vertical": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/hr-vertical.svg",
+                    "quotes": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/quotes.svg",
+                    "hr-old": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/hr-old.svg",
+                    "hr-zigzag": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/hr-zigzag.svg",
+                    "hr": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/assets/img/hr.svg",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-new-world/38/readme.md"
                 }
             },
             "license": [
@@ -5672,32 +5672,32 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-11-11T13:52:36+00:00"
+            "time": "2021-11-16T15:31:16+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "2.1",
+            "version": "2.2",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/shopmag.git",
-                "reference": "e395c625c629767be7ec2c7dec6ac79014a7997d"
+                "reference": "78edf57b708d763f6df84a611378920b3355900f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-e395c625c629767be7ec2c7dec6ac79014a7997d-zip-e18ef2.zip",
-                "reference": "e395c625c629767be7ec2c7dec6ac79014a7997d",
-                "shasum": "30dfdd5f12e7dcace516e3161f5ec2d5166db516"
+                "url": "https://packages.microweberapi.com/domains/packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-78edf57b708d763f6df84a611378920b3355900f-zip-a80330.zip",
+                "reference": "78edf57b708d763f6df84a611378920b3355900f",
+                "shasum": "b3cfcfbc8445b0f19288f46686408acfda1fcbda"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/screenshot.jpg",
-                    "seaside_groove-webfont": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
-                    "ventoux": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/fonts/ventoux/fonts/ventoux.svg",
-                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/assets/plugins/slick/fonts/slick.svg",
-                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/30dfdd5f12e7dcace516e3161f5ec2d5166db516/readme.md"
+                    "screenshot": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-shopmag/22/screenshot.jpg",
+                    "seaside_groove-webfont": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-shopmag/22/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
+                    "ventoux": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-shopmag/22/assets/fonts/ventoux/fonts/ventoux.svg",
+                    "slick": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-shopmag/22/assets/plugins/slick/fonts/slick.svg",
+                    "readme": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/microweber-templates-shopmag/22/readme.md"
                 }
             },
             "license": [
@@ -5716,7 +5716,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-11-09T11:52:12+00:00"
+            "time": "2021-11-16T15:30:39+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -5872,12 +5872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f19a2ae873d42f4494f3fb29de9dadb91a3f7601"
+                "reference": "fb2c324c17941ffe805aa7c953895af96840d0c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f19a2ae873d42f4494f3fb29de9dadb91a3f7601",
-                "reference": "f19a2ae873d42f4494f3fb29de9dadb91a3f7601",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fb2c324c17941ffe805aa7c953895af96840d0c9",
+                "reference": "fb2c324c17941ffe805aa7c953895af96840d0c9",
                 "shasum": ""
             },
             "require": {
@@ -5964,7 +5964,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-18T21:44:22+00:00"
+            "time": "2021-11-15T08:08:41+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
@@ -8010,12 +8010,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "014b3a95a107b6329918f1cc431c0f8e181e6229"
+                "reference": "053910784e7f8433df1d34a59523be8be4a3c150"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/014b3a95a107b6329918f1cc431c0f8e181e6229",
-                "reference": "014b3a95a107b6329918f1cc431c0f8e181e6229",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/053910784e7f8433df1d34a59523be8be4a3c150",
+                "reference": "053910784e7f8433df1d34a59523be8be4a3c150",
                 "shasum": ""
             },
             "require": {
@@ -8113,7 +8113,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-12T01:51:26+00:00"
+            "time": "2021-11-14T06:53:03+00:00"
         },
         {
             "name": "predis/predis",
@@ -8788,7 +8788,7 @@
                     "force-install": true
                 },
                 "_meta": {
-                    "README": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/5b45a1cd05f29c5d7c8016445388a07174126c8c/README.md"
+                    "README": "https://packages.microweberapi.com/domains/packages.microweberapi.com/meta/ramsey-uuid/423/README.md"
                 }
             },
             "autoload": {
@@ -9747,12 +9747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "7521beb5a984d031f20ef3d9c9bb3f16feab4d1b"
+                "reference": "00894fbe1c4208aad4293e26d6770654d549d72b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/7521beb5a984d031f20ef3d9c9bb3f16feab4d1b",
-                "reference": "7521beb5a984d031f20ef3d9c9bb3f16feab4d1b",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/00894fbe1c4208aad4293e26d6770654d549d72b",
+                "reference": "00894fbe1c4208aad4293e26d6770654d549d72b",
                 "shasum": ""
             },
             "require": {
@@ -9827,7 +9827,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-12T11:42:37+00:00"
+            "time": "2021-11-15T18:35:41+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -9902,12 +9902,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "91eb974ecb7cb2dac0520af5e16a6d75b7970a96"
+                "reference": "734f2b6d49196c9d876d62a25e4c1b08c2223f8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/91eb974ecb7cb2dac0520af5e16a6d75b7970a96",
-                "reference": "91eb974ecb7cb2dac0520af5e16a6d75b7970a96",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/734f2b6d49196c9d876d62a25e4c1b08c2223f8e",
+                "reference": "734f2b6d49196c9d876d62a25e4c1b08c2223f8e",
                 "shasum": ""
             },
             "require": {
@@ -9965,7 +9965,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-04T18:34:22+00:00"
+            "time": "2021-11-13T13:42:47+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -10415,12 +10415,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "ad260a45312f9d93ac73970d5263f42cf4c23a4f"
+                "reference": "c13508d8f06fb216360ae69c4821262f3d7ae0e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/ad260a45312f9d93ac73970d5263f42cf4c23a4f",
-                "reference": "ad260a45312f9d93ac73970d5263f42cf4c23a4f",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/c13508d8f06fb216360ae69c4821262f3d7ae0e5",
+                "reference": "c13508d8f06fb216360ae69c4821262f3d7ae0e5",
                 "shasum": ""
             },
             "require": {
@@ -10519,7 +10519,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-09T17:45:41+00:00"
+            "time": "2021-11-14T16:54:24+00:00"
         },
         {
             "name": "symfony/intl",
@@ -12315,12 +12315,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "f1dc5832a1ae4e24251360df5c333a3f2040b886"
+                "reference": "9e6346bac991cedce35aff378994d6ac19291dae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f1dc5832a1ae4e24251360df5c333a3f2040b886",
-                "reference": "f1dc5832a1ae4e24251360df5c333a3f2040b886",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/9e6346bac991cedce35aff378994d6ac19291dae",
+                "reference": "9e6346bac991cedce35aff378994d6ac19291dae",
                 "shasum": ""
             },
             "require": {
@@ -12382,7 +12382,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-05T13:54:05+00:00"
+            "time": "2021-11-14T16:37:37+00:00"
         },
         {
             "name": "symplify/autowire-array-parameter",
@@ -12853,6 +12853,73 @@
             "time": "2018-05-25T12:21:48+00:00"
         },
         {
+            "name": "tightenco/ziggy",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tighten/ziggy.git",
+                "reference": "89a18ac24b191178bcbb47dd27f4788c00da580b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/89a18ac24b191178bcbb47dd27f4788c00da580b",
+                "reference": "89a18ac24b191178bcbb47dd27f4788c00da580b",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.4@dev"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tightenco\\Ziggy\\ZiggyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tightenco\\Ziggy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Coulbourne",
+                    "email": "daniel@tighten.co"
+                },
+                {
+                    "name": "Jake Bathman",
+                    "email": "jake@tighten.co"
+                },
+                {
+                    "name": "Jacob Baker-Kretzmar",
+                    "email": "jacob@tighten.co"
+                }
+            ],
+            "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
+            "homepage": "https://github.com/tighten/ziggy",
+            "keywords": [
+                "Ziggy",
+                "javascript",
+                "laravel",
+                "routes"
+            ],
+            "support": {
+                "issues": "https://github.com/tighten/ziggy/issues",
+                "source": "https://github.com/tighten/ziggy/tree/main"
+            },
+            "time": "2021-11-12T17:29:39+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "dev-master",
             "source": {
@@ -13034,12 +13101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d"
+                "reference": "33ed3b7e3382d36087d2ac4f7672aaa8f71e0b69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d",
-                "reference": "7cf279d3d64e12a7d6b2ab4fa8f4a3e7176fd41d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/33ed3b7e3382d36087d2ac4f7672aaa8f71e0b69",
+                "reference": "33ed3b7e3382d36087d2ac4f7672aaa8f71e0b69",
                 "shasum": ""
             },
             "require": {
@@ -13103,7 +13170,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-05T16:53:41+00:00"
+            "time": "2021-11-13T16:20:21+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -13699,16 +13766,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a"
+                "reference": "e8594d3578fa0e871ef9b435a0c0f3631bfa8292"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a",
-                "reference": "8f2c1ff650c62fa056ec74c5bf7f625e45b2bb8a",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/e8594d3578fa0e871ef9b435a0c0f3631bfa8292",
+                "reference": "e8594d3578fa0e871ef9b435a0c0f3631bfa8292",
                 "shasum": ""
             },
             "require": {
@@ -13766,9 +13833,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/3.3.0"
+                "source": "https://github.com/zircote/swagger-php/tree/3.3.1"
             },
-            "time": "2021-11-08T00:45:29+00:00"
+            "time": "2021-11-13T23:19:29+00:00"
         }
     ],
     "packages-dev": [
@@ -13908,16 +13975,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.16.0",
+            "version": "2.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "23400e6cc565c9dcae2c53704b4de1c4870c0697"
+                "reference": "29b533f63a3b269aa599d08dd4d22a0d720e295f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/23400e6cc565c9dcae2c53704b4de1c4870c0697",
-                "reference": "23400e6cc565c9dcae2c53704b4de1c4870c0697",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/29b533f63a3b269aa599d08dd4d22a0d720e295f",
+                "reference": "29b533f63a3b269aa599d08dd4d22a0d720e295f",
                 "shasum": ""
             },
             "require": {
@@ -13981,7 +14048,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-10-28T11:47:23+00:00"
+            "time": "2021-11-16T13:09:30+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -16315,6 +16382,7 @@
         "predis/predis": 20,
         "torann/laravel-repository": 20,
         "laravel/dusk": 20,
+        "tightenco/ziggy": 20,
         "halaxa/json-machine": 20
     },
     "prefer-stable": false,
