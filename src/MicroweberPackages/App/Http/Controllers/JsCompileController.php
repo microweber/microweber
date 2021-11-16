@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -461,11 +462,11 @@ class JsCompileController extends Controller
         }
         config()->set('ziggy.except',$except);
 
-        $ziggy = new Ziggy();
-        $routes = $ziggy->toArray();
+        $ziggy = new ZiggyInlineJsRouteGenerator();
+        $jsRoutes = $ziggy->generate();
 
+        $l->assign('jsRoutes',$jsRoutes);
 
-        $l->assign('routes',$routes);
         $l = $l->__toString();
         return $l;
     }
