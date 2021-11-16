@@ -75,12 +75,12 @@ if (isset($params['live_edit'])) {
             if(document.querySelector('.mw-ui-category-selector input:checked') === null){
                 invalid_form_msg = 1;
             }
-            if (!invalid_form_msg) {
-                var has_title = $('#content-title-field').val();
-                if (!has_title) {
-                    invalid_form_msg = 2;
-                }
-            }
+            // if (!invalid_form_msg) {
+            //     var has_title = $('#content-title-field').val();
+            //     if (!has_title) {
+            //         invalid_form_msg = 2;
+            //     }
+            // }
 
             if (!invalid_form_msg) {
                 $(document.forms['admin_edit_category_form']).submit();
