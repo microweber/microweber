@@ -81,7 +81,7 @@
                                         </div>
 
                                         <?php
-                                        $edit_link = '';
+                                        $edit_link = route('admin.content.edit', $item['id']);
                                         if (Route::has('admin.'.$item['content_type'].'.edit')) {
                                             $edit_link = route('admin.' . $item['content_type'] . '.edit', $item['id']);
                                         }
