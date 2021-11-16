@@ -272,8 +272,9 @@
 
                     } else {
 
+                        window.location = "<?php print admin_url() ?>category/"+id+"/edit";
 
-                    mw.url.windowHashParam('action', 'editcategory:' + id)
+                  //  mw.url.windowHashParam('action', 'editcategory:' + id)
                     }
                 }
 
