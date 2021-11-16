@@ -541,11 +541,14 @@ if (isset($params['live_edit'])) {
                             });
 
 
-                            var dropdownUploader;
+
 
                             setTimeout(function (){
+                                var dropdownUploader;
                                 mw.$('#mw-admin-post-media-type')
-                                    .selectpicker()
+                                    .selectpicker({
+                                        container: mw.$('#mw-admin-post-media-type').parent()
+                                    })
                                     .on('changed.bs.select', function () {
                                         mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
                                         setTimeout(function () {
@@ -558,7 +561,7 @@ if (isset($params['live_edit'])) {
                                             dropdownUploader.remove()
                                         }
                                         var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                                        dropdownUploader = mw.upload({
+                                         dropdownUploader = mw.upload({
                                             element: item,
                                             accept: 'image/*',
                                             multiple: true
@@ -578,7 +581,7 @@ if (isset($params['live_edit'])) {
 
                                         });
                                     })
-                            }, 100)
+                            }, 200)
 
 
                         </script>
