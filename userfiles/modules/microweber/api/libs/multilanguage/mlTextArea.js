@@ -33,7 +33,15 @@
                 for (var i = 0; i < locales.length; i++) {
                     var mwBtnTabLocaleId = 'ml-tab-btn-'+name+'-'+i;
                     var mwBtnTabContentLocaleId = 'ml-tab-content-'+name+'-'+i;
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'">' + locales[i] + '</a>';
+
+                    var localeIcon = locales[i];
+                    localeIcon = localeIcon.split('_');
+                    localeIcon = localeIcon[1];
+                    localeIcon = localeIcon.toLowerCase();
+
+                    var localeUppercase = locales[i].toUpperCase();
+
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'"><i class="flag-icon flag-icon-'+localeIcon+'"></i>'+localeUppercase+'</a>';
 
                     $('body').on('click','#' + mwBtnTabLocaleId, function (){
                         mw.trigger("mlChangedLanguage", $(this).attr('lang'));
@@ -46,6 +54,7 @@
                 outputHtml += '<div id="'+mwTabContentLocaleId+'" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
+
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
                     outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
