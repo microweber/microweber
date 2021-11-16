@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Content;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\TranslateTables\TranslateContent;
 use MicroweberPackages\Content\TranslateTables\TranslateContentFields;
@@ -26,7 +27,10 @@ class ContentServiceProvider extends ServiceProvider
         Content::observe(BaseModelObserver::class);
       //  Content::observe(CreatedByObserver::class);
 
+        View::addNamespace('content', __DIR__ . '/resources/views');
+
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 }

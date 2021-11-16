@@ -88,13 +88,12 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
 
-            $browser->pause(1500);
+            $browser->pause(3000);
             $browser->waitForText('Content saved');
-
             $browser->assertSee('Content saved');
 
-            $browser->pause(4000);
-            $browser->assertValue('#slug-field-holder input', $postTitle);
+          //  $browser->pause(4000);
+            //$browser->assertValue('#slug-field-holder input', $postTitle);
         });
 
     }

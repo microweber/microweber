@@ -104,6 +104,11 @@ class Edit
             $data = $data_q->toArray();
             }
         }
+
+        if (isset($params['content_id'])) {
+            $params['content-id'] = $params['content_id'];
+        }
+
         if (isset($params['content-id'])) {
             $data_q = Content::where('id', intval($params["content-id"]))->first();
             if($data_q){

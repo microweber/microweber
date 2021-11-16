@@ -231,16 +231,12 @@ $user = get_user_by_id($user_id);
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
                                         <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
                                         <?php
-                                        if ($base_url == false) {
-                                            $base_url = admin_url('view:content');
-                                            if ($custom_action != false) {
-                                                if ($custom_action == 'pages' or $custom_action == 'posts' or $custom_action == 'products') {
-                                                    $base_url = $base_url . '/action:' . $custom_action;
-                                                }
-                                            }
+                                        $base_url = route('admin.content.create');
+                                        if (Route::has('admin.'.$item['content_type'].'.create')) {
+                                            $base_url = route('admin.' . $item['content_type'] . '.create');
                                         }
                                         ?>
-                                        <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
+                                        <a class="dropdown-item" href="<?php print $base_url; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </div>
@@ -355,8 +351,26 @@ $user = get_user_by_id($user_id);
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
 
-            <?php if (empty($view)) {
+            <?php
+            if (empty($view)) {
                 $view = Request::segment(2);
+            }
+
+            $routeName = Route::currentRouteName();
+            if ($routeName == 'admin.post.create' || $routeName == 'admin.post.edit') {
+                $action = 'posts';
+                $view = 'content';
+            }
+            if ($routeName == 'admin.category.create' || $routeName == 'admin.category.edit') {
+                $action = 'categories';
+                $view = 'content';
+            }
+            if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
+                $action = 'pages';
+                $view = 'content';
+            }if ($routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
+                $action = 'products';
+                $view = 'shop';
             }
             ?>
 
@@ -412,7 +426,7 @@ $user = get_user_by_id($user_id);
                                 <?php _e("Posts"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
-                            
+
                             <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
                                 <?php _e("Categories"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>

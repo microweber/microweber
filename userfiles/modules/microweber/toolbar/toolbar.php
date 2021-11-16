@@ -419,9 +419,15 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                         <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <?php
+                                        $content_menu_url = route('admin.content.create');
+                                        if (\Route::has('admin.'.$item['content_type'].'.create')) {
+                                            $content_menu_url = route('admin.' . $item['content_type'] . '.create');
+                                        }
+                                        ?>
                                         <li>
                                             <a onclick="mw.liveedit.manageContent.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;"
-                                               href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>">
+                                               href="<?php print  $content_menu_url ?>">
                                                 <span class="<?php print $class; ?>"></span>
                                                 <strong><?php print $title; ?></strong>
                                             </a>
