@@ -14,6 +14,12 @@ if ($data == false or empty($data)) {
 if (!$data['id'] and isset($params["parent-category-id"])) {
     $data['parent_id'] = intval($params["parent-category-id"]);
 }
+
+if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+    $data['parent_id'] = intval($_GET['addsubcategory']);
+
+}
+
 $just_saved = false;
 $quick_edit = false;
 if (isset($params['just-saved'])) {
@@ -174,7 +180,9 @@ if (isset($params['live_edit'])) {
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 var catSaveUrl = '<?php print route('api.category.store'); ?>';
                 var catSaveUrlMethod = 'POST';
+                mw.category_is_new = true;
                 <?php if(isset($data['id']) and intval($data['id']) != 0): ?>
+                mw.category_is_new = false;
                 var catSaveUrl = '<?php print route('api.category.update',['category'=>$data['id']]); ?>';
                 var catSaveUrlMethod = 'PATCH';
 
@@ -235,7 +243,13 @@ if (isset($params['live_edit'])) {
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-                    mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
+                    if(mw.category_is_new){
+
+                        window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                    }
+                   // mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
                 });
 
                 return false;
@@ -309,7 +323,8 @@ if (isset($params['live_edit'])) {
 
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
                     <?php endif; ?>
-                        <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+                        <a href="<?php print route('admin.category.create') ?>?addsubcategory=<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
                     <?php endif; ?>
 
 
