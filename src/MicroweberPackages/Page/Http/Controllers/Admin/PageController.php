@@ -24,14 +24,14 @@ class PageController extends AdminController
 
     public function create() {
 
-        return $this->view('post::admin.posts.edit', [
+        return $this->view('page::admin.page.edit', [
             'content_id'=>0
         ]);
     }
 
     public function edit(Request $request, $id) {
 
-        return $this->view('post::admin.posts.edit', [
+        return $this->view('page::admin.page.edit', [
             'content_id'=>$id
         ]);
     }
