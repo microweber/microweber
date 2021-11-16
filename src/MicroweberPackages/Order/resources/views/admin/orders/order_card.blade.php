@@ -79,6 +79,7 @@ $item = $order->toArray();
                             ?>
                         </small>
                         <?php endif; ?>
+                            <small class="text-muted  text-break-line-2"><?php print mw('format')->ago($order['created_at']); ?>  </small>
                     </div>
                 </div>
             </div>
@@ -110,8 +111,8 @@ $item = $order->toArray();
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
                          title="<?php print mw('format')->ago($order['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($order['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($order['created_at'])); ?><span
-                                class="text-success"><?php _e("h"); ?></span><br/></small>
+                        <small class="text-muted"><?php print date('H:s', strtotime($order['created_at'])); ?><span
+                                class="text-success"> </span><br/></small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">
