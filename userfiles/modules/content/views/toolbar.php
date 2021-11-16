@@ -180,7 +180,9 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Posts"); ?></strong>
                 </h5>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Post"); ?></a>
+                <a href="<?php echo route('admin.post.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">
+                    <?php _e("Add Post"); ?>
+                </a>
             </div>
 
         <?php elseif ($act == 'products'): ?>
