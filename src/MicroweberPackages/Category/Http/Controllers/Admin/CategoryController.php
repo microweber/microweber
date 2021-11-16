@@ -25,14 +25,14 @@ class CategoryController extends AdminController
     public function create() {
 
         return $this->view('category::admin.category.edit', [
-            'content_id'=>0
+            'id'=>0
         ]);
     }
 
     public function edit(Request $request, $id) {
 
         return $this->view('category::admin.category.edit', [
-            'content_id'=>$id
+            'id'=>$id
         ]);
     }
 }

@@ -1,1 +1,1 @@
-<module type="categories/edit_category" id="{{$content_id}}" />
+<module type="categories/edit_category" category_id="{{$id}}" />
