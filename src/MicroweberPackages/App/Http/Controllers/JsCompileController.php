@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Tightenco\Ziggy\Ziggy;
 
 
 class JsCompileController extends Controller
@@ -150,6 +151,9 @@ class JsCompileController extends Controller
     public function apijs_combined_get_hash()
     {
         $hash = crc32(site_url() . template_dir()).'.' . MW_VERSION ;
+        if(is_admin()){
+            $hash= crc32(admin_url());
+        }
         return $hash;
     }
     public function apijs_combined()
@@ -449,6 +453,19 @@ class JsCompileController extends Controller
         }
         $l = new View($file);
 
+        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*'];
+        if(!is_admin()){
+            $except[] = 'admin.*';
+            $except[] = 'api.*';
+            $except[] = 'l5-swagger.*';
+        }
+        config()->set('ziggy.except',$except);
+
+        $ziggy = new Ziggy();
+        $routes = $ziggy->toArray();
+
+
+        $l->assign('routes',$routes);
         $l = $l->__toString();
         return $l;
     }

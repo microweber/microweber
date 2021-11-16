@@ -487,3 +487,56 @@
 })();
 
 
+<?php
+$jsonFlags = JSON_UNESCAPED_UNICODE;
+
+$content = 'const routes = ';
+$content .= json_encode($routes, $jsonFlags);
+$content .= ";\n\n";
+print $content;
+    ?>
+// This function receives as a route name and an array of
+// parameters
+const route = (routeName, params = []) => {
+    // It searches in the stored routes one that match with the
+    // given name and if it doesn't exists throws an error
+    const _route = routes[routeName];
+    if (_route == null) throw "Requested route doesn't exist";
+
+    let uri = _route.uri;
+
+    // If an URI is found, replace the parameters with a RegEx
+    // (I don't know how I did it) and throws another error if
+    // there are missing parameters.
+    // Remaining parameters will be ignored.
+
+    const matches = uri.match(/{[\w]+}/g) || [];
+    const requiredParametersCount = matches.length;
+
+    if (params instanceof Array) {
+        if (params.length < requiredParametersCount) throw "Missing parameters";
+
+        for (let i = 0; i < requiredParametersCount; i++)
+            uri = uri.replace(/{[\w]+}/, params.shift());
+
+        for (let i = 0; i < params.length; i++)
+            uri += (i ? "&" : "?") + params[i] + "=" + params[i];
+    } else if (params instanceof Object) {
+        let extraParams = matches.reduce((ac, match) => {
+            let key = match.substring(1, match.length - 1);
+            if (params.hasOwnProperty(key)) {
+                uri = uri.replace(new RegExp(match, "g"), params[key]);
+                delete ac[key];
+            }
+            return ac;
+        }, params);
+
+        Object.keys(extraParams).forEach((key, i) => {
+            uri += (i ? "&" : "?") + key + "=" + extraParams[key];
+        });
+    }
+
+    if (uri.includes("}")) throw "Missing parameters";
+
+    return "/" + uri;
+};
