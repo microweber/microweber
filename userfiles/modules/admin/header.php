@@ -361,6 +361,10 @@ $user = get_user_by_id($user_id);
                 $action = 'posts';
                 $view = 'content';
             }
+            if ($routeName == 'admin.category.create' || $routeName == 'admin.category.edit') {
+                $action = 'categories';
+                $view = 'content';
+            }
             if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
                 $action = 'pages';
                 $view = 'content';
