@@ -49,7 +49,11 @@
                     outputHtml += '<span>';
                         outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';
                         for (var i = 0; i < locales.length; i++) {
-                            outputHtml += '<option value="'+locales[i]+'">' + locales[i].toUpperCase() + '</option>';
+                            var localeIcon = locales[i];
+                            localeIcon = localeIcon.split('_');
+                            localeIcon = localeIcon[1];
+                            localeIcon = localeIcon.toLowerCase();
+                            outputHtml += '<option data-icon="flag-icon flag-icon-'+localeIcon+'" value="'+locales[i]+'">' + locales[i].toUpperCase() + '</option>';
                         }
                         outputHtml += '</select>';
                     outputHtml += '</span>';
