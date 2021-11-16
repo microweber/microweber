@@ -14,6 +14,12 @@ if ($data == false or empty($data)) {
 if (!$data['id'] and isset($params["parent-category-id"])) {
     $data['parent_id'] = intval($params["parent-category-id"]);
 }
+
+if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+    $data['parent_id'] = intval($_GET['addsubcategory']);
+
+}
+
 $just_saved = false;
 $quick_edit = false;
 if (isset($params['just-saved'])) {
