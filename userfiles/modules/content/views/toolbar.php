@@ -167,7 +167,7 @@ if ($last_page_front != false) {
                 </h5>
             </div>
         <?php elseif ($act == 'pages'): ?>
-            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                 <h5 class="mb-0">
                     <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Add Page"); ?></strong>
@@ -175,7 +175,7 @@ if ($last_page_front != false) {
                 <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Page"); ?></a>
             </div>
         <?php elseif ($act == 'posts'): ?>
-            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                 <h5 class="mb-0">
                     <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Posts"); ?></strong>
@@ -184,7 +184,7 @@ if ($last_page_front != false) {
             </div>
 
         <?php elseif ($act == 'products'): ?>
-            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                  <h5 class="mb-0">
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Products"); ?></strong>
@@ -192,7 +192,7 @@ if ($last_page_front != false) {
                 <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
             </div>
         <?php elseif (isset($params['is_shop'])): ?>
-            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                 <h5 class="mb-0">
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("My Shop"); ?></strong>
@@ -200,7 +200,7 @@ if ($last_page_front != false) {
                 <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
             </div>
         <?php else: ?>
-            <div class="col-md-7 d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                 <h5 class="mb-0">
                     <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Website"); ?></strong>
@@ -236,7 +236,7 @@ if ($last_page_front != false) {
         ?>
 
 
-        <div id="content-view-search-bar" class="js-hide-when-no-items col justify-content-md-end justify-content-center text-md-right my-md-0 mt-2 pr-0">
+        <div id="content-view-search-bar" class="js-hide-when-no-items col-auto justify-content-md-end justify-content-center text-md-right my-md-0 mt-2 pr-0">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
