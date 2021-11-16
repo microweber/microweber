@@ -543,6 +543,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $related->save();
 
             $this->app->cache_manager->delete('content');
+            $this->app->cache_manager->delete('repositories');
 
             return $related;
         }
