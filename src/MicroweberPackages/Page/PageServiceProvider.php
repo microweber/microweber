@@ -20,6 +20,7 @@ class PageServiceProvider extends ServiceProvider
         Page::observe(PageObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 
 }

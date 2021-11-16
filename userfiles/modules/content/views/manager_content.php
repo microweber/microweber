@@ -79,7 +79,13 @@
                                                 </a>
                                             <?php endif; ?>
                                         </div>
-                                        <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
+
+                                        <?php
+                                        $edit_link = '';
+                                        if (Route::has('admin.'.$item['content_type'].'.edit')) {
+                                            $edit_link = route('admin.' . $item['content_type'] . '.edit', $item['id']);
+                                        }
+                                        ?>
                                         <?php $edit_link_front = $content_link . '?editmode:y'; ?>
                                     </div>
 
@@ -117,7 +123,7 @@
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a target="<?php echo $target; ?>" class="btn btn-outline-success btn-sm mw-js-edit-content-admin-list-link" href="<?php print $edit_link ?>">
+                                                <a href="<?php echo $edit_link; ?>" class="btn btn-outline-success btn-sm">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 

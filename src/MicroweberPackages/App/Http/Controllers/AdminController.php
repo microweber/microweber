@@ -31,13 +31,9 @@ class AdminController extends Controller
     public $app;
     private $render_content;
 
-    public function __construct($app = null)
+    public function __construct()
     {
-        if (is_object($app)) {
-            $this->app = $app;
-        } else {
-            $this->app = mw();
-        }
+        $this->app = mw();
 
         event_trigger('mw.init');
     }
