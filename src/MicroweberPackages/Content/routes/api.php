@@ -89,13 +89,23 @@ Route::name('api.')
             }
 
             $segments = mw()->permalink_manager->link($content['id'], 'content', true);
-
+            $admin_url = route('admin.content.edit', $content['id']);
+            if(isset($content['content_type'])){
+                if($content['content_type'] == 'page'){
+                    $admin_url = route('admin.page.edit', $content['id']);
+                } else if($content['content_type'] == 'post'){
+                    $admin_url = route('admin.post.edit', $content['id']);
+                } else if($content['content_type'] == 'product'){
+                    $admin_url = route('admin.product.edit', $content['id']);
+                }
+            }
             if ($segments) {
                 return [
                     'url' => $segments['url'],
                     'slug_prefix' => $segments['slug_prefix'],
                     'slug_prefix_url' => $segments['slug_prefix_url'],
                     'slug' => $segments['slug'],
+                    'admin_url' => $admin_url ,
                     'site_url' => site_url()
                 ];
             }

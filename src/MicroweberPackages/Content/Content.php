@@ -97,7 +97,7 @@ class Content extends Model
 
     public function related()
     {
-        return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
+        return $this->hasMany(ContentRelated::class,'id','content_id')->orderBy('position', 'ASC');
     }
 
     public function modelFilter()
