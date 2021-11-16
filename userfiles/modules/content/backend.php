@@ -701,8 +701,16 @@ if ($action == 'posts') {
                                                         title: 'Edit',
                                                         icon: 'mdi mdi-pencil',
                                                         action: function (element, data, menuitem) {
-                                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
-                                                        }
+                                                            var url = "<?php print admin_url() ?>content/"+data.id+"/edit";
+                                                       
+                                                            if(data.type === 'category'){
+                                                                var url = "<?php print admin_url() ?>category/"+data.id+"/edit";
+                                                            } else   if(data.type === 'page'){
+                                                                var url = "<?php print admin_url() ?>page/"+data.id+"/edit";
+                                                            }
+                                                            window.location = url;
+
+                                                         }
                                                     },
                                                     {
                                                         title: 'Move to trash',
