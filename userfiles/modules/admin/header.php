@@ -351,8 +351,22 @@ $user = get_user_by_id($user_id);
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
 
-            <?php if (empty($view)) {
+            <?php
+            if (empty($view)) {
                 $view = Request::segment(2);
+            }
+
+            $routeName = Route::currentRouteName();
+            if ($routeName == 'admin.post.create' || $routeName == 'admin.post.edit') {
+                $action = 'posts';
+                $view = 'content';
+            }
+            if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
+                $action = 'pages';
+                $view = 'content';
+            }if ($routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
+                $action = 'products';
+                $view = 'shop';
             }
             ?>
 
