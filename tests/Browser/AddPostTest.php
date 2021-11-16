@@ -34,7 +34,7 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(100);
 
-            $browser->visit($siteUrl.'admin/view:content#action=new:post?dusk=1');
+            $browser->visit($siteUrl.'admin/post/create?dusk=1');
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);

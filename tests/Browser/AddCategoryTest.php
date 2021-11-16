@@ -34,7 +34,7 @@ class AddCategoryTest extends DuskTestCase
 
             $browser->pause(100);
 
-            $browser->visit($siteUrl.'admin/view:content?dusk=1#action=new:category');
+            $browser->visit($siteUrl.'admin/category/create?dusk=1');
 
             $browser->type('#content-title-field', $categoryTitle);
             $browser->type('#description', $categoryDescription);
