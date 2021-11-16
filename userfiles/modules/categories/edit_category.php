@@ -76,7 +76,13 @@ if (isset($params['live_edit'])) {
                 invalid_form_msg = 1;
             }
             if (!invalid_form_msg) {
-                var has_title = $('#content-title-field').val();
+                var has_title = false;
+                $('#content-title-field,[name*="multilanguage[title]"]').each(function (){
+                    if(!!this.value.trim()) {
+                        has_title = true;
+                    }
+                })
+
                 if (!has_title) {
                     invalid_form_msg = 2;
                 }
@@ -552,6 +558,8 @@ if (isset($params['live_edit'])) {
                                         }
                                         mw.$('.admin-thumb-item-loading:last').remove();
                                         mw.module_pictures.after_change();
+                                        after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+
                                     });
                                 })
 
