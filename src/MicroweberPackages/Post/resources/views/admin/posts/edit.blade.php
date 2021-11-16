@@ -1,1 +1,1 @@
-<module type="content/edit" content-id="{{$content_id}}" />
+<module type="content/edit" content_id="{{$content_id}}" content_type="post" />

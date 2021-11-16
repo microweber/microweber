@@ -1,7 +1,5 @@
 <?php
 
-
-
 Route::name('admin.shop.filter.')
     ->prefix(ADMIN_PREFIX. '/shop/filter')
     ->middleware(['admin'])
