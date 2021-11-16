@@ -81,4 +81,17 @@ class TemplateTest extends TestCase
         $this->assertFalse($admin_template);
 
     }
+
+
+    public function testTemplateEditFieldsAreSavedFieldContent()
+    {
+
+        $count = \DB::table('content_fields')->where('field', 'content')->where('rel_type','content')->count();
+        $this->assertEquals(0,0);
+
+        $count = \DB::table('content_fields')->where('field', 'content_body')->where('rel_type','content')->count();
+        $this->assertEquals(0,0);
+
+    }
+
 }
