@@ -447,7 +447,7 @@ if (isset($params['live_edit'])) {
                             </div>
                         </div>
 
-                        <script type="text/javascript">
+                        <script>
                             mw.require('tree.js')
                             var parent_page = <?php print intval($data['rel_id']);  ?>;
                             var parent_category = <?php print (intval($data['parent_id']));  ?>;
@@ -543,40 +543,42 @@ if (isset($params['live_edit'])) {
 
                             var dropdownUploader;
 
-                            mw.$('#mw-admin-post-media-type')
-                                .selectpicker()
-                                .on('changed.bs.select', function () {
-                                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                                    setTimeout(function () {
-                                        mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
-                                    }, 10)
+                            setTimeout(function (){
+                                mw.$('#mw-admin-post-media-type')
+                                    .selectpicker()
+                                    .on('changed.bs.select', function () {
+                                        mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                        setTimeout(function () {
+                                            mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                        }, 10)
 
-                                })
-                                .on('show.bs.select', function () {
-                                    if (!!dropdownUploader) {
-                                        dropdownUploader.remove()
-                                    }
-                                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                                    dropdownUploader = mw.upload({
-                                        element: item,
-                                        accept: 'image/*',
-                                        multiple: true
-                                    });
-                                    $(dropdownUploader).on('FileAdded', function (e, res) {
-                                        mw._postsImageUploader._thumbpreload()
                                     })
-                                    $(dropdownUploader).on('FileUploaded', function (e, res) {
-                                        var url = res.src ? res.src : res;
-                                        if (window.after_upld) {
-
-                                            mw._postsImageUploader.hide()
+                                    .on('show.bs.select', function () {
+                                        if (!!dropdownUploader) {
+                                            dropdownUploader.remove()
                                         }
-                                        mw.$('.admin-thumb-item-loading:last').remove();
-                                        mw.module_pictures.after_change();
-                                        after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+                                        var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                        dropdownUploader = mw.upload({
+                                            element: item,
+                                            accept: 'image/*',
+                                            multiple: true
+                                        });
+                                        $(dropdownUploader).on('FileAdded', function (e, res) {
+                                            mw._postsImageUploader._thumbpreload()
+                                        })
+                                        $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                            var url = res.src ? res.src : res;
+                                            if (window.after_upld) {
 
-                                    });
-                                })
+                                                mw._postsImageUploader.hide()
+                                            }
+                                            mw.$('.admin-thumb-item-loading:last').remove();
+                                            mw.module_pictures.after_change();
+                                            after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+
+                                        });
+                                    })
+                            }, 100)
 
 
                         </script>
