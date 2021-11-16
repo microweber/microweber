@@ -327,7 +327,8 @@
                     //if (self === parent) {
                     if (self === parent) {
                         //var type =  el['subtype'];
-                        mw.url.windowHashParam("action", "editpage:" + nid);
+                       // mw.url.windowHashParam("action", "editpage:" + nid);
+                        window.location = window.location; 
                     }
                     <?php endif; ?>
 
