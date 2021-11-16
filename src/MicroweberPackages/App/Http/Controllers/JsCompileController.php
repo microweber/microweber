@@ -453,11 +453,11 @@ class JsCompileController extends Controller
         }
         $l = new View($file);
 
-        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*'];
+        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*', 'l5-swagger.*'];
         if(!is_admin()){
             $except[] = 'admin.*';
             $except[] = 'api.*';
-            $except[] = 'l5-swagger.*';
+
         }
         config()->set('ziggy.except',$except);
 
