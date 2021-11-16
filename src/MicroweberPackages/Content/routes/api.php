@@ -90,13 +90,10 @@ Route::name('api.')
 
             $segments = mw()->permalink_manager->link($content['id'], 'content', true);
             $admin_url = route('admin.content.edit', $content['id']);
-            if(isset($content['content_type'])){
-                if($content['content_type'] == 'page'){
-                    $admin_url = route('admin.page.edit', $content['id']);
-                } else if($content['content_type'] == 'post'){
-                    $admin_url = route('admin.post.edit', $content['id']);
-                } else if($content['content_type'] == 'product'){
-                    $admin_url = route('admin.product.edit', $content['id']);
+
+            if(isset($content['content_type']) and $content['content_type']){
+                if (\Route::has('admin.'.$content['content_type'].'.edit')) {
+                    $admin_url = route('admin.' . $content['content_type'] . '.edit', $content['id']);
                 }
             }
             if ($segments) {
