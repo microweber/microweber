@@ -74,8 +74,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 top.window.location = mw.settings.site_url + "api/content/redirect_to_content?id=" + data;
 
                             } else {
-                                mw.url.windowHashParam('action', 'editpage:' + data);
-
+                               // mw.url.windowHashParam('action', 'editpage:' + data);
+                                window.location = "<?php print admin_url() ?>content/"+data+"/edit";
                             }
                             //content/redirect_to_content_id
                         } else {
