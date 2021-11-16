@@ -532,7 +532,9 @@ if (isset($params['live_edit'])) {
 
                                 })
                                 .on('show.bs.select', function () {
-                                    if (!!dropdownUploader) return;
+                                    if (!!dropdownUploader) {
+                                        dropdownUploader.remove()
+                                    }
                                     var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
                                     dropdownUploader = mw.upload({
                                         element: item,
@@ -548,6 +550,8 @@ if (isset($params['live_edit'])) {
 
                                             mw._postsImageUploader.hide()
                                         }
+                                        mw.$('.admin-thumb-item-loading:last').remove();
+                                        mw.module_pictures.after_change();
                                     });
                                 })
 
