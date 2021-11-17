@@ -44,12 +44,7 @@ class UserManagerTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
-        $exportData = users_export_my_data();
-
-        dd($exportData);
-
-
-
+        
 
     }
 
