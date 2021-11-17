@@ -57,7 +57,9 @@ if (!empty($supportedLanguages)) {
                 foreach ($supportedLanguages as $locale) {
                     $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                     $contentLink = $pm->link(CONTENT_ID, 'content');
-
+                    if (empty($contentLink)) {
+                        continue;
+                    }
                     if ($homepageLanguage == $locale['locale']) {
                         // Skip this alternate links
                         continue;
