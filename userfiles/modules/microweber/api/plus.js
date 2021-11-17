@@ -155,7 +155,7 @@ mw.drag.plus = {
                      if(mw._xhrIcons && mw._xhrIcons[url]) {
                          resolve(mw._xhrIcons[url])
                      } else {
-                         fetch(url)
+                         fetch(url, {cache: "force-cache"})
                              .then(function (data){
                                  return data.text();
                              }).then(function (data){
