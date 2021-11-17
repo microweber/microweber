@@ -44,7 +44,12 @@ class UserManagerTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
-        
+        $response = $this->call('GET', route('api.users.export_my_data'), [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $response->assertDownload();
 
     }
 

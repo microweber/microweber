@@ -120,4 +120,3 @@ api_expose('users/verify_email_link', function ($params) {
 
 });
 
-

@@ -9,13 +9,13 @@
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('api/users/export_my_data', function () {
+Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $request) {
 
     if (!is_logged()) {
         return array('error' => 'You must be logged');
     }
 
-    $user_id = (int) $_GET['user_id'];
+    $userId = (int) $request->all()['user_id'];
 
     $exportFromTables = [];
     $prefix = mw()->database_manager->get_prefix();
@@ -23,14 +23,14 @@ Route::get('api/users/export_my_data', function () {
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
         $columns  = Schema::getColumnListing($table);
-        if (in_array('created_by',$columns)) {
+        if (in_array('created_by', $columns)) {
             $exportFromTables[] = $table;
         }
     }
 
     $exportData = [];
     foreach ($exportFromTables as $exportFromTable) {
-        $getData = \Illuminate\Support\Facades\DB::table($exportFromTable)->where('created_by', $user_id)->get();
+        $getData = \Illuminate\Support\Facades\DB::table($exportFromTable)->where('created_by', $userId)->get();
         if (!empty($getData)) {
             $exportData[$exportFromTable] = $getData->toArray();
         }
@@ -43,7 +43,7 @@ Route::get('api/users/export_my_data', function () {
         return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
     }
 
-})->name('users.export_my_data');
+})->name('api.users.export_my_data');
 
 // OLD API SAVE USER
 Route::post('api/save_user', function (Request $request) {
