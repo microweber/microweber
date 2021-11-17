@@ -49,7 +49,10 @@ class UserManagerTest extends TestCase
         ]);
 
         $this->assertEquals($response->getStatusCode(), 200);
-        $response->assertDownload();
+
+        $isDownload = $response->headers->get('content-disposition');
+        $this->assertTrue(str_contains($isDownload, 'filename='));
+
 
     }
 
