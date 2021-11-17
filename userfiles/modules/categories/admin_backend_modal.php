@@ -2,11 +2,13 @@
 
 <script>
     mw.require('content.js')
+
+
  </script>
 <script>
 
     function mw_clear_edit_module_attrs() {
-        var container = mw.$('#categories-admin');
+        var container = mw.$('#<?php print $params['id']; ?>');
         container
             .removeAttr('content_type')
             .removeAttr('subtype')
@@ -57,10 +59,10 @@
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
 
-        mw.$('#categories-admin').removeAttr('parent_id');
-        mw.$('#categories-admin').removeAttr('data-parent-category-id');
+        mw.$('#<?php print $params['id']; ?>').removeAttr('parent_id');
+        mw.$('#<?php print $params['id']; ?>').removeAttr('data-parent-category-id');
 
-        mw.$('#categories-admin').attr('data-category-id', $p_id);
+        mw.$('#<?php print $params['id']; ?>').attr('data-category-id', $p_id);
 
 
 
@@ -72,9 +74,9 @@
     function mw_select_add_sub_category($p_id) {
 
 
-        mw.$('#categories-admin').removeAttr('parent_id');
-        mw.$('#categories-admin').attr('data-category-id', 0);
-        mw.$('#categories-admin').attr('data-parent-category-id', $p_id);
+        mw.$('#<?php print $params['id']; ?>').removeAttr('parent_id');
+        mw.$('#<?php print $params['id']; ?>').attr('data-category-id', 0);
+        mw.$('#<?php print $params['id']; ?>').attr('data-parent-category-id', $p_id);
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         cat_edit_load_from_modal('categories/edit_category');
     }
@@ -83,7 +85,7 @@
 
 
         var action = mw.url.windowHashParam('action');
-        var holder = $('#categories-admin');
+        var holder = $('#<?php print $params['id'] ?>');
 
         var time = !action ? 300 : 0;
         if (!action) {
@@ -125,6 +127,7 @@
                         mw.reload_module_everywhere('categories/admin_backend_modal');
 
                         mw.url.windowDeleteHashParam('action');
+ 
                     }
                 });
             });

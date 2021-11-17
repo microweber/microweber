@@ -244,11 +244,17 @@ if (isset($params['live_edit'])) {
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
 
-                    if(mw.category_is_new){
 
-                        window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                    if(self !== top && mw.top().settings.liveEdit){
+                        mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+                    } else {
+                        if(mw.category_is_new){
+
+                            window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                        }
                     }
-                   // mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
+                   //
 
                 });
 
@@ -324,12 +330,37 @@ if (isset($params['live_edit'])) {
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
                     <?php endif; ?>
 
-                        <a href="<?php print route('admin.category.create') ?>?addsubcategory=<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
                     <?php endif; ?>
 
 
                     <?php if (intval($data['id']) != 0): ?>
-                        <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+
+                        <?php
+
+                        $add_sub_cateory_link = route('admin.category.create') .'?addsubcategory='.$data['id'];
+                        if (isset($params['live_edit']) and $params['live_edit'] ) {
+                            $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
+                        }
+                        ?>
+
+                        <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+
+
+
+
+                        <?php
+
+                        $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                        if (isset($params['live_edit']) and $params['live_edit'] ) {
+                            $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                        }
+                        ?>
+
+
+
+                        <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
                     <?php endif; ?>
                 </div>
             </div>
