@@ -30,17 +30,15 @@ class CheckoutCartTest extends DuskTestCase
             $browser->seeLink('Proceed to Checkout');
             $browser->clickLink('Proceed to Checkout');
 
-            $browser->pause(1000);
+            $browser->pause(3000);
 
-            $browser->waitForLocation(  '/checkout/contact-information');
+            $browser->waitForText('First name');
 
             $browser->type('first_name', 'Bozhidar' . $uniqueId);
             $browser->type('last_name', 'Slaveykov' . $uniqueId);
             $browser->type('email', 'bobi'.$uniqueId.'@microweber.com');
             $browser->type('phone', $uniqueId);
             $browser->click('@checkout-continue');
-
-            $browser->waitForLocation('/checkout/shipping-method');
 
             $browser->pause(1000);
             $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
