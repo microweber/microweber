@@ -32,7 +32,7 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->pause(3000);
 
-            $browser->waitForText('First name');
+            $browser->waitForText('First Name');
 
             $browser->type('first_name', 'Bozhidar' . $uniqueId);
             $browser->type('last_name', 'Slaveykov' . $uniqueId);
