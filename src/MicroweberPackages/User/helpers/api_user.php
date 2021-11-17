@@ -122,6 +122,10 @@ api_expose('users/verify_email_link', function ($params) {
 
 
 api_expose_user('users/export_my_data', function ($params) {
+    return export_my_data($params);
+});
+
+function export_my_data($params) {
 
     if (!is_logged()) {
         return array('error' => 'You must be logged');
@@ -153,4 +157,4 @@ api_expose_user('users/export_my_data', function ($params) {
         return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
     }
 
-});
+}
