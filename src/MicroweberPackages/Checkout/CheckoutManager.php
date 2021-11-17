@@ -419,9 +419,12 @@ class CheckoutManager
             $amount = $this->app->shop_manager->cart_total();
             $tax = $this->app->cart_manager->get_tax();
 
+
             if (!empty($checkout_errors)) {
                 return array('error' => $checkout_errors);
             }
+
+            $amount = number_format($amount, 2);
 
             $place_order['amount'] = $amount;
             $place_order['allow_html'] = true;
