@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -37,6 +38,20 @@ use Illuminate\Support\Facades\Password;
 class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
+
+    public function testExportMyData()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $exportData = users_export_my_data();
+
+        dd($exportData);
+
+
+
+
+    }
 
     public function testRegistration()
     {
@@ -610,6 +625,5 @@ class UserManagerTest extends TestCase
 
 
     }
-
 
 }
