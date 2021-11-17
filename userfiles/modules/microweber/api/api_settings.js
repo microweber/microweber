@@ -486,12 +486,10 @@
     }
 })();
 
-
 <?php
+if(isset($inline_scripts) and is_array($inline_scripts)){
+    print implode($inline_scripts,"\n");
+}
 
-print $jsRoutes;
-
-
-
-    ?>
+?>
 

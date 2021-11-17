@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -406,6 +407,14 @@ class JsCompileController extends Controller
         $file = mw_includes_path() . 'api' . DS . 'api.js';
         $l = new View($file);
 
+        $inline_scripts = [];
+
+        $generator = new CsrfTokenRequestInlineJsScriptGenerator();
+        $script = $generator->generate();
+        $inline_scripts[] = $script;
+
+        $l->assign('inline_scripts',$inline_scripts);
+
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
@@ -452,6 +461,9 @@ class JsCompileController extends Controller
         if (!defined('TEMPLATE_URL')) {
             define('TEMPLATE_URL', '');
         }
+
+        $inline_scripts = [];
+
         $l = new View($file);
 
         $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*', 'l5-swagger.*'];
@@ -465,7 +477,10 @@ class JsCompileController extends Controller
         $ziggy = new ZiggyInlineJsRouteGenerator();
         $jsRoutes = $ziggy->generate();
 
-        $l->assign('jsRoutes',$jsRoutes);
+        $inline_scripts[] = $jsRoutes;
+
+
+        $l->assign('inline_scripts',$inline_scripts);
 
         $l = $l->__toString();
         return $l;
