@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Backup\Exporters\JsonExport;
+
 api_expose('user_social_login');
 
 api_expose('logout');
@@ -120,33 +122,35 @@ api_expose('users/verify_email_link', function ($params) {
 
 
 api_expose_user('users/export_my_data', function ($params) {
+
     if (!is_logged()) {
         return array('error' => 'You must be logged');
     }
 
-    include_once modules_path().'admin/backup/src/Backup.php';
-
-    $user_id = user_id();
-    if (isset($params['user_id']) and $params['user_id'] and is_admin()) {
-        $user_id = $params['user_id'];
+    $exportFromTables = [];
+    $prefix = mw()->database_manager->get_prefix();
+    $tablesList = mw()->database_manager->get_tables_list(true);
+    foreach ($tablesList as $table) {
+        $table = str_replace($prefix, false, $table);
+        $columns  = Schema::getColumnListing($table);
+        if (in_array('created_by',$columns)) {
+            $exportFromTables[] = $table;
+        }
     }
 
-    $email = user_email($user_id);
+    $exportData = [];
+    foreach ($exportFromTables as $exportFromTable) {
+        $getData = \Illuminate\Support\Facades\DB::table($exportFromTable)->where('created_by', $params['user_id'])->get();
+        if (!empty($getData)) {
+            $exportData[$exportFromTable] = $getData->toArray();
+        }
+    }
 
-    $sid = mw()->user_manager->session_id();
-    $backup_manager = new \MicroweberPackages\LegacyBackup\Backup();
+    $json = new JsonExport($exportData);
+    $getJson = $json->start();
 
-    $export_location = $backup_manager->get_bakup_location();
-
-
-    $export_path = $export_location . 'user_data_exports' . DS . $sid . '.json';
-    $export_path_zip = $export_location . 'user_data_exports' . DS . $sid . '.zip';
-    $db_params = array();
-    $db_params['created_by'] = $user_id;
-    $db_params['require_table_to_have_any_of_columns'] = array('created_by');
-
-    $export = $backup_manager->export_to_json_file('all', $db_params, $export_path);
-
-    return response()->download($export_path)->deleteFileAfterSend(true);
+    if (isset($getJson['files'][0]['filepath'])) {
+        return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
+    }
 
 });
