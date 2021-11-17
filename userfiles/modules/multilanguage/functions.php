@@ -57,6 +57,8 @@ if (!empty($supportedLanguages)) {
                 foreach ($supportedLanguages as $locale) {
                     $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
                     $contentLink = $pm->link(CONTENT_ID, 'content');
+                    $contentLink = trim($contentLink);
+
                     if (empty($contentLink)) {
                         continue;
                     }
@@ -102,6 +104,9 @@ if (!empty($supportedLanguages)) {
                     $contentLink = $pm->link(CATEGORY_ID, 'category');
                 } else {
                     $contentLink = $pm->link(CONTENT_ID, 'content');
+                }
+                if (empty($contentLink)) {
+                    continue;
                 }
 
                 $metaLocale = $locale['locale'];
