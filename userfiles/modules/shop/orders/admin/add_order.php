@@ -120,7 +120,12 @@ $data = $products;
                         </div>
                     </div>
 
-                    <h5 class="font-weight-bold my-4">Add New Product</h5>
+                    <br> <br> <br> <br>
+                    <?php
+
+                    /* adding custom item is disabled
+                     *
+                     * <h5 class="font-weight-bold my-4">Add New Product</h5>
                     <div class="col-12 mt-2">
                        <label class="control-label"><?php _e("Add custom item"); ?></label>
                         <small class="text-muted d-block mb-2"> <?php _e("In the field below you can add the name and price of products from your shop."); ?></small>
@@ -141,7 +146,9 @@ $data = $products;
                                 <button type="button" class="btn btn-primary icon-left pull-right m-2"  onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="fas fa-plus-circle"></i> <?php _e('Add Item'); ?></button>
                             </div>
                         </div>
-                    </div>
+                    </div>*/
+
+                    ?>
 
                     <?php
                     /*     <hr>

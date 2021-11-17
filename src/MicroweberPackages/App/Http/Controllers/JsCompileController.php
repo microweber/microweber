@@ -5,9 +5,11 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Tightenco\Ziggy\Ziggy;
 
 
 class JsCompileController extends Controller
@@ -150,6 +152,9 @@ class JsCompileController extends Controller
     public function apijs_combined_get_hash()
     {
         $hash = crc32(site_url() . template_dir()).'.' . MW_VERSION ;
+        if(is_admin()){
+            $hash= crc32(admin_url());
+        }
         return $hash;
     }
     public function apijs_combined()
@@ -448,6 +453,19 @@ class JsCompileController extends Controller
             define('TEMPLATE_URL', '');
         }
         $l = new View($file);
+
+        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*', 'l5-swagger.*'];
+        if(!is_admin()){
+            $except[] = 'admin.*';
+            $except[] = 'api.*';
+
+        }
+        config()->set('ziggy.except',$except);
+
+        $ziggy = new ZiggyInlineJsRouteGenerator();
+        $jsRoutes = $ziggy->generate();
+
+        $l->assign('jsRoutes',$jsRoutes);
 
         $l = $l->__toString();
         return $l;

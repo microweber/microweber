@@ -1,5 +1,14 @@
 <?php
 
+Route::name('admin.')
+    ->prefix('admin')
+    ->middleware(['admin'])
+    ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
+    ->group(function () {
+        Route::resource('category', 'CategoryController');
+    });
+
+
 Route::name('api.')
     ->prefix('api')
     ->middleware(['api', 'admin'])

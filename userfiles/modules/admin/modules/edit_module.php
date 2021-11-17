@@ -14,6 +14,7 @@ if ($id != false) {
 }
 ?>
 <?php if (!empty($data)): ?>
+    <script>mw.lib.require('mwui_init');</script>
     <script type="text/javascript">
         $(document).ready(function () {
             mw.$('#module_admin_settings_form_<?php print $params['id']; ?>').submit(function () {
@@ -147,10 +148,11 @@ if ($id != false) {
 
 <script>
 $(document).ready(function (){
-     $('.module-item-module img,.mw-modules-module-holder img').each(function (){
+
+    $('.module-item-module img,.mw-modules-module-holder img').each(function (){
         var src = this.dataset.moduleIcon.trim();
         var img = this;
-        if(src.includes('.svg')) {
+        if(src.includes('.svg') && src.includes(location.origin)) {
             var el = document.createElement('div');
             el.className = img.className;
             // var shadow = el.attachShadow({mode: 'open'});

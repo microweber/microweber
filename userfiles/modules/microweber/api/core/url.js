@@ -148,7 +148,7 @@ mw.url = {
 };
 
 mw.slug = {
-  max: 60,
+  max: 2048,
   normalize:function(string){
       if(!string) return '';
       string = string.substring(0, mw.slug.max);

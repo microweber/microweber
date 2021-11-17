@@ -240,10 +240,14 @@
                 mw.$('.mw-admin-go-live-now-btn').attr('content-id', data.id);
                 }
                 mw.askusertostay = false;
-
+                mw.is_new_content_added = false;
+                if ( typeof(data.id) !== 'undefined' && (data.id) == 0) {
+                    mw.is_new_content_added = true;
+                }
                 if (parent !== self && !!window.parent.mw) {
                     window.mw.parent().askusertostay = false;
                     if (typeof(data.is_active) !== 'undefined' && typeof(data.id) !== 'undefined') {
+
                         if ((data.id) != 0) {
                             if ((data.is_active) == 0) {
                                 window.mw.parent().$('.mw-set-content-unpublish').hide();
@@ -315,23 +319,33 @@
 
                          }
                         mw.$("a.quick-post-done-link").html(data.url);
-                    });
-                    mw.$("#<?php print $module_id ?>").attr("content-id", nid);
-                    <?php if($is_quick != false) : ?>
-                    //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
-                    <?php else: ?>
-                    //if (self === parent) {
-                    if (self === parent) {
-                        //var type =  el['subtype'];
-                        mw.url.windowHashParam("action", "editpage:" + nid);
-                    }
-                    <?php endif; ?>
 
-                    if ($('.mw_admin_edit_content_form').attr('content-type-is-changed') == 1) {
-                        location.reload();
-                        // This will redirect the full page with the new content type fields and changes
-                    }
-                    mw.edit_content.after_save(this);
+
+
+                         mw.$("#<?php print $module_id ?>").attr("content-id", nid);
+                         <?php if($is_quick != false) : ?>
+                         //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+                         <?php else: ?>
+                         //if (self === parent) {
+                         if (self === parent) {
+
+                             if(mw.is_new_content_added){
+                                 window.location = data.admin_url;
+                             }
+                             //var type =  el['subtype'];
+                             // mw.url.windowHashParam("action", "editpage:" + nid);
+                             // window.location = window.location;
+                         }
+                         <?php endif; ?>
+
+                         if ($('.mw_admin_edit_content_form').attr('content-type-is-changed') == 1) {
+                             location.reload();
+                             // This will redirect the full page with the new content type fields and changes
+                         }
+                         mw.edit_content.after_save(this);
+
+                    });
+
                 }
                 mw.edit_content.saving = false;
 

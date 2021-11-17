@@ -113,7 +113,7 @@ class Category extends Model
 
     public function getMorphClass()
     {
-        return 'category';
+        return 'categories';
     }
 
 

@@ -147,6 +147,12 @@
             }
         };
 
+        this.remove = function () {
+            if(this.input.parentNode) {
+                this.input.parentNode.removeChild(this.input);
+            }
+        }
+
         this.build = function () {
             if(this.settings.element) {
                 this.$element = $(this.settings.element);

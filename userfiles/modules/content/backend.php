@@ -699,7 +699,18 @@ if ($action == 'posts') {
                                                         title: 'Edit',
                                                         icon: 'mdi mdi-pencil',
                                                         action: function (element, data, menuitem) {
-                                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+                                                            if (data.type == 'category') {
+                                                                window.location  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+
+                                                            } else if (data.type == 'page') {
+                                                                window.location  = "<?php print admin_url() ?>page/" + data.id + "/edit";
+
+                                                            }
+                                                            else {
+                                                                mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+
+                                                            }
+
                                                         }
                                                     },
                                                     {

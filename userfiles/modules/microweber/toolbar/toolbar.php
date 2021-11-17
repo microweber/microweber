@@ -382,7 +382,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $pt_opts['list_tag'] = "ul";
                                 $pt_opts['ul_class'] = "";
                                 $pt_opts['list_item_tag'] = "li";
-                                $pt_opts['active_ids'] = CONTENT_ID;
+                                $pt_opts['active_ids'] = content_id();
                                 $pt_opts['limit'] = 1000;
                                 $pt_opts['active_code_tag'] = 'class="active"';
                                 mw()->content_manager->pages_tree($pt_opts);
@@ -419,9 +419,15 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                         <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <?php
+                                        $content_menu_url = route('admin.content.create');
+                                        if (\Route::has('admin.'.$item['content_type'].'.create')) {
+                                            $content_menu_url = route('admin.' . $item['content_type'] . '.create');
+                                        }
+                                        ?>
                                         <li>
                                             <a onclick="mw.liveedit.manageContent.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;"
-                                               href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>">
+                                               href="<?php print  $content_menu_url ?>">
                                                 <span class="<?php print $class; ?>"></span>
                                                 <strong><?php print $title; ?></strong>
                                             </a>

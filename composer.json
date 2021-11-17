@@ -24,13 +24,11 @@
         "ext-mbstring": "*",
         "ext-gd": "*",
         "laravel/framework": "^v8.61.0",
-        "ramsey/uuid": "4.2.1",
-        "laravel/tinker": "^2.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "symfony/translation": "5.0",
-        "doctrine/dbal": "2.5.3",
+        "doctrine/dbal": "*",
         "composer/composer": "1.10.23",
         "composer/installers": "1.9.0",
         "symplify/monorepo-builder": "^8.1",
@@ -73,8 +71,8 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "3.7",
-        "microweber-templates/shopmag": "2.1",
+        "microweber-templates/new-world": "3.8",
+        "microweber-templates/shopmag": "2.2",
         "lcobucci/jwt": "*",
         "laravel/passport": "10.1.2",
         "microweber-packages/microweber-class-alias": "dev-master",
@@ -86,7 +84,8 @@
         "predis/predis": "2.0.x-dev",
         "torann/laravel-repository": "dev-master",
         "enshrined/svg-sanitize": "0.14.1",
-        "laravel/dusk": "6.x-dev"
+        "laravel/dusk": "6.x-dev",
+        "tightenco/ziggy": "dev-main"
 
     },
     "require-dev": {
@@ -95,6 +94,7 @@
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "9.4.3",
+        "laravel/tinker": "*",
         "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0"
     },
     "autoload": {

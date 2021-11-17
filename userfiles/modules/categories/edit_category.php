@@ -14,6 +14,12 @@ if ($data == false or empty($data)) {
 if (!$data['id'] and isset($params["parent-category-id"])) {
     $data['parent_id'] = intval($params["parent-category-id"]);
 }
+
+if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+    $data['parent_id'] = intval($_GET['addsubcategory']);
+
+}
+
 $just_saved = false;
 $quick_edit = false;
 if (isset($params['just-saved'])) {
@@ -71,7 +77,13 @@ if (isset($params['live_edit'])) {
                 invalid_form_msg = 1;
             }
             if (!invalid_form_msg) {
-                var has_title = $('#content-title-field').val();
+                var has_title = false;
+                $('#content-title-field,[name*="multilanguage[title]"]').each(function (){
+                    if(!!this.value.trim()) {
+                        has_title = true;
+                    }
+                })
+
                 if (!has_title) {
                     invalid_form_msg = 2;
                 }
@@ -163,7 +175,9 @@ if (isset($params['live_edit'])) {
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 var catSaveUrl = '<?php print route('api.category.store'); ?>';
                 var catSaveUrlMethod = 'POST';
+                mw.category_is_new = true;
                 <?php if(isset($data['id']) and intval($data['id']) != 0): ?>
+                mw.category_is_new = false;
                 var catSaveUrl = '<?php print route('api.category.update',['category'=>$data['id']]); ?>';
                 var catSaveUrlMethod = 'PATCH';
 
@@ -224,7 +238,13 @@ if (isset($params['live_edit'])) {
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-                    mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
+                    if(mw.category_is_new){
+
+                        window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                    }
+                   // mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
                 });
 
                 return false;
@@ -260,7 +280,7 @@ if (isset($params['live_edit'])) {
         <div class="card-header">
             <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?></strong></h5>
             <div>
-                <button type="button" onclick="save_cat(this);" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
+                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
             </div>
         </div>
     <?php endif; ?>
@@ -298,7 +318,8 @@ if (isset($params['live_edit'])) {
 
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
                     <?php endif; ?>
-                        <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+                        <a href="<?php print route('admin.category.create') ?>?addsubcategory=<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
                     <?php endif; ?>
 
 
@@ -421,7 +442,7 @@ if (isset($params['live_edit'])) {
                             </div>
                         </div>
 
-                        <script type="text/javascript">
+                        <script>
                             mw.require('tree.js')
                             var parent_page = <?php print intval($data['rel_id']);  ?>;
                             var parent_category = <?php print (intval($data['parent_id']));  ?>;
@@ -515,36 +536,47 @@ if (isset($params['live_edit'])) {
                             });
 
 
-                            var dropdownUploader;
 
-                            mw.$('#mw-admin-post-media-type')
-                                .selectpicker()
-                                .on('changed.bs.select', function () {
-                                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                                    setTimeout(function () {
-                                        mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
-                                    }, 10)
 
-                                })
-                                .on('show.bs.select', function () {
-                                    if (!!dropdownUploader) return;
-                                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                                    dropdownUploader = mw.upload({
-                                        element: item,
-                                        accept: 'image/*',
-                                        multiple: true
-                                    });
-                                    $(dropdownUploader).on('FileAdded', function (e, res) {
-                                        mw._postsImageUploader._thumbpreload()
+                            setTimeout(function (){
+                                var dropdownUploader;
+                                mw.$('#mw-admin-post-media-type')
+                                    .selectpicker({
+                                        container: mw.$('#mw-admin-post-media-type').parent()
                                     })
-                                    $(dropdownUploader).on('FileUploaded', function (e, res) {
-                                        var url = res.src ? res.src : res;
-                                        if (window.after_upld) {
+                                    .on('changed.bs.select', function () {
+                                        mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                        setTimeout(function () {
+                                            mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                        }, 10)
 
-                                            mw._postsImageUploader.hide()
+                                    })
+                                    .on('show.bs.select', function () {
+                                        if (!!dropdownUploader) {
+                                            dropdownUploader.remove()
                                         }
-                                    });
-                                })
+                                        var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                         dropdownUploader = mw.upload({
+                                            element: item,
+                                            accept: 'image/*',
+                                            multiple: true
+                                        });
+                                        $(dropdownUploader).on('FileAdded', function (e, res) {
+                                            mw._postsImageUploader._thumbpreload()
+                                        })
+                                        $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                            var url = res.src ? res.src : res;
+                                            if (window.after_upld) {
+
+                                                mw._postsImageUploader.hide()
+                                            }
+                                            mw.$('.admin-thumb-item-loading:last').remove();
+                                            mw.module_pictures.after_change();
+                                            after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+
+                                        });
+                                    })
+                            }, 200)
 
 
                         </script>

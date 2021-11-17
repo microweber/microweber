@@ -282,17 +282,12 @@ class ModuleManager
             $glob_patern = '*config.php';
         }
 
-        if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
-            define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
+
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
         }
 
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-//            ini_set('memory_limit', '160M');
-//            ini_set('set_time_limit', 0);
-//        }
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-//            set_time_limit(600);
-//        }
 
         $dir = rglob($glob_patern, 0, $dir_name);
 
@@ -358,6 +353,11 @@ class ModuleManager
                     $config['module_base'] = str_replace('admin/', '', $moduleDir);
                     $main_try_icon = false;
 
+                    $config['is_symlink'] = false;
+                    if(is_link(normalize_path($moduleDir, false))){
+                        $config['is_symlink'] = true;
+                    }
+
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
@@ -416,7 +416,6 @@ class ModuleManager
                     } else {
                         $config['ui_admin'] = 0;
                     }
-
 
                     if (isset($config['no_cache']) and $config['no_cache'] == true) {
                         $config['allow_caching'] = 0;

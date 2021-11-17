@@ -52,7 +52,7 @@
 <div class="card bg-light style-1 mb-3">
     <div class="card-header">
         <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $order['id'] ?></strong></h5>
-       <div  data-toggle="tooltip" title="<?php print mw('format')->ago($order['created_at']); ?>">
+       <div  data-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
         <?php print date('M d, Y', strtotime($order['created_at'])); ?>
        </div>
         {{--<div>
@@ -319,6 +319,34 @@
                 <div class="mb-2">
                     <small class="text-muted"><?php _e('Set additional information to your order, helps you to track the order status more effective'); ?></small>
                 </div>
+
+
+                <?php if (isset($order['created_at']) and $order['created_at'] != ''): ?>
+                <div class="mb-3">
+                    <?php _e("Created at"); ?>: <?php print date('M d, Y H:i', strtotime($order['created_at'])); ?>
+                    <small class="text-muted  "><?php print mw()->format->ago($order['created_at']); ?>  </small>
+
+                </div>
+                <?php endif; ?>
+
+                <?php if (isset($order['updated_at']) and $order['updated_at'] != ''): ?>
+                <div class="mb-3">
+                    <?php _e("Updated at"); ?>: <?php print date('M d, Y H:i', strtotime($order['updated_at'])); ?>
+                    <small class="text-muted  "><?php print mw()->format->ago($order['updated_at']); ?>  </small>
+
+                </div>
+                <?php endif; ?>
+
+                <?php if (isset($order['created_by']) and $order['created_by'] != ''): ?>
+                <div class="mb-3">
+                    <?php _e("Created by"); ?>: <?php print user_name($order['created_by']); ?> (ID: <?php print ($order['created_by']); ?> )
+                </div>
+                <?php endif; ?>
+
+
+
+
+
             </div>
 
             <div class="col-md-6 border-left">
@@ -393,6 +421,11 @@
                     <?php _e("Payment status"); ?>: <?php print $order['payment_status']; ?>
                 </div>
                 <?php endif; ?>
+
+
+
+
+
             </div>
         </div>
     </div>

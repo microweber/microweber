@@ -36,3 +36,11 @@
     }
 
 
+<?php
+
+print $jsRoutes;
+
+
+
+    ?>
+

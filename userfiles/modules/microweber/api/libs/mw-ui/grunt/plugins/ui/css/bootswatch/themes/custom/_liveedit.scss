@@ -380,8 +380,16 @@
 }
 
 
-.mw-tooltip-default .mw-tooltip-content {
+.mw-tooltip-default .mw-tooltip-content, .a-color-picker {
     background-color: $black!important;
+}
+
+.a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input {
+    color: $secondary!important;
+}
+
+.a-color-picker-row:not(:first-child) {
+    border: 1px solid $primary!important;
 }
 
 .mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
@@ -530,4 +538,24 @@
     border-color: $primary!important;
     background-color: $primary!important;
     color: $secondary!important;
+}
+
+.badge-pill {
+    background-color: $textGray!important;
+    color: $secondary!important;
+}
+
+
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: $primary!important;
+}
+
+.card.style-1 .card-header-fix .card-header {
+    border-color: $primary!important;
+    background-color: $black;
+}
+
+.card.style-1 .card-header-fix .card-header.post-header-content-changed {
+    background-color: $body-bg!important;
+    border: 1px solid $primary!important;
 }

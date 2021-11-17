@@ -94,9 +94,7 @@
         mw.load_module('admin/modules/manage', '#modules_admin_<?php print $params['id']; ?>', function () {
             $('#module_keyword').removeClass('loading');
 
-            if (typeof(SVGtoCode) != 'undefined') {
-                SVGtoCode();
-            }
+
             var el = $("#modules_admin_<?php print $params['id']; ?> .mw-modules-admin");
             // $( "#modules_admin_<?php print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
             el.sortable({
