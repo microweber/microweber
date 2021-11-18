@@ -34,8 +34,10 @@ class CategoryTest extends TestCase
 
         $mainCategory = new Category();
         $mainCategory->title = 'Category level 1' . uniqid();
-        $mainCategory->title = 'Category level 1' . uniqid();
         $mainCategory->save();
+
+        $categoryTitle = category_title($mainCategory->id);
+        $this->assertEquals($mainCategory->title, $categoryTitle);
 
         $post = new Post();
         $post->title = 'my-new-post-'.uniqid();
