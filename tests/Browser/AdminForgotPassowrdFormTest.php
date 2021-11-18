@@ -29,11 +29,11 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('2000');
 
             $browser->click('@forgot-password-link');
-            $browser->pause('2000');
+            $browser->pause('3000');
 
             $browser->type('username', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
-            $browser->pause('2000');
+            $browser->pause('3000');
 
             $browser->waitForText('We have emailed your password reset link');
             $browser->assertSee('We have emailed your password reset link');
@@ -63,11 +63,11 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('2000');
 
             $browser->click('@forgot-password-link');
-            $browser->pause('2000');
+            $browser->pause('3000');
 
             $browser->type('username', 'wrong-email@microweber.com');
             $browser->click('@reset-password-button');
-            $browser->pause('2000');
+            $browser->pause('3000');
 
             $browser->waitForText('We can\'t find a user with that email address');
             $browser->assertSee('We can\'t find a user with that email address');
@@ -92,7 +92,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('2000');
 
             $browser->click('@forgot-password-link');
-            $browser->pause('2000');
+            $browser->pause('3000');
 
             $browser->type('username', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
