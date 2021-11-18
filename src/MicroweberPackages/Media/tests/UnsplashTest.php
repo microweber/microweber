@@ -18,6 +18,6 @@ class UnsplashTest extends TestCase
 
         $download = $unsplash->download($search['photos'][0]['id']);
 
-        $this->assertTrue(is_file($download));
+        $this->assertTrue(is_file(url2dir($download)));
     }
 }
