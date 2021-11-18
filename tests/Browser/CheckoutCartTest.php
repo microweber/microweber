@@ -19,10 +19,11 @@ class CheckoutCartTest extends DuskTestCase
             $uniqueId = time();
 
             $browser->visit($siteUrl . 'shop');
-            $browser->pause('2222');
+
+            $browser->waitForText('Shop');
 
             $browser->script('$(".name-of-product-shop").first().click()');
-            $browser->pause('1000');
+            $browser->pause(5000);
 
             $browser->waitForText('Proceed to Checkout');
             $browser->assertSee('Proceed to Checkout');
@@ -40,9 +41,12 @@ class CheckoutCartTest extends DuskTestCase
             $browser->type('phone', $uniqueId);
             $browser->click('@checkout-continue');
 
-            $browser->pause(1000);
+            $browser->pause(2000);
+            $browser->waitForText('Shipping method');
+
             $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
 
+            $browser->pause(7000);
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
 

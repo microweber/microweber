@@ -27,7 +27,7 @@ if (!function_exists('is_cli')) {
         if (
             defined('STDIN')
             or $php_sapi_name === 'cli'
-            //  or $php_sapi_name === 'cli-server'
+            or $php_sapi_name === 'cli-server'
             or array_key_exists('SHELL', $_ENV)
 
         ) {
