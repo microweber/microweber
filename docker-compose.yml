@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-    - "80:80"
-    - "443:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - type: bind
         source: ./config
@@ -17,7 +17,16 @@ services:
       - type: bind
         source: ./userfiles/media
         target: /var/www/html/userfiles/media
-
+selenium:
+  image: 'selenium/standalone-chrome'
+  volumes:
+    - '/dev/shm:/dev/shm'
+  networks:
+    - sail
+depends_on:
+  - mysql
+  - redis
+  - selenium
 volumes:
   storage:
   config:
