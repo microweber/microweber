@@ -25,6 +25,9 @@ class CategoryTest extends TestCase
     public function testRender()
     {
 
+        $categoryLink = category_link(888888);
+        $this->assertFalse($categoryLink);
+
         $page = new Page();
         $page->title = 'my-new-page-'.uniqid();
         $page->content_type = 'page';
