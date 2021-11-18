@@ -6,7 +6,7 @@ $merchantId = get_option('przelewy24_merchant_id', 'payments');
 $is_test = (get_option('przelewy24_testmode', 'payments')) == 'y';
 $crc = get_option('przelewy24_crc', 'payments');
 $posId = $merchantId;
- 
+
 $gateway = Omnipay::create('Przelewy24');
 
 $gateway->initialize([
@@ -19,35 +19,43 @@ $gateway->initialize([
 //dd($posId);
 //dd($place_order);
  //dd($mw_ipn_url);
- 
+
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 //dd($formData);
 try {
     // Send purchase request
+
+
+
+    $purchase_request_params = array(
+        'amount'   => $place_order['amount'],
+        'currency' => $place_order['currency'],
+        'description' => $place_order['item_name'],
+        'sessionId' => $place_order['session_id'].$place_order['id'],
+
+        'transactionId' => $place_order['payment_verify_token'],
+
+        'card' => $formData,
+
+
+        'returnUrl' => $mw_return_url,
+        'notifyUrl' => $mw_ipn_url,
+        'cancelUrl' => $mw_cancel_url,
+    );
+    //\Log::info('My $purchase_request_params', ['purchase_request_params' => $purchase_request_params]);
+
     $response = $gateway->purchase(
-        array(
-            'amount'   => $place_order['amount'],
-            'currency' => $place_order['currency'],
-			'description' => $place_order['item_name'],
-			'sessionId' => $place_order['session_id'].$place_order['id'],
-
-			'transactionId' => $place_order['payment_verify_token'],
-           
-		    'card' => $formData,
-
-			
-			'returnUrl' => $mw_return_url,
-			'notifyUrl' => $mw_ipn_url,
-			'cancelUrl' => $mw_cancel_url,
-        )
+        $purchase_request_params
     )->send();
+
+
 
     if ($response->isRedirect()) {
 		$place_order['order_completed'] = 1;
 		$place_order['is_paid'] = 0;
 		$place_order['redirect'] = $response->getRedirectUrl();
-		
- 
+
+
        // return $response->redirect();
 
     } else if ($response->isSuccessful()){
@@ -72,8 +80,7 @@ try {
 
 }
 
- 
 
- 
 
- 
+
+

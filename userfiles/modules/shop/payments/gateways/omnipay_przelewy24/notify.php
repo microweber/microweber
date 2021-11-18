@@ -1,9 +1,6 @@
 <?php
 use Omnipay\Omnipay;
 
- 
-
-
 
 if(!isset($data['p24_order_id']) or !isset($data['p24_session_id'])){
 return;
@@ -27,19 +24,24 @@ $gateway->initialize([
 ]);
 
 
-$english_format_number = number_format($data['p24_amount'], 2, '.', '');
-$english_format_number = number_format($ord_data['amount'], 2, '.', '');
-$currency = $data['p24_currency'];
-$currency = $ord_data['currency'];
+//$english_format_number = number_format($data['p24_amount'], 2, '.', '');
+//$english_format_number = number_format($ord_data['amount'], 2, '.', '');
+//$currency = $data['p24_currency'];
+//$currency = $ord_data['currency'];
 
 $trans_params = array(
 
 		'transactionId'   => $data['p24_order_id'],
  		'sessionId' => $data['p24_session_id'],
-		'amount' => $english_format_number ,
-		'currency' => $currency,
+		'amount' => $ord_data['amount'] ,
+		'currency' => $ord_data['currency'],
 
 	);
+
+\Log::info('My $trans_params', ['$trans_params' => $trans_params]);
+
+
+
 $response = $gateway->completePurchase($trans_params)->send();
 
 if ($response->isSuccessful()){
