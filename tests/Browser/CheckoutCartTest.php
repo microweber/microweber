@@ -19,7 +19,8 @@ class CheckoutCartTest extends DuskTestCase
             $uniqueId = time();
 
             $browser->visit($siteUrl . 'shop');
-            $browser->pause('2222');
+
+            $browser->waitForText('Shop');
 
             $browser->script('$(".name-of-product-shop").first().click()');
             $browser->pause(5000);
