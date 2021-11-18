@@ -3,11 +3,13 @@
 namespace MicroweberPackages\Media\tests;
 
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 
 
 class ContentTestModelForCategories extends Model
@@ -23,23 +25,30 @@ class CategoryTest extends TestCase
     public function testRender()
     {
 
-        $page = new Page();
+      /*  $page = new Page();
         $page->title = 'my-new-page-'.uniqid();
         $page->content_type = 'page';
         $page->url = 'my-new-page';
         $page->subtype = 'dynamic';
-        $pageId = $page->save();
+        $page->save();*/
 
-      //  dd($pageId);
+        $mainCategory = new Category();
+        $mainCategory->title = 'Category level 1' . uniqid();
+        $mainCategory->title = 'Category level 1' . uniqid();
+        $mainCategory->save();
 
-        $category = new Category();
-        $category->title = 'Category level 1';
-        $category->save();
+        $post = new Post();
+        $post->title = 'my-new-post-'.uniqid();
+        $post->content_type = 'post';
+        $post->url = 'my-new-post';
+        $post->category_ids = $mainCategory->id;
+        $post->save();
 
-        $categoryTree = category_tree();
-
-        //dump($categoryTree);
-       // die();
+        $categoryItems = get_category_items($mainCategory->id);
+        $this->assertEquals(1, count($categoryItems));
+        $this->assertEquals($mainCategory->id, $categoryItems[0]['parent_id']);
+        $this->assertEquals('content', $categoryItems[0]['rel_type']);
+        $this->assertEquals($post->id, $categoryItems[0]['rel_id']);
 
     }
 
