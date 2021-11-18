@@ -41,9 +41,12 @@ class CheckoutCartTest extends DuskTestCase
             $browser->type('phone', $uniqueId);
             $browser->click('@checkout-continue');
 
-            $browser->pause(6000);
+            $browser->pause(2000);
+            $browser->waitForText('Shipping method');
+
             $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
 
+            $browser->pause(3000);
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
 
