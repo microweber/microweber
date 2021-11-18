@@ -1,33 +1,62 @@
-version: "3.3"
+version: '3'
 services:
-  web:
+
+  #PHP Service
+  app:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - type: bind
-        source: ./config
-        target: /var/www/html/config
-      - type: bind
-        source: ./storage
-        target: /var/www/html/storage
-      - type: bind
-        source: ./userfiles/media
-        target: /var/www/html/userfiles/media
-selenium:
-  image: 'selenium/standalone-chrome'
-  volumes:
-    - '/dev/shm:/dev/shm'
-  networks:
-    - sail
-depends_on:
-  - mysql
-  - redis
-  - selenium
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
 volumes:
-  storage:
-  config:
-  media:
+  - type: bind
+    source: ./config
+    target: /var/www/html/config
+  - type: bind
+    source: ./storage
+    target: /var/www/html/storage
+  - type: bind
+    source: ./userfiles/media
+    target: /var/www/html/userfiles/media
