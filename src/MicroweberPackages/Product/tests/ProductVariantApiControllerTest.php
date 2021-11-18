@@ -9,7 +9,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class ProductApiControllerTest extends TestCase
+class ProductVariantApiControllerTest extends TestCase
 {
 
     public function testAddProductFull()
@@ -50,7 +50,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.product.store'),
+            route('api.product_variant.store'),
             [
                 'title' => $title,
                 'category_ids'=>implode(',', $categoryIds),
@@ -71,7 +71,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.product.update', [
+            route('api.product_variant.update', [
                 'product' => $productDataSaved->id,
                 'title' => $title2,
             ])
@@ -89,7 +89,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.product.update', [
+            route('api.product_variant.update', [
                 'product' => $productDataSaved->id,
                 'price' => '',
             ])
@@ -103,7 +103,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.product.update', [
+            route('api.product_variant.update', [
                 'product' => $productDataSaved->id,
                 'price' => '0',
             ])
@@ -118,7 +118,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.product.update', [
+            route('api.product_variant.update', [
                 'product' => $productDataSaved->id,
                 'price' => $price,
             ])
@@ -140,7 +140,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.product.store'),
+            route('api.product_variant.store'),
             [
                 'title' => $title,
                 'content_body' => '<b>Bold text</b>',
@@ -158,7 +158,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.product.show',
+            route('api.product_variant.show',
                 [
                     'product' => $product_id,
                 ])
@@ -172,7 +172,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'PUT',
-            route('api.product.update', [
+            route('api.product_variant.update', [
                 'product' => $product_id,
                 'title' => $title2,
             ])
@@ -183,7 +183,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.product.show',
+            route('api.product_variant.show',
                 [
                     'product' => $product_id,
                 ])
@@ -197,7 +197,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'GET',
-            route('api.product.index',
+            route('api.product_variant.index',
                 [
                 ])
         );
@@ -216,7 +216,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            route('api.product.store'),
+            route('api.product_variant.store'),
             [
                 'title' => $title,
             ]
@@ -225,7 +225,7 @@ class ProductApiControllerTest extends TestCase
 
         $response = $this->call(
             'DELETE',
-            route('api.product.destroy', [
+            route('api.product_variant.destroy', [
                 'post' => $response->getData()->data->id,
             ])
         );
