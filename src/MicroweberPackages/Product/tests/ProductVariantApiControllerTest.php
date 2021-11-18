@@ -193,8 +193,6 @@ class ProductVariantApiControllerTest extends TestCase
 
         $this->assertEquals($product_data->data->title, $title2);
 
-
-
         $response = $this->call(
             'GET',
             route('api.product_variant.index',

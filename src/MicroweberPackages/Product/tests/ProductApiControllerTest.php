@@ -205,6 +205,17 @@ class ProductApiControllerTest extends TestCase
         $product_data = $response->getData();
         $this->assertEquals(true,!empty($product_data->data));
 
+        $response = $this->call(
+            'GET',
+            route('api.product.quick-view',
+                [
+                    'id' => $product_id,
+                ])
+        );
+
+        $product_data = $response->getData();
+        $this->assertEquals(true,!empty($product_data->data));
+
     }
 
     public function testDestroyContentFromController()
