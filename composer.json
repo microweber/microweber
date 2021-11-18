@@ -85,7 +85,8 @@
         "torann/laravel-repository": "dev-master",
         "enshrined/svg-sanitize": "0.14.1",
         "laravel/dusk": "6.x-dev",
-        "tightenco/ziggy": "dev-main"
+        "tightenco/ziggy": "dev-main",
+        "laravel/sail": "1.x-dev"
 
     },
     "require-dev": {
@@ -95,8 +96,7 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "9.4.3",
         "laravel/tinker": "*",
-        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0",
-        "laravel/sail": "1.x-dev"
+        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0"
     },
     "autoload": {
         "psr-4": {
