@@ -25,14 +25,15 @@ class CategoryTest extends TestCase
     public function testRender()
     {
 
-      /*  $page = new Page();
+        $page = new Page();
         $page->title = 'my-new-page-'.uniqid();
         $page->content_type = 'page';
         $page->url = 'my-new-page';
         $page->subtype = 'dynamic';
-        $page->save();*/
+        $page->save();
 
         $mainCategory = new Category();
+        $mainCategory->parent_id = $page->id;
         $mainCategory->title = 'Category level 1' . uniqid();
         $mainCategory->save();
 
@@ -47,10 +48,17 @@ class CategoryTest extends TestCase
         $post->save();
 
         $categoryItems = get_category_items($mainCategory->id);
+        $categoryItemsCount = get_category_items_count($mainCategory->id);
+        $this->assertEquals(1, $categoryItemsCount);
+
         $this->assertEquals(1, count($categoryItems));
         $this->assertEquals($mainCategory->id, $categoryItems[0]['parent_id']);
         $this->assertEquals('content', $categoryItems[0]['rel_type']);
         $this->assertEquals($post->id, $categoryItems[0]['rel_id']);
+
+        $options = array();
+        $options['active_ids'] = $mainCategory->id;
+        $categoryTree = category_tree($options);
 
     }
 
