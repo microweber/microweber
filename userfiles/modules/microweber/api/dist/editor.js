@@ -1220,6 +1220,905 @@ const State = function(options){
 };
 
 
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/core/uploader.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/uploader.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Uploader": () => (/* binding */ Uploader)
+/* harmony export */ });
+
+
+    const Uploader = function( options ) {
+        //var upload = function( url, data, callback, type ) {
+        options = options || {};
+        options.accept = options.accept || options.filetypes;
+        var defaults = {
+            multiple: false,
+            progress: null,
+            element: null,
+            url: options.url || (mw.settings.site_url + 'plupload'),
+            urlParams: {},
+            on: {},
+            autostart: true,
+            async: true,
+            accept: '*',
+            chunkSize: 1500000,
+        };
+
+        var normalizeAccept = function (type) {
+            type = (type || '').trim().toLowerCase();
+            if(!type) return '*';
+            if (type === 'image' || type === 'images') return '.png,.gif,.jpg,.jpeg,.tiff,.bmp,.svg';
+            if (type === 'video' || type === 'videos') return '.mp4,.webm,.ogg,.wma,.mov,.wmv';
+            if (type === 'document' || type === 'documents') return '.doc,.docx,.log,.pdf,.msg,.odt,.pages,' +
+                '.rtf,.tex,.txt,.wpd,.wps,.pps,.ppt,.pptx,.xml,.htm,.html,.xlr,.xls,.xlsx';
+
+            return '*';
+        };
+
+        var scope = this;
+        this.settings = $.extend({}, defaults, options);
+        this.settings.accept = normalizeAccept(this.settings.accept);
+
+        this.getUrl = function () {
+            var params = this.urlParams();
+            var empty = mw.tools.isEmptyObject(params);
+            return this.url() + (empty ? '' : ('?' + $.param(params)));
+        };
+
+        this.urlParam = function (param, value) {
+            if(typeof value === 'undefined') {
+                return this.settings.urlParams[param];
+            }
+            this.settings.urlParams[param] = value;
+        };
+
+        this.urlParams = function (params) {
+            if(!params) {
+                return this.settings.urlParams;
+            }
+            this.settings.urlParams = params;
+        };
+
+        this.url = function (url) {
+            if(!url) {
+                return this.settings.url;
+            }
+            this.settings.url = url;
+        };
+
+        this.create = function () {
+            this.input = document.createElement('input');
+            this.input.multiple = this.settings.multiple;
+            this.input.accept = this.settings.accept;
+            this.input.type = 'file';
+            this.input.className = 'mw-uploader-input';
+            this.input.oninput = function () {
+                scope.addFiles(this.files);
+            };
+        };
+
+        this.files = [];
+        this._uploading = false;
+        this.uploading = function (state) {
+            if(typeof state === 'undefined') {
+                return this._uploading;
+            }
+            this._uploading = state;
+        };
+
+        this._validateAccept = this.settings.accept
+            .toLowerCase()
+            .replace(/\*/g, '')
+            .replace(/ /g, '')
+            .split(',')
+            .filter(function (item) {
+                return !!item;
+            });
+        this.validate = function (file) {
+            if(!file) return false;
+            var ext = '.' + file.name.split('.').pop().toLowerCase();
+            if (this._validateAccept.length === 0) {
+                return true;
+            }
+            for (var i = 0; i < this._validateAccept.length; i++) {
+                var item =  this._validateAccept[i];
+                if(item === ext) {
+                    return true;
+                }
+                else if(file.type.indexOf(item) === 0) {
+                    return true;
+                }
+            }
+            return false;
+
+        };
+
+        this.addFile = function (file) {
+            if(this.validate(file)) {
+                if(!this.files.length || this.settings.multiple){
+                    this.files.push(file);
+                    if(this.settings.on.fileAdded) {
+                        this.settings.on.fileAdded(file);
+                    }
+                    $(scope).trigger('FileAdded', file);
+                } else {
+                    this.files = [file];
+                    $(scope).trigger('FileAdded', file);
+                    if(this.settings.on.fileAdded) {
+                        this.settings.on.fileAdded(file);
+                    }
+                }
+            }
+        };
+
+        this.addFiles = function (files) {
+
+            if(!files || !files.length) return;
+
+            if(!this.settings.multiple) {
+                files = [files[0]];
+            }
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    scope.addFile(files[i]);
+                }
+                if(this.settings.on.filesAdded) {
+                    if(this.settings.on.filesAdded(files) === false) {
+                        return;
+                    }
+                }
+                $(scope).trigger('FilesAdded', [files]);
+                if(this.settings.autostart) {
+                    this.uploadFiles();
+                }
+            }
+        };
+
+        this.remove = function () {
+            if(this.input.parentNode) {
+                this.input.parentNode.removeChild(this.input);
+            }
+        }
+
+        this.build = function () {
+            if(this.settings.element) {
+                this.$element = $(this.settings.element);
+                this.element = this.$element[0];
+
+                if(this.element) {
+                    this.$element/*.empty()*/.append(this.input);
+                    var pos = getComputedStyle(this.element).position;
+                    if(pos === 'static') {
+                        this.element.style.position = 'relative';
+                    }
+                    this.element.style.overflow = 'hidden';
+                }
+            }
+        };
+
+        this.show = function () {
+            this.$element.show();
+        };
+
+        this.hide = function () {
+            this.$element.hide();
+        };
+
+        this.initDropZone = function () {
+            if (!!this.settings.dropZone) {
+                mw.$(this.settings.dropZone).each(function () {
+                    $(this).on('dragover', function (e) {
+                        e.preventDefault();
+                    }).on('drop', function (e) {
+                        var dt = e.dataTransfer || e.originalEvent.dataTransfer;
+                        e.preventDefault();
+                        if (dt && dt.items) {
+                            var files = [];
+                            for (var i = 0; i < dt.items.length; i++) {
+                                if (dt.items[i].kind === 'file') {
+                                    var file = dt.items[i].getAsFile();
+                                    files.push(file);
+                                }
+                            }
+                            scope.addFiles(files);
+                        } else  if (dt && dt.files)  {
+                            scope.addFiles(dt.files);
+                        }
+                    });
+                });
+            }
+        };
+
+
+        this.init = function() {
+            this.create();
+            this.build();
+            this.initDropZone();
+        };
+
+        this.init();
+
+        this.removeFile = function (file) {
+            var i = this.files.indexOf(file);
+            if (i > -1) {
+                this.files.splice(i, 1);
+            }
+        };
+
+        this.uploadFile = function (file, done, chunks, _all, _i) {
+            return new Promise(function (resolve, reject) {
+                chunks = chunks || scope.sliceFile(file);
+                _all = _all || chunks.length;
+                _i = _i || 0;
+                var chunk = chunks.shift();
+                var data = {
+                    name: file.name,
+                    chunk: _i,
+                    chunks: _all,
+                    file: chunk,
+                };
+                _i++;
+                $(scope).trigger('uploadStart', [data]);
+
+                scope.upload(data, function (res) {
+                    var dataProgress;
+                    if(chunks.length) {
+                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){
+                            if (done) {
+                                done.call(file, res);
+                            }
+                            resolve(file);
+                        }, function (xhr){
+                             if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr);
+                            }
+                        });
+                        dataProgress = {
+                            percent: ((100 * _i) / _all).toFixed()
+                        };
+                        $(scope).trigger('progress', [dataProgress, res]);
+                        if(scope.settings.on.progress) {
+                            scope.settings.on.progress(dataProgress, res);
+                        }
+
+                    } else {
+                        dataProgress = {
+                            percent: '100'
+                        };
+                        $(scope).trigger('progress', [dataProgress, res]);
+                        if(scope.settings.on.progress) {
+                            scope.settings.on.progress(dataProgress, res);
+                        }
+                        $(scope).trigger('FileUploaded', [res]);
+                        if(scope.settings.on.fileUploaded) {
+                            scope.settings.on.fileUploaded(res);
+                        }
+                        if (done) {
+                            done.call(file, res);
+                        }
+                        resolve(file);
+                    }
+                }, function (req) {
+                    if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
+                        mw.notification.warning(req.responseJSON.error.message);
+                    }
+                    scope.removeFile(file);
+                    reject(req)
+                });
+            });
+        };
+
+        this.sliceFile = function(file) {
+            var byteIndex = 0;
+            var chunks = [];
+            var chunksAmount = file.size <= this.settings.chunkSize ? 1 : ((file.size / this.settings.chunkSize) >> 0) + 1;
+
+            for (var i = 0; i < chunksAmount; i ++) {
+                var byteEnd = Math.ceil((file.size / chunksAmount) * (i + 1));
+                chunks.push(file.slice(byteIndex, byteEnd));
+                byteIndex += (byteEnd - byteIndex);
+            }
+
+            return chunks;
+        };
+
+        this.uploadFiles = function () {
+            if (this.settings.async) {
+                 if (this.files.length) {
+                    this.uploading(true);
+                    var file = this.files[0]
+                    scope.uploadFile(file)
+                        .then(function (){
+                        scope.files.shift();
+                        scope.uploadFiles();
+                    }, function (xhr){
+                            scope.removeFile(file);
+                            if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr)
+                            }
+                        });
+
+                } else {
+                    this.uploading(false);
+                    scope.input.value = '';
+                    if(scope.settings.on.filesUploaded) {
+                        scope.settings.on.filesUploaded();
+                    }
+                    $(scope).trigger('FilesUploaded');
+
+                }
+            } else {
+                var count = 0;
+                var all = this.files.length;
+                this.uploading(true);
+                this.files.forEach(function (file) {
+                    scope.uploadFile(file)
+                        .then(function (file){
+                            count++;
+                            scope.uploading(false);
+                            if(all === count) {
+                                scope.input.value = '';
+                                if(scope.settings.on.filesUploaded) {
+                                    scope.settings.on.filesUploaded();
+                                }
+                                $(scope).trigger('FilesUploaded');
+                            }
+                        }, function (xhr){
+                            if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr)
+                            }
+                        });
+                });
+            }
+        };
+
+
+        this.upload = function (data, done, onFail) {
+            if (!this.settings.url) {
+                return;
+            }
+            var pdata = new FormData();
+            $.each(data, function (key, val) {
+                pdata.append(key, val);
+            });
+            if(scope.settings.on.uploadStart) {
+                if (scope.settings.on.uploadStart(pdata) === false) {
+                    return;
+                }
+            }
+
+            var xhrOptions = {
+                url: this.getUrl(),
+                type: 'post',
+                processData: false,
+                contentType: false,
+                data: pdata,
+                success: function (data, statusText, xhrReq) {
+
+                    if(xhrReq.status === 200) {
+                        if (data && (data.form_data_required || data.form_data_module)) {
+                            mw.extradataForm(xhrOptions, data, mw.jqxhr);
+                        }
+                        else {
+                            scope.removeFile(data.file);
+                            if(done) {
+                                done.call(data, data);
+                            }
+                        }
+                    }
+
+                },
+                error:  function(  xhrReq, edata, statusText ) {
+                    scope.removeFile(data.file);
+                    if (onFail) {
+                        onFail.call(xhrReq, xhrReq);
+                    }
+                },
+                dataType: 'json',
+                xhr: function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function (event) {
+                        if (event.lengthComputable) {
+                            var percent = (event.loaded / event.total) * 100;
+                            if(scope.settings.on.progressNative) {
+                                scope.settings.on.progressNative(percent, event);
+                            }
+                            $(scope).trigger('progressNative', [percent, event]);
+                        }
+                    });
+                    return xhr;
+                }
+            };
+
+            return mw.jqxhr(xhrOptions);
+        };
+    };
+
+    mw.upload = function (options) {
+        return new Uploader(options);
+    };
+
+
+
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/system/filepicker.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/filepicker.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FilePicker": () => (/* binding */ FilePicker)
+/* harmony export */ });
+/* harmony import */ var _core_uploader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/uploader */ "./userfiles/modules/microweber/api/core/uploader.js");
+
+
+const lang = function (key) {
+    return key;
+}
+
+const FilePicker = function (options) {
+    options = options || {};
+    var scope = this;
+    var defaults = {
+        components: [
+            {type: 'desktop', label: lang('My computer')},
+            {type: 'url', label: lang('URL')},
+            {type: 'server', label: lang('Uploaded')},
+            {type: 'library', label: lang('Media library')}
+        ],
+        nav: 'tabs', // 'tabs | 'dropdown',
+        hideHeader: false,
+        dropDownTargetMode: 'self', // 'self', 'dialog'
+        element: null,
+        footer: true,
+        okLabel: lang('OK'),
+        cancelLabel: lang('Cancel'),
+        uploaderType: 'big', // 'big' | 'small'
+        confirm: function (data) {
+
+        },
+        cancel: function () {
+
+        },
+        label: lang('Media'),
+        autoSelect: true, // depending on the component
+        boxed: false,
+        multiple: false
+    };
+
+
+
+    this.settings = $.extend(true, {}, defaults, options);
+
+    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root"></div>');
+    this.root = this.$root[0];
+
+    $.each(this.settings.components, function (i) {
+        this['index'] = i;
+    });
+
+
+    this.components = {
+        _$inputWrapper: function (label) {
+            var html = '<div class="mw-ui-field-holder">' +
+                /*'<label>' + label + '</label>' +*/
+                '</div>';
+            return mw.$(html);
+        },
+        url: function () {
+            var $input = $('<input class="mw-ui-field w100" placeholder="http://example.com/image.jpg">');
+            scope.$urlInput = $input;
+            var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
+            $wrap.append($input);
+            $input.before('<label class="mw-ui-label">'+lang('Insert file url')+'</label>');
+            $input.on('input', function () {
+                var val = this.value.trim();
+                scope.setSectionValue(val || null);
+                if(scope.settings.autoSelect) {
+
+                    scope.result();
+                }
+            });
+            return $wrap[0];
+        },
+        _setdesktopType: function () {
+            var $zone;
+            if(scope.settings.uploaderType === 'big') {
+                $zone = $('<div class="mw-file-drop-zone">' +
+                    '<div class="mw-file-drop-zone-holder">' +
+                    '<div class="mw-file-drop-zone-img"></div>' +
+                    '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
+                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+lang('Add file')+'</span> ' +
+                    '<p>'+lang('or drop files to upload')+'</p>' +
+                    '</div>' +
+                    '</div>');
+            } else if(scope.settings.uploaderType === 'small') {
+                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+lang('Add file')+'</span> ' +
+                    '<p>'+lang('or drop files to upload')+'</p>' +
+                    '</div>' +
+                    '</div>')
+            }
+            var $el = $(scope.settings.element).eq(0);
+            $el.removeClass('mw-filepicker-desktop-type-big mw-filepicker-desktop-type-small');
+            $el.addClass('mw-filepicker-desktop-type-' + scope.settings.uploaderType);
+            scope.uploaderHolder.empty().append($zone);
+        },
+        desktop: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('desktop').label);
+            scope.uploaderHolder = mw.$('<div class="mw-uploader-type-holder"></div>');
+            this._setdesktopType();
+            $wrap.append(scope.uploaderHolder);
+            scope.uploader = new _core_uploader__WEBPACK_IMPORTED_MODULE_0__.Uploader({
+                element: $wrap[0],
+                multiple: scope.settings.multiple,
+                accept: scope.settings.accept,
+                on: {
+                    progress: function (prg) {
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
+                    },
+                    fileUploadError: function (file) {
+                        $(scope).trigger('FileUploadError', [file]);
+                    },
+                    fileAdded: function (file) {
+                        $(scope).trigger('FileAdded', [file]);
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').width('1%');
+                    },
+                    fileUploaded: function (file) {
+                        scope.setSectionValue(file);
+
+                        $(scope).trigger('FileUploaded', [file]);
+                        if (scope.settings.autoSelect) {
+                            scope.result();
+                        }
+                        if (scope.settings.fileUploaded) {
+                            scope.settings.fileUploaded(file);
+                        }
+                        if (!scope.settings.multiple) {
+                            mw.notification.success('File uploaded');
+                            scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
+                        }
+                        // scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
+                    }
+                }
+            });
+            return $wrap[0];
+        },
+        server: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
+            /*mw.load_module('files/admin', $wrap, function () {
+
+            }, {'filetype':'images'});*/
+
+            $(scope).on('$firstOpen', function (e, el, type) {
+                var comp = scope._getComponentObject('server');
+                if (type === 'server') {
+                    mw.top().tools.loading(el, true);
+                    var fr = document.createElement('iframe');
+                    fr.src =  mw.external_tool('module_dialog') + '?module=files/admin';
+                    mw.tools.iframeAutoHeight(fr);
+                    fr.style.width = '100%';
+                    fr.scrolling = 'no';
+                    fr.frameBorder = '0';
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
+                    fr.scrolling = 'auto';
+
+                    $wrap.append(fr);
+                    fr.onload = function () {
+                        mw.tools.loading(el, false);
+                        this.contentWindow.document.body.classList.remove('mw-external-loading');
+                        this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
+                            var url = this.href;
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            });
+
+            return $wrap[0];
+        },
+        library: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('library').label);
+            $(scope).on('$firstOpen', function (e, el, type) {
+                var comp = scope._getComponentObject('library');
+                if (type === 'library') {
+                    mw.tools.loading(el, true);
+                    var fr = mw.top().tools.moduleFrame('pictures/media_library');
+                    $wrap.append(fr);
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
+                    fr.onload = function () {
+                        mw.tools.loading(el, false);
+                        this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                            var url = pval.toString();
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            })
+
+            /*mw.load_module('pictures/media_library', $wrap);*/
+            return $wrap[0];
+        }
+    };
+
+    this.hideUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).hide();
+    };
+
+    this.showUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).show();
+    };
+
+    this.desktopUploaderType = function (type) {
+        if(!type) return this.settings.uploaderType;
+        this.settings.uploaderType = type;
+        this.components._setdesktopType();
+    };
+
+    this.settings.components = this.settings.components.filter(function (item) {
+        return !!scope.components[item.type];
+    });
+
+
+    this._navigation = null;
+    this.__navigation_first = [];
+
+    this.navigation = function () {
+        this._navigationHeader = document.createElement('div');
+        this._navigationHeader.className = 'mw-filepicker-component-navigation-header ' + (this.settings.boxed ? 'card-header no-border' : '');
+        if (this.settings.hideHeader) {
+            this._navigationHeader.style.display = 'none';
+        }
+        if (this.settings.label) {
+            this._navigationHeader.innerHTML = '<h6><strong>' + this.settings.label + '</strong></h6>';
+        }
+        this._navigationHolder = document.createElement('div');
+        if(this.settings.nav === false) {
+
+        }
+        else if(this.settings.nav === 'tabs') {
+            var ul = $('<nav class="mw-ac-editor-nav" />');
+            this.settings.components.forEach(function (item) {
+                ul.append('<a href="javascript:;" class="mw-ui-btn-tab" data-type="'+item.type+'">'+item.label+'</a>');
+            });
+            this._navigationHolder.appendChild(this._navigationHeader);
+            this._navigationHeader.appendChild(ul[0]);
+            setTimeout(function () {
+                scope._tabs = mw.tabs({
+                    nav: $('a', ul),
+                    tabs: $('.mw-filepicker-component-section', scope.$root),
+                    activeClass: 'active',
+                    onclick: function (el, event, i) {
+                        if(scope.__navigation_first.indexOf(i) === -1) {
+                            scope.__navigation_first.push(i);
+                            $(scope).trigger('$firstOpen', [el, this.dataset.type]);
+                        }
+                        scope.manageActiveSectionState();
+                    }
+                });
+            }, 78);
+        } else if(this.settings.nav === 'dropdown') {
+            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + lang('Add file') + '"/>');
+            scope._select = select;
+            this.settings.components.forEach(function (item) {
+                select.append('<option class="nav-item" value="'+item.type+'">'+item.label+'</option>');
+            });
+
+            this._navigationHolder.appendChild(this._navigationHeader);
+            this._navigationHeader.appendChild(select[0]);
+            select.on('changed.bs.select', function (e, xval) {
+                var val = select.selectpicker('val');
+                var componentObject = scope._getComponentObject(val) ;
+                var index = scope.settings.components.indexOf(componentObject);
+                var items = $('.mw-filepicker-component-section', scope.$root);
+                if(scope.__navigation_first.indexOf(val) === -1) {
+                    scope.__navigation_first.push(val);
+                    $(scope).trigger('$firstOpen', [items.eq(index)[0], val]);
+                }
+                if(scope.settings.dropDownTargetMode === 'dialog') {
+                    var temp = document.createElement('div');
+                    var item = items.eq(index);
+                    item.before(temp);
+                    item.show();
+                    var footer = false;
+                    if (scope._getComponentObject('url').index === index ) {
+                        footer =  document.createElement('div');
+                        var footerok = $('<button type="button" class="mw-ui-btn mw-ui-btn-info">' + scope.settings.okLabel + '</button>');
+                        var footercancel = $('<button type="button" class="mw-ui-btn">' + scope.settings.cancelLabel + '</button>');
+                        footerok.disabled = true;
+                        footer.appendChild(footercancel[0]);
+                        footer.appendChild(footerok[0]);
+                        footer.appendChild(footercancel[0]);
+                        footercancel.on('click', function () {
+                            scope.__pickDialog.remove();
+                        });
+                        footerok.on('click', function () {
+                            scope.setSectionValue(scope.$urlInput.val().trim() || null);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                            // scope.__pickDialog.remove();
+                        });
+                    }
+
+                    scope.__pickDialog = mw.top().dialog({
+                        overlay: true,
+                        content: item,
+                        beforeRemove: function () {
+                            $(temp).replaceWith(item);
+                            item.hide();
+                            scope.__pickDialog = null;
+                        },
+                        footer: footer
+                    });
+                } else {
+                    items.hide().eq(index).show();
+                }
+            });
+        }
+        this.$root.prepend(this._navigationHolder);
+
+    };
+    this.__displayControllerByTypeTime = null;
+
+    this.displayControllerByType = function (type) {
+        type = (type || '').trim();
+        var item = this._getComponentObject(type) ;
+        clearTimeout(this.__displayControllerByTypeTime);
+        this.__displayControllerByTypeTime = setTimeout(function () {
+            if(scope.settings.nav === 'tabs') {
+                mw.$('[data-type="'+type+'"]', scope.$root).click();
+            } else if(scope.settings.nav === 'dropdown') {
+                $(scope._select).selectpicker('val', type);
+            }
+        }, 10);
+    };
+
+
+
+    this.footer = function () {
+        if(!this.settings.footer || this.settings.autoSelect) return;
+        this._navigationFooter = document.createElement('div');
+        this._navigationFooter.className = 'mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
+        this.$ok = $('<button type="button" class="mw-ui-btn mw-ui-btn-info">' + this.settings.okLabel + '</button>');
+        this.$cancel = $('<button type="button" class="mw-ui-btn ">' + this.settings.cancelLabel + '</button>');
+        this._navigationFooter.appendChild(this.$cancel[0]);
+        this._navigationFooter.appendChild(this.$ok[0]);
+        this.$root.append(this._navigationFooter);
+        this.$ok[0].disabled = true;
+        this.$ok.on('click', function () {
+            scope.result();
+        });
+        this.$cancel.on('click', function () {
+            scope.settings.cancel()
+        });
+    };
+
+    this.result = function () {
+        var activeSection = this.activeSection();
+        if(this.settings.onResult) {
+            this.settings.onResult.call(this, activeSection._filePickerValue);
+        }
+        $(scope).trigger('Result', [activeSection._filePickerValue]);
+    };
+
+    this.getValue = function () {
+        return this.activeSection()._filePickerValue;
+    };
+
+    this._getComponentObject = function (type) {
+        return this.settings.components.find(function (comp) {
+            return comp.type && comp.type === type;
+        });
+    };
+
+    this._sections = [];
+    this.buildComponentSection = function () {
+        var main = mw.$('<div class="'+(this.settings.boxed ? 'card-body' : '') +' mw-filepicker-component-section"></div>');
+        this.$root.append(main);
+        this._sections.push(main[0]);
+        return main;
+    };
+
+    this.buildComponent = function (component) {
+        if(this.components[component.type]) {
+            return this.components[component.type]();
+        }
+    };
+
+    this.buildComponents = function () {
+        $.each(this.settings.components, function () {
+            var component = scope.buildComponent(this);
+            if(component){
+                var sec = scope.buildComponentSection();
+                sec.append(component);
+            }
+        });
+    };
+
+    this.build = function () {
+        this.navigation();
+        this.buildComponents();
+        if(this.settings.nav === 'dropdown') {
+            $('.mw-filepicker-component-section', scope.$root).hide().eq(0).show();
+        }
+        this.footer();
+    };
+
+    this.init = function () {
+        this.build();
+        if (this.settings.element) {
+            $(this.settings.element).eq(0).append(this.$root);
+        }
+        if($.fn.selectpicker) {
+            $('select', scope.$root).selectpicker();
+        }
+    };
+
+    this.hide = function () {
+        this.$root.hide();
+    };
+    this.show = function () {
+        this.$root.show();
+    };
+
+    this.activeSection = function () {
+        return $(this._sections).filter(function (){
+            return $(this).css('display') !== 'none';
+        })[0];
+    };
+
+    this.setSectionValue = function (val) {
+        var activeSection = this.activeSection();
+        if(activeSection) {
+            activeSection._filePickerValue = val;
+        }
+
+        if(scope.__pickDialog) {
+            scope.__pickDialog.remove();
+        }
+        this.manageActiveSectionState();
+    };
+    this.manageActiveSectionState = function () {
+        // if user provides value for more than one section, the active value will be the one in the current section
+        var activeSection = this.activeSection();
+        if (this.$ok && this.$ok[0]) {
+            this.$ok[0].disabled = !(activeSection && activeSection._filePickerValue);
+        }
+    };
+
+    this.init();
+}
+
+
+mw.filePicker = FilePicker;
+
+
 /***/ })
 
 /******/ 	});
@@ -2948,6 +3847,7 @@ MWEditor.core = {
         this.select.append(displayValNode);
         this.select.append(valueHolder);
         this.select.valueHolder = valueHolder;
+        this.options = [];
         for (var i = 0; i < options.data.length; i++) {
             var dt = options.data[i];
             (function (dt){
@@ -2955,6 +3855,10 @@ MWEditor.core = {
                 opt.on('click', function (){
                     lscope.select.trigger('change', dt);
                 });
+                lscope.options.push({
+                    element: opt,
+                    data: dt
+                })
                 valueHolder.append(opt);
             })(dt);
 
@@ -3004,6 +3908,8 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+/* harmony import */ var _system_filepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../system/filepicker */ "./userfiles/modules/microweber/api/system/filepicker.js");
+
 
 
 
@@ -3169,7 +4075,7 @@ MWEditor.controllers = {
             });
             el.on('click', function (e) {
                 var dialog;
-                var picker = new mw.filePicker({
+                var picker = new _system_filepicker__WEBPACK_IMPORTED_MODULE_2__.FilePicker({
                     type: 'images',
                     label: false,
                     autoSelect: false,
@@ -3407,16 +4313,32 @@ MWEditor.controllers = {
                 opt.controller.element.disabled = !opt.api.isSelectionEditable();
 
         };
+
         this.render = function () {
+            var fonts = rootScope.settings.fonts || [
+                { label: 'Arial', value: 'Arial, sans-serif' },
+                { label: 'Verdana', value: 'Verdana, sans-serif' },
+                { label: 'Helvetica', value: 'Helvetica, sans-serif' },
+                { label: 'Times New Roman', value: 'Times New Roman, serif' },
+                { label: 'Georgia', value: 'Georgia, serif' },
+                { label: 'Courier New', value: 'Courier New, monospace' },
+                { label: 'Brush Script MT', value: 'Brush Script MT, cursive' },
+            ];
+
+            if(rootScope.settings.addFonts && rootScope.settings.addFonts.length) {
+                fonts = [...fonts, ...rootScope.settings.addFonts]
+            }
+
+
             var dropdown = new MWEditor.core.dropdown({
-                data: [
-                    { label: 'Arial 1', value: 'Arial' },
-                    { label: 'Verdana 1', value: 'Verdana' },
-                ],
+                data: fonts,
                 placeholder: rootScope.lang('Font')
             });
+            dropdown.options.forEach(function (item){
+                item.element.css('fontFamily', item.data.value);
+            });
             dropdown.select.on('change', function (e, val, b) {
-                api.fontFamily(val.value);
+                 api.fontFamily(val.value);
             });
             return dropdown.root;
         };
@@ -3926,6 +4848,8 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+/* harmony import */ var _system_filepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../system/filepicker */ "./userfiles/modules/microweber/api/system/filepicker.js");
+
 
 
 
@@ -4014,7 +4938,7 @@ MWEditor.interactionControls = {
             });
             changeButton.on('click', function () {
                 var dialog;
-                var picker = new mw.filePicker({
+                var picker = new _system_filepicker__WEBPACK_IMPORTED_MODULE_2__.FilePicker({
                     type: 'images',
                     label: false,
                     autoSelect: false,

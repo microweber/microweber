@@ -66,15 +66,31 @@ export const GetPointerTargets = function(options)  {
     };
 
     this.fromEvent = function (e) {
-        if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
-            return this.fromPoint(e.pageX, e.pageY - scrollY);
+         if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
+             if(!scope.document._test){
+                 scope.document._test = document.createElement('div');
+                 scope.document._test.style.position = 'absolute';
+                 scope.document._test.style.left = '10px';
+
+                 scope.document._test.style.background =  'red';
+                 scope.document._test.style.width =  '10px';
+                 scope.document._test.style.height =  '10px';
+                 scope.document.body.appendChild(scope.document._test);
+             }
+             scope.document._test.style.top = e.pageY + 'px';
+             return this.fromPoint(e.pageX, e.pageY/* + scope.document.defaultView.scrollY*/);
         }
         return []
     }
     this.fromPoint = function (x, y) {
         var res = [];
-        console.log(scope.document)
-         var el = scope.document.elementFromPoint(x, y);
+        if(scope.document.defaultView.frameElement) {
+            // y += scope.document.defaultView.frameElement.getBoundingClientRect().y
+            y -= scope.document.defaultView.scrollY;
+        }
+
+        var el = scope.document.elementFromPoint(x, y);
+
         if (!el ) return [];
         addNode(el, res);
         var dots = getNearCoordinates(x, y);

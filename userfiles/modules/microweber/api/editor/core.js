@@ -109,6 +109,7 @@ MWEditor.core = {
         this.select.append(displayValNode);
         this.select.append(valueHolder);
         this.select.valueHolder = valueHolder;
+        this.options = [];
         for (var i = 0; i < options.data.length; i++) {
             var dt = options.data[i];
             (function (dt){
@@ -116,6 +117,10 @@ MWEditor.core = {
                 opt.on('click', function (){
                     lscope.select.trigger('change', dt);
                 });
+                lscope.options.push({
+                    element: opt,
+                    data: dt
+                })
                 valueHolder.append(opt);
             })(dt);
 

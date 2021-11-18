@@ -225,7 +225,7 @@ export class LiveEdit {
         if(this.settings.mode === 'auto') {
             ModeAuto(this);
         }
-        console.log(this.root)
+
          ElementManager(this.root).on('mousemove touchmove', (e) => {
                 if (!this.paused && e.pageX % 2 === 0) {
                     const elements = this.observe.fromEvent(e);

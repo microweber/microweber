@@ -643,36 +643,36 @@
 
             var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
 
-            Uploader = mw.files.uploader({
+            var browserUploader = mw.files.uploader({
                 filetypes: "*",
                 path: path,
                 multiple: true,
                 element: mw.$("#mw_uploader")
             });
 
-            $(Uploader).bind("progress", function (frame, file) {
+            $(browserUploader).bind("progress", function (frame, file) {
                 ProgressBar.show()
                 ProgressBar.set(file.percent);
             });
 
-            $(Uploader).bind("done", function (frame, item) {
+            $(browserUploader).bind("done", function (frame, item) {
                 ProgressBar.set(0);
                 ProgressBar.hide();
             });
 
-            $(Uploader).bind("responseError", function (e, json) {
+            $(browserUploader).bind("responseError", function (e, json) {
                 mw.alert(json.error.message);
                 ProgressBar.set(0);
                 ProgressBar.hide();
             });
-            $(Uploader).bind("error", function (frame, file) {
+            $(browserUploader).bind("error", function (frame, file) {
                 ProgressBar.set(0);
                 ProgressBar.hide();
 
             });
 
 
-            $(Uploader).bind("FileUploaded", function (obj, data) {
+            $(browserUploader).bind("FileUploaded", function (obj, data) {
                 _mw_admin_files_manage('all');
             });
 
@@ -692,7 +692,7 @@
 
 
 
-                Uploader.urlParam('path', pval);
+                browserUploader.urlParam('path', pval);
 
 
             });

@@ -1,6 +1,6 @@
-;(function (){
 
-    var Uploader = function( options ) {
+
+    export const Uploader = function( options ) {
         //var upload = function( url, data, callback, type ) {
         options = options || {};
         options.accept = options.accept || options.filetypes;
@@ -412,4 +412,4 @@
     };
 
 
-})();
+

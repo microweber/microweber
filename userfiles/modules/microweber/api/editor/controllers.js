@@ -1,5 +1,6 @@
 import {DomService} from "../classes/dom";
 import {ElementManager} from "../classes/element";
+import {FilePicker} from "../system/filepicker";
 
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
@@ -137,21 +138,7 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    image2: function(scope, api, rootScope){
-        this.imageControl = ElementManager({
-            props: {
-                className: 'mw-handle-item-element-image-control'
-            }
-        });
-        const filemng = new proto.settings.filePickerAdapter({
-            element: this.imageControl.get(0),
-            onResult: (res) => {
-                this.menu.getTarget().src = res
-            }
-        })
 
-        this.root.append(this.imageControl)
-    },
     image: function(scope, api, rootScope){
 
         this.render = function () {
@@ -163,7 +150,7 @@ MWEditor.controllers = {
             });
             el.on('click', function (e) {
                 var dialog;
-                var picker = new mw.filePicker({
+                var picker = new FilePicker({
                     type: 'images',
                     label: false,
                     autoSelect: false,
@@ -401,16 +388,32 @@ MWEditor.controllers = {
                 opt.controller.element.disabled = !opt.api.isSelectionEditable();
 
         };
+
         this.render = function () {
+            var fonts = rootScope.settings.fonts || [
+                { label: 'Arial', value: 'Arial, sans-serif' },
+                { label: 'Verdana', value: 'Verdana, sans-serif' },
+                { label: 'Helvetica', value: 'Helvetica, sans-serif' },
+                { label: 'Times New Roman', value: 'Times New Roman, serif' },
+                { label: 'Georgia', value: 'Georgia, serif' },
+                { label: 'Courier New', value: 'Courier New, monospace' },
+                { label: 'Brush Script MT', value: 'Brush Script MT, cursive' },
+            ];
+
+            if(rootScope.settings.addFonts && rootScope.settings.addFonts.length) {
+                fonts = [...fonts, ...rootScope.settings.addFonts]
+            }
+
+
             var dropdown = new MWEditor.core.dropdown({
-                data: [
-                    { label: 'Arial 1', value: 'Arial' },
-                    { label: 'Verdana 1', value: 'Verdana' },
-                ],
+                data: fonts,
                 placeholder: rootScope.lang('Font')
             });
+            dropdown.options.forEach(function (item){
+                item.element.css('fontFamily', item.data.value);
+            });
             dropdown.select.on('change', function (e, val, b) {
-                api.fontFamily(val.value);
+                 api.fontFamily(val.value);
             });
             return dropdown.root;
         };

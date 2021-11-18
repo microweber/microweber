@@ -1,23 +1,26 @@
+import {Uploader} from "../core/uploader";
 
+const lang = function (key) {
+    return key;
+}
 
-
-mw.filePicker = function (options) {
+export const FilePicker = function (options) {
     options = options || {};
     var scope = this;
     var defaults = {
         components: [
-            {type: 'desktop', label: mw.lang('My computer')},
-            {type: 'url', label: mw.lang('URL')},
-            {type: 'server', label: mw.lang('Uploaded')},
-            {type: 'library', label: mw.lang('Media library')}
+            {type: 'desktop', label: lang('My computer')},
+            {type: 'url', label: lang('URL')},
+            {type: 'server', label: lang('Uploaded')},
+            {type: 'library', label: lang('Media library')}
         ],
         nav: 'tabs', // 'tabs | 'dropdown',
         hideHeader: false,
         dropDownTargetMode: 'self', // 'self', 'dialog'
         element: null,
         footer: true,
-        okLabel: mw.lang('OK'),
-        cancelLabel: mw.lang('Cancel'),
+        okLabel: lang('OK'),
+        cancelLabel: lang('Cancel'),
         uploaderType: 'big', // 'big' | 'small'
         confirm: function (data) {
 
@@ -25,7 +28,7 @@ mw.filePicker = function (options) {
         cancel: function () {
 
         },
-        label: mw.lang('Media'),
+        label: lang('Media'),
         autoSelect: true, // depending on the component
         boxed: false,
         multiple: false
@@ -55,7 +58,7 @@ mw.filePicker = function (options) {
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="mw-ui-label">'+mw.lang('Insert file url')+'</label>');
+            $input.before('<label class="mw-ui-label">'+lang('Insert file url')+'</label>');
             $input.on('input', function () {
                 var val = this.value.trim();
                 scope.setSectionValue(val || null);
@@ -73,13 +76,13 @@ mw.filePicker = function (options) {
                     '<div class="mw-file-drop-zone-holder">' +
                     '<div class="mw-file-drop-zone-img"></div>' +
                     '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
-                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
-                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+lang('Add file')+'</span> ' +
+                    '<p>'+lang('or drop files to upload')+'</p>' +
                     '</div>' +
                     '</div>');
             } else if(scope.settings.uploaderType === 'small') {
-                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+mw.lang('Add file')+'</span> ' +
-                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+lang('Add file')+'</span> ' +
+                    '<p>'+lang('or drop files to upload')+'</p>' +
                     '</div>' +
                     '</div>')
             }
@@ -93,7 +96,7 @@ mw.filePicker = function (options) {
             scope.uploaderHolder = mw.$('<div class="mw-uploader-type-holder"></div>');
             this._setdesktopType();
             $wrap.append(scope.uploaderHolder);
-            scope.uploader = mw.upload({
+            scope.uploader = new Uploader({
                 element: $wrap[0],
                 multiple: scope.settings.multiple,
                 accept: scope.settings.accept,
@@ -254,7 +257,7 @@ mw.filePicker = function (options) {
                 });
             }, 78);
         } else if(this.settings.nav === 'dropdown') {
-            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
+            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + lang('Add file') + '"/>');
             scope._select = select;
             this.settings.components.forEach(function (item) {
                 select.append('<option class="nav-item" value="'+item.type+'">'+item.label+'</option>');
@@ -444,4 +447,7 @@ mw.filePicker = function (options) {
     };
 
     this.init();
-};
+}
+
+
+mw.filePicker = FilePicker;

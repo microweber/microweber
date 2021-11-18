@@ -1,6 +1,7 @@
 
 import {ElementManager} from  '../classes/element'
 import {DomService} from  '../classes/dom'
+import {FilePicker} from "../system/filepicker";
 
 
 /*
@@ -86,7 +87,7 @@ MWEditor.interactionControls = {
             });
             changeButton.on('click', function () {
                 var dialog;
-                var picker = new mw.filePicker({
+                var picker = new FilePicker({
                     type: 'images',
                     label: false,
                     autoSelect: false,
