@@ -46,7 +46,7 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
 
-            $browser->pause(3000);
+            $browser->pause(7000);
             $browser->waitForText('Address for delivery');
             $browser->assertSee('Address for delivery');
 
