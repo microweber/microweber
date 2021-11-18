@@ -22,7 +22,7 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause('2222');
 
             $browser->script('$(".name-of-product-shop").first().click()');
-            $browser->pause('1000');
+            $browser->pause(5000);
 
             $browser->waitForText('Proceed to Checkout');
             $browser->assertSee('Proceed to Checkout');
@@ -40,7 +40,7 @@ class CheckoutCartTest extends DuskTestCase
             $browser->type('phone', $uniqueId);
             $browser->click('@checkout-continue');
 
-            $browser->pause(1000);
+            $browser->pause(6000);
             $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
 
             $browser->waitForText('Address for delivery');
