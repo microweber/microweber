@@ -7,6 +7,7 @@ use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Page\Models\Page;
 
 
 class ContentTestModelForCategories extends Model
@@ -19,6 +20,29 @@ class ContentTestModelForCategories extends Model
 
 class CategoryTest extends TestCase
 {
+    public function testRender()
+    {
+
+        $page = new Page();
+        $page->title = 'my-new-page-'.uniqid();
+        $page->content_type = 'page';
+        $page->url = 'my-new-page';
+        $page->subtype = 'dynamic';
+        $pageId = $page->save();
+
+      //  dd($pageId);
+
+        $category = new Category();
+        $category->title = 'Category level 1';
+        $category->save();
+
+        $categoryTree = category_tree();
+
+        //dump($categoryTree);
+       // die();
+
+    }
+
     public function testAddcategoriesToModel()
     {
 
@@ -50,6 +74,5 @@ class CategoryTest extends TestCase
         $this->assertEquals($cat->parent->title,$title );
 
     }
-
 
 }
