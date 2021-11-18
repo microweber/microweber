@@ -38,7 +38,7 @@ $trans_params = array(
 
 	);
 
-\Log::info('My $trans_params', ['$trans_params' => $trans_params]);
+
 
 
 
