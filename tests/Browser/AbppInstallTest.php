@@ -39,9 +39,7 @@ class AbppInstallTest extends DuskTestCase
             $browser->pause(100);
             $browser->click('@install-button');
 
-            // Wait for redirect after installation
             $browser->pause(20000);
-            $browser->assertSee('Welcome to');
 
         });
     }
@@ -51,6 +49,7 @@ class AbppInstallTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
+
             $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
 
             // Login to admin panel

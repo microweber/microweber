@@ -13,8 +13,8 @@ class UnsplashTest extends TestCase
         $search = $unsplash->search('apple');
 
         $this->assertTrue($search['success']);
-        $this->assertIsArray($search['photos']);
-        $this->assertNotEmpty($search['photos']);
+        $this->assertTrue(is_array($search['photos']));
+        $this->assertTrue(!empty($search['photos']));
 
         $download = $unsplash->download($search['photos'][0]['id']);
 
