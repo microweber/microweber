@@ -84,7 +84,7 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img2.jpg');
             $browser->pause(4000);
-            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');*/
+            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
 
 
             $browser->pause(1000);
@@ -94,7 +94,7 @@ class AddPostTest extends DuskTestCase
             $findPost = Post::where('title', $postTitle)->first();
 
             $browser->waitForLocation(route('admin.post.edit', $findPost->id));
-            
+
         });
 
     }
