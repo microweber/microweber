@@ -48,9 +48,9 @@ class AdminMarketplaceTest extends DuskTestCase
             $browser->waitForText('browser_redirect');
             $browser->waitForText('files will be installed');
 
-            
+
             $browser->waitForText('Confirm');
-            $browser->press('Confirm');
+            $browser->click('#js-buttons-confirm-install-link');
             $browser->pause(3000);
 
             $browser->waitForText('Success. You have installed');
