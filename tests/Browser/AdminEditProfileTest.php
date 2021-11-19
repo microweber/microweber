@@ -26,13 +26,14 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->click('@login-button');
 
+            $browser->pause(3000);
+
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
+            $browser->pause(2000);
             $browser->waitForText('Edit profile');
             $browser->clickLink('Edit profile');
-
-            $browser->waitForText('Advanced settings');
 
             $browser->type('verify_password', '1');
             $browser->type('first_name', 'Visual');
