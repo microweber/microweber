@@ -184,9 +184,10 @@ class InstallController extends Controller
             if (isset($input['admin_url'])) {
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
-
-            Config::set('app.url', site_url());
-            Config::set('app.fallback_locale', 'en_US');
+            if (!is_cli()) {
+                Config::set('app.url', site_url());
+            }
+            Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
                 Config::set('app.locale', $input['site_lang']);
