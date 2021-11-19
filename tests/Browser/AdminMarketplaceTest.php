@@ -10,7 +10,7 @@ class AdminMarketplaceTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
-    public function testEditProfile()
+    public function testModuleInstall()
     {
         $siteUrl = $this->siteUrl;
 
@@ -25,26 +25,34 @@ class AdminMarketplaceTest extends DuskTestCase
             $browser->type('password', '1');
 
             $browser->click('@login-button');
+            $browser->pause(3000);
 
             $browser->waitForText('Marketplace');
             $browser->clickLink('Marketplace');
 
-            $browser->waitForText('Edit profile');
-            $browser->clickLink('Edit profile');
+            $browser->pause(3000);
 
             $browser->waitForText('Template');
             $browser->waitForText('Module');
 
-            $browser->press('Module');
+            $browser->click('#js-packages-tab-module');
+            $browser->pause(3000);
+
             $browser->waitForText('Module');
 
             $browser->waitForText('Browser Redirect');
             $browser->click('#js-install-package-browser_redirect');
+            $browser->pause(3000);
+
             $browser->waitForText('Please confirm the installation');
             $browser->waitForText('browser_redirect');
             $browser->waitForText('files will be installed');
+
+            
             $browser->waitForText('Confirm');
             $browser->press('Confirm');
+            $browser->pause(3000);
+
             $browser->waitForText('Success. You have installed');
             $browser->press('OK');
 
