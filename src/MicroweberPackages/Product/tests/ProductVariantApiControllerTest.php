@@ -72,7 +72,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.product_variant.update', [
-                'product' => $productDataSaved->id,
+                'product_variant' => $productDataSaved->id,
                 'title' => $title2,
             ])
 
@@ -90,7 +90,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.product_variant.update', [
-                'product' => $productDataSaved->id,
+                'product_variant' => $productDataSaved->id,
                 'price' => '',
             ])
 
@@ -104,7 +104,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.product_variant.update', [
-                'product' => $productDataSaved->id,
+                'product_variant' => $productDataSaved->id,
                 'price' => '0',
             ])
 
@@ -119,7 +119,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.product_variant.update', [
-                'product' => $productDataSaved->id,
+                'product_variant' => $productDataSaved->id,
                 'price' => $price,
             ])
 
@@ -160,7 +160,7 @@ class ProductVariantApiControllerTest extends TestCase
             'GET',
             route('api.product_variant.show',
                 [
-                    'product' => $product_id,
+                    'product_variant' => $product_id,
                 ])
         );
 
@@ -173,7 +173,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'PUT',
             route('api.product_variant.update', [
-                'product' => $product_id,
+                'product_variant' => $product_id,
                 'title' => $title2,
             ])
 
@@ -185,7 +185,7 @@ class ProductVariantApiControllerTest extends TestCase
             'GET',
             route('api.product_variant.show',
                 [
-                    'product' => $product_id,
+                    'product_variant' => $product_id,
                 ])
         );
 
@@ -224,7 +224,7 @@ class ProductVariantApiControllerTest extends TestCase
         $response = $this->call(
             'DELETE',
             route('api.product_variant.destroy', [
-                'post' => $response->getData()->data->id,
+                'product_variant' => $response->getData()->data->id,
             ])
         );
 
