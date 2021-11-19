@@ -87,7 +87,7 @@ class AddPostTest extends DuskTestCase
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
 
 
-            $browser->pause(1000);
+            $browser->pause(1000); 
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(2000);
 
