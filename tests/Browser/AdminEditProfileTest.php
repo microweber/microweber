@@ -37,8 +37,9 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->pause(3000);
             $browser->waitForText('First Name');
-
-            $browser->type('verify_password', '1');
+            $browser->pause(3000);
+            $browser->scrollTo('#advanced-settings');
+            
             $browser->type('first_name', 'Visual');
             $browser->type('last_name', 'Test');
             $browser->type('phone', '08812345678');
