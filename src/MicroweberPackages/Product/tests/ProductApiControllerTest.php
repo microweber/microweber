@@ -210,11 +210,11 @@ class ProductApiControllerTest extends TestCase
             route('api.product.quick-view',
                 [
                     'id' => $product_id,
+                    'json'=>true
                 ])
         );
+        $response->getContent();
 
-        $product_data = $response->getData();
-        $this->assertEquals(true,!empty($product_data->data));
 
     }
 
@@ -237,7 +237,7 @@ class ProductApiControllerTest extends TestCase
         $response = $this->call(
             'DELETE',
             route('api.product.destroy', [
-                'post' => $response->getData()->data->id,
+                'product' => $response->getData()->data->id,
             ])
         );
 
