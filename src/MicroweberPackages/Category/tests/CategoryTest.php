@@ -5,11 +5,13 @@ namespace MicroweberPackages\Media\tests;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Traits\CategoryTrait;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 
 
 class ContentTestModelForCategories extends Model
@@ -24,6 +26,8 @@ class CategoryTest extends TestCase
 {
     public function testRender()
     {
+        $clean = Content::truncate();
+        $clean = Category::truncate();
 
         $categoryLink = category_link(0);
         $this->assertFalse($categoryLink);
@@ -54,6 +58,7 @@ class CategoryTest extends TestCase
 
         $categoryItems = get_category_items($mainCategory->id);
         $categoryItemsCount = get_category_items_count($mainCategory->id);
+
         $this->assertEquals(1, $categoryItemsCount);
 
         $this->assertEquals(1, count($categoryItems));
