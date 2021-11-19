@@ -10,6 +10,7 @@ userfiles/media/*
 userfiles/export/*
 userfiles/import/*
 userfiles/cache/*
+userfiles/modules/browser_redirect
 userfiles/templates/liteness
 userfiles/templates/dream
 userfiles/templates/bricksite

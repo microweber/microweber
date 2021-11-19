@@ -124,18 +124,18 @@ if(!isset($item['type'] )){
                             <?php else: ?>
 
                             <?php if ($has_update): ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
                             <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                                 <div
                                     class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-outline-primary js-package-install-btn"
                                    style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php else: ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-outline-primary js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
@@ -231,20 +231,19 @@ if(!isset($item['type'] )){
                                 <div class="text-success js-package-install-btn-help-text"><?php _e('Current'); ?></div>
                             <?php endif; ?>
 
-
                             <?php if ($has_update): ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
                             <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                                 <div
                                     class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-success js-package-install-btn"
                                    style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php else: ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
                                    onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                    class="btn btn-sm btn-success js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
