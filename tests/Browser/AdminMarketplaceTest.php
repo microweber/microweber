@@ -54,7 +54,6 @@ class AdminMarketplaceTest extends DuskTestCase
             $browser->pause(10000);
 
             $browser->waitForText('Success. You have installed');
-            $browser->press('OK');
 
 
 
