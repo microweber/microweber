@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class AdminEditProfile extends DuskTestCase
+class AdminEditProfileTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
@@ -33,7 +33,7 @@ class AdminEditProfile extends DuskTestCase
             $browser->clickLink('Edit profile');
 
             $browser->waitForText('Advanced settings');
-            
+
             $browser->type('verify_password', '1');
             $browser->type('first_name', 'Visual');
             $browser->type('last_name', 'Test');
