@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -37,6 +38,23 @@ use Illuminate\Support\Facades\Password;
 class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
+
+    public function testExportMyData()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $response = $this->call('GET', route('api.users.export_my_data'), [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $isDownload = $response->headers->get('content-disposition');
+        $this->assertTrue(str_contains($isDownload, 'filename='));
+
+
+    }
 
     public function testRegistration()
     {
@@ -610,6 +628,5 @@ class UserManagerTest extends TestCase
 
 
     }
-
 
 }

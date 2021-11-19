@@ -24,6 +24,7 @@ if (isset($params['for-content-id'])) {
         CatTabs.set(3);
     }
 
+
     mw.load_quick_cat_edit = function ($id) {
 
         if ($id == undefined) {
@@ -75,7 +76,7 @@ if (isset($params['for-content-id'])) {
         var additional_params = {};
         additional_params.manage_categories = 'yes';
 
-        return window.mw.parent().tools.open_global_module_settings_modal('content/manager', module_id, opts,additional_params);
+        return window.mw.parent().tools.open_global_module_settings_modal('categories/admin_backend_modal', module_id, opts,additional_params);
 
     }
 

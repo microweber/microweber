@@ -28,6 +28,7 @@ class AdminTemplateStyle
             $files = glob($compiled_output_path . "*.css");
             if ($files) {
                 foreach ($files as $file) {
+
                     if (is_file($file)) {
                         @unlink($file);
                     }
@@ -39,22 +40,18 @@ class AdminTemplateStyle
 
     public function resetSelectedStyleVariables()
     {
-        $option = array();
-        $option['option_value'] = '';
-        $option['option_key'] = 'admin_theme_vars';
-        $option['option_group'] = 'admin';
-        save_option($option);
+
+        delete_option( 'admin_theme_vars', 'admin');
+         cache_clear('repositories');
         $this->cleanCompiledStylesheets();
     }
 
     public function resetSelectedStyle()
     {
 
-        $option = array();
-        $option['option_value'] = '';
-        $option['option_key'] = 'admin_theme_name';
-        $option['option_group'] = 'admin';
-        save_option($option);
+         $option = array();
+         delete_option( 'admin_theme_name', 'admin');
+        cache_clear('repositories');
 
         $this->cleanCompiledStylesheets();
     }
@@ -86,6 +83,7 @@ class AdminTemplateStyle
         if (!$theme) {
             return;
         }
+
         $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
         $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
         $theme = str_replace('..', '', $theme);

@@ -85,7 +85,8 @@
         "torann/laravel-repository": "dev-master",
         "enshrined/svg-sanitize": "0.14.1",
         "laravel/dusk": "6.x-dev",
-        "tightenco/ziggy": "dev-main"
+        "tightenco/ziggy": "dev-main",
+        "laravel/sail": "1.x-dev"
 
     },
     "require-dev": {

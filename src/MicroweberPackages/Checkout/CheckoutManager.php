@@ -133,6 +133,7 @@ class CheckoutManager
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
 
         if ($exec_return == true) {
+
             $return_url = $this->app->user_manager->session_get('checkout_return_to_url');
             if (isset($_REQUEST['return_to']) and $_REQUEST['return_to'] != false) {
                 $return_url = urldecode($_REQUEST['return_to']);
@@ -150,6 +151,20 @@ class CheckoutManager
                 }
 
                 return $this->app->url_manager->redirect($return_to);
+            } else {
+
+                if(isset($update_order) and isset($update_order['id'])){
+                    if ($mw_process_payment_success == true) {
+                        return redirect(route('checkout.finish', $update_order['id']))->with('success',_e('Your payment is complete',true));
+                    } elseif ($mw_process_payment_failed == true) {
+                        return redirect(route('checkout.finish', $update_order['id']))->with('success',_e('Your payment was not complete',true));
+
+                    } else {
+                        return redirect('/');
+                    }
+                }
+
+
             }
         }
 
@@ -372,38 +387,40 @@ class CheckoutManager
 
             $return_url_after = '';
             $return_to_ref = false;
-            $set_return_url_from_ref = false;
+            $set_return_url_for_order_finish = false;
 
 
-            if ($this->app->url_manager->is_ajax()) {
-                $set_return_url_from_ref = $this->app->url_manager->current(true);
-            } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                $set_return_url_from_ref = $_SERVER['HTTP_REFERER'];
-            }
+//            if ($this->app->url_manager->is_ajax()) {
+//                $set_return_url_for_order_finish = $this->app->url_manager->current(true);
+//            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+//                $set_return_url_for_order_finish = $_SERVER['HTTP_REFERER'];
+//            }
+           // $set_return_url_for_order_finish = route('checkout.finish',0);
 
-            if ($set_return_url_from_ref) {
-                $urlarray = explode('?', $set_return_url_from_ref);
-                if (isset($urlarray[0]) and isset($urlarray[1])) {
-                    parse_str($urlarray[1], $ref_params);
-                    if (isset($ref_params['mw_payment_failure'])) {
-                        unset($ref_params['mw_payment_failure']);
-                    }
-                    if (isset($ref_params['mw_payment_success'])) {
-                        unset($ref_params['mw_payment_success']);
-                    }
-                    $rebuild = http_build_query($ref_params, '', '&amp;');
-                    if ($rebuild) {
-                        $set_return_url_from_ref = $urlarray[0] . '?' . $rebuild;
-                    } else {
-                        $set_return_url_from_ref = $urlarray[0];
-                    }
-                }
-                $place_order['url'] = $set_return_url_from_ref;
-                $return_url_after = '&return_to=' . urlencode($set_return_url_from_ref);
-                $this->app->user_manager->session_set('checkout_return_to_url', $set_return_url_from_ref);
-            } else {
-                $place_order['url'] = $this->app->url_manager->current();
-            }
+
+//            if ($set_return_url_for_order_finish) {
+//                $urlarray = explode('?', $set_return_url_for_order_finish);
+//                if (isset($urlarray[0]) and isset($urlarray[1])) {
+//                    parse_str($urlarray[1], $ref_params);
+//                    if (isset($ref_params['mw_payment_failure'])) {
+//                        unset($ref_params['mw_payment_failure']);
+//                    }
+//                    if (isset($ref_params['mw_payment_success'])) {
+//                        unset($ref_params['mw_payment_success']);
+//                    }
+//                    $rebuild = http_build_query($ref_params, '', '&amp;');
+//                    if ($rebuild) {
+//                        $set_return_url_for_order_finish = $urlarray[0] . '?' . $rebuild;
+//                    } else {
+//                        $set_return_url_for_order_finish = $urlarray[0];
+//                    }
+//                }
+//                $place_order['url'] = $set_return_url_for_order_finish;
+//                $return_url_after = '&return_to=' . urlencode($set_return_url_for_order_finish);
+//                $this->app->user_manager->session_set('checkout_return_to_url', $set_return_url_for_order_finish);
+//            } else {
+//                $place_order['url'] = $this->app->url_manager->current();
+//            }
 
             $place_order['session_id'] = $sid;
             $place_order['order_completed'] = 0;
@@ -419,9 +436,12 @@ class CheckoutManager
             $amount = $this->app->shop_manager->cart_total();
             $tax = $this->app->cart_manager->get_tax();
 
+
             if (!empty($checkout_errors)) {
                 return array('error' => $checkout_errors);
             }
+
+            $amount = number_format($amount, 2);
 
             $place_order['amount'] = $amount;
             $place_order['allow_html'] = true;
@@ -1097,7 +1117,8 @@ class CheckoutManager
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
-            $this->_verify_request_params($update_order);
+
+            // $this->_verify_request_params($update_order);
 
         } else {
             return array('error' => 'The payment gateway is not found!');
@@ -1232,6 +1253,9 @@ class CheckoutManager
         if (!isset($data['payment_verify_token'])) {
             $error = true;
         }
+        if (isset($data['order_id'])) {
+            $data['id'] = $data['order_id'];
+        }
 
         if (!isset($data['payment_amount'])) {
             $error = true;
@@ -1244,6 +1268,8 @@ class CheckoutManager
         if (!isset($data['id'])) {
             $error = true;
         }
+
+
 
         $vkey = false;
 
@@ -1272,9 +1298,10 @@ class CheckoutManager
         if (!$vkey) {
             $error = true;
         }
-
+        $order_data = false;
+        if(!$error and isset($data['id'])){
         $order_data = get_order_by_id($data['id']);
-
+        }
 
         if ($order_data and $vkey) {
 

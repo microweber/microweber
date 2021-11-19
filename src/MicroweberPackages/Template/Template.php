@@ -7,6 +7,7 @@ use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
+use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
@@ -370,72 +371,14 @@ class Template
 
     public function add_csrf_token_meta_tags($layout)
     {
-
+return $layout;
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
+        $generator = new CsrfTokenRequestInlineJsScriptGenerator();
 
+        $script = $generator->generate();
 
         $ajax = '<script>
-
-
-        $( document ).ready(function() {
-
-
-            var _csrf_from_local_storage = null;
-
-
-            if(typeof(mw.cookie) != \'undefined\'){
-                csrf_from_local_storage_data = mw.cookie.get("csrf-token-data")
-                if(csrf_from_local_storage_data){
-                csrf_from_local_storage_data = JSON.parse(csrf_from_local_storage_data);
-
-                 if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
-                     _csrf_from_local_storage = csrf_from_local_storage_data.value
-                }
-                }
-
-            }
-
-            if(_csrf_from_local_storage){
-
-                $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
-                     $.ajaxSetup({
-                        headers: {
-                            \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
-                        }
-                    });
-
-
-                return;
-            }
-
-
-            setTimeout(function () {
-                    $.get( "' . route('csrf') . '", function( data ) {
-                    $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
-                    if(typeof(mw.cookie) != \'undefined\' ){
-
-                         var csrf_from_local_storage_ttl = 900000; // 15 minutes
-                         var item = {
-                            value: data.token,
-                            expiry: (new Date()).getTime() + csrf_from_local_storage_ttl,
-                        }
-
-                        mw.cookie.set("csrf-token-data", JSON.stringify(item))
-
-
-                     }
-
-                     $.ajaxSetup({
-                        headers: {
-                            \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
-                        }
-                    });
-              })
-                }, 1337);
-
-
-         });
-
+        '.$script.'
 
         </script>
        ';
