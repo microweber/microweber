@@ -40,8 +40,8 @@ class AbppInstallTest extends DuskTestCase
             $browser->click('@install-button');
 
             // Wait for redirect after installation
-            $browser->waitForLocation('/admin/login', 120);
-            $browser->assertSee('Login');
+            $browser->pause(20000);
+            $browser->assertSee('Welcome to');
 
         });
     }
@@ -60,9 +60,7 @@ class AbppInstallTest extends DuskTestCase
             $browser->click('@login-button');
 
             // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
-
-            $browser->pause(1500);
+            $browser->waitForText('Dashboard');
 
             $browser->assertSee('Statistics');
             $browser->assertSee('Live Edit');

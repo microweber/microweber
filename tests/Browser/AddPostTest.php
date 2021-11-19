@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Post\Models\Post;
 use Tests\DuskTestCase;
 
 class AddPostTest extends DuskTestCase
@@ -43,7 +44,7 @@ class AddPostTest extends DuskTestCase
             $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
             $browser->pause(1000);
 
-            $browser->scrollTo('@show-custom-fields');
+           $browser->scrollTo('@show-custom-fields');
             $browser->pause(1000);
             $browser->click('@show-custom-fields');
 
@@ -83,17 +84,17 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img2.jpg');
             $browser->pause(4000);
-            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
+            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');*/
+
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
+            $browser->pause(2000);
 
-     /*       $browser->pause(3000);
-            $browser->waitForText('Content saved');
-            $browser->assertSee('Content saved');*/ 
+            $findPost = Post::where('title', $postTitle)->first();
 
-          //  $browser->pause(4000);
-            //$browser->assertValue('#slug-field-holder input', $postTitle);
+            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
+            
         });
 
     }

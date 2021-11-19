@@ -912,17 +912,6 @@ class FormsManager
         return $data;
     }
 
-    public function states_list($country = false)
-    {
-        if (!$country) {
-            return false;
-        }
-        $states = new \MicroweberPackages\Utils\CountryState();
-        $res = $states->getStates($country);
-
-        return $res;
-    }
-
     public function delete_entry($data)
     {
         $adm = $this->app->user_manager->is_admin();
