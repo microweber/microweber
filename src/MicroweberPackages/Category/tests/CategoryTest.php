@@ -25,7 +25,7 @@ class CategoryTest extends TestCase
     public function testRender()
     {
 
-        $categoryLink = category_link(888888);
+        $categoryLink = category_link(0);
         $this->assertFalse($categoryLink);
 
         $page = new Page();
@@ -36,7 +36,9 @@ class CategoryTest extends TestCase
         $page->save();
 
         $mainCategory = new Category();
-        $mainCategory->parent_id = $page->id;
+        $mainCategory->parent_id = 0;
+        $mainCategory->rel_id = $page->id;
+        $mainCategory->rel_type = 'content';
         $mainCategory->title = 'Category level 1' . uniqid();
         $mainCategory->save();
 
@@ -60,8 +62,16 @@ class CategoryTest extends TestCase
         $this->assertEquals($post->id, $categoryItems[0]['rel_id']);
 
         $options = array();
+        $options['rel_id'] = $page->id;
+        $options['rel_type'] = 'content';
         $options['active_ids'] = $mainCategory->id;
+        $options['use_cache'] = false;
+        $options['return_data'] = 1;
         $categoryTree = category_tree($options);
+
+        $this->assertTrue(str_contains($categoryTree,'data-category-id'));
+        $this->assertTrue(str_contains($categoryTree,$mainCategory->title));
+
 
     }
 
