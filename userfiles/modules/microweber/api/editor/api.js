@@ -54,8 +54,14 @@ MWEditor.api = function (scope) {
                     for (i in lists) {
                         var curr = lists[i];
                         if (!curr.nodeName || curr.nodeType !== 1) continue;
-                        var $curr = mw.$(curr);
-                        lists[i] = mw.tools.setTag(curr, 'li');
+
+                        var el = document.createElement('li');
+                        mw.tools.copyAttributes(node, el);
+                        while (curr.firstChild) {
+                            el.appendChild(curr.firstChild);
+                        }
+                        curr.replaceWith(el);
+                        lists[i] = el;
                     }
                 }
 
@@ -156,7 +162,7 @@ MWEditor.api = function (scope) {
                 if (html.indexOf('</body>') !== -1) {
                     html = html.split('</body>')[0];
                 }
-                var parser = mw.tools.parseHtml(html).body;
+                var parser = DomService.parseHtml(html).body;
 
                 var lists = mw.$('[style*="mso-list:"]', parser);
                 lists.each(function () {
@@ -444,8 +450,8 @@ MWEditor.api = function (scope) {
                 var node = scope.getSelection().focusNode;
                 el = scope.api.elementNode(node);
             }
-            var hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode']);
-            var regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
+            var hasSafe = DomService.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode']);
+            var regInsafe = DomService.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
             return hasSafe && !regInsafe;
         },
         _execCommandCustom: {
@@ -511,7 +517,7 @@ MWEditor.api = function (scope) {
             if (scope.api.isSelectionEditable()) {
                 var sel = scope.getSelection();
                 var el = scope.api.elementNode(sel.focusNode)
-                scope.api.action(mw.tools.firstBlockLevel(el), function () {
+                scope.api.action(DomService.firstBlockLevel(el), function () {
                      el.style.lineHeight = size
                 });
             }
@@ -525,7 +531,7 @@ MWEditor.api = function (scope) {
             }
             var range = sel.getRangeAt(0),
                 common = scope.api.elementNode(range.commonAncestorContainer);
-            var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
+            var nodrop_state = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
             if (scope.api.isSelectionEditable() && nodrop_state) {
                 scope.api._fontSize(size, 'px');
             }
@@ -571,7 +577,7 @@ MWEditor.api = function (scope) {
         link: function (result) {
             var sel = scope.getSelection();
             var el = scope.api.elementNode(sel.focusNode);
-            var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
+            var elLink = el.nodeName === 'A' ? el : DomService.firstParentWithTag(el, 'a');
             if (elLink) {
                 elLink.href = result.url;
                 if (result.text && result.text !== elLink.innerHTML) {
@@ -587,7 +593,7 @@ MWEditor.api = function (scope) {
                 this.execCommand('unlink', null, null);
             }
             else {
-                var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
+                var link = DomService.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
                 if (!!link) {
                     this.selectElement(link);
                     this.execCommand('unlink', null, null);

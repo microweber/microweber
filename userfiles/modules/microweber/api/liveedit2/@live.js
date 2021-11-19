@@ -10,7 +10,6 @@ import {ModuleHandleContent} from "./handles-content/module";
 import {LayoutHandleContent} from "./handles-content/layout";
 import {ElementManager} from "../classes/element";
 import {lang} from "./i18n";
-import {Dialog} from "./dialog";
 
 
 

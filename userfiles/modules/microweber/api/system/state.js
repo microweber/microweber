@@ -8,7 +8,7 @@ import {State} from '../classes/state';
          value: null,
          $initial: true
     });
-    mw.$liveEditState = mw.$(mw.liveEditState);
+
 
     var ui = mw.$('<div class="mw-ui-btn-nav"></div>'),
         undo = document.createElement('span'),
@@ -64,11 +64,11 @@ import {State} from '../classes/state';
             }
         }
 
-        mw.$liveEditState.on('stateRecord', function(e, data){
+        mw.liveEditState.on('stateRecord', function(e, data){
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
-        mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
+        var handleStates = function(e, data){
 
             if(data.active) {
                 var target = data.active.target;
@@ -97,7 +97,9 @@ import {State} from '../classes/state';
             mw.drag.load_new_modules();
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-        });
+        }
+        mw.liveEditState.on('stateUndo', handleStates);
+        mw.liveEditState.on('stateRedo', handleStates);
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);

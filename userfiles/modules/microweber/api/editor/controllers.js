@@ -446,7 +446,8 @@ MWEditor.controllers = {
             });
             this.root.node.appendChild(undo.node);
             this.root.node.appendChild(redo.node);
-            $(rootScope.state).on('stateRecord', function(e, data){
+            rootScope.state.on('stateRecord', function(e, data){
+                console.log(e, data)
                 undo.node.disabled = !data.hasNext;
                 redo.node.disabled = !data.hasPrev;
             })

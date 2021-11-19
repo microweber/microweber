@@ -18,7 +18,7 @@ const State = function(options){
     var defaults = {
         maxItems: 1000
     };
-    this.options = $.extend({}, defaults, (options || {}));
+    this.options = Object.assign({}, defaults, (options || {}));
     this._state = this.options.state || [];
     this._active = null;
     this._activeIndex = -1;
@@ -34,8 +34,8 @@ const State = function(options){
         return this;
     };
     var _e = {};
-    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : '';  return this; };
 
 
     this.active = function(active){
@@ -87,7 +87,6 @@ const State = function(options){
         this._active = null;
         this._activeIndex = -1;
         this.afterChange(false);
-        $(this).trigger('stateRecord', [this.eventData()]);
         this.dispatch('record', [this.eventData()]);
         return this;
     };
@@ -151,10 +150,10 @@ const State = function(options){
 
         if(action){
 
-            $(this).trigger(action, [this.eventData()]);
+             this.dispatch(action, [this.eventData()]);
         }
         if(action !== false){
-            $(this).trigger('change', [this.eventData()]);
+            this.dispatch('change', [this.eventData()]);
         }
         return this;
     };
@@ -7853,7 +7852,7 @@ __webpack_require__.r(__webpack_exports__);
          value: null,
          $initial: true
     });
-    mw.$liveEditState = mw.$(mw.liveEditState);
+
 
     var ui = mw.$('<div class="mw-ui-btn-nav"></div>'),
         undo = document.createElement('span'),
@@ -7909,11 +7908,11 @@ __webpack_require__.r(__webpack_exports__);
             }
         }
 
-        mw.$liveEditState.on('stateRecord', function(e, data){
+        mw.liveEditState.on('stateRecord', function(e, data){
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
-        mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
+        var handleStates = function(e, data){
 
             if(data.active) {
                 var target = data.active.target;
@@ -7942,7 +7941,9 @@ __webpack_require__.r(__webpack_exports__);
             mw.drag.load_new_modules();
             mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-        });
+        }
+        mw.liveEditState.on('stateUndo', handleStates);
+        mw.liveEditState.on('stateRedo', handleStates);
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);

@@ -2,6 +2,139 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./userfiles/modules/microweber/api/classes/dialog.js":
+/*!************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/dialog.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Dialog": () => (/* binding */ Dialog),
+/* harmony export */   "Confirm": () => (/* binding */ Confirm),
+/* harmony export */   "Alert": () => (/* binding */ Alert)
+/* harmony export */ });
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
+const dialogFooter = (okLabel, cancelLabel) => {
+    const footer = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-dialog-footer'
+        }
+    });
+
+    const ok = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-btn-primary le-dialog-footer-ok',
+            innerHTML: okLabel || 'OK'
+        }
+    });
+
+    const cancel = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-dialog-footer-cancel'
+        }
+    });
+
+    footer.append(cancel);
+    footer.append(ok);
+
+    return  {
+        ok, cancel, footer
+    }
+}
+
+class Dialog {
+    constructor(options) {
+        this.document = document;
+        options = options || {}
+        const defaults = {
+            content: null,
+            overlay: true
+        }
+        this.settings = Object.assign({}, defaults, options);
+        this.build();
+        setTimeout(_ => this.open())
+    }
+    build() {
+        this.root = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog',
+
+            }
+        });
+        var closeBtn = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-close',
+            }
+        });
+        closeBtn.on('click', () => {
+            this.remove();
+        });
+        this.container = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-container'
+            },
+            content: this.settings.content
+        })
+        this.root.append(closeBtn);
+        this.root.append(this.container);
+        if(this.settings.footer) {
+            this.root.append(this.settings.footer.root || this.settings.footer);
+        }
+        this.settings.document.body.appendChild(this.root.get(0))
+        if (this.settings.overlay) {
+            this.overlay()
+        }
+    }
+    open() {
+        this.root.addClass('le-dialog-opened')
+    }
+    remove() {
+        this.root.remove()
+        if(this.overlay){
+            this.overlay.remove()
+        }
+    }
+    overlay() {
+        this.overlay = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-overlay'
+            }
+        })
+        this.settings.document.body.appendChild(this.overlay.get(0))
+    }
+
+}
+
+
+const Confirm = function (content, c) {
+    const footer = dialogFooter();
+    const dialog = new Dialog({
+        content, footer
+    });
+    footer.cancel.on('click', function (){
+        dialog.remove()
+    })
+    footer.ok.on('click', function (){
+        if(c){
+            c.call()
+        }
+        dialog.remove()
+    });
+    return dialog
+}
+
+const Alert = function (text) {
+    return new Dialog({
+        content: text
+    })
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/classes/dom.js":
 /*!*********************************************************!*\
   !*** ./userfiles/modules/microweber/api/classes/dom.js ***!
@@ -990,139 +1123,6 @@ class DroppableElementAnalyzerService extends _element_analizer_service__WEBPACK
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/liveedit2/dialog.js":
-/*!**************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/liveedit2/dialog.js ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Dialog": () => (/* binding */ Dialog),
-/* harmony export */   "Confirm": () => (/* binding */ Confirm),
-/* harmony export */   "Alert": () => (/* binding */ Alert)
-/* harmony export */ });
-/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
-
-
-const dialogFooter = (okLabel, cancelLabel) => {
-    const footer = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-        props: {
-            className: 'le-dialog-footer'
-        }
-    });
-
-    const ok = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-        props: {
-            className: 'le-btn le-btn-primary le-dialog-footer-ok',
-            innerHTML: okLabel || 'OK'
-        }
-    });
-
-    const cancel = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-        props: {
-            className: 'le-btn le-dialog-footer-cancel'
-        }
-    });
-
-    footer.append(cancel);
-    footer.append(ok);
-
-    return  {
-        ok, cancel, footer
-    }
-}
-
-class Dialog {
-    constructor(options) {
-        this.document = document;
-        options = options || {}
-        const defaults = {
-            content: null,
-            overlay: true
-        }
-        this.settings = Object.assign({}, defaults, options);
-        this.build();
-        setTimeout(_ => this.open())
-    }
-    build() {
-        this.root = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-            props: {
-                className: 'le-dialog',
-
-            }
-        });
-        var closeBtn = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-            props: {
-                className: 'le-dialog-close',
-            }
-        });
-        closeBtn.on('click', () => {
-            this.remove();
-        });
-        this.container = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-            props: {
-                className: 'le-dialog-container'
-            },
-            content: this.settings.content
-        })
-        this.root.append(closeBtn);
-        this.root.append(this.container);
-        if(this.settings.footer) {
-            this.root.append(this.settings.footer.root || this.settings.footer);
-        }
-        this.settings.document.body.appendChild(this.root.get(0))
-        if (this.settings.overlay) {
-            this.overlay()
-        }
-    }
-    open() {
-        this.root.addClass('le-dialog-opened')
-    }
-    remove() {
-        this.root.remove()
-        if(this.overlay){
-            this.overlay.remove()
-        }
-    }
-    overlay() {
-        this.overlay = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
-            props: {
-                className: 'le-dialog-overlay'
-            }
-        })
-        this.settings.document.body.appendChild(this.overlay.get(0))
-    }
-
-}
-
-
-const Confirm = function (content, c) {
-    const footer = dialogFooter();
-    const dialog = new Dialog({
-        content, footer
-    });
-    footer.cancel.on('click', function (){
-        dialog.remove()
-    })
-    footer.ok.on('click', function (){
-        if(c){
-            c.call()
-        }
-        dialog.remove()
-    })
-    return dialog
-}
-
-const Alert = function (text) {
-    return new Dialog({
-        content: text
-    })
-}
-
-
-/***/ }),
-
 /***/ "./userfiles/modules/microweber/api/liveedit2/draggable.js":
 /*!*****************************************************************!*\
   !*** ./userfiles/modules/microweber/api/liveedit2/draggable.js ***!
@@ -1898,9 +1898,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _handle_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../handle-menu */ "./userfiles/modules/microweber/api/liveedit2/handle-menu.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
-/* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
-/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
-
+/* harmony import */ var _classes_dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/dialog */ "./userfiles/modules/microweber/api/classes/dialog.js");
 
 
 
@@ -2148,7 +2146,7 @@ const LayoutHandleContent = function (rootScope) {
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#ff0000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 action: function (target, selfNode, rootScope) {
-                    (0,_dialog__WEBPACK_IMPORTED_MODULE_3__.Confirm)('Are you sure', function (){
+                    (0,_classes_dialog__WEBPACK_IMPORTED_MODULE_2__.Confirm)('Are you sure', function (){
                         target.remove()
                     })
                 }
@@ -2862,8 +2860,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./handles-content/layout */ "./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./i18n */ "./userfiles/modules/microweber/api/liveedit2/i18n.js");
-/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./dialog */ "./userfiles/modules/microweber/api/liveedit2/dialog.js");
-
 
 
 
@@ -2997,7 +2993,7 @@ class LiveEdit {
             var defaults = {
                 document: this.settings.document
             }
-            return new _dialog__WEBPACK_IMPORTED_MODULE_12__.Dialog(_classes_object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options))
+            return new Dialog(_classes_object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options))
         };
 
         var elementHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({

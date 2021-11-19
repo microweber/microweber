@@ -1,7 +1,6 @@
 import {HandleMenu} from "../handle-menu";
 import {ElementManager} from "../../classes/element";
-import {DomService} from "../../classes/dom";
-import {Confirm, Dialog} from "../dialog";
+import {Confirm} from "../../classes/dialog";
 
 const _getModulesDataCache = {};
 

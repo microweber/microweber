@@ -4,7 +4,7 @@ export const State = function(options){
     var defaults = {
         maxItems: 1000
     };
-    this.options = $.extend({}, defaults, (options || {}));
+    this.options = Object.assign({}, defaults, (options || {}));
     this._state = this.options.state || [];
     this._active = null;
     this._activeIndex = -1;
@@ -20,8 +20,8 @@ export const State = function(options){
         return this;
     };
     var _e = {};
-    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : '';  return this; };
 
 
     this.active = function(active){
@@ -73,7 +73,6 @@ export const State = function(options){
         this._active = null;
         this._activeIndex = -1;
         this.afterChange(false);
-        $(this).trigger('stateRecord', [this.eventData()]);
         this.dispatch('record', [this.eventData()]);
         return this;
     };
@@ -137,10 +136,10 @@ export const State = function(options){
 
         if(action){
 
-            $(this).trigger(action, [this.eventData()]);
+             this.dispatch(action, [this.eventData()]);
         }
         if(action !== false){
-            $(this).trigger('change', [this.eventData()]);
+            this.dispatch('change', [this.eventData()]);
         }
         return this;
     };

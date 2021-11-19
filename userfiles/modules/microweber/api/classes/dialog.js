@@ -105,7 +105,7 @@ export const Confirm = function (content, c) {
             c.call()
         }
         dialog.remove()
-    })
+    });
     return dialog
 }
 
