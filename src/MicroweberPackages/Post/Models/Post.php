@@ -34,7 +34,6 @@ class Post extends Content
         "created_at",
     ];
 
-    public $translatable = ['title','url','description','content','content_body'];
 
     public $sortable = [
         'id'=>[
