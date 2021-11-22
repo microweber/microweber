@@ -141,12 +141,16 @@ class UserForgotPasswordController extends Controller
             $user = User::where('email', $request->get('email'))->first();
             if ($user != null) {
 
-                tap($user->forceFill([
+                /*
+                $user->password = Hash::make($request->get('password'));
+                $user->save();
+                */
+
+               tap($user->forceFill([
                     'password' => Hash::make($request->get('password')),
                 ]))->save();
 
-                app()->auth->queueRecallerCookie($user);
-                app()->auth->fireOtherDeviceLogoutEvent($user);
+               //Auth::logoutOtherDevices($request->get('password'));
 
                 event(new PasswordReset($request->get('email')));
 
