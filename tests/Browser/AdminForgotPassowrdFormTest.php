@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\UserManager;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -63,11 +64,15 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->pause('4000');
 
-            Auth::logout(); 
+            Auth::logout();
 
-            $checkPassword = User::where('username', 1)->first();
+            $loginDetails = array();
+            $loginDetails['username'] = 1;
+            $loginDetails['password'] = 1234;
 
-            $this->assertEquals($checkPassword->password, Hash::make(1234));
+            $userManager = new UserManager();
+            $loginStatus = $userManager->login($loginDetails);
+            $this->assertArrayHasKey('success', $loginStatus);
 
             // Reset to old password
             $user = User::where('username', 1)->first();
