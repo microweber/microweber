@@ -170,7 +170,10 @@ if (isset($data['created_by']) and $data['created_by']) {
         $showAdvancedSettings = false;
     }
     ?>
-
+<?php
+$contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+$formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+?>
 <?php if ($showSeoSettings): ?>
     <!-- SEO Settings -->
     <div class="card style-1 mb-3 card-collapse">
@@ -198,13 +201,19 @@ if (isset($data['created_by']) and $data['created_by']) {
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group js-count-letters">
-                                <label class="control-label"><?php _e("Meta description"); ?></label>
-                                <small data-toggle="tooltip" title="Short description for yor content."></small>
+                        <div class="form-group ">
+                        <label class="control-label"><?php _e("Meta description"); ?></label>
+                        <small data-toggle="tooltip" title="Short description for yor content."></small>
 
-                            <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
+                    <?php
+                    echo $formBuilder->TextArea('description')
+                        ->setModel($contentModel)
+                        ->value($data['description'])
+                        ->autocomplete(false);
+                    ?>
                         </div>
                     </div>
+
 
                     <div class="col-md-12">
                         <div class="form-group">

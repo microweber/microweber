@@ -458,10 +458,7 @@ if (isset($params['quick_edit'])) {
                                     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
                                         <div class="form-group">
                                             <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
-                                          <!--  <label class="control-label" title="Content Body"><?php /* _e("Description"); */?></label>
-                                            <div id="mw-admin-content-iframe-editor">
-                                                <textarea id="content_template" name="content_body"><?php /*print $data['content_body']; */?></textarea>
-                                            </div>-->
+
                                                 <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
                                                 <?php
                                                 echo $formBuilder->mwEditor('content_body')
@@ -470,10 +467,6 @@ if (isset($params['quick_edit'])) {
                                                     ->autocomplete(false);
                                                 ?>
                                         <?php else: ?>
-                                           <!-- <label class="control-label"><?php /* _e("Content"); */?></label>
-                                            <div id="mw-admin-content-iframe-editor">
-                                                <textarea id="content_template" name="content"><?php /*print $data['content']; */?></textarea>
-                                            </div>-->
 
                                                 <label class="control-label"><?php  _e("Content"); ?></label>
                                             <?php
