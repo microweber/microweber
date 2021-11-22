@@ -1,5 +1,56 @@
 import {DomService} from "../classes/dom";
 
+const rangeWalker = (range, doc) => {
+    doc = doc || document;
+    let ranges = [];
+    let el = range.startContainer;
+    let elsToVisit = true;
+    while (elsToVisit) {
+        let startOffset = el === range.startContainer ? range.startOffset : 0;
+        let endOffset = el === range.endContainer ? range.endOffset : el.textContent.length;
+        let r = doc.createRange();
+        r.setStart(el, startOffset);
+        r.setEnd(el, endOffset);
+        ranges.push(r);
+        elsToVisit = false;
+        while (!elsToVisit && el !== range.endContainer) {
+            let nextEl = getFirstTextNode(el.nextSibling);
+            if (nextEl) {
+                el = nextEl;
+                elsToVisit = true;
+            }
+            else {
+                if (el.nextSibling) {
+                    el = el.nextSibling;
+                } else if (el.parentNode) {
+                    el = el.parentNode;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    return ranges;
+}
+const getFirstTextNode = el => {
+     if (!el)               return null;
+    if (el.nodeType === 3)  return el;
+
+    for (let child of el.childNodes) {
+        if (child.nodeType === 3) {
+            return child;
+        }
+        else {
+            let textNode = getFirstTextNode(child);
+            if (textNode !== null) {
+                return textNode;
+            }
+        }
+    }
+    return null;
+}
+
 
 MWEditor.api = function (scope) {
     return {
@@ -314,7 +365,6 @@ MWEditor.api = function (scope) {
                         el.replaceWith(...el.childNodes);
                         el = frag.querySelector('b,strong,.format-bold')
                     }
-
                 },
             }
             scope.api.domCommand('cssApplier', opt);
@@ -322,14 +372,33 @@ MWEditor.api = function (scope) {
         unBold: function () {
             var opt = {
                 fragmentModifier: function (frag) {
-                    var el = frag.querySelector('b,strong,.format-bold')
+                    var selector = 'b,strong,.format-bold,.format-unbold'
+                    var el = frag.querySelector(selector)
                     while (el) {
                         el.replaceWith(...el.childNodes);
-                        el = frag.querySelector('b,strong,.format-bold')
+                        el = frag.querySelector(selector)
                     }
                 },
             }
             scope.api.domCommand('cssApplier', opt);
+            var focused = scope.api.elementNode(scope.api.getSelection().focusNode);
+
+            var isBold = parseFloat(getComputedStyle(focused).fontWeight) > 500;
+             if(isBold) {
+                opt = {
+                    fragmentModifier: function (frag) {
+                        var unbold = document.createElement('span');
+                        unbold.style.fontWeight = 'normal';
+                        unbold.className = 'format-unbold';
+                        var el = frag.querySelector('b,strong,.format-bold')
+                        while (frag.firstChild) {
+                            unbold.appendChild(frag.firstChild)
+                        }
+                        frag.appendChild(unbold)
+                    },
+                }
+                scope.api.domCommand('cssApplier', opt);
+            }
         },
         boldToggle: function (){
             var sel = scope.api.getSelectionHTML();
@@ -416,6 +485,35 @@ MWEditor.api = function (scope) {
         },
 
         cssApplier: function (options) {
+
+
+            const {css, className, fragmentModifier} = options;
+            let styles = '';
+            if (typeof css === 'object') {
+                for (let i in css) {
+                    styles += (i + ':' + css[i] + ';');
+                }
+            } else if(typeof css === 'string') {
+                styles = css;
+            }
+            let sel = scope.getSelection();
+            let el = scope.api.elementNode(sel.focusNode);
+            let range = sel.getRangeAt(0);
+             let ranges = rangeWalker(range, scope.executionDocument);
+
+            if(styles || className) {
+                ranges.forEach(range => {
+                    let el = document.createElement('span');
+                     el.className = 'mw-richtext-cssApplier' + (!!className ? (' ' + className) : '');
+                    el.setAttribute('style', styles);
+                    range.surroundContents(el);
+                })
+                console.log(1212, ranges)
+
+            }
+            console.log(options)
+        },
+        _old_cssApplier: function (options) {
             const {css, className, fragmentModifier} = options;
             var styles = '';
             if (typeof css === 'object') {

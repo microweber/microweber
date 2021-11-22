@@ -1,6 +1,7 @@
 import {DomService} from "../classes/dom";
 import {ElementManager} from "../classes/element";
 import {FilePicker} from "../system/filepicker";
+import {Dialog} from "../classes/dialog";
 
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
@@ -164,10 +165,11 @@ MWEditor.controllers = {
                         dialog.remove();
                     }
                 });
-                dialog = mw.top().dialog({
+                dialog = rootScope.dialog({
                     content: picker.root,
-                    title: mw.lang('Select image'),
-                    footer: false
+                    title:  'Select image',
+                    footer: false,
+
                 });
 
             });

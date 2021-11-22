@@ -30,13 +30,14 @@ const dialogFooter = (okLabel, cancelLabel) => {
 
 export class Dialog {
     constructor(options) {
-        this.document = document;
         options = options || {}
         const defaults = {
             content: null,
-            overlay: true
+            overlay: true,
+            document: document
         }
         this.settings = Object.assign({}, defaults, options);
+        console.log( this.settings );
         this.build();
         setTimeout(_ => this.open())
     }

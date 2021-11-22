@@ -176,6 +176,68 @@ const State = function(options){
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/classes/tabs.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/tabs.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Tabs": () => (/* binding */ Tabs)
+/* harmony export */ });
+class Tabs {
+    constructor(options) {
+        const defaults = {
+            activeClass: 'active'
+        }
+        this.settings = Object.assign({}, defaults, options || {});
+        if(typeof this.settings.tabs === 'string') {
+            this.settings.tabs = Array.from(document.querySelectorAll(this.settings.tabs));
+        }
+        if(typeof this.settings.nav === 'string') {
+            this.settings.nav = Array.from(document.querySelectorAll(this.settings.nav))
+        }
+
+        this.init();
+    }
+
+    unsetAll() {
+        this.settings.tabs.forEach(tab => {
+            tab.classList.remove(this.settings.activeClass)
+        })
+        this.settings.nav.forEach(nav => {
+            nav.classList.remove(this.settings.activeClass)
+        })
+    }
+
+    set(index) {
+        this.unsetAll();
+        if (typeof index === 'number') {
+            this.settings.tabs[index].classList.add(this.settings.activeClass)
+            this.settings.nav[index].classList.add(this.settings.activeClass)
+        }
+    }
+
+    init() {
+        console.log(Array.from(this.settings.tabs))
+         Array.from(this.settings.nav).forEach((tab, index) => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+                 this.set(index);
+                console.log(index)
+                if(this.settings.onclick) {
+                    this.settings.onclick.call(tab, tab, e, index)
+                }
+            })
+        })
+    }
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/core/@core.js":
 /*!********************************************************!*\
   !*** ./userfiles/modules/microweber/api/core/@core.js ***!
@@ -16591,6 +16653,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FilePicker": () => (/* binding */ FilePicker)
 /* harmony export */ });
 /* harmony import */ var _core_uploader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/uploader */ "./userfiles/modules/microweber/api/core/uploader.js");
+/* harmony import */ var _classes_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/tabs */ "./userfiles/modules/microweber/api/classes/tabs.js");
+
 
 
 const lang = function (key) {
@@ -16836,9 +16900,9 @@ const FilePicker = function (options) {
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
             setTimeout(function () {
-                scope._tabs = mw.tabs({
-                    nav: $('a', ul),
-                    tabs: $('.mw-filepicker-component-section', scope.$root),
+                scope._tabs = new _classes_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs({
+                    nav: ul[0].querySelectorAll('a'),
+                    tabs: scope.$root[0].querySelectorAll('.mw-filepicker-component-section'),
                     activeClass: 'active',
                     onclick: function (el, event, i) {
                         if(scope.__navigation_first.indexOf(i) === -1) {

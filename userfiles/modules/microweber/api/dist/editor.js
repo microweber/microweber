@@ -194,6 +194,141 @@ const CSSParser = function(el) {
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/classes/dialog.js":
+/*!************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/dialog.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Dialog": () => (/* binding */ Dialog),
+/* harmony export */   "Confirm": () => (/* binding */ Confirm),
+/* harmony export */   "Alert": () => (/* binding */ Alert)
+/* harmony export */ });
+/* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
+
+
+const dialogFooter = (okLabel, cancelLabel) => {
+    const footer = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-dialog-footer'
+        }
+    });
+
+    const ok = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-btn-primary le-dialog-footer-ok',
+            innerHTML: okLabel || 'OK'
+        }
+    });
+
+    const cancel = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+        props: {
+            className: 'le-btn le-dialog-footer-cancel'
+        }
+    });
+
+    footer.append(cancel);
+    footer.append(ok);
+
+    return  {
+        ok, cancel, footer
+    }
+}
+
+class Dialog {
+    constructor(options) {
+        options = options || {}
+        const defaults = {
+            content: null,
+            overlay: true,
+            document: document
+        }
+        this.settings = Object.assign({}, defaults, options);
+        console.log( this.settings );
+        this.build();
+        setTimeout(_ => this.open())
+    }
+    build() {
+        this.root = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog',
+
+            }
+        });
+        var closeBtn = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-close',
+            }
+        });
+        closeBtn.on('click', () => {
+            this.remove();
+        });
+        this.container = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-container'
+            },
+            content: this.settings.content
+        })
+        this.root.append(closeBtn);
+        this.root.append(this.container);
+        if(this.settings.footer) {
+            this.root.append(this.settings.footer.root || this.settings.footer);
+        }
+        this.settings.document.body.appendChild(this.root.get(0))
+        if (this.settings.overlay) {
+            this.overlay()
+        }
+    }
+    open() {
+        this.root.addClass('le-dialog-opened')
+    }
+    remove() {
+        this.root.remove()
+        if(this.overlay){
+            this.overlay.remove()
+        }
+    }
+    overlay() {
+        this.overlay = (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)({
+            props: {
+                className: 'le-dialog-overlay'
+            }
+        })
+        this.settings.document.body.appendChild(this.overlay.get(0))
+    }
+
+}
+
+
+const Confirm = function (content, c) {
+    const footer = dialogFooter();
+    const dialog = new Dialog({
+        content, footer
+    });
+    footer.cancel.on('click', function (){
+        dialog.remove()
+    })
+    footer.ok.on('click', function (){
+        if(c){
+            c.call()
+        }
+        dialog.remove()
+    });
+    return dialog
+}
+
+const Alert = function (text) {
+    return new Dialog({
+        content: text
+    })
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/classes/dom.js":
 /*!*********************************************************!*\
   !*** ./userfiles/modules/microweber/api/classes/dom.js ***!
@@ -1221,6 +1356,68 @@ const State = function(options){
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/classes/tabs.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/classes/tabs.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Tabs": () => (/* binding */ Tabs)
+/* harmony export */ });
+class Tabs {
+    constructor(options) {
+        const defaults = {
+            activeClass: 'active'
+        }
+        this.settings = Object.assign({}, defaults, options || {});
+        if(typeof this.settings.tabs === 'string') {
+            this.settings.tabs = Array.from(document.querySelectorAll(this.settings.tabs));
+        }
+        if(typeof this.settings.nav === 'string') {
+            this.settings.nav = Array.from(document.querySelectorAll(this.settings.nav))
+        }
+
+        this.init();
+    }
+
+    unsetAll() {
+        this.settings.tabs.forEach(tab => {
+            tab.classList.remove(this.settings.activeClass)
+        })
+        this.settings.nav.forEach(nav => {
+            nav.classList.remove(this.settings.activeClass)
+        })
+    }
+
+    set(index) {
+        this.unsetAll();
+        if (typeof index === 'number') {
+            this.settings.tabs[index].classList.add(this.settings.activeClass)
+            this.settings.nav[index].classList.add(this.settings.activeClass)
+        }
+    }
+
+    init() {
+        console.log(Array.from(this.settings.tabs))
+         Array.from(this.settings.nav).forEach((tab, index) => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+                 this.set(index);
+                console.log(index)
+                if(this.settings.onclick) {
+                    this.settings.onclick.call(tab, tab, e, index)
+                }
+            })
+        })
+    }
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/core/uploader.js":
 /*!***********************************************************!*\
   !*** ./userfiles/modules/microweber/api/core/uploader.js ***!
@@ -1663,6 +1860,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FilePicker": () => (/* binding */ FilePicker)
 /* harmony export */ });
 /* harmony import */ var _core_uploader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/uploader */ "./userfiles/modules/microweber/api/core/uploader.js");
+/* harmony import */ var _classes_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/tabs */ "./userfiles/modules/microweber/api/classes/tabs.js");
+
 
 
 const lang = function (key) {
@@ -1908,9 +2107,9 @@ const FilePicker = function (options) {
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
             setTimeout(function () {
-                scope._tabs = mw.tabs({
-                    nav: $('a', ul),
-                    tabs: $('.mw-filepicker-component-section', scope.$root),
+                scope._tabs = new _classes_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs({
+                    nav: ul[0].querySelectorAll('a'),
+                    tabs: scope.$root[0].querySelectorAll('.mw-filepicker-component-section'),
                     activeClass: 'active',
                     onclick: function (el, event, i) {
                         if(scope.__navigation_first.indexOf(i) === -1) {
@@ -2189,6 +2388,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/state */ "./userfiles/modules/microweber/api/classes/state.js");
 /* harmony import */ var _classes_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../classes/css */ "./userfiles/modules/microweber/api/classes/css.js");
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+/* harmony import */ var _classes_dialog__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../classes/dialog */ "./userfiles/modules/microweber/api/classes/dialog.js");
+
 
 
 
@@ -2235,11 +2436,14 @@ class EditorCore {
     }
 }
 
+
 class Editor extends EditorCore  {
 
     constructor(options) {
         super();
         options = options || {};
+
+
 
         this.settings = Object.assign({}, this.defaults, options);
 
@@ -2261,8 +2465,6 @@ class Editor extends EditorCore  {
         this.actionWindow = this.document.defaultView;
         this.executionWindow = this.executionDocument.defaultView;
 
-
-
         if(!this.settings.selector && this.settings.element){
             this.settings.selector = this.settings.element;
         }
@@ -2282,6 +2484,11 @@ class Editor extends EditorCore  {
         }
 
         this.settings.isTextArea = this.settings.selectorNode.nodeName && this.settings.selectorNode.nodeName === 'TEXTAREA';
+        this.dialog = function (options) {
+            options.document = this.document;
+
+            return new _classes_dialog__WEBPACK_IMPORTED_MODULE_4__.Dialog(options)
+        }
 
         this.selection = this.getSelection();
 
@@ -2296,6 +2503,7 @@ class Editor extends EditorCore  {
         this._initInputRecordTime = null;
         this.interactionData = {};
         this.init();
+
     }
 
 
@@ -2414,6 +2622,7 @@ class Editor extends EditorCore  {
         var time = new Date().getTime();
         if(eventIsActionLike || (time - this._interactionTime) > max){
             if (e.pageX) {
+                console.log(this.interactionData, this)
                 this.interactionData.pageX = e.pageX;
                 this.interactionData.pageY = e.pageY;
             }
@@ -2465,25 +2674,25 @@ class Editor extends EditorCore  {
             currt = new Date().getTime();
 
         $(this.actionWindow.document).on('selectionchange', (e) => {
-            $(this).trigger('selectionchange', [{
+             $(this).trigger('selectionchange', [{
                 event: e,
                 interactionData: this.interactionData
             }]);
         });
 
-        $(this).on('execCommand', () => {
-            this._observe();
+        $(this).on('execCommand', (e) => {
+            this._observe(e);
         });
-        this.state.on('undo', () => {
+        this.state.on('undo', (e) => {
             setTimeout(() => {
-                this._observe();
+                this._observe(e);
             }, 123);
         });
-        this.state.on('redo', () => {
+        this.state.on('redo', (e) => {
             var active = this.state.active();
             var target = active ? active.target : this.getSelection().focusNode();
             setTimeout(() => {
-                this._observe();
+                this._observe(e);
             }, 123);
         });
 
@@ -2828,7 +3037,7 @@ class Editor extends EditorCore  {
             this.api.execCommand('enableObjectResizing', false, 'false');
             this.api.execCommand('2D-Position', false, false);
             this.api.execCommand("enableInlineTableEditing", null, false);
-            console.log(this.$editArea)
+
             if(!this.state.hasRecords()){
                 this.state.record({
                     $initial: true,
@@ -2837,9 +3046,9 @@ class Editor extends EditorCore  {
                 });
             }
             this.settings.regions = this.settings.regions || this.$editArea;
-            this.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', this._observe);
+            this.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', e => this._observe);
 
-            Array.from(this.actionWindow.document.querySelectorAll(this.settings.regions)).forEach((el) =>{
+            Array.from(this.actionWindow.document.querySelectorAll(this.settings.regions)).forEach((el) => {
                 el.contentEditable = false;
                 (0,_classes_element__WEBPACK_IMPORTED_MODULE_0__.ElementManager)(el).on('mousedown touchstart', (e) =>{
 
@@ -3086,6 +3295,57 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
 
+
+const rangeWalker = (range, doc) => {
+    doc = doc || document;
+    let ranges = [];
+    let el = range.startContainer;
+    let elsToVisit = true;
+    while (elsToVisit) {
+        let startOffset = el === range.startContainer ? range.startOffset : 0;
+        let endOffset = el === range.endContainer ? range.endOffset : el.textContent.length;
+        let r = doc.createRange();
+        r.setStart(el, startOffset);
+        r.setEnd(el, endOffset);
+        ranges.push(r);
+        elsToVisit = false;
+        while (!elsToVisit && el !== range.endContainer) {
+            let nextEl = getFirstTextNode(el.nextSibling);
+            if (nextEl) {
+                el = nextEl;
+                elsToVisit = true;
+            }
+            else {
+                if (el.nextSibling) {
+                    el = el.nextSibling;
+                } else if (el.parentNode) {
+                    el = el.parentNode;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    return ranges;
+}
+const getFirstTextNode = el => {
+     if (!el)               return null;
+    if (el.nodeType === 3)  return el;
+
+    for (let child of el.childNodes) {
+        if (child.nodeType === 3) {
+            return child;
+        }
+        else {
+            let textNode = getFirstTextNode(child);
+            if (textNode !== null) {
+                return textNode;
+            }
+        }
+    }
+    return null;
+}
 
 
 MWEditor.api = function (scope) {
@@ -3401,7 +3661,6 @@ MWEditor.api = function (scope) {
                         el.replaceWith(...el.childNodes);
                         el = frag.querySelector('b,strong,.format-bold')
                     }
-
                 },
             }
             scope.api.domCommand('cssApplier', opt);
@@ -3409,14 +3668,33 @@ MWEditor.api = function (scope) {
         unBold: function () {
             var opt = {
                 fragmentModifier: function (frag) {
-                    var el = frag.querySelector('b,strong,.format-bold')
+                    var selector = 'b,strong,.format-bold,.format-unbold'
+                    var el = frag.querySelector(selector)
                     while (el) {
                         el.replaceWith(...el.childNodes);
-                        el = frag.querySelector('b,strong,.format-bold')
+                        el = frag.querySelector(selector)
                     }
                 },
             }
             scope.api.domCommand('cssApplier', opt);
+            var focused = scope.api.elementNode(scope.api.getSelection().focusNode);
+
+            var isBold = parseFloat(getComputedStyle(focused).fontWeight) > 500;
+             if(isBold) {
+                opt = {
+                    fragmentModifier: function (frag) {
+                        var unbold = document.createElement('span');
+                        unbold.style.fontWeight = 'normal';
+                        unbold.className = 'format-unbold';
+                        var el = frag.querySelector('b,strong,.format-bold')
+                        while (frag.firstChild) {
+                            unbold.appendChild(frag.firstChild)
+                        }
+                        frag.appendChild(unbold)
+                    },
+                }
+                scope.api.domCommand('cssApplier', opt);
+            }
         },
         boldToggle: function (){
             var sel = scope.api.getSelectionHTML();
@@ -3503,6 +3781,35 @@ MWEditor.api = function (scope) {
         },
 
         cssApplier: function (options) {
+
+
+            const {css, className, fragmentModifier} = options;
+            let styles = '';
+            if (typeof css === 'object') {
+                for (let i in css) {
+                    styles += (i + ':' + css[i] + ';');
+                }
+            } else if(typeof css === 'string') {
+                styles = css;
+            }
+            let sel = scope.getSelection();
+            let el = scope.api.elementNode(sel.focusNode);
+            let range = sel.getRangeAt(0);
+             let ranges = rangeWalker(range, scope.executionDocument);
+
+            if(styles || className) {
+                ranges.forEach(range => {
+                    let el = document.createElement('span');
+                     el.className = 'mw-richtext-cssApplier' + (!!className ? (' ' + className) : '');
+                    el.setAttribute('style', styles);
+                    range.surroundContents(el);
+                })
+                console.log(1212, ranges)
+
+            }
+            console.log(options)
+        },
+        _old_cssApplier: function (options) {
             const {css, className, fragmentModifier} = options;
             var styles = '';
             if (typeof css === 'object') {
@@ -3911,6 +4218,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
 /* harmony import */ var _system_filepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../system/filepicker */ "./userfiles/modules/microweber/api/system/filepicker.js");
+/* harmony import */ var _classes_dialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../classes/dialog */ "./userfiles/modules/microweber/api/classes/dialog.js");
+
 
 
 
@@ -4077,10 +4386,11 @@ MWEditor.controllers = {
                         dialog.remove();
                     }
                 });
-                dialog = mw.top().dialog({
+                dialog = rootScope.dialog({
                     content: picker.root,
-                    title: mw.lang('Select image'),
-                    footer: false
+                    title:  'Select image',
+                    footer: false,
+
                 });
 
             });

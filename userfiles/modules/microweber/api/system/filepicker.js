@@ -1,4 +1,5 @@
 import {Uploader} from "../core/uploader";
+import {Tabs} from "../classes/tabs";
 
 const lang = function (key) {
     return key;
@@ -243,9 +244,9 @@ export const FilePicker = function (options) {
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
             setTimeout(function () {
-                scope._tabs = mw.tabs({
-                    nav: $('a', ul),
-                    tabs: $('.mw-filepicker-component-section', scope.$root),
+                scope._tabs = new Tabs({
+                    nav: ul[0].querySelectorAll('a'),
+                    tabs: scope.$root[0].querySelectorAll('.mw-filepicker-component-section'),
                     activeClass: 'active',
                     onclick: function (el, event, i) {
                         if(scope.__navigation_first.indexOf(i) === -1) {

@@ -357,7 +357,7 @@ html.le-dragging .mw-handle-item {
   left: 50%;
   transform: scale(0.8) translate(-50%, -50%);
   transform-origin: center center;
-  z-index: 123;
+  z-index: 1024;
   transition: 0.3s;
   visibility: hidden;
   opacity: 0;

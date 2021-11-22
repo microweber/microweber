@@ -3,6 +3,7 @@ import {ElementManager} from "../classes/element";
 import {State} from "../classes/state";
 import {CSSParser} from "../classes/css";
 import {DomService} from "../classes/dom";
+import {Dialog} from "../classes/dialog";
 
 
 
@@ -44,11 +45,14 @@ class EditorCore {
     }
 }
 
+
 class Editor extends EditorCore  {
 
     constructor(options) {
         super();
         options = options || {};
+
+
 
         this.settings = Object.assign({}, this.defaults, options);
 
@@ -70,8 +74,6 @@ class Editor extends EditorCore  {
         this.actionWindow = this.document.defaultView;
         this.executionWindow = this.executionDocument.defaultView;
 
-
-
         if(!this.settings.selector && this.settings.element){
             this.settings.selector = this.settings.element;
         }
@@ -91,6 +93,11 @@ class Editor extends EditorCore  {
         }
 
         this.settings.isTextArea = this.settings.selectorNode.nodeName && this.settings.selectorNode.nodeName === 'TEXTAREA';
+        this.dialog = function (options) {
+            options.document = this.document;
+
+            return new Dialog(options)
+        }
 
         this.selection = this.getSelection();
 
@@ -105,6 +112,7 @@ class Editor extends EditorCore  {
         this._initInputRecordTime = null;
         this.interactionData = {};
         this.init();
+
     }
 
 
@@ -223,6 +231,7 @@ class Editor extends EditorCore  {
         var time = new Date().getTime();
         if(eventIsActionLike || (time - this._interactionTime) > max){
             if (e.pageX) {
+                console.log(this.interactionData, this)
                 this.interactionData.pageX = e.pageX;
                 this.interactionData.pageY = e.pageY;
             }
@@ -274,25 +283,25 @@ class Editor extends EditorCore  {
             currt = new Date().getTime();
 
         $(this.actionWindow.document).on('selectionchange', (e) => {
-            $(this).trigger('selectionchange', [{
+             $(this).trigger('selectionchange', [{
                 event: e,
                 interactionData: this.interactionData
             }]);
         });
 
-        $(this).on('execCommand', () => {
-            this._observe();
+        $(this).on('execCommand', (e) => {
+            this._observe(e);
         });
-        this.state.on('undo', () => {
+        this.state.on('undo', (e) => {
             setTimeout(() => {
-                this._observe();
+                this._observe(e);
             }, 123);
         });
-        this.state.on('redo', () => {
+        this.state.on('redo', (e) => {
             var active = this.state.active();
             var target = active ? active.target : this.getSelection().focusNode();
             setTimeout(() => {
-                this._observe();
+                this._observe(e);
             }, 123);
         });
 
@@ -637,7 +646,7 @@ class Editor extends EditorCore  {
             this.api.execCommand('enableObjectResizing', false, 'false');
             this.api.execCommand('2D-Position', false, false);
             this.api.execCommand("enableInlineTableEditing", null, false);
-            console.log(this.$editArea)
+
             if(!this.state.hasRecords()){
                 this.state.record({
                     $initial: true,
@@ -646,9 +655,9 @@ class Editor extends EditorCore  {
                 });
             }
             this.settings.regions = this.settings.regions || this.$editArea;
-            this.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', this._observe);
+            this.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', e => this._observe);
 
-            Array.from(this.actionWindow.document.querySelectorAll(this.settings.regions)).forEach((el) =>{
+            Array.from(this.actionWindow.document.querySelectorAll(this.settings.regions)).forEach((el) => {
                 el.contentEditable = false;
                 ElementManager(el).on('mousedown touchstart', (e) =>{
 
