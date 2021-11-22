@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
@@ -62,7 +63,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->pause('4000');
 
-            Auth::logout();
+            Auth::logout(); 
 
             $checkPassword = User::where('username', 1)->first();
 
