@@ -229,8 +229,14 @@
 
                                 mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
 
-
+                                    var tree;
+                                    if (typeof(window.categorySelector) != 'undefined') {
+                                        tree = window.categorySelector.tree;
+                                    }
                                     if (typeof(mw.adminPagesTree) != 'undefined') {
+                                        tree = mw.adminPagesTree;
+                                    }
+                                    if (typeof(tree) != 'undefined') {
                                         mw.notification.success('The content is added to category');
 
                                         var all = [];
@@ -240,7 +246,7 @@
                                         })
 
 
-                                        mw.adminPagesTree.select(all);
+                                        tree.select(all);
                                         if (typeof(categorySelector) != 'undefined') {
                                         categorySelector.tree.select(catId, 'category')
                                         }
@@ -287,8 +293,8 @@
                                     })
                                 });
 
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    mw.adminPagesTree.select(all);
+                                if (typeof(tree) != 'undefined') {
+                                   tree.select(all);
                                 }
                             });
                         </script>
