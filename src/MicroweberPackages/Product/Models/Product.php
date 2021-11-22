@@ -47,7 +47,6 @@ class Product extends Content
         "created_at",
     ];
 
-    public $translatable = ['title','url','description','content','content_body'];
 
     public static $customFields = [
         [

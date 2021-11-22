@@ -104,7 +104,7 @@ event_bind(
 }
 );
 
-
+/*
 event_bind(
     'module.content.edit.main', function ($item) {
 
@@ -119,7 +119,7 @@ event_bind(
         }
     }
 }
-);
+);*/
 
 
 event_bind(

@@ -39,7 +39,7 @@ class Content extends Model
 
     public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories'];
 
-    public $translatable = ['title','url','description','content','content_body'];
+    public $translatable = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
 
     protected $attributes = [
         'is_active' => '1',
