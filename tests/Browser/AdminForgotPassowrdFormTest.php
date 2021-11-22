@@ -64,7 +64,8 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->pause('4000');
 
-            Auth::logout();
+            $browser->visit($siteUrl.'/admin/logout');
+            $browser->pause('4000');
             
             $browser->visit($siteUrl . 'admin/login');
 
