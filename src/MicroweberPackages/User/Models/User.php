@@ -176,6 +176,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
+        $token = md5($token);
+
         $this->notify(new MailResetPasswordNotification($token));
     }
 

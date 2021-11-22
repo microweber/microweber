@@ -41,8 +41,12 @@ class AddPostTest extends DuskTestCase
             $browser->value('#slug-field-holder input', $postTitle);
 
             $browser->pause(3000);
-            $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
+            $browser->keys('.mw-editor-area', $postDescription);
+
+           /* $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
+            $browser->script('$(".mw-editor-area").trigger("change")');*/
             $browser->pause(1000);
+
 
            $browser->scrollTo('@show-custom-fields');
             $browser->pause(1000);
@@ -76,7 +80,7 @@ class AddPostTest extends DuskTestCase
             $browser->waitForText('E-mail');
             $browser->click('@add-custom-field-email');
 
-            $browser->pause(3000);
+            $browser->pause(5000);
 
             // add images to gallery
             $browser->scrollTo('.mw-uploader-input');
@@ -86,10 +90,9 @@ class AddPostTest extends DuskTestCase
             $browser->pause(4000);
             $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
 
-
-            $browser->pause(1000); 
+            $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(2000);
+            $browser->pause(10000);
 
             $findPost = Post::where('title', $postTitle)->first();
 

@@ -3,8 +3,12 @@
 namespace Tests\Browser;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
+use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\UserManager;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -17,6 +21,10 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
+
+            $user = User::where('username', 1)->first();
+            $user->email = 'bobi@microweber.com';
+            $user->save();
 
             $data = [];
             $data['option_value'] = 'y';
@@ -33,16 +41,50 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->type('username', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
-            $browser->pause('3000');
+            $browser->pause('4000');
 
             $browser->waitForText('We have emailed your password reset link');
             $browser->assertSee('We have emailed your password reset link');
 
             $sendTime = Carbon::now();
 
-            $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->first();
+            $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->orderBy('created_at', 'DESC')->first();
             $this->assertNotEmpty($findPasswordReset);
             $this->assertTrue($sendTime > $findPasswordReset->created_at);
+
+            $browser->visit($siteUrl . 'reset-password/'.md5($findPasswordReset->token).'?email=bobi@microweber.com');
+
+            $browser->waitForText('Reset Password');
+            $browser->assertSee('Reset Password');
+
+            $browser->type('password', '1234');
+            $browser->type('password_confirmation', '1234');
+
+            $browser->click('.js-submit-change-password');
+
+            $browser->pause('4000');
+
+            $browser->visit(logout_url());
+            $browser->pause('4000');
+
+            $browser->visit($siteUrl . 'admin/login');
+
+            // Login to admin panel
+            $browser->type('username', '1');
+            $browser->type('password', '1234');
+
+            $browser->click('@login-button');
+
+            // Wait for redirect after login
+            $browser->waitForLocation('/admin/', 120);
+
+            $browser->visit(logout_url());
+            $browser->pause('4000');
+
+            // Reset to old password
+            $user = User::where('username', 1)->first();
+            $user->password = Hash::make(1);
+            $user->save();
 
         });
     }

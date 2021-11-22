@@ -42,7 +42,18 @@ class MultilanguageObserver
 
             foreach ($model->translatable as $fieldName) {
 
-                if (empty($model->$fieldName)) {
+                $modelAttributes = $model->getAttributes();
+
+                if (!$modelAttributes) {
+                    continue;
+                }
+                $found = false;
+                foreach ($modelAttributes as $attrCheckKey=>$attrCheck){
+                    if($attrCheckKey==$fieldName){
+                        $found = true;
+                    }
+                }
+                if (!$found) {
                     continue;
                 }
 

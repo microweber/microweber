@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Content\tests;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class ContentTest extends TestCase
@@ -356,7 +357,34 @@ class ContentTest extends TestCase
 
     }
 
+    public function testContentDescription()
+    {
+        $title = 'title for testContentDesctiprton' . uniqid();
+        $description = 'description for testContentDesctiprton' . uniqid() . '';
+        $params = array(
+            'title' => $title,
+            'description' => $description,
+            'content_type' => 'post',
+            'is_active' => 1,);
+        //saving content with wrong date
+        $save_post1 = save_content($params);
+        $save_post_data1 = get_content_by_id($save_post1);
 
+        $this->assertEquals($save_post_data1['title'], $title);
+        $this->assertEquals($save_post_data1['description'], $description);
+
+        $content = Content::where('id', intval($save_post_data1["id"]))->first();
+
+        $this->assertEquals($content->title, $title);
+        $this->assertEquals($content->description, $description);
+
+        $short = $content->shortDescription(11,' ok');
+        $this->assertEquals($short, 'description ok');
+
+
+
+
+    }
 
 
 

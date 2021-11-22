@@ -47,7 +47,6 @@ class Product extends Content
         "created_at",
     ];
 
-    public $translatable = ['title','url','description','content','content_body'];
 
     public static $customFields = [
         [
@@ -196,24 +195,6 @@ class Product extends Content
         return $this->hasMany(ProductVariant::class , 'parent');
     }
 
-    public function getDescriptionAttribute()
-    {
-        return $this->content;
-    }
-
-    public function shortDescription($limit = 224)
-    {
-        if (empty($this->content)) {
-            return false;
-        }
-
-        $shortDescription = $this->content;
-        $shortDescription = strip_tags($shortDescription);
-        $shortDescription = trim($shortDescription);
-        $shortDescription = str_limit($shortDescription, $limit);
-
-        return $shortDescription;
-    }
 
     public function getContentData($values = [])
     {
