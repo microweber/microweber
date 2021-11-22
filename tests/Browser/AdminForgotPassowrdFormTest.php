@@ -51,12 +51,15 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->visit($siteUrl . 'reset-password/'.md5($findPasswordReset->token).'?email=bobi@microweber.com');
 
-
             $browser->waitForText('Reset Password');
             $browser->assertSee('Reset Password');
 
+            $browser->type('password', '1234');
+            $browser->type('password_confirmation', '1234');
 
-            $browser->pause('14000');
+            $browser->click('.js-submit-change-password');
+
+            
 
 
         });

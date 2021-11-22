@@ -60,9 +60,7 @@
                         </div>
 
                         <div>
-                            <button type="submit" class="btn btn-default submit btn-primary">Reset
-                                Password
-                            </button>
+                            <button type="submit" class="btn btn-default submit btn-primary js-submit-change-password">Change Password</button>
                         </div>
 
                         @if ($errors->has('password'))
