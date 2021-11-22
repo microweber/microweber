@@ -149,6 +149,12 @@ class UserForgotPasswordController extends Controller
                 if ($request->expectsJson()) {
                     return response()->json(['message' => __('Password reset success.')], 200);
                 }
+
+                if ($user->is_admin) {
+                    return redirect(admin_url());
+                } else {
+                    return redirect(site_url());
+                }
             }
 
         } else {
