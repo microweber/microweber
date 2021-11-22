@@ -393,15 +393,14 @@ class UserManagerTest extends TestCase
 
         $this->assertEquals($check->email, $newUser['email']);
 
+        $resetPasswordToken = md5($check->token);
         $update_pass_request = [
-            'token' => md5($check->token),
+            'token' => $resetPasswordToken,
             'email' => $newUser['email'],
-            'password' => 'pass123456',
-            'password_confirmation' => 'pass123456'
+            'password' => 'pass1234',
+            'password_confirmation' => 'pass1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
-
-        // dd($update_pass_request,$updatePasswordWithToken);
 
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
 
@@ -417,16 +416,14 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
+
         $this->assertArrayHasKey('success', $loginStatus);
 
-
-        // Lets expire email token
-        $token = Password::getRepository()->create($user);
         DB::table('password_resets')->where('email', '=', $check->email)->update([
             'created_at' => '1997'
         ]);
         $update_pass_request = [
-            'token' => $token,
+            'token' => $resetPasswordToken,
             'email' => $newUser['email'],
             'password' => '1234',
             'password_confirmation' => '1234'

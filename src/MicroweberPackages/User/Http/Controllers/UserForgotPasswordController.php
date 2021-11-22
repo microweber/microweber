@@ -141,11 +141,6 @@ class UserForgotPasswordController extends Controller
             $user = User::where('email', $request->get('email'))->first();
             if ($user != null) {
 
-                /*
-                $user->password = Hash::make($request->get('password'));
-                $user->save();
-                */
-
                tap($user->forceFill([
                     'password' => Hash::make($request->get('password')),
                 ]))->save();
@@ -153,7 +148,6 @@ class UserForgotPasswordController extends Controller
                //Auth::logoutOtherDevices($request->get('password'));
 
                 event(new PasswordReset($request->get('email')));
-
 
                 Auth::loginUsingId($user->id);
                 $user->setRememberToken(Str::random(60));
@@ -175,10 +169,10 @@ class UserForgotPasswordController extends Controller
 
         } else {
 
-            Session::flash('status', __('Invalid token.'));
+            Session::flash('status', __('Expired or token is invalid'));
 
             if ($request->expectsJson()) {
-                return response()->json(['message' => __('Invalid token.')], 422);
+                return response()->json(['message' => __('Expired or token is invalid')], 422);
             }
         }
 
