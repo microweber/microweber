@@ -114,4 +114,27 @@ class Content extends Model
     {
         return content_link($this->id);
     }
+
+
+    public function getDescriptionAttribute($value)
+    {
+        if(is_string($value) and $value){
+          return  strip_tags($value);
+        }
+    }
+
+    public function shortDescription($limit = 224, $end = '...')
+    {
+        if (empty($this->description)) {
+            return false;
+        }
+
+        $shortDescription = $this->description;
+        $shortDescription = strip_tags($shortDescription);
+        $shortDescription = trim($shortDescription);
+        $shortDescription = str_limit($shortDescription, $limit, $end);
+
+        return $shortDescription;
+    }
+
 }
