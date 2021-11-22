@@ -49,7 +49,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $this->assertNotEmpty($findPasswordReset);
             $this->assertTrue($sendTime > $findPasswordReset->created_at);
 
-            $browser->visit($siteUrl . 'reset-password/'.$findPasswordReset->token.'?email=bobi@microweber.com');
+            $browser->visit($siteUrl . 'reset-password/'.md5($findPasswordReset->token).'?email=bobi@microweber.com');
 
 
             $browser->waitForText('Reset Password');
