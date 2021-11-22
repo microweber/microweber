@@ -65,14 +65,18 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('4000');
 
             Auth::logout();
+            
+            $browser->visit($siteUrl . 'admin/login');
 
-            $loginDetails = array();
-            $loginDetails['username'] = 1;
-            $loginDetails['password'] = 1234;
+            // Login to admin panel
+            $browser->type('username', '1');
+            $browser->type('password', '1234');
 
-            $userManager = new UserManager();
-            $loginStatus = $userManager->login($loginDetails);
-            $this->assertArrayHasKey('success', $loginStatus);
+            $browser->click('@login-button');
+
+            // Wait for redirect after login
+            $browser->waitForLocation('/admin/', 120);
+
 
             // Reset to old password
             $user = User::where('username', 1)->first();
