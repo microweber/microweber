@@ -84,6 +84,8 @@ class View
                 return $res;
             } elseif ($res instanceof Response) {
                 return $res;
+            }elseif ($res instanceof \Illuminate\View\View) {
+                return $res->render();
             }
         }
         $content = ob_get_clean();
