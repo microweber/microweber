@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
@@ -59,7 +60,18 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->click('.js-submit-change-password');
 
-            
+            $browser->pause('4000');
+
+            Auth::logout();
+
+            $checkPassword = User::where('username', 1)->first();
+
+            $this->assertEquals($checkPassword->password, Hash::make(1234));
+
+            // Reset to old password
+            $user = User::where('username', 1)->first();
+            $user->password = Hash::make(1);
+            $user->save();
 
 
         });
