@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use MicroweberPackages\User\Models\User;
 use Auth;
@@ -123,38 +124,42 @@ class UserForgotPasswordController extends Controller
             'password' => 'required|min:1|confirmed',
         ]);
 
-        $passwordResetData = $request->only('email', 'password', 'password_confirmation', 'token');
-
         $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))->where(\DB::raw('md5(token)'), $request->get('token'))->first();
         if (!empty($tokenMd5)) {
-            $passwordResetData['token'] = $tokenMd5->token;
-        }
 
-        $status = Password::reset($passwordResetData, function ($user, $password) use ($request) {
+            $user = User::where('email', $request->get('email'))->first();
+            if ($user != null) {
 
-            tap($request->user()->forceFill([
-                'password' => Hash::make($password),
-            ]))->save();
-
-
-            app()->auth->logoutOtherDevices($password);
-            event(new PasswordReset($user));
+                tap($user->forceFill([
+                    'password' => Hash::make($request->get('password')),
+                ]))->save();
 
 
-            Auth::loginUsingId($user->id);
-            $user->setRememberToken(Str::random(60));
-        });
+                app()->auth->logoutOtherDevices($request->get('password'));
+                event(new PasswordReset($request->get('email')));
 
-        if ($request->expectsJson()) {
-            if ($status === Password::PASSWORD_RESET) {
-                return response()->json(['message' => __($status)], 200);
-            } else {
-                return response()->json(['message' => __($status)], 422);
+
+                Auth::loginUsingId($user->id);
+                $user->setRememberToken(Str::random(60));
+
+                \MicroweberPackages\User\Models\PasswordReset::where('email', $tokenMd5->email)->where('token', $tokenMd5->token)->delete();
+
+                Session::flash('status', __('Password reset success.'));
+
+                if ($request->expectsJson()) {
+                    return response()->json(['message' => __('Password reset success.')], 200);
+                }
+            }
+
+        } else {
+
+            Session::flash('status', __('Invalid token.'));
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => __('Invalid token.')], 422);
             }
         }
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        return back();
     }
 }
