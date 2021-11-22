@@ -74,7 +74,6 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
-
         $expiredText = "Password reset link is expired";
 
         $check = DB::table('password_resets')
@@ -123,9 +122,15 @@ class UserForgotPasswordController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:1|confirmed',
         ]);
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) use ($request) {
+
+        $passwordResetData = $request->only('email', 'password', 'password_confirmation', 'token');
+
+        $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))->where(\DB::raw('md5(token)'), $request->get('token'))->first();
+        if (!empty($tokenMd5)) {
+            $passwordResetData['token'] = $tokenMd5->token;
+        }
+
+        $status = Password::reset($passwordResetData, function ($user, $password) use ($request) {
 
 
                 tap($request->user()->forceFill([
@@ -143,24 +148,17 @@ class UserForgotPasswordController extends Controller
         );
 
 
-        if ($request->expectsJson()) {
+     /*   if ($request->expectsJson()) {
             if ($status === Password::PASSWORD_RESET) {
                 return response()->json(['message' => __($status)], 200);
             } else {
                 return response()->json(['message' => __($status)], 422);
             }
-        }
+        }*/
 
 
-
-        return $status == Password::PASSWORD_RESET
-            ? redirect()->to(site_url())->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
-
-//
-//
-//        return $status == Password::PASSWORD_RESET
-//            ? redirect()->route('login')->with('status', __($status))
-//            : back()->withErrors(['email' => __($status)]);
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 }

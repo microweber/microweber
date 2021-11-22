@@ -21,7 +21,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $user = User::where('username', 1)->first();
             $user->email = 'bobi@microweber.com';
-            $user->save(); 
+            $user->save();
 
             $data = [];
             $data['option_value'] = 'y';
@@ -45,9 +45,19 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $sendTime = Carbon::now();
 
-            $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->first();
+            $findPasswordReset = PasswordReset::where('email', 'bobi@microweber.com')->orderBy('created_at', 'DESC')->first();
             $this->assertNotEmpty($findPasswordReset);
             $this->assertTrue($sendTime > $findPasswordReset->created_at);
+
+            $browser->visit($siteUrl . 'reset-password/'.$findPasswordReset->token.'?email=bobi@microweber.com');
+
+
+            $browser->waitForText('Reset Password');
+            $browser->assertSee('Reset Password');
+
+
+            $browser->pause('14000');
+
 
         });
     }
