@@ -132,30 +132,26 @@ class UserForgotPasswordController extends Controller
 
         $status = Password::reset($passwordResetData, function ($user, $password) use ($request) {
 
-
-                tap($request->user()->forceFill([
-                    'password' => Hash::make($password),
-                ]))->save();
-
-
-                app()->auth->logoutOtherDevices($password);
-                event(new PasswordReset($user));
+            tap($request->user()->forceFill([
+                'password' => Hash::make($password),
+            ]))->save();
 
 
-                Auth::loginUsingId($user->id);
-                $user->setRememberToken(Str::random(60));
-            }
-        );
+            app()->auth->logoutOtherDevices($password);
+            event(new PasswordReset($user));
 
 
-     /*   if ($request->expectsJson()) {
+            Auth::loginUsingId($user->id);
+            $user->setRememberToken(Str::random(60));
+        });
+
+        if ($request->expectsJson()) {
             if ($status === Password::PASSWORD_RESET) {
                 return response()->json(['message' => __($status)], 200);
             } else {
                 return response()->json(['message' => __($status)], 422);
             }
-        }*/
-
+        }
 
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
