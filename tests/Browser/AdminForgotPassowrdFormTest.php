@@ -64,9 +64,9 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->pause('4000');
 
-            $browser->visit($siteUrl.'/admin/logout');
+            $browser->visit(logout_url());
             $browser->pause('4000');
-            
+
             $browser->visit($siteUrl . 'admin/login');
 
             // Login to admin panel
@@ -78,12 +78,13 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             // Wait for redirect after login
             $browser->waitForLocation('/admin/', 120);
 
+            $browser->visit(logout_url());
+            $browser->pause('4000');
 
             // Reset to old password
             $user = User::where('username', 1)->first();
             $user->password = Hash::make(1);
             $user->save();
-
 
         });
     }
