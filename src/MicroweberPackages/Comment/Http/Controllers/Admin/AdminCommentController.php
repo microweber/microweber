@@ -26,18 +26,34 @@ class AdminCommentController extends AdminController
 {
     public function index(Request $request)
     {
-        $contents = Comment::filter($request->all())
-            ->groupBy(['rel_id', 'rel_type'])
-            ->paginate($request->get('limit', 30))
-            ->appends($request->except('page'));
 
-        foreach ($contents as $content) {
-            $content->allComments = Comment::where('rel_type', $content['rel_type'])->where('rel_id', $content['rel_id'])->get();
-        }
+        $contents = $this->getComments($request);
+
 
         return $this->view('comment::admin.comments.index', ['contents' => $contents]);
     }
 
+    public function getComments(Request $request)
+    {
+        $contents = Comment::groupBy(['rel_id', 'rel_type']);
+        $filter = $request->all();
+
+        if (!empty($filter)) {
+            $contents = $contents->filter($filter);
+        }
+
+
+        $contents = $contents->paginate($request->get('limit', 30))
+            ->appends($request->except('page'));
+
+        foreach ($contents as $content) {
+            $content->allComments = Comment::where('rel_type', $content['rel_type'])
+                ->where('rel_id', $content['rel_id'])
+                ->get();
+        }
+
+        return $contents;
+    }
 
     public function saveCommentEdit(Request $request)
     {
@@ -122,7 +138,7 @@ class AdminCommentController extends AdminController
             }
         }
 
-        if($is_del){
+        if ($is_del) {
             return (new JsonResource($data))->response();
         }
 
@@ -153,7 +169,6 @@ class AdminCommentController extends AdminController
         return (new JsonResource($get_comment))->response();
 
     }
-
 
 
     private function __report_for_spam($comment_id)

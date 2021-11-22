@@ -3,6 +3,8 @@
 
 namespace Microweber\Comments\Controllers;
 
+use Illuminate\Http\Request;
+use MicroweberPackages\Comment\Http\Controllers\Admin\AdminCommentController;
 use MicroweberPackages\View\View;
 
 
@@ -183,27 +185,37 @@ class Admin
 
 
         $comments_data['group_by'] = 'rel_id,rel_type';
-        $comments_data['order_by'] = 'updated_at desc';
+      //  $comments_data['order_by'] = 'updated_at desc';
         $comments_data['order_by'] = 'created_at desc';
 
-        $data = get_comments($comments_data);
-        //dd($data);
-        $comments_data['page_count'] = true;
 
-        $page_count = get_comments($comments_data);
+        $request = new Request();
+        $request->merge($comments_data);
 
+        $comments_controller = app()->make(AdminCommentController::class);
+        $comments_controller_data = $comments_controller->getComments($request);
 
-        $view_file = $this->views_dir . 'manage.php';
+        return view('comment::admin.comments.partials.list', ['contents' => $comments_controller_data,'module_view'=>1]);
 
-
-        $view = new View($view_file);
-        $view->assign('params', $params);
-        $view->assign('kw', $keyword);
-        $view->assign('data', $data);
-        $view->assign('page_count', $page_count);
-        $view->assign('paging_param', $paging_param);
-
-        return $view->display();
+//       // $data = get_comments($comments_data);
+//        $data = get_comments($comments_data);
+//        //dd($data);
+//        $comments_data['page_count'] = true;
+//
+//        $page_count = get_comments($comments_data);
+//
+//
+//        $view_file = $this->views_dir . 'manage.php';
+//
+//
+//        $view = new View($view_file);
+//        $view->assign('params', $params);
+//        $view->assign('kw', $keyword);
+//        $view->assign('data', $data);
+//        $view->assign('page_count', $page_count);
+//        $view->assign('paging_param', $paging_param);
+//
+//        return $view->display();
     }
 
 
