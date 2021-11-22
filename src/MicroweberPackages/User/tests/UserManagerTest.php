@@ -198,7 +198,7 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
 
- 
+
         $this->assertTrue(str_contains($requestStatus['message'],'We have emailed your password reset link!'));
         $this->assertTrue(str_contains($requestStatus['message'],'reset link'));
 
@@ -393,25 +393,21 @@ class UserManagerTest extends TestCase
 
         $this->assertEquals($check->email, $newUser['email']);
 
-
-        // Lets change the password
-        $token = Password::getRepository()->create($user);
         $update_pass_request = [
-            'token' => $token,
+            'token' => md5($check->token),
             'email' => $newUser['email'],
-            'password' => 'pass1234',
-            'password_confirmation' => 'pass1234'
+            'password' => 'pass123456',
+            'password_confirmation' => 'pass123456'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
 
-
+        // dd($update_pass_request,$updatePasswordWithToken);
 
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
 
         $this->assertTrue($updatePasswordWithToken['success']);
 
         $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
-
 
         logout();
 

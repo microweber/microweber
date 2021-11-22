@@ -145,8 +145,9 @@ class UserForgotPasswordController extends Controller
                     'password' => Hash::make($request->get('password')),
                 ]))->save();
 
+                app()->auth->queueRecallerCookie($user);
+                app()->auth->fireOtherDeviceLogoutEvent($user);
 
-                app()->auth->logoutOtherDevices($request->get('password'));
                 event(new PasswordReset($request->get('email')));
 
 
@@ -155,10 +156,10 @@ class UserForgotPasswordController extends Controller
 
                 \MicroweberPackages\User\Models\PasswordReset::where('email', $tokenMd5->email)->where('token', $tokenMd5->token)->delete();
 
-                Session::flash('status', __('Password reset success.'));
+                Session::flash('status', __('Password has been reset'));
 
                 if ($request->expectsJson()) {
-                    return response()->json(['message' => __('Password reset success.')], 200);
+                    return response()->json(['message' => __('Password has been reset')], 200);
                 }
 
                 if ($user->is_admin) {
