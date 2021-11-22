@@ -41,8 +41,10 @@ class AddPostTest extends DuskTestCase
             $browser->value('#slug-field-holder input', $postTitle);
 
             $browser->pause(3000);
-            $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
-            $browser->script('$(".mw-editor-area").trigger("change")');
+            $browser->keys('.mw-editor-area', $postDescription);
+
+           /* $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
+            $browser->script('$(".mw-editor-area").trigger("change")');*/
             $browser->pause(1000);
 
 
