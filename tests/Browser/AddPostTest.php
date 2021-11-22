@@ -89,7 +89,7 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(7000);
+            $browser->pause(10000);
 
             $findPost = Post::where('title', $postTitle)->first();
 
