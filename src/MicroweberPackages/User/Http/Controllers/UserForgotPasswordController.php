@@ -124,8 +124,19 @@ class UserForgotPasswordController extends Controller
             'password' => 'required|min:1|confirmed',
         ]);
 
-        $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))->where(\DB::raw('md5(token)'), $request->get('token'))->first();
+        $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))
+            ->where(\DB::raw('md5(token)'), $request->get('token'))
+            ->first();
         if (!empty($tokenMd5)) {
+
+            $createdAt = Carbon::parse($tokenMd5->created_at);
+            $diffInHours = $createdAt->diffInHours(Carbon::now());
+            if ($diffInHours > 1) {
+                DB::table('password_resets')
+                    ->where('email', '=', $request->get('email'))
+                    ->delete();
+                return abort(response("Password reset link is expired", 401));
+            }
 
             $user = User::where('email', $request->get('email'))->first();
             if ($user != null) {
