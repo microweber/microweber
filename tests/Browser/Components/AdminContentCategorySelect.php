@@ -25,7 +25,7 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $this->assertVisible($this->selector());
+        $browser->assertVisible($this->selector());
     }
 
     /**
