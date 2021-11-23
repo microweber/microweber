@@ -19,11 +19,10 @@ class UserUpdateRequest extends FormRequest
         $ignore = false;
 
         if($user){
-            $ignore =   Rule::unique('users')->ignore($this->user);
+            $ignore =   Rule::unique('users')->ignore($this->user->id ?? 0);
         }
 
         return [
-
             'email' => ['unique:users,email',$ignore],
             'username' => ['unique:users,username',$ignore],
         ];
