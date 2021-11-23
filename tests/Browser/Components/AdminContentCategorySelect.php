@@ -1,0 +1,62 @@
+<?php
+
+namespace Tests\Browser\Components;
+
+use Laravel\Dusk\Browser;
+use Laravel\Dusk\Component as BaseComponent;
+
+class AdminContentCategorySelect extends BaseComponent
+{
+    /**
+     * Get the root selector for the component.
+     *
+     * @return string
+     */
+    public function selector()
+    {
+        return '#selector';
+    }
+
+    /**
+     * Assert that the browser page contains the component.
+     *
+     * @param  Browser  $browser
+     * @return void
+     */
+    public function assert(Browser $browser)
+    {
+        //$browser->assertVisible($this->selector());
+    }
+
+    /**
+     * Get the element shortcuts for the component.
+     *
+     * @return array
+     */
+    public function elements()
+    {
+        return [
+            '@element' => '#selector',
+        ];
+    }
+
+    public function selectCategory(Browser $browser, $category)
+    {
+        $browser->click('.js-show-categories-tree');
+        $browser->pause(1000);
+        $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
+        $browser->pause(1000);
+
+    }
+
+    public function selectSubCategory(Browser $browser, $category, $subCategory)
+    {
+        $browser->click('.js-show-categories-tree');
+        $browser->pause(1000);
+        $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
+        $browser->pause(1000);
+        $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().find(\'.mw-tree-toggler\').click();');
+        $browser->pause(1000);
+        $browser->script('$("#show-categories-tree li:contains(\''.$category.'\')").find("li:contains(\''.$subCategory.'\')").find(\'.mw-tree-item-content\').click();');
+    }
+}
