@@ -307,7 +307,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
-//dump($loginStatus);
+
         $this->assertArrayHasKey('error', $loginStatus);
 
         $this->assertTrue(str_contains($loginStatus['error'],'verify'));
@@ -393,7 +393,7 @@ class UserManagerTest extends TestCase
 
         $this->assertEquals($check->email, $newUser['email']);
 
-        $resetPasswordToken = md5($check->token);
+        $resetPasswordToken = ($check->token);
         $update_pass_request = [
             'token' => $resetPasswordToken,
             'email' => $newUser['email'],
@@ -478,7 +478,7 @@ class UserManagerTest extends TestCase
         foreach ($emails as $email) {
 
             $body = $email->getBody();
-
+       
             if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (strpos($body, '?email=') !== false) {
                     $findResetPasswordLink = true;
