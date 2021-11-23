@@ -47,29 +47,22 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
-            $category1 = 'Blog';
-            $category2 = 'Services';
-            $category3 = 'About us';
-
             $category4 = 'Shop';
             $category4_1 = 'Clothes';
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
 
-            $browser->within(new AdminContentCategorySelect, function ($browser) use($category1,$category2,$category3,$category4,$category4_1,$category4_2,$category4_3) {
-                $browser->selectCategory($category1);
-                $browser->selectCategory($category2);
-                $browser->selectCategory($category3);
+            $browser->within(new AdminContentCategorySelect, function ($browser) use($category4,$category4_1,$category4_2,$category4_3) {
                 $browser->selectCategory($category4);
                 $browser->selectSubCategory($category4,$category4_1);
                 $browser->selectSubCategory($category4,$category4_2);
                 $browser->selectSubCategory($category4,$category4_3);
             });
 
-            $tag1 = 'tag-dusk-'.uniqid();
-            $tag2 = 'tag-dusk-'.uniqid();
-            $tag3 = 'tag-dusk-'.uniqid();
-            $tag4 = 'tag-dusk-'.uniqid();
+            $tag1 = 'TagDusk-'.uniqid();
+            $tag2 = 'TagDusk-'.uniqid();
+            $tag3 = 'TagDusk-'.uniqid();
+            $tag4 = 'TagDusk-'.uniqid();
 
             $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
@@ -143,7 +136,6 @@ class AddPostTest extends DuskTestCase
             }
             $this->assertTrue(in_array('Shop',$findedCategories));
             $this->assertTrue(in_array('Decor',$findedCategories));
-            $this->assertTrue(in_array('Services',$findedCategories));
             $this->assertTrue(in_array('Clothes',$findedCategories));
             $this->assertTrue(in_array('T-shirts',$findedCategories));
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
@@ -41,7 +42,9 @@ class AdminContentCategorySelect extends BaseComponent
     public function selectCategory(Browser $browser, $category)
     {
         $browser->pause(1000);
-        $browser->click('.js-show-categories-tree-btn');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
+            $browser->click('.js-show-categories-tree-btn');
+        }
 
         $browser->pause(1000);
         $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
@@ -52,7 +55,11 @@ class AdminContentCategorySelect extends BaseComponent
     public function selectSubCategory(Browser $browser, $category, $subCategory)
     {
         $browser->pause(1000);
-        $browser->click('.js-show-categories-tree-btn');
+
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
+            $browser->click('.js-show-categories-tree-btn');
+        }
+
         $browser->pause(1000);
         $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
         $browser->pause(1000);
