@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
+use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
@@ -25,6 +26,14 @@ class AddPostTest extends DuskTestCase
             $postDescription = 'This is the post description'.time();
 
             $browser->visit(route('admin.post.create'));
+
+
+            $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
+                $browser->addCustomField('Dropdown');
+                $browser->addCustomField('Text Field');
+            });
+
+
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);
@@ -57,40 +66,6 @@ class AddPostTest extends DuskTestCase
                 $browser->addTag($tag3);
                 $browser->addTag($tag4);
             });
-
-          /*  $browser->scrollTo('@show-custom-fields');
-            $browser->pause(1000);
-            $browser->click('@show-custom-fields');
-
-            // add custom field price
-            $browser->waitForText('Add new field');
-            $browser->click('@add-custom-field');
-            $browser->pause(3000);
-            $browser->waitForText('Price');
-            $browser->click('@add-custom-field-price');
-
-            // add custom field dropdown
-            $browser->waitForText('Add new field');
-            $browser->click('@add-custom-field');
-            $browser->pause(3000);
-            $browser->waitForText('Dropdown');
-            $browser->click('@add-custom-field-dropdown');
-
-            // add custom field text
-            $browser->waitForText('Add new field');
-            $browser->click('@add-custom-field');
-            $browser->pause(3000);
-            $browser->waitForText('Text');
-            $browser->click('@add-custom-field-text');
-
-            // add custom field email
-            $browser->waitForText('Add new field');
-            $browser->click('@add-custom-field');
-            $browser->pause(3000);
-            $browser->waitForText('E-mail');
-            $browser->click('@add-custom-field-email');
-
-            $browser->pause(5000);*/
 
             // add images to gallery
             $browser->within(new AdminContentImageAdd, function ($browser) {
@@ -131,10 +106,8 @@ class AddPostTest extends DuskTestCase
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
-            $this->assertTrue(in_array('Price',$findedCustomFields));
             $this->assertTrue(in_array('Dropdown',$findedCustomFields));
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
-            $this->assertTrue(in_array('E-mail',$findedCustomFields));
 
             $description = content_description($findPost->id);
             $this->assertEquals($description, $postDescription);
