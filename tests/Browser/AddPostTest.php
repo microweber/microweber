@@ -45,7 +45,16 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
+            $browser->click('.js-show-categories-tree');
+            $browser->pause(1000);
+            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().click();');
+            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().parent().find(\'.mw-tree-toggler\').click();');
+            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Decor\')").find(\'.mw-tree-item-content\').click();');
+            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'T-shirts\')").find(\'.mw-tree-item-content\').click();');
+            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Clothes\')").find(\'.mw-tree-item-content\').click();');
+
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Blog\')").parent().click();');
+            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Services\')").parent().click();');
 
             $browser->scrollTo('#content-tags-search-block');
 
