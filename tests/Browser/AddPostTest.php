@@ -49,12 +49,17 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().click();');
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().parent().find(\'.mw-tree-toggler\').click();');
+            $browser->pause(1000);
             $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Decor\')").find(\'.mw-tree-item-content\').click();');
+            $browser->pause(1000);
             $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'T-shirts\')").find(\'.mw-tree-item-content\').click();');
             $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Clothes\')").find(\'.mw-tree-item-content\').click();');
+            $browser->pause(1000);
 
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Blog\')").parent().click();');
+            $browser->pause(1000);
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Services\')").parent().click();');
+            $browser->pause(2000);
 
             $browser->scrollTo('#content-tags-search-block');
 
@@ -130,7 +135,9 @@ class AddPostTest extends DuskTestCase
             foreach ($categories as $category) {
                 $findedCategories[] = $category['title'];
             }
-            $this->assertTrue(in_array('Accessoaries',$findedCategories));
+            $this->assertTrue(in_array('Shop',$findedCategories));
+            $this->assertTrue(in_array('Decor',$findedCategories));
+            $this->assertTrue(in_array('Services',$findedCategories));
             $this->assertTrue(in_array('Clothes',$findedCategories));
             $this->assertTrue(in_array('T-shirts',$findedCategories));
 
