@@ -39,4 +39,13 @@ class AdminContentTagAdd extends BaseComponent
             '@element' => '#selector',
         ];
     }
+
+    public function addTag(Browser $browser, $tag)
+    {
+        $browser->scrollTo('#content-tags-search-block');
+        $browser->keys('#content-tags-search-block input',$tag,'{enter}');
+        $browser->pause(369);
+
+    }
+
 }
