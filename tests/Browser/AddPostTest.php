@@ -20,6 +20,7 @@ class AddPostTest extends DuskTestCase
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 
+            /*
             $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
 
             $browser->waitFor('@login-button');
@@ -43,8 +44,6 @@ class AddPostTest extends DuskTestCase
             $browser->pause(3000);
             $browser->keys('.mw-editor-area', $postDescription);
 
-           /* $browser->script('$(".mw-editor-area").html("'.$postDescription.'")');
-            $browser->script('$(".mw-editor-area").trigger("change")');*/
             $browser->pause(1000);
 
 
@@ -93,8 +92,46 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
+            */ 
+
+            $postTitle = 'This is the post title1637657073';
+            $postDescription = 'This is the post description1637657073';
 
             $findPost = Post::where('title', $postTitle)->first();
+
+            $this->assertEquals($findPost->content, $postDescription);
+            $this->assertEquals($findPost->content_type, 'post');
+            $this->assertEquals($findPost->subtype, 'post');
+
+            $tags = content_tags($findPost->id);
+            $this->assertTrue(in_array('Iwatch',$tags));
+            $this->assertTrue(in_array('Apple',$tags));
+            $this->assertTrue(in_array('Jbl',$tags));
+
+            $findedCategories = [];
+            $categories = content_categories($findPost->id);
+            foreach ($categories as $category) {
+                $findedCategories[] = $category['title'];
+            }
+            $this->assertTrue(in_array('Accessoaries',$findedCategories));
+            $this->assertTrue(in_array('Clothes',$findedCategories));
+            $this->assertTrue(in_array('T-shirts',$findedCategories));
+
+            $findedCustomFields = [];
+            $customFields = content_custom_fields($findPost->id);
+            foreach ($customFields as $customField) {
+                $findedCustomFields[] = $customField['name'];
+            }
+            $this->assertTrue(in_array('Price',$findedCustomFields));
+            $this->assertTrue(in_array('Dropdown',$findedCustomFields));
+            $this->assertTrue(in_array('Text Field',$findedCustomFields));
+            $this->assertTrue(in_array('E-mail',$findedCustomFields));
+
+            $description = content_description($findPost->id);
+            $this->assertEquals($description, $postDescription);
+
+            $getPictures = get_pictures($findPost->id);
+            $this->assertEquals(3, count($getPictures));
 
             $browser->waitForLocation(route('admin.post.edit', $findPost->id));
 
