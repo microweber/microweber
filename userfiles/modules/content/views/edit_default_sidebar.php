@@ -227,10 +227,18 @@
                         <script>
                             $(document).ready(function () {
 
+                                var editContentCategoryTreeSelector;
+                                if (typeof(window.categorySelector) != 'undefined') {
+                                    editContentCategoryTreeSelector = window.categorySelector.tree;
+                                }
+                                if (typeof(mw.adminPagesTree) != 'undefined') {
+                                    editContentCategoryTreeSelector = mw.adminPagesTree;
+                                }
+
                                 mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
 
 
-                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                    if (typeof(editContentCategoryTreeSelector) != 'undefined') {
                                         mw.notification.success('The content is added to category');
 
                                         var all = [];
@@ -240,7 +248,7 @@
                                         })
 
 
-                                        mw.adminPagesTree.select(all);
+                                        editContentCategoryTreeSelector.select(all);
                                         if (typeof(categorySelector) != 'undefined') {
                                         categorySelector.tree.select(catId, 'category')
                                         }
@@ -287,8 +295,8 @@
                                     })
                                 });
 
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    mw.adminPagesTree.select(all);
+                                if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                   editContentCategoryTreeSelector.select(all);
                                 }
                             });
                         </script>

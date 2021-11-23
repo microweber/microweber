@@ -106,8 +106,12 @@
                     title: "Email send results..."
                 });
             } else {
+                var err = 'Error';
+                if(msg.error){
+                    var err = msg.error;
+                }
                 mw.dialog({
-                    html: "<pre>Fail</pre>",
+                    html: "<pre>"+err+"</pre>",
                     title: "Email send failed..."
                 });
             }
