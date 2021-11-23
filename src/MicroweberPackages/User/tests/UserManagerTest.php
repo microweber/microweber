@@ -195,9 +195,9 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
 
+
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
-
 
         $this->assertTrue(str_contains($requestStatus['message'],'We have emailed your password reset link!'));
         $this->assertTrue(str_contains($requestStatus['message'],'reset link'));

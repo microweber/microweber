@@ -36,28 +36,58 @@ class UserForgotPasswordController extends Controller
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'captcha';
         }
-
+        $inputs = $request->only(['captcha','username','email']);
         if (is_admin()) {
             unset($rules['captcha']);
         }
+        $user_id = false;
 
-
-        if (!isset($request['email']) and isset($request['username'])) {
-            $user_id = detect_user_id_from_params($request);
+        if (!isset($inputs['email']) and isset($inputs['username'])) {
+            $user_id = detect_user_id_from_params($inputs);
             if($user_id){
                 $email_user = User::where('id',$user_id)->first();
                 if($email_user){
                     $request->merge(['email' => $email_user->email]);
                 }
             }
+        } else if (isset($inputs['email']) and !isset($inputs['username'])) {
+            $email_user = User::where('email',$inputs['email'])->first();
+            if($email_user){
+                $user_id = $email_user->id;
+            }
+
         }
 
          $rules['email'] = 'required|email';
 
         $request->validate($rules);
 
+        if(!$user_id){
+            return response()->json(['message' => __('passwords.user')], 422);
+        }
+
+        $user = User::where('id',$user_id)->first();
+
+//        $status = Password::sendResetLink(
+//            $request->only('email')
+//        );
+
+
+        // from https://laracasts.com/discuss/channels/laravel/reset-password-token-in-email-link-does-not-match-in-database-table?page=1&replyId=732755
         $status = Password::sendResetLink(
-            $request->only('email')
+            $request->only('email'),
+            function ($user, $token) {
+                (\DB::table('password_resets')
+                    ->updateOrInsert(
+                        ['email' => $user->email],
+                        [
+                            'token' => md5($token)
+                        ]
+                    ))
+                    ? $user->sendPasswordResetNotification(md5($token))
+                    : null;
+            }
+
         );
 
         if ($request->expectsJson()) {
@@ -125,8 +155,11 @@ class UserForgotPasswordController extends Controller
         ]);
 
         $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))
-            ->where(\DB::raw('md5(token)'), $request->get('token'))
+            //->where(\DB::raw('md5(token)'), $request->get('token'))
+            ->where('token', $request->get('token'))
             ->first();
+
+
         if (!empty($tokenMd5)) {
 
             $createdAt = Carbon::parse($tokenMd5->created_at);
