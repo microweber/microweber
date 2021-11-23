@@ -20,7 +20,6 @@ class AddPostTest extends DuskTestCase
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 
-            /*
             $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
 
             $browser->waitFor('@login-button');
@@ -46,8 +45,18 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
+            $browser->scrollTo('#content-tags-search-block');
 
-           $browser->scrollTo('@show-custom-fields');
+            $tag1 = 'tag1'.uniqid();
+            $tag2 = 'tag2'.uniqid();
+            $tag3 = 'tag3'.uniqid();
+            $tag4 = 'tag4'.uniqid();
+            $browser->keys('#content-tags-search-block input',$tag1,'{enter}');
+            $browser->keys('#content-tags-search-block input',$tag2,'{enter}');
+            $browser->keys('#content-tags-search-block input',$tag3,'{enter}');
+            $browser->keys('#content-tags-search-block input',$tag4,'{enter}');
+
+            $browser->scrollTo('@show-custom-fields');
             $browser->pause(1000);
             $browser->click('@show-custom-fields');
 
@@ -92,10 +101,7 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-            */ 
 
-            $postTitle = 'This is the post title1637657073';
-            $postDescription = 'This is the post description1637657073';
 
             $findPost = Post::where('title', $postTitle)->first();
 
@@ -104,9 +110,10 @@ class AddPostTest extends DuskTestCase
             $this->assertEquals($findPost->subtype, 'post');
 
             $tags = content_tags($findPost->id);
-            $this->assertTrue(in_array('Iwatch',$tags));
-            $this->assertTrue(in_array('Apple',$tags));
-            $this->assertTrue(in_array('Jbl',$tags));
+            $this->assertTrue(in_array($tag1,$tags));
+            $this->assertTrue(in_array($tag2,$tags));
+            $this->assertTrue(in_array($tag3,$tags));
+            $this->assertTrue(in_array($tag4,$tags));
 
             $findedCategories = [];
             $categories = content_categories($findPost->id);
