@@ -14,7 +14,7 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function selector()
     {
-        return '#selector';
+        return '#show-categories-tree';
     }
 
     /**
@@ -25,7 +25,7 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        //$browser->assertVisible($this->selector());
+        $browser->assertVisible($this->selector());
     }
 
     /**
@@ -35,14 +35,14 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function elements()
     {
-        return [
-            '@element' => '#selector',
-        ];
+        return [];
     }
 
     public function selectCategory(Browser $browser, $category)
     {
-        $browser->click('.js-show-categories-tree');
+        $browser->pause(1000);
+        $browser->click('.js-show-categories-tree-btn');
+
         $browser->pause(1000);
         $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
         $browser->pause(1000);
@@ -51,7 +51,8 @@ class AdminContentCategorySelect extends BaseComponent
 
     public function selectSubCategory(Browser $browser, $category, $subCategory)
     {
-        $browser->click('.js-show-categories-tree');
+        $browser->pause(1000);
+        $browser->click('.js-show-categories-tree-btn');
         $browser->pause(1000);
         $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
         $browser->pause(1000);

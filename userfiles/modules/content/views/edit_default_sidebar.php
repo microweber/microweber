@@ -315,7 +315,7 @@
                     <div class="col-12">
                         <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                         <br/>
-                        <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
+                        <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                         <br/>
 
                         <div id="show-categories-tree" class="collapse">

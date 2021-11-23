@@ -35,9 +35,7 @@ class AdminContentTagAdd extends BaseComponent
      */
     public function elements()
     {
-        return [
-            '@element' => '#selector',
-        ];
+        return [];
     }
 
     public function addTag(Browser $browser, $tag)
