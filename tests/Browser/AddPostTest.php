@@ -27,12 +27,6 @@ class AddPostTest extends DuskTestCase
 
             $browser->visit(route('admin.post.create'));
 
-
-            $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('dropdown','Dropdown');
-                $browser->addCustomField('text','Text Field');
-            });
-
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);
 
@@ -70,6 +64,12 @@ class AddPostTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
+            });
+
+
+            $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
+                $browser->addCustomField('dropdown','Dropdown');
+                $browser->addCustomField('text','Text Field');
             });
 
             $browser->pause(1000);
