@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Post\Models\Post;
+use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\DuskTestCase;
 
 class AddPostTest extends DuskTestCase
@@ -61,16 +62,18 @@ class AddPostTest extends DuskTestCase
             $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Services\')").parent().click();');
             $browser->pause(2000);
 
-            $browser->scrollTo('#content-tags-search-block');
 
-            $tag1 = 'tag1'.uniqid();
-            $tag2 = 'tag2'.uniqid();
-            $tag3 = 'tag3'.uniqid();
-            $tag4 = 'tag4'.uniqid();
-            $browser->keys('#content-tags-search-block input',$tag1,'{enter}');
-            $browser->keys('#content-tags-search-block input',$tag2,'{enter}');
-            $browser->keys('#content-tags-search-block input',$tag3,'{enter}');
-            $browser->keys('#content-tags-search-block input',$tag4,'{enter}');
+            $tag1 = 'tag-dusk-'.uniqid();
+            $tag2 = 'tag-dusk-'.uniqid();
+            $tag3 = 'tag-dusk-'.uniqid();
+            $tag4 = 'tag-dusk-'.uniqid();
+            
+            $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
+                $browser->addTag($tag1);
+                $browser->addTag($tag2);
+                $browser->addTag($tag3);
+                $browser->addTag($tag4);
+            });
 
             $browser->scrollTo('@show-custom-fields');
             $browser->pause(1000);
