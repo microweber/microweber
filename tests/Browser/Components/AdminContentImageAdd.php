@@ -44,6 +44,7 @@ class AdminContentImageAdd extends BaseComponent
     {
         $browser->scrollTo('.mw-uploader-input');
         $browser->attach('input.mw-uploader-input', $image);
-        $browser->pause(4000);
+        $browser->pause(6000);
+
     }
 }
