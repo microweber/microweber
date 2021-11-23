@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?> js-custom-fields-card">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -181,7 +181,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div>
                         <div class="card mb-3 mt-3 card-closed">
-                            <div class="card-header no-border bg-primary text-white py-1 pl-3" dusk="add-custom-field" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
+                            <div class="card-header no-border bg-primary text-white py-1 pl-3 js-add-custom-field" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
                                 <div class="d-flex align-items-center">
                                     <i class="mdi mdi-plus mdi-20px mr-2"></i>
                                     <span><?php _e("Add new field"); ?></span>
@@ -260,7 +260,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     <?php foreach ($fields as $field => $value): ?>
 
-                                        <button type="button" class="btn btn-link text-dark px-1" dusk="add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+                                        <button type="button" class="btn btn-link text-dark px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
                                                 <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>

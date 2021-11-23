@@ -41,20 +41,26 @@ class AdminContentCustomFieldAdd extends BaseComponent
 
     public function addCustomField(Browser $browser, $name) {
 
-        $browser->scrollTo('@show-custom-fields');
+        $browser->scrollTo('.js-custom-fields-card');
         $browser->pause(1000);
 
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('@add-custom-field'))->isDisplayed()) {
-            $browser->click('@show-custom-fields');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#custom-fields-settings'))->isDisplayed()) {
+            $browser->click('.js-show-custom-fields');
+            $browser->pause(3000);
         }
+
+        $browser->pause(9000);
+
+        $browser->scrollTo('.js-show-custom-fields');
 
         // add custom field price
         $browser->waitForText('Add new field');
-        $browser->click('@add-custom-field');
+        $browser->press('.js-add-custom-field');
         $browser->pause(3000);
+        $browser->waitForText('Add new fields');
         $browser->waitForText($name);
-        $browser->click('@add-custom-field-'.strtolower($name));
-        $browser->pause(2000);
+        $browser->click('.js-add-custom-field-'.strtolower($name));
+        $browser->pause(4000);
 
     }
 }
