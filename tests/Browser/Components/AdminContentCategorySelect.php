@@ -61,8 +61,6 @@ class AdminContentCategorySelect extends BaseComponent
         }
 
         $browser->pause(1000);
-        $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
-        $browser->pause(1000);
         $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().find(\'.mw-tree-toggler\').click();');
         $browser->pause(1000);
         $browser->script('$("#show-categories-tree li:contains(\''.$category.'\')").find("li:contains(\''.$subCategory.'\')").find(\'.mw-tree-item-content\').click();');
