@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Post\Models\Post;
+use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\DuskTestCase;
 
@@ -46,28 +47,30 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
-            $browser->click('.js-show-categories-tree');
-            $browser->pause(1000);
-            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().click();');
-            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Shop\')").parent().parent().find(\'.mw-tree-toggler\').click();');
-            $browser->pause(1000);
-            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Decor\')").find(\'.mw-tree-item-content\').click();');
-            $browser->pause(1000);
-            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'T-shirts\')").find(\'.mw-tree-item-content\').click();');
-            $browser->script('$("#show-categories-tree li:contains(\'Shop\')").find("li:contains(\'Clothes\')").find(\'.mw-tree-item-content\').click();');
-            $browser->pause(1000);
+            $category1 = 'Blog';
+            $category2 = 'Services';
+            $category3 = 'About us';
 
-            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Blog\')").parent().click();');
-            $browser->pause(1000);
-            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Services\')").parent().click();');
-            $browser->pause(2000);
+            $category4 = 'Shop';
+            $category4_1 = 'Clothes';
+            $category4_2 = 'T-shirts';
+            $category4_3 = 'Decor';
 
+            $browser->within(new AdminContentCategorySelect, function ($browser) use($category1,$category2,$category3,$category4,$category4_1,$category4_2,$category4_3) {
+                $browser->selectCategory($category1);
+                $browser->selectCategory($category2);
+                $browser->selectCategory($category3);
+                $browser->selectCategory($category4);
+                $browser->selectSubCategory($category4,$category4_1);
+                $browser->selectSubCategory($category4,$category4_2);
+                $browser->selectSubCategory($category4,$category4_3);
+            });
 
             $tag1 = 'tag-dusk-'.uniqid();
             $tag2 = 'tag-dusk-'.uniqid();
             $tag3 = 'tag-dusk-'.uniqid();
             $tag4 = 'tag-dusk-'.uniqid();
-            
+
             $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
                 $browser->addTag($tag2);
