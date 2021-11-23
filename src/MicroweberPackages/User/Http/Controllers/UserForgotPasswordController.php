@@ -50,7 +50,9 @@ class UserForgotPasswordController extends Controller
                     $request->merge(['email' => $email_user->email]);
                 }
             }
-        } else if (isset($inputs['email']) and !isset($inputs['username'])) {
+        }
+
+        if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
             $email_user = User::where('email',$inputs['email'])->first();
             if($email_user){
                 $user_id = $email_user->id;
@@ -63,7 +65,7 @@ class UserForgotPasswordController extends Controller
         $request->validate($rules);
 
         if(!$user_id){
-            return response()->json(['message' => __('passwords.user')], 422);
+            return response()->json(['error'=>true,'message' => __('passwords.user')], 422);
         }
 
         $user = User::where('id',$user_id)->first();
