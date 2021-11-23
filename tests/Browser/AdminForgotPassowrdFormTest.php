@@ -9,6 +9,7 @@ use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\UserManager;
+use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -69,14 +70,9 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->visit($siteUrl . 'admin/login');
 
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1234');
-
-            $browser->click('@login-button');
-
-            // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm(1,1234);
+            });
 
             $browser->visit(logout_url());
             $browser->pause('4000');

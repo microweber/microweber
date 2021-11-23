@@ -5,7 +5,7 @@ namespace Tests\Browser\Components;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
-class AdminContentImageAdd extends BaseComponent
+class AdminLogin extends BaseComponent
 {
     /**
      * Get the root selector for the component.
@@ -14,7 +14,7 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function selector()
     {
-        return '#mw-admin-container';
+        return '#mw-login';
     }
 
     /**
@@ -25,6 +25,9 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function assert(Browser $browser)
     {
+        $browser->visit(route('admin.login'))->assertSee('Login');
+        $browser->waitFor('@login-button');
+
         $browser->assertVisible($this->selector());
     }
 
@@ -35,15 +38,19 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function elements()
     {
-        return [
-            '@element' => '#selector',
-        ];
+        return [];
     }
 
-    public function addImage(Browser $browser, $image)
+    public function fillForm(Browser $browser, $username = 1, $password = 1)
     {
-        $browser->scrollTo('.mw-uploader-input');
-        $browser->attach('input.mw-uploader-input', $image);
-        $browser->pause(4000);
+        // Login to admin panel
+        $browser->type('username', $username);
+        $browser->type('password', $password);
+
+        $browser->click('@login-button');
+
+        // Wait for redirect after login
+        $browser->waitForLocation('/admin/', 120);
+        $browser->pause(100);
     }
 }

@@ -6,38 +6,25 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
+use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
+use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
 class AddPostTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
-
     public function testAddPost()
     {
-        $siteUrl = $this->siteUrl;
+        $this->browse(function (Browser $browser) {
 
-        $this->browse(function (Browser $browser) use($siteUrl) {
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
 
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 
-            $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
-
-            $browser->waitFor('@login-button');
-
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1');
-
-            $browser->click('@login-button');
-
-            // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
-
-            $browser->pause(100);
-
-            $browser->visit($siteUrl.'admin/post/create?dusk=1');
+            $browser->visit(route('admin.post.create'));
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);
@@ -71,7 +58,7 @@ class AddPostTest extends DuskTestCase
                 $browser->addTag($tag4);
             });
 
-            $browser->scrollTo('@show-custom-fields');
+          /*  $browser->scrollTo('@show-custom-fields');
             $browser->pause(1000);
             $browser->click('@show-custom-fields');
 
@@ -103,15 +90,14 @@ class AddPostTest extends DuskTestCase
             $browser->waitForText('E-mail');
             $browser->click('@add-custom-field-email');
 
-            $browser->pause(5000);
+            $browser->pause(5000);*/
 
             // add images to gallery
-            $browser->scrollTo('.mw-uploader-input');
-            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img1.jpg');
-            $browser->pause(4000);
-            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img2.jpg');
-            $browser->pause(4000);
-            $browser->attach('input.mw-uploader-input', userfiles_path() . '/templates/default/img/patterns/img3.jpg');
+            $browser->within(new AdminContentImageAdd, function ($browser) {
+                $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
+                $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
+                $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
+            });
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
@@ -124,6 +110,7 @@ class AddPostTest extends DuskTestCase
             $this->assertEquals($findPost->subtype, 'post');
 
             $tags = content_tags($findPost->id);
+            dd($tags);
             $this->assertTrue(in_array($tag1,$tags));
             $this->assertTrue(in_array($tag2,$tags));
             $this->assertTrue(in_array($tag3,$tags));
