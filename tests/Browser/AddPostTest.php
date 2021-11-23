@@ -47,10 +47,10 @@ class AddPostTest extends DuskTestCase
                 $browser->selectSubCategory($category4,$category4_3);
             });
 
-            $tag1 = 'Tagdusk-'.time().rand(1,3);
-            $tag2 = 'Tagdusk-'.time().rand(1,3);
-            $tag3 = 'Tagdusk-'.time().rand(1,3);
-            $tag4 = 'Tagdusk-'.time().rand(1,3);
+            $tag1 = 'Tagdusk-'.time().rand(100,200);
+            $tag2 = 'Tagdusk-'.time().rand(200,300);
+            $tag3 = 'Tagdusk-'.time().rand(300,400);
+            $tag4 = 'Tagdusk-'.time().rand(400,500);
 
             $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
