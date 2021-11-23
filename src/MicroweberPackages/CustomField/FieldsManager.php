@@ -330,8 +330,10 @@ class FieldsManager
                 $fieldData['required'] = $existing['required'];
                 $fieldData['placeholder'] = $existing['placeholder'];
                 $fieldData['error_text'] = $existing['error_text'];
+                $fieldData['set_copy_of'] = $existing['id'];
 
                 unset($fieldData['copy_of']);
+
 
                 return $this->save($fieldData);
 
@@ -411,6 +413,12 @@ class FieldsManager
         if (!empty($fieldData['is_active'])) {
             $customField->is_active = $fieldData['is_active'];
         }
+        if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
+
+            $customField->copy_of_field = $fieldData['set_copy_of'];
+            $customField->session_id =app()->user_manager->session_id();
+        }
+
 
         $customField->save();
 
