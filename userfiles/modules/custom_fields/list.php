@@ -67,7 +67,8 @@ if (isset($params['for_module_id'])): ?>
         mw()->fields_manager->makeDefault($for, $params['for_module_id'], $params['default-fields']);
     }
 
-    $more = get_custom_fields($for, $params['for_module_id'], 1, false, false);
+    $more = get_custom_fields($for, $params['for_module_id'], 1, false, false, $field_type = false, $for_session = app()->user_manager->session_id());
+
 
     if ($suggest_from_rel == true) {
         $par = array();
@@ -121,6 +122,7 @@ if (isset($params['for_module_id'])): ?>
     if (!empty($data)) {
         //$more = $data;
     }
+
     ?>
 
     <style>
