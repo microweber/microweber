@@ -17,14 +17,15 @@ class UserUpdateRequest extends FormRequest
 
         $user =$this->user();
         $ignore = false;
-        
+
         if($user){
             $ignore =   Rule::unique('users')->ignore($this->user);
         }
 
         return [
-            'email' => ['required', 'email',$ignore],
-            'username' => ['required',$ignore],
+
+            'email' => ['unique:users,email',$ignore],
+            'username' => ['unique:users,username',$ignore],
         ];
 
     }
