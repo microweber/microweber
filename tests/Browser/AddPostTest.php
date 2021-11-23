@@ -45,6 +45,8 @@ class AddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
+            $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\'Blog\')").parent().click();');
+
             $browser->scrollTo('#content-tags-search-block');
 
             $tag1 = 'tag1'.uniqid();
@@ -101,7 +103,6 @@ class AddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-
 
             $findPost = Post::where('title', $postTitle)->first();
 
