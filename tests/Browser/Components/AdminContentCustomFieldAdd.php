@@ -14,7 +14,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
      */
     public function selector()
     {
-        return '#selector';
+        return '#mw-admin-container';
     }
 
     /**

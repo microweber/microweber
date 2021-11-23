@@ -14,7 +14,7 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function selector()
     {
-        return '#show-categories-tree';
+        return '#mw-admin-container';
     }
 
     /**
@@ -25,7 +25,7 @@ class AdminContentCategorySelect extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->assertVisible($this->selector());
+        $this->assertVisible($this->selector());
     }
 
     /**

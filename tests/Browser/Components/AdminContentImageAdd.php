@@ -14,7 +14,7 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function selector()
     {
-        return '#selector';
+        return '#mw-admin-container';
     }
 
     /**
