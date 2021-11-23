@@ -29,11 +29,9 @@ class AddPostTest extends DuskTestCase
 
 
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('Dropdown');
-                $browser->addCustomField('Text Field');
+                $browser->addCustomField('dropdown','Dropdown');
+                $browser->addCustomField('text','Text Field');
             });
-
-
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);

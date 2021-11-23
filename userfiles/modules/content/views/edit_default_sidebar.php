@@ -181,7 +181,7 @@
     <?php
     if ($showCategories):
     ?>
-    <div class="card style-1 mb-3 categories">
+    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
         <div class="card-body pt-3 pb-1">
             <div class="row">
                 <?php if ($data['content_type'] == 'page') : ?>

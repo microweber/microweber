@@ -39,9 +39,9 @@ class AdminContentCustomFieldAdd extends BaseComponent
         return [];
     }
 
-    public function addCustomField(Browser $browser, $name) {
+    public function addCustomField(Browser $browser, $key, $value) {
 
-        $browser->scrollTo('.js-custom-fields-card');
+        $browser->script("$('html, body').animate({ scrollTop: $('.js-custom-fields-card-tab').offset().top -80 }, 0);");
         $browser->pause(1000);
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#custom-fields-settings'))->isDisplayed()) {
@@ -49,17 +49,13 @@ class AdminContentCustomFieldAdd extends BaseComponent
             $browser->pause(3000);
         }
 
-        $browser->pause(9000);
-
-        $browser->scrollTo('.js-show-custom-fields');
-
         // add custom field price
         $browser->waitForText('Add new field');
-        $browser->press('.js-add-custom-field');
+        $browser->click('.js-add-custom-field');
         $browser->pause(3000);
         $browser->waitForText('Add new fields');
-        $browser->waitForText($name);
-        $browser->click('.js-add-custom-field-'.strtolower($name));
+        $browser->waitForText($value);
+        $browser->click('.js-add-custom-field-'.$key);
         $browser->pause(4000);
 
     }

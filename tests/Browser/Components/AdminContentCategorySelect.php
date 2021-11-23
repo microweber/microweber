@@ -42,6 +42,8 @@ class AdminContentCategorySelect extends BaseComponent
     public function selectCategory(Browser $browser, $category)
     {
         $browser->pause(1000);
+        $browser->script("$('html, body').animate({ scrollTop: $('.js-sidebar-categories-card').offset().top -80 }, 0);");
+
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
             $browser->click('.js-show-categories-tree-btn');
         }
@@ -55,6 +57,7 @@ class AdminContentCategorySelect extends BaseComponent
     public function selectSubCategory(Browser $browser, $category, $subCategory)
     {
         $browser->pause(1000);
+        $browser->script("$('html, body').animate({ scrollTop: $('.js-sidebar-categories-card').offset().top -80 }, 0);");
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
             $browser->click('.js-show-categories-tree-btn');
