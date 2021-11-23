@@ -877,7 +877,7 @@ class CheckoutManager
     }
 
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = true, $skip_enabled_check = false,$trow_exceptions=false)
+    public function confirm_email_send($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
         $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
 
