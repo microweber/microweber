@@ -53,10 +53,10 @@ class AddPostTest extends DuskTestCase
                 $browser->selectSubCategory($category4,$category4_3);
             });
 
-            $tag1 = 'TagDusk-'.uniqid();
-            $tag2 = 'TagDusk-'.uniqid();
-            $tag3 = 'TagDusk-'.uniqid();
-            $tag4 = 'TagDusk-'.uniqid();
+            $tag1 = 'Tagdusk-'.time().rand(1,3);
+            $tag2 = 'Tagdusk-'.time().rand(1,3);
+            $tag3 = 'Tagdusk-'.time().rand(1,3);
+            $tag4 = 'Tagdusk-'.time().rand(1,3);
 
             $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
@@ -83,7 +83,6 @@ class AddPostTest extends DuskTestCase
             $this->assertEquals($findPost->subtype, 'post');
 
             $tags = content_tags($findPost->id);
-            dd($tags);
             $this->assertTrue(in_array($tag1,$tags));
             $this->assertTrue(in_array($tag2,$tags));
             $this->assertTrue(in_array($tag3,$tags));
