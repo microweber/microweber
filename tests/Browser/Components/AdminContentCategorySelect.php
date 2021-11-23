@@ -49,7 +49,15 @@ class AdminContentCategorySelect extends BaseComponent
         }
 
         $browser->pause(1000);
-        $browser->script('$("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();');
+
+        $script = '
+            if ($("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().parent().hasClass(\'selected\') == false) {
+                $("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();
+            }
+        ';
+
+        $browser->script($script);
+
         $browser->pause(1000);
 
     }

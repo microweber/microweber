@@ -93,7 +93,7 @@ class AddPostTest extends DuskTestCase
             foreach ($categories as $category) {
                 $findedCategories[] = $category['title'];
             }
-            $this->assertTrue(in_array('Shop',$findedCategories));
+
             $this->assertTrue(in_array('Decor',$findedCategories));
             $this->assertTrue(in_array('Clothes',$findedCategories));
             $this->assertTrue(in_array('T-shirts',$findedCategories));
