@@ -41,8 +41,10 @@ class AdminContentTagAdd extends BaseComponent
     public function addTag(Browser $browser, $tag)
     {
         $browser->scrollTo('#content-tags-search-block');
-        $browser->keys('#content-tags-search-block input',$tag,'{enter}');
+        $browser->keys('#content-tags-search-block input',$tag);
         $browser->pause(369);
+        $browser->keys('#content-tags-search-block input','{enter}');
+        $browser->pause(999);
 
     }
 

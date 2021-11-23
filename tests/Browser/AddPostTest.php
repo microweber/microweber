@@ -27,12 +27,6 @@ class AddPostTest extends DuskTestCase
 
             $browser->visit(route('admin.post.create'));
 
-
-            $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('dropdown','Dropdown');
-                $browser->addCustomField('text','Text Field');
-            });
-
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);
 
@@ -53,10 +47,10 @@ class AddPostTest extends DuskTestCase
                 $browser->selectSubCategory($category4,$category4_3);
             });
 
-            $tag1 = 'Tagdusk-'.time().rand(1,3);
-            $tag2 = 'Tagdusk-'.time().rand(1,3);
-            $tag3 = 'Tagdusk-'.time().rand(1,3);
-            $tag4 = 'Tagdusk-'.time().rand(1,3);
+            $tag1 = 'Tagdusk-'.time().rand(100,200);
+            $tag2 = 'Tagdusk-'.time().rand(200,300);
+            $tag3 = 'Tagdusk-'.time().rand(300,400);
+            $tag4 = 'Tagdusk-'.time().rand(400,500);
 
             $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
@@ -70,6 +64,12 @@ class AddPostTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
+            });
+
+
+            $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
+                $browser->addCustomField('dropdown','Dropdown');
+                $browser->addCustomField('text','Text Field');
             });
 
             $browser->pause(1000);
@@ -93,7 +93,7 @@ class AddPostTest extends DuskTestCase
             foreach ($categories as $category) {
                 $findedCategories[] = $category['title'];
             }
-            $this->assertTrue(in_array('Shop',$findedCategories));
+
             $this->assertTrue(in_array('Decor',$findedCategories));
             $this->assertTrue(in_array('Clothes',$findedCategories));
             $this->assertTrue(in_array('T-shirts',$findedCategories));
