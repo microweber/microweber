@@ -52,8 +52,8 @@ class AdminAddPageTest extends DuskTestCase
 
             $findPage = Page::where('title', $pageTitle)->first();
 
-            $this->assertEquals($findPage->content_type, 'page');
-            $this->assertEquals($findPage->subtype, 'page');
+            $this->assertEquals('page',$findPage->content_type);
+            $this->assertEquals('static',$findPage->subtype);
 
 
             $findedCustomFields = [];
