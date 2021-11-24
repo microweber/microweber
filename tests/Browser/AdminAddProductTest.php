@@ -12,6 +12,7 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
+use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
 
 class AdminAddProductTest extends DuskTestCase
 {
@@ -25,6 +26,8 @@ class AdminAddProductTest extends DuskTestCase
 
             $productPrice = rand(1111,9999);
             $productSpecialPrice = $productPrice - rand(1,9);
+            $productSku = unique_id();
+            $productBarcode = unique_id();
             $productTitle = 'This is the product title'.time();
             $productDescription = 'This is the product description'.time();
 
@@ -43,6 +46,12 @@ class AdminAddProductTest extends DuskTestCase
             $browser->click('.js-toggle-offer-price-button');
             $browser->pause(2000);
             $browser->value('.js-product-special-price', $productSpecialPrice);
+            $browser->pause(1000);
+
+            $browser->value('.js-invertory-sku', $productSku);
+            $browser->pause(1000);
+
+            $browser->value('.js-invertory-barcode', $productBarcode);
             $browser->pause(1000);
 
 

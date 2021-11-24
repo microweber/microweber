@@ -102,7 +102,7 @@ if (!isset($contentData['sell_oos'])) {
                     </div>
                 </div>
 
-                <div class="form-group"> 
+                <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
