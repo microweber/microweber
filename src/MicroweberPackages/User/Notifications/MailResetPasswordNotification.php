@@ -38,7 +38,7 @@ class MailResetPasswordNotification extends ResetPassword {
             $url = call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         } else {
             $url = url(route('password.reset', [
-                'token' => $this->token,
+                'token' =>  $this->token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         }
@@ -49,6 +49,7 @@ class MailResetPasswordNotification extends ResetPassword {
         $template = get_mail_template_by_id($templateId, 'forgot_password');
 
         if ($template) {
+
             $twig = new \MicroweberPackages\View\TwigView();
             $parsedEmail = $twig->render($template['message'], [
                     'email'=>$notifiable->getEmailForPasswordReset(),
@@ -57,6 +58,8 @@ class MailResetPasswordNotification extends ResetPassword {
                     'created_at'=>date('Y-m-d H:i:s')
                 ]
             );
+
+
             $mail->subject($template['subject']);
             $mail->action($template['subject'], $url);
             $mail->view('app::email.simple', ['content'=>$parsedEmail]);

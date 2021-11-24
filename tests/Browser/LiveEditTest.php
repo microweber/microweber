@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
 class LiveEditTest extends DuskTestCase
@@ -15,20 +16,9 @@ class LiveEditTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
-            $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
-
-            $browser->waitFor('@login-button');
-
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1');
-
-            $browser->click('@login-button');
-
-            // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
-
-            $browser->pause(100);
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
 
             $browser->visit($siteUrl . '/?editmode=y');
             $browser->pause(4000);

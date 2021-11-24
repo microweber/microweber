@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
 class MultilanguageFieldsTest extends DuskTestCase
@@ -15,17 +16,11 @@ class MultilanguageFieldsTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
-            $browser->visit($siteUrl . 'admin/login');
-            $browser->pause(1000);
 
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1');
 
-            $browser->click('@login-button');
-
-            // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
 
             $browser->pause(1000);
             $browser->visit($siteUrl.'admin/view:modules/load_module:multilanguage?dusk=1');

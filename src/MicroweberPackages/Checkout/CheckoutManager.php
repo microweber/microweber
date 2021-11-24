@@ -961,27 +961,29 @@ class CheckoutManager
                         $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
 
                         $cart_items_info = array();
+                        $order_items_html = '';
+                        if (!empty($cart_items)) {
+                            foreach ($cart_items as $cart_item) {
+                                $arr = array();
+                                if (isset($cart_item['item_image']) and $cart_item['item_image']) {
 
-                        foreach ($cart_items as $cart_item) {
-                            $arr = array();
-                            if (isset($cart_item['item_image']) and $cart_item['item_image']) {
+                                    $arr['item_image'] = $cart_item['item_image'];
+                                    $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
+                                }
+                                if (isset($cart_item['link'])) {
+                                    $arr['link'] = $cart_item['link'];
+                                }
+                                if (isset($cart_item['title'])) {
+                                    $arr['title'] = $cart_item['title'];
+                                }
+                                if (isset($cart_item['custom_fields'])) {
+                                    $arr['custom_fields'] = $cart_item['custom_fields'];
+                                }
+                                $cart_items_info[] = $arr;
+                            }
+                            $order_items_html = $this->app->format->array_to_table($cart_items_info);
 
-                                $arr['item_image'] = $cart_item['item_image'];
-                                $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
-                            }
-                            if (isset($cart_item['link'])) {
-                                $arr['link'] = $cart_item['link'];
-                            }
-                            if (isset($cart_item['title'])) {
-                                $arr['title'] = $cart_item['title'];
-                            }
-                            if (isset($cart_item['custom_fields'])) {
-                                $arr['custom_fields'] = $cart_item['custom_fields'];
-                            }
-                            $cart_items_info[] = $arr;
                         }
-
-                        $order_items_html = $this->app->format->array_to_table($cart_items_info);
                         $order_email_content = str_replace('{{cart_items}}', $order_items_html, $order_email_content);
                         $order_email_content = str_replace('{{date}}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
                         foreach ($ord_data as $key => $value) {

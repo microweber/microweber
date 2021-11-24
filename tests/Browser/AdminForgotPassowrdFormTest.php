@@ -9,6 +9,7 @@ use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\UserManager;
+use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -52,7 +53,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $this->assertNotEmpty($findPasswordReset);
             $this->assertTrue($sendTime > $findPasswordReset->created_at);
 
-            $browser->visit($siteUrl . 'reset-password/'.md5($findPasswordReset->token).'?email=bobi@microweber.com');
+            $browser->visit($siteUrl . 'reset-password/'.$findPasswordReset->token.'?email=bobi@microweber.com');
 
             $browser->waitForText('Reset Password');
             $browser->assertSee('Reset Password');
@@ -69,14 +70,9 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->visit($siteUrl . 'admin/login');
 
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1234');
-
-            $browser->click('@login-button');
-
-            // Wait for redirect after login
-            $browser->waitForLocation('/admin/', 120);
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm(1,1234);
+            });
 
             $browser->visit(logout_url());
             $browser->pause('4000');
@@ -109,7 +105,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->type('username', 'wrong-email@microweber.com');
             $browser->click('@reset-password-button');
-            $browser->pause('3000');
+            $browser->pause('6000');
 
             $browser->waitForText('We can\'t find a user with that email address');
             $browser->assertSee('We can\'t find a user with that email address');

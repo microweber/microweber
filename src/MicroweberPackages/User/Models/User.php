@@ -176,9 +176,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
-        $token = md5($token);
-
-        $this->notify(new MailResetPasswordNotification($token));
+      $this->notify(new MailResetPasswordNotification($token));
     }
 
     public function scopeWhereOrder($query, $orderByField, $orderBy)

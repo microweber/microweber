@@ -262,12 +262,18 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-            $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
-            if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+
+            try {
+                $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+                if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
+                    $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+                }
+            }
+            catch (\Exception $e) {
+                return false;
+               // return array('error' => $e->getMessage());
             }
 
-            // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
 
             return $sender;
         } else {
@@ -297,8 +303,15 @@ class MailSender
             }
 
             $message = 'Hello! This is a simple email message.';
+            $send = false;
+            try {
+                $send = $this->exec_send($to, $subject, $message);
+            }
+            catch (\Exception $e) {
+                 return array('error' => $e->getMessage());
+            }
 
-            $send = $this->exec_send($to, $subject, $message);
+
             if ($send) {
                 return array('success' => $send);
             } else {
@@ -337,7 +350,7 @@ class MailSender
             self::$last_send = $content;
         }
 
-        try {
+        //try {
             \Mail::send(
                 'mw_email_send::emails.simple',
                 $content,
@@ -364,24 +377,24 @@ class MailSender
                 }
             );
             return true;
-        } catch (\Exception $e) {
-
-            $exceptionMessage  = 'Caught exception: ' . $e->getMessage() . "\n";
-            $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
-            $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
-
-            mw()->log_manager->save('is_system=y&field=action&rel=mail_sender&title=Can\'t send test email&content=' . $exceptionMessage);
-
-            if ($this->silent_exceptions) {
-                return false;
-            } else {
-                if (defined('MW_UNIT_TEST')) {
-                    return false;
-                }
-                echo $exceptionMessage;
-                return false;
-            }
-        }
+//        } catch (\Exception $e) {
+//
+//            $exceptionMessage  = 'Caught exception: ' . $e->getMessage() . "\n";
+//            $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
+//            $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
+//
+//            mw()->log_manager->save('is_system=y&field=action&rel=mail_sender&title=Can\'t send test email&content=' . $exceptionMessage);
+//
+//            if ($this->silent_exceptions) {
+//                return false;
+//            } else {
+//                if (defined('MW_UNIT_TEST')) {
+//                    return false;
+//                }
+//              //  echo $exceptionMessage;
+//                return false;
+//            }
+//        }
 
 
         return false;

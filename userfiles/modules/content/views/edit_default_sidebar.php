@@ -181,7 +181,7 @@
     <?php
     if ($showCategories):
     ?>
-    <div class="card style-1 mb-3 categories">
+    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
         <div class="card-body pt-3 pb-1">
             <div class="row">
                 <?php if ($data['content_type'] == 'page') : ?>
@@ -227,10 +227,18 @@
                         <script>
                             $(document).ready(function () {
 
+                                var editContentCategoryTreeSelector;
+                                if (typeof(window.categorySelector) != 'undefined') {
+                                    editContentCategoryTreeSelector = window.categorySelector.tree;
+                                }
+                                if (typeof(mw.adminPagesTree) != 'undefined') {
+                                    editContentCategoryTreeSelector = mw.adminPagesTree;
+                                }
+
                                 mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
 
 
-                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                    if (typeof(editContentCategoryTreeSelector) != 'undefined') {
                                         mw.notification.success('The content is added to category');
 
                                         var all = [];
@@ -240,7 +248,7 @@
                                         })
 
 
-                                        mw.adminPagesTree.select(all);
+                                        editContentCategoryTreeSelector.select(all);
                                         if (typeof(categorySelector) != 'undefined') {
                                         categorySelector.tree.select(catId, 'category')
                                         }
@@ -287,8 +295,8 @@
                                     })
                                 });
 
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    mw.adminPagesTree.select(all);
+                                if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                   editContentCategoryTreeSelector.select(all);
                                 }
                             });
                         </script>
@@ -307,7 +315,7 @@
                     <div class="col-12">
                         <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                         <br/>
-                        <button type="button" class="btn btn-outline-primary btn-sm my-3" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
+                        <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                         <br/>
 
                         <div id="show-categories-tree" class="collapse">

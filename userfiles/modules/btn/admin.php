@@ -324,164 +324,214 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
+                <div class="mw-accordion">
 
-
-
-                        <label class="control-label"><?php _e("Design"); ?></label>
-
-                        <div class="form-group">
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e("Custom design"); ?>
+                        </div>
+                        <div class="mw-accordion-content" >
                             <div class="mw-ui-box mw-ui-box-content">
-                                <div class="button-custom-design" >
-                                    <script>
+                                <label class="control-label"><?php _e("Design"); ?></label>
 
-                                        $(document).ready(function (){
-                                            Array.from(document.querySelectorAll('.button-color-field')).forEach(function (field){
-                                                mw.colorPicker({
-                                                    element: field,
-                                                    position: 'bottom-center',
-                                                    value: 'red',
-                                                    onchange: function (color) {
-                                                        $(field).trigger('change')
+                                <div class="form-group">
+                                    <div class="mw-ui-box mw-ui-box-content">
+                                        <div class="button-custom-design">
+                                            <script>
+
+                                                $(document).ready(function () {
+                                                    Array.from(document.querySelectorAll('.button-color-field')).forEach(function (field) {
+                                                        mw.colorPicker({
+                                                            element: field,
+                                                            position: 'bottom-center',
+                                                            value: 'red',
+                                                            onchange: function (color) {
+                                                                $(field).trigger('change')
+                                                            }
+                                                        })
+                                                    });
+                                                    document.getElementById('set-hover-button').addEventListener('click', function () {
+                                                        document.getElementById('hover-styles').style.display = 'block';
+                                                        this.style.display = 'none';
+                                                    });
+
+                                                })
+
+
+                                            </script>
+                                            <label class="control-label"><?php _e('Color'); ?></label>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label><?php _e('Background'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="form-control button-color-field mw_option_field"
+                                                               value="<?php print $backgroundColor ?>"
+                                                               autocomplete="off" name="backgroundColor">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <label><?php _e('Text'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="button-color-field mw_option_field" name="color"
+                                                               value="<?php print $color ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Border'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="button-color-field mw_option_field"
+                                                               name="borderColor" value="<?php print $borderColor ?>"
+                                                               autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <span class="mw-ui-link" id="set-hover-button"><br>Set hover styles</span>
+
+                                            <div id="hover-styles">
+                                                <br><br>
+                                                <label class="control-label"><?php _e('Hover Color'); ?></label>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label><?php _e('Background'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="form-control button-color-field mw_option_field"
+                                                                   value="<?php print $hoverbackgroundColor ?>"
+                                                                   autocomplete="off" name="hoverbackgroundColor">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <label><?php _e('Text'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="button-color-field mw_option_field"
+                                                                   name="hovercolor" value="<?php print $hovercolor ?>"
+                                                                   autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label><?php _e('Border'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="button-color-field mw_option_field"
+                                                                   name="hoverborderColor"
+                                                                   value="<?php print $hoverborderColor ?>"
+                                                                   autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+                                            <label class="control-label"><?php _e('Size'); ?></label>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label><?php _e('Button size'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="1" max="40"
+                                                               class="form-control mw_option_field" name="customSize"
+                                                               value="<?php print $customSize ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Border'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="0" max="100"
+                                                               class="form-control mw_option_field" name="borderWidth"
+                                                               value="<?php print $borderWidth ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Radius'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="0" max="100"
+                                                               class="form-control mw_option_field" name="borderRadius"
+                                                               value="<?php print $borderRadius ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group">
+                                                <label class="control-label"><?php _e('Shadow'); ?></label>
+                                                <div class=" shadow-selector">
+                                                    <?php
+                                                    $shadows = array(
+                                                        'none;',
+                                                        'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+                                                        'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
+                                                        'rgba(0, 0, 0, 0.35) 0px 5px 15px;',
+                                                        'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
+                                                        'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                                                        'rgba(0, 0, 0, 0.1) 0px 4px 12px;',
+                                                        'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
+                                                        'rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;',
+                                                    );
+
+                                                    foreach ($shadows as $shd) {
+                                                        print '<div><input class="mw_option_field" type="radio" name="shadow" ' . ($shadow == $shd ? 'checked="true"' : '') . ' value="' . $shd . '" >   </label><span class="shadow-example" style="box-shadow: ' . $shd . '"><span>' . ($shd == 'none;' ? 'None' : '') . '</span></span> </div>';
                                                     }
-                                                })
-                                            });
-                                            document.getElementById('set-hover-button').addEventListener('click', function () {
-                                                document.getElementById('hover-styles').style.display = 'block';
-                                                this.style.display = 'none';
-                                            });
+                                                    ?>
+                                                </div>
+                                                <script>
+                                                    $(document).ready(function () {
 
-                                        })
+                                                        $('.shadow-selector > div').on('click', function () {
+                                                            var node = this.querySelector('input');
+                                                            node.checked = true;
+                                                            $(node).trigger('change')
+                                                        })
 
+                                                    })
 
-                                    </script>
-                                    <label class="control-label"><?php _e('Color'); ?></label>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label  ><?php _e('Background'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="form-control button-color-field mw_option_field" value="<?php print $backgroundColor ?>" autocomplete="off" name="backgroundColor">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label><?php _e('Text'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="color" value="<?php print $color ?>" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <label><?php _e('Border'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="borderColor" value="<?php print $borderColor ?>" autocomplete="off">
+                                                </script>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <span class="mw-ui-link" id="set-hover-button"><br>Set hover styles</span>
-
-                                    <div  id="hover-styles">
-                                        <br><br>
-                                    <label class="control-label"><?php _e('Hover Color'); ?></label>
-                                    <div class="row" >
-                                        <div class="col-4">
-                                            <label  ><?php _e('Background'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="form-control button-color-field mw_option_field" value="<?php print $hoverbackgroundColor ?>" autocomplete="off" name="hoverbackgroundColor">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label><?php _e('Text'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="hovercolor" value="<?php print $hovercolor ?>" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <label><?php _e('Border'); ?></label>
-                                            <div class="mw-field mw-field-flat">
-
-                                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                                                <input type="text" placeholder="#ffffff" class="button-color-field mw_option_field" name="hoverborderColor" value="<?php print $hoverborderColor ?>" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
-                                    <br>
-                                    <br>
-                                    <label class="control-label"><?php _e('Size'); ?></label>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label><?php _e('Button size'); ?></label>
-                                        <div class="mw-field mw-field-flat">
-
-                                            <input type="number" min="1" max="40" class="form-control mw_option_field" name="customSize" value="<?php print $customSize ?>" autocomplete="off">
-                                        </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <label><?php _e('Border'); ?></label>
-                                        <div class="mw-field mw-field-flat">
-
-                                            <input type="number" min="0" max="100" class="form-control mw_option_field" name="borderWidth" value="<?php print $borderWidth ?>" autocomplete="off">
-                                        </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <label><?php _e('Radius'); ?></label>
-                                        <div class="mw-field mw-field-flat">
-
-                                            <input type="number" min="0" max="100" class="form-control mw_option_field" name="borderRadius" value="<?php print $borderRadius ?>" autocomplete="off">
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <br>
-                                    <br>
-
-                                    <div class="form-group">
-                                        <label class="control-label"><?php _e('Shadow'); ?></label>
-                                        <div class=" shadow-selector">
-                                            <?php
-                                            $shadows = array(
-                                                'none;',
-                                                'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
-                                                'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
-                                                'rgba(0, 0, 0, 0.35) 0px 5px 15px;',
-                                                'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
-                                                'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
-                                                'rgba(0, 0, 0, 0.1) 0px 4px 12px;',
-                                                'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
-                                                'rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;',
-                                            );
-
-                                            foreach ($shadows as $shd) {
-                                                print '<div><input class="mw_option_field" type="radio" name="shadow" '.($shadow == $shd ? 'checked="true"' : '').' value="'.$shd.'" >   </label><span class="shadow-example" style="box-shadow: '.$shd.'"><span>'.($shd == 'none;' ? 'None' : '').'</span></span> </div>';
-                                            }
-                                            ?>
-                                        </div>
-                                        <script>
-                                            $(document).ready(function () {
-
-                                                $('.shadow-selector > div').on('click', function (){
-                                                    var node = this.querySelector('input');
-                                                    node.checked = true;
-                                                    $(node).trigger('change')
-                                                })
-
-                                            })
-
-                                        </script>
-                                    </div>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
 
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
