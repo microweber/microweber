@@ -559,3 +559,13 @@
     background-color: $body-bg!important;
     border: 1px solid $primary!important;
 }
+
+.mw-ui-bg-info, .mw-ui-btn-info, .mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.mw-ui-btn-info:hover, .mw-ui-btn-info.active {
+    background-color: $secondary!important;
+    border-color: $secondary!important;
+}
