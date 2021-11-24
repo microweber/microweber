@@ -657,3 +657,7 @@ html[dir='rtl'] .mw-dialog-close {
     position: relative;
     z-index: 1;
 }
+
+.mw-padding-div-header {
+    padding: 0px 30px;
+}
