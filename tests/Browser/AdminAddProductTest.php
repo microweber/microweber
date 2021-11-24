@@ -49,6 +49,11 @@ class AdminAddProductTest extends DuskTestCase
             $browser->value('.js-product-special-price', $productSpecialPrice);
             $browser->pause(1000);
 
+            $browser->script("$('.js-track-quantity-check').click()");
+            $browser->pause(1000);
+            $browser->select('.js-track-quantity-select-qty', $productQuantity);
+
+
             $browser->value('.js-invertory-sku', $productSku);
             $browser->pause(1000);
 
