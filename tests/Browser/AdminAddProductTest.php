@@ -28,6 +28,7 @@ class AdminAddProductTest extends DuskTestCase
             $productBarcode = rand(1111,9999);
             $productTitle = 'This is the product title'.time();
             $productDescription = 'This is the product description'.time();
+            $productQuantity = rand(11,99);
 
             $browser->visit(route('admin.product.create'));
 
@@ -98,7 +99,15 @@ class AdminAddProductTest extends DuskTestCase
 
             $findProduct = Product::where('title', $productTitle)->first();
 
-            $this->assertEquals($findProduct->content, $productDescription);
+            $this->assertEquals($productPrice, $findProduct->price);
+            $this->assertEquals($productSpecialPrice, $findProduct->special_price);
+            $this->assertEquals($productQuantity, $findProduct->qty);
+            $this->assertEquals($productSku, $findProduct->sku);
+            $this->assertEquals(true, $findProduct->sell_oos);
+            $this->assertEquals($productPrice, get_product_price($findProduct->id));
+
+
+            $this->assertEquals($findProduct->content_body, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');
             $this->assertEquals($findProduct->subtype, 'product');
 
