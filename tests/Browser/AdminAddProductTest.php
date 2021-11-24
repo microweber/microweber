@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -76,7 +77,7 @@ class AdminAddProductTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findProduct = Product::where('title', $productTitle)->first();
+            $findProduct = Product::where('title', $productTitle)->first(); 
 
             $this->assertEquals($findProduct->content, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');
