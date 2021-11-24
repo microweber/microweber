@@ -105,7 +105,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
 
             $browser->type('username', 'wrong-email@microweber.com');
             $browser->click('@reset-password-button');
-            $browser->pause('3000');
+            $browser->pause('6000');
 
             $browser->waitForText('We can\'t find a user with that email address');
             $browser->assertSee('We can\'t find a user with that email address');
