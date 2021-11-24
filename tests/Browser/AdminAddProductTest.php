@@ -22,13 +22,13 @@ class AdminAddProductTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            $postTitle = 'This is the post title'.time();
-            $postDescription = 'This is the post description'.time();
+            $productTitle = 'This is the product title'.time();
+            $productDescription = 'This is the product description'.time();
 
             $browser->visit(route('admin.product.create'));
 
             $browser->pause(3000);
-            $browser->value('#slug-field-holder input', $postTitle);
+            $browser->value('#slug-field-holder input', $productTitle);
 
             $browser->pause(3000);
             $browser->keys('.mw-editor-area', $postDescription);
@@ -76,9 +76,9 @@ class AdminAddProductTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findPost = Post::where('title', $postTitle)->first();
+            $findPost = Product::where('title', $productTitle)->first();
 
-            $this->assertEquals($findPost->content, $postDescription);
+            $this->assertEquals($findPost->content, $productDescription);
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
 

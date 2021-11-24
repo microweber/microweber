@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -76,11 +77,11 @@ class AdminAddPageTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findPost = Post::where('title', $postTitle)->first();
+            $findPost = Page::where('title', $postTitle)->first();
 
             $this->assertEquals($findPost->content, $postDescription);
-            $this->assertEquals($findPost->content_type, 'post');
-            $this->assertEquals($findPost->subtype, 'post');
+            $this->assertEquals($findPost->content_type, 'page');
+            $this->assertEquals($findPost->subtype, 'page');
 
             $tags = content_tags($findPost->id);
             $this->assertTrue(in_array($tag1,$tags));
