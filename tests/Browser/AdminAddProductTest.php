@@ -2,9 +2,7 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -12,7 +10,6 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
-use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
 
 class AdminAddProductTest extends DuskTestCase
 {
@@ -26,8 +23,9 @@ class AdminAddProductTest extends DuskTestCase
 
             $productPrice = rand(1111,9999);
             $productSpecialPrice = $productPrice - rand(1,9);
-            $productSku = unique_id();
-            $productBarcode = unique_id();
+            $productSku = rand(1111,9999);
+
+            $productBarcode = rand(1111,9999);
             $productTitle = 'This is the product title'.time();
             $productDescription = 'This is the product description'.time();
 
