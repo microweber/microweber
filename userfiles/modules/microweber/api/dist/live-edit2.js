@@ -1236,8 +1236,7 @@ const Draggable = function (options, rootSettings) {
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
-                 console.log(targetAction)
-                 if (targetAction && targetAction !== scope.element) {
+                  if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
                          scope.target = targetAction.target;

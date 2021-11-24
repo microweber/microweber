@@ -1848,6 +1848,25 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./userfiles/modules/microweber/api/editor/check.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/editor/check.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Check": () => (/* binding */ Check)
+/* harmony export */ });
+const Check = {
+    isBold: node => parseFloat(getComputedStyle(node).fontWeight) > 500,
+
+}
+
+
+/***/ }),
+
 /***/ "./userfiles/modules/microweber/api/system/filepicker.js":
 /*!***************************************************************!*\
   !*** ./userfiles/modules/microweber/api/system/filepicker.js ***!
@@ -3294,6 +3313,8 @@ var __webpack_exports__ = {};
   \********************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../classes/dom */ "./userfiles/modules/microweber/api/classes/dom.js");
+/* harmony import */ var _check__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./check */ "./userfiles/modules/microweber/api/editor/check.js");
+
 
 
 const rangeWalker = (range, doc) => {
@@ -3667,38 +3688,40 @@ MWEditor.api = function (scope) {
         },
         unBold: function () {
             var opt = {
-                fragmentModifier: function (frag) {
-                    var selector = 'b,strong,.format-bold,.format-unbold'
-                    var el = frag.querySelector(selector)
+                css: {'font-weight': 'normal'},
+                className: 'format-unbold',
+                rangeModify: function (range) {
+                    if( range.startContainer === range.endContainer && _check__WEBPACK_IMPORTED_MODULE_1__.Check.isBold(range.startContainer) ) {
+                        while(range.startContainer.firstChild) {
+                            range.startContainer.parentNode.insertBefore(range.startContainer.firstChild, range.startContainer)
+                        }
+                    }
+                    var el = frag.querySelector('b,strong,.format-bold')
                     while (el) {
                         el.replaceWith(...el.childNodes);
-                        el = frag.querySelector(selector)
+                        el = frag.querySelector('b,strong,.format-bold')
                     }
-                },
-            }
-            scope.api.domCommand('cssApplier', opt);
-            var focused = scope.api.elementNode(scope.api.getSelection().focusNode);
-
-            var isBold = parseFloat(getComputedStyle(focused).fontWeight) > 500;
-             if(isBold) {
-                opt = {
-                    fragmentModifier: function (frag) {
-                        var unbold = document.createElement('span');
-                        unbold.style.fontWeight = 'normal';
-                        unbold.className = 'format-unbold';
-                        var el = frag.querySelector('b,strong,.format-bold')
-                        while (frag.firstChild) {
-                            unbold.appendChild(frag.firstChild)
-                        }
-                        frag.appendChild(unbold)
-                    },
                 }
-                scope.api.domCommand('cssApplier', opt);
             }
+             scope.api.domCommand('cssApplier', opt);
+
         },
         boldToggle: function (){
-            var sel = scope.api.getSelectionHTML();
-            if(sel.includes('<b') || sel.includes('<strong') || sel.includes('format-bold')) {
+            scope.api.execCommand('bold');
+        },
+        boldToggleNew: function (){
+            const range = scope.api.getSelection().getRangeAt(0);
+            const ranges = rangeWalker(range, scope.executionDocument);
+            let isBoldLike = false;
+
+            ranges.forEach(range => {
+                const el = scope.api.elementNode(range.commonAncestorContainer);
+                if(_check__WEBPACK_IMPORTED_MODULE_1__.Check.isBold(el)) {
+                    isBoldLike = true;
+                }
+            })
+
+            if(isBoldLike) {
                 scope.api.unBold();
             } else {
                 scope.api.bold();
@@ -3795,12 +3818,15 @@ MWEditor.api = function (scope) {
             let sel = scope.getSelection();
             let el = scope.api.elementNode(sel.focusNode);
             let range = sel.getRangeAt(0);
-             let ranges = rangeWalker(range, scope.executionDocument);
+            let ranges = rangeWalker(range, scope.executionDocument);
 
             if(styles || className) {
                 ranges.forEach(range => {
+                    if(options.rangeModify) {
+                        options.rangeModify(range)
+                    }
                     let el = document.createElement('span');
-                     el.className = 'mw-richtext-cssApplier' + (!!className ? (' ' + className) : '');
+                    el.className = 'mw-richtext-cssApplier' + (!!className ? (' ' + className) : '');
                     el.setAttribute('style', styles);
                     range.surroundContents(el);
                 })
@@ -3961,7 +3987,7 @@ MWEditor.api = function (scope) {
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
-            var id =  mw.id('image_');
+            var id =   ('image_' + new Date().getTime());
             var img = '<img id="' + id + '" contentEditable="false" class="element" src="' + url + '" />';
             scope.api.insertHTML(img);
             img = mw.$("#" + id);
