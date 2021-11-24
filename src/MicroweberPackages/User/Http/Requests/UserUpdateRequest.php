@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,16 +16,18 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
 
-        $user =$this->user();
-        $ignore = false;
-
-        if($user){
-            $ignore =   Rule::unique('users')->ignore($this->user->id ?? 0);
-        }
+        $ignore = Rule::unique('users')->ignore($this->id ?? 0, 'id');
 
         return [
-            'email' => ['unique:users,email',$ignore],
-            'username' => ['unique:users,username',$ignore],
+            'email' => [
+                'required',
+                $ignore,
+            ],
+            'username' => [
+                'required',
+                $ignore,
+            ],
+
         ];
 
     }
