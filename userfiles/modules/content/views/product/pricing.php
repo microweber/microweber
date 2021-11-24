@@ -1,4 +1,4 @@
-<div class="card style-1 mb-3">
+<div class="card style-1 mb-3 js-product-pricing-card">
     <div class="card-header no-border">
         <h6><strong><?php _e("Pricing"); ?></strong></h6>
     </div>
