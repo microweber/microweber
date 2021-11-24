@@ -23,12 +23,12 @@ class AdminAddPageTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            $postTitle = 'This is the post title'.time();
+            $pageTitle = 'This is the page title'.time();
 
-            $browser->visit(route('admin.post.create'));
+            $browser->visit(route('admin.page.create'));
 
             $browser->pause(3000);
-            $browser->value('#slug-field-holder input', $postTitle);
+            $browser->value('#slug-field-holder input', $pageTitle);
 
 
             $browser->pause(1000);
@@ -50,10 +50,10 @@ class AdminAddPageTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findPage = Page::where('title', $postTitle)->first();
+            $findPage = Page::where('title', $pageTitle)->first();
 
-           // $this->assertEquals($findPage->content_type, 'page');
-           // $this->assertEquals($findPage->subtype, 'page');
+            $this->assertEquals($findPage->content_type, 'page');
+            $this->assertEquals($findPage->subtype, 'page');
 
 
             $findedCustomFields = [];
