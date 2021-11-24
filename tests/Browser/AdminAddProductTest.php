@@ -23,6 +23,8 @@ class AdminAddProductTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $productPrice = rand(1111,9999);
+            $productSpecialPrice = $productPrice - rand(1,9);
             $productTitle = 'This is the product title'.time();
             $productDescription = 'This is the product description'.time();
 
@@ -33,8 +35,16 @@ class AdminAddProductTest extends DuskTestCase
 
             $browser->pause(3000);
             $browser->keys('.mw-editor-area', $productDescription);
-
             $browser->pause(1000);
+
+            $browser->value('.js-product-price', $productPrice);
+            $browser->pause(1000);
+
+            $browser->click('.js-toggle-offer-price-button');
+            $browser->pause(2000);
+            $browser->value('.js-product-special-price', $productSpecialPrice);
+            $browser->pause(1000);
+
 
             $category4 = 'Shop';
             $category4_1 = 'Clothes';
@@ -77,7 +87,7 @@ class AdminAddProductTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findProduct = Product::where('title', $productTitle)->first(); 
+            $findProduct = Product::where('title', $productTitle)->first();
 
             $this->assertEquals($findProduct->content, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');

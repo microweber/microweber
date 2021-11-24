@@ -78,14 +78,14 @@
             <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label>SKU (Stock Keeping Unit)</label>
-                    <input type="text" name="content_data[sku]" class="form-control" value="<?php echo $contentData['sku']; ?>">
+                    <input type="text" name="content_data[sku]" class="form-control js-invertory-sku" value="<?php echo $contentData['sku']; ?>">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Barcode (ISBN, UPC, GTIN, etc.)</label>
-                    <input type="text" name="content_data[barcode]" class="form-control" value="<?php echo $contentData['barcode']; ?>">
+                    <input type="text" name="content_data[barcode]" class="form-control js-invertory-barcode" value="<?php echo $contentData['barcode']; ?>">
                 </div>
             </div>
 
@@ -99,7 +99,7 @@
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos'] == 1) : ?>checked="checked" <?php endif; ?>>
+                        <input type="checkbox" class="custom-control-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos'] == 1) : ?>checked="checked" <?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3">Continue selling when out of stock</label>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Available quantity</label>
-                        <select name="data_qty" class="selectpicker">
+                        <select name="data_qty" class="selectpicker js-invertory-quantity">
                             <option selected="selected" value="nolimit">∞ No Limit</option>
                             <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
                             <option value="1">1</option>
@@ -228,7 +228,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Max quantity per order</label>
-                        <select name="data_qty" class="selectpicker">
+                        <select name="data_qty" class="selectpicker js-invertory-max-quantity-per-orer">
                             <option selected="selected" value="nolimit">∞ No Limit</option>
                             <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
                             <option value="1">1</option>
