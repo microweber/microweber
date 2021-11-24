@@ -43,7 +43,7 @@ class AdminAddProductTest extends DuskTestCase
 
             $browser->script("$('html, body').animate({ scrollTop: $('.js-product-pricing-card').offset().top - 30 }, 0);");
             $browser->pause(3000);
-            $browser->click('.js-toggle-offer-price-button');
+            $browser->script("$('.js-toggle-offer-price-button').click()");
             $browser->pause(2000);
             $browser->value('.js-product-special-price', $productSpecialPrice);
             $browser->pause(1000);
