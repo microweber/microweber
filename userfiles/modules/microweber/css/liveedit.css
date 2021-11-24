@@ -5018,3 +5018,6 @@ body.dragStart picture img{
     opacity: 0;
  }
 
+.mw-padding-div-header {
+    padding: 0px 30px;
+}
