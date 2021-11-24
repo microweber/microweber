@@ -493,3 +493,19 @@ div.form-control {
 .one-column-module-layouts-viewer {
     column-count: 1!important;
 }
+
+.mw-editor-wrapper module.module:after{
+    content: attr(data-mw-title);
+}
+
+.mw-editor-wrapper module.module {
+    display: flex;
+    height: 100px;
+    width: 100%;
+     position: relative;
+    pointer-events: none;
+    border: 3px dashed #ccc;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}

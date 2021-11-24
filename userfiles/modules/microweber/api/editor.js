@@ -361,13 +361,20 @@ var MWEditor = function (options) {
         this.wrapper.className = 'mw-editor-wrapper mw-editor-' + this.settings.skin;
     };
 
+    var _clean = document.createElement('div');
+    var clean = function (val){
+        _clean.innerHTML = val;
+
+        $('[contenteditable]', _clean).removeAttr('contenteditable');
+
+        return _clean.innerHTML;
+    }
+
     this._syncTextArea = function (content) {
 
-        if(scope.$editArea){
-            $('[contenteditable]', scope.$editArea).removeAttr('contenteditable');
-        }
 
-        content = content || scope.$editArea.html();
+
+        content = clean(content || scope.$editArea.html());
         if (scope.settings.isTextArea) {
             $(scope.settings.selectorNode).val(content);
             $(scope.settings.selectorNode).trigger('change');
@@ -649,6 +656,7 @@ var MWEditor = function (options) {
                 css.width = scope.settings.width;
             }
             scope.$editArea.css(css);
+            $('module', scope.$editArea).attr('contenteditable', false)
             scope.addDependencies();
             scope.createSmallEditor();
 
