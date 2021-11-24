@@ -20,11 +20,9 @@ class UserUpdateRequest extends FormRequest
 
         return [
             'email' => [
-                'required',
                 $ignore,
             ],
             'username' => [
-                'required',
                 $ignore,
             ],
 
