@@ -49,6 +49,12 @@ class AdminAddProductTest extends DuskTestCase
             $browser->value('.js-product-special-price', $productSpecialPrice);
             $browser->pause(1000);
 
+            $browser->script("$('.js-invertory-sell-oos').click()");
+            $browser->script("$('.js-track-quantity-check').click()");
+            $browser->pause(1000);
+            $browser->select('.js-track-quantity-select-qty', $productQuantity);
+
+
             $browser->value('.js-invertory-sku', $productSku);
             $browser->pause(1000);
 
@@ -103,9 +109,6 @@ class AdminAddProductTest extends DuskTestCase
             $this->assertEquals($productSpecialPrice, $findProduct->special_price);
             $this->assertEquals($productQuantity, $findProduct->qty);
             $this->assertEquals($productSku, $findProduct->sku);
-            $this->assertEquals(true, $findProduct->sell_oos);
-            $this->assertEquals($productPrice, get_product_price($findProduct->id));
-
 
             $this->assertEquals($findProduct->content_body, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');
