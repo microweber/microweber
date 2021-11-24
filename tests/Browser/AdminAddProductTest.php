@@ -109,7 +109,7 @@ class AdminAddProductTest extends DuskTestCase
             $this->assertEquals($productSpecialPrice, $findProduct->special_price);
             $this->assertEquals($productQuantity, $findProduct->qty);
             $this->assertEquals($productSku, $findProduct->sku);
-            
+
             $this->assertEquals($findProduct->content_body, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');
             $this->assertEquals($findProduct->subtype, 'product');
