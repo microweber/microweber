@@ -12,7 +12,7 @@ use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
-class AddPostTest extends DuskTestCase
+class AdminAddPostTest extends DuskTestCase
 {
     public function testAddPost()
     {

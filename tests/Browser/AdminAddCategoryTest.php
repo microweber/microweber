@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
-class AddCategoryTest extends DuskTestCase
+class AdminAddCategoryTest extends DuskTestCase
 {
 
     public function testAddPost()
