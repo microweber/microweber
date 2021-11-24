@@ -81,7 +81,7 @@ if (!isset($contentData['sell_oos'])) {
                 <div class="form-group mb-3">
                     <label><?php _e("SKU"); ?></label>
                     <small class="text-muted d-block mb-3"><?php _e("Stock Keeping Unit"); ?></small>
-                    <input type="text" name="content_data[sku]" class="form-control" value="<?php echo $contentData['sku']; ?>">
+                    <input type="text" name="content_data[sku]" class="form-control js-invertory-sku" value="<?php echo $contentData['sku']; ?>">
 
                 </div>
             </div>
@@ -90,7 +90,7 @@ if (!isset($contentData['sell_oos'])) {
                 <div class="form-group">
                     <label><?php _e("Barcode"); ?></label>
                     <small class="text-muted d-block mb-3"><?php _e("ISBN, UPC, GTIN, etc."); ?></small>
-                    <input type="text" name="content_data[barcode]" class="form-control" value="<?php echo $contentData['barcode']; ?>">
+                    <input type="text" name="content_data[barcode]" class="form-control js-invertory-barcode" value="<?php echo $contentData['barcode']; ?>">
                 </div>
             </div>
 
@@ -102,9 +102,9 @@ if (!isset($contentData['sell_oos'])) {
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group"> 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
+                        <input type="checkbox" class="custom-control-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                     <div class="form-group w-100">
                         <label class="control-label"><?php _e("Max quantity per order"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
-                        <select name="content_data[max_qty_per_order]" class="selectpicker" data-size="7">
+                        <select name="content_data[max_qty_per_order]" class="selectpicker js-invertory-max-quantity-per-order" data-size="7">
                             <option selected="selected" value="nolimit" <?php if($max_qty_per_order_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
 
                             <?php for ($i = 1; $i <= $dropdown_qty_max_per_order; $i++){  ?>
