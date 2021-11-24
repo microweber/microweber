@@ -31,7 +31,7 @@ class AdminAddProductTest extends DuskTestCase
             $browser->value('#slug-field-holder input', $productTitle);
 
             $browser->pause(3000);
-            $browser->keys('.mw-editor-area', $postDescription);
+            $browser->keys('.mw-editor-area', $productDescription);
 
             $browser->pause(1000);
 
@@ -76,20 +76,20 @@ class AdminAddProductTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findPost = Product::where('title', $productTitle)->first();
+            $findProduct = Product::where('title', $productTitle)->first();
 
-            $this->assertEquals($findPost->content, $productDescription);
-            $this->assertEquals($findPost->content_type, 'post');
-            $this->assertEquals($findPost->subtype, 'post');
+            $this->assertEquals($findProduct->content, $productDescription);
+            $this->assertEquals($findProduct->content_type, 'product');
+            $this->assertEquals($findProduct->subtype, 'product');
 
-            $tags = content_tags($findPost->id);
+            $tags = content_tags($findProduct->id);
             $this->assertTrue(in_array($tag1,$tags));
             $this->assertTrue(in_array($tag2,$tags));
             $this->assertTrue(in_array($tag3,$tags));
             $this->assertTrue(in_array($tag4,$tags));
 
             $findedCategories = [];
-            $categories = content_categories($findPost->id);
+            $categories = content_categories($findProduct->id);
             foreach ($categories as $category) {
                 $findedCategories[] = $category['title'];
             }
@@ -99,20 +99,20 @@ class AdminAddProductTest extends DuskTestCase
             $this->assertTrue(in_array('T-shirts',$findedCategories));
 
             $findedCustomFields = [];
-            $customFields = content_custom_fields($findPost->id);
+            $customFields = content_custom_fields($findProduct->id);
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
             $this->assertTrue(in_array('Dropdown',$findedCustomFields));
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
 
-            $description = content_description($findPost->id);
-            $this->assertEquals($description, $postDescription);
+            $description = content_description($findProduct->id);
+            $this->assertEquals($description, $productDescription);
 
-            $getPictures = get_pictures($findPost->id);
+            $getPictures = get_pictures($findProduct->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.product.edit', $findPost->id));
+            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
         });
 
