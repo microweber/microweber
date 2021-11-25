@@ -30,6 +30,16 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->addLanguage('Arabic');
             });
 
+            $enTitle = 'Bulgarian title';
+            $bgTitle = 'English title';
+            $arTitle = 'Arabic title';
+
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
+                $browser->fillTitle($bgTitle, 'BG_BG');
+                $browser->fillTitle($enTitle, 'EN_US');
+                $browser->fillTitle($arTitle, 'AR_SA');
+            });
+
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 
