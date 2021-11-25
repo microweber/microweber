@@ -23,11 +23,6 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            $api = new MultilanguageApi();
-            $api->activateLanguage(['active'=>true]);
-            $api->addLanguage(['locale'=>'bg_BG','language'=>'Bulgarian']);
-            $api->addLanguage(['locale'=>'en_us','language'=>'English']);
-
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 
