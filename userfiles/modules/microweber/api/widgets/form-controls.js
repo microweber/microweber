@@ -821,7 +821,10 @@ mw.emitter = {
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
             mw.require('tree.js');
-            scope.shouldChange = !_linkText.querySelector('input').value.trim();
+            if(_linkText) {
+                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+
+            }
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -940,7 +943,10 @@ mw.emitter = {
 
             this.root = root;
             setTimeout(function (){
-                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+                if(_linkText) {
+                    scope.shouldChange = !_linkText.querySelector('input').value.trim();
+
+                }
             }, 10)
         },
         file: function (options) {

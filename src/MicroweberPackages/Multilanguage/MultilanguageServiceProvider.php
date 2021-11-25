@@ -16,6 +16,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Application;
 use MicroweberPackages\Form\FormElementBuilder;
@@ -55,8 +56,10 @@ class MultilanguageServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        View::addNamespace('multilanguage', __DIR__ . '/resources/views');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         if (!mw_is_installed()) {
             return;
