@@ -38,8 +38,32 @@ class AdminContentMultilanguage extends BaseComponent
         return [];
     }
 
+    public function addLanguage(Browser $browser, $language) {
+
+        $browser->visit(route('admin.multilanguage.index'));
+        $browser->waitForText('Add new language');
+        $browser->select('.js-dropdown-text-language', $language);
+        $browser->pause(3000);
+        $browser->click('.js-add-language');
+        $browser->pause(2000);
+        $browser->waitForText($language);
+
+    }
+
     public function fillTitle(Browser $browser, $title, $locale)
     {
+        $browser->pause(2000);
+        $browser->select('#ml-input-title-change', $locale);
+        $browser->pause(4000);
+        $browser->script("$('.js-input-group-title .form-control:visible').val('".$title."')");
+    }
+
+    public function fillDescription(Browser $browser, $description, $locale)
+    {
+        $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
+        $browser->pause(5000);
+        $browser->script("$('#ml-tab-content-content .tab-pane:visible').find('.mw-editor-area').html('$description')");
+        $browser->pause(5000);
 
     }
 

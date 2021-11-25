@@ -2,10 +2,8 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Multilanguage\MultilanguageApi;
-use MicroweberPackages\Post\Models\Post;
+use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -14,9 +12,9 @@ use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
-class AdminMultilanguageAddPostTest extends DuskTestCase
+class AdminMultilanguageAddProductTest extends DuskTestCase
 {
-    public function testAddPost()
+    public function testAddProduct()
     {
         $this->browse(function (Browser $browser) {
 
@@ -30,7 +28,7 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->addLanguage('Arabic');
             });
 
-            $browser->visit(route('admin.post.create'));
+            $browser->visit(route('admin.product.create'));
 
             $enTitle = 'English title'.time();
             $bgTitle = 'Bulgarian title'.time();
@@ -51,7 +49,46 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->fillDescription($arDescription, 'AR_SA');
             });
 
+            $productPrice = rand(1111,9999);
+            $productSpecialPrice = $productPrice - rand(1,9);
+            $productSku = rand(1111,9999);
+
+            $productBarcode = rand(1111,9999);
+            $productTitle = 'This is the product title'.time();
+            $productDescription = 'This is the product description'.time();
+            $productQuantity = rand(11,99);
+
+            $browser->visit(route('admin.product.create'));
+
+            $browser->pause(3000);
+            $browser->value('#slug-field-holder input', $productTitle);
+
+            $browser->pause(3000);
+            $browser->keys('.mw-editor-area', $productDescription);
             $browser->pause(1000);
+
+            $browser->value('.js-product-price', $productPrice);
+            $browser->pause(1000);
+
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-product-pricing-card').offset().top - 30 }, 0);");
+            $browser->pause(3000);
+            $browser->script("$('.js-toggle-offer-price-button').click()");
+            $browser->pause(2000);
+            $browser->value('.js-product-special-price', $productSpecialPrice);
+            $browser->pause(1000);
+
+            $browser->script("$('.js-invertory-sell-oos').click()");
+            $browser->script("$('.js-track-quantity-check').click()");
+            $browser->pause(1000);
+            $browser->select('.js-track-quantity-select-qty', $productQuantity);
+
+
+            $browser->value('.js-invertory-sku', $productSku);
+            $browser->pause(1000);
+
+            $browser->value('.js-invertory-barcode', $productBarcode);
+            $browser->pause(1000);
+
 
             $category4 = 'Shop';
             $category4_1 = 'Clothes';
@@ -93,23 +130,26 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-            return;
 
-            $findPost = Post::where('title', $enTitle)->first();
+            $findProduct = Product::where('title', $productTitle)->first();
 
-            dd($findPost);
+            $this->assertEquals($productPrice, $findProduct->price);
+            $this->assertEquals($productSpecialPrice, $findProduct->special_price);
+            $this->assertEquals($productQuantity, $findProduct->qty);
+            $this->assertEquals($productSku, $findProduct->sku);
 
-            $this->assertEquals($findPost->content_type, 'post');
-            $this->assertEquals($findPost->subtype, 'post');
+            $this->assertEquals($findProduct->content_body, $productDescription);
+            $this->assertEquals($findProduct->content_type, 'product');
+            $this->assertEquals($findProduct->subtype, 'product');
 
-            $tags = content_tags($findPost->id);
+            $tags = content_tags($findProduct->id);
             $this->assertTrue(in_array($tag1,$tags));
             $this->assertTrue(in_array($tag2,$tags));
             $this->assertTrue(in_array($tag3,$tags));
             $this->assertTrue(in_array($tag4,$tags));
 
             $findedCategories = [];
-            $categories = content_categories($findPost->id);
+            $categories = content_categories($findProduct->id);
             foreach ($categories as $category) {
                 $findedCategories[] = $category['title'];
             }
@@ -119,20 +159,20 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $this->assertTrue(in_array('T-shirts',$findedCategories));
 
             $findedCustomFields = [];
-            $customFields = content_custom_fields($findPost->id);
+            $customFields = content_custom_fields($findProduct->id);
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
             $this->assertTrue(in_array('Dropdown',$findedCustomFields));
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
 
-            $description = content_description($findPost->id);
-            $this->assertEquals($description, $enDescription);
+            $description = content_description($findProduct->id);
+            $this->assertEquals($description, $productDescription);
 
-            $getPictures = get_pictures($findPost->id);
+            $getPictures = get_pictures($findProduct->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
+            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
         });
 

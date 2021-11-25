@@ -126,6 +126,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 display: none;
             }
 
+            #display-url{
+                white-space: nowrap;
+                max-width: calc(100% - 20px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+            }
+
         </style>
 
         <script>
@@ -246,6 +254,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
+                            controllers: [
+                                { type: 'url', config: {text: false, target: false}},
+                                { type: 'page', config: {text: false, target: false} },
+                                { type: 'post', config: {text: false, target: false} },
+                                { type: 'file', config: {text: false, target: false} },
+                                { type: 'email', config: {text: false, target: false} },
+                                { type: 'layout', config: {text: false, target: false} },
+
+                            ],
                         });
 
                         linkEditor.setValue({
