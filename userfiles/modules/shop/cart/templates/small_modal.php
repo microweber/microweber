@@ -16,7 +16,7 @@
 <?php if (is_array($data)) : ?>
     <div class="products ">
         <?php foreach ($data as $item) : ?>
-            <div class="row product-item align-items-center m-1">
+            <div class="row product-item align-items-center mx-1 my-2">
                 <div class="col-3 d-flex item-img">
                     <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                         <?php $p = $item['item_image']; ?>
