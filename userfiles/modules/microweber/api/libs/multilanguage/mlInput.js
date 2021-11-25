@@ -25,7 +25,7 @@
             $(obj).css('opacity', 0.2).css('display','none');
             $(obj).attr('value', translations[currentLocale]);
 
-            var outputHtml = '<div class="input-group">';
+            var outputHtml = '<div class="input-group js-input-group-'+name+'">';
 
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {

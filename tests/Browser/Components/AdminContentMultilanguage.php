@@ -52,7 +52,10 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
-
+        $browser->select('#ml-input-title-change', $locale);
+        $browser->pause(1000);
+        $browser->script("$('.js-input-group-title').find('.form-control:visible').val('".$title."')");
+        
     }
 
 }
