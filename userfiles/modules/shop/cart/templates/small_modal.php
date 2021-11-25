@@ -45,7 +45,6 @@
 
             </div>
         <?php endforeach; ?>
-        <hr>
     </div>
 <?php endif; ?>
 
