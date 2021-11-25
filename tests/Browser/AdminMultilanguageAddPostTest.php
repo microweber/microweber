@@ -9,6 +9,7 @@ use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
+use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
@@ -21,6 +22,12 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
+            });
+
+            $browser->within(new AdminContentMultilanguage(), function ($browser) {
+                $browser->addLanguage('Bulgarian');
+                $browser->addLanguage('English');
+                $browser->addLanguage('Arabic');
             });
 
             $postTitle = 'This is the post title'.time();
