@@ -93,8 +93,11 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
+            return;
 
             $findPost = Post::where('title', $enTitle)->first();
+
+            dd($findPost);
 
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
