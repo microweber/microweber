@@ -14,7 +14,7 @@
 <?php $total = cart_sum(); ?>
 
 <?php if (is_array($data)) : ?>
-    <div class="products m-2">
+    <div class="products m-3">
         <?php foreach ($data as $item) : ?>
             <div class="row product-item align-items-center">
                 <div class="col-3 d-flex item-img">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-1 d-flex item-action justify-content-end">
+                <div class="col-2 d-flex item-action justify-content-end">
                     <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
                 </div>
 
