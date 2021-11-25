@@ -63,7 +63,7 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
 
             $findPage = Page::where('title', $enTitle)->first();
 
-            dd($findPage); 
+            dd($findPage);
 
             $this->assertEquals($findPage->content_type, 'post');
             $this->assertEquals($findPage->subtype, 'post');
