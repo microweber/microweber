@@ -26,5 +26,8 @@ class NoShippingDriver extends AbstractShippingDriver implements ShippingDriverI
         return [];
     }
 
-
+    public function quickSetup()
+    {
+        return '';
+    }
 }
