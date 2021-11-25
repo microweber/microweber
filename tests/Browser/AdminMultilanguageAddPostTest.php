@@ -41,6 +41,7 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->fillTitle($enTitle, 'EN_US');
                 $browser->fillTitle($arTitle, 'AR_SA');
             });
+            return;
 
             $enDescription = 'English title'.time();
             $bgDescription = 'Bulgarian title'.time();
