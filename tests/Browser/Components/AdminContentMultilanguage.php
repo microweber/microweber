@@ -5,7 +5,7 @@ namespace Tests\Browser\Components;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
-class AdminContentImageAdd extends BaseComponent
+class AdminContentMultilanguage extends BaseComponent
 {
     /**
      * Get the root selector for the component.
@@ -25,7 +25,7 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->assertVisible($this->selector());
+        // $browser->assertVisible($this->selector());
     }
 
     /**
@@ -35,16 +35,12 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function elements()
     {
-        return [
-            '@element' => '#selector',
-        ];
+        return [];
     }
 
-    public function addImage(Browser $browser, $image)
+    public function fillTitle(Browser $browser, $title, $locale)
     {
-        $browser->scrollTo('.mw-uploader-input');
-        $browser->attach('input.mw-uploader-input', $image);
-        $browser->pause(12000);
 
     }
+
 }
