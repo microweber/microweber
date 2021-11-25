@@ -30,9 +30,11 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->addLanguage('Arabic');
             });
 
-            $enTitle = 'Bulgarian title';
-            $bgTitle = 'English title';
-            $arTitle = 'Arabic title';
+            $browser->visit(route('admin.post.create'));
+
+            $enTitle = 'Bulgarian title'.time();
+            $bgTitle = 'English title'.time();
+            $arTitle = 'Arabic title'.time();
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
                 $browser->fillTitle($bgTitle, 'BG_BG');
@@ -40,16 +42,14 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
                 $browser->fillTitle($arTitle, 'AR_SA');
             });
 
-            $postTitle = 'This is the post title'.time();
-            $postDescription = 'This is the post description'.time();
-
-            $browser->visit(route('admin.post.create'));
-
-            $browser->pause(3000);
-            $browser->value('#slug-field-holder input', $postTitle);
-
-            $browser->pause(3000);
-            $browser->keys('.mw-editor-area', $postDescription);
+            $enDescription = 'English title'.time();
+            $bgDescription = 'Bulgarian title'.time();
+            $arDescription = 'Arabic title'.time();
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
+                $browser->fillDescription($bgDescription, 'BG_BG');
+                $browser->fillDescription($enDescription, 'EN_US');
+                $browser->fillDescription($arDescription, 'AR_SA');
+            });
 
             $browser->pause(1000);
 
@@ -94,9 +94,8 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
 
-            $findPost = Post::where('title', $postTitle)->first();
+            $findPost = Post::where('title', $enTitle)->first();
 
-            $this->assertEquals($findPost->content, $postDescription);
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
 
@@ -125,7 +124,7 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
 
             $description = content_description($findPost->id);
-            $this->assertEquals($description, $postDescription);
+            $this->assertEquals($description, $enDescription);
 
             $getPictures = get_pictures($findPost->id);
             $this->assertEquals(3, count($getPictures));
