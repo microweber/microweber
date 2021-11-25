@@ -32,20 +32,19 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
 
             $browser->visit(route('admin.post.create'));
 
-            $enTitle = 'Bulgarian title'.time();
-            $bgTitle = 'English title'.time();
+            $enTitle = 'English title'.time();
+            $bgTitle = 'Bulgarian title'.time();
             $arTitle = 'Arabic title'.time();
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
-                $browser->fillTitle($bgTitle, 'BG_BG');
-                $browser->fillTitle($enTitle, 'EN_US');
-                $browser->fillTitle($arTitle, 'AR_SA');
+                $browser->fillTitle($bgTitle, 'bg_BG');
+                $browser->fillTitle($enTitle, 'en_US');
+                $browser->fillTitle($arTitle, 'ar_SA');
             });
-            return;
 
-            $enDescription = 'English title'.time();
-            $bgDescription = 'Bulgarian title'.time();
-            $arDescription = 'Arabic title'.time();
+            $enDescription = 'English description'.time();
+            $bgDescription = 'Bulgarian description'.time();
+            $arDescription = 'Arabic description'.time();
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
                 $browser->fillDescription($bgDescription, 'BG_BG');
                 $browser->fillDescription($enDescription, 'EN_US');
