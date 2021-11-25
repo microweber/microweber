@@ -997,17 +997,16 @@ class ParserProcessor
             $this->prev_module_data = array();
             $it_loop2 = 0;
         }
-
-//        if (!empty($mw_replaced_textarea_tag)) {
-//            foreach ($mw_replaced_textarea_tag as $key => $value) {
-//                if ($value != '') {
-//                    $layout = str_replace($key, $value, $layout);
-//                }
-//              //  unset($mw_replaced_textarea_tag[$key]);
-//            }
-//        }
-
         if ($is_first_loop) {
+            if (!empty($mw_replaced_textarea_tag)) {
+                foreach ($mw_replaced_textarea_tag as $key => $value) {
+                    if ($value != '') {
+                        $layout = str_replace($key, $value, $layout);
+                    }
+                    //  unset($mw_replaced_textarea_tag[$key]);
+                }
+            }
+        
             $layout = $this->_replace_tags_with_placeholders_back($layout);
             $layout = $this->replace_url_placeholders($layout);
         }
