@@ -47,9 +47,7 @@ class AdminLogin extends BaseComponent
         $data['option_value'] = 'n';
         $data['option_key'] = 'login_captcha_enabled';
         $data['option_group'] = 'users';
-        save_option($data); 
-
-        $browser->visit(admin_url());
+        save_option($data);
 
         // Login to admin panel
         $browser->type('username', $username);

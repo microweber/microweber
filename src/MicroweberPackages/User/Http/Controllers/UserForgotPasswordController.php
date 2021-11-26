@@ -36,21 +36,11 @@ class UserForgotPasswordController extends Controller
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'captcha';
         }
-        $inputs = $request->only(['captcha','username','email']);
+        $inputs = $request->only(['captcha','email']);
         if (is_admin()) {
             unset($rules['captcha']);
         }
         $user_id = false;
-
-        if (!isset($inputs['email']) and isset($inputs['username'])) {
-            $user_id = detect_user_id_from_params($inputs);
-            if($user_id){
-                $email_user = User::where('id',$user_id)->first();
-                if($email_user){
-                    $request->merge(['email' => $email_user->email]);
-                }
-            }
-        }
 
         if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
             $email_user = User::where('email',$inputs['email'])->first();

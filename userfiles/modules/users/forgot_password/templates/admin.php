@@ -26,8 +26,8 @@
 
     <form onsubmit="mwHandleForgotPassword(event)" id="user_forgot_password_form<?php echo $rand;?>" method="post" class="clearfix">
         <div class="form-group">
-            <label>E-mail or Username:</label>
-            <input type="text" class="form-control" name="username" placeholder="<?php _e("Enter Email or Username"); ?>">
+            <label>E-mail:</label>
+            <input type="text" class="form-control" name="email" placeholder="<?php _e("Enter your account email"); ?>">
         </div>
 
         <?php if (get_option('captcha_disabled', 'users') !== 'y'): ?>

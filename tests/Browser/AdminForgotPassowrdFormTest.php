@@ -40,7 +40,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
 
-            $browser->type('username', 'bobi@microweber.com');
+            $browser->type('email', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
             $browser->pause('4000');
 
@@ -103,7 +103,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
 
-            $browser->type('username', 'wrong-email@microweber.com');
+            $browser->type('email', 'wrong-email@microweber.com');
             $browser->pause('3000');
 
             $browser->click('@reset-password-button');
@@ -134,7 +134,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
 
-            $browser->type('username', 'bobi@microweber.com');
+            $browser->type('email', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
             $browser->pause('4000');
 
