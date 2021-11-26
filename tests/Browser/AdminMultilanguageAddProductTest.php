@@ -10,6 +10,7 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 
 class AdminMultilanguageAddProductTest extends DuskTestCase
@@ -17,6 +18,15 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
     public function testAddProduct()
     {
         $this->browse(function (Browser $browser) {
+
+
+           // $browser->visit(content_link(41));
+            $browser->visit('/');
+
+            $browser->within(new FrontendSwitchLanguage, function ($browser) {
+                $browser->switchLanguage('ar_SA');
+            });
+
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -178,7 +188,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $this->assertEquals($description, $enDescription);
 
             $getPictures = get_pictures($findProduct->id);
-            $this->assertEquals(3, count($getPictures)); 
+            $this->assertEquals(3, count($getPictures));
 
 
         });
