@@ -92,7 +92,8 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
+            $browser->pause(5000);
+            $browser->waitForText('Editing post');
 
             $findPost = Post::where('title', $enTitle)->first();
             $browser->waitForLocation(route('admin.post.edit', $findPost->id));

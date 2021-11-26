@@ -120,6 +120,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
 
+            $browser->pause(3000);
+            $browser->waitForText('Editing product');
+
             $findProduct = Product::where('title', $enTitle)->first();
 
             $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
