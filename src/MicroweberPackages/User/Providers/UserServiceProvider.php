@@ -26,16 +26,18 @@ class UserServiceProvider extends AuthServiceProvider
      *
      * @return void
      */
-//    public function register()
-//    {
-//        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
-//        $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
-//
-//         parent::register();
-//    }
+    public function register()
+    {
+
+
+         parent::register();
+    }
 
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
          */
@@ -69,8 +71,6 @@ class UserServiceProvider extends AuthServiceProvider
 
         View::addNamespace('user', __DIR__ . '/../resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
 
