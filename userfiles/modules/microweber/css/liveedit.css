@@ -3377,10 +3377,7 @@ body {
     transition: margin-right .3s;
 }
 
-body.has-opened-sidebar {
-    margin-inline-end: 360px;
 
-}
 
 @media screen and (max-width: 990px) {
     .has-opened-sidebar {
