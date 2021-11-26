@@ -93,11 +93,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-            return;
 
             $findPost = Post::where('title', $enTitle)->first();
-
-            dd($findPost);
+            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
 
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
@@ -132,7 +130,6 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $getPictures = get_pictures($findPost->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
 
         });
 
