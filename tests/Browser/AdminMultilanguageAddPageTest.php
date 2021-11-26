@@ -58,7 +58,8 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
+            $browser->pause(5000);
+            $browser->waitForText('Editing page');
 
             $findPage = Page::where('title', $enTitle)->first();
             $browser->waitForLocation(route('admin.page.edit', $findPage->id));

@@ -34,20 +34,24 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $enTitle = 'English title' . time();
             $bgTitle = 'Bulgarian title' . time();
             $arTitle = 'Arabic title' . time();
+            $zhTitle = 'Chinese title' . time();
 
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle, $zhTitle) {
                 $browser->fillTitle($bgTitle, 'bg_BG');
                 $browser->fillTitle($enTitle, 'en_US');
                 $browser->fillTitle($arTitle, 'ar_SA');
+                $browser->fillTitle($zhTitle, 'zh_CN');
             });
 
             $enDescription = 'English description' . time();
             $bgDescription = 'Bulgarian description' . time();
             $arDescription = 'Arabic description' . time();
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
-                $browser->fillDescription($bgDescription, 'bg_BG');
-                $browser->fillDescription($enDescription, 'en_US');
-                $browser->fillDescription($arDescription, 'ar_SA');
+            $zhDescription = 'Chinese description' . time();
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription, $zhDescription) {
+                $browser->fillContentBody($bgDescription, 'bg_BG');
+                $browser->fillContentBody($enDescription, 'en_US');
+                $browser->fillContentBody($arDescription, 'ar_SA');
+                $browser->fillContentBody($zhDescription, 'zh_CN');
             });
 
             $productPrice = rand(1111, 9999);
@@ -120,9 +124,14 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
 
+            $browser->pause(3000);
+            $browser->waitForText('Editing product');
+
             $findProduct = Product::where('title', $enTitle)->first();
 
             $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
+
+            dump($findProduct);
 
             $this->assertEquals($enTitle, $findProduct->title);
             $this->assertEquals($enTitle, $findProduct->multilanguage['en_US']['title']);
