@@ -56,6 +56,7 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
+        return;
         $browser->pause(2000);
         $browser->select('#ml-input-title-change', $locale);
         $browser->pause(4000);
@@ -66,8 +67,10 @@ class AdminContentMultilanguage extends BaseComponent
     {
         $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
         $browser->pause(4000);
-       // $browser->script("$('#ml-tab-content-content .tab-pane:visible').find('.mw-editor-area').type('$description')");
-        $browser->keys("#ml-tab-content-content .tab-pane:visible .mw-editor-area", $description);
+
+        $randClass = 'js-rand-ml-'.time().rand(1111,9999);
+        $browser->script("$('#ml-tab-content-content .tab-pane:visible .mw-editor-area').addClass('$randClass')");
+        $browser->keys('.' . $randClass, $description);
 
         $browser->pause(4000);
 
@@ -77,8 +80,11 @@ class AdminContentMultilanguage extends BaseComponent
     {
         $browser->script('$(".js-ml-btn-tab-content_body[lang=\''.$locale.'\']").click();');
         $browser->pause(4000);
-        //$browser->script("$('#ml-tab-content-content_body .tab-pane:visible').find('.mw-editor-area').html('$description')");
-        $browser->keys("#ml-tab-content-content_body .tab-pane:visible .mw-editor-area", $description);
+
+        $randClass = 'js-rand-ml-'.time().rand(1111,9999);
+        $browser->script("$('#ml-tab-content-content_body .tab-pane:visible .mw-editor-area').addClass('$randClass')");
+        $browser->keys('.' . $randClass, $description);
+
         $browser->pause(4000);
 
     }
