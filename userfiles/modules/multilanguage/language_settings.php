@@ -9,6 +9,7 @@
 
 <?php
 $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+
 ?>
 
 <script type="text/javascript">
@@ -211,6 +212,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
             <div class="form-group">
                 <label class="control-label d-block"><?php _e('Add new language'); ?></label>
 
+
                 <?php if ($languages) : ?>
                     <select autocomplete="off" class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
                         <option>
@@ -219,8 +221,28 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
                         <?php foreach ($languages as $languageName => $languageDetails): ?>
                             <option data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
-                                <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?>
+                                <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?> (<?php echo $languageName; ?>)
                             </option>
+
+                        <?php if(isset($languageDetails['locales']) and !empty($languageDetails['locales']) and count($languageDetails['locales']) > 1 ): ?>
+
+
+
+                         <?php
+
+                                if(is_array($languageDetails['locales'])){
+                                    foreach ($languageDetails['locales'] as $languageName2 => $locale2){
+                                        ?>
+                                        <option  data-key="<?php echo $languageName2 ?>"data-value="<?php echo $locale2 ?>"  style="color:#000;">
+                                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $locale2; ?>  (<?php echo $languageName2; ?>)
+                                        </option>
+                                        <?php
+                                    }
+                                }
+
+
+                         ?>
+                         <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>
