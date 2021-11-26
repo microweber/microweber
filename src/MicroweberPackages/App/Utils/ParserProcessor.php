@@ -42,6 +42,7 @@ class ParserProcessor
 
     }
 
+    public static $process_layouts_loop = [];
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
@@ -97,16 +98,19 @@ class ParserProcessor
         }
         $is_first_loop = false;
         //$this->layout = $layout;
-        static $process_started;
+       // static $process_started;
         $local_mw_replaced_modules = array();
         $local_mw_replaced_modules_ids_grouped = array();
-        if ($process_started == false) {
-            $process_started = true;
-
-            app()->event_manager->trigger('parser.process', $layout);
-        } else {
+        if(!isset(self::$process_layouts_loop[$parser_modules_crc])){
             $is_first_loop = true;
+            self::$process_layouts_loop[$parser_modules_crc] = true;
+            app()->event_manager->trigger('parser.process', $layout);
         }
+//        if (!$process_started) {
+//            $process_started = true;
+//            $is_first_loop = true;
+//            app()->event_manager->trigger('parser.process', $layout);
+//        }
 
         if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
             //d($parser_mem_crc);
@@ -192,7 +196,7 @@ class ParserProcessor
                 // bug ?
 
                 $layout = $this->_replace_editable_fields($layout,false,$layout,$coming_from_parent_id);
-                $layout = $this->_replace_tags_with_placeholders_back($layout);
+            //    $layout = $this->_replace_tags_with_placeholders_back($layout);
 
             }
 
@@ -974,7 +978,7 @@ class ParserProcessor
 //                                $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 //                                //$this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
-                                $module_html = $this->_replace_tags_with_placeholders_back($module_html);
+                              //  $module_html = $this->_replace_tags_with_placeholders_back($module_html);
 
                                 $this->mw_replaced_modules_values[$parser_mem_crc] = $module_html;
                                 $layout = $this->_str_replace_first($value, $module_html, $layout);
@@ -993,22 +997,24 @@ class ParserProcessor
             $this->prev_module_data = array();
             $it_loop2 = 0;
         }
-
-        if (!empty($mw_replaced_textarea_tag)) {
-            foreach ($mw_replaced_textarea_tag as $key => $value) {
-                if ($value != '') {
-                    $layout = str_replace($key, $value, $layout);
+        if ($is_first_loop) {
+            if (!empty($mw_replaced_textarea_tag)) {
+                foreach ($mw_replaced_textarea_tag as $key => $value) {
+                    if ($value != '') {
+                        $layout = str_replace($key, $value, $layout);
+                    }
+                    //  unset($mw_replaced_textarea_tag[$key]);
                 }
-              //  unset($mw_replaced_textarea_tag[$key]);
             }
+        
+            $layout = $this->_replace_tags_with_placeholders_back($layout);
+            $layout = $this->replace_url_placeholders($layout);
         }
-
-
         if (!$coming_from_parent or   !$this->have_more or $it_loop == 0 ) {
 
-          $layout = $this->_replace_tags_with_placeholders_back($layout);
+        //  $layout = $this->_replace_tags_with_placeholders_back($layout);
 
-            $layout = $this->replace_url_placeholders($layout);
+           // $layout = $this->replace_url_placeholders($layout);
         } else {
             if ($layout and is_string($layout) and str_contains($layout, 'mw_replace_back_this_module_')) {
                 if (!empty($global_mw_replaced_modules[$static_parser_mem_crc])) {
@@ -1023,16 +1029,16 @@ class ParserProcessor
 
 
 
-
-        if (!empty($mw_replaced_textarea_tag)) {
-            foreach ($mw_replaced_textarea_tag as $key => $value) {
-                if ($value != '') {
-                    $layout = str_replace($key, $value, $layout);
-                }
-                //unset($mw_replaced_textarea_tag[$key]);
-            }
-        }
-        $layout = $this->_replace_tags_with_placeholders_back($layout);
+//
+//        if (!empty($mw_replaced_textarea_tag)) {
+//            foreach ($mw_replaced_textarea_tag as $key => $value) {
+//                if ($value != '') {
+//                    $layout = str_replace($key, $value, $layout);
+//                }
+//                //unset($mw_replaced_textarea_tag[$key]);
+//            }
+//        }
+     //   $layout = $this->_replace_tags_with_placeholders_back($layout);
 
 
 
