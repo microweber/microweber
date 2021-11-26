@@ -44,10 +44,12 @@ class AdminLogin extends BaseComponent
     public function fillForm(Browser $browser, $username = 1, $password = 1)
     {
         $data = [];
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'captcha_disabled';
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'login_captcha_enabled';
         $data['option_group'] = 'users';
-        save_option($data);
+        save_option($data); 
+
+        $browser->visit(admin_url());
 
         // Login to admin panel
         $browser->type('username', $username);
