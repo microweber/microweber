@@ -173,7 +173,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 }
             }
 
-            return;
+            return; 
 
             $this->assertEquals($productPrice, $findProduct->price);
             $this->assertEquals($productSpecialPrice, $findProduct->special_price);
