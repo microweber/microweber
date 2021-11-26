@@ -20,6 +20,17 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+
+            $browser->within(new AdminContentMultilanguage, function ($browser) {
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
+                $browser->addLanguage('ar_SA');
+                $browser->addLanguage('zh_CN');
+            });
+
             $productDataMultilanguage = [];
 
             foreach(get_supported_languages(true) as $supportedLocale) {
@@ -38,40 +49,13 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 ];
             }
 
-            $browser->within(new AdminLogin, function ($browser) {
-                $browser->fillForm();
-            });
-
-            $browser->within(new AdminContentMultilanguage, function ($browser) {
-                $browser->addLanguage('bg_BG');
-                $browser->addLanguage('en_US');
-                $browser->addLanguage('ar_SA');
-                $browser->addLanguage('zh_CN');
-            });
-
             $browser->visit(route('admin.product.create'));
 
-            $enTitle = 'English title' . time();
-            $bgTitle = 'Bulgarian title' . time();
-            $arTitle = 'Arabic title' . time();
-            $zhTitle = 'Chinese title' . time();
-
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle, $zhTitle) {
-                $browser->fillTitle($bgTitle, 'bg_BG');
-                $browser->fillTitle($enTitle, 'en_US');
-                $browser->fillTitle($arTitle, 'ar_SA');
-                $browser->fillTitle($zhTitle, 'zh_CN');
-            });
-
-            $enDescription = 'English description' . time();
-            $bgDescription = 'Bulgarian description' . time();
-            $arDescription = 'Arabic description' . time();
-            $zhDescription = 'Chinese description' . time();
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription, $zhDescription) {
-                $browser->fillContentBody($bgDescription, 'bg_BG');
-                $browser->fillContentBody($enDescription, 'en_US');
-                $browser->fillContentBody($arDescription, 'ar_SA');
-                $browser->fillContentBody($zhDescription, 'zh_CN');
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
+                foreach($productDataMultilanguage as $locale=>$productData) {
+                    $browser->fillTitle($productData['title'], $locale);
+                    $browser->fillContentBody($productData['content_body'], $locale);
+                }
             });
 
             $productPrice = rand(1111, 9999);
