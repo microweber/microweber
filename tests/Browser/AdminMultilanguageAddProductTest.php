@@ -56,8 +56,6 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $productBarcode = rand(1111, 9999);
             $productQuantity = rand(11, 99);
 
-            $browser->visit(route('admin.product.create'));
-
             $browser->value('.js-product-price', $productPrice);
             $browser->pause(1000);
 
