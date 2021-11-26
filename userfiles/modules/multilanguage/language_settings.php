@@ -215,7 +215,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                     <select autocomplete="off" class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
                         <option>
                             <?php _e('Select language'); ?>
-                        </option>
+                        </option> 
 
                         <?php foreach ($languages as $languageName => $languageDetails): ?>
                             <option value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
