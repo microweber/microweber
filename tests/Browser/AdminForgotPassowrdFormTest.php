@@ -104,6 +104,8 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('3000');
 
             $browser->type('username', 'wrong-email@microweber.com');
+            $browser->pause('3000');
+
             $browser->click('@reset-password-button');
             $browser->pause('6000');
 

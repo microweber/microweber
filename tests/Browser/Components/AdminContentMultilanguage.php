@@ -52,17 +52,18 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
+        $browser->pause(2000);
         $browser->select('#ml-input-title-change', $locale);
-        $browser->pause(1000);
-        $browser->script("$('.js-input-group-title').find('.form-control:visible').val('".$title."')");
-
+        $browser->pause(4000);
+        $browser->script("$('.js-input-group-title .form-control:visible').val('".$title."')");
     }
 
     public function fillDescription(Browser $browser, $description, $locale)
     {
-        $browser->select('#ml-input-title-change', $locale);
-        $browser->pause(1000);
-        $browser->script("$('.js-input-group-title').find('.form-control:visible').val('".$description."')");
+        $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
+        $browser->pause(5000);
+        $browser->script("$('#ml-tab-content-content .tab-pane:visible').find('.mw-editor-area').html('$description')");
+        $browser->pause(5000);
 
     }
 

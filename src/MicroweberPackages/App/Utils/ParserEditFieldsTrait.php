@@ -591,7 +591,26 @@ Trait ParserEditFieldsTrait
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<tag>mw_replace_back_this_script_mod_inner_' . $v1 . '</tag>';
+                    $v1 = '<tag>mw_replace_back_this_script_mod_inner112_' . $v1 . '</tag>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset( $this->_replaced_tags[$v1])) {
+                        $this->_replaced_tags[$v1] = $value;
+
+                    }
+                }
+            }
+        }
+
+
+
+   $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag>mw_replace_back_this_textarea_mod_inner_' . $v1 . '</tag>';
                     $mod_content = str_replace($value, $v1, $mod_content);
                     if (!isset( $this->_replaced_tags[$v1])) {
                         $this->_replaced_tags[$v1] = $value;
