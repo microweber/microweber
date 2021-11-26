@@ -65,9 +65,9 @@ class AdminContentMultilanguage extends BaseComponent
     public function fillDescription(Browser $browser, $description, $locale)
     {
         $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
-        $browser->pause(5000);
+        $browser->pause(3000);
         $browser->script("$('#ml-tab-content-content .tab-pane:visible').find('.mw-editor-area').html('$description')");
-        $browser->pause(5000);
+        $browser->pause(3000);
 
     }
 
