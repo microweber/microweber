@@ -26,6 +26,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 $browser->addLanguage('bg_BG');
                 $browser->addLanguage('en_US');
                 $browser->addLanguage('ar_SA');
+                $browser->addLanguage('zh_CN');
             });
 
             $browser->visit(route('admin.product.create'));
