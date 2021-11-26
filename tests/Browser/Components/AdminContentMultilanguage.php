@@ -72,14 +72,14 @@ class AdminContentMultilanguage extends BaseComponent
     public function fillContent(Browser $browser, $content, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($content, $locale) {
-            $browser->fillTextarea('content', $content, $locale);
+            $browser->fillMwEditor('content', $content, $locale);
         });
     }
 
     public function fillContentBody(Browser $browser, $contentBody, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($contentBody, $locale) {
-            $browser->fillTextarea('content_body', $contentBody, $locale);
+            $browser->fillMwEditor('content_body', $contentBody, $locale);
         });
     }
 
@@ -121,7 +121,7 @@ class AdminContentMultilanguage extends BaseComponent
         }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($description, $locale) {
-            $browser->fillTextarea('description', $description, $locale);
+            $browser->fillMwEditor('description', $description, $locale);
         });
     }
 }

@@ -46,7 +46,7 @@ class AdminMultilanguageFields extends BaseComponent
         $browser->script("$('.js-input-group-".$key." .form-control:visible').val('".$value."')");
     }
 
-    public function fillTextarea(Browser $browser, $key, $value, $locale)
+    public function fillMwEditor(Browser $browser, $key, $value, $locale)
     {
         $browser->script('$(".js-ml-btn-tab-'.$key.'[lang=\''.$locale.'\']").click();');
         $browser->pause(2000);
