@@ -23,9 +23,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
-                $browser->addLanguage('Bulgarian');
-                $browser->addLanguage('English');
-                $browser->addLanguage('Arabic');
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
+                $browser->addLanguage('ar_SA');
             });
 
             $browser->visit(route('admin.product.create'));
@@ -48,8 +48,6 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 $browser->fillDescription($enDescription, 'en_US');
                 $browser->fillDescription($arDescription, 'ar_SA');
             });
-
-            return;
 
             $productPrice = rand(1111, 9999);
             $productSpecialPrice = $productPrice - rand(1, 9);

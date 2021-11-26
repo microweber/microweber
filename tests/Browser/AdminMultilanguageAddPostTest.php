@@ -25,9 +25,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
-                $browser->addLanguage('Bulgarian');
-                $browser->addLanguage('English');
-                $browser->addLanguage('Arabic');
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
+                $browser->addLanguage('ar_SA');
             });
 
             $browser->visit(route('admin.post.create'));
