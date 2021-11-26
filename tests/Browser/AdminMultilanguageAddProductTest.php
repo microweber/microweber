@@ -148,7 +148,11 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                     $browser->switchLanguage($locale);
                 });
 
+                $browser->pause(3000);
+                $browser->assertSee($productData['title']);
+                $browser->assertSee($productData['content_body']);
             }
+
             $this->assertEquals($productDataMultilanguage['en_US']['title'], $findProduct->title);
 
             foreach($productDataMultilanguage as $locale=>$productData) {
