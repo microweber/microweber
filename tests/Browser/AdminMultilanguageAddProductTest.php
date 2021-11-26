@@ -43,7 +43,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
 
                 $productDataMultilanguage[$locale] = [
                   'title'=> $productTitle,
-               //   'url'=> str_slug($productTitle),
+                  'url'=> str_slug($productTitle),
                   'content_body'=> 'Product content body ' . $locale . ' on lang' . time().rand(1111,9999),
                  // 'content_meta_title'=> 'Product content meta title ' . $locale . ' on lang' . time().rand(1111,9999),
                  // 'description'=> 'Product description ' . $locale . ' on lang' . time().rand(1111,9999),
@@ -56,6 +56,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
                 foreach($productDataMultilanguage as $locale=>$productData) {
                     $browser->fillTitle($productData['title'], $locale);
+                    $browser->fillUrl($productData['url'], $locale);
                     $browser->fillContentBody($productData['content_body'], $locale);
                 }
             });
