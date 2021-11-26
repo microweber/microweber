@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
@@ -56,36 +57,71 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
-        $browser->pause(2000);
-        $browser->select('#ml-input-title-change', $locale);
-        $browser->pause(4000);
-        $browser->script("$('.js-input-group-title .form-control:visible').val('".$title."')");
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
+            $browser->fillInput('title', $title, $locale);
+        });
     }
 
-    public function fillContent(Browser $browser, $description, $locale)
+    public function fillUrl(Browser $browser, $url, $locale)
     {
-        $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
-        $browser->pause(4000);
-
-        $randClass = 'js-rand-ml-'.time().rand(1111,9999);
-        $browser->script("$('#ml-tab-content-content .tab-pane:visible .mw-editor-area').addClass('$randClass')");
-        $browser->keys('.' . $randClass, $description);
-
-        $browser->pause(4000);
-
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($url, $locale) {
+            $browser->fillInput('url', $url, $locale);
+        });
     }
 
-    public function fillContentBody(Browser $browser, $description, $locale)
+    public function fillContent(Browser $browser, $content, $locale)
     {
-        $browser->script('$(".js-ml-btn-tab-content_body[lang=\''.$locale.'\']").click();');
-        $browser->pause(4000);
-
-        $randClass = 'js-rand-ml-'.time().rand(1111,9999);
-        $browser->script("$('#ml-tab-content-content_body .tab-pane:visible .mw-editor-area').addClass('$randClass')");
-        $browser->keys('.' . $randClass, $description);
-
-        $browser->pause(4000);
-
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($content, $locale) {
+            $browser->fillMwEditor('content', $content, $locale);
+        });
     }
 
+    public function fillContentBody(Browser $browser, $contentBody, $locale)
+    {
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($contentBody, $locale) {
+            $browser->fillMwEditor('content_body', $contentBody, $locale);
+        });
+    }
+
+    /**
+     * SEO META
+     */
+    public function fillContentMetaTitle(Browser $browser, $title, $locale)
+    {
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
+            $browser->fillInput('content_meta_title', $title, $locale);
+        });
+    }
+
+    public function fillContentMetaKeywords(Browser $browser, $keywords, $locale)
+    {
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($keywords, $locale) {
+            $browser->fillInput('content_meta_keywords', $keywords, $locale);
+        });
+    }
+
+    public function fillDescription(Browser $browser, $description, $locale)
+    {
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($description, $locale) {
+            $browser->fillMwEditor('description', $description, $locale);
+        });
+    }
 }
