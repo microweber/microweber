@@ -46,9 +46,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $bgDescription = 'Bulgarian description'.time();
             $arDescription = 'Arabic description'.time();
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
-                $browser->fillDescription($bgDescription, 'bg_BG');
-                $browser->fillDescription($enDescription, 'en_US');
-                $browser->fillDescription($arDescription, 'ar_SA');
+                $browser->fillContent($bgDescription, 'bg_BG');
+                $browser->fillContent($enDescription, 'en_US');
+                $browser->fillContent($arDescription, 'ar_SA');
             });
 
             $browser->pause(1000);
