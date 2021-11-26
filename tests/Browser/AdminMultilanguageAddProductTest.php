@@ -45,9 +45,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                   'title'=> $productTitle,
                   'url'=> str_slug($productTitle),
                   'content_body'=> 'Product content body ' . $locale . ' on lang' . time().rand(1111,9999),
-                 // 'content_meta_title'=> 'Product content meta title ' . $locale . ' on lang' . time().rand(1111,9999),
-                 // 'description'=> 'Product description ' . $locale . ' on lang' . time().rand(1111,9999),
-                 // 'content_meta_keywords'=> 'Product, content, meta, keywords, ' . $locale . ', on lang, ' . time().rand(1111,9999),
+                  'content_meta_title'=> 'Product content meta title ' . $locale . ' on lang' . time().rand(1111,9999),
+                  'description'=> 'Product description ' . $locale . ' on lang' . time().rand(1111,9999),
+                  'content_meta_keywords'=> 'Product, content, meta, keywords, ' . $locale . ', on lang, ' . time().rand(1111,9999),
                 ];
             }
 
@@ -58,6 +58,11 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                     $browser->fillTitle($productData['title'], $locale);
                     $browser->fillUrl($productData['url'], $locale);
                     $browser->fillContentBody($productData['content_body'], $locale);
+
+                    // seo
+                    $browser->fillContentMetaTitle($productData['content_meta_title'], $locale);
+                    $browser->fillContentMetaKeywords($productData['content_meta_keywords'], $locale);
+                    $browser->fillDescription($productData['description'], $locale);
                 }
             });
 
@@ -150,6 +155,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 });
 
                 $browser->pause(3000);
+                $currentUrl = $browser->driver->getCurrentURL();
+                $this->assertTrue(strpos($currentUrl, $productData['url']) !== false);
+
                 $browser->assertSee($productData['title']);
                 $browser->assertSee($productData['content_body']);
             }
