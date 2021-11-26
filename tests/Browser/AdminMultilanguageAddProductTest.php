@@ -64,8 +64,8 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
                 foreach($productDataMultilanguage as $locale=>$productData) {
                     $browser->fillContentMetaTitle($productData['content_meta_title'], $locale);
-                    $browser->fillContentMetaKeywords($productData['content_meta_keywords'], $locale);
                     $browser->fillDescription($productData['description'], $locale);
+                    $browser->fillContentMetaKeywords($productData['content_meta_keywords'], $locale);
                 }
             });
 
