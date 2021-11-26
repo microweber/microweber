@@ -122,7 +122,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $browser->click('#js-admin-save-content-main-btn');
 
             $findProduct = Product::where('title', $enTitle)->first();
-            
+
             $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
             $this->assertEquals($enTitle, $findProduct->title);
