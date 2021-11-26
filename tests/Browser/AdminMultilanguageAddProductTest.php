@@ -34,20 +34,24 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $enTitle = 'English title' . time();
             $bgTitle = 'Bulgarian title' . time();
             $arTitle = 'Arabic title' . time();
+            $zhTitle = 'Chinese title' . time();
 
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle, $zhTitle) {
                 $browser->fillTitle($bgTitle, 'bg_BG');
                 $browser->fillTitle($enTitle, 'en_US');
                 $browser->fillTitle($arTitle, 'ar_SA');
+                $browser->fillTitle($zhTitle, 'zh_CN');
             });
 
             $enDescription = 'English description' . time();
             $bgDescription = 'Bulgarian description' . time();
             $arDescription = 'Arabic description' . time();
-            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
+            $zhDescription = 'Chinese description' . time();
+            $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription, $zhDescription) {
                 $browser->fillContentBody($bgDescription, 'bg_BG');
                 $browser->fillContentBody($enDescription, 'en_US');
                 $browser->fillContentBody($arDescription, 'ar_SA');
+                $browser->fillContentBody($zhDescription, 'zh_CN');
             });
 
             $productPrice = rand(1111, 9999);
