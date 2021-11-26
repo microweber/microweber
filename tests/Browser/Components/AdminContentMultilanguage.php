@@ -56,7 +56,6 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
-        return;
         $browser->pause(2000);
         $browser->select('#ml-input-title-change', $locale);
         $browser->pause(4000);

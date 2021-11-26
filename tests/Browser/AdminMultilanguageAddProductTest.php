@@ -131,8 +131,6 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
 
             $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
-            dump($findProduct);
-
             $this->assertEquals($enTitle, $findProduct->title);
             $this->assertEquals($enTitle, $findProduct->multilanguage['en_US']['title']);
             $this->assertEquals($enDescription, $findProduct->multilanguage['en_US']['content_body']);
@@ -180,7 +178,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $this->assertEquals($description, $enDescription);
 
             $getPictures = get_pictures($findProduct->id);
-            $this->assertEquals(3, count($getPictures));
+            $this->assertEquals(3, count($getPictures)); 
 
 
         });
