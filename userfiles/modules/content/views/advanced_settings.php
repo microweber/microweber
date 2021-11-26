@@ -220,7 +220,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <small data-toggle="tooltip" title="Short description for yor content."></small>
 
                     <?php
-                    echo $formBuilder->TextArea('description')
+                    echo $formBuilder->MwEditor('description')
                         ->setModel($contentModel)
                         ->value($data['description'])
                         ->autocomplete(false);
