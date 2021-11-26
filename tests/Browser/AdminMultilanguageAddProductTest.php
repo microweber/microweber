@@ -30,9 +30,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
 
             $browser->visit(route('admin.product.create'));
 
-            $enTitle = 'English title'.time();
-            $bgTitle = 'Bulgarian title'.time();
-            $arTitle = 'Arabic title'.time();
+            $enTitle = 'English title' . time();
+            $bgTitle = 'Bulgarian title' . time();
+            $arTitle = 'Arabic title' . time();
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgTitle, $enTitle, $arTitle) {
                 $browser->fillTitle($bgTitle, 'bg_BG');
@@ -40,32 +40,23 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 $browser->fillTitle($arTitle, 'ar_SA');
             });
 
-            $enDescription = 'English description'.time();
-            $bgDescription = 'Bulgarian description'.time();
-            $arDescription = 'Arabic description'.time();
+            $enDescription = 'English description' . time();
+            $bgDescription = 'Bulgarian description' . time();
+            $arDescription = 'Arabic description' . time();
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
                 $browser->fillDescription($bgDescription, 'BG_BG');
                 $browser->fillDescription($enDescription, 'EN_US');
                 $browser->fillDescription($arDescription, 'AR_SA');
             });
 
-            $productPrice = rand(1111,9999);
-            $productSpecialPrice = $productPrice - rand(1,9);
-            $productSku = rand(1111,9999);
+            $productPrice = rand(1111, 9999);
+            $productSpecialPrice = $productPrice - rand(1, 9);
+            $productSku = rand(1111, 9999);
 
-            $productBarcode = rand(1111,9999);
-            $productTitle = 'This is the product title'.time();
-            $productDescription = 'This is the product description'.time();
-            $productQuantity = rand(11,99);
+            $productBarcode = rand(1111, 9999);
+            $productQuantity = rand(11, 99);
 
             $browser->visit(route('admin.product.create'));
-
-            $browser->pause(3000);
-            $browser->value('#slug-field-holder input', $productTitle);
-
-            $browser->pause(3000);
-            $browser->keys('.mw-editor-area', $productDescription);
-            $browser->pause(1000);
 
             $browser->value('.js-product-price', $productPrice);
             $browser->pause(1000);
@@ -95,19 +86,19 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
 
-            $browser->within(new AdminContentCategorySelect, function ($browser) use($category4,$category4_1,$category4_2,$category4_3) {
+            $browser->within(new AdminContentCategorySelect, function ($browser) use ($category4, $category4_1, $category4_2, $category4_3) {
                 $browser->selectCategory($category4);
-                $browser->selectSubCategory($category4,$category4_1);
-                $browser->selectSubCategory($category4,$category4_2);
-                $browser->selectSubCategory($category4,$category4_3);
+                $browser->selectSubCategory($category4, $category4_1);
+                $browser->selectSubCategory($category4, $category4_2);
+                $browser->selectSubCategory($category4, $category4_3);
             });
 
-            $tag1 = 'Tagdusk-'.time().rand(100,200);
-            $tag2 = 'Tagdusk-'.time().rand(200,300);
-            $tag3 = 'Tagdusk-'.time().rand(300,400);
-            $tag4 = 'Tagdusk-'.time().rand(400,500);
+            $tag1 = 'Tagdusk-' . time() . rand(100, 200);
+            $tag2 = 'Tagdusk-' . time() . rand(200, 300);
+            $tag3 = 'Tagdusk-' . time() . rand(300, 400);
+            $tag4 = 'Tagdusk-' . time() . rand(400, 500);
 
-            $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
+            $browser->within(new AdminContentTagAdd, function ($browser) use ($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
                 $browser->addTag($tag2);
                 $browser->addTag($tag3);
@@ -123,30 +114,41 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
 
 
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('dropdown','Dropdown');
-                $browser->addCustomField('text','Text Field');
+                $browser->addCustomField('dropdown', 'Dropdown');
+                $browser->addCustomField('text', 'Text Field');
             });
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
 
-            $findProduct = Product::where('title', $productTitle)->first();
+            $findProduct = Product::where('title', $enTitle)->first();
+            
+            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
+
+            $this->assertEquals($enTitle, $findProduct->title);
+            $this->assertEquals($enTitle, $findProduct->multilanguage['en_US']['title']);
+            $this->assertEquals($enDescription, $findProduct->multilanguage['en_US']['content_body']);
+
+            $this->assertEquals($bgTitle, $findProduct->multilanguage['bg_BG']['title']);
+            $this->assertEquals($bgDescription, $findProduct->multilanguage['bg_BG']['content_body']);
+
+            $this->assertEquals($arTitle, $findProduct->multilanguage['ar_SA']['title']);
+            $this->assertEquals($arDescription, $findProduct->multilanguage['ar_SA']['content_body']);
 
             $this->assertEquals($productPrice, $findProduct->price);
             $this->assertEquals($productSpecialPrice, $findProduct->special_price);
             $this->assertEquals($productQuantity, $findProduct->qty);
             $this->assertEquals($productSku, $findProduct->sku);
 
-            $this->assertEquals($findProduct->content_body, $productDescription);
+            $this->assertEquals($findProduct->content_body, $enDescription);
             $this->assertEquals($findProduct->content_type, 'product');
             $this->assertEquals($findProduct->subtype, 'product');
 
             $tags = content_tags($findProduct->id);
-            $this->assertTrue(in_array($tag1,$tags));
-            $this->assertTrue(in_array($tag2,$tags));
-            $this->assertTrue(in_array($tag3,$tags));
-            $this->assertTrue(in_array($tag4,$tags));
+            $this->assertTrue(in_array($tag1, $tags));
+            $this->assertTrue(in_array($tag2, $tags));
+            $this->assertTrue(in_array($tag3, $tags));
+            $this->assertTrue(in_array($tag4, $tags));
 
             $findedCategories = [];
             $categories = content_categories($findProduct->id);
@@ -154,25 +156,24 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
                 $findedCategories[] = $category['title'];
             }
 
-            $this->assertTrue(in_array('Decor',$findedCategories));
-            $this->assertTrue(in_array('Clothes',$findedCategories));
-            $this->assertTrue(in_array('T-shirts',$findedCategories));
+            $this->assertTrue(in_array('Decor', $findedCategories));
+            $this->assertTrue(in_array('Clothes', $findedCategories));
+            $this->assertTrue(in_array('T-shirts', $findedCategories));
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findProduct->id);
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
-            $this->assertTrue(in_array('Dropdown',$findedCustomFields));
-            $this->assertTrue(in_array('Text Field',$findedCustomFields));
+            $this->assertTrue(in_array('Dropdown', $findedCustomFields));
+            $this->assertTrue(in_array('Text Field', $findedCustomFields));
 
             $description = content_description($findProduct->id);
-            $this->assertEquals($description, $productDescription);
+            $this->assertEquals($description, $enDescription);
 
             $getPictures = get_pictures($findProduct->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
         });
 
