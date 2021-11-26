@@ -38,19 +38,19 @@ class AdminContentMultilanguage extends BaseComponent
         return [];
     }
 
-    public function addLanguage(Browser $browser, $language) {
+    public function addLanguage(Browser $browser, $locale) {
 
-        if (is_lang_supported($language)) {
+        if (is_lang_supported($locale)) {
             return true;
         }
-        
+
         $browser->visit(route('admin.multilanguage.index'));
         $browser->waitForText('Add new language');
-        $browser->select('.js-dropdown-text-language', $language);
+        $browser->select('.js-dropdown-text-language', $locale);
         $browser->pause(3000);
         $browser->click('.js-add-language');
         $browser->pause(2000);
-        $browser->waitForText($language);
+        $browser->waitForText($locale);
 
     }
 
