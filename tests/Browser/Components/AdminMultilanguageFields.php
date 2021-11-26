@@ -14,7 +14,7 @@ class AdminMultilanguageFields extends BaseComponent
      */
     public function selector()
     {
-        return '#mw-admin-container';
+        return false;
     }
 
     /**
@@ -38,22 +38,23 @@ class AdminMultilanguageFields extends BaseComponent
         return [];
     }
 
-    public function fillInput(Browser $browser, $inputKey, $value, $locale)
+    public function fillInput(Browser $browser, $key, $value, $locale)
     {
         $browser->pause(1000);
-        $browser->select('#ml-input-'.$inputKey.'-change', $locale);
+        $browser->select('#ml-input-'.$key.'-change', $locale);
         $browser->pause(1000);
-        $browser->script("$('.js-input-group-'.$inputKey.' .form-control:visible').val('".$value."')");
+        $browser->script("$('.js-input-group-".$key." .form-control:visible').val('".$value."')");
     }
 
-    public function fillTextarea(Browser $browser, $inputKey, $locale, $value)
+    public function fillTextarea(Browser $browser, $key, $locale, $value)
     {
-        $browser->script('$(".js-ml-btn-tab-'.$inputKey.'[lang=\''.$locale.'\']").click();');
+        $browser->script('$(".js-ml-btn-tab-'.$key.'[lang=\''.$locale.'\']").click();');
         $browser->pause(2000);
 
         $randClass = 'js-rand-ml-'.time().rand(1111,9999);
-        $browser->script("$('#ml-tab-content-'.$inputKey.' .tab-pane:visible .mw-editor-area').addClass('$randClass')");
-        $browser->keys('.' . $randClass, $value);
+        $browser->script("$('#ml-tab-content-".$key." .tab-pane:visible .mw-editor-area').addClass('$randClass')");
         $browser->pause(2000);
+        $browser->keys('.' . $randClass, $value);
+        $browser->pause(1000);
     }
 }

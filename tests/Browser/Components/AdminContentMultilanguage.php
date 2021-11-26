@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
@@ -87,7 +88,12 @@ class AdminContentMultilanguage extends BaseComponent
      */
     public function fillContentMetaTitle(Browser $browser, $title, $locale)
     {
-        $browser->scrollIntoView('.js-card-search-engine');
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
             $browser->fillInput('content_meta_title', $title, $locale);
         });
@@ -95,7 +101,11 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillContentMetaKeywords(Browser $browser, $keywords, $locale)
     {
-        $browser->scrollIntoView('.js-card-search-engine');
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($keywords, $locale) {
             $browser->fillInput('content_meta_keywords', $keywords, $locale);
@@ -104,7 +114,11 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function fillDescription(Browser $browser, $description, $locale)
     {
-        $browser->scrollIntoView('.js-card-search-engine');
+        $browser->scrollTo('.js-card-search-engine');
+        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($description, $locale) {
             $browser->fillTextarea('description', $description, $locale);
