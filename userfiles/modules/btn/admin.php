@@ -28,7 +28,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $onclick = $params['button_onclick'];
         }
 
+
         $url = $url_display = get_module_option('url', $params['id']);
+        $url_to_content_id = get_module_option('url_to_content_id', $params['id']);
+        $url_to_category_id = get_module_option('url_to_category_id', $params['id']);
+
         $popupcontent = get_module_option('popupcontent', $params['id']);
         $text = get_module_option('text', $params['id']);
         $url_blank = get_module_option('url_blank', $params['id']);
@@ -231,11 +235,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Edit url"); ?></label>
                                 <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
+
                                 <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
+
+
+
                                 <span class="mdi mdi-pencil"></span>
                                 <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
 
                                 <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+                                <input type="hidden" name="url_to_content_id" id="btn-default_url_content_id" value="<?php print $url_to_content_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+                                <input type="hidden" name="url_to_category_id" id="btn-default_url_category_id" value="<?php print $url_to_category_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+
+
+
+
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
@@ -273,14 +289,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (!ldata) {
                                 return
                             }
+
+
+
                             var url = ldata.url;
                             var url_display = ldata.url;
-                            if (ldata.object) {
-                                if (ldata.object.id) {
-                                    if (ldata.object.type && ldata.data.type === 'category') {
-                                        url = 'category:' + ldata.data.id;
+                            var btn_category_id;
+                            var btn_content_id;
+
+
+                            if (ldata.data) {
+                                if (ldata.data.id) {
+                                    if ((ldata.data.type) && ldata.data.type === 'category') {
+                                        //url = 'category:' + ldata.data.id;
+                                        btn_category_id = ldata.data.id;
+                                    } else if ((ldata.data.type) && ldata.data.type === 'page') {
+                                        //url = 'content:' + ldata.data.id;
+                                        btn_content_id = ldata.data.id;
                                     } else if (ldata.data.content_type) {
-                                        url = 'content:' + ldata.data.id;
+                                        //url = 'content:' + ldata.data.id;
+                                        btn_content_id = ldata.data.id;
                                     }
                                 }
 
@@ -288,7 +316,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (!url_display) {
                                 url_display = url;
                             }
-                            mw.$('#btn-default_url').val(url).trigger('change');
+
+
+                            if(typeof btn_category_id != 'undefined'){
+                                mw.$('#btn-default_url').val('').trigger('change');
+                                mw.$('#btn-default_url_content_id').val('').trigger('change');
+                                mw.$('#btn-default_url_category_id').val(btn_category_id).trigger('change');
+                            } else if(typeof btn_content_id != 'undefined'){
+                                mw.$('#btn-default_url').val('').trigger('change');
+                                mw.$('#btn-default_url_content_id').val(btn_content_id).trigger('change');
+                                mw.$('#btn-default_url_category_id').val('').trigger('change');
+                            } else {
+                                mw.$('#btn-default_url').val(url).trigger('change');
+                                mw.$('#btn-default_url_content_id').val('').trigger('change');
+                                mw.$('#btn-default_url_category_id').val('').trigger('change');
+                            }
+
                             mw.$('#btn-default_url-show').val(url_display);
                             mw.$('#display-url').html(url_display);
                         })
@@ -345,6 +388,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                 <div class="mw-accordion">
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
@@ -541,16 +596,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
 
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
-                            <div class="mw-ui-box mw-ui-box-content">
-                                <module type="admin/modules/templates" simple="true"/>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
 
