@@ -847,6 +847,12 @@ __webpack_require__.r(__webpack_exports__);
             return this.nodes[i];
         };
 
+        this.wrap = function (what) {
+            var newEl = DomQuery(what);
+            this.before(newEl)
+            newEl.append(this)
+        }
+
         this._on = {};
         this.on = function(events, cb){
             events = events.trim().split(' ');
@@ -884,9 +890,9 @@ __webpack_require__.r(__webpack_exports__);
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings.content instanceof MWElement) {
+                } else if(this.settings && this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                }  else if(this.settings && typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
                 }else {
                     var el = this._asdom(options);
@@ -2860,6 +2866,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _handles_content_layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./handles-content/layout */ "./userfiles/modules/microweber/api/liveedit2/handles-content/layout.js");
 /* harmony import */ var _classes_element__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../classes/element */ "./userfiles/modules/microweber/api/classes/element.js");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./i18n */ "./userfiles/modules/microweber/api/liveedit2/i18n.js");
+/* harmony import */ var _classes_dialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../classes/dialog */ "./userfiles/modules/microweber/api/classes/dialog.js");
+
 
 
 
@@ -2993,7 +3001,7 @@ class LiveEdit {
             var defaults = {
                 document: this.settings.document
             }
-            return new Dialog(_classes_object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options))
+            return new _classes_dialog__WEBPACK_IMPORTED_MODULE_12__.Dialog(_classes_object_service__WEBPACK_IMPORTED_MODULE_4__.ObjectService.extend({}, defaults, options))
         };
 
         var elementHandle = new _handle__WEBPACK_IMPORTED_MODULE_0__.Handle({

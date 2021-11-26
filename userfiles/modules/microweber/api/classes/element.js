@@ -416,6 +416,12 @@ import {ObjectService} from "./object.service";
             return this.nodes[i];
         };
 
+        this.wrap = function (what) {
+            var newEl = DomQuery(what);
+            this.before(newEl)
+            newEl.append(this)
+        }
+
         this._on = {};
         this.on = function(events, cb){
             events = events.trim().split(' ');
@@ -453,9 +459,9 @@ import {ObjectService} from "./object.service";
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings.content instanceof MWElement) {
+                } else if(this.settings && this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                }  else if(this.settings && typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
                 }else {
                     var el = this._asdom(options);

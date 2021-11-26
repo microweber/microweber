@@ -1042,6 +1042,12 @@ __webpack_require__.r(__webpack_exports__);
             return this.nodes[i];
         };
 
+        this.wrap = function (what) {
+            var newEl = DomQuery(what);
+            this.before(newEl)
+            newEl.append(this)
+        }
+
         this._on = {};
         this.on = function(events, cb){
             events = events.trim().split(' ');
@@ -1079,9 +1085,9 @@ __webpack_require__.r(__webpack_exports__);
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings.content instanceof MWElement) {
+                } else if(this.settings && this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                }  else if(this.settings && typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
                 }else {
                     var el = this._asdom(options);
@@ -1401,7 +1407,6 @@ class Tabs {
     }
 
     init() {
-        console.log(Array.from(this.settings.tabs))
          Array.from(this.settings.nav).forEach((tab, index) => {
             tab.addEventListener('click', e => {
                 e.preventDefault();
@@ -4090,6 +4095,21 @@ MWEditor.core = {
         var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
         return (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(settings);
     },
+    field: function(config) {
+        config = config || {};
+        var defaults = {
+            tag: 'input',
+            props: {
+                className: 'mdi mw-editor-controller-component mw-editor-controller-field',
+                type: config.type || 'text'
+            }
+        };
+        if (config.props && config.props.className){
+            config.props.className = defaults.props.className + ' ' + config.props.className;
+        }
+        var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
+        return (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(settings);
+    },
     colorPicker: function(config) {
         config = config || {};
         var defaults = {
@@ -4129,7 +4149,12 @@ MWEditor.core = {
         var settings = _classes_object_service__WEBPACK_IMPORTED_MODULE_0__.ObjectService.extend(true, {}, defaults, config);
         var el = (0,_classes_element__WEBPACK_IMPORTED_MODULE_1__.ElementManager)(settings);
         el.on('mousedown touchstart', function (e) {
-            e.preventDefault();
+            var tg = e.target.nodeName;
+
+            var shouldPrevent = tg !== 'INPUT';
+            if( shouldPrevent ) {
+                e.preventDefault();
+            }
         });
         return el;
     },
@@ -4157,12 +4182,33 @@ MWEditor.core = {
                 tooltip: options.placeholder || null
             }
         });
-        var displayValNode = MWEditor.core.button({
-            props: {
-                className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                innerHTML: options.placeholder || ''
-            }
-        });
+        if(!options.displayMode) {
+            options.displayMode = 'button';
+        }
+        var displayValNode
+        if(options.displayMode === "button") {
+            displayValNode = MWEditor.core.button({
+                props: {
+                    className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
+                    innerHTML: options.placeholder || ''
+                }
+            });
+        } else if(options.displayMode === "field") {
+            displayValNode = MWEditor.core.field({
+                props: {
+                    className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value-field',
+                    placeholder: options.placeholder || ''
+                }
+            });
+            setTimeout(function (){
+                displayValNode.wrap({
+                    props: {
+                        className: 'mw-editor-select-display-value'
+                    }
+                })
+            }, 10)
+        }
+
 
         var valueHolder = MWEditor.core.element({
             props: {
@@ -4176,7 +4222,14 @@ MWEditor.core = {
         };
 
         this.root.displayValue = function (val) {
-            displayValNode.text(val || options.placeholder || '');
+            var md;
+            if(options.displayMode === "button") {
+                md = 'html';
+
+            } else if(options.displayMode === "field") {
+                md = 'val';
+            }
+            displayValNode[md](val || options.placeholder || '');
         };
 
         this.select.append(displayValNode);
@@ -4522,7 +4575,8 @@ MWEditor.controllers = {
                     { label: '36px', value: 36 },
                     { label: '42px', value: 42 },
                 ],
-                placeholder: rootScope.lang('Font Size')
+                placeholder: rootScope.lang('Font Size'),
+                displayMode: 'field'
             });
             dropdown.select.on('change', function (e, val) {
                 if(val) {

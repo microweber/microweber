@@ -1142,7 +1142,6 @@ class Tabs {
     }
 
     init() {
-        console.log(Array.from(this.settings.tabs))
          Array.from(this.settings.nav).forEach((tab, index) => {
             tab.addEventListener('click', e => {
                 e.preventDefault();
@@ -17746,7 +17745,10 @@ mw.emitter = {
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
             mw.require('tree.js');
-            scope.shouldChange = !_linkText.querySelector('input').value.trim();
+            if(_linkText) {
+                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+
+            }
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -17865,7 +17867,10 @@ mw.emitter = {
 
             this.root = root;
             setTimeout(function (){
-                scope.shouldChange = !_linkText.querySelector('input').value.trim();
+                if(_linkText) {
+                    scope.shouldChange = !_linkText.querySelector('input').value.trim();
+
+                }
             }, 10)
         },
         file: function (options) {

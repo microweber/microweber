@@ -275,7 +275,8 @@ MWEditor.controllers = {
                     { label: '36px', value: 36 },
                     { label: '42px', value: 42 },
                 ],
-                placeholder: rootScope.lang('Font Size')
+                placeholder: rootScope.lang('Font Size'),
+                displayMode: 'field'
             });
             dropdown.select.on('change', function (e, val) {
                 if(val) {

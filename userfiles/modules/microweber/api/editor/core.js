@@ -17,6 +17,21 @@ MWEditor.core = {
         var settings = ObjectService.extend(true, {}, defaults, config);
         return ElementManager(settings);
     },
+    field: function(config) {
+        config = config || {};
+        var defaults = {
+            tag: 'input',
+            props: {
+                className: 'mdi mw-editor-controller-component mw-editor-controller-field',
+                type: config.type || 'text'
+            }
+        };
+        if (config.props && config.props.className){
+            config.props.className = defaults.props.className + ' ' + config.props.className;
+        }
+        var settings = ObjectService.extend(true, {}, defaults, config);
+        return ElementManager(settings);
+    },
     colorPicker: function(config) {
         config = config || {};
         var defaults = {
@@ -56,7 +71,12 @@ MWEditor.core = {
         var settings = ObjectService.extend(true, {}, defaults, config);
         var el = ElementManager(settings);
         el.on('mousedown touchstart', function (e) {
-            e.preventDefault();
+            var tg = e.target.nodeName;
+
+            var shouldPrevent = tg !== 'INPUT';
+            if( shouldPrevent ) {
+                e.preventDefault();
+            }
         });
         return el;
     },
@@ -84,12 +104,33 @@ MWEditor.core = {
                 tooltip: options.placeholder || null
             }
         });
-        var displayValNode = MWEditor.core.button({
-            props: {
-                className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                innerHTML: options.placeholder || ''
-            }
-        });
+        if(!options.displayMode) {
+            options.displayMode = 'button';
+        }
+        var displayValNode
+        if(options.displayMode === "button") {
+            displayValNode = MWEditor.core.button({
+                props: {
+                    className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
+                    innerHTML: options.placeholder || ''
+                }
+            });
+        } else if(options.displayMode === "field") {
+            displayValNode = MWEditor.core.field({
+                props: {
+                    className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value-field',
+                    placeholder: options.placeholder || ''
+                }
+            });
+            setTimeout(function (){
+                displayValNode.wrap({
+                    props: {
+                        className: 'mw-editor-select-display-value'
+                    }
+                })
+            }, 10)
+        }
+
 
         var valueHolder = MWEditor.core.element({
             props: {
@@ -103,7 +144,14 @@ MWEditor.core = {
         };
 
         this.root.displayValue = function (val) {
-            displayValNode.text(val || options.placeholder || '');
+            var md;
+            if(options.displayMode === "button") {
+                md = 'html';
+
+            } else if(options.displayMode === "field") {
+                md = 'val';
+            }
+            displayValNode[md](val || options.placeholder || '');
         };
 
         this.select.append(displayValNode);

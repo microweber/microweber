@@ -221,7 +221,6 @@ class Tabs {
     }
 
     init() {
-        console.log(Array.from(this.settings.tabs))
          Array.from(this.settings.nav).forEach((tab, index) => {
             tab.addEventListener('click', e => {
                 e.preventDefault();
