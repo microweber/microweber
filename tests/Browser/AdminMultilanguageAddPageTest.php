@@ -21,7 +21,7 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
-            $browser->within(new AdminLogin, function ($browser) {
+          $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
@@ -59,11 +59,10 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-            return;
 
             $findPage = Page::where('title', $enTitle)->first();
+            $browser->waitForLocation(route('admin.page.edit', $findPage->id));
 
-            dd($findPage);
 
             $this->assertEquals($findPage->content_type, 'post');
             $this->assertEquals($findPage->subtype, 'post');
@@ -76,13 +75,8 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
             $this->assertTrue(in_array('Dropdown',$findedCustomFields));
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
 
-            $description = content_description($findPage->id);
-            $this->assertEquals($description, $enDescription);
-
             $getPictures = get_pictures($findPage->id);
             $this->assertEquals(3, count($getPictures));
-
-            $browser->waitForLocation(route('admin.page.edit', $findPage->id));
 
         });
 

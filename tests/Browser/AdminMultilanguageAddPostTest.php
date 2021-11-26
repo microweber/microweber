@@ -46,9 +46,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $bgDescription = 'Bulgarian description'.time();
             $arDescription = 'Arabic description'.time();
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
-                $browser->fillDescription($bgDescription, 'BG_BG');
-                $browser->fillDescription($enDescription, 'EN_US');
-                $browser->fillDescription($arDescription, 'AR_SA');
+                $browser->fillDescription($bgDescription, 'bg_BG');
+                $browser->fillDescription($enDescription, 'en_US');
+                $browser->fillDescription($arDescription, 'ar_SA');
             });
 
             $browser->pause(1000);
@@ -93,11 +93,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(10000);
-            return;
 
             $findPost = Post::where('title', $enTitle)->first();
-
-            dd($findPost);
+            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
 
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
@@ -132,7 +130,6 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $getPictures = get_pictures($findPost->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.post.edit', $findPost->id));
 
         });
 
