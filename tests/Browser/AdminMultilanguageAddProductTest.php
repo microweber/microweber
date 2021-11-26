@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Faker\Factory;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
@@ -19,14 +20,23 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
+            $productDataMultilanguage = [];
 
-           // $browser->visit(content_link(41));
-            $browser->visit('/');
+            foreach(get_supported_languages(true) as $supportedLocale) {
+                $locale = $supportedLocale['locale'];
 
-            $browser->within(new FrontendSwitchLanguage, function ($browser) {
-                $browser->switchLanguage('ar_SA');
-            });
+                $faker = Factory::create($locale);
+                $productTitle = $faker->name . ' on lang - ' .$locale . time().rand(1111,9999);
 
+                $productDataMultilanguage[$locale] = [
+                  'title'=> $productTitle,
+                  'url'=> str_slug($productTitle),
+                  'content_body'=> 'Product content body ' . $locale . ' on lang' . time().rand(1111,9999),
+                  'content_meta_title'=> 'Product content meta title ' . $locale . ' on lang' . time().rand(1111,9999),
+                  'description'=> 'Product description ' . $locale . ' on lang' . time().rand(1111,9999),
+                  'content_meta_keywords'=> 'Product, content, meta, keywords, ' . $locale . ', on lang, ' . time().rand(1111,9999),
+                ];
+            }
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -140,6 +150,19 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $findProduct = Product::where('title', $enTitle)->first();
 
             $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
+
+            $browser->pause(3000);
+            $browser->visit(content_link($findProduct->id));
+
+            foreach($productDataMultilanguage as $locale=>$productData) {
+
+                $browser->within(new FrontendSwitchLanguage, function ($browser) use($locale) {
+                    $browser->switchLanguage($locale);
+                });
+
+            }
+
+            return;
 
             $this->assertEquals($enTitle, $findProduct->title);
             $this->assertEquals($enTitle, $findProduct->multilanguage['en_US']['title']);
