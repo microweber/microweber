@@ -48,6 +48,8 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
             }
 
             $browser->visit(route('admin.category.create'));
+            $browser->pause(400);
+            $browser->waitForText('Add category');
 
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
                 foreach($categoryDataMultilanguage as $locale=>$categoryData) {
