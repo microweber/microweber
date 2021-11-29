@@ -42,27 +42,40 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function addLanguage(Browser $browser, $locale)
     {
-        if (get_option('is_active','multilanguage_settings') != 'y') {
+        $mustAddNewLang = true;
+        $goToMultilanguagePage = true;
+        $mustActivateMultilanguage = false;
+
+        if ($browser->driver->getCurrentURL() == route('admin.multilanguage.index')) {
+            $goToMultilanguagePage = false;
+        }
+
+        if (is_lang_supported($locale)) {
+            $mustAddNewLang = false;
+        }
+
+        if (!$browser->element('.module-multilanguage')) {
+            $mustActivateMultilanguage = true;
+        }
+
+        if ($goToMultilanguagePage) {
             $browser->visit(route('admin.multilanguage.index'));
+        }
+
+        if ($mustActivateMultilanguage) {
             $browser->waitForText('Multilanguage is active');
             $browser->script('$(".module-switch-active-form .custom-control-label").click();');
             $browser->waitForReload();
-        } else {
-            $browser->visit(route('admin.multilanguage.index'));
         }
 
-        $browser->pause(2000);
-
-        if (is_lang_supported($locale)) {
-            return true;
+        if ($mustAddNewLang) {
+            $browser->waitForText('Add new language');
+            $browser->select('.js-dropdown-text-language', $locale);
+            $browser->pause(3000);
+            $browser->click('.js-add-language');
+            $browser->pause(2000);
+            $browser->waitForText($locale);
         }
-
-        $browser->waitForText('Add new language');
-        $browser->select('.js-dropdown-text-language', $locale);
-        $browser->pause(3000);
-        $browser->click('.js-add-language');
-        $browser->pause(2000);
-        $browser->waitForText($locale);
 
     }
 
