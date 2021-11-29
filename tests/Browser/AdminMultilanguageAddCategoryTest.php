@@ -55,7 +55,6 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
                 }
             });
 
-
             $browser->click('#category-dropdown-holder');
             $browser->pause(300);
 
@@ -76,6 +75,12 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
+
+            $browser->scrollTo('.js-edit-category-show-more');
+            $browser->pause(300);
+            $browser->click('.js-edit-category-show-more');
+            $browser->pause(300);
+
 
             $browser->click('@category-save');
             $browser->pause(2000);
