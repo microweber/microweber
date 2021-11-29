@@ -5,6 +5,7 @@ namespace Tests\Browser\Components;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class AdminContentMultilanguage extends BaseComponent
 {
@@ -21,7 +22,7 @@ class AdminContentMultilanguage extends BaseComponent
     /**
      * Assert that the browser page contains the component.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
      * @return void
      */
     public function assert(Browser $browser)
@@ -39,13 +40,27 @@ class AdminContentMultilanguage extends BaseComponent
         return [];
     }
 
-    public function addLanguage(Browser $browser, $locale) {
+    public function addLanguage(Browser $browser, $locale)
+    {
+        if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+            $browser->visit(route('admin.multilanguage.index'));
+            $browser->waitForText('Multilanguage is active');
+            $browser->script('$(".module-switch-active-form .custom-control-label").click();');
+            $browser->pause(6000);
+        }
 
         if (is_lang_supported($locale)) {
             return true;
         }
 
-        $browser->visit(route('admin.multilanguage.index'));
+        $this->assertTrue(MultilanguageHelpers::multilanguageIsEnabled());
+
+        $currentUrl = $browser->driver->getCurrentURL();
+
+        if ($currentUrl !== route('admin.multilanguage.index')) {
+            $browser->visit(route('admin.multilanguage.index'));
+        }
+
         $browser->waitForText('Add new language');
         $browser->select('.js-dropdown-text-language', $locale);
         $browser->pause(3000);
@@ -89,7 +104,7 @@ class AdminContentMultilanguage extends BaseComponent
     public function fillContentMetaTitle(Browser $browser, $title, $locale)
     {
         $browser->scrollTo('.js-card-search-engine');
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             $browser->script('$(".js-card-search-engine a.btn").click();');
             $browser->pause(1000);
         }
@@ -102,7 +117,7 @@ class AdminContentMultilanguage extends BaseComponent
     public function fillContentMetaKeywords(Browser $browser, $keywords, $locale)
     {
         $browser->scrollTo('.js-card-search-engine');
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             $browser->script('$(".js-card-search-engine a.btn").click();');
             $browser->pause(1000);
         }
@@ -115,7 +130,7 @@ class AdminContentMultilanguage extends BaseComponent
     public function fillDescription(Browser $browser, $description, $locale)
     {
         $browser->scrollTo('.js-card-search-engine');
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             $browser->script('$(".js-card-search-engine a.btn").click();');
             $browser->pause(1000);
         }
