@@ -206,9 +206,6 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             $this->assertTrue(in_array('Dropdown', $findedCustomFields));
             $this->assertTrue(in_array('Text Field', $findedCustomFields));
 
-            $description = content_description($findProduct->id);
-            $this->assertEquals($description, $enDescription);
-
             $getPictures = get_pictures($findProduct->id);
             $this->assertEquals(3, count($getPictures));
 
