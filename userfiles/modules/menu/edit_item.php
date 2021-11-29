@@ -98,8 +98,13 @@ if ($id == 0) {
                     <div class="form-group">
                         <label class="control-label text-muted"><span class="font-weight-normal"><?php _e("Edit menu item"); ?></span></label>
                         <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
+                        <input type="hidden" id="item_categories_id" value="<?php  print $data['categories_id'] ?>">
+                        <input type="hidden" id="item_content_id" value="<?php print $data['content_id'] ?>">
 
                         <?php
+
+
+
                         $menuModel = \MicroweberPackages\Menu\Menu::where('id', $data['id'])->first();
                         $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
@@ -117,6 +122,7 @@ if ($id == 0) {
 
                     <div class="form-group change-url-box">
                         <div class="input-group mb-3 append-transparent">
+
                             <input type="text" class="form-control" id="id-<?php print $data['id'] ?>" placeholder="<?php _e("URL"); ?>" autocomplete="off" name="url" value="<?php print $data['url'] ?>">
                             <div class="input-group-append">
                                 <span class="input-group-text" for="id-<?php print $data['id'] ?>" data-for="id-<?php print $data['id'] ?>"><i class="mdi mdi-cog-outline mdi-18px text-muted"></i></span>
@@ -235,25 +241,48 @@ if ($id == 0) {
 
         mw.require('link-editor.js');
 
+        var $data = <?php print json_encode($data); ?>;
+
+
         $(document).ready(function () {
 
             $('.change-url-box .input-group-text, .change-url-box input').on('click', function () {
                 var scope = this;
 
-                var linkEditor = new (mw.top().LinkEditor)({
+                var conf = {
                     mode: 'dialog',
                     controllers: [
+
                         { type: 'url', config: {target: false}},
                         { type: 'page', config: {target: false} },
                         { type: 'post', config: {target: false}},
                         { type: 'layout', config: {target: false} }
                     ]
-                });
+                }
+
+
+
+                var contentId = Number(document.querySelector('#item_content_id').value.trim());
+                var categoriesId = Number(document.querySelector('#item_categories_id').value.trim());
+
+                if(categoriesId) {
+                    conf.selectedIndex = conf.controllers.findIndex(function (itm){ return itm.type === 'page' })
+                }
+                if(contentId) {
+                    conf.selectedIndex = conf.controllers.findIndex(function (itm){ return itm.type === 'page' })
+                }
+
+
+
+                var linkEditor = new (mw.top().LinkEditor)(conf);
+
                 var root = $(scope).parents(".col");
                 linkEditor.setValue({
                     text: root.find('[name="title"]').val(),
                     url: root.find('[name="url"]').val()
                 })
+
+
 
                 linkEditor.promise().then(function (ldata){
 
@@ -269,18 +298,27 @@ if ($id == 0) {
                         name = ldata.text,
                         data = ldata.data;
 
+
+
                     root.find('[name="title"]').val(name);
                     root.find('[name="url"]').val(url);
+
 
 
                     var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
                     var fields = mw.$('[name="content_id"], [name="categories_id"]', parent).val('0');
 
+
+
+
                     if (data) {
-                        if (data.type === 'page') {
-                            fields.filter('[name="content_id"]', parent).val(data.id)
-                        } else if (data.type === 'category') {
+                        var type = data.subtype || data.type;
+                        if (type === 'category') {
                             fields.filter('[name="categories_id"]').val(data.id);
+                            fields.filter('[name="content_id"]').val(0);
+                        } else if (type) {
+                            fields.filter('[name="content_id"]', parent).val(data.id)
+                            fields.filter('[name="categories_id"]', parent).val(0)
                         }
                     }
                     if (scope.nodeName === 'INPUT') {
