@@ -19,8 +19,8 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $('#is_active_quick').on('change', function () {
             $.post(mw.settings.api_url + "multilanguage/active_language", {active: $(this).is(':checked')}).done(function (data) {
-                mw.reload_module_everywhere('multilanguage');
-                mw.reload_module_everywhere('multilanguage/language_settings');
+                window.location = window.location;
+                mw.notification.success('Multilanguage is activated.',10000);
             });
         });
 

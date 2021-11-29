@@ -42,23 +42,19 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function addLanguage(Browser $browser, $locale)
     {
-        if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+        if (get_option('is_active','multilanguage_settings') != 'y') {
             $browser->visit(route('admin.multilanguage.index'));
             $browser->waitForText('Multilanguage is active');
             $browser->script('$(".module-switch-active-form .custom-control-label").click();');
-            $browser->pause(6000);
+            $browser->waitForReload();
+        } else {
+            $browser->visit(route('admin.multilanguage.index'));
         }
+
+        $browser->pause(2000);
 
         if (is_lang_supported($locale)) {
             return true;
-        }
-
-        $browser->assertTrue(MultilanguageHelpers::multilanguageIsEnabled());
-
-        $currentUrl = $browser->driver->getCurrentURL();
-
-        if ($currentUrl !== route('admin.multilanguage.index')) {
-            $browser->visit(route('admin.multilanguage.index'));
         }
 
         $browser->waitForText('Add new language');
