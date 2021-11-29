@@ -53,7 +53,7 @@ class AdminContentMultilanguage extends BaseComponent
             return true;
         }
 
-        $this->assertTrue(MultilanguageHelpers::multilanguageIsEnabled());
+        $browser->assertTrue(MultilanguageHelpers::multilanguageIsEnabled());
 
         $currentUrl = $browser->driver->getCurrentURL();
 
