@@ -180,7 +180,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
     <!-- SEO Settings -->
-    <div class="card style-1 mb-3 card-collapse">
+    <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
             <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
@@ -220,7 +220,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <small data-toggle="tooltip" title="Short description for yor content."></small>
 
                     <?php
-                    echo $formBuilder->TextArea('description')
+                    echo $formBuilder->MwEditor('description')
                         ->setModel($contentModel)
                         ->value($data['description'])
                         ->autocomplete(false);
@@ -239,7 +239,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
 
                     <?php
-                    echo $formBuilder->TextArea('content_meta_keywords')
+                    echo $formBuilder->Text('content_meta_keywords')
                         ->setModel($contentModel)
                         ->value($data['content_meta_keywords'])
                         ->autocomplete(false);

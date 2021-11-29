@@ -25,9 +25,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
-                $browser->addLanguage('Bulgarian');
-                $browser->addLanguage('English');
-                $browser->addLanguage('Arabic');
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
+                $browser->addLanguage('ar_SA');
             });
 
             $browser->visit(route('admin.post.create'));
@@ -46,9 +46,9 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
             $bgDescription = 'Bulgarian description'.time();
             $arDescription = 'Arabic description'.time();
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($bgDescription, $enDescription, $arDescription) {
-                $browser->fillDescription($bgDescription, 'bg_BG');
-                $browser->fillDescription($enDescription, 'en_US');
-                $browser->fillDescription($arDescription, 'ar_SA');
+                $browser->fillContent($bgDescription, 'bg_BG');
+                $browser->fillContent($enDescription, 'en_US');
+                $browser->fillContent($arDescription, 'ar_SA');
             });
 
             $browser->pause(1000);
@@ -92,7 +92,8 @@ class AdminMultilanguageAddPostTest extends DuskTestCase
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
+            $browser->pause(5000);
+            $browser->waitForText('Editing post');
 
             $findPost = Post::where('title', $enTitle)->first();
             $browser->waitForLocation(route('admin.post.edit', $findPost->id));
