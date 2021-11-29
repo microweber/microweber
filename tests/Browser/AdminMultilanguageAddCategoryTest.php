@@ -51,7 +51,6 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
                 foreach($categoryDataMultilanguage as $locale=>$categoryData) {
                     $browser->fillTitle($categoryData['title'], $locale);
-                    $browser->fillUrl($categoryData['url'], $locale);
                     $browser->fillDescription($categoryData['description'], $locale);
                 }
             });

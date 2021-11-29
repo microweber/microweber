@@ -57,7 +57,7 @@ class AdminCategoryMultilanguage extends BaseComponent
     public function fillDescription(Browser $browser, $content, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($content, $locale) {
-            $browser->fillMwEditor('description', $content, $locale);
+            $browser->fillTextarea('description', $content, $locale);
         });
     }
 

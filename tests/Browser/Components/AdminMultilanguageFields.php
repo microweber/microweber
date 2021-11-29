@@ -45,6 +45,17 @@ class AdminMultilanguageFields extends BaseComponent
         $browser->pause(1000);
         $browser->script("$('.js-input-group-".$key." .form-control:visible').val('".$value."')");
     }
+    public function fillTextarea(Browser $browser, $key, $value, $locale)
+    {
+        $browser->script('$(".js-ml-btn-tab-'.$key.'[lang=\''.$locale.'\']").click();');
+        $browser->pause(2000);
+
+        $randClass = 'js-rand-ml-'.time().rand(1111,9999);
+        $browser->script("$('#ml-tab-content-".$key." .tab-pane:visible textarea').addClass('$randClass')");
+        $browser->pause(2000);
+        $browser->keys('.' . $randClass, $value);
+        $browser->pause(1000);
+    }
 
     public function fillMwEditor(Browser $browser, $key, $value, $locale)
     {
