@@ -81,7 +81,13 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
             $browser->click('.js-edit-category-show-more');
             $browser->pause(300);
 
+            $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
+                foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+                    $browser->fillUrl($categoryData['url'], $locale);
+                }
+            });
 
+            
             $browser->click('@category-save');
             $browser->pause(2000);
 
