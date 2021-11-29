@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminCategoryMultilanguage;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 
 class AdminMultilanguageAddCategoryTest extends DuskTestCase
@@ -87,7 +88,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
                 }
             });
 
-            
+
             $browser->click('@category-save');
             $browser->pause(2000);
 
@@ -106,6 +107,22 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
 
             $browser->waitForText('Edit category');
             $browser->assertSee('Edit category');
+
+            $browser->visit(category_link($findCategory->id));
+
+            foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+
+                $browser->within(new FrontendSwitchLanguage, function ($browser) use($locale) {
+                    $browser->switchLanguage($locale);
+                });
+
+                $browser->pause(3000);
+                $currentUrl = $browser->driver->getCurrentURL();
+                $this->assertTrue(strpos($currentUrl, $categoryData['url']) !== false);
+
+                $browser->assertSee($categoryData['title']);
+
+            }
 
         });
 
