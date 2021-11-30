@@ -66,7 +66,7 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
 
 
             $this->assertEquals($findPage->content_type, 'page');
-            $this->assertEquals($findPage->subtype, 'page');
+            $this->assertEquals($findPage->subtype, 'static');
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findPage->id);
