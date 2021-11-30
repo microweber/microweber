@@ -491,7 +491,6 @@ if (!empty($recomended_layouts)) {
                 </h5>
                 <div></div>
             </div>
-
             <div class="card-body pt-3">
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>

@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class LiveEditTest extends DuskTestCase
@@ -22,6 +23,10 @@ class LiveEditTest extends DuskTestCase
 
             $browser->visit($siteUrl . '/?editmode=y');
             $browser->pause(4000);
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
             $browser->pause(500);

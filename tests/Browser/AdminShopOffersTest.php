@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminShopOffersTest extends DuskTestCase
@@ -25,6 +26,10 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->pause(100);
 
             $browser->visit($siteUrl.'admin/view:shop/action:options#option_group=shop/settings');
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->pause(1000);
             $browser->clickLink('Promotions');
             $browser->waitForText('Offers');

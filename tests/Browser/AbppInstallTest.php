@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AbppInstallTest extends DuskTestCase
@@ -26,6 +27,10 @@ class AbppInstallTest extends DuskTestCase
             }*/
 
             $browser->visit($siteUrl)->assertSee('install');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             // Fill the install fields
             $browser->type('admin_username', '1');
