@@ -132,7 +132,7 @@ $rand = uniqid();
                     <div class="form-group" id="mw-pic-scope">
                         <table width="100%">
                             <tr>
-                                <td width="50%">333
+                                <td width="50%">
                                     <div class="custom-control custom-checkbox" id="mw-use-post-pics-scope" >
                                         <input autocomplete="off"  type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
                                         <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>

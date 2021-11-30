@@ -220,7 +220,7 @@ var _prepare = {
         var bordercolor = document.querySelector('#border-color')
         mw.colorPicker({
             element: bordercolor,
-            position: 'bottom-right',
+            position: bordercolor.dataset.position || 'top-right',
             onchange: function (color){
 
                     $(bordercolor).trigger('colorChange', color)
@@ -349,7 +349,7 @@ var _populate = {
 
                 mw.colorPicker({
                     element: this,
-                    position: 'bottom-right',
+                    position: this.dataset.position || 'bottom-right',
                     onchange: function (color){
                          if(el.dataset.prop) {
                             output(el.dataset.prop, color);
@@ -1218,7 +1218,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
                     <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
-                    <input type="text" placeholder="#ffffff" class="colorField unit" id="border-color">
+                    <input type="text" placeholder="#ffffff" class="colorField unit" data-position="top-right" id="border-color">
                 </div>
 
             </div>

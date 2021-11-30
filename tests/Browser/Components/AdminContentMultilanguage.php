@@ -2,8 +2,10 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class AdminContentMultilanguage extends BaseComponent
 {
@@ -20,7 +22,7 @@ class AdminContentMultilanguage extends BaseComponent
     /**
      * Assert that the browser page contains the component.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
      * @return void
      */
     public function assert(Browser $browser)
@@ -38,33 +40,112 @@ class AdminContentMultilanguage extends BaseComponent
         return [];
     }
 
-    public function addLanguage(Browser $browser, $language) {
+    public function addLanguage(Browser $browser, $locale)
+    {
+        $mustAddNewLang = true;
+        $goToMultilanguagePage = true;
+        $mustActivateMultilanguage = false;
 
-        $browser->visit(route('admin.multilanguage.index'));
-        $browser->waitForText('Add new language');
-        $browser->select('.js-dropdown-text-language', $language);
-        $browser->pause(3000);
-        $browser->click('.js-add-language');
-        $browser->pause(2000);
-        $browser->waitForText($language);
+        if ($browser->driver->getCurrentURL() == route('admin.multilanguage.index')) {
+            $goToMultilanguagePage = false;
+        }
+
+        if (is_lang_supported($locale)) {
+            $mustAddNewLang = false;
+        }
+
+        if (!$browser->element('.module-multilanguage')) {
+            $mustActivateMultilanguage = true;
+        }
+
+        if ($goToMultilanguagePage) {
+            $browser->visit(route('admin.multilanguage.index'));
+        }
+
+        if ($mustActivateMultilanguage) {
+            $browser->waitForText('Multilanguage is active');
+            $browser->script('$(".module-switch-active-form .custom-control-label").click();');
+            $browser->waitForReload();
+        }
+
+        if ($mustAddNewLang) {
+            $browser->waitForText('Add new language');
+            $browser->select('.js-dropdown-text-language', $locale);
+            $browser->pause(3000);
+            $browser->click('.js-add-language');
+            $browser->pause(2000);
+            $browser->waitForText($locale);
+        }
 
     }
 
     public function fillTitle(Browser $browser, $title, $locale)
     {
-        $browser->pause(2000);
-        $browser->select('#ml-input-title-change', $locale);
-        $browser->pause(4000);
-        $browser->script("$('.js-input-group-title .form-control:visible').val('".$title."')");
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
+            $browser->fillInput('title', $title, $locale);
+        });
+    }
+
+    public function fillUrl(Browser $browser, $url, $locale)
+    {
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($url, $locale) {
+            $browser->fillInput('url', $url, $locale);
+        });
+    }
+
+    public function fillContent(Browser $browser, $content, $locale)
+    {
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($content, $locale) {
+            $browser->fillMwEditor('content', $content, $locale);
+        });
+    }
+
+    public function fillContentBody(Browser $browser, $contentBody, $locale)
+    {
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($contentBody, $locale) {
+            $browser->fillMwEditor('content_body', $contentBody, $locale);
+        });
+    }
+
+    /**
+     * SEO META
+     */
+    public function fillContentMetaTitle(Browser $browser, $title, $locale)
+    {
+        $browser->scrollTo('.js-card-search-engine');
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
+            $browser->fillInput('content_meta_title', $title, $locale);
+        });
+    }
+
+    public function fillContentMetaKeywords(Browser $browser, $keywords, $locale)
+    {
+        $browser->scrollTo('.js-card-search-engine');
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
+
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($keywords, $locale) {
+            $browser->fillInput('content_meta_keywords', $keywords, $locale);
+        });
     }
 
     public function fillDescription(Browser $browser, $description, $locale)
     {
-        $browser->script('$(".js-ml-btn-tab-content[lang=\''.$locale.'\']").click();');
-        $browser->pause(5000);
-        $browser->script("$('#ml-tab-content-content .tab-pane:visible').find('.mw-editor-area').html('$description')");
-        $browser->pause(5000);
+        $browser->scrollTo('.js-card-search-engine');
+        if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
+            $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->pause(1000);
+        }
 
+        $browser->within(new AdminMultilanguageFields, function ($browser) use ($description, $locale) {
+            $browser->fillMwEditor('description', $description, $locale);
+        });
     }
-
 }

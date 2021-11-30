@@ -10,6 +10,7 @@ use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddPostTest extends DuskTestCase
@@ -26,6 +27,10 @@ class AdminAddPostTest extends DuskTestCase
             $postDescription = 'This is the post description'.time();
 
             $browser->visit(route('admin.post.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $postTitle);

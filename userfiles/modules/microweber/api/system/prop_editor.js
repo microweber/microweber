@@ -299,7 +299,7 @@ mw.propEditor = {
             this.id = config.id;
 
         },
-        text:function(proto, config){
+        text: function(proto, config){
             var val = '';
             if(config.value){
                 if(typeof config.value === 'function'){

@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Page\Models\Page;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
 
@@ -32,4 +33,21 @@ class VisitRoutesTest extends DuskTestCase
 
         });
     }
+
+   /* public function testContentLinksAndRoutesUrls()
+    {
+
+        $newBlogPage = new Page();
+        $newBlogPage->url = 'testme-testContentLinksAndRoutesUrls-'.uniqid();
+        $newBlogPage->title = uniqid();
+        $newBlogPage->content_type = 'page';
+        $newBlogPage->subtype = 'dynamic';
+        $newBlogPage->save();
+
+        // TODO
+      $this->assertEquals($this->siteUrl,site_url());
+      $this->assertEquals($this->siteUrl.$newBlogPage->url,content_link($newBlogPage->id));
+
+
+    }*/
 }

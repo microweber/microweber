@@ -195,22 +195,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
         $this->registerUtils();
 
         $this->registerSingletonProviders();
+
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(UserServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {

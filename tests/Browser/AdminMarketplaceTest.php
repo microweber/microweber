@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminMarketplaceTest extends DuskTestCase
@@ -20,6 +21,10 @@ class AdminMarketplaceTest extends DuskTestCase
             $browser->waitForText('Marketplace');
             $browser->clickLink('Marketplace');
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->pause(3000);
 
             $browser->waitForText('Template');
@@ -27,6 +32,9 @@ class AdminMarketplaceTest extends DuskTestCase
 
             $browser->click('#js-packages-tab-module');
             $browser->pause(3000);
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->waitForText('Module');
 
@@ -45,7 +53,9 @@ class AdminMarketplaceTest extends DuskTestCase
 
             $browser->waitForText('Success. You have installed');
 
-
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
         });
     }

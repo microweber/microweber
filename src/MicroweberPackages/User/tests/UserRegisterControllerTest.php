@@ -400,12 +400,18 @@ class UserRegisterControllerTest extends TestCase
         $userData = $response->getData();
         $this->assertNotEmpty($userData->message);
         $this->assertNotEmpty($userData->errors);
- 
+
     }
 
 
 
 
+
+    public function testIfLoginRouteIsDefined(){
+        $route =  route('login');
+        $this->assertEquals(true,!empty($route));
+
+    }
 
 
 }

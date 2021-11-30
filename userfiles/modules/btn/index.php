@@ -86,25 +86,22 @@ if ($url == false and isset($params['url'])) {
     $url = '#';
 }
 
+$url_display = false;
 
 
 $link_to_content_by_id = 'content:';
 $link_to_category_by_id = 'category:';
 
+$url_to_content_id = get_module_option('url_to_content_id', $params['id']);
+$url_to_category_id = get_module_option('url_to_category_id', $params['id']);
 
-$url_display = false;
-if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
-    $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
-    if ($link_to_content_by_id) {
-        $url_display = content_link($link_to_content_by_id);
-    }
-} else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
-    $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+if ($url_to_content_id) {
+    $url_display = content_link($url_to_content_id);
+} else if ($url_to_category_id) {
+    $url_display = category_link($url_to_category_id);
 
-    if ($link_to_category_by_id) {
-        $url_display = category_link($link_to_category_by_id);
-    }
 }
+
 
 if($url_display){
     $url = $url_display;

@@ -13,6 +13,7 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminMultilanguageAddPageTest extends DuskTestCase
@@ -21,17 +22,21 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
-            $browser->within(new AdminLogin, function ($browser) {
+          $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
-                $browser->addLanguage('Bulgarian');
-                $browser->addLanguage('English');
-                $browser->addLanguage('Arabic');
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
+                $browser->addLanguage('ar_SA');
             });
 
             $browser->visit(route('admin.page.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $enTitle = 'English title'.time();
             $bgTitle = 'Bulgarian title'.time();
@@ -58,15 +63,15 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
-            return;
+            $browser->pause(5000);
+            $browser->waitForText('Editing page');
 
             $findPage = Page::where('title', $enTitle)->first();
+            $browser->waitForLocation(route('admin.page.edit', $findPage->id));
 
-            dd($findPage);
 
-            $this->assertEquals($findPage->content_type, 'post');
-            $this->assertEquals($findPage->subtype, 'post');
+            $this->assertEquals($findPage->content_type, 'page');
+            $this->assertEquals($findPage->subtype, 'static');
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findPage->id);
@@ -76,13 +81,8 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
             $this->assertTrue(in_array('Dropdown',$findedCustomFields));
             $this->assertTrue(in_array('Text Field',$findedCustomFields));
 
-            $description = content_description($findPage->id);
-            $this->assertEquals($description, $enDescription);
-
             $getPictures = get_pictures($findPage->id);
             $this->assertEquals(3, count($getPictures));
-
-            $browser->waitForLocation(route('admin.page.edit', $findPage->id));
 
         });
 

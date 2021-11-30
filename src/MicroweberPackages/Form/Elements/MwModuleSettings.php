@@ -36,7 +36,7 @@ $(window).on(\'load\', function () {
 
     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
         element: \'#settings-box'.$mwModuleSettingsId.'\',
-        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>\',
+        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
         data: data'.$mwModuleSettingsId.',
         key: \'settings\',
         group: \'id\',

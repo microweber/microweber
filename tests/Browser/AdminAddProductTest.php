@@ -9,6 +9,7 @@ use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddProductTest extends DuskTestCase
@@ -31,6 +32,10 @@ class AdminAddProductTest extends DuskTestCase
             $productQuantity = rand(11,99);
 
             $browser->visit(route('admin.product.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $productTitle);

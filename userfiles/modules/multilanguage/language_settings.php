@@ -19,8 +19,8 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $('#is_active_quick').on('change', function () {
             $.post(mw.settings.api_url + "multilanguage/active_language", {active: $(this).is(':checked')}).done(function (data) {
-                mw.reload_module_everywhere('multilanguage');
-                mw.reload_module_everywhere('multilanguage/language_settings');
+                window.location = window.location;
+                mw.notification.success('Multilanguage is activated.',10000);
             });
         });
 
@@ -218,9 +218,31 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                         </option>
 
                         <?php foreach ($languages as $languageName => $languageDetails): ?>
-                            <option data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
+                            <option value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
                                 <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?>
                             </option>
+
+
+                            <?php if(isset($languageDetails['locales']) and !empty($languageDetails['locales']) and count($languageDetails['locales']) > 1 ): ?>
+
+                                <?php
+
+                                if(is_array($languageDetails['locales'])){
+                                    foreach ($languageDetails['locales'] as $languageName2 => $locale2){
+                                        ?>
+                                        <option value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
+                                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $locale2; ?>  (<?php echo $languageName2; ?>)
+                                        </option>
+                                        <?php
+                                    }
+                                }
+
+
+                                ?>
+                            <?php endif; ?>
+
+
+
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>

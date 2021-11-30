@@ -278,10 +278,10 @@ var wroot = window.opener || mw.top().win;
                 if (id) {
                     id = '#' + id;
                 } else {
-                    var id = $(this).attr('data-type');
+                    id = $(this).attr('data-type');
                 }
                 if (!id) {
-                    var id = $(this).attr('type');
+                    id = $(this).attr('type');
                 }
                 modules_ids[id] = true;
             });

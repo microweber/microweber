@@ -45,6 +45,13 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 
 })->name('api.users.export_my_data');
 
+// Admin web
+Route::prefix(ADMIN_PREFIX)->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+    Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
+});
+
+
+
 // OLD API SAVE USER
 Route::post('api/save_user', function (Request $request) {
     if (!defined('MW_API_CALL')) {
