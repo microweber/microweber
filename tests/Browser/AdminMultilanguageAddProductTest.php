@@ -20,7 +20,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
-            $quickTest = true;
+            $quickTest = false;
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
