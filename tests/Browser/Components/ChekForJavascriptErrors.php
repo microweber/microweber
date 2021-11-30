@@ -54,7 +54,7 @@ class ChekForJavascriptErrors extends BaseComponent
                 }
             }
         }
-        
+
         PHPUnit::assertEmpty($findedErrors);
     }
 }
