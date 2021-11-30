@@ -45,7 +45,8 @@ class AdminContentCustomFieldAdd extends BaseComponent
         $browser->pause(1000);
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#custom-fields-settings'))->isDisplayed()) {
-            $browser->click('.js-show-custom-fields');
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-show-custom-fields').offset().top -80 }, 0);");
+            $browser->script("$('.js-show-custom-fields').click()");
             $browser->pause(3000);
         }
 
