@@ -29,7 +29,14 @@ class ContactFormTest extends DuskTestCase
 
             $uniqueId = time();
 
-            $browser->visit($siteUrl . 'contact-us');
+            $browser->visit($siteUrl);
+
+            $browser->waitForText('Contact Us');
+            $browser->clickLink('Contact Us');
+
+            $browser->waitForText('Contact Us');
+
+
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
