@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Order\Models\Order;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class CheckoutCartTest extends DuskTestCase
@@ -19,8 +20,11 @@ class CheckoutCartTest extends DuskTestCase
             $uniqueId = time();
 
             $browser->visit($siteUrl . 'shop');
-
             $browser->waitForText('Shop');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->script('$(".name-of-product-shop").first().click()');
             $browser->pause(5000);

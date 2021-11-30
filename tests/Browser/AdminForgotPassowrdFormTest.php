@@ -10,6 +10,7 @@ use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\UserManager;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
@@ -131,8 +132,16 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->visit($siteUrl . 'admin/login');
             $browser->pause('2000');
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->type('email', 'bobi@microweber.com');
             $browser->click('@reset-password-button');

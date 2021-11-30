@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminCategoryMultilanguage;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 
@@ -48,6 +49,11 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
             }
 
             $browser->visit(route('admin.category.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->pause(400);
             $browser->waitForText('Add category');
 

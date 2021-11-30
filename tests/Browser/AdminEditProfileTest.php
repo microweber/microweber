@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminEditProfileTest extends DuskTestCase
@@ -22,9 +23,17 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->pause(2000);
             $browser->waitForText('Edit profile');
             $browser->clickLink('Edit profile');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->pause(3000);
             $browser->waitForText('First Name');

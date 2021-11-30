@@ -13,6 +13,7 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminMultilanguageAddPageTest extends DuskTestCase
@@ -32,6 +33,10 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
             });
 
             $browser->visit(route('admin.page.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $enTitle = 'English title'.time();
             $bgTitle = 'Bulgarian title'.time();

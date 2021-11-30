@@ -8,6 +8,7 @@ use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddCategoryTest extends DuskTestCase
@@ -25,6 +26,10 @@ class AdminAddCategoryTest extends DuskTestCase
             $categoryDescription = 'This is the category description'.time();
 
             $browser->visit(route('admin.category.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->type('#content-title-field', $categoryTitle);
 

@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddPageTest extends DuskTestCase
@@ -26,6 +27,10 @@ class AdminAddPageTest extends DuskTestCase
             $pageTitle = 'This is the page title'.time();
 
             $browser->visit(route('admin.page.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->pause(3000);
             $browser->value('#slug-field-holder input', $pageTitle);

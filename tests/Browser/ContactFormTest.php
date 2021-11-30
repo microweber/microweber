@@ -6,6 +6,7 @@ use Laravel\Dusk\Browser;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class ContactFormTest extends DuskTestCase
@@ -29,6 +30,10 @@ class ContactFormTest extends DuskTestCase
             $uniqueId = time();
 
             $browser->visit($siteUrl . 'contact-us');
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->pause('2000');
             $browser->scrollTo('#contactform');
             $browser->pause('3000');

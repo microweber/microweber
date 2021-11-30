@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 
@@ -52,6 +53,10 @@ class AdminMultilanguageAddProductTest extends DuskTestCase
             }
 
             $browser->visit(route('admin.product.create'));
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
                 foreach($productDataMultilanguage as $locale=>$productData) {
