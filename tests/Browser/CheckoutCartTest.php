@@ -19,7 +19,11 @@ class CheckoutCartTest extends DuskTestCase
 
             $uniqueId = time();
 
-            $browser->visit($siteUrl . 'shop');
+            $browser->visit($siteUrl);
+
+            $browser->waitForText('Shop');
+            $browser->clickLink('Shop');
+
             $browser->waitForText('Shop');
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
