@@ -58,7 +58,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
    addEventListener('load', function (){
        var settings = new mw.moduleSettings({
            element: '#teamcard-settings',
-           header: '<i class="mw-icon-drag"></i><span data-bind="name"></span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+           header: '<i class="mw-icon-drag"></i><span data-bind="name"></span> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
            data: data,
            key: 'settings',
            group: '<?php print $params['id']; ?>',

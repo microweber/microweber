@@ -502,7 +502,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
    $(document).ready(function (){
 
-       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+       var dla = $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+
+       var la = $('.modules-list.list-elements [data-module-name="layouts"]');
+
+       if(!la.length) {
+           dla.show()
+       }
 
    })
 

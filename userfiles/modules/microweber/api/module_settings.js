@@ -60,9 +60,13 @@ mw.moduleSettings = function(options){
         mw.$("[data-action='remove']", header).on('click', function(e){
             e.stopPropagation();
             e.preventDefault();
-            $(mw.tools.firstParentOrCurrentWithAnyOfClasses(this, ['mw-module-settings-box'])).remove();
-            scope.refactorDomPosition();
-            scope.autoSave();
+            var el = this;
+            mw.confirm(function () {
+                $(mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-module-settings-box'])).remove();
+                scope.refactorDomPosition();
+                scope.autoSave();
+            })
+
         });
     };
     this.createItemHolder = function(i){

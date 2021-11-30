@@ -35,7 +35,7 @@ include('skins_variables.php');
 
         this.bxSettings = new mw.moduleSettings({
             element: '#settings-box',
-            header: '<i class="mw-icon-drag"></i> <?php _e('Slide {count}'); ?> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+            header: '<i class="mw-icon-drag"></i> <?php _e('Slide {count}'); ?> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
             data: data,
             key: 'settings',
             group: '<?php print $params['id']; ?>',

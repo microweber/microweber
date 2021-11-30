@@ -509,3 +509,13 @@ div.form-control {
     align-items: center;
     justify-content: center;
 }
+
+.mw-ui-box.mw-module-settings-box .mw-ui-box-header [data-action="remove"]:hover{
+    color: #c50000;
+}
+.mw-ui-box.mw-module-settings-box .mw-ui-box-header [data-action="remove"]{
+    font-size: 19px;
+    color: #797979;
+    line-height: 20px;
+    cursor: pointer;
+}

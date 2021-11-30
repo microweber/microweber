@@ -832,11 +832,7 @@ body.mw-external-loading:after {
     margin-left: -1px;
 }
 
-.mw-multiple-fields > .mw-field input:hover,
-.mw-multiple-fields > .mw-field input:focus {
-    z-index: 1;
-    position: relative;
-}
+
 
 .mw-filepicker-component-section .form-group{
     position: relative;
