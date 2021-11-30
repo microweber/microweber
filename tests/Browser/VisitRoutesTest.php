@@ -34,7 +34,7 @@ class VisitRoutesTest extends DuskTestCase
         });
     }
 
-    public function testContentLinksAndRoutesUrls()
+   /* public function testContentLinksAndRoutesUrls()
     {
 
         $newBlogPage = new Page();
@@ -45,9 +45,9 @@ class VisitRoutesTest extends DuskTestCase
         $newBlogPage->save();
 
         // TODO
-     //   $this->assertEquals($this->siteUrl,site_url());
-       // $this->assertEquals($this->siteUrl.$newBlogPage->url,content_link($newBlogPage->id));
+      $this->assertEquals($this->siteUrl,site_url());
+      $this->assertEquals($this->siteUrl.$newBlogPage->url,content_link($newBlogPage->id));
 
 
-    }
+    }*/
 }
