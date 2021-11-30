@@ -65,8 +65,8 @@ class AdminMultilanguageAddPageTest extends DuskTestCase
             $browser->waitForLocation(route('admin.page.edit', $findPage->id));
 
 
-            $this->assertEquals($findPage->content_type, 'post');
-            $this->assertEquals($findPage->subtype, 'post');
+            $this->assertEquals($findPage->content_type, 'page');
+            $this->assertEquals($findPage->subtype, 'page');
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findPage->id);
