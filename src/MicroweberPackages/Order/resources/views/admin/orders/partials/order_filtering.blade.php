@@ -17,8 +17,10 @@
 
             <a href="{{route('admin.order.index')}}"
                class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
-            <a href="{{route('admin.order.abandoned')}}"
+
+         {{--   <a href="{{route('admin.order.abandoned')}}"
                class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
+       --}}
         </div>
 
     </div>
