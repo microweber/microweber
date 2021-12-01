@@ -35,7 +35,7 @@
                             <div class="input-group-prepend bg-white">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                             </div>
-                            <input type="search" name="search" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">
+                            <input type="search" value="{{$keyword}}" name="keyword" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-outline-primary ml-2"><?php _e("Search"); ?></button>
