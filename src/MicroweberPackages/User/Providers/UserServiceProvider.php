@@ -28,16 +28,18 @@ class UserServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
-
-
          parent::register();
     }
 
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
+        View::addNamespace('user', __DIR__ . '/../resources/views');
+
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
          */
@@ -57,22 +59,12 @@ class UserServiceProvider extends AuthServiceProvider
             file_put_contents($privateKey, \Arr::get($keys, 'privatekey'));
         }
 
-
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
-
-
-
 
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();
         });
-
-
-        View::addNamespace('user', __DIR__ . '/../resources/views');
-
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-
 
         // Register Validators
         Validator::extendImplicit(

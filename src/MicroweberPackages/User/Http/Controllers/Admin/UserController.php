@@ -50,12 +50,11 @@ class UserController extends AdminController
 
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 
-        return $this->view('order::admin.orders.index', [
+        return $this->view('user::admin.users.index', [
             'keyword'=>$keyword,
             'orderBy'=>$orderBy,
             'exportUrl'=>$exportUrl,
             'orderDirection'=>$orderDirection,
-            'keyword'=>$keyword,
             'users'=>$users
         ]);
     }
@@ -65,7 +64,7 @@ class UserController extends AdminController
         $user = User::where('id',$id)->first();
 
         if ($user == false) {
-            return redirect(route('admin.users.index'));
+            return redirect(route('admin.user.index'));
         }
 
         return $this->view('user::admin.users.show', [

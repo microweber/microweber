@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 // Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
 
+Route::name('admin.')
+    ->prefix('admin')
+    ->middleware(['admin'])
+    ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
+    ->group(function () {
+        Route::resource('user', 'UserController');
+    });
+
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
