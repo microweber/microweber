@@ -144,9 +144,8 @@ description: Bootstrap comments template
                             </div>
                         </div>
                     <?php else: ?>
-                        <div class="comments-user-profile" style="margin-bottom: 5px;">
+                        <div class="comments-user-profile mb-3" style="margin-bottom: 5px;">
                             <?php _e("You are commenting as"); ?>:
-                            <br>
                             <?php if (isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail']) != ''): ?>
                                 <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<?php print $cur_user_data['thumbnail'] ?>" height="24" width="24"/> </span>
                             <?php endif; ?>
