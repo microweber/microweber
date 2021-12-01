@@ -285,7 +285,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="logo-module-types">
                         <div class="form-group">
-                            <label class="control-label mb-3"><?php _e("Choose Logo type"); ?></label>
+                            <label class="control-label my-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">

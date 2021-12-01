@@ -14,7 +14,7 @@ class UserController extends AdminController
     public function index(Request $request)
     {
         $orderBy = $request->get('orderBy', 'id');
-        $orderDirection = $request->get('direction', 'desc');
+        $orderDirection = $request->get('orderDirection', 'desc');
         $exportResults = $request->get('exportResults', false);
 
         $keyword = $request->get('keyword', '');
