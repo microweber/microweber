@@ -254,6 +254,11 @@ class Ui
         return $this->custom_fields;
     }
 
+    public function enable_service_links()
+    {
+        return $this->enable_service_links;
+    }
+
     public function powered_by_link()
     {
         if ($this->disable_powered_by_link != false) {

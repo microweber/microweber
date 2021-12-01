@@ -54,8 +54,8 @@
 
             <?php
             $showThirdMenu = true;
-          
-            $showThirdMenu = intval(mw()->ui->enable_service_links);
+
+            $showThirdMenu = mw()->ui->enable_service_links();
 
             ?>
 
