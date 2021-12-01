@@ -3902,6 +3902,7 @@ MWEditor.api = function (scope) {
                     if (sel.rangeCount > 0) {
                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node), function () {
+                            console.log(method, options)
                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
@@ -3935,7 +3936,8 @@ MWEditor.api = function (scope) {
         },
         _fontSize: function (size, unit) {
             unit = unit || 'px';
-            scope.api.domCommand('cssApplier', 'font-size:' +  size + unit + ';');
+
+            scope.api.domCommand('cssApplier', 'fontSize:' +  size + unit + ';');
         },
         lineHeight: function (size) {
 
@@ -4172,6 +4174,64 @@ MWEditor.core = {
         });
         option.value = data.value;
         return option;
+    },
+    number: function (options) {
+        this.root = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component mw-editor-controller-component-number',
+                tooltip: options.placeholder || null
+            }
+        });
+        var scope = this;
+
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+
+        var valueNode = MWEditor.core.element({
+            tag: 'input',
+            props: {
+                type: 'number',
+                className: 'mw-editor-controller-component-number-value',
+                min: options.min || 1,
+                max: options.max || 1000,
+
+            }
+        });
+        valueNode.on('input', function (){
+            scope.dispatch('change', scope.value())
+        })
+        this.value = function (val) {
+            if(typeof val === 'undefined' || val === null) {
+                return valueNode.get(0).value;
+            }
+            valueNode.get(0).value = val;
+        }
+        var minus = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component-number-minus',
+
+            }
+        }).on('click', function (){
+            valueNode.get(0).value = parseFloat(valueNode.get(0).value) - 1
+            scope.dispatch('change', scope.value())
+        });
+        var plus = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component-number-plus',
+
+            }
+        }).on('click', function (){
+
+            valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1
+            scope.dispatch('change', scope.value())
+        });
+        this.root.append(minus)
+        this.root.append(valueNode)
+        this.root.append(plus)
     },
     dropdown: function (options) {
         var lscope = this;
@@ -4559,6 +4619,14 @@ MWEditor.controllers = {
             opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
+            var ctrl = new MWEditor.core.number({});
+            ctrl.on('change', function (val) {
+
+                api.fontSize(val);
+            })
+            return ctrl.root;
+        }
+        this.render2 = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: '8px', value: 8 },
@@ -4583,6 +4651,7 @@ MWEditor.controllers = {
                     api.fontSize(val.value);
                 }
             });
+
             return dropdown.root;
         };
         this.element = this.render();

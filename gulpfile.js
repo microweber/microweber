@@ -1,7 +1,8 @@
 const fs = require('fs');
 
 const css = `${__dirname}/../../css`;
-const ui = `${css}/ui/assets/ui.less`;
+const ui = `userfiles/modules/microweber/css/ui/assets/ui.less`;
+const uiDist = `userfiles/modules/microweber/css`;
 
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
@@ -74,12 +75,12 @@ const bootstrapUI = [
     'node_modules/aos/dist/aos.css',
 ];
 
-gulp.task('Microweber CSS UI', function () {
+gulp.task('mwui', function () {
     return gulp.src(ui)
         .pipe(sourcemaps.init())
         .pipe(less(lessConfig))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(`${css}`));
+        .pipe(gulp.dest(`${uiDist}`));
 });
 
 gulp.task('Microweber Bootstrap UI', function () {
@@ -101,7 +102,7 @@ gulp.task('Microweber Bootstrap UI', function () {
     });
 
 
-    const all = ['Microweber CSS UI', 'Microweber Bootstrap UI'];
+    const all = ['mwui', 'Microweber Bootstrap UI'];
 
     gulp.task('default', gulp.series(...all), function() {
 

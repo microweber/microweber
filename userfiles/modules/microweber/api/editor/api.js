@@ -581,7 +581,7 @@ MWEditor.api = function (scope) {
                     if (sel.rangeCount > 0) {
                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(DomService.firstBlockLevel(node), function () {
-                            scope.api[method].call(scope.api, options);
+                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                             scope.registerChange();
@@ -614,6 +614,7 @@ MWEditor.api = function (scope) {
         },
         _fontSize: function (size, unit) {
             unit = unit || 'px';
+
             scope.api.domCommand('cssApplier', 'font-size:' +  size + unit + ';');
         },
         lineHeight: function (size) {

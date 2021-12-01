@@ -259,6 +259,14 @@ MWEditor.controllers = {
             opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
+            var ctrl = new MWEditor.core.number({});
+            ctrl.on('change', function (val) {
+
+                api.fontSize(val);
+            })
+            return ctrl.root;
+        }
+        this.render2 = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: '8px', value: 8 },
@@ -283,6 +291,7 @@ MWEditor.controllers = {
                     api.fontSize(val.value);
                 }
             });
+
             return dropdown.root;
         };
         this.element = this.render();

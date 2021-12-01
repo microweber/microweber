@@ -7755,9 +7755,13 @@ mw.moduleSettings = function(options){
         mw.$("[data-action='remove']", header).on('click', function(e){
             e.stopPropagation();
             e.preventDefault();
-            $(mw.tools.firstParentOrCurrentWithAnyOfClasses(this, ['mw-module-settings-box'])).remove();
-            scope.refactorDomPosition();
-            scope.autoSave();
+            var el = this;
+            mw.confirm(function () {
+                $(mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-module-settings-box'])).remove();
+                scope.refactorDomPosition();
+                scope.autoSave();
+            })
+
         });
     };
     this.createItemHolder = function(i){
@@ -8269,7 +8273,7 @@ mw.propEditor = {
             this.id = config.id;
 
         },
-        text:function(proto, config){
+        text: function(proto, config){
             var val = '';
             if(config.value){
                 if(typeof config.value === 'function'){
@@ -16516,6 +16520,9 @@ mw.autoComplete = function(options){
 
     this.rendResults = function(){
         mw.$(this.listHolder).empty().show();
+        if(typeof this.results === 'string' || !this.results || typeof this.results.length === 'undefined') {
+            console.warn('results object must be array')
+        }
         $.each(this.results, function(){
             scope.listHolder.appendChild(scope.createListItem(this));
         });
@@ -16582,7 +16589,7 @@ mw.autoComplete = function(options){
             else{
                scope.data = data;
             }
-            scope.results = scope.data;
+            scope.results = scope.data || [];
             scope.rendResults();
         })
         .always(function(){
@@ -18262,7 +18269,8 @@ mw.require('widgets.css');
                 nav.forEach(function (ctrl, index){
                     scope.nav.appendChild(createA(ctrl, index));
                 });
-                this.nav.children[0].click();
+                this.settings.selectedIndex = this.settings.selectedIndex || 0
+                this.nav.children[this.settings.selectedIndex].click();
                 this.root.prepend(this.nav);
 
                 if(dropdown.length) {
