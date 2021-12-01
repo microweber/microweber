@@ -141,6 +141,69 @@
             </div>
 
         </form>
+        <style>
+            .mw-admin-users-manage-table td,
+            .mw-admin-users-manage-table td *{
+                vertical-align: middle;
+            }
+        </style>
+
+        <div class="table-responsive bg-white mw-admin-users-manage-table">
+            <table class="table table-hover m-0" cellspacing="0" cellpadding="0">
+                <tbody>
+
+                @foreach($users as $user)
+
+                <tr id="mw-admin-user-{{$user->id}}">
+                    <td>
+                        <div class="img-circle-holder img-absolute w-60">
+                            <img src="{{$user->avatar}}">
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="text-outline-primary font-weight-bold">
+                            {{$user->first_name}} {{$user->last_name}}
+                            @if($user->is_admin)
+                                <br><small class="text-dark"><?php _e('Admin');?></small>
+                                @else
+                                <br><small class="text-dark"><?php _e('User');?></small>
+                            @endif
+                        </div>
+                    </td>
+
+                    <td>
+                        <small class="text-muted d-block"><?php _e('Username');?></small>
+                        {{$user->username}}
+                    </td>
+
+                    <td>
+                        <small class="text-muted d-block"><?php _e('Phone');?></small>
+                        {{$user->phone}}
+                    </td>
+
+                    <td>
+                        <small class="text-muted d-block"><?php _e('Email');?></small>
+                        {{$user->email}}
+                    </td>
+
+                    <td>
+                        <span class="mw-icon-check mw-registered" style="float: none"></span>
+                    </td>
+
+                    <td>
+
+                        <a class="btn btn-outline-primary btn-sm"
+                           href="{{admin_url()}}view:modules/load_module:users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
+                    </td>
+                </tr>
+
+
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+
 
         <div class="d-flex">
             <div class="mx-auto">

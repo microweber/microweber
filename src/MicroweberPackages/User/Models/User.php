@@ -232,11 +232,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getAvatarAttribute()
     {
-        $avatar = $this->getMedia('admin_avatar')->first();
-        if ($avatar) {
-            return asset($avatar->getUrl());
-        }
-        return;
+        return user_picture($this->id);
     }
 
     public function getValidatorMessages()
