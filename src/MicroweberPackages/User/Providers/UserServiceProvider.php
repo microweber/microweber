@@ -38,7 +38,7 @@ class UserServiceProvider extends AuthServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
-        View::addNamespace('user', __DIR__ . '/../resources/views');
+        View::addNamespace('user', dirname(__DIR__) . '/resources/views');
 
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
