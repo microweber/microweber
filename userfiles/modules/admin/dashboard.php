@@ -54,9 +54,9 @@
 
             <?php
             $showThirdMenu = true;
-            if (have_license('modules/white_label')) {
-                $showThirdMenu = mw()->ui->enable_service_links;
-            }
+          
+            $showThirdMenu = intval(mw()->ui->enable_service_links);
+
             ?>
 
             <?php if ($showThirdMenu): ?>
