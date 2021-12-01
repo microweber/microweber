@@ -170,7 +170,7 @@ description: Bootstrap comments template
                         <?php } ?>
                         <?php event_trigger('module.comments.form.end', $data); ?>
                         <div class="col-xs-12 col-md-4">
-                            <button type="submit" class="mw-template-btn btn-default btn continue-shop-button pull-right"><?php _e("Add comment"); ?></button>
+                            <button type="submit" class="mw-template-btn btn-primary btn continue-shop-button pull-right mt-3"><?php _e("Add comment"); ?></button>
                         </div>
                     </div>
                 </form>
