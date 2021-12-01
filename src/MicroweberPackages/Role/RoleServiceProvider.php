@@ -26,9 +26,9 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::addNamespace('role', __DIR__.'/resources/views');
+       /* View::addNamespace('role', __DIR__.'/resources/views');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');*/
     }
 }
