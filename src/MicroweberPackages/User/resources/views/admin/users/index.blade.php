@@ -65,11 +65,13 @@
                     });
                 </script>
 
-                <div class="collapse @if(isset($_GET['show_filter'])) show @endif" id="show-filter">
+                <div class="collapse @if(isset($_GET['showFilter'])) show @endif" id="show-filter">
                     <div class="bg-primary-opacity-1 rounded px-3 py-2 mb-4">
                         <div class="row d-flex">
                             <div class="col-auto">
                                 <div class="row d-flex justify-content-between">
+
+
                                     <div class="col-md-4">
                                         <div>
                                             <label class="d-block mb-2"><?php _e("Role"); ?></label>
@@ -81,51 +83,31 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div>
-                                            <label class="d-block mb-2"><?php _e('Status'); ?></label>
-                                            <select class="selectpicker" data-style="btn-md">
-                                                <option value="-1"><?php _e("All users"); ?></option>
-                                                <option value="1"><?php _e("Active users"); ?></option>
-                                                <option value="0"><?php _e("Disabled users"); ?></option>
+                                            <label class="d-block mb-2"><?php _e("Sort By"); ?></label>
+                                            <select class="form-control" onchange="location = this.value;">
+
+                                                <option disabled="disabled"><?php _e("Select sorting"); ?></option>
+
+                                                <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
+                                                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
+                                                <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
+                                                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
+
+
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label class="d-block mb-2"><?php _e('Sort by'); ?></label>
 
-                                            <div class="form-group mb-0">
-                                                <div class="custom-control custom-radio d-inline-block mr-2">
-                                                    <input type="radio" id="sortby1" name="sortby"
-                                                           class="custom-control-input mw_users_filter_show"
-                                                           value="created_at desc" checked="checked">
-                                                    <label class="custom-control-label"
-                                                           for="sortby1"><?php _e("Date created"); ?></label>
-                                                </div>
-                                                <div class="custom-control custom-radio d-inline-block mr-2">
-                                                    <input type="radio" id="sortby2" name="sortby"
-                                                           class="custom-control-input mw_users_filter_show"
-                                                           value="last_login desc">
-                                                    <label class="custom-control-label"
-                                                           for="sortby2"><?php _e("Last login"); ?></label>
-                                                </div>
-                                                <div class="custom-control custom-radio d-inline-block">
-                                                    <input type="radio" id="sortby3" name="sortby"
-                                                           class="custom-control-input mw_users_filter_show"
-                                                           value="username asc">
-                                                    <label class="custom-control-label"
-                                                           for="sortby3"><?php _e("Username"); ?></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col d-flex align-items-center justify-content-center">
+
+
                                 <div class="text-center">
-                                    <button class="btn btn-outline-primary btn-sm" name="show_filter" value="1" type="submit">
+                                    <button class="btn btn-outline-primary btn-sm" name="showFilter" value="1" type="submit">
                                         Submit filters
                                     </button>
                                 </div> &nbsp;&nbsp;
@@ -209,6 +191,19 @@
             <div class="mx-auto">
                 <?php echo $users->links("pagination::bootstrap-4"); ?>
             </div>
+        </div>
+
+        <div class="text-right mt-3">
+            @if ($users->count() > 0)
+                <a href="{{$exportUrl}}" class="btn btn-outline-success btn-sm">
+                    <i class="mdi mdi-download"></i>
+                    @if(isset($_GET['showFilter']))
+                        <?php _e("Export"); ?> {{$users->count()}} @if($users->count()==1) <?php _e("user"); ?> @else <?php _e("users"); ?> @endif
+                    @else
+                        <?php _e("Export all"); ?>
+                    @endif
+                </a>
+            @endif
         </div>
 
     </div>
