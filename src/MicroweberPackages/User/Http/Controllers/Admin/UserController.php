@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Order\Http\Controllers\Admin;
+namespace MicroweberPackages\User\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
