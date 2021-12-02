@@ -111,12 +111,6 @@ class Paypal extends PaymentGateway {
 
 }
 
-$url1 = parse_url($place_order['url']);
-if (isset($url1["query"]) and $url1["query"] != '') {
-    $qsign = '&';
-} else {
-    $qsign = '?';
-}
 
 // Create an instance of the paypal library
 $myPaypal = new Paypal();
@@ -196,7 +190,7 @@ $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 if($paypal_is_test  == true){
     $myPaypal -> enableTestMode();
 }
-// Let's start the train! 
+// Let's start the train!
 $place_order['order_completed'] = 1;
 $place_order['is_paid'] = 0;
 $place_order['success'] = $myPaypal -> submitPayment();
