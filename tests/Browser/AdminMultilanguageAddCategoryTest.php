@@ -13,9 +13,9 @@ use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
-use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class AdminMultilanguageAddCategoryTest extends DuskTestCase
+class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 {
 
     public function testAddCategory()
