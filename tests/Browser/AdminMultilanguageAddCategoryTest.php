@@ -98,15 +98,15 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCase
 
 
             $browser->click('@category-save');
-            $browser->pause(2000);
+            $browser->pause(3500);
 
             $findCategory = Category::where('title', $categoryDataMultilanguage['en_US']['title'])->first();
 
             $this->assertEquals($categoryDataMultilanguage['en_US']['description'], $findCategory->description);
 
-            foreach($categoryDataMultilanguage as $locale=>$categoryData) {
-                foreach($categoryData as $dataKey=>$dataValue) {
-                    $this->assertEquals($dataValue, $findCategory->multilanguage[$locale][$dataKey]);
+            foreach($categoryDataMultilanguage as $locale=>$fields) {
+                foreach($fields as $fieldKey=>$fieldValue) {
+                    $this->assertEquals($fieldValue, $findCategory->multilanguage[$locale][$fieldKey]);
                 }
             }
 
