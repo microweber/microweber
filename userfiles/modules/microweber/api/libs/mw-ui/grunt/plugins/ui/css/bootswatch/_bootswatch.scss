@@ -327,10 +327,15 @@ input,
     color: $secondary!important;
 
 }
-.btn-outline-secondary:hover {
+.btn-outline-secondary:hover, .btn.btn-outline-secondary.active
+{
     background-color: $transparent!important;
     color: $primary!important;
     border-color: $primary!important;
+
+    .mdi {
+        color: $primary!important;
+    }
 }
 
 a.active i {
