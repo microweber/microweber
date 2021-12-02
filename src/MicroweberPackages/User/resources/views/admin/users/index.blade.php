@@ -62,10 +62,13 @@
                                 $(this).find('i').removeClass('mdi-close-thick').addClass('mdi-filter-outline');
                             }
                         });
+                        @if(isset($_GET['showFilter']))
+                        $('.js-show-filter').click();
+                        @endif
                     });
                 </script>
 
-                <div class="collapse @if(isset($_GET['showFilter'])) show @endif" id="show-filter">
+                <div class="collapse" id="show-filter">
                     <div class="bg-primary-opacity-1 rounded px-3 py-2 mb-4">
                         <div class="row d-flex">
                             <div class="col-auto">
@@ -79,14 +82,11 @@
 
                                                 <option disabled="disabled"><?php _e("Select role"); ?></option>
 
-                                                <option <?php if($isAdmin == '-1'): ?>selected="selected"
-                                                        <?php endif;?> value="-1"><?php _e("All"); ?></option>
+                                                <option <?php if($isAdmin == '-1'): ?>selected="selected" <?php endif;?> value=""><?php _e("All"); ?></option>
 
-                                                <option <?php if($isAdmin == '0'): ?>selected="selected"
-                                                        <?php endif;?> value="0"><?php _e("User"); ?></option>
+                                                <option <?php if($isAdmin == '0'): ?>selected="selected" <?php endif;?> value="0"><?php _e("User"); ?></option>
 
-                                                <option <?php if($isAdmin == '1'): ?>selected="selected"
-                                                        <?php endif;?> value="1"><?php _e("Admin"); ?></option>
+                                                <option <?php if($isAdmin == '1'): ?>selected="selected" <?php endif;?> value="1"><?php _e("Admin"); ?></option>
 
                                             </select>
                                         </div>
