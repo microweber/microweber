@@ -41,8 +41,6 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Remove app folder
-      run: rm -rf app
     - name: Install Chrome Driver
       run: php artisan dusk:install
     - name: Dusk updater install
