@@ -60,12 +60,12 @@ $total = cart_total();
                                </div>
 
                                <div class="col-12 d-flex align-items-center px-0">
-                                 <div class="col-xl-8">
+                                 <div class="col-md-8">
                                      <h6><?php print currency_format($item['price']); ?></h6>
                                  </div>
 
-                                <div class="col-xl-4 mw-qty-field">
-                                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)"/>
+                                <div class="col-xl-3 col-lg-4 mw-qty-field">
+                                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="background-color: #f5f5f5; border-color: #000000;"/>
                                 </div>
                                </div>
                            </div>
