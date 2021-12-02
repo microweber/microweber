@@ -308,6 +308,10 @@
     }
 }
 
+.btn.btn-outline-secondary.active {
+    background-color: $primary!important;
+}
+
 
 #mw-css-editor-sidebar-iframe-holder {
     .mw-accordion-title.mw-ui-box-header {
@@ -320,7 +324,7 @@
 }
 
 .mw-ui-box-header, .card-header, .mw-ui-box-header {
-    background-color: $black!important;
+    background-color: $black;
 }
 
 .mw-ui-box-header {

@@ -743,7 +743,6 @@ class UpdateManager
           //  scan_for_modules(['no_cache'=>true]);
          //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
             scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
-
             scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 
             mw()->layouts_manager->scan();

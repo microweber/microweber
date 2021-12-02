@@ -14,8 +14,9 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class AdminMultilanguageAddProductTest extends DuskTestCase
+class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 {
     public function testAddProduct()
     {

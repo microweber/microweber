@@ -12,6 +12,10 @@ class AdminMarketplaceTest extends DuskTestCase
 {
     public function testModuleInstall()
     {
+        rmdir_recursive(userfiles_path() . 'modules/browser_redirect',false);
+
+        app()->update->post_update();
+
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {

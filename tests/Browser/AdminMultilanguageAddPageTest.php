@@ -15,8 +15,9 @@ use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class AdminMultilanguageAddPageTest extends DuskTestCase
+class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
     public function testAddPost()
     {
