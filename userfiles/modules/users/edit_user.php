@@ -332,23 +332,11 @@ $saveRoute = route('api.user.store');
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
                                       <!--  <a href="<?php /*echo route('admin.role.index');*/?>"><?php /*_e("Manage user roles"); */?></a>-->
                                     </small>
-                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
+                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="is_admin">
 
-                                        <?php
-                                        $roles = \MicroweberPackages\Role\Repositories\Role::all();
-                                        foreach ($roles as $role):
-                                            ?>
-                                        <?php if ($role['name'] == 'Super Admin') : ?>
-                                            <option <?php if( $data['is_admin'] == 1 && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
+                                        <option value="1" <?php if( $data['is_admin'] == 1): ?> selected="selected" <?php endif; ?>>Admin</option>
+                                        <option value="0" <?php if( $data['is_admin'] == 0): ?> selected="selected" <?php endif; ?>>User</option>
 
-                                        <?php endif; ?>
-                                           <?php if ( $role['name'] == 'User') : ?>
-                                            <option <?php if( $data['is_admin'] == 0 && $role['name'] == 'User'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
-                                        <?php endif; ?>
-
-                                            <?php
-                                        endforeach;
-                                        ?>
                                     </select>
                                 </div>
 
