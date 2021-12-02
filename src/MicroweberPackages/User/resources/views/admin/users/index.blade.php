@@ -62,49 +62,44 @@
                                 $(this).find('i').removeClass('mdi-close-thick').addClass('mdi-filter-outline');
                             }
                         });
+                        @if(isset($_GET['showFilter']))
+                        $('.js-show-filter').click();
+                        @endif
                     });
                 </script>
 
-                <div class="collapse @if(isset($_GET['showFilter'])) show @endif" id="show-filter">
+                <div class="collapse" id="show-filter">
                     <div class="bg-primary-opacity-1 rounded px-3 py-2 mb-4">
                         <div class="row d-flex">
                             <div class="col-auto">
                                 <div class="row d-flex justify-content-between">
 
-
                                     <div class="col-md-4">
                                         <div>
                                             <label class="d-block mb-2"><?php _e("Role"); ?></label>
-                                            <select class="selectpicker" data-style="btn-md">
-                                                <option value="-1"><?php _e("All"); ?></option>
-                                                <option value="0"><?php _e("User"); ?></option>
-                                                <option value="1"><?php _e("Admin"); ?></option>
+
+                                            <select class="selectpicker" data-style="btn-md" name="isAdmin">
+
+                                                <option disabled="disabled"><?php _e("Select role"); ?></option>
+
+                                                <option <?php if($isAdmin == '-1'): ?>selected="selected" <?php endif;?> value=""><?php _e("All"); ?></option>
+
+                                                <option <?php if($isAdmin == '0'): ?>selected="selected" <?php endif;?> value="0"><?php _e("User"); ?></option>
+
+                                                <option <?php if($isAdmin == '1'): ?>selected="selected" <?php endif;?> value="1"><?php _e("Admin"); ?></option>
+
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div>
-                                            <label class="d-block mb-2"><?php _e("Sort By"); ?></label>
-                                            <select class="form-control" onchange="location = this.value;">
 
-                                                <option disabled="disabled"><?php _e("Select sorting"); ?></option>
-
-                                                <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
-                                                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
-                                                <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
-                                                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
-
-
-                                            </select>
-                                        </div>
                                     </div>
 
 
                                 </div>
                             </div>
                             <div class="col d-flex align-items-center justify-content-center">
-
 
                                 <div class="text-center">
                                     <button class="btn btn-outline-primary btn-sm" name="showFilter" value="1" type="submit">
@@ -123,6 +118,21 @@
             </div>
 
         </form>
+
+        <div style="width:200px;float:right;text-align:right; margin-top:5px;margin-bottom:15px;">
+            <label class="d-block mb-2"><?php _e("Sort By"); ?></label>
+            <select class="form-control" onchange="location = this.value;">
+
+                <option disabled="disabled"><?php _e("Select sorting"); ?></option>
+
+                <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
+                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
+                <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
+                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
+
+            </select>
+        </div>
+
         <style>
             .mw-admin-users-manage-table td,
             .mw-admin-users-manage-table td *{

@@ -16,6 +16,7 @@ class UserController extends AdminController
         $orderBy = $request->get('orderBy', 'id');
         $orderDirection = $request->get('orderDirection', 'desc');
         $exportResults = $request->get('exportResults', false);
+        $isAdmin = $request->get('isAdmin', false);
 
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
@@ -51,6 +52,7 @@ class UserController extends AdminController
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 
         return $this->view('user::admin.users.index', [
+            'isAdmin'=>$isAdmin,
             'keyword'=>$keyword,
             'orderBy'=>$orderBy,
             'exportUrl'=>$exportUrl,
