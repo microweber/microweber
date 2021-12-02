@@ -123,7 +123,7 @@ class Edit
         } elseif (isset($params['parent']) and $params['parent'] != false) {
             $recommended_parent = $params['parent'];
         }
-       // dd($params);
+
         $categories_active_ids = false;
         $title_placeholder = false;
         if (isset($params['category']) and $params['category'] != false) {

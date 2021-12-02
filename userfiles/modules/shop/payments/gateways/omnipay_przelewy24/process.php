@@ -16,12 +16,9 @@ $gateway->initialize([
     'testMode'   => $is_test,
 ]);
 
-//dd($posId);
-//dd($place_order);
- //dd($mw_ipn_url);
 
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
-//dd($formData);
+
 try {
     // Send purchase request
 
