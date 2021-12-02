@@ -18,6 +18,9 @@ class AdminMarketplaceTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            rmdir_recursive('userfiles/modules/browser_redirect');
+            app()->update->post_update(); 
+
             $browser->waitForText('Marketplace');
             $browser->clickLink('Marketplace');
 
