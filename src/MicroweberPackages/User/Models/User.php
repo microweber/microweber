@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -24,7 +25,7 @@ use carbon\carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, MustVerifyEmailTrait, CanResetPassword, CacheableQueryBuilderTrait;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, HasSearchableTrait, MustVerifyEmailTrait, CanResetPassword, CacheableQueryBuilderTrait;
 
     protected $casts = [
         'username' => StripTagsCast::class,
@@ -36,38 +37,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_verified' =>0,
     ];
 
-    // use the trait
-    //  use RevisionableTrait;
-
-    // Set revisionable whitelist - only changes to any
-    // of these fields will be tracked during updates.
-    protected $revisionable = [
+    protected $searchable = [
         'email',
         'username',
         'first_name',
         'last_name',
         'phone',
-        'name',
-        'last_login',
-        'last_login_ip',
-        'created_by',
-        'edited_by',
-        'username',
-        'password',
-        'email',
-        'is_active',
-        'is_admin',
-        'is_verified',
-        'is_public',
-        'oauth_uid',
-        'oauth_provider',
-    ];
-
-    // Or revisionable blacklist - if $revisionable is not set
-    // then you can exclude some fields from being tracked.
-    protected $nonRevisionable = [
-        'created_at',
-        'updated_at',
     ];
 
     protected $hidden = [
@@ -165,12 +140,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
     }
 
-//    public function getFormattedCreatedAtAttribute($value)
-//    {
-//        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
-//        return Carbon::parse($this->created_at)->format($dateFormat);
-//    }
-
     /**
      * Override the mail body for reset password notification mail.
      */
@@ -179,64 +148,14 @@ class User extends Authenticatable implements MustVerifyEmail
       $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function scopeWhereOrder($query, $orderByField, $orderBy)
-    {
-        $query->orderBy($orderByField, $orderBy);
-    }
-
-    public function scopeWhereSearch($query, $search)
-    {
-        foreach (explode(' ', $search) as $term) {
-            $query->where(function ($query) use ($term) {
-                $query->where('name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('company_name', 'LIKE', '%' . $term . '%');
-            });
-        }
-    }
-
-    public function scopeWhereContactName($query, $contactName)
-    {
-        return $query->where('contact_name', 'LIKE', '%' . $contactName . '%');
-    }
-
     public function customer()
     {
         return $this->hasOne(Customer::class);
     }
 
-//    public function scopeWhereCompany($query, $company_id)
-//    {
-//        $query->where('users.company_id', $company_id);
-//    }
-
-    public function scopeApplyInvoiceFilters($query, array $filters)
-    {
-        $filters = collect($filters);
-
-        if ($filters->get('from_date') && $filters->get('to_date')) {
-            $start = Carbon::createFromFormat('d/m/Y', $filters->get('from_date'));
-            $end = Carbon::createFromFormat('d/m/Y', $filters->get('to_date'));
-            $query->invoicesBetween($start, $end);
-        }
-    }
-
-    public function scopeInvoicesBetween($query, $start, $end)
-    {
-        $query->whereHas('invoices', function ($query) use ($start, $end) {
-            $query->whereBetween(
-                'invoice_date',
-                [$start->format('Y-m-d'), $end->format('Y-m-d')]
-            );
-        });
-    }
-
     public function getAvatarAttribute()
     {
-        $avatar = $this->getMedia('admin_avatar')->first();
-        if ($avatar) {
-            return asset($avatar->getUrl());
-        }
-        return;
+        return user_picture($this->id);
     }
 
     public function getValidatorMessages()

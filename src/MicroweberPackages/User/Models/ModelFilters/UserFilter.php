@@ -19,4 +19,8 @@ class UserFilter extends ModelFilter
     use FilterByUrlTrait;
     use FilterByKeywordTrait;
 
+    public function isAdmin($isAdmin)
+    {
+        return $this->query->where('is_admin', $isAdmin);
+    }
 }

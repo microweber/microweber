@@ -352,7 +352,8 @@ function user_can_access($permission)
         return true;
     }
 
-    return $user->can($permission);
+    return false;
+   // return $user->can($permission);
 }
 
 function module_permissions($module)
@@ -363,7 +364,7 @@ function module_permissions($module)
 
 function user_can_destroy_module($module)
 {
-    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+ //   $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -374,9 +375,9 @@ function user_can_destroy_module($module)
         return true;
     }
 
-    if ($user->can($permissions['destroy'])) {
+   /* if ($user->can($permissions['destroy'])) {
         return true;
-    }
+    }*/
 
     return false;
 }
@@ -384,7 +385,7 @@ function user_can_destroy_module($module)
 function user_can_view_module($module)
 {
 
-    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+    //$permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -395,9 +396,9 @@ function user_can_view_module($module)
         return true;
     }
 
-    if ($user->can($permissions['index'])) {
+ /*   if ($user->can($permissions['index'])) {
         return true;
-    }
+    }*/
 
     return false;
 

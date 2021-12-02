@@ -7,7 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="true">
     <testsuites>
         <testsuite name="Browser Test Suite">
             <directory suffix="Test.php">./tests/Browser</directory>
@@ -16,5 +16,6 @@
     <php>
         <ini name="display_errors" value="On" />
         <ini name="display_startup_errors" value="On" />
+
     </php>
 </phpunit>

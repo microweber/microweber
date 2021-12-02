@@ -127,13 +127,14 @@
                 }
                 value = value.toLowerCase().trim();
 
+
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn' ).hide();
 
-                    $('.mw-ui-box-header-2' ).show();
-                    $('.mw-ui-box-header-2~li[data-filter]' ).hide();
-                    $('.mw-search-no-results' ).hide();
 
+                    $('#mw-sidebar-layouts-list .mw-ui-box-header-2~li[data-filter]').hide();
+                    $('.mw-search-no-results' ).hide();
+                     $('.mw-ui-box-header-2,.module-item-module').show();
 
                     return;
                 } else {

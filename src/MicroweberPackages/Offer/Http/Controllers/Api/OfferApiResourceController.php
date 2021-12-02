@@ -3,8 +3,9 @@
 namespace MicroweberPackages\Offer\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Offer\Http\Requests\OfferCreateUpdateRequest;
-use App\Http\Controllers\Controller;
+
 use MicroweberPackages\Offer\Models\Offer;
 use Illuminate\Http\Request;
 
