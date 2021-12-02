@@ -12,8 +12,8 @@ class AdminMarketplaceTest extends DuskTestCase
 {
     public function testModuleInstall()
     {
+        // Remove old module
         rmdir_recursive(userfiles_path() . 'modules/browser_redirect',false);
-
         app()->update->post_update();
 
         $this->browse(function (Browser $browser) {
