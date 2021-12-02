@@ -308,6 +308,10 @@
     }
 }
 
+.btn.btn-outline-secondary.active {
+    background-color: $primary!important;
+}
+
 
 #mw-css-editor-sidebar-iframe-holder {
     .mw-accordion-title.mw-ui-box-header {
