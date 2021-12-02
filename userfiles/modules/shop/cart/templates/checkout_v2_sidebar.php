@@ -60,7 +60,7 @@ $total = cart_total();
                                </div>
 
                                <div class="col-12 d-flex align-items-center px-0">
-                                 <div class="col-xl-6">
+                                 <div class="col-xl-8">
                                      <h6><?php print currency_format($item['price']); ?></h6>
                                  </div>
 
