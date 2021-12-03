@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

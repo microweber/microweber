@@ -1,6 +1,5 @@
 <?php
-
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
 use Laravel\Dusk\Browser;
