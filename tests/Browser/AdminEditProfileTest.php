@@ -62,10 +62,6 @@ class AdminEditProfileTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
-            $browser->within(new AdminLogin, function ($browser) {
-                $browser->fillForm();
-            });
-
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
@@ -109,9 +105,7 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->pause(3000);
 
             $findUser = User::where('email', $new_email)->first();
-
-
-
+            
             $this->assertEquals($new_username, $findUser->username);
             $this->assertEquals($new_email, $findUser->email);
             $this->assertEquals($first_name, $findUser->first_name);

@@ -25,7 +25,7 @@ class AdminLogin extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-       
+
     }
 
     /**
@@ -50,7 +50,8 @@ class AdminLogin extends BaseComponent
 
             $browser->visit(route('admin.login'));
 
-            $browser->waitForText('Login');
+            $browser->waitForText('Username');
+            $browser->waitForText('Password');
             $browser->waitFor('@login-button');
 
             // Login to admin panel
