@@ -135,7 +135,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component-number-minus',
 
             }
-        }).on('click', function (){
+        }).on('mousedown touchstart', function (){
             valueNode.get(0).value = parseFloat(valueNode.get(0).value) - 1
             scope.dispatch('change', scope.value())
         });
@@ -144,7 +144,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component-number-plus',
 
             }
-        }).on('click', function (){
+        }).on('mousedown touchstart', function (){
 
             valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1
             scope.dispatch('change', scope.value())

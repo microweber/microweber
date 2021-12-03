@@ -3835,10 +3835,8 @@ MWEditor.api = function (scope) {
                     el.setAttribute('style', styles);
                     range.surroundContents(el);
                 })
-                console.log(1212, ranges)
-
             }
-            console.log(options)
+
         },
         _old_cssApplier: function (options) {
             const {css, className, fragmentModifier} = options;
@@ -3902,8 +3900,7 @@ MWEditor.api = function (scope) {
                     if (sel.rangeCount > 0) {
                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(_classes_dom__WEBPACK_IMPORTED_MODULE_0__.DomService.firstBlockLevel(node), function () {
-                            console.log(method, options)
-                            scope.api[method].call(scope.api, options);
+                             scope.api[method].call(scope.api, options);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                             scope.registerChange();
@@ -3937,7 +3934,11 @@ MWEditor.api = function (scope) {
         _fontSize: function (size, unit) {
             unit = unit || 'px';
 
-            scope.api.domCommand('cssApplier', 'fontSize:' +  size + unit + ';');
+            scope.api.domCommand('cssApplier', {
+                css: {
+                    'font-size': size + unit
+                }
+            });
         },
         lineHeight: function (size) {
 
@@ -4215,7 +4216,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component-number-minus',
 
             }
-        }).on('click', function (){
+        }).on('mousedown touchstart', function (){
             valueNode.get(0).value = parseFloat(valueNode.get(0).value) - 1
             scope.dispatch('change', scope.value())
         });
@@ -4224,7 +4225,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component-number-plus',
 
             }
-        }).on('click', function (){
+        }).on('mousedown touchstart', function (){
 
             valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1
             scope.dispatch('change', scope.value())
@@ -4611,10 +4612,18 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     fontSize: function (scope, api, rootScope) {
+        this.checkSelection2 = function (opt) {
+            var css = opt.css;
+            var font = css.font();
+            var size = font.size;
+            opt.controller.element.displayValue(size);
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
         this.checkSelection = function (opt) {
             var css = opt.css;
             var font = css.font();
             var size = font.size;
+            console.log(opt.controller)
             opt.controller.element.displayValue(size);
             opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };

@@ -514,10 +514,8 @@ MWEditor.api = function (scope) {
                     el.setAttribute('style', styles);
                     range.surroundContents(el);
                 })
-                console.log(1212, ranges)
-
             }
-            console.log(options)
+
         },
         _old_cssApplier: function (options) {
             const {css, className, fragmentModifier} = options;
@@ -615,7 +613,11 @@ MWEditor.api = function (scope) {
         _fontSize: function (size, unit) {
             unit = unit || 'px';
 
-            scope.api.domCommand('cssApplier', 'font-size:' +  size + unit + ';');
+            scope.api.domCommand('cssApplier', {
+                css: {
+                    'font-size': size + unit
+                }
+            });
         },
         lineHeight: function (size) {
 

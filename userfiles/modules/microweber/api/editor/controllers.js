@@ -251,10 +251,18 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     fontSize: function (scope, api, rootScope) {
+        this.checkSelection2 = function (opt) {
+            var css = opt.css;
+            var font = css.font();
+            var size = font.size;
+            opt.controller.element.displayValue(size);
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
         this.checkSelection = function (opt) {
             var css = opt.css;
             var font = css.font();
             var size = font.size;
+            console.log(opt.controller)
             opt.controller.element.displayValue(size);
             opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
