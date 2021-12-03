@@ -67,11 +67,12 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function assertPreConditions(): void
     {
-        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
-
-        \DB::table('options')
-            ->where('option_group', 'multilanguage_settings')
-            ->delete();
+        if (mw_is_installed()) {
+            \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+            \DB::table('options')
+                ->where('option_group', 'multilanguage_settings')
+                ->delete();
+        }
 
     }
 }
