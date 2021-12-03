@@ -208,7 +208,7 @@ if (!isset($data['client_company'])) {
 
 
                 <?php
-                $projectName = 'All projects';
+                $projectName = '';
                 if (isset($params['project_name']) && !empty($params['project_name'])) {
                     $projectName = $params['project_name'];
                 }
