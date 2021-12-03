@@ -59,7 +59,11 @@ jobs:
     - name: Run Dusk Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
-        php artisan dusk
+        php artisan dusk --testsuite MicroweberCoreTests
+    - name: Run Dusk Multilanguage Tests
+      run: |
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        php artisan dusk --testsuite MicroweberMultilanguageTests
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
