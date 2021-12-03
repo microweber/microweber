@@ -293,6 +293,11 @@ mw._activeModuleOver = {
     element: null
 };
 
+if(!mw._xhrIcons) {
+    mw._xhrIcons = {}
+}
+
+
 mw._initHandles = {
     getNodeHandler:function (node) {
         if(mw._activeElementOver === node){
