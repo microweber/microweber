@@ -25,7 +25,7 @@ class AdminLogin extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->assertVisible($this->selector());
+       
     }
 
     /**
