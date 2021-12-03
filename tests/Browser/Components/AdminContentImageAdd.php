@@ -14,7 +14,7 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function selector()
     {
-        return '#mw-admin-container';
+        return '';
     }
 
     /**
@@ -25,7 +25,7 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->assertVisible($this->selector());
+
     }
 
     /**
@@ -35,16 +35,16 @@ class AdminContentImageAdd extends BaseComponent
      */
     public function elements()
     {
-        return [
-            '@element' => '#selector',
-        ];
+        return [];
     }
 
     public function addImage(Browser $browser, $image)
     {
         $browser->scrollTo('.mw-uploader-input');
-        $browser->attach('input.mw-uploader-input', $image);
-        $browser->waitForText('Pictures settings are saved');
+        $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
+        $browser->waitForText('Pictures settings are saved',30);
+        $browser->pause(3000);
+        
 
     }
 }
