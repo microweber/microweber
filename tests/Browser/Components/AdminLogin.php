@@ -25,9 +25,6 @@ class AdminLogin extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->visit(route('admin.login'))->assertSee('Login');
-        $browser->waitFor('@login-button');
-
         $browser->assertVisible($this->selector());
     }
 
@@ -49,15 +46,23 @@ class AdminLogin extends BaseComponent
         $data['option_group'] = 'users';
         save_option($data);
 
-        // Login to admin panel
-        $browser->type('username', $username);
-        $browser->type('password', $password);
+        if (!is_logged()) {
 
-        $browser->pause(400);
-        $browser->click('@login-button');
+            $browser->visit(route('admin.login'));
 
-        // Wait for redirect after login
-        $browser->waitForLocation('/admin/', 120);
-        $browser->pause(100);
+            $browser->waitForText('Login');
+            $browser->waitFor('@login-button');
+
+            // Login to admin panel
+            $browser->type('username', $username);
+            $browser->type('password', $password);
+
+            $browser->pause(400);
+            $browser->click('@login-button');
+
+            // Wait for redirect after login
+            $browser->waitForLocation('/admin/', 120);
+            $browser->pause(100);
+        }
     }
 }
