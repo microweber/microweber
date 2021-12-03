@@ -39,7 +39,7 @@ abstract class DuskTestCase extends BaseTestCase
             $arguments = [];
             $arguments[] = '--disable-gpu';
 
-            if (isset($_ENV['CI'])) {
+            if (getenv('GITHUB_RUN_NUMBER')) {
                 $arguments[] = '--headless';
             }
             return $items->merge($arguments);
