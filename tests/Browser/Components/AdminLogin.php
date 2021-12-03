@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
@@ -14,7 +15,7 @@ class AdminLogin extends BaseComponent
      */
     public function selector()
     {
-        return '#mw-login';
+        return '';
     }
 
     /**
@@ -46,12 +47,13 @@ class AdminLogin extends BaseComponent
         $data['option_group'] = 'users';
         save_option($data);
 
-        if (!is_logged()) {
+        $browser->visit(route('admin.login'));
+        $browser->pause(1500);
 
-            $browser->visit(route('admin.login'));
+        if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@id="password"]'))) > 0) {
 
-            $browser->waitForText('Username');
-            $browser->waitForText('Password');
+            $browser->waitForText('Username', 30);
+            $browser->waitForText('Password', 30);
             $browser->waitFor('@login-button');
 
             // Login to admin panel

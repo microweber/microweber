@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -28,9 +29,11 @@ class LiveEditTest extends DuskTestCase
                 $browser->validate();
             });
 
-            $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
-            $browser->pause(500);
 
+            if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-modules-list'))->isDisplayed()) {
+                $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
+                $browser->pause(500);
+            }
 
             $randClassFoundBeForeSearch = 'js-rand-liveeditrtest-randClassFoundBeForeSearch-' . time() . rand(1111, 9999);
             $browser->script("$('#mw-sidebar-modules-list').find('li.module-item:visible').addClass('$randClassFoundBeForeSearch')");
@@ -84,21 +87,22 @@ class LiveEditTest extends DuskTestCase
             });
 
 
-            $browser->script("$('.mw-lslayout-tab').trigger('mousedown').trigger('mouseup').click()");
-            $browser->pause(500);
-
+            if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-layouts-list'))->isDisplayed()) {
+                $browser->script("$('.mw-lslayout-tab').trigger('mousedown').trigger('mouseup').click()");
+                $browser->pause(500);
+            }
 
             $randClassFoundBeForeSearch = 'js-rand-liveeditrlayputtest-randClassFoundBeForeSearch-' . time() . rand(1111, 9999);
             $browser->script("$('#mw-sidebar-layouts-list').find('li.module-item:visible').addClass('$randClassFoundBeForeSearch')");
 
-
+            $browser->pause(500);
             $randClass = 'js-rand-livelaypouteditrtest-' . time() . rand(1111, 9999);
             $browser->script("$('#mw-sidebar-search-input-for-modules-and-layouts').addClass('$randClass')");
 
-
+            $browser->pause(500);
             $browser->keys('.' . $randClass, 'Testimonial');
 
-
+            $browser->pause(500);
             $randClassFound = 'js-rand-liveeditrtest-results-' . time() . rand(1111, 9999);
             $browser->script("$('#mw-sidebar-layouts-list').find('li.module-item-layout:visible').addClass('$randClassFound')");
 
