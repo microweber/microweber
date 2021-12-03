@@ -110,14 +110,14 @@ class CheckoutProcessControllerTest extends TestCase
         // should not add product with non exisintg price
         $productPrice2 = rand(5555, 6677);
 
-        $add_to_cart = array(
-            'content_id' => self::$content_id,
-            'price' => $productPrice2,
-        );
-        $cart_add = update_cart($add_to_cart);
-
-        $this->assertEquals($cart_add["cart_sum"], self::$productPrice);
-
+//        $add_to_cart = array(
+//            'content_id' => self::$content_id+100000000000, // non existing
+//            'price' => $productPrice2,
+//        );
+//        $cart_add = update_cart($add_to_cart);
+//
+//        $this->assertEquals($cart_add["cart_sum"], self::$productPrice);
+//
 
 
 
