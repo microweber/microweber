@@ -64,7 +64,7 @@ class MicroweberCaptcha
 
     public function render($params = array())
     {
-        sleep(1);
+        ob_get_clean();
 
         $roit1 = rand(1, 6);
         $font = dirname(dirname(__FILE__)). DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
