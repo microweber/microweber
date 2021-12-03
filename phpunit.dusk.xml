@@ -11,6 +11,10 @@
     <testsuites>
         <testsuite name="Browser Test Suite">
             <directory suffix="Test.php">./tests/Browser</directory>
+            <exclude>./tests/Browser/Multilanguage</exclude>
+        </testsuite>
+        <testsuite name="Browser Multilanguage Test Suite">
+            <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
         </testsuite>
     </testsuites>
     <php>

@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         php-versions: ['7.4']
     steps:
