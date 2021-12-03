@@ -58,4 +58,14 @@ abstract class DuskTestCase extends BaseTestCase
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
                isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
+
+    protected function assertPreConditions(): void
+    {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
+        \DB::table('options')
+            ->where('option_group', 'multilanguage_settings')
+            ->delete();
+
+    }
 }
