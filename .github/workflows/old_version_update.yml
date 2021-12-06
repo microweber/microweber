@@ -1,6 +1,11 @@
 name: Old Version Update
-on: [push,pull_request]
-
+on:
+  # the 1st condition
+  workflow_run:
+    workflows: ["build-and-upload"]
+    branches: [ dev ]
+    types:
+      - completed
 jobs:
   main:
     runs-on: ubuntu-latest
