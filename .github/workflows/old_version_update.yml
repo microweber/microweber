@@ -70,10 +70,15 @@ jobs:
         run: git checkout master
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
-      - uses: actions/checkout@v2
+      - name: Checkout standalone updater
+        uses: actions/checkout@v2
         with:
           repository: 'microweber-modules/standalone-updater'
           path: './userfiles/modulels/standalone-updater'
+      - name: Checkout on Microweber Master
+        uses: actions/checkout@v2
+        with:
+          ref: master
       - name: Install Chrome Driver
         run: |
           composer require laravel/dusk
