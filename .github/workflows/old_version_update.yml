@@ -2,12 +2,9 @@ name: Old Version Update
 on: [push,pull_request]
 
 jobs:
-  notify:
-    if: cancelled() == false
-    needs: microweber-build-and-upload
-    runs-on: ubuntu-latest
   main:
     runs-on: ubuntu-latest
+    needs: microweber-build-and-upload
     strategy:
       fail-fast: true
       max-parallel: 2
