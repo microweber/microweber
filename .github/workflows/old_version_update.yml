@@ -3,6 +3,7 @@ on: [push,pull_request]
 
 jobs:
   main:
+    needs: MicroweberBuildAndUpload
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
