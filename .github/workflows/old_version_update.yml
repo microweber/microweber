@@ -9,7 +9,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
     steps:
-      - uses: ./.github/actions/build-and-upload@v1
+      - uses: ./.github/actions/build-and-upload.yml
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup PHP, with composer and extensions
