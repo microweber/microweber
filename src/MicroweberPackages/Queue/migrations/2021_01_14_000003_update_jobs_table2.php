@@ -18,7 +18,10 @@ class UpdateJobsTable2 extends Migration
             $table->integer('reserved')->nullable();
             $table->integer('mw_processed')->nullable();
             $table->longText('job_hash')->nullable();
-            $table->timestamp('updated_at')->useCurrent();
+
+            if (!Schema::hasColumn('failed_jobs', 'updated_at')) {
+                $table->timestamp('updated_at')->nullable();
+            }
 
         });
     }
