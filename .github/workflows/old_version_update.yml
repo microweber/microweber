@@ -76,8 +76,8 @@ jobs:
           path: './userfiles/modulels/standalone-updater'
       - name: Install Chrome Driver
         run: |
-        composer require laravel/dusk
-        php artisan dusk:install
+          composer require laravel/dusk
+          php artisan dusk:install
       - name: Dusk updater install
         run: |
           composer require --dev staudenmeir/dusk-updater:"^1.1"
