@@ -1,11 +1,9 @@
-name: Old Version Update Test
-on:
-  push:
-    
+name: Old Version Update
+on: [push,pull_request]
+
 jobs:
   main:
     runs-on: ubuntu-latest
-    needs: build-and-upload
     strategy:
       fail-fast: true
       max-parallel: 2
@@ -14,8 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: master
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
