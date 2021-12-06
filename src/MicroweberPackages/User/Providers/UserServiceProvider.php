@@ -14,6 +14,7 @@ namespace MicroweberPackages\User\Providers;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Laravel\Passport\Passport;
 use MicroweberPackages\User\Services\RSAKeys;
 use MicroweberPackages\User\UserManager;
 
@@ -61,6 +62,8 @@ class UserServiceProvider extends AuthServiceProvider
 
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
+
+        Passport::ignoreMigrations();
 
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();
