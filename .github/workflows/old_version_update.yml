@@ -3,7 +3,6 @@ on:
   # the 1st condition
   workflow_run:
     workflows: ["Microweber build & upload"]
-    branches: [ dev ]
     types:
       - completed
 jobs:
