@@ -15,11 +15,19 @@ class AddNewFieldsOnJobsTable extends Migration
     {
         Schema::table('jobs', function (Blueprint $table) {
 
-            $table->integer('reserved')->nullable();
-            $table->integer('mw_processed')->nullable();
-            $table->longText('job_hash')->nullable();
+            if (!Schema::hasColumn('jobs', 'reserved')) {
+                $table->integer('reserved')->nullable();
+            }
 
-            if (!Schema::hasColumn('failed_jobs', 'updated_at')) {
+            if (!Schema::hasColumn('jobs', 'mw_processed')) {
+                $table->integer('mw_processed')->nullable();
+            }
+
+            if (!Schema::hasColumn('jobs', 'job_hash')) {
+                $table->longText('job_hash')->nullable();
+            }
+
+            if (!Schema::hasColumn('jobs', 'updated_at')) {
                 $table->timestamp('updated_at')->nullable();
             }
 
