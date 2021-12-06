@@ -2,28 +2,6 @@ name: Old Version Update
 on: [push,pull_request]
 
 jobs:
-  microweber-build-and-upload:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Dependencies
-        run: composer install
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Zip the files
-        run: |
-          rm -rf .git
-          rm -rf .github
-          find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
-          zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
-          curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
 
   microweber-test-builded-version:
     needs: microweber-build-and-upload
@@ -70,15 +48,11 @@ jobs:
         run: git checkout master
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
-      - name: Checkout standalone updater
-        uses: actions/checkout@v2
-        with:
-          repository: 'microweber-modules/standalone-updater'
-          path: './userfiles/modulels/standalone-updater'
-      - name: Checkout on Microweber Master
-        uses: actions/checkout@v2
-        with:
-          ref: master
+      - name: Download StandaloneUpdater
+        run: |
+          cd ./userfiles/modules
+          git clone https://github.com/microweber-modules/standalone-updater.git
+          cd ../../
       - name: Install Chrome Driver
         run: |
           composer require laravel/dusk
