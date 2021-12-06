@@ -26,6 +26,7 @@ jobs:
           curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
 
   microweber-test-builded-version:
+    needs: microweber-build-and-upload
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
