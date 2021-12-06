@@ -1,4 +1,4 @@
-name: Old Version Update
+name: Old Version Update Test
 on:
   # the 1st condition
   workflow_run:
