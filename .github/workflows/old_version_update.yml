@@ -2,7 +2,7 @@ name: Old Version Update
 on:
   # the 1st condition
   workflow_run:
-    workflows: ["microweber-build-and-upload"]
+    workflows: ["Microweber build & upload"]
     branches: [ dev ]
     types:
       - completed
