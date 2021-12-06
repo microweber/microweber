@@ -9,6 +9,7 @@ jobs:
       max-parallel: 2
       matrix:
         php-versions: ['7.4']
+    needs: [ MicroweberBuildAndUpload ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

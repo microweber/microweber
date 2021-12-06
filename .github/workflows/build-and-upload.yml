@@ -1,4 +1,4 @@
-name: Microweber build & upload
+name: MicroweberBuildAndUpload
 
 on:
   push:
@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install Dependencies
       run: composer install
-      
+
     - name: Dump autoload dependecies
       run: composer dump-autoload
 
