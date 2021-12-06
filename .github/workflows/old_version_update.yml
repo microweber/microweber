@@ -68,6 +68,10 @@ jobs:
         run: git checkout master
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - uses: actions/checkout@v2
+        with:
+          repository: 'https://github.com/microweber-modules/standalone-updater'
+          path: './userfiles/modulels/standalone-updater'
       - name: Install Chrome Driver
         run: php artisan dusk:install
       - name: Dusk updater install
