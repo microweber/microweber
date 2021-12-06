@@ -4,7 +4,7 @@ on: [push,pull_request]
 jobs:
   main:
     runs-on: ubuntu-latest
-    needs: microweber-build-and-upload
+    needs: build-and-upload
     strategy:
       fail-fast: true
       max-parallel: 2
