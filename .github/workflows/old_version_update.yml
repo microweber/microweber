@@ -1,9 +1,7 @@
 name: Old Version Update
 on: [push,pull_request]
-
 jobs:
   main:
-    needs: MicroweberBuildAndUpload
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -11,6 +9,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
     steps:
+      - uses: ./.github/actions/build-and-upload@v1
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup PHP, with composer and extensions
