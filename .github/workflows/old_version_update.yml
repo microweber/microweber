@@ -1,10 +1,7 @@
 name: Old Version Update Test
 on:
-  # the 1st condition
-  workflow_run:
-    workflows: ["Microweber build & upload"]
-    types:
-      - completed
+  push:
+    
 jobs:
   main:
     runs-on: ubuntu-latest
