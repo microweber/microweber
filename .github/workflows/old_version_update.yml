@@ -4,7 +4,7 @@ on: [push,pull_request]
 jobs:
 
   microweber-test-builded-version:
-    needs: microweber-build-and-upload
+ #   needs: microweber-build-and-upload
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
