@@ -832,8 +832,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                         } else {
                             if (!$save_as_draft) {
 
+                                $refreshPage = true;
                                 if (isset($save_page['id']) && $save_page['id'] > 0) {
                                     unset($save_page['url']);
+                                    $refreshPage = false;
                                 } else {
                                     $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
                                     if ($multilanguageIsActive) {
@@ -849,9 +851,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
-                                if ($ref_page_url != $new_content_link) {
-                                    $json_print['new_page_url'] = content_link($page_id);
+
+                                if ($refreshPage) {
+                                    $json_print['new_page_url'] = $new_content_link;
                                 }
+
                             }
 
                         }
