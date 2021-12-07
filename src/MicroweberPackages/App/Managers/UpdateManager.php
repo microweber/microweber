@@ -1102,7 +1102,8 @@ class UpdateManager
         return $r;
     }
 
-    public function save_license($params)
+
+    public function delete_license($params)
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
@@ -1113,13 +1114,22 @@ class UpdateManager
             return;
         }
 
-
-        if (isset($params['_delete_license']) and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
+        if (isset($params['id'])) {
             $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
             return array('id' => 0, 'success' => _e('License was deleted', true));
-
         }
+    }
 
+    public function save_license($params)
+    {
+        $adm = $this->app->user_manager->is_admin();
+        if ($adm == false) {
+            return;
+        }
+        $table = $this->app->module_manager->tables['system_licenses'];
+        if ($table == false) {
+            return;
+        }
 
         if (!isset($params['rel_type']) and isset($params['rel'])) {
             $params['rel_type'] = $params['rel'];
