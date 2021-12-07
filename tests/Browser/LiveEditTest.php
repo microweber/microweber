@@ -12,6 +12,61 @@ class LiveEditTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
+    public function testLiveEditProductSave()
+    {
+        $siteUrl = $this->siteUrl;
+
+        $this->browse(function (Browser $browser) use ($siteUrl) {
+
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+
+            $browser->visit($siteUrl . '/?editmode=y');
+            $browser->pause(4000);
+
+           /* $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });*/
+
+            $productDescription =  'Product description live edit save ' . time().rand(1111,9999);
+
+            $browser->seeLink('Shop');
+            $browser->clickLink('Shop');
+            $browser->pause(3000);
+
+            $browser->waitForText('JBL speaker WI-FI');
+            $browser->seeLink('JBL speaker WI-FI');
+            $browser->clickLink('JBL speaker WI-FI');
+            $browser->pause(3000);
+
+            $browser->waitForText('Sound Systems');
+            $browser->pause(9000);
+
+            $randClass = 'js-rand-ml-'.time().rand(1111,9999);
+            $browser->script("$('.description .edit').click()");
+            $browser->pause(1000);
+            $browser->script("$('.description .edit').addClass('$randClass changed').attr('contenteditable', true)");
+            $browser->pause(2000);
+            $browser->type('.' . $randClass, $productDescription);
+            $browser->pause(6000);
+
+            $currentUrl = $browser->driver->getCurrentURL();
+
+            $browser->click('#main-save-btn');
+            $browser->pause(5000);
+
+            $browser->visit($currentUrl);
+            $browser->pause(3000);
+
+            $browser->waitForText('JBL speaker WI-FI');
+            $browser->assertSee('JBL speaker WI-FI');
+            $browser->assertSee($productDescription);
+
+
+        });
+    }
+
     public function testLiveEditSearchinSidebarForModules()
     {
         $siteUrl = $this->siteUrl;
