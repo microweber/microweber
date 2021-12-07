@@ -13,19 +13,21 @@ class CreateMultilanguageTranslations extends Migration
      */
     public function up()
     {
-        Schema::create('multilanguage_translations', function (Blueprint $table) {
-            $table->increments('id');
+        if (!Schema::hasTable('multilanguage_translations')) {
+            Schema::create('multilanguage_translations', function (Blueprint $table) {
+                $table->increments('id');
 
-            $table->string('rel_id');
-            $table->string('rel_type');
+                $table->string('rel_id');
+                $table->string('rel_type');
 
-            $table->string('field_name');
-            $table->text('field_value')->nullable();
+                $table->string('field_name');
+                $table->text('field_value')->nullable();
 
-            $table->string('locale');
+                $table->string('locale');
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
     }
 
     /**

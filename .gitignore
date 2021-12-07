@@ -68,3 +68,4 @@ userfiles/.DS_Store
 /userfiles/modules/vouchers
 userfiles/modules/dynamic_text/
 userfiles/modules/newsletter/
+userfiles/modules/remote_rss_feed/
