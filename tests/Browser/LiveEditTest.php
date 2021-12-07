@@ -51,10 +51,11 @@ class LiveEditTest extends DuskTestCase
             $browser->type('.' . $randClass, $productDescription);
             $browser->pause(1000);
 
+            $currentUrl = $browser->driver->getCurrentURL();
+
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
-            $currentUrl = $browser->driver->getCurrentURL();
             $browser->visit($currentUrl);
             $browser->pause(3000);
 
