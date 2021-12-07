@@ -50,9 +50,9 @@ class LiveEditTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->click('#main-save-btn');
-            $browser->pause(2000);
+            $browser->pause(5000);
             $browser->waitForText('All changes are saved');
-            $browser->assertSee('All changes are saved'); 
+            $browser->assertSee('All changes are saved');
 
         });
     }
