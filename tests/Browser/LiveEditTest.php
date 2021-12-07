@@ -29,6 +29,8 @@ class LiveEditTest extends DuskTestCase
                 $browser->validate();
             });*/
 
+            $productDescription =  'Product description live edit save ' . time().rand(1111,9999);
+
             $browser->seeLink('Shop');
             $browser->clickLink('Shop');
             $browser->pause(3000);
@@ -46,14 +48,19 @@ class LiveEditTest extends DuskTestCase
             $browser->pause(1000);
             $browser->script("$('.description .edit').addClass('$randClass').attr('contenteditable', true)");
             $browser->pause(2000);
-            $browser->type('.' . $randClass, 'This is the new description from live edit');
+            $browser->type('.' . $randClass, $productDescription);
             $browser->pause(1000);
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
-            
+
+            $currentUrl = $browser->driver->getCurrentURL();
+            $browser->visit($currentUrl);
+            $browser->pause(3000);
+
             $browser->waitForText('JBL speaker WI-FI');
             $browser->assertSee('JBL speaker WI-FI');
+            $browser->assertSee($productDescription);
 
 
         });
