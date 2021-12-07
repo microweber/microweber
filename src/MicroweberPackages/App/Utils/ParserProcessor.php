@@ -1006,11 +1006,21 @@ class ParserProcessor
                     //  unset($mw_replaced_textarea_tag[$key]);
                 }
             }
-        
+
             $layout = $this->_replace_tags_with_placeholders_back($layout);
             $layout = $this->replace_url_placeholders($layout);
         }
         if (!$coming_from_parent or   !$this->have_more or $it_loop == 0 ) {
+
+            if (!empty($mw_replaced_textarea_tag)) {
+                foreach ($mw_replaced_textarea_tag as $key => $value) {
+                    if ($value != '') {
+                        $layout = str_replace($key, $value, $layout);
+                    }
+                    //  unset($mw_replaced_textarea_tag[$key]);
+                }
+            }
+
 
         //  $layout = $this->_replace_tags_with_placeholders_back($layout);
 
