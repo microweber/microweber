@@ -44,13 +44,15 @@ class LiveEditTest extends DuskTestCase
             $randClass = 'js-rand-ml-'.time().rand(1111,9999);
             $browser->script("$('.description .edit').click()");
             $browser->pause(1000);
-            $browser->script("$('.description .edit').addClass('$randClass')");
+            $browser->script("$('.description .edit').addClass('$randClass').attr('contenteditable', true)");
             $browser->pause(2000);
             $browser->type('.' . $randClass, 'This is the new description from live edit');
             $browser->pause(1000);
 
             $browser->click('#main-save-btn');
-
+            $browser->pause(2000);
+            $browser->waitForText('All changes are saved');
+            $browser->assertSee('All changes are saved'); 
 
         });
     }
