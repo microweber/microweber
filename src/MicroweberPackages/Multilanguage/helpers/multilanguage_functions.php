@@ -234,8 +234,11 @@ if (!function_exists('detect_lang_from_url')) {
             $urlSegs = [];
             foreach ($segments as $segment) {
                 if (is_lang_correct($segment)) {
-                    $findedLangAbr = $segment;
-
+                    if ($findedLangAbr) {
+                        $urlSegs[] = $segment;
+                    } else {
+                        $findedLangAbr = $segment;
+                    }
                 } else {
                     $urlSegs[] = $segment;
                 }

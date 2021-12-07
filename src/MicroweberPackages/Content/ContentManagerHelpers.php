@@ -9,6 +9,7 @@ use DB;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use voku\helper\AntiXSS;
 
 class ContentManagerHelpers extends ContentManagerCrud
@@ -746,10 +747,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
-                
+
                 if ($newPageCreate) {
                     $pd['url'] = $ustr;
                 }
+
 
                 if (isset($pd['active_site_template']) and $pd['active_site_template'] == template_name()) {
                     $pd['active_site_template'] = '';
@@ -829,6 +831,22 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $page_id = $save_page['id'];
                         } else {
                             if (!$save_as_draft) {
+
+                                if (isset($save_page['id']) && $save_page['id'] > 0) {
+                                    unset($save_page['url']);
+                                } else {
+                                    $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+                                    if ($multilanguageIsActive) {
+                                        if (function_exists('detect_lang_from_url')) {
+                                            $lang_from_url = detect_lang_from_url($save_page['url']);
+                                            if (isset($lang_from_url['target_url'])) {
+                                                $save_page['url'] = $lang_from_url['target_url'];
+                                                $save_page['title'] = $lang_from_url['target_url'];
+                                            }
+                                        }
+                                    }
+                                }
+
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($ref_page_url != $new_content_link) {
