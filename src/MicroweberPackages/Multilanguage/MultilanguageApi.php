@@ -24,7 +24,11 @@ class MultilanguageApi
             } else {
                 save_option('is_active','n','multilanguage_settings');
             }
-            clearcache();
+
+            \Cookie::queue(\Cookie::forget('back_to_admin'));
+
+
+            // clearcache();
         }
     }
 
