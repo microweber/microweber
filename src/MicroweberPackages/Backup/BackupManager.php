@@ -155,7 +155,6 @@ class BackupManager
 	{
         MultilanguageHelpers::setMultilanguageEnabled(false);
 
-
         try {
 			$import = new Import();
             $import->setStep($this->importStep);
@@ -167,6 +166,7 @@ class BackupManager
  			if (isset($content['error'])) {
 				return $content;
 			}
+             /*dd($content);*/
 
             if (isset($content['must_choice_language']) && $content['must_choice_language']) {
                 return $content;
