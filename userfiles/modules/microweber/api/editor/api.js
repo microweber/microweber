@@ -515,6 +515,22 @@ MWEditor.api = function (scope) {
                     range.surroundContents(el);
                 })
             }
+/*            var tr = [];
+            let all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty');
+            let i = 0, l = all.length;
+            for ( ; i < l;  i++ ) {
+                tr.push(all[i])
+            }
+            while(tr[0]) {
+                tr[0].remove()
+            }
+            all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier .mw-richtext-cssApplier');
+            i = 0; l = all.length;
+            for ( ; i < l;  i++ ) {
+                if(all[i].outerHTML === all[i].parentNode.innerHTML) {
+                    all[i].parentNode.parentNode.replaceChild(all[i], all[i].parentNode);
+                }
+            }*/
 
         },
         _old_cssApplier: function (options) {
