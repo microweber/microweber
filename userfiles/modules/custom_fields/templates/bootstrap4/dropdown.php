@@ -13,7 +13,7 @@
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label mb-3">
+        <label class="control-label my-3">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -24,7 +24,7 @@
         <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
 
         <?php if (!empty($data['placeholder'])): ?>
-            <option><?php echo $data['placeholder']; ?></option>
+            <option disabled selected value><?php echo $data['placeholder']; ?></option>
         <?php endif; ?>
 
         <?php foreach ($data['values'] as $key => $value): ?>

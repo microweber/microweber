@@ -57,8 +57,9 @@ class TranslationPackageInstallHelper
         $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {
-
-            set_time_limit(-0);
+            if (php_can_use_func('set_time_limit')) {
+                @set_time_limit(-0);
+            }
 
             $readFile = new XlsxReader($file);
             $data = $readFile->readData();

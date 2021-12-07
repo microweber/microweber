@@ -2811,6 +2811,10 @@ html.mw-loading:after {
   cursor: pointer;
   font-style: normal;
 }
+.mwiconlist-icon svg {
+  width: 35px !important;
+  height: 35px !important;
+}
 .mwiconlist-settings-section-block-item .mw-field {
   width: 100%;
 }
@@ -2888,6 +2892,11 @@ html.mw-loading:after {
 }
 .mw-icon-selector-root {
   width: 400px;
+}
+.mw-icon-picker-icons-holder > div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 .mw-icon-picker-icons-holder {
   clear: both;
@@ -3128,44 +3137,6 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
   display: none;
 }
-html[dir="rtl"] .mw-tree-nav-skin-default {
-  padding-right: 20px;
-  padding-left: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler {
-  margin-right: 0;
-  margin-left: 0px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:not(.opened) {
-  transform: rotate(180deg);
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title {
-  padding-left: 42px;
-  padding-right: 5px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title [class*=mw-icon-],
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title [class*=mai-],
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-item-title:before {
-  margin-left: 3px;
-  margin-right: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li:before {
-  left: auto;
-  right: 8px;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li:after {
-  left: auto;
-  right: 7px;
-  bottom: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default li li {
-  padding-right: 30px;
-  padding-left: 0;
-}
-html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
-  right: auto;
-  left: 5px;
-}
 /****************************
             Boxes
 *****************************/
@@ -3183,11 +3154,11 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16) !important;
 }
 .mw-ui-box {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid transparent;
   border-radius: 5px;
   clear: both;
   background-color: #fff;
-  box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.11) !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .mw-ui-box,
 .mw-ui-box-content {
@@ -4599,9 +4570,35 @@ mw-field textarea[type='range']:focus {
   cursor: grabbing;
   box-shadow: none;
 }
-.mw-field .mw-field-prepend + input,
-mw-field .mw-field-prepend + input {
-  border-radius: 0 5px 5px 0;
+.mw-field.mw-field-flat input,
+mw-field.mw-field-flat input,
+.mw-field.mw-field-flat select,
+mw-field.mw-field-flat select,
+.mw-field.mw-field-flat textarea,
+mw-field.mw-field-flat textarea {
+  border-radius: 0 !important;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  box-shadow: none;
+}
+.mw-field.mw-field-flat input:focus,
+mw-field.mw-field-flat input:focus,
+.mw-field.mw-field-flat select:focus,
+mw-field.mw-field-flat select:focus,
+.mw-field.mw-field-flat textarea:focus,
+mw-field.mw-field-flat textarea:focus {
+  background-color: #F5F5F5;
+}
+.mw-field .mw-field-prepend ~ input,
+mw-field .mw-field-prepend ~ input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.mw-field .mw-field-append ~ input,
+mw-field .mw-field-append ~ input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .mw-field .mw-field-append [class*="mw-icon-"],
 mw-field .mw-field-append [class*="mw-icon-"],
@@ -4667,6 +4664,12 @@ mw-field[data-after]:after {
   border-radius: 0 5px 5px 0;
   border-left: none;
 }
+.mw-field .mw-field-append .mw-ui-button,
+mw-field .mw-field-append .mw-ui-button,
+.mw-field[data-after]:after .mw-ui-button,
+mw-field[data-after]:after .mw-ui-button {
+  border-radius: 0 5px 5px 0;
+}
 .mw-field .mw-field-prepend,
 mw-field .mw-field-prepend,
 .mw-field[data-before]:before,
@@ -4674,6 +4677,12 @@ mw-field[data-before]:before {
   order: 1;
   border-radius: 5px 0 0 5px;
   border-right: none;
+}
+.mw-field .mw-field-prepend .mw-ui-button,
+mw-field .mw-field-prepend .mw-ui-button,
+.mw-field[data-before]:before .mw-ui-button,
+mw-field[data-before]:before .mw-ui-button {
+  border-radius: 5px 0 0 5px;
 }
 .mw-field input,
 mw-field input,
@@ -4788,6 +4797,36 @@ mw-field[size="large"][data-after]:after,
 mw-field[data-size="large"][data-after]:after {
   height: 50px;
   line-height: 50px;
+}
+.mw-field-color-indicator {
+  display: inline-block;
+  vertical-align: middle;
+  align-self: center;
+  width: 25px;
+  min-width: 25px;
+  height: 25px;
+  min-height: 25px;
+  border: 1px solid #B9B9B9;
+  border-radius: 100px;
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  pointer-events: none;
+  overflow: hidden;
+  background-image: linear-gradient(-45deg, #cdcdcd 25%, transparent 0), linear-gradient(45deg, #cdcdcd 25%, transparent 0), linear-gradient(-45deg, transparent 75%, #cdcdcd 0), linear-gradient(45deg, transparent 75%, #cdcdcd 0);
+  background-size: 11px 11px;
+  background-position: 0 0, 0 -5.5px, -5.5px 5.5px, 5.5px 0;
+}
+.mw-field-color-indicator + input {
+  padding-left: 40px;
+}
+.mw-field-color-indicator .mw-field-color-indicator-display {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
 }
 /****************************
  Buttons & button navigation
@@ -7253,7 +7292,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   justify-content: space-between;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
+  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/upload_image.png');
   width: 70px;
   height: 55px;
   background-size: contain;
@@ -7330,6 +7369,28 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-ui-box-header.mw-accordion-title.active:after {
   transform: rotate(0deg);
+}
+.mw-ui-box-header-2.mw-accordion-title-2 {
+  cursor: pointer;
+  position: relative;
+}
+.mw-ui-box-header-2.mw-accordion-title-2:hover:after {
+  position: absolute;
+  content: "";
+  border-left: 5px solid #2b2b2b;
+  display: block;
+  z-index: 1;
+  top: 0px;
+  height: 46px;
+}
+.mw-ui-box-header-2.mw-accordion-title-2.mw-liveedit-sidebar-background-active:after {
+  position: absolute;
+  content: "";
+  border-left: 5px solid #1f7cff;
+  display: block;
+  z-index: 1;
+  top: 0px;
+  height: 46px;
 }
 .mw-badge {
   display: inline-block;

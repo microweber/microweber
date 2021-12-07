@@ -9,6 +9,49 @@
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
+Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $request) {
+
+    if (!is_logged()) {
+        return array('error' => 'You must be logged');
+    }
+
+    $userId = (int) $request->all()['user_id'];
+
+    $exportFromTables = [];
+    $prefix = mw()->database_manager->get_prefix();
+    $tablesList = mw()->database_manager->get_tables_list(true);
+    foreach ($tablesList as $table) {
+        $table = str_replace($prefix, false, $table);
+        $columns  = Schema::getColumnListing($table);
+        if (in_array('created_by', $columns)) {
+            $exportFromTables[] = $table;
+        }
+    }
+
+    $exportData = [];
+    foreach ($exportFromTables as $exportFromTable) {
+        $getData = \Illuminate\Support\Facades\DB::table($exportFromTable)->where('created_by', $userId)->get();
+        if (!empty($getData)) {
+            $exportData[$exportFromTable] = $getData->toArray();
+        }
+    }
+
+    $json = new \MicroweberPackages\Backup\Exporters\JsonExport($exportData);
+    $getJson = $json->start();
+
+    if (isset($getJson['files'][0]['filepath'])) {
+        return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
+    }
+
+})->name('api.users.export_my_data');
+
+// Admin web
+Route::prefix(ADMIN_PREFIX)->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+    Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
+});
+
+
+
 // OLD API SAVE USER
 Route::post('api/save_user', function (Request $request) {
     if (!defined('MW_API_CALL')) {
@@ -35,7 +78,7 @@ Route::post('api/delete_user', function (Request $request) {
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
     Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
-    Route::post('logout', 'UserLoginController@logout')->name('logout');
+    Route::any('logout', 'UserLoginController@logout')->name('logout');
     Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 
     Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');

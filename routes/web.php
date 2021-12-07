@@ -12,7 +12,3 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-// Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
-

@@ -124,6 +124,17 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array_merge($modules, $modules_from_template);
     }
 
+    if($modules){
+        foreach ($modules as $modk=>$module){
+            if(isset($module['name']) and
+                (in_array($module['name'], $hide_from_display_list)
+                    or in_array(strtolower($module['name']), $hide_from_display_list))
+            ){
+                unset($modules[$modk]);
+            }
+        }
+    }
+
     $is_shop_disabled = get_option('shop_disabled', 'website') == "y";
 
     if ($modules) {
@@ -281,7 +292,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             class="module_draggable"
             data-module-name-enc="static_layout_<?php print date("YmdHis") . $i++ ?>"
             data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
-            src="<?php print $dynamic_layout['icon'] ?>"
+            data-module-icon="<?php print $dynamic_layout['icon'] ?>"
     /> </span></span> <span class="module_name"
                             alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
     <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
@@ -335,6 +346,44 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             }
         }
     }
+
+    $module_layouts_skins_grouped_ordered_positions = [
+        'titles',
+        'text block',
+        'content',
+        'features',
+        'gallery',
+        'call to action',
+        'blog',
+        'team',
+        'testimonials',
+        'contact us',
+        'grids',
+        'misc',
+        'price lists',
+        'video',
+        'ecommerce',
+        'header',
+        'menu',
+        'footers',
+        'other',
+    ];
+    if (isset($template_config['order_layouts_by_category']) && !empty($template_config['order_layouts_by_category'])) {
+        $module_layouts_skins_grouped_ordered_positions = $template_config['order_layouts_by_category'];
+    }
+
+    $module_layouts_skins_grouped_ordered = [];
+    foreach ($module_layouts_skins_grouped_ordered_positions as $ordered_position) {
+        foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name => $dynamic_layouts_grouped) {
+            if ($ordered_position == $dynamic_layouts_group_name) {
+                $module_layouts_skins_grouped_ordered[$dynamic_layouts_group_name] = $dynamic_layouts_grouped;
+                unset($module_layouts_skins_grouped[$dynamic_layouts_group_name]);
+            }
+        }
+    }
+    $module_layouts_skins_grouped_ordered = array_merge($module_layouts_skins_grouped_ordered,$module_layouts_skins_grouped);
+    $module_layouts_skins_grouped = $module_layouts_skins_grouped_ordered;
+
     ?>
 
 
@@ -350,6 +399,20 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                    }
                 })
                   $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').hide();
+
+                var categories = document.querySelectorAll('.mw-liveedit-layouts-li');
+                if(categories.length < 2) {
+                    $(categories).remove();
+                    $('[data-url]').each(function (){
+                        if(this.dataset.url) {
+                            this.src = this.dataset.url;
+                            delete this.dataset.url;
+                        }
+                    })
+                    $('[class*="module-cat-toggle-"]', '#<?php print $params['id'] ?>').show();
+                }
+
+
             })
             var handleModuleCatToggle = function ($dynamic_layouts_group_name, el){
                 var lis = $('.module-cat-toggle-'+($dynamic_layouts_group_name), el).stop().toggle();
@@ -365,6 +428,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         </script>
 
 
+
+
      <?php
         foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name=>$dynamic_layouts_grouped) {
             $dynamic_layouts_group_name_orig = $dynamic_layouts_group_name;
@@ -378,7 +443,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
-            <li unselectable="on" class="mw-liveedit-layouts-li" onclick="handleModuleCatToggle('<?php print($dynamic_layouts_group_name); ?>', this.parentNode);event.stopImmediatePropagation()">
+            <li unselectable="on" class="mw-ui-box-header-2 mw-accordion-title-2 mw-liveedit-layouts-li" onclick="handleModuleCatToggle('<?php print($dynamic_layouts_group_name); ?>', this.parentNode);event.stopImmediatePropagation()">
                 <h2 class="mw-liveedit-sidebar-h2"><?php print ucwords(_e($dynamic_layouts_group_name_orig, true)); ?> </h2>
             </li>
 
@@ -421,7 +486,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-                                        data-url="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
+                                     data-module-icon="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
                             </span>
                         </span>
                         <span class="module_name"
@@ -447,7 +512,15 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
    $(document).ready(function (){
-       $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide()
+
+       var dla = $('#default-layouts-holder .default-layouts','#<?php print $params['id'] ?>').hide();
+
+       var la = $('.modules-list.list-elements [data-module-name="layouts"]');
+
+       if(!la.length) {
+           dla.show()
+       }
+
    })
 
 </script>
@@ -484,7 +557,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li class="mw-liveedit-layouts-li" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
+                <li class="mw-ui-box-header-2 mw-accordion-title mw-liveedit-layouts-li mw-liveedit-layouts-li-2" unselectable="on" onclick="$('.default-layouts', this.parentNode).toggle();event.stopImmediatePropagation()">
                     <h2 class="mw-liveedit-sidebar-h2">
                         <?php _e('Default layouts'); ?>
                     </h2>
@@ -602,7 +675,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                    src="<?php print $module_item['icon']; ?>"/>
+                     data-module-icon="<?php print $module_item['icon']; ?>" />
         </span>
     </span>
                         <?php endif; ?>
@@ -625,5 +698,57 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 </ul>
+
+    <script>
+        if(!mw._xhrIcons) {
+            mw._xhrIcons = {}
+        }
+        var getIcon = function (url) {
+            return new Promise(function (resolve){
+                if(mw._xhrIcons[url]) {
+                    resolve(mw._xhrIcons[url])
+                } else {
+                    fetch(url, {cache: "force-cache"})
+                        .then(function (data){
+                            return data.text();
+                        }).then(function (data){
+                        mw._xhrIcons[url] = data;
+                        resolve(mw._xhrIcons[url])
+                    })
+                }
+            })
+        }
+    setInterval(function (){
+        $('[data-module-icon]').each(function (){
+            var src = this.dataset.moduleIcon.trim();
+            delete this.dataset.moduleIcon;
+            var img = this;
+            if(src.includes('.svg') && src.includes(location.origin)) {
+                var el = document.createElement('div');
+                el.className = img.className;
+                // var shadow = el.attachShadow({mode: 'open'});
+                var shadow = el;
+                getIcon(src).then(function (data){
+                    var shImg = document.createElement('div');
+                    shImg.innerHTML = data;
+                    shImg.part = 'mw-module-icon';
+                    shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                    Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                        style.remove()
+                    })
+                    Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
+                        item.removeAttribute('class')
+                        item.removeAttribute('id')
+                    })
+                    shadow.appendChild(shImg);
+                    img.parentNode.replaceChild(el, img);
+                })
+            } else {
+                this.src = src;
+            }
+        })
+    }, 1000)
+    </script>
+
 
 

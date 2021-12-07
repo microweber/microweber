@@ -2,7 +2,7 @@
 
 @section('logo-right-link')
     <div class="ml-auto align-self-center">
-        <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-end">{{ _e('Back') }}</a>
+        <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-end text-right">{{ _e('Back') }}</a>
     </div>
 @endsection
 
@@ -33,6 +33,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100" dusk="checkout-continue">{{ _e('Continue') }}</button>
     </form>
 @endsection

@@ -432,50 +432,9 @@ function cache_delete($cache_group = 'global')
 }
 
 
-if (!function_exists('is_cli')) {
-    function is_cli()
-    {
-        static $is;
-        if ($is !== null) {
-            return $is;
-        }
-        if (function_exists('php_sapi_name') and
-            php_sapi_name() === 'apache2handler'
-        ) {
-            $is = false;
-            return false;
-        }
 
 
-        if (
-            defined('STDIN')
-            or php_sapi_name() === 'cli'
-            or php_sapi_name() === 'cli-server'
-            or array_key_exists('SHELL', $_ENV)
 
-        ) {
-            $is = true;
-            return true;
-        }
-
-
-        $is = false;
-        return false;
-    }
-}
-
-//
-//if (!function_exists('is_https')) {
-//    function is_https()
-//    {
-//        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
-//            return true;
-//        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
-//            return true;
-//        }
-//        return false;
-//    }
-//}
 if (!function_exists('is_closure')) {
     function is_closure($t)
     {
@@ -591,6 +550,22 @@ if (!function_exists('array_recursive_diff')) {
             }
         }
         return $aReturn;
+    }
+}
+
+function get_favicon_tag()
+{
+    $favicon_image = get_option('favicon_image', 'website');
+
+    if (!$favicon_image) {
+        $ui_favicon = mw()->ui->brand_favicon();
+        if ($ui_favicon and trim($ui_favicon) != '') {
+            $favicon_image = trim($ui_favicon);
+        }
+    }
+
+    if ($favicon_image) {
+        echo '<link rel="shortcut icon" href="' . $favicon_image . '" />';
     }
 }
 

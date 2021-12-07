@@ -17,6 +17,11 @@ class MenuRepository extends AbstractRepository {
     public $model = Menu::class;
 
     public static $_getAllMenus = [];
+    public function clearCache()
+    {
+        self::$_getAllMenus = [];
+        parent::clearCache();
+    }
     public function getAllMenus()
     {
         if (!empty(self::$_getAllMenus)) {

@@ -184,7 +184,7 @@ body.mw-live-edit .plain-text {
 }
 
 .mw-liveedit-layouts-li {
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid rgba(219, 219, 191, 0.12);
  }
 
 .mw-liveedit-layouts-li:hover {
@@ -1390,7 +1390,10 @@ body.has-opened-sidebar #live_edit_toolbar {
     width: 25px;
 }
 
-.liveeditcreatecontentmenu
+#backtoadminindropdown .mdi{
+    font-size: 21px;
+    margin-inline-end: 10px;
+}
 .create-content-dropdown-list .mw-icon-back {
     top: -2px;
 }
@@ -1590,7 +1593,11 @@ body.has-opened-sidebar #live_edit_toolbar {
     display: inline-block;
     position: relative;
     max-width: 100%;
-    /*height: 40px;*/
+    min-height: 30px;
+}
+.module-item-module:not(.default-layouts) .mw_module_image_holder {
+    height: 30px;
+    width: 30px;
 }
 
 .mw_module_image_shadow {
@@ -2016,7 +2023,7 @@ body.dragStart .empty-element {
     width: 55px;
     height: 53px;
     text-align: center;
-    border-right: 1px solid #EAEAEA;
+    /*border-right: 1px solid #EAEAEA;*/
     border-bottom: 1px solid transparent;
     text-decoration: none !important;
 
@@ -3179,7 +3186,7 @@ body.dragStart .module-item{ cursor: grabbing;}
 
 .module-item-layout:hover {
     box-shadow: 0 5px 5px #00000026;
-    transform: scale(1.025);
+
 }
 
 /* Modules */
@@ -3370,10 +3377,7 @@ body {
     transition: margin-right .3s;
 }
 
-body.has-opened-sidebar {
-    margin-inline-end: 360px;
 
-}
 
 @media screen and (max-width: 990px) {
     .has-opened-sidebar {
@@ -3491,10 +3495,7 @@ body.isTyping .mw-cloneable-control {
     height: auto;
 }
 
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo:hover,
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo:hover {
-    border: 1px solid #e5e5e5;
-}
+
 
 #history_panel_toggle {
     height: 30px;
@@ -4990,4 +4991,27 @@ body.dragStart picture img{
     margin-bottom: 7px;
 }
 
+
+.css-preset-dropdown {
+    border: none!important;
+    line-height: 1.2 !important;
+    padding: 8px !important;
+    background: none!important;
+    color: whitesmoke!important;
+}
+
+.css-preset-dropdown:hover {
+    border: 1px solid whitesmoke!important;
+}
+
+#mw-dialog-module-settings{
+    overflow: hidden;
+}
+
+
+[data-module-icon]{
+
+    min-height: 30px;
+    opacity: 0;
+ }
 

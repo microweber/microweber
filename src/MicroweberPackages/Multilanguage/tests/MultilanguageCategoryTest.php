@@ -43,6 +43,14 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => app()->lang_helper->default_lang(),
+            ]
+        );
+
         $rand = time().rand(111,999);
 
         $apiCategoryStore = [];
@@ -55,7 +63,6 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $apiCategoryStore['multilanguage']['title']['ar_SA'] = 'فئة'.$rand;
         $apiCategoryStore['multilanguage']['description']['ar_SA'] = 'وصف التصنيف'.$rand;
 
-
         $apiCategoryStore['multilanguage']['title']['ru_RU'] = 'Категории'.$rand;
         $apiCategoryStore['multilanguage']['description']['ru_RU'] = 'Описание категории'.$rand;
 
@@ -65,8 +72,10 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         );
         $this->assertEquals(201, $response->status());
         $categorySaved = $response->getData()->data;
-
         $getCategory = Category::where('id', $categorySaved->id)->first();
+
+        $this->assertEquals($getCategory->title, $apiCategoryStore['title']);
+        $this->assertEquals($getCategory->description, $apiCategoryStore['description']);
 
         $this->assertEquals($getCategory->multilanguage['bg_BG']['title'], $apiCategoryStore['multilanguage']['title']['bg_BG']);
         $this->assertEquals($getCategory->multilanguage['bg_BG']['description'], $apiCategoryStore['multilanguage']['description']['bg_BG']);
@@ -78,7 +87,6 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $this->assertEquals($getCategory->multilanguage['ru_RU']['description'], $apiCategoryStore['multilanguage']['description']['ru_RU']);
 
         // TEST BULGARIAN
-
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'bg_BG'
@@ -90,7 +98,6 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
 
 
         // TEST ARABIC
-
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'ar_SA'
@@ -110,8 +117,6 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $getCategory = Category::where('id', $categorySaved->id)->first();
         $this->assertEquals($getCategory->title, $apiCategoryStore['multilanguage']['title']['ru_RU']);
         $this->assertEquals($getCategory->description, $apiCategoryStore['multilanguage']['description']['ru_RU']);
-
-
 
 
     }

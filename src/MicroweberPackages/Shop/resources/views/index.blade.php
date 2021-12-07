@@ -46,7 +46,7 @@
                                 <span class="money"><?php print currency_format($product->price); ?></span>
                             </p>
 
-                            <a class="col-6 text-end align-self-center" href="{{content_link($product->id)}}"> View</a>
+                            <a class="col-6 text-end text-right align-self-center" href="{{content_link($product->id)}}"> View</a>
                         </div>
 
                         {{--@foreach($product->tags as $tag)--}}

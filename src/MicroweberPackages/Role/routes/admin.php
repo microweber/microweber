@@ -15,7 +15,6 @@
 Route::prefix(ADMIN_PREFIX)->name('admin.')->middleware(['admin','api'])->namespace('\MicroweberPackages\Role\Http\Controllers\Admin')->group(function () {
 
     Route::resource('role', 'RolesController');
-    Route::resource('user', 'UsersController');
 
     Route::post('role/clone', [
         'as' => 'role.clone',

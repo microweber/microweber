@@ -24,7 +24,7 @@ $rand = uniqid();
  </script>
  <script>
     $(document).ready(function(){
-      mw.$( "#date_<?php print $rand; ?>" ).datepicker();
+        $('#date_<?php echo $rand; ?>').datepicker({ dateFormat: '<?php echo $settings['date_format'];?>', language: "<?php echo current_lang_abbr(); ?>"});
     });
  </script>
 </div>

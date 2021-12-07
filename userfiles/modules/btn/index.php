@@ -22,7 +22,18 @@ if (!empty($get_btn_options)) {
 
 $align = get_module_option('align', $params['id']);
 
+$backgroundColor = get_module_option('backgroundColor', $params['id']);
+$color = get_module_option('color', $params['id']);
+$borderColor = get_module_option('borderColor', $params['id']);
+$borderWidth = get_module_option('borderWidth', $params['id']);
+$borderRadius = get_module_option('borderRadius', $params['id']);
+$customSize = get_module_option('customSize', $params['id']);
+$shadow = get_module_option('shadow', $params['id']);
 
+
+$hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
+$hovercolor = get_module_option('hovercolor', $params['id']);
+$hoverborderColor = get_module_option('hoverborderColor', $params['id']);
 
 
 
@@ -75,25 +86,22 @@ if ($url == false and isset($params['url'])) {
     $url = '#';
 }
 
+$url_display = false;
 
 
 $link_to_content_by_id = 'content:';
 $link_to_category_by_id = 'category:';
 
+$url_to_content_id = get_module_option('url_to_content_id', $params['id']);
+$url_to_category_id = get_module_option('url_to_category_id', $params['id']);
 
-$url_display = false;
-if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
-    $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
-    if ($link_to_content_by_id) {
-        $url_display = content_link($link_to_content_by_id);
-    }
-} else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
-    $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+if ($url_to_content_id) {
+    $url_display = content_link($url_to_content_id);
+} else if ($url_to_category_id) {
+    $url_display = category_link($url_to_category_id);
 
-    if ($link_to_category_by_id) {
-        $url_display = category_link($link_to_category_by_id);
-    }
 }
+
 
 if($url_display){
     $url = $url_display;
@@ -145,14 +153,68 @@ if (is_file($template_file) != false) {
 ?>
 
 
-<?php if($align){ ?>
-<style type="text/css">
-    #<?php print $params['id']; ?> {
-        text-align: <?php print $align; ?>;
-    }
-</style>
-<?php } ?>
+<?php
 
+$cssWrapper = '';
+$cssButton = '';
+$cssHoverButton = '';
+
+
+if($backgroundColor){
+    $cssButton .= 'background-color:' . $backgroundColor . '!important;';
+}
+if($color){
+    $cssButton .= 'color:' . $color . '!important;';
+}
+
+if($borderColor){
+    $cssButton .= 'border-color:' . $borderColor . '!important;';
+}
+
+if($borderWidth){
+    $cssButton .= 'border-width:' . $borderWidth . 'px!important;';
+}
+
+if($borderRadius){
+    $cssButton .= 'border-radius:' . $borderRadius . 'px!important;';
+}
+
+if($customSize){
+    $cssButton .= 'font-size: '.(intval($customSize)).'px!important;padding: .9em 2em!important;';
+}
+
+if($shadow){
+    $cssButton .= 'box-shadow:' . $shadow . '!important;';
+}
+
+if($align){
+    $cssWrapper .= 'text-align:' . $align . ' !important;';
+}
+
+if($hoverbackgroundColor){
+    $cssHoverButton .= 'background-color:' . $hoverbackgroundColor . ' !important;';
+}
+
+if($hovercolor){
+    $cssHoverButton .= 'color:' . $hovercolor . ' !important;';
+}
+
+if($hoverborderColor){
+    $cssHoverButton .= 'border-color:' . $hoverborderColor . ' !important;';
+}
+
+
+
+
+
+
+?>
+    <style >
+        #<?php print $params['id']; ?> { <?php print $cssWrapper; ?> }
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>,#<?php print $params['id']; ?> > a, #<?php print $params['id']; ?> > button { <?php print $cssButton; ?> }
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>:hover,#<?php print $params['id']; ?> > a:hover, #<?php print $params['id']; ?> > button:hover { <?php print $cssHoverButton; ?> }
+
+    </style>
 <?php
 
 if ($action == 'popup') { ?>

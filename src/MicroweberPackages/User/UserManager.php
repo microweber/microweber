@@ -123,16 +123,55 @@ class UserManager
      * @see      _table() For the database table fields
      */
 
+    public function codeLogin()
+    {
+        if (!function_exists('get_whitelabel_whmcs_settings')) {
+            return false;
+        }
 
+        $code = $_GET['code_login'];
+        $parse = parse_url(site_url());
+        if (!isset($parse['host'])) {
+            return redirect(admin_url());
+        }
+
+        $domain = $parse['host'];
+        $domain = str_replace('www.','', $domain);
+
+        $whmcsSettings = get_whitelabel_whmcs_settings();
+
+        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
+            return redirect(admin_url());
+        }
+
+        $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
+
+        $verifyCheck = @app()->http->url($verifyUrl)->get();
+        $verifyCheck = @json_decode($verifyCheck, true);
+
+        if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
+            $user = User::where('is_admin', '=', '1')->first();
+            if ($user !== null) {
+                \Illuminate\Support\Facades\Auth::login($user);
+
+                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
+                    return redirect($_GET['http_redirect']);
+                }
+            }
+
+            return redirect(admin_url());
+        }
+
+        return redirect(admin_url());
+    }
 
     public function login($params)
     {
         $params = parse_params($params);
-
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
+
         $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
         $url = $this->app->url->current(1);
         if ($check == 5) {
@@ -141,16 +180,17 @@ class UserManager
         }
         if ($check > 5) {
             $check = $check - 1;
-
             return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
         }
+
         $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
         if ($check2 > 25) {
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-
-
+        if (isset($params['code_login'])) {
+            return $this->codeLogin($params['code_login']);
+        }
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
@@ -174,10 +214,7 @@ class UserManager
             unset($params['password_encoded'] );
         }
 
-
-
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
-
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
 
@@ -211,170 +248,6 @@ class UserManager
 
         $params['x-no-throttle'] = false; //allow throttle
         return RequestRoute::postJson(route('api.user.login'), $params);
-    }
-
-
-    public function loginOLD($params)
-    {
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
-        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
-        $url = $this->app->url->current(1);
-        if ($check == 5) {
-            $url_href = "<a href='$url' target='_blank'>$url</a>";
-            $this->app->log_manager->save('title=User IP ' . user_ip() . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . user_ip());
-        }
-        if ($check > 5) {
-            $check = $check - 1;
-
-            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
-        }
-        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
-        if ($check2 > 25) {
-            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
-        }
-
-        $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
-
-        if ($login_captcha_enabled) {
-            if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            }
-            $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], null, false);
-            if (!$validate_captcha) {
-                return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-            }
-        }
-
-        // So we use second parameter
-        if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['
-            ']);
-            if (!empty($decoded_username)) {
-                $params['username'] = $decoded_username;
-            } else {
-                $params['username'] = @base62_decode($params['username_encoded']);
-            }
-        }
-
-        if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
-            $decoded_password = @base64_decode($params['password_encoded']);
-            if (!empty($decoded_password)) {
-                $params['password'] = $decoded_password;
-            } else {
-                $params['password'] = @base62_decode($params['password_encoded']);
-            }
-        }
-
-        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
-
-        $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
-        $overiden = false;
-        $return_resp = false;
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    if (isset($resp['success']) and isset($resp['redirect'])) {
-                        $redirect_after = $resp['redirect'];
-                    }
-                    $return_resp = $resp;
-                    $overiden = true;
-                }
-            }
-        }
-        if ($overiden == true and $redirect_after != false) {
-            return $this->app->url_manager->redirect($redirect_after);
-        } elseif ($overiden == true) {
-            return $return_resp;
-        }
-        $old_sid = Session::getId();
-        if (isset($params['username'])) {
-            if (!$params['username']) {
-                return array('error' => 'Please enter username or email');
-            }
-            $ok = Auth::attempt([
-                'username' => $params['username'],
-                'password' => $params['password'],
-            ]);
-            if (!$ok) {
-                if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
-                    $ok = Auth::attempt([
-                        'email' => $params['username'],
-                        'password' => $params['password'],
-                    ]);
-                }
-            }
-        } elseif (isset($params['email'])) {
-            if (!$params['email']) {
-                return array('error' => 'Please enter email');
-            }
-            $ok = Auth::attempt([
-                'email' => $params['email'],
-                'password' => $params['password'],
-            ]);
-        }
-
-        if (!isset($ok)) {
-            return;
-        }
-        if ($ok) {
-            if (function_exists('user_ip') and (Auth::user()->is_admin) == 1) {
-                $allowed_ips = config('microweber.admin_allowed_ips');
-                if ($allowed_ips) {
-                    $allowed_ips = explode(',', $allowed_ips);
-                    $allowed_ips = array_trim($allowed_ips);
-                    if (!empty($allowed_ips)) {
-                        $is_allowed = false;
-                        foreach ($allowed_ips as $allowed_ip) {
-                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(user_ip(), $allowed_ip);
-                            if ($is) {
-                                $is_allowed = $is;
-                            }
-                        }
-                        if (!$is_allowed) {
-                            $this->logout();
-                            return array('error' => 'You are not allowed to login from this IP address');
-                        }
-                    }
-                }
-            }
-
-
-            $user = Auth::login(Auth::user());
-            $user_data = $this->get_by_id(Auth::user()->id);
-            $user_data['old_sid'] = $old_sid;
-
-            if ($user_data['is_active'] == 0) {
-                $this->logout();
-                $registration_approval_required = get_option('registration_approval_required', 'users');
-                $register_email_verify = get_option('register_email_verify', 'users');
-                if ($registration_approval_required == 'y') {
-                    return array('error' => 'Your account is awaiting approval');
-                } elseif ($user_data['is_verified'] != 1 && $register_email_verify == 'y') {
-                    return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
-                } else {
-                    return array('error' => 'Your account has been disabled');
-                }
-            }
-
-            $this->update_last_login_time();
-
-            $this->app->event_manager->trigger('mw.user.login', $user_data);
-            if ($ok && $redirect_after) {
-                if (is_ajax()) {
-                    return ['success' => 'You are logged in!', 'redirect' => $redirect_after];
-                }
-                return $this->app->url_manager->redirect($redirect_after);
-            } elseif ($ok) {
-                $this->login_set_success_attempt($params);
-                return ['success' => 'You are logged in!'];
-            }
-        } else {
-            $this->login_set_failed_attempt($params);
-        }
-
-        return array('error' => 'Please enter right username and password!');
     }
 
     public function logout($params = false)
@@ -414,6 +287,13 @@ class UserManager
         }
 
         if (Auth::check()) {
+            $user =Auth::user();
+            if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
+                // logout user if its set inactive in database
+                $this->logout();
+                return false;
+            }
+
             return true;
         } else {
             return false;
@@ -691,272 +571,6 @@ class UserManager
     public function register($params)
     {
         return RequestRoute::postJson(route('api.user.register'), $params);
-    }
-
-    /**
-     * @deprecated
-     * @param $params
-     * @return array|bool
-     */
-    public function registerOLD($params)
-    {
-        if (defined('MW_API_CALL')) {
-            //	if (isset($params['token'])){
-            if ($this->is_admin() == false) {
-                $validate_token = $this->csrf_validate($params);
-                if ($validate_token == false) {
-                    return array('error' => 'Invalid token!');
-                }
-            }
-            //}
-        }
-
-        $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration == 'n') {
-            return array('error' => 'User registration is disabled.');
-        }
-
-        $user = isset($params['username']) ? $params['username'] : false;
-        $pass = isset($params['password']) ? $params['password'] : false;
-        $pass2 = isset($params['password2']) ? $params['password2'] : $pass;
-        $email = isset($params['email']) ? $params['email'] : false;
-        $first_name = isset($params['first_name']) ? $params['first_name'] : false;
-        $last_name = isset($params['last_name']) ? $params['last_name'] : false;
-        $middle_name = isset($params['middle_name']) ? $params['middle_name'] : false;
-        $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
-
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
-        $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
-        if ($email != false and $disable_registration_with_temporary_email) {
-            $checker = new DisposableEmailChecker();
-            $is_temp_email = $checker->check($email);
-            if ($is_temp_email) {
-                $domain = substr(strrchr($email, "@"), 1);
-                return array('error' => 'You cannot register with email from ' . $domain . ' domain');
-            }
-        }
-
-
-        $terms_accepted = false;
-        $terms_and_conditions_name = 'terms_user';
-        $user_require_terms = $this->app->option_manager->get('require_terms', 'users');
-        if ($user_require_terms) {
-            $user_id_or_email = $email;
-            if (!$user_id_or_email) {
-                return array(
-                    'error' => _e('You must provide email address', true),
-                    'form_data_required' => 'email'
-                );
-
-            } else {
-
-                $check_term = $this->terms_check($terms_and_conditions_name, $user_id_or_email);
-                if (!$check_term) {
-                    if (isset($params['terms']) and $params['terms']) {
-                        $terms_accepted = true;
-                    } else {
-                        return array(
-                            'error' => _e('You must agree to terms and conditions', true),
-                            'form_data_required' => 'terms',
-                            'form_data_module' => 'users/terms'
-                        );
-                    }
-                }
-            }
-        }
-
-        if (!$no_captcha) {
-            if (!isset($params['captcha'])) {
-                return array(
-                    'error' => _e('Please enter the captcha answer!', true),
-                    'form_data_required' => 'captcha',
-                    'form_data_module' => 'captcha'
-                );
-
-            } else {
-                $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
-                if (!$validate_captcha) {
-
-                    return array(
-                        'error' => _e('Invalid captcha answer!', true),
-                        'captcha_error' => true,
-                        'form_data_required' => 'captcha',
-                        'form_data_module' => 'captcha'
-                    );
-
-
-                }
-            }
-        }
-        $override = $this->app->event_manager->trigger('before_user_register', $params);
-
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    return $resp;
-                }
-            }
-        }
-
-        if (defined('MW_API_CALL')) {
-
-            if (isset($params['is_admin']) and $this->is_admin() == false) {
-                unset($params['is_admin']);
-            }
-            if (isset($params['is_verified']) and $this->is_admin() == false) {
-                unset($params['is_verified']);
-            }
-        }
-
-        if (!isset($params['password']) or (isset($params['password']) and ($params['password']) == '')) {
-            return array('error' => 'Please set password!');
-        }
-
-        if (get_option('form_show_password_confirmation', 'users') == 'y') {
-            if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
-                return array('error' => 'Two password entries do not match!');
-            }
-        }
-
-        if (!isset($params['username']) and !isset($params['email'])) {
-            return array('error' => 'Please set username or email!');
-        }
-        if (!isset($params['password'])) {
-            return array('error' => 'Please set a password!');
-        }
-
-
-        if (isset($params['password']) and ($params['password']) != '') {
-            if ($confirm_password != false) {
-                if ($params['password'] != $confirm_password) {
-                    return array('error' => 'Password confirm does not mach password!');
-                }
-            }
-            if ($email == false and $user != false) {
-                $email = $user;
-            }
-            if ($email != false) {
-
-
-                $data = array();
-                $data['email'] = $email;
-                $data['one'] = true;
-                $data['no_cache'] = true;
-                $user_data = $this->get_all($data);
-
-                if (empty($user_data)) {
-                    $data = array();
-                    $data['username'] = $email;
-                    $data['one'] = true;
-                    $data['no_cache'] = true;
-                    $user_data = $this->get_all($data);
-                }
-
-                if (empty($user_data)) {
-                    $data = array();
-                    $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 1;
-                    $table = $this->tables['users'];
-
-                    $reg = array();
-                    $reg['username'] = $user;
-                    $reg['email'] = $email;
-                    $reg['password'] = $pass2;
-
-                    $registration_approval_required = get_option('registration_approval_required', 'users');
-                    if ($registration_approval_required == 'y') {
-                        $reg['is_active'] = 0;
-                    } else {
-                        $reg['is_active'] = 1;
-                    }
-
-                    if ($first_name != false) {
-                        $reg['first_name'] = $first_name;
-                    }
-                    if ($last_name != false) {
-                        $reg['last_name'] = $last_name;
-                    }
-                    if ($middle_name != false) {
-                        $reg['middle_name'] = $middle_name;
-                    }
-
-                    $this->force_save = true;
-                    if (isset($params['attributes'])) {
-                        $reg['attributes'] = $params['attributes'];
-                    }
-
-                    $next = $this->save($reg);
-
-
-                    if ($terms_accepted) {
-                        $this->terms_accept($terms_and_conditions_name, $next);
-                    }
-
-
-                    // added newsletter subscription - maybe better to use function newsletter_subscribe but it would need modifying
-                    if (isset($params['newsletter_subscribe']) and $params['newsletter_subscribe']) {
-
-                        $subscribe = false;
-
-                        if ($user_require_terms) {
-
-                            // terms_user already logged now log terms_newsletter using the same authorisation
-
-                            $check_term = $this->app->user_manager->terms_check('terms_newsletter', $email);
-
-                            if (!$check_term) {
-                                if ($terms_accepted) {
-                                    $this->app->user_manager->terms_accept('terms_newsletter', $next);
-                                    $subscribe = true;
-                                }
-                            }
-                        } else {
-                            $subscribe = true;
-                        }
-
-                        if ($subscribe) {
-
-                            $subscriber_data = [
-                                'email' => $email,
-                                'name' => $first_name,
-                                'confirmation_code' => str_random(30),
-                                'is_subscribed' => 1
-                            ];
-
-                            $this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
-                        }
-                    }
-
-
-                    $this->force_save = false;
-                    $this->app->cache_manager->delete('users');
-                    $this->session_del('captcha');
-
-                    $this->after_register($next);
-
-                    $params = $data;
-                    $params['id'] = $next;
-                    if (isset($pass2)) {
-                        $params['password2'] = $pass2;
-                    }
-
-                    if ($registration_approval_required != 'y') {
-                        $this->make_logged($params['id']);
-                    }
-
-
-                    return array('success' => 'You have registered successfully');
-                } else {
-                    $try_login = $this->login($params);
-                    if (isset($try_login['success'])) {
-                        return $try_login;
-                    }
-
-                    return array('error' => 'This user already exists!');
-                }
-            }
-        }
     }
 
     public function after_register($user_id, $suppress_output = true)
@@ -1535,141 +1149,6 @@ class UserManager
         return RequestRoute::postJson(route('api.user.password.email'), $params);
     }
 
-    public function send_forgot_password_OLD($params)
-    {
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
-        if (!$no_captcha) {
-            if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            } else {
-                $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
-                if ($validate_captcha == false) {
-                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-                }
-            }
-        }
-
-        if (isset($params['email'])) {
-            //return array('error' => 'Enter username or email!');
-        } elseif (!isset($params['username']) or trim($params['username']) == '') {
-            return array('error' => 'Enter username or email!');
-        }
-
-        $data_res = false;
-        $data = false;
-        if (isset($params) and !empty($params)) {
-            $user = isset($params['username']) ? $params['username'] : false;
-            $email = isset($params['email']) ? $params['email'] : false;
-            $data = array();
-            if (trim($user != '')) {
-                $data1 = array();
-                $data1['username'] = $user;
-                $data = array();
-                if (trim($user != '')) {
-                    $data = $this->get_all($data1);
-                    if ($data == false) {
-                        $data1 = array();
-                        $data1['email'] = $user;
-                        $data = $this->get_all($data1);
-                    }
-                }
-            } elseif (trim($email != '')) {
-                $data1 = array();
-                $data1['email'] = $email;
-                $data = array();
-                if (trim($email != '')) {
-                    $data = $this->get_all($data1);
-                }
-            }
-
-            if (isset($data[0])) {
-                $data_res = $data[0];
-            }
-            if (!is_array($data_res)) {
-                return array('error' => 'Please enter correct username or email!');
-            } else {
-                $to = $data_res['email'];
-                if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                    $subject = 'Password reset!';
-                    $content = "Hello, {$data_res['username']} <br> ";
-                    $content .= 'You have requested a password reset link from IP address: ' . user_ip() . '<br><br> ';
-                    $security = array();
-                    $security['ip'] = user_ip();
-                    //  $security['hash'] = $this->app->format->array_to_base64($data_res);
-                    // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
-                    $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
-                    if (isset($data_res['id'])) {
-                        $data_to_save = array();
-                        $data_to_save['id'] = $data_res['id'];
-                        $data_to_save['password_reset_hash'] = $function_cache_id;
-                        $table = $this->tables['users'];
-                        $save = $this->app->database_manager->save($table, $data_to_save);
-                    }
-
-                    $base_link = $this->app->url_manager->current(1);
-
-                    $cur_template = template_dir();
-                    $cur_template_file = normalize_path($cur_template . 'login.php', false);
-                    $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
-                    if (is_file($cur_template_file)) {
-                        $base_link = site_url('login');
-                    } elseif (is_file($cur_template_file2)) {
-                        $base_link = site_url('forgot_password');
-                    }
-
-                    $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
-                    $security['base_link'] = $base_link;
-                    $security['reset_password_link'] = "<a href='{$pass_reset_link}'>" . $pass_reset_link . '</a>';
-                    $security['username'] = $data_res['username'];
-                    $security['first_name'] = $data_res['first_name'];
-                    $security['last_name'] = $data_res['last_name'];
-                    $security['created_at'] = $data_res['created_at'];
-                    $security['email'] = $data_res['email'];
-                    $security['id'] = $data_res['id'];
-
-                    $notif = array();
-                    $notif['module'] = 'users';
-                    $notif['rel_type'] = 'users';
-                    $notif['rel_id'] = $data_to_save['id'];
-                    $notif['title'] = 'Password reset link sent';
-                    $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
-                    $notif['description'] = $content_notif;
-                    $this->app->log_manager->save($notif);
-                    $content .= "Click here to reset your password  <a style='word-break:break-all;' href='{$pass_reset_link}'>" . $pass_reset_link . '</a><br><br> ';
-
-                    //custom email
-
-                    if (get_option('forgot_pass_email_enabled', 'users')) {
-                        $cust_subject = get_option('forgot_pass_email_subject', 'users');
-                        $cust_content = get_option('forgot_pass_email_content', 'users');
-                        if (trim($cust_subject) != '') {
-                            $subject = $cust_subject;
-                        }
-                        if ($cust_content != false) {
-                            $cust_content_check = strip_tags($cust_content);
-                            $cust_content_check = trim($cust_content_check);
-                            if ($cust_content_check != '') {
-                                foreach ($security as $key => $value) {
-                                    if (!is_array($value) and is_string($key)) {
-                                        $cust_content = str_ireplace('{' . $key . '}', $value, $cust_content);
-                                    }
-                                }
-                                $content = $cust_content;
-                            }
-                        }
-                    }
-
-                    $sender = new \MicroweberPackages\Utils\Mail\MailSender();
-                    $sender->send($to, $subject, $content);
-
-                    return array('success' => 'Your password reset link has been sent to ' . $to);
-                } else {
-                    return array('error' => 'Error: the user doesn\'t have a valid email address!');
-                }
-            }
-        }
-    }
-
     public function social_login($params)
     {
         if (is_string($params)) {
@@ -1730,6 +1209,8 @@ class UserManager
                     }
 
                     $old_sid = Session::getId();
+                    $this->session_set('old_sid',$old_sid);
+
                     $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
                     $current_user = Auth::user();
@@ -1990,7 +1471,7 @@ class UserManager
         } else if (is_file($file)) {
             return site_url('logout');
         } else {
-            return api_url('logout');
+            return route('api.user.logout');
         }
 
     }

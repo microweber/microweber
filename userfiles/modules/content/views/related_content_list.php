@@ -169,7 +169,7 @@ if ($content) {
         <div id="mw-admin-search-for-related-content<?php print $rand ?>"></div>
     </div>
 <div>
-    <label class="control-label mb-3"><?php _e("List of related content"); ?></label>
+    <label class="control-label my-3"><?php _e("List of related content"); ?></label>
     <?php if (!$related) { ?>
 
         <div class="alert alert-dismissible alert-secondary">

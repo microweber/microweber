@@ -1,18 +1,28 @@
 <?php
 if(!isset($omnipay_request_data)){
-	$omnipay_request_data = $_POST;
+    $omnipay_request_data = [];
+
+    if($_POST and !empty($_POST)){
+        $omnipay_request_data = array_merge($omnipay_request_data,$_POST);
+    }
+
+    $checkout_session2 = session_get('checkout_v2');
+    if($checkout_session2 and !empty($checkout_session2)){
+        $omnipay_request_data = array_merge($omnipay_request_data,$checkout_session2);
+    }
+
 }
- 
+
 
 if(isset($omnipay_request_data['first_name'])){
 	$omnipay_request_data['firstName'] = (trim($omnipay_request_data['first_name']));
 }
 if(isset($omnipay_request_data['last_name'])){
 	$omnipay_request_data['lastName'] = (trim($omnipay_request_data['last_name']));
-} 
- 
- 
- 
+}
+
+
+
 if(isset($omnipay_request_data['cc_first_name'])){
 	$omnipay_request_data['firstName'] = (trim($omnipay_request_data['cc_first_name']));
 }
@@ -45,7 +55,7 @@ $expDateYear = (trim($omnipay_request_data['cc_year']));
 $cvv2Number = (trim($omnipay_request_data['cc_verification_value']));
 
 */
- 
+
 
 $formData_populate = array(
 'subject',

@@ -89,11 +89,9 @@ if (isset($_COOKIE['mw_exp'])) {
         });
 
     </script>
-    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-    <?php if (_lang_is_rtl()) { ?>
-        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
-    <?php } ?>
+
+    <?php print app()->template->admin->getLiveEditTemplateHeadHtml(); ?>
+
     <?php
 
     $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
@@ -376,7 +374,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="text" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
+                                    <input type="text" class="mwtb-search mw-dropdown-search" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();
@@ -384,14 +382,14 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $pt_opts['list_tag'] = "ul";
                                 $pt_opts['ul_class'] = "";
                                 $pt_opts['list_item_tag'] = "li";
-                                $pt_opts['active_ids'] = CONTENT_ID;
+                                $pt_opts['active_ids'] = content_id();
                                 $pt_opts['limit'] = 1000;
                                 $pt_opts['active_code_tag'] = 'class="active"';
                                 mw()->content_manager->pages_tree($pt_opts);
                                 ?>
                                 <a id="backtoadminindropdown"
-                                   href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span
-                                            class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a>
+                                   href="<?php print $back_url; ?>"
+                                   ><span class="mdi mdi-arrow-left"></span><span><?php _e("Back to Admin"); ?></span> </a>
                             </div>
                         </li>
                         <?php event_trigger('live_edit_toolbar_menu_start'); ?>
@@ -421,9 +419,15 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                         <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <?php
+                                        $content_menu_url = route('admin.content.create');
+                                        if (\Route::has('admin.'.$item['content_type'].'.create')) {
+                                            $content_menu_url = route('admin.' . $item['content_type'] . '.create');
+                                        }
+                                        ?>
                                         <li>
                                             <a onclick="mw.liveedit.manageContent.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;"
-                                               href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>">
+                                               href="<?php print  $content_menu_url ?>">
                                                 <span class="<?php print $class; ?>"></span>
                                                 <strong><?php print $title; ?></strong>
                                             </a>
@@ -535,8 +539,8 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <li>
                                         <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
                                         <ul>
-                                            <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
-                                            <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+                                            <!--<li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php /*_e("CSS Editor"); */?></a></li>-->
+                                            <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("Code Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools" onclick="mw.open_content_revisions_dialog('<?php print CONTENT_ID; ?>')" id="mw-toolbar-content-revisions-btn"><span class="mw-icon-code"></span><?php _e("Content versions"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
 
@@ -711,7 +715,7 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-top mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 <span class="mw-plus-bottom mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 
-<div style="display: none" id="plus-modules-list">
+<template style="display: none" id="plus-modules-list">
     <h3>Select module</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
@@ -719,9 +723,9 @@ if (isset($_COOKIE['mw_exp'])) {
             <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
-</div>
+</template>
 
-<div style="display: none" id="plus-layouts-list">
+<template style="display: none" id="plus-layouts-list">
     <h3>Select layout</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
@@ -729,7 +733,7 @@ if (isset($_COOKIE['mw_exp'])) {
             <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
-</div>
+</template>
 
 
 

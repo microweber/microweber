@@ -351,7 +351,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     position: relative;
     width: 18%;
     height: 110px;
-    margin: 0 1% 1%;
+    margin: 0 1% 2%;
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #FFFF66;
@@ -789,6 +789,9 @@ body.mw-external-loading:after {
     border: none;
 }
 
+.mw-range .ui-slider-handle:hover{
+    background-color: #0086db;
+}
 .mw-range .ui-slider-handle {
     width: 15px;
     height: 15px;
@@ -829,11 +832,7 @@ body.mw-external-loading:after {
     margin-left: -1px;
 }
 
-.mw-multiple-fields > .mw-field input:hover,
-.mw-multiple-fields > .mw-field input:focus {
-    z-index: 1;
-    position: relative;
-}
+
 
 .mw-filepicker-component-section .form-group{
     position: relative;

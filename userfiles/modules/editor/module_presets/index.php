@@ -454,7 +454,7 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="button" onclick="cancelCreatePreset()" class="btn btn-secondary btn-sm">Cancel</button>
+                <button type="button" onclick="cancelCreatePreset()" class="btn btn-outline-secondary btn-sm">Cancel</button>
                 <button type="button" js-mod-id="<?php print  $module_id ?>" is-new="true" class="btn btn-success btn-sm module-presets-action-btn">Save</button>
             </div>
         </div>

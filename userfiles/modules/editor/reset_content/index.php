@@ -34,18 +34,18 @@
     <span class="mdi mdi-alert mw-color-important" style="font-size:32px"></span>
     <br>
     <h3>Warning</h3>
-    This will reset all content on this page!
+    This will reset the content of the selected element!
 </div>
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
     <div class="mw-ui-box-header">
         <label class="mw-ui-check">
-            <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1">
-            <span></span><span>Also reset all modules on this page</span>
+            <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>
+            <span></span><span>Also reset modules inside the selected edit field</span>
         </label>
         <span></span>
     </div>
-    <div class="mw-ui-box-content">
+    <div class="mw-ui-box-content" id="select_edit_field_container">
         <div id="select_edit_field_wrap"></div>
     </div>
 </div>

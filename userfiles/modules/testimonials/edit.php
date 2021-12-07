@@ -183,7 +183,7 @@ if (!isset($data['client_company'])) {
                 <textarea name="content" class="form-control" required="required" rows="10"><?php print $data['content'] ?></textarea>
             </div>
 
-            <button type="button" class="btn btn-link btn-sm px-0 pt-0 mb-3 d=block" onclick="$('#more-testimonial-settings').slideToggle()"><?php _e('Show more settings'); ?></button>
+            <button type="button" class="btn btn-link btn-sm mb-3 d-block" onclick="$('#more-testimonial-settings').slideToggle()"><?php _e('Show more settings'); ?></button>
 
             <div id="more-testimonial-settings" style="display: none;">
                 <div class="form-group">
@@ -208,7 +208,7 @@ if (!isset($data['client_company'])) {
 
 
                 <?php
-                $projectName = 'All projects';
+                $projectName = '';
                 if (isset($params['project_name']) && !empty($params['project_name'])) {
                     $projectName = $params['project_name'];
                 }
@@ -247,8 +247,8 @@ if (!isset($data['client_company'])) {
                 </div>
             </div>
 
-            <div class="mw-ui-field-holder text-end">
-                <input type="submit" name="submit" value="Save" class="btn btn-success btn-sm"/>
+            <div class="mw-ui-field-holder text-end text-right">
+                <input type="submit" name="submit" value="Save" class="btn btn-outline-primary btn-sm"/>
             </div>
         </div>
     </div>

@@ -20,7 +20,13 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             </div>
         </div>
         <div class="card-body pt-3">
-            <module id="edit-post-gallery-main" type="pictures/admin" class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>" for="content" content_type="<?php print trim($data['content_type']) ?>" for-id="<?php print $data['id']; ?>"/>
+            <module
+                id="edit-post-gallery-main"
+                type="pictures/admin"
+                class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
+                for="content"
+                content_type="<?php print trim($data['content_type']) ?>"
+                for-id="<?php print $data['id']; ?>"/>
         </div>
     </div>
 
@@ -89,10 +95,12 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             })
         })
     </script>
-        <div class="card style-1 mb-3 card-collapse fields">
+        <div class="card style-1 mb-3 card-collapse fields js-custom-fields-card-tab">
             <div class="card-header no-border">
+
                 <h6><strong><?php _e("Custom fields"); ?></strong></h6>
-                <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e("Custom fields"); ?></a>
+                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-toggle="collapse" data-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
+
             </div>
 
             <div class="card-body py-0">
@@ -149,7 +157,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
         setTimeout(function (){
             mw.askusertostay = false;
-            document.querySelector('.js-bottom-save').disabled = true;
+          //  document.querySelector('.js-bottom-save').disabled = true;
         }, 999)
 
     });

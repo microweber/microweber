@@ -51,6 +51,7 @@ class Edit
 
     function index($params)
     {
+
         if (!user_can_access('module.content.edit')) {
             return;
         }
@@ -103,6 +104,11 @@ class Edit
             $data = $data_q->toArray();
             }
         }
+
+        if (isset($params['content_id'])) {
+            $params['content-id'] = $params['content_id'];
+        }
+
         if (isset($params['content-id'])) {
             $data_q = Content::where('id', intval($params["content-id"]))->first();
             if($data_q){
@@ -117,7 +123,7 @@ class Edit
         } elseif (isset($params['parent']) and $params['parent'] != false) {
             $recommended_parent = $params['parent'];
         }
-       // dd($params);
+
         $categories_active_ids = false;
         $title_placeholder = false;
         if (isset($params['category']) and $params['category'] != false) {

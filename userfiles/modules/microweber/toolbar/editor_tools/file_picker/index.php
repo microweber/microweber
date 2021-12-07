@@ -164,7 +164,7 @@ if (array_key_exists('types', $_GET)) {
 </script>
 
 
-<style type="text/css">
+<style >
 
     .mw-ui-box-content {
         min-height: 138px;

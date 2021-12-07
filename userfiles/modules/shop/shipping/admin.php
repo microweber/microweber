@@ -140,7 +140,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                         </small>
                                     </div>
 
-                                    <div class="col text-end">
+                                    <div class="col text-end text-right">
                                         <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print($shipping_module['module']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                     </div>
                                 </div>

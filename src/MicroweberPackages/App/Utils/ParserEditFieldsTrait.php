@@ -45,7 +45,7 @@ Trait ParserEditFieldsTrait
                 $this->_current_parser_rel = $this->_mw_edit_field_map[$parser_mem_crc]['rel'];
             }
 
-            return $this->_mw_parser_passed_replaces[$parser_mem_crc];
+           return $this->_mw_parser_passed_replaces[$parser_mem_crc];
         }
 
 
@@ -129,15 +129,15 @@ Trait ParserEditFieldsTrait
 
                         if ($rel == 'page') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if ($rel == 'post') {
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = POST_ID;
+                                $data_id = post_id();;
                             }
                             if (!isset($data_id) or $data_id == false) {
-                                $data_id = PAGE_ID;
+                                $data_id = page_id();
                             }
                         }
                         if (!isset($data_id) or $data_id == false) {
@@ -155,7 +155,7 @@ Trait ParserEditFieldsTrait
                     } elseif ($rel == 'inherit') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
-                            $data_id = PAGE_ID;
+                            $data_id = page_id();
                         }
 //                        $data_inh_check = app()->content_manager->get_by_id($data_id);
 //
@@ -591,7 +591,26 @@ Trait ParserEditFieldsTrait
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<tag>mw_replace_back_this_script_mod_inner_' . $v1 . '</tag>';
+                    $v1 = '<tag>mw_replace_back_this_script_mod_inner112_' . $v1 . '</tag>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset( $this->_replaced_tags[$v1])) {
+                        $this->_replaced_tags[$v1] = $value;
+
+                    }
+                }
+            }
+        }
+
+
+
+   $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag>mw_replace_back_this_textarea_mod_inner_' . $v1 . '</tag>';
                     $mod_content = str_replace($value, $v1, $mod_content);
                     if (!isset( $this->_replaced_tags[$v1])) {
                         $this->_replaced_tags[$v1] = $value;

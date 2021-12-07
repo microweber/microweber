@@ -235,7 +235,7 @@ class ContentRepository extends AbstractRepository
 
     public function getEditField($field, $rel_type, $rel_id = false)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
+        $cacheResponse = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
 
             $check = DB::table('content_fields');
             $check->where('field', $field);
@@ -246,23 +246,26 @@ class ContentRepository extends AbstractRepository
             $check = $check->first();
 
             if ($check and !empty($check)) {
-
                 $check = (array) $check;
-
-                $hookParams = [];
-                $hookParams['data'] = $check;
-                $hookParams['hook_overwrite_type'] = 'single';
-                $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
-                if (isset($overwrite['data'])) {
-                    $check = $overwrite['data'];
-                }
-
                 return $check;
             }
 
             return false;
         });
 
+
+        if (!empty($cacheResponse)) {
+            $hookParams = [];
+            $hookParams['getEditField'] = true;
+            $hookParams['data'] = $cacheResponse;
+            $hookParams['hook_overwrite_type'] = 'single';
+            $overwrite = app()->event_manager->response(get_class($this) . '\\' . __FUNCTION__, $hookParams);
+            if (isset($overwrite['data'])) {
+                $cacheResponse = $overwrite['data'];
+            }
+        }
+
+        return $cacheResponse;
     }
 
     public function tags($content_id = false, $return_full = false)

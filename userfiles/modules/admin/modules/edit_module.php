@@ -60,8 +60,8 @@ if ($id != false) {
                 return false;
             });
 
-            mw.$('#module_update_<?php print $params['id']; ?>').unbind('click');
-            mw.$('#module_update_<?php print $params['id']; ?>').click(function () {
+            mw.$('#module_update_<?php print $params['id']; ?>').off('click');
+            mw.$('#module_update_<?php print $params['id']; ?>').on('click', function () {
                 //  var for_module = {}
                 var for_module = $(this).attr('data-module-name');
                 mw.notification.warning("Installing update for module: " + for_module + '');
@@ -72,30 +72,11 @@ if ($id != false) {
 
                 return false;
             });
+
         });
     </script>
 
-    <style>
-        .module-img {
-            height: 35px;
-            margin-bottom: 10px;
-        }
 
-        .mw-modules-module-holder {
-            min-height: 140px;
-            cursor: pointer;
-        }
-
-        .mw-modules-badge.cog-badge {
-
-         background-color: #d5f3e4;
-        }
-
-        .mw-modules-badge.cog-settings {
-
-            background-color: #f6d9da;
-        }
-    </style>
 
 
     <?php
@@ -118,7 +99,7 @@ if ($id != false) {
 
     <div class="card mw-modules-module-holder p-1">
         <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
-            <div class="text-start pb-3">
+            <div class="text-start text-left pb-3">
             <?php echo $badge; ?>
             </div>
 
@@ -130,7 +111,7 @@ if ($id != false) {
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
                 <div class="d-flex align-items-center justify-content-center flex-column">
                     <?php if (isset($data['icon'])): ?>
-                        <img src="<?php print $data['icon'] ?>" class="module-img" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
+                        <img data-module-icon="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
                     <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
@@ -164,3 +145,44 @@ if ($id != false) {
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+$(document).ready(function (){
+
+    $('.module-item-module img,.mw-modules-module-holder img').each(function (){
+        var src = this.dataset.moduleIcon.trim();
+        var img = this;
+        if(src.includes('.svg') && src.includes(location.origin)) {
+            var el = document.createElement('div');
+            el.className = img.className;
+            // var shadow = el.attachShadow({mode: 'open'});
+            var shadow = el;
+            fetch(src)
+                .then(function (data){
+                    return data.text();
+                }).then(function (data){
+                var shImg = document.createElement('div');
+                shImg.innerHTML = data;
+                shImg.part = 'mw-module-icon';
+                shImg.querySelector('svg').part = 'mw-module-icon-svg';
+
+                Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                    style.remove()
+                })
+                Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
+                    item.removeAttribute('class')
+                    item.removeAttribute('id')
+                })
+
+                shadow.appendChild(shImg);
+                if(img.parentNode) {
+                    img.parentNode.replaceChild(el, img)
+                }
+
+            })
+        } else {
+            this.src = src;
+        }
+    })
+})
+</script>

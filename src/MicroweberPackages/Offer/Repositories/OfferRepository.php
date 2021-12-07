@@ -89,28 +89,22 @@ class OfferRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $result = [];
+            $productIds = [];
 
-            $translation_namespaces = \DB::table('offers')
+            $getOffers = \DB::table('offers')
                 ->select('product_id')
                 ->groupBy('product_id')
                 ->get();
 
-            if ($translation_namespaces) {
-                $result = $translation_namespaces->toArray();
-                if ($result and is_array($result)) {
-                    $result = array_map(function ($value) {
-                        return (array)$value;
-                    }, $result);
-                    $result = array_values($result);
-                    $result = array_flatten($result);
-                    $result = array_flip($result);
-                    $result = array_keys($result);
+            if ($getOffers->count() > 0) {
+                foreach ($getOffers as $offer) {
+                    if ($offer->product_id > 0) {
+                        $productIds[] = $offer->product_id;
+                    }
                 }
-
             }
 
-            return $result;
+            return $productIds;
        });
     }
 

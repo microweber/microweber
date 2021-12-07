@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Content\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByInStockTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
@@ -22,6 +23,7 @@ class ContentFilter extends ModelFilter
     use FilterByUrlTrait;
     use FilterByKeywordTrait;
     use FilterByTagsTrait;
+    use FilterByInStockTrait;
 
     public function fields($fields)
     {

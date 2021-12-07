@@ -33,7 +33,6 @@ api_expose_admin('get_content_children');
 api_expose_admin('page_link');
 api_expose_admin('post_link');
 api_expose_admin('pages_tree');
-api_expose_admin('save_edit');
 api_expose_admin('save_content');
 api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');
@@ -68,6 +67,7 @@ api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
 });
 
 api_expose('template/print_custom_css', function ($data) {
+
 
     $contents = mw()->template->get_custom_css($data);
 
@@ -123,9 +123,6 @@ api_expose('checkout_ipn');
 api_expose('currency_format');
 api_expose('empty_cart');
 api_expose('payment_options');
-api_expose('remove_cart_item');
-api_expose('update_cart');
-api_expose('update_cart_item_qty');
 
 api_expose('shop/redirect_to_checkout', function () {
     return mw()->shop_manager->redirect_to_checkout();

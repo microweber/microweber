@@ -58,7 +58,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
    addEventListener('load', function (){
        var settings = new mw.moduleSettings({
            element: '#teamcard-settings',
-           header: '<i class="mw-icon-drag"></i><span data-bind="name"></span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+           header: '<i class="mw-icon-drag"></i><span data-bind="name"></span> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
            data: data,
            key: 'settings',
            group: '<?php print $params['id']; ?>',
@@ -122,7 +122,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                     <div class="module-live-edit-settings module-teamcard-settings">
                         <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-                        <div class="mw-ui-field-holder add-new-button">
+                        <div class="mw-ui-field-holder add-new-button text-end text-right">
                             <span
                                 class="btn btn-success btn-rounded icon-left"
                                 id="add-team-member"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></span>

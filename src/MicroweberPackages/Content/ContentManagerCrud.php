@@ -392,9 +392,11 @@ class ContentManagerCrud extends Crud
         }
 
         $link_hash = 'link' . crc32($url);
+        /*
+         * do not use precached links this will broke the multilanguage
         if (isset(self::$precached_links[$link_hash])) {
-            return self::$precached_links[$link_hash];
-        }
+             return self::$precached_links[$link_hash];
+        }*/
 
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
@@ -1418,5 +1420,11 @@ class ContentManagerCrud extends Crud
         }
 
         return false;
+    }
+
+
+    public function clearCache()
+    {
+        self::$precached_links = [];
     }
 }

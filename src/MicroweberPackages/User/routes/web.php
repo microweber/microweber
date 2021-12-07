@@ -8,15 +8,20 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Admin web
-Route::prefix(ADMIN_PREFIX)->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
-});
 
 // Public user
-Route::namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::get('login', 'UserLoginController@loginForm')->name('login');
-});
+
+// route moved to src/MicroweberPackages/App/routes/web.php  because if bug
+// Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
+
+
+Route::name('admin.')
+    ->prefix('admin')
+    ->middleware(['admin'])
+    ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
+    ->group(function () {
+        Route::resource('user', 'UserController');
+    });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 

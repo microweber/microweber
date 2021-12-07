@@ -19,9 +19,9 @@ mw.liveedit.handleEvents = function() {
     });
 
 
-    mw.$("#mw-toolbar-css-editor-btn").click(function() {
+    /*mw.$("#mw-toolbar-css-editor-btn").click(function() {
         mw.liveedit.widgets.cssEditorDialog();
-    });
+    });*/
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
         mw.liveedit.widgets.htmlEditorDialog();
     });

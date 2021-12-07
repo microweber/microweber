@@ -23,6 +23,9 @@ api_expose_admin('multilanguage/supported_locale/set_active', function ($params)
             }
 
             $save = db_save('multilanguage_supported_locales', $localeUpdate);
+            cache_clear('options');
+            cache_clear('content');
+            cache_clear('repositories');
             if ($save) {
                 return ['success'=>true];
             }
@@ -87,22 +90,4 @@ api_expose_admin('multilanguage/add_language', function ($params) {
 
 });
 
-Route::any('api/multilanguage/change_language', function () {
-    $api = new MultilanguageApi();
-    return $api->changeLanguage(Input::all());
-});
 
-//api_expose('multilanguage/change_language', function ($params) {
-//
-//    $api = new MultilanguageApi();
-//    return $api->changeLanguage($params);
-//
-//});
-
-api_expose('multilanguage/geolocaiton_test', function ($params) {
-
-    $geo = get_geolocation_detailed();
-
-    echo json_encode($geo,JSON_PRETTY_PRINT);
-
-});

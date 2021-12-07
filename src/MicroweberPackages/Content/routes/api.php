@@ -13,6 +13,10 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
+        Route::post('save_edit', function (\Illuminate\Http\Request $request) {
+            return save_edit($request->all());
+        })->name('content.save_edit');
+
         Route::get('content/get_admin_js_tree_json', function(\Illuminate\Http\Request $request){
             return mw()->category_manager->get_admin_js_tree_json($request->all());
         });
@@ -85,13 +89,20 @@ Route::name('api.')
             }
 
             $segments = mw()->permalink_manager->link($content['id'], 'content', true);
+            $admin_url = route('admin.content.edit', $content['id']);
 
+            if(isset($content['content_type']) and $content['content_type']){
+                if (\Route::has('admin.'.$content['content_type'].'.edit')) {
+                    $admin_url = route('admin.' . $content['content_type'] . '.edit', $content['id']);
+                }
+            }
             if ($segments) {
                 return [
                     'url' => $segments['url'],
                     'slug_prefix' => $segments['slug_prefix'],
                     'slug_prefix_url' => $segments['slug_prefix_url'],
                     'slug' => $segments['slug'],
+                    'admin_url' => $admin_url ,
                     'site_url' => site_url()
                 ];
             }

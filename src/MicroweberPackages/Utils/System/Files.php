@@ -865,7 +865,7 @@ class Files
                 break;
             case 'documents':
             case 'doc':
-                $are_allowed .= ',doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+                $are_allowed .= ',doc,docx,pdf,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
                 break;
             case 'archives':
             case 'arc':

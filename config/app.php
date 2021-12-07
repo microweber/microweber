@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,8 +64,7 @@ return [
     | the language folders that are provided through your application.
     |
     */
-
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------

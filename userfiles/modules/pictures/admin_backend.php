@@ -33,6 +33,10 @@
 </style>
 
 <?php
+
+$use_from_post = get_option('data-use-from-post', $params['id']) == 'y';
+$use_from_post_forced = false;
+
 if (!isset($for_id)) {
     $for_id = 0;
 }
@@ -215,9 +219,15 @@ if (!isset($data["thumbnail"])) {
     window.imageOptions = {};
 </script>
 
+<div class="pull-right">
+    <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
+</div>
 
-<div class="left m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
+
+<div class="left pt-5" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader_<?php print $rand?>"></div>
+
+
 
     <div class="admin-thumbs-holder">
         <?php if ($for_id != false) : ?>
@@ -226,7 +236,6 @@ if (!isset($data["thumbnail"])) {
             <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" session_id="<?php print $sid ?>"/>
         <?php endif; ?>
     </div>
-
     <script>mw.require("files.js", true);</script>
      <?php include (__DIR__.'/admin_backend_scripts.php')?>
 </div>

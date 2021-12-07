@@ -65,7 +65,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $(window).on("load", function () {
                 this.tabSettings = new mw.moduleSettings({
                     element: '#settings-box',
-                    header: '<i class="mw-icon-drag"></i> <span data-bind="title"><?php _ejs("Move"); ?></span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+                    header: '<i class="mw-icon-drag"></i> <span data-bind="title"><?php _ejs("Move"); ?></span> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
                     data: <?php print json_encode($json); ?>,
                     schema: [
                         {

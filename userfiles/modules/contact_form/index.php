@@ -13,11 +13,15 @@ if(typeof  processContactForm !== 'object'){
                decorate: true
            });
            spinner.show()
+           if(spinner && spinner.setState){
            spinner.setState('loading')
+           }
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
 
             mw.form.post(selector, undefined, function(form){
+                if(spinner && spinner.setState){
                 spinner.setState('done')
+                }
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
@@ -28,9 +32,21 @@ if(typeof  processContactForm !== 'object'){
                     processContactForm.done(form, msgselector, spinner);
                 }
          	}, true, function () {
+
+                var data2 = this.responseJSON;
+
                 spinner.remove()
                 mw.$('input[type="submit"]',selector).attr('disabled', false);
+
+                if(typeof data2.error === 'string'){
+                    mw.response(mw.$(selector), data2);
+                } else if(typeof data2.redirect === 'string'){
+                    window.location.href = data2.redirect;
+                }
+
             } );
+
+
        },
        done: function(form, selector, spinner){
           form = mw.$(form);

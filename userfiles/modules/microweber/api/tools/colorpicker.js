@@ -69,7 +69,8 @@ mw._colorPicker = function (options) {
     };
 
     if(settings.value) {
-        sett.color = settings.value
+        sett.color = settings.value;
+
     }
     if(typeof settings.showRGB !== 'undefined') {
         sett.showRGB = settings.showRGB
@@ -96,6 +97,13 @@ mw._colorPicker = function (options) {
             if ($el[0].nodeName === 'INPUT') {
                 var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
+                var prev = $el[0].previousElementSibling
+                if( prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display')
+                    if(dp) {
+                        dp.style.backgroundColor = val
+                    }
+                }
             }
         }
 
@@ -123,6 +131,14 @@ mw._colorPicker = function (options) {
 
             if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
+                var prev = $el[0].previousElementSibling
+                if(prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display');
+                    if(dp) {
+                        dp.style.backgroundColor = data.color
+                    }
+
+                }
             }
         };
         if ($el[0].nodeName === 'INPUT') {
@@ -176,6 +192,13 @@ mw._colorPicker = function (options) {
                 $el.focus();
                 this.show()
             }
+        }
+    }
+    var prev = $el[0].previousElementSibling
+    if( prev && prev.classList.contains('mw-field-color-indicator')) {
+        var dp = prev.querySelector('.mw-field-color-indicator-display')
+        if(dp) {
+            dp.style.backgroundColor = $el[0].value
         }
     }
 

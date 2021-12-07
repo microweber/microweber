@@ -147,6 +147,12 @@
             }
         };
 
+        this.remove = function () {
+            if(this.input.parentNode) {
+                this.input.parentNode.removeChild(this.input);
+            }
+        }
+
         this.build = function () {
             if(this.settings.element) {
                 this.$element = $(this.settings.element);
@@ -230,7 +236,12 @@
                 scope.upload(data, function (res) {
                     var dataProgress;
                     if(chunks.length) {
-                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){}, function (xhr){
+                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){
+                            if (done) {
+                                done.call(file, res);
+                            }
+                            resolve(file);
+                        }, function (xhr){
                              if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr);
                             }
@@ -286,14 +297,14 @@
 
         this.uploadFiles = function () {
             if (this.settings.async) {
-                if (this.files.length) {
+                 if (this.files.length) {
                     this.uploading(true);
                     var file = this.files[0]
                     scope.uploadFile(file)
                         .then(function (){
                         scope.files.shift();
                         scope.uploadFiles();
-                    }, function (xhr){console.log(2, scope.settings.on.fileUploadError)
+                    }, function (xhr){
                             scope.removeFile(file);
                             if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr)

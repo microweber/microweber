@@ -42,4 +42,9 @@ abstract class AbstractShippingDriver
         return [];
     }
 
+    public function quickSetup()
+    {
+        return '';
+    }
+
 }

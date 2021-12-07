@@ -1,139 +1,68 @@
 <?php
+
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
+class MwEditor extends \MicroweberPackages\Form\Elements\Text
 {
     public $randId;
-
-    public $currentLanguage;
     public $defaultLanguage;
 
     public function render()
     {
+        $this->defaultLanguage = mw()->lang_helper->default_lang();
+        $this->currentLanguage = mw()->lang_helper->current_lang();
+        $this->randId = str_random();
         $fieldName = $this->getAttribute('name');
 
-        $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->defaultLanguage = mw()->lang_helper->default_lang();
-
-        $this->randId = random_int(111,999).time();
-
-        $supportedLanguages = get_supported_languages(true);
-
-        $modelAttributes = [];
-        if ($this->model) {
-            $modelAttributes = $this->model->getAttributes();
+        $fieldValue = '';
+        if (isset($this->model->{$fieldName})) {
+            $fieldValue = $this->model->{$fieldName};
         }
 
-        $html = ' <div class="bs-component">
-                <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                ';
+        $locales = [];
+        $supportedLanguages = get_supported_languages(true);
+        foreach ($supportedLanguages as $language) {
+            $locales[] = $language['locale'];
+        }
+        $localesJson = json_encode($locales);
 
-                foreach($supportedLanguages as $language) {
+        $modelTranslations = [];
+        if (method_exists($this->model, 'getTranslationsFormated')) {
+            $modelTranslations = $this->model->getTranslationsFormated();
+        }
 
-                    $showTab= '';
-                    if ($this->currentLanguage == $language['locale']) {
-                        $showTab = 'active';
+        $translations = [];
+        // Fill with empty values
+        foreach ($locales as $locale) {
+            $translations[$locale] = '';
+        }
+        // Fill the translations if available
+        if (!empty($modelTranslations)) {
+            foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
+                if (isset($modelTranslation[$fieldName])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                    if ($this->currentLanguage == $modelTranslationLocale) {
+                        $fieldValue = $modelTranslation[$fieldName];
                     }
-
-                    $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
-                    $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
                 }
+            }
+        }
+        $translationsJson = json_encode($translations);
 
-                $html .='</nav>
-                <div id="js-multilanguage-tab-'.$this->randId.'" class="tab-content py-3">
-                ';
-                    foreach($supportedLanguages as $language) {
-                        $showTab= '';
-                        if ($this->currentLanguage == $language['locale']) {
-                            $showTab = 'show active';
-                        }
+        return "<script>
+            mw.require('editor.js');
+            mw.lib.require('multilanguage');
+            $(document).ready(function () {
+                $('#$this->randId').mlTextArea({
+                    name: '$fieldName',
+                    currentLocale: '$this->currentLanguage',
+                    locales: $localesJson,
+                    translations: $translationsJson,
+                    mwEditor: true
+                });
+            });
+        </script>
+        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\">$fieldValue</textarea>";
 
-                        $textareaValue = '';
-
-                        if (isset($modelAttributes['multilanguage'])) {
-                            foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
-                                if ($locale == $language['locale']) {
-                                    if (isset($multilanguageFields[$fieldName])) {
-                                        $textareaValue = $multilanguageFields[$fieldName];
-                                    }
-                                }
-                            }
-                        }
-
-                        $html .= '<div class="tab-pane fade '.$showTab.'" id="' . $this->randId . $language['locale'] . '">
-                                   <textarea id="js-multilanguage-mw-editor-' . $this->randId . $language['locale'] . '" name="multilanguage['.$fieldName.']['.$language['locale'].']" onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
-                                   </div>';
-                    }
-
-                    $html .= '
-                    <script>
-                        function applyMlFieldChanges(element) {
-
-                            if (element.getAttribute("lang") == "'. $this->defaultLanguage .'") {
-                                var applyToElement = document.getElementById("js-multilanguage-textarea-' . $this->randId . '");
-                                applyToElement.innerHTML = element.value
-
-                                var changeEvent = new Event("change");
-                                applyToElement.dispatchEvent(changeEvent);
-                            }
-                        }
-                   </script>
-                    ';
-
-                    foreach($supportedLanguages as $language) {
-
-                        $mwEditorId = $this->randId;
-                        $mwEditorTextareaId = "#js-multilanguage-mw-editor-" . $this->randId . $language['locale'];
-
-                        $html .= "<script>
-                                mw.require('editor.js');
-                                $(mwd).ready(function () {
-                                mweditor$mwEditorId = mw.Editor({
-                                selector: '$mwEditorTextareaId',
-                                mode: 'div',
-                                smallEditor: false,
-                                minHeight: 250,
-                                maxHeight: '70vh',
-                                controls: [
-                                    [
-                                        'undoRedo', '|', 'image', '|',
-                                        {
-                                            group: {
-                                                controller: 'bold',
-                                                controls: ['italic', 'underline', 'strikeThrough']
-                                            }
-                                        },
-                                        '|',
-                                        {
-                                            group: {
-                                                icon: 'mdi mdi-format-align-left',
-                                                controls: ['align']
-                                            }
-                                        },
-                                        '|', 'format',
-                                        {
-                                            group: {
-                                                icon: 'mdi mdi-format-list-bulleted-square',
-                                                controls: ['ul', 'ol']
-                                            }
-                                        },
-                                        '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
-                                    ],
-                                ]
-                            });
-                            });
-                            </script>";
-                    }
-
-                    $this->id('js-multilanguage-textarea-' . $this->randId);
-
-                    $html .= '<textarea id="'.$this->getAttribute('id').'" name="'.$this->getAttribute('name').'" style="display:none">'.$this->escape($this->value).'</textarea>';
-                    $html .= '
-                    </div>
-                  </div>';
-
-        return $html;
     }
-
 }

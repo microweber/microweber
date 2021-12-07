@@ -9,6 +9,7 @@ class CartTest extends TestCase
 
     public function testAddToCart()
     {
+        empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
         $params = array(
@@ -38,6 +39,13 @@ class CartTest extends TestCase
         $this->assertEquals(isset($cart_add['success']), true);
         $this->assertEquals(isset($cart_add['product']), true);
         $this->assertEquals($cart_add['product']['price'], 30);
+
+        $cart_items = get_cart();
+        $this->assertEquals($cart_items[0]['qty'], 1);
+
+        $cart_add = update_cart($add_to_cart);
+        $cart_items = get_cart();
+        $this->assertEquals($cart_items[0]['qty'], 2);
     }
 
     public function testGetCart()

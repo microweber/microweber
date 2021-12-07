@@ -7,7 +7,8 @@
 
     var CategoryManageService = {
         delete: function (id, callback, onError) {
-            return $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
+
+            return $.post(mw.settings.api_url + "category/delete/" + id, {}, function (data) {
                 if (callback) {
                     callback.call(this, data);
                 }

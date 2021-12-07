@@ -30,9 +30,8 @@ class MicroweberComposerClient
 
         if (function_exists('get_white_label_config')) {
             $settings = get_white_label_config();
-
             if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
-                $this->packageServers[] = $settings['marketplace_repositories_urls'];
+                $this->packageServers = $settings['marketplace_repositories_urls'];
             }
         }
     }
@@ -110,6 +109,7 @@ class MicroweberComposerClient
     {
         $packages = [];
         foreach ($this->packageServers as $package) {
+
             $getRepositories = $this->getPackageFile($package);
 
             if (empty($filter)) {
@@ -345,12 +345,12 @@ class MicroweberComposerClient
         @file_put_contents($this->logfile, $log . PHP_EOL, FILE_APPEND);
     }
 
-    public function getPackageFile($packagesUrl)
+    public function getPackageFile($packageUrl)
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => $packagesUrl,
+            CURLOPT_URL => $packageUrl,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

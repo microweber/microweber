@@ -1,4 +1,4 @@
-<div id="xtree"></div>
+
 <div id="domtree"></div>
 
 <style>
@@ -49,7 +49,7 @@
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
-                    setTimeout(function () {
+                     setTimeout(function () {
                         mw.top().liveEditSelector.select(node);
 
                         mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
@@ -195,6 +195,9 @@ var activeTree = function(){
 var _prepare = {
     shadow: function () {
         var root = document.querySelector('#shadow');
+        if(!root) {
+            return;
+        }
         CSSShadow = new mw.propEditor.schema({
             schema: [
                 {
@@ -214,6 +217,17 @@ var _prepare = {
     },
     border: function () {
 
+        var bordercolor = document.querySelector('#border-color')
+        mw.colorPicker({
+            element: bordercolor,
+            position: bordercolor.dataset.position || 'top-right',
+            onchange: function (color){
+
+                    $(bordercolor).trigger('colorChange', color)
+
+            },
+            color: this.value
+        })
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -235,14 +249,13 @@ var _prepare = {
         units = [];
         $('.unit').each(function(){
             // var select = $('<select style="width: 60px"/>');
-            var select = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-link tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
+            var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
-                var prev = $(this).parent().prev();
+                var prev = $(this).prev();
                 output( prev.attr('data-prop'), '');
                 prev.find('input').val(this._defaultValue);
                 $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
             });
-            var selectHolder = $('<div class="mw-field" data-size="medium"></div>');
             $('input', this)
                 .attr('type', 'range');
 
@@ -254,8 +267,8 @@ var _prepare = {
                 var prev = $(this).parent().prev();
                 output(prev.attr('data-prop'), prev.find('input').val() + this.value)
             });
-            selectHolder.append(select);
-            $(this).after(selectHolder)
+
+            $(this).after(select)
             $('input',this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
@@ -310,27 +323,35 @@ var _populate = {
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
+
+                var hasColor = color !== 'rgba(0, 0, 0, 0)';
+
                 if(color) {
-                    this.value = mw.color.rgbOrRgbaToHex(color);
+                    if(hasColor) {
+                        this.value = mw.color.rgbOrRgbaToHex(color);
+                    } else {
+                        this.value = 'none';
+                        this.previousElementSibling.querySelector('.mw-field-color-indicator-display').style.backgroundColor = 'transparent'
+                    }
 
-                }
-
-                if(!color || this.value === '#00000000') {
-                    this.value = '#000000'
                 }
 
                 this.type = 'text'
 
                 var el = this;
-                el.style.backgroundColor = color;
-                el.style.color = 'transparent';
-                el.style.cursor = 'pointer';
+
+
+                el.placeholder = '#ffffff';
+                if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
+                    $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
+                }
+                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
+
                 mw.colorPicker({
                     element: this,
-                    position: 'bottom-right',
+                    position: this.dataset.position || 'bottom-right',
                     onchange: function (color){
-                        el.style.backgroundColor = color;
-                        if(el.dataset.prop) {
+                         if(el.dataset.prop) {
                             output(el.dataset.prop, color);
                         } else if(el.dataset.func) {
                             eval(el.dataset.func + '(' + color + ')');
@@ -340,7 +361,7 @@ var _populate = {
                     },
                     color: this.value
                 })
-                this.readOnly = true;
+
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -352,9 +373,15 @@ var _populate = {
     },
     regular: function(css){
         $(".regular").each(function(){
-            var propName =this.dataset.prop;
+            var propName = this.dataset.prop;
             if(propName === 'fontFamily'){
-                $(this).val(css.css[this.dataset.prop].replace(/\"/g, ""))
+                var val = css.css[this.dataset.prop].replace(/\"/g, "");
+                var el = $(this)
+                el.val(val);
+                if(el.val() === null) {
+                    el.append('<option value="'+val+'">'+val+'</option>');
+                    el.val(val);
+                }
             } else {
                 $(this).val(css.css[this.dataset.prop])
             }
@@ -411,6 +438,7 @@ var scColumns = function (property, value){
 var OverlayNode = null;
 
 var specialCases = function (property, value){
+    if(!property) return;
     if(property.includes('col-')){
         scColumns(property, value)
         return true;
@@ -553,6 +581,9 @@ var init = function(){
         $('.background-preview').css('backgroundImage', 'none');
         output('backgroundImage', 'none')
     });
+    $("#background-reset").on("click", function () {
+        output('backgroundImage', '');
+    });
     $("#background-select-item").on("click", function () {
         var dialog;
         var picker = new mw.filePicker({
@@ -603,7 +634,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
         ActiveNode = nodes[0];
-        activeTree();
+
         populateSpecials(css);
 
         var clsdata = [];
@@ -664,7 +695,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
              if(ActiveNode){
                 var css = mw.CSSParser(ActiveNode);
                 populate(css);
-                activeTree();
+
                 var can = ActiveNode.innerText === ActiveNode.innerHTML;
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 
@@ -736,8 +767,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         };
 
 
-        $(window).on('load', function(){
+         $(window).on('load', function(){
             initClasses()
+
+
         })
 
     </script>
@@ -752,16 +785,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
+            <div class="mw-ui-btn-nav" id="background-image-nav">
 
-                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
-                <span id="background-remove"><span class="mw-icon-close"></span></span>
+                <span
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip mdi mdi-folder-image mdi-17px" data-tip="Select background image"
+                    id="background-select-item"><span class="background-preview"></span></span>
+                <span id="background-remove" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
+                <span id="background-reset" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Reset background" data-tipposition="top-right"><span class="mdi mdi-history"></span></span>
+            </div>
             </div>
         </div>
         <div class="s-field">
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <input type="color" class="colorField unit" data-prop="backgroundColor">
+                <div class="mw-field mw-field-flat" data-size="medium">
+                    <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                    <input type="text" class="colorField unit" data-prop="backgroundColor">
                 </div>
             </div>
         </div>
@@ -769,7 +808,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <select type="text" class="regular" data-prop="backgroundSize">
                         <option value="auto"><?php _e("Auto"); ?></option>
                         <option value="contain"><?php _e("Fit"); ?></option>
@@ -782,7 +821,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Repeat"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <select type="text" class="regular" data-prop="backgroundRepeat">
                         <option value="repeat"><?php _e("repeat"); ?></option>
                         <option value="no-repeat"><?php _e("no-repeat"); ?></option>
@@ -801,6 +840,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     $node[action]('mw-bg-mask');
                     if (action === 'addClass') {
                         output('color', 'transparent')
+                    } else {
+                        output('color', '')
                     }
                     mw.top().wysiwyg.change($node[0]);
                 }
@@ -816,7 +857,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <select class="regular" data-prop="backgroundPosition">
                         <option value="0% 0%"><?php _e("Left Top"); ?></option>
                         <option value="50% 0%"><?php _e("Center Top"); ?></option>
@@ -857,7 +898,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Font Family"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field" data-size="medium">
+                            <div class="mw-field mw-field-flat" data-size="medium">
                                 <select class="regular" data-prop="fontFamily">
                                     <option value="inherit">Default</option>
 
@@ -889,7 +930,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Size"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
                         </div>
                     </div>
                 </div>
@@ -897,7 +938,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Line height"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
                         </div>
                     </div>
                 </div>
@@ -905,8 +946,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Color"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field" data-size="medium">
-                                <input type="color" class="colorField unit" data-prop="color">
+                            <div class="mw-field mw-field-flat" data-size="medium">
+                                <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                                <input type="text" class="colorField unit" data-prop="color">
                             </div>
                         </div>
                     </div>
@@ -915,7 +957,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Style"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field" data-size="medium">
+                            <div class="mw-field mw-field-flat" data-size="medium">
                                 <select class="regular" data-prop="fontStyle">
                                     <option value="normal"><?php _e("normal"); ?></option>
                                     <option value="italic"><?php _e("italic"); ?></option>
@@ -929,7 +971,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Weight"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field" data-size="medium">
+                            <div class="mw-field mw-field-flat" data-size="medium">
                                 <select class="regular" data-prop="fontWeight">
                                     <option value="normal"><?php _e("normal"); ?></option>
                                     <option value="bold"><?php _e("bold"); ?></option>
@@ -953,7 +995,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Text transform"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field" data-size="medium">
+                            <div class="mw-field mw-field-flat" data-size="medium">
                                 <select class="regular" data-prop="textTransform">
                                     <option value="none"><?php _e("none"); ?></option>
                                     <option value="capitalize"><?php _e("capitalize"); ?></option>
@@ -968,7 +1010,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Word Spacing"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
                         </div>
                     </div>
                 </div>
@@ -976,7 +1018,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Letter Spacing"); ?></label>
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
                         </div>
                     </div>
                 </div>
@@ -991,8 +1033,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field">
                 <label><?php _e("Color"); ?></label>
                 <div class="s-field-content">
-                    <div class="mw-field" data-size="medium">
-                        <input type="color" class="colorField unit" id="overlay-color" data-prop="overlay-color">
+                    <div class="mw-field mw-field-flat" data-size="medium">
+                        <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                        <input type="text" class="colorField unit" id="overlay-color" data-prop="overlay-color">
                     </div>
                 </div>
             </div>
@@ -1006,7 +1049,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field">
 
                 <div class="s-field-content">
-                    <div class="mw-field" data-size="medium">
+                    <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Desktop'); ?></label>
                         <i class=" mdi mdi-monitor"></i>
                         <select data-prop="col-desktop" class="regular">
@@ -1016,7 +1059,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="mw-field" data-size="medium">
+                    <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Tablet'); ?></label>
                         <i class=" mdi mdi-tablet"></i>
                         <select data-prop="col-tablet" class="regular">
@@ -1026,7 +1069,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="mw-field" data-size="medium">
+                    <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Mobile'); ?></label>
                         <i class=" mdi mdi-cellphone"></i>
                         <select data-prop="col-mobile" class="regular">
@@ -1059,7 +1102,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <label><?php _e("Width"); ?></label>
                     <div class="mw-multiple-fields">
                         <div
-                            class="mw-field unit"
+                            class="mw-field mw-field-flat unit"
                             data-prop="width"
                             data-size="medium"
                             >
@@ -1071,7 +1114,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <div class="mw-esc">
                     <label><?php _e("Height"); ?></label>
                     <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="height" data-size="medium">
+                        <div class="mw-field mw-field-flat unit" data-prop="height" data-size="medium">
                             <input type="text" data-options="min: 50, max: 2000">
 
                         </div>
@@ -1085,7 +1128,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-esc">
                         <label><?php _e("Min Width"); ?></label>
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="minWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
                             <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minWidth', '0')">None</span>
 
                         </div>
@@ -1093,7 +1136,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-esc">
                         <label><?php _e("Min Height"); ?></label>
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="minHeight" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
                             <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minHeight', '0')">None</span>
                         </div>
                     </div>
@@ -1103,7 +1146,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-esc">
                         <label><?php _e("Max Width"); ?></label>
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="maxWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
                             <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxWidth', 'none')">None</span>
                         </div>
 
@@ -1111,7 +1154,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-esc">
                         <label><?php _e("Max Height"); ?></label>
                         <div class="mw-multiple-fields">
-                            <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
+                            <div class="mw-field mw-field-flat unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
                             <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxHeight', 'none')">None</span>
                         </div>
                     </div>
@@ -1127,15 +1170,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <input class="mw-ese-top margin-top">
-                    <input class="mw-ese-right margin-right">
-                    <input class="mw-ese-bottom margin-bottom">
-                    <input class="mw-ese-left margin-left">
+                    <input type="number" class="mw-ese-top margin-top">
+                    <input type="number" class="mw-ese-right margin-right">
+                    <input type="number" class="mw-ese-bottom margin-bottom">
+                    <input type="number" class="mw-ese-left margin-left">
                     <div class="mw-ese-holder mw-ese-padding">
-                        <input class="mw-ese-top padding-top">
-                        <input class="mw-ese-right padding-right">
-                        <input class="mw-ese-bottom padding-bottom">
-                        <input class="mw-ese-left padding-left">
+                        <input type="number" class="mw-ese-top padding-top">
+                        <input type="number" class="mw-ese-right padding-right">
+                        <input type="number" class="mw-ese-bottom padding-bottom">
+                        <input type="number" class="mw-ese-left padding-left">
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
@@ -1151,7 +1194,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <select type="text" id="border-position">
                         <option value="all" selected><?php _e("All"); ?></option>
                         <option value="Top"><?php _e("Top"); ?></option>
@@ -1166,22 +1209,24 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
-                    <div class="mw-field" data-size="medium"><input type="text" id="border-size"></div>
+                    <div class="mw-field mw-field-flat" data-size="medium"><input type="text" id="border-size"></div>
                 </div>
             </div>
         </div>
         <div class="s-field">
             <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
-                    <input type="color" class="colorField unit" id="border-color">
+                <div class="mw-field mw-field-flat" data-size="medium">
+                    <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
+                    <input type="text" placeholder="#ffffff" class="colorField unit" data-position="top-right" id="border-color">
                 </div>
+
             </div>
         </div>
         <div class="s-field">
             <label>Type</label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <select type="text" id="border-type">
                         <option value="" disabled selected><?php _e("Choose"); ?></option>
                         <option value="none"><?php _e("none"); ?></option>
@@ -1205,34 +1250,33 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="rouded-corners" >
             <label><?php _e("Rounded Corners"); ?></label>
             <div class="s-field-content">
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-top-left"></i></span>
-                            <input type="text" class="regular" data-prop="borderTopLeftRadius">
+                        <div class="mw-field mw-field-flat" data-size="medium">
+                            <input type="text" class="regular order-1" data-prop="borderTopLeftRadius">
+                            <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-top-left"></i></span>
                         </div>
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-top-right"></i></span>
+                        <div class="mw-field mw-field-flat" data-size="medium">
+                            <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
                             <input class="regular" type="text" data-prop="borderTopRightRadius">
                         </div>
                     </div>
                 </div>
-                <div class="mw-field" data-size="medium">
+                <div class="mw-field mw-field-flat" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-bottom-left"></i></span>
-                            <input class="regular" type="text" data-prop="borderBottomLeftRadius">
+                        <div class="mw-field mw-field-flat" data-size="medium">
+                            <input class="regular order-1" type="text" data-prop="borderBottomLeftRadius">
+                            <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i></span>
                         </div>
-                        <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"><i class="angle angle-bottom-right"></i></span>
+                        <div class="mw-field mw-field-flat" data-size="medium">
+                            <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
                             <input class="regular" type="text" data-prop="borderBottomRightRadius">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <label><?php _e("Element shadow"); ?></label>
-        <div id="shadow"></div>
+
 
     </div>
 </mw-accordion-item>

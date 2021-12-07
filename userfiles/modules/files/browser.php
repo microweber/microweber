@@ -233,7 +233,7 @@ if (isset($params['viewsize'])) {
     <div class="row">
 
         <div class="col-md-12">
-            <div class="card style-1 mb-1" style="background-color: #fafafa">
+            <div class="card style-1 mb-1">
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-12 justify-content-between">
@@ -252,7 +252,7 @@ if (isset($params['viewsize'])) {
                                         </a>
 
                                         <div class="mw-browser-uploader-path">
-                                            <ol class="breadcrumb bg-transparent p-0 m-0">
+                                            <ol class="breadcrumb bg-transparent py-0 m-0">
                                                 <li class="breadcrumb-item"><a href="#path="><?php _e('Main') ?></a></li>
 
                                                 <a href="#path=" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"></span></a>/
@@ -283,15 +283,15 @@ if (isset($params['viewsize'])) {
                                     </div>
                                     <div>
 
-                                        <!--<div class="dropdown">
-                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonTnSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Thumbnail size
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', '');">Small</a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonTnSize">
+                                                <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', 'small');">Small</a>
                                                 <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', 'big');">Big</a>
                                             </div>
-                                        </div>-->
+                                        </div>
 
                                         <?php
                                         $sortby_param = '';
@@ -382,7 +382,7 @@ if (isset($params['viewsize'])) {
                                                        href="<?php print mw()->url_manager->link_to_file($item) ?>"
                                                        onclick="select(this, '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                                                         <?php $ext = strtolower(get_file_extension($item)); ?>
-                                                        <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp'): ?>
+                                                        <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp' or $ext == 'svg'): ?>
                                                             <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
                                                                   class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
                                                         <?php else: ?>

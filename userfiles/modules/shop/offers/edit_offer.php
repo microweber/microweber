@@ -114,6 +114,10 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
                     if ($all_prices) {
                         foreach ($all_prices as $a_price) {
+                            if (!isset($a_price['values_plain'])) {
+                                continue;
+                            }
+
                             $offer_product_price_id = $data['product_id'] . '|' . $data['price_id'];
                             $option_id = $product_id . '|' . $a_price['id'];
                             $selected = ($offer_product_price_id == $option_id ? ' selected="selected"' : '');
@@ -191,7 +195,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
 
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success btn-sm js-save-offer"><?php _e("Save"); ?></button>
         </div>
     </div>

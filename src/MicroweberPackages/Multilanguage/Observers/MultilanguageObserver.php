@@ -42,13 +42,25 @@ class MultilanguageObserver
 
             foreach ($model->translatable as $fieldName) {
 
-                if (empty($model->$fieldName)) {
+                $modelAttributes = $model->getAttributes();
+
+                if (!$modelAttributes) {
+                    continue;
+                }
+                $found = false;
+                foreach ($modelAttributes as $attrCheckKey=>$attrCheck){
+                    if($attrCheckKey==$fieldName){
+                        $found = true;
+                    }
+                }
+                if (!$found) {
                     continue;
                 }
 
                 $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
 
                 if ($findTranslations !== null) {
+
                     foreach ($findTranslations as $findedTranslation) {
                         if ($findedTranslation['field_name'] == $fieldName) {
 
@@ -66,55 +78,12 @@ class MultilanguageObserver
             }
         }
 
+    /*    if (isset($findTranslations)) {
+            $model->multilanguage_translations_count = count($findTranslations);
+        }*/
+
         $model->multilanguage = $multilanguage;
         $model->makeHidden(['multilanguage', 'translatable']);
-    }
-
-    public function saving(Model $model)
-    {
-
-        dd($model);
-
-        if (isset($model->multilanguage)) {
-            self::$multipleTranslationsToSave = $model->multilanguage;
-            unset($model->multilanguage);
-        }
-
-        // Bug with custom field value
-        if (strpos($model->getMorphClass(), 'CustomFieldValue') !== false) {
-            return;
-        }
-
-        $langToSave = $this->getLocale();
-        if (isset($model->lang)) {
-            self::$langToSave = $model->lang;
-            $langToSave = $model->lang;
-            unset($model->lang);
-        }
-
-        if ($langToSave == $this->getDefaultLocale()) {
-            return;
-        }
-
-        // Translatable module options
-        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
-            if (!empty($model->module)) {
-                $translatableModuleOptions = $this->getTranslatableModuleOptions();
-                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
-                    $model->translatable = ['option_value'];
-                }
-            }
-        }
-
-        if (!empty($model->translatable)) {
-            foreach ($model->translatable as $fieldName) {
-                self::$fieldsToSave[$model->getTable()][$fieldName] = $model->$fieldName;
-                $fieldValue = $model->getOriginal($fieldName);
-                if (!empty($fieldValue)) {
-                    $model->$fieldName = $fieldValue;
-                }
-            }
-        }
     }
 
     /**
@@ -125,9 +94,11 @@ class MultilanguageObserver
      */
     public function saved(Model $model)
     {
-        $langToSave = $this->getLocale();
         if (self::$langToSave) {
             $langToSave = self::$langToSave;
+        } else {
+            $langToSave = $this->getLocale();
+
         }
 
         if ($langToSave == $this->getDefaultLocale()) {
@@ -174,9 +145,27 @@ class MultilanguageObserver
             }
             self::$fieldsToSave = [];
         }
-        clearcache();
+
     }
 
+    /**
+     * Handle the "deleted" event.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @return void
+     */
+    public function deleted(Model $model)
+    {
+
+        $table = $model->getTable();
+        $rel_id = $model->id;
+        if ($table and $rel_id) {
+            MultilanguageTranslations::where('rel_type', $table)
+                ->where('rel_id', $rel_id)
+                ->delete();
+        }
+
+    }
     private function getTranslatableModuleOptions() {
         $translatableModuleOptions = [];
         foreach (get_modules_from_db() as $module) {

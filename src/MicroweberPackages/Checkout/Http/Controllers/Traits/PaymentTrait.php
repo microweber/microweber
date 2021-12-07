@@ -42,10 +42,7 @@ trait PaymentTrait {
 
     public function paymentMethodSave(Request $request) {
 
-        session_append_array('checkout_v2', [
-            'payment_gw'=> $request->get('payment_gw'),
-            'terms'=> $request->get('terms'),
-        ]);
+        session_append_array('checkout_v2', $request->all());
 
         $checkoutData = session_get('checkout_v2');
         // Add new session to old session
@@ -82,7 +79,6 @@ trait PaymentTrait {
                 return $sendCheckout['success'];
             } else {
                 return redirect(route('checkout.finish', $sendCheckout['id']))->with('success',$sendCheckout['success']);
-
             }
 
         }

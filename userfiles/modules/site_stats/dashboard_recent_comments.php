@@ -95,7 +95,7 @@ if (is_array($comments_for_content)) {
 
 
     save_comment_form = function (form_id) {
-        mw.form.post(form_id, '<?php print api_link('post_comment'); ?>')
+        mw.form.post(form_id, '<?php print route('api.comment.admin.edit'); ?>')
         mw.notification.success('Comment saved')
     }
 

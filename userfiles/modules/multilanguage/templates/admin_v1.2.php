@@ -8,10 +8,11 @@
 </style>
 
 <?php if (!empty($supported_languages)): ?>
-    <?php $current_language_flag = $current_language['locale'];
-    if ($current_language_flag == 'en') {
-        $current_language_flag = 'gb';
-    }
+    <?php
+
+    $current_language_flag = get_flag_icon($current_language['locale']);
+
+
     ?>
     <li class="mx-1 language-selector">
         <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown" style="padding: 10px 0px;">
@@ -39,9 +40,9 @@
             <?php endforeach; ?>
 
             <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
-                <button class="dropdown-item" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
+                <a class="dropdown-item" href="<?php echo admin_url() ?>view:modules/load_module:multilanguage" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
                     <?php _e('Settings'); ?>
-                </button>
+                </a>
             <?php endif; ?>
         </div>
     </li>

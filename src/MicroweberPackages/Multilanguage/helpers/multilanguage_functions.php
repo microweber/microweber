@@ -77,6 +77,7 @@ if (!function_exists('get_short_abr')) {
 if (!function_exists('change_language_by_locale')) {
     function change_language_by_locale($locale, $set_cookie = true)
     {
+
         if (!is_cli() and $set_cookie) {
             $skip = false;
 
@@ -85,24 +86,33 @@ if (!function_exists('change_language_by_locale')) {
                 $skip = true;
             }
             if (!$skip) {
-                setcookie('lang', $locale, time() + (86400 * 30), "/");
-                $_COOKIE['lang'] = $locale;
-                \Cookie::queue('lang', $locale, 86400 * 30);
 
-                $getSupportedLocalesQuery = \Illuminate\Support\Facades\DB::table('multilanguage_supported_locales');
-                $getSupportedLocalesQuery->where('is_active', 'y');
-                $getSupportedLocalesQuery->where('locale', $locale);
-                $executeQuery = $getSupportedLocalesQuery->first();
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
 
-                if ($executeQuery != null) {
-                    setcookie('lang_display', $executeQuery->display_locale, time() + (86400 * 30), "/");
-                    $_COOKIE['lang_display'] = $executeQuery->display_locale;
-                    \Cookie::queue('lang_display', $executeQuery->display_locale, 86400 * 30);
+                $applyCookieLang = true;
+                if ($localeSettings != null and isset($localeSettings['locale'])) {
+                    if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $locale) {
+                        $applyCookieLang = false;
+                    }
+                }
+
+                if ($applyCookieLang) {
+                    if ($localeSettings != null and isset($localeSettings['locale'])) {
+
+                        setcookie('lang', $locale, time() + (86400 * 30), "/");
+                        $_COOKIE['lang'] = $locale;
+                        \Cookie::queue('lang', $locale, 86400 * 30);
+
+                        if (isset($localeSettings['display_locale']) and $localeSettings['display_locale']) {
+                            setcookie('lang_display', $localeSettings['display_locale'], time() + (86400 * 30), "/");
+                            $_COOKIE['lang_display'] = $localeSettings['display_locale'];
+                            \Cookie::queue('lang_display', $localeSettings['display_locale'], 86400 * 30);
+                        }
+
+                    }
                 }
             }
         }
-
-        // mw()->permalink_manager->setLocale($locale);
 
         return app()->lang_helper->set_current_lang($locale);
     }
@@ -213,45 +223,36 @@ if (!function_exists('is_lang_correct_by_display_locale')) {
 if (!function_exists('detect_lang_from_url')) {
     function detect_lang_from_url($targetUrl)
     {
+        $targetUrl = str_replace(site_url(), false, $targetUrl);
+
         $targetLang = mw()->lang_helper->current_lang();
-        $findedLangAbr = 0;
         $segments = explode('/', $targetUrl);
-        if (count($segments) < 1) {
-            array('target_lang' => $targetLang, 'target_url' => $targetUrl);
-        }
 
-        // Find target lang in segments
-        foreach ($segments as $segment) {
-            if (is_lang_correct($segment)) {
-                $findedLangAbr++;
+        if (count($segments) > 1) {
+            // Find target lang in segments
+            $findedLangAbr = false;
+            $urlSegs = [];
+            foreach ($segments as $segment) {
+                if (is_lang_correct($segment)) {
+                    if ($findedLangAbr) {
+                        $urlSegs[] = $segment;
+                    } else {
+                        $findedLangAbr = $segment;
+                    }
+                } else {
+                    $urlSegs[] = $segment;
+                }
             }
-
-            // display locale
-            if (is_lang_correct_by_display_locale($segment)) {
-                $findedLangAbr++;
-            }
-        }
-
-        if ($findedLangAbr == 0) {
-            return array(
-                'target_lang' => $targetLang,
-                'target_url' => $targetUrl
-            );
-        }
-        $targetUrlSegments = array();
-        foreach ($segments as $key => $segment) {
-            if ($key == 0) {
-                $targetLang = $segment; // This is the lang abr
-            } else {
-                $targetUrlSegments[] = $segment;
+            if ($findedLangAbr) {
+                $targetUrl = implode('/',$urlSegs);
+                return array('target_lang' => $findedLangAbr,'target_url' => $targetUrl);
             }
         }
 
-        $targetUrl = implode('/', $targetUrlSegments);
-
-        return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
+        return array('target_lang' => $targetLang,'target_url' => $targetUrl);
     }
 }
+
 if (!function_exists('get_supported_languages')) {
 
     function get_supported_languages($only_active = false)

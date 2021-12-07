@@ -55,6 +55,7 @@ class Category extends Model
         "category_subtype",
         "category_meta_title",
         "category_meta_description",
+        "is_hidden",
         "category_meta_keywords"
     ];
 
@@ -112,7 +113,7 @@ class Category extends Model
 
     public function getMorphClass()
     {
-        return 'category';
+        return 'categories';
     }
 
 

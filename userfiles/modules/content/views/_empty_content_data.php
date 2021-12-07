@@ -26,6 +26,8 @@ $data['parent'] = 0;
 $data['layout_name'] = '';
 $data['layout_file'] = '';
 $data['original_link'] = '';
+$data['content_meta_title'] = '';
+$data['content_meta_keywords'] = '';
 if ($is_new == false) {
 
 } else {

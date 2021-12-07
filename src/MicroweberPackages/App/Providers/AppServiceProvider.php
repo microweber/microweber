@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
+use Laravel\Dusk\DuskServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -20,8 +21,9 @@ use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
-use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
@@ -76,7 +78,8 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
-use MicroweberPackages\Utils\Captcha\Providers\CaptchaManagerServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;
@@ -192,22 +195,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
         $this->registerUtils();
 
         $this->registerSingletonProviders();
+
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(UserServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
@@ -255,7 +260,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FormServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
-        $this->app->register(CaptchaManagerServiceProvider::class);
+        $this->app->register(CaptchaServiceProvider::class);
+        $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
@@ -278,8 +284,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
-        $this->app->register(DuskServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+
+        if (is_cli()) {
+            $this->app->register(DuskServiceProvider::class);
+        }
 
     }
 
@@ -417,17 +426,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(\Illuminate\Routing\Router $router)
     {
-
         View::addNamespace('app', __DIR__ . '/../resources/views');
-
-//        $this->app->singleton('lang_helper', function ($app) {
-//            return new Lang($app);
-//        });
 
         \App::instance('path.public', base_path());
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
+
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 
@@ -444,55 +449,9 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-
-            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
-                set_current_lang($_COOKIE['lang']);
-            } else {
-                $language = get_option('language', 'website');
-                if ($language != false and $language != 'en') {
-                    set_current_lang($language);
-                }
-            }
-
             load_all_functions_files_for_modules($this->app);
 
-
-          /*  // Register module service providers
-            $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
-            if ($modules) {
-                foreach ($modules as $module) {
-                    if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-
-                        $loadProviders = [];
-                        if (is_array($module['settings']['service_provider'])) {
-                            foreach ($module['settings']['service_provider'] as $serviceProvider) {
-                                $loadProviders[] = $serviceProvider;
-                            }
-                        } else {
-                            $loadProviders[] = $module['settings']['service_provider'];
-                        }
-                        foreach ($loadProviders as $loadProvider) {
-                            if (class_exists($loadProvider)) {
-                                $this->app->register($loadProvider);
-//                               if(! app()->bound($loadProvider)){
-//
-//                               }
-//                                if (app()->getProvider($classname)) {
-//                                    // Do what you want when it exists.
-//                                }
-
-                                $this->app->register($loadProvider);
-                            }
-                        }
-
-
-//
-                    }
-                }
-            }*/
-
-
-
+            $this->setupAppLocale();
 
             if (is_cli()) {
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
@@ -515,9 +474,7 @@ class AppServiceProvider extends ServiceProvider
 
          $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
-
         if (mw_is_installed()) {
-
              $this->app->event_manager->trigger('mw.after.boot', $this);
         }
 
@@ -556,6 +513,7 @@ class AppServiceProvider extends ServiceProvider
 
         $router->middlewareGroup('public.web',[
             'xss',
+            MultilanguageMiddleware::class,
             AuthenticateSessionForUser::class,
         ]);
 
@@ -651,4 +609,62 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
+    private function setupAppLocale()
+    {
+
+        $isLocaleChangedFromMultilanguageLogics = false;
+
+
+        $currentUri = request()->path();
+
+        //  Change language if user request language with LINK has lang abr
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
+            $localeIsChangedFromGetRequest = false;
+            $locale = request()->get('locale');
+            if (is_lang_correct($locale)) {
+                $localeIsChangedFromGetRequest = true;
+                $isLocaleChangedFromMultilanguageLogics = true;
+                change_language_by_locale($locale, true);
+            }
+
+            // if locale is not changed from get request we must to chek URL SLUGS
+            if (!$localeIsChangedFromGetRequest) {
+                $linkSegments = url_segment(-1, $currentUri);
+                $linkSegments = array_filter($linkSegments, 'trim');
+
+                if (!empty($linkSegments)) {
+                    if (isset($linkSegments[0]) and $linkSegments[0]) {
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
+                        if (!$localeSettings) {
+                            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
+                        }
+                        if ($localeSettings and isset($localeSettings['locale'])) {
+                            $isLocaleChangedFromMultilanguageLogics = true;
+                            change_language_by_locale($localeSettings['locale'], true);
+                        }
+                    }
+                }
+            }
+        }
+
+        // If locale is not changed from link
+        if (!$isLocaleChangedFromMultilanguageLogics) {
+            // If we have a lang cookie read from theere
+            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
+                $setCurrentLangTo = $_COOKIE['lang'];
+            } else {
+                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                    // Set from default homepage lang settings
+                    $setCurrentLangTo = get_option('homepage_language', 'website');
+                } else {
+                    // Set from default language language settings
+                    $setCurrentLangTo = get_option('language', 'website');
+                }
+            }
+            if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
+                set_current_lang($setCurrentLangTo);
+            }
+        }
+    }
 }

@@ -99,11 +99,12 @@ trait CacheableRepository
         if($method==='getById' and is_array($args) and isset($args[0]) and is_numeric($args[0])){
 
             return sprintf(
-                '%s-%s--%s-%s',
+                '%s-%s--%s-%s-%s',
                 app()->getLocale(),
                 implode('-',$tag),
                 $method,
-                intval($args[0])
+                intval($args[0]),
+                intval(is_https())
             );
         }
 
@@ -134,11 +135,12 @@ trait CacheableRepository
         $args = json_encode($hashArgs);
 
         return sprintf(
-            '%s-%s--%s-%s',
+            '%s-%s--%s-%s-%s',
             app()->getLocale(),
             implode('-',$tag),
             $method,
-            crc32($args)
+            crc32($args),
+            intval(is_https())
         );
     }
 

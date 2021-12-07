@@ -39,7 +39,7 @@ class Content extends Model
 
     public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories'];
 
-    public $translatable = ['title','url','description','content','content_body'];
+    public $translatable = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
 
     protected $attributes = [
         'is_active' => '1',
@@ -97,7 +97,7 @@ class Content extends Model
 
     public function related()
     {
-        return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
+        return $this->hasMany(ContentRelated::class,'content_id','id')->orderBy('position', 'ASC');
     }
 
     public function modelFilter()
@@ -114,4 +114,27 @@ class Content extends Model
     {
         return content_link($this->id);
     }
+
+
+    public function getDescriptionAttribute($value)
+    {
+        if(is_string($value) and $value){
+          return  strip_tags($value);
+        }
+    }
+
+    public function shortDescription($limit = 224, $end = '...')
+    {
+        if (empty($this->description)) {
+            return false;
+        }
+
+        $shortDescription = $this->description;
+        $shortDescription = strip_tags($shortDescription);
+        $shortDescription = trim($shortDescription);
+        $shortDescription = str_limit($shortDescription, $limit, $end);
+
+        return $shortDescription;
+    }
+
 }

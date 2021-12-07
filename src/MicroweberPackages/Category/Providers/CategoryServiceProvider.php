@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Category\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Models\Category;
@@ -42,6 +43,7 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
         Category::observe(BaseModelObserver::class);
         CategoryItem::observe(BaseModelObserver::class);
 
+        View::addNamespace('category', __DIR__ . '/../resources/views');
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {

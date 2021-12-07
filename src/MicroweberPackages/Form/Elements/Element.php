@@ -22,7 +22,10 @@ abstract class Element
 
     public function getAttribute($attribute)
     {
-        return $this->attributes[$attribute];
+        if (isset($this->attributes[$attribute])) {
+            return $this->attributes[$attribute];
+        }
+        return false;
     }
 
     public function data($attribute, $value = null)

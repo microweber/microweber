@@ -42,7 +42,7 @@ class RequestRoute extends Request
         $createRequest->headers->set('accept', 'application/json');
 
         $response = app()->handle($createRequest);
-
+//dump($response->getContent());
         return self::formatFrontendResponse($response);
     }
 

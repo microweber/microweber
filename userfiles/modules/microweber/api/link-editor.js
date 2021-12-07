@@ -85,7 +85,8 @@ mw.require('form-controls.js');
                 nav.forEach(function (ctrl, index){
                     scope.nav.appendChild(createA(ctrl, index));
                 });
-                this.nav.children[0].click();
+                this.settings.selectedIndex = this.settings.selectedIndex || 0
+                this.nav.children[this.settings.selectedIndex].click();
                 this.root.prepend(this.nav);
 
                 if(dropdown.length) {

@@ -7,7 +7,7 @@ $api_key = get_option('stripe_api_key', 'payments');
 $gateway = Omnipay::create('Stripe');
 $gateway->setApiKey($api_key);
 
- 
+
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 
 if(!isset($data['stripeToken'])){

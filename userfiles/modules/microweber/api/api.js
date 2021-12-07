@@ -60,26 +60,31 @@ jQuery.ajax = function(url, options){
     else{
         settings.url = url;
     }
+
+
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
         delete settings.success;
-        settings.success = function (data, status, xhr) {
-            if(xhr.status === 200) {
-                if (data && (data.form_data_required || data.form_data_module)) {
-                    mw.extradataForm(settings, data);
-                }
-                else {
-                    if (typeof this._success === 'function') {
-                        var scope = this;
-                        scope._success.call(scope, data, status, xhr);
+    }
 
-                    }
+    settings.success = function (data, status, xhr) {
+        if(xhr.status === 200) {
+            if (data && (data.form_data_required || data.form_data_module)) {
+                mw.extradataForm(settings, data);
+            }
+            else {
+                if (typeof this._success === 'function') {
+                    var scope = this;
+                    scope._success.call(scope, data, status, xhr);
+
                 }
             }
-        };
-    }
+        }
+    };
+
     settings = $.extend({}, settings, options);
     var xhr = _jqxhr(settings);
+    xhr._settings = settings;
     return xhr;
 };
 
@@ -99,7 +104,12 @@ mw.safeCall = function(hash, call){
 
 $.ajaxSetup({
     cache: false,
-    error: function (xhr, e) {
+    error: function (xhr, e, c, d) {
+        var data = xhr.responseJSON;
+        if (data && (data.form_data_required || data.form_data_module)) {
+            mw.extradataForm(xhr._settings, data);
+            return;
+        }
          if(xhr.status === 422){
             mw.errorsHandle(xhr.responseJSON)
         } else if(xhr.status !== 200 && xhr.status !== 0){
@@ -113,16 +123,6 @@ $.ajaxSetup({
 
 
 
-
-
-jQuery.cachedScript = function( url, options ) {
-    options = $.extend( options || {}, {
-    dataType: "script",
-    cache: true,
-    url: url
-});
-    return jQuery.ajax( options );
-};
 
 
 mw.version = "<?php print MW_VERSION; ?>";
@@ -174,8 +174,6 @@ mw.askusertostay = false;
   mwd = document;
 
   mww = window;
-
-
 
   mwhead = document.head || document.getElementsByTagName('head')[0];
 
@@ -293,15 +291,13 @@ mw.getScripts = function (array, callback) {
     });
   var all = array.length, ready = 0;
   $.each(array, function(){
-      var scr = $('<script>');
-      $(scr).on('load', function(){
-        ready++;
-        if(all === ready) {
-            callback.call()
-        }
-      });
-      scr[0].src = this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this;
-      document.body.appendChild(scr[0]);
+      $.getScript(this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this, function (){
+          ready++;
+          if(all === ready) {
+              callback.call()
+          }
+      })
+
   });
 };
 
@@ -1066,6 +1062,12 @@ $(window).on('load', function(){
     }
 })
 
+<?php
+if(isset($inline_scripts) and is_array($inline_scripts)){
+    print implode($inline_scripts,"\n");
+}
+
+?>
 
 <?php  //include "upgrades.js"; ?>
 

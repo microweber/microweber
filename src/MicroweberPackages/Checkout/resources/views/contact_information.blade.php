@@ -2,7 +2,7 @@
 
 @section('logo-right-link')
 <div class="ml-auto align-self-center">
-    <a href="{{ site_url() }}shop" class="btn btn-link text-end">{{ _e('Continue shopping') }}</a>
+    <a href="{{ site_url() }}shop" class="btn btn-link text-end text-right">{{ _e('Continue shopping') }}</a>
 </div>
 @endsection
 
@@ -40,6 +40,6 @@
             @if(isset($errors['phone']))<span class="invalid-feedback">{{$errors['phone'][0]}}</span>@endif
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-3">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3" dusk="checkout-continue">{{ _e('Continue') }}</button>
     </form>
 @endsection

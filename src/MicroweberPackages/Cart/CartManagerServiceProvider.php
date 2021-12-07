@@ -25,7 +25,6 @@ class CartManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         /**
          * @property \MicroweberPackages\Cart\CartManager    $cart_manager
          */
@@ -33,14 +32,11 @@ class CartManagerServiceProvider extends ServiceProvider
             return new CartManager();
         });
 
-
-
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Cart::class, function () {
                 return new CartRepository();
             });
         });
-
 
         /**
          * @property CartRepository   $cart_repository
@@ -49,8 +45,13 @@ class CartManagerServiceProvider extends ServiceProvider
             return $this->app->repository_manager->driver(Cart::class);;
         });
 
-
     }
+
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+    }
+
     /**
      * Get the services provided by the provider.
      *

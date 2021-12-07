@@ -3,6 +3,7 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
@@ -49,15 +50,15 @@ class MultilanguageContentTest extends MultilanguageTestBase
         $apiContentStore['title'] = 'Content ' . $rand;
         $apiContentStore['description'] = 'Content description' .$rand;
 
-        $apiContentStore['multilanguage']['title']['bg_BG'] = 'Съдържание'.$rand;
-        $apiContentStore['multilanguage']['description']['bg_BG'] = 'Съдържание описание'.$rand;
+        $translatables = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
 
-        $apiContentStore['multilanguage']['title']['ar_SA'] = 'فئة'.$rand;
-        $apiContentStore['multilanguage']['description']['ar_SA'] = 'وصف التصنيف'.$rand;
+        foreach ($translatables as $translatable){
+            $apiContentStore['multilanguage'][$translatable]['bg_BG'] = 'Съдържание'.$translatable.$rand;
+            $apiContentStore['multilanguage'][$translatable]['ar_SA'] = 'وصف التصنيف'.$translatable.$rand;
+            $apiContentStore['multilanguage'][$translatable]['ru_RU'] = 'Описание Съдържание'.$translatable.$rand;
 
+        }
 
-        $apiContentStore['multilanguage']['title']['ru_RU'] = 'Съдържание'.$rand;
-        $apiContentStore['multilanguage']['description']['ru_RU'] = 'Описание Съдържание'.$rand;
 
         $response = $this->call(
             'POST',
@@ -69,7 +70,13 @@ class MultilanguageContentTest extends MultilanguageTestBase
 
         $getContent = Content::where('id', $contentSaved->id)->first();
 
-        $this->assertEquals($getContent->multilanguage['bg_BG']['title'], $apiContentStore['multilanguage']['title']['bg_BG']);
+        foreach ($translatables as $translatable){
+
+            $this->assertEquals($getContent->multilanguage['bg_BG'][$translatable], $apiContentStore['multilanguage'][$translatable]['bg_BG']);
+            $this->assertEquals($getContent->multilanguage['ru_RU'][$translatable], $apiContentStore['multilanguage'][$translatable]['ru_RU']);
+            $this->assertEquals($getContent->multilanguage['ar_SA'][$translatable], $apiContentStore['multilanguage'][$translatable]['ar_SA']);
+
+        }
         $this->assertEquals($getContent->multilanguage['bg_BG']['description'], $apiContentStore['multilanguage']['description']['bg_BG']);
 
         $this->assertEquals($getContent->multilanguage['ar_SA']['title'], $apiContentStore['multilanguage']['title']['ar_SA']);
@@ -111,6 +118,17 @@ class MultilanguageContentTest extends MultilanguageTestBase
         $getContent = Content::where('id', $contentSaved->id)->first();
         $this->assertEquals($getContent->title, $apiContentStore['multilanguage']['title']['ru_RU']);
         $this->assertEquals($getContent->description, $apiContentStore['multilanguage']['description']['ru_RU']);
+
+
+
+        //delete content and check if it's deleted from the multilanguage table
+        $table = $getContent->getTable();
+        $rel_id = $contentSaved->id;
+        $getContent->delete();
+        $checkIfDeleted = MultilanguageTranslations::where('rel_type', $table)
+            ->where('rel_id', $rel_id)
+            ->count();
+        $this->assertEquals($checkIfDeleted,0);
 
 
     }

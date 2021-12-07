@@ -117,7 +117,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
         <div>
             <?php if ($get_existing_files_for_confirm) { ?>
                 <div class="js-files hidden">
-                    <table class="table bg-white text-start" style="table-layout: fixed;">
+                    <table class="table bg-white text-start text-left" style="table-layout: fixed;">
                         <thead>
                         <tr>
                             <th><?php _e("File location") ?></th>
@@ -146,7 +146,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
             <?php } ?>
 
             <div id="js-buttons-confirm-install" class="p-3 d-flex align-items-center justify-content-between">
-                <a class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel") ?></a>
+                <a class="btn btn-outline-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel") ?></a>
 
                 <?php if ($get_existing_files_for_confirm) { ?>
                     <button type="button" class="js-show-files btn btn-link btn-sm"><?php _e("Show files") ?></button>

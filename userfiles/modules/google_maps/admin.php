@@ -19,12 +19,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             zoommap = function (val) {
                 mw.$("#zoom_level").val(val).trigger("change");
             }
+
+            mapstyle = function (val) {
+                mw.$("#map_style").val(val).trigger("change");
+            }
         </script>
 
         <div class="module-live-edit-settings  module-google-maps-settings">
             <div class="form-group">
                 <label class="control-label"><?php _e("Enter Your Address"); ?></label>
-                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?php _e('Example: Bulgaria, Sofia, bul. Cherni Vrah 47'); ?>"/>
+                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?php _e('Example: One Infinite Loop, Cupertino, CA 95014, United States'); ?>"/>
             </div>
 <?php
 
@@ -41,6 +45,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input name="data-zoom" class="mw-ui-field-range mw_option_field mw-full-width" max="21" min="0" type="range" id="zoom_level" value="<?php print get_option('data-zoom', $params['id']) ?>"/>
                 </div>
             </div>
-        </div>
     </div>
 </div>
+

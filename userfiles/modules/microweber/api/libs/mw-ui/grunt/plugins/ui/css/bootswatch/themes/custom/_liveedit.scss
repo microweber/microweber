@@ -1,0 +1,575 @@
+#mw-text-editor,.toolbar-sections-tabs, .wysiwyg-undo-redo, #mw-toolbar-right,
+.mw-live-edit-tab-title, .modules-list.list-elements, .mw-live-edit-sidebar-tabs-wrapper,
+.mw-ui-box-content, #modules-and-layouts-sidebar .mw-live-edit-sidebar-iframe-holder,
+#modules-and-layouts-sidebar .mw-scroll-box
+{
+    background-color: $body-bg!important;
+}
+
+.mw-live-edit-tab-title h6 {
+    color: $secondary!important;
+}
+
+.mw-toolbar-btn-menu > a.mw-ui-btn {
+    background-color: $primary!important;
+    color: $secondary!important;
+    border-color: $primary!important;
+}
+
+.input-group-text, .mw-ui-btn  {
+    border-color: $primary!important;
+    background: transparent!important;
+    color: $secondary !important;
+
+
+    &:hover, &:active {
+        background-color: $primary!important;
+        color: $secondary !important;
+    }
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background: $black!important;
+        li {
+            color: $secondary !important;
+        }
+    }
+}
+
+.mw-dropdown-content {
+    border-color: $black!important;
+    background: $black!important;
+    li {
+        color: $secondary !important;
+    }
+}
+
+.mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+
+}
+
+.input-group-text  {
+    border-color: $primary!important;
+    background-color: $primary!important;
+    color: $secondary!important;
+
+       &:hover {
+           background-color: $primary!important;
+           border-color: $secondary!important;
+       }
+
+}
+.mw-dropdown, .mw-ui-dropdown {
+
+    .mw-dropdown-content, .mw-ui-box.mw-ui-navigation {
+        border-color: $black!important;
+        background-color: $black!important;
+
+        li {
+            color: $secondary !important;
+
+            &:hover {
+                background-color: $primary!important;
+                border-color: $secondary!important;
+            }
+        }
+
+
+    }
+}
+
+#toolbar-dropdown-actions{
+    a {
+        background-color: $body-bg!important;
+        color: $secondary !important;
+        &:hover {
+            background-color: $primary!important;
+        }
+    }
+}
+
+
+.mw_editor_btn .ed-ico, .mw-dropdown-type-wysiwyg, .mw-single-arrow-dropdown > *  {
+    color: $secondary!important;
+
+    &:hover, &:focus, &:active  {
+        background-color: $primary!important;
+    }
+}
+
+.mw_editor_btn:hover, .mw_editor_btn_active {
+    background: $primary!important;
+    border-color: $primary!important;
+
+    color: $secondary!important;
+
+}
+
+.toolbar-sections-tabs {
+     .mw-dropdown-list{
+         border-color: $black!important;
+         background-color: $black!important;
+         li, a {
+             color: $secondary !important;
+             background-color: $black!important;
+
+
+             &:hover {
+                 background-color: $primary!important;
+                 border-color: $secondary!important;
+             }
+         }
+     }
+}
+
+.mw-toolbar-add-new-content-ctrl i, .mw-liveedit-sidebar-h2 {
+    color: $secondary!important;
+}
+
+.mw-liveedit-layouts-li {
+    &:hover, &:active, &:focus {
+        background-color: $primary !important;
+    }
+}
+
+.mw-liveedit-sidebar-background-active {
+    background-color: $primary !important;
+    border-color: $secondary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2.mw-liveedit-sidebar-background-active:after {
+    background-color: $primary !important;
+    border-color: $secondary!important;
+}
+
+.mw-ui-box-header-2.mw-accordion-title-2:hover:after {
+    border-color: $secondary!important;
+}
+
+
+#liveedit_wysiwyg_main_next:before, #liveedit_wysiwyg_main_prev:after {
+    background: unset!important;
+
+}
+
+
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i, #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
+    background-color: $primary!important;
+}
+
+.tabnav.tip.tab.mw-lsmodules-tab, .mw-lstemplatee-tab, .mw-lscsse-tab, .mw-lslayout-tab {
+    &:hover{
+        i {
+            border: 1px solid $primary!important;
+            background-color: transparent!important;
+        }
+    }
+}
+
+//.mw_module_image_holder {
+//    background-color: $secondary!important;
+//    padding: 3px;
+//}
+
+.mw-ese-holder {
+    background-color: $primary!important;
+}
+
+.tst-logo:hover {
+    background-color: $primary!important;
+
+}
+
+//.wysiwyg-undo-redo {
+//    .mw-icon-reply, .mw-icon-forward {
+//        color: $secondary!important;
+//        border-color: $primary!important;
+//    }
+//}
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal, .mw-dialog-holder {
+    background-color: $black!important;
+}
+
+.mw-ac-editor-nav > .mw-ui-btn-tab.active {
+    color: $primary!important;
+}
+
+.mw-ui-btn-tab {
+
+    &:hover {
+        .mdi {
+            color: $secondary !important;
+        }
+    }
+
+    .mdi {
+        color: $primary !important;
+    }
+}
+
+.mw-link-editor-nav-drop-box {
+
+    background-color: $white!important;
+    border-color: $primary!important;
+
+    i.mdi, span {
+        color: $primary!important;
+    }
+
+    span:hover {
+        i {
+            color: $secondary!important;
+        }
+        color: $secondary!important;
+        background-color: $primary!important;
+
+    }
+
+
+}
+
+.mw-dialog-title {
+    i {
+        color: $primary !important;
+    }
+}
+
+.mw-ui-btn-tab {
+    color: $secondary!important;
+
+}
+
+
+.mw-ui-btn-tab.active {
+    text-decoration: none;
+    border-bottom-color: $primary!important;
+    color: $secondary!important;
+}
+
+.mw-css-editor-c2a-nav {
+    background-color: $black!important;
+}
+
+.mw-ui-btn-tab:hover, .mw-ui-btn-tab.active:hover  {
+    background-color: $primary!important;
+    color: white !important;
+}
+.module-multilanguage {
+    .mw-ui-btn-info {
+        border-color: $primary !important;
+        background: $primary !important;
+
+        .mw-dropdown-content {
+            border-color: $black !important;
+            background: $black !important;
+            li {
+                color: $secondary !important;
+            }
+
+        }
+    }
+}
+
+.mw-ui-label {
+    color: $secondary!important;
+}
+
+.mw-dialog-skin-default .mw-dialog-close, .mw-icon-close {
+    border-color: $primary!important;
+
+    &:hover {
+        background: $primary!important;
+        color: $secondary!important;
+    }
+}
+
+
+.mw-search-no-results {
+    color: $secondary!important;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item-layout:hover {
+    .module_name {
+        background-color: $primary!important;
+        border-color: $primary !important;
+    }
+}
+
+.nav-pills {
+    .btn-hover-style-3 .btn.btn-outline-secondary:hover {
+        color: $secondary !important;
+    }
+}
+
+.btn.btn-outline-secondary.active {
+    background-color: $primary!important;
+}
+
+
+#mw-css-editor-sidebar-iframe-holder {
+    .mw-accordion-title.mw-ui-box-header {
+        border: 1px solid rgba(219, 219, 191, 0.16)!important;
+    }
+
+    .mw-accordion-title.mw-ui-box-header.active {
+        border-color: $primary!important;
+    }
+}
+
+.mw-ui-box-header, .card-header, .mw-ui-box-header {
+    background-color: $black;
+}
+
+.mw-ui-box-header {
+    span {
+        color: $secondary!important;
+    }
+}
+
+#modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
+    background-color: $primary!important;
+}
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
+}
+
+.mw-ui-form-controller-title {
+    color: $secondary;
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root {
+
+    &:hover, &:active, &:focus {
+        background: $primary;
+    }
+
+    .mw-tree-item-title {
+        color: $secondary!important;
+
+    }
+}
+
+.custom-fields-add-buttons {
+
+    button {
+
+        &:hover {
+            color: $white!important;
+            background: $primary;
+        }
+    }
+
+}
+
+.mw-field input, .mw-field input, .mw-field select, .mw-field select, .mw-field textarea, .mw-field textarea {
+    background-color: $black!important;
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+    background: $primary!important;
+
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title:before {
+    color: $secondary!important;
+}
+
+
+.mw-tooltip-default .mw-tooltip-content, .a-color-picker {
+    background-color: $black!important;
+}
+
+.a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input {
+    color: $secondary!important;
+}
+
+.a-color-picker-row:not(:first-child) {
+    border: 1px solid $primary!important;
+}
+
+.mw-edit-module-settings-tooltip-btn-title, .mw-handle-menu-dynamic > * {
+    color: unset!important;
+}
+
+.mw-icon-selector-control-label {
+    color: $secondary!important;
+}
+
+
+.mw-paging a {
+    background: transparent!important;
+    border-color: $primary!important;
+    color: $primary!important;
+}
+
+.mw-paging a.active, .mw-paging a.active:focus, .mw-paging a.active:hover, .mw-paging a:active {
+    background-color: $primary!important;
+    color: $secondary!important;
+}
+
+.mw-handle-handler {
+    i.mdi {
+        color: $primary!important;
+    }
+}
+
+#mw_small_editor {
+    background-color: $black!important;
+}
+
+.range-slider input[type=range]::-webkit-slider-runnable-track {
+
+    background: $primary!important;
+    border-color: $primary!important;
+}
+
+.range-slider input[type=range]:focus::-webkit-slider-runnable-track, .range-slider input[type=range]::-moz-range-track, .range-slider input[type=range]::-moz-range-thumb
+, .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper, input[type=range] {
+    background: $primary!important;
+}
+
+
+.mwiconlist-settings-section-block-item [type="range"] {
+    background: $primary!important;
+}
+
+.toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active {
+    background-color: $primary!important;
+}
+
+
+.mw-dropdown-list-search .mwtb-search.mw-dropdown-search{
+    background-color: $black!important;
+    color: $secondary!important;
+}
+
+.mw_module_hold {
+    background-color: $white!important;
+
+    &:hover {
+        border-color: $primary!important;
+    }
+}
+
+
+.module-item-module:hover .module_name {
+    color: $secondary!important;
+}
+
+#background-image-nav .mw-ui-btn .mdi {
+    color: $secondary!important;
+
+}
+
+#image-edit-nav .mw-ui-btn {
+    background-color: $primary!important;
+}
+
+.mw-ui-progress-percent {
+    color: $secondary!important;
+}
+
+.mw-ui-progress .mw-ui-progress-bar {
+    background-color: $primary!important;
+}
+
+
+::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.module-img path {
+    fill: $secondary !important;
+}
+
+.module_draggable svg {
+    fill: $secondary !important;
+
+}
+
+.mw-dialog-holder {
+    box-shadow: $primary 0px 1px 10px!important;
+}
+
+
+.mw-tooltip-default.mw-tooltip-widget {
+    background-color: $black!important;
+}
+.mw-tooltip-insert-module h3 {
+    color: $secondary!important;
+}
+
+.mw-inline-source-editor {
+    background-color: $black!important;
+}
+
+.mw-inline-source-editor textarea, .mw-editor-controller-button, .mw-alert-holder{
+    color: $secondary!important;
+}
+
+
+
+.mw-ui-field:focus, .mw-ui-field:hover, .mw-select .mw-select-options, .mw-select-option {
+    border-color: $primary!important;
+    box-shadow: 0 0 3px $primary!important;
+}
+
+.mw-ui-field, .mw-select-options label {
+    color: $secondary!important;
+    background-color: $black!important;
+    border-color: $primary;
+
+    &:hover {
+        background-color: $primary;
+
+    }
+}
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primary!important;
+    color: $secondary!important;
+}
+
+.badge-pill {
+    background-color: $textGray!important;
+    color: $secondary!important;
+}
+
+
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: $primary!important;
+}
+
+.card.style-1 .card-header-fix .card-header {
+    border-color: $primary!important;
+    background-color: $black;
+}
+
+.card.style-1 .card-header-fix .card-header.post-header-content-changed {
+    background-color: $body-bg!important;
+    border: 1px solid $primary!important;
+}
+
+.mw-ui-bg-info, .mw-ui-btn-info, .mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.mw-ui-btn-info:hover, .mw-ui-btn-info.active {
+    background-color: $secondary!important;
+    border-color: $secondary!important;
+}

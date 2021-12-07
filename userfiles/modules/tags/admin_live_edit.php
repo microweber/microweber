@@ -2,7 +2,7 @@
 <?php $posts_parent_page = get_option('data-root-page-id', $params['id']); ?>
 <?php
 if (isset($params['for-current-content-id'])) {
-    $params['for-content-id'] = CONTENT_ID;
+    $params['for-content-id'] = content_id();
 }
 
 if (isset($params['for-content-id'])) {
@@ -58,7 +58,7 @@ if (isset($params['for-content-id'])) {
                 </div>
             </div>
 
-            <div class="text-end">
+            <div class="text-end text-right">
                 <a href="javascript:;" onClick="editTagsShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});" class="btn btn-primary btn-sm"><?php _e('Manage tags') ?></a>
             </div>
         </div>

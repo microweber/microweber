@@ -18,6 +18,7 @@ class Ui
     public $marketplace_access_code = false;
     public $enable_service_links = true;
     public $custom_support_url = false;
+    public $admin_colors_sass = false;
     public $brand_favicon = '';
 
     public $modules_ui = array();
@@ -204,6 +205,11 @@ class Ui
         return $this->brand_name;
     }
 
+    public function admin_colors_sass()
+    {
+        return $this->admin_colors_sass;
+    }
+
     public function live_edit_logo()
     {
         return $this->logo_live_edit;
@@ -248,12 +254,17 @@ class Ui
         return $this->custom_fields;
     }
 
+    public function enable_service_links()
+    {
+        return $this->enable_service_links;
+    }
+
     public function powered_by_link()
     {
         if ($this->disable_powered_by_link != false) {
             return;
         }
-        $link = '<span class="mw-powered-by"><a href="https://microweber.org/" title="Website Builder">Website Builder</a> - <a href="https://microweber.org" target="_blank" title="Make a website">Microweber</a></span>';
+        $link = '<span class="mw-powered-by"><a href="https://microweber.org/" title="Website Builder">Website Builder</a> by <a href="https://microweber.org" target="_blank" title="Make a website">Microweber</a></span>';
         if ($this->powered_by_link != false) {
             $link = $this->powered_by_link;
         }

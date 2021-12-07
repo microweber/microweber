@@ -106,7 +106,7 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-end">
+                                <div class="col-md-4 text-end text-right">
                                     <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)"><?php _e('Select All'); ?></button>
                                     <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)"><?php _e('Unselect All'); ?></button>
                                 </div>
@@ -217,7 +217,7 @@
                     @endforeach
 
                     <a href="{{route('admin.role.index')}}" class="btn btn-outline-secondary btn-sm"><?php _e('Cancel'); ?></a>
-                    <button class="btn btn-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
+                    <button class="btn btn-outline-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
 
                     <button class="btn btn-success btn-sm float-right" type="submit"><?php _e('Save'); ?></button>
                 </form>

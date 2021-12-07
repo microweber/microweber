@@ -10,7 +10,7 @@
 
          stopOnFailure="true"
          verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-     <logging>
+    <logging>
         <testdoxText outputFile="php://stdout"/>
         <log type="coverage-clover" target="coverage.xml"/>
     </logging>
@@ -31,12 +31,67 @@
     </coverage>
 
 
-
     <testsuites>
-        <testsuite name="Microweber Test Suite">
-            <directory>./src/MicroweberPackages/*/tests/</directory>
+        <testsuite name="MicroweberCoreTests">
+            <directory>./src/MicroweberPackages/Backup/tests/</directory>
+            <directory>./src/MicroweberPackages/Admin/tests/</directory>
+            <directory>./src/MicroweberPackages/App/tests/</directory>
+             <directory>./src/MicroweberPackages/Blog/tests/</directory>
+            <directory>./src/MicroweberPackages/Cache/tests/</directory>
+            <directory>./src/MicroweberPackages/Cart/tests/</directory>
+            <directory>./src/MicroweberPackages/Category/tests/</directory>
+            <directory>./src/MicroweberPackages/Checkout/tests/</directory>
+            <directory>./src/MicroweberPackages/Comment/tests/</directory>
+            <directory>./src/MicroweberPackages/Config/tests/</directory>
+            <directory>./src/MicroweberPackages/Console/tests/</directory>
+            <directory>./src/MicroweberPackages/Content/tests/</directory>
+            <directory>./src/MicroweberPackages/ContentData/tests/</directory>
+            <directory>./src/MicroweberPackages/ContentFilter/tests/</directory>
+            <directory>./src/MicroweberPackages/Core/tests/</directory>
+            <directory>./src/MicroweberPackages/Country/tests/</directory>
+            <directory>./src/MicroweberPackages/Currency/tests/</directory>
+            <directory>./src/MicroweberPackages/CustomField/tests/</directory>
+            <directory>./src/MicroweberPackages/Customer/tests/</directory>
+            <directory>./src/MicroweberPackages/Database/tests/</directory>
+            <directory>./src/MicroweberPackages/Debugbar/tests/</directory>
+            <directory>./src/MicroweberPackages/Event/tests/</directory>
+            <directory>./src/MicroweberPackages/FileManager/tests/</directory>
+            <directory>./src/MicroweberPackages/Form/tests/</directory>
+            <directory>./src/MicroweberPackages/Helper/tests/</directory>
+            <directory>./src/MicroweberPackages/Install/tests/</directory>
+            <directory>./src/MicroweberPackages/Media/tests/</directory>
+            <directory>./src/MicroweberPackages/Menu/tests/</directory>
+            <directory>./src/MicroweberPackages/Module/tests/</directory>
+            <directory>./src/MicroweberPackages/Notification/tests/</directory>
+            <directory>./src/MicroweberPackages/Offer/tests/</directory>
+            <directory>./src/MicroweberPackages/OpenApi/tests/</directory>
+            <directory>./src/MicroweberPackages/Option/tests/</directory>
+            <directory>./src/MicroweberPackages/Order/tests/</directory>
+            <directory>./src/MicroweberPackages/Package/tests/</directory>
+            <directory>./src/MicroweberPackages/Page/tests/</directory>
+            <directory>./src/MicroweberPackages/Pagination/tests/</directory>
+            <directory>./src/MicroweberPackages/Post/tests/</directory>
+            <directory>./src/MicroweberPackages/Product/tests/</directory>
+            <directory>./src/MicroweberPackages/Queue/tests/</directory>
+            <directory>./src/MicroweberPackages/Repository/tests/</directory>
+            <directory>./src/MicroweberPackages/Role/tests/</directory>
+            <directory>./src/MicroweberPackages/Shipping/tests/</directory>
+            <directory>./src/MicroweberPackages/Shop/tests/</directory>
+            <directory>./src/MicroweberPackages/Tag/tests/</directory>
+            <directory>./src/MicroweberPackages/Tax/tests/</directory>
+            <directory>./src/MicroweberPackages/Template/tests/</directory>
+            <directory>./src/MicroweberPackages/User/tests/</directory>
+            <directory>./src/MicroweberPackages/Utils/tests/</directory>
+            <directory>./src/MicroweberPackages/View/tests/</directory>
+            <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
 
+        <testsuite name="MicroweberTestMultilanguage">
+            <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberTestTranslation">
+            <directory>./src/MicroweberPackages/Translation/tests/</directory>
+        </testsuite>
     </testsuites>
     <php>
         <env name="CACHE_DRIVER" value="file"/>

@@ -22,10 +22,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 }
 
 .sandstone {
-  font-size: 11px;
+  //font-size: 11px;
   line-height: 22px;
   font-weight: 500;
-  text-transform: uppercase;
+  //text-transform: uppercase;
 }
 
 .navbar {
@@ -44,8 +44,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 .btn {
   @extend .sandstone;
 
+    color: $secondary!important;
   &:hover {
     border-color: transparent;
+      a, span, i {
+          color: $secondary!important;
+      }
   }
 
   &-success,
@@ -54,6 +58,28 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
   }
 }
 
+.select-settings {
+    a:hover {
+        i, span {
+            color: $primary!important;
+        }
+    }
+}
+
+.mw-main-module-backend-users-profile-my-profile-admin {
+    a:hover {
+        background-color: $black!important;
+    }
+}
+
+.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger, .js-standalone-updater-update-button {
+    color: $secondary!important;
+
+    span {
+        color: $secondary!important;
+
+    }
+}
 // Typography ==================================================================
 
 // Tables ======================================================================
@@ -127,12 +153,34 @@ input,
   border: 1px solid $gray-300;
 }
 
-.pagination {
+.pagination, .mw-paging  {
   @extend .sandstone;
 
   a:hover {
     text-decoration: none;
   }
+
+    .page-item.active .page-link {
+        background-color: $primary!important;
+    }
+    .page-link {
+        border-color: $primary!important;
+        background-color: $white!important;
+        color: $secondary!important;
+
+
+        &:hover, &:active {
+            background-color: $primary!important;
+            border-color: $secondary!important;
+
+        }
+    }
+
+
+}
+
+.form-control:disabled, .form-control[readonly], .lang-key-holder {
+    background-color: $body-bg!important;
 }
 
 .dropdown-menu {
@@ -140,6 +188,17 @@ input,
     @extend .sandstone;
   }
 }
+
+//.nav {
+//    li {
+//
+//        &:hover {
+//            span, i {
+//                color: $primary;
+//            }
+//        }
+//    }
+//}
 
 // Indicators ==================================================================
 
@@ -233,3 +292,922 @@ input,
 // Progress bars ===============================================================
 
 // Containers ==================================================================
+
+
+//New variables for custom themes
+
+#mw-admin-container {
+    background-color: $body-bg!important;
+}
+
+.card-order-holder, .messages-holder div{
+    background-color: $body-bg!important;
+    border-color: $body-bg!important;
+}
+
+.card-body, .card {
+    a , a.btn, a.text-dark:hover, a.text-dark:focus {
+        color: $secondary!important;
+    }
+
+}
+
+
+
+.card.card-product-holder {
+    background-color: $body-bg;
+}
+
+.module-white-label-admin-colors {
+    background-color: $white;
+}
+
+.btn-hover-style-2 .btn-outline-secondary{
+
+    color: $secondary!important;
+
+}
+.btn-outline-secondary:hover, .btn.btn-outline-secondary.active
+{
+    background-color: $transparent!important;
+    color: $primary!important;
+    border-color: $primary!important;
+
+    .mdi {
+        color: $primary!important;
+    }
+}
+
+a.active i {
+    color: $primary;
+}
+
+i.mdi.active, i.mdi:hover {
+    color: $primary;
+}
+
+i.mdi {
+    color: $silver!important;
+}
+
+.card-header, .card-body .row a, .comments-holder .card-body .row{
+    &:hover {
+            strong, i {
+            color: $primary!important;
+        }
+
+        .mdi.mdi-magnify {
+            color: $secondary!important;
+        }
+
+    }
+}
+
+.quick-links span:hover {
+    color: $primary!important;
+}
+
+.card-header i.mdi {
+    color: $primary;
+}
+
+.main aside > ul > li.nav-item > a {
+    color: $secondary!important;
+
+    &:hover {
+        background-color: $primary!important;
+        color: $secondary!important;
+    }
+}
+
+.main aside > ul > li.nav-item > i.mdi {
+    &:hover {
+        color: $secondary!important;
+    }
+}
+
+.dropdown-item {
+    color: $secondary !important;
+
+    &:active {
+        .mdi .mdi-plus{
+            color: $secondary!important;
+        }
+    }
+}
+
+
+
+h1,h2,h3,h4,h5,h6, label, div, a span, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
+    color: $secondary;
+}
+
+button, textarea, .form-control {
+    border-color: $primary!important;
+}
+
+.btn.btn-text {
+    border: none!important;
+}
+
+
+small, small.bg-secondary {
+    background-color: transparent!important;
+}
+
+.stats_box_footer, .show-more-stats {
+    color: $secondary!important;
+
+     &:hover {
+        color: $secondary!important;
+         //background-color: $primary;
+    }
+
+     a{
+        color: $secondary!important;
+
+        &:hover {
+            color: $secondary!important;
+            background-color: $primary;
+            border-color: $primary;
+
+        }
+    }
+}
+
+.dashboard-recent, .module-contact-form-dashboard-recent-messages {
+    color: $secondary!important;
+
+     a {
+        color: $secondary!important;
+
+        &:hover {
+            color: $secondary!important;
+            background-color: $primary;
+            border-color: $primary;
+        }
+    }
+}
+
+
+.badge-pill {
+    background-color: $textGray!important;
+    color: $secondary!important;
+}
+
+.card-message-holder {
+    div, a{
+        color: $secondary;
+    }
+}
+
+
+.dropdown-item, .dropdown-item a, .dropdown-item.active {
+    color: $secondary!important;
+
+    &:hover, &:focus, &:active {
+        color: $secondary!important;
+        text-decoration: none;
+        background-color: $primary!important;
+    }
+
+
+}
+
+.bootstrap-select .dropdown-menu .dropdown-item {
+    color: $secondary!important;
+    border-color: $primary!important;
+
+    &:hover {
+
+        background-color: $primary!important;
+    }
+}
+
+svg {
+    fill: $primary;
+}
+
+.add-new {
+    background-color: $primary!important;
+    border-color: $primary!important;
+    &:hover, &:active, &:focus {
+        i {
+
+            color: $secondary!important;
+        }
+    }
+}
+
+tspan {
+    color: $secondary !important;
+    fill: $secondary !important;
+    -webkit-text-fill-color: $secondary !important;
+}
+
+.apexcharts-menu-item {
+    color: $primary!important;
+
+}
+
+.js-search-by {
+    i.mdi {
+        color: $white;
+    }
+}
+
+.apexcharts-tooltip.apexcharts-theme-light span , .apexcharts-tooltip-title {
+    color: $black!important;
+}
+
+.mdi-magnify {
+    color: $secondary!important;
+}
+
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root {
+
+    &:hover, &:active, &:focus {
+        background-color: $primary;
+    }
+
+    .mw-tree-item-title {
+        color: $secondary!important;
+
+    }
+}
+
+.custom-fields-add-buttons {
+
+    button {
+
+        &:hover {
+            color: $white!important;
+            background-color: $primary;
+        }
+    }
+
+}
+
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+    background-color: $primary!important;
+
+}
+
+.mw-select-options {
+    background-color: $black!important;
+    border-color: $primary;
+}
+
+.mw-ui-field, .mw-select-options label {
+    color: $secondary!important;
+    background-color: $black!important;
+    border-color: $primary;
+
+    &:hover {
+        background-color: $primary;
+
+    }
+}
+
+input.mw-ui-invisible-field {
+    color: $secondary!important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: $white;
+}
+
+
+.mw-modules-badge {
+    i.mdi {
+        color: $primary!important;
+    }
+
+    background-color: white!important;
+}
+
+.navbar-expand-xl .navbar-nav {
+    background-color: $white;
+}
+
+.page-settings .select-settings a .icon-holder {
+    background-color: $body-bg!important;
+}
+
+//.card.bg-silver {
+//    background-color: $body-bg!important;
+//}
+
+#mw-content-backend.has-mw-spinner:after {
+    background-color: $body-bg!important;
+}
+
+.module-icon-svg-fill {
+    background-color: white;
+    border-radius: 8px;
+}
+
+.js-package-install-content {
+    img {
+        background-color: white;
+        border-radius: 20px;
+        padding: 10px;
+    }
+}
+
+.mw-ui-link {
+    color: $primary!important;
+}
+
+.page-link {
+    border-color: $secondary!important;
+}
+
+.page-item.active .page-link {
+    color: $secondary!important;
+    border-color: $secondary!important;
+}
+
+.mw-paging a {
+    //background-color: none;
+    color: $primary!important;
+
+}
+
+.input-group-text, .mw-ui-btn  {
+    border-color: $primary!important;
+    background-color: $primary!important;
+
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background-color: $black!important;
+        li {
+            color: $secondary !important;
+        }
+
+    }
+}
+
+.mw-dropdown-content {
+    border-color: $black!important;
+    background-color: $black!important;
+    li {
+        color: $secondary !important;
+
+        &:hover {
+            background-color: $primary!important;
+        }
+    }
+}
+
+.content-title-field-buttons {
+    color: $secondary!important;
+}
+
+.lang-key-holder {
+    background-color: $white;
+}
+
+
+table {
+    td, th{
+        color: $secondary;
+        background-color: $body-bg!important;
+        border-color: $secondary!important;
+    }
+}
+
+.module-shop-offers .js-table-active {
+    background-color: $black!important;
+}
+
+
+.tooltip-inner {
+    background-color: $white!important;
+    color: $secondary!important;
+}
+
+.mw-browser-list-folder .mw-browser-list-create {
+    &:hover {
+        opacity: 0.1;
+    }
+}
+
+.mw-alert-holder {
+    color: black;
+}
+
+.theme-color-picker {
+    background-color: $body-bg!important;
+}
+
+input, .custom-select {
+    background-color: $black!important;
+    border-color: $primary!important;
+}
+
+.muted-cards .card:hover {
+    background-color: $black!important;
+    border-color: $black!important;
+
+    h5 {
+        color: $secondary!important;
+    }
+}
+
+#settings-admin-mw-main-module-backend-shop-offers-admin-block-shop-offers {
+   a {
+    color: $secondary!important;
+   }
+}
+
+.custom-file {
+    label {
+        border-color: $primary!important;
+    }
+}
+
+.module-uninstall-btn {
+    border: unset!important;
+}
+
+.mw-ui-box, .mw-ui-box2 {
+    background-color: $white!important;
+}
+
+.btn-hover-style-3 .btn.btn-outline-secondary.active {
+     color: $secondary!important;
+}
+
+.btn-hover-style-3 .btn:hover, #mw-packages-browser-nav-tabs-nav .btn:hover {
+    color: $secondary !important;
+    background-color: $primary!important;
+
+    i {
+        color: $secondary !important;
+    }
+}
+
+.btn-outline-success {
+    &:hover {
+        color: $secondary!important;
+    }
+}
+
+.js-post-box:hover {
+    border-color: $primary!important;
+}
+
+.mw-ui-check input:checked + span {
+    border-color: $primary!important;
+    background-color: $primary!important;
+}
+
+.custom-fields-add-buttons button:hover {
+    background-color: $primary!important;
+}
+
+.mw-ui-category-tree-row {
+    background-color: $body-bg!important;
+}
+
+.mw-ui-searchfield {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.mw-ui-box-header, .card-header, .mw-ui-box-header {
+    background-color: $black!important;
+}
+
+ .mw-accordion-title.mw-ui-box-header {
+     border: 1px solid rgba(219, 219, 191, 0.16)!important;
+ }
+
+ .mw-accordion-title.mw-ui-box-header.active {
+     border-color: $primary!important;
+ }
+
+.mw-editor-area, .mw-bar-row,.deactivated:before {
+    background-color: $black!important;
+}
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    background-color: $body-bg;
+}
+
+.mw-dialog-skin-default .mw-dialog-header, .mw-dialog-footer, #mw-dialog-holder-mw_confirm_modal {
+    background-color: $black!important;
+}
+
+.mw-dialog-holder {
+    box-shadow: $primary 0px 1px 10px!important;
+}
+
+
+.mw-dialog-skin-default .mw-dialog-close {
+    border-color: $primary!important;
+
+    &:hover {
+        background-color: $primary!important;
+        color: $secondary!important;
+    }
+}
+
+.mw-selectable-list > label, #save-menu-wrapper {
+    background-color: $white!important;
+}
+
+.admin-navigation-colorscheme {
+    a.text-dark:hover, a.text-dark:focus {
+            color: $primary!important;
+
+            .mw-colorscheme-text-white, .notif-label, i {
+                color: $primary!important;
+            }
+        }
+
+    .mw-colorscheme-text-white {
+        color: $secondary!important;
+    }
+}
+
+.mw-domtree li > span, .colorField, .mw-element-spacing-editor input, .mw-field.mw-field-flat input {
+    color: $secondary!important;
+}
+
+.mw-field input, .mw-field input, .mw-field select, .mw-field select, .mw-field textarea, .mw-field textarea {
+    background-color: $black!important;
+    border-color: $primary!important;
+    color: $primary!important;
+
+    option {
+
+        &:hover {
+            background-color: $primary!important;
+        }
+        color: $primary!important;
+    }
+}
+
+.mw_module_settings_sidebar_icon {
+    background-color: $secondary!important;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.mw-domtree li.selected > span {
+    color: $secondary!important;
+    background-color: $primary!important;
+}
+
+#background-image-nav .mw-ui-btn .mdi {
+    color: $secondary!important;
+
+}
+.text-align .active, .mw-ese-holder {
+    border-color: $primary!important;
+    background-color: $black!important;
+}
+
+.mw-modules-toolbar-back-button-holder {
+    &:hover {
+       a, i {
+        color: $primary!important;
+       }
+    }
+}
+
+.card.style-1 .card-header-fix .card-header {
+    border-color: $primary!important;
+    background-color: $black;
+}
+
+.card.style-1 .card-header-fix .card-header.post-header-content-changed {
+    background-color: $body-bg!important;
+    border: 1px solid $primary!important;
+}
+
+.card.style-1 .card-header:after {
+    opacity: 0.5;
+}
+
+.mw-select-display-value.mw-ui-size-normal {
+
+    color: $secondary!important;
+}
+
+
+.stats_box_footer .stats-box-colorscheme:hover {
+    i, span {
+        color: $primary!important;
+    }
+}
+
+.prepend-transparent .form-control{
+    padding-left: 5px!important;
+}
+
+.mw-select-display-value {
+    color: $secondary!important;
+}
+
+.mw-custom-field-icon-text, .mw-custom-field-icon-price, .mw-custom-field-title {
+    color: $secondary!important;
+
+}
+
+.mw-select.mw-select-dropmode-over.active {
+    .mw-select-display-value {
+        color: $secondary!important;
+        opacity: 1;
+    }
+}
+
+.module-users-profile-my-profile-admin {
+    a:hover {
+       i.mdi {
+            color: $secondary!important;
+        }
+    }
+}
+
+.btn.btn-link:hover {
+    color: $primary;
+}
+
+
+
+.module-users-login {
+    .text-dark {
+        color: $secondary!important;
+    }
+}
+
+.admin-thumb-item-uploader-holder {
+    width: 12%!important;
+    height: 112px!important;
+}
+
+.angle-top-left, .angle-top-right, .angle-bottom-left, .angle-bottom-right {
+    border-color: $secondary!important;
+}
+
+.mw-tree-nav-skin-default .mw-tree-item-title:before, .mw-tree-nav-skin-default li .mdi-pencil {
+    color: $secondary!important;
+}
+
+.mw-ac-editor-nav > .mw-ui-btn-tab.active {
+    color: $primary!important;
+}
+
+.mw-ui-btn-tab {
+    color: $secondary!important;
+
+    &:hover {
+        background-color: $primary!important;
+        color: white !important;
+    }
+}
+
+.mw-ui-btn-tab.active {
+    border-bottom-color: $primary!important;
+    text-decoration: none;
+    color: $secondary!important;
+}
+
+.mw-select {
+    input {
+        border: none!important;
+    }
+}
+a.btn-link {
+    color: $primary!important;
+
+    small {
+        color: $primary!important;
+
+    }
+}
+
+.mw-editor-controller-component-select-values-holder, .mw-bar-control-item-group-contents {
+    background-color: $black!important;
+
+    .mw-editor-dropdown-option:hover {
+        background-color: $primary!important;
+    }
+}
+
+.mw-editor-controller-button:hover, .mw-range .ui-slider-range, .mw-range .ui-slider-handle:hover {
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.mw-ui-box-header.mw-accordion-title:after {
+    color: $primary!important;
+}
+
+.mw-ui-field:focus, .mw-ui-field:hover, .mw-select .mw-select-options, .mw-select-option {
+    border-color: $primary!important;
+    box-shadow: 0 0 3px $primary!important;
+}
+
+#content-tags-search-block .mw-ui-field:hover {
+    background-color: transparent!important;
+
+}
+
+.reset-field:hover {
+   i.mdi {
+        color: $primary !important;
+   }
+}
+
+.mw-bar-row {
+
+    button {
+        border: none!important;
+    }
+}
+.shadow-selector {
+
+    div {
+        background-color: $secondary!important;
+        padding: 20px;
+    }
+}
+
+#mw-main-module-backend-contact-form-settings {
+    a {
+        color: $primary !important;
+    }
+}
+
+.mw-file-drop-zone, .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: $primary!important;
+}
+
+.mw-browser-list li:hover .mw-file-item-delete {
+    background-color: $primary!important;
+}
+
+
+
+
+.range-slider input[type=range]::-webkit-slider-runnable-track {
+
+    background-color: $primary!important;
+    border-color: $primary!important;
+}
+
+.range-slider input[type=range]:focus::-webkit-slider-runnable-track, .range-slider input[type=range]::-moz-range-track, .range-slider input[type=range]::-moz-range-thumb
+, .range-slider input[type=range]::-ms-fill-lower, .range-slider input[type=range]::-ms-fill-upper, .range-slider input[type=range]:focus::-ms-fill-lower, .range-slider input[type=range]:focus::-ms-fill-upper, input[type=range] {
+    background-color: $primary!important;
+}
+
+
+.setting-row:hover, .pages-nav-default li a:hover, .pages-nav-default li a:focus {
+    background-color: $primary!important;
+}
+
+.mw-toolbar-btn-menu > a.mw-ui-btn {
+    background-color: $primary!important;
+    color: $secondary!important;
+    border-color: $primary!important;
+}
+
+.input-group-text, .mw-ui-btn  {
+    border-color: $primary!important;
+    background-color: transparent!important;
+    color: $secondary !important;
+
+
+    &:hover, &:active {
+        background-color: $primary!important;
+        color: $secondary !important;
+    }
+
+    .mw-dropdown-content {
+        border-color: $black!important;
+        background-color: $black!important;
+        li {
+            color: $secondary !important;
+        }
+    }
+}
+
+
+.mw-ui-btn.active-info {
+    background-color: $primary!important;
+    border-color: $primary!important;
+
+}
+
+.testimonial-holder {
+    background-color: $body-bg!important;
+}
+
+.mw-socials-viber-color {
+    color: $silver!important;
+}
+
+a.text-dark:hover, a.text-dark:focus {
+    color: $primary!important;
+}
+
+
+.bootstrap-tagsinput {
+    background-color: $black;
+}
+
+.mw-ui-progress-percent {
+    color: $secondary!important;
+}
+
+.mw-ui-progress .mw-ui-progress-bar {
+    background-color: $primary!important;
+}
+
+.mw-backup-v2-import-option {
+    background-color: $black!important;
+    border-color: $primary!important;
+}
+
+
+.mw-backup-v2-import-option:hover, .mw-backup-v2-import-option.active  {
+    box-shadow: 0px 4px 11px $primary!important;
+}
+
+
+::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.mw-modules-module-holder:hover ::part(mw-module-icon-svg)  {
+    fill: $secondary !important;
+}
+
+.module-img path {
+    fill: $secondary !important;
+}
+.mw-tooltip-default .mw-tooltip-content, .a-color-picker {
+    background-color: $black!important;
+}
+
+.a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input {
+    color: $secondary!important;
+}
+
+.a-color-picker-row:not(:first-child) {
+    border: 1px solid $primary!important;
+}
+
+.s-field label {
+    color: $secondary!important;
+}
+
+.mw-tooltip-insert-module h3 {
+    color: $secondary!important;
+}
+
+.mw-inline-source-editor {
+    background-color: $black!important;
+}
+
+.mw-inline-source-editor textarea {
+    color: $secondary!important;
+}
+.theme-color-picker label.control-label, .form-control-plaintext, .form-control, .bootstrap-select .dropdown-toggle .filter-option-inner-inner, .mw-editor-controller-button, .mw-alert-holder {
+    color: $secondary!important;
+}
+
+.mw-css-editor-c2a-nav {
+    background-color: $black!important;
+}
+
+.mw-browser-list li.mw-browser-list-folder:hover .as-image {
+    background-color: $primary!important;
+}
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: $primary!important;
+    background-color: $primary!important;
+    color: $secondary!important;
+}
+#mw-site-preview-navigation {
+    .mw-ui-bg-info, .mw-ui-btn-info, .mw-ui-btn.active-info {
+        background-color: $primary!important;
+        border-color: $primary!important;
+    }
+
+    .mw-ui-btn-info:hover, .mw-ui-btn-info.active {
+        background-color: $secondary!important;
+        border-color: $secondary!important;
+    }
+}
+
+.card.not-collapsed-border.card-success {
+    background-color: $body-bg!important;
+}

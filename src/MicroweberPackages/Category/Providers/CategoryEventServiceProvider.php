@@ -12,33 +12,21 @@
 namespace MicroweberPackages\Category\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use MicroweberPackages\Category\Listeners\AddCategoryListener;
-use MicroweberPackages\Category\Listeners\EditCategoryListener;
-use MicroweberPackages\Post\Events\PostWasCreated;
-use MicroweberPackages\Post\Events\PostWasUpdated;
-use MicroweberPackages\Content\Events\ContentWasCreated;
-use MicroweberPackages\Content\Events\ContentWasUpdated;
+use MicroweberPackages\Category\Events\CategoryWasCreated;
+use MicroweberPackages\Category\Events\CategoryWasDeleted;
+use MicroweberPackages\Category\Events\CategoryWasUpdated;
+use MicroweberPackages\Category\Listeners\CategoryListener;
 
 class CategoryEventServiceProvider extends EventServiceProvider
 {
 
-    /**
-     * @deprecated
-
-        protected $listen = [
-        ContentWasCreated::class => [
-            AddCategoryListener::class
+    protected $listen = [
+        CategoryWasCreated::class => [
+            CategoryListener::class
         ],
-        ContentWasUpdated::class => [
-            EditCategoryListener::class
-        ],
-        PostWasCreated::class => [
-            AddCategoryListener::class
-        ],
-        PostWasUpdated::class => [
-            EditCategoryListener::class
-        ],
-    ];*/
+        CategoryWasUpdated::class => [
+            CategoryListener::class
+        ]
+    ];
 
 }
-

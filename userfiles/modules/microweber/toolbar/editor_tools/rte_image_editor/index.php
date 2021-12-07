@@ -466,7 +466,7 @@ if (array_key_exists('title', $_GET)) {
 </script>
 
 
-<style type="text/css">
+<style >
 
 /*    body, html {
         overflow: hidden;

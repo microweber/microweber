@@ -254,11 +254,13 @@ class Export
         $exportTablesReady['__table_structures'] = $tablesStructures;
 
         // Show only requried content ids
-        if (isset($exportTablesReady['content'])) {
+        if (!isset($exportTablesReady['content'])) {
             $contentTableData = [];
             foreach ($exportTablesReady['content'] as $tableData) {
                 if (in_array($tableData['id'], $this->exportData['contentIds'])) {
                     $contentTableData[] = $tableData;
+                } else {
+                    $contentTableData = $this->_getTableContent('content');
                 }
             }
             $exportTablesReady['content'] = $contentTableData;

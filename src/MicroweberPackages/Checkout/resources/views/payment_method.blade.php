@@ -3,7 +3,7 @@
 
 @section('logo-right-link')
     <div class="ml-auto align-self-center">
-        <a href="{{ route('checkout.shipping_method') }}" class="btn btn-link text-end">{{ _e('Back') }}</a>
+        <a href="{{ route('checkout.shipping_method') }}" class="btn btn-link text-end text-right">{{ _e('Back') }}</a>
     </div>
 @endsection
 
@@ -73,7 +73,7 @@
                         <?php endif; ?>
                     </div>
 
-                    <div class="col-4 justify-content-end text-end align-self-top px-0">
+                    <div class="col-4 justify-content-end text-end text-right align-self-top px-0">
                         <a href="{{ route('checkout.shipping_method') }}" class="btn btn-link px-0">{{ _e('Edit') }}</a>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
 
             <module type="shop/checkout/terms" template="checkout_v2" class="no-settings" />
         </div>
-        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"> {{ _e('Complete your order') }}</button>
+        <button type="submit" class="btn btn-primary w-100 js-finish-your-order" dusk="checkout-continue"> {{ _e('Complete your order') }}</button>
     </form>
 
 @endsection

@@ -132,6 +132,9 @@
                 icons: function () {
                     var scope = this;
                     var parse = function (cssLink) {
+                        if(!cssLink.sheet){
+                            return;
+                        }
                         var icons = cssLink.sheet.cssRules;
                         var l = icons.length, i = 0, mindIcons = [];
                         for (; i < l; i++) {
@@ -250,6 +253,45 @@
                 load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
                 unload: function () {
                     document.querySelector('link[href*="materialdesignicons"]').remove();
+                },
+                version: 'mw_local'
+            },
+            SVGIcons: {
+                cssSelector: 'svg[viewBox]',
+                detect: function (target) {
+                    return target.nodeName === 'SVG'
+                },
+                render: function (icon, target) {
+                     target.innerHTML = icon.source;
+                     var svg = target.querySelector('svg');
+                     if (svg) {
+                         svg.setAttribute('width', '1em');
+                         svg.setAttribute('fill', 'currentColor');
+                         svg.setAttribute('height', '1em');
+                         svg.style.width = '1em';
+                         svg.style.height = '1em';
+                         svg.style.fill = 'currentColor';
+                     }
+                },
+                remove: function (target) {
+                    target.innerHTML = ''
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        if(window.TemplateVectorIcons) {
+                            resolve(TemplateVectorIcons)
+                        } else {
+                            $.getScript(mw.settings.template_url + 'template_icons.js', function (){
+                                resolve(TemplateVectorIcons)
+                            })
+                        }
+
+                    });
+                },
+                name: 'Vector Icons',
+                load:  null,
+                unload: function () {
+
                 },
                 version: 'mw_local'
             },
@@ -590,7 +632,7 @@
                 return;
             }
 
-            var all = conf.set._iconsLists.filter(function (f){ return f.toLowerCase().indexOf(conf.term) !== -1; });
+            var all = conf.set._iconsLists.filter(function (f){ return (f.name || f).toLowerCase().indexOf(conf.term) !== -1; });
 
             var off = scope.settings.iconsPerPage * (conf.page - 1);
             var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
@@ -627,6 +669,9 @@
                                     return res.set.render(iconItem, scope.target);
                                 }
                             });
+                            setTimeout(function (){
+                                mw.trigger('iconInserted')
+                            })
                         }
                     }
                 });

@@ -1,21 +1,13 @@
 <?php
+
+use MicroweberPackages\App\Http\RequestRoute;
+
 if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', 'comments');
 }
 
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
-api_expose_admin('mark_comment_as_spam', function ($params) {
-    $comments = new \Microweber\Comments\Models\Comments();
-    return $comments->mark_as_spam($params);
-
-});
-
-
-api_expose_admin('mark_comments_as_old', function ($params) {
-    $comments = new \Microweber\Comments\Models\Comments();
-    return $comments->mark_as_old($params);
-});
 
 api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
 
@@ -67,50 +59,17 @@ api_expose('save_comment_user', function ($params) {
 
     if (mw()->user_manager->session_id() == $commentSessionId) {
 
-        $newCommentData = array();
-        $newCommentData['id'] = $params['comment_id'];
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $params
+        );
 
-        $commentBody = $params['comment_body'];
-
-        // Claer HTML
-        $commentBody = mw()->format->clean_html($commentBody);
-
-        // Clear XSS
-        $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
-        $commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
-
-        $commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
-
-        $newCommentData['comment_body'] = $commentBody;
-        $newCommentData['allow_html'] = '1';
-        $newCommentData['allow_scripts'] = '1';
-
-        mw()->database_manager->save('comments', $newCommentData);
-
+        return $commentData;
     }
 
 });
 
-/**
- * post_comment
- */
-api_expose('post_comment');
-function post_comment($data)
-{
-    // Save to database
-    $comments = new \Microweber\Comments\Models\Comments();
-    $comment_id = $comments->save($data);
 
-    return $comment_id;
-
-}
-
-function get_comments($params = false)
-{
-    $comments = new \Microweber\Comments\Models\Comments();
-
-    return $comments->get($params);
-}
 
 
 event_bind(
@@ -145,7 +104,7 @@ event_bind(
 }
 );
 
-
+/*
 event_bind(
     'module.content.edit.main', function ($item) {
 
@@ -160,7 +119,7 @@ event_bind(
         }
     }
 }
-);
+);*/
 
 
 event_bind(

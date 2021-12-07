@@ -12,6 +12,7 @@ use MicroweberPackages\Form\Elements\File;
 use MicroweberPackages\Form\Elements\Hidden;
 use MicroweberPackages\Form\Elements\Label;
 use MicroweberPackages\Form\Elements\MwEditor;
+use MicroweberPackages\Form\Elements\MwModuleSettings;
 use MicroweberPackages\Form\Elements\RadioButton;
 use MicroweberPackages\Form\Elements\Select;
 use MicroweberPackages\Form\Elements\Text;
@@ -27,6 +28,7 @@ class FormElementBuilder
     protected $formElementsClasses = [
         'Text'=>Text::class,
         'MwEditor'=>MwEditor::class,
+        'MwModuleSettings'=>MwModuleSettings::class,
         'TextOption'=>TextOption::class,
         'TextArea'=>TextArea::class,
         'TextAreaOption'=>TextAreaOption::class,
@@ -40,6 +42,18 @@ class FormElementBuilder
     public function mwEditor($name)
     {
         $text = new $this->formElementsClasses['MwEditor']($name);
+
+        if (!is_null($value = $this->getValueFor($name))) {
+            $text->value($value);
+        }
+
+        return $text;
+    }
+
+
+    public function mwModuleSettings($name)
+    {
+        $text = new $this->formElementsClasses['MwModuleSettings']($name);
 
         if (!is_null($value = $this->getValueFor($name))) {
             $text->value($value);

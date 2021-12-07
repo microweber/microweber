@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 11/25/2020
- * Time: 11:13 AM
- */
+
 
 
 Route::name('api.comment.')
-    ->prefix('api/comment')
+    ->prefix(ADMIN_PREFIX)
     ->middleware(['xss'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers')
     ->group(function () {
@@ -16,14 +11,19 @@ Route::name('api.comment.')
     });
 
 
+Route::name('api.comment.admin.')
+    ->prefix(ADMIN_PREFIX)
+    ->middleware(['xss','admin'])
+    ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
+    ->group(function () {
+        Route::post('edit', 'AdminCommentController@saveCommentEdit')->name('edit');
+    });
 
 
 Route::name('admin.')
     ->prefix(ADMIN_PREFIX)
-    ->middleware(['admin'])
+    ->middleware(['xss','admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {
-
         Route::resource('comment', 'AdminCommentController');
-
     });

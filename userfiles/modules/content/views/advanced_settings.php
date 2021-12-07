@@ -74,8 +74,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 top.window.location = mw.settings.site_url + "api/content/redirect_to_content?id=" + data;
 
                             } else {
-                                mw.url.windowHashParam('action', 'editpage:' + data);
-
+                               // mw.url.windowHashParam('action', 'editpage:' + data);
+                                window.location = "<?php print admin_url() ?>content/"+data+"/edit";
                             }
                             //content/redirect_to_content_id
                         } else {
@@ -172,8 +172,15 @@ if (isset($data['created_by']) and $data['created_by']) {
     ?>
 
 <?php if ($showSeoSettings): ?>
+
+    <?php
+    $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+    ?>
+
+
     <!-- SEO Settings -->
-    <div class="card style-1 mb-3 card-collapse">
+    <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
             <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
@@ -185,41 +192,75 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <hr class="thin no-padding"/>
 
                 <div class="row">
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group js-count-letters">
-                            <div class="d-flex justify-content-between">
-                                <label><?php _e("Meta title"); ?>
-                                    <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks."></small>
-                                </label>
-                            </div>
+                        <div class="form-group ">
+                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                            <small data-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
-                            <input type="text" class="form-control" name="content_meta_title" placeholder="" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
+
+                            <?php
+                            echo $formBuilder->Text('content_meta_title')
+                                ->setModel($contentModel)
+                                ->value($data['content_meta_title']) ->autocomplete(false) ;
+                            ?>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group js-count-letters">
-                                <label class="control-label"><?php _e("Meta description"); ?></label>
-                                <small data-toggle="tooltip" title="Short description for yor content."></small>
 
-                            <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
+
+
+
+
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                        <label class="control-label"><?php _e("Meta description"); ?></label>
+                        <small data-toggle="tooltip" title="Short description for yor content."></small>
+
+                    <?php
+                    echo $formBuilder->MwEditor('description')
+                        ->setModel($contentModel)
+                        ->value($data['description'])
+                        ->autocomplete(false);
+                    ?>
                         </div>
                     </div>
 
+
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?php _e("Meta keywords"); ?>
-                                <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"></small>
-                            </label>
+                        <div class="form-group ">
+                        <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                        <small data-toggle="tooltip" title="Short description for yor content."></small>
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
-                            <textarea class="form-control" name="content_meta_keywords" placeholder="<?php _e('Show') ?>e.g. Summer, Ice cream, Beach
-"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
-                            <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
+                    <?php
+                    echo $formBuilder->Text('content_meta_keywords')
+                        ->setModel($contentModel)
+                        ->value($data['content_meta_keywords'])
+                        ->autocomplete(false);
+                    ?>
                         </div>
+
+                        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
                     </div>
 
+
+
+
+
+
+
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group ">
                             <label><?php _e("OG Images"); ?></label>
                             <small class="text-muted d-block mb-2">
                                 <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
@@ -440,7 +481,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-12">
 
 
-                            <button type="button" class="btn btn-sm btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+                            <button type="button" class="btn btn-sm btn-link" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
 
 

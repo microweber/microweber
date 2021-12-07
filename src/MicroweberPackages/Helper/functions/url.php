@@ -62,6 +62,14 @@ if (!function_exists('site_url')) {
                 $d = trim($d, DIRECTORY_SEPARATOR);
             }
 
+            if (isset($_SERVER['argv']) and isset($_SERVER['argv'][0]) and is_string($_SERVER['argv'][0])) {
+                $is_phpunit = $_SERVER['argv'][0];
+                if (str_contains($is_phpunit,'phpunit')) {
+                    $d = '';
+                    $pageURL_host =rtrim( config('app.url'), '/')  ;;
+                }
+            }
+
             if ($d == '') {
                 $pageURL = $pageURL_host;
             } else {

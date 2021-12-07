@@ -18,7 +18,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
 
-        <style type="text/css">
+        <style >
             #testimonials-list tbody tr {
                 cursor: move;
                 cursor: -moz-grab;
@@ -75,6 +75,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             function saveChanges() {
                 $('form#add-testimonial-form').submit()
+
+            }
+            if(typeof thismodal != 'undefined'){
+                thismodal.resize(800, 800)
             }
         </script>
 

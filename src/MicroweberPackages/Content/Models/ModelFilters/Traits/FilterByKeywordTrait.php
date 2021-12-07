@@ -10,6 +10,8 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use voku\helper\AntiXSS;
 
 trait FilterByKeywordTrait
@@ -29,9 +31,7 @@ trait FilterByKeywordTrait
         }
 
 
-
         if ($keywordToSearch) {
-
             if (isset($this->input['searchInFields'])) {
                 $searchInFieldsNew = [];
                 $searchInFieldsInput = $this->input['searchInFields'];
@@ -57,17 +57,31 @@ trait FilterByKeywordTrait
                 }
             }
 
-            $this->query->where(function ($query2) use ($table, $searchInFields, $keywordToSearch) {
+            $this->query->where(function ($subQuerySearch) use ($table, $searchInFields, $keywordToSearch) {
                 if ($searchInFields) {
                     foreach ($searchInFields as $field) {
-                        $query2->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
+                        $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
                     }
-                    return $query2;
                 }
+                return $subQuerySearch;
             });
 
+
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                $multilanguageTranslationsQuery = MultilanguageTranslations::query();
+                $multilanguageTranslationsQuery->where('rel_type', $table);
+                $multilanguageTranslationsQuery->whereIn('field_name', ['url', 'description', 'title']);
+                $multilanguageTranslationsQuery->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
+                $multilanguageTranslationsQuery->limit(3000); // MYSQL LIMIT FOR WHERE IN
+                $multilanguageTranslations = $multilanguageTranslationsQuery->get();
+                $relIds = $multilanguageTranslations->pluck('rel_id');
+                if (!empty($relIds)) {
+                    $this->query->orWhereIn($table.'.id', $relIds);
+                }
+            }
+
+            return $this->query;
         }
-        return $this->query;
     }
 
 }

@@ -14,6 +14,12 @@ if ($data == false or empty($data)) {
 if (!$data['id'] and isset($params["parent-category-id"])) {
     $data['parent_id'] = intval($params["parent-category-id"]);
 }
+
+if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+    $data['parent_id'] = intval($_GET['addsubcategory']);
+
+}
+
 $just_saved = false;
 $quick_edit = false;
 if (isset($params['just-saved'])) {
@@ -32,9 +38,9 @@ if (isset($params['live_edit'])) {
 ?>
 <style>
 
-     .mw-dialog-container >  .mw-filepicker-component-section {
-         width: 100%;
-     }
+    .mw-dialog-container >  .mw-filepicker-component-section {
+        width: 100%;
+    }
 
     #post-media-card-header {
         padding: 15px;
@@ -53,27 +59,54 @@ if (isset($params['live_edit'])) {
         right: 0;
     }
 
-     .card-header.fixed{
-         position: fixed !important;
-         top: 69px;
-         z-index: 10;
-     }
-     #settings-container .card-header.fixed{
-         top: 0;
+    .card-header.fixed{
+        position: fixed !important;
+        top: 69px;
+        z-index: 10;
+    }
+    #settings-container .card-header.fixed{
+        top: 0;
 
-     }
+    }
 </style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
         mw.require('forms.js');
         mw.lib.require('mwui_init');
+        mw.lib.require('bootstrap_tags');
     </script>
     <script type="text/javascript">
         function save_cat(el) {
-            if (document.querySelector('.mw-ui-category-selector input:checked') !== null) {
+            var invalid_form_msg = false;
+            if(document.querySelector('.mw-ui-category-selector input:checked') === null){
+                invalid_form_msg = 1;
+            }
+            if (!invalid_form_msg) {
+                var has_title = false;
+                $('#content-title-field,[name*="multilanguage[title]"]').each(function (){
+                    if(!!this.value.trim()) {
+                        has_title = true;
+                    }
+                })
+
+                if (!has_title) {
+                    invalid_form_msg = 2;
+                }
+            }
+
+            if (!invalid_form_msg) {
                 $(document.forms['admin_edit_category_form']).submit();
             } else {
-                mw.alert('<?php _e("Please choose Page or Category"); ?>.');
+                if(invalid_form_msg === 1){
+                  mw.alert('<?php _e("Please choose Page or Category"); ?>.');
+                    mw.tools.highlight(document.getElementById("category-dropdown-holder"), "yellow");
+                } else if(invalid_form_msg === 2){
+                    mw.alert('<?php _e("The category must have a name"); ?>.');
+                    mw.tools.highlight(document.getElementById("content-title-field"), "yellow");
+
+                }  else {
+                    mw.alert('<?php _e("Please fill the required fields"); ?>.');
+                }
             }
         }
 
@@ -147,7 +180,9 @@ if (isset($params['live_edit'])) {
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 var catSaveUrl = '<?php print route('api.category.store'); ?>';
                 var catSaveUrlMethod = 'POST';
+                mw.category_is_new = true;
                 <?php if(isset($data['id']) and intval($data['id']) != 0): ?>
+                mw.category_is_new = false;
                 var catSaveUrl = '<?php print route('api.category.update',['category'=>$data['id']]); ?>';
                 var catSaveUrlMethod = 'PATCH';
 
@@ -166,7 +201,7 @@ if (isset($params['live_edit'])) {
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                     if(dialog) {
                         dialog.result(savedcatid)
-                       // dialog.result(this.toString())
+                        // dialog.result(this.toString())
                     }
                     if (typeof(this.error) != "undefined") {
                         mw.notification.msg(this);
@@ -195,20 +230,32 @@ if (isset($params['live_edit'])) {
                     }
 
 
-                    document.querySelector('.btn-save').disabled = true;
+                   // document.querySelector('.btn-save').disabled = true;
                     mw.askusertostay = false;
 
-                <?php if(intval($data['id']) == 0): ?>
-                   // mw.url.windowHashParam("new_content", "true");
+                    <?php if(intval($data['id']) == 0): ?>
+                    // mw.url.windowHashParam("new_content", "true");
 
                     <?php endif; ?>
-                   // mw.reload_module('#<?php print $params['id'] ?>');
+                    // mw.reload_module('#<?php print $params['id'] ?>');
 
                     var module = mw.tools.firstParentWithClass(form, 'module');
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-                    mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+
+
+                    if(self !== top && mw.top().settings.liveEdit){
+                        mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
+                    } else {
+                        if(mw.category_is_new){
+
+                            window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                        }
+                    }
+
+                   //
+
                 });
 
                 return false;
@@ -244,13 +291,13 @@ if (isset($params['live_edit'])) {
         <div class="card-header">
             <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?></strong></h5>
             <div>
-                <button type="button" onclick="save_cat(this);" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
+                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
             </div>
         </div>
     <?php endif; ?>
 
     <div class="<?php if (!isset($params['no-toolbar'])): ?>card-body pt-3<?php endif; ?>">
-        <div class="text-end">
+        <div class="text-right">
             <div class="create-root mb-3">
                 <div id="content-title-field-buttons">
                     <?php if (intval($data['id']) != 0): ?>
@@ -282,7 +329,38 @@ if (isset($params['live_edit'])) {
 
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
                     <?php endif; ?>
-                         <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+
+                    <?php endif; ?>
+
+
+                    <?php if (intval($data['id']) != 0): ?>
+
+                        <?php
+
+                        $add_sub_cateory_link = route('admin.category.create') .'?addsubcategory='.$data['id'];
+                        if (isset($params['live_edit']) and $params['live_edit'] ) {
+                            $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
+                        }
+                        ?>
+
+                        <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+
+
+
+
+                        <?php
+
+                        $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                        if (isset($params['live_edit']) and $params['live_edit'] ) {
+                            $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                        }
+                        ?>
+
+
+
+                        <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -315,37 +393,37 @@ if (isset($params['live_edit'])) {
 
                                 <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
 
-                                    <?php
-                                    $categoryNamePlaceholder = 'Category name';
-                                    $htmlCategoryTitlePrepend = '
+                                <?php
+                                $categoryNamePlaceholder = 'Category name';
+                                $htmlCategoryTitlePrepend = '
                                               <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                              </div>';
 
-                                    if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
-                                        $categoryNamePlaceholder = 'Subcategory Name';
-                                    } else {
-                                        if (isset($data['parent_id']) and $data['parent_id'] > 0) {
-                                            $htmlCategoryTitlePrepend = '
+                                if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                    $categoryNamePlaceholder = 'Subcategory Name';
+                                } else {
+                                    if (isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                        $htmlCategoryTitlePrepend = '
                                             <div class="input-group-prepend">
                                                  <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
                                              </div>';
-                                        }
                                     }
+                                }
 
-                                    $titleValue = '';
-                                    if ($data['id'] > 0) {
-                                        $titleValue = $data['title'];
-                                    }
+                                $titleValue = '';
+                                if ($data['id'] > 0) {
+                                    $titleValue = $data['title'];
+                                }
 
-                                    echo $formBuilder->text('title')
-                                        ->setModel($categoryModel)
-                                        ->prepend($htmlCategoryTitlePrepend)
-                                        ->placeholder($categoryNamePlaceholder)
-                                        ->value($titleValue)
-                                        ->id('content-title-field')
-                                        ->autofocus(true);
-                                    ?>
+                                echo $formBuilder->text('title')
+                                    ->setModel($categoryModel)
+                                    ->prepend($htmlCategoryTitlePrepend)
+                                    ->placeholder($categoryNamePlaceholder)
+                                    ->value($titleValue)
+                                    ->id('content-title-field')
+                                    ->autofocus(true);
+                                ?>
 
                             </div>
                         </div>
@@ -379,7 +457,7 @@ if (isset($params['live_edit'])) {
                             <div class="form-group">
                                 <label class="control-label" for="description"><?php _e("Description"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
-                              <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
+                                <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
                                 <?php
                                 $descriptionValue = '';
@@ -400,7 +478,7 @@ if (isset($params['live_edit'])) {
                             </div>
                         </div>
 
-                        <script type="text/javascript">
+                        <script>
                             mw.require('tree.js')
                             var parent_page = <?php print intval($data['rel_id']);  ?>;
                             var parent_category = <?php print (intval($data['parent_id']));  ?>;
@@ -444,7 +522,7 @@ if (isset($params['live_edit'])) {
                                     });
                                     if (selectedData.length) {
                                         if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {
-                                           mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
+                                            mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
                                         }
                                     }
                                     $(categoryParentSelector).on("selectionChange", function (e, selected) {
@@ -489,66 +567,65 @@ if (isset($params['live_edit'])) {
                                 })
                                 setTimeout(function (){
                                     mw.askusertostay = false;
-                                    document.querySelector('button[form="quickform-edit-content"]').disabled = true;
+                                 //   document.querySelector('button[form="quickform-edit-content"]').disabled = true;
                                 }, 999)
                             });
 
 
-                            var dropdownUploader;
 
-                            mw.$('#mw-admin-post-media-type')
-                                .selectpicker()
-                                .on('changed.bs.select', function () {
-                                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                                    setTimeout(function () {
-                                        mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
-                                    }, 10)
 
-                                })
-                                .on('show.bs.select', function () {
-                                    if (!!dropdownUploader) return;
-                                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                                    dropdownUploader = mw.upload({
-                                        element: item,
-                                        accept: 'image/*',
-                                        multiple: true
-                                    });
-                                    $(dropdownUploader).on('FileAdded', function (e, res) {
-                                        mw._postsImageUploader._thumbpreload()
+                            setTimeout(function (){
+                                var dropdownUploader;
+                                mw.$('#mw-admin-post-media-type')
+                                    .selectpicker({
+                                        container: mw.$('#mw-admin-post-media-type').parent()
                                     })
-                                    $(dropdownUploader).on('FileUploaded', function (e, res) {
-                                        var url = res.src ? res.src : res;
-                                        if (window.after_upld) {
+                                    .on('changed.bs.select', function () {
+                                        mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                        setTimeout(function () {
+                                            mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                        }, 10)
 
-                                            mw._postsImageUploader.hide()
+                                    })
+                                    .on('show.bs.select', function () {
+                                        if (!!dropdownUploader) {
+                                            dropdownUploader.remove()
                                         }
-                                    });
-                                })
+                                        var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                         dropdownUploader = mw.upload({
+                                            element: item,
+                                            accept: 'image/*',
+                                            multiple: true
+                                        });
+                                        $(dropdownUploader).on('FileAdded', function (e, res) {
+                                            mw._postsImageUploader._thumbpreload()
+                                        })
+                                        $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                            var url = res.src ? res.src : res;
+                                            if (window.after_upld) {
+
+                                                mw._postsImageUploader.hide()
+                                            }
+                                            mw.$('.admin-thumb-item-loading:last').remove();
+                                            mw.module_pictures.after_change();
+                                            after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+
+                                        });
+                                    })
+                            }, 200)
 
 
                         </script>
                         <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
-                        <div class="card-header no-border" id="post-media-card-header">
-                            <h6><strong><?php _e('Pictures'); ?></strong></h6>
-                            <div class="post-media-type-holder">
-                                <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
-                                    <option value="url"><?php _e("Add image from URL"); ?></option>
-                                    <option value="server"><?php _e("Browse uploaded"); ?></option>
-                                    <option value="library"><?php _e("Choose from Unsplash"); ?></option>
-                                    <option value="file"><?php _e("Upload file"); ?></option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="col-12">
                             <module
-                                    type="pictures/admin"
-                                    title="<?php _e("Category images"); ?>"
-                                    for="categories" for-id="<?php print $data['id'] ?>"
-                                    hideHeader="true"
-                                    uploaderType="small"
-                                    id="mw-cat-pics-admin"/>
+                                type="pictures/admin"
+                                title="<?php _e("Category images"); ?>"
+                                for="categories" for-id="<?php print $data['id'] ?>"
+                                hideHeader="true"
+                                uploaderType="small"
+                                id="mw-cat-pics-admin"/>
                         </div>
 
                         <?php if (isset($data['id'])): ?>
@@ -561,7 +638,7 @@ if (isset($params['live_edit'])) {
                             <label class="control-label"><?php _e("Other settings"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
+                            <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">
@@ -576,11 +653,38 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     <?php endif; ?>
 
+
+
+                                    <!--  <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php /*_e("Slug"); */?></label>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="url" value="<?php /*(isset($data['url'])) ? print ($data['url']) : '' */?>"/>
+                                            </div>
+                                        </div>
+                                    </div>-->
+
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="control-label"><?php _e("Slug"); ?></label>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
+                                                <?php
+                                                $url = '';
+                                                if ($data['id'] > 0) {
+                                                    $url = $data['url'];
+                                                }
+
+                                                echo $formBuilder
+                                                    ->text('url')
+                                                    ->setModel($categoryModel)
+                                                    ->prepend('<div class="input-group-prepend">
+                                                     <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
+                                                     </div>')
+                                                    ->value($url)
+                                                    ->id('url')
+                                                    ->spellcheck(false);
+
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -642,6 +746,10 @@ if (isset($params['live_edit'])) {
                                         <?php endif; ?>
                                     </div>
 
+
+
+
+
                                     <div class="col-md-12 mt-3">
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
@@ -670,6 +778,33 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
 
+
+
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-group">
+                                            <?php
+                                            if (!isset($data['is_hidden'])) {
+                                                $data['is_hidden'] = 0;
+                                            }
+                                            ?>
+                                            <label class="control-label"><?php _e("Is category hidden?"); ?>
+
+                                                <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
+                                            </label>
+
+                                            <div>
+                                                <div class="custom-control custom-radio d-inline-block mr-3">
+                                                    <input type="radio" id="is_hidden_1" name="is_hidden" class="custom-control-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <label class="custom-control-label" for="is_hidden_1"><?php _e("Yes"); ?></label>
+                                                </div>
+                                                <div class="custom-control custom-radio d-inline-block">
+                                                    <input type="radio" id="is_hidden_2" name="is_hidden" class="custom-control-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <label class="custom-control-label" for="is_hidden_2"><?php _e("No"); ?></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -678,10 +813,6 @@ if (isset($params['live_edit'])) {
             </div>
         </div>
 
-        <div class="text-end">
-            <?php if (intval($data['id']) != 0): ?>
-                <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
-            <?php endif; ?>
-        </div>
+
     </div>
 </div>

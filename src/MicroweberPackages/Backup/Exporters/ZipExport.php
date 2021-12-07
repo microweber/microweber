@@ -155,8 +155,21 @@ class ZipExport extends DefaultExport
         }
 
         foreach ($filesBatch[$this->getCurrentStep()] as $file) {
-            BackupExportLogger::setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
-            $zip->addFile($file['filepath'], $file['filename']);
+            $ext = get_file_extension($file['filepath']);
+
+            if($ext == 'css'){
+                BackupExportLogger::setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                $csscont = file_get_contents($file['filepath']);
+                $csscont = app()->url_manager->replace_site_url($csscont);
+                $zip->addFromString($file['filename'],$csscont);
+
+            } else {
+                BackupExportLogger::setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                $zip->addFile($file['filepath'], $file['filename']);
+
+            }
+
+
         }
 
         if (method_exists($zip, 'setCompressionIndex')) {

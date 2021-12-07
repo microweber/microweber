@@ -32,6 +32,10 @@ api_expose_admin('media/delete_media_file', function ($data) {
     return app()->media_manager->delete_media_file($data);
 });
 
+api_expose_admin('delete_media', function ($data) {
+    return app()->media_manager->delete($data);
+});
+
 
 function get_picture($content_id, $for = 'post', $full = false)
 {

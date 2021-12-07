@@ -41,6 +41,7 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 
 $allPackages = [];
 $localPackages = mw()->update->collect_local_data();
+
 foreach($localPackages['modules'] as $package) {
     $allPackages[] = $package;
 }
@@ -73,6 +74,7 @@ foreach( $composerSearch as $packageName=>$versions) {
         $currentInstall = false;
         foreach($allPackages as $module) {
             if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+
                 $currentInstall = [];
                 $currentInstall['composer_type'] = $version['type'];
                 $currentInstall['local_type'] = $version['type'];
@@ -88,6 +90,12 @@ foreach( $composerSearch as $packageName=>$versions) {
                     if (Comparator::greaterThan($v1, $v2)) {
                         $version['has_update'] = true;
                     }
+                }
+
+                $version['is_symlink'] = false;
+                if (isset($module['is_symlink']) && $module['is_symlink']) {
+                    $version['has_update'] = false;
+                    $version['is_symlink'] = true;
                 }
 
                 break;
@@ -399,7 +407,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $pkkeys = url_title($pkkeys);
 
                                 ?>
-                                <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
+                                <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" id="js-packages-tab-<?php echo $pkkeys; ?>" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                             <?php endforeach; ?>
                         <?php endif; ?>
 

@@ -28,11 +28,30 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $onclick = $params['button_onclick'];
         }
 
+
         $url = $url_display = get_module_option('url', $params['id']);
+        $url_to_content_id = get_module_option('url_to_content_id', $params['id']);
+        $url_to_category_id = get_module_option('url_to_category_id', $params['id']);
+
         $popupcontent = get_module_option('popupcontent', $params['id']);
         $text = get_module_option('text', $params['id']);
         $url_blank = get_module_option('url_blank', $params['id']);
         $icon = get_module_option('icon', $params['id']);
+
+        $backgroundColor = get_module_option('backgroundColor', $params['id']);
+        $color = get_module_option('color', $params['id']);
+        $borderColor = get_module_option('borderColor', $params['id']);
+        $borderWidth = get_module_option('borderWidth', $params['id']);
+        $borderRadius = get_module_option('borderRadius', $params['id']);
+        $shadow = get_module_option('shadow', $params['id']);
+        $customSize = get_module_option('customSize', $params['id']);
+
+
+        $hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
+        $hovercolor = get_module_option('hovercolor', $params['id']);
+        $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
+
+
 
         $link_to_content_by_id = 'content:';
         $link_to_category_by_id = 'category:';
@@ -67,6 +86,56 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 margin-inline-start: -10px;
                 margin-inline-end: 8px;
+            }
+
+            .button-custom-design .mw-field{
+                width: 100%;
+            }
+
+            .shadow-selector > div input:checked~.shadow-example{
+                border-color: #111;
+            }
+            .shadow-selector > div{
+                padding: 10px;
+                position: relative;
+                text-align: center;
+            }
+            .shadow-selector > div input{
+                visibility: hidden;
+                position: absolute;
+            }
+            .shadow-selector > div .shadow-example{
+                display: inline-flex;
+                width: 90px;
+                height: 90px;
+                vertical-align: middle;
+                border-radius: 5px;
+                border: 3px solid transparent;
+                transition: border-color .3s;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .shadow-selector {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                padding: 20px 0;
+            }
+            .shadow-selector > div{
+                width: 33%;
+            }
+
+            #hover-styles{
+                display: none;
+            }
+
+            #display-url{
+                white-space: nowrap;
+                max-width: calc(100% - 20px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: middle;
             }
 
         </style>
@@ -111,11 +180,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.$("#action").change(function () {
                     btn_action();
                 });
+
+
             });
         </script>
 
         <div class="module-live-edit-settings module-btn-settings">
-            <div class="text-start">
+            <div class="text-start text-left">
                 <div class="row">
                     <div class="form-group col-6">
                         <label class="control-label"><?php _e("Text"); ?></label>
@@ -164,11 +235,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Edit url"); ?></label>
                                 <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
+
                                 <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
+
+
+
                                 <span class="mdi mdi-pencil"></span>
                                 <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
 
                                 <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+                                <input type="hidden" name="url_to_content_id" id="btn-default_url_content_id" value="<?php print $url_to_content_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+                                <input type="hidden" name="url_to_category_id" id="btn-default_url_category_id" value="<?php print $url_to_category_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+
+
+
+
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
@@ -187,12 +270,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
-                            /*controllers: [
-                                { type: 'url', config: {target: false, text: false}},
-                                { type: 'page', config: {target: false, text: false} },
-                                { type: 'post', config: {target: false, text: false}},
-                                { type: 'layout', config: {target: false, text: false} }
-                            ]*/
+                            controllers: [
+                                { type: 'url', config: {text: false, target: false}},
+                                { type: 'page', config: {text: false, target: false} },
+                                { type: 'post', config: {text: false, target: false} },
+                                { type: 'file', config: {text: false, target: false} },
+                                { type: 'email', config: {text: false, target: false} },
+                                { type: 'layout', config: {text: false, target: false} },
+
+                            ],
                         });
 
                         linkEditor.setValue({
@@ -203,14 +289,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (!ldata) {
                                 return
                             }
+
+
+
                             var url = ldata.url;
                             var url_display = ldata.url;
-                            if (ldata.object) {
-                                if (ldata.object.id) {
-                                    if (ldata.object.type && ldata.data.type === 'category') {
-                                        url = 'category:' + ldata.data.id;
+                            var btn_category_id;
+                            var btn_content_id;
+
+
+                            if (ldata.data) {
+                                if (ldata.data.id) {
+                                    if ((ldata.data.type) && ldata.data.type === 'category') {
+                                        //url = 'category:' + ldata.data.id;
+                                        btn_category_id = ldata.data.id;
+                                    } else if ((ldata.data.type) && ldata.data.type === 'page') {
+                                        //url = 'content:' + ldata.data.id;
+                                        btn_content_id = ldata.data.id;
                                     } else if (ldata.data.content_type) {
-                                        url = 'content:' + ldata.data.id;
+                                        //url = 'content:' + ldata.data.id;
+                                        btn_content_id = ldata.data.id;
                                     }
                                 }
 
@@ -218,7 +316,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (!url_display) {
                                 url_display = url;
                             }
-                            mw.$('#btn-default_url').val(url).trigger('change');
+
+
+                            if(typeof btn_category_id != 'undefined'){
+                                mw.$('#btn-default_url').val('').trigger('change');
+                                mw.$('#btn-default_url_content_id').val('').trigger('change');
+                                mw.$('#btn-default_url_category_id').val(btn_category_id).trigger('change');
+                            } else if(typeof btn_content_id != 'undefined'){
+                                mw.$('#btn-default_url').val('').trigger('change');
+                                mw.$('#btn-default_url_content_id').val(btn_content_id).trigger('change');
+                                mw.$('#btn-default_url_category_id').val('').trigger('change');
+                            } else {
+                                mw.$('#btn-default_url').val(url).trigger('change');
+                                mw.$('#btn-default_url_content_id').val('').trigger('change');
+                                mw.$('#btn-default_url_category_id').val('').trigger('change');
+                            }
+
                             mw.$('#btn-default_url-show').val(url_display);
                             mw.$('#display-url').html(url_display);
                         })
@@ -233,9 +346,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         if(!btnUrl.html()) {
                             btnUrl.html(parent.location.href.split('?')[0])
                         }
+
                     })
 
                 </script>
+
+
+
+
 
                 <div class="form-group">
                     <span class="btn btn-primary">
@@ -267,7 +385,221 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
                 <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
 
-                <module type="admin/modules/templates" simple="true"/>
+
+
+                <div class="mw-accordion">
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e("Custom design"); ?>
+                        </div>
+                        <div class="mw-accordion-content" >
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <label class="control-label"><?php _e("Design"); ?></label>
+
+                                <div class="form-group">
+                                    <div class="mw-ui-box mw-ui-box-content">
+                                        <div class="button-custom-design">
+                                            <script>
+
+                                                $(document).ready(function () {
+                                                    Array.from(document.querySelectorAll('.button-color-field')).forEach(function (field) {
+                                                        mw.colorPicker({
+                                                            element: field,
+                                                            position: 'bottom-center',
+                                                            value: 'red',
+                                                            onchange: function (color) {
+                                                                $(field).trigger('change')
+                                                            }
+                                                        })
+                                                    });
+                                                    document.getElementById('set-hover-button').addEventListener('click', function () {
+                                                        document.getElementById('hover-styles').style.display = 'block';
+                                                        this.style.display = 'none';
+                                                    });
+
+                                                })
+
+
+                                            </script>
+                                            <label class="control-label"><?php _e('Color'); ?></label>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label><?php _e('Background'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="form-control button-color-field mw_option_field"
+                                                               value="<?php print $backgroundColor ?>"
+                                                               autocomplete="off" name="backgroundColor">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <label><?php _e('Text'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="button-color-field mw_option_field" name="color"
+                                                               value="<?php print $color ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Border'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <span class="mw-field-color-indicator"><span
+                                                                class="mw-field-color-indicator-display"></span></span>
+                                                        <input type="text" placeholder="#ffffff"
+                                                               class="button-color-field mw_option_field"
+                                                               name="borderColor" value="<?php print $borderColor ?>"
+                                                               autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <span class="mw-ui-link" id="set-hover-button"><br>Set hover styles</span>
+
+                                            <div id="hover-styles">
+                                                <br><br>
+                                                <label class="control-label"><?php _e('Hover Color'); ?></label>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label><?php _e('Background'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="form-control button-color-field mw_option_field"
+                                                                   value="<?php print $hoverbackgroundColor ?>"
+                                                                   autocomplete="off" name="hoverbackgroundColor">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <label><?php _e('Text'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="button-color-field mw_option_field"
+                                                                   name="hovercolor" value="<?php print $hovercolor ?>"
+                                                                   autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label><?php _e('Border'); ?></label>
+                                                        <div class="mw-field mw-field-flat">
+
+                                                            <span class="mw-field-color-indicator"><span
+                                                                    class="mw-field-color-indicator-display"></span></span>
+                                                            <input type="text" placeholder="#ffffff"
+                                                                   class="button-color-field mw_option_field"
+                                                                   name="hoverborderColor"
+                                                                   value="<?php print $hoverborderColor ?>"
+                                                                   autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+                                            <label class="control-label"><?php _e('Size'); ?></label>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label><?php _e('Button size'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="1" max="40"
+                                                               class="form-control mw_option_field" name="customSize"
+                                                               value="<?php print $customSize ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Border'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="0" max="100"
+                                                               class="form-control mw_option_field" name="borderWidth"
+                                                               value="<?php print $borderWidth ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label><?php _e('Radius'); ?></label>
+                                                    <div class="mw-field mw-field-flat">
+
+                                                        <input type="number" min="0" max="100"
+                                                               class="form-control mw_option_field" name="borderRadius"
+                                                               value="<?php print $borderRadius ?>" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <br>
+
+                                            <div class="form-group">
+                                                <label class="control-label"><?php _e('Shadow'); ?></label>
+                                                <div class=" shadow-selector">
+                                                    <?php
+                                                    $shadows = array(
+                                                        'none;',
+                                                        'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+                                                        'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
+                                                        'rgba(0, 0, 0, 0.35) 0px 5px 15px;',
+                                                        'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
+                                                        'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                                                        'rgba(0, 0, 0, 0.1) 0px 4px 12px;',
+                                                        'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
+                                                        'rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;',
+                                                    );
+
+                                                    foreach ($shadows as $shd) {
+                                                        print '<div><input class="mw_option_field" type="radio" name="shadow" ' . ($shadow == $shd ? 'checked="true"' : '') . ' value="' . $shd . '" >   </label><span class="shadow-example" style="box-shadow: ' . $shd . '"><span>' . ($shd == 'none;' ? 'None' : '') . '</span></span> </div>';
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <script>
+                                                    $(document).ready(function () {
+
+                                                        $('.shadow-selector > div').on('click', function () {
+                                                            var node = this.querySelector('input');
+                                                            node.checked = true;
+                                                            $(node).trigger('change')
+                                                        })
+
+                                                    })
+
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
             </div>
         </div>
     </div>

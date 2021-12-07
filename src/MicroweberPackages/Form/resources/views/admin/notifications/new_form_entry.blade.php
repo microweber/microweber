@@ -1,16 +1,25 @@
-<div class="card mb-2 not-collapsed-border collapsed card-message-holder {{ isset($id) ? 'card-bubble' : '' }} {{ !empty($is_read) ? 'active' : '' }} bg-silver"
+
+<script>
+    $(document).ready(function() {
+        $('.collapse', '.js-form-entry-{{ $id }}').on('shown.bs.collapse', function () {
+            $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-toggle');
+        });
+    });
+</script>
+
+<div class="js-form-entry-{{ $id }} card mb-2 not-collapsed-border collapsed card-message-holder {{ isset($id) ? 'card-bubble' : '' }} {{ !empty($is_read) ? 'active' : '' }} bg-silver"
      data-toggle="collapse" data-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body">
         @if(!empty($module_name) && $module_name == 'admin/notifications')
             <div class="row align-items-center mb-3">
-                <div class="col text-start">
+                <div class="col text-start text-left">
                     <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>
         @endif
 
-        <div class="row align-items-center">
+            <div class="row align-items-center" data-toggle="collapse" data-target="#notif-entry-item-{{$id}}" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>
@@ -34,6 +43,13 @@
                             <h6>{!! $loop->iteration == 1 ? '<strong>Fields</strong>' : '' !!}</h6>
                             @if(!empty($row))
                                 @foreach($row as $key => $val)
+
+                                    @php
+                                        if (empty($val)) {
+                                            continue;
+                                        }
+                                    @endphp
+
                                     @if(!is_array($val))
                                         <div>
                                             <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>

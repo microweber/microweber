@@ -328,9 +328,36 @@
         anchorific: [
             function () {
                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
-
             }
         ],
+        multilanguage: [
+            function () {
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
+            }
+        ],
+        codemirror: [
+            function () {
+                mw.require(mw.settings.libs_url + 'codemirror' + '/codemirror.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/javascript.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/csslint.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css-lint-plugin.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/htmlmixed.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/php.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/autorefresh.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/selection-pointer.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml-fold.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/matchtags.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-html.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/style.css');
+            }
+
+        ]
     };
 
     mw.lib = {
@@ -351,41 +378,6 @@
                 (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
             }
         },
-        get: function (name, done, error) {
-            if (mw.lib._required.indexOf(name) !== -1) {
-                if (typeof done === 'function') {
-                    done.call();
-                }
-                return false;
-            }
-
-            if (typeof mw.settings.libs[name] === 'undefined') return false;
-            if (mw.settings.libs[name].constructor !== [].constructor) return false;
-            mw.lib._required.push(name);
-            var path = mw.settings.libs_url + name + '/',
-                arr = mw.settings.libs[name],
-                l = arr.length,
-                i = 0,
-                c = 1;
-            for (; i < l; i++) {
-                var xhr = $.cachedScript(path + arr[i]);
-                xhr.done(function () {
-                    c++;
-                    if (c === l) {
-                        if (typeof done === 'function') {
-                            done.call();
-                        }
-                    }
-                });
-                xhr.fail(function (jqxhr, settings, exception) {
-
-                    if (typeof error === 'function') {
-                        error.call(jqxhr, settings, exception);
-                    }
-
-                });
-            }
-        }
     };
 
     mw.lang = function (key) {
@@ -494,4 +486,10 @@
     }
 })();
 
+<?php
+if(isset($inline_scripts) and is_array($inline_scripts)){
+    print implode($inline_scripts,"\n");
+}
+
+?>
 

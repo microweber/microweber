@@ -37,8 +37,8 @@ $total = cart_total();
            <div class="products">
                <?php if (is_array($data) and $data) : ?>
                    <?php foreach ($data as $item) :?>
-                       <div class="form-row checkout-modal-product-list-item align-items-center p-md-4 py-2">
-                           <div class="col-xl-2 col-4">
+                       <div class="form-row checkout-modal-product-list-item align-items-center p-md-3 p-2">
+                           <div class="col-3 d-flex">
                                <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                    <?php $p = $item['item_image']; ?>
                                <?php else: ?>
@@ -49,24 +49,29 @@ $total = cart_total();
                                <?php endif; ?>
                            </div>
 
-                           <div class="col-xl-5 col-8">
-                               <h6 class="mb-1"><?php _e($item['title']) ?></h6>
-                               <small class="text-muted mw-order-custom-fields">
-                                   <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                       <?php print $item['custom_fields'] ?>
-                                   <?php endif ?>
-                               </small>
+                           <div class="col-8">
+                               <div class="col-12 d-flex">
+                                   <h6 class="mb-1"><?php _e($item['title']) ?></h6>
+                                   <small class="text-muted mw-order-custom-fields">
+                                       <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
+                                           <?php print $item['custom_fields'] ?>
+                                       <?php endif ?>
+                                   </small>
+                               </div>
+
+                               <div class="col-12 d-flex align-items-center px-0">
+                                 <div class="col-md-8">
+                                     <h6><?php print currency_format($item['price']); ?></h6>
+                                 </div>
+
+                                <div class="col-xl-3 col-lg-4 mw-qty-field">
+                                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="background-color: #f5f5f5; border-color: #000000;"/>
+                                </div>
+                               </div>
                            </div>
 
-                           <div class="col-xl-2 col-3">
-                               <h6><?php print currency_format($item['price']); ?></h6>
-                           </div>
-                           <div class="col-xl-2 col-3 mw-qty-field">
-                               <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)"/>
-                           </div>
-
-                           <div class="col-xl-1 col-4 checkout-v2-remove-icon d-flex justify-content-end">
-                               <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary mr-2"></i></a>
+                           <div class="col-1 checkout-v2-remove-icon d-flex justify-content-end">
+                               <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary" style="font-size: 24px;"></i></a>
                            </div>
                        </div>
                    <?php endforeach; ?>
@@ -74,7 +79,6 @@ $total = cart_total();
                    <h5><?php _e("Your cart is empty."); ?></h5>
                <?php endif; ?>
            </div>
-
        </div>
 
 

@@ -40,7 +40,7 @@
 
 
 
-    <style type="text/css">
+    <style >
         .mw-file-browser-popup .modules-index-bar {
             padding-top: 12px;
         }
@@ -328,7 +328,7 @@
 
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 300px) {
             .file_browser_sort_by, .browser-ctrl-bar .form-inline{
                 display: none !important;
             }

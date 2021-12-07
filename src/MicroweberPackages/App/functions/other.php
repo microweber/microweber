@@ -237,7 +237,7 @@ function module_templates($module_name, $template_name = false, $is_settings = f
  */
 function site_templates($options = false)
 {
-    return mw()->template_manager->site_templates($options);
+    return mw()->template->site_templates($options);
 }
 
 function layouts_list($options = false)
@@ -475,8 +475,16 @@ function mw_set_updates_queue($params)
     return $update_api->set_updates_queue($params);
 }
 
-api_expose_admin('mw_save_license');
 
+api_expose_admin('mw_delete_license');
+function mw_delete_license($params)
+{
+    $update_api = mw('update');
+
+    return $update_api->delete_license($params);
+}
+
+api_expose_admin('mw_save_license');
 function mw_save_license($params)
 {
     $update_api = mw('update');
@@ -485,7 +493,6 @@ function mw_save_license($params)
 }
 
 api_expose_admin('mw_validate_licenses');
-
 function mw_validate_licenses($params)
 {
     $update_api = mw('update');
@@ -967,13 +974,7 @@ function mw_composer_replace_vendor_from_cache($params)
 }
 
 
-api_expose('template/compile_css', function ($params) {
-    return mw()->template->compile_css($params);
-});
 
-api_expose_admin('template/delete_compiled_css', function ($params) {
-    return mw()->template->delete_compiled_css($params);
-});
 
 if (!function_exists('br2nl')) {
     function br2nl($string)

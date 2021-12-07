@@ -68,12 +68,18 @@ class UserLoginController extends Controller
             mw()->lang_helper->set_current_lang($requestLang);
             \Cookie::queue('lang', $requestLang, 86400 * 30);
         }
-
+        $is_logged_out = false;
         if (Auth::check()) {
+            $user = Auth::user();
+            if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
+                // logout user if its set inactive in database
+                Auth::logout();
+                $is_logged_out = true;
+            }
 
             // This will be used for whmcs login redirect
 			if (isset($redirectParams['http_redirect'])) {
-                if (intval(Auth::user()->is_admin) == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                if (!$is_logged_out and intval($user->is_admin) == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
                 } else {
                     return redirect(site_url());
@@ -81,14 +87,21 @@ class UserLoginController extends Controller
             }
 
             $message = [];
-            if (Auth::user()->is_admin == 1) {
-                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
-              //  $message['token'] = auth()->user()->createToken('authToken');
+//            if (!$is_logged_out and Auth::user()->is_admin == 1) {
+//                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+//              //  $message['token'] = auth()->user()->createToken('authToken');
+//            }
+
+            if(!$is_logged_out and $user and isset($user->is_active) and intval($user->is_active) == 0){
+                $message['data'] = [];
+                $message['error'] = 'Your account is disabled';
+                return response()->json($message, 200);
+            } else {
+                $message['data'] = auth()->user();
+                $message['success'] = 'You are logged in';
+                return response()->json($message, 200);
             }
 
-            $message['data'] = auth()->user();
-            $message['success'] = 'You are logged in';
-            return response()->json($message, 200);
         }
 
         if (!isset($request['email']) and isset($request['username'])) {
@@ -114,10 +127,12 @@ class UserLoginController extends Controller
         $login = Auth::attempt($loginData,$remember = true);
         if ($login) {
 
+            $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
+            $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
+
             $userData = auth()->user();
 
             if (Auth::user()->is_admin == 0) {
-                $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
 
                 if ($isVerfiedEmailRequired) {
 
@@ -129,9 +144,7 @@ class UserLoginController extends Controller
                     }
                 }
 
-                $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
                  if ($isApprovalRequired) {
-
                     if (!$userData->is_active) {
                         $message = [];
                         $message['error'] = 'Your account is awaiting approval';
@@ -146,6 +159,13 @@ class UserLoginController extends Controller
 //
 //                //   $userData->token = auth()->user()->createToken('authToken');
 //            }
+
+            if ($userData and !$userData->is_active) {
+                $message = [];
+                $message['error'] = 'Your account is disabled';
+                Auth::logout();
+                return response()->json($message, 200);
+            }
 
 
             $response['success'] = _e('You are logged in', 1);

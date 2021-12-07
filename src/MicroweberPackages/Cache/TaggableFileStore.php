@@ -589,6 +589,7 @@ class TaggableFileStore implements Store
         return $this->forget($key);
     }
 
+    public $deletedFilesCache = [];
     /**
      * Remove all items from the cache.
      *
@@ -609,10 +610,13 @@ class TaggableFileStore implements Store
                 if (!empty($tagDetails)) {
                     foreach ($tagDetails as $tagDetail) {
                         $tagPath = $this->getPath() . $tagDetail;
-
+                        if(in_array($tagPath,$this->deletedFilesCache)){
+                            continue;
+                        }
                         try {
                             if ($this->files->isFile($tagPath)) {
                                 $this->files->delete($tagPath);
+                                $this->deletedFilesCache[] =$tagPath;
                             }
                         } catch (\Exception $e) {
                             //
@@ -625,9 +629,13 @@ class TaggableFileStore implements Store
                 $tagMapPath = $this->_getTagMapPathByName($tag);
 
                 try {
-                    if ($this->files->isFile($tagMapPath)) {
-                        $this->files->delete($tagMapPath);
+                    if(!in_array($tagPath,$this->deletedFilesCache)){
+                        if ($this->files->isFile($tagMapPath)) {
+                            $this->files->delete($tagMapPath);
+                        }
+                        $this->deletedFilesCache[] =$tagPath;
                     }
+
                 } catch (\Exception $e) {
                     //
                 }

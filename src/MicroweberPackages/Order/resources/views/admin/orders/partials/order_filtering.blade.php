@@ -1,69 +1,249 @@
 <script>
-    $(document).ready(function() {
-        $('.js-sort-btn').click(function (e) {
+    function orderRedirection(val) {
+        alert(val);
+    }
 
-            var direction = $('.js-form-order-filtering-direction').val();
+    $(document).ready(function () {
 
-            if (direction == '') {
-                $('.js-form-order-filtering-direction').val('desc');
-            }
 
-            if (direction == 'desc') {
-                $('.js-form-order-filtering-direction').val('asc');
-            }
-
-            if (direction == 'asc') {
-                $('.js-form-order-filtering-direction').val('desc');
-            }
-
-        });
     });
 </script>
 
 <form method="get" class="js-form-order-filtering">
-    <input type="hidden" name="orderDirection" value="<?php echo $orderDirection; ?>" class="js-form-order-filtering-direction" />
+
     <div class="manage-toobar d-flex justify-content-between align-items-center">
-        <?php if (count($orders) != 0 || count($newOrders) != 0) { ?>
+
         <div id="cartsnav">
 
-            <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
+            <a href="{{route('admin.order.index')}}"
+               class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
+
+         {{--   <a href="{{route('admin.order.abandoned')}}"
+               class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
+       --}}
         </div>
 
-        <div class="js-table-sorting text-end my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
-            <small><?php _e("Sort By"); ?>: &nbsp;</small>
-
-            <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="created_at">
-                    <?php _e("Date"); ?>
-                    <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
-            </div>
-            <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="order_status">
-                    <?php _e("Status"); ?>
-                    <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
-            </div>
-            <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="amount">
-                    <?php _e("Amount"); ?>
-                    <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>
-                    <i class="mdi mdi-chevron-down text-muted"></i>
-                    <?php else: ?>
-                    <i class="mdi mdi-chevron-up text-muted"></i>
-                    <?php endif; ?>
-                </button>
-            </div>
-        </div>
-        <?php } ?>
     </div>
+
+    <?php if ($orders->count() > 0 || $filteringResults) { ?>
+
+    <div class="js-filtering-orders-box bg-primary-opacity-1 rounded p-4 mb-4" <?php if (!$filteringResults): ?>style="display: none"<?php endif;?>>
+        <div class="row d-flex justify-content-between align-content-end">
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="" class="form-label"><?php _e("Order ID"); ?></label>
+                <div class="input-group mb-0">
+                    <input type="text" class="form-control" value="{{$id}}" name="id" placeholder="<?php _e("Order ID");?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="" class="form-label"><?php _e("Order Status"); ?></label>
+                <div class="input-group mb-0">
+                    <select name="orderStatus" class="selectpicker" data-width="100%">
+
+                        <option value="" @if($orderStatus == '') selected="selected" @endif>
+                            <?php _e('All'); ?>
+                        </option>
+
+                        <option value="new" @if($orderStatus == 'new') selected="selected" @endif>
+                            <?php _e('New'); ?>
+                        </option>
+
+                        <option value="pending" @if($orderStatus == 'pending') selected="selected" @endif>
+                            <?php _e('Pending'); ?>
+                        </option>
+
+                        <option value="completed" @if($orderStatus == 'completed') selected="selected" @endif>
+                            <?php _e('Completed'); ?>
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Date from"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
+                        </div>
+                        <input type="text" class="form-control" value="{{$minDate}}" name="minDate" id="js-order-filter-date-from" placeholder="<?php _e("Set the orders from date");?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Date to"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
+                        </div>
+                        <input type="text" class="form-control" value="{{$maxDate}}" name="maxDate" id="js-order-filter-date-to" placeholder="<?php _e("Set the orders to date");?>">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Order amount from"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{get_currency_symbol()}}</span>
+                        </div>
+                        <input type="number" class="form-control" value="{{$minPrice}}" name="minPrice" placeholder="<?php _e("Show the order with minimum amount");?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Order amount to"); ?></label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{get_currency_symbol()}} </span>
+                        </div>
+                        <input type="number" class="form-control" value="{{$maxPrice}}" name="maxPrice" placeholder="<?php _e("Show the order with maximum amount");?>">
+                    </div>
+                </div>
+            </div>
+
+
+        <script>
+            mw.lib.require("air_datepicker");
+            if ($.fn.datepicker) {
+                $.fn.datepicker.language['en'] = {
+                    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                    daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    today: 'Today',
+                    clear: 'Clear',
+                    dateFormat: 'yyyy-mm-dd',
+                    firstDay: 0
+                };
+
+                var datePickerBaseSetup = {
+                    language:'en',
+                    timepicker: false,
+                    onSelect: function (fd, d, picker) {
+                        // Do nothing if selection was cleared
+                        if (!d[0]) return;
+                        if (!d[1]) return;
+
+                        var dateFromRange = d[0].getFullYear() + "-" + numericMonth(d[0]) + "-" + numericDate(d[0]);
+                        var dateToRange = d[1].getFullYear() + "-" + numericMonth(d[1]) + "-" + numericDate(d[1]);
+
+                    }
+                };
+
+                $('#js-order-filter-date-from').datepicker(datePickerBaseSetup);
+                $('#js-order-filter-date-to').datepicker(datePickerBaseSetup);
+            }
+
+            $(document).ready(function () {
+                var searchOrdersByProduct = new mw.autoComplete({
+                    element: "#js-orders-search-by-products",
+                    placeholder: "<?php if ($productKeyword) { echo $productKeyword; } else { _e("Search by products..."); }?>",
+                    autoComplete:true,
+                    ajaxConfig: {
+                        method: 'get',
+                        url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}'
+                    },
+                    map: {
+                        value: 'id',
+                        title: 'title',
+                        image: 'picture'
+                    }
+                });
+                $(searchOrdersByProduct).on("change", function (e, val) {
+                    $(".js-orders-search-product").val(val[0].id).trigger('change')
+                    $(".js-orders-search-product-keyword").val(val[0].title).trigger('change')
+                });
+            });
+        </script>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Search by products"); ?></label>
+                    <div class="input-group">
+                        <input type="hidden" class="js-orders-search-product-keyword" name="productKeyword" value="{{$productKeyword}}" />
+                        <input type="hidden" class="js-orders-search-product" name="productId" value="{{$productId}}" />
+                        <div id="js-orders-search-by-products"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
+                    <div class="input-group mb-0">
+                        <select name="isPaid" class="selectpicker" data-width="100%">
+
+                            <option value="" @if($isPaid == '') selected="selected" @endif>
+                                <?php _e('All'); ?>
+                            </option>
+
+                            <option value="1" @if($isPaid == '1') selected="selected" @endif>
+                                <?php _e('Paid'); ?>
+                            </option>
+
+                            <option value="0" @if($isPaid == '0') selected="selected" @endif>
+                                <?php _e('Unpaid'); ?>
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="" class="form-label"><?php _e("Search"); ?></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                        <input type="text" class="form-control" value="{{$keyword}}" name="keyword" placeholder="<?php _e("Free search by phone, name, email etc...");?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                    <button type="submit" name="filteringResults" value="true" class="js-submit-order-filtering btn btn-primary mr-2">
+                        <?php _e("Submit this criteria"); ?>
+                    </button>
+
+                    <a href="{{route('admin.order.index')}}" class="btn btn-outline-primary">
+                        <?php _e("Reset filter"); ?>
+                    </a>
+                </div>
+            </div>
+
+
+    </div>
+    </div>
+
+
+    <?php } ?>
+
+
 </form>
