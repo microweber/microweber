@@ -39,13 +39,13 @@ class LiveEditTest extends DuskTestCase
             $browser->pause(3000);
 
             $browser->waitForText('Sound Systems');
-            $browser->pause(6000);
+            $browser->pause(9000);
 
             $randClass = 'js-rand-ml-'.time().rand(1111,9999);
             $browser->script("$('.description .edit').click()");
             $browser->pause(1000);
             $browser->script("$('.description .edit').addClass('$randClass')");
-            $browser->pause(9000); 
+            $browser->pause(2000);
             $browser->type('.' . $randClass, 'This is the new description from live edit');
             $browser->pause(1000);
 
