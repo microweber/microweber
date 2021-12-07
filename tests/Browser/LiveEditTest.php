@@ -46,10 +46,10 @@ class LiveEditTest extends DuskTestCase
             $randClass = 'js-rand-ml-'.time().rand(1111,9999);
             $browser->script("$('.description .edit').click()");
             $browser->pause(1000);
-            $browser->script("$('.description .edit').addClass('$randClass').attr('contenteditable', true)");
+            $browser->script("$('.description .edit').addClass('$randClass changed').attr('contenteditable', true)");
             $browser->pause(2000);
             $browser->type('.' . $randClass, $productDescription);
-            $browser->pause(1000); 
+            $browser->pause(6000);
 
             $currentUrl = $browser->driver->getCurrentURL();
 
