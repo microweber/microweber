@@ -51,8 +51,11 @@ class LiveEditTest extends DuskTestCase
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
-            $browser->waitForText('All changes are saved');
-            $browser->assertSee('All changes are saved');
+
+            $browser->waitForReload();
+            $browser->waitForText('JBL speaker WI-FI');
+            $browser->assertSee('JBL speaker WI-FI');
+
 
         });
     }
