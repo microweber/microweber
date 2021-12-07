@@ -49,7 +49,7 @@ class LiveEditTest extends DuskTestCase
             $browser->script("$('.description .edit').addClass('$randClass').attr('contenteditable', true)");
             $browser->pause(2000);
             $browser->type('.' . $randClass, $productDescription);
-            $browser->pause(1000);
+            $browser->pause(1000); 
 
             $currentUrl = $browser->driver->getCurrentURL();
 
