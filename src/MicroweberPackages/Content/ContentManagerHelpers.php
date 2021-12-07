@@ -667,23 +667,22 @@ class ContentManagerHelpers extends ContentManagerCrud
             $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
+
             if ($slug_page) {
                 $ref_post = false;
                 if ($slug_post) {
-
                     $ref_post = $this->get_by_url($slug_post);
-
                 }
 
                 if ($ref_post) {
                     $ref_page2 = $ref_page = $ref_post;
-
                 } else {
                     $ref_page2 = $ref_page = $this->get_by_url($slug_page);
-
-
                 }
 
+            } elseif ($slug_post) {
+
+                $ref_post = $this->get_by_url($slug_post);
 
             } elseif ($slug_category) {
                 $cat = $this->app->category_manager->get_by_url($slug_category);
@@ -734,18 +733,23 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $guess_page_data->create_new_page = false;
                 $pd = $guess_page_data->index();
 
+                $newPageCreate = true;
                 if (isset($pd['id'])) {
                     $pd1 = DB::table('content')->where('id', $pd['id'])->first();
                     $pd1 = (array)$pd1;
                     if ($pd1) {
                         $pd = $pd1;
+                        $newPageCreate = false;
                     }
 
                 }
 
                 $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
-                $pd['url'] = $ustr;
+                
+                if ($newPageCreate) {
+                    $pd['url'] = $ustr;
+                }
 
                 if (isset($pd['active_site_template']) and $pd['active_site_template'] == template_name()) {
                     $pd['active_site_template'] = '';
