@@ -28,11 +28,9 @@ class ZipReader extends DefaultReader
 		$backupManager = new BackupManager();
 		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
 
-		// Remove old files
-		$this->_removeFilesFromPath($backupLocation);
-
         $unzipedFileNameTag = $backupManager->getBackupLocation().'/'.md5($this->file).'.unziped';
         if (!is_file($unzipedFileNameTag)) {
+
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
 
