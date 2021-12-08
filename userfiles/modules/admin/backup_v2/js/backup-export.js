@@ -384,7 +384,7 @@ mw.log(mw.$(template_holder).html())
 	},
     done:false,
     canGet: true,
-	get_log: function(c) { 
+	get_log: function(c) {
 	    if(!this.canGet) return;
         this.canGet = false;
         var scope = this;
@@ -416,11 +416,11 @@ mw.log(mw.$(template_holder).html())
 	export_fullbackup_start: function() {
         this.exportLog('Generating full backup...');
 
-        var send_uri = 'all=1&format=' + $('.js-export-format').val() + '&include_media=true';
+        var send_uri = 'all=true&format=' + $('.js-export-format').val() + '&include_media=true';
 
 
         var include_modules = [];
-        var include_templates = [];
+        var include_templates = []§;
         $('.js-export-modules:checked').each(function(){
             include_modules.push(this.value);
         });
@@ -439,7 +439,7 @@ mw.log(mw.$(template_holder).html())
         mw.backup_export.export_selected(send_uri);
         mw.backup_export.stepper.last();
 
-        $('.export-step-4-action').html('Exporting your content')
+        $('.export-step-4-action').html('Exporting your content');
 	},
 
 	export_start: function () {
