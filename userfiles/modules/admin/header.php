@@ -106,6 +106,9 @@ if ($last_page_front != false) {
         $past_page = site_url();
     }
 }
+if(!$past_page){
+ $past_page = site_url();
+}
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
