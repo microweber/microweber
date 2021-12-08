@@ -8,8 +8,7 @@
 
 <div id="backups_list">
     <?php
-    $backupV2 = new BackupV2();
-    $backups = $backupV2->get();
+    $backups = app(\MicroweberPackages\Backup\Http\Controllers\Admin\BackupController::class)->get();
     ?>
     <?php if (isarr($backups)): ?>
         <?php $i = 1; ?>

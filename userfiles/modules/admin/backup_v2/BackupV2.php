@@ -46,53 +46,6 @@ class BackupV2
 		}
 	}
 
-	public function get()
-	{
-		if (! is_admin()) {
-			error('must be admin');
-		}
-
-		$backupLocation = $this->manager->getBackupLocation();
-
-		// Use of undefined constant GLOB_BRACE - assumed 'GLOB_BRACE' (this will throw an Error in a future version of PHP)
-		//$backupFiles = glob("$backupLocation{*.sql,*.zip,*.json,*.xml,*.xlsx,*.csv}", GLOB_BRACE);
-
-        $backupFiles = [];
-
-
-        $files = preg_grep('~\.(sql|zip|json|xml|xlsx|csv|xls)$~', scandir($backupLocation));
-        if ($files) {
-            foreach ($files as $file) {
-                $backupFiles[] = normalize_path($backupLocation. $file,false);
-            }
-        }
-
-        if (! empty($backupFiles)) {
-            usort($backupFiles, function ($a, $b) {
-                return filemtime($a) < filemtime($b);
-            });
-        }
-		$backups = array();
-		if (! empty($backupFiles)) {
-			foreach ($backupFiles as $file) {
-
-				if (is_file($file)) {
-					$mtime = filemtime($file);
-
-					$backup = array();
-					$backup['filename'] = basename($file);
-					$backup['date'] = date('F d Y', $mtime);
-					$backup['time'] = str_replace('_', ':', date('H:i:s', $mtime));
-					$backup['size'] = filesize($file);
-
-					$backups[] = $backup;
-				}
-			}
-		}
-
-		return $backups;
-	}
-
 
 	public function import($query) {
 
@@ -149,11 +102,6 @@ class BackupV2
 
 	}
 
-	public function export($query) {
-
-
-
-	}
 }
 
 class BackupV2Logger {

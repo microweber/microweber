@@ -16,6 +16,46 @@ class BackupController
     }
 
 
+    public function get()
+    {
+        $backupLocation = $this->manager->getBackupLocation();
+
+        $backupFiles = [];
+
+
+        $files = preg_grep('~\.(sql|zip|json|xml|xlsx|csv|xls)$~', scandir($backupLocation));
+        if ($files) {
+            foreach ($files as $file) {
+                $backupFiles[] = normalize_path($backupLocation. $file,false);
+            }
+        }
+
+        if (! empty($backupFiles)) {
+            usort($backupFiles, function ($a, $b) {
+                return filemtime($a) < filemtime($b);
+            });
+        }
+        $backups = array();
+        if (! empty($backupFiles)) {
+            foreach ($backupFiles as $file) {
+
+                if (is_file($file)) {
+                    $mtime = filemtime($file);
+
+                    $backup = array();
+                    $backup['filename'] = basename($file);
+                    $backup['date'] = date('F d Y', $mtime);
+                    $backup['time'] = str_replace('_', ':', date('H:i:s', $mtime));
+                    $backup['size'] = filesize($file);
+
+                    $backups[] = $backup;
+                }
+            }
+        }
+
+        return $backups;
+    }
+
     public function import(Request $request)
     {
 
@@ -246,3 +286,14 @@ class BackupController
     }
 
 }
+
+
+
+class BackupV2Logger {
+
+    public function log($log) {
+        echo $log . '<br />';
+    }
+
+}
+
