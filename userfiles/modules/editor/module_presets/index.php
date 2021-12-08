@@ -40,7 +40,7 @@
             if (parent_el) {
                 var ed_field = mw.top().tools.firstParentWithClass(parent_el, 'edit');
                 if (ed_field) {
-                    mw.top().$(ed_field).addClass('changed');
+                    mw.top().wysiwyg.change(ed_field)
                     if (parent !== self && !!mw.top().win.mw) {
                         if (mw.top().drag != undefined && mw.top().drag.save != undefined) {
                             //   mw.top().drag.save();
