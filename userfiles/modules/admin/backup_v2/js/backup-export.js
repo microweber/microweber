@@ -384,7 +384,7 @@ mw.log(mw.$(template_holder).html())
 	},
     done:false,
     canGet: true,
-	get_log: function(c) {
+	get_log: function(c) { 
 	    if(!this.canGet) return;
         this.canGet = false;
         var scope = this;
@@ -416,7 +416,7 @@ mw.log(mw.$(template_holder).html())
 	export_fullbackup_start: function() {
         this.exportLog('Generating full backup...');
 
-        var send_uri = 'all&format=' + $('.js-export-format').val() + '&include_media=true';
+        var send_uri = 'all=1&format=' + $('.js-export-format').val() + '&include_media=true';
 
 
         var include_modules = [];
@@ -467,7 +467,7 @@ mw.log(mw.$(template_holder).html())
         export_manifest.items = selected;
 
         selected_content.forEach(function(item, i){
-            if(item.type === 'category' ){
+            if(item.type === 'category'){
                 export_manifest.categories_ids.push(item.id);
             } else {
                 export_manifest.content_ids.push(item.id);
