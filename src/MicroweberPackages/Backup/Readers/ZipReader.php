@@ -35,8 +35,8 @@ class ZipReader extends DefaultReader
         if (!is_file($unzipedFileNameTag)) {
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
+            @file_put_contents($unzipedFileNameTag, 1);
         }
-        @file_put_contents($unzipedFileNameTag, 1);
 
         $files = array();
 
