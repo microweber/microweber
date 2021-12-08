@@ -346,7 +346,7 @@ mw.log(mw.$(template_holder).html())
 	    var scope = this;
 		mw.backup_export.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
-		$.get(mw.settings.api_url+'BackupV2/export', manifest , function(exportData) {
+		$.get(route('admin.backup.export'), manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
 				mw.backup_export.get_log_check('stop');
@@ -478,6 +478,6 @@ mw.log(mw.$(template_holder).html())
 
         mw.backup_export.export_selected(export_manifest);
         mw.backup_export.stepper.last();
-        $('.export-step-4-action').html('Exporting your content')
+        $('.export-step-4-action').html('Exporting your content');
     }
 }
