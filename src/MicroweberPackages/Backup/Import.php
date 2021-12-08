@@ -97,35 +97,11 @@ class Import
 		throw new \Exception($formatNotSupported);
 	}
 
-	/**
-	 * Get readed content from import file.
-	 *
-	 * @return array
-	 */
-	public function readContentWithCache()
-	{
-		if ($this->step == 0) {
-            BackupImportLogger::setLogInfo('Start importing session..');
-		}
-        $cacheFileFolder = userfiles_path() .'cache/';
-		$cacheFileName = $cacheFileFolder . md5($this->file) . time();
-		if (!is_dir($cacheFileFolder)) {
-		    mkdir_recursive($cacheFileFolder);
-        }
-
-		if (!is_file($cacheFileName)) {
-            $cacheFileContent = $this->importAsType($this->file);
-            file_put_contents($cacheFileName, serialize($cacheFileContent));
-        } else {
-            $cacheFileContent = unserialize(file_get_contents($cacheFileName));
-        }
-
-        return $cacheFileContent;
-	}
-
 	public function readContent()
 	{
-		BackupImportLogger::setLogInfo('Start importing session..');
+        if ($this->step == 0) {
+            BackupImportLogger::setLogInfo('Start importing session..');
+        }
 
 		return $this->importAsType($this->file);
 	}

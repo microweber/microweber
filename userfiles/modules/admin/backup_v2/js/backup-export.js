@@ -243,7 +243,9 @@ mw.backup_export = {
 	},
 
 	choice: function(template_holder) {
-mw.log(mw.$(template_holder).html())
+
+        mw.log(mw.$(template_holder).html());
+
 		this.dialog = mw.dialog({
 		    title: 'Select data which you want to export',
 		    id: 'mw_backup_export_modal',
@@ -338,15 +340,15 @@ mw.log(mw.$(template_holder).html())
         });
         var all = mw.$('.js-export-format', mw.backup_export.dialog.dialogContainer);
         all.on('input', function () {
-            all.not(this).val($(this).val())
-        })
+            all.not(this).val($(this).val());
+        });
 	},
 
 	export_selected: function(manifest) {
 	    var scope = this;
 		mw.backup_export.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
-		$.get(mw.settings.api_url+'BackupV2/export', manifest , function(exportData) {
+		$.get(route('admin.backup.export'), manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
 				mw.backup_export.get_log_check('stop');
@@ -414,13 +416,13 @@ mw.log(mw.$(template_holder).html())
 	},
 
 	export_fullbackup_start: function() {
+
         this.exportLog('Generating full backup...');
-
-        var send_uri = 'all&format=' + $('.js-export-format').val() + '&include_media=true';
-
+        var send_uri = 'all=true&format=' + $('.js-export-format').val() + '&include_media=true';
 
         var include_modules = [];
         var include_templates = [];
+
         $('.js-export-modules:checked').each(function(){
             include_modules.push(this.value);
         });
@@ -439,7 +441,7 @@ mw.log(mw.$(template_holder).html())
         mw.backup_export.export_selected(send_uri);
         mw.backup_export.stepper.last();
 
-        $('.export-step-4-action').html('Exporting your content')
+        $('.export-step-4-action').html('Exporting your content');
 	},
 
 	export_start: function () {
@@ -467,7 +469,7 @@ mw.log(mw.$(template_holder).html())
         export_manifest.items = selected;
 
         selected_content.forEach(function(item, i){
-            if(item.type === 'category' ){
+            if(item.type === 'category'){
                 export_manifest.categories_ids.push(item.id);
             } else {
                 export_manifest.content_ids.push(item.id);
@@ -478,6 +480,6 @@ mw.log(mw.$(template_holder).html())
 
         mw.backup_export.export_selected(export_manifest);
         mw.backup_export.stepper.last();
-        $('.export-step-4-action').html('Exporting your content')
+        $('.export-step-4-action').html('Exporting your content');
     }
-}
+};
