@@ -31,7 +31,7 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 
-        $unzipedFileNameTag = $backupLocation.'unziped-'.md5($this->file).'.txt';
+        $unzipedFileNameTag = $backupLocation.'/unziped-'.md5($this->file).'.txt';
         if (!is_file($unzipedFileNameTag)) {
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
