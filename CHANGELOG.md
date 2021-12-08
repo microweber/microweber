@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.10] - 2021-12-08
+- Fixes on live edit
+- Fixes on multi language
+- Fixes on coupon codes module
+- Fixes on sitemap and rss feeds
+- Fixes on categories module
+- Fixes on comments module
+- Fixes on paypal module
+- Fixes on forgot password
+- Added Laravel Dusk tests
+- Some code refactoring 
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.9...1.2.10 "")
+
+
 ## [1.2.9] - 2021-09-16
 - Updated Laravel to 8.61
 - Fixes on the loading speed
