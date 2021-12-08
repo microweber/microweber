@@ -143,12 +143,17 @@ if (isset($_COOKIE['mw_exp'])) {
     $back_url = admin_url() . 'view:content';
     if (defined('CONTENT_ID')) {
         if ((!defined('POST_ID') or POST_ID == false) and !defined('PAGE_ID') or PAGE_ID != false and PAGE_ID == CONTENT_ID) {
-            $back_url .= '#action=showposts:' . PAGE_ID;
+          //  $back_url .= '#action=showposts:' . PAGE_ID;
+            $back_url = route('admin.page.edit', PAGE_ID);
+
         } else {
-            $back_url .= '#action=editpage:' . CONTENT_ID;
+          //  $back_url .= '#action=editpage:' . CONTENT_ID;
+            $back_url = route('admin.content.edit', CONTENT_ID);
+
         }
     } else if (isset($_COOKIE['back_to_admin'])) {
         $back_url = $_COOKIE['back_to_admin'];
+
     }
 
     $user = get_user();
@@ -503,7 +508,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
                                     <li>
                                         <a title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>">
-                                            <?php _e("Back to Admin"); ?>
+                                             <?php _e("Back to Admin"); ?>
                                         </a>
                                     </li>
 
