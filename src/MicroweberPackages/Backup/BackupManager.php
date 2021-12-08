@@ -162,11 +162,11 @@ class BackupManager
 			$import->setFile($this->importFile);
 			$import->setLanguage($this->importLanguage);
 
-			$content = $import->readContentWithCache();
+			$content = $import->readContent();
  			if (isset($content['error'])) {
 				return $content;
 			}
-             /*dd($content);*/
+             dd($content);
 
             if (isset($content['must_choice_language']) && $content['must_choice_language']) {
                 return $content;
