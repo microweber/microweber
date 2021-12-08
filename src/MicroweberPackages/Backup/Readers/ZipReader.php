@@ -31,7 +31,7 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 
-        $unzipedFileNameTag = $backupLocation.'/'.md5($this->file).'.unziped';
+        $unzipedFileNameTag = $backupManager->getBackupLocation().'/'.md5($this->file).'.unziped';
         if (!is_file($unzipedFileNameTag)) {
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
@@ -61,10 +61,6 @@ class ZipReader extends DefaultReader
 			BackupImportLogger::setLogInfo('Media restored!');
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
-
-        if (is_file($unzipedFileNameTag)) {
-            @unlink($unzipedFileNameTag);
-        }
 
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
 
