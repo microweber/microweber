@@ -58,7 +58,54 @@ class BackupController
 
     public function import(Request $request)
     {
+        $fileId = null;
+        if (isset($query['id'])) {
+            $fileId = $query['id'];
+        } elseif (isset($_GET['filename'])) {
+            $fileId = $query['filename'];
+        } elseif (isset($_GET['file'])) {
+            $fileId = $query['file'];
+        }
 
+        $this->manager->setImportStep(intval($_GET['step']));
+
+        if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
+            $this->manager->setImportOvewriteById(true);
+        }
+
+        if (isset($query['import_by_type']) && $query['import_by_type'] == 'delete_all') {
+            $this->manager->setImportOvewriteById(true);
+            $this->manager->setToDeleteOldContent(true);
+        }
+
+        if (isset($query['installation_language']) && !empty($query['installation_language'])) {
+            $this->manager->setImportLanguage($query['installation_language']);
+        }
+
+        if (!$fileId) {
+            return array('error' => 'You have not provided a file to import.');
+        }
+
+        $fileId = str_replace('..', '', $fileId);
+
+        $backupLocation = $this->manager->getBackupLocation();
+        $filePath = $backupLocation . $fileId;
+
+        if (!is_file($filePath)) {
+            return array('error' => 'You have not provided a existing backup to import.');
+        } else {
+
+            if (isset($query['debug'])) {
+                $this->manager->setLogger(new BackupV2Logger());
+            }
+
+            $this->manager->setImportFile($filePath);
+            $importLog = $this->manager->startImport();
+
+            return json_encode($importLog, JSON_PRETTY_PRINT);
+        }
+
+        return $query;
     }
 
     public function download(Request $request)
