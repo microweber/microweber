@@ -243,7 +243,9 @@ mw.backup_export = {
 	},
 
 	choice: function(template_holder) {
-mw.log(mw.$(template_holder).html())
+
+        mw.log(mw.$(template_holder).html());
+
 		this.dialog = mw.dialog({
 		    title: 'Select data which you want to export',
 		    id: 'mw_backup_export_modal',
@@ -338,8 +340,8 @@ mw.log(mw.$(template_holder).html())
         });
         var all = mw.$('.js-export-format', mw.backup_export.dialog.dialogContainer);
         all.on('input', function () {
-            all.not(this).val($(this).val())
-        })
+            all.not(this).val($(this).val());
+        });
 	},
 
 	export_selected: function(manifest) {
@@ -414,13 +416,13 @@ mw.log(mw.$(template_holder).html())
 	},
 
 	export_fullbackup_start: function() {
-        this.exportLog('Generating full backup...');
 
+        this.exportLog('Generating full backup...');
         var send_uri = 'all=true&format=' + $('.js-export-format').val() + '&include_media=true';
 
-
         var include_modules = [];
-        var include_templates = []§;
+        var include_templates = [];
+
         $('.js-export-modules:checked').each(function(){
             include_modules.push(this.value);
         });
@@ -480,4 +482,4 @@ mw.log(mw.$(template_holder).html())
         mw.backup_export.stepper.last();
         $('.export-step-4-action').html('Exporting your content');
     }
-}
+};

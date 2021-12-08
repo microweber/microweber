@@ -58,28 +58,21 @@ class BackupController
 
     public function import(Request $request)
     {
-        $fileId = null;
-        if (isset($query['id'])) {
-            $fileId = $query['id'];
-        } elseif (isset($_GET['filename'])) {
-            $fileId = $query['filename'];
-        } elseif (isset($_GET['file'])) {
-            $fileId = $query['file'];
-        }
+        $fileId = $request->get('id', false);
 
-        $this->manager->setImportStep(intval($_GET['step']));
+        $this->manager->setImportStep(intval($request->get('step', false)));
 
-        if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
+        if ($request->get('import_by_type', false) == 'overwrite_by_id') {
             $this->manager->setImportOvewriteById(true);
         }
 
-        if (isset($query['import_by_type']) && $query['import_by_type'] == 'delete_all') {
+        if ($request->get('import_by_type', false) == 'delete_all') {
             $this->manager->setImportOvewriteById(true);
             $this->manager->setToDeleteOldContent(true);
         }
 
-        if (isset($query['installation_language']) && !empty($query['installation_language'])) {
-            $this->manager->setImportLanguage($query['installation_language']);
+        if ($request->get('installation_language', false)) {
+            $this->manager->setImportLanguage($request->get('installation_language'));
         }
 
         if (!$fileId) {
