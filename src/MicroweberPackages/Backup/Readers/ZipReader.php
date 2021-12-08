@@ -31,10 +31,12 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 
-        $unzipedFileNameTag = $backupLocation.'/unziped-'.md5($this->file).'.txt';
+        $unzipedFileNameTag = $backupLocation.'/'.md5($this->file).'.unziped';
         if (!is_file($unzipedFileNameTag)) {
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
+
+            BackupImportLogger::setLogInfo($unzipedFileNameTag);
             @file_put_contents($unzipedFileNameTag, 1);
         }
 
@@ -46,6 +48,9 @@ class ZipReader extends DefaultReader
                 if (!$file->isDir() and $file->isFile()) {
                     $file_check = $file->getPathname();
                     $ext = @get_file_extension($file_check);
+                    if ($ext == 'unziped') {
+                        continue;
+                    }
                     if ($ext == 'css') {
                         $csscont = file_get_contents($file_check);
                         $csscont = app()->url_manager->replace_site_url_back($csscont);
