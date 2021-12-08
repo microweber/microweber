@@ -16,6 +16,8 @@ Route::name('admin.backup.')
 
         Route::get('import', 'BackupController@import')->name('import');
         Route::get('export', 'BackupController@export')->name('export');
+        Route::get('download', 'BackupController@download')->name('download');
+
         Route::post('upload', 'BackupController@upload')->name('upload');
         Route::post('delete', 'BackupController@delete')->name('delete');
 
