@@ -28,15 +28,15 @@ class DefaultExport implements ExportInterface
 	{
 		$backupManager = new BackupManager();
 		$exportLocation = $backupManager->getBackupLocation();
-		
+
 		if ($name) {
 			$exportFilename = $name . '.' . $this->type;
 		} else {
 			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->type;
 		}
-		
+
 		return array(
-			'download' => api_url('BackupV2/download?file=' . $exportFilename),
+			'download' => route('admin.backup.download').'?file=' . $exportFilename,
 			'filepath' => $exportLocation . $exportFilename,
 			'filename' => $exportFilename
 		);
