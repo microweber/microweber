@@ -48,9 +48,6 @@ class ZipReader extends DefaultReader
                 if (!$file->isDir() and $file->isFile()) {
                     $file_check = $file->getPathname();
                     $ext = @get_file_extension($file_check);
-                    if ($ext == 'unziped') {
-                        continue;
-                    }
                     if ($ext == 'css') {
                         $csscont = file_get_contents($file_check);
                         $csscont = app()->url_manager->replace_site_url_back($csscont);
@@ -60,13 +57,14 @@ class ZipReader extends DefaultReader
             }
         }
 
-
-
-
 		if ($backupLocation != false and is_dir($backupLocation)) {
 			BackupImportLogger::setLogInfo('Media restored!');
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
+
+        if (is_file($unzipedFileNameTag)) {
+            @unlink($unzipedFileNameTag);
+        }
 
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
 
