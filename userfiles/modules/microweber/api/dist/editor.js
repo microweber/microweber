@@ -3327,6 +3327,7 @@ const rangeWalker = (range, doc) => {
     let ranges = [];
     let el = range.startContainer;
     let elsToVisit = true;
+
     while (elsToVisit) {
         let startOffset = el === range.startContainer ? range.startOffset : 0;
         let endOffset = el === range.endContainer ? range.endOffset : el.textContent.length;
@@ -3335,7 +3336,9 @@ const rangeWalker = (range, doc) => {
         r.setEnd(el, endOffset);
         ranges.push(r);
         elsToVisit = false;
+
         while (!elsToVisit && el !== range.endContainer) {
+
             let nextEl = getFirstTextNode(el.nextSibling);
             if (nextEl) {
                 el = nextEl;
@@ -3825,6 +3828,12 @@ MWEditor.api = function (scope) {
             let range = sel.getRangeAt(0);
             let ranges = rangeWalker(range, scope.executionDocument);
 
+            console.log(ranges.length)
+if(ranges.length > 999){
+    return
+}
+
+            ;
             if(styles || className) {
                 ranges.forEach(range => {
                     if(options.rangeModify) {
@@ -3836,22 +3845,25 @@ MWEditor.api = function (scope) {
                     range.surroundContents(el);
                 })
             }
-/*            var tr = [];
-            let all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty');
-            let i = 0, l = all.length;
-            for ( ; i < l;  i++ ) {
-                tr.push(all[i])
-            }
-            while(tr[0]) {
-                tr[0].remove()
-            }
-            all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier .mw-richtext-cssApplier');
-            i = 0; l = all.length;
-            for ( ; i < l;  i++ ) {
-                if(all[i].outerHTML === all[i].parentNode.innerHTML) {
-                    all[i].parentNode.parentNode.replaceChild(all[i], all[i].parentNode);
+
+
+            setTimeout(function (){
+                console.log('start')
+                var tr = Array.from(scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty'));
+
+
+                while(tr[0]) {
+                    tr[0].remove()
                 }
-            }*/
+                var all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier .mw-richtext-cssApplier');
+                var i = 0; var l = all.length;
+                for ( ; i < l;  i++ ) {
+                    if(all[i].outerHTML === all[i].parentNode.innerHTML) {
+                        all[i].parentNode.parentNode.replaceChild(all[i], all[i].parentNode);
+                        return;
+                    }
+                }
+            }, 100)
 
         },
         _old_cssApplier: function (options) {
