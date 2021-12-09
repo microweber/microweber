@@ -55,7 +55,6 @@ class LiveEditModuleAdd extends BaseComponent
         $browser->script("$('#mw-sidebar-search-input-for-modules').addClass('$randClass')");
 
         $browser->keys('.' . $randClass, $name);
-
         $browser->click('.'.$randClassFoundBeForeSearch);
 
 
