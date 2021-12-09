@@ -36,19 +36,22 @@ class LiveEditTest extends DuskTestCase
             $currentUrl = $browser->driver->getCurrentURL();
             $browser->pause(5000);
 
+            $randClassForDagAndDrop = 'rand-class-'.time();
+            $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
+            $browser->pause(1000);
+            $browser->click('.'.$randClassForDagAndDrop);
+
             $browser->within(new LiveEditModuleAdd(), function ($browser) {
                 $browser->addModule('Title');
             });
-
-            $browser->pause(33000);
+            $browser->waitForText('This is my title');
+            $browser->assertSee('This is my title');
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
             $browser->visit($currentUrl);
             $browser->pause(3000);
-
-
 
         });
     }

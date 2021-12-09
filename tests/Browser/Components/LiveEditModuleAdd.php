@@ -56,14 +56,7 @@ class LiveEditModuleAdd extends BaseComponent
 
         $browser->keys('.' . $randClass, $name);
 
-
-        $browser->pause(1000);
-        $randClassFound2 = 'js-rand-liveeditrtest222-results-' . time() . rand(1111, 9999);
-        $browser->script("$('#mw-sidebar-layouts-list').find('li.module-item-layout:visible').addClass('$randClassFound2')");
-        $browser->pause(1000);
-
-
-        $browser->click('.'.$randClassFound2);
+        $browser->click('.'.$randClassFoundBeForeSearch);
 
 
     }
