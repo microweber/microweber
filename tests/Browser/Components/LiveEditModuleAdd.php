@@ -42,21 +42,30 @@ class LiveEditModuleAdd extends BaseComponent
 
     public function addModule(Browser $browser, $name)
     {
+        $browser->pause(2000);
+
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-modules-list'))->isDisplayed()) {
             $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
             $browser->pause(500);
         }
 
-        $randClassFoundBeForeSearch = 'js-rand-liveeditrtest-randClassFoundBeForeSearch-' . time() . rand(1111, 9999);
-        $browser->script("$('#mw-sidebar-modules-list').find('li.module-item:visible').addClass('$randClassFoundBeForeSearch')");
+        $randClassSeachInput = 'js-rand-live-edit-test-search-' . time() . rand(1111, 9999);
+
+        $browser->script("$('#mw-sidebar-search-input-for-modules').val('')");
+        $browser->pause(1500);
+        $browser->script("$('#mw-sidebar-search-input-for-modules').addClass('$randClassSeachInput')");
+        $browser->pause(1000);
+        $browser->keys('.' . $randClassSeachInput, $name);
 
 
-        $randClass = 'js-rand-liveeditrtest-' . time() . rand(1111, 9999);
-        $browser->script("$('#mw-sidebar-search-input-for-modules').addClass('$randClass')");
+        $browser->pause(3000);
 
-        $browser->keys('.' . $randClass, $name);
-        $browser->click('.'.$randClassFoundBeForeSearch);
+        $randClassSearchedModule = 'js-rand-live-edit-test-' . time() . rand(1111, 9999);
+        $browser->script("$('#mw-sidebar-modules-list').find('li.module-item:visible').addClass('$randClassSearchedModule')");
 
+
+        $browser->click('.'.$randClassSearchedModule);
+        $browser->pause(4000);
 
     }
 }
