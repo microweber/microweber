@@ -53,6 +53,8 @@ class LiveEditTest extends DuskTestCase
             $browser->visit($currentUrl);
             $browser->pause(3000);
 
+            $browser->waitForText('This is my title');
+            $browser->assertSee('This is my title');
         });
     }
 
