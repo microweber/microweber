@@ -685,6 +685,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setInterval(function(){
             editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
         }, 700)
+        mw.components._init();
 
     });
 
@@ -770,7 +771,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
          $(window).on('load', function(){
             initClasses()
 
-
+             mw.components._init();
         })
 
     </script>
