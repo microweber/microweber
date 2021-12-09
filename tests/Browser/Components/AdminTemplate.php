@@ -2,10 +2,11 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
-class AdminContentImageAdd extends BaseComponent
+class AdminTemplate extends BaseComponent
 {
     /**
      * Get the root selector for the component.
@@ -38,13 +39,21 @@ class AdminContentImageAdd extends BaseComponent
         return [];
     }
 
-    public function addImage(Browser $browser, $image)
+    public function changeTemplate(Browser $browser, $name = false)
     {
-        $browser->scrollTo('.mw-uploader-input');
-        $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
-        $browser->waitForText('Pictures settings are saved',30);
-        $browser->pause(3000);
-        
+
+        $browser->visit(admin_url() . 'view:settings#option_group=template');
+        $browser->pause(1000);
+        $browser->waitForText('Template name');
+        $browser->pause(1000);
+
+        $browser->select('.mw-edit-page-template-selector', $name);
+
+        $browser->pause(2000);
+        $browser->click('.mw-action-change-template');
+
+        $browser->waitForText('Template settings are saved');
+        $browser->assertSee('Template settings are saved');
 
     }
 }

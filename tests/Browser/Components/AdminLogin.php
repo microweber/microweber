@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 
@@ -14,7 +15,7 @@ class AdminLogin extends BaseComponent
      */
     public function selector()
     {
-        return '#mw-login';
+        return '';
     }
 
     /**
@@ -25,10 +26,7 @@ class AdminLogin extends BaseComponent
      */
     public function assert(Browser $browser)
     {
-        $browser->visit(route('admin.login'))->assertSee('Login');
-        $browser->waitFor('@login-button');
 
-        $browser->assertVisible($this->selector());
     }
 
     /**
@@ -49,15 +47,25 @@ class AdminLogin extends BaseComponent
         $data['option_group'] = 'users';
         save_option($data);
 
-        // Login to admin panel
-        $browser->type('username', $username);
-        $browser->type('password', $password);
+        $browser->visit(route('admin.login'));
+        $browser->pause(1500);
 
-        $browser->pause(400);
-        $browser->click('@login-button');
+        if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@id="password"]'))) > 0) {
 
-        // Wait for redirect after login
-        $browser->waitForLocation('/admin/', 120);
-        $browser->pause(100);
+            $browser->waitForText('Username', 30);
+            $browser->waitForText('Password', 30);
+            $browser->waitFor('@login-button');
+
+            // Login to admin panel
+            $browser->type('username', $username);
+            $browser->type('password', $password);
+
+            $browser->pause(400);
+            $browser->click('@login-button');
+
+            // Wait for redirect after login
+            $browser->waitForLocation('/admin/', 120);
+            $browser->pause(100);
+        }
     }
 }

@@ -33,13 +33,14 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->pause(1000);
             $browser->clickLink('Promotions');
             $browser->waitForText('Offers');
-            $browser->assertSee('Add new offer');
 
+            $browser->assertSee('Add new offer');
             $browser->pause(1000);
             $browser->click('.js-add-new-offer');
 
-            $browser->waitForText('Add new offer');
+            $browser->waitForText('Add new offer', 30);
             $browser->waitForText('Offer status');
+            $browser->waitForText('Save',30);
 
             $browser->assertSee('Add new offer');
             $browser->assertSee('Offer status');

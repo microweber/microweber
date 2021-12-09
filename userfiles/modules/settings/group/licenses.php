@@ -2,6 +2,17 @@
 <?php $lic = mw()->update->get_licenses('limit=10000'); ?>
 
 <script>
+    mw.delete_licence = function ($lic_id) {
+
+        $.ajax({
+            url: "<?php print site_url('api') ?>/mw_delete_license?id=" + $lic_id
+        }).done(function () {
+            mw.reload_module("#<?php print $params['id'] ?>");
+
+        });
+        mw.reload_module("#lic_" + $lic_id);
+    }
+
     mw.edit_licence = function ($lic_id) {
 
         licensemodal = mw.dialog({
@@ -75,6 +86,14 @@
                     </label>
                     <p>
                         <?php print ucwords($item['status']); ?>
+                    </p>
+                </div>
+                <div class="col-2 border p-1">
+                    <label class="control-label my-2">
+                        <?php _e('Action'); ?>
+                    </label>
+                    <p>
+                        <a class="btn btn-danger btn-sm" href="javascript:mw.delete_licence('<?php echo $item['id'] ?>');"><?php _e('Delete'); ?></a>
                     </p>
                 </div>
             <?php endforeach; ?>

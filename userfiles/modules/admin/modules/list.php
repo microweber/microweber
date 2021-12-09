@@ -124,6 +124,17 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array_merge($modules, $modules_from_template);
     }
 
+    if($modules){
+        foreach ($modules as $modk=>$module){
+            if(isset($module['name']) and
+                (in_array($module['name'], $hide_from_display_list)
+                    or in_array(strtolower($module['name']), $hide_from_display_list))
+            ){
+                unset($modules[$modk]);
+            }
+        }
+    }
+
     $is_shop_disabled = get_option('shop_disabled', 'website') == "y";
 
     if ($modules) {

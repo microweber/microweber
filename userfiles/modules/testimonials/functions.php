@@ -37,7 +37,7 @@ function project_testimonial_autocomplete($params)
         ];
     }
     $testimonials[] = [
-        'id'=>'All projects',
+        'id'=>'',
         'title'=>'All projects',
     ];
 

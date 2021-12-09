@@ -112,7 +112,6 @@ if (!isset($params['project_name'])) {
 $projects = [];
 $selected_project = get_option('show_testimonials_per_project', $params['parent-module-id']);
 if (empty($selected_project)) {
-    $selected_project = 'All projects';
     if (isset($params['project_name']) && !empty($params['project_name'])) {
         $selected_project = $params['project_name'];
     }

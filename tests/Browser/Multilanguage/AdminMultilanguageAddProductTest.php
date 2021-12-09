@@ -1,6 +1,5 @@
 <?php
-
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
 use Laravel\Dusk\Browser;
@@ -14,8 +13,9 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class AdminMultilanguageAddProductTest extends DuskTestCase
+class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 {
     public function testAddProduct()
     {

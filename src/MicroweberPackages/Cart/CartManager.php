@@ -728,19 +728,17 @@ class CartManager extends Crud
                 $check_cart = $findCart->toArray();
             }
 
-            if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
-                foreach ($check_cart as $cart_item) {
-                    if ($cart_item and isset($cart_item['price']) and (doubleval($cart_item['price']) == doubleval($found_price))) {
-                        $cart['id'] = $cart_item['id'];
-                        if ($update_qty > 0) {
-                            $cart['qty'] = $cart_item['qty'] + $update_qty;
-                        } elseif ($update_qty_new > 0) {
-                            $cart['qty'] = $update_qty_new;
-                        } else {
-                            $cart['qty'] = $cart_item['qty'] + 1;
-                        }
-                    }
+            if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart['id'])) {
+                if ($check_cart and isset($check_cart['price']) and (doubleval($check_cart['price']) == doubleval($found_price))) {
+                    $cart['id'] = $check_cart['id'];
+                    if ($update_qty > 0) {
+                        $cart['qty'] = $check_cart['qty'] + $update_qty;
+                    } elseif ($update_qty_new > 0) {
+                        $cart['qty'] = $update_qty_new;
+                    } else {
+                        $cart['qty'] = $check_cart['qty'] + 1;
+                     }
                 }
             } else {
                 if ($update_qty > 0) {

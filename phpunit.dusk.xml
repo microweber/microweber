@@ -9,8 +9,16 @@
          processIsolation="false"
          stopOnFailure="true">
     <testsuites>
-        <testsuite name="Browser Test Suite">
+        <testsuite name="MicroweberTemplatesTests">
+            <directory>./userfiles/templates/*/tests/Browser</directory>
+            <directory>./userfiles/templates/*/src/tests/Browser</directory>
+        </testsuite>
+        <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
+            <exclude>./tests/Browser/Multilanguage</exclude>
+        </testsuite>
+        <testsuite name="MicroweberMultilanguageTests">
+            <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
         </testsuite>
     </testsuites>
     <php>

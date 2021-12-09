@@ -7243,8 +7243,9 @@ body.bup.dragStart.state-element .edit .element:empty {
   background: #C4D6E8;
   z-index: 1001;
 }
-.mw-selector-bottom,
-.mw-selector-top {
+.mw-selector.mw-selector-type-active {
+  width: 2px;
+  height: 2px;
   z-index: 1002;
 }
 .mw-selector-top:before {

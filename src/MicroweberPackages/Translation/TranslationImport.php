@@ -33,7 +33,7 @@ class TranslationImport
         }
 
         if (!$validateImport) {
-            return ['error' => 'Can\'t import this language file.', 'input' => $inputTranslations[0]];
+            return ['error' => 'Can\'t import this language file.'];
         }
 
         // Clear input translation

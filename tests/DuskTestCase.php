@@ -31,13 +31,19 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+
         $options = (new ChromeOptions)->addArguments(collect([
             '--window-size=1920,1080',
         ])->unless($this->hasHeadlessDisabled(), function ($items) {
-            return $items->merge([
-                '--disable-gpu',
-                '--headless',
-            ]);
+
+            $arguments = [];
+            $arguments[] = '--disable-gpu';
+
+            if (getenv('GITHUB_RUN_NUMBER')) {
+                $arguments[] = '--headless';
+            }
+            return $items->merge($arguments);
+
         })->all());
 
         return RemoteWebDriver::create(
@@ -57,5 +63,16 @@ abstract class DuskTestCase extends BaseTestCase
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
                isset($_ENV['DUSK_HEADLESS_DISABLED']);
+    }
+
+    protected function assertPreConditions(): void
+    {
+        if (mw_is_installed()) {
+            \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+            \DB::table('options')
+                ->where('option_group', 'multilanguage_settings')
+                ->delete();
+        }
+
     }
 }

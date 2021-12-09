@@ -613,18 +613,6 @@ if (isset($params['live_edit'])) {
                         </script>
                         <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
-                        <div class="card-header no-border" id="post-media-card-header">
-                            <h6><strong><?php _e('Pictures'); ?></strong></h6>
-                            <div class="post-media-type-holder">
-                                <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
-                                    <option value="url"><?php _e("Add image from URL"); ?></option>
-                                    <option value="server"><?php _e("Browse uploaded"); ?></option>
-                                    <option value="library"><?php _e("Choose from Unsplash"); ?></option>
-                                    <option value="file"><?php _e("Upload file"); ?></option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="col-12">
                             <module
                                 type="pictures/admin"

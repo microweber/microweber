@@ -13,19 +13,21 @@ class CreateMultilanguageSupportedLocales extends Migration
      */
     public function up()
     {
-        Schema::create('multilanguage_supported_locales', function (Blueprint $table) {
-            $table->increments('id');
+        if (!Schema::hasTable('multilanguage_supported_locales')) {
+            Schema::create('multilanguage_supported_locales', function (Blueprint $table) {
+                $table->increments('id');
 
-            $table->string('locale');
-            $table->string('language')->nullable();
-            $table->string('display_locale')->nullable();
-            $table->string('display_name')->nullable();
-            $table->string('display_icon')->nullable();
-            $table->integer('position')->nullable();
-            $table->string('is_active')->nullable();
+                $table->string('locale');
+                $table->string('language')->nullable();
+                $table->string('display_locale')->nullable();
+                $table->string('display_name')->nullable();
+                $table->string('display_icon')->nullable();
+                $table->integer('position')->nullable();
+                $table->string('is_active')->nullable();
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
     }
 
     /**

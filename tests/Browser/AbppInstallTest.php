@@ -17,6 +17,11 @@ class AbppInstallTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
+            if (mw_is_installed()) {
+                $this->assertTrue(true);
+                return true;
+            }
+
            /* $deleteDbFiles = [];
             $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
             $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';

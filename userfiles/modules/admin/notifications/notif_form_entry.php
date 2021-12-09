@@ -123,6 +123,11 @@ if (isset($item['created_by'])) {
                         <h6><strong><?php _e("Attached files"); ?></strong></h6>
                         <?php
                         foreach ($form_files as $fileNameKey=>$fileSettings){
+                            if(!isset($fileSettings['url'])){
+                                continue;
+                            }
+
+
                             ?>
                             <div>
                                 <small class="text-muted"><?php echo $fileNameKey; ?></small> <br />

@@ -6,8 +6,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class MultilanguageFieldsTest extends DuskTestCase
+class MultilanguageFieldsTest extends DuskTestCaseMultilanguage
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 

@@ -2,36 +2,54 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Contracts\Console\Kernel;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Page\Models\Page;
 use Tests\Browser\Components\AdminLogin;
 use Tests\DuskTestCase;
+use Illuminate\Support\Facades\Route;
 
 class VisitRoutesTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
-    public function testAddPost()
-    {
-        $siteUrl = $this->siteUrl;
 
-        $this->browse(function (Browser $browser) use($siteUrl) {
+
+
+
+    /**
+     * Check if the Browser environment matches with the
+     * environment loaded by `php artisan dusk`
+     * @return $this
+     * @see https://medium.com/@deleugpn/testing-if-dusk-environment-matches-browser-environment-5edfe9d75ff6
+     */
+    public function testBrowserEnvironment() {
+
+ 
+//        Route::getRoutes()->refreshNameLookups();
+//        Route::getRoutes()->refreshActionLookups();
+
+
+        $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
-            $browser->visit($siteUrl . '/?editmode=y');
-            $browser->pause(4000);
-
-            $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
-            $browser->pause(500);
-            $browser->script("mwSidebarSearchItems('Contact form', 'modules')");
 
 
-            $browser->pause(14000);
+            $environment = app()->environment();
+            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
+                ->element('')->getText();
+
+            $this->assertEquals($environment, $browserEnvironment,
+                "Browser environment [{$browserEnvironment}]
+            diverge from the given environment [{$environment}]");
 
         });
+
+
+        return $this;
     }
 
    /* public function testContentLinksAndRoutesUrls()

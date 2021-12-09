@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -15,8 +15,9 @@ use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
+use Tests\DuskTestCaseMultilanguage;
 
-class AdminMultilanguageAddPageTest extends DuskTestCase
+class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
     public function testAddPost()
     {

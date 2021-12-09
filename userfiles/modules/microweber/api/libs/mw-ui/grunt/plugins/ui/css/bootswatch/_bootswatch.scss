@@ -327,10 +327,15 @@ input,
     color: $secondary!important;
 
 }
-.btn-outline-secondary:hover {
+.btn-outline-secondary:hover, .btn.btn-outline-secondary.active
+{
     background-color: $transparent!important;
     color: $primary!important;
     border-color: $primary!important;
+
+    .mdi {
+        color: $primary!important;
+    }
 }
 
 a.active i {
@@ -1205,4 +1210,16 @@ a.text-dark:hover, a.text-dark:focus {
 
 .card.not-collapsed-border.card-success {
     background-color: $body-bg!important;
+}
+
+.mw-standalone-loading {
+    background-color: $body-bg!important;
+}
+
+.mw-standalone-text h4, h6 {
+    color: $primary!important;
+
+    a {
+        color: $primary!important;
+    }
 }

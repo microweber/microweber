@@ -6,6 +6,17 @@ use L5Swagger\ConfigFactory;
 use L5Swagger\Http\Middleware\Config as L5SwaggerConfig;
 
 Route::group(['namespace' => 'L5Swagger','middleware' => 'admin'], function (Router $router) {
+
+    \Route::get('/_dusk/env', [
+        'as' => 'l5-swagger.dusk.env',
+        'middleware' => 'web',
+        'uses' => function () {
+            return response(app()->environment());
+        }
+    ]);
+
+
+
     $configFactory = resolve(ConfigFactory::class);
 
     $documentations = config('l5-swagger.documentations', []);
@@ -63,3 +74,6 @@ Route::group(['namespace' => 'L5Swagger','middleware' => 'admin'], function (Rou
         });
     }
 });
+
+
+

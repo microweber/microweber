@@ -34,7 +34,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
           $(window).on('load', function (){
               window.faqSettings = new mw.moduleSettings({
                   element: '#settings-box',
-                  header: '<i class="mdi mdi-drag"></i> Question {count} <a class="pull-right" data-action="remove"><i class="mdi mdi-close-thick"></i></a>',
+                  header: '<i class="mdi mdi-drag"></i> Question {count} <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
                   data: <?php print $pp ?>,
                   key: 'settings',
                   group: '<?php print $params['id']; ?>',

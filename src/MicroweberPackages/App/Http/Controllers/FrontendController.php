@@ -1236,9 +1236,10 @@ class FrontendController extends Controller
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {
-
-                    if ($back_to_editmode == true) {
-                        $l = $this->liveEditToolbarBack($l);
+                    if(!isset($_REQUEST['preview_layout'])) {
+                        if ($back_to_editmode == true) {
+                            $l = $this->liveEditToolbarBack($l);
+                        }
                     }
                 }
             } else {

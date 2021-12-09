@@ -42,11 +42,7 @@ if (!isset($params['prefix'])) {
         var form = mw.$('#activate-form-<?php print $params['id']; ?>');
         form.on('submit', function () {
             mw.form.post(mw.$('#activate-form-<?php print $params['id']; ?>'), '<?php print site_url('api') ?>/mw_save_license', function () {
-                mw.notification.msg(this);
-                mw.reload_module('<?php print $params['parent-module']; ?>');
-                if (window.licensemodal) {
-                    licensemodal.remove()
-                }
+                window.location = window.location;
             });
 
             return false;
@@ -77,11 +73,6 @@ if (!isset($params['prefix'])) {
 
     <div class="row">
         <div class="col d-flex align-items-center justify-content-between">
-            <?php if ($id): ?>
-                <input type="hidden" name="_delete_license" value="" class="js-edit-license-del-action-<?php print $id; ?>">
-                <button type="submit" value="Activate" class="btn btn-danger" onclick="$('.js-edit-license-del-action-<?php print $id; ?>').val('_delete_license')"><?php _e('Delete'); ?></button>
-            <?php endif; ?>
-
             <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
         </div>
     </div>

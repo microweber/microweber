@@ -196,6 +196,19 @@ div.form-control {
     clear: both;
 }
 
+.main:after{
+    display: block;
+    clear: both;
+    content:'.';
+    font-size: 0;
+}
+.main{
+    overflow: visible;
+}
+.main > aside > #mw-admin-main-navigation{
+    position: sticky;
+    top: 80px;
+}
 .main .tree {
     border: 0 !important;
 }
