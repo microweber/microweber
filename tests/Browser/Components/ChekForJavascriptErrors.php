@@ -55,6 +55,11 @@ class ChekForJavascriptErrors extends BaseComponent
             }
         }
 
+        if (!empty($findedErrors)) {
+            $findedErrors[] = 'page url: ' . $browser->driver->getCurrentURL();
+            throw new \Exception(print_r($findedErrors, true));
+        }
+
         PHPUnit::assertEmpty($findedErrors);
     }
 }

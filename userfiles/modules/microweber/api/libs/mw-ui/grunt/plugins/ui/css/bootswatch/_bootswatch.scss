@@ -1211,3 +1211,15 @@ a.text-dark:hover, a.text-dark:focus {
 .card.not-collapsed-border.card-success {
     background-color: $body-bg!important;
 }
+
+.mw-standalone-loading {
+    background-color: $body-bg!important;
+}
+
+.mw-standalone-text h4, h6 {
+    color: $primary!important;
+
+    a {
+        color: $primary!important;
+    }
+}

@@ -28,11 +28,15 @@ class ZipReader extends DefaultReader
 		$backupManager = new BackupManager();
 		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
 
-		// Remove old files
-		$this->_removeFilesFromPath($backupLocation);
+        $unzipedFileNameTag = $backupManager->getBackupLocation().'/'.md5($this->file).'.unziped';
+        if (!is_file($unzipedFileNameTag)) {
 
-		$unzip = new Unzip();
-		$unzip->extract($this->file, $backupLocation, true);
+            $unzip = new Unzip();
+            $unzip->extract($this->file, $backupLocation, true);
+
+            BackupImportLogger::setLogInfo($unzipedFileNameTag);
+            @file_put_contents($unzipedFileNameTag, 1);
+        }
 
         $files = array();
 
@@ -50,9 +54,6 @@ class ZipReader extends DefaultReader
                 }
             }
         }
-
-
-
 
 		if ($backupLocation != false and is_dir($backupLocation)) {
 			BackupImportLogger::setLogInfo('Media restored!');

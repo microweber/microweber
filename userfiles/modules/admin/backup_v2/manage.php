@@ -8,8 +8,7 @@
 
 <div id="backups_list">
     <?php
-    $backupV2 = new BackupV2();
-    $backups = $backupV2->get();
+    $backups = app(\MicroweberPackages\Backup\Http\Controllers\Admin\BackupController::class)->get();
     ?>
     <?php if (isarr($backups)): ?>
         <?php $i = 1; ?>
@@ -36,7 +35,7 @@
                     <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit') || user_can_access('module.admin.backup_v2.destroy')): ?>
                         <td class="text-center">
                             <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit')): ?>
-                                <a class="btn btn-primary btn-sm show-on-hover" target="_blank" href="<?php print api_url('BackupV2/download'); ?>?file=<?php print $item['filename'] ?>"><?php _e("Download"); ?></a>
+                                <a class="btn btn-primary btn-sm show-on-hover" target="_blank" href="<?php echo route('admin.backup.download'); ?>?file=<?php print $item['filename'] ?>"><?php _e("Download"); ?></a>
                                 <a class="btn btn-success btn-sm show-on-hover" href="javascript:mw.backup_import.import('<?php print $item['filename'] ?>')"><?php _e("Import"); ?></a>
                             <?php endif; ?>
                             <?php if (user_can_access('module.admin.backup_v2.destroy')): ?>
