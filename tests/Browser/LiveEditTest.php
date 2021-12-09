@@ -34,16 +34,25 @@ class LiveEditTest extends DuskTestCase
             $browser->click('.'.$randClassForDagAndDrop);
 
             foreach(get_modules('ui=1&installed=1') as $module) {
+
+                $module['name'] = 'Contact form';
+
                 $browser->within(new LiveEditModuleAdd(), function ($browser) use($module) {
                     $browser->addModule($module['name']);
                 });
-                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+              /*  $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                     $browser->validate();
-                });
+                });*/
+
+                $browser->click('.module-contact-form');
+                $browser->pause(1000);
+                $browser->click('#mw-handle-item-module-active .mdi-pencil');
+
+
             }
 
 
-            $browser->pause(10000);
+            $browser->pause(5000);
 
         });
     }
