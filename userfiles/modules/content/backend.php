@@ -277,17 +277,18 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
 
-        var time = 500;
+
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
 
-         edit_content_load_admin_spinner =  mw.spinner({
+         var edit_content_load_admin_spinner = mw.spinner({
             element: '#mw-content-backend',
             size:40
         })
 
-
+        console.log(edit_content_load_admin_spinner)
+        console.log(edit_content_load_admin_spinner.remove)
         setTimeout(function () {
 
             mw.load_module(module, holder, function () {
@@ -296,8 +297,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 if (callback) callback.call();
 
             });
+            console.log(edit_content_load_admin_spinner)
             edit_content_load_admin_spinner.remove()
-        }, time)
+        }, 500)
 
 
     }

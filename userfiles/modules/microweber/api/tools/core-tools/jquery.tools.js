@@ -76,13 +76,12 @@ $.fn.reload_module = function (c) {
         if (a === undefined) {
             return false
         }
-        var b = b || function () {
-            };
+        b = b || function () { };
         return this.each(function () {
             if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
                 this.cmactivated = true;
-                mw.$(this).bind("change", function () {
-                    this.checked === true ? a.call(this) : b.call(this);
+                mw.$(this).on("change", function () {
+                    this.checked ? a.call(this) : b.call(this);
                 });
             }
         });

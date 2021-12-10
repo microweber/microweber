@@ -452,9 +452,9 @@
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings.content instanceof MWElement) {
+                } else if(this.settings && this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                }  else if(this.settings && typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
                 }else {
                     var el = this._asdom(options);

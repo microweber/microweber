@@ -67,17 +67,17 @@ mw.url = {
     },
     setHashParam:function(param, value, hash){
 
-      var hash = hash || mw.hash();
+      var hash = hash || location.hash;
       var obj = mw.url.getHashParams(hash);
       obj[param] = value;
       return mw.url.hashStart + decodeURIComponent(json2url(obj));
     },
     windowHashParam:function(a,b){
       if(b !== undefined){
-        mw.hash(mw.url.setHashParam(a,b));
+        location.hash = (mw.url.setHashParam(a,b));
       }
       else{
-        return mw.url.getHashParams(mw.hash())[a];
+        return mw.url.getHashParams(location.hash)[a];
       }
     },
     deleteHashParam:function(hash, param){
@@ -87,7 +87,7 @@ mw.url = {
         return params_string;
     },
     windowDeleteHashParam:function(param){
-       mw.hash(mw.url.deleteHashParam(window.location.hash, param));
+       location.hash = (mw.url.deleteHashParam(window.location.hash, param));
     },
     whichHashParamsHasBeenRemoved:function(currHash, prevHash){
         var curr = mw.url.getHashParams(currHash);

@@ -3,8 +3,8 @@ mw.Spinner = function(options){
         return;
     }
     this.$element = mw.element(options.element);
-    if(!this.$element.length) return;
-    this.element = this.$element[0];
+    // if(!this.$element.length) return;
+    this.element = this.$element.get(0);
     if(this.element._mwSpinner){
         return this.element._mwSpinner;
     }
@@ -42,11 +42,14 @@ mw.Spinner = function(options){
     }
 
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
-        this.size(this.options.size);
-        this.color(this.options.color);
-        this.$element[this.options.insertMode](this.$spinner);
-        this.show();
+        if(this.element) {
+            this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
+            this.size(this.options.size);
+            this.color(this.options.color);
+            this.$element[this.options.insertMode](this.$spinner);
+            this.show();
+        }
+
         return this;
     };
 
