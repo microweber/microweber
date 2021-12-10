@@ -5,10 +5,17 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class AssetsTest extends TestCase
 {
-    public function testAddGrup()
+    public function testAddGroup()
     {
+        $assetsAll = app()->assets->all();
+        $this->assertEmpty($assetsAll);
 
-        echo 1;
+        $randGroup = rand(1111,9999).time();
+        app()->assets->group($randGroup)->add('neshto.js');
 
+
+        $assetsAll = app()->assets->group($randGroup)->all();
+
+        dd($assetsAll);
     }
 }

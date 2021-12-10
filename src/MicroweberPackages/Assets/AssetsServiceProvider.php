@@ -18,8 +18,6 @@ use League\Flysystem\Filesystem;
 
 class AssetsServiceProvider extends LaravelAssetsServiceProvider
 {
-
-
     /**
      * Register bindings in the container.
      */
@@ -32,6 +30,7 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
 
         // for CDN
         if (isset($assets['use_cdn']) and $assets['use_cdn']) {
+
             $this->mergeConfigFrom(__DIR__ . '/config/assets.cdn.php', 'assets.cdn');
             $assets = config('assets');
 
@@ -48,23 +47,21 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
                 'visibility' => AdapterInterface::VISIBILITY_PUBLIC,
             ];
             $filesystem = new Filesystem(new Local(public_path()), $config);
-
             $assets = new Assets($assets, $filesystem);
-
-
             return $assets;
         });
         $this->app->alias('Assets', Assets::class);
 
-        if (is_cli()) {
+      /*
+      TODO
+      if (is_cli()) {
             // Command-line functions
             // Don't use array access here - it is hard to mock / unit-test.  Use bind() and make() instead.
             $this->app->bind('command.assets.purge', function (Application $app) {
                 return new Purge($app->make('assets'));
             });
-
             $this->commands(['command.assets.purge']);
-        }
+        }*/
     }
 
 

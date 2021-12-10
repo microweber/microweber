@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: user
+ * User: bobi@microweber.com / peter@microweber.com
  * Date: 3/11/2021
  * Time: 4:19 PM
  */
@@ -95,14 +95,14 @@ class Assets
      *
      * @var string
      */
-    private $css_source;
+    private $cssSource;
 
     /**
      * Where do we read JS files.
      *
      * @var string
      */
-    private $js_source;
+    private $jsSource;
 
     /**
      * Where do we write CSS/JS files.
@@ -116,21 +116,21 @@ class Assets
      *
      * @var string
      */
-    private $destination_url;
+    private $destinationUrl;
 
     /**
      * How to process CSS files.
      *
      * @var FilterInterface[]
      */
-    private $css_filters;
+    private $cssFilters;
 
     /**
      * How to process JS files.
      *
      * @var FilterInterface[]
      */
-    private $js_filters;
+    private $jsFilters;
 
     /**
      * How to load external files.
@@ -151,14 +151,14 @@ class Assets
      *
      * @var int
      */
-    private $inline_threshold;
+    private $inlineThreshold;
 
     /**
      * Create compressed version of assets, to support the NGINX gzip_static option.
      *
      * @var int
      */
-    private $gzip_static;
+    private $gzipStatic;
 
     /**
      * Predefined sets of resources.  Can be nested to arbitrary depth.
@@ -168,27 +168,32 @@ class Assets
     private $collections;
 
     /**
-     * CSS assets to be processed
-     *
-     * @var string[][]
+     * Selected group for assets
+     * @var string
      */
-    private $css_assets = array();
+    private $group = self::GROUP_DEFAULT;
+
     /**
      * CSS assets to be processed
      *
      * @var string[][]
      */
-    private $all_assets = array();
+    private $cssAssets = array();
+    /**
+     * CSS assets to be processed
+     *
+     * @var string[][]
+     */
+    private $allAssets = array();
 
     /**
      * Javascript assets to be processed
      *
      * @var string[][]
      */
-    private $js_assets = array();
+    private $jsAssets = array();
 
-
-    private $callback_assets = array();
+    private $callbackAssets = array();
 
     /**
      * The filesystem corresponding to our public path.
@@ -205,8 +210,7 @@ class Assets
      */
     public function __construct(array $config, Filesystem $filesystem)
     {
-        $this
-            ->setEnabled($config['enabled'])
+        $this->setEnabled($config['enabled'])
             ->setCssSource($config['css_source'])
             ->setJsSource($config['js_source'])
             ->setDestination($config['destination'])
@@ -220,16 +224,17 @@ class Assets
             ->setCollections($config['collections']);
 
         $this->public = $filesystem;
+        $this->allAssets[$this->group] = [];
     }
 
     /**
-     * @param string $css_source
+     * @param string $cssSource
      *
      * @return Assets
      */
-    public function setCssSource($css_source)
+    public function setCssSource($cssSource)
     {
-        $this->css_source = trim($css_source, '/');
+        $this->cssSource = trim($cssSource, '/');
 
         return $this;
     }
@@ -239,17 +244,17 @@ class Assets
      */
     public function getCssSource()
     {
-        return $this->css_source;
+        return $this->cssSource;
     }
 
     /**
-     * @param string $js_source
+     * @param string $jsSource
      *
      * @return Assets
      */
-    public function setJsSource($js_source)
+    public function setJsSource($jsSource)
     {
-        $this->js_source = trim($js_source, '/');
+        $this->jsSource = trim($jsSource, '/');
 
         return $this;
     }
@@ -259,7 +264,7 @@ class Assets
      */
     public function getJsSource()
     {
-        return $this->js_source;
+        return $this->jsSource;
     }
 
     /**
@@ -285,13 +290,13 @@ class Assets
     /**
      * An (optional) absolute URL for fetching generated assets.
      *
-     * @param string $destination_url
+     * @param string $destinationUrl
      *
      * @return Assets
      */
-    public function setDestinationUrl($destination_url)
+    public function setDestinationUrl($destinationUrl)
     {
-        $this->destination_url = rtrim($destination_url, '/');
+        $this->destinationUrl = rtrim($destinationUrl, '/');
 
         return $this;
     }
@@ -301,17 +306,17 @@ class Assets
      */
     public function getDestinationUrl()
     {
-        return $this->destination_url;
+        return $this->destinationUrl;
     }
 
     /**
-     * @param FilterInterface[] $css_filters
+     * @param FilterInterface[] $cssFilters
      *
      * @return Assets
      */
-    public function setCssFilters(array $css_filters)
+    public function setCssFilters(array $cssFilters)
     {
-        $this->css_filters = $css_filters;
+        $this->cssFilters = $cssFilters;
 
         return $this;
     }
@@ -321,17 +326,17 @@ class Assets
      */
     public function getCssFilters()
     {
-        return $this->css_filters;
+        return $this->cssFilters;
     }
 
     /**
-     * @param FilterInterface[] $js_filters
+     * @param FilterInterface[] $jsFilters
      *
      * @return Assets
      */
-    public function setJsFilters(array $js_filters)
+    public function setJsFilters(array $jsFilters)
     {
-        $this->js_filters = $js_filters;
+        $this->jsFilters = $jsFilters;
 
         return $this;
     }
@@ -341,7 +346,7 @@ class Assets
      */
     public function getJsFilters()
     {
-        return $this->js_filters;
+        return $this->jsFilters;
     }
 
     /**
@@ -405,13 +410,13 @@ class Assets
     }
 
     /**
-     * @param int $inline_threshold
+     * @param int $inlineThreshold
      *
      * @return Assets
      */
-    public function setInlineThreshold($inline_threshold)
+    public function setInlineThreshold($inlineThreshold)
     {
-        $this->inline_threshold = (int)$inline_threshold;
+        $this->inlineThreshold = (int)$inlineThreshold;
 
         return $this;
     }
@@ -421,17 +426,17 @@ class Assets
      */
     public function getInlineThreshold()
     {
-        return $this->inline_threshold;
+        return $this->inlineThreshold;
     }
 
     /**
-     * @param int $gzip_static
+     * @param int $gzipStatic
      *
      * @return Assets
      */
-    public function setGzipStatic($gzip_static)
+    public function setGzipStatic($gzipStatic)
     {
-        $this->gzip_static = (int)$gzip_static;
+        $this->gzipStatic = (int)$gzipStatic;
 
         return $this;
     }
@@ -441,7 +446,7 @@ class Assets
      */
     public function getGzipStatic()
     {
-        return $this->gzip_static;
+        return $this->gzipStatic;
     }
 
     /**
@@ -486,38 +491,46 @@ class Assets
                 $this->add($a, $type, $group);
             }
         } elseif (is_string($type) and $type === self::TYPE_CSS || $type === self::TYPE_AUTO && preg_match(self::REGEX_CSS, $asset)) {
-            if (!in_array($asset, $this->css_assets[$group])) {
-                $this->css_assets[$group][] = $asset;
-                $this->all_assets[$group][] = $asset;
+            if (!in_array($asset, $this->cssAssets[$group])) {
+                $this->cssAssets[$group][] = $asset;
+                $this->allAssets[$group][] = $asset;
             }
-        } elseif (is_string($type) and  $type === self::TYPE_JS || $type === self::TYPE_AUTO && preg_match(self::REGEX_JS, $asset)) {
-            if (!in_array($asset, $this->js_assets[$group])) {
-                $this->js_assets[$group][] = $asset;
-                $this->all_assets[$group][] = $asset;
+        } elseif (is_string($type) and $type === self::TYPE_JS || $type === self::TYPE_AUTO && preg_match(self::REGEX_JS, $asset)) {
+            if (!in_array($asset, $this->jsAssets[$group])) {
+                $this->jsAssets[$group][] = $asset;
+                $this->allAssets[$group][] = $asset;
 
             }
-        } elseif (is_string($type) and  array_key_exists($asset, $this->collections)) {
+        } elseif (is_string($type) and array_key_exists($asset, $this->collections)) {
             $this->add($this->collections[$asset], $type, $group);
         } else {
-         //   dd(debug_backtrace(1));
+            //   dd(debug_backtrace(1));
             throw new InvalidArgumentException('Unknown asset type: ' . $asset);
         }
 
         return $this;
     }
 
-    public function all($group = self::GROUP_DEFAULT, array $attributes = [])
+    public function group($group = false)
     {
+        $this->group = $group;
 
-        $internal = $this->getInternalScripts();
+        return $this;
+    }
 
-        if(!$group){
-            $group = self::GROUP_DEFAULT;
+    public function all($group = false, array $attributes = [])
+    {
+        if (!$group) {
+            $group = $this->group;
         }
 
-        $return = $this->processAssets(
+        if (!isset($this->allAssets[$group])) {
+            return [];
+        }
+
+        return $this->processAssets(
             $attributes,
-            $this->all_assets[$group],
+            $this->allAssets[$group],
             false,
             false,
             false,
@@ -525,12 +538,6 @@ class Assets
             self::FORMAT_CSS_INLINE,
             $group
         );
-        if($group == self::GROUP_DEFAULT){
-            $return = $internal.$return;
-        }
-        if (isset($this->all_assets[$group])) {
-            return $return;
-        }
 
     }
 
@@ -541,7 +548,7 @@ class Assets
 
         $internals_js = array(
             mw()->template->get_apijs_settings_url(),
-         //   mw()->template->get_apijs_url()
+            //   mw()->template->get_apijs_url()
         );
 
 
@@ -567,7 +574,7 @@ class Assets
 
         return $this->processAssets(
             $attributes,
-            $this->css_assets[$group],
+            $this->cssAssets[$group],
             '.css',
             $this->getCssSource(),
             $this->getCssFilters(),
@@ -590,7 +597,7 @@ class Assets
 
         return $this->processAssets(
             $attributes,
-            $this->js_assets[$group],
+            $this->jsAssets[$group],
             '.js',
             $this->getJsSource(),
             $this->getJsFilters(),
@@ -615,12 +622,12 @@ class Assets
     private function processAssets(
         array $attributes,
         array $assets,
-        $extension,
-        $source_dir,
-        $filters,
-        $format_link,
-        $format_inline,
-        $group
+              $extension,
+              $source_dir,
+              $filters,
+              $format_link,
+              $format_inline,
+              $group
     )
     {
         $hashes = $assets;
@@ -636,9 +643,9 @@ class Assets
 
             $format = $format_link;
             if (!$format) {
-                if ($extension == 'js' or in_array($asset,$this->js_assets[$group])) {
+                if ($extension == 'js' or in_array($asset, $this->jsAssets[$group])) {
                     $format = self::FORMAT_JS_LINK;
-                } elseif ($extension == 'css' or in_array($asset,$this->css_assets[$group])) {
+                } elseif ($extension == 'css' or in_array($asset, $this->cssAssets[$group])) {
                     $format = self::FORMAT_CSS_LINK;
                 }
             }
@@ -692,8 +699,8 @@ class Assets
         }
 
         if ($this->isEnabled()) {
-            $inline_threshold = $this->getInlineThreshold();
-            if ($inline_threshold > 0 && $this->public->getSize($asset_file) <= $inline_threshold) {
+            $inlineThreshold = $this->getInlineThreshold();
+            if ($inlineThreshold > 0 && $this->public->getSize($asset_file) <= $inlineThreshold) {
                 return sprintf($format_inline, $this->public->read($asset_file));
             } else {
                 return $this->htmlLinks($url, [$hash], '.min' . $extension, $format_link, $attributes);
@@ -710,11 +717,11 @@ class Assets
      */
     private function checkGroupExists($group)
     {
-        if (!array_key_exists($group, $this->css_assets)) {
-            $this->css_assets[$group] = [];
+        if (!array_key_exists($group, $this->cssAssets)) {
+            $this->cssAssets[$group] = [];
         }
-        if (!array_key_exists($group, $this->js_assets)) {
-            $this->js_assets[$group] = [];
+        if (!array_key_exists($group, $this->jsAssets)) {
+            $this->jsAssets[$group] = [];
         }
     }
 
@@ -916,3 +923,4 @@ class Assets
         return $eligible && $file['timestamp'] <= $timestamp;
     }
 }
+
