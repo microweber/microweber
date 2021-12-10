@@ -164,7 +164,7 @@ class AdminController extends Controller
 
         // }
 
-        $layout = $this->app->template->append_api_js_to_layout($layout);
+      //  $layout = $this->app->template->append_api_js_to_layout($layout);
 
 
         $favicon_image = get_option('favicon_image', 'website');
