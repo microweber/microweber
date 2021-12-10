@@ -10,6 +10,9 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
+    <?php app()->assets->add('admin') ?>
+    <?php print app()->assets->all() ?>
+
     <script type="text/javascript">
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
