@@ -62,5 +62,26 @@ class AssetsTest extends TestCase
         $assetsAll = assets_all($randGroup);
         $this->assertNotEmpty($assetsAll);
 
+        // Add with callback array
+        $apiJsCombinedUrl = app()->template->get_apijs_combined_url();
+        assets_add_js(function() use($apiJsCombinedUrl) {
+            return [
+                $apiJsCombinedUrl
+           ];
+        }, $randGroup);
+        $assetsAll = assets_all($randGroup);
+        $this->assertNotEmpty($assetsAll);
+        $this->assertTrue(strpos($assetsAll, $apiJsCombinedUrl) !== false);
+
+        // Add with callback string
+        $apiJUrlRand = rand(1111,9999).time().'-rand-js-callback.js';
+        assets_add_js(function() use($apiJUrlRand) {
+            return $apiJUrlRand;
+        }, $randGroup);
+        $assetsAll = assets_all($randGroup);
+        $this->assertNotEmpty($assetsAll);
+        $this->assertTrue(strpos($assetsAll, $apiJUrlRand) !== false);
+
+
     }
 }

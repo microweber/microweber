@@ -475,6 +475,17 @@ class Assets
             foreach ($asset as $a) {
                 $this->add($a, $type, $group);
             }
+        } else if (is_closure($asset)) {
+            $response = call_user_func_array($asset, []);
+            if (!empty($response)) {
+                if (is_array($response)) {
+                    foreach ($response as $responseAsset) {
+                        $this->add($responseAsset, $type, $group);
+                    }
+                } else {
+                    $this->add($response, $type, $group);
+                }
+            }
         } elseif (is_string($type) and $type === self::TYPE_CSS || $type === self::TYPE_AUTO && preg_match(self::REGEX_CSS, $asset)) {
             if (!in_array($asset, $this->cssAssets[$group])) {
                 $this->cssAssets[$group][] = $asset;
