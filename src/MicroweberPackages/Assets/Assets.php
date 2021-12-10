@@ -8,29 +8,8 @@
 
 namespace MicroweberPackages\Assets;
 
-/**
- * laravel-assets: asset management for Laravel 5
- *
- * Copyright (c) 2017 Greg Roach
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 use InvalidArgumentException;
 use League\Flysystem\Filesystem;
-
 
 class Assets
 {
@@ -200,16 +179,20 @@ class Assets
      *
      * @var Filesystem
      */
-    private $public;
+    private $filesystem;
 
     /**
      * Create an asset manager.
      *
      * @param array $config The local config, merged with the default config
-     * @param Filesystem $filesystem The public filesystem, where we read/write assets
+     * @param Filesystem $filesystem The filesystem, where we read/write assets
      */
     public function __construct(array $config, Filesystem $filesystem)
     {
+        $this->config = $config;
+        $this->filesystem = $filesystem;
+        $this->allAssets[$this->group] = [];
+
         $this->setEnabled($config['enabled'])
             ->setCssSource($config['css_source'])
             ->setJsSource($config['js_source'])
@@ -222,9 +205,6 @@ class Assets
             ->setInlineThreshold($config['inline_threshold'])
             ->setGzipStatic($config['gzip_static'])
             ->setCollections($config['collections']);
-
-        $this->public = $filesystem;
-        $this->allAssets[$this->group] = [];
     }
 
     /**
@@ -478,10 +458,15 @@ class Assets
      *
      * @return Assets
      */
-    public function add($asset, $type = self::TYPE_AUTO, $group = self::GROUP_DEFAULT)
+    public function add($asset, $type = self::TYPE_AUTO, $group = false)
     {
         if (!$type) {
             $type = self::TYPE_AUTO;
+        }
+
+        if (!$group) {
+            $group = $this->group;
+            $this->group = self::GROUP_DEFAULT;
         }
 
         $this->checkGroupExists($group);
@@ -522,6 +507,7 @@ class Assets
     {
         if (!$group) {
             $group = $this->group;
+            $this->group = self::GROUP_DEFAULT;
         }
 
         if (!isset($this->allAssets[$group])) {
@@ -550,7 +536,6 @@ class Assets
             mw()->template->get_apijs_settings_url(),
             //   mw()->template->get_apijs_url()
         );
-
 
         foreach ($internals_js as $file) {
             $html_out .= '<script type="text/javascript" src="' . $file . '"></script>' . "\n";
@@ -635,7 +620,6 @@ class Assets
         $htmlLinksUrl = '';
         foreach ($assets as $asset) {
 
-
             $extension = get_file_extension($asset);
             if ($extension) {
                 $extension = strtolower($extension);
@@ -654,60 +638,8 @@ class Assets
 
         }
 
-
         return $htmlLinksUrl;
 
-
-        /*foreach ($assets as $asset) {
-            if ($this->isAbsoluteUrl($asset)) {
-                $hash = $this->hash($asset);
-            } else {
-                $hash = $this->hash($asset . $this->public->getTimestamp($source_dir . '/' . $asset));
-            }
-            if (!$this->public->has($path . '/' . $hash . $extension)) {
-                if ($this->isAbsoluteUrl($asset)) {
-                    $data = $this->getLoader()->loadUrl($asset);
-                } else {
-                    $data = $this->public->read($source_dir . '/' . $asset);
-                }
-                foreach ($filters as $filter) {
-                    $data = $filter->filter($data, $asset, $this);
-                }
-                $this->public->write($path . '/' . $hash . $extension, $data);
-                $this->public->write($path . '/' . $hash . '.min' . $extension, $data);
-            }
-            $hashes[] = $hash;
-        }
-
-        // The file name of our pipelined asset.
-        $hash = $this->hash(implode('', $hashes));
-        $asset_file = $path . '/' . $hash . '.min' . $extension;
-
-        $this->concatenateFiles($path, $hashes, $hash, $extension);
-        $this->concatenateFiles($path, $hashes, $hash, '.min' . $extension);
-
-        $this->createGzip($asset_file);
-
-        foreach ($this->notifiers as $notifier) {
-            $notifier->created($asset_file);
-        }
-
-        if ($this->getDestinationUrl() === '') {
-            $url = url($path);
-        } else {
-            $url = $this->getDestinationUrl();
-        }
-
-        if ($this->isEnabled()) {
-            $inlineThreshold = $this->getInlineThreshold();
-            if ($inlineThreshold > 0 && $this->public->getSize($asset_file) <= $inlineThreshold) {
-                return sprintf($format_inline, $this->public->read($asset_file));
-            } else {
-                return $this->htmlLinks($url, [$hash], '.min' . $extension, $format_link, $attributes);
-            }
-        } else {
-            return $this->htmlLinks($url, $hashes, $extension, $format_link, $attributes);
-        }*/
     }
 
     /**
@@ -735,12 +667,12 @@ class Assets
      */
     private function concatenateFiles($path, $sources, $destination, $extension)
     {
-        if (!$this->public->has($path . '/' . $destination . $extension)) {
+        if (!$this->filesystem->has($path . '/' . $destination . $extension)) {
             $data = '';
             foreach ($sources as $source) {
-                $data .= $this->public->read($path . '/' . $source . $extension);
+                $data .= $this->filesystem->read($path . '/' . $source . $extension);
             }
-            $this->public->write($path . '/' . $destination . $extension, $data);
+            $this->filesystem->write($path . '/' . $destination . $extension, $data);
         }
     }
 
@@ -765,10 +697,10 @@ class Assets
     {
         $gzip = $this->getGzipStatic();
 
-        if ($gzip >= 1 && $gzip <= 9 && function_exists('gzcompress') && !$this->public->has($path . '.gz')) {
-            $content = $this->public->read($path);
+        if ($gzip >= 1 && $gzip <= 9 && function_exists('gzcompress') && !$this->filesystem->has($path . '.gz')) {
+            $content = $this->filesystem->read($path);
             $content_gz = gzcompress($content, $gzip);
-            $this->public->write($path . '.gz', $content_gz);
+            $this->filesystem->write($path . '.gz', $content_gz);
         }
     }
 
@@ -897,12 +829,12 @@ class Assets
     {
         $days = (int)$command->option('days');
         $verbose = (bool)$command->option('verbose');
-        $files = $this->public->listContents($this->getDestination(), true);
+        $files = $this->filesystem->listContents($this->getDestination(), true);
         $timestamp = time() - $days * 86400;
 
         foreach ($files as $file) {
             if ($this->needsPurge($file, $timestamp)) {
-                $this->public->delete($file['path']);
+                $this->filesystem->delete($file['path']);
                 $command->info('Deleted: ' . $file['path']);
             } elseif ($verbose) {
                 $command->info('Keeping: ' . $file['path']);
