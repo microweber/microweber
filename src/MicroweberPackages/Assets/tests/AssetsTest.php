@@ -103,5 +103,15 @@ class AssetsTest extends TestCase
         $this->assertTrue(strpos($assetsAll, 'rand-css-stack.css') !== false);
         $this->assertTrue(strpos($assetsAll, 'rand-js-stack.js') !== false);
 
+        // Prepend css js
+        assets_prepend('prepended.css', $randGroupCssJsStack);
+        $assetsAll = assets_all($randGroupCssJsStack);
+        preg_match_all('/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/', $assetsAll, $matches);
+
+        $this->assertEquals('prepended.css', $matches[0][0]);
+        $this->assertEquals('rand-css-stack.css', $matches[0][1]);
+        $this->assertEquals('rand-js-stack.js', $matches[0][2]);
+
+
     }
 }

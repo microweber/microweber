@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Assets;
 
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use League\Flysystem\Filesystem;
 
@@ -449,6 +450,11 @@ class Assets
         return $this->collections;
     }
 
+    public function prepend($asset, $type = self::TYPE_AUTO, $group = false)
+    {
+        return $this->add($asset, $type, $group, true);
+    }
+
     /**
      * Add one or more assets.
      *
@@ -458,7 +464,7 @@ class Assets
      *
      * @return Assets
      */
-    public function add($asset, $type = self::TYPE_AUTO, $group = false)
+    public function add($asset, $type = self::TYPE_AUTO, $group = false, $prepend = false)
     {
         if (!$type) {
             $type = self::TYPE_AUTO;
@@ -497,13 +503,24 @@ class Assets
             }
         } elseif (is_string($type) and $type === self::TYPE_CSS || $type === self::TYPE_AUTO && preg_match(self::REGEX_CSS, $asset)) {
             if (!in_array($asset, $this->cssAssets[$group])) {
-                $this->cssAssets[$group][] = $asset;
-                $this->allAssets[$group][] = $asset;
+
+                if ($prepend) {
+                    $this->cssAssets[$group] = Arr::prepend($this->cssAssets[$group], $asset);
+                    $this->allAssets[$group] = Arr::prepend($this->allAssets[$group], $asset);
+                } else {
+                    $this->cssAssets[$group][] = $asset;
+                    $this->allAssets[$group][] = $asset;
+                }
             }
         } elseif (is_string($type) and $type === self::TYPE_JS || $type === self::TYPE_AUTO && preg_match(self::REGEX_JS, $asset)) {
             if (!in_array($asset, $this->jsAssets[$group])) {
-                $this->jsAssets[$group][] = $asset;
-                $this->allAssets[$group][] = $asset;
+                if ($prepend) {
+                    $this->jsAssets[$group] = Arr::prepend($this->jsAssets[$group], $asset);
+                    $this->allAssets[$group] = Arr::prepend($this->allAssets[$group], $asset);
+                } else {
+                    $this->jsAssets[$group][] = $asset;
+                    $this->allAssets[$group][] = $asset;
+                }
 
             }
         } elseif (is_string($type) and array_key_exists($asset, $this->collections)) {
