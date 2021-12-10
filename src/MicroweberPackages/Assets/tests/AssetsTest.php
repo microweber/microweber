@@ -112,6 +112,5 @@ class AssetsTest extends TestCase
         $this->assertEquals('rand-css-stack.css', $matches[0][1]);
         $this->assertEquals('rand-js-stack.js', $matches[0][2]);
 
-
     }
 }
