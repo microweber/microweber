@@ -27,10 +27,7 @@ namespace MicroweberPackages\Assets;
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Fisharebest\LaravelAssets\Commands\Purge;
-use Fisharebest\LaravelAssets\Filters\FilterInterface;
-use Fisharebest\LaravelAssets\Loaders\LoaderInterface;
-use Fisharebest\LaravelAssets\Notifiers\NotifierInterface;
+
 use InvalidArgumentException;
 use League\Flysystem\Filesystem;
 
@@ -72,7 +69,7 @@ class Assets
     /**
      * File group options.  Most sites will only use the default group.
      */
-    const GROUP_DEFAULT = '';
+    const GROUP_DEFAULT = 'default';
 
     /**
      * Format HTML links using printf()
@@ -514,7 +511,9 @@ class Assets
 
         $internal = $this->getInternalScripts();
 
-
+        if(!$group){
+            $group = self::GROUP_DEFAULT;
+        }
 
         $return = $this->processAssets(
             $attributes,
@@ -537,7 +536,6 @@ class Assets
 
     public function getInternalScripts()
     {
-        return '';
 
         $html_out = '';
 

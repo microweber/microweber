@@ -86,7 +86,8 @@
         "enshrined/svg-sanitize": "0.14.1",
         "laravel/dusk": "6.x-dev",
         "tightenco/ziggy": "dev-main",
-        "laravel/sail": "1.x-dev"
+        "laravel/sail": "1.x-dev",
+        "fisharebest/laravel-assets": "dev-main"
 
     },
     "require-dev": {

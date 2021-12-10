@@ -145,11 +145,8 @@ return [
         ],
 
         'admin' => [
-
             'mw-ui',
             'jquery-ui',
-
-
             asset('userfiles/modules/microweber/api/dist/admin-libs.js'),
             asset('userfiles/modules/microweber/api/dist/admin.js'),
             asset('userfiles/modules/microweber/api/dist/editor.js'),
