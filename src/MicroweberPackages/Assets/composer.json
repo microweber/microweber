@@ -1,0 +1,33 @@
+{
+    "name": "microweber-packages/microweber-assets",
+    "description": "Microweber Assets.",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Assets\\": "src/"
+        },
+        "files": [
+            "functions/helpers.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "homepage": "http://microweber.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}
