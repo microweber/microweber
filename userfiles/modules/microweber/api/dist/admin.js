@@ -2171,15 +2171,7 @@ $(window).on('load', function () {
     mw.components._init();
 });
 
-    mw.on('ComponentsLaunch', function () {
-        mw.components._init();
-    });
 
-    mw.on('mwDialogShow', function () {
-        setTimeout(function () {
-            mw.components._init();
-        }, 110);
-    });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {
@@ -2433,7 +2425,6 @@ mw.custom_fields = {
 /***/ (function() {
 
 
-mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; };
 
 mw.on = function(eventName, callback){
     eventName = eventName.trim();
@@ -2509,7 +2500,7 @@ mw._on = {
         index = mw.on._hashparams.indexOf(param);
 
         if(index !== -1){
-          var hash = mw.hash();
+          var hash = location.hash;
           var params = mw.url.getHashParams(hash);
 
           if (typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined) {
@@ -2525,7 +2516,7 @@ mw._on = {
     }
 },
 hashParamEventInit:function(){
-  var hash = mw.hash();
+  var hash = location.hash;
   var params = mw.url.getHashParams(hash);
 
   if(hash==='' || hash==='#' || hash ==='#?'){
@@ -2741,7 +2732,7 @@ $(window).on("hashchange load", function(event){
 
     mw.on.hashParamEventInit();
 
-   var hash =  mw.hash();
+   var hash =  location.hash;
 
    var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
    if (isMWHash) {
@@ -2760,7 +2751,7 @@ $(window).on("hashchange load", function(event){
 
 
    if (event.type === 'hashchange') {
-     mw.hashHistory.push(mw.hash());
+     mw.hashHistory.push(location.hash);
      var size = mw.hashHistory.length;
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if (l>0) {
@@ -2845,7 +2836,15 @@ mw.event = {
 
 
 
+mw.on('ComponentsLaunch', function () {
+    mw.components._init();
+});
 
+mw.on('mwDialogShow', function () {
+    setTimeout(function () {
+        mw.components._init();
+    }, 110);
+});
 
 
 
@@ -5985,17 +5984,17 @@ mw.url = {
     },
     setHashParam:function(param, value, hash){
 
-      var hash = hash || mw.hash();
+      var hash = hash || location.hash;
       var obj = mw.url.getHashParams(hash);
       obj[param] = value;
       return mw.url.hashStart + decodeURIComponent(json2url(obj));
     },
     windowHashParam:function(a,b){
       if(b !== undefined){
-        mw.hash(mw.url.setHashParam(a,b));
+        location.hash = (mw.url.setHashParam(a,b));
       }
       else{
-        return mw.url.getHashParams(mw.hash())[a];
+        return mw.url.getHashParams(location.hash)[a];
       }
     },
     deleteHashParam:function(hash, param){
@@ -6005,7 +6004,7 @@ mw.url = {
         return params_string;
     },
     windowDeleteHashParam:function(param){
-       mw.hash(mw.url.deleteHashParam(window.location.hash, param));
+       location.hash = (mw.url.deleteHashParam(window.location.hash, param));
     },
     whichHashParamsHasBeenRemoved:function(currHash, prevHash){
         var curr = mw.url.getHashParams(currHash);
@@ -10766,9 +10765,9 @@ mw.dropdown = mw.tools.dropdown;
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings.content instanceof MWElement) {
+                } else if(this.settings && this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                }  else if(this.settings && typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
                 }else {
                     var el = this._asdom(options);
@@ -11915,13 +11914,12 @@ $.fn.reload_module = function (c) {
         if (a === undefined) {
             return false
         }
-        var b = b || function () {
-            };
+        b = b || function () { };
         return this.each(function () {
             if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
                 this.cmactivated = true;
-                mw.$(this).bind("change", function () {
-                    this.checked === true ? a.call(this) : b.call(this);
+                mw.$(this).on("change", function () {
+                    this.checked ? a.call(this) : b.call(this);
                 });
             }
         });
@@ -15995,8 +15993,8 @@ mw.Spinner = function(options){
         return;
     }
     this.$element = mw.element(options.element);
-    if(!this.$element.length) return;
-    this.element = this.$element[0];
+    // if(!this.$element.length) return;
+    this.element = this.$element.get(0);
     if(this.element._mwSpinner){
         return this.element._mwSpinner;
     }
@@ -16034,11 +16032,14 @@ mw.Spinner = function(options){
     }
 
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
-        this.size(this.options.size);
-        this.color(this.options.color);
-        this.$element[this.options.insertMode](this.$spinner);
-        this.show();
+        if(this.element) {
+            this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle><path class="mw-spinner-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg></div>');
+            this.size(this.options.size);
+            this.color(this.options.color);
+            this.$element[this.options.insertMode](this.$spinner);
+            this.show();
+        }
+
         return this;
     };
 

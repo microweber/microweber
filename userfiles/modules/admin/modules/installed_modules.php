@@ -13,7 +13,7 @@
             el.setAttribute('onclick', 'mw.url.windowHashParam("category",' + id + ');return false;');
         });
 
-        var h = mw.hash();
+        var h = location.hash;
 
         if (h === '' || h === '#' || h === '#?') {
             _modulesSort();

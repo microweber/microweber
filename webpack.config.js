@@ -14,13 +14,16 @@ const input = `${dir}`;
 const css = `${dir}/../css`;
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WrapperPlugin = require('wrapper-webpack-plugin');
+
 
 
 
 const core = [
+    'core',
     'tools',
     'tools/core-tools',
-    'core',
+
     'system'
 ];
 
@@ -90,7 +93,8 @@ const config = {
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css"
-        })
+        }),
+
     ],
     output: {
         filename: '[name]',

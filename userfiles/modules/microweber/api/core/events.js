@@ -1,5 +1,4 @@
 
-mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; };
 
 mw.on = function(eventName, callback){
     eventName = eventName.trim();
@@ -75,7 +74,7 @@ mw._on = {
         index = mw.on._hashparams.indexOf(param);
 
         if(index !== -1){
-          var hash = mw.hash();
+          var hash = location.hash;
           var params = mw.url.getHashParams(hash);
 
           if (typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined) {
@@ -91,7 +90,7 @@ mw._on = {
     }
 },
 hashParamEventInit:function(){
-  var hash = mw.hash();
+  var hash = location.hash;
   var params = mw.url.getHashParams(hash);
 
   if(hash==='' || hash==='#' || hash ==='#?'){
@@ -307,7 +306,7 @@ $(window).on("hashchange load", function(event){
 
     mw.on.hashParamEventInit();
 
-   var hash =  mw.hash();
+   var hash =  location.hash;
 
    var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
    if (isMWHash) {
@@ -326,7 +325,7 @@ $(window).on("hashchange load", function(event){
 
 
    if (event.type === 'hashchange') {
-     mw.hashHistory.push(mw.hash());
+     mw.hashHistory.push(location.hash);
      var size = mw.hashHistory.length;
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if (l>0) {
@@ -411,7 +410,15 @@ mw.event = {
 
 
 
+mw.on('ComponentsLaunch', function () {
+    mw.components._init();
+});
 
+mw.on('mwDialogShow', function () {
+    setTimeout(function () {
+        mw.components._init();
+    }, 110);
+});
 
 
 

@@ -534,7 +534,7 @@ var MWEditor = function (options) {
                 var media = item.media;
                 if(media) {
                     var match = scope.document.defaultView.matchMedia(media);
-                    item.el.$node[match.matches ? 'addClass' : 'removeClass']('mw-editor-control-group-media-matches');
+                    item.el[match.matches ? 'addClass' : 'removeClass']('mw-editor-control-group-media-matches');
                 }
             }
         };
