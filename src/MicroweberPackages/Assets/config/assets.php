@@ -107,11 +107,6 @@ return [
     // the order in which they are loaded.  Hence each collection should specify
     // its dependencies before its own files.
     'collections' => [
-        'apijs' => [
-            'js' => [function () {
-                return app()->template->get_apijs_combined_url();
-            }]
-        ],
         'bootstrap' => 'bootstrap4',
         'bootstrap3' => [
             'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css',
@@ -150,7 +145,6 @@ return [
         ],
 
         'admin' => [
-            'apijs',
             'mw-ui',
             'jquery-ui',
             asset('userfiles/modules/microweber/api/dist/admin-libs.js'),

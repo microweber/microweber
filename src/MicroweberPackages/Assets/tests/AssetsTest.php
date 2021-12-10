@@ -92,5 +92,16 @@ class AssetsTest extends TestCase
         $this->assertNotEmpty($assetsAll);
         $this->assertTrue(strpos($assetsAll, $apiJUrlRand) !== false);
 
+        // Add with css js stack callback
+        $randGroupCssJsStack = rand(1111,9999).time().'-rand-css-js-stack';
+        assets_add([
+            'js'=>['rand-js-stack.js'],
+            'css'=>['rand-css-stack.css'],
+        ], $randGroupCssJsStack);
+        $assetsAll = assets_all($randGroupCssJsStack);
+        $this->assertNotEmpty($assetsAll);
+        $this->assertTrue(strpos($assetsAll, 'rand-css-stack.css') !== false);
+        $this->assertTrue(strpos($assetsAll, 'rand-js-stack.js') !== false);
+
     }
 }

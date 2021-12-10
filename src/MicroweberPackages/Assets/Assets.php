@@ -472,8 +472,17 @@ class Assets
         $this->checkGroupExists($group);
 
         if (is_array($asset)) {
-            foreach ($asset as $a) {
-                $this->add($a, $type, $group);
+            if (isset($asset['css']) || isset($asset['js'])) {
+                if (isset($asset['css'])) {
+                    $this->add($asset['css'], 'css', $group);
+                }
+                if (isset($asset['js'])) {
+                    $this->add($asset['js'], 'js', $group);
+                }
+            } else {
+                foreach ($asset as $a) {
+                    $this->add($a, $type, $group);
+                }
             }
         } else if (is_closure($asset)) {
             $response = call_user_func_array($asset, []);
