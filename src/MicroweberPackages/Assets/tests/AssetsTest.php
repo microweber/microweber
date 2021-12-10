@@ -56,5 +56,11 @@ class AssetsTest extends TestCase
         // After call group function must be autocleared on new instance
         $assetsAll = assets_all();
         $this->assertEmpty($assetsAll); // This must be empty
+
+        // Add to global group
+        assets_add(['admin','mw-ui'], $randGroup);
+        $assetsAll = assets_all($randGroup);
+        $this->assertNotEmpty($assetsAll);
+
     }
 }
