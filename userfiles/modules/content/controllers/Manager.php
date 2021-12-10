@@ -133,7 +133,7 @@ class Manager
         $posts_mod['paging_param'] = 'pg';
 
 
-        $posts_mod['orderby'] = 'position desc';
+        $posts_mod['orderby'] = 'created_at desc';
         if (isset($params['data-order'])) {
             $posts_mod['orderby'] = $params['data-order'];
         }
@@ -181,7 +181,7 @@ class Manager
 
         $posts_mod['no_cache'] = 1;
         $posts_mod['limit'] = 15;
-
+        
         $data = $this->provider->get($posts_mod);
 
          if (empty($data) and isset($posts_mod['page'])) {

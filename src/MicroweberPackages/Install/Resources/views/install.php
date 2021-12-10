@@ -13,8 +13,14 @@
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-    <script src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
-    <script src="<?php print mw()->template->get_apijs_url(); ?>"></script>
+
+
+    <?php app()->assets->add('admin') ?>
+
+    <?php print app()->assets->all() ?>
+
+
+
     <script src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
 
