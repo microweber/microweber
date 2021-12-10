@@ -83,5 +83,14 @@ class AssetsTest extends TestCase
         $this->assertTrue(strpos($assetsAll, $apiJUrlRand) !== false);
 
 
+        // Add CSS with callback string
+        $apiJUrlRand = rand(1111,9999).time().'-rand-css-callback.css';
+        assets_add_css(function() use($apiJUrlRand) {
+            return $apiJUrlRand;
+        }, $randGroup);
+        $assetsAll = assets_all($randGroup);
+        $this->assertNotEmpty($assetsAll);
+        $this->assertTrue(strpos($assetsAll, $apiJUrlRand) !== false);
+
     }
 }
