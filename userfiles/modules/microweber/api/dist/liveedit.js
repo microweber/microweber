@@ -9089,6 +9089,11 @@ mw._activeModuleOver = {
     element: null
 };
 
+if(!mw._xhrIcons) {
+    mw._xhrIcons = {}
+}
+
+
 mw._initHandles = {
     getNodeHandler:function (node) {
         if(mw._activeElementOver === node){
@@ -9300,6 +9305,7 @@ mw._initHandles = {
                     title: 'Edit Style',
                     icon: 'mdi mdi-layers',
                     action: function () {
+                        mw.liveEditSelector.select(mw._activeElementOver);
                         mw.liveEditSettings.show();
                         mw.sidebarSettingsTabs.set(3);
                         if(mw.cssEditorSelector){
@@ -9328,9 +9334,7 @@ mw._initHandles = {
             ]
         });
 
-        mw.$(mw.handleElement.wrapper).on('mouseenter', function () {
-            mw.liveEditSelector.select(mw._activeElementOver);
-        });
+
         mw.$(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {
@@ -12461,10 +12465,10 @@ mw.Selector = function(options) {
         var sbottom = this.document.createElement('div');
         var sleft = this.document.createElement('div');
 
-        stop.className = 'mw-selector mw-selector-top';
-        sright.className = 'mw-selector mw-selector-right';
-        sbottom.className = 'mw-selector mw-selector-bottom';
-        sleft.className = 'mw-selector mw-selector-left';
+        stop.className = 'mw-selector mw-selector-type-active mw-selector-top';
+        sright.className = 'mw-selector mw-selector-type-active mw-selector-right';
+        sbottom.className = 'mw-selector mw-selector-type-active mw-selector-bottom';
+        sleft.className = 'mw-selector mw-selector-type-active mw-selector-left';
 
         this.document.body.appendChild(stop);
         this.document.body.appendChild(sright);
@@ -17978,7 +17982,7 @@ mw.moduleSettings = function(options){
             e.stopPropagation();
             e.preventDefault();
             var el = this;
-            mw.confirm(function () {
+            mw.confirm('Are you sure you want to delete this item?', function () {
                 $(mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-module-settings-box'])).remove();
                 scope.refactorDomPosition();
                 scope.autoSave();

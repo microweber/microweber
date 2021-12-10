@@ -7756,7 +7756,7 @@ mw.moduleSettings = function(options){
             e.stopPropagation();
             e.preventDefault();
             var el = this;
-            mw.confirm(function () {
+            mw.confirm('Are you sure you want to delete this item?', function () {
                 $(mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-module-settings-box'])).remove();
                 scope.refactorDomPosition();
                 scope.autoSave();
