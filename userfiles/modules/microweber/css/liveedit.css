@@ -4554,7 +4554,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-inline-source-editor {
-    z-index: 99;
+    z-index: 1001;
     position: fixed;
     background-color: white;
     transition: opacity .3s;
