@@ -7228,11 +7228,12 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-interactor {
   background: #C4D6E8;
-  z-index: 1001;
+  z-index: 1000;
 }
-.mw-selector-bottom,
-.mw-selector-top {
-  z-index: 1002;
+.mw-selector.mw-selector-type-active {
+  width: 2px;
+  height: 2px;
+  z-index: 1001;
 }
 .mw-selector-top:before {
   top: 0px;
@@ -7292,7 +7293,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   justify-content: space-between;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/upload_image.png');
+  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
   width: 70px;
   height: 55px;
   background-size: contain;

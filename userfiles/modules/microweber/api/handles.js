@@ -505,6 +505,7 @@ mw._initHandles = {
                     title: 'Edit Style',
                     icon: 'mdi mdi-layers',
                     action: function () {
+                        mw.liveEditSelector.select(mw._activeElementOver);
                         mw.liveEditSettings.show();
                         mw.sidebarSettingsTabs.set(3);
                         if(mw.cssEditorSelector){
@@ -533,9 +534,7 @@ mw._initHandles = {
             ]
         });
 
-        mw.$(mw.handleElement.wrapper).on('mouseenter', function () {
-            mw.liveEditSelector.select(mw._activeElementOver);
-        });
+
         mw.$(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {

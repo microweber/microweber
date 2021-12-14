@@ -135,18 +135,14 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         $moduleCategories['other'] = $moduleCategoriesOther;
     }
 
-    $mods = $allowMods;
+    $modsOriginal = $allowMods;
+    array_multisort(array_column($modsOriginal, 'name'), SORT_NATURAL, $allowMods);
 
     $upds = false;
-
     if(!$show_by_categories){
         $moduleCategories= [];
         $moduleCategories['all'] = $allowMods;
-
     }
-
-
-
     ?>
 
     <script>mw.lib.require('mwui_init');</script>

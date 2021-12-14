@@ -35,7 +35,7 @@ if (isset($params['content_id'])) {
 
         $data_content_fields_curr = db_get($db_get_params3);
 
- 
+
 
 
     } else {
@@ -118,8 +118,7 @@ if (isset($params['content_id'])) {
     </script>
 
 
-    <link rel="stylesheet" type="text/css"
-          href="<?php print $config['url_to_module'] ?>styles.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>styles.css"/>
 <?php if ($data) { ?>
     <?php foreach ($data as $item) { ?>
 
