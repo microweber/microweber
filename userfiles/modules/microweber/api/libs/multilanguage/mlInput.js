@@ -50,9 +50,13 @@
                         outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';
                         for (var i = 0; i < locales.length; i++) {
                             var localeIcon = locales[i];
-                            localeIcon = localeIcon.split('_');
-                            localeIcon = localeIcon[1];
-                            localeIcon = localeIcon.toLowerCase();
+                            var localeIconSplit = localeIcon.split('_');
+
+                            if (typeof localeIconSplit[1] !== 'undefined') {
+                                localeIcon = localeIconSplit[1];
+                                localeIcon = localeIcon.toLowerCase();
+                            }
+
                             outputHtml += '<option data-icon="flag-icon flag-icon-'+localeIcon+'" value="'+locales[i]+'">' + locales[i].toUpperCase() + '</option>';
                         }
                         outputHtml += '</select>';
