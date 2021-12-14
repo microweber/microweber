@@ -7,7 +7,11 @@ const rangeWalker = (range, doc) => {
     let el = range.startContainer;
     let elsToVisit = true;
 
+    var count = 0;
+
     while (elsToVisit) {
+        count++;
+
         let startOffset = el === range.startContainer ? range.startOffset : 0;
         let endOffset = el === range.endContainer ? range.endOffset : el.textContent.length;
         let r = doc.createRange();
@@ -17,6 +21,8 @@ const rangeWalker = (range, doc) => {
         elsToVisit = false;
 
         while (!elsToVisit && el !== range.endContainer) {
+            count++;
+
 
             let nextEl = getFirstTextNode(el.nextSibling);
             if (nextEl) {
@@ -34,7 +40,7 @@ const rangeWalker = (range, doc) => {
             }
         }
     }
-
+    console.log(count)
     return ranges;
 }
 const getFirstTextNode = el => {
@@ -508,11 +514,7 @@ MWEditor.api = function (scope) {
             let ranges = rangeWalker(range, scope.executionDocument);
 
             console.log(ranges.length)
-if(ranges.length > 999){
-    return
-}
 
-            ;
             if(styles || className) {
                 ranges.forEach(range => {
                     if(options.rangeModify) {
@@ -527,12 +529,12 @@ if(ranges.length > 999){
 
 
             setTimeout(function (){
-                console.log('start')
-                var tr = Array.from(scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty'));
+                 var tr = Array.from(scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty'));
 
 
                 while(tr[0]) {
                     tr[0].remove()
+                    tr.splice(0, 1)
                 }
                 var all = scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier .mw-richtext-cssApplier');
                 var i = 0; var l = all.length;
