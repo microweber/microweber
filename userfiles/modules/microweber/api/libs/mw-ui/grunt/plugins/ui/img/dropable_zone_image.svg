@@ -1,1 +1,10 @@
-<svg id="Background_Complete" data-name="Background Complete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62.31 47.15"><defs><style>.cls-1{fill:none;stroke:#f5f5f5;stroke-miterlimit:10;}.cls-2{fill:#ebebeb;}</style></defs><rect class="cls-1" x="8.04" y="-7.06" width="46" height="61.2" transform="translate(7.55 54.56) rotate(-89.87)"/><polygon class="cls-2" points="0.56 46.5 21.96 17.9 35.16 35.9 44.16 26.3 61.76 46.6 0.56 46.5"/><path class="cls-2" d="M40.75,14.47A4.8,4.8,0,1,1,36,9.67,4.68,4.68,0,0,1,40.75,14.47Z" transform="translate(0.11 0.04)"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 10.4 7.6" style="enable-background:new 0 0 10.4 7.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#EBEBEB;}
+</style>
+<path class="st0" d="M9.4,0.2H1.1c-0.5,0-0.9,0.4-0.9,0.9v5.4c0,0.5,0.4,0.9,0.9,0.9h8.3c0.5,0,0.9-0.4,0.9-0.9V1.1
+	C10.3,0.6,9.9,0.2,9.4,0.2 M9.8,6.9H0.6V0.8h9.2V6.9 M6.8,2.7l-2.3,3L3,3.7l-2.3,3h9L6.8,2.7z"/>
+</svg>
