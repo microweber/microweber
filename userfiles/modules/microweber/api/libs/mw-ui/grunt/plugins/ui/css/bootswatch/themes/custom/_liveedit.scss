@@ -575,5 +575,10 @@
 }
 
 .mwiconlist-icon {
-    background-color: #1b1c1d !important;
+    background-color: $body-bg!important;
+
+    &:hover, &:active {
+        background-color: $primary!important;
+
+    }
 }
