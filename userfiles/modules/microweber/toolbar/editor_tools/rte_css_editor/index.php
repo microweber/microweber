@@ -2,6 +2,10 @@
 <div id="domtree"></div>
 
 <style>
+    html,body{
+        overflow: hidden;
+        overflow-y: hidden;
+    }
     #css-editor-root .mw-accordion-title{
         font-weight: bold;
     }
