@@ -506,7 +506,13 @@ mw.drag = {
                         if (moduleEl) {
                             mw.trigger("ModuleClick", [moduleEl, event]);
                         }
-                    }
+
+
+                        if((!el && !safeEl && !moduleEl) || target.nodeName !== 'IMG') {
+                            mw.$(mw.image_resizer).removeClass('active')                        }
+                    } else {
+                         mw.$(mw.image_resizer).removeClass('active')
+                     }
 
                     if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element', 'module'])) {
                         if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
@@ -522,11 +528,14 @@ mw.drag = {
                     } else if (mw.tools.hasParentsWithClass(target, 'mw_item')) {
                         mw.trigger("ItemClick", mw.$(target).parents(".mw_item")[0]);
                     }
+                    mw.image_resizer._hide();
                     if (target.tagName === 'IMG' && mw.tools.hasParentsWithClass(target, 'edit')) {
                         var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                         if ((order.module == -1) || (order.edit > -1 && order.edit < order.module)) {
                             if (!mw.tools.hasParentsWithClass(target, 'mw-defaults')) {
-                                mw.trigger("ImageClick", target);
+                                // mw.trigger("ImageClick", target);
+                            } else {
+                                mw.image_resizer._hide();
                             }
                             mw.wysiwyg.select_element(target);
                         }

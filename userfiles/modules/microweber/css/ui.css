@@ -2806,6 +2806,7 @@ html.mw-loading:after {
   font-size: 22px !important;
   border-radius: 3px;
   background-color: white;
+  width: 12%;
   color: #939393;
   display: inline-block;
   cursor: pointer;
@@ -2814,6 +2815,10 @@ html.mw-loading:after {
 .mwiconlist-icon svg {
   width: 35px !important;
   height: 35px !important;
+}
+.mw-icon-selector-paging {
+  display: block;
+  width: 100%;
 }
 .mwiconlist-settings-section-block-item .mw-field {
   width: 100%;
