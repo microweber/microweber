@@ -6,6 +6,11 @@
         overflow: hidden;
         overflow-y: hidden;
     }
+    #css-editor-root .mw-accordion-title svg{
+        width:21px;
+        height: 21px;
+        margin-inline-end: 8px;
+    }
     #css-editor-root .mw-accordion-title{
         font-weight: bold;
     }
@@ -62,7 +67,17 @@
             });
         }, 700);
 
-       
+       $('.rte_css_editor_svg').each(function (img){
+           (function (img){
+
+               $.get(img.src, function (data){
+                   console.dir(data)
+                    $(img).replaceWith(data.all[0])
+               })
+           })(this)
+       })
+
+
     })
 
 </script>
@@ -1287,7 +1302,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 </mw-accordion-item>
         <mw-accordion-item id="classtags-accordion">
 
-            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" data-src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
+            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>
