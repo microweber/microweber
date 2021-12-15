@@ -71,7 +71,7 @@
            (function (img){
 
                $.get(img.src, function (data){
-                   console.dir(data)
+                  
                     $(img).replaceWith(data.all[0])
                })
            })(this)
