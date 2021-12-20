@@ -3343,8 +3343,6 @@ const rangeWalker = (range, doc) => {
 
         while (!elsToVisit && el !== range.endContainer) {
             count++;
-
-
             let nextEl = getFirstTextNode(el.nextSibling);
             if (nextEl) {
                 el = nextEl;
@@ -3361,7 +3359,7 @@ const rangeWalker = (range, doc) => {
             }
         }
     }
-    console.log(count)
+
     return ranges;
 }
 const getFirstTextNode = el => {
@@ -3369,7 +3367,7 @@ const getFirstTextNode = el => {
     if (el.nodeType === 3)  return el;
 
     for (let child of el.childNodes) {
-        if (child.nodeType === 3) {
+        if (child.nodeType === 3 && !!child.textContent) {
             return child;
         }
         else {
@@ -3831,10 +3829,11 @@ MWEditor.api = function (scope) {
             }
             let sel = scope.getSelection();
             let el = scope.api.elementNode(sel.focusNode);
+            let cac = sel.getRangeAt(0).commonAncestorContainer;
             let range = sel.getRangeAt(0);
             let ranges = rangeWalker(range, scope.executionDocument);
 
-            console.log(ranges.length)
+
 
             if(styles || className) {
                 ranges.forEach(range => {
@@ -3849,7 +3848,7 @@ MWEditor.api = function (scope) {
             }
 
 
-            setTimeout(function (){
+            /*setTimeout(function (){
                  var tr = Array.from(scope.actionWindow.document.querySelectorAll('.mw-richtext-cssApplier:empty'));
 
 
@@ -3862,10 +3861,11 @@ MWEditor.api = function (scope) {
                 for ( ; i < l;  i++ ) {
                     if(all[i].outerHTML === all[i].parentNode.innerHTML) {
                         all[i].parentNode.parentNode.replaceChild(all[i], all[i].parentNode);
-                        return;
+                        break;
                     }
                 }
-            }, 100)
+            }, 100)*/
+            cac.parentElement.normalize()
 
         },
         _old_cssApplier: function (options) {
@@ -4257,7 +4257,8 @@ MWEditor.core = {
             }
         }).on('mousedown touchstart', function (){
 
-            valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1
+            valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1;
+            console.log(valueNode.get(0).value)
             scope.dispatch('change', scope.value())
         });
         this.root.append(minus)

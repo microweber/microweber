@@ -146,7 +146,8 @@ MWEditor.core = {
             }
         }).on('mousedown touchstart', function (){
 
-            valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1
+            valueNode.get(0).value =  parseFloat(valueNode.get(0).value) + 1;
+            console.log(valueNode.get(0).value)
             scope.dispatch('change', scope.value())
         });
         this.root.append(minus)
