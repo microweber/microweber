@@ -224,7 +224,7 @@ mw.live_edit.getModuleIcon = function (module_type) {
         return '<span class="mw-handle-handler-title">'+mw.live_edit.registry[module_type].title+'</span>';
     }*/
     else {
-        return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
+        return '<span class="mdi mdi-drag" style="font-size: 20px;"></span>&nbsp;&nbsp;';
     }
 };
 mw.live_edit.getModuleTitle = function (module_type) {
