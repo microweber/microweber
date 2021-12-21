@@ -1176,6 +1176,7 @@ class FrontendController extends Controller
             }
             $custom_live_edit = normalize_path($custom_live_edit, false);
 
+            $liv_ed_css = false;
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
@@ -1184,10 +1185,10 @@ class FrontendController extends Controller
 
 
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if (!$liv_ed_css_get_custom_css_content) {
-
-                $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
-
+            if ($liv_ed_css_get_custom_css_content == false) {
+                if ($is_editmode) {
+                    $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+                }
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
 
