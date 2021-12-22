@@ -911,9 +911,6 @@ class FrontendController extends Controller
         if (defined('CATEGORY_ID')) {
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
         }
-        if ($is_editmode == true and !defined('IN_EDIT')) {
-            define('IN_EDIT', true);
-        }
 
         if (isset($is_quick_edit) and $is_quick_edit == true and !defined('QUICK_EDIT')) {
             define('QUICK_EDIT', true);
@@ -1020,6 +1017,26 @@ class FrontendController extends Controller
                 \Debugbar::startMeasure('render', 'Time for rendering');
             }
 
+            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+                //editmode fix
+                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
+
+                if (!$back_to_editmode) {
+                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
+                        if ($is_admin) {
+                            $is_editmode = true;
+                        }
+                    }
+                }
+
+
+            }
+
+            if ($is_editmode == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
+
+
 
             $l = $this->app->parser->process($l);
 
@@ -1057,6 +1074,7 @@ class FrontendController extends Controller
 
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
+
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -1134,20 +1152,7 @@ class FrontendController extends Controller
                 $content['active_site_template'] = $the_active_site_template;
             }
 
-            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
-                //editmode fix
-                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
 
-                if (!$back_to_editmode) {
-                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
-                        if ($is_admin) {
-                            $is_editmode = true;
-                        }
-                    }
-                }
-
-
-            }
 
 
             // if ($is_editmode == true) {
