@@ -1134,6 +1134,22 @@ class FrontendController extends Controller
                 $content['active_site_template'] = $the_active_site_template;
             }
 
+            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+                //editmode fix
+                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
+
+                if (!$back_to_editmode) {
+                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
+                        if ($is_admin) {
+                            $is_editmode = true;
+                        }
+                    }
+                }
+
+
+            }
+
+
             // if ($is_editmode == true) {
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
                 if (!defined('CONTENT_TEMPLATE')) {
@@ -1160,6 +1176,7 @@ class FrontendController extends Controller
             }
             $custom_live_edit = normalize_path($custom_live_edit, false);
 
+            $liv_ed_css = false;
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
@@ -1168,8 +1185,10 @@ class FrontendController extends Controller
 
 
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if (!$liv_ed_css_get_custom_css_content) {
-                $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+            if ($liv_ed_css_get_custom_css_content == false) {
+                if ($is_editmode) {
+                    $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+                }
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
 
@@ -1194,20 +1213,7 @@ class FrontendController extends Controller
             }
 
 
-            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
-                //editmode fix
-                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
 
-                if (!$back_to_editmode) {
-                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
-                        if ($is_admin) {
-                            $is_editmode = true;
-                        }
-                    }
-                }
-
-
-            }
 
 
             $template_config = $this->app->template->get_config();

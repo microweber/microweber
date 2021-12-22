@@ -488,6 +488,8 @@ svg {
     fill: $primary;
 }
 
+
+
 .add-new {
     background-color: $primary!important;
     border-color: $primary!important;
@@ -1222,4 +1224,24 @@ a.text-dark:hover, a.text-dark:focus {
     a {
         color: $primary!important;
     }
+}
+
+.rte_css_editor_svg.svg, .mw-ui-box-header.mw-accordion-title svg {
+    fill: $silver!important;
+    opacity: 0.5;
+
+    &:hover, &:active {
+        fill: $primary!important;
+    }
+}
+
+.mw-ui-box-header.mw-accordion-title.active {
+    color: $primary!important;
+    svg {
+
+        fill: $primary!important;
+        opacity: 1;
+    }
+
+
 }

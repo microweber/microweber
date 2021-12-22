@@ -223,8 +223,13 @@ mw.live_edit.getModuleIcon = function (module_type) {
 /*    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].title) {
         return '<span class="mw-handle-handler-title">'+mw.live_edit.registry[module_type].title+'</span>';
     }*/
+    else if(module_type === 'layouts') {
+            return '<span>' +
+                '<svg  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" > <path d="M15,22.8H9c-5.4,0-7.8-2.3-7.8-7.8V9c0-5.4,2.3-7.8,7.8-7.8h6c5.4,0,7.8,2.3,7.8,7.8v6 C22.8,20.4,20.4,22.8,15,22.8z M9,2.8C4.4,2.8,2.8,4.4,2.8,9v6c0,4.6,1.6,6.2,6.2,6.2h6c4.6,0,6.2-1.6,6.2-6.2V9 c0-4.6-1.6-6.2-6.2-6.2H9z"/> <path d="M22,10.8H2c-0.4,0-0.8-0.3-0.8-0.8S1.6,9.2,2,9.2h20c0.4,0,0.8,0.3,0.8,0.8S22.4,10.8,22,10.8z"/> <path  d="M12,22.8c-0.4,0-0.8-0.3-0.8-0.8V10c0-0.4,0.3-0.8,0.8-0.8s0.8,0.3,0.8,0.8v12C12.8,22.4,12.4,22.8,12,22.8z"/> </svg>'
+                +'</span>';
+    }
     else {
-        return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
+        return '<span class="mdi mdi-drag" style="font-size: 20px;"></span>&nbsp;&nbsp;';
     }
 };
 mw.live_edit.getModuleTitle = function (module_type) {

@@ -353,7 +353,7 @@ class OptionManager
 
         $option_group = false;
         if (is_array($data)) {
-            if (strval($data['option_key']) != '') {
+            if (isset($data['option_key']) and strval($data['option_key']) != '') {
                 if (strstr($data['option_key'], '|for_module|')) {
                     $option_key_1 = explode('|for_module|', $data['option_key']);
                     if (isset($option_key_1[0])) {
@@ -401,7 +401,7 @@ class OptionManager
                 $data['module'] = str_ireplace('/admin', '', $data['module']);
             }
 
-            if (strval($data['option_key']) != '') {
+            if (isset($data['option_key']) and strval($data['option_key']) != '') {
                 if ($data['option_key'] == 'current_template') {
                     $delete_content_cache = true;
                 }

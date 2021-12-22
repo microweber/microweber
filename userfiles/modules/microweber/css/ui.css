@@ -2803,6 +2803,7 @@ html.mw-loading:after {
   font-size: 22px !important;
   border-radius: 3px;
   background-color: white;
+  width: 12%;
   color: #939393;
   display: inline-block;
   cursor: pointer;
@@ -2811,6 +2812,10 @@ html.mw-loading:after {
 .mwiconlist-icon svg {
   width: 35px !important;
   height: 35px !important;
+}
+.mw-icon-selector-paging {
+  display: block;
+  width: 100%;
 }
 .mwiconlist-settings-section-block-item .mw-field {
   width: 100%;
@@ -7241,12 +7246,12 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-interactor {
   background: #C4D6E8;
-  z-index: 1001;
+  z-index: 1000;
 }
 .mw-selector.mw-selector-type-active {
   width: 2px;
   height: 2px;
-  z-index: 1002;
+  z-index: 1001;
 }
 .mw-selector-top:before {
   top: 0px;

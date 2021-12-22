@@ -1,3 +1,4 @@
+<?php only_admin_access(); ?>
 <?php $couponLogs = coupon_logs(); ?>
 <div class="table-responsive">
     <table class="table table-striped">

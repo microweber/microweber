@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages;
+namespace MicroweberPackages\App;
 
 use MicroweberPackages\App\Managers\CacheManager;
 use MicroweberPackages\App\Managers\ConfigurationManager;
@@ -9,7 +9,7 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
-use MicroweberPackages\Assets\Assets;
+
 use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
@@ -106,7 +106,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
- * @property Assets       $assets
+
  */
 class Application
 {

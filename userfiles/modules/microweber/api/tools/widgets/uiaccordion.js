@@ -141,7 +141,7 @@ mw.tabAccordion = function (options, accordion) {
     this.options = options;
 
     this.options.breakPoint = this.options.breakPoint || 800;
-    this.options.activeClass = this.options.activeClass || 'active-info';
+    this.options.activeClass = this.options.activeClass || 'active';
 
 
     this.buildAccordion = function () {
@@ -166,7 +166,7 @@ mw.tabAccordion = function (options, accordion) {
         var size = (this.options.tabsSize ? ' mw-ui-btn-' + this.options.tabsSize : '');
         var color = (this.options.tabsColor ? ' mw-ui-btn-' + this.options.tabsColor : '');
         var active = (index === 0 ? (' ' + this.options.activeClass) : '');
-        btn.className = 'mw-ui-btn' + size + color + active;
+        btn.className = (this.options.btnDefaultClass || 'mw-ui-btn-tab') + size + color + active;
         btn.innerHTML = content;
         btn.onclick = function () {
             scope.buttons.removeClass(scope.options.activeClass).eq(index).addClass(scope.options.activeClass);

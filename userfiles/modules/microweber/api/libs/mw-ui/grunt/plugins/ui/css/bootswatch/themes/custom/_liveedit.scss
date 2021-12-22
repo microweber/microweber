@@ -573,3 +573,12 @@
     background-color: $secondary!important;
     border-color: $secondary!important;
 }
+
+.mwiconlist-icon {
+    background-color: $body-bg!important;
+
+    &:hover, &:active {
+        background-color: $primary!important;
+
+    }
+}

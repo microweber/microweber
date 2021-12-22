@@ -2,6 +2,15 @@
 <div id="domtree"></div>
 
 <style>
+    html,body{
+        overflow: hidden;
+        overflow-y: hidden;
+    }
+    #css-editor-root .mw-accordion-title svg{
+        width:21px;
+        height: 21px;
+        margin-inline-end: 8px;
+    }
     #css-editor-root .mw-accordion-title{
         font-weight: bold;
     }
@@ -57,6 +66,18 @@
                 }
             });
         }, 700);
+
+       $('.rte_css_editor_svg').each(function (img){
+           (function (img){
+
+               $.get(img.src, function (data){
+                  
+                    $(img).replaceWith(data.all[0])
+               })
+           })(this)
+       })
+
+
     })
 
 </script>
@@ -781,7 +802,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 <mw-accordion-item >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
@@ -892,7 +913,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             ?>
 
 
-            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
+            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/typography.svg"> <?php _e("Typography"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
 
                 <div class="s-field">
@@ -1029,7 +1050,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </mw-accordion-item>
 
     <mw-accordion-item id="overlay-edit">
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Overlay"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="s-field">
                 <label><?php _e("Color"); ?></label>
@@ -1044,7 +1065,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
     <mw-accordion-item id="columns-edit">
 
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Grid"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
 
             <div class="s-field">
@@ -1166,7 +1187,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
 
     <mw-accordion-item >
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Spacing"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
@@ -1190,7 +1211,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 <mw-accordion-item  >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Border"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
@@ -1246,7 +1267,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 </mw-accordion-item>
 <mw-accordion-item  >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
             <label><?php _e("Rounded Corners"); ?></label>
@@ -1277,13 +1298,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
-
-
     </div>
 </mw-accordion-item>
         <mw-accordion-item id="classtags-accordion">
 
-            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
+            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>

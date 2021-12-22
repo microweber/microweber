@@ -2,27 +2,15 @@
 
 namespace MicroweberPackages\Core\tests;
 
-use Config;
+use Illuminate\Support\Facades\Config;
 
-class TestConfigFile extends TestCase
+class ConfigFileTest extends TestCase
 {
     public function testSomethingIsTrue()
     {
         $this->assertTrue(true);
     }
 
-    public function testOptions()
-    {
-        $data = array();
-        $data['today'] = date('Y-m-d');
-        $data['option_key'] = 'a_test';
-
-        $data = json_encode($data);
-        $save = save_option($data);
-
-        $get = get_option('a_test', $data);
-       // dd($get);
-    }
     public function testConfigRead()
     {
         $connection = Config::get('database.connections');
@@ -45,5 +33,10 @@ class TestConfigFile extends TestCase
         $this->assertTrue($now == $get);
         $this->assertTrue($current == $get);
         $this->assertTrue($old != $get);
+    }
+    public function testVersionTxtNewLine()
+    {
+       $version_txt = file_get_contents(MW_ROOTPATH . '/version.txt');
+       $this->assertEquals($version_txt,trim($version_txt),'version.txt file should not have new line at the end');
     }
 }

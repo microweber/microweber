@@ -35,9 +35,12 @@
                     var mwBtnTabContentLocaleId = 'ml-tab-content-'+name+'-'+i;
 
                     var localeIcon = locales[i];
-                    localeIcon = localeIcon.split('_');
-                    localeIcon = localeIcon[1];
-                    localeIcon = localeIcon.toLowerCase();
+                    var localeIconSplit = localeIcon.split('_');
+
+                    if (typeof localeIconSplit[1] !== 'undefined') {
+                        localeIcon = localeIconSplit[1];
+                        localeIcon = localeIcon.toLowerCase();
+                    }
 
                     var localeUppercase = locales[i].toUpperCase();
 
@@ -130,7 +133,7 @@
                                         controls: ['ul', 'ol']
                                     }
                                 },
-                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
+                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat', 'editSource'
                             ],
                         ]
                     });

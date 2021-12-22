@@ -396,7 +396,7 @@
         this.settings = mw.object.extend(true, {}, defaults, options);
         var scope = this;
         var tabAccordionBuilder = function (items) {
-            var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium" />'), items: []};
+            var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium, tabsColor: tab" />'), items: []};
             items.forEach(function (item){
                 var el = mw.element('<div class="mw-accordion-item" />');
                 var content = mw.element('<div class="mw-accordion-content mw-ui-box mw-ui-box-content">' +(item.content || '') +'</div>');

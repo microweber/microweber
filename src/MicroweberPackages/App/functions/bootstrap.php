@@ -12,7 +12,7 @@ if (!defined('T')) {
 
 if (!defined('MW_VERSION')) {
     //remember to change also in version.txt
-    define('MW_VERSION', '1.2.10');
+    define('MW_VERSION', \MicroweberPackages\App\LaravelApplication::APP_VERSION);
 }
 
 
