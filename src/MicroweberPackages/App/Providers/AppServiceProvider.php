@@ -14,6 +14,7 @@ use Laravel\Dusk\DuskServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
+
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
@@ -225,6 +226,7 @@ class AppServiceProvider extends ServiceProvider
             //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
+       // $this->app->register(AssetsServiceProvider::class);
         $this->app->register(TranslationServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');

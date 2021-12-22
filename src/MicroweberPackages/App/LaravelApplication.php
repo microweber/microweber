@@ -10,6 +10,11 @@ use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 
 class LaravelApplication extends Application
 {
+
+    //remember to change also in version.txt
+    const APP_VERSION = '1.2.11-webpack2';
+
+
     private $base_path_local;
 
     public function __construct($basePath = null)
@@ -28,7 +33,7 @@ class LaravelApplication extends Application
     public function getCachedServicesPath()
     {
 
-         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.'.self::VERSION.'.php');
+         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.'.self::VERSION . '_' . self::APP_VERSION.'.php');
     }
 
     /**
@@ -38,7 +43,7 @@ class LaravelApplication extends Application
      */
     public function getCachedPackagesPath()
     {
-        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.'.self::VERSION.'.php');
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.'.self::VERSION . '_' . self::APP_VERSION.'.php');
     }
 
 
@@ -126,4 +131,6 @@ class LaravelApplication extends Application
 
         return is_dir($pathname) || @mkdir($pathname);
     }
+
+
 }
