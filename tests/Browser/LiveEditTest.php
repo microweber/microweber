@@ -33,20 +33,58 @@ class LiveEditTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('.'.$randClassForDagAndDrop);
 
-            foreach(get_modules('ui=1&installed=1') as $module) {
+            $modules = get_modules('ui=1&installed=1');
 
-                $module['name'] = 'Contact form';
+            foreach($modules as $module) {
+                if (isset($module['as_element'])) {
+                    continue;
+                }
+              //  $module['name'] = 'Contact form';
+                $browser->click('.edit[rel="content"]');
 
                 $browser->within(new LiveEditModuleAdd(), function ($browser) use($module) {
                     $browser->addModule($module['name']);
                 });
-              /*  $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                    $browser->validate();
-                });*/
+               $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                   $browser->validate();
+               });
+               $module_css_class = mw()->parser->module_css_class($module['module']);
 
-                $browser->click('.module-contact-form');
+                $this->checkBrowserHmlForErrors($browser);
+                $browser->script("$('html, body').animate({ scrollTop: $('.'".$module_css_class.").offset().top - 50 }, 0);");
+
+
+                $browser->click('.'.$module_css_class);
                 $browser->pause(1000);
                 $browser->click('#mw-handle-item-module-active .mdi-pencil');
+                $browser->pause(3000);
+                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                    $browser->validate();
+                });
+                $this->checkBrowserHmlForErrors($browser);
+
+                $browser->driver->switchTo()->frame($browser->element('.mw-dialog-container iframe'));
+
+                $browser->assertPresent('.mw-iframe-auto-height-detector');
+                $browser->assertPresent('#settings-container');
+                $browser->assertPresent('.module[module_settings="true"]');
+                $browser->assertPresent('#mw_reload_this_module_popup_form');
+
+
+                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                    $browser->validate();
+                });
+                $this->checkBrowserHmlForErrors($browser);
+
+
+                $browser->driver->switchTo()->defaultContent();
+
+                $browser->click('.mw-dialog-close');
+
+                $browser->script("$('#mw-sidebar-search-input-for-modules').val('')");
+
+                $browser->pause(500);
+
 
 
             }

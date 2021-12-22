@@ -736,7 +736,7 @@ Trait ParserEditFieldsTrait
         $module_class = str_replace(' ', '-', $module_class);
         $module_class = str_replace('%20', '-', $module_class);
         $module_class = str_replace('_', '-', $module_class);
-        $module_class = 'module-' . $module_class;
+        $module_class = 'module-' . strtolower($module_class);
 
         return $module_class;
     }

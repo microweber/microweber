@@ -21,6 +21,7 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+            $this->checkBrowserHmlForErrors($browser);
 
 
             $browser->pause(100);

@@ -22,6 +22,7 @@ class AdminAddPostTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+            $this->checkBrowserHmlForErrors($browser);
 
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();

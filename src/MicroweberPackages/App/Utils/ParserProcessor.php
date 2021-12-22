@@ -1021,7 +1021,9 @@ class ParserProcessor
                 }
             }
 
-
+            if ($is_first_loop) {
+                 $layout = $this->_replace_tags_with_placeholders_back($layout);
+            }
         //  $layout = $this->_replace_tags_with_placeholders_back($layout);
 
            // $layout = $this->replace_url_placeholders($layout);
