@@ -37,7 +37,7 @@
         "jenssegers/agent": "^3.0@dev",
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
-        "halaxa/json-machine": "*",
+        "halaxa/json-machine": "dev-master",
         "symfony/var-dumper": "v5.2.11",
 
         "jeremeamia/superclosure": "*",

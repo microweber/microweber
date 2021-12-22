@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d3ab6055e6f0c813500f7e9e6230ce1",
+    "content-hash": "ba7aed4120e8633bc76648a47e513827",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3280,12 +3280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/halaxa/json-machine.git",
-                "reference": "1d119aeed3e8c62a13d059b595e89fc5c0df2576"
+                "reference": "51ed0703731e323e0db85b36b73f5bbc9ede9698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/1d119aeed3e8c62a13d059b595e89fc5c0df2576",
-                "reference": "1d119aeed3e8c62a13d059b595e89fc5c0df2576",
+                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/51ed0703731e323e0db85b36b73f5bbc9ede9698",
+                "reference": "51ed0703731e323e0db85b36b73f5bbc9ede9698",
                 "shasum": ""
             },
             "require": {
@@ -3305,10 +3305,7 @@
             "autoload": {
                 "psr-4": {
                     "JsonMachine\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3323,9 +3320,9 @@
             "description": "Efficient, easy-to-use and fast JSON pull parser",
             "support": {
                 "issues": "https://github.com/halaxa/json-machine/issues",
-                "source": "https://github.com/halaxa/json-machine/tree/0.7.1"
+                "source": "https://github.com/halaxa/json-machine/tree/master"
             },
-            "time": "2021-12-06T13:33:35+00:00"
+            "time": "2021-12-21T15:13:39+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -16387,6 +16384,7 @@
         "knplabs/knp-menu": 20,
         "jenssegers/agent": 20,
         "twig/twig": 20,
+        "halaxa/json-machine": 20,
         "barryvdh/laravel-debugbar": 20,
         "barryvdh/laravel-dompdf": 20,
         "graham-campbell/markdown": 20,
@@ -16405,8 +16403,7 @@
         "torann/laravel-repository": 20,
         "laravel/dusk": 20,
         "tightenco/ziggy": 20,
-        "laravel/sail": 20,
-        "halaxa/json-machine": 20
+        "laravel/sail": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
