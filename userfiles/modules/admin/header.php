@@ -164,9 +164,18 @@ if (!is_logged()) {
 
 <?php
 $order_notif_html = false;
-$new_orders_count = mw()->order_manager->get_count_of_new_orders();
-if ($new_orders_count) {
-    $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+$new_orders_count = false;
+
+
+
+$shop_disabled = get_option('shop_disabled', 'website') == 'y';
+
+if (!$shop_disabled) {
+    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+
+    if ($new_orders_count) {
+        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+    }
 }
 
 $comments_notif_html = false;
