@@ -62,6 +62,11 @@ class AdminEditProfileTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
+
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
@@ -102,7 +107,13 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->click('label[for="is_active1"]');
 
          //   $browser->press('Save');
-            $browser->click('#user-save-button');
+         //   $browser->scrollTo('#user-save-button');
+
+            $browser->script("$('html, body').animate({ scrollTop: $('#user-save-button').offset().top - 30 }, 0);");
+
+            $browser->click('button[id="user-save-button"]');
+
+           // $browser->click('#user-save-button');
 
             $browser->pause(3000);
 
