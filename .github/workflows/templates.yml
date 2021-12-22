@@ -15,8 +15,9 @@ jobs:
             'microweber-templates/shopmag',
             'microweber-templates/template-theplace',
             'microweber-templates/template-beauty',
-            'microweber-templates/template-active',
+            'microweber-templates/template-wedding',
             'microweber-templates/template-bamboo',
+            'microweber-templates/template-networking-space',
             'microweber-templates/template-digital'
         ]
     steps:
