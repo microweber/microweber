@@ -5,7 +5,7 @@ $dir = __DIR__;
 $dir = str_replace('Backup\Readers', '', $dir);
 $dir = str_replace('Backup/Readers', '', $dir);
 
-use JsonMachine\JsonMachine;
+use \JsonMachine\Items;
 use MicroweberPackages\Backup\EncodingFix;
 
 class JsonReader extends DefaultReader
@@ -14,8 +14,8 @@ class JsonReader extends DefaultReader
 	public function readData()
 	{
 		$readyJson = array();
+        $json = Items::fromFile($this->file);
 
-		$json = JsonMachine::fromFile($this->file);
 
 		foreach ($json as $jsonKey => $jsonValue) {
 			$readyJson[$jsonKey] = $jsonValue;
