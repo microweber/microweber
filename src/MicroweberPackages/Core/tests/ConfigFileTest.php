@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Core\tests;
 
-use Config;
+use Illuminate\Support\Facades\Config;
 
 class ConfigFileTest extends TestCase
 {
