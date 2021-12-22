@@ -12,7 +12,7 @@ class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '1.2.11-webpack2';
+    const APP_VERSION = '1.2.11';
 
 
     private $base_path_local;
