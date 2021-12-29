@@ -14,16 +14,16 @@ class JsonReader extends DefaultReader
 	{
 		$readyJson = array();
 
-        $items = [];
-        $parser = new \JsonCollectionParser\Parser();
-        $parser->parse($this->file, function (array $item) use (&$items) {
-            $items = $item;
+//        $items = [];
+//        $parser = new \JsonCollectionParser\Parser();
+//        $parser->parse($this->file, function (array $item) use (&$items) {
+//            $items = $item;
+//
+//        },true);
+//
 
-        },true);
+        $readyJson = json_decode(file_get_contents($this->file), true);
 
-
-        $readyJson = $items;
- 
 		if (isset($readyJson[0]['id'])) {
 		   return EncodingFix::decode(array("content"=>$readyJson));
         }
