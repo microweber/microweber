@@ -17,12 +17,13 @@ class JsonReader extends DefaultReader
         $items = [];
         $parser = new \JsonCollectionParser\Parser();
         $parser->parse($this->file, function (array $item) use (&$items) {
-            $items[] = $item;
+            $items = $item;
+
         },true);
 
 
         $readyJson = $items;
-
+ 
 		if (isset($readyJson[0]['id'])) {
 		   return EncodingFix::decode(array("content"=>$readyJson));
         }
