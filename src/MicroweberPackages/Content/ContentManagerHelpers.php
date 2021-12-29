@@ -735,7 +735,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $pd = $guess_page_data->index();
 
                 $newPageCreate = true;
-                if (isset($pd['id'])) {
+                if (isset($pd['id']) and $pd['id'] != 0) {
                     $pd1 = DB::table('content')->where('id', $pd['id'])->first();
                     $pd1 = (array)$pd1;
                     if ($pd1) {
@@ -1072,17 +1072,20 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
                                     }
                                 } else {
-                                    if ($field != 'content') {
+                                    if ($field != 'content' and $field != 'content_body') {
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
                                     } else {
                                         $cont_table_save = array();
-
+                                        $cont_table_save[$field]=$html_to_save;
                                     }
                                 }
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
+                                if(isset($cont_table_save)  and $cont_table_save){
+                                    $to_save = array_merge($to_save, $cont_table_save);
+                                }
 
                                 $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
@@ -1096,6 +1099,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
+
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
                                 }
