@@ -177,12 +177,11 @@ class Export
 
             BackupExportLogger::setLogInfo('Exporting table: <b>' . $table . '</b>');
 
-            $tableFields = app()->database_manager->get_fields($table);
+            $tableFields = app()->database_manager->get_fields($table, false, true);
             if ($tableFields) {
                 $tableFieldsStructure = array();
                 foreach ($tableFields as $tableField) {
-                    $tableFieldType = \DB::getSchemaBuilder()->getColumnType($table, $tableField);
-                    $tableFieldsStructure[$tableField] = $tableFieldType;
+                    $tableFieldsStructure[$tableField->name] = $tableField->type;
                 }
                 $tablesStructures[$table] = $tableFieldsStructure;
             }

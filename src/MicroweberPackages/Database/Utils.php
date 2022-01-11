@@ -446,7 +446,7 @@ class Utils
      */
     public static $get_fields_fields_memory = [];
 
-    public function get_fields($table, $use_cache = true)
+    public function get_fields($table, $use_cache = true, $advanced_info = false)
     {
         $fields = array();
         $expiresAt = 99999;
@@ -501,6 +501,9 @@ class Utils
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
         }
 
+        if ($advanced_info) {
+            return $fields;
+        }
 
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
             $fields = array_map(function ($f) {
