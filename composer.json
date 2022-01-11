@@ -86,7 +86,6 @@
         "laravel/dusk": "6.x-dev",
         "tightenco/ziggy": "dev-main",
         "laravel/sail": "1.x-dev",
-        "butschster/meta-tags": " v2.1",
         "maxakawizard/json-collection-parser": "~1.0"
 
     },
