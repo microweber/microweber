@@ -502,6 +502,8 @@ class Utils
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
         }
 
+        $original_fields = $fields;
+
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
             $fields = array_map(function ($f) {
                 if (isset($f->column_name)) {
@@ -520,15 +522,27 @@ class Utils
             $ready_fields = [];
             foreach ($fields as $field) {
 
-                $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
-                $ready_fields[] =[
-                    'name'=>$field,
-                    'type'=>$column->getType()->getName()
-                ];
+                try {
+                    $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
+                    $ready_fields[] = [
+                        'name' => $field,
+                        'type' => $column->getType()->getName()
+                    ];
+                } catch (\Exception $e) {
+                    foreach ($original_fields as $o_field) {
+                        if (isset($o_field->name)) {
+                            $ready_fields[] = [
+                                'name' => $o_field->name,
+                                'type' => $o_field->type
+                            ];
+                        }
+                    }
+                }
             }
 
             return $ready_fields;
         }
+
 
         // Caching
         if ($use_cache) {
