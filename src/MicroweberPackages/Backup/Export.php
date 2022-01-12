@@ -181,7 +181,9 @@ class Export
             if ($tableFields) {
                 $tableFieldsStructure = array();
                 foreach ($tableFields as $tableField) {
-                    $tableFieldsStructure[$tableField->name] = $tableField->type;
+                    if (isset($tableField->name)) {
+                        $tableFieldsStructure[$tableField->name] = $tableField->type;
+                    }
                 }
                 $tablesStructures[$table] = $tableFieldsStructure;
             }
