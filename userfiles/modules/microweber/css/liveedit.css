@@ -4220,6 +4220,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     vertical-align: middle;
 }
 
+.mw-handle-type-default .mw-handle-handler-icon svg,
+.mw-handle-type-default .mw-handle-handler-icon img{
+    vertical-align:middle;
+}
 .mw-handle-type-default .mw-handle-handler-icon {
     padding: 0 5px 0 5px;
     margin: 0;

@@ -77,7 +77,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         }, 1200);
                     }
                 });
-                console.log(pickBorder)
+
             });
         </script>
     </div>

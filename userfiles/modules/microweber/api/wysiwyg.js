@@ -2804,6 +2804,7 @@ $(window).on('load', function () {
         mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
 
         mw.wysiwyg.change(mw.editorIconPicker.target)
+        mw.editorIconPicker.tooltip(mw.editorIconPicker.target)
     });
 })
 $(mwd).ready(function () {
@@ -2821,7 +2822,7 @@ $(mwd).ready(function () {
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element: document.querySelector('#mw_editor_font_color'),
             tip: true,
-            showHEX:false,
+            showHEX: false,
             onchange: function (color) {
                 mw.wysiwyg.fontColor(color)
             }
@@ -2837,6 +2838,8 @@ $(mwd).ready(function () {
             }
         });
     }
+
+ 
 
     mw.$(document).on('scroll', function () {
         if (mw.wysiwyg._bgfontcolorpicker && mw.wysiwyg._bgfontcolorpicker.settings) {
