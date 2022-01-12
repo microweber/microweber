@@ -9,6 +9,7 @@
  *
  */
 namespace MicroweberPackages\Database;
+use Doctrine\DBAL\Types\Type;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
@@ -501,27 +502,6 @@ class Utils
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
         }
 
-        if ($advanced_info) {
-            $ready_fields = [];
-
-            foreach ($fields as $field) {
-                if (isset($field->name) && isset($field->type)) {
-                    $ready_fields[] = [
-                        'name' => $field->name,
-                        'type' => $field->type,
-                    ];
-                } else if (isset($field->Field)) {
-                    $field_type = $field->Type;
-                    $ready_fields[] = [
-                        'name' => $field->Field,
-                        'type' => $field_type,
-                    ];
-                }
-            }
-
-            return $ready_fields;
-        }
-
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
             $fields = array_map(function ($f) {
                 if (isset($f->column_name)) {
@@ -536,8 +516,21 @@ class Utils
             }, $fields);
         }
 
-        // Caching
+        if ($advanced_info) {
+            $ready_fields = [];
+            foreach ($fields as $field) {
 
+                $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
+                $ready_fields[] =[
+                    'name'=>$field,
+                    'type'=>$column->getType()->getName()
+                ];
+            }
+
+            return $ready_fields;
+        }
+
+        // Caching
         if ($use_cache) {
             self::$get_fields_fields_memory[$table] = $fields;
             mw()->cache_manager->save($fields, $key, $cache_group,$expiresAt);
