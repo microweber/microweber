@@ -5019,3 +5019,7 @@ body.dragStart picture img{
     opacity: 0;
  }
 
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: #0084d8;
+    color: #0084d8;
+}
