@@ -502,7 +502,24 @@ class Utils
         }
 
         if ($advanced_info) {
-            return $fields;
+            $ready_fields = [];
+
+            foreach ($fields as $field) {
+                if (isset($field->name) && isset($field->type)) {
+                    $ready_fields[] = [
+                        'name' => $field->name,
+                        'type' => $field->type,
+                    ];
+                } else if (isset($field->Field)) {
+                    $field_type = $field->Type;
+                    $ready_fields[] = [
+                        'name' => $field->Field,
+                        'type' => $field_type,
+                    ];
+                }
+            }
+
+            return $ready_fields;
         }
 
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
