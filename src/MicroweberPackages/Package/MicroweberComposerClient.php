@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Package;
 
 use Composer\Semver\Comparator;
+use Composer\Util\StreamContextFactory;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\Traits\FileDownloader;
 use MicroweberPackages\Utils\Zip\Unzip;
@@ -288,6 +289,10 @@ class MicroweberComposerClient
         $moduleName = str_replace('microweber-modules/', '', $moduleName);
         $moduleName = str_replace('microweber-templates/', '', $moduleName);
 
+        if (isset($package['notification-url'])) {
+            $this->_sendNotification($package);
+        }
+
         $response = array();
         $response['success'] = 'Success. You have installed: ' . $moduleName;
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
@@ -306,6 +311,34 @@ class MicroweberComposerClient
         mw()->cache_manager->delete('modules');
 
         return $response;
+    }
+
+    private function _sendNotification($package) {
+
+        $postData = array('downloads' => array());
+
+        $postData['downloads'][] = array(
+            'name' => $package['name'],
+            'version' => $package['version_normalized'],
+            'license'=>$this->licenses
+        );
+
+        $opts = array('http' =>
+            array(
+                'method' => 'POST',
+                'header' => array('Content-Type: application/json'),
+                'content' => json_encode($postData),
+                'timeout' => 6,
+            ),
+        );
+
+        if (!empty($this->licenses)) {
+            $authHeader = 'Authorization: Basic ' . base64_encode(json_encode($this->licenses));
+            $opts['http']['header'][] = $authHeader;
+        }
+
+        $context = StreamContextFactory::getContext($package['notification-url'], $opts);
+        @file_get_contents($package['notification-url'], false, $context);
     }
 
     /**
