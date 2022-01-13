@@ -181,9 +181,9 @@ mw._colorPicker = function (options) {
             documents.push(mw.top().win.document);
         }
 
-        if ($el[0].nodeName === 'INPUT') {
+
             $el.addClass('mw-color-picker-field')
-        }
+        
     }
     if (this.tip) {
         this.show = function () {
