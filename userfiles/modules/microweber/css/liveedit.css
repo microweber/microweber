@@ -5023,3 +5023,8 @@ body.dragStart picture img{
     border-color: #0084d8;
     color: #0084d8;
 }
+
+.main .navigation-holder.not-transparent {
+    top: 55px;
+    z-index: 1000;
+}
