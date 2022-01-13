@@ -5029,7 +5029,9 @@ body.dragStart picture img{
     z-index: 1000;
 }
 
-.main .navigation-holder.not-transparent.scrolled {
-    background-color: #fff !important;
+.main .navigation-holder.not-transparent section.header-background.scrolled {
+    background: rgba(255, 255, 255, 1);
     transition: background-color 200ms linear;
+    box-shadow: 0px 0px 60px 0px rgb(0 0 0 / 7%);
+    border-bottom: none;
 }
