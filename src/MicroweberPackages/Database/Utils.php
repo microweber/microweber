@@ -521,7 +521,6 @@ class Utils
         if ($advanced_info) {
             $ready_fields = [];
             foreach ($fields as $field) {
-
                 try {
                     $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
                     $ready_fields[] = [
