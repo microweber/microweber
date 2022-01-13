@@ -669,3 +669,10 @@ html[dir='rtl'] .mw-dialog-close {
     border-bottom: none;
     z-index: 10;
 }
+
+.main .navigation-holder.not-transparent.scrolled {
+    background-color: #fff !important;
+    transition: background-color 200ms linear;
+}
+
+

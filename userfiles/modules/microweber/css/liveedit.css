@@ -5028,3 +5028,8 @@ body.dragStart picture img{
     top: 55px;
     z-index: 1000;
 }
+
+.main .navigation-holder.not-transparent.scrolled {
+    background-color: #fff !important;
+    transition: background-color 200ms linear;
+}
