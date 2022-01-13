@@ -338,10 +338,7 @@ class MicroweberComposerClient
         }
 
         $context = StreamContextFactory::getContext($package['notification-url'], $opts);
-        $output = file_get_contents($package['notification-url'], false, $context);
-
-        dd($output);
-         
+        @file_get_contents($package['notification-url'], false, $context);
     }
 
     /**
