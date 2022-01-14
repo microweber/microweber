@@ -3,9 +3,7 @@
 </script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
-
 
         mw.dropdown();
         mw.$('#modules_categories_tree_<?php print $params['id']; ?> .fixed-side-column-container .well').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>');
@@ -239,10 +237,6 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                 <?php else: ?>
                     <a href="?show_modules_by_categories=1" class="btn btn-outline-primary btn-md  btn-icon" title="Sort by category"><i class="mdi mdi-view-list"></i> </a>
                 <?php endif; ?>
-
-
-
-
 
 
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
