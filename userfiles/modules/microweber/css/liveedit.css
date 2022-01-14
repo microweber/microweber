@@ -5024,7 +5024,3 @@ body.dragStart picture img{
     color: #0084d8;
 }
 
-.main .navigation-holder.not-transparent {
-    top: 55px;
-    z-index: 1000;
-}
