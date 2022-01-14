@@ -4231,8 +4231,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     cursor: -webkit-grab;
     cursor: grab;
     height: 30px;
+    width: 30px;
     vertical-align: top;
-    min-width: 30px;
     text-align: center;
 }
 
