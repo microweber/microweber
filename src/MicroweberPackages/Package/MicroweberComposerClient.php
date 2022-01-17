@@ -9,9 +9,13 @@ use MicroweberPackages\Utils\Zip\Unzip;
 
 class MicroweberComposerClient extends Client
 {
+    public $logfile;
+
     public function __construct()
     {
-        parent::__construct(); 
+        parent::__construct();
+
+        $this->logfile = userfiles_path() . 'install_item_log.txt';
 
         // Fill the user licenses
         $findLicenses = SystemLicenses::all();
@@ -286,5 +290,18 @@ class MicroweberComposerClient extends Client
         @rmdir($dir);
     }
 
+    public function newLog($log)
+    {
+        @file_put_contents($this->logfile, $log . PHP_EOL);
+    }
 
+    public function clearLog()
+    {
+        @file_put_contents($this->logfile, '');
+    }
+
+    public function log($log)
+    {
+        @file_put_contents($this->logfile, $log . PHP_EOL, FILE_APPEND);
+    }
 }
