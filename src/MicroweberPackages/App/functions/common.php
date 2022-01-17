@@ -19,7 +19,7 @@ if (! function_exists('app')) {
      *
      * @param  string  $abstract
      * @param  array   $parameters
-     * @return mixed|\MicroweberPackages\Application
+     * @return mixed|\MicroweberPackages\App\Application
      */
     function app($abstract = null, array $parameters = [])
     {

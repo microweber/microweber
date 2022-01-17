@@ -61,7 +61,7 @@ class AdminMarketplaceTest extends DuskTestCase
             $browser->click('#js-buttons-confirm-install-link');
             $browser->pause(10000);
 
-            $browser->waitForText('Success. You have installed');
+            $browser->waitForText('Success. You have installed',30);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();

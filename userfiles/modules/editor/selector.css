@@ -9,6 +9,8 @@
         padding: 0;
         list-style: none;
         width:100%;
+
+
     }
     #select_edit_field li{
       padding: 5px 10px 5px 0;
@@ -29,7 +31,15 @@
 
     #select_edit_field  > li li:hover,
     #select_edit_field  > li li.selected{
-      border-color: #0084d8;
+
+        outline: 1px solid;
+        outline-color: var(--primary);
+
+
+
+    }
+    #select_edit_field  > li li.selected{
+        background-color: var(--primary) ;
 
     }
 

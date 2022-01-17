@@ -79,7 +79,7 @@ abstract class DuskTestCase extends BaseTestCase
 
     public function checkBrowserHmlForErrors($browser)
     {
-        $error_strings = ['mw_replace_back'];
+        $error_strings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
 
         $html = $browser->script("return $('body').html()");
 

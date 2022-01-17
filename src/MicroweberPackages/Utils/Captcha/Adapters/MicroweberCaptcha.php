@@ -149,8 +149,8 @@ class MicroweberCaptcha
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
         $col1z11 = rand(150, 242);
-        $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
-        $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
+      //  $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
+       // $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
         // imagefill($image, 0, 0, $color1);
         for ($i = 0; $i < $x; ++$i) {
             for ($j = 0; $j < $y; ++$j) {

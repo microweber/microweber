@@ -31,7 +31,15 @@ class CheckoutCartTest extends DuskTestCase
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
             $browser->pause(1000);
 
-            $browser->click('@checkout-continue');
+
+            try {
+                $browser->click('@checkout-continue');
+            } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
+                $browser->pause(10000);
+            }
+
+
+
             $browser->pause(1000);
 
 
@@ -61,6 +69,11 @@ class CheckoutCartTest extends DuskTestCase
 
     public function testCheckoutWithPaypal()
     {
+
+
+
+
+
         $siteUrl = $this->siteUrl;
 
         // enable paypal
@@ -99,12 +112,25 @@ class CheckoutCartTest extends DuskTestCase
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
             $browser->pause(1000);
 
-            $browser->click('@checkout-continue');
-            $browser->pause(200);
+
+            try {
+
+                $browser->click('@checkout-continue')->waitForText('Please wait', 15);
+            } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
+
+                $this->markTestSkipped('Paypal is not available');
+                return;
+            }catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
+
+                $this->markTestSkipped('Paypal is not available with timeout');
+                return;
+            }
+
+            $browser->pause(2000);
 
             $browser->assertMissing(".alert.alert-danger");
 
-            $browser->pause(1000);
+            $browser->pause(10000);
 
             $url = $browser->driver->getCurrentURL();
 
