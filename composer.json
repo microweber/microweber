@@ -87,7 +87,7 @@
         "laravel/dusk": "6.x-dev",
         "tightenco/ziggy": "dev-main",
         "laravel/sail": "1.x-dev",
-        "microweber-packages/microweber-composer-client": "dev-main"
+        "microweber-packages/composer-client": "dev-main"
 
     },
     "require-dev": {

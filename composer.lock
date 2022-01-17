@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d39797f9d50f9f84041bfd09bacd81b",
+    "content-hash": "104f32a1f1b6b916ede51590c2a8d211",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5635,6 +5635,57 @@
             "time": "2020-11-02T17:00:53+00:00"
         },
         {
+            "name": "microweber-packages/composer-client",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/composer-client.git",
+                "reference": "7689801f5dc49a5f7ee8aa9c63cc8a1d8fbf2a84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/7689801f5dc49a5f7ee8aa9c63cc8a1d8fbf2a84",
+                "reference": "7689801f5dc49a5f7ee8aa9c63cc8a1d8fbf2a84",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Composer Client",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com",
+                "issues": "https://github.com/microweber-packages/composer-client/issues",
+                "source": "https://github.com/microweber-packages/composer-client/tree/main"
+            },
+            "time": "2022-01-17T11:31:00+00:00"
+        },
+        {
             "name": "microweber-packages/microweber-class-alias",
             "version": "dev-master",
             "source": {
@@ -5680,57 +5731,6 @@
                 "source": "https://github.com/microweber-packages/microweber-class-alias/tree/0.7"
             },
             "time": "2021-01-13T13:19:55+00:00"
-        },
-        {
-            "name": "microweber-packages/microweber-composer-client",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/microweber-composer-client.git",
-                "reference": "391a969601863bcbc7976cd0659a36ae6bae5dc9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-composer-client/zipball/391a969601863bcbc7976cd0659a36ae6bae5dc9",
-                "reference": "391a969601863bcbc7976cd0659a36ae6bae5dc9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0 || ^9.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Microweber Composer Client",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com",
-                "issues": "https://github.com/microweber-packages/microweber-composer-client/issues",
-                "source": "https://github.com/microweber-packages/microweber-composer-client/tree/main"
-            },
-            "time": "2022-01-17T10:53:14+00:00"
         },
         {
             "name": "microweber-templates/new-world",
@@ -16455,7 +16455,7 @@
         "laravel/dusk": 20,
         "tightenco/ziggy": 20,
         "laravel/sail": 20,
-        "microweber-packages/microweber-composer-client": 20,
+        "microweber-packages/composer-client": 20,
         "halaxa/json-machine": 20
     },
     "prefer-stable": false,
