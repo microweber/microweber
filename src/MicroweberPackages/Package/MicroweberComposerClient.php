@@ -4,10 +4,11 @@ namespace MicroweberPackages\Package;
 
 use Composer\Semver\Comparator;
 use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\Traits\FileDownloader;
 use MicroweberPackages\Utils\Zip\Unzip;
 
-class MicroweberComposerClient
+class MicroweberComposerClient extends Client
 {
 
     use FileDownloader;
@@ -15,7 +16,7 @@ class MicroweberComposerClient
     public $logfile = false;
     public $licenses = [];
     public $packageServers = [
-        'https://packages.microweberapi.com/packages.json',
+        'https://market.microweberapi.com/packages.json',
     ];
 
     public function __construct()
