@@ -31,6 +31,8 @@ class ZipReader extends DefaultReader
         $unzipedFileNameTag = $backupManager->getBackupLocation().'/'.md5($this->file . filemtime($this->file)).'.unziped';
         if (!is_file($unzipedFileNameTag)) {
 
+            rmdir_recursive($backupLocation);
+
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
 
