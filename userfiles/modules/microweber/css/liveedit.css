@@ -4220,6 +4220,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     vertical-align: middle;
 }
 
+.mw-handle-type-default .mw-handle-handler-icon svg,
+.mw-handle-type-default .mw-handle-handler-icon img{
+    vertical-align:middle;
+}
 .mw-handle-type-default .mw-handle-handler-icon {
     padding: 0 5px 0 5px;
     margin: 0;
@@ -4227,8 +4231,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     cursor: -webkit-grab;
     cursor: grab;
     height: 30px;
+    width: 30px;
     vertical-align: top;
-    min-width: 30px;
     text-align: center;
 }
 
@@ -5014,4 +5018,9 @@ body.dragStart picture img{
     min-height: 30px;
     opacity: 0;
  }
+
+#select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
+    border-color: #0084d8;
+    color: #0084d8;
+}
 

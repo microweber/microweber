@@ -133,7 +133,7 @@
                                         controls: ['ul', 'ol']
                                     }
                                 },
-                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
+                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat', 'editSource'
                             ],
                         ]
                     });

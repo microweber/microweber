@@ -17,6 +17,7 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
             ->where('option_group', 'multilanguage_settings')
             ->delete();
 
+        parent::assertPostConditions();
     }
 
     protected function assertPreConditions(): void

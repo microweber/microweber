@@ -439,6 +439,7 @@ class InstallController extends Controller
             $domain = str_replace('www.', '', $domain);
             $domain = str_replace('.', '_', $domain);
             $domain = str_replace('-', '_', $domain);
+            $domain = str_replace(':', '_', $domain);
             $domain = substr($domain, 0, 10);
         }
 

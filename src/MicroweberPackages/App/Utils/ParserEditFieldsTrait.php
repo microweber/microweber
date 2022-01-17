@@ -147,7 +147,10 @@ Trait ParserEditFieldsTrait
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = app()->content_manager->get_by_id($data_id);
-                        if ($field != 'content' and $field != 'content_body' and $field != 'title') {
+                        if ($data == false) {
+                            $data = array();
+                        }
+                        if (!$this->_is_native_content_table_field($field)) {
                             $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
                         }
 
@@ -177,7 +180,7 @@ Trait ParserEditFieldsTrait
                             $data = app()->content_manager->get_page($data_id);
                         }
 
-                        if ($field != 'content' and $field != 'content_body' and $field != 'title') {
+                        if (!$this->_is_native_content_table_field($field)) {
                             $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
                         }
                     } elseif ($rel == 'global') {
@@ -263,10 +266,21 @@ Trait ParserEditFieldsTrait
                         } else {
 
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+
+                               if($rel == 'content' and $this->_is_native_content_table_field($field)){
+
+                                   if (isset($data[$field])) {
+                                          $field_content = $data[$field];
+                                   }
+                               } else {
+                                   $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+
+                               }
+                             //   dd($field);
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
+
                             } else {
 
 
@@ -318,6 +332,7 @@ Trait ParserEditFieldsTrait
                             $edit_field_content = $cont_field['value'];
                         }
                     }
+
 
 
                     if (isset($data['updated_at'])) {
@@ -736,12 +751,22 @@ Trait ParserEditFieldsTrait
         $module_class = str_replace(' ', '-', $module_class);
         $module_class = str_replace('%20', '-', $module_class);
         $module_class = str_replace('_', '-', $module_class);
-        $module_class = 'module-' . $module_class;
+        $module_class = 'module-' . strtolower($module_class);
 
         return $module_class;
     }
 
 
+    public function _is_native_content_table_field($field)
+    {
+        if($field == 'content' or
+            $field == 'content_body' or
+            $field == 'description' or
+            $field == 'title'){
+            return true;
+        }
+        return false;
+    }
     private function _str_clean_mod_id($mod_id)
     {
         $mod_id = str_replace(' ', '-', $mod_id);

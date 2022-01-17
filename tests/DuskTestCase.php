@@ -5,6 +5,7 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -72,6 +73,22 @@ abstract class DuskTestCase extends BaseTestCase
             \DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
                 ->delete();
+        }
+
+    }
+
+    public function checkBrowserHmlForErrors($browser)
+    {
+        $error_strings = ['mw_replace_back'];
+
+        $html = $browser->script("return $('body').html()");
+
+        if ($html) {
+            foreach ($html as $html_string) {
+                foreach ($error_strings as $error_string) {
+                    $this->assertFalse(str_contains($html_string, $error_string));
+                }
+            }
         }
 
     }

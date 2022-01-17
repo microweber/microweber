@@ -21,6 +21,7 @@ class AdminAddProductTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+            $this->checkBrowserHmlForErrors($browser);
 
             $productPrice = rand(1111,9999);
             $productSpecialPrice = $productPrice - rand(1,9);

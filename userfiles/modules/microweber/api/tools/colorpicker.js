@@ -4,6 +4,8 @@ mw._colorPickerDefaults = {
     onchange: false
 };
 
+var colorPickers = [];
+
 mw._colorPicker = function (options) {
     mw.lib.require('colorpicker');
     if (!mw.tools.colorPickerColors) {
@@ -110,6 +112,7 @@ mw._colorPicker = function (options) {
     }
     else {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
+        colorPickers.push(tip)
         this.tip = tip;
 
         mw.$('.mw-tooltip-content', tip).empty().css({
@@ -150,12 +153,25 @@ mw._colorPicker = function (options) {
                         frame.pause = false;
                     });
                 }
+                colorPickers.forEach(function (clpckr){
+                    console.log(clpckr)
+                    if(clpckr !== tip) {
+                        mw.$(clpckr).hide();
+                    }
+                });
                 mw.$(tip).show();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
+
             });
         }
         else {
             $el.on('click', function (e) {
+                colorPickers.forEach(function (clpckr){
+                    console.log(clpckr)
+                    if(clpckr !== tip) {
+                        mw.$(clpckr).hide();
+                    }
+                });
                 mw.$(tip).toggle();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
@@ -164,16 +180,10 @@ mw._colorPicker = function (options) {
         if (self !== mw.top().win){
             documents.push(mw.top().win.document);
         }
-        mw.$(documents).on('click', function (e) {
-            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
-                mw.$(tip).hide();
-            }
-        });
-        if ($el[0].nodeName === 'INPUT') {
-            $el.bind('blur', function () {
-                //$(tip).hide();
-            });
-        }
+
+
+            $el.addClass('mw-color-picker-field')
+        
     }
     if (this.tip) {
         this.show = function () {
@@ -207,3 +217,16 @@ mw.colorPicker = function (o) {
 
     return new mw._colorPicker(o);
 };
+
+$(document).ready(function (){
+    $(document).on('click', function (e){
+        if(!mw.tools.hasParentsWithClass(e.target, 'a-color-picker') && !mw.tools.hasClass(e.target, 'mw-color-picker-field')) {
+            colorPickers.forEach(function (clpckr){
+
+                    mw.$(clpckr).hide();
+
+            });
+        }
+
+    })
+})

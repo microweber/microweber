@@ -15,7 +15,7 @@ class ZipReader extends DefaultReader
 
 	/**
 	 * Read data from file
-	 * @return \JsonMachine\JsonMachine[]
+	 * @return []
 	 */
 	public function readData()
 	{

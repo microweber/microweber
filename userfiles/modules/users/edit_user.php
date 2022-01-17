@@ -204,7 +204,7 @@ $saveRoute = route('api.user.store');
                 <i class="mdi mdi-account-plus text-primary mr-3"></i> <strong><?php _e($action . ' user'); ?></strong>
             </h5>
 
-            <button id="user-save-button" class="btn btn-success btn-sm floar-end" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
+            <button id="user-save-button-top" class="btn btn-success btn-sm floar-end" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
 
         </div>
         <div class="card-body pt-3">

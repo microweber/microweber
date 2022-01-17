@@ -16,11 +16,16 @@ class AdminAddCategoryTest extends DuskTestCase
 
     public function testAddCategory()
     {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
+
+
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+            $this->checkBrowserHmlForErrors($browser);
 
             $categoryTitle = 'This is the category title'.time();
             $categoryDescription = 'This is the category description'.time();

@@ -1,16 +1,1 @@
-{
-  "devDependencies": {
-    "gulp": "^3.8.8",
-    "laravel-elixir": "*"
-  },
-  "dependencies": {
-    "opencollective-postinstall": "^2.0.2"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/microweber"
-  },
-  "scripts": {
-    "postinstall": "opencollective-postinstall || true"
-  }
-}
+

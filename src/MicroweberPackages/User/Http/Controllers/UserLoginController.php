@@ -182,7 +182,9 @@ class UserLoginController extends Controller
             if (isset($redirectParams['http_redirect'])) {
                 if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
-                } else {
+                }  if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'live_edit')) {
+                    return redirect(site_url().'?editmode=y');
+                }else {
                     return redirect(site_url());
                 }
             }
