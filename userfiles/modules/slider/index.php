@@ -20,12 +20,12 @@ $defaults = array(
     'skin' => 'bxslider-skin-1'
 );
 $data = array();
-$settings = get_module_option('settings', $params['id']);
-$json = json_decode($settings, true);
 
+$json = json_decode($settings, true);
 if (isset($json) == false or count($json) == 0) {
     $json = array(0 => $defaults);
 }
+
 
 $mrand = 'mw-slider-' . uniqid();
 

@@ -486,14 +486,26 @@
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
                     });
-                    cel.append(cinput);
+                    var cpHolder = mw.element()
+                    // cel.append(cinput);
+                    setTimeout(function (){
+                        mw.colorPicker({
+                            element: cpHolder.get(0),
+                            position: 'bottom-center',
+                            onchange: function (color) {
+                                scope.dispatch('colorChange', color);
+                            }
+                        });
+                    }, 100)
+                    cel.append(cpHolder);
                     holder.append(cel);
                 }
                 if(scope.settings.iconOptions.reset) {
                     var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
-                    var rinput = mw.element('<input type="button" class="mw-ui-btn" value="Reset options">');
+                    var rinput = mw.element('<input type="button" class="mw-ui-btn" value="' + mw.lang('Reset') + '">');
                     rinput.on('click', function () {
                         scope.dispatch('reset', rinput.get(0).value);
+
                     });
                     rel.append(rinput);
                     holder.append(rel);

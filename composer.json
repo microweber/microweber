@@ -37,11 +37,12 @@
         "jenssegers/agent": "^3.0@dev",
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
+        "halaxa/json-machine": "*",
         "symfony/var-dumper": "v5.2.11",
+
         "jeremeamia/superclosure": "*",
         "erusev/parsedown": "1.7.4",
         "simshaun/recurr": "*",
-
         "barryvdh/laravel-debugbar": "^3.5@dev",
         "barryvdh/laravel-dompdf": "^0.8.0@dev",
         "graham-campbell/markdown": "13.1.x-dev",
@@ -86,8 +87,7 @@
         "laravel/dusk": "6.x-dev",
         "tightenco/ziggy": "dev-main",
         "laravel/sail": "1.x-dev",
-        "butschster/meta-tags": " v2.1",
-        "maxakawizard/json-collection-parser": "~1.0"
+        "microweber-packages/composer-client": "dev-main"
 
     },
     "require-dev": {
