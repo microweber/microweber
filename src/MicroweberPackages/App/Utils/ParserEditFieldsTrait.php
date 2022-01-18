@@ -4,6 +4,8 @@
 namespace MicroweberPackages\App\Utils;
 
 
+use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
+
 Trait ParserEditFieldsTrait
 {
 
@@ -29,8 +31,12 @@ Trait ParserEditFieldsTrait
     public $_current_parser_from_parent_id = false;
 
 
+    public $_current_parser_rel_prevoius = false;
+    public $_current_parser_field_previous = false;
+
     public function _replace_editable_fields($layout, $no_cache = false, $from_parent = false, $coming_from_parent_id = false)
     {
+
         global $mw_replaced_edit_fields_vals;
         global $mw_parser_nest_counter_level;
         global $mw_replaced_edit_fields_vals_inner;
@@ -43,6 +49,8 @@ Trait ParserEditFieldsTrait
             if (isset($this->_mw_edit_field_map[$parser_mem_crc]) and isset($this->_mw_edit_field_map[$parser_mem_crc]['field']) and isset($this->_mw_edit_field_map[$parser_mem_crc]['rel'])) {
                 $this->_current_parser_field = $this->_mw_edit_field_map[$parser_mem_crc]['field'];
                 $this->_current_parser_rel = $this->_mw_edit_field_map[$parser_mem_crc]['rel'];
+                $this->_current_parser_rel_prevoius = $this->_mw_edit_field_map[$parser_mem_crc]['rel_parent'];
+                $this->_current_parser_field_previous = $this->_mw_edit_field_map[$parser_mem_crc]['field_parent'];
             }
 
            return $this->_mw_parser_passed_replaces[$parser_mem_crc];
@@ -115,6 +123,10 @@ Trait ParserEditFieldsTrait
                     $get_global = false;
                     $field = $name;
                     $use_id_as_field = $name;
+
+
+
+                  /*
                     if ($rel == 'global') {
 
                         $get_global = true;
@@ -150,9 +162,10 @@ Trait ParserEditFieldsTrait
                         if ($data == false) {
                             $data = array();
                         }
-                        if (!$this->_is_native_content_table_field($field)) {
-                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
-                        }
+//                        if (!$this->_is_native_content_table_field($field)) {
+//                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+//
+//                        }
 
 
                     } elseif ($rel == 'inherit') {
@@ -190,7 +203,9 @@ Trait ParserEditFieldsTrait
 
                         $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
-                    }/* elseif (isset($attr['post'])) {
+                    }*/
+
+                    /* elseif (isset($attr['post'])) {
                         $get_global = false;
                         $data = app()->content_manager->get_by_id($attr['post']);
                         if ($data == false) {
@@ -209,8 +224,11 @@ Trait ParserEditFieldsTrait
                     $orig_rel = $rel;
 
 
-                    $this->_current_parser_rel = $rel;
-                    $this->_current_parser_field = $field;
+
+
+
+
+
 
 
                     $isReg = $this->registry->isParsedEditField($field, $rel, $data_id);
@@ -218,8 +236,17 @@ Trait ParserEditFieldsTrait
                     if ($isReg) {
                         continue;
                     }
+                    $this->_current_parser_rel_prevoius =  $this->_current_parser_rel;
+                    $this->_current_parser_field_previous =  $this->_current_parser_field;
+
+                    $this->_current_parser_rel = $rel;
+                    $this->_current_parser_field = $field;
+
 
                     $this->registry->registerParsedEditField($field, $rel, $data_id);
+
+
+
 
 
                     if (!empty($this->filter)) {
@@ -233,9 +260,23 @@ Trait ParserEditFieldsTrait
                         }
                     }
 
+
+
+
+
+
+
+
+/*
+
+
                     if (isset($data[$field])) {
+//                        dump($field);
+//                        dump($rel);
+//                        dump($data_id);
+//                        dump(444444,$data[$field]);
                         if (isset($data[$field])) {
-                            //  $field_content = $data[$field];
+                             $field_content = $data[$field];
                         }
                     } else {
 
@@ -267,22 +308,27 @@ Trait ParserEditFieldsTrait
 
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
 
+
                                if($rel == 'content' and $this->_is_native_content_table_field($field)){
 
-                                   if (isset($data[$field])) {
+                                   if (isset($data) and isset($data[$field])) {
                                           $field_content = $data[$field];
                                    }
                                } else {
                                    $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
-
+                                   if ($cont_field != false) {
+                                       $field_content = $cont_field;
+                                   }
                                }
-                             //   dd($field);
-                                if ($cont_field != false) {
-                                    $field_content = $cont_field;
-                                }
+                              //dump($field);
+
 
                             } else {
-
+//                                if($rel == 'content' and $this->_is_native_content_table_field($field)){
+//
+//                                } else {
+//
+//                                }
 
                                 $field_content = $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
@@ -291,9 +337,8 @@ Trait ParserEditFieldsTrait
                         }
 
                         if ($cont_field != false) {
-                            $field_content = $cont_field;
+                          //  $field_content = $cont_field;
                         }
-
 
                     }
                     if ($rel == 'global') {
@@ -322,6 +367,7 @@ Trait ParserEditFieldsTrait
                         $edit_field_content = $data[$field];
                     }
                     if ($use_id_as_field != false) {
+
                         if (isset($data[$use_id_as_field])) {
                             $edit_field_content = $data[$use_id_as_field];
 
@@ -329,17 +375,24 @@ Trait ParserEditFieldsTrait
                     }
                     if (!$edit_field_content) {
                         if (isset($cont_field['value'])) {
+
                             $edit_field_content = $cont_field['value'];
                         }
                     }
+*/
 
 
+                    $edit_field_content = $this->_edit_field_content_get($field,$rel,$data_id);
 
                     if (isset($data['updated_at'])) {
                         $field_content_modified_date = $data['updated_at'];
                     }
 
+
+
                     $this->_current_parser_rel = $rel;
+                    $this->_current_parser_field = $field;
+
 
                     $no_edit = false;
 
@@ -359,7 +412,8 @@ Trait ParserEditFieldsTrait
                     }
 
 
-                    //     dump($rel);
+
+
 
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
 
@@ -414,12 +468,30 @@ Trait ParserEditFieldsTrait
 
                                 }
 
-                                pq($elem)->replaceWith($elem_clone);
+                                $elem_clone_content = pq($elem_clone)->htmlOuter();
+
+                                $elem_clone_content= $this->_edit_field_add_modules_for_processing($elem_clone_content, $field,$rel,$data_id);
+
+                                pq($elem)->replaceWith($elem_clone_content);
+
+
+                                $this->_current_parser_rel_prevoius =  $this->_current_parser_rel;
+                                $this->_current_parser_field_previous =  $this->_current_parser_field;
+
+                                $this->_current_parser_rel = $rel;
+                                $this->_current_parser_field = $field;
+
+
+
+                        //        $this->_edit_field_add_modules_for_processing();
+
 
                                 // $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
                                     'field' => $field,
                                     'rel' => $rel,
+                                    'rel_parent' => $this->_current_parser_rel_prevoius,
+                                    'field_parent' => $this->_current_parser_field_previous,
                                 );
                             }
                         } else {
@@ -430,11 +502,25 @@ Trait ParserEditFieldsTrait
 
                     } else {
 
-                        $el_html = pq($elem)->html();
+
+                     //   $elem_clone = $elem->cloneNode();
+
+                        $el_html = pq($elem)->htmlOuter();
+
+                       $elem_clone_content= $this->_edit_field_add_modules_for_processing($el_html, $field,$rel,$data_id);
+
+                       pq($elem)->replaceWith($elem_clone_content);
+
+
                         if (strstr($el_html, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                             pq($elem)->html('<!-- edit_field_not_found_in_database -->');
                         }
-
+                        $this->_mw_edit_field_map[$parser_mem_crc] = array(
+                            'field' => $field,
+                            'rel' => $rel,
+                            'rel_parent' => $this->_current_parser_rel_prevoius,
+                            'field_parent' => $this->_current_parser_field_previous,
+                        );
 
                     }
                 }
@@ -589,6 +675,104 @@ Trait ParserEditFieldsTrait
         return $subject;
     }
 
+
+    public function _edit_field_add_modules_for_processing_first_pass($layout)
+    {
+        $pq = \phpQuery::newDocument($layout);
+        $els = $pq['.edit'];
+
+        foreach ($els as $elem) {
+            $field = false;
+            $rel = false;
+
+            $field = pq($elem)->attr('field');
+            if (strval($field) == '') {
+                $field = pq($elem)->attr('data-field');
+            }
+            $rel = pq($elem)->attr('rel');
+            if ($rel == false) {
+                $rel = pq($elem)->attr('data-rel');
+            }
+
+            $data_id = pq($elem)->attr('data-id');
+            if ($data_id == false) {
+                $data_id = pq($elem)->attr('rel-id');
+            }
+            if ($data_id == false) {
+                $data_id = pq($elem)->attr('rel_id');
+            }
+            if ($data_id == false) {
+                $data_id = pq($elem)->attr('data-rel-id');
+            }
+
+
+
+            if($field and $rel){
+                $elem_clone = $elem->cloneNode();
+
+                $elem_clone_content = pq($elem_clone)->htmlOuter();
+                $elem_clone_content= $this->_edit_field_add_modules_for_processing($elem_clone_content, $field,$rel,$data_id);
+               pq($elem)->replaceWith($elem_clone_content);
+            }
+
+
+        }
+        $layout = $pq->htmlOuter();
+
+        $pq->__destruct();
+        $pq = null;
+        unset($pq);
+
+        return $layout;
+
+    }
+
+    public function _edit_field_add_modules_for_processing($layout, $field = false,$rel = false,$rel_id=false )
+    {
+
+        $parser_mem_crc = 'parser_' . crc32($layout);
+        if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc])) {
+            return $this->_mw_parser_passed_replaces[$parser_mem_crc];
+        }
+
+
+        $layout = str_replace('<microweber module=', '<module data-type=', $layout);
+        $layout = str_replace('</microweber>', '', $layout);
+        $layout = str_replace('></module>', '/>', $layout);
+
+        $script_pattern = '/<module[^>]*>/Uis';
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            $matches1 = $mw_script_matches[0];
+            foreach ($matches1 as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value) . '-' . $parser_mem_crc . $key. '-' .$rel. '-' .$field;
+                    $v1 = '<mw-unprocessed-module-tag>mw_replace_back_this_module_for_processing_' . $v1 . '</mw-unprocessed-module-tag>';
+                    if (!$this->parser_modules_collection->has($v1)) {
+
+                        $layout = str_replace_first($value, $v1, $layout);
+
+                        $newItem = new ParserModuleItem();
+                        $newItem->setEditFieldRel($rel);
+                        $newItem->setEditFieldRelId($rel_id);
+                        $newItem->setEditField($field);
+                        $newItem->setReplaceKey($v1);
+                        $newItem->setReplaceValue($value);
+                        $this->parser_modules_collection->add($v1, $newItem);
+                    }
+                    //  $local_mw_replaced_modules[$parser_mem_crc][$v1] = $value;
+                    // $global_mw_replaced_modules[$parser_mem_crc][$v1] = $value;
+
+                }
+            }
+        }
+
+
+        $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
+        return $layout;
+
+    }
 
     private function _replace_tags_with_placeholders($mod_content)
     {
@@ -782,7 +966,15 @@ Trait ParserEditFieldsTrait
         return $mod_id;
     }
 
+    private function _populate_empty_module_ids_in_edit_field($layout)
+    {
+        $pq = \phpQuery::newDocument($layout);
+        $els = $pq['.edit'];
 
+        foreach ($els as $elem) {
+
+        }
+    }
     public function replace_url_placeholders($layout)
     {
         if (defined('TEMPLATE_URL')) {
@@ -809,6 +1001,208 @@ Trait ParserEditFieldsTrait
             $layout = str_replace_bulk($replaces, $replaces_vals, $layout);
         }
         return $layout;
+    }
+
+
+    public function _edit_field_content_get($field, $rel, $data_id){
+
+
+        $field_content = false;
+
+        $use_id_as_field = $field;
+        $option_mod = $rel;
+        if ($rel == 'global') {
+
+            $get_global = true;
+        } else {
+            $get_global = false;
+        }
+
+        $try_inherited = false;
+
+        if ($rel == 'content' or $rel == 'page' or $rel == 'post') {
+
+
+            if ($rel == 'page') {
+                if (!isset($data_id) or $data_id == false) {
+                    $data_id = page_id();
+                }
+            }
+            if ($rel == 'post') {
+                if (!isset($data_id) or $data_id == false) {
+                    $data_id = post_id();;
+                }
+                if (!isset($data_id) or $data_id == false) {
+                    $data_id = page_id();
+                }
+            }
+            if (!isset($data_id) or $data_id == false) {
+                $data_id = content_id();
+            }
+
+            $get_global = false;
+            $data_id = intval($data_id);
+            $data = array();
+            if($data_id != 0){
+                $data = app()->content_manager->get_by_id($data_id);
+            } else {
+                return false;
+            }
+
+
+//                        if (!$this->_is_native_content_table_field($field)) {
+//                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+//
+//                        }
+
+
+        } elseif ($rel == 'inherit') {
+            $get_global = false;
+            if (!isset($data_id) or $data_id == false) {
+                $data_id = page_id();
+            }
+//                        $data_inh_check = app()->content_manager->get_by_id($data_id);
+//
+//                        if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
+//                            $inh = $data_inh_check['id'];
+//                        } else {
+//                            $inh = app()->content_manager->get_inherited_parent($data_id);
+//                        }
+            $inh = app()->content_manager->get_inherited_parent($data_id);
+
+            if ($inh != false and intval($inh) != 0) {
+                $try_inherited = true;
+                $data_id = $inh;
+                // $rel = 'content';
+                $data = app()->content_manager->get_by_id($data_id);
+            } else {
+                // $rel = 'content';
+
+                $data = app()->content_manager->get_page($data_id);
+            }
+
+            if (!$this->_is_native_content_table_field($field)) {
+                $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+            }
+        } elseif ($rel == 'global') {
+            $get_global = 1;
+            $cont_field = false;
+        } elseif ($rel == 'module') {
+
+            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
+        }
+
+
+        if (isset($data[$field])) {
+
+            if (isset($data[$field])) {
+               return $data[$field];
+            }
+        } else {
+
+
+            if ($rel == 'page') {
+                $rel = 'content';
+            }
+            if ($rel == 'post') {
+                $rel = 'content';
+            }
+
+
+            $cont_field = false;
+            if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
+                $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+                if ($cont_field == false and $try_inherited == true) {
+                    $inh = app()->content_manager->get_inherited_parent($data_id);
+                    if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
+                        $data_id = $inh;
+                        $cont_field2 = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$inh");
+                        if ($cont_field2 != false) {
+                            $rel = 'content';
+                            $data = app()->content_manager->get_by_id($inh);
+                            $cont_field = $cont_field2;
+                            return $cont_field;
+                        }
+                    }
+                }
+            } else {
+
+                if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
+
+                    if ($rel == 'content' and $this->_is_native_content_table_field($field)) {
+
+                        if (isset($data) and isset($data[$field])) {
+                            $field_content = $data[$field];
+
+                            return $field_content;
+                        }
+                        return false;
+                    } else {
+                        $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+
+                        return $cont_field;
+
+                    }
+
+
+
+                } else {
+
+
+
+                    $field_content = $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
+return $field_content;
+
+                }
+            }
+
+            if ($cont_field != false) {
+                //  $field_content = $cont_field;
+            }
+
+        }
+        if ($rel == 'global') {
+            $field_content = false;
+            $get_global = 1;
+
+
+            $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
+            return $cont_field;
+
+//            if ($cont_field == false) {
+//                if ($option_mod != false) {
+//                    $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+//                } else {
+//                    $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+//                }
+//            } else {
+//                $cont_field = $field_content = $cont_field;
+//            }
+        }
+
+        $edit_field_content = false;
+
+        if (isset($data[$field])) {
+
+            $edit_field_content = $data[$field];
+        }
+        if ($use_id_as_field != false) {
+
+            if (isset($data[$use_id_as_field])) {
+                $edit_field_content = $data[$use_id_as_field];
+
+            }
+        }
+        if (!$edit_field_content) {
+            if (isset($cont_field['value'])) {
+
+                $edit_field_content = $cont_field['value'];
+            }
+        }
+
+        return $edit_field_content;
+
+
     }
 
 
