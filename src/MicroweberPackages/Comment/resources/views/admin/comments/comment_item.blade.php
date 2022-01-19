@@ -58,7 +58,7 @@
                         <div class="js-comment-body-text">{{ $comment['comment_body'] }}</div>
                         <span class="js-comment-body-textarea" style="display: none;">
                             <small class="text-muted">Comment:</small>
-                            <textarea name="comment_body" class="form-control">{{ $comment['comment_body'] }}</textarea>
+                            <textarea name="comment_body" class="form-control">{{ $comment['comment_body'] }}§</textarea>
                         </span>
                     </div>
 

@@ -33,10 +33,6 @@ class CommentController
             }
         }
 
-
-
-
-
         $rules = [];
         $inputs = $request->all();
         if(isset($inputs['rel']) and !isset($inputs['rel_type'])){
@@ -104,7 +100,7 @@ class CommentController
         }
 
         if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
-            $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
+            $saveComment['comment_body'] = htmlentities($saveComment['comment_body']);
         }
 
         $save = Comment::create($saveComment);
