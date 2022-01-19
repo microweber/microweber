@@ -65,7 +65,7 @@ api_expose_admin('users/forgot_password_email_send_test', function () {
 
 api_expose_admin('users/search_authors', function ($params = false) {
 
-    $return = array(); 
+    $return = array();
 
     $kw = false;
     if (isset($params['kw'])) {
