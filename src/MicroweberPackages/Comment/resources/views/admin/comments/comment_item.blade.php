@@ -55,10 +55,10 @@
                         </h6>
 
                     <div class="mb-3">
-                        <div class="js-comment-body-text"><?php print $comment['comment_body']; ?></div>
+                        <div class="js-comment-body-text">{{ $comment['comment_body'] }}</div>
                         <span class="js-comment-body-textarea" style="display: none;">
                             <small class="text-muted">Comment:</small>
-                            <textarea name="comment_body" class="form-control"><?php print $comment['comment_body']; ?></textarea>
+                            <textarea name="comment_body" class="form-control">{{ $comment['comment_body'] }}</textarea>
                         </span>
                     </div>
 

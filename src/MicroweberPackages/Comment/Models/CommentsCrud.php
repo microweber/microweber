@@ -54,7 +54,7 @@ class CommentsCrud extends Crud
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                     $surl = site_url();
                     $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
-                    $comments[$i]['comment_body'] = $item['comment_body']; // mw()->format->autolink($item['comment_body']);
+                    $comments[$i]['comment_body'] = htmlentities($item['comment_body']);
                 }
 
                 if (isset($params['single'])) {
