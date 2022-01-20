@@ -47,7 +47,7 @@ class DbTest extends TestCase
 
         $saved = db_get('content',['id'=>$id]);
 
-        $this->assertEquals($saved['is_shop'], 1);
+        $this->assertEquals($saved[0]['is_shop'], '1');
     }
 
     public function testSimpleSave()
