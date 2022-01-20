@@ -310,7 +310,8 @@ class DatabaseWriter
 		$excludeTables = array();
 
 		// All db tables
-		$itemsForSave = array();
+        $topItemsForSave = array();
+        $otherItemsForSave = array();
 		foreach ($this->content as $table=>$items) {
 
             if (!\Schema::hasTable($table)) {
@@ -324,11 +325,17 @@ class DatabaseWriter
 			if (!empty($items)) {
 				foreach($items as $item) {
 					$item['save_to_table'] = $table;
-					$itemsForSave[] = $item;
+                    if (isset($item['content_type']) && $item['content_type'] == 'page') {
+                        $topItemsForSave[] = $item;
+                    } else {
+                        $otherItemsForSave[] = $item;
+                    }
 				}
 			}
 			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
+
+        $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave);
 
 		if (!empty($itemsForSave)) {
 
