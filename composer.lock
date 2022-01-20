@@ -13169,12 +13169,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
+<<<<<<< Updated upstream
                 "reference": "871747851f17892de24dda275060ad88369baba4"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/twigphp/Twig/zipball/871747851f17892de24dda275060ad88369baba4",
                 "reference": "871747851f17892de24dda275060ad88369baba4",
+=======
+                "reference": "3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd",
+                "reference": "3e4b22ce1306cd5ab9fc8323e32aa013a114e0cd",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -13238,7 +13247,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2022-01-14T12:05:32+00:00"
+=======
+            "time": "2021-10-18T08:00:25+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14428,12 +14441,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
+<<<<<<< Updated upstream
                 "reference": "98dd2084f162e38a19e2d8d9e784807f8cf4f8b5"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/mockery/mockery/zipball/98dd2084f162e38a19e2d8d9e784807f8cf4f8b5",
                 "reference": "98dd2084f162e38a19e2d8d9e784807f8cf4f8b5",
+=======
+                "reference": "816475d89d82ea968796523de8e56237ac5921a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/816475d89d82ea968796523de8e56237ac5921a6",
+                "reference": "816475d89d82ea968796523de8e56237ac5921a6",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -14493,7 +14515,11 @@
                 "issues": "https://github.com/mockery/mockery/issues",
                 "source": "https://github.com/mockery/mockery/tree/master"
             },
+<<<<<<< Updated upstream
             "time": "2022-01-14T09:13:57+00:00"
+=======
+            "time": "2021-10-19T08:50:45+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "myclabs/deep-copy",
