@@ -1,27 +1,24 @@
 <?php return array (
   'fetch' => 8,
-  'default' => 'sqlite',
+  'default' => 'mysql',
   'connections' => 
   array (
     'sqlite' => 
     array (
       'driver' => 'sqlite',
-      'database' => storage_path().DIRECTORY_SEPARATOR.'127_0_0_1_after.sqlite',
-      'prefix' => 'p127_0_0_1__1_',
-      'host' => '',
-      'username' => '',
-      'password' => '',
+      'database' => storage_path().DIRECTORY_SEPARATOR.'database.sqlite',
+      'prefix' => '',
     ),
     'mysql' => 
     array (
       'driver' => 'mysql',
       'host' => 'localhost',
-      'database' => 'forge',
-      'username' => 'forge',
+      'database' => 'microweber_human_recourses',
+      'username' => 'root',
       'password' => '',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci',
-      'prefix' => '',
+      'prefix' => 'localhost_human_recourses_',
       'strict' => false,
     ),
     'pgsql' => 

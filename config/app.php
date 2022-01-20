@@ -1,13 +1,13 @@
 <?php return array (
-  'debug' => 1,
-  'url' => 'http://127.0.0.1:8000/',
+  'debug' => false,
+  'url' => 'http://localhost/microweber_human-recourses/',
   'timezone' => 'UTC',
   'locale' => 'en_US',
   'fallback_locale' => 'en',
-  'key' => 'base64:bDJnd2JybUU1clpXSHRldHV5NnoxQWxkT3lmRVExMnY=',
+  'key' => 'base64:Qm1JYTY2SmhlVVQwd2EydWw1aWU0Q3lTRTNzVVM1bHI=',
   'cipher' => 'AES-256-CBC',
   'log' => 'daily',
-  'providers' =>
+  'providers' => 
   array (
     0 => 'MicroweberPackages\\App\\Providers\\AppServiceProvider',
     1 => 'MicroweberPackages\\App\\Providers\\EventServiceProvider',
