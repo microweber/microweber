@@ -5,8 +5,85 @@ namespace MicroweberPackages\App\Utils\ParserHelpers;
 class ParserModuleItem
 {
     public $data = [];
-    public $isProcessed = false;
+    public $attributes = [];
+
+    public $id = '';
+
+    public $parent = false;
     public $output = '';
+
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes): void
+    {
+        $this->attributes = $attributes;
+    }
+    public $isProcessed = false;
+    public $isProcessing = false;
+
+    /**
+     * @return bool
+     */
+    public function isProcessing(): bool
+    {
+        return $this->isProcessing;
+    }
+
+    /**
+     * @param bool $isProcessing
+     */
+    public function setIsProcessing(bool $isProcessing): void
+    {
+        $this->isProcessing = $isProcessing;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+
+
+
+
+
+    /**
+     * @return ParserModuleItem
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param ParserModuleItem $parent
+     */
+    public function setParent(ParserModuleItem $parent)
+    {
+        $this->parent = $parent;
+    }
+
 
     /**
      * @return string

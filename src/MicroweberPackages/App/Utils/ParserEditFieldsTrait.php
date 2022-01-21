@@ -34,7 +34,7 @@ Trait ParserEditFieldsTrait
     public $_current_parser_rel_prevoius = false;
     public $_current_parser_field_previous = false;
 
-    public function _replace_editable_fields($layout, $no_cache = false, $from_parent = false, $coming_from_parent_id = false)
+    public function _replace_editable_fields($layout, $no_cache = false, $from_parent = false, $coming_from_parent_id = false,$prevous_mod_obj=false)
     {
 
         global $mw_replaced_edit_fields_vals;
@@ -44,6 +44,7 @@ Trait ParserEditFieldsTrait
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
             //   $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
         }
+       // $prevous_mod_obj = false;
 
         if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc]) and !$no_cache) {
             if (isset($this->_mw_edit_field_map[$parser_mem_crc]) and isset($this->_mw_edit_field_map[$parser_mem_crc]['field']) and isset($this->_mw_edit_field_map[$parser_mem_crc]['rel'])) {
@@ -55,6 +56,9 @@ Trait ParserEditFieldsTrait
 
            return $this->_mw_parser_passed_replaces[$parser_mem_crc];
         }
+
+
+
 
 
         if ($layout != '') {
@@ -266,7 +270,6 @@ Trait ParserEditFieldsTrait
 
 
 
-
 /*
 
 
@@ -451,7 +454,7 @@ Trait ParserEditFieldsTrait
 
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     // $field_content = $this->_replace_editable_fields($field_content);
-                                    $field_content = $this->_replace_editable_fields($field_content, $no_cache = false, $from_parent = $layout);
+                                    $field_content = $this->_replace_editable_fields($field_content, $no_cache = false, $from_parent = $layout,$coming_from_parent_id,$prevous_mod_obj);
                                     if ($field_content) {
                                         // $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                         pq($elem_clone)->html($field_content);
@@ -470,7 +473,7 @@ Trait ParserEditFieldsTrait
 
                                 $elem_clone_content = pq($elem_clone)->htmlOuter();
 
-                                $elem_clone_content= $this->_edit_field_add_modules_for_processing($elem_clone_content, $field,$rel,$data_id);
+                                $elem_clone_content= $this->_edit_field_add_modules_for_processing($elem_clone_content, $field,$rel,$data_id,$prevous_mod_obj);
 
                                 pq($elem)->replaceWith($elem_clone_content);
 
@@ -507,7 +510,7 @@ Trait ParserEditFieldsTrait
 
                         $el_html = pq($elem)->htmlOuter();
 
-                       $elem_clone_content= $this->_edit_field_add_modules_for_processing($el_html, $field,$rel,$data_id);
+                       $elem_clone_content= $this->_edit_field_add_modules_for_processing($el_html, $field,$rel,$data_id,$prevous_mod_obj);
 
                        pq($elem)->replaceWith($elem_clone_content);
 
@@ -581,7 +584,7 @@ Trait ParserEditFieldsTrait
                             $val_rep = $value;
                             $have_more = $this->_do_we_have_more_edit_fields_for_parse($value);
                             if ($have_more) {
-                                $val_rep = $this->_replace_editable_fields($val_rep, $no_cache = false, $from_parent = $layout);
+                                $val_rep = $this->_replace_editable_fields($val_rep, $no_cache = false, $from_parent = $layout,$coming_from_parent_id,$prevous_mod_obj);
                             }
 
 
@@ -727,7 +730,7 @@ Trait ParserEditFieldsTrait
 
     }
 
-    public function _edit_field_add_modules_for_processing($layout, $field = false,$rel = false,$rel_id=false )
+    public function _edit_field_add_modules_for_processing($layout, $field = false,$rel = false,$rel_id=false,$prevous_mod_obj=false )
     {
 
         $parser_mem_crc = 'parser_' . crc32($layout);
@@ -747,11 +750,25 @@ Trait ParserEditFieldsTrait
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value) . '-' . $parser_mem_crc . $key. '-' .$rel. '-' .$field;
+                   // $v1 = crc32($value) . '-' . $parser_mem_crc . $key. '-' .$rel. '-' .$field;
+
+
+
+                    $v1 = 'parser_add_modules_for_processing'.crc32($value)  .'-' .$rel. '-' .$field;
+
+                    if($prevous_mod_obj){
+                        $v1 = $v1.'-'.$prevous_mod_obj->getId();
+
+                    }
+
                     $v1 = '<mw-unprocessed-module-tag>mw_replace_back_this_module_for_processing_' . $v1 . '</mw-unprocessed-module-tag>';
                     if (!$this->parser_modules_collection->has($v1)) {
 
-                        $layout = str_replace_first($value, $v1, $layout);
+                        $attrs = $this->utils->parseAttributes($value);
+
+
+                       // $layout = str_replace_first($value, $v1, $layout);
+                        $layout = $this->_str_replace_first($value, $v1, $layout);
 
                         $newItem = new ParserModuleItem();
                         $newItem->setEditFieldRel($rel);
@@ -759,6 +776,10 @@ Trait ParserEditFieldsTrait
                         $newItem->setEditField($field);
                         $newItem->setReplaceKey($v1);
                         $newItem->setReplaceValue($value);
+                        $newItem->setAttributes($attrs);
+                        if($prevous_mod_obj){
+                            $newItem->setParent($prevous_mod_obj);
+                        }
                         $this->parser_modules_collection->add($v1, $newItem);
                     }
                     //  $local_mw_replaced_modules[$parser_mem_crc][$v1] = $value;
