@@ -17,6 +17,17 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 
     $userId = (int) $request->all()['user_id'];
 
+    $allowToExport = false;
+    if ($userId == user_id()) {
+        $allowToExport = true;
+    } else if (is_admin()) {
+        $allowToExport = true;
+    }
+
+    if ($allowToExport == false) {
+        return array('error' => 'You are now allowed to export this information.');
+    }
+
     $exportFromTables = [];
     $prefix = mw()->database_manager->get_prefix();
     $tablesList = mw()->database_manager->get_tables_list(true);

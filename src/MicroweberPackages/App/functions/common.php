@@ -374,7 +374,7 @@ function clearcache()
     }
 
     if (isset($_GET['redirect_to'])) {
-        return redirect($_GET['redirect_to']);
+        return app()->url_manager->redirect($_GET['redirect_to']);
     }
 
     return true;

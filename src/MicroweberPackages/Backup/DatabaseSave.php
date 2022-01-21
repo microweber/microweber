@@ -110,12 +110,13 @@ class DatabaseSave
         }
     }
 
-	public static function save($table, $productData)
+	public static function save($table, $data)
 	{
-		$productData['skip_cache'] = true;
-		$productData['allow_html'] = true;
-		$productData['allow_scripts'] = true;
 
-		return db_save($table, $productData);
+		$data['skip_cache'] = true;
+		$data['allow_html'] = true;
+		$data['allow_scripts'] = true;
+
+		return db_save($table, $data);
 	}
 }

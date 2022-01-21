@@ -415,7 +415,7 @@ function mw_post_update()
         $update = mw()->update->post_update();
 
         if (isset($_GET['redirect_to'])) {
-            return redirect($_GET['redirect_to']);
+            return app()->url_manager->redirect($_GET['redirect_to']);
         }
 
         return $update;
@@ -432,7 +432,7 @@ function mw_reload_modules()
     mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
 
     if (isset($_GET['redirect_to'])) {
-        return redirect($_GET['redirect_to']);
+        return app()->url_manager->redirect($_GET['redirect_to']);
     }
 }
 
@@ -1164,5 +1164,15 @@ if (!function_exists('hashClosure')) {
         $rf = new \ReflectionFunction($f);
         $pseudounique = $rf->getFileName() . $rf->getEndLine();
         return crc32($pseudounique);
+    }
+}
+
+if (!function_exists('site_hostname')) {
+    function site_hostname()
+    {
+        $siteUrl = site_url();
+        $parseUrl = parse_url($siteUrl);
+
+        return $parseUrl['host'];
     }
 }

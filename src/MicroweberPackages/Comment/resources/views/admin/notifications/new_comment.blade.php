@@ -62,7 +62,7 @@
                         <small class="text-muted">says:</small>
                     </h6>
                     <div>
-                        <p>{!! $notification['comment_body'] !!}</p>
+                        <p>{{ $notification['comment_body'] }}</p>
                     </div>
 
 

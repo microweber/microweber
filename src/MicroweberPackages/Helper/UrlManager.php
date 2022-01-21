@@ -100,6 +100,15 @@ class UrlManager
         }
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
+
+        $parseUrl = parse_url($url);
+
+        if (isset($parseUrl['host'])) {
+            if ($parseUrl['host'] !== site_hostname()) {
+                $url = site_url();
+            }
+        }
+
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {

@@ -350,18 +350,18 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row a, .comments-holder .card-body .row{
-    &:hover {
-            strong, i {
-            color: $primary!important;
-        }
-
-        .mdi.mdi-magnify {
-            color: $secondary!important;
-        }
-
-    }
-}
+//.card-header, .card-body .row a, .comments-holder .card-body .row{
+//    &:hover {
+//            strong, i {
+//            color: $primary!important;
+//        }
+//
+//        .mdi.mdi-magnify {
+//            color: $secondary!important;
+//        }
+//
+//    }
+//}
 
 .quick-links span:hover {
     color: $primary!important;
@@ -805,7 +805,7 @@ input, .custom-select {
 }
 
 .mw-dialog-holder {
-    box-shadow: $primary 0px 1px 10px!important;
+    border: 1px solid $primary;
 }
 
 
