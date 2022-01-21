@@ -160,10 +160,16 @@ if(!$order){
                     <div>
                         <small class="text-muted"><?php _e('Payment method'); ?>:</small>
                         <p>
-                            <?php if (isset($order['payment_type'])): ?>
-                                <?php echo $order['payment_type']; ?>
-                            <?php else: ?>
-                            <?php _e('N/A'); ?>
+                            <?php   $paymentGatewayModuleInfo = module_info($order['payment_gw']); ?>
+                            <?php if($paymentGatewayModuleInfo):  ?>
+                                <?php if (isset($paymentGatewayModuleInfo['settings']['icon_class'])): ?>
+                                    <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
+                                <?php else: ?>
+                                    <?php if (isset($paymentGatewayModuleInfo['icon'])): ?>
+                                        <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php echo $paymentGatewayModuleInfo['name'];?>
                             <?php endif; ?>
                         </p>
                     </div>
