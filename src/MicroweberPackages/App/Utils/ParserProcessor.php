@@ -224,7 +224,7 @@ class ParserProcessor
 
 
            // if($is_first_loop) {
-                $layout = $this->_edit_field_add_modules_for_processing($layout, 'mwnoedit', 'mwnoedit');
+                $layout = $this->_edit_field_add_modules_for_processing($layout, 'mwnoedit', 'mwnoedit',false,$prevous_mod_obj);
             //}
             $this->have_more = !empty($mw_script_matches);
 
@@ -341,8 +341,29 @@ class ParserProcessor
                                     $coming_from_parent = $attrs['parent-module'];
                                 }
                                 if (isset($attrs['parent-module-id'])) {
-                                    $coming_from_parent_id = $attrs['parent-module-id'];
+                                   $coming_from_parent_id = $attrs['parent-module-id'];
                                 }
+
+
+
+
+                                if (!isset($attrs['parent-module-id'])) {
+                                    $check_mod_obj_parent = ($mod_obj->getParent());
+
+                                    if ($check_mod_obj_parent) {
+
+                                        $attrs['parent-module-id'] = $check_mod_obj_parent->getId();
+                                        $attrs['parent-module'] = $check_mod_obj_parent->getModuleName();
+                                        $this->prev_module_data = $check_mod_obj_parent->getAttributes();
+
+                                        $coming_from_parent = $attrs['parent-module'];
+                                        $coming_from_parent_id = $attrs['parent-module-id'];
+
+
+                                    }
+                                }
+
+
 
 
 //                                if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
@@ -487,6 +508,10 @@ class ParserProcessor
                                         $curent_mod_field = $mod_obj->getEditField();
 
 
+                                        if($mod_id == 'footer-layout-custom-fields'){
+                                            dd($mod_obj,$prevous_mod_obj);
+                                        }
+
 
 
                                         if($curent_mod_rel) {
@@ -575,19 +600,28 @@ class ParserProcessor
 //                                         $skip= 0;
 
 
-                                        if ($coming_from_parent_id != false) {
-                                            $par_id_mod_count = $parse_key;
-                                            //$par_id_mod_count =$parser_mem_crc. $parse_key.$key. $coming_from_parent.$coming_from_parent_id;
-                                            //$par_id_mod_count = $coming_from_parent.$coming_from_parent_id;
-                                            //   $par_id_mod_count = $static_parser_mem_crc;
-                                            //    $par_id_mod_count = $parser_mem_crc;
-                                            //    $par_id_mod_count = $parser_modules_crc;
+//                                        if ($coming_from_parent_id != false) {
+//                                            $par_id_mod_count = $parse_key;
+//                                            //$par_id_mod_count =$parser_mem_crc. $parse_key.$key. $coming_from_parent.$coming_from_parent_id;
+//                                            //$par_id_mod_count = $coming_from_parent.$coming_from_parent_id;
+//                                            //   $par_id_mod_count = $static_parser_mem_crc;
+//                                            //    $par_id_mod_count = $parser_mem_crc;
+//                                            //    $par_id_mod_count = $parser_modules_crc;
+//                                            $par_id_mod_count = $coming_from_parent_id;
+//
+//
+//                                        }
+                                        //   $par_id_mod_count = $parser_mem_crc;
+                                  //      $par_id_mod_count = $parse_key;
+
+                                        if(!$coming_from_parent_id){
+                                            $par_id_mod_count = 'global';
+
+                                        } else {
                                             $par_id_mod_count = $coming_from_parent_id;
 
-
                                         }
-                                        //   $par_id_mod_count = $parser_mem_crc;
-                                        $par_id_mod_count = $parse_key;
+
 
 
 //                                        if ($this->_current_parser_rel  ) {
@@ -845,12 +879,25 @@ class ParserProcessor
 
 
 
+//                                    if (!isset($attrs['id'])) {
+//                                        $getId = $mod_obj->getId();
+//                                        if ($getId) {
+//                                            $attrs['id'] = $getId;
+//                                        } else {
+//                                            $mod_obj->setId($attrs['id']);
+//                                        }
+//                                    }
+
+
+
+
+
 
                                     $mod_obj->setId($attrs['id']);
                                     $mod_obj->setModuleName($module_name);
                                     $mod_obj->setAttributes($attrs);
 
-                                  //  if(!isset($attrs['parent-module-id'])) {
+                                 if(!isset($attrs['parent-module-id'])) {
                                         $check_mod_obj_parent = ($mod_obj->getParent());
 
                                         if ($check_mod_obj_parent) {
@@ -880,8 +927,13 @@ class ParserProcessor
                                             $attrs['parent-module'] = $prevous_mod_obj->getModuleName();
 
                                             $this->prev_module_data = $prevous_mod_obj->getAttributes();
+                                        } else {
+
+                                                  $attrs['parent-module'] = $module_name;
+                                                 $attrs['parent-module-id'] =  $attrs['id'];
+                                            $this->prev_module_data = $attrs;
                                         }
-                                 //  }
+                                  }
 
 
                            //         $attrs['parent-module'] = $module_name;

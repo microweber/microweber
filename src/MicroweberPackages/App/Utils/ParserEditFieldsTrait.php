@@ -750,11 +750,11 @@ Trait ParserEditFieldsTrait
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                   // $v1 = crc32($value) . '-' . $parser_mem_crc . $key. '-' .$rel. '-' .$field;
+                    $v1 = crc32($value) . '-' . $parser_mem_crc . $key. '-' .$rel. '-' .$field;
 
 
 
-                    $v1 = 'parser_add_modules_for_processing'.crc32($value)  .'-' .$rel. '-' .$field;
+                  //  $v1 = 'parser_add_modules_for_processing'.crc32($value)  .'-' .$rel. '-' .$field;
 
                     if($prevous_mod_obj){
                         $v1 = $v1.'-'.$prevous_mod_obj->getId();
