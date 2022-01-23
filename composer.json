@@ -47,6 +47,7 @@
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "*",
         "halaxa/json-machine": "*",
+        "droptienda/json-machine": "dev-main",
 
         "jeremeamia/superclosure": "*",
         "erusev/parsedown": "1.7.4",
