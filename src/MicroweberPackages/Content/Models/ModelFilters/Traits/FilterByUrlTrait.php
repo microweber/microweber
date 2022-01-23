@@ -11,8 +11,8 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 trait FilterByUrlTrait{
 
     public function url($url)
-{
-    return $this->query->where('url', $url);
-}
+    {
+        return $this->query->where('url', $url);
+    }
 
 }

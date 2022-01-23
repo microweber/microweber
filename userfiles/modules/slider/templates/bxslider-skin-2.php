@@ -12,7 +12,12 @@
 */
 
 ?>
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>/templates/bxslider-skin-2/style.css"/>
+<?php $skin_css_file =  __DIR__.'/bxslider-skin-2/style.css' ?>
+<?php if(is_file($skin_css_file)){ ?>
+    <style>
+        <?php print  @file_get_contents($skin_css_file) ?>
+    </style>
+<?php } ?>
 
 <div class="bxSlider-skin-2">
     <ul class="bxSlider">

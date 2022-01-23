@@ -13,10 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -283,11 +280,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
                     <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                    <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
                     <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
                         <div class="form-group">
-                            <label class="control-label mb-3"><?php _e("Choose Logo type"); ?></label>
+                            <label class="control-label my-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
@@ -326,18 +324,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
                                 <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
 
-                                <div class="js-remove-logo-btn <?php if ($logoimage == ''): ?>d-none<?php endif; ?>">
-                                    <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
-
-                                    <script>
-                                        $('.js-remove-logoimage').on('click', function () {
-                                            $('#logoimage').val('');
-                                            $("#logoimage").trigger('change');
-                                            $('img.the-image').attr('src', '');
-                                            $(this).parent().addClass('d-none');
-                                        });
-                                    </script>
-                                </div>
                             </div>
 
                             <div>
@@ -346,6 +332,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
                                     <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit image"); ?></a>
                                 <?php endif; ?>
+
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
+
+                                <script>
+                                    $('.js-remove-logoimage').on('click', function () {
+                                        $('#logoimage').val('');
+                                        $("#logoimage").trigger('change');
+                                        $('img.the-image').attr('src', '');
+                                    });
+                                </script>
+
                             </div>
                         </div>
 
@@ -420,7 +417,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <script>mw.require('editor.js')</script>
                             <script>
                                 $(document).ready(function () {
-                                    mweditor = mw.Editor({
+                                    var editor = mw.Editor({
                                         selector: '#text',
                                         mode: 'div',
                                         smallEditor: false,
@@ -432,14 +429,27 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 {
                                                     group: {
                                                         icon: 'mdi mdi-format-bold',
-                                                        controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                                                        controls: ['bold', 'italic', 'underline', 'strikeThrough'],
+
                                                     }
                                                 },
+                                                    'fontSize',
+                                                '|', 'wordPaste', 'textColor', 'textBackgroundColor',
 
-                                                '|', 'wordPaste'
+                                                'removeFormat'
+
                                             ],
                                         ]
                                     });
+                                    $(editor).on('change', function (e, val){
+                                        console.log(val)
+                                        var fs = $('[name="font_size"]');
+                                        var area = this.$editArea.get(0);
+                                        var curr = getComputedStyle(area).fontSize;
+                                        if(curr !== fs.val()) {
+                                            fs.val(curr).trigger('change');
+                                        }
+                                    })
                                 });
                             </script>
 

@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Login default
+name: Checkout default
 
-description: Login default
+description: Checkout default
 
 */
 
@@ -67,7 +67,7 @@ description: Login default
                     <module type="captcha" template="admin" />
                 <?php endif; ?>
                 <div class="d-flex align-items-center">
-                    <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
+                    <a class="reset-password-link" href="<?php echo route('checkout.forgot_password'); ?>">
                         <?php _e("Forgot password"); ?>
                         ?</a>
                     <button class="btn btn-outline-primary ml-auto px-5" type="submit"> <?php _e("Login"); ?></button>
@@ -120,7 +120,7 @@ description: Login default
                 </div>
 
                 <?php if (isset($_GET['redirect'])): ?>
-                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo mw()->format->clean_xss($_GET['redirect']); ?>" name="redirect">
                 <?php endif; ?>
 
             </form>

@@ -2,7 +2,7 @@
 <?php $posts_parent_page = get_option('data-root-page-id', $params['id']); ?>
 <?php
 if (isset($params['for-current-content-id'])) {
-    $params['for-content-id'] = CONTENT_ID;
+    $params['for-content-id'] = content_id();
 }
 
 if (isset($params['for-content-id'])) {
@@ -22,7 +22,7 @@ if (isset($params['for-content-id'])) {
         var additional_params = {};
         additional_params.manage_tags = 'yes';
 
-        return window.parent.mw.tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
+        return window.mw.parent().tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
 
 
     }
@@ -58,7 +58,7 @@ if (isset($params['for-content-id'])) {
                 </div>
             </div>
 
-            <div class="text-right">
+            <div class="text-end text-right">
                 <a href="javascript:;" onClick="editTagsShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});" class="btn btn-primary btn-sm"><?php _e('Manage tags') ?></a>
             </div>
         </div>

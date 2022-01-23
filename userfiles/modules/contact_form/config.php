@@ -14,3 +14,8 @@ $config['settings']['translatable_options'] = [
     'email_autorespond_subject',
     'email_autorespond'
 ];
+
+$config['ui'] = true;
+$config['ui_admin'] = true;
+$config['is_system'] = true;
+$config['is_integration'] = 1;

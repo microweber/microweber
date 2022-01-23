@@ -98,7 +98,7 @@
                 <label class="mw-ui-label">Message</label>
                 <textarea class="mw-ui-field mw-full-width"></textarea>
             </div>
-            <div class="text-right">
+            <div class="text-end text-right">
                 <label class="mw-ui-check">
                     <input type="checkbox" value="1" checked="">
                     <span></span><span>Subscribe</span>

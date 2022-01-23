@@ -1,6 +1,6 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.2 running on Laravel 8!**
+**Current version: 1.3 running on Laravel 8!**
 
 
 **[Download](https://microweber.com/download.php) |
@@ -76,7 +76,7 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 
 * HTTP server  
 * Database server
-* PHP >= 5.6
+* PHP >= 7.3
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
 
@@ -131,7 +131,6 @@ Another way is to first clone the repository and then run `composer install` in 
 #### File permissions
 Make sure these folders, and everything inside, is writeable by the user executing the PHP scripts:
 * config/
-* src/
 * storage/
 * userfiles/
 
@@ -145,7 +144,11 @@ We are looking for people who want to help us improve Microweber.
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request, and be sure all tests are passing.
 
 ## Build Status
-[![Build Status](https://travis-ci.org/microweber/microweber.svg?branch=master)](https://travis-ci.org/microweber/microweber)
+
+![PHP Unit Tests](https://github.com/microweber/microweber/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/microweber/microweber/branch/dev/graph/badge.svg?token=aLAgaSMcbZ)](https://codecov.io/gh/microweber/microweber)
+
+
 ## Contributors
 
 ### Code Contributors

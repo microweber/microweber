@@ -15,7 +15,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
 
         ini_set('memory_limit', '4024M');
-
+        ini_set('max_execution_time', '3000');
 
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
@@ -56,7 +56,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
             @unlink($mw_file_database);
             file_put_contents($mw_file, "<?php return array (
-            'is_installed' => 0, 
+            'is_installed' => 0,
             'compile_assets' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,

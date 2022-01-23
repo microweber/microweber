@@ -14,7 +14,7 @@ $rand = uniqid();
     <?php endif; ?>
 
   <div class="mw-custom-field-form-controls">
-    <input type="text" <?php if ($settings['required']): ?> required="true"  <?php endif; ?>  data-custom-field-id="<?php echo $data["id"]; ?>"  name="<?php print $data["name"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>" class="mw-ui-field" />
+    <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-custom-field-id="<?php echo $data["id"]; ?>"  name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>" class="mw-ui-field" />
   </div>
 </div>
 
@@ -24,7 +24,7 @@ $rand = uniqid();
  </script>
  <script>
     $(document).ready(function(){
-      mw.$( "#date_<?php print $rand; ?>" ).datepicker();
+        $('#date_<?php echo $rand; ?>').datepicker({ dateFormat: '<?php echo $settings['date_format'];?>', language: "<?php echo current_lang_abbr(); ?>"});
     });
  </script>
 </div>

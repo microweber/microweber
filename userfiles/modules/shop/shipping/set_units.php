@@ -12,7 +12,7 @@
             _binded = true;
             $(document.body).ajaxStop(function () {
                 if (parent != undefined && parent.mw != undefined) {
-                    parent.mw.reload_module("shop/shipping/gateways/country");
+                    mw.parent().reload_module("shop/shipping/gateways/country");
                 }
             });
         }

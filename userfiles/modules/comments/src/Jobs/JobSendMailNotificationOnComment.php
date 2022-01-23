@@ -61,7 +61,7 @@ class JobSendMailNotificationOnComment implements ShouldQueue
             $commentsMailMap[$emailTo] = $comment;
 
             try {
-                 $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+                 $twig = new \MicroweberPackages\View\TwigView();
 
                 $commentEmailContent = $twig->render(
                     $mailTemplate['message'],

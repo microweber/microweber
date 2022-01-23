@@ -40,7 +40,7 @@
 
 
 
-    <style type="text/css">
+    <style >
         .mw-file-browser-popup .modules-index-bar {
             padding-top: 12px;
         }
@@ -120,6 +120,7 @@
             height: auto;
         }
 
+        body.browser-liveedit .file-browser-multiple-download,
         body.browser-liveedit .delete_item {
             display: none;
         }
@@ -327,7 +328,7 @@
 
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 300px) {
             .file_browser_sort_by, .browser-ctrl-bar .form-inline{
                 display: none !important;
             }
@@ -751,7 +752,7 @@
                         <div>
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-plus"></i> <?php _e("Create folder"); ?>
+                                    <i class="mdi mdi-plus"></i> <?php _e("Add"); ?>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <span class="dropdown-item" id="mw_uploader"><?php _e("Upload File"); ?></span>

@@ -29,6 +29,21 @@ mw.moduleSettings = function(options){
 
     if(!this.options.element) return;
 
+    this.interval = function (c) {
+        if(!this._interval) {
+            this._intervals = [];
+            this._interval = setInterval(function () {
+                if(scope.options.element && document.body.contains(scope.options.element)) {
+                    scope._intervals.forEach(function (func){
+                        func.call(scope)
+                    })
+                } else {
+                    clearInterval(scope._interval)
+                }
+            }, 1000)
+        }
+    }
+
     this.createItemHolderHeader = function(i){
         if(this.options.header){
             var header = document.createElement('div');
@@ -45,9 +60,13 @@ mw.moduleSettings = function(options){
         mw.$("[data-action='remove']", header).on('click', function(e){
             e.stopPropagation();
             e.preventDefault();
-            $(mw.tools.firstParentOrCurrentWithAnyOfClasses(this, ['mw-module-settings-box'])).remove();
-            scope.refactorDomPosition();
-            scope.autoSave();
+            var el = this;
+            mw.confirm(function () {
+                $(mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-module-settings-box'])).remove();
+                scope.refactorDomPosition();
+                scope.autoSave();
+            })
+
         });
     };
     this.createItemHolder = function(i){
@@ -100,7 +119,18 @@ mw.moduleSettings = function(options){
                     }
                 }
             });
+        } else if(method === 'blank') {
+            for (var i in _new) {
+                _new[i] = '';
+                if(i === 'name' || i === 'title') {
+                    _new[i] = 'New';
+                }
+            }
         }
+
+
+
+
 
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);

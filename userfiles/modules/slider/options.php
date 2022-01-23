@@ -4,8 +4,7 @@
  * USER FIELDS
  *
  */
-
-//$sliderEngine = explode('-', $module_template_clean)[0];
+include('skins_variables.php');
 
 $engine_by_module_template = $module_template;
 $engine_by_module_template = explode('-', $engine_by_module_template);
@@ -27,7 +26,7 @@ if ($slides_xs) {
 } elseif (isset($params['data-slides-xs'])) {
     $slides_xs = $params['data-slides-xs'];
 } else {
-    $slides_xs = '1';
+    $slides_xs = 1;
 }
 
 $slides_sm = get_module_option('slides-sm', $params['id']);
@@ -36,7 +35,7 @@ if ($slides_sm) {
 } elseif (isset($params['data-slides-sm'])) {
     $slides_sm = $params['data-slides-sm'];
 } else {
-    $slides_sm = '2';
+    $slides_sm = 2;
 }
 
 $slides_md = get_module_option('slides-md', $params['id']);
@@ -45,7 +44,7 @@ if ($slides_md) {
 } elseif (isset($params['data-slides-md'])) {
     $slides_md = $params['data-slides-md'];
 } else {
-    $slides_md = '3';
+    $slides_md = 3;
 }
 
 $slides_lg = get_module_option('slides-lg', $params['id']);
@@ -54,7 +53,7 @@ if ($slides_lg) {
 } elseif (isset($params['data-slides-lg'])) {
     $slides_lg = $params['data-slides-lg'];
 } else {
-    $slides_lg = '4';
+    $slides_lg = 4;
 }
 
 $slides_xl = get_module_option('slides-xl', $params['id']);
@@ -63,13 +62,13 @@ if ($slides_xl) {
 } elseif (isset($params['data-slides-xl'])) {
     $slides_xl = $params['data-slides-xl'];
 } else {
-    $slides_xl = '4';
+    $slides_xl = 4;
 }
 
-$thumb_quality_x = '1920';
+$thumb_quality_x = 2000;
 $thumb_quality_x = $thumb_quality_x / $slides_xl;
 
-$thumb_quality_y = '1920';
+$thumb_quality_y = 2000;
 $thumb_quality_y = $thumb_quality_y / $slides_xl;
 
 //bxSlider & Slick

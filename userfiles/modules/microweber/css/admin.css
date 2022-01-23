@@ -1,3 +1,7 @@
+@import url("../api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
+@import url("./ui.css");
+@import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
+
 .btn[disabled]{
     cursor: default !important;
 }
@@ -192,6 +196,19 @@ div.form-control {
     clear: both;
 }
 
+.main:after{
+    display: block;
+    clear: both;
+    content:'.';
+    font-size: 0;
+}
+.main{
+    overflow: visible;
+}
+.main > aside > #mw-admin-main-navigation{
+    position: sticky;
+    top: 80px;
+}
 .main .tree {
     border: 0 !important;
 }
@@ -312,8 +329,22 @@ div.form-control {
     height: 55px;
 }
 
+.card.ui-sortable-helper{
+    background-color: #fff !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px !important;
+}
+
+.module-content-manager .card.style-1 .card-body .card.ui-sortable-helper{
+    /* sorting posts */
+    margin-inline-start: 25px;
+    left:0 !important;
+}
+
 #edit-content-btn{margin-left: 10px;}
 
+.upload-button-prop:only-child .mw-badge{
+    display: none;
+}
 .upload-button-prop.mw-ui-box.mw-ui-box-content {
     width: 115px;
     display: inline-block;
@@ -353,4 +384,151 @@ div.form-control {
 
 .copyright .text-muted a {
     color: var(--gray);
+}
+
+
+#quick-parent-selector-tree .mw-tree-nav-skin-default .mw-tree-item-title{
+    padding-right: 0;
+}
+
+.mw-btn-icon{
+    padding: 6px 10px;
+  font-size: 20px;
+ margin: 0 10px;
+ border-radius: 3px;
+ cursor: pointer;
+}
+
+#content-tags-search-block .mw-select{
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 1024px) and (min-width: 768px){
+
+    .manage-posts-holder-inner > .card-product-holder .item-author {
+        display: none;
+    }
+
+}
+
+.mw-custom-field-icon-color:before {
+    content: '\F0765';
+
+}
+
+.mw-custom-field-icon-country:before {
+    content: '\F0826';
+
+}
+
+.custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
+    font-size: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.custom-fields-add-buttons button .mw-custom-field-title text-break-line-1 {
+    font-size: 12px;
+}
+
+.custom-fields-add-buttons button {
+    width: 20%;
+    text-align: center;
+    display: block;
+    float: left;
+}
+
+.custom-fields-add-buttons button:hover {
+    background: #f2f3f5;
+}
+
+.card-closed {
+    width: auto !important;
+    display: inline-block;
+}
+
+.card .card-header {
+    /*cursor: pointer;*/
+}
+
+.card-closed .card-header:first-child {
+    border-radius: 10px;
+}
+
+.card-closed .card-header:after {
+    display: none;
+}
+
+.content-title-field-row .card-header:after{
+    border: none!important;
+}
+
+.btn .mdi{
+    font-size: 16px;
+    margin-inline-end: 6px;
+}
+
+@media (max-width: 1024px) {
+
+
+    .btn .mdi{
+        margin-inline-end: 0px;
+        margin-inline-start: 0px;
+
+    }
+
+}
+
+
+
+.mw-bs-card-collpase[aria-expanded="true"]:before{
+    content: "\F015A";
+}
+.mw-bs-card-collpase[aria-expanded="true"]{
+
+    font: normal normal normal 24px/1 "Material Design Icons";
+    color: #4592ff;
+    font-size: 1.4em;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+}
+.mw-bs-card-collpase:not([aria-expanded="true"]){
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.one-column-module-layouts-viewer {
+    column-count: 1!important;
+}
+
+.mw-editor-wrapper module.module:after{
+    content: attr(data-mw-title);
+}
+
+.mw-editor-wrapper module.module {
+    display: flex;
+    height: 100px;
+    width: 100%;
+     position: relative;
+    pointer-events: none;
+    border: 3px dashed #ccc;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-ui-box.mw-module-settings-box .mw-ui-box-header [data-action="remove"]:hover{
+    color: #c50000;
+}
+.mw-ui-box.mw-module-settings-box .mw-ui-box-header [data-action="remove"]{
+    font-size: 19px;
+    color: #797979;
+    line-height: 20px;
+    cursor: pointer;
 }

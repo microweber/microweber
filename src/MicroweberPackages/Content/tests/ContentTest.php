@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Content\tests;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class ContentTest extends TestCase
@@ -59,6 +60,26 @@ class ContentTest extends TestCase
             'is_active' => 1,);
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
+
+
+        // test related
+        $params = [
+            'content_id'=>$parent_page,
+            'related_content_id'=>$get_sub_page['id'],
+        ];
+        $add = mw()->content_manager->helpers->related_content_add($params);
+        $related = mw()->content_manager->get_related_content_ids_for_content_id($parent_page);
+        $this->assertEquals($related[0], $get_sub_page['id']);
+
+        $params = [
+            'content_id'=>$parent_page,
+            'related_content_id'=>$get_sub_page['id'],
+        ];
+        mw()->content_manager->helpers->related_content_remove($params);
+        $related = mw()->content_manager->get_related_content_ids_for_content_id($get_sub_page['id']);
+        $this->assertTrue(empty($related));
+
+
         //clean
         $delete_parent = delete_content($parent_page);
         $delete_sub_page = delete_content($sub_page);
@@ -72,6 +93,10 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
         $this->assertEquals('My test sub page', $get_sub_page['title']);
         $this->assertEquals($sub_page, $get_sub_page['id']);
+
+
+
+
     }
 
     public function testGetPages()
@@ -269,15 +294,17 @@ class ContentTest extends TestCase
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
         $save_post3 = save_content($params);
+
         //getting
         $next = next_content($save_post1);
-
         $prev = prev_content($save_post2);
 
         $this->assertEquals($save_post2, ($next['id']));
         $this->assertEquals($save_post1, ($prev['id']));
+
         $next = next_content($save_post2);
         $prev = prev_content($save_post3);
+
         $this->assertEquals($save_post3, ($next['id']));
         $this->assertEquals($save_post2, ($prev['id']));
         $del1 = delete_content($save_post1);
@@ -330,7 +357,34 @@ class ContentTest extends TestCase
 
     }
 
+    public function testContentDescription()
+    {
+        $title = 'title for testContentDesctiprton' . uniqid();
+        $description = 'description for testContentDesctiprton' . uniqid() . '';
+        $params = array(
+            'title' => $title,
+            'description' => $description,
+            'content_type' => 'post',
+            'is_active' => 1,);
+        //saving content with wrong date
+        $save_post1 = save_content($params);
+        $save_post_data1 = get_content_by_id($save_post1);
 
+        $this->assertEquals($save_post_data1['title'], $title);
+        $this->assertEquals($save_post_data1['description'], $description);
+
+        $content = Content::where('id', intval($save_post_data1["id"]))->first();
+
+        $this->assertEquals($content->title, $title);
+        $this->assertEquals($content->description, $description);
+
+        $short = $content->shortDescription(11,' ok');
+        $this->assertEquals($short, 'description ok');
+
+
+
+
+    }
 
 
 

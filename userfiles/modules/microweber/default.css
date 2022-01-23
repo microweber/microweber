@@ -1,22 +1,17 @@
 /*
- * Microweber - Framework
- *
- * Default styles
- *
- */
-
-@import url("css/ui.css");
-/*
-@import url("../layouts/templates/layouts.css");
+ * Microweber - Default styles
 */
 
-/*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css");*/
-/*@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_compiled.css");*/
+@import url("./css/ui.css");
 
-@import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
+[data-layout-container] {
+    min-height: 100px;
+}
 
-.mw-filepicker-component-section:hover .dro\pable-zone button{
-    text-decoration: underline;
+.mw-bg-mask{
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: rgba(0,0,0,0) !important;
 }
 .mw-filepicker-component-section:hover .dropable-zone{
     border-color: #4592ff;
@@ -33,6 +28,14 @@
 .mw-filepicker-component-section {
     /*max-height: 70vh;*/
     overflow: hidden;
+}
+.mw-filepicker-root ,
+.mw-filepicker-root *{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .bootstrap-select .dropdown-menu li{
@@ -145,6 +148,7 @@ ul.mw-default-layout-un-ordered-t4 li {
     list-style-position: inside;
     margin-inline-start: 17px;
     text-indent: -17px;
+    line-height: 25px;
 }
 
 ul.mw-default-layout-un-ordered-t4 li ul li {
@@ -203,12 +207,457 @@ ul.mw-default-layout-blockquote li:before {
 /*}*/
 
 /*Background Text*/
-ul.mw-default-layout-background-text {
+.mw-default-layout-background-text {
     background-color: rgba(0, 0, 0, 0.01);
     border: 1px solid rgba(51, 51, 51, 0.1);
     padding: 0.8em;
 }
-/*END LIVE EDIT STATIC LAYOUTS*/
+
+
+/*Gallery*/
+.mw-gallery,
+.mw-gallery *:before,
+.mw-gallery *:after,
+.mw-gallery *{
+    box-sizing: border-box;
+}
+.mw-gallery{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1102;
+}
+
+.mw-gallery-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.7);
+}
+
+.mw-gallery-content{
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+}
+
+.mw-gallery-fullscreen-item{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(.93);
+    transition: .6s;
+    opacity: 0;
+    visibility: hidden;
+}
+.mw-gallery-fullscreen-item.active{
+    transform: translate(-50%,-50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+.mw-gallery-fullscreen-item-image img{
+    display: block;
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+}
+.mw-gallery-fullscreen-item-description{
+    max-height: 20vh;
+    color: white;
+    padding: 10px;
+    background-color: rgba(0,0,0,.2);
+}
+
+.mw-gallery-prev,
+.mw-gallery-next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 50px;
+    color: white;
+    display: inline-block;
+    padding: 20px;
+    font-family: ui-sans-serif, sans-serif;
+    z-index: 5;
+}
+.mw-gallery-prev:after{
+    content: '\2039';
+}
+.mw-gallery-prev{
+    left: 20px;
+}
+.mw-gallery-next{
+    right: 20px;
+}
+
+.mw-gallery-controls > *{
+    padding: 10px;
+    cursor: pointer;
+    font-family: "Material Design Icons";
+    font-size: 20px;
+}
+
+.mw-gallery-control-play.pause:after{
+    content: "\F03E4";
+}
+.mw-gallery-control-play:after{
+    content: '\F040A';
+}
+
+.mw-gallery-control-close:after{
+    content: "\F0156";
+}
+
+.mw-gallery-controls{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #eee;
+    z-index: 11;
+}
+.mw-gallery-next:after{
+    content: '\203A';
+}
 
 
 
+.mw-ui-btn {
+    font-weight: 400;
+    text-align: center;
+    user-select: none;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 1.308rem;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    font-size: 0.875rem;
+    height: 40px;
+    border-radius: 5px;
+    color: #686868;
+    background-color: #eeefef;
+    border: 1px solid #cfcfcf;
+    outline: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.mw-ui-btn-nav, .mw-ui-btn-vertical-nav {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mw-ui-btn-nav > .mw-dropdown, .mw-ui-btn-nav > .mw-dropdown .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-field, .mw-ui-btn-nav > li > .mw-ui-btn {
+    border-width: 1px 1px 1px 0px;
+    float: left;
+    border-radius: 0px;
+}
+
+.mw-ui-bg-info, .mw-ui-btn-info, .mw-ui-btn.active-info {
+    color: #fff!important;
+    background-color: #4592ff!important;
+    border-color: #4592ff!important;
+}
+
+
+.mw-ui-btn-info:hover, .mw-ui-btn-info.active {
+    background-color: #abceff!important;
+    border-color: #abceff!important;
+}
+
+.mw-ui-btn:hover:not([class*='active-']):not(.active) {
+    outline: none!important;
+    text-decoration: none!important;
+}
+
+.mw-ui-btn-nav > .mw-dropdown:first-child .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn:first-child, .mw-ui-btn-nav > .mw-ui-field:first-child, .mw-ui-btn-nav > li:first-child > .mw-ui-btn {
+    border-left-width: 1px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.mw-ui-btn-nav > .mw-dropdown:last-child .mw-ui-btn, .mw-ui-btn-nav > .mw-ui-btn:last-child, .mw-ui-btn-nav > .mw-ui-field:last-child, .mw-ui-btn-nav > li:last-child > .mw-ui-btn {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.mw-ui-btn .mdi, .mw-ui-btn-tab .mdi, .mw-ui-btn .fa, .mw-ui-btn-tab .fa {
+    font-size: 1rem;
+    line-height: 0.5em;
+    position: relative;
+    margin-inline-end: 6px;
+}
+
+.mdi:before, .mdi-set {
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.mw-ui-size-medium, .mw-ui-btn-medium {
+    font-size: 0.765625rem;
+    height: 35px;
+    padding: 0px 1rem;
+}
+
+
+@media only screen and (max-width: 430px) {
+
+    .mw-checkout-modal-buttons {
+        width: 100%!important;
+        margin: 5px 0!important;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+.checkout-modal-header .btn-close {
+    padding: 1rem!important;
+}
+
+
+/*MW DIALOG*/
+
+.mw-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1200;
+}
+.mw-dialog.mw-dialog-scroll-mode-window {
+    overflow: auto;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside {
+    overflow: hidden;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-holder {
+    max-height: 96%;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    overflow: hidden auto;
+    max-height: 88vh;
+}
+.mw-dialog.mw-dialog-overflowMode-visible .mw-dialog-container {
+    overflow: visible;
+}
+.mw-dialog.mw-dialog-overflowMode-hidden .mw-dialog-container {
+    overflow: hidden;
+}
+.mw-dialog .mw-dialog-container {
+    position: relative;
+}
+.mw-dialog .mw-dialog-container .mw-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.mw-dialog .mw-dialog-overlay {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.mw-dialog .mw-dialog-holder {
+    position: absolute !important;
+    z-index: 2;
+}
+.mw-dialog.mw-dialog-iframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+.mw-dialog.mw-dialog-iframe-autoheight iframe {
+    position: relative;
+}
+.mw-dialog-skin-video .mw-dialog-holder {
+    max-width: calc(100% - 140px);
+}
+.mw-dialog-skin-video .mw-dialog-holder .mwembed {
+    max-width: 100%;
+}
+.mw-dialog-skin-video .mw-dialog-close {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #00000059;
+    border-radius: 43px;
+    cursor: pointer;
+}
+.mw-dialog-skin-video .mw-dialog-close:after {
+    content: "\F0156";
+    font-family: "Material Design Icons";
+}
+.mw-dialog-skin-default {
+    visibility: hidden;
+    color: #686868;
+}
+.mw-dialog-skin-default .mw-dialog-header {
+    padding: 6px 25px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 0;
+    z-index: 2;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #D9DADB;
+    min-height: 43px;
+    background-color: #4592ff;
+    color: #fff;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-title {
+    max-width: calc(100% - 55px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-title .mdi {
+    margin-inline-end: 6px;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dropdown-content {
+    background-color: #2b2b2b;
+}
+.mw-dialog-skin-default .mw-dialog-footer {
+    padding: 10px 0px;
+    margin: 0 25px;
+    overflow: hidden;
+    position: relative;
+    text-align: right;
+    border-top: 1px solid #D9DADB;
+}
+.mw-dialog-skin-default .mw-dialog-footer .mw-ui-btn + .mw-ui-btn {
+    margin-left: 10px;
+}
+.mw-dialog-skin-default .mw-dialog-footer:empty {
+    display: none;
+}
+.mw-dialog-skin-default.mw-dialog-scroll-mode-window .mw-dialog-header {
+    position: sticky;
+}
+.mw-dialog-skin-default .mw-dialog-holder {
+    max-width: 98%;
+    background-color: #FAFAFA;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: none;
+    /*  height:auto;!important;*/
+}
+.mw-dialog-skin-default .mw-dialog-holder.mw-dialog-drag-start {
+    transition: none;
+}
+.mw-dialog-skin-default .mw-dialog-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+.mw-dialog-skin-default.active {
+    visibility: visible;
+}
+.mw-dialog-skin-default.active .mw-dialog-holder {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+.mw-dialog-skin-default.active .mw-dialog-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+.mw-dialog-skin-default .mw-dialog-close {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 32px;
+    height: 28px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #CFCFCF;
+    border-radius: 0px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.mw-dialog-skin-default .mw-dialog-close:hover {
+    background-color: #ffffff;
+    color: #4592ff;
+}
+.mw-dialog-skin-default .mw-dialog-close:after {
+    content: "\f2d7";
+    font-family: Microweber;
+    font-size: 12px;
+}
+.mw-dialog-skin-default .mw-dialog-container {
+    padding: 10px 25px;
+}
+.mw-dialog-skin-default.mw-dialog-iframe-loading iframe {
+    opacity: 0;
+    min-height: 100px;
+}
+html[dir='rtl'] .mw-dialog-close {
+    right: auto;
+    left: 0;
+}
+.mw-dialog-module-settings .mw-dialog-overlay {
+    pointer-events: none;
+}
+
+.mw-layout-overlay{
+    position: absolute !important;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.1);
+    pointer-events: none;
+}
+
+.mw-layout-overlay-wrapper{
+    position: relative;
+}
+.mw-layout-overlay-container{
+    position: relative;
+    z-index: 1;
+}
+
+.mw-padding-div-header {
+    padding: 2rem;
+}

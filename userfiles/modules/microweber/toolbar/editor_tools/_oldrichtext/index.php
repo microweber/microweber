@@ -37,7 +37,7 @@
                         $('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
 
                         var html = edmwdoc.body.innerHTML;
-                        parent.mw.$("iframe#" + window.name).trigger("change", html);
+                        mw.parent().$("iframe#" + window.name).trigger("change", html);
                     }, 600);
                 });
             }
@@ -114,7 +114,7 @@
             master.addEventListener("DOMAttrModified", function (e) {
                 var attr = e.attrName;
                 if (attr == 'style') {
-                    parent.mw.$("#" + window.name).css({
+                    mw.parent().$("#" + window.name).css({
                         height: $(master).height() + 4
                     });
                 }
@@ -127,7 +127,7 @@
                     $(this).css("cursor", "pointer").click(function (e) {
                         if (!mw.tools.hasClass(e.target, 'mw-close')) {
                             parent['QTABS'].set(0);
-                            parent.mw.tools.scrollTo('#quick-add-post-options', false, 20);
+                            mw.parent().tools.scrollTo('#quick-add-post-options', false, 20);
                         }
                     });
                 }
@@ -143,7 +143,7 @@
     </script>
 
 
-    <style type="text/css">
+    <style >
 
         * {
             margin: 0;

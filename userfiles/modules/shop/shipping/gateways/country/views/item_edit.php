@@ -156,7 +156,7 @@ if ($weight_units == false) {
 
 
                 if (window.parent != undefined && window.parent.mw != undefined) {
-                    // window.parent.mw.reload_module('shop/shipping/gateways/country');
+                    // window.mw.parent().reload_module('shop/shipping/gateways/country');
                     mw.reload_module_everywhere('shop/shipping/gateways/country');
 
                 }
@@ -185,14 +185,20 @@ if ($weight_units == false) {
         $('.js-shipping-item-edit-needs-id').show();
     }
 
+    var SaveShippingFormTime = null;
+
     SaveShippingForm = function () {
-        var formid = 'js-shipping-edit-item-form-<?php print $item['id']; ?>'
-        var form_to_submit = document.getElementById(formid)
-        <?php if ($new == true): ?>
-        SaveShipping(form_to_submit, 'new');
-        <?php else : ?>
-        SaveShipping(form_to_submit, '<?php print $params['data-type'] ?>');
-        <?php endif; ?>
+        clearTimeout(SaveShippingFormTime);
+        SaveShippingFormTime = setTimeout(function (){
+            var formid = 'js-shipping-edit-item-form-<?php print $item['id']; ?>'
+            var form_to_submit = document.getElementById(formid)
+            <?php if ($new == true): ?>
+            SaveShipping(form_to_submit, 'new');
+            <?php else : ?>
+            SaveShipping(form_to_submit, '<?php print $params['data-type'] ?>');
+            <?php endif; ?>
+        }, 400);
+
     }
 </script>
 
@@ -300,7 +306,7 @@ if ($weight_units == false) {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                 </div>
-                                <input class="form-control" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"   placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
+                                <input class="form-control" type="number" oninput="SaveShippingForm();"   placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
                             </div>
                         </div>
 

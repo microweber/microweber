@@ -41,7 +41,7 @@ function coupon_apply($params = array())
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
         if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
-            $errorMessage .= _e('The coupon can\'t be applied cause maximum uses is', true) .' '. $coupon['uses_per_customer'] . "<br />";
+            $errorMessage .= _e('The coupon cannot be applied cause maximum uses exceeded.', true) . "<br />";
         }
     }
 
@@ -221,6 +221,23 @@ function coupon_get_all()
     return $readyCoupons;
 }
 
+
+api_expose_admin('coupon_logs');
+function coupon_logs()
+{
+    $table = 'cart_coupon_logs';
+    $coupons = DB::table($table)->select('*')
+        ->get()
+        ->toArray();
+
+    $readyCoupons = array();
+    foreach ($coupons as $coupon) {
+        $readyCoupons[] = get_object_vars($coupon);
+    }
+
+    return $readyCoupons;
+}
+
 api_expose_admin('coupon_get_by_id');
 function coupon_get_by_id($coupon_id)
 {
@@ -238,12 +255,14 @@ function coupon_get_by_code($coupon_code)
 {
     $table = "cart_coupons";
 
-    return db_get($table, array(
+    $get = db_get($table, array(
         'is_active' => 1,
         'coupon_code' => $coupon_code,
         'single' => true,
         'no_cache' => true
     ));
+
+    return $get;
 }
 
 api_expose('coupon_delete');
@@ -283,7 +302,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
                 <a href="#option_group=shop/coupons/admin" class="d-flex my-3">
                     <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
                     <div class="info-holder">
-                        <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
+                        <span class="text-outline-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
                         <small class="text-muted">' . _e('Creating and managing coupon codes', true) . '</small>
                     </div>
                 </a>
@@ -293,21 +312,3 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
 event_bind('mw.admin.shop.settings.coupons', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
-
-
-event_bind('mw.shop.cart.init', function ($params) {
-    //register_component($type,$params)
-
-    $cart_price_summary['discount'] = array(
-        'label' => _e("Discount", true),
-        'value' => '-' . cart_get_discount_text()
-    );
-
-
-    mw()->app->ui->register_component('price_summary', '');
-});
-
-
-
-
-

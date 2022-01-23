@@ -16,6 +16,7 @@ class ModuleFrontController
     {
         $this->moduleParams = $params;
         $this->moduleOptions = Option::where('option_group', $this->moduleParams['id'])->get();
+     //   $this->moduleOptions = app()->option_repository->getOptionsByGroup($this->moduleParams['id']);
     }
 
     public function setModuleConfig($config)
@@ -23,29 +24,12 @@ class ModuleFrontController
         $this->moduleConfig = $config;
     }
 
-    public function view($view = false, $data = [], $return = false)
+    public function registerModule()
     {
-        if (method_exists($this, 'appendContentSchemaOrg')) {
-            $this->appendContentSchemaOrg();
-        }
-
-        if (method_exists($this, 'appendContentThumbnailSize')) {
-            $this->appendContentThumbnailSize();
-        }
-
-        if (method_exists($this, 'appendContentShowFields')) {
-            $this->appendContentShowFields();
-        }
-
-        $this->viewData = array_merge($this->viewData, $data);
-
-        $this->viewData['params'] = $this->moduleParams;
-        $this->viewData['config'] = $this->moduleConfig;
-
         $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
-        if ($moduleTemplate == false and isset($this->moduleParams['template'])) {
-            $moduleTemplate = $this->moduleParams['template'];
-        }
+        // if (isset($this->moduleParams['default-template'])) {
+        //       $defaultTemplate = $this->moduleParams['default-template'];
+        //  }
 
         if ($moduleTemplate != false) {
             $templateFile = module_templates($this->moduleConfig['module'], $moduleTemplate);
@@ -53,17 +37,48 @@ class ModuleFrontController
             $templateFile = module_templates($this->moduleConfig['module'], 'default');
         }
 
-        if (strpos($view, '::') !== false) {
-            return view($view, $this->viewData);
-        } else {
+        if ($templateFile) {
+            $templateDir = dirname($templateFile);
+            if (is_dir($templateDir)) {
 
-            view()->addNamespace($this->moduleConfig['module'], dirname($templateFile));
+                $defaultDir = dirname($templateDir) . DS . 'default';
+                if (is_dir($defaultDir)) {
+                    view()->prependNamespace($this->moduleConfig['module'], $defaultDir);
+                }
 
-            if ($view) {
-                return view($this->moduleConfig['module'] . '::' . $view, $this->viewData);
+                // This is the first level of template
+                view()->prependNamespace($this->moduleConfig['module'], $templateDir);
+
+                /**
+                 * The right way to order tempalates
+                 *
+                    0 => "\userfiles\templates\theme\modules\blog\templates\filter"
+                    1 => "\userfiles\templates\theme\modules\blog\templates\default"
+                    2 => "\src\MicroweberPackages\Blog\resources\views\"
+                 */
+
+            } else {
+
             }
+        }
+    }
 
-            return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
+    public function view($view = false, $data = [], $return = false)
+    {
+        view()->getFinder()->flush();
+
+        $this->viewData = array_merge($this->viewData, $data);
+
+        $this->viewData['params'] = $this->moduleParams;
+        $this->viewData['config'] = $this->moduleConfig;
+
+        if (strpos($view, '::') !== false) {
+            return view()->make($view, $this->viewData);
+        } else {
+            if ($view) {
+                return view()->make($this->moduleConfig['module'] . '::' . $view, $this->viewData);
+            }
+            // return view($this->moduleConfig['module'] . '::' . no_ext(basename($templateFile)), $this->viewData);
         }
     }
 }

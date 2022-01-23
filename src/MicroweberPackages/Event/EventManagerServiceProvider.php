@@ -12,9 +12,10 @@
 namespace MicroweberPackages\Event;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
 
-class EventManagerServiceProvider extends ServiceProvider
+class EventManagerServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
@@ -27,8 +28,21 @@ class EventManagerServiceProvider extends ServiceProvider
          * @property \MicroweberPackages\Event\\EventManager    $event_manager
          */
         $this->app->singleton('event_manager', function ($app) {
-            return new Event($app);
+            return new Event();
         });
 
+        include_once __DIR__.'/helpers.php';
+
+    }
+
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['event_manager'];
     }
 }

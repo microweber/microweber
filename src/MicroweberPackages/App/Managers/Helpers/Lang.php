@@ -25,8 +25,6 @@ class Lang
 
     public function __construct()
     {
-
-
         if (mw_is_installed()) {
             $this->is_enabled = true;
         }
@@ -42,18 +40,10 @@ class Lang
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-
+        $this->clearCache();
         mw()->option_manager->clear_memory();
 
-//        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
-//
-//        if ($loc_data and isset($loc_data['locale'])) {
-//            // en = en_US
-//            $lang = $loc_data['locale'];
-//        }
-
         $this->lang = $lang;
-        //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
         return app()->setLocale($lang);
     }
 
@@ -67,44 +57,56 @@ class Lang
      *  print $current_lang;
      * </code>
      */
+
     function current_lang()
     {
-//        if($this->lang){
-//            return $this->lang;
-//        }
-        $app_locale = app()->getLocale();
-
-        if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
-            $lang = $_COOKIE['lang'];
-            if ($lang != $app_locale) {
-                set_current_lang($lang);
-                $app_locale = app()->getLocale();
-            }
+        $locale = app()->getLocale();
+        if($locale ==='en'){
+            $locale = 'en_US'; // for the multi language
         }
 
-        return $app_locale;
+        return $locale;
     }
 
+    function current_lang_display()
+    {
+        if (isset($_COOKIE['lang_display'])) {
+            return $_COOKIE['lang_display'];
+        }
+
+        return $this->current_lang();
+    }
+
+    public static $_defaultLang = false;
+
+    public function clearCache(){
+        self::$_defaultLang = null;
+    }
 
     function default_lang()
     {
-        $lang = 'en_US'; // dont use current language
+        if ($this->is_enabled && self::$_defaultLang) {
+            return self::$_defaultLang;
+        }
+
+        $lang = app()->getLocale();
+
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
             if ($lang_opt) {
                 $lang = $lang_opt;
+                self::$_defaultLang = $lang;
             }
         }
+
         return $lang;
     }
 
     function __store_lang_file_ns($lang = false)
     {
-
         if (!is_admin()) {
             return;
         }
-
 
         global $mw_new_language_entries_ns;
 

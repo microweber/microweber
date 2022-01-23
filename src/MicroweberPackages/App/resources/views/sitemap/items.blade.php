@@ -7,11 +7,11 @@
             <loc>{{ $itemData['original_link'] }}</loc>
             <lastmod>{{ $itemData['updated_at'] }}</lastmod>
             @if(!empty($itemData['multilanguage_links'] ))
-                @foreach($itemData['multilanguage_links'] as $locale => $link)
+                @foreach($itemData['multilanguage_links'] as $locale => $linkData)
                     <xhtml:link
                         rel="alternate"
-                        hreflang="{{ $locale  }}"
-                        href="{{ $link  }}"/>
+                        hreflang="{{ $linkData['meta_locale']  }}"
+                        href="{{ $linkData['link']  }}"/>
                 @endforeach
             @endif
         </url>

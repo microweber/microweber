@@ -4,6 +4,9 @@ namespace MicroweberPackages\Menu;
 
 use Content;
 use Menu;
+use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Core\Events\AbstractResourceWasUpdated;
+use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 /**
  * Content class is used to get and save content in the database.
@@ -78,14 +81,9 @@ class MenuManager
 
     public function menu_item_save($data_to_save)
     {
-        $id = $this->app->user_manager->is_admin();
-        if ($id == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
         if (isset($data_to_save['menu_id'])) {
-            $data_to_save['id'] = intval($data_to_save['menu_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
+            $data_to_save['parent_id'] = intval($data_to_save['menu_id']);
+            unset($data_to_save['menu_id']);
         }
 
         if (!isset($data_to_save['id']) and isset($data_to_save['link_id'])) {
@@ -94,7 +92,6 @@ class MenuManager
 
         if (isset($data_to_save['id'])) {
             $data_to_save['id'] = intval($data_to_save['id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
         }
 
         if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
@@ -108,61 +105,48 @@ class MenuManager
         if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) != 0) {
             $url_from_content = 1;
         }
-        if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
-            //unset($data_to_save['content_id']);
-        }
-
         if (isset($data_to_save['url_target'])) {
             $data_to_save['url_target'] = trim($data_to_save['url_target']);
         }
-
-        if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
-            //unset($data_to_save['categories_id']);
-            //$url_from_content = 1;
-        }
-
         if ($url_from_content != false) {
             if (!isset($data_to_save['title'])) {
                 $data_to_save['title'] = '';
             }
         }
-//        if (!isset($data_to_save['auto_populate'])) {
-//            $data_to_save['auto_populate'] = '';
-//        }
         if (isset($data_to_save['categories'])) {
             unset($data_to_save['categories']);
         }
-
         if ($url_from_content == true and isset($data_to_save['url'])) {
             $data_to_save['url'] = '';
         }
-
         if (isset($data_to_save['parent_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
-            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
-//        if (isset($data_to_save['custom_link'])) {
-//            $data_to_save['content_id'] = 0;
-//            $data_to_save['categories_id'] = 0;
-//            $data_to_save['url'] = $data_to_save['custom_link'];
-//        }
-
-        $table = $this->tables['menus'];
-
-        $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
+        $saveMenu = null;
+        if (isset($data_to_save['id']) && $data_to_save['id'] > 0) {
+            $saveMenu = \MicroweberPackages\Menu\Menu::where('id', $data_to_save['id'])->first();
+        }
 
-        $save = $this->app->database_manager->save($table, $data_to_save);
+        if ($saveMenu == null) {
+            $saveMenu = new \MicroweberPackages\Menu\Menu();
+        }
+        foreach ($data_to_save as $key => $value){
+            $saveMenu->$key = $value;
+        }
 
-        /*
-        $data_to_save['id'] = $save;
-        $this->app->event_manager->trigger('menu.after.save', $data_to_save);
-        */
+        $saveMenu->save();
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->content_repository->clearCache();
+        $this->app->category_repository->clearCache();
+        $this->app->menu_repository->clearCache();
+        event(new MenuWasUpdated($saveMenu, $data_to_save));
 
-        $this->app->cache_manager->delete('menus');
-
-        return $save;
+        return $saveMenu->id;
     }
 
     public function get_menu($params = false)
@@ -184,46 +168,7 @@ class MenuManager
 
     public function get_menus($params = false)
     {
-        $table = $this->tables['menus'];
-
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-        //$table = MODULE_DB_SHOP_ORDERS;
-        $params['table'] = $table;
-        $params['item_type'] = 'menu';
-    if(is_live_edit()){
-       $params['no_cache'] = 1; // If remove this we mess up menu auto creating
-        //dd($params);
-    }
-
-        //$params['debug'] = 'menu';
-        $menus = $this->app->database_manager->get($params);
-
-        if (!empty($menus)) {
-            return $menus;
-        } else {
-            if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
-                if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                    $check  = $this->app->database_manager->get('no_cache=1&title=' . $params['title']);
-                     if(!$check){
-                        $new_menu = $this->menu_create('title=' . $params['title']);
-                        $params['id'] = $new_menu;
-                        $menus = $this->app->database_manager->get($params);
-                    }
-                }
-                define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
-            }
-        }
-        if (!empty($menus)) {
-            return $menus;
-        }
+        return app()->menu_repository->getMenus($params);
     }
 
     public function menu_tree($menu_id, $maxdepth = false, $show_images = false)
@@ -255,19 +200,19 @@ class MenuManager
         }
 
         $cache_group = 'menus/global';
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
-        if (defined('PAGE_ID')) {
-            $function_cache_id = $function_cache_id . PAGE_ID;
-        }
-        if (defined('CATEGORY_ID')) {
-            $function_cache_id = $function_cache_id . CATEGORY_ID;
-        }
+//        $function_cache_id = false;
+//        $args = func_get_args();
+//        foreach ($args as $k => $v) {
+//            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//        }
+//
+//        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
+//        if (defined('PAGE_ID')) {
+//            $function_cache_id = $function_cache_id . PAGE_ID;
+//        }
+//        if (defined('CATEGORY_ID')) {
+//            $function_cache_id = $function_cache_id . CATEGORY_ID;
+//        }
 
         if (!isset($depth) or $depth == false) {
             $depth = 0;
@@ -280,7 +225,12 @@ class MenuManager
 //            if (!isset($no_cache) and ($cache_content) != false) {
 //                //  return $cache_content;
 //            }
-//        }
+//        }\
+
+
+
+        $data_to_return = [];
+
         $params = array();
         $params['item_parent'] = $menu_id;
         $menu_id = intval($menu_id);
@@ -289,14 +239,13 @@ class MenuManager
 
         $menus = $this->tables['menus'];
 
-        $menu_params = array();
-        $menu_params['parent_id'] = $menu_id;
+      //  $menu_params = array();
+    //    $menu_params['parent_id'] = $menu_id;
+       // $menu_params['table'] = $menus;
+       // $menu_params['order_by'] = 'position ASC';
 
-        $menu_params['table'] = $menus;
-        $menu_params['order_by'] = 'position ASC';
+        $q = app()->menu_repository->getMenusByParentId($menu_id);
 
-
-        $q = $this->app->database_manager->get($menu_params);
         //   dd($menu_params,$q);
         $has_items = false;
 
@@ -424,6 +373,11 @@ class MenuManager
             $show_images = $params['show_images'];
         }
 
+        $return_data = false;
+        if (isset($params_o['return_data']) != false) {
+            $return_data = $params_o['return_data'];
+        }
+
         if (isset($params['maxdepth']) != false) {
             $maxdepth = $params['maxdepth'];
         }
@@ -444,8 +398,11 @@ class MenuManager
             $li_submenu_a_link = $params_o['li_submenu_a_link'];
 
         }
+        $cur_content_id_data = [];
+        if(content_id()){
+            $cur_content_id_data = get_content_by_id(content_id());
 
-        $cur_content_id_data = get_content_by_id(CONTENT_ID);
+        }
 
 
 
@@ -486,12 +443,8 @@ class MenuManager
             $url = $item['url']  = trim(  $item['url'] );
 
             if (intval($item['content_id']) > 0 ) {
-              //  $cont = $this->app->content_manager->get_by_id($item['content_id']);
-                $cont_data = \MicroweberPackages\Content\Content::where('id', $item['content_id'])->first();
-                $cont = false;
-                if($cont_data){
-                    $cont = $cont_data->toArray();
-                }
+                 $cont = $this->app->content_manager->get_by_id($item['content_id']);
+
 
                 if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 1) {
 
@@ -565,15 +518,15 @@ class MenuManager
             } elseif (trim($item['url'] == '') and $cur_content_id_data and isset($cur_content_id_data['parent']) and $cur_content_id_data['parent'] and $item['content_id'] == $cur_content_id_data['parent']) {
                 $active_class = 'active';
                  // $active_class = 'active-parent';
-            } elseif (trim($item['url'] == '') and defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
+            } elseif (trim($item['url'] == '') and content_id() and $item['content_id'] == content_id()) {
                 $active_class = 'active';
-             } elseif (trim($item['url'] == '') and defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
+             } elseif (trim($item['url'] == '') and page_id() and $item['content_id'] == page_id()) {
                 $active_class = 'active';
-            } elseif (trim($item['url'] == '') and defined('POST_ID') and POST_ID != 0 and $item['content_id'] == POST_ID) {
+            } elseif (trim($item['url'] == '') and post_id() and $item['content_id'] == post_id()) {
                 $active_class = 'active';
-            } elseif (trim($item['url'] == '') and defined('CATEGORY_ID') and CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
+            } elseif (trim($item['url'] == '') and category_id() and intval($item['categories_id']) != 0 and $item['categories_id'] == category_id()) {
                 $active_class = 'active';
-            } elseif (isset($cont['parent']) and defined('PAGE_ID') and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
+            } elseif (isset($cont['parent']) and page_id()  and $cont['parent'] == page_id() ) {
                 // $active_class = 'active';
             } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
@@ -581,9 +534,9 @@ class MenuManager
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
                 $active_class = 'active';
                 $active_class = 'active-parent';
-            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
-                 $cont_link = $this->app->content_manager->link(PAGE_ID);
-                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
+            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and page_id() ) {
+                 $cont_link = $this->app->content_manager->link(page_id() );
+                 if ($item['content_id'] == page_id()  and $cont_link == $item['url']) {
                     $active_class = 'active';
                 } elseif ($cont_link == $item['url']) {
                     $active_class = 'active';
@@ -616,13 +569,17 @@ class MenuManager
                 $has_childs = false;
                 $has_childs_class = false;
 
-
+/*
                 $sub_menu_params = array();
                 $sub_menu_params['parent_id'] = $item['id'];
                 $sub_menu_params['table'] = $menus;
                 $sub_menu_params['item_type'] = 'menu_item';
                // $sub_menu_params['count'] = true;
                 $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
+                */
+
+                $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
+
                 if ($sub_menu_q) {
 
 
@@ -823,6 +780,9 @@ class MenuManager
                             if (isset($li_class_deep)) {
                                 $menu_params['li_class_deep'] = $li_class_deep;
                             }
+ if (isset($return_data) and $return_data) {
+                                $menu_params['return_data'] = $return_data;
+                            }
 
                             if (isset($li_submenu_a_class)) {
 
@@ -834,27 +794,34 @@ class MenuManager
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
-                            $test1 = $this->menu_tree($menu_params);
+
+
+
+                            $menu_items_render = $this->menu_tree($menu_params);
 
                             //   }
                         } else {
 
-                            $test1 = $this->menu_tree($item['id']);
+                            $menu_items_render = $this->menu_tree($item['id']);
                         }
                     } else {
 
                         if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
                             if (isset($params) and is_array($params)) {
-                                $test1 = $this->menu_tree($menu_params);
+                                $menu_items_render = $this->menu_tree($menu_params);
                             } else {
 
-                                $test1 = $this->menu_tree($item['id']);
+                                $menu_items_render = $this->menu_tree($item['id']);
                             }
                         }
                     }
                 }
 
-                if (isset($li_class_empty) and isset($test1) and trim($test1) == '') {
+                if(isset($menu_items_render) and $return_data){
+                    $item['children'] = $menu_items_render;
+                }
+
+                if (isset($li_class_empty) and isset($menu_items_render) and trim($menu_items_render) == '') {
                     if ($depth > 0) {
                         $li_class = $li_class_empty;
                     }
@@ -895,12 +862,16 @@ class MenuManager
                 }
 */
 
-                if (isset($test1) and strval($test1) != '') {
-                    $to_print .= strval($test1);
+                if (isset($menu_items_render) and is_string($menu_items_render) and  strval($menu_items_render) != '') {
+                    $to_print .= strval($menu_items_render);
                     ++$res_count;
                 }
 
                 $to_print .= '</' . $li_tag . '>';
+            }
+
+            if($return_data){
+                $data_to_return[] = $item;
             }
 
             ++$cur_depth;
@@ -912,6 +883,10 @@ class MenuManager
         }
 
         if ($has_items) {
+            if($return_data){
+                return $data_to_return;
+            }
+
             return $to_print;
         } else {
             return false;
@@ -995,9 +970,8 @@ class MenuManager
                 $return_res = $indx;
             }
         }
-        $this->app->cache_manager->delete('menus');
 
-        $this->app->cache_manager->delete('menus');
+        clearcache();
 
         return $return_res;
     }

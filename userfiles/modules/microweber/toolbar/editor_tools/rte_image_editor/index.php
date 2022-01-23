@@ -1,7 +1,7 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script>
-    parent.mw.require("external_callbacks.js");
+    mw.parent().require("external_callbacks.js");
     mw.lib.require('mwui');
     mw.require("events.js");
     mw.require("forms.js");
@@ -36,14 +36,14 @@ if (array_key_exists('title', $_GET)) {
     hash = hash !== '' ? hash : 'insert_html';
 
     UpdateImage = function (url) {
-        if (parent.mw.image.currentResizing) {
-            if (parent.mw.image.currentResizing[0].nodeName === 'IMG') {
-                parent.mw.image.currentResizing.attr("src", url);
-                parent.mw.image.currentResizing.css('height', 'auto');
+        if (mw.parent().image.currentResizing) {
+            if (mw.parent().image.currentResizing[0].nodeName === 'IMG') {
+                mw.parent().image.currentResizing.attr("src", url);
+                mw.parent().image.currentResizing.css('height', 'auto');
             }
             else {
-                parent.mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-                mw.top().wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                mw.parent().image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
+                mw.top().wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
             }
         }
         if(window.thismodal) {
@@ -72,28 +72,28 @@ if (array_key_exists('title', $_GET)) {
             if (hash !== '') {
                 if (hash === 'editimage') {
                     UpdateImage(url);
-                    if(parent.mw.image.currentResizing){
-                        parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
-                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
-                        parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+                    if(mw.parent().image.currentResizing){
+                        mw.parent().wysiwyg.change(mw.parent().image.currentResizing[0])
+                        mw.parent().image.resize.resizerSet(mw.parent().image.currentResizing[0]);
+                        mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], url])
                     }
                 } else if (hash === 'set_bg_image') {
-                    parent.mw.wysiwyg.set_bg_image(url);
-                    parent.mw.wysiwyg.change(parent.mw.current_element);
-                    parent.mw.askusertostay = true;
+                    mw.parent().wysiwyg.set_bg_image(url);
+                    mw.parent().wysiwyg.change(mw.parent().current_element);
+                    mw.parent().askusertostay = true;
                 } else {
                     if (typeof parent[hash] === 'function') {
                         parent[hash](url, eventType);
                     } else {
-                        if(parent.mw.iframecallbacks['insert_image']) {
-                            parent.mw.iframecallbacks['insert_image'](url, eventType);
+                        if(mw.parent().iframecallbacks['insert_image']) {
+                            mw.parent().iframecallbacks['insert_image'](url, eventType);
                         }
 
                     }
                 }
             } else {
-                parent.mw.wysiwyg.restore_selection();
-                parent.mw.wysiwyg.insert_image(url, true);
+                mw.parent().wysiwyg.restore_selection();
+                mw.parent().wysiwyg.insert_image(url, true);
 
 
             }
@@ -116,34 +116,34 @@ if (array_key_exists('title', $_GET)) {
 
             var type = mw.url.type(pval);
             GlobalEmbed = mw.embed.generate(type, pval);
-            if (typeof parent.mw.iframecallbacks[hash] === 'function') {
+            if (typeof mw.parent().iframecallbacks[hash] === 'function') {
                 if (hash === 'editimage') {
 
 
-                    parent.mw.iframecallbacks[hash](pval);
-                    if(parent.mw.image.currentResizing && parent.mw.image.currentResizing){
-                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                    mw.parent().iframecallbacks[hash](pval);
+                    if(mw.parent().image.currentResizing && mw.parent().image.currentResizing){
+                        mw.parent().image.resize.resizerSet(mw.parent().image.currentResizing[0]);
 
                     }
 
                 } else {
 
-                    parent.mw.iframecallbacks[hash](GlobalEmbed);
+                    mw.parent().iframecallbacks[hash](GlobalEmbed);
                 }
 
             } else if (typeof parent[hash] === 'function') {
 
                 parent[hash](GlobalEmbed)
             }
-            if(parent.mw.image.currentResizing && parent.mw.image.currentResizing[0]) {
-                parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this]);
+            if(mw.parent().image.currentResizing && mw.parent().image.currentResizing[0]) {
+                mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], this]);
             }
 
             if(window.thismodal) {
                 thismodal.result(pval)
             }
 
-            parent.mw.dialog.remove('mw_rte_image');
+            mw.parent().dialog.remove('mw_rte_image');
 
             mw.notification.success('<?php _ejs('The image is changed') ?>');
 
@@ -299,11 +299,11 @@ if (array_key_exists('title', $_GET)) {
                     var type = mw.url.type(val);
                     GlobalEmbed = mw.embed.generate(type, val);
                     if (type !== 'link') {
-                        if (typeof parent.mw.iframecallbacks[hash] === 'function') {
+                        if (typeof mw.parent().iframecallbacks[hash] === 'function') {
                             if (hash.contains("edit")) {
-                                parent.mw.iframecallbacks[hash](val);
+                                mw.parent().iframecallbacks[hash](val);
                             } else {
-                                parent.mw.iframecallbacks[hash](GlobalEmbed);
+                                mw.parent().iframecallbacks[hash](GlobalEmbed);
                             }
                         } else if (typeof parent[hash] === 'function') {
                             parent[hash](GlobalEmbed);
@@ -312,7 +312,7 @@ if (array_key_exists('title', $_GET)) {
                         if(window.thismodal) {
                             thismodal.result(GlobalEmbed)
                         }
-                        parent.mw.dialog.remove('mw_rte_image');
+                        mw.parent().dialog.remove('mw_rte_image');
                     }
                 }, 500);
             }
@@ -330,15 +330,15 @@ if (array_key_exists('title', $_GET)) {
             }
             var type = mw.url.type(val);
             if (type !== 'link') {
-                if (typeof parent.mw.iframecallbacks[hash] === 'function') {
-                    parent.mw.iframecallbacks[hash](GlobalEmbed);
+                if (typeof mw.parent().iframecallbacks[hash] === 'function') {
+                    mw.parent().iframecallbacks[hash](GlobalEmbed);
                 } else if (typeof parent[hash] === 'function') {
                     parent[hash](GlobalEmbed)
                 }
             } else {
 
-                if (typeof parent.mw.iframecallbacks[hash] === 'function') {
-                    parent.mw.iframecallbacks[hash](val);
+                if (typeof mw.parent().iframecallbacks[hash] === 'function') {
+                    mw.parent().iframecallbacks[hash](val);
                 } else if (typeof parent[hash] === 'function') {
                     parent[hash](val)
                 }
@@ -347,12 +347,12 @@ if (array_key_exists('title', $_GET)) {
             if(window.thismodal) {
                 thismodal.result(val)
             }
-            if(parent.mw.image.currentResizing) {
-                parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], val]);
+            if(mw.parent().image.currentResizing) {
+                mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], val]);
 
             }
 
-            parent.mw.dialog.remove('mw_rte_image');
+            mw.parent().dialog.remove('mw_rte_image');
         });
 
         var selector = '#image_tabs option';
@@ -466,7 +466,7 @@ if (array_key_exists('title', $_GET)) {
 </script>
 
 
-<style type="text/css">
+<style >
 
 /*    body, html {
         overflow: hidden;

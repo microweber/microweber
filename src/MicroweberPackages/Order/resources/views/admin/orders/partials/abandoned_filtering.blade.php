@@ -27,11 +27,11 @@
         <div id="cartsnav">
 
             <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned cart's"); ?></a>
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
         </div>
 
         <?php if (count($orders) != 0) { ?>
-        <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+        <div class="js-table-sorting text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
             <small><?php _e("Sort By"); ?>: &nbsp;</small>
 
             <div class="d-inline-block mx-1">

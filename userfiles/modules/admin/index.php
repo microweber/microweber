@@ -28,24 +28,27 @@
                 ?>
                 <?php
                 $module_info = module_info($v_mod);
-                $module_permissions = module_permissions($module_info);
 
+                $module_permissions = module_permissions($module_info);
                 $module_denied = true;
-                if (user_can_access($module_permissions['index'])) {
-                    $module_denied = false;
-                }
-                if (user_can_access($module_permissions['create'])) {
-                    $module_denied = false;
-                }
-                if (user_can_access($module_permissions['edit'])) {
-                    $module_denied = false;
-                }
-                if (user_can_access($module_permissions['destroy'])) {
-                    $module_denied = false;
-                }
-                if ($module_denied) {
-                   // include 'permission_denied_card.php';
-                    return;
+
+                if ($module_permissions) {
+                    if (user_can_access($module_permissions['index'])) {
+                        $module_denied = false;
+                    }
+                    if (user_can_access($module_permissions['create'])) {
+                        $module_denied = false;
+                    }
+                    if (user_can_access($module_permissions['edit'])) {
+                        $module_denied = false;
+                    }
+                    if (user_can_access($module_permissions['destroy'])) {
+                        $module_denied = false;
+                    }
+                    if ($module_denied) {
+                        // include 'permission_denied_card.php';
+                        return;
+                    }
                 }
                 ?>
 

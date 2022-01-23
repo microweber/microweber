@@ -1,3 +1,6 @@
+
+<?php $rand = uniqid(); ?>
+
 <div class="mw-forgot-pass-wrapper">
     <?php if (isset($_GET['reset_password_link'])): ?>
     <module type="users/forgot_password/reset_password"/>
@@ -8,26 +11,19 @@
         if ($form_btn_title == false) {
             $form_btn_title = _e("Reset password", true);
         }
-
-
         $form_title = get_option('form-title', $params['id']);
         $show_login_link = get_option('show-login-link', $params['id']);
-
-
         ?>
-        <?php //$rand = uniqid(); ?>
-        <script type="text/javascript">
 
+        <script type="text/javascript">
             mw.require('forms.js', true);
             mw.require('url.js', true);
 
             formenabled = true;
 
-
             $(document).ready(function () {
 
-
-                mw.$('#user_forgot_password_form{rand}').submit(function () {
+                mw.$('#user_forgot_password_form<?php echo $rand;?>').submit(function () {
 
                     if (formenabled) {
                         formenabled = false;
@@ -35,8 +31,8 @@
                         $(form).addClass('loading');
                         mw.tools.disable(mw.$("[type='submit']", form));
 
-                        mw.form.post(mw.$('#user_forgot_password_form{rand}'), '<?php print site_url('api') ?>/user_send_forgot_password', function (a) {
-                            mw.response('#form-holder{rand}', this);
+                        mw.form.post(mw.$('#user_forgot_password_form<?php echo $rand;?>'), '<?php print site_url('api') ?>/user_send_forgot_password', function (a) {
+                            mw.response('#form-holder<?php echo $rand;?>', this);
                             formenabled = true;
                             $(form).removeClass('loading');
                             mw.tools.enable(mw.$("[type='submit']", form));
@@ -48,13 +44,13 @@
             });
         </script>
         <?php
-
 		$captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
-
         $module_template = get_option('data-template', $params['id']);
+
         if ($module_template == false and isset($params['template'])) {
             $module_template = $params['template'];
         }
+
         if ($module_template != false) {
             $template_file = module_templates($config['module'], $module_template);
         } else {

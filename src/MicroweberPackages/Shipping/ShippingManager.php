@@ -89,10 +89,12 @@ class ShippingManager extends Manager
         $shipping_modules_path = modules_path() . 'shop/shipping/gateways';
 
 
-        $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
+     //   $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
+      //  $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
+        $shipping_gateways = app()->module_repository->getModulesByType('shipping_gateway');
 
         if ($shipping_gateways == false) {
-            $shipping_gateways = scan_for_modules("cache_group=modules/global&dir_name={$shipping_modules_path}");
+          //  $shipping_gateways = scan_for_modules("cache_group=modules/global&dir_name={$shipping_modules_path}");
 
         }
 

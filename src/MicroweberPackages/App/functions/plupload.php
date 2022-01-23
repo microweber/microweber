@@ -370,13 +370,13 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 
 if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
     $filename_log = mw()->url_manager->slug($fileName);
-    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . MW_USER_IP);
+    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . user_ip());
     $upl_size_log = $_SERVER['CONTENT_LENGTH'];
     if (is_array($check) and isset($check['id'])) {
         $upl_size_log = intval($upl_size_log) + intval($check['value']);
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP . '&id=' . $check['id']);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip() . '&id=' . $check['id']);
     } else {
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip());
     }
 }
 
@@ -508,7 +508,7 @@ if (!$chunks || $chunk == $chunks - 1) {
             finfo_close($finfo);
         }
 
-        if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png') {
+        if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png'|| $ext == 'svg') {
 
             $valid = false;
             if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
@@ -523,6 +523,19 @@ if (!$chunks || $chunk == $chunks - 1) {
                 if (@imagecreatefromgif($filePath)) {
                     $valid = true;
                 }
+            }else if ($ext === 'svg') {
+
+                if (is_file($filePath)) {
+                    $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                    // Load the dirty svg
+                    $dirtySVG = file_get_contents($filePath);
+                     // Pass it to the sanitizer and get it back clean
+                    $cleanSVG = $sanitizer->sanitize($dirtySVG);
+                    file_put_contents($filePath, $cleanSVG);
+
+                }
+               $valid = true;
+
             } else {
                 $valid = false;
             }

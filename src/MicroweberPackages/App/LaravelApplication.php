@@ -19,6 +19,30 @@ class LaravelApplication extends Application
         parent::__construct($basePath);
     }
 
+
+    /**
+     * Get the path to the cached services.php file.
+     *
+     * @return string
+     */
+    public function getCachedServicesPath()
+    {
+
+         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.'.self::VERSION.'.php');
+    }
+
+    /**
+     * Get the path to the cached packages.php file.
+     *
+     * @return string
+     */
+    public function getCachedPackagesPath()
+    {
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.'.self::VERSION.'.php');
+    }
+
+
+
     /**
      * Register all of the base service providers.
      *

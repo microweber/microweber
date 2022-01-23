@@ -36,10 +36,31 @@ mw.layoutPlus = {
     _prepareList:function (tip, action) {
         var scope = this;
         var items = mw.$('.modules-list li', tip);
+        items.removeClass('tip')
         mw.$('input', tip).on('input', function () {
-                mw.tools.search(this.value, items, function (found) {
-                    $(this)[found?'show':'hide']();
-                });
+            var val = this.value.trim();
+            if(!val) {
+                var all = items.hide();
+                var filtered = all.filter('.mw-accordion-title-2');
+                if (filtered.length > 1 ) {
+                    filtered.show();
+                } else {
+                    all.show();
+                }
+
+                return;
+            }
+            mw.tools.search(this.value, items, function (found) {
+                var visible = found && !this.classList.contains('mw-accordion-title-2')
+                $(this)[ visible ? 'show' : 'hide']();
+                if(visible) {
+                    var img = this.querySelector('[data-module-icon]');
+                    if (img) {
+                        img.src = img.dataset.moduleIcon;
+                        delete img.dataset.moduleIcon
+                    }
+                }
+            });
         });
         mw.$('.modules-list li', tip).on('click', function () {
             var id = mw.id('mw-layout-'), el = '<div id="' + id + '"></div>';
@@ -48,8 +69,11 @@ mw.layoutPlus = {
 
             var name = $active.attr('data-module-name');
             var template = $(this).attr('template');
-            var conf = {class: mw.layoutPlus._active.className, template: template};
 
+            var conf = {};
+            if(mw.layoutPlus._active){
+            var conf = {class: mw.layoutPlus._active.className, template: template};
+            }
             /*mw.liveEditState.record({
                 action: function () {
                     mw.$('#' + id).replaceWith('<div id="' + id + '"></div>');
@@ -84,7 +108,7 @@ mw.layoutPlus = {
             template: 'mw-tooltip-default mw-tooltip-insert-module',
             id: 'mw-plus-tooltip-selector',
             title: mw.lang('Select layout'),
-            width: 800,
+            width: 500,
             overlay: true
         });
         scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');

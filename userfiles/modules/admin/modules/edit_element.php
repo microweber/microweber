@@ -1,4 +1,5 @@
 <?php
+$rand = uniqid();
 $id = false;
 if (isset($params["data-module-id"])) {
     $id = $params["data-module-id"];
@@ -16,15 +17,13 @@ if ($id != false) {
 ?>
 <?php if (!empty($data)): ?>
 
-    <?php //$rand = uniqid().$data['id']; ?>
-
     <script type="text/javascript">
 
         mw.require('forms.js');
 
         $(document).ready(function () {
-            mw.$('#module_admin_settings_form_{rand}').submit(function () {
-                mw.form.post(mw.$('#module_admin_settings_form_{rand}'), '<?php print site_url('api') ?>/layouts/save', function () {
+            mw.$('#module_admin_settings_form_<?php echo $rand;?>').submit(function () {
+                mw.form.post(mw.$('#module_admin_settings_form_<?php echo $rand;?>'), '<?php print site_url('api') ?>/layouts/save', function () {
                     // mw.reload_module('[data-type="categories"]');
                     // mw.reload_module('[data-type="pages"]');
                 });
@@ -34,7 +33,7 @@ if ($id != false) {
         });
     </script>
 
-    <form id="module_admin_settings_form_{rand}">
+    <form id="module_admin_settings_form_<?php echo $rand;?>">
         <?php if (isset($data['icon'])): ?>
             <img class="w-100 border border-dark" src="<?php print $data['icon'] ?>">
         <?php endif; ?>

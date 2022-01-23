@@ -79,8 +79,11 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
                         <?php endif; ?>
 
                         searchTagsByKeyowrd();
-
-                        //  mw.reload_module_everywhere('tags');
+if(self !== top){
+                          mw.reload_module_everywhere('tags');
+ mw.reload_module_everywhere('posts');
+ mw.reload_module_everywhere('shop/products');
+}
                         mw.notification.success('<?php _e('Tag is added!');?>');
                     } else {
                         $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-important"><i class="fa fa-times"></i> ' + data.message + '</div>');

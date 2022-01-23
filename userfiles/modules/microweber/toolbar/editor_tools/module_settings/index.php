@@ -7,7 +7,7 @@
         <?php $module_info = mw()->module_manager->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
-    <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+    <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
     <script>
         mw.lib.require('mwui');
         mw.lib.require('mwui_init');
@@ -146,12 +146,12 @@
         <?php endif; ?>
 
         if (typeof thismodal === 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
-            var frame = parent.mw.$('#' + this.name)[0];
-            thismodal = parent.mw.dialog.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
+            var frame = mw.parent().$('#' + this.name)[0];
+            thismodal = mw.parent().dialog.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
         }
 
 
-        //var the_module_settings_frame = parent.mw.$('#' + this.name)[0];
+        //var the_module_settings_frame = mw.parent().$('#' + this.name)[0];
 
         if (typeof thismodal != 'undefined' && thismodal != false) {
             var modal_title_str = '';
@@ -283,7 +283,7 @@
 
                         var html = ""
                             + "<div class='mw-ui-btn-nav module-modal-settings-menu-content'>" +
-                            "<a class='mw-ui-btn mw-ui-btn-medium' href='javascript:window.parent.mw.tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset module</a>" +
+                            "<a class='mw-ui-btn mw-ui-btn-medium' href='javascript:window.mw.parent().tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset module</a>" +
 
                             "<a class='mw-ui-btn mw-ui-btn-medium' disabled-href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
 
@@ -297,7 +297,7 @@
                         dropdownContent.className = 'mw-dropdown-content';
                         dropdownContent.innerHTML = '<ul></ul>';
                         dropdown.className = 'mw-dropdown mw-dropdown-default';
-                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown btn px-1"></span>';
+                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val css-preset-dropdown"></span>';
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';
@@ -338,11 +338,11 @@
                                 '<iframe id="' + iframeid + '" src="' + src + '" frameborder="0" scrolling="no" width="100%" onload="this.parentNode.classList.remove(\'loading\')"></iframe>' +
                                 '</div>';
 
-                            /*parent.mw.tooltip({
+                            /*mw.parent().tooltip({
                              close_on_click_outside: false,
                              content: mod_presets_iframe_html_fr,
                              position: 'bottom-right',
-                             element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
+                             element: mw.parent().$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
                              });*/
 
                             presetsDialogModal = mw.top().dialog({
@@ -375,7 +375,7 @@
                         //var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
                         var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>').parent();
 
-                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(module_has_editable_parent[0], ['edit', 'module'])) {
+                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.mw.parent().tools.parentsOrCurrentOrderMatchOrOnlyFirst(module_has_editable_parent[0], ['edit', 'module'])) {
 
                             $(holder).append(html);
                             $(dd).prepend(dropdown);
@@ -386,7 +386,10 @@
 
                     window.parent.modal_preset_manager_html_placeholder_for_reload();
                     mw.module_preset_linked_dd_menu_show_icon();
-                    mw.dropdown(top.document);
+
+
+
+                    mw.dropdown(mw.top().win.document);
                     mw.dropdown();
                     <?php endif; ?>
                 });

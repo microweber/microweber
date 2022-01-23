@@ -67,16 +67,16 @@ class Offer extends Model
         } elseif ($offerData['is_active'] == 'on') {
             $offerData['is_active'] = 1;
         }
- if(isset($offerData['id'])){
-        $offer = Offer::updateOrCreate(
-            ['id' =>  $offerData['id']],
-            $offerData
-        );
- } else {
-     $offer = Offer::create(
-         $offerData
-     );
- }
+        if(isset($offerData['id'])){
+            $offer = Offer::updateOrCreate(
+                ['id' =>  $offerData['id']],
+                $offerData
+            );
+        } else {
+            $offer = Offer::create(
+                $offerData
+            );
+        }
         cache_delete('offers');
 
         return $offer;
@@ -108,7 +108,7 @@ class Offer extends Model
         return $offers;
     }
 
-    public static function getPrice($productId = false, $priceId)
+    public static function getPrice($productId, $priceId)
     {
         $query = Offer::where('price_id', $priceId);
 

@@ -9,10 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -116,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             if (conf) {
                                 var id = form.attr('id');
                                 var data = form.serialize();
-                                $.post("<?php print api_link('post_comment'); ?>", data, function (data) {
+                                $.post("<?php print route('api.comment.post'); ?>", data, function (data) {
                                     mw.reload_module('#mw_comments_for_post_' + connected_id, function () {
                                         $('#mw_comments_for_post_' + connected_id).find(".comments-holder,.new-comments,.old-comments").show();
                                     });
@@ -201,7 +198,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                             </div>
 
-                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
+                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
                         </div>
                     </div>
                 </div>

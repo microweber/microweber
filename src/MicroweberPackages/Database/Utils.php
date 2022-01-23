@@ -107,14 +107,9 @@ class Utils
                         } else {
                             $type = $meta;
                         }
-                        $columns = $class->get_fields($table_name, false);
 
-                        $col_exist = false;
-                        foreach ($columns as $col) {
-                            if ($col == $name) {
-                                $col_exist = true;
-                            }
-                        }
+                        $col_exist = Schema::hasColumn($table_name, $name);
+
 
                         if (!$col_exist) {
                             $fluent = $schema->$type($name);
@@ -250,7 +245,7 @@ class Utils
             // ? AND table_name NOT LIKE 'valid%'
             $result = DB::select('
             SELECT table_name FROM information_schema.tables
-              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\')  
+              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\')
                 AND table_type = \'BASE TABLE\' ;
             ');
 
@@ -525,7 +520,7 @@ class Utils
 
         if ($use_cache) {
             self::$get_fields_fields_memory[$table] = $fields;
-            mw()->cache_manager->save($fields, $key, $cache_group);
+            mw()->cache_manager->save($fields, $key, $cache_group,$expiresAt);
         }
 
         return $fields;

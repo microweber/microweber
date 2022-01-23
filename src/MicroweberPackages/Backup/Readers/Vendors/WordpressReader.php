@@ -3,8 +3,13 @@ namespace MicroweberPackages\Backup\Readers\Vendors;
 
 use Microweber\Providers\UrlManager;
 
-trait WordpressReader
+class WordpressReader
 {
+
+    public function read()
+    {
+
+    }
 
 	protected function readWordpress()
 	{

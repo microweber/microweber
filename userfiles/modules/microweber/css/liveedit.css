@@ -1,3 +1,5 @@
+@import url("./ui.css");
+@import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
 @import url("sass/style.css");
 @import url("reset-css.css");
 @import url("mai.css");
@@ -181,6 +183,19 @@ body.mw-live-edit .plain-text {
     -webkit-user-select: none;
 }
 
+.mw-liveedit-layouts-li {
+    border-bottom: 1px solid rgba(219, 219, 191, 0.12);
+ }
+
+.mw-liveedit-layouts-li:hover {
+    background-color: #FFFFFF;
+
+}
+
+.mw-liveedit-sidebar-background-active {
+    background-color: #FFFFFF;
+}
+
 #mw-plus-tooltip-selector{
     transform: scale(0.8);
     opacity: .7;
@@ -216,7 +231,7 @@ body.mw-live-edit .plain-text {
 .mw-link-tip-edit:hover,
 .mw-link-tip-link:focus,
 .mw-link-tip-edit:focus {
-    color: #f2f2f2;
+    color: #f2f2f2 !important;
 }
 
 .mw-link-tip-edit {
@@ -322,12 +337,10 @@ body.mw-column-resizing * {
     left: 50%;
     margin-left: -17px;
     top: 0;
-    background-color: transparent;
     width: 35px;
     height: 10px;
     content: "\f1b4";
     font-family: Microweber;
-    border-radius: 2px;
     color: #272727;
     font-size: 21px;
     line-height: 10px;
@@ -338,9 +351,10 @@ body.mw-column-resizing * {
 }
 
 .dragStart .mw-sorthandle-moveit, body.dragStart *, body.dragStart .column_separator_title {
-    cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;
     cursor: grabbing;
+}
+.dragStart .mw-universal-tooltip{
+    display: none !important;
 }
 
 .dragStart .nodrop,
@@ -354,11 +368,8 @@ body.mw-column-resizing * {
 }
 
 .column_separator_title {
-    line-height: normal;
     display: inline-block;
     cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
     cursor: grab;
     text-align: center;
     font-size: 11px;
@@ -370,11 +381,11 @@ body.mw-column-resizing * {
 }
 
 .mw-sorthandle-parent-outline {
-    outline: 1px solid #358BC3;
+    outline: 1px solid #333;
 }
 
 .moveit-hover, .moveit-hover:hover {
-    outline: 1px solid #5CA1CC;
+    outline: 1px solid #333;
 }
 
 .mw_delete_element {
@@ -393,35 +404,11 @@ body.mw-column-resizing * {
     pointer-events: none;
 }
 
-/*
-.mw_dropable_arr:before,
-.mw_dropable_arr:after {
-    width: 0px;
-    height: 0px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    margin-left: -2.5px;
-
-}
-
-.mw_dropable_arr:before {
-    border-bottom: 5px solid #0088CC;
-    top: -6px;
-}
-
-.mw_dropable_arr:after {
-    border-top: 5px solid #0088CC;
-    bottom: -9px;
-}*/
 
 .mw_dropable {
     position: absolute !important;
     height: 3px;
-    background: #0088CC;
+    background: #333;
     z-index: 997;
     visibility: visible;
     transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
@@ -529,7 +516,7 @@ body.mw-column-resizing * {
 
 .mw-cols_set {
     padding: 9px;
-    display: none;
+
     display: inline-block;
     width: 100%;
     top: -30px;
@@ -541,7 +528,7 @@ body.mw-column-resizing * {
 
 .mw-col_separator_title {
     display: inline-block;
-    cursor: default;
+
     padding: 0px 4px;
     background: #E1E1E1;
     border: 1px solid #D9D9D9;
@@ -577,9 +564,7 @@ a.mw-make-cols {
     border: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+
     user-select: none;
 }
 
@@ -588,13 +573,12 @@ a.mw-make-cols {
 }
 
 #mw_handle_module .mw_edit_settings_multiple {
-    /*color: #111;
-    background: #E1E1E1;*/
+
     color: white;
     background: #2b2b2b;
     text-decoration: none;
     display: inline-block;
-    padding: 2px 7px;
+
     outline: none;
     position: relative;
     z-index: 1;
@@ -602,15 +586,9 @@ a.mw-make-cols {
     border-radius: 30px;
     padding: 0 11px;
     line-height: 30px;
-    /*margin-top: -30px;*/
-    /**/
+
 }
 
-.module-active-layouts .mw-element-name-handle {
-    /*font-size: 0;
-    top: -4px;
-    position: relative;*/
-}
 
 a.mw-make-cols {
     position: absolute;
@@ -626,7 +604,7 @@ a.mw-make-cols.active {
 #items_handle {
     position: absolute;
     z-index: 999;
-    width: 18px;
+
     height: 18px;
     background: white url(../img/cursor_drag_arrow_c.png) no-repeat center center;
     cursor: move;
@@ -1193,11 +1171,13 @@ body.loaded #live_edit_toolbar {
 
 #live_edit_toolbar {
     position: fixed;
+    height: 56px;
     top: 0;
     left: 0;
     /*right: 50px;*/
     right: 0px;
     border-bottom: 1px solid #DDDDDD;
+
     width: auto;
     transition: .5s;
 }
@@ -1410,7 +1390,10 @@ body.has-opened-sidebar #live_edit_toolbar {
     width: 25px;
 }
 
-.liveeditcreatecontentmenu
+#backtoadminindropdown .mdi{
+    font-size: 21px;
+    margin-inline-end: 10px;
+}
 .create-content-dropdown-list .mw-icon-back {
     top: -2px;
 }
@@ -1578,19 +1561,27 @@ body.has-opened-sidebar #live_edit_toolbar {
     overflow-x: hidden;
     overflow-y: auto;
 }
-
 .mw_module_image {
     display: block;
     position: relative;
-    margin: 0 auto;
-    height: 44px;
+    height: 21px;
+    margin: 20px;
 }
+
+.mw-dialog #default-layouts-holder .mw_module_image{
+    height: auto;
+}
+
 
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    /*max-height: 30px;*/
+    max-height: 30px;
     margin-bottom: 0;
+}
+
+#modules-and-layouts-sidebar .modules-list.list-elements img{
+    max-height: unset;
 }
 
 .mw_module_image img[src*=".svg"] {
@@ -1602,7 +1593,11 @@ body.has-opened-sidebar #live_edit_toolbar {
     display: inline-block;
     position: relative;
     max-width: 100%;
-    /*height: 40px;*/
+    min-height: 30px;
+}
+.module-item-module:not(.default-layouts) .mw_module_image_holder {
+    height: 30px;
+    width: 30px;
 }
 
 .mw_module_image_shadow {
@@ -2028,7 +2023,7 @@ body.dragStart .empty-element {
     width: 55px;
     height: 53px;
     text-align: center;
-    border-right: 1px solid #EAEAEA;
+    /*border-right: 1px solid #EAEAEA;*/
     border-bottom: 1px solid transparent;
     text-decoration: none !important;
 
@@ -2866,7 +2861,12 @@ div[id*='SSDIVEL'] {
 .video-module-default-view {
     padding: 50px 0;
     background-color: #111111;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
+
 
 .mwInaccessibleModulesMenu {
     position: absolute;
@@ -3104,6 +3104,19 @@ div[id*='SSDIVEL'] {
     letter-spacing: 1px !important;
 }
 
+.mw-liveedit-sidebar-h2 {
+    color: #3a3434;
+    font-size: 16px;
+    /*text-transform: uppercase;*/
+    margin: 0 0 0 15px;
+    padding: 12px 20px 15px 12px;
+    letter-spacing: 1px;
+    font-weight: bold!important;
+    font-family: Milliard;
+}
+
+
+
 #modules-and-layouts-sidebar .mw-scroll-box {
     background: #f5f5f5;
     padding: 0;
@@ -3173,7 +3186,7 @@ body.dragStart .module-item{ cursor: grabbing;}
 
 .module-item-layout:hover {
     box-shadow: 0 5px 5px #00000026;
-    transform: scale(1.025);
+
 }
 
 /* Modules */
@@ -3193,6 +3206,10 @@ body.dragStart .module-item{ cursor: grabbing;}
     border: 1px solid transparent;
     border-radius: 2px;
     transition: .3s;
+}
+
+.mw-module-item-title {
+    padding-top: 10px!important;
 }
 
 body.touchscreen-device .module-item-module {
@@ -3360,10 +3377,7 @@ body {
     transition: margin-right .3s;
 }
 
-body.has-opened-sidebar {
-    margin-inline-end: 360px;
 
-}
 
 @media screen and (max-width: 990px) {
     .has-opened-sidebar {
@@ -3481,10 +3495,7 @@ body.isTyping .mw-cloneable-control {
     height: auto;
 }
 
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo:hover,
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo:hover {
-    border: 1px solid #e5e5e5;
-}
+
 
 #history_panel_toggle {
     height: 30px;
@@ -3836,7 +3847,7 @@ body.dragStart .allow-drop {
 }
 
 .mw-handle-handler .mw_module_settings_sidebar_icon {
-    margin: 3px 0 0 4px;
+    margin: 6px 0 0 4px;
     background-image: none !important;
 }
 
@@ -4080,12 +4091,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-handler {
-    height: 30px;
+    height: 40px;
     border-radius: 4px;
     background-color: #fff;
     color: #2b2b2b;
-    line-height: 30px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    line-height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 .mw-handle-type-default.active .mw-handle-handler{
     border-radius: 4px 4px 0 0;
@@ -4242,8 +4253,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-handler-title {
     display: inline-block;
-    line-height: 30px;
-    height: 30px;
+    line-height: 40px;
+    height: 40px;
     padding-right: 10px;
     vertical-align: top;
     cursor: pointer;
@@ -4257,30 +4268,24 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-columns-icon {
-    width: 17px;
     padding: 2px;
-    background-color: white;
-    border-radius: 1px;
-    margin: -1px 0 0;
-    position: relative;
     display: block;
-    height: 17px;
-    top: 7px;
 }
 
 .mw-handle-type-default .mw-handle-columns-icon:after {
-    position: absolute;
-    content: '';
-    width: 3px;
-    left: 50%;
-    margin-left: -1.5px;
-    top: 0;
-    height: 100%;
-    background-color: #000;
+    content: "\F056D";
+    font-family: 'Material Design Icons';
+    font-size: 25px;
 }
 
 .mw-handle-no-drag .mw-handle-handler-icon {
     pointer-events: none;
+}
+.mw-handle-buttons span.mw-handle-insert-button{
+    font-size: 24px;
+    line-height: 35px;
+    top: 2px;
+    position: relative;
 }
 
 .mw-handle-no-drag .mw-handle-handler-icon,
@@ -4513,6 +4518,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     line-height: 28px;
 }
 
+#mw-sidebar-modules-and-layouts-holder  ul{
+    margin: 0;
+    padding:0;
+
+}
 .mw-live-edit-tab-title {
     position: sticky;
     top: 0;
@@ -4686,14 +4696,14 @@ html.padding-control-start .mw-handle-item {
     top: 2px;
 }
 
-h1.element,
-h2.element,
-h3.element,
-h4.element,
-h5.element,
-h6.element,
-p.element,
-div.element {
+h1.element:not(.background-image-holder),
+h2.element:not(.background-image-holder),
+h3.element:not(.background-image-holder),
+h4.element:not(.background-image-holder),
+h5.element:not(.background-image-holder),
+h6.element:not(.background-image-holder),
+p.element:not(.background-image-holder),
+div.element:not(.background-image-holder) {
     min-height: 15px;
 }
 
@@ -4776,12 +4786,12 @@ div.element {
     opacity: 1;
 }
 
-.mw-dialog #mw-dialog-holder-mw-plus-tooltip-selector .modules-list{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-}
+/*.mw-dialog #mw-dialog-holder-mw-plus-tooltip-selector .modules-list{*/
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-between;*/
+    /*align-items: flex-start;*/
+/*}*/
 .mw-dialog #mw-dialog-holder-mw-plus-tooltip-selector .modules-list li .mw_module_image_holder{
     height: auto;
     display: flex;
@@ -4799,12 +4809,12 @@ div.element {
 }
 .mw-dialog #mw-dialog-holder-mw-plus-tooltip-selector .modules-list li{
     cursor: pointer;
-    width: 49%;
+    width: 100%;
     height: auto;
 
     display: inline-block;
     vertical-align: top;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border-radius: 5px;
     overflow: hidden;
     transition: .3s;
@@ -4890,7 +4900,7 @@ div.element {
     border-top: none;
     position: absolute;
     padding-top: 3px;
-    width: 90%;
+    width: 100%;
 }
 
 .module-admin-modules-list-layouts .module_name {
@@ -4900,3 +4910,108 @@ div.element {
 .mw-color-picker-live-edit-input{
     opacity: 0;width: 100%;height: 100%;position:absolute;top:0;left: 0;z-index: 222
 }
+
+picture{
+    display: inline-block;
+}
+
+body.dragStart picture img{
+    pointer-events: none;
+}
+
+.layout-preview-tooltip-image-holder{
+
+    width: 550px;
+    height: 350px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+
+    display:none;
+
+    border-radius: 3px;
+
+}
+.mw-tooltip .layout-preview-tooltip-image-holder {
+    display: block;
+}
+
+.mw-tooltip-content .layout-preview-tooltip-image-holder{
+    display: block;
+
+}
+
+
+.layout-preview-tooltip-image{
+     display: block;
+}
+
+.mw-icon-selector-12-column {
+    flex: 0 0 100%!important;
+    max-width: 100%!important;
+    position: relative!important;
+}
+
+.mw-icon-selector-6-column {
+    flex: 0 0 auto!important;
+    width: 50%!important;
+    position: relative!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-2-column {
+    flex: 0 0 auto!important;
+    width: 16.6666666667%!important;
+    margin: 0 5px;
+}
+
+.mw-icon-selector-flex {
+    display: flex !important;
+}
+
+.mw-icon-selector-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.mw-icon-selector-control-label {
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+
+.css-preset-dropdown {
+    border: none!important;
+    line-height: 1.2 !important;
+    padding: 8px !important;
+    background: none!important;
+    color: whitesmoke!important;
+}
+
+.css-preset-dropdown:hover {
+    border: 1px solid whitesmoke!important;
+}
+
+#mw-dialog-module-settings{
+    overflow: hidden;
+}
+
+
+[data-module-icon]{
+
+    min-height: 30px;
+    opacity: 0;
+ }
+

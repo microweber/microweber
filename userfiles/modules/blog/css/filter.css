@@ -1,0 +1,20 @@
+.remove-control {
+    cursor: pointer;
+    font-size:18px;
+    float: right;
+}
+
+.filter-max-scroll {
+    max-height: 700px;
+    overflow: auto;
+}
+
+
+.datepicker {
+    width:100% !important;
+    border:none !important;
+}
+
+.mw-spinner-decorate:after {
+    background-color: rgba(255, 255, 255, 0.60);
+}

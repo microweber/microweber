@@ -60,8 +60,8 @@ if ($id != false) {
                 return false;
             });
 
-            mw.$('#module_update_<?php print $params['id']; ?>').unbind('click');
-            mw.$('#module_update_<?php print $params['id']; ?>').click(function () {
+            mw.$('#module_update_<?php print $params['id']; ?>').off('click');
+            mw.$('#module_update_<?php print $params['id']; ?>').on('click', function () {
                 //  var for_module = {}
                 var for_module = $(this).attr('data-module-name');
                 mw.notification.warning("Installing update for module: " + for_module + '');
@@ -72,23 +72,38 @@ if ($id != false) {
 
                 return false;
             });
+
         });
     </script>
 
-    <style>
-        .module-img {
-            height: 35px;
-            margin-bottom: 10px;
-        }
 
-        .mw-modules-module-holder {
-            min-height: 140px;
-            cursor: pointer;
-        }
-    </style>
 
-    <div class="card style-1 h-100 mw-modules-module-holder">
-        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+
+    <?php
+    $badge = '';
+    if (isset($data['ui']) && $data['ui']) {
+        $badge .='<span class="mw-modules-badge badge badge-info rounded-circle p-2 mr-1 tip" data-tip="'._e('Live edit', true).'"><i class="mdi mdi-eye text-primary"></i></span>';
+    }
+    if (isset($data['ui_admin']) && $data['ui_admin']) {
+        $badge .='<span class="mw-modules-badge badge badge-secondary rounded-circle p-2 mr-1 tip" data-tip="'._e('Admin', true).'"><i class="mdi mdi-view-grid-plus"></i></span>';
+    }
+    if (isset($data['is_system']) && $data['is_system']) {
+        $badge .='<span class="mw-modules-badge cog-badge badge rounded-circle p-2 mr-1 tip" data-tip="'._e('System', true).'"><i class="mdi mdi-cog text-success"></i></span>';
+    }
+    if (((isset($data['is_system']) && $data['is_system'] == 0) &&
+        (isset($data['ui_admin']) && $data['ui_admin'] == 0) &&
+        (isset($data['ui']) && $data['ui'] == 0)) || (isset($data['is_integration']) && $data['is_integration'])) {
+        $badge .='<span class="mw-modules-badge cog-settings badge badge-danger rounded-circle p-2 mr-1 tip" data-tip="'._e('Integration', true).'"><i class="mdi mdi-wrench text-danger"></i></span>';
+    }
+    ?>
+
+    <div class="card mw-modules-module-holder p-1">
+        <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+            <div class="text-start text-left pb-3">
+            <?php echo $badge; ?>
+            </div>
+
+            <div class="h-100 d-flex align-items-center justify-content-center flex-column">
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
                 print 'module-installed';
             } else {
@@ -96,7 +111,7 @@ if ($id != false) {
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
                 <div class="d-flex align-items-center justify-content-center flex-column">
                     <?php if (isset($data['icon'])): ?>
-                        <img src="<?php print $data['icon'] ?>" class="svg module-img" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
+                        <img data-module-icon="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
                     <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
@@ -126,6 +141,48 @@ if ($id != false) {
                 <?php endif; ?>
 
             </form>
+            </div>
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+$(document).ready(function (){
+
+    $('.module-item-module img,.mw-modules-module-holder img').each(function (){
+        var src = this.dataset.moduleIcon.trim();
+        var img = this;
+        if(src.includes('.svg') && src.includes(location.origin)) {
+            var el = document.createElement('div');
+            el.className = img.className;
+            // var shadow = el.attachShadow({mode: 'open'});
+            var shadow = el;
+            fetch(src)
+                .then(function (data){
+                    return data.text();
+                }).then(function (data){
+                var shImg = document.createElement('div');
+                shImg.innerHTML = data;
+                shImg.part = 'mw-module-icon';
+                shImg.querySelector('svg').part = 'mw-module-icon-svg';
+
+                Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                    style.remove()
+                })
+                Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
+                    item.removeAttribute('class')
+                    item.removeAttribute('id')
+                })
+
+                shadow.appendChild(shImg);
+                if(img.parentNode) {
+                    img.parentNode.replaceChild(el, img)
+                }
+
+            })
+        } else {
+            this.src = src;
+        }
+    })
+})
+</script>

@@ -20,7 +20,13 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             </div>
         </div>
         <div class="card-body pt-3">
-            <module id="edit-post-gallery-main" type="pictures/admin" class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>" for="content" content_type="<?php print trim($data['content_type']) ?>" for-id="<?php print $data['id']; ?>"/>
+            <module
+                id="edit-post-gallery-main"
+                type="pictures/admin"
+                class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
+                for="content"
+                content_type="<?php print trim($data['content_type']) ?>"
+                for-id="<?php print $data['id']; ?>"/>
         </div>
     </div>
 
@@ -32,6 +38,10 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     if ($data['content_type'] == 'product') {
         $showCustomFields = true;
         include_once __DIR__ . DS . 'product' . DS . 'tabs.php';
+    }
+    if ($data['content_type'] == 'product_variant') {
+        $showCustomFields = true;
+        include_once __DIR__ . DS . 'product_variant' . DS . 'tabs.php';
     }
     ?>
 
@@ -50,10 +60,47 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
                 display: none;
             }
         </style>
-        <div class="card style-1 mb-3 card-collapse fields">
+    <script>
+         var variants = ([main, ...[a, ...b]]) => {
+             if (!a) return main
+             const combined = a.reduce((acc, x) => {
+                 return acc.concat(main.map(h => {
+                     return [h, x]
+                    })
+                 )
+             }, []).map(node => {
+                 var clone = [...node];
+                 clone.forEach(nd => {
+                     if(Array.isArray(nd)) {
+                         nd.forEach(obj => {
+                             clone.push(obj);
+                         });
+                     }
+                 })
+                 return clone.filter(item => !Array.isArray(item));
+             })
+             return variants([combined, ...b])
+         }
+        $(document).ready(function (){
+            mw.on('customFieldsRefresh', function (e, data) {
+                var fields = data.data.map(function (item){
+                    return item.values.map(function (val){
+                        return {
+                            name: val,
+                            customFieldId: item.id
+                        }
+                    })
+                });
+
+            })
+        })
+    </script>
+        <div class="card style-1 mb-3 card-collapse fields js-custom-fields-card-tab">
             <div class="card-header no-border">
-                <h6><strong>Custom fields</strong></h6>
-                <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
+
+                <h6><strong><?php _e("Custom fields"); ?></strong></h6>
+                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-toggle="collapse" data-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
+
             </div>
 
             <div class="card-body py-0">
@@ -110,7 +157,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
         setTimeout(function (){
             mw.askusertostay = false;
-            document.querySelector('.js-bottom-save').disabled = true;
+          //  document.querySelector('.js-bottom-save').disabled = true;
         }, 999)
 
     });

@@ -20,7 +20,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
         var modalOptions = {};
          var additional_params ={};
         additional_params.menu_name = '<?php print $menu_name  ?>'
-        window.parent.mw.tools.open_global_module_settings_modal('menu/admin', module_id, modalOptions,additional_params)
+        window.mw.parent().tools.open_global_module_settings_modal('menu/admin', module_id, modalOptions,additional_params)
 
 
     }

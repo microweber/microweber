@@ -4,7 +4,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta charset="UTF-8">
 
-      <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+      <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
       <script>
           mw.lib.require('jqueryui');

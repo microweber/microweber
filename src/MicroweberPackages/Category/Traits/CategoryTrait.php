@@ -13,9 +13,41 @@ trait CategoryTrait
 
     public function initializeCategoryTrait()
     {
-        $this->appends[] = 'categories';
+      //  $this->appends[] = 'categories';
         //	$this->with[] = 'categoryItems';
         $this->fillable[] = 'category_ids';
+    }
+
+
+    public function scopeWhereCategoryIds($query, $ids = false) {
+
+       // $excludeIds = [];
+        $table = $this->getTable();
+
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        } elseif (is_int($ids)) {
+            $ids = array($ids);
+        }
+
+        if (is_array($ids)) {
+            $ids = array_filter($ids);
+            if (!empty($ids)) {
+                if (!isset($search_joined_tables_check['categories_items'])) {
+                    $query = $query->join('categories_items', function ($join) use ($table, $ids) {
+                        $join->on('categories_items.rel_id', '=', $table . '.id')->where('categories_items.rel_type', '=', $table);
+                        /*if ($excludeIds) {
+                            $join->whereNotIn('categories_items.rel_id', $excludeIds);
+                        }*/
+                        $join->whereIn('categories_items.parent_id', $ids)->distinct();
+                    });
+                }
+                //$query = $query->distinct();
+
+            }
+        }
+
+        return $query;
     }
 
     /* public function addToCategory($contentId)
@@ -78,15 +110,11 @@ trait CategoryTrait
         }
 
     }
-
-
-//    public function categories()
-//    {
-//        return $this->hasMany(Category::class, 'rel_id');
-//    }
-//
-
-
+/*
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'rel_id');
+    }*/
 
     public function categoryItems()
     {
@@ -95,7 +123,17 @@ trait CategoryTrait
 
     public function getCategoriesAttribute()
     {
+      /*  if ($this->relationLoaded('categoryItems')) {
+            $relations = $this->getRelation('categoryItems');
+        } else {
+            $relations = $this->categoryItems()->with('parent')->get();
+            $this->setRelation('categoryItems', $relations);
+        }
+
+        return $relations;*/
+
         $categories = [];
+
 
         foreach ($this->categoryItems()->with('parent')->get() as $category) {
             $categories[] = $category;

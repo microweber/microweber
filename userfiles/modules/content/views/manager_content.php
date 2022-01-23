@@ -52,6 +52,14 @@
                                         } elseif ($type == 'page') {
                                             $type_icon = 'mdi-file-document';
                                         }
+
+                                        $target = '_self';
+
+                                        if(isset($params['no_page_edit']) and $params['no_page_edit']){
+                                            $target = '_top';
+
+                                        }
+
                                         ?>
 
                                         <?php if ($pic == true): ?>
@@ -71,13 +79,19 @@
                                                 </a>
                                             <?php endif; ?>
                                         </div>
-                                        <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
+
+                                        <?php
+                                        $edit_link = route('admin.content.edit', $item['id']);
+                                        if (Route::has('admin.'.$item['content_type'].'.edit')) {
+                                            $edit_link = route('admin.' . $item['content_type'] . '.edit', $item['id']);
+                                        }
+                                        ?>
                                         <?php $edit_link_front = $content_link . '?editmode:y'; ?>
                                     </div>
 
                                     <div class="col item-title manage-post-item-col-3 manage-post-main">
                                         <div class="manage-item-main-top">
-                                            <a target="_top" href="<?php print $edit_link_front; ?>" class="btn btn-link p-0">
+                                            <a target="<?php echo $target; ?>" href="<?php print $edit_link_front; ?>" class="btn btn-link p-0">
                                                 <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title"><?php print strip_tags($item['title']) ?></h5>
                                             </a>
                                             <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
@@ -100,7 +114,7 @@
                                             <?php endif; ?>
 
 
-                                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_top" href="<?php print $content_link; ?>?editmode:y">
+                                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="<?php echo $target; ?>" href="<?php print $content_link; ?>?editmode:y">
                                                 <small class="text-muted"><?php print $content_link; ?></small>
                                             </a>
                                         </div>
@@ -109,11 +123,11 @@
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>">
+                                                <a href="<?php echo $edit_link; ?>" class="btn btn-outline-success btn-sm">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
-                                                <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
+                                                <a target="<?php echo $target; ?>" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
                                                     <?php echo $live_edit_text; ?>
                                                 </a>
                                                 <?php
@@ -129,21 +143,31 @@
                                                 <?php
                                             endif;
                                             ?>
+                                            <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
+
+                                            <?php else: ?>
+                                                <span class="badge badge-warning font-weight-normal">Unpublished</span>
+                                            <?php endif; ?>
+
+
                                         </div>
                                     </div>
 
-                                    <div class="col item-author manage-post-item-col-4">
+                                    <div class="col item-author manage-post-item-col-4 d-xl-block d-none">
                                         <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
-                                    <div class="col manage-post-item-col-5" style="max-width: 130px;">
+                                   <?php
+
+                                   /* <div class="col manage-post-item-col-5" style="max-width: 130px;">
                                         <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
                                             <!--                                            <span class="badge badge-success">Published</span>-->
                                         <?php else: ?>
                                             <span class="badge badge-warning font-weight-normal">Unpublished</span>
                                         <?php endif; ?>
                                     </div>
-
+*/
+                                   ?>
 
                                     <div class="col item-comments manage-post-item-col-5 d-none" style="max-width: 100px;">
                                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>

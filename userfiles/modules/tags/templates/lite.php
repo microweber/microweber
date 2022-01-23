@@ -11,37 +11,14 @@ description: Lite
 */
 ?>
 
-<style>
-    .tag a {
-        background-color: #f5f5f5;
-        border: 1px solid #f5f5f5;
-        color: #656565;
-        font-size: 14px;
-        padding: 10px 20px;
-        text-decoration: none;
-        float: left;
-        display: block;
-        margin-bottom: 10px;
-        margin-right: 10px;
-    }
+<?php $current_tag = url_param('tags'); ?>
 
-    .tag a:hover {
-        background-color: #fff;
-        border: 1px solid #3b3b3b;
-        color: #656565;
-    }
-</style>
-
-
-
-<div class="tag">
-    <?php foreach ($content_tags_data as $tag_item): ?>
-        <a  class="tag__link"   href="<?php print $tags_url_base ?>/tags:<?php print $tag_item['tag_slug']; ?>">
-           <?php print $tag_item['tag_name']; ?>
+<?php foreach ($content_tags_data as $tag_item): ?>
+    <div class="btn-group tag tag-xs m-1">
+        <a href="<?php print $tags_url_base ?><?php print $current_tag == $tag_item['tag_slug'] ? '' : '/tags:'. $tag_item['tag_slug'] ?>" class="btn btn-sm mw-tags-btn-light px-3 <?php print $current_tag == $tag_item['tag_slug'] ? 'btn-outline' :  'btn-outline-light'?>">
+            <?php print $tag_item['tag_name']; ?>
         </a>
-    <?php endforeach; ?>
-</div>
-
-
+    </div>
+<?php endforeach; ?>
 
 

@@ -45,6 +45,7 @@ mw.image = {
                 stop: function () {
                     mw.image.isResizing = false;
                     mw.drag.fix_placeholders();
+                    mw.wysiwyg.change(mw.image.currentResizing[0])
                 },
                 resize: function () {
                     var offset = mw.image.currentResizing.offset();
@@ -57,14 +58,14 @@ mw.image = {
             for (; i < l; i++) all[i].mwImageResizerComponent = true
         },
         resizerSet: function (el, selectImage) {
-            var selectImage = typeof selectImage === 'undefined' ? true : selectImage;
+            selectImage = typeof selectImage === 'undefined' ? true : selectImage;
             /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
 
 
             mw.$('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG' ? 'show' : 'hide']()
 
-            var el = mw.$(el);
+            el = mw.$(el);
             var offset = el.offset();
             var parent = el.parent();
             var parentOffset = parent.offset();
@@ -178,8 +179,7 @@ mw.image = {
                 var data = mw.image.Rotator.toDataURL("image/png");
                 img_object.src = data;
                 mw.image._isrotating = false;
-                if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(img_object);
-            });
+             });
         }
     },
     grayscale: function (node) {
@@ -205,7 +205,6 @@ mw.image = {
             }
             ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
             node.src = canvas.toDataURL();
-            if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
         })
     },
     vr: [0, 0, 0, 1, 1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 17, 18, 19, 19, 20, 21, 22, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 39, 40, 41, 42, 44, 45, 47, 48, 49, 52, 54, 55, 57, 59, 60, 62, 65, 67, 69, 70, 72, 74, 77, 79, 81, 83, 86, 88, 90, 92, 94, 97, 99, 101, 103, 107, 109, 111, 112, 116, 118, 120, 124, 126, 127, 129, 133, 135, 136, 140, 142, 143, 145, 149, 150, 152, 155, 157, 159, 162, 163, 165, 167, 170, 171, 173, 176, 177, 178, 180, 183, 184, 185, 188, 189, 190, 192, 194, 195, 196, 198, 200, 201, 202, 203, 204, 206, 207, 208, 209, 211, 212, 213, 214, 215, 216, 218, 219, 219, 220, 221, 222, 223, 224, 225, 226, 227, 227, 228, 229, 229, 230, 231, 232, 232, 233, 234, 234, 235, 236, 236, 237, 238, 238, 239, 239, 240, 241, 241, 242, 242, 243, 244, 244, 245, 245, 245, 246, 247, 247, 248, 248, 249, 249, 249, 250, 251, 251, 252, 252, 252, 253, 254, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255],
@@ -237,7 +236,6 @@ mw.image = {
             }
             ctx.putImageData(imageData, 0, 0);
             node.src = canvas.toDataURL();
-            if (!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
             mw.$(canvas).remove()
         });
     },
@@ -255,12 +253,14 @@ mw.image = {
             mw.image._dragcurrent.style.left = x + 'px';
         }
     },
-    preloadForAll: function (array, eachcall, callback) {
+    preloadForAll: function (array, eachCall, callback) {
         var size = array.length, i = 0, count = 0;
         for (; i < size; i++) {
             mw.image.preload(array[i], function (imgWidth, imgHeight) {
                 count++;
-                eachcall.call(this, imgWidth, imgHeight)
+                if(eachCall) {
+                    eachCall.call(this, imgWidth, imgHeight)
+                }
                 if (count === size) {
                     if (!!callback) callback.call()
                 }

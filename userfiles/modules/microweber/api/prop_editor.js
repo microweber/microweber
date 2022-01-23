@@ -300,7 +300,7 @@ mw.propEditor = {
             this.id = config.id;
 
         },
-        text:function(proto, config){
+        text: function(proto, config){
             var val = '';
             if(config.value){
                 if(typeof config.value === 'function'){
@@ -582,7 +582,7 @@ mw.propEditor = {
             };
             this.id = config.id;
         },
-        file:function(proto, config){
+        file: function(proto, config){
             if(config.multiple === true){
                 config.multiple = 99;
             }
@@ -606,29 +606,52 @@ mw.propEditor = {
                     el.style.backgroundImage = 'url(' + imageUrl + ')';
                 }
                 btn.onclick = function(){
-                    mw.top().fileWindow({
-                        types:'images',
-                        change:function(url){
-                            if(!url) return;
+                    var dialog;
+                    var picker = new (mw.top()).filePicker({
+                        type: 'images',
+                        label: false,
+                        autoSelect: false,
+                        footer: true,
+                        _frameMaxHeight: true,
+
+                        onResult: function (res) {
+                            var url = res.src ? res.src : res;
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;
                             el.style.backgroundImage = 'url(' + url + ')';
                             btn._value = url;
                             scope.refactor();
+                            dialog.remove()
+                        },
+                        cancel: function () {
+                            dialog.remove()
                         }
                     });
-                };
-                var close = document.createElement('span');
-                close.className = 'mw-badge mw-badge-important';
-                close.innerHTML = '<span class="mw-icon-close"></span>';
+                    dialog = mw.top().dialog({
+                        content: picker.root,
+                        title: mw.lang('Select image'),
+                        footer: false,
+                        width: 1200
+                    })
 
-                close.onclick = function(e){
-                    scope.remove(el);
-                    e.preventDefault();
-                    e.stopPropagation();
+
                 };
-                el.appendChild(close);
+
+                if(config.multiple === true || (typeof config.multiple === 'number' && config.multiple > 1) ) {
+                    var close = document.createElement('span');
+                    close.className = 'mw-badge mw-badge-important';
+                    close.innerHTML = '<span class="mw-icon-close"></span>';
+
+                    close.onclick = function(e){
+                        scope.remove(el);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    };
+                    el.appendChild(close);
+                }
+
+
                 el.appendChild(btn);
                 return el;
             };
@@ -643,8 +666,12 @@ mw.propEditor = {
                 scope.refactor();
             };
 
+            this.hasMultiple = function () {
+                return config.multiple && config.multiple > 1;
+            }
+
             this.addImageButton = function(){
-                if(config.multiple){
+                if(this.hasMultiple()){
                     this.addBtn = document.createElement('div');
                     this.addBtn.className = 'mw-ui-link';
                     //this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
@@ -658,8 +685,11 @@ mw.propEditor = {
             };
 
             this.manageAddImageButton = function(){
-                var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
-                this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+                if(this.hasMultiple()) {
+                    var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
+                    this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+                }
+
             };
 
             var btn = createButton(undefined, 0, proto);
@@ -674,7 +704,7 @@ mw.propEditor = {
             this.addImageButton();
             this.manageAddImageButton();
 
-            if($.fn.sortable){
+            if($.fn.sortable && this.hasMultiple()){
                 $(el).sortable({
                     update:function(){
                         scope.refactor();

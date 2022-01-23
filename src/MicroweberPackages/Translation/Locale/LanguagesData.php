@@ -8,8 +8,14 @@ use WhiteCube\Lingua\LanguagesRepository;
 
 class LanguagesData
 {
+    public static $cache = [];
+
     public static function getLanguagesWithLocales()
     {
+        if(self::$cache){
+            return self::$cache;
+        }
+
         $ready = [];
 
         $langs = new LanguagesRepository();
@@ -17,6 +23,7 @@ class LanguagesData
         $langs = $langs->languages;
         $main_locales = self::getMainLocaleCodes();
         $rtl_langs = self::getRtlLangs();
+        $default_locales = self::getLangDefaultLocale();
         if ($langs) {
 
 
@@ -55,7 +62,14 @@ class LanguagesData
 
                         if ($locales) {
                             $lang["locales"] = $locales;
-                            $lang["locale"] = array_key_first($locales);
+
+                            $default_locale = array_key_exists($lang["name"], $default_locales) ? $default_locales[$lang["name"]] : null;
+                            if ( $default_locale and !empty($default_locale)) {
+                                $lang["locale"] = $default_locale;
+                            } else {
+                                $lang["locale"] = array_key_first($locales);
+                            }
+
                             $lang["rtl"] = $isRtl;
 
                             $ready[] = $lang;
@@ -64,6 +78,7 @@ class LanguagesData
                 }
             }
         }
+        self::$cache = $ready;
         return $ready;
 
     }
@@ -114,5 +129,11 @@ class LanguagesData
 
         $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
         return $rtl_langs;
+    }
+
+    public static function getLangDefaultLocale() {
+        return [
+            "chinese" => "zh_CN"
+        ];
     }
 }

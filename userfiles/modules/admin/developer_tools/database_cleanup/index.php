@@ -16,7 +16,7 @@
 
 <div id="mw-admin-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">
-        <p><?php _e("This module will remove categories, images and custom fields which are connected to a content that is manually deleted from the database"); ?>.</p>
+        <p><?php _e("This module will remove categories, images and custom fields which are connected to content that is manually deleted from the database"); ?>.</p>
 
         <div class="mw-admin-side-nav">
             <div class="back-up-nav-btns">

@@ -19,7 +19,7 @@
 </script>
 
 <div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
-    <a href="<?php print site_url() . 'admin/view:content'; ?>" id="back_to_admin" class="mw-ui-btn mw-ui-btn-medium"> <span class="mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+    <a href="<?php print admin_url() . 'view:content'; ?>" id="back_to_admin" class="mw-ui-btn mw-ui-btn-medium"> <span class="mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
 
     <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
@@ -27,6 +27,6 @@
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode:y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
+ print $u ?>?editmode=y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 

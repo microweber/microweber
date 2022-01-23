@@ -13,10 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -35,9 +32,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             mw.notification.success('Checkout updated!');
                         }
 
-                        if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+                        if (window.parent.mw != undefined && window.mw.parent().reload_module != undefined) {
 
-                            window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                            window.mw.parent().reload_module("#<?php print $params['id'] ?>");
                         }
                     }
 

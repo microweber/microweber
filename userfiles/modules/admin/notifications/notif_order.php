@@ -35,9 +35,21 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 
 }
 ?>
-<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+
+<script>
+    $( document ).ready(function() {
+        $('.collapse', '.js-order-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
+            $('.js-order-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
+        });
+    });
+
+</script>
+
+
+
+<div class="js-order-entry-<?php print $item_id ?> card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
-        <div class="row">
+        <div class="row" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
@@ -98,7 +110,7 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip" title="<?php print mw('format')->ago($item['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($item['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?><span class="text-success"><?php _e("h"); ?></span><br/></small>
+                        <small class="text-muted"><?php print date('H:s', strtotime($item['created_at'])); ?>  </small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">

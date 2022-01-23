@@ -12,7 +12,11 @@
 namespace MicroweberPackages\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Menu\MenuManager;
+use MicroweberPackages\Menu\Repositories\MenuRepository;
+use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
+use MicroweberPackages\Multilanguage\TranslateTablesRegistrator;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,9 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
+
         /**
          * @property \MicroweberPackages\Menu\MenuManager    $menu_manager
          */
@@ -31,5 +38,19 @@ class MenuServiceProvider extends ServiceProvider
         });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Menu::class, function () {
+                return new MenuRepository();
+            });
+        });
+
+        /**
+         * @property MenuRepository   $menu_repository
+         */
+        $this->app->bind('menu_repository', function ($app) {
+            return $this->app->repository_manager->driver(Menu::class);;
+        });
     }
 }

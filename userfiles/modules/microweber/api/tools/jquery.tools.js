@@ -97,6 +97,8 @@ $.fn.invisible = function () {
 
 $.fn.mwDialog = function(conf){
     var el = this[0];
+    var isTemplate = el.nodeName === 'TEMPLATE';
+
     var options = mw.tools.elementOptions(el);
     var id = mw.id('mwDialog-');
     var idEl = mw.id('mwDialogTemp-');
@@ -108,14 +110,20 @@ $.fn.mwDialog = function(conf){
     var settings = $.extend({}, defaults, options, conf, {closeButtonAction: 'remove'});
     if(conf === 'close' || conf === 'hide' || conf === 'remove'){
         if(el._dialog){
-            el._dialog.remove()
+            el._dialog.remove();
         }
         return;
     }
     $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
     var dialog = mw.dialog(settings);
     el._dialog = dialog;
-    dialog.dialogContainer.appendChild(el);
+    if(isTemplate) {
+        dialog.dialogContainer.innerHTML = el.innerHTML;
+
+    } else {
+        dialog.dialogContainer.appendChild(el);
+
+    }
     $(el).show();
     if(settings.width === 'auto'){
         dialog.width($(el).width);

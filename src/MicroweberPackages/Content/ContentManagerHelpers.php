@@ -9,6 +9,8 @@ use DB;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use voku\helper\AntiXSS;
 
 class ContentManagerHelpers extends ContentManagerCrud
 {
@@ -236,6 +238,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     \DB::table('media')->where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
                 }
             }
+            event_trigger('mw.reset_modules_settings', $modules_ids);
+
             $this->app->cache_manager->delete('options');
             $this->app->cache_manager->delete('media');
 
@@ -273,6 +277,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->cache_manager->delete('options');
 
         return true;
 
@@ -538,6 +544,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $related->save();
 
             $this->app->cache_manager->delete('content');
+            $this->app->cache_manager->delete('repositories');
 
             return $related;
         }
@@ -545,22 +552,27 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function related_content_remove($data)
     {
-        if (isset($data['id'])) {
+        if (isset($data['content_id']) and isset($data['related_content_id'])) {
+            $related = ContentRelated::where(
+                ['content_id' => $data['content_id'], 'related_content_id' => $data['related_content_id']]
+            )->delete();
+
+        } else if (isset($data['id'])) {
             $related = ContentRelated::where(
                 'id', $data['id']
             )->delete();
 
-            $this->app->cache_manager->delete('content');
 
-            return true;
         }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('repositories');
+
+        return true;
     }
 
 
     public function related_content_reorder($data)
     {
-
-
         if (isset($data['ids'])) {
             $value = $data['ids'];
             if (is_array($value)) {
@@ -588,13 +600,13 @@ class ContentManagerHelpers extends ContentManagerCrud
         $is_module = false;
 
 
-        if (php_can_use_func('ini_set')) {
-            @ini_set('memory_limit', '512M');
-        }
-
-        if (php_can_use_func('set_time_limit')) {
-            set_time_limit(60);
-        }
+//        if (php_can_use_func('ini_set')) {
+//            @ini_set('memory_limit', '512M');
+//        }
+//
+//        if (php_can_use_func('set_time_limit')) {
+//            @set_time_limit(60);
+//        }
 
         $save_as_draft = false;
         if (isset($post_data['save_draft'])) {
@@ -656,23 +668,22 @@ class ContentManagerHelpers extends ContentManagerCrud
             $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
+
             if ($slug_page) {
                 $ref_post = false;
                 if ($slug_post) {
-
                     $ref_post = $this->get_by_url($slug_post);
-
                 }
 
                 if ($ref_post) {
                     $ref_page2 = $ref_page = $ref_post;
-
                 } else {
                     $ref_page2 = $ref_page = $this->get_by_url($slug_page);
-
-
                 }
 
+            } elseif ($slug_post) {
+
+                $ref_post = $this->get_by_url($slug_post);
 
             } elseif ($slug_category) {
                 $cat = $this->app->category_manager->get_by_url($slug_category);
@@ -720,20 +731,27 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
-                $guess_page_data->create_new_page = true;
+                $guess_page_data->create_new_page = false;
                 $pd = $guess_page_data->index();
+
+                $newPageCreate = true;
                 if (isset($pd['id'])) {
                     $pd1 = DB::table('content')->where('id', $pd['id'])->first();
                     $pd1 = (array)$pd1;
                     if ($pd1) {
                         $pd = $pd1;
+                        $newPageCreate = false;
                     }
 
                 }
 
                 $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
-                $pd['url'] = $ustr;
+
+                if ($newPageCreate) {
+                    $pd['url'] = $ustr;
+                }
+
 
                 if (isset($pd['active_site_template']) and $pd['active_site_template'] == template_name()) {
                     $pd['active_site_template'] = '';
@@ -813,11 +831,27 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $page_id = $save_page['id'];
                         } else {
                             if (!$save_as_draft) {
+
+                                if (isset($save_page['id']) && $save_page['id'] > 0) {
+                                    unset($save_page['url']);
+                                } else {
+                                    $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+                                    if ($multilanguageIsActive) {
+                                        if (function_exists('detect_lang_from_url')) {
+                                            $lang_from_url = detect_lang_from_url($save_page['url']);
+                                            if (isset($lang_from_url['target_url'])) {
+                                                $save_page['url'] = $lang_from_url['target_url'];
+                                                $save_page['title'] = $lang_from_url['target_url'];
+                                            }
+                                        }
+                                    }
+                                }
+
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
-                                if ($ref_page_url != $new_content_link) {
-                                    $json_print['new_page_url'] = content_link($page_id);
-                                }
+
+                                $json_print['new_page_url'] = $new_content_link;
+
                             }
 
                         }
@@ -901,6 +935,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $the_field_data['attributes']['data-id'] = $content_id;
                         }
 
+                        if (!isset($the_field_data['attributes']['data-id']) and isset($the_field_data['attributes']['rel_id'])) {
+                            $the_field_data['attributes']['data-id'] = $the_field_data['attributes']['rel_id'];
+                        }
+
 
                         if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {
                             $rel_ch = trim($the_field_data['attributes']['rel_type']);
@@ -971,7 +1009,15 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
+                        $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
+
+
+//  AntiXSS makes bug on save convertind comments to htmlentities
+//                        $antixss = new AntiXSS();
+//                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
+
+
+
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -1050,7 +1096,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
-
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
                                 }
@@ -1092,6 +1137,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             } else {
 
+
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             }
 
@@ -1113,6 +1159,13 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($opts_saved)) {
             $this->app->cache_manager->delete('options');
         }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('content_fields');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->content_repository->clearCache();
+        $this->app->category_repository->clearCache();
+       $this->app->menu_repository->clearCache();
 
         return $json_print;
     }
@@ -1216,7 +1269,8 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
-        $table_drafts = $this->tables['content_fields_drafts'];
+     //    $table_drafts = $this->tables['content_fields_drafts'];
+        $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
             return false;
@@ -1226,13 +1280,13 @@ class ContentManagerHelpers extends ContentManagerCrud
             $data = array();
         }
 
-        if (isset($data['is_draft'])) {
+        if (isset($data['is_draft']) and $data['is_draft']) {
             $table = $table_drafts;
         }
 
         $data = $this->app->format->strip_unsafe($data);
 
-        if (isset($data['is_draft']) and isset($data['url'])) {
+        if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
             $draft_url = $this->app->database_manager->escape_string($data['url']);
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-1 week'));
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-5 min'));
@@ -1332,7 +1386,35 @@ class ContentManagerHelpers extends ContentManagerCrud
         $filter['one'] = 1;
         $filter['no_cache'] = true;
 
-        $find = $this->app->database_manager->get('content_fields', $filter);
+         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
+
+          //   $find = $this->app->database_manager->get($table, $filter);
+
+
+             $find = false;
+             //delete old drafts
+             $old = \DB::table($table)
+                 ->where('rel_type', $data['rel_type'])
+                 ->where('rel_id', $data['rel_id'])
+                 ->where('field', $data['field'])
+                 ->where('url', $data['url'])
+                 ->take(1000)
+                 ->skip(1000)
+                 ->get();
+             if (!empty($old)){
+                 foreach ($old as $item) {
+                     \DB::table($table)->where('id', $item->id)->delete();
+                 }
+             }
+
+         }  else {
+
+
+
+              $find = $this->app->database_manager->get($table, $filter);
+
+         }
+
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
         }

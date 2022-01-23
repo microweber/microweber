@@ -398,6 +398,9 @@ mw.ElementAnalyzer = function(options){
         ];
         while(node && node !== document.body){
             if(mw.tools.hasAnyOfClasses(node, cls)){
+                if (node.nodeName === 'IMG' && node.parentNode.nodeName === 'PICTURE' ) {
+                    node = node.parentNode
+                }
                 return node;
             }
             node = node.parentNode;
@@ -509,6 +512,7 @@ mw.ElementAnalyzer = function(options){
 
             var el = mw.$(scope.data.target);
             mw.currentDragMouseOver = scope.data.target;
+
 
             var edit = mw.tools.firstParentOrCurrentWithClass(mw.currentDragMouseOver, 'edit');
             mw.tools.classNamespaceDelete(mw.dropable[0], 'mw-dropable-tagret-rel-');

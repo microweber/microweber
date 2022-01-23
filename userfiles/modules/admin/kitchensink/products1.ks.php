@@ -11,7 +11,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="material-icons">shopping_cart</i> Add to cart</button>
+                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="material-icons">shopping_cart</i> Add to cart</button>
+                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div><div class="mw-flex-col-xs-4">
@@ -36,7 +36,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="material-icons">shopping_cart</i> Add to cart</button>
+                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div>

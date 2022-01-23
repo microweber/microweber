@@ -25,8 +25,6 @@ class RequestRoute extends Request
      */
     public static function postJson($route, $params)
     {
-
-
         $requestFactory = function (array $query, array $request, array $attributes, array $cookies, array $files, array $server, $content) use ($params) {
             if (!isset($params["x-no-throttle"])) {
                 $server['x-no-throttle'] = true;
@@ -39,11 +37,12 @@ class RequestRoute extends Request
         };
 
         self::setFactory($requestFactory);
+
         $createRequest = self::create($route, 'POST', $params, $_COOKIE, $_FILES, $_SERVER);
         $createRequest->headers->set('accept', 'application/json');
 
         $response = app()->handle($createRequest);
-
+//dump($response->getContent());
         return self::formatFrontendResponse($response);
     }
 

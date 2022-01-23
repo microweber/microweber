@@ -47,11 +47,6 @@ class PermalinkManager
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-                    $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
-                    if ($override and is_array($override) and isset($override[0]) and $override[0]) {
-                        return $override[0];
-                    }
-
                     if ($type == 'category') {
                         $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
                         if ($findCategoryBySlug) {
@@ -79,7 +74,8 @@ class PermalinkManager
                         // If page not fond & category not found we try to find post
                         $findPostBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
                         if ($findPostBySlug && isset($findPostBySlug['parent']) && $findPostBySlug['parent'] != false) {
-                            $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
+                          //  $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
+                            $findPostPageBySlug =  app()->content_repository->getById($findPostBySlug['parent']);
                             if ($findPostPageBySlug) {
                                 return $findPostPageBySlug['url'];
                             }
@@ -96,17 +92,14 @@ class PermalinkManager
 
                     if ($type == 'post') {
                         $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
-
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
                         }
-
                         $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
                         if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
                             return $findPostsBySlug['url'];
                         }
                     }
-
 
                     if ($type == 'content') {
                         $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
@@ -188,7 +181,9 @@ class PermalinkManager
     {
         $link = [];
 
-        $content = get_content('id=' . $contentId . '&single=1');
+        //$content = get_content('id=' . $contentId . '&single=1');
+        $content =  app()->content_repository->getById($contentId);
+
         if ($content) {
 
             if ($content['content_type'] == 'page') {
@@ -199,7 +194,9 @@ class PermalinkManager
 
                 if ($this->structure == 'page_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                     //   $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
@@ -215,7 +212,9 @@ class PermalinkManager
 
                 if ($this->structure == 'page_category_post') {
                     if (isset($content['parent']) && $content['parent'] != 0) {
-                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                      //  $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        $postParentPage = app()->content_repository->getById($content['parent']);
+
                         if ($postParentPage) {
                             $link[] = $postParentPage['url'];
                         }
@@ -247,8 +246,12 @@ class PermalinkManager
                 }
             }
 
-            $selected_cat = get_category_by_id($selected_cat['id']);
-            $slug = $selected_cat['url'];
+            if ($selected_cat and isset($selected_cat['id'])) {
+                $selected_cat = get_category_by_id($selected_cat['id']);
+                if ($selected_cat and isset($selected_cat['url'])) {
+                    $slug = $selected_cat['url'];
+                }
+            }
         }
 
         return $slug;
@@ -323,4 +326,10 @@ class PermalinkManager
             //'page_category_sub_categories_post' => 'sample-page/sample-category/sub-category/sample-post'
         );
     }
+    public function clearCache()
+    {
+        //...
+    }
+
+
 }

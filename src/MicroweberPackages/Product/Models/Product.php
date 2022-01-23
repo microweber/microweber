@@ -5,9 +5,16 @@ use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
+use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 
 class Product extends Content
 {
+
+    /**
+     * @method filter(array $filter)
+     * @see ProductFilter
+     */
+
     use CustomFieldPriceTrait;
 
     protected $table = 'content';
@@ -40,7 +47,6 @@ class Product extends Content
         "created_at",
     ];
 
-    public $translatable = ['title','url','description','content','content_body'];
 
     public static $customFields = [
         [
@@ -51,9 +57,9 @@ class Product extends Content
     ];
 
     public static $contentDataDefault = [
+        'qty'=>'nolimit',
         'sku'=>'',
         'barcode'=>'',
-        'qty'=>'nolimit',
         'track_quantity'=>'',
         'max_quantity_per_order'=>'',
         'sell_oos'=>'',
@@ -68,6 +74,11 @@ class Product extends Content
         'depth'=>''
     ];
 
+    public $sortable = [
+        'id'=>[
+            'title'=> 'Product'
+        ]
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -126,17 +137,6 @@ class Product extends Content
         return null;
     }
 
-    private function fetchSingleContentDataByName($name)
-    {
-        foreach($this->contentData as $contentDataRow) {
-            if($contentDataRow->field_name == $name) {
-                return $contentDataRow->field_value;
-            }
-        }
-
-        return null;
-    }
-
     public function getPriceAttribute()
     {
         return $this->fetchSingleAttributeByType('price');
@@ -149,13 +149,52 @@ class Product extends Content
 
     public function getQtyAttribute()
     {
-        return $this->fetchSingleContentDataByName('qty');
+        return $this->getContentDataByFieldName('qty');
     }
 
     public function getSkuAttribute()
     {
-        return $this->fetchSingleContentDataByName('sku');
+        return $this->getContentDataByFieldName('sku');
     }
+
+    public function hasSpecialPrice()
+    {
+        $specialPrice = $this->getContentDataByFieldName('special_price');
+        if ($specialPrice > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getSpecialPriceAttribute()
+    {
+        return $this->getContentDataByFieldName('special_price');
+    }
+
+    public function getInStockAttribute()
+    {
+
+        $sellWhenIsOos = $this->getContentDataByFieldName('sell_oos');
+        if ($sellWhenIsOos == '1') {
+            return true;
+        }
+
+        if ($this->qty == 'nolimit') {
+            return true;
+        }
+
+        if ($this->qty > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class , 'parent');
+    }
+
 
     public function getContentData($values = [])
     {
@@ -167,5 +206,15 @@ class Product extends Content
         }
 
         return $defaultKeys;
+    }
+
+    public function scopeFrontendFilter($query, $params)
+    {
+        $filter = new ShopFilter();
+        $filter->setModel($this);
+        $filter->setQuery($query);
+        $filter->setParams($params);
+
+        return $filter->apply();
     }
 }

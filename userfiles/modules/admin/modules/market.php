@@ -17,16 +17,20 @@ if($parent_module and isset($_GET)){
 
 <?php if($url != false): ?>
 
-<iframe src="<?php print $url; ?>" id="mw-update-frame" frameborder="0" style="width: 100%; position: relative;"></iframe>
+<iframe src="<?php print $url; ?>" id="mw-update-frame" frameborder="0" class="w-100" style="width: 100%; position: relative;"></iframe>
 <script>
-    var frame = document.getElementById('mw-update-frame');
-    frame.style.height = window.innerHeight + 'px';
-    frame.style.width = (window.innerWidth - document.getElementById('mw-admin-main-menu').offsetWidth) + 'px';
 
-    $(window).bind('resize', function(){
+    var frameSize = function (){
         var frame = document.getElementById('mw-update-frame');
         frame.style.height = window.innerHeight + 'px';
-        frame.style.width = (window.innerWidth - document.getElementById('mw-admin-main-menu').offsetWidth) + 'px';
+        var menu = document.getElementById('mw-admin-main-menu');
+        frame.style.width = (window.innerWidth - (menu ? menu.offsetWidth : 0)) + 'px';
+    };
+
+    frameSize();
+
+    addEventListener('resize', function(){
+        frameSize();
     })
 </script>
 <?php else: ?>

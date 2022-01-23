@@ -1,5 +1,6 @@
 
 <div class="mw-shipping-select">
+
     <div  class="my-4" <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
         <label class="control-label"><?php _e("Choose shipping method"); ?></label>
         <small class="text-muted d-block mb-2"> <?php _e("Please choose the right method for deliver your order."); ?></small>
@@ -10,8 +11,6 @@
             <?php endforeach; ?>
         </select>
     </div>
-
-
 
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
         <div id="mw-shipping-gateway-selected-wrapper-<?php print $params['id']; ?>">

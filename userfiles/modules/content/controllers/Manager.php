@@ -131,7 +131,7 @@ class Manager
         }
 
         $posts_mod['paging_param'] = 'pg';
-     
+
 
         $posts_mod['orderby'] = 'position desc';
         if (isset($params['data-order'])) {

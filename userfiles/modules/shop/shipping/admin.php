@@ -99,10 +99,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -143,7 +140,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                         </small>
                                     </div>
 
-                                    <div class="col text-right">
+                                    <div class="col text-end text-right">
                                         <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print($shipping_module['module']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                     </div>
                                 </div>

@@ -13,10 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -44,7 +41,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings module-twitter-feed-settings">
                     <div class="form-group">
                         <label class="control-label"><?php _e('Search string'); ?> <a href="https://dev.twitter.com/rest/public/search" target="_blank">[?]</a></label>
-                        <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
+                        <input type="text" class="mw_option_field form-control" placeholder="Example: technology" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
                     </div>
 
                     <div class="form-group">

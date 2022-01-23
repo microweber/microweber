@@ -89,6 +89,18 @@
                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
             }
         ],
+
+        bootstrap5js: [
+            function () {
+                 mw.require(mw.settings.libs_url + 'bootstrap5' + '/js/bootstrap.bundle.min.js');
+            }
+        ],
+        bootstrap5: [
+            function () {
+                mw.require(mw.settings.libs_url + 'bootstrap5' + '/css/bootstrap.' + (document.documentElement.dir==='rtl' ? 'rtl.' : '') + 'min.css');
+                mw.lib.require('bootstrap5js')
+             }
+        ],
         microweber_ui: [
             function () {
                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
@@ -151,6 +163,32 @@
                 mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
                 mw.moduleCSS(mw.settings.libs_url + 'slick' + '/slick-theme.css');
                 mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
+            }
+        ],
+        ion_range_slider: [
+            function () {
+                mw.require(mw.settings.libs_url + 'ion-range-slider' + '/css/ion.rangeSlider.min.css', true);
+                mw.require(mw.settings.libs_url + 'ion-range-slider' + '/js/ion.rangeSlider.min.js', true);
+            }
+        ],
+        air_datepicker: [
+            function () {
+
+                mw.require(mw.settings.libs_url + 'air-datepicker' + '/css/datepicker.min.css', true);
+                mw.require(mw.settings.libs_url + 'air-datepicker' + '/js/datepicker.min.js', true);
+
+                $.fn.datepicker.language['en'] = {
+                    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                    daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    today: 'Today',
+                    clear: 'Clear',
+                    dateFormat: 'yyyy-mm-dd',
+                    firstDay: 0
+                };
+
             }
         ],
         bootstrap_datepicker: [
@@ -290,9 +328,36 @@
         anchorific: [
             function () {
                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
-
             }
         ],
+        multilanguage: [
+            function () {
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
+                mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
+            }
+        ],
+        codemirror: [
+            function () {
+                mw.require(mw.settings.libs_url + 'codemirror' + '/codemirror.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/javascript.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/csslint.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/css-lint-plugin.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/htmlmixed.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/php.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/autorefresh.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/selection-pointer.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/xml-fold.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/matchtags.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-css.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-html.min.js');
+                mw.require(mw.settings.libs_url + 'codemirror' + '/style.css');
+            }
+
+        ]
     };
 
     mw.lib = {
@@ -313,41 +378,6 @@
                 (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
             }
         },
-        get: function (name, done, error) {
-            if (mw.lib._required.indexOf(name) !== -1) {
-                if (typeof done === 'function') {
-                    done.call();
-                }
-                return false;
-            }
-
-            if (typeof mw.settings.libs[name] === 'undefined') return false;
-            if (mw.settings.libs[name].constructor !== [].constructor) return false;
-            mw.lib._required.push(name);
-            var path = mw.settings.libs_url + name + '/',
-                arr = mw.settings.libs[name],
-                l = arr.length,
-                i = 0,
-                c = 1;
-            for (; i < l; i++) {
-                var xhr = $.cachedScript(path + arr[i]);
-                xhr.done(function () {
-                    c++;
-                    if (c === l) {
-                        if (typeof done === 'function') {
-                            done.call();
-                        }
-                    }
-                });
-                xhr.fail(function (jqxhr, settings, exception) {
-
-                    if (typeof error === 'function') {
-                        error.call(jqxhr, settings, exception);
-                    }
-
-                });
-            }
-        }
     };
 
     mw.lang = function (key) {
@@ -456,4 +486,10 @@
     }
 })();
 
+<?php
+if(isset($inline_scripts) and is_array($inline_scripts)){
+    print implode($inline_scripts,"\n");
+}
+
+?>
 

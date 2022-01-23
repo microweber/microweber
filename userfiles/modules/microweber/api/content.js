@@ -12,15 +12,21 @@ mw.content = mw.content || {
     },
     deleteCategory: function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
-            $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                mw.notification.success('Category deleted');
-                if (callback) {
-                    callback.call(data, data);
+         $.ajax({
+                url: mw.settings.api_url + 'category/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                success: function (result) {
+                    mw.notification.success('Category deleted');
+                    if (callback) {
+                        callback.call(result, result);
+                    }
+                    mw.reload_module_everywhere('content/manager');
+                    mw.reload_module_everywhere('categories');
+                    mw.url.windowDeleteHashParam('action');
                 }
-                mw.reload_module_everywhere('content/manager');
-                mw.url.windowDeleteHashParam('action');
-
             });
+
         });
     },
     publish: function ($id) {
@@ -105,7 +111,6 @@ mw.content = mw.content || {
             if (typeof e.onError === 'function') {
                 e.onError.call(calc);
             }
-            return false;
         }
         if (!data.content_type) {
             data.content_type = "post";
@@ -151,8 +156,7 @@ mw.content = mw.content || {
                 }
 
             }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
+             mw.askusertostay = false;
         });
     }
 };

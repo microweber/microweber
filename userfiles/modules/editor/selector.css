@@ -3,6 +3,13 @@
       margin: 0;
     }
 
+    #select_edit_field ul,
+    #select_edit_field li{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        width:100%;
+    }
     #select_edit_field li{
       padding: 5px 10px 5px 0;
       list-style: none;
@@ -19,13 +26,11 @@
       pointer-events: all;
       padding-left: 10px;
     }
-        #select_edit_field > li li:hover{
-      background-color: #8AD2FF;
-    }
+
     #select_edit_field  > li li:hover,
     #select_edit_field  > li li.selected{
-      background-color: #0084d8;
-      color: white;
+      border-color: #0084d8;
+
     }
 
     .selector-box{

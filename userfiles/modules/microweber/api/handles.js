@@ -293,6 +293,11 @@ mw._activeModuleOver = {
     element: null
 };
 
+if(!mw._xhrIcons) {
+    mw._xhrIcons = {}
+}
+
+
 mw._initHandles = {
     getNodeHandler:function (node) {
         if(mw._activeElementOver === node){
@@ -388,7 +393,7 @@ mw._initHandles = {
             buttons: [
                     {
                         title: mw.lang('Insert'),
-                        icon: 'mdi-plus-circle',
+                        icon: 'mdi-plus',
                         className: 'mw-handle-insert-button',
                         hover: [
                             function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
@@ -413,8 +418,7 @@ mw._initHandles = {
                                      mw.drag.plus.locked = false;
                                  });
                                  mw._initHandles.hideAll();
-
-                                var tip = tooltip.tooltip.get(0);
+                                 var tip = tooltip.tooltip.get(0);
                                 setTimeout(function (){
                                     $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
                                 }, 10);
@@ -444,6 +448,47 @@ mw._initHandles = {
                                         tooltip.remove();
                                     };
                                 });
+                                 var getIcon = function (url) {
+                                     return new Promise(function (resolve){
+                                         if(mw._xhrIcons && mw._xhrIcons[url]) {
+                                             resolve(mw._xhrIcons[url])
+                                         } else {
+                                             fetch(url, {cache: "force-cache"})
+                                                 .then(function (data){
+                                                     return data.text();
+                                                 }).then(function (data){
+                                                 mw._xhrIcons[url] = data;
+                                                 resolve(mw._xhrIcons[url])
+                                             })
+                                         }
+                                     })
+                                 }
+
+                                 $('[data-module-icon]').each(function (){
+
+                                     var src = this.dataset.moduleIcon.trim();
+                                     delete this.dataset.moduleIcon;
+                                     var img = this;
+                                     if(src.includes('.svg') && src.includes(location.origin)) {
+                                         var el = document.createElement('div');
+                                         el.className = img.className;
+                                         //var shadow = el.attachShadow({mode: 'open'});
+                                         var shadow = el;
+                                         getIcon(src).then(function (data){
+                                             var shImg = document.createElement('div');
+                                             shImg.innerHTML = data;
+                                             shImg.part = 'mw-module-icon';
+                                             shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                                             Array.from(shImg.querySelectorAll('style')).forEach(function (style){
+                                                 style.remove()
+                                             })
+                                             shadow.appendChild(shImg);
+                                             img.parentNode.replaceChild(el, img);
+                                         })
+                                     } else {
+                                         this.src = src;
+                                     }
+                                 })
                         }
                     }
                 }
@@ -574,12 +619,12 @@ mw._initHandles = {
                 mw.handleElement.show();
             }
             mw.handleElement.positionedAt = 'top';
-            var posTop = o.top - 30;
+            var posTop = o.top - 40;
             var elHeight = el.height();
-            if (originalEvent.pageY > (o.top + elHeight/2)) {
+            /*if (originalEvent.pageY > (o.top + elHeight/2)) {
                 posTop = o.top + elHeight;
                 mw.handleElement.positionedAt = 'bottom';
-            }
+            }*/
 
             mw.$(mw.handleElement.wrapper).css({
                 top: posTop,
@@ -611,7 +656,7 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
+                    icon: 'mdi-plus',
                     hover: [
                         function (e) {
                             handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
@@ -621,11 +666,18 @@ mw._initHandles = {
                         }
                     ],
                     action: function (node) {
-                        if(mw.handleModule.isLayout) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = targetFn();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
                             mw.layoutPlus.showSelectorUI(node);
                         } else {
                             mw.drag.plus.rendModules(node);
                         }
+
+
 
                     }
                 },
@@ -698,6 +750,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -784,6 +837,7 @@ mw._initHandles = {
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
+                            this.removeAttribute('parent-module-id');
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
@@ -841,7 +895,7 @@ mw._initHandles = {
                     if (!mw.dragCurrent.id) {
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
-                    if(mw.liveEditTools.isLayout(mw.dragCurrent)){
+                    if (mw.liveEditTools.isLayout(mw.dragCurrent)){
                         mw.$(mw.dragCurrent).css({
                             opacity:0
                         }).addClass("mw_drag_current");
@@ -910,7 +964,7 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            var isLayout = element && element.getAttribute('data-type') === 'layouts';
+            var isLayout = element && element.classList.contains('module') && element.getAttribute('data-type') === 'layouts';
             handle.isLayout = isLayout;
             handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
             mw.$('.mw_handle_module_clone').hide();
@@ -936,7 +990,7 @@ mw._initHandles = {
             var pleft = parseFloat(el.css("paddingLeft"));
 
             var lebar =  document.querySelector("#live_edit_toolbar");
-            var minTop = lebar ? lebar.offsetHeight : 0;
+            var minTop = (lebar ? lebar.offsetHeight : 0);
             if(mw.templateTopFixed) {
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){
@@ -948,11 +1002,11 @@ mw._initHandles = {
             var topPos = o.top;
 
             if(topPos<minTop){
-                topPos = minTop;
+                topPos = minTop + el[0].offsetHeight;
                 marginTop = 0
             }
             var ws = mw.$(window).scrollTop();
-            if(topPos<(ws+minTop)){
+            if((topPos-50)<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
                 if(el[0].offsetHeight < 100){
@@ -979,10 +1033,10 @@ mw._initHandles = {
             var elHeight = el.height();
 
             handle.positionedAt = 'top';
-            if (event.pageY > (o.top + elHeight/2)) {
+            /*if (event.pageY > (o.top + elHeight/2)) {
                 topPosFinal += elHeight;
                 handle.positionedAt = 'bottom';
-            }
+            }*/
              if (element.dataset.type === 'layouts') {
                 topPosFinal = o.top + 10;
                  handleLeft = handleLeft + 10;
@@ -1046,32 +1100,42 @@ mw._initHandles = {
 
             mw.tools.classNamespaceDelete(handle, 'module-active-');
             mw.tools.addClass(handle, 'module-active-' + module_type.replace(/\//g, '-'));
-
-            if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
+             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
 
                 var new_el = document.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
 
                 var settings = mw.live_edit_module_settings_array[module_type];
                 mw.$(settings).each(function () {
-                    if (this.view) {
+
+                    var handleDynamicView = false;
+
+
+
+                    if(typeof(this) == 'object' && typeof(this[0]) !== 'undefined'){
+                        handleDynamicView  = this[0];
+                    } else {
+                        handleDynamicView =  this;
+                    }
+
+                    if (handleDynamicView && typeof(handleDynamicView.view) !== 'undefined') {
                         var new_el = document.createElement('a');
                         new_el.className = 'mw_edit_settings_multiple';
-                        new_el.title = this.title;
+                        new_el.title = handleDynamicView.title;
                         new_el.draggable = 'false';
                         var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
                         new_el.id = btn_id;
-                        if (this.type && this.type === 'tooltip') {
-                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
+                        if (handleDynamicView.type && handleDynamicView.type === 'tooltip') {
+                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + handleDynamicView.view + '", "tooltip"); void(0);';
 
                         } else {
-                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
+                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + handleDynamicView.view + '"); void(0);';
                         }
                         var icon = '';
-                        if (this.icon) {
-                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
+                        if (handleDynamicView.icon) {
+                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + handleDynamicView.icon + '"></i>';
                         }
-                        new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
+                        new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + handleDynamicView.title+'</span>');
                         mw.$(".mw_handle_module_spacing", handle.wrapper).append(new_el);
                     }
                 });

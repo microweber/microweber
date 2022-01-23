@@ -36,6 +36,7 @@ class DefaultField
         'required'=>false,
         'multiple'=>'',
         'show_label'=>true,
+        'show_placeholder'=>false,
         'field_size'=>12,
         'field_size_desktop'=>12,
         'field_size_tablet'=>12,
@@ -59,27 +60,15 @@ class DefaultField
         $this->adminView = $adminView;
     }
 
+    public function mergeRenderSettings($settings){
+        if(is_array($settings)){
+            $this->renderSettings = array_merge($this->renderSettings,$settings);
+        }
+    }
+
     public function preparePreview()
     {
-        $renderData = [];
-        if (!empty($this->data)) {
-            $renderData = array_merge($renderData, $this->data);
-        }
-
-        // Set default data if not exists
-        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
-            if (!isset($renderData[$defaultDataKey])) {
-                $renderData[$defaultDataKey] = $defaultDataValue;
-            }
-        }
-        // Set default data options if not exists
-        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
-            if (!isset($renderData['options'][$defaultDataOptionKey])) {
-                $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
-            }
-        }
-        $this->renderData = $renderData;
-
+        // Render settings
         $renderSettings = [];
         if (!empty($this->settings)) {
             $renderSettings = array_merge($renderSettings, $this->settings);
@@ -103,9 +92,38 @@ class DefaultField
             }
         }
 
-        $renderSettings = $this->calculateFieldSize($renderSettings);
+        // $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
+
+        // Render data
+        $renderData = [];
+        if (!empty($this->data)) {
+            $renderData = array_merge($renderData, $this->data);
+        }
+
+        // Set default data if not exists
+        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
+            if (!isset($renderData[$defaultDataKey])) {
+                $renderData[$defaultDataKey] = $defaultDataValue;
+            }
+        }
+        // Set default data options if not exists
+        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
+            if (!isset($renderData['options'][$defaultDataOptionKey])) {
+                $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
+            }
+        }
+
+        if (!isset($renderSettings['show_placeholder'])
+            || $renderSettings['show_placeholder'] == false
+            || (strpos($renderSettings['show_placeholder'], 'false') !== false)
+            ){
+            $renderData['placeholder'] = '';
+        } else {
+        }
+
+        $this->renderData = $renderData;
     }
 
     public function render()
@@ -113,6 +131,7 @@ class DefaultField
         $this->preparePreview();
 
         $parseView = new View($this->getTempalteFile());
+
         $parseView->assign('data', $this->renderData);
         $parseView->assign('settings', $this->renderSettings);
 
@@ -138,28 +157,4 @@ class DefaultField
         return $file;
     }
 
-    public function calculateFieldSize($renderSettings)
-    {
-        $renderSettings['field_size'] = 12;
-
-        if (mw()->browser_agent->isMobile()) {
-            if (isset($renderSettings['field_size_mobile'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_mobile'];
-            }
-        }
-
-        if (mw()->browser_agent->isDesktop()) {
-            if (isset($renderSettings['field_size_desktop'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_desktop'];
-            }
-        }
-
-        if (mw()->browser_agent->isTablet()) {
-            if (isset($renderSettings['field_size_tablet'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_tablet'];
-            }
-        }
-
-        return $renderSettings;
-    }
 }

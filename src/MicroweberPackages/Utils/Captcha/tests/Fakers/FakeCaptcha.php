@@ -26,4 +26,9 @@ class FakeCaptcha
         $this->answer = $answer;
     }
 
+    public function reset($captcha_id = null)
+    {
+        $this->answer = null;
+    }
+
 }

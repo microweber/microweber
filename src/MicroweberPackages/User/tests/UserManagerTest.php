@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -37,6 +38,23 @@ use Illuminate\Support\Facades\Password;
 class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
+
+    public function testExportMyData()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $response = $this->call('GET', route('api.users.export_my_data'), [
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $isDownload = $response->headers->get('content-disposition');
+        $this->assertTrue(str_contains($isDownload, 'filename='));
+
+
+    }
 
     public function testRegistration()
     {
@@ -177,10 +195,9 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
 
+
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
-
-
 
         $this->assertTrue(str_contains($requestStatus['message'],'We have emailed your password reset link!'));
         $this->assertTrue(str_contains($requestStatus['message'],'reset link'));
@@ -290,7 +307,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
-//dump($loginStatus);
+
         $this->assertArrayHasKey('error', $loginStatus);
 
         $this->assertTrue(str_contains($loginStatus['error'],'verify'));
@@ -376,25 +393,20 @@ class UserManagerTest extends TestCase
 
         $this->assertEquals($check->email, $newUser['email']);
 
-
-        // Lets change the password
-        $token = Password::getRepository()->create($user);
+        $resetPasswordToken = ($check->token);
         $update_pass_request = [
-            'token' => $token,
+            'token' => $resetPasswordToken,
             'email' => $newUser['email'],
             'password' => 'pass1234',
             'password_confirmation' => 'pass1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
 
-
-
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
 
         $this->assertTrue($updatePasswordWithToken['success']);
 
         $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
-
 
         logout();
 
@@ -404,16 +416,14 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
+
         $this->assertArrayHasKey('success', $loginStatus);
 
-
-        // Lets expire email token
-        $token = Password::getRepository()->create($user);
         DB::table('password_resets')->where('email', '=', $check->email)->update([
             'created_at' => '1997'
         ]);
         $update_pass_request = [
-            'token' => $token,
+            'token' => $resetPasswordToken,
             'email' => $newUser['email'],
             'password' => '1234',
             'password_confirmation' => '1234'
@@ -468,7 +478,7 @@ class UserManagerTest extends TestCase
         foreach ($emails as $email) {
 
             $body = $email->getBody();
-
+       
             if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (strpos($body, '?email=') !== false) {
                     $findResetPasswordLink = true;
@@ -610,6 +620,5 @@ class UserManagerTest extends TestCase
 
 
     }
-
 
 }

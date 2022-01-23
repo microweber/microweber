@@ -1,6 +1,6 @@
 <?php
 $entry = false;
-//d($item);return;
+
 if (isset($item['rel_id']) AND !isset($is_entry)) {
     $entry_params['id'] = $item['rel_id'];
     $entry = get_contact_entry_by_id($entry_params);
@@ -11,20 +11,37 @@ if (isset($item['rel_id']) AND !isset($is_entry)) {
     $item_id = $item['id'];
 }
 
-if (isset($entry['form_values'])) {
-    $form_values = json_decode($entry['form_values'], true);
 
-    if ($form_values) {
-        $countArrays = ceil(count($form_values) / 2);
-    }
+$form_files = [];
+$form_values = [];
 
-    $form_values_1 = [];
-    $form_values_2 = [];
-    if (is_array($form_values)) {
-        $form_values_1 = array_slice($form_values, 0, $countArrays);
-        $form_values_2 = array_slice($form_values, $countArrays);
+$find_form_values = \MicroweberPackages\Form\Models\FormDataValue::where('form_data_id', $item_id)->get();
+if ($find_form_values != null) {
+    // seperate uploads from this array
+    $new_form_values = [];
+    foreach ($find_form_values->toArray() as $form_value) {
+
+        if (isset($form_value['field_type']) && $form_value['field_type'] == 'upload') {
+            $form_files[$form_value['field_name']] = $form_value['field_value_json'];
+            continue;
+        }
+
+        if (!empty($form_value['field_value_json'])) {
+            $new_form_values[$form_value['field_name']] = $form_value['field_value_json'];
+        } else {
+            $new_form_values[$form_value['field_name']] = $form_value['field_value'];
+        }
     }
+    $form_values = $new_form_values;
 }
+
+$form_values_formated = [];
+if ($form_values) {
+    $countArrays = ceil(count($form_values) / 2);
+    $form_values_formated[] = array_slice($form_values, 0, $countArrays);
+    $form_values_formated[] = array_slice($form_values, $countArrays);
+}
+
 
 $created_by = false;
 if (isset($item['created_by'])) {
@@ -38,17 +55,25 @@ if (isset($item['created_by'])) {
 }
 ?>
 
+<script>
+    $( document ).ready(function() {
+        $('.collapse', '.js-form-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
+            $('.js-form-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
+        });
+    });
+</script>
+
 <div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
-                <div class="col text-left">
+                <div class="col text-start text-left">
                     <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>
         <?php endif; ?>
 
-        <div class="row align-items-center">
+        <div class="row align-items-center" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>
@@ -63,54 +88,64 @@ if (isset($item['created_by'])) {
         </div>
 
         <div class="collapse" id="notif-entry-item-<?php print $item_id ?>">
-            <hr class="thin"/>
+            <hr class="thin" />
             <div class="row">
+
+
+                <?php
+                $iformVr=0;
+                foreach ($form_values_formated as $form_values_row) {
+                ?>
                 <div class="col-md-6">
-                    <h6><strong><?php _e("Fields"); ?></strong></h6>
-                    <?php if ($form_values_1): ?>
-                        <?php foreach ($form_values_1 as $key => $val1): ?>
-                            <?php if (!is_array($val1)): ?>
+                    <?php  if ($iformVr==0){   ?><h6><strong><?php _e("Fields"); ?></strong></h6><?php  } ?>
+
+                    <?php $iformVr++;?>
+
+                    <?php if ($form_values_row){ ?>
+                        <?php foreach ($form_values_row as $key => $val1){ ?>
+                            <?php if (!is_array($val1)){ ?>
                                 <div>
                                     <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                     <p><?php print $val1; ?></p>
                                 </div>
-                            <?php else: ?>
+                            <?php } else { ?>
                                 <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
-                                <?php foreach ($val1 as $val1_1): ?>
+                                <?php foreach ($val1 as $val1_1){ ?>
                                     <p><?php print $val1_1 . '<br />'; ?></p>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-                <div class="col-md-6">
-                    <h6>&nbsp;</h6>
-                    <?php if ($form_values_2): ?>
-                        <?php foreach ($form_values_2 as $key => $val2): ?>
-                            <?php if (!is_array($val2)): ?>
-                                <div>
-                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
-                                    <p><?php print $val2; ?></p>
-                                </div>
-                            <?php else: ?>
-                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
-                                <?php foreach ($val2 as $val2_1): ?>
-                                    <p><?php print ($val2_1). '<br />'; ?></p>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                                <?php }?>
+                            <?php } ?>
+                        <?php } ?>
+                        <?php } ?>
 
                     <?php
+                    if ($iformVr == count($form_values_formated) && !empty($form_files)) {
+                        ?>
+                        <h6><strong><?php _e("Attached files"); ?></strong></h6>
+                        <?php
+                        foreach ($form_files as $fileNameKey=>$fileSettings){
+                            if(!isset($fileSettings['url'])){
+                                continue;
+                            }
 
-                    /*<div>
-                        <small class="text-muted">Attached files:</small>
-                        <p><i class="mdi mdi-pdf-box text-primary mdi-18px"></i> Refactoring UI: Bad About</p>
-                        <p><i class="mdi mdi-file-check text-primary mdi-18px"></i> Some of our files attached</p>
-                    </div>*/
+
+                            ?>
+                            <div>
+                                <small class="text-muted"><?php echo $fileNameKey; ?></small> <br />
+                                <a href="<?php echo $fileSettings['url']; ?>" target="_blank">
+                                    <i class="mdi mdi-file-check text-primary mdi-18px"></i> <?php echo str_limit(basename($fileSettings['url']),20); ?>
+                                    (<?php echo app()->format->human_filesize($fileSettings['file_size']) ?>)
+                                </a>
+                            </div>
+                            <?php
+                        }
+                    }
                     ?>
 
                 </div>
+                <?php
+                }
+                ?>
+
                 <div class="col-md-12">
                     <script type="text/javascript">
                         function deleteFormEntry(e, entryId) {
@@ -128,6 +163,8 @@ if (isset($item['created_by'])) {
                     <button type="button" class="btn btn-outline-danger pull-right" onclick="deleteFormEntry(event,<?php echo $item_id; ?>)"><i class="mdi mdi-delete-outline"></i> <?php _e('Delete'); ?></button>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

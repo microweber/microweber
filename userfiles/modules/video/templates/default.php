@@ -11,14 +11,17 @@ description: Default
         $(document).ready(function () {
             $('.js-mw-embed-wrapper-<?php echo $params['id']; ?>').click(function () {
 
-                if ($('.js-mw-embed-iframe-<?php echo $params['id']; ?>').length > 0) {
-                    $('.js-mw-embed-iframe-<?php echo $params['id']; ?>').attr('src', $('.js-mw-embed-iframe-<?php echo $params['id']; ?>').attr('data-src'));
-                    $('.js-mw-embed-iframe-<?php echo $params['id']; ?>').fadeIn();
+                var frame = $('.js-mw-embed-iframe-<?php echo $params['id']; ?>');
+                var htmlVideo = $('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>');
+
+                if (frame.length > 0) {
+                    frame.attr('src', frame.attr('data-src'));
+                    frame.fadeIn();
                 }
 
-                if ($('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>').length > 0) {
-                    $('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>').attr('src', $('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>').attr('data-src'));
-                    $('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>').fadeIn();
+                if (htmlVideo.length > 0) {
+                    htmlVideo.attr('src', htmlVideo.attr('data-src'));
+                    htmlVideo.fadeIn();
                 }
 
                 $(this).css('background-image', 'none');
@@ -27,8 +30,5 @@ description: Default
     </script>
 <?php } ?>
 
-<?php if ($provider == 'vimeo'): ?>
-    <?php echo $code; ?>
-<?php else: ?>
-    <?php echo $code; ?>
-<?php endif; ?>
+<?php echo $code; ?>
+

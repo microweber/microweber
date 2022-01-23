@@ -56,90 +56,90 @@ if (isset($_GET['group']) and $_GET['group']) {
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=website" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=website" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('General'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('General'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Make basic settings for your website'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=updates" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=updates" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Updates'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Updates'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Check for the latest updates'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=email" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=email" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('E-mail'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('E-mail'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Email settings'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=template" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=template" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Template'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Template'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Change or manage the theme you use'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=advanced" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=advanced" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-keyboard-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Advanced'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Advanced'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Additional settings'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=files" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=files" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Files'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Files'); ?></span><br/>
                                 <small class="text-muted"><?php _e('File management'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=users" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=users" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Login & Register'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Login & Register'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Manage the access control to your website'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=language" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=language" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Language'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Language'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Choice of language and translations'); ?></small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=privacy" class="d-flex my-3">
+                        <a href="<?php echo admin_url();?>view:settings#option_group=privacy" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold"><?php _e('Privacy Policy'); ?></span><br/>
+                                <span class="text-outline-primary font-weight-bold"><?php _e('Privacy Policy'); ?></span><br/>
                                 <small class="text-muted"><?php _e('Privacy Policy and GDPR settings'); ?></small>
                             </div>
                         </a>

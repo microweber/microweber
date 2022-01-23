@@ -60,26 +60,31 @@ jQuery.ajax = function(url, options){
     else{
         settings.url = url;
     }
+
+
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
         delete settings.success;
-        settings.success = function (data, status, xhr) {
-            if(xhr.status === 200) {
-                if (data && (data.form_data_required || data.form_data_module)) {
-                    mw.extradataForm(settings, data);
-                }
-                else {
-                    if (typeof this._success === 'function') {
-                        var scope = this;
-                        scope._success.call(scope, data, status, xhr);
+    }
 
-                    }
+    settings.success = function (data, status, xhr) {
+        if(xhr.status === 200) {
+            if (data && (data.form_data_required || data.form_data_module)) {
+                mw.extradataForm(settings, data);
+            }
+            else {
+                if (typeof this._success === 'function') {
+                    var scope = this;
+                    scope._success.call(scope, data, status, xhr);
+
                 }
             }
-        };
-    }
+        }
+    };
+
     settings = $.extend({}, settings, options);
     var xhr = _jqxhr(settings);
+    xhr._settings = settings;
     return xhr;
 };
 
@@ -99,7 +104,12 @@ mw.safeCall = function(hash, call){
 
 $.ajaxSetup({
     cache: false,
-    error: function (xhr, e) {
+    error: function (xhr, e, c, d) {
+        var data = xhr.responseJSON;
+        if (data && (data.form_data_required || data.form_data_module)) {
+            mw.extradataForm(xhr._settings, data);
+            return;
+        }
          if(xhr.status === 422){
             mw.errorsHandle(xhr.responseJSON)
         } else if(xhr.status !== 200 && xhr.status !== 0){
@@ -113,16 +123,6 @@ $.ajaxSetup({
 
 
 
-
-
-jQuery.cachedScript = function( url, options ) {
-    options = $.extend( options || {}, {
-    dataType: "script",
-    cache: true,
-    url: url
-});
-    return jQuery.ajax( options );
-};
 
 
 mw.version = "<?php print MW_VERSION; ?>";
@@ -172,6 +172,7 @@ mw.askusertostay = false;
   }
 
   mwd = document;
+
   mww = window;
 
   mwhead = document.head || document.getElementsByTagName('head')[0];
@@ -290,15 +291,13 @@ mw.getScripts = function (array, callback) {
     });
   var all = array.length, ready = 0;
   $.each(array, function(){
-      var scr = $('<script>');
-      $(scr).on('load', function(){
-        ready++;
-        if(all === ready) {
-            callback.call()
-        }
-      });
-      scr[0].src = this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this;
-      document.body.appendChild(scr[0]);
+      $.getScript(this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this, function (){
+          ready++;
+          if(all === ready) {
+              callback.call()
+          }
+      })
+
   });
 };
 
@@ -424,9 +423,9 @@ mw.getScripts = function (array, callback) {
   mw.reload_module_parent = function(module, callback) {
     if(self !== parent && !!parent.mw){
 
-       parent.mw.reload_module(module, callback)
-	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
-		 top.mweditor.contentWindow.mw.reload_module(module, callback)
+       mw.parent().reload_module(module, callback)
+	   if(typeof(mw.top().win.mweditor) != 'undefined'  && typeof(mw.top().win.mweditor) == 'object'   && typeof(mw.top().win.mweditor.contentWindow) != 'undefined'){
+		 mw.top().win.mweditor.contentWindow.mw.reload_module(module, callback)
 		} else if(typeof(mw.top().win.iframe_editor_window) != 'undefined'  && typeof(mw.top().win.iframe_editor_window) == 'object'   && typeof(mw.top().win.iframe_editor_window.mw) != 'undefined'){
 
 		mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
@@ -803,10 +802,8 @@ mw.getScripts = function (array, callback) {
                     +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
         var data = {};
         $(fields, el).each(function(){
-            if(!this.name){
-                console.warn('Name attribute missing on ' + this.outerHTML);
-            }
-            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name != 'undefined'){
+
+            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name !== 'undefined'){
               var el = this, _el = $(el);
               var val = _el.val();
               var name = el.name;
@@ -950,7 +947,7 @@ mw.top = function(){
           result = curr;
           curr = curr.parent;
       }
-      mw.__top = curr.mw;
+      mw.__top = result.mw;
       return result.mw;
   };
   if(window === top){
@@ -980,6 +977,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/tools/cookie.js");
 
 
 
@@ -1008,6 +1006,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
+<?php  include __DIR__.DS."tools/cookie.js"; ?>
 
 
 
@@ -1063,6 +1062,12 @@ $(window).on('load', function(){
     }
 })
 
+<?php
+if(isset($inline_scripts) and is_array($inline_scripts)){
+    print implode($inline_scripts,"\n");
+}
+
+?>
 
 <?php  //include "upgrades.js"; ?>
 

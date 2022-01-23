@@ -5,19 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
-    <script type="text/javascript">
-        if (!window.CanvasRenderingContext2D) {
-            var h = "<div id='UnsupportedBrowserMSG'> </div>"
-                + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
-                + "<a id='u__ie' target='_blank' href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'></a>"
-                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'>x</a>"
-                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'>x</a>"
-                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'>x</a>"
-                + "</p></div>";
-            document.write(h);
-            document.body.id = 'UnsupportedBrowser';
-            document.body.className = 'UnsupportedBrowser';
-        }
+    <script>
         mwAdmin = true;
         admin_url = '<?php print admin_url(); ?>';
     </script>
@@ -103,7 +91,9 @@ if ($last_page_front != false) {
     $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
         $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-        $past_page = mw()->content_manager->link($past_page[0]['id']);
+        if (isset($past_page[0])) {
+            $past_page = mw()->content_manager->link($past_page[0]['id']);
+        }
     } else {
         $past_page = mw()->content_manager->link($last_page_front);
     }
@@ -115,6 +105,9 @@ if ($last_page_front != false) {
     } else {
         $past_page = site_url();
     }
+}
+if(!$past_page){
+ $past_page = site_url();
 }
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
@@ -145,24 +138,19 @@ if (!user_can_view_module(['module' => 'shop'])) {
 
 
     function mw_admin_add_order_popup(ord_id) {
-
-        if (!!ord_id) {
-            var modalTitle = '<?php _e('Edit order'); ?>';
-        } else {
-            var modalTitle = '<?php _e('Add order'); ?>';
-        }
-
-
-        mw.dialog({
-            content: '<div id="mw_admin_edit_order_item_module"></div>',
-            title: modalTitle,
-            id: 'mw_admin_edit_order_item_popup_modal',
+        var contentHolder = document.createElement('div');
+        contentHolder.style.padding = '25px';
+        var dlg = mw.dialog({
+            content: contentHolder,
+            title: !!ord_id ? '<?php _e('Edit order'); ?>' : '<?php _e('Add order'); ?>',
             width: 900
         });
-
-        var params = {}
-        params.order_id = ord_id;
-        mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
+        mw.spinner({element: contentHolder, size: 32})
+        mw.load_module('shop/orders/admin/add_order', contentHolder, function (){
+            contentHolder.style.padding = '0';
+            mw.spinner({element: contentHolder, size: 32}).remove()
+            dlg.center()
+        }, { order_id: ord_id });
     }
 
 </script>
@@ -201,7 +189,7 @@ $user = get_user_by_id($user_id);
 
 
 <div id="mw-admin-container">
-    <header class="position-sticky sticky-top bg-white">
+    <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
                 <ul class="nav">
@@ -209,7 +197,7 @@ $user = get_user_by_id($user_id);
                         <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
                     </li>
 
-                    <li class="mx-1 logo d-none d-md-block">
+                    <li class="mx-1 logo d-none d-lg-block">
                         <a href="<?php print admin_url('view:dashboard'); ?>">
                             <h5 class="text-white mr-3 d-flex align-items-center h-100">
                                 <?php if (mw()->ui->admin_logo != false): ?>
@@ -221,7 +209,7 @@ $user = get_user_by_id($user_id);
                                 <?php endif; ?>
                             </h5>
                             <script>mw.lib.require('mwui_init')</script>
-                            <script>SVGtoCode();</script>
+                           <!-- <script>SVGtoCode();</script>-->
                         </a>
                     </li>
 
@@ -246,16 +234,12 @@ $user = get_user_by_id($user_id);
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
                                         <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
                                         <?php
-                                        if ($base_url == false) {
-                                            $base_url = admin_url('view:content');
-                                            if ($custom_action != false) {
-                                                if ($custom_action == 'pages' or $custom_action == 'posts' or $custom_action == 'products') {
-                                                    $base_url = $base_url . '/action:' . $custom_action;
-                                                }
-                                            }
+                                        $base_url = route('admin.content.create');
+                                        if (Route::has('admin.'.$item['content_type'].'.create')) {
+                                            $base_url = route('admin.' . $item['content_type'] . '.create');
                                         }
                                         ?>
-                                        <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
+                                        <a class="dropdown-item" href="<?php print $base_url; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </div>
@@ -266,26 +250,26 @@ $user = get_user_by_id($user_id);
 
 
                 <ul class="nav">
-                    <li class="mx-1 logo d-block d-md-none">
-                        <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-md-3">
-                                <?php if (mw()->ui->logo_live_edit != false): ?>
-                                    <img src="<?php print mw()->ui->logo_live_edit; ?>" style="height: 40px;"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>
-                                <?php endif; ?>
-                            </h5>
-                        </a>
-                    </li>
+<!--                    <li class="mx-1 logo d-block d-xs-none">-->
+<!--                        <a class="mw-admin-logo" href="--><?php //print admin_url('view:dashboard'); ?><!--">-->
+<!--                            <h5 class="text-white mr-md-3">-->
+<!--                                --><?php //if (mw()->ui->logo_live_edit != false): ?>
+<!--                                    <img src="--><?php //print mw()->ui->logo_live_edit; ?><!--" style="height: 40px;"/>-->
+<!--                                --><?php //elseif (mw()->ui->admin_logo_login() != false): ?>
+<!--                                    <img src="--><?php //print mw()->ui->admin_logo_login(); ?><!--" style="height: 40px;"/>-->
+<!--                                --><?php //else: ?>
+<!--                                    <img src="--><?php //print modules_url(); ?><!--microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>-->
+<!--                                --><?php //endif; ?>
+<!--                            </h5>-->
+<!--                        </a>-->
+<!--                    </li>-->
 
                     <?php if ($new_orders_count != ''): ?>
                         <li class="mx-2">
                             <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted m-0"></i>
-                                <span class="d-none d-md-block">
+                                <span class="d-none d-xl-block mw-colorscheme-text-white">
                                     <?php if ($new_orders_count == 1): ?>
                                         <?php _e("New order"); ?>
                                     <?php elseif ($new_orders_count > 1): ?>
@@ -300,7 +284,7 @@ $user = get_user_by_id($user_id);
                         <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $comments_notif_html; ?>&nbsp;
                             <i class="mdi mdi-comment-account text-muted m-0"></i>
-                            <span class="d-none d-md-block">
+                            <span class="d-none d-xl-block mw-colorscheme-text-white">
                                 <?php if ($new_comments_count == 1): ?>
                                     <?php _e("New comment"); ?>
                                 <?php elseif ($new_comments_count > 1): ?>
@@ -312,11 +296,13 @@ $user = get_user_by_id($user_id);
                         </a>
                     </li>
 
-                    <li class="mx-2">
+                    <li class="mx-2 ">
                         <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $notif_html; ?>
                             <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
-                            <span class="notif-label">
+
+
+                            <span class="notif-label d-none d-xl-block">
                                 <?php if ($notif_count == 1): ?>
                                     <?php _e("New notification"); ?>
                                 <?php elseif ($notif_count > 1): ?>
@@ -368,8 +354,26 @@ $user = get_user_by_id($user_id);
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
 
-            <?php if (empty($view)) {
+            <?php
+            if (empty($view)) {
                 $view = Request::segment(2);
+            }
+
+            $routeName = Route::currentRouteName();
+            if ($routeName == 'admin.post.create' || $routeName == 'admin.post.edit') {
+                $action = 'posts';
+                $view = 'content';
+            }
+            if ($routeName == 'admin.category.create' || $routeName == 'admin.category.edit') {
+                $action = 'categories';
+                $view = 'content';
+            }
+            if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
+                $action = 'pages';
+                $view = 'content';
+            }if ($routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
+                $action = 'products';
+                $view = 'shop';
             }
             ?>
 
@@ -406,8 +410,7 @@ $user = get_user_by_id($user_id);
                     </a>
                 </li>
 
-                <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
-
+                <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                     <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
@@ -419,23 +422,17 @@ $user = get_user_by_id($user_id);
                         <div class="dropdown-menu">
                             <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
                                 <?php _e("Pages"); ?>
-                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
 
                             <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
                                 <?php _e("Posts"); ?>
-                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print route('admin.post.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
-                            <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
-                                <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
-                                    <?php _e("Products"); ?>
-                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
-                                </a>
-                            <?php endif; ?>
 
                             <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
                                 <?php _e("Categories"); ?>
-                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
 
                             <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
@@ -455,7 +452,7 @@ $user = get_user_by_id($user_id);
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                                 <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
-                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                                 <?php
                             endif;
@@ -470,15 +467,18 @@ $user = get_user_by_id($user_id);
                                 </a>
                             <?php endif; ?>
 
-                            <!--
-                            <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
-                                <?php /*_e("Clients"); */ ?>
-                            </a>-->
-
                             <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                            <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
+                                <?php  _e("Clients");   ?>
+                            </a>
+
+                            <?php
+
+                                /*
                                 <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
-                                </a>
+                                </a>*/
+                                ?>
                             <?php endif; ?>
 
                             <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
@@ -509,9 +509,24 @@ $user = get_user_by_id($user_id);
 
                 <?php if (user_can_access('module.marketplace.index')): ?>
                     <?php if (mw()->ui->disable_marketplace != true): ?>
+
+                        <?php
+                        $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+                        $countNewUpdates = $composerClient->countNewUpdatesCached();
+                        ?>
+
                         <li class="nav-item">
                             <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                                 <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+                                <?php
+                                if ($countNewUpdates > 0):
+                                ?>
+                                <span class="badge-holder">
+                                    <span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;"><?php echo $countNewUpdates; ?></span>
+                                </span>
+                                <?php
+                                endif;
+                                ?>
                             </a>
                         </li>
                     <?php endif; ?>
@@ -600,7 +615,8 @@ $user = get_user_by_id($user_id);
                 </li>
 
                 <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
-                <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
+
+              <?php event_trigger('mw.admin.sidebar.li.last'); ?>
 
 
             </ul>
@@ -639,13 +655,14 @@ $user = get_user_by_id($user_id);
                         }
                     }).on('mousedown touchstart', function (event){
                         var el = this;
+
                         if(event.which === 1 || event.type === 'touchstart') {
                             handleConfirmBeforeLeave(function (shouldSave){
                                 if(shouldSave) {
                                     var edit_cont_form =  $('#quickform-edit-content');
                                     var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').attr('disabled');
                                     var edit_cont_title =  $('#content-title-field').val();
-                                    if (edit_cont_form.length && mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn) {
+                                    if (edit_cont_form.length /*&& mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn*/) {
                                         event.stopPropagation();
                                         event.preventDefault();
                                         mw.askusertostay = false;
@@ -669,3 +686,4 @@ $user = get_user_by_id($user_id);
             </script>
         </aside>
 
+<?php event_trigger('mw.admin.header.last'); ?>

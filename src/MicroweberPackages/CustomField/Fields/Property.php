@@ -14,4 +14,5 @@ class Property extends DefaultField
     public $hasResponsiveOptions = false;
     public $hasErrorTextOptions = false;
     public $hasRequiredOptions = false;
+
 }

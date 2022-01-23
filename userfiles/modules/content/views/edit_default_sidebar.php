@@ -52,7 +52,7 @@
                         saveState: false,
                         on: {
                             selectionChange: function () {
-                                document.querySelector('.btn-save').disabled = false;
+                              //  document.querySelector('.btn-save').disabled = false;
                                 mw.askusertostay = true;
                             }
                         }
@@ -130,58 +130,58 @@
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_1"><?php _e("Published"); ?></label>
+                            <input type="radio" id="is_active_1"  name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_0"><?php _e("Unpublished"); ?></label>
+                            <label class="custom-control-label" style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
                 </div>
-                <?php if (isset($data['id']) and $data['id'] != 0): ?>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
-                        <div class="collapse" id="set-a-specific-publish-date">
-                            <div class="row pb-3">
-                                <script>mw.lib.require('bootstrap_datetimepicker');</script>
-                                <script>
-                                    $(function () {
-                                        $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
-                                        $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
-                                    });
-                                </script>
-                                <?php if (isset($data['created_at'])): ?>
-                                    <div class="col-md-12">
-                                        <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
-                                            <small>
-                                                <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
-                                            </small>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if (isset($data['updated_at'])): ?>
-                                    <div class="col-md-12 mt-2">
-                                        <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
-                                            <small>
-                                                <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
-                                            </small>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
 
-    <div class="card style-1 mb-3 categories">
+
+    <?php
+    $showTags = true;
+    $showCategories = true;
+
+    if (isset($productVariant) && $productVariant !== null) {
+        $showTags = false;
+        $showCategories = false;
+
+        $product = \MicroweberPackages\Product\Models\Product::where('id', $productVariant->parent)->first();
+    }
+    ?>
+
+    <?php if(isset($product) && $product !== null): ?>
+    <div class="card style-1 mb-3 product-variants">
+        <div class="card-body pt-3 pb-1">
+            <div class="row">
+                <div class="col-12">
+                    <strong><?php _e("Variants"); ?></strong>
+
+                    <div class="mt-2 mb-2">
+                        <?php
+                        if (isset($product->variants)):
+                        $productVariants = $product->variants;
+                        foreach($productVariants as $variant): ?>
+                           <a href="<?php echo admin_url(); ?>view:content#action=editpage:<?php echo $variant->id; ?>" class="btn btn-outline-primary btn-sm mt-2"><?php echo $variant->title; ?> <i class="mdi mdi-pencil"></i> </a>
+                        <?php endforeach; endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php
+    if ($showCategories):
+    ?>
+    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
         <div class="card-body pt-3 pb-1">
             <div class="row">
                 <?php if ($data['content_type'] == 'page') : ?>
@@ -195,9 +195,28 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                      <a onclick="mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
 
-                    </div>
+                        <script>
+                            function manage_cats_for_add_post() {
+
+                                var manage_cats_for_add_post_opts = {};
+                                // opts.width = '900';
+                                // opts.height = '800';
+
+                              //  opts.liveedit = true;
+                              //  opts.mode = 'modal';
+
+                                var additional_params = {};
+                                additional_params.show_add_post_to_category_button = 'true';
+
+
+
+                                manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
+                            }
+                        </script>
+
+                        <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
+                     </div>
                 <?php endif; ?>
             </div>
 
@@ -207,6 +226,57 @@
                     <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                         <script>
                             $(document).ready(function () {
+
+                                var editContentCategoryTreeSelector;
+                                if (typeof(window.categorySelector) != 'undefined') {
+                                    editContentCategoryTreeSelector = window.categorySelector.tree;
+                                }
+                                if (typeof(mw.adminPagesTree) != 'undefined') {
+                                    editContentCategoryTreeSelector = mw.adminPagesTree;
+                                }
+
+                                mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
+
+
+                                    if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                        mw.notification.success('The content is added to category');
+
+                                        var all = [];
+                                        all.push({
+                                            type: 'category',
+                                            id: catId
+                                        })
+
+
+                                        editContentCategoryTreeSelector.select(all);
+                                        if (typeof(categorySelector) != 'undefined') {
+                                        categorySelector.tree.select(catId, 'category')
+                                        }
+
+                                        if (typeof(thismodal) != 'undefined') {
+                                        thismodal.remove()
+                                        }
+
+                                        if (typeof(manage_cats_for_add_post_dialog) != 'undefined') {
+                                            manage_cats_for_add_post_dialog.remove()
+                                        }
+
+
+
+                                        //
+                                       // if( mw.dialog.get(event.target)){
+                                       //     mw.dialog.get(event.target).remove()
+                                       // }
+
+
+
+
+                                    }
+
+                                });
+
+
+
                                 $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function (e) {
                                     if (e.target.nodeName === 'DIV') {
                                         setTimeout(function () {
@@ -225,8 +295,8 @@
                                     })
                                 });
 
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    mw.adminPagesTree.select(all);
+                                if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                   editContentCategoryTreeSelector.select(all);
                                 }
                             });
                         </script>
@@ -245,7 +315,7 @@
                     <div class="col-12">
                         <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                         <br/>
-                        <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
+                        <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                         <br/>
 
                         <div id="show-categories-tree" class="collapse">
@@ -277,6 +347,10 @@
         </div>
     </div>
 
+    <?php
+    endif;
+    ?>
+
     <?php if ($data['content_type'] == 'page'): ?>
         <div class="card style-1 mb-3 menus">
             <div class="card-body pt-3">
@@ -293,6 +367,9 @@
         </div>
     <?php endif; ?>
 
+    <?php
+    if ($showTags):
+    ?>
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card style-1 mb-3">
             <div class="card-body pt-3">
@@ -311,6 +388,8 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php endif; ?>
+
 
     <div class="card style-1 mb-3 d-none">
         <div class="card-body">

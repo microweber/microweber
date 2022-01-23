@@ -10,7 +10,7 @@ position: 10
 description: Page with right sidebar
 
 */
- 
+
 
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>

@@ -1,4 +1,4 @@
-(function(expose){
+;(function(expose){
     var helpers = {
         fragment: function(){
             if(!this._fragment){
@@ -124,7 +124,9 @@
             if (!!item.type && !!item.target) {
                 el = item.target;
             }
-            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+
+            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module'])
+                && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'noedit']);
         },
         eachIframe: function (callback, root, ignore) {
             root = root || document;
@@ -271,6 +273,7 @@
             }
         },
         scrollTo: function (el, callback, minus) {
+
             minus = minus || 0;
             if ($(el).length === 0) {
                 return false;
@@ -283,11 +286,10 @@
             });
         },
         accordion: function (el, callback) {
-            mw.require('css_parser.js');
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;
-            var is_hidden = mw.CSSParser(container).get.display() === 'none';
+            var is_hidden = getComputedStyle(container).display === 'none';
             if (!$(container).is(":animated")) {
                 if (is_hidden) {
                     mw.$(container).slideDown(speed, function () {

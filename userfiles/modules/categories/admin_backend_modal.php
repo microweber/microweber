@@ -2,11 +2,13 @@
 
 <script>
     mw.require('content.js')
+
+
  </script>
 <script>
 
     function mw_clear_edit_module_attrs() {
-        var container = mw.$('#categories-admin');
+        var container = mw.$('#<?php print $params['id']; ?>');
         container
             .removeAttr('content_type')
             .removeAttr('subtype')
@@ -21,22 +23,28 @@
     }
     mw.content.deleteCategory = function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
-            $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                mw.notification.success('Category deleted');
-                if (callback) {
-                    callback.call(data, data);
-                }
-                mw.reload_module_everywhere('content/manager');
-                mw.reload_module_everywhere('categories/manage');
-                mw.reload_module_everywhere('categories/admin_backend');
-                mw.reload_module_everywhere('categories/admin_backend_modal');
-                mw.url.windowDeleteHashParam('action');
+            $.ajax({
+                url: mw.settings.api_url + 'category/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                success: function(result) {
 
+                    mw.notification.success('Category deleted');
+
+                    if (callback) {
+                        callback.call(data, data);
+                    }
+
+                    mw.reload_module_everywhere('content/manager');
+                    mw.reload_module_everywhere('categories/manage');
+                    mw.reload_module_everywhere('categories/admin_backend');
+                    mw.reload_module_everywhere('categories/admin_backend_modal');
+
+                    mw.url.windowDeleteHashParam('action');
+                }
             });
         });
     }
-
-
 
     mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
 
@@ -51,10 +59,10 @@
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
 
-        mw.$('#categories-admin').removeAttr('parent_id');
-        mw.$('#categories-admin').removeAttr('data-parent-category-id');
+        mw.$('#<?php print $params['id']; ?>').removeAttr('parent_id');
+        mw.$('#<?php print $params['id']; ?>').removeAttr('data-parent-category-id');
 
-        mw.$('#categories-admin').attr('data-category-id', $p_id);
+        mw.$('#<?php print $params['id']; ?>').attr('data-category-id', $p_id);
 
 
 
@@ -66,9 +74,9 @@
     function mw_select_add_sub_category($p_id) {
 
 
-        mw.$('#categories-admin').removeAttr('parent_id');
-        mw.$('#categories-admin').attr('data-category-id', 0);
-        mw.$('#categories-admin').attr('data-parent-category-id', $p_id);
+        mw.$('#<?php print $params['id']; ?>').removeAttr('parent_id');
+        mw.$('#<?php print $params['id']; ?>').attr('data-category-id', 0);
+        mw.$('#<?php print $params['id']; ?>').attr('data-parent-category-id', $p_id);
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         cat_edit_load_from_modal('categories/edit_category');
     }
@@ -77,7 +85,7 @@
 
 
         var action = mw.url.windowHashParam('action');
-        var holder = $('#categories-admin');
+        var holder = $('#<?php print $params['id'] ?>');
 
         var time = !action ? 300 : 0;
         if (!action) {
@@ -101,24 +109,29 @@
         mw.quick_cat_edit = mw_select_category_for_editing_from_modal;
         mw.quick_cat_delete =   function (id, callback) {
             mw.tools.confirm('Are you sure you want to delete this?', function () {
-                $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                    mw.notification.success('Category deleted');
-                    if (callback) {
-                        callback.call(data, data);
+                $.ajax({
+                    url: mw.settings.api_url + "category/delete/" + id,
+                    method: 'DELETE',
+                    contentType: 'application/json',
+                    success: function(result) {
+
+                        mw.notification.success('Category deleted');
+
+                        if (callback) {
+                            callback.call(data, data);
+                        }
+
+                        mw.reload_module_everywhere('content/manager');
+                        mw.reload_module_everywhere('categories/manage');
+                        mw.reload_module_everywhere('categories/admin_backend');
+                        mw.reload_module_everywhere('categories/admin_backend_modal');
+
+                        mw.url.windowDeleteHashParam('action');
+ 
                     }
-
-
-
-                    mw.reload_module_everywhere('content/manager');
-                    mw.reload_module_everywhere('categories/manage');
-                    mw.reload_module_everywhere('categories/admin_backend');
-                    mw.reload_module_everywhere('categories/admin_backend_modal');
-                    mw.url.windowDeleteHashParam('action');
-
                 });
             });
         };
-
 
 
         mw.on.hashParam("action", function (pval) {
@@ -154,4 +167,12 @@
 
     });
     </script>
-<module type="categories/manage" id="mw-cats-manage-admin" />
+
+
+<?php if(isset($params['show_add_post_to_category_button'])){ ?>
+<module type="categories/manage" id="mw-cats-manage-admin" show_add_post_to_category_button="true" />
+<?php } else {  ?>
+    <module type="categories/manage" id="mw-cats-manage-admin" />
+
+
+<?php } ?>

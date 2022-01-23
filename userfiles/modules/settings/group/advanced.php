@@ -121,7 +121,7 @@
 
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Setup statitics"); ?></label>
+                                        <label class="control-label"><?php _e("Setup statistics"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Configure website statistics'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                     </div>
@@ -138,10 +138,9 @@
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Experimental"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e('Actions'); ?><?php _e("Experimental settings for developers"); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("Experimental settings for developers"); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
                                     </div>
-
 
                                 </div>
                             </div>

@@ -60,52 +60,60 @@ if ($captcha_provider == 'google_recaptcha_v2'):
         <input name="captcha" type="hidden" value="" id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input" class="mw-captcha-input"/>
     </div>
 <?php elseif ($captcha_provider == 'google_recaptcha_v3'): ?>
-    <script type="text/javascript">
-        if (typeof (grecaptcha) === 'undefined') {
-            mw.require('//www.google.com/recaptcha/api.js?render=<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', true, 'recaptcha');
-        }
-    </script>
+
+    <input type="hidden" name="captcha" data-captcha-version="v3" id="<?php print $input_id ?>">
 
     <script>
-        $(document).ready(function () {
-            setTimeout(function () {
-                if (typeof (grecaptcha) !== 'undefined') {
-                    runRecaptchaV3();
+
+
+        runRecaptchaV3Attach<?php print md5($params['id']) ?> = function () {
+            var captcha_el = $('#<?php print $input_id ?>')
+                if (captcha_el) {
+                    var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
+                   //   runRecaptchaV3<?php print md5($params['id']) ?>();
+                     if (parent_form) {
+                        parent_form.$beforepost = runRecaptchaV3<?php print md5($params['id']) ?>
+                    }
                 }
-            }, 1000);
 
-            var captcha_el = $('#js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input')
-            if (captcha_el) {
-                var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
-                if (parent_form) {
-                    mw.$(parent_form).submit(function () {
-                        runRecaptchaV3();
-                    });
-                }
-            }
 
-        });
 
-        var runRecaptchaV3 = function () {
-            try {
+        }
+
+         runRecaptchaV3<?php print md5($params['id']) ?> = function () {
+
+             return  new Promise(function (resolve){
                 grecaptcha.ready(function () {
                     grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {
-
                         action: '<?php echo $captcha_name; ?>'
                     }).then(function (token) {
-                        setTimeout(function () {
-                            var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
-                            if (recaptchaResponse) {
-                                recaptchaResponse.value = token;
-                            }
-                        }, 1500);
+                        var recaptchaResponse = document.getElementById('<?php print $input_id ?>');
+
+                        if (recaptchaResponse) {
+                            recaptchaResponse.value = token;
+                        }
+                      resolve(token)
                     });
                 });
-            } catch (error) {
 
-            }
+            })
         };
     </script>
+
+
+<script>
+    $(document).ready(function () {
+
+        if (typeof (window.grecaptcha) === 'undefined') {
+
+            $.getScript( "//www.google.com/recaptcha/api.js?render=<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>", function( data, textStatus, jqxhr ) {
+                runRecaptchaV3Attach<?php print md5($params['id']) ?>();
+            });
+        } else {
+            runRecaptchaV3Attach<?php print md5($params['id']) ?>();
+        }
+    });
+</script>
 
     <?php if (isset($params['_confirm'])) { ?>
         <h6><?php _e("Please confirm form submit"); ?></h6>
@@ -113,7 +121,6 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
     <?php } ?>
 
-    <input type="hidden" name="captcha" data-captcha-version="v3" id="<?php print $input_id ?>">
 <?php else: ?>
 
 

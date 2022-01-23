@@ -75,7 +75,6 @@ class MicroweberTemplate
                 $this->app->content_manager->define_constants($page);
             }
         }
-
         $cache_content = false;
         //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
@@ -166,9 +165,11 @@ class MicroweberTemplate
 
             if (isset($par['layout_file']) and $par['layout_file'] != '' and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
+
             } elseif (isset($par['is_home']) and isset($par['active_site_template']) and (!isset($par['layout_file']) or $par['layout_file'] == '') and $par['is_home'] == 'y') {
                 $par['layout_file'] = 'index.php';
                 $get_layout_from_parent = $par;
+
             } else {
                 $inh = $this->app->content_manager->get_inherited_parent($page['parent']);
 
@@ -286,6 +287,9 @@ class MicroweberTemplate
         }
 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
+
+
+
             $inherit_from = $this->app->content_manager->get_parents($page['id']);
             $found = 0;
             if ($inherit_from == false) {
@@ -304,11 +308,23 @@ class MicroweberTemplate
                 }
             }
 
+
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
+
                         $par_c = $this->app->content_manager->get_by_id($value);
-                        if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+                         if (isset($par_c['id']) and  isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+
+                            if(!isset($par_c['active_site_template'])){
+                                if(isset($get_layout_from_parent) and isset($get_layout_from_parent['active_site_template'])){
+                                    $par_c['active_site_template'] = $get_layout_from_parent['active_site_template'];
+                                }
+                            }
+                            if(!isset($par_c['active_site_template'])){
+                                 continue;
+                                 //$par_c['active_site_template'] = ACTIVE_TEMPLATE_DIR;
+                            }
                             $page['layout_file'] = $par_c['layout_file'];
                             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
                             $page['active_site_template'] = $par_c['active_site_template'];
@@ -321,6 +337,11 @@ class MicroweberTemplate
                             if ($page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
                                 $page['active_site_template'] = 'default';
                             }
+
+
+
+
+
 
                             $render_file_temp = TEMPLATES_DIR.$page['active_site_template'].DS.$page['layout_file'];
                             $render_file_temp = normalize_path($render_file_temp, false);

@@ -2,7 +2,7 @@
 
 $check = false;
 if (isset($params['content_id'])){
-    $check = db_get('count=1&table=content_revisions_history&rel_type=content&field=content&rel_id=' . $params['content_id']);
+    $check = db_get('count=1&table=content_fields_drafts&rel_type=content&field=content&rel_id=' . $params['content_id']);
 
 }
 

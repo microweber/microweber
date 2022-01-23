@@ -29,5 +29,5 @@ $(document).ready(function() {
 		
 </script>
 <div class="highlight_code_module">
-<pre><code><?php print htmlentities(_e($text)); ?></code></pre>
+<pre><code><?php print htmlentities($text); ?></code></pre>
 </div>

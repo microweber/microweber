@@ -10,8 +10,8 @@
     RegisterChange = function () {
         var args = Array.prototype.slice.call(arguments);
 
-        if(parent.mw.iframecallbacks && parent.mw.iframecallbacks[hash]) {
-            parent.mw.iframecallbacks[hash].apply( this, arguments );
+        if(mw.parent().iframecallbacks && mw.parent().iframecallbacks[hash]) {
+            mw.parent().iframecallbacks[hash].apply( this, arguments );
         }
         if(window.thismodal){
             thismodal.result({
@@ -131,7 +131,7 @@
 </script>
 
 
-<style type="text/css">
+<style >
 
     #insert_link_list .mw-dropdown-content{
         position: relative;
@@ -342,7 +342,7 @@
                         var layouts = mw.top().$('.module[data-type="layouts"]');
                         layouts.each(function () {
                             layoutsData.push({
-                                name: this.getAttribute('template').split('.')[0],
+                                name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
                                 element: this,
                                 id: this.id
                             })

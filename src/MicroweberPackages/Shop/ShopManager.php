@@ -180,7 +180,9 @@ class ShopManager
         $cf_params['type'] = 'price';
         $cf_params['return_full'] = true;
 
-        $prices = $this->app->fields_manager->get($cf_params);
+        //$prices = $this->app->fields_manager->get($cf_params);
+
+        $prices =    app()->content_repository->getCustomFieldsByType($for_id,'price');
 
         $custom_field_items = $prices;
         $override = $this->app->event_manager->trigger('mw.shop.get_product_prices', $custom_field_items);
@@ -202,7 +204,7 @@ class ShopManager
         if ($prices) {
             $return = array();
             foreach ($prices as $price_data) {
-                if (isset($price_data['name'])) {
+                if (isset($price_data['name']) and isset($price_data['value'])) {
                     $return[$price_data['name']] = $price_data['value'];
                 }
             }
@@ -382,19 +384,24 @@ class ShopManager
         }
     }
 
+    public function get_default_currency()
+    {
+
+        $curr = $this->app->option_manager->get('currency', 'payments');
+        if (!$curr) {
+            $curr = 'USD';
+        }
+        return $curr;
+
+    }
     public function currency_format($amount, $curr = false)
     {
         if(is_array($amount)){
             return;
         }
 
-        if ($curr == false) {
-            $curr = $this->app->option_manager->get('currency', 'payments');
-        }
 
-        if (is_null($curr)) {
-            $curr = 'USD';
-        }
+        $curr = $this->get_default_currency();
 
         $need_float = true;
         if (strstr($amount, '.')) {

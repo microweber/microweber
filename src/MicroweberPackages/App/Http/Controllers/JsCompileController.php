@@ -5,9 +5,12 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
+use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Tightenco\Ziggy\Ziggy;
 
 
 class JsCompileController extends Controller
@@ -63,7 +66,7 @@ class JsCompileController extends Controller
             $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
-            $hash = md5(site_url());
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)) {
@@ -111,10 +114,10 @@ class JsCompileController extends Controller
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
-
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
 
             if (!is_file($userfiles_cache_filename)) {
                 if (!is_dir($userfiles_cache_dir)) {
@@ -147,15 +150,22 @@ class JsCompileController extends Controller
 
     }
 
-
+    public function apijs_combined_get_hash()
+    {
+        $hash = crc32(site_url() . template_dir()).'.' . MW_VERSION ;
+        if(is_admin()){
+            $hash= crc32(admin_url());
+        }
+        return $hash;
+    }
     public function apijs_combined()
     {
 
 
         $userfiles_dir = userfiles_path();
-        $hash = md5(site_url());
+        $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash .  '.js';
 
 
         $layout = [];
@@ -241,9 +251,9 @@ class JsCompileController extends Controller
             $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
-            $hash = md5(site_url());
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash .   '.js';
             if (!is_file($userfiles_cache_filename)) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     define('MW_NO_OUTPUT_CACHE', true);
@@ -289,10 +299,10 @@ class JsCompileController extends Controller
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $hash = md5(site_url());
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
+            $hash = $this->apijs_combined_get_hash();
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash .   '.js';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash . '.' . MW_VERSION . '.js';
+                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash .   '.js';
             }
         }
 
@@ -314,10 +324,11 @@ class JsCompileController extends Controller
                 $mtime = filemtime($file);
             }
 
+            $hash = $this->apijs_combined_get_hash();
 
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
 
 
             if (is_file($userfiles_cache_filename)) {
@@ -335,9 +346,9 @@ class JsCompileController extends Controller
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
         $userfiles_dir = userfiles_path();
-        $hash = md5(site_url());
+        $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $fn = 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+        $fn = 'api.combined.' . $hash .  '.js';
         $userfiles_cache_filename = $userfiles_cache_dir . $fn;
         if ($compile_assets and is_file($userfiles_cache_filename)) {
             $url = userfiles_url() . 'cache/apijs_combined/' . $fn;
@@ -396,6 +407,14 @@ class JsCompileController extends Controller
         $file = mw_includes_path() . 'api' . DS . 'api.js';
         $l = new View($file);
 
+        $inline_scripts = [];
+
+        $generator = new CsrfTokenRequestInlineJsScriptGenerator();
+        $script = $generator->generate();
+        $inline_scripts[] = $script;
+
+        $l->assign('inline_scripts',$inline_scripts);
+
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
@@ -442,7 +461,26 @@ class JsCompileController extends Controller
         if (!defined('TEMPLATE_URL')) {
             define('TEMPLATE_URL', '');
         }
+
+        $inline_scripts = [];
+
         $l = new View($file);
+
+        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*', 'l5-swagger.*'];
+        if(!is_admin()){
+            $except[] = 'admin.*';
+            $except[] = 'api.*';
+
+        }
+        config()->set('ziggy.except',$except);
+
+        $ziggy = new ZiggyInlineJsRouteGenerator();
+        $jsRoutes = $ziggy->generate();
+
+        $inline_scripts[] = $jsRoutes;
+
+
+        $l->assign('inline_scripts',$inline_scripts);
 
         $l = $l->__toString();
         return $l;

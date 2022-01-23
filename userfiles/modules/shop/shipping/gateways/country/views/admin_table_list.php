@@ -37,6 +37,29 @@
     }
 </script>
 
+<script>
+    mw.shipping_country = {
+        delete_country : function(id){
+            var q = "Are you sure you want to delete shipping to this country?";
+            mw.tools.confirm(q, function(){
+                var obj = {};
+                obj.id = id;
+                $.post("<?php print $config['module_api']; ?>/shipping_to_country/delete",  obj, function(data){
+                    mw.$(".country-id-"+id).fadeOut();
+                    mw.reload_module_everywhere('[data-parent-module="shop/shipping"]');
+                    mw.reload_module_everywhere('shop/shipping/gateways/country/admin');
+                    if(window.parent != undefined && window.parent.mw != undefined){
+                        mw.reload_module_everywhere('shop/shipping/gateways/country');
+                    }
+                });
+            });
+        },
+        add_country:function(){
+
+        }
+    }
+</script>
+
 <script>mw.lib.require('mwui_init');</script>
 <?php if ($active_or_disabled != 'active'): ?>
     <hr class="thin"/>
@@ -55,7 +78,7 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div class="col text-right">
+        <div class="col text-end text-right">
             <a class="btn btn-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup();"><?php _e("Add Country"); ?></a>
         </div>
     </div>
@@ -68,7 +91,7 @@
                 <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
                 <th><?php _e('Shipping Type'); ?></th>
                 <th><?php _e('Shipping Cost'); ?></th>
-                <th class="text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
+                <th class="text-end text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
             <?php if (is_array($data) and !empty($data)): ?>
@@ -98,7 +121,7 @@
                             ?>
                         </td>
 
-                        <td class="text-right">
+                        <td class="text-end text-right">
                             <a class="btn btn-outline-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')"><?php _e("Edit"); ?></a>
                             <a href="javascript:;" onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="btn btn-link text-danger btn-sm px-0"><i class="mdi mdi-trash-can-outline"></i></a>
                         </td>

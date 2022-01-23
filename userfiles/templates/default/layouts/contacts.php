@@ -28,7 +28,7 @@ position: 7
 				</div>
 				<div class="mw-col" style="width:20%">
 					<div class="mw-col-container">
-						<h2 align="center" class="edit element" field="title" rel="content"><?php _e('Page Title'); ?></h2>
+						<h2 align="center" class="edit element" field="title" rel="module"><?php _e('Page Title'); ?></h2>
 					</div>
 				</div>
 				<div class="mw-col" style="width:40%">

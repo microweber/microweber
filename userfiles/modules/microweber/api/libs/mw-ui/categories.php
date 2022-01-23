@@ -40,7 +40,7 @@
                                     <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
-                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-right">
+                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mdi mdi-pencil"></i> <span class="d-none d-md-block">Edit</span></a> 
                                     <!--<a href="#" class="btn btn-outline-danger btn-sm btn-sm-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-md-block">Delete</span></a>-->
                                 </div>
@@ -57,7 +57,7 @@
                                     <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
-                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-right">
+                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mdi mdi-pencil"></i> <span class="d-none d-md-block">Edit</span></a> 
                                     <!--<a href="#" class="btn btn-outline-danger btn-sm btn-sm-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-md-block">Delete</span></a>-->
                                 </div>
@@ -74,7 +74,7 @@
                                     <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
-                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-right">
+                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mdi mdi-pencil"></i> <span class="d-none d-md-block">Edit</span></a> 
                                     <!--<a href="#" class="btn btn-outline-danger btn-sm btn-sm-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-md-block">Delete</span></a>-->
                                 </div>
@@ -91,7 +91,7 @@
                                     <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
-                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-right">
+                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mdi mdi-pencil"></i> <span class="d-none d-md-block">Edit</span></a> 
                                     <!--<a href="#" class="btn btn-outline-danger btn-sm btn-sm-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-md-block">Delete</span></a>-->
                                 </div>
@@ -108,7 +108,7 @@
                                     <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
-                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-right">
+                                <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mdi mdi-pencil"></i> <span class="d-none d-md-block">Edit</span></a> 
                                     <!--<a href="#" class="btn btn-outline-danger btn-sm btn-sm-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-md-block">Delete</span></a>-->
                                 </div>
@@ -244,10 +244,10 @@
 
             <div class="toolbar row">
                 <div class="col-12 d-flex align-items-center">
-                    <div class="text-left w-100">
+                    <div class="text-start text-left w-100">
                         <a href="#" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> Back</a>
                     </div>
-                    <div class="text-right w-100">
+                    <div class="text-end text-right w-100">
                         <button type="button" class="btn btn-success btn-sm">Save</button>
                         <button type="button" class="btn btn-success btn-sm icon-left" disabled=""><i class="spinner-border spinner-border-sm mr-2"></i> Please wait...</button>
                     </div>

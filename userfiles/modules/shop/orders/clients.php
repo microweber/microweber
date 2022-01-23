@@ -106,7 +106,7 @@ $is_orders = get_orders('count=1');
                             </td>
 
                             <td style="vertical-align: middle;">
-                                <span class="d-block text-primary font-weight-bold"><?php print $order['first_name'] . " " . $order['last_name']; ?></span>
+                                <span class="d-block text-outline-primary font-weight-bold"><?php print $order['first_name'] . " " . $order['last_name']; ?></span>
                                 <?php $total_ord = get_orders('count=1&email=' . $order['email'] . '&is_completed=1'); ?>
                                 <small class="text-muted"><?php _e("Orders"); ?>:</small>
                                 <span><?php print $total_ord; ?></span>

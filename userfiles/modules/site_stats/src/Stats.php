@@ -10,7 +10,7 @@ use MicroweberPackages\SiteStats\Models\Referrers;
 use MicroweberPackages\SiteStats\Models\ReferrersDomains;
 use MicroweberPackages\SiteStats\Models\ReferrersPaths;
 use MicroweberPackages\SiteStats\Models\Sessions;
-use MicroweberPackages\SiteStats\Models\Urls;
+use MicroweberPackages\SiteStats\Models\StatsUrl;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

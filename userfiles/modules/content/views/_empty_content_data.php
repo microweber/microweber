@@ -26,6 +26,8 @@ $data['parent'] = 0;
 $data['layout_name'] = '';
 $data['layout_file'] = '';
 $data['original_link'] = '';
+$data['content_meta_title'] = '';
+$data['content_meta_keywords'] = '';
 if ($is_new == false) {
 
 } else {
@@ -43,7 +45,7 @@ if (!isset($title_placeholder)) {
 if (isset($params['content-type'])) {
 	$params['content_type'] = $params['content-type'];
 }
- 
+
 
 
 if (isset($params['content_type'])) {
@@ -69,4 +71,4 @@ if ($title_placeholder == false and isset($params['content_type'])) {
         $title_placeholder = "New page title";
     }
 }
- 
+

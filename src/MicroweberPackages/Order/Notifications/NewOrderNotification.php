@@ -64,7 +64,7 @@ class NewOrderNotification extends Notification
 
             $carItems = $this->_getCartItemsTable($this->order->id);
 
-            $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+            $twig = new \MicroweberPackages\View\TwigView();
 
             $data = ['cart_items' => $carItems,
                 'order_status' => $this->order->order_status,

@@ -10,10 +10,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 class Format
 {
 
-    public function array_to_seperator($array, $seperator = '|')
-    {
-        return implode($array, $seperator);
-    }
+
 
     /**
      * Prints an array in unordered list - <ul>.
@@ -1051,7 +1048,7 @@ class Format
                         }
                     }
                 }
-                
+
                 $tmp_val = $this->array_to_ul($itemCustomFields);
                 $item['custom_fields'] = $tmp_val;
             }
@@ -1170,4 +1167,61 @@ class Format
     }
 
 
+    public function available_date_formats() {
+
+        $formats = [];
+
+        $formats[] = [
+            'php' => 'Y-m-d',
+            'js' => 'yyyy-m-d',
+        ];
+
+        $formats[] = [
+            'php' => 'd-m-Y',
+            'js' => 'd-m-yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'm/d/y',
+            'js' => 'm/d/yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'd/m/Y',
+            'js' => 'd/m/yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'F j, Y',
+            'js' => 'F j, yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'F, Y',
+            'js' => 'F, yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'l, F jS, Y',
+            'js' => 'l, F jS, yyyy',
+        ];
+
+        $formats[] = [
+            'php' => 'M j, Y',
+            'js' => 'M j, yyyy',
+        ];
+
+
+        $formats[] = [
+            'php' => 'Y/m/d',
+            'js' => 'yyyy/m/d',
+        ];
+
+        $formats[] = [
+            'php' => 'D-M-Y',
+            'js' => 'dd-M-yyyy',
+        ];
+
+        return $formats;
+    }
 }

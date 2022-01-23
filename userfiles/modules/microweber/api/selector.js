@@ -157,9 +157,9 @@ mw.Selector = function(options) {
 
     this.setItem = function(e, item, select, extend){
         if(!e || !this.active()) return;
-        var target = e.target ? e.target : e;
+        var target = e.target && !e.nodeType ? e.target : e;
         if (this.options.strict) {
-            target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);
+            target = mw.tools.first(target, ['[id]', '.edit']);
         }
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
         if(!target || !validateTarget) return;
@@ -180,7 +180,6 @@ mw.Selector = function(options) {
                 }
                 mw.$(this).trigger('select', [this.selected]);
             }
-
         }
 
 
@@ -192,11 +191,16 @@ mw.Selector = function(options) {
     };
 
     this.select = function(e, target){
+
         if(!e && !target) return;
         if(!e.nodeType){
             target = target || e.target;
         } else{
             target = e;
+        }
+
+        if(!mw.tools.isEditable(target) && !target.classList.contains('edit')) {
+            return;
         }
 
         if(e.ctrlKey){
@@ -223,6 +227,7 @@ mw.Selector = function(options) {
         var scope = this;
         mw.$(this.root).on("click", function(e){
             if(scope.options.autoSelect && scope.active()){
+
                 scope.select(e);
             }
         });

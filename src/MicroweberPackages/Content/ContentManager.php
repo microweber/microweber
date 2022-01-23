@@ -2,12 +2,14 @@
 
 namespace MicroweberPackages\Content;
 
+use Conner\Tagging\Model\Tagged;
 use Content;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
+use MicroweberPackages\Content\Repositories\ContentRepository;
 
 /**
  * Content class is used to get and save content in the database.
@@ -25,11 +27,20 @@ class ContentManager
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
-    /** @var \Microweber\Providers\Content\ContentManagerCrud */
+    /** @var ContentManagerCrud */
     public $crud;
 
-    /** @var \Microweber\Providers\Content\ContentManagerHelpers */
+    /** @var ContentManagerHelpers */
     public $helpers;
+
+
+    public $content_id = false;
+    public $product_id = false;
+    public $page_id = false;
+    public $main_page_id = false;
+    public $post_id = false;
+    public $category_id = false;
+
 
     /**
      *  Boolean that indicates the usage of cache while making queries.
@@ -51,7 +62,77 @@ class ContentManager
         $this->set_table_names();
         $this->crud = new ContentManagerCrud($this->app);
         $this->helpers = new ContentManagerHelpers($this->app);
+
+        //$this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+
+
+
     }
+
+
+    function post_id()
+    {
+        if ($this->post_id) {
+            return $this->post_id;
+        }
+
+        if (defined('POST_ID')) {
+            return POST_ID;
+        }
+    }
+
+
+    function product_id()
+    {
+        if ($this->product_id) {
+            return $this->product_id;
+        }
+
+        if (defined('PRODUCT_ID')) {
+            return PRODUCT_ID;
+        }
+    }
+
+    function content_id()
+    {
+        if ($this->content_id) {
+            return $this->content_id;
+        }
+        if ($this->post_id()) {
+            return $this->post_id();
+        } elseif ($this->product_id()) {
+            return $this->product_id();
+        } elseif ($this->page_id()) {
+            return $this->page_id();
+        } elseif (defined('CONTENT_ID')) {
+            return CONTENT_ID;
+        }
+    }
+
+    function category_id()
+    {
+        if ($this->category_id) {
+            return $this->category_id;
+        }
+        if (defined('CATEGORY_ID')) {
+            return CATEGORY_ID;
+        }
+
+    }
+
+    function page_id()
+    {
+        if ($this->page_id) {
+            return $this->page_id;
+        }
+
+        if (defined('PAGE_ID')) {
+            return PAGE_ID;
+        }
+    }
+
+
+
 
     /**
      * Sets the database table names to use by the class.
@@ -199,7 +280,9 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-        return $this->crud->get_by_id($id);
+        return app()->content_repository->getById($id);
+
+      //  return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -214,6 +297,7 @@ class ContentManager
             return $content['id'];
         }
     }
+
 
 
     /**
@@ -404,17 +488,12 @@ class ContentManager
         $data = array();
         $data['content_id'] = intval($content_id);
 
-        return $this->app->data_fields_manager->get_values($data);
+       return $this->app->data_fields_manager->get_values($data);
     }
 
     public function tags($content_id = false, $return_full = false)
     {
-        $data = array();
-        $data['table'] = $this->tables['content'];
-        if ($content_id) {
-            $data['id'] = intval($content_id);
-        }
-        return $this->app->tags_manager->get_values($data, $return_full);
+        return $this->app->content_repository->tags($content_id, $return_full);
     }
 
     public function attributes($content_id)
@@ -872,7 +951,7 @@ class ContentManager
             }
         }
         if (!defined('CONTENT_ID')) {
-            $this->define_constants();
+             $this->define_constants();
         }
 
         $cache_id_params = $params;
@@ -1577,8 +1656,10 @@ class ContentManager
     public function define_constants($content = false)
     {
 
-
-        if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
+        $ref_page = false;
+        if (isset($_REQUEST['from_url'])) {
+            $ref_page = $_REQUEST['from_url'];
+        } else if (!defined('MW_BACKEND') and (is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
             $ref_page = url_current(true);
@@ -1600,6 +1681,8 @@ class ContentManager
         }
 
         $page = false;
+        $content_orig = $content;
+
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
                 $content = $this->get_by_id($content['id']);
@@ -1620,6 +1703,7 @@ class ContentManager
             $cat_url = $this->app->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
+                $this->category_id=intval($cat_url);
             }
         }
         // dd(debug_backtrace(1));
@@ -1637,6 +1721,8 @@ class ContentManager
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', intval($current_category['id']));
+                            $this->category_id=intval($current_category['id']);
+
                         }
                     }
 
@@ -1644,11 +1730,14 @@ class ContentManager
 
                     if (defined('POST_ID') == false) {
                         define('POST_ID', intval($content['id']));
+                        $this->post_id=intval($content['id']);
+
                     }
 
                     if (is_array($page) and $page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
                             define('PRODUCT_ID', intval($content['id']));
+                            $this->product_id=intval($content['id']);
                         }
                     }
                 }
@@ -1673,10 +1762,14 @@ class ContentManager
 
             if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
+                $this->content_id=intval($content['id']);
+
             }
 
             if (defined('PAGE_ID') == false and isset($content['id'])) {
                 define('PAGE_ID', $page['id']);
+                $this->page_id=intval($content['id']);
+
             }
 
             if (isset($page['parent'])) {
@@ -1687,6 +1780,8 @@ class ContentManager
 
                     if (defined('MAIN_PAGE_ID') == false) {
                         define('MAIN_PAGE_ID', $inherit_from_id);
+                        $this->main_page_id=intval($inherit_from_id);
+
                     }
                 }
 
@@ -1730,6 +1825,8 @@ class ContentManager
             $cat_id = $this->app->category_manager->get_category_id_from_url();
             if ($cat_id != false) {
                 define('CATEGORY_ID', intval($cat_id));
+                $this->category_id=intval($cat_id);
+
             }
         }
         if (!defined('CATEGORY_ID')) {
@@ -1742,6 +1839,8 @@ class ContentManager
                 $page = $pageFromSlug;
                 $content = $pageFromSlug;
                 define('PAGE_ID', intval($page['id']));
+                $this->page_id=intval($page['id']);
+
             }
         }
 
@@ -1767,10 +1866,14 @@ class ContentManager
             $the_active_site_template = $page['active_site_template'];
         } elseif (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
             $the_active_site_template = $content['active_site_template'];
+        }elseif (isset($content_orig) and  !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
+            $the_active_site_template = $content_orig['active_site_template'];
         } else {
             $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
             //
         }
+
+
         if (isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit') {
             $inh = $this->get_inherited_parent($content['id']);
             if ($inh != false) {
@@ -1961,9 +2064,20 @@ class ContentManager
 
     public function get_parents($id = 0, $without_main_parrent = false)
     {
+
         if (intval($id) == 0) {
             return false;
         }
+
+
+     //   return app()->content_repository->getParents($id,$without_main_parrent);
+
+
+
+
+
+
+
         $ids = array();
         $get = array();
         $get['id'] = $id;
@@ -2267,22 +2381,18 @@ class ContentManager
         }
 
         $permalinkGenerated = $this->app->permalink_manager->link($link['id'], 'content');
+
         if ($permalinkGenerated) {
             $link['url'] = $permalinkGenerated;
+
+            if (!stristr($link['url'], $site_url)) {
+                $link = site_url($link['url']);
+            } else {
+                $link = ($link['url']);
+            }
+            return $link;
         }
 
-        if (!stristr($link['url'], $site_url)) {
-            $link = site_url($link['url']);
-        } else {
-            $link = ($link['url']);
-        }
-
-        /* $override = $this->app->event_manager->trigger('content.link.after', $link);
-         if (is_array($override) && isset($override[0])) {
-             $link = $override[0];
-         }*/
-
-        return $link;
     }
 
     public function save_edit($post_data)
@@ -2300,7 +2410,8 @@ class ContentManager
         $get = array();
         $get['is_home'] = 1;
         $get['single'] = 1;
-        $data = $this->get($get);
+
+        $data = app()->content_repository->getByParams($get);
 
         return $data;
     }
@@ -2494,91 +2605,86 @@ class ContentManager
         } else {
             $content_id = intval($content_id);
         }
-        $cont_data = $this->get_by_id($content_id);
-        if ($cont_data == false) {
+        $contentData = $this->get_by_id($content_id);
+        if ($contentData == false) {
             return false;
         }
+
+        if ($contentData['position'] == null) {
+            $contentData['position'] = 0;
+        }
+
+        $query = \MicroweberPackages\Content\Content::query()->select('content.*');
         $categories = array();
         $params = array();
 
-        if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $params['parent'] = $cont_data['parent'];
+        $parent_id = false;
+        if (isset($contentData['parent']) and $contentData['parent'] > 0) {
+            $parent_id = $contentData['parent'];
         }
 
-        $compare_q = '[lt]';
-        if (trim($mode) == 'prev') {
-            $compare_q = '[mt]';
-        }
         if ($content_type) {
-            $params['content_type'] = $content_type;
             if (defined('PAGE_ID') and PAGE_ID != 0) {
-                $params['parent'] = PAGE_ID;
+                $parent_id = PAGE_ID;
             }
-        } elseif (isset($cont_data['content_type'])) {
-            $params['content_type'] = $cont_data['content_type'];
+        } elseif (isset($contentData['content_type'])) {
+            $content_type = $contentData['content_type'];
         }
 
-        if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
-            $compare_q = '[mt]';
-            $params['order_by'] = 'created_at asc';
-            $params['order_by'] = 'position asc, created_at asc';
-            $params['order_by'] = 'position asc';
+        if (isset($contentData['content_type']) and $contentData['content_type'] != 'page') {
+
             if (trim($mode) == 'prev') {
-                $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_at desc';
-                $params['order_by'] = 'position desc';
+                $query->orderBy('position', 'desc');
+                $query->where('position', '<', $contentData['position']);
+            } else {
+                $query->orderBy('position', 'asc');
+                $query->where('position', '>', $contentData['position']);
             }
+
             $cats = $this->app->category_manager->get_for_content($content_id);
             if (!empty($cats)) {
                 foreach ($cats as $cat) {
                     $categories[] = $cat['id'];
                 }
-            } else {
-                if ($category_id != false) {
-                    //$categories[] = $category_id;
+                $query->whereCategoryIds($categories);
+            }
+
+        } else {
+
+            if (isset($contentData['position']) and $contentData['position'] > 0) {
+                if (trim($mode) == 'prev') {
+                    $query->where('position', '>', $contentData['position']);
+                } else {
+                    $query->where('position', '<', $contentData['position']);
                 }
             }
-            $params['position'] = $compare_q . $cont_data['position'];
-        } else {
-            if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q . $cont_data['position'];
-            }
-            $params['order_by'] = 'created_at asc';
+
             if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_at desc';
+                $query->orderBy('created_at', 'desc');
+            } else {
+                $query->orderBy('created_at', 'asc');
             }
         }
 
-        if (!empty($categories)) {
-            $params['category'] = $categories;
-        }
-
-        $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 1;
-        $params['is_deleted'] = 0;
-        $params['single'] = true;
 
-        $q = $this->get($params);
+        if ($parent_id) {
+            $query->whereParent($parent_id);
+        }
 
-        if (is_array($q)) {
-            return $q;
+        $query->whereContentType($content_type);
+        $query->whereIsActive(1);
+        $query->whereIsDeleted(0);
+
+        $response = [];
+        $get = $query->first();
+        if ($get != null) {
+            $response = $get->toArray();
+        }
+
+        if (is_array($response)) {
+            return $response;
         } else {
-            if (isset($params['created_at'])) {
-                unset($params['created_at']);
-            }
-
-            $q = $this->get($params);
-            if (!is_array($q)) {
-                if (isset($params['category'])) {
-                    unset($params['category']);
-                    $q = $this->get($params);
-                }
-            }
-            if (is_array($q)) {
-                return $q;
-            }
-
             return false;
         }
     }
@@ -2714,6 +2820,8 @@ class ContentManager
             $params['content_type'] = 'page';
         }
 
+
+
         return $this->get($params);
     }
 
@@ -2754,6 +2862,9 @@ class ContentManager
 
     public function title($id)
     {
+
+
+
         if ($id == false or $id == 0) {
             if (defined('CONTENT_ID') == true) {
                 $id = CONTENT_ID;
@@ -2817,26 +2928,14 @@ class ContentManager
     public function site_templates()
     {
         //shim for old versions
-        return $this->app->template_manager->site_templates();
+        return $this->app->template->site_templates();
     }
 
 
     public function get_related_content_ids_for_content_id($content_id = false)
     {
 
-        $related_ids = [];
-        $content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
-
-        if ($content) {
-            $related_cont = $content->related()->get();
-            if ($related_cont) {
-                $related = $related_cont->toArray();
-                foreach ($related as $related_cont) {
-                    $related_ids[] = $related_cont['related_content_id'];
-                }
-            }
-        }
-        return $related_ids;
+        return   $this->app->content_repository->getRelatedContentIds($content_id);
 
     }
 

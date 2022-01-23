@@ -19,7 +19,17 @@
         $('.js-custom-field-as-textarea').click(function() {
             var val = $('.js-custom-field-value').val();
             if ($(this).is(':checked')) {
-                $('.js-custom-field-text-settings').html('<textarea class="form-control js-custom-field-value" name="value">'+val+'</textarea>');
+                var textareaSettings = '<div class="form-row">'+
+                    '<div class="form-group col">'+
+                    '<label for="textarea_rows"><?php _e("Textarea Rows"); ?></label>'+
+                    '<input id="textarea_rows" type="number" class="form-control" name="options[rows]" value=""/>'+
+                    '</div>'+
+                    '<div class="form-group col">'+
+                    '<label for="textarea_cols"><?php _e("Textarea Cols"); ?></label>'+
+                    '<input id="textarea_cols" type="number" class="form-control" name="options[cols]" value=""/>'+
+                    '</div>'+
+                    '</div>';
+                $('.js-custom-field-text-settings').html('<textarea class="form-control js-custom-field-value" name="value">'+val+'</textarea>' + textareaSettings);
             } else {
                 $('.js-custom-field-text-settings').html('<input type="text" class="form-control js-custom-field-value" name="value" value="'+val+'" />');
             }
@@ -36,7 +46,20 @@
         <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
         <div id="mw-custom-fields-text-holder" class="js-custom-field-text-settings">
             <?php if($settings["as_text_area"] == '1'): ?>
+
                 <textarea class="form-control js-custom-field-value" name="value"><?php echo $data['value']; ?></textarea>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="textarea_rows"><?php _e("Textarea Rows"); ?></label>
+                        <input id="textarea_rows" type="number" class="form-control" name="options[rows]" value="<?php if (isset($settings['rows'])) { echo $settings['rows']; } ?>"/>
+                    </div>
+                    <div class="form-group col">
+                        <label for="textarea_cols"><?php _e("Textarea Cols"); ?></label>
+                        <input id="textarea_cols" type="number" class="form-control" name="options[cols]" value="<?php if (isset($settings['cols'])) {  echo $settings['cols']; } ?>"/>
+                    </div>
+                </div>
+
             <?php else: ?>
                 <input type="text" class="form-control js-custom-field-value" name="value" value="<?php print ($data['value']) ?>" />
             <?php endif; ?>

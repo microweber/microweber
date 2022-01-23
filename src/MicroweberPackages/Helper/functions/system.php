@@ -7,8 +7,17 @@ if (!function_exists('is_cli')) {
         if ($is !== null) {
             return $is;
         }
+
+        $php_sapi_name = false;
+        if(defined('PHP_SAPI')){
+            $php_sapi_name= PHP_SAPI;
+        } else if (function_exists('php_sapi_name')){
+            $php_sapi_name= php_sapi_name();
+        }
+
+
         if (function_exists('php_sapi_name') and
-            php_sapi_name() === 'apache2handler'
+            $php_sapi_name === 'apache2handler'
         ) {
             $is = false;
             return false;
@@ -17,8 +26,8 @@ if (!function_exists('is_cli')) {
 
         if (
             defined('STDIN')
-            or php_sapi_name() === 'cli'
-            or php_sapi_name() === 'cli-server'
+            or $php_sapi_name === 'cli'
+            or $php_sapi_name === 'cli-server'
             or array_key_exists('SHELL', $_ENV)
 
         ) {
@@ -32,14 +41,9 @@ if (!function_exists('is_cli')) {
     }
 }
 
-if (!function_exists('is_closure')) {
-    function is_closure($t)
-    {
-        return is_object($t) or ($t instanceof \Closure);
-    }
-}
 
-if (!function_exists('php_can_use_func')) { 
+
+if (!function_exists('php_can_use_func')) {
     /**
      * Function to check if you can use a PHP function
      */
@@ -63,6 +67,10 @@ if (!function_exists('php_can_use_func')) {
                     $available = false;
                 }
             }
+        }
+
+        if (str_contains(INI_SYSTEM_CHECK_DISABLED,  (string)$func_name)) {
+            return false;
         }
 
         return $available;

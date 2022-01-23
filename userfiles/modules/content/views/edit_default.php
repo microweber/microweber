@@ -55,6 +55,8 @@ if ($edit_page_info['is_shop'] == 1) {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
     $type = 'Product';
+} elseif ($edit_page_info['content_type'] == 'product_variant') {
+    $type = 'Product variant';
 } elseif ($edit_page_info['content_type'] == 'post') {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'page') {
@@ -111,7 +113,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <script>
 
     var contentChanged = function (state) {
-        document.querySelector('.btn-save').disabled = !state;
+     //   document.querySelector('.btn-save').disabled = !state;
         mw.askusertostay = state;
         document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
     }
@@ -197,6 +199,12 @@ if (isset($params['quick_edit'])) {
             $formActionUrl = route('api.product.update', $data['id']);
         }
     }
+    if (isset($data['content_type']) and $data['content_type'] == 'product_variant') {
+        $formActionUrl = route('api.product_variant.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('api.product_variant.update', $data['id']);
+        }
+    }
     if (isset($data['content_type']) and $data['content_type'] == 'post') {
         $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {
@@ -216,19 +224,38 @@ if (isset($params['quick_edit'])) {
         <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>
         <input type="hidden" name="subtype" id="mw-content-subtype" value="<?php print $data['subtype']; ?>"/>
         <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>" value="<?php print $data['subtype_value']; ?>"/>
-        <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>" value="<?php print $data['content_type']; ?>"/>
+        <input type="hidden" name="content_type" id="mw-content-type mw-content-type-value-<?php print $rand; ?>" value="<?php print $data['content_type']; ?>"/>
         <input type="hidden" name="parent" id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class=""/>
         <input type="hidden" name="layout_file" id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"/>
         <input type="hidden" name="active_site_template" id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"/>
 
+        <script type="text/javascript">
+        $(document).ready(function () {
+           $('.mw-edit-page-layout-selector').change(function() {
+              if ($(this).val() == 'layouts__blog.php') {
+                  $('#mw-content-subtype').val('dynamic');
+                  $('#mw-content-type').val('page');
+              }
+              if ($(this).val() == 'layouts__shop.php') {
+                    $('#mw-content-subtype').val('dynamic');
+                    $('#mw-content-type').val('page');
+                    $('#is_shop').attr('checked','checked');
+                    $('#is_shop').trigger('change');
+              }
+           });
+        });
+        </script>
+
         <div class="row">
             <div class="col-md-8 manage-content-body">
-                <div class="card style-1 mb-3" id="content-title-field-row">
+                <div class="content-title-field-row card style-1 mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">
                             <?php
                             $type_icon = 'mdi-text';
                             if ($type == 'Product') {
+                                $type_icon = 'mdi-shopping';
+                            } else if ($type == 'Product variant') {
                                 $type_icon = 'mdi-shopping';
                             } elseif ($type == 'Post') {
                                 $type_icon = 'mdi-text';
@@ -246,26 +273,48 @@ if (isset($params['quick_edit'])) {
 
                                 if($wrapper_class=='in-popup'){ ?>
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                        <a href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-primary btn-sm btn-rounded btn-sm-only-icon mw-admin-go-live-now-btn">
-                                            <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block"><?php _e("Live Edit"); ?></span>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span ><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
+                                <?php } else { ?>
+
+                                    <?php if (isset($data['url']) and $data['id'] > 0) { ?>
+                                        <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
+                                            </i><span><?php _e("Live Edit"); ?></span>
+                                        </a>
+                                    <?php } ?>
+
                                 <?php } ?>
 
-
-
-
-
-                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
 
                     <?php if (isset($edit_page_info['title'])): ?>
                         <div class="card-body pt-3">
+
                             <div class="form-group" id="slug-field-holder">
                                 <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
-                                <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
+
+                                <?php
+                                $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+                                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                                ?>
+
+                                <?php
+                                echo $formBuilder->text('title')
+                                    ->setModel($contentModel)
+                                    ->value($title_for_input)
+                                    ->id('content-title-field')
+                                    ->onkeyup('slugFromTitle();')
+                                    ->autocomplete(false);
+                                ?>
+
+                                <?php
+                                if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                ?>
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
                                     <span class="mw-admin-post-slug-text">
@@ -336,7 +385,34 @@ if (isset($params['quick_edit'])) {
 
                                     </script>
                                 </div>
+
+                                <?php
+                                endif;
+                                ?>
                             </div>
+
+
+                            <?php
+                            if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                ?>
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e($type) ?> <?php _e("Url"); ?></label>
+
+                                    <?php
+                                    echo $formBuilder->text('url')
+                                        ->setModel($contentModel)
+                                        ->prepend('<div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
+                                             </div>')
+                                        ->value($data['url'])
+                                        ->id('content-slug-field')
+                                        ->autocomplete(false);
+                                    ?>
+                                </div>
+                            <?php
+                            endif;
+                            ?>
+
 
 
                             <?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
@@ -383,25 +459,24 @@ if (isset($params['quick_edit'])) {
                                         <div class="form-group">
                                             <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
 
-
-                                            <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
-
-                                            <div id="mw-admin-content-iframe-editor">
-
-                                                <textarea id="content_template" name="content_body"><?php print $data['content_body']; ?></textarea>
-
-                                            </div>
+                                                <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
+                                                <?php
+                                                echo $formBuilder->mwEditor('content_body')
+                                                    ->setModel($contentModel)
+                                                    ->value($data['content_body'])
+                                                    ->autocomplete(false);
+                                                ?>
                                         <?php else: ?>
+
                                                 <label class="control-label"><?php  _e("Content"); ?></label>
+                                            <?php
+                                            echo $formBuilder->mwEditor('content')
+                                                ->setModel($contentModel)
+                                                ->value($data['content'])
+                                                ->autocomplete(false);
+                                            ?>
 
-                                                <div id="mw-admin-content-iframe-editor">
-
-                                                    <textarea id="content_template" name="content"><?php print $data['content']; ?></textarea>
-
-                                                </div>
                                         <?php endif; ?>
-
-
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
@@ -411,8 +486,7 @@ if (isset($params['quick_edit'])) {
                                 <script>
                                     $(document).ready(function () {
                                         setTimeout(function () {
-                                            $('#content-title-field').focus();
-                                            if (typeof(mw.adminPagesTree) != 'undefined') {
+                                             if (typeof(mw.adminPagesTree) != 'undefined') {
                                                 mw.adminPagesTree.select({
                                                     id:<?php print $edit_page_info['id']  ?>,
                                                     type: 'page'

@@ -74,8 +74,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 top.window.location = mw.settings.site_url + "api/content/redirect_to_content?id=" + data;
 
                             } else {
-                                mw.url.windowHashParam('action', 'editpage:' + data);
-
+                               // mw.url.windowHashParam('action', 'editpage:' + data);
+                                window.location = "<?php print admin_url() ?>content/"+data+"/edit";
                             }
                             //content/redirect_to_content_id
                         } else {
@@ -105,6 +105,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                 if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
                     form.querySelector('input[name="content_type"]').value = ctype;
                 }
+                // Change api post url to content api
+                $(form).attr('action', mw.settings.site_url + "api/content/" + form.querySelector('input[name="id"]').value);
+                $(form).attr('content-type-is-changed', 1);
             });
         }
         mw.adm_cont_subtype_change_holder_event = function (el) {
@@ -159,8 +162,25 @@ if (isset($data['created_by']) and $data['created_by']) {
     <module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"/>
 <?php endif; ?>
 
+   <?php
+    $showSeoSettings = true;
+    $showAdvancedSettings = true;
+    if ($data['content_type'] == 'product_variant') {
+        $showSeoSettings = false;
+        $showAdvancedSettings = false;
+    }
+    ?>
+
+<?php if ($showSeoSettings): ?>
+
+    <?php
+    $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+    ?>
+
+
     <!-- SEO Settings -->
-    <div class="card style-1 mb-3 card-collapse">
+    <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
             <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
@@ -172,45 +192,79 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <hr class="thin no-padding"/>
 
                 <div class="row">
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group js-count-letters">
-                            <div class="d-flex justify-content-between">
-                                <label><?php _e("Meta title"); ?>
-                                    <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks."></small>
-                                </label>
-                            </div>
+                        <div class="form-group ">
+                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                            <small data-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
-                            <input type="text" class="form-control" name="content_meta_title" placeholder="" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
+
+                            <?php
+                            echo $formBuilder->Text('content_meta_title')
+                                ->setModel($contentModel)
+                                ->value($data['content_meta_title']) ->autocomplete(false) ;
+                            ?>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group js-count-letters">
-                                <label class="control-label"><?php _e("Meta description"); ?></label>
-                                <small data-toggle="tooltip" title="Short description for yor content."></small>
 
-                            <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
+
+
+
+
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                        <label class="control-label"><?php _e("Meta description"); ?></label>
+                        <small data-toggle="tooltip" title="Short description for yor content."></small>
+
+                    <?php
+                    echo $formBuilder->MwEditor('description')
+                        ->setModel($contentModel)
+                        ->value($data['description'])
+                        ->autocomplete(false);
+                    ?>
                         </div>
                     </div>
 
+
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?php _e("Meta keywords"); ?>
-                                <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"></small>
-                            </label>
+                        <div class="form-group ">
+                        <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                        <small data-toggle="tooltip" title="Short description for yor content."></small>
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
-                            <textarea class="form-control" name="content_meta_keywords" placeholder="<?php _e('Show') ?>e.g. Summer, Ice cream, Beach
-"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
-                            <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
+                    <?php
+                    echo $formBuilder->Text('content_meta_keywords')
+                        ->setModel($contentModel)
+                        ->value($data['content_meta_keywords'])
+                        ->autocomplete(false);
+                    ?>
                         </div>
+
+                        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
                     </div>
 
+
+
+
+
+
+
+
+
+
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group ">
                             <label><?php _e("OG Images"); ?></label>
                             <small class="text-muted d-block mb-2">
                                 <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
-                                <?php _e("If you want to attach a og images, you must upload them to gallery from 'Add media'"); ?>.
+                                <?php _e("If you want to attach og images, you must upload them to gallery from 'Add media'"); ?>.
                             </small>
                         </div>
                     </div>
@@ -218,16 +272,18 @@ if (isset($data['created_by']) and $data['created_by']) {
             </div>
         </div>
     </div>
+<?php endif;?>
 
+    <?php if ($showAdvancedSettings): ?>
     <!-- Advanced Settings -->
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
-            <div class="collapse" id="advenced-settings">
+            <div class="collapse" id="advanced-settings">
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -252,9 +308,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <label><?php _e("Require login"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
                             <div class="custom-control custom-switch pl-0">
-                                <label class="d-inline-block mr-5" for="require_login"><?php _e("No"); ?></label>
-                                <input type="checkbox" class="custom-control-input" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
-                                <label class="custom-control-label" for="require_login"><?php _e("Yes"); ?></label>
+                                <label class="d-inline-block mr-5" style="cursor:pointer" for="require_login"><?php _e("No"); ?></label>
+                                <input type="checkbox" class="custom-control-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
+                                <label class="custom-control-label" style="cursor:pointer" for="require_login"><?php _e("Yes"); ?></label>
                             </div>
                         </div>
                     </div>
@@ -344,15 +400,20 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <label class="control-label mt-3"><?php _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                        <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+
                     </div>
+
+
+
+
                 </div>
 
                 <?php endif; ?>
 
                 <?php if ($show_page_settings != false): ?>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
@@ -388,6 +449,86 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php /* PAGES ONLY  */ ?>
                 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 
+
+                <?php if (isset($data['id']) and $data['id'] != 0): ?>
+
+
+
+                    <?php if (isset($data['id'])): ?>
+                        <div class="row  mt-3">
+                        <div class="col-md-12">
+                            <div>
+                                <small>
+                                    <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+
+                                </small>
+                            </div>
+                        </div>
+
+
+                        </div>
+                    <?php endif; ?>
+
+
+
+
+
+                    <div class="row  ">
+
+
+
+
+                        <div class="col-12">
+
+
+                            <button type="button" class="btn btn-sm btn-link" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+
+
+
+
+
+                            <div  class="collapse"   id="set-a-specific-publish-date">
+                                <div class="row">
+                                    <script>mw.lib.require('bootstrap_datetimepicker');</script>
+                                    <script>
+                                        $(function () {
+                                            $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
+                                            $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
+                                        });
+                                    </script>
+
+
+                                    <?php if (isset($data['created_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
+                                                <small>
+                                                    <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if (isset($data['updated_at'])): ?>
+                                        <div class="col-md-12">
+                                            <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
+                                                <small>
+                                                    <?php _e("Updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
+                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
+                                                </small>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+
+
+
+
                 <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
                     <div class="row mb-3">
                         <div class="col-12">
@@ -409,7 +550,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
+                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
                                                 <?php foreach ($available_content_types as $item): ?>
                                                     <option value="<?php print $item['content_type']; ?>" <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type']; ?></option>
                                                 <?php endforeach; ?>
@@ -421,7 +562,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
+                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
                                                 <?php foreach ($available_content_subtypes as $item): ?>
                                                     <option value="<?php print $item['subtype']; ?>" <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype']; ?></option>
                                                 <?php endforeach; ?>
@@ -433,9 +574,18 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
                 <?php endif; ?>
+
+
+
+
+
+
             </div>
         </div>
     </div>
+    <?php endif; ?>
+
+
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
 
 <?php if (!empty($custom)): ?>

@@ -61,6 +61,7 @@
                 _tempRender: true,
                 filterRemoteURL: null,
                 filterRemoteKey: 'keyword',
+                toggleSelect: true
             };
 
 
@@ -264,7 +265,7 @@
             var data = [];
             mw.$( 'li.' + this.options.openedClass, this.list  ).each(function(){
                 if(this._data) {
-                    data.push({type:this._data.type, id:this._data.id})
+                    data.push({type:this._data.type, id:this._data.id});
                 }
             });
 
@@ -364,7 +365,6 @@
                 if(!type) return;
                 return this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
-            //if(!li) {console.warn('List item not defined:', li, type)}
             return li;
         };
 
@@ -388,14 +388,14 @@
             this._selectionChangeDisable = true;
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.unselectAll = function(){
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange()
+            triggerChange();
         };
 
         this.open = function(li, type, _skipsave){
@@ -683,7 +683,13 @@
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
-                    if(scope.options.selectable) scope.toggleSelect(li)
+                    if(scope.options.selectable) {
+                        if(scope.options.toggleSelect) {
+                            scope.toggleSelect(li);
+                        } else {
+                            scope.select(li);
+                        }
+                    }
                 };
                 this.decorate(li);
             }

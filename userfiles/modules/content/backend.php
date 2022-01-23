@@ -19,18 +19,21 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script>
 
     mw.on.hashParam("search", function (pval) {
-        mw.$('#pages_edit_container').attr("data-type", 'content/manager');
-        var dis = pval;
-        if (dis !== '') {
-            mw.$('#pages_edit_container').attr("data-keyword", dis);
+        var cont = mw.$('#pages_edit_container').attr("data-type", 'content/manager');
+        if ( !!pval ) {
+            cont.attr("data-keyword", pval);
             mw.url.windowDeleteHashParam('pg')
-            mw.$('#pages_edit_container').attr("data-page-number", 1);
+            cont.attr("data-page-number", 1);
         }
         else {
-            mw.$('#pages_edit_container').removeAttr("data-keyword");
+            cont.removeAttr("data-keyword");
             mw.url.windowDeleteHashParam('search')
         }
-        mw.reload_module('#pages_edit_container');
+        var holder = document.querySelector('#content-view-search-bar') || document.querySelector('.main');
+        mw.spinner({element: holder, size: 22, decorate: true}).show();
+        mw.reload_module('#pages_edit_container', function () {
+            mw.spinner({element: holder}).remove();
+        });
     });
     mw.on.moduleReload('#<?php print $params['id'] ?>');
 
@@ -95,7 +98,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
             //   add_to_parent_page
 
-            var id = id || 0;
+            id = id || 0;
             if (type === 'page') {
                 mw_select_page_for_editing(id);
             }
@@ -157,16 +160,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('active_ids');
 
 
-        if (active_item_is_category != undefined) {
-            //   mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
+        if (active_item_is_category ) {
             var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
-            if (active_item_parent_page != undefined) {
-                var active_item_is_page = active_item_parent_page.attr('data-page-id');
+            if (active_item_parent_page.length) {
+                 active_item_is_page = active_item_parent_page.attr('data-page-id');
             }
             else {
-                var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
-                if (active_item_parent_page != undefined) {
-                    var active_item_is_page = active_item_parent_page.attr('data-page-id');
+                active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+                if (active_item_parent_page.length) {
+                     active_item_is_page = active_item_parent_page.attr('data-page-id');
                 }
             }
         }
@@ -232,10 +234,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             $(document.body).addClass("action-"+arr[0]);
             }
             if (arr[0] == 'showposts') {
-                var active_item = mw.$(".content-item-" + arr[1]);
+                active_item = mw.$(".content-item-" + arr[1]);
             }
             else if (arr[0] == 'showpostscat') {
-                var active_item = mw.$(".category-item-" + arr[1]);
+                active_item = mw.$(".category-item-" + arr[1]);
             }
 
             if (arr[0] === 'editpage') {
@@ -269,32 +271,34 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module, callback) {
-        var spinner =  mw.spinner({
-            element: '#mw-content-backend',
-            size:40
-        })
-        var n = mw.url.getHashParams(window.location.hash)['new_content'];
-        if (n == 'true') {
+        if (mw.url.getHashParams(window.location.hash)['new_content'] === 'true') {
             var slide = false;
             mw.url.windowDeleteHashParam('new_content');
         }
-        else {
-            var slide = true;
-        }
+
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
 
-        var time = !action ? 300 : 0;
+        var time = 500;
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
-        setTimeout(function () {
-            mw.load_module(module, holder, function () {
 
+         edit_content_load_admin_spinner =  mw.spinner({
+            element: '#mw-content-backend',
+            size:40
+        })
+
+
+        setTimeout(function () {
+
+            mw.load_module(module, holder, function () {
                 mw.$('.fade-window').addClass('active')
+
                 if (callback) callback.call();
-                spinner.remove()
+
             });
+            edit_content_load_admin_spinner.remove()
         }, time)
 
 
@@ -636,7 +640,7 @@ if ($action == 'posts') {
                         <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
-                                <label class="custom-control-label d-flex align-items-center" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+                                <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
                             </div>
                         </div>
 
@@ -689,6 +693,7 @@ if ($action == 'posts') {
                                                 element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
                                                 sortable: false,
                                                 selectable: false,
+                                                toggleSelect: false,
                                                 id: 'admin-main-tree',
                                                 append: treeTail,
                                                 contextMenu: [
@@ -696,7 +701,18 @@ if ($action == 'posts') {
                                                         title: 'Edit',
                                                         icon: 'mdi mdi-pencil',
                                                         action: function (element, data, menuitem) {
-                                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+                                                            if (data.type == 'category') {
+                                                                window.location  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+
+                                                            } else if (data.type == 'page') {
+                                                                window.location  = "<?php print admin_url() ?>page/" + data.id + "/edit";
+
+                                                            }
+                                                            else {
+                                                                mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+
+                                                            }
+
                                                         }
                                                     },
                                                     {
@@ -710,7 +726,7 @@ if ($action == 'posts') {
                                                                         if (window.pagesTreeRefresh) {
                                                                             pagesTreeRefresh()
                                                                         }
-                                                                        ;
+
                                                                     })
                                                                 });
                                                             }
@@ -763,7 +779,7 @@ if ($action == 'posts') {
                                                 })
 
                                                 $('.mw-tree-item-title', pagesTree.list).on('click', function () {
-                                                    $('li.selected', pagesTree.list).each(function () {
+                                                    $('li.selected', pagesTree.list).not(mw.tools.firstParentWithTag(this, 'li')).each(function () {
                                                         pagesTree.unselect(this)
                                                     });
                                                     var li = mw.tools.firstParentWithTag(this, 'li'),
@@ -773,7 +789,7 @@ if ($action == 'posts') {
                                                         if (data.type === 'page') {
                                                             action = 'editpage';
                                                         }
-                                                        if (data.subtype === 'dynamic' || data.subtype == 'shop') {
+                                                        if (data.subtype === 'dynamic' || data.subtype === 'shop') {
                                                             action = 'showposts';
                                                         }
                                                         if (data.type === 'category') {
@@ -781,8 +797,6 @@ if ($action == 'posts') {
                                                         }
                                                         mw.url.windowHashParam("action", action + ":" + data.id);
                                                     }
-
-
                                                 });
                                                 mainTreeSetActiveItems()
 

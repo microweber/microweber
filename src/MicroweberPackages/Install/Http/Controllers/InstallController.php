@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
@@ -36,7 +37,7 @@ class InstallController extends Controller
     public function index($input = null)
     {
         if (!defined('MW_INSTALL_CONTROLLER')) {
-          define('MW_INSTALL_CONTROLLER', true);
+            define('MW_INSTALL_CONTROLLER', true);
         }
 
         if (!is_array($input) || empty($input)) {
@@ -147,10 +148,9 @@ class InstallController extends Controller
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
                 }
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
-                if (isset($input['db_name']) and $input['db_name'] != ':memory:' and  !file_exists($input['db_name'])) {
+                if (isset($input['db_name']) and $input['db_name'] != ':memory:' and !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
-
 
 
             }
@@ -184,7 +184,9 @@ class InstallController extends Controller
             if (isset($input['admin_url'])) {
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
-
+           // if (!is_cli()) {
+                Config::set('app.url', site_url());
+          //  }
             Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
@@ -274,8 +276,6 @@ class InstallController extends Controller
                     }
                     $installer->logger = $this;
                     $installer->run();
-
-
                 }
 
                 if (!$install_step or $install_step == 5) {
@@ -302,11 +302,23 @@ class InstallController extends Controller
                             \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
                         }
 
+                        $selected_template = Config::get('microweber.install_default_template');
+                        app()->content_manager->define_constants(['active_site_template' => $selected_template]);
+                        if (defined('TEMPLATE_DIR')) {
+                            app()->template_manager->boot_template();
+                        }
+                        $this->log('Running migrations after install for template' . $selected_template);
+                        $installer = new Install\DbInstaller();
+                        $installer->logger = $this;
+                        $installer->createSchema();
+
+
 //                         language is moved to json files and does not require install anymore
 //                        $this->log('Importing the language package..');
 //                        TranslationPackageInstallHelper::$logger = $this;
 //                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
                     }
+
 
                 }
 
@@ -340,9 +352,9 @@ class InstallController extends Controller
                         }
 
 
-                        $check_if_has_admin = (new User())->where('is_admin',1)->first();
+                        $check_if_has_admin = (new User())->where('is_admin', 1)->first();
 
-                        if(!$check_if_has_admin) {
+                        if (!$check_if_has_admin) {
                             $this->log('Adding admin user');
 
                             $adminUser = new User();
@@ -473,7 +485,7 @@ class InstallController extends Controller
         $http = new Http(app());
 
         try {
-            $http->url('http://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
+            $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
             //maybe internet connection problem
         }
@@ -500,6 +512,7 @@ class InstallController extends Controller
             }
         }
     }
+
     private function _get_templates_for_install_screen()
     {
         //used in ajax
@@ -526,6 +539,7 @@ class InstallController extends Controller
         }
         return $ready;
     }
+
     private function _install_package_by_name($package_name)
     {
         $runner = new ComposerUpdate();

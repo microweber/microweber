@@ -60,7 +60,7 @@ use MicroweberPackages\View\View;
                         </div>
                     </div>
 
-                    <div class="text-right d-none">
+                    <div class="text-end text-right d-none">
                         <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');"><?php _e("Set shipping units"); ?></a>
                         <a class="btn btn-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup();"><?php _e("Add Country"); ?></a>
                     </div>

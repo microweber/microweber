@@ -7,9 +7,52 @@ use MicroweberPackages\Product\Models\Product;
 
 class ContentDataTest extends TestCase
 {
+    public function testContentDataOnNewProduct()
+    {
+        $newProduct3 = new Product();
+        $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
+        $newProduct3->content_type = 'product';
+        $newProduct3->subtype = 'product';
+        $newProduct3->setCustomField(
+            [
+                'type'=>'price',
+                'name'=>'price',
+                'value'=>'0',
+            ]
+        );
+
+        $newProduct3->setContentData(
+            [
+                'qty'=>'1',
+                'sku'=>'skubidu',
+                'rich'=>'bobi'
+            ]
+        );
+        $newProduct3->save();
+
+
+        $product = Product::find($newProduct3->id);
+        $contentData = $product->getContentData();
+
+        $this->assertEquals('bobi',$contentData['rich']);
+        $this->assertEquals('1',$contentData['qty']);
+        $this->assertEquals('skubidu',$contentData['sku']);
+
+
+        $product->setContentData(
+            [
+                'sku'=>'newsku',
+            ]
+        );
+        $product->save();
+        $contentData = $product->getContentData();
+        $this->assertEquals('bobi',$contentData['rich']);
+        $this->assertEquals('1',$contentData['qty']);
+        $this->assertEquals('newsku',$contentData['sku']);
+    }
+
     public function testContentData()
     {
-
         $product = new Product();
         $product->title = 'Test product with content data';
         $product->save();
@@ -47,9 +90,43 @@ class ContentDataTest extends TestCase
 
 
 
+    }
+
+    public function testContentDataSaveFromSaveContentWithPrefix()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
 
 
+        $title = 'My prod '.rand();
+        $sku ='somesku'.rand();
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'data_fields' => ['sku'=>$sku],
+            'is_active' => 1);
+        $saved_id = save_content($params);
 
+        $product = Product::find($saved_id);
+        $contentData = $product->getContentData();
+        $this->assertEquals($contentData['sku'],   $sku);
+
+
+        $title = 'My prod '.rand();
+        $sku2 ='somesku2'.rand();
+
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'data_sku' => $sku2,
+            'is_active' => 1);
+        $saved_id = save_content($params);
+
+        $product = Product::find($saved_id);
+
+        $contentData = $product->getContentData();
+        $this->assertEquals($contentData['sku'],   $sku2);
 
     }
 }

@@ -15,7 +15,7 @@
        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-    <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/jquery.js"></script>
+    <script src="<?php print mw_includes_url(); ?>api/jquery.js"></script>
     <?php
 
     $rand = uniqid();

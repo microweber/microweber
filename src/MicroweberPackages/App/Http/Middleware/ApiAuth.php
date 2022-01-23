@@ -20,21 +20,20 @@ class ApiAuth
      */
     public function handle(Request $request, Closure $next, $guard = null)
     {
-        if (Auth::check() &&  Auth::user()->is_admin == 1) {
+        if (Auth::check() && Auth::user()->is_admin == 1) {
             return $next($request);
         }
 
-        $expiration = config('sanctum.expiration');
 
         $token = $request->bearerToken();
-        if (!$token){
+        if (!$token) {
             return $this->_returnError($request);
         }
 
         $model = Sanctum::$personalAccessTokenModel;
         $accessToken = $model::findToken($token);
 
-        if (! $accessToken || ($expiration && $accessToken->created_at->lte(now()->subMinutes($expiration)))) {
+        if (!$this->validateBearerToken($token)) {
             return $this->_returnError($request);
         }
 
@@ -43,8 +42,22 @@ class ApiAuth
         return $next($request);
     }
 
+    public function validateBearerToken($token)
+    {
+        $expiration = config('sanctum.expiration');
 
-    private function _returnError($request){
+        $model = Sanctum::$personalAccessTokenModel;
+        $accessToken = $model::findToken($token);
+
+        if (!$accessToken || ($expiration && $accessToken->created_at->lte(now()->subMinutes($expiration)))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function _returnError($request)
+    {
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Api unauthorized'], 401);
         }

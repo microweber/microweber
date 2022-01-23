@@ -74,7 +74,7 @@ class TaggableFileStore implements Store
      * @param  array $options
      */
 
-    protected $cacheHandler;
+  //  protected $cacheHandler;
 
     public function __construct(TaggableFilesystemManager $files, $directory, $options = [], $tags = [])
     {
@@ -93,11 +93,12 @@ class TaggableFileStore implements Store
         $this->directoryData = $this->normalizePath($this->directoryData);
 
 
+
+
         // By emmiting events the RAM usage goes up twice , so we check if debugbar collector for cache is enabled
         $this->emitEvents = \Config::get('debugbar.collectors.cache');
 
-        //   $this->cacheHandler = new CacheFileHandler();
-        $this->cacheHandler = new MemoryCacheFileHandler();
+
     }
 
 
@@ -135,7 +136,8 @@ class TaggableFileStore implements Store
 
 
         //$cacheHandler = new CacheFileHandler();
-        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+        //$cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+        $cacheKey = $this->_cacheKey($key);
 
         if (isset($this->files->cachedDataMemory[$cacheKey])) {
             $data = $this->files->cachedDataMemory[$cacheKey];
@@ -160,7 +162,7 @@ class TaggableFileStore implements Store
 //                $contents = @file_get_contents($findTagPath, true), 0, 10
 //            );
 
-            $contents = $this->cacheHandler->readFromCache($findTagPath);
+            $contents = $this->files->cacheHandler->readFromCache($findTagPath);
             $expire = substr($contents, 0, 10);
         } catch (\Exception $e) {
             $this->files->cachedDataMemory = [];
@@ -177,7 +179,7 @@ class TaggableFileStore implements Store
 
         try {
             $data = unserialize(substr($contents, 10));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->forget($key);
             return;
         }
@@ -196,6 +198,15 @@ class TaggableFileStore implements Store
 
         $this->files->cachedDataMemory[$cacheKey] = $data;
         return $data;
+    }
+
+    private function _cacheKey($key)
+    {
+
+        // on php 8 crc32 is faster than md5 https://3v4l.org/2MAUr
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(json_encode($this->tags)) : false);
+        return $cacheKey;
     }
 
     private function _findCachePathByKey($key)
@@ -228,7 +239,8 @@ class TaggableFileStore implements Store
         //$cacheHandler = new CacheFileHandler();
 
 
-        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+       // $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+        $cacheKey = $this->_cacheKey($key);
 
         if (isset($this->files->cachedDataMemory[$cacheKey]) and $this->files->cachedDataMemory[$cacheKey] !== $value) {
             unset($this->files->cachedDataMemory[$cacheKey]);
@@ -264,7 +276,7 @@ class TaggableFileStore implements Store
 
             // Save key value in file
             //WAS $save = @file_put_contents($path, $value);
-            $this->cacheHandler->writeToCache($path, $value);
+            $this->files->cacheHandler->writeToCache($path, $value);
 
             if ($this->emitEvents) {
                 event(new KeyWritten($key, $value, $seconds));
@@ -339,7 +351,6 @@ class TaggableFileStore implements Store
             }
             $clearTags[] = $tag;
         }
-
         return new TaggableFileStore($this->files, $this->directory, $this->options, $clearTags);
     }
 
@@ -362,7 +373,7 @@ class TaggableFileStore implements Store
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
                 //WAS $save = @file_put_contents($cacheFile, json_encode([]));
-                $this->cacheHandler->writeToCache($cacheFile, json_encode([]));
+                $this->files->cacheHandler->writeToCache($cacheFile, json_encode([]));
 //                if (!$save) {
 //                     @file_put_contents($cacheFile, json_encode([]));
 //                }
@@ -384,7 +395,7 @@ class TaggableFileStore implements Store
         $cacheMapContent = false;
         if (is_file($cacheFile)) {
             //WAS $cacheMapContent = @file_get_contents($cacheFile);
-            $cacheMapContent = $this->cacheHandler->readFromCache($cacheFile);
+            $cacheMapContent = $this->files->cacheHandler->readFromCache($cacheFile);
             $cacheMapContent = @json_decode($cacheMapContent, true);
         }
         if (!$cacheMapContent) {
@@ -404,7 +415,7 @@ class TaggableFileStore implements Store
                 $cacheMapContent = false;
                 if (is_file($cacheFile)) {
                     //WAS $cacheMapContent = file_get_contents($cacheFile);
-                    $cacheMapContent = $this->cacheHandler->readFromCache($cacheFile);
+                    $cacheMapContent = $this->files->cacheHandler->readFromCache($cacheFile);
                     $cacheMapContent = json_decode($cacheMapContent, true);
                 }
                 if (!$cacheMapContent) {
@@ -421,7 +432,7 @@ class TaggableFileStore implements Store
                 $cacheFile = $this->_getTagMapPathByName($tag);
 
                 //WAS $save = @file_put_contents($cacheFile, json_encode($cacheMapContent));
-                $this->cacheHandler->writeToCache($cacheFile, json_encode($cacheMapContent));
+                $this->files->cacheHandler->writeToCache($cacheFile, json_encode($cacheMapContent));
 //                if (!$save) {
 //                    $save = @file_put_contents($cacheFile, json_encode($cacheMapContent));
 //                }
@@ -578,6 +589,7 @@ class TaggableFileStore implements Store
         return $this->forget($key);
     }
 
+    public $deletedFilesCache = [];
     /**
      * Remove all items from the cache.
      *
@@ -598,10 +610,13 @@ class TaggableFileStore implements Store
                 if (!empty($tagDetails)) {
                     foreach ($tagDetails as $tagDetail) {
                         $tagPath = $this->getPath() . $tagDetail;
-
+                        if(in_array($tagPath,$this->deletedFilesCache)){
+                            continue;
+                        }
                         try {
                             if ($this->files->isFile($tagPath)) {
                                 $this->files->delete($tagPath);
+                                $this->deletedFilesCache[] =$tagPath;
                             }
                         } catch (\Exception $e) {
                             //
@@ -614,9 +629,13 @@ class TaggableFileStore implements Store
                 $tagMapPath = $this->_getTagMapPathByName($tag);
 
                 try {
-                    if ($this->files->isFile($tagMapPath)) {
-                        $this->files->delete($tagMapPath);
+                    if(!in_array($tagPath,$this->deletedFilesCache)){
+                        if ($this->files->isFile($tagMapPath)) {
+                            $this->files->delete($tagMapPath);
+                        }
+                        $this->deletedFilesCache[] =$tagPath;
                     }
+
                 } catch (\Exception $e) {
                     //
                 }

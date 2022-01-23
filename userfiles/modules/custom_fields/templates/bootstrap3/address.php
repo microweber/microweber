@@ -16,7 +16,7 @@
             <div class="form-group">
 
                 <?php if($settings['show_label']): ?>
-                <label class="control-label"><?php _e($value); ?>
+                <label class="control-label"><?php print($value); ?>
                     <?php if ($settings['required']): ?>
                         <span style="color:red;">*</span>
                     <?php endif; ?>
@@ -33,11 +33,11 @@
                             <?php endforeach; ?>
                         </select>
                     <?php } else { ?>
-                        <input type="text" class="form-control"  <?php if(!$settings['show_label']): ?>placeholder="<?php _e($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
+                        <input type="text" class="form-control"  <?php if(!$settings['show_label']): ?>placeholder="<?php print($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
                     <?php } ?>
 
                 <?php else: ?>
-                    <input type="text" class="form-control" <?php if(!$settings['show_label']): ?>placeholder="<?php _e($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
+                    <input type="text" class="form-control" <?php if(!$settings['show_label']): ?>placeholder="<?php print($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
                            data-custom-field-id="<?php echo $data["id"]; ?>"/>
                 <?php endif; ?>
 

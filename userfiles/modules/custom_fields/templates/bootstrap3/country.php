@@ -1,4 +1,4 @@
-<div class="col-<?php echo $settings['field_size']; ?>">
+<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
@@ -12,7 +12,7 @@
 
             <div class="form-group">
                 <select class="form-control">
-                    <option><?php _e($data['placeholder']) ?></option>
+                    <option><?php print($data['placeholder']) ?></option>
                     <option><?php foreach ($data['values'] as $country): ?>
                     <option value="<?php echo $country ?>"><?php echo $country ?></option>
                     <?php endforeach; ?></option>

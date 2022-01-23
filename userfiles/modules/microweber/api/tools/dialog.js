@@ -75,7 +75,10 @@
     mw.modalFrame = mw.dialogIframe;
 
     mw.dialog.remove = function (selector) {
-        return mw.dialog.get(selector).remove();
+        var dlg = mw.dialog.get(selector);
+        if(dlg) {
+            dlg.remove()
+        }
     };
 
     mw.dialog.get = function (selector) {
@@ -142,10 +145,12 @@
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
             overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
+            disableTextSelection: false,
+
         };
 
         this.options = $.extend({}, defaults, options, {
-            skin: 'default'
+            // skin: 'default'
         });
 
         this.id = this.options.id;
@@ -236,7 +241,9 @@
 
         this.build = function () {
             this.dialogMain = this.options.root.createElement('div');
-
+            if (this.options.disableTextSelection){
+                this.dialogMain.style.userSelect = 'none';
+            }
             this.dialogMain.id = this.id;
             var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
                 + ' mw-dialog-skin-' + this.options.skin

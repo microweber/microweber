@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <?php get_favicon_tag(); ?>
     <meta name="robots" content="noindex">
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all"
           href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>
 
-    <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+    <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
 </head>
 
@@ -58,9 +60,7 @@
                         </div>
 
                         <div>
-                            <button type="submit" class="btn btn-default submit btn-primary">Reset
-                                Password
-                            </button>
+                            <button type="submit" class="btn btn-default submit btn-primary js-submit-change-password">Change Password</button>
                         </div>
 
                         @if ($errors->has('password'))

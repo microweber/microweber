@@ -34,13 +34,33 @@
                 $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
                 $mainFilterTree['li_class'] = 'sub-nav';
                 $mainFilterTree['rel_type'] = 'content';
+                $mainFilterTree['li_hidden_class'] = 'text-muted';
 
                 if (isset($params['page-id']) and $params['page-id'] != false) {
                     $mainFilterTree['rel_id'] = intval($params['page-id']);
                 }
+                $more_link_params_txt = '';
+                if(isset($params['show_add_post_to_category_button'])){
+                    $more_link_params_txt   =$more_link_params_txt. "<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_add_post_to_category_from_modal({id})'>  <span>". _e("Add to category", true) . "</span> </span>";
+                }
+
+
+
+
+
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
+
+                    if(isset($params['show_add_post_to_category_button'])){
+                        $more_link_params_txt   =$more_link_params_txt. "<span class=\"mr-1 btn btn-outline-primary mdi mdi-folder-edit btn-sm\"  onclick='mw.quick_cat_edit({id})'>  </span>  <span class=\" mr-1 btn btn-outline-danger mdi mdi-delete btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>"."</span></span>";
+
+                    } else {
+                        $more_link_params_txt   =$more_link_params_txt. "<span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span> <span class=\"mr-1 btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  </span>";
+
+                    }
+
+
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title} {$more_link_params_txt}  ";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
@@ -119,6 +139,7 @@
             </div>
             <script>
                 mw.require('block-edit.js');
+                mw.require('content.js');
 
                 categorySearch = function (el) {
                     var val = el.value.trim().toLowerCase();
@@ -151,17 +172,23 @@
 
                     if(self !== top && mw.top().settings.liveEdit){
 
-
-                        var opts = {};
-                        opts.width = '800';
-                        opts.height =  '600';
-
-                        opts.liveedit = true;
-                        opts.mode = 'modal';
-
                         var additional_params = {};
-                        additional_params.category_id = id;
-                        return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
+                        additional_params.category_id = 0;
+
+                        mw.load_module('categories/edit_category', '#<?php print $params['id'] ?>', null, additional_params);
+
+
+                        //
+                        // var opts = {};
+                        // opts.width = '800';
+                        // opts.height =  '600';
+                        //
+                        // opts.liveedit = true;
+                        // opts.mode = 'modal';
+                        //
+                        // var additional_params = {};
+                        // additional_params.category_id = id;
+                        // return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
 
 
                     } else {
@@ -170,15 +197,18 @@
                     }
 
                 }
+                mw.quick_cat_add_post_to_category_from_modal = function (id) {
+                     mw.top().trigger("mwSelectToAddCategoryToContent", id);
 
 
+
+                }
                 mw.quick_cat_edit = function (id) {
                     if (!!id) {
                         var modalTitle = '<?php _e('Edit category'); ?>';
                     } else {
                         var modalTitle = '<?php _e('Add category'); ?>';
                     }
-
 
 
 
@@ -223,13 +253,28 @@
 
                         var additional_params = {};
                         additional_params.category_id = id;
-                        return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
+
+                        mw.load_module('categories/edit_category', '#<?php print $params['id'] ?>', null, additional_params);
+
+
+                        // mw.top().tools.open_module_modal('categories/edit_category', additional_params, {
+                        //       overlay: true,
+                        //       iframe: true,
+                        //
+                        //     title: 'Edit category',
+                        //
+                        // })
+
+
+
+
 
 
                     } else {
 
+                        window.location = "<?php print admin_url() ?>category/"+id+"/edit";
 
-                    mw.url.windowHashParam('action', 'editcategory:' + id)
+                  //  mw.url.windowHashParam('action', 'editcategory:' + id)
                     }
                 }
 
@@ -329,7 +374,7 @@
                             });
                             $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
                                 if (self !== parent && !!parent.mw) {
-                                    parent.mw.reload_module('categories');
+                                    mw.parent().reload_module('categories');
                                 }
                                 mw.parent().trigger('pagesTreeRefresh')
 

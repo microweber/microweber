@@ -51,7 +51,7 @@ mw.liveedit.manageContent = {
 
         var actionType = '';
 
-        if (id === 0) {
+        if (id == 0) {
             actionType = 'Add';
         } else {
             actionType = 'Edit';
@@ -68,11 +68,11 @@ mw.liveedit.manageContent = {
             actionOf = 'Category'
         }
 
+
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
-       //     width: '800px',
             width: this.w,
-            height: 'auto',
+            height: 300,
             autoHeight: true,
             name: 'quick_page',
             id: 'quick_page',
@@ -80,7 +80,18 @@ mw.liveedit.manageContent = {
             title: actionType + ' ' + actionOf,
             scrollMode: 'inside'
         });
-        mw.$(modal.main).addClass('mw-add-content-modal');
+        mw.spinner({
+            element: modal.main,
+            decorate: true
+        }).show()
+        mw.$(modal.main).addClass('mw-add-content-modal').find('iframe').on('load', function (){
+            modal.height('auto');
+            modal.center()
+            mw.spinner({
+                element: modal.main,
+            }).remove()
+
+        });
     },
     page_2: function () {
         var modal = mw.dialogIframe({

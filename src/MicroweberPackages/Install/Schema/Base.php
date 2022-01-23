@@ -30,6 +30,7 @@ class Base
             'ui_admin' => 'integer',
             'ui_admin_iframe' => 'integer',
             'is_system' => 'integer',
+            'is_integration' => 'integer',
             'version' => 'string',
             'notifications' => 'integer',
             'settings' => 'text',

@@ -9,7 +9,7 @@
 
 Route::name('api.menu.')
     ->prefix('api/menu')
-    ->middleware(['api'])
+    ->middleware(['admin','api'])
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
@@ -40,4 +40,14 @@ Route::name('api.menu.')
         Route::name('item.reorder')->post('item/reorder', function (\Illuminate\Http\Request $request) {
             return mw()->menu_manager->menu_items_reorder($request->all());
         });
+    });
+
+Route::name('api.v2.')
+    ->prefix('api/v2')
+    ->middleware(['api','admin'])
+    ->namespace('\MicroweberPackages\Menu\Http\Controllers\Api')
+    ->group(function () {
+
+        Route::apiResource('menu', 'MenuApiController');
+
     });

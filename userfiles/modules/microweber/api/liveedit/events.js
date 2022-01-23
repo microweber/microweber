@@ -8,8 +8,6 @@ mw.liveedit.handleEvents = function() {
             }
         }
     });
-    mw.$("#live-edit-dropdown-actions-content a").off('click');
-
     mw.$(document).on('mousedown touchstart', function(e){
         if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
             mw.$(".element-current").removeClass("element-current");
@@ -21,9 +19,9 @@ mw.liveedit.handleEvents = function() {
     });
 
 
-    mw.$("#mw-toolbar-css-editor-btn").click(function() {
+    /*mw.$("#mw-toolbar-css-editor-btn").click(function() {
         mw.liveedit.widgets.cssEditorDialog();
-    });
+    });*/
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
         mw.liveedit.widgets.htmlEditorDialog();
     });

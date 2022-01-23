@@ -38,12 +38,12 @@
                 else {
                     editorArea.innerHTML = newval;
                 }
-                var frame = parent.mw.$('#' + window.name);
+                var frame = mw.parent().$('#' + window.name);
 
                 frame[0].value = newval;
                 if (window.pauseChange === false) {
                     frame.trigger('change');
-                    parent.mw.$(frame[0].richtextEditorSettings.element).trigger('change');
+                    mw.parent().$(frame[0].richtextEditorSettings.element).trigger('change');
                 }
 
             }
@@ -61,7 +61,7 @@
 
         if (height === 'auto') {
             setInterval(function () {
-                parent.mw.$('#' + this.name).height($('#editor-master').height())
+                mw.parent().$('#' + this.name).height($('#editor-master').height())
             }, 222);
         }
         else {

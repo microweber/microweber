@@ -13,15 +13,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
 
-        <style type="text/css">
+        <style >
             #testimonials-list tbody tr {
                 cursor: move;
                 cursor: -moz-grab;
@@ -78,6 +75,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             function saveChanges() {
                 $('form#add-testimonial-form').submit()
+
+            }
+            if(typeof thismodal != 'undefined'){
+                thismodal.resize(800, 800)
             }
         </script>
 
@@ -143,7 +144,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
                     </div>
 
-                    <module type="testimonials/list" id="list-testimonials"/>
+                    <module type="testimonials/list" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> id="list-testimonials"/>
                 </div>
 
                 <div class="tab-pane fade" id="settings">
@@ -152,12 +153,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="form-group">
                             <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e('If you have more than one template for testimonials, choose which one to be visible'); ?></small>
-                            <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"/>
+                            <module type="testimonials/project_select" id="project-select-testimonials" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> option-group="<?php print $params['id'] ?>"/>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <small class="text-muted d-block mb-2"<?php _e('Number of the visable testimonials'); ?>> </small>
+                            <small class="text-muted d-block mb-2"<?php _e('Number of the visible testimonials'); ?>> </small>
                             <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
 
@@ -175,7 +176,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
 
                 <div class="tab-pane fade" id="new">
-                    <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
+                    <module type="testimonials/edit"  id="edit-testimonials" edit-id="0"/>
                 </div>
             </div>
         </div>

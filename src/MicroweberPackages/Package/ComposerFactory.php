@@ -194,6 +194,11 @@ class ComposerFactory extends Factory {
         // Load config and override with local config/auth config
         $config = static::createConfig($io, $cwd);
         $config->merge($localConfig);
+
+        if (!isset($composerFile)) {
+            $composerFile = static::getComposerFile();
+        }
+
         if (isset($composerFile)) {
             $io->writeError('Loading config file ' . $composerFile, true, IOInterface::DEBUG);
             $config->setConfigSource(new JsonConfigSource(new JsonFile(realpath($composerFile), null, $io)));

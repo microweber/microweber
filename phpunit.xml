@@ -10,22 +10,31 @@
 
          stopOnFailure="true"
          verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage/>
-  <logging>
-    <testdoxText outputFile="php://stdout"/>
-  </logging>
-  <testsuites>
-    <testsuite name="Microweber Test Suite">
-      <directory>./src/MicroweberPackages/*/tests/</directory>
-    </testsuite>
-    <testsuite name="Microweber Modules Test Suite">
-      <directory>./userfiles/modules/*/tests/</directory>
-    </testsuite>
-  </testsuites>
-  <php>
-    <env name="CACHE_DRIVER" value="array"/>
-    <env name="SESSION_DRIVER" value="array"/>
-    <ini name="memory_limit" value="-1" />
-    <env name="MAIL_DRIVER" value="array"/>
-  </php>
+    <coverage/>
+    <logging>
+        <testdoxText outputFile="php://stdout"/>
+    </logging>
+    <testsuites>
+        <testsuite name="MicroweberTemplatesTests">
+            <directory>./userfiles/templates/*/tests/</directory>
+            <directory>./userfiles/templates/*/src/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberCoreTests">
+            <directory>./src/MicroweberPackages/*/tests/</directory>
+            <directory>./userfiles/modules/*/tests/</directory>
+            <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
+        </testsuite>
+        <testsuite name="MicroweberTestMultilanguage">
+            <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberModuleListTests">
+            <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <ini name="memory_limit" value="-1"/>
+        <env name="MAIL_DRIVER" value="array"/>
+    </php>
 </phpunit>

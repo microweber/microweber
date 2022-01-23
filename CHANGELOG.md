@@ -2,6 +2,78 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.2.10] - 2021-12-08
+- Fixes on live edit
+- Fixes on multi language
+- Fixes on coupon codes module
+- Fixes on sitemap and rss feeds
+- Fixes on categories module
+- Fixes on comments module
+- Fixes on paypal module
+- Fixes on forgot password
+- Added Laravel Dusk tests
+- Some code refactoring 
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.9...1.2.10 "")
+
+
+## [1.2.9] - 2021-09-16
+- Updated Laravel to 8.61
+- Fixes on the loading speed
+- Fixes on the security
+- Fixes on live edit
+- Added service provider for templates
+- Added new repository classes
+- Added multilanguage module
+- Added new icons for modules
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.8...1.2.9 "")
+
+
+## [1.2.8] - 2021-07-08
+- Updated Laravel to 8.4
+- Fixes the custom fields
+- Fixes the thumbnails
+- Added new blog module
+- Added new shop module
+- Added ability for shop and blog to have filters
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.7...1.2.8 "")
+
+
+## [1.2.7] - 2021-05-14
+- Fixes on checkout module
+- Fixes on marketplace module
+- Fixes on categories module
+- Fixes database connection not being closed sometimes
+- Added content revisions module for live edit
+- Added ability for menu module to return data
+- Added svg support
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.6...1.2.7 "")
+
+
+## [1.2.6] - 2021-04-29
+- Fixes on the checkout module
+- Fixes on the tags module
+- Fixes on offers module
+- Fixes on the package manager
+- Fixes on link editor
+- Added content revisions module for live edit
+- Added webp support
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.5...1.2.6 "")
+
+
+## [1.2.5] - 2021-04-15
+- Fixes on the shipping module
+- Fixes on the checkout module
+- Fixes bug where needed to delete bootstrap/cache folder
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.4...1.2.5 "")
+
+
 ## [1.2.4] - 2021-04-12
 - UI Fixes on mobile
 - Live edit fixes  

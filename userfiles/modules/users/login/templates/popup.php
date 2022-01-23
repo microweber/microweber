@@ -18,21 +18,21 @@ description: Login Popup
     <div id="user_login_holder_<?php print $params['id'] ?>">
         <form method="post" id="pop-up-login" class="clearfix" action="#">
             <div class="form-group">
-                <input class="form-control" autofocus="" name="username" type="text" placeholder="<?php _e("Email"); ?>"/>
+                <input class="form-control"  name="username" type="text" placeholder="<?php _e("Email"); ?>"/>
             </div>
 
             <div class="form-group">
                 <input class="form-control" name="password" type="password" placeholder="<?php _e("Password"); ?>"/>
             </div>
 
-            <div class="text-right">
+            <div class="text-end text-right">
                 <input class="btn btn-primary" type="submit" value="<?php _e("Login"); ?>"/>
             </div>
 
             <div class="alert" style="margin: 0;display: none;"></div>
 
             <?php if (isset($_GET['redirect'])): ?>
-                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo mw()->format->clean_xss($_GET['redirect']); ?>" name="redirect">
             <?php endif; ?>
         </form>
     </div>

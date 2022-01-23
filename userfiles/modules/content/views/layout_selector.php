@@ -30,7 +30,9 @@ if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
 if (!isset($params["layout_file"]) and $data == false or empty($data)) {
     include('_empty_content_data.php');
 }
-
+if (isset($params["active-site-template"]) and $params["active-site-template"]) {
+    $data['active_site_template']  = $params["active-site-template"];
+}
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
@@ -150,6 +152,7 @@ if (isset($params['content-type'])) {
 if (!empty($recomended_layouts)) {
     $layouts = array_merge($recomended_layouts, $layouts);
 }
+
 ?>
 
 <script>
@@ -165,8 +168,6 @@ if (!empty($recomended_layouts)) {
             var iframe = document.querySelector('.preview_frame_wrapper iframe');
             var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
-
-            mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
          },
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
@@ -190,8 +191,6 @@ if (!empty($recomended_layouts)) {
                     element: '.preview_frame_wrapper',
                 }).hide()
             };
-
-
             holder.empty();
             mw.spinner({
                 element: '.preview_frame_wrapper',
@@ -255,19 +254,19 @@ if (!empty($recomended_layouts)) {
             var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
 
 
-            if (form != undefined && form != false) {
-                if (is_shop != undefined) {
+            if (form) {
+                if (is_shop ) {
                     if (is_shop != undefined && is_shop == 'y') {
 
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = true;
                         }
                     }
                     else {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                         }
-                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input-is-shop)') != null) {
+                        if (form && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input-is-shop)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
@@ -275,7 +274,7 @@ if (!empty($recomended_layouts)) {
                     <?php if(!isset($params['no_content_type_setup'])): ?>
 
 
-                    if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                    if (form && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                         form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                     }
 
@@ -284,17 +283,17 @@ if (!empty($recomended_layouts)) {
                 }
                 <?php if(!isset($params['no_content_type_setup'])): ?>
                 if (ctype == 'static' || ctype == 'dynamic') {
-                    if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                    if (form && form.querySelector('input[name="subtype"]') != null) {
                         form.querySelector('input[name="subtype"]').value = ctype
                     }
                 }
                 if (stype) {
-                    if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                    if (form && form.querySelector('input[name="subtype"]') != null) {
                         form.querySelector('input[name="subtype"]').value = stype
                     }
                 }
                 if (stype_val) {
-                    if (form != undefined && form.querySelector('input[name="subtype_value"]') != null) {
+                    if (form && form.querySelector('input[name="subtype_value"]') != null) {
                         form.querySelector('input[name="subtype_value"]').value = stype_val
                     }
                 }
@@ -320,7 +319,7 @@ if (!empty($recomended_layouts)) {
 
             <?php
             if ($iframe_cont_id == 0) {
-                $iframe_start = site_url('home');
+                $iframe_start = site_url('new-content-preview-'.$rand);
             } else {
                 $iframe_start = page_link($iframe_cont_id);
             }
@@ -480,7 +479,7 @@ if (!empty($recomended_layouts)) {
     ?>
 
     <div class="layouts_box_holder">
-        <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
+        <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-header">
                 <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
 
@@ -492,7 +491,6 @@ if (!empty($recomended_layouts)) {
                 </h5>
                 <div></div>
             </div>
-
             <div class="card-body pt-3">
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>
@@ -533,7 +531,7 @@ if (!empty($recomended_layouts)) {
 
                                         <div class="form-group mb-3 js-template-selector">
                                             <label class="control-label"><?php _e("Template name"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
+                                            <small class="text-muted d-block mb-2"><?php _e("You are using this template."); ?> &nbsp; <?php _e("The change will affect only the current page."); ?></small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
                                                     <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
@@ -598,7 +596,7 @@ if (!empty($recomended_layouts)) {
                                                                     onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
                                                                     data-index="<?php print $i ?>"
                                                                     data-layout_file="<?php print $item['layout_file'] ?>"
-                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file']))): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
+                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) and $data['id'] != 0): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
                                                                 <?php if (isset($item['is_default']) and $item['is_default'] != false): ?>
                                                                     data-is-default="<?php print $item['is_default'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>
                                                                 <?php if (isset($item['is_recomended']) and $item['is_recomended'] != false): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>
@@ -621,15 +619,7 @@ if (!empty($recomended_layouts)) {
                                                 </select>
                                             </div>
 
-                                            <script>
-                                                $(document).ready(function () {
-                                                    $(document).ready(function () {
-                                                        setTimeout(function () {
-                                                            $('#content-title-field').focus();
-                                                        }, 100);
-                                                    });
-                                                });
-                                            </script>
+
                                         </div>
                                     </div>
                                 </div>

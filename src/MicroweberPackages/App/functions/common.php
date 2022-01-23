@@ -45,93 +45,6 @@ if (!function_exists('d')) {
     }
 }
 
-if (!function_exists('site_url')) {
-    function site_url($add_string = false)
-    {
-        static $site_url;
-
-        if (defined('MW_SITE_URL')) {
-            $site_url = MW_SITE_URL;
-        }
-
-
-        if ($site_url == false) {
-            $pageURL = 'http';
-            if (is_https()) {
-                $pageURL .= 's';
-            }
-            $subdir_append = false;
-            if (isset($_SERVER['PATH_INFO'])) {
-                // $subdir_append = $_SERVER ['PATH_INFO'];
-            } elseif (isset($_SERVER['REDIRECT_URL'])) {
-                $subdir_append = $_SERVER['REDIRECT_URL'];
-            }
-
-            $pageURL .= '://';
-
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $pageURL .= $_SERVER['HTTP_HOST'];
-            } elseif (isset($_SERVER['SERVER_NAME']) and isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] != '80' and $_SERVER['SERVER_PORT'] != '443') {
-                $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
-            } elseif (isset($_SERVER['SERVER_NAME'])) {
-                $pageURL .= $_SERVER['SERVER_NAME'];
-            } elseif (isset($_SERVER['HOSTNAME'])) {
-                $pageURL .= $_SERVER['HOSTNAME'];
-            }
-            $pageURL_host = $pageURL;
-            $pageURL .= $subdir_append;
-            $d = '';
-            if (isset($_SERVER['SCRIPT_NAME'])) {
-                $d = dirname($_SERVER['SCRIPT_NAME']);
-                $d = trim($d, DIRECTORY_SEPARATOR);
-            }
-
-            if ($d == '') {
-                $pageURL = $pageURL_host;
-            } else {
-                $pageURL_host = rtrim($pageURL_host, '/') . '/';
-                $d = ltrim($d, '/');
-                $d = ltrim($d, DIRECTORY_SEPARATOR);
-                $pageURL = $pageURL_host . $d;
-            }
-            if (isset($_SERVER['QUERY_STRING'])) {
-                //    $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
-            }
-
-            $uz = parse_url($pageURL);
-//            if (isset($uz['query'])) {
-//                $pageURL = str_replace($uz['query'], '', $pageURL);
-//                $pageURL = rtrim($pageURL, '?');
-//            }
-
-            $url_segs = explode('/', $pageURL);
-
-            $i = 0;
-            $unset = false;
-            foreach ($url_segs as $v) {
-                if ($unset == true and $d != '') {
-                    unset($url_segs[$i]);
-                }
-                if ($v == $d and $d != '') {
-                    $unset = true;
-                }
-
-                ++$i;
-            }
-            $url_segs[] = '';
-            $site_url = implode('/', $url_segs);
-        }
-        if (defined('MW_SITE_URL_PATH_PREFIX')) {
-            $site_url .= MW_SITE_URL_PATH_PREFIX;
-        }
-
-        if(!$site_url){
-            $site_url = 'http://localhost/';
-        }
-
-        return $site_url . $add_string;
-    }
-}
 
 /**
  * Converts a path in the appropriate format for win or linux.
@@ -445,19 +358,19 @@ function clearcache()
     $empty_folder = userfiles_path() . 'cache' . DS;
 
     if (is_dir($empty_folder)) {
-        rmdir_recursive($empty_folder, true);
+        @rmdir_recursive($empty_folder, true);
     }
 
     if (!is_dir($empty_folder)) {
-        mkdir_recursive($empty_folder);
+        @mkdir_recursive($empty_folder);
     }
 
     $empty_folder = mw_cache_path().'composer';
     if (is_dir($empty_folder)) {
-        rmdir_recursive($empty_folder, false);
+        @rmdir_recursive($empty_folder, false);
     }
     if (!is_dir($empty_folder)) {
-        mkdir_recursive($empty_folder);
+        @mkdir_recursive($empty_folder);
     }
 
     if (isset($_GET['redirect_to'])) {
@@ -519,50 +432,9 @@ function cache_delete($cache_group = 'global')
 }
 
 
-if (!function_exists('is_cli')) {
-    function is_cli()
-    {
-        static $is;
-        if ($is !== null) {
-            return $is;
-        }
-        if (function_exists('php_sapi_name') and
-            php_sapi_name() === 'apache2handler'
-        ) {
-            $is = false;
-            return false;
-        }
 
 
-        if (
-            defined('STDIN')
-            or php_sapi_name() === 'cli'
-            or php_sapi_name() === 'cli-server'
-            or array_key_exists('SHELL', $_ENV)
 
-        ) {
-            $is = true;
-            return true;
-        }
-
-
-        $is = false;
-        return false;
-    }
-}
-
-//
-//if (!function_exists('is_https')) {
-//    function is_https()
-//    {
-//        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
-//            return true;
-//        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
-//            return true;
-//        }
-//        return false;
-//    }
-//}
 if (!function_exists('is_closure')) {
     function is_closure($t)
     {
@@ -681,3 +553,30 @@ if (!function_exists('array_recursive_diff')) {
     }
 }
 
+function get_favicon_tag()
+{
+    $favicon_image = get_option('favicon_image', 'website');
+
+    if (!$favicon_image) {
+        $ui_favicon = mw()->ui->brand_favicon();
+        if ($ui_favicon and trim($ui_favicon) != '') {
+            $favicon_image = trim($ui_favicon);
+        }
+    }
+
+    if ($favicon_image) {
+        echo '<link rel="shortcut icon" href="' . $favicon_image . '" />';
+    }
+}
+
+function multilanguage_route_prefix($prefix) {
+
+    if (is_module('multilanguage')) {
+        if (get_option('is_active', 'multilanguage_settings') == 'y') {
+            $language = mw()->lang_helper->current_lang_display();
+            $prefix = $language . '/' . $prefix;
+        }
+    }
+
+    return $prefix;
+}

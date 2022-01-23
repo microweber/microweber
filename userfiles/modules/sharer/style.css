@@ -21,7 +21,7 @@
 
     color: white;
 
-    background-color: #262626;
+    background-color: #f5f5f5;
 
     margin-right: 10px;
 
@@ -29,6 +29,7 @@
 
     padding-top: 6px;
 
+    vertical-align: top;
 }
 
 .mw-social-share-links a:last-child {

@@ -73,6 +73,9 @@ class NewCommentNotification extends Notification implements ShouldQueue
         if (isset($notification['rel_id'])) {
 
             $article = get_content_by_id($notification['rel_id']);
+            if (empty($article)) {
+                return false;
+            }
             $comments = get_comments('rel_type='.$notification['rel_type'].'&rel_id=' . $notification['rel_id']);
             $picture = get_picture($article['id'],$notification['rel_type']);
 
@@ -90,6 +93,10 @@ class NewCommentNotification extends Notification implements ShouldQueue
             $created_by = get_user_by_id($notification['created_by']);
             $created_by_username = $created_by['username'];
             $user_picture = user_picture($notification['created_by']);
+        }
+
+        if(!isset($user_picture)){
+            $user_picture = $picture;
         }
 
         $toView = [];

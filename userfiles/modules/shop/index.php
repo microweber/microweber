@@ -1,13 +1,12 @@
 <?php
-$template = get_option('data-template', $params['id']);
+$controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Shop\Http\Controllers\ShopController::class);
 
-$templateFile = false;
-if ($template == false and isset($params['template'])) {
-    $templateFile = module_templates($params['type'], $params['template']);
-} else {
-    $templateFile = module_templates($params['type'], 'default');
-}
+$request = new \Illuminate\Http\Request();
+$request->merge($params);
+$request->merge($_REQUEST);
 
-if (is_file($templateFile)) {
-    include($templateFile);
-}
+$controller->setModuleParams($params);
+$controller->setModuleConfig($config);
+$controller->registerModule();
+
+echo $controller->index($request);

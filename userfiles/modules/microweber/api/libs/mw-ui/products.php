@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+                <div class="col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                     <span>Sort by:</span>
                     <div class="d-inline-block mx-1">
                         <button type="button" class="btn btn-outline-secondary btn-sm icon-right">Date <i class="mdi mdi-chevron-up text-muted"></i></button>
@@ -126,8 +126,8 @@
                                 </div>
                             </div>
 
-                            <div class="col text-right"><span class="text-muted">Admin</span></div>
-                            <div class="col text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
+                            <div class="col text-end text-right"><span class="text-muted">Admin</span></div>
+                            <div class="col text-end text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
                         </div>
                     </div>
                 </div>
@@ -165,8 +165,8 @@
                                 </div>
                             </div>
 
-                            <div class="col text-right"><span class="text-muted">Admin</span></div>
-                            <div class="col text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
+                            <div class="col text-end text-right"><span class="text-muted">Admin</span></div>
+                            <div class="col text-end text-right" style="max-width: 100px;"><span class="text-muted"><i class="mdi mdi-comment mdi-18px"></i> <span class="float-right mx-2">0</span></span></div>
                         </div>
                     </div>
                 </div>

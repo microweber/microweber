@@ -349,6 +349,9 @@ class VideoEmbed
         $urlParse = ltrim($urlParse['path'], '/');
 
         $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $urlParse . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+        if ($this->isAutoplay()){
+            $videoUrl .= '&mute=1';
+        }
         return $this->_getVideoIframe($videoUrl);
     }
 
@@ -363,7 +366,12 @@ class VideoEmbed
         parse_str($urlParse['query'], $query);
 
         if (isset($query['v'])) {
+
             $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+
+            if ($this->isAutoplay()){
+                $videoUrl .= '&mute=1';
+            }
             return $this->_getVideoIframe($videoUrl);
         }
 
@@ -390,6 +398,7 @@ class VideoEmbed
     {
         $attributes = array();
         $attributes[] = 'frameborder="0"';
+        $attributes[] = 'allow="autoplay"';
         $attributes[] = 'width="' . $this->getWidth() . '"';
         $attributes[] = 'height="' . $this->getHeight() . '"';
         $attributes[] = 'allowFullScreen="true"';

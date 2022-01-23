@@ -11,10 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -197,14 +194,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Width"); ?></label>
-                                <input name="width" placeholder="450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
+                                <input name="width" placeholder="Ex. 450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
                             </div>
                         </div>
 
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Height"); ?></label>
-                                <input name="height" placeholder="350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
+                                <input name="height" placeholder="Ex. 350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
                             </div>
                         </div>
                     </div>

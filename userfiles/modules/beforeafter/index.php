@@ -21,12 +21,10 @@ if ($after == false) {
         mw.$("#mw-before-after-<?php print $rand; ?>").twentytwenty({default_offset_pct: 0.5});
     })
     $(document).ready(function () {
-        preload_image = function (src) {
-            var elem = document.createElement("img");
-            elem.setAttribute("src", src);
-        }
-
         mw.$("#mw-before-after-<?php print $rand; ?>").twentytwenty({default_offset_pct: 0.5});
+        mw.image.preloadForAll(['<?php print $before; ?>', '<?php print $after; ?>'], undefined, function (){
+            mw.$("#mw-before-after-<?php print $rand; ?>").twentytwenty({default_offset_pct: 0.5});
+        })
     });
 </script>
 

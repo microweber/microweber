@@ -2,15 +2,17 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Support\Facades\Mail;
+use Arcanedev\Html\Elements\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use League\Csv\Writer;
-use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
+use MicroweberPackages\Form\Models\FormData;
+use MicroweberPackages\Form\Models\FormDataValue;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
+use MicroweberPackages\Form\Notifications\NewFormEntryToMail;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -58,21 +60,33 @@ class FormsManager
         if (isset($params['single']) and $params['single']) {
             $is_single = true;
             unset($params['single']);
-
         }
 
         $data = $this->app->database_manager->get($params);
+        $findFormsDataValues = FormDataValue::where('form_data_id', $data)->get();
 
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
+
                 $fields = @json_decode($item['form_values'], true);
                 if (!$fields) {
                     $fields = @json_decode(html_entity_decode($item['form_values']), true);
                 }
+                if (empty($item['form_values'])) {
+                    $fields = [];
+                    if ($findFormsDataValues->count()>0) {
+                        foreach ($findFormsDataValues as $formsDataValue) {
+                            if (is_array($formsDataValue->field_value_json) && !empty($formsDataValue->field_value_json)) {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value_json;
+                            } else {
+                                $fields[$formsDataValue->field_key] = $formsDataValue->field_value;
+                            }
+                        }
+                    }
+                }
 
                 if (is_array($fields)) {
-                    ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
                         $item['custom_fields'][$key] = $value;
@@ -106,6 +120,7 @@ class FormsManager
 
         $params['table'] = $table;
         $id = $this->app->database_manager->save($table, $params);
+        $params['id'] = $id;
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
@@ -113,9 +128,10 @@ class FormsManager
             $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
             $this->app->option_manager->save($data);
+
         }
 
-        return array('success' => 'List is updated', $params);
+        return array('success' => 'List is updated', 'data'=>$params);
     }
 
     public function post($params)
@@ -247,7 +263,6 @@ class FormsManager
             unset($params['id']);
         }
 
-
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
         if (!$user_require_terms) {
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
@@ -264,7 +279,6 @@ class FormsManager
             } else {
 
                 $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
-
                 if (!$check_term) {
                     if (isset($params['terms']) and $params['terms']) {
                         $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
@@ -337,7 +351,7 @@ class FormsManager
         }
 
         $to_save = array();
-        $fields_data = array();
+        $fieldsData = array();
 
         $get_fields = array();
         $get_fields['rel_type'] = $for;
@@ -346,28 +360,116 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
+        $fieldRulesSettings = [];
+
         $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
+
+                $appendToRequired = false;
+
+                if ($item['required'] == 1) {
+                    $appendToRequired = true;
+                }
+                if (isset($item['type']) && $item['type'] == 'upload') {
+                    $appendToRequired = false;
+                }
+                if ($appendToRequired) {
+                    $requiredFields[$item['name_key']] = [
+                        'required'
+                    ];
+                }
+
                 if (isset($item['name'])) {
-                    $cfn = ($item['name']);
 
-                    $cfn2 = str_replace(' ', '_', $cfn);
-
-                    if (isset($params[$cfn2]) and $params[$cfn2] != false) {
-                        $fields_data[$cfn2] = $params[$cfn2];
-                        $item['value'] = $params[$cfn2];
-                        $cfToSave[$cfn] = $item;
-                    } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
-                        $fields_data[$cfn] = $params[$cfn];
-                        $item['value'] = $params[$cfn2];
-                        $cfToSave[$cfn] = $item;
+                    $customFieldName = $item['name']; // custom field name
+                    $customFieldNameKey = $item['name_key']; // custom field name key
+                    $customFieldType = 'text'; // custom field type
+                    if (isset($item['options']['field_type'])) {
+                        $customFieldType = $item['options']['field_type'];
+                    } else if(isset($item['type'])){
+                        $customFieldType = $item['type'];
                     }
+
+                    foreach ($params as $paramKey => $paramValues) {
+                        if ($paramKey == $customFieldNameKey) {
+
+                            $item['value'] = $params[$paramKey];
+                            $cfToSave[$customFieldNameKey] = $paramValues;
+
+                            //$paramValues
+                            $customFieldValue = '';
+                            $customFieldValueJson = [];
+                            if (is_array($paramValues) && !empty($paramValues)) {
+                                $customFieldValueJson = $paramValues;
+                            } else {
+                                $customFieldValue = $paramValues;
+                            }
+
+                            $fieldsData[] = [
+                                'field_type' => $customFieldType,
+                                'field_name' => $customFieldName,
+                                'field_key' => $customFieldNameKey,
+                                'field_value' => $customFieldValue,
+                                'field_value_json' => $customFieldValueJson
+                            ];
+                        }
+                    }
+
                 }
             }
         } else {
+            // Custom fields are not found in db
             $cfToSave = $params;
+            $formsDataClean = $params;
+            unset($formsDataClean['for']);
+            unset($formsDataClean['for_id']);
+            unset($formsDataClean['module_name']);
+            if (!empty($formsDataClean)) {
+                foreach ($formsDataClean as $formDataName=>$formDataValue) {
+
+                    $formDataKey = str_slug($formDataName);
+                    $formDataKey = str_replace('-','_', $formDataKey);
+
+                    if (is_array($formDataValue) && !empty($formDataValue)) {
+                        $fieldsData[] = [
+                            'field_type' => 'options',
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
+                            'field_value' => '',
+                            'field_value_json' => $formDataValue
+                        ];
+                    } else {
+                        $fieldsData[] = [
+                            'field_type' => 'text',
+                            'field_name' => $formDataName,
+                            'field_key' => $formDataKey,
+                            'field_value' => $formDataValue,
+                            'field_value_json' => []
+                        ];
+                    }
+                }
+            }
         }
+
+        $validationErrorsReturn = [];
+        if (!empty($requiredFields)) {
+
+            $validator = Validator::make($params, $requiredFields);
+            if ($validator->fails()) {
+                $validatorMessages = false;
+                foreach ($validator->messages()->toArray() as $inputFieldErros) {
+                   // $validatorMessages = reset($inputFieldErros);
+                    $validatorMessages = implode("\n",$inputFieldErros);
+                    //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
+                }
+                $validationErrorsReturn = array(
+                    'form_errors' => $validator->messages()->toArray(),
+                    'error' => $validatorMessages
+                );
+            }
+        }
+
         $save = 1;
 
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
@@ -381,7 +483,7 @@ class FormsManager
             $to_save['rel_id'] = $for_id;
             $to_save['rel_type'] = $for;
 
-            $to_save['user_ip'] = MW_USER_IP;
+            $to_save['user_ip'] = user_ip();
 
             if (isset($params['module_name'])) {
                 $to_save['module_name'] = $params['module_name'];
@@ -397,32 +499,26 @@ class FormsManager
                 foreach ($more as $field) {
 
                     $fieldRules = [];
-
                     if ($field['type'] != 'upload') {
                         continue;
                     }
 
-                    if (!isset($_FILES[$field['name_key']]) && isset($field['options']['required']) && $field['options']['required'] == 1) {
+                    if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
                         $fieldRules[] = 'required';
-                        $_FILES[$field['name_key']] = true;
-                    }
+                      //  $_FILES[$field['name_key']] = true;
+                        $allowedFilesForSave[$field['name_key']] = true;
 
-                    if (!isset($_FILES[$field['name_key']])) {
+                    } else if (!isset($_FILES[$field['name_key']])) {
                         continue;
                     }
 
-                    $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+                    $allowedFilesForSave[$field['name_key']] = true;
+                 //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
                     $mimeTypes = [];
-
                     if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
                         foreach ($field['options']['file_types'] as $optionFileTypes) {
                             if (!empty($optionFileTypes)) {
-
-                                if ($optionFileTypes == 'images') {
-                                    $fieldRules[] = 'valid_image';
-                                }
-
                                 $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
                                 $mimeTypesArray = explode(',', $mimeTypesString);
                                 $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
@@ -438,6 +534,16 @@ class FormsManager
                         $mimeTypes = implode(',', $mimeTypes);
                     }
 
+                    if (isset($allowedFilesForSave[$field['name_key']])) {
+
+                        $uploadedField = $allowedFilesForSave[$field['name_key']];
+                        if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
+                            if ($optionFileTypes == 'images') {
+                                $fieldRules[] = 'valid_image';
+                            }
+                        }
+                    }
+
                     $fieldRules[] = 'mimes:' . $mimeTypes;
 
                     if (!empty($fieldRules)) {
@@ -445,6 +551,7 @@ class FormsManager
                     }
                 }
             }
+
 
             // Validation is ok
             if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
@@ -456,9 +563,18 @@ class FormsManager
                     foreach ($validator->messages()->toArray() as $inputFieldErros) {
                         $validatorMessages = reset($inputFieldErros);
                     }
-                    return array(
+                    $validationErrorsReturn_upload = array(
+                        'form_errors' => $validator->messages()->toArray(),
                         'error' => $validatorMessages
                     );
+
+                    if($validationErrorsReturn){
+                        $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
+                    } else {
+                        $validationErrorsReturn = $validationErrorsReturn_upload;
+                    }
+
+                    return $validationErrorsReturn;
                 }
 
                 if (isset($params['module_name'])) {
@@ -474,7 +590,20 @@ class FormsManager
                     mkdir_recursive($target_path);
                 }
                 if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
-                    foreach ($allowedFilesForSave as $fieldName => $file) {
+                    foreach ($allowedFilesForSave as $fieldName => $file_up) {
+
+                        if(!isset($_FILES[$fieldName])){
+                            continue;
+                        }
+
+                        $file =  $_FILES[$fieldName];
+
+                        if(!is_array($file)){
+                            continue;
+                        }
+                        if(!isset($file['name'])){
+                            continue;
+                        }
 
                         $targetFileName = $target_path_name . '/' . $file['name'];
 
@@ -489,19 +618,25 @@ class FormsManager
 
                                 $realPath = Storage::disk('media')->path($targetFileName);
 
-                                $file_mime = \Illuminate\Support\Facades\File::mimeType($realPath);
-                                $file_extension = \Illuminate\Support\Facades\File::extension($realPath);
-                                $file_size = \Illuminate\Support\Facades\File::size($realPath);
+                                $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
+                                $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
+                                $fileSize = \Illuminate\Support\Facades\File::size($realPath);
 
                                 $mediaFileUrl = Storage::disk('media')->url($targetFileName);
                                 $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-                                $fields_data[$fieldName] = [
-                                    'type' => 'upload',
-                                    'url' => $mediaFileUrl,
-                                    'file_name' => $file['name'],
-                                    'file_extension' => $file_extension,
-                                    'file_mime' => $file_mime,
-                                    'file_size' => $file_size,
+
+                                $fieldsData[] = [
+                                    'field_type' => 'upload',
+                                    'field_key' => $file['name'],
+                                    'field_name' => $fieldName,
+                                    'field_value' => false,
+                                    'field_value_json'=> [
+                                        'url' => $mediaFileUrl,
+                                        'file_name' => $file['name'],
+                                        'file_extension' => $fileExtension,
+                                        'file_mime' => $fileMime,
+                                        'file_size' => $fileSize,
+                                    ]
                                 ];
                             }
 
@@ -512,21 +647,31 @@ class FormsManager
                         }
                     }
                 }
+            } else  if($validationErrorsReturn)  {
+                return $validationErrorsReturn;
             }
+
             // End of attachments
-            if (!empty($fields_data)) {
-                $to_save['form_values'] = json_encode($fields_data);
-            } else {
-                $to_save['form_values'] = json_encode($params);
+            if (empty($fieldsData)) {
+                return ['errors' => 'Fields data is empty'];
             }
 
             $save = $this->app->database_manager->save($table, $to_save);
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
-            $formModel = Form::find($save);
+            foreach ($fieldsData as $dataValue) {
+                $formDataValue = new FormDataValue();
+                $formDataValue->field_type = $dataValue['field_type'];
+                $formDataValue->field_name = $dataValue['field_name'];
+                $formDataValue->field_key = $dataValue['field_key'];
+                $formDataValue->field_value = $dataValue['field_value'];
+                $formDataValue->field_value_json = $dataValue['field_value_json'];
+                $formDataValue->form_data_id = $save;
+                $formDataValue->save();
+            }
 
-            // Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+            $formModel = FormData::with('formDataValues')->find($save);
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
@@ -535,7 +680,7 @@ class FormsManager
         if (isset($params['module_name'])) {
 
             $pp_arr = $params;
-            $pp_arr['ip'] = MW_USER_IP;
+            $pp_arr['ip'] = user_ip();
 
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel_type'])) {
@@ -599,10 +744,10 @@ class FormsManager
                     }
 
                     if (empty(!$sendFormDataToReceivers)) {
-                        $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
+                        $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
-                            foreach($receivers as $receiver) {
-                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
+                            foreach ($receivers as $receiver) {
+                                Notification::route('mail', $receiver)->notify(new NewFormEntryToMail($formModel));
                             }
                         }
                     }
@@ -633,6 +778,8 @@ class FormsManager
 
             event_trigger('mw.mail_subscribe', $params);
         }
+
+        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
 
         $success = array();
         $success['id'] = $save;
@@ -670,7 +817,8 @@ class FormsManager
         return $emailsList;
     }
 
-    public function getAutoRespondSettings($formId) {
+    public function getAutoRespondSettings($formId)
+    {
 
         $systemEmailOptionGroup = 'email';
         $contactFormGlobalOptionGroup = 'contact_form_default';
@@ -705,12 +853,12 @@ class FormsManager
         $emailAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
 
         return [
-            'emailContent'=>$emailContent,
-            'emailSubject'=>$emailSubject,
-            'emailReplyTo'=>$emailReplyTo,
-            'emailAppendFiles'=>$emailAppendFiles,
-            'emailFrom'=>$emailFrom,
-            'emailFromName'=>$emailFromName
+            'emailContent' => $emailContent,
+            'emailSubject' => $emailSubject,
+            'emailReplyTo' => $emailReplyTo,
+            'emailAppendFiles' => $emailAppendFiles,
+            'emailFrom' => $emailFrom,
+            'emailFromName' => $emailFromName
         ];
     }
 
@@ -764,17 +912,6 @@ class FormsManager
         return $data;
     }
 
-    public function states_list($country = false)
-    {
-        if (!$country) {
-            return false;
-        }
-        $states = new \MicroweberPackages\Utils\CountryState();
-        $res = $states->getStates($country);
-
-        return $res;
-    }
-
     public function delete_entry($data)
     {
         $adm = $this->app->user_manager->is_admin();
@@ -810,121 +947,66 @@ class FormsManager
 
     public function export_to_excel($params)
     {
-        //this function is experimental
         set_time_limit(0);
 
-        //   $data_for_csv = array();
-
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
         if (!isset($params['id'])) {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
-            $lid = intval($params['id']);
-           // $data = get_form_entires('limit=100000&list_id=' . $lid);
-            $data = get_form_entires('limit=100000');
+            $listId = intval($params['id']);
+            if ($listId == 0) {
+                $data = get_form_entires('nolimit=true');
+            } else {
+                $data = get_form_entires('nolimit=true&list_id=' . $listId);
+            }
 
-            $surl = $this->app->url_manager->site();
-            $csv_output = '';
-            /*   if (is_array($data)) {
-                   $csv_output = 'id,';
-                   $csv_output .= 'created_at,';
-                   $csv_output .= 'user_ip,';
-                   foreach ($data as $item) {
-                       if (isset($item['custom_fields'])) {
-                           foreach ($item['custom_fields'] as $k => $v) {
-                               $csv_output .= $this->app->format->no_dashes($k) . ',';
-                               //      $csv_output .= "\t";
-                           }
-                       }
-                   }
+            if (!$data) {
+                return array('warning' => 'This list is empty');
+            }
 
-                   $csv_output .= "\n";
-
-                   foreach ($data as $item) {
-                       if (isset($item['custom_fields'])) {
-                           $csv_output .= $item['id'] . ',';
-                           //   $csv_output .= "\t";
-                           $csv_output .= $item['created_at'] . ',';
-                           //  $csv_output .= "\t";
-                           $csv_output .= $item['user_ip'] . ',';
-                           //   $csv_output .= "\t";
-
-                           foreach ($item['custom_fields'] as $item1 => $val) {
-                               $output_val = $val;
-
-                               if (is_array($output_val)) {
-                                   $output_val = mw()->format->array_to_ul($output_val);
-                               }
-                               //  $output_val = nl2br($output_val);
-                               $output_val = str_replace('{SITE_URL}', $surl, $output_val);
-
-
-                               $csv_output .= $output_val . ',';
-                               //   $csv_output .= "\t";
-                           }
-                           $csv_output .= "\n";
-                       }
-                   }
-               }*/
-
-
-            $data_for_csv = array();
-            $data_known_keys = array();
-
-
-            foreach ($data as $item) {
-
-
-                $item_for_csv = array();
-                $item_for_csv['id'] = $item['id'];
-                $item_for_csv['created_at'] = $item['created_at'];
-                $item_for_csv['user_ip'] = $item['user_ip'];
-                if (isset($item['custom_fields'])) {
-                    foreach ($item['custom_fields'] as $k1 => $v1) {
-                        $output_val = $v1;
-
-                        if (is_array($output_val)) {
-                            $output_val = mw()->format->array_to_seperator($output_val);
-                        }
-                        $item_for_csv[$k1] = $output_val;
-
+            // First get all keys
+            $dataKeysMap = ['id','created_at','user_ip'];
+            foreach ($data as $formItem) {
+                if (isset($formItem['custom_fields'])) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey=>$customFieldData) {
+                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = str_slug($customFieldKey);
+                        $dataKeysMap[] = $customFieldKey;
                     }
                 }
-
-                $data_known_keys = array_merge($data_known_keys, array_keys($item_for_csv));
-                $data_known_keys = array_unique($data_known_keys);
-                $data_for_csv[] = $item_for_csv;
             }
+            $dataKeysMap = array_filter($dataKeysMap);
 
-            foreach ($data_known_keys as $k => $v) {
-                $data_known_keys[$k] = $this->app->format->no_dashes($v);
+            // Next add these values to keys
+            $dataValues = [];
+            foreach ($data as $formItem) {
+                $readyDataValue = [];
+                foreach ($dataKeysMap as $dataKey) {
+                    $readyDataValue[$dataKey] = '';
+                }
+                $readyDataValue['id'] = $formItem['id'];
+                $readyDataValue['created_at'] = $formItem['created_at'];
+                $readyDataValue['user_ip'] = $formItem['user_ip'];
+                if (isset($formItem['custom_fields'])) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey => $customFieldData) {
+
+                        $customFieldKey = $this->app->format->no_dashes($customFieldKey);
+                        $customFieldKey = str_slug($customFieldKey);
+
+                        if (is_array($customFieldData)) {
+                            $customFieldData = implode('|', $customFieldData);
+                        }
+
+                        $readyDataValue[$customFieldKey] = $customFieldData;
+                    }
+                }
+                $dataValues[] = $readyDataValue;
             }
+            $export = new XlsxExport();
+            $export->data['mw_export_contact_form_' . date('Y-m-d-H-i-s')] = $dataValues;
+            $export = $export->start();
+            $exportFile = $export['files']['0']['download'];
 
-
-            $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-            $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
-            $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
-            if (!is_dir($filename_path)) {
-                mkdir_recursive($filename_path);
-            }
-            if (!is_file($filename_path_index)) {
-                @touch($filename_path_index);
-            }
-            $filename_path_full = $filename_path . $filename;
-
-
-            $writer = Writer::createFromPath($filename_path_full, 'w+');
-            $writer->setNewline("\r\n");
-            $writer->insertOne($data_known_keys);
-
-            $writer->insertAll($data_for_csv);
-
-            $download = $this->app->url_manager->link_to_file($filename_path_full);
-
-            return array('success' => 'Your file has been exported!', 'download' => $download);
+            return array('success' => 'Your file has been exported!', 'download' => $exportFile);
         }
     }
 }

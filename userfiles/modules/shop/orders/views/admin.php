@@ -14,7 +14,7 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
         <div class="orders-holder" id="shop-orders">
             <?php
             if ($has_new and !$current_page): ?>
-                <label class="control-label mb-3 mt-3"><?php _e('New orders'); ?></label>
+                <label class="control-label my-3 mt-3"><?php _e('New orders'); ?></label>
             <?php endif; ?>
             <?php
             if ($has_new and !$current_page) {
@@ -36,7 +36,7 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
 
             <?php if ($orders and (!empty($orders))) : ?>
 
-            <label class="control-label mb-3 mt-3"><?php _e('All orders'); ?></label>
+            <label class="control-label my-3 mt-3"><?php _e('All orders'); ?></label>
             <?php endif; ?>
             <?php
             if ($orders) {

@@ -160,17 +160,34 @@ class TagsTest extends TestCase
         }
         $this->assertTrue($check);
 
-//        return;
+
+        $new_page = array();
+        $new_page['title'] = 'Drinks with tags'.rand();
+        $new_page['content_type'] = 'product';
+
+        $saved_id = save_content($new_page);
+
+
+        $article = Content::whereId($saved_id)->first();
+        $article->tag('Pepsi');
+        $article->tag('Coffee');
+        $article->tag('Water');
+        $article->save();
+
+
+
+
+        $article = Content::withAnyTag(['Water', 'Coffee'])->get();
+
+
+        foreach ($article as $item) {
+            $check = in_array("Pepsi", $item->tagNames());
+            $this->assertTrue($check);
+
+        }
 //
 //
-//        $article = Content::withAnyTag(['Gardening', 'Cooking'])->get(); // different syntax, same result as above
-//        foreach ($article as $item) {
-//            $check = in_array("Pepsi", $item->tagNames());
-//            $this->assertTrue($check);
-//        }
-//
-//        return;
-//        $article = Content::withAnyTag(['Cola'])->first(); // fetch articles with any tag listed
+//        $article = Content::withAnyTag(['Cola'])->first();
 //        dd($article);
 //
 //        $article = Content::withAnyTag('Gardening, Cooking')->get(); // fetch articles with any tag listed
@@ -187,8 +204,8 @@ class TagsTest extends TestCase
 //
 //
 //        $article = Content::existingTags(); // return collection of all existing tags on any articles
-//
-//        dd($article);
+
+
     }
 
 

@@ -4,6 +4,11 @@ namespace MicroweberPackages\Form\Elements;
 
 class TextOption extends Text
 {
+    protected $attributes = [
+        'type' => 'text',
+        'class'=>'form-control mw_option_field'
+    ];
+
     protected $model;
     protected $optionKey;
     protected $optionGroup;

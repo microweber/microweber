@@ -113,7 +113,7 @@ mw.live_edit.showSettings = function (a, opts) {
     }
     if (data1.from_url == undefined) {
         //data1.from_url = mw.top().win.location;
-        data1.from_url = window.parent.location;
+        data1.from_url = mw.parent().win.location.href;
     }
     var modal_name = 'module-settings-' + curr.id;
     if (typeof(data1.view.hash) == 'function') {
@@ -220,6 +220,9 @@ mw.live_edit.getModuleIcon = function (module_type) {
     if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].icon) {
         return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
+/*    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].title) {
+        return '<span class="mw-handle-handler-title">'+mw.live_edit.registry[module_type].title+'</span>';
+    }*/
     else {
         return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
     }

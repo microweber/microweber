@@ -191,7 +191,7 @@
 </script>
 
 
-<style type="text/css">
+<style >
 
     [data-ctype]{
         display: none;
@@ -417,7 +417,7 @@
                         var layouts = mw.top().$('.module[data-type="layouts"]');
                         layouts.each(function () {
                             layoutsData.push({
-                                name: this.getAttribute('template').split('.')[0],
+                                name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
                                 element: this,
                                 id: this.id
                             })

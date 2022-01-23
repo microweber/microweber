@@ -44,7 +44,7 @@
                         <label><?php _e("OG Images"); ?></label>
                         <small class="text-muted d-block mb-2">
                             <?php _e("Those images will be shown as a post image at facebook shares"); ?>.<br />
-                            <?php _e("If you want to attach a og images, you must upload them to gallery from Add media"); ?>.
+                            <?php _e("If you want to attach og images, you must upload them to gallery from Add media"); ?>.
                         </small>
                     </div>
                 </div>

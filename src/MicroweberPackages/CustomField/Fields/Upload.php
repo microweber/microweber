@@ -14,7 +14,7 @@ class Upload extends DefaultField
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
-
+    public $hasShowLabelOptions = true;
 
     public function preparePreview()
     {

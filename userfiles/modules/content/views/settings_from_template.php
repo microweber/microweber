@@ -18,7 +18,7 @@ if (!empty($template_config)) {
 
 
             } else if (isset($params['category-id'])) {
-                $data_fields_values = mw()->data_fields_manager->get_values('rel_type=categories&rel_id=' . $params['category-id']);
+                $data_fields_values = mw()->data_fields_manager->get_values('rel_type=category&rel_id=' . $params['category-id']);
             }
         }
     }
@@ -35,7 +35,6 @@ if (!empty($template_config)) {
                 <small class="text-muted"><?php _e("Best product labels examples are: Sale, Promo, Top Offer etc."); ?></small>
                 <hr class="thin no-padding">
                 <div class="row">
-                    <div class="col-12 d-flex">
                         <?php foreach ($data_fields_conf as $item): ?>
                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
@@ -57,13 +56,59 @@ if (!empty($template_config)) {
                             }
 
                             ?>
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <label> <?php _e($title); ?></label>
                                 <?php if ($help) { ?>
                                     <small class="text-muted d-block mb-2"><?php _e($help); ?></small>
                                 <?php } ?>
 
-                                <?php if ($type == 'textarea') { ?>
+                                <?php if ($type == 'mw_editor') { ?>
+
+                                    <?php
+                                    $uniqid = uniqid();
+                                    ?>
+
+                                    <textarea name="content_data[<?php print $name; ?>]" id="mw-edit-<?php echo $uniqid; ?>" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
+
+                                    <script type="text/javascript">
+                                        mw.require('editor.js');
+
+                                        mw.Editor({
+                                            selector: '#mw-edit-<?php echo $uniqid; ?>',
+                                            mode: 'div',
+                                            smallEditor: false,
+                                            minHeight: 250,
+                                            maxHeight: '70vh',
+                                            controls: [
+                                                [
+                                                    'undoRedo', '|', 'image', '|',
+                                                    {
+                                                        group: {
+                                                            controller: 'bold',
+                                                            controls: ['italic', 'underline', 'strikeThrough']
+                                                        }
+                                                    },
+                                                    '|',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-align-left',
+                                                            controls: ['align']
+                                                        }
+                                                    },
+                                                    '|', 'format',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-list-bulleted-square',
+                                                            controls: ['ul', 'ol']
+                                                        }
+                                                    },
+                                                    '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat', 'editSource'
+                                                ],
+                                            ]
+                                        });
+                                    </script>
+
+                                <?php } else if ($type == 'textarea') { ?>
                                     <textarea name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
                                 <?php } else if ($type == 'color') { ?>
                                 <input name="content_data[<?php print $name; ?>]" class="form-control mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
@@ -113,7 +158,6 @@ if (!empty($template_config)) {
                                 <?php } ?>
                             </div>
                         <?php endforeach; ?>
-                    </div>
                 </div>
             </div>
         </div>

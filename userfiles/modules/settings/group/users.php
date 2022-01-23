@@ -220,7 +220,7 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-3">
                                         <label class="control-label"><?php _e("Disable registration with temporary email?"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Usars can register with temporary emails like - Mailinator, MailDrop, Guerrilla...s"); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla... etc"); ?></small>
                                     </div>
 
                                     <div class="form-group mb-4">
@@ -482,7 +482,7 @@ if ($registration_approval_required == false) {
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("Email notifications"); ?></h5>
-                    <small class="text-muted"><?php _e("Register optionsRegister users can automatically receive an automatic email from you. See the settings and post your messages."); ?></small>
+                    <small class="text-muted"><?php _e("Register users can automatically receive an automatic email from you. See the settings and post your messages."); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">

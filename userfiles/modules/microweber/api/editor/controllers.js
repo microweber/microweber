@@ -158,7 +158,7 @@ MWEditor.controllers = {
                     content: picker.root,
                     title: mw.lang('Select image'),
                     footer: false
-                })
+                });
 
             });
             return el;
@@ -245,12 +245,17 @@ MWEditor.controllers = {
                     { label: '20px', value: 20 },
                     { label: '22px', value: 22 },
                     { label: '24px', value: 24 },
-                    { label: '22px', value: 22 },
+                    { label: '28px', value: 28 },
+                    { label: '32px', value: 32 },
+                    { label: '36px', value: 36 },
+                    { label: '42px', value: 42 },
                 ],
                 placeholder: rootScope.lang('Font Size')
             });
             dropdown.select.on('change', function (e, val) {
-                api.fontSize(val.value);
+                if(val) {
+                    api.fontSize(val.value);
+                }
             });
             return dropdown.root;
         };
@@ -606,7 +611,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(val)
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -624,7 +628,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(e, val)
                 api.execCommand('backcolor', false, val);
             });
             return el;

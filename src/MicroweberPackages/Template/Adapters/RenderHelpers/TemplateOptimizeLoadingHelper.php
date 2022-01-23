@@ -47,6 +47,7 @@ class TemplateOptimizeLoadingHelper
                 pq($elem)->replaceWith('');
                 if ($src) {
                     $preload[] = '<link rel="preload" href="' . $src . '" as="style" />';
+                    //$preload[] = '<link rel="preload" onload="this.rel=\'stylesheet\'" href="' . $src . '" as="style" />';
                 }
             } elseif ($tag == 'script') {
 

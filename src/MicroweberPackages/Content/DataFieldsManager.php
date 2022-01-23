@@ -11,33 +11,33 @@ class DataFieldsManager extends Crud
 
     public $table = 'content_data';
 
-    public function __construct($app = null)
-    {
-        if (is_object($app)) {
-            $this->app = $app;
-        } else {
-            $this->app = mw();
-        }
-    }
 
     public function get_values($params)
     {
-
+        $get = [];
         if (isset($params['content_id'])) {
+
+
             $params['rel_type'] = 'content';
             $params['rel_id'] = $params['content_id'];
+            $get = app()->content_repository->getContentData($params['content_id']);
             unset($params['content_id']);
+
+        } else {
+            // get data for other than content
+            $get = $this->get($params);
+
         }
 
-        $get = $this->get($params);
 
         if (!empty($get)) {
             $res = array();
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
-                    $res[ $item['field_name'] ] = $item['field_value'];
+                    $res[$item['field_name']] = $item['field_value'];
                 }
             }
+
 
             return $res;
         }

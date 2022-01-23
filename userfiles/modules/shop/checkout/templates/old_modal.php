@@ -41,7 +41,7 @@ description: Checkout
                            <div class="row w-100">
                                <div class="col-3 step-button">
                                    <a href="#" class="js-show-step js-show-step-shopping-cart" data-step="shopping-cart">
-                                       <i class="material-icons">shopping_cart</i>
+                                       <i class="mdi mdi-cart"></i>
                                        <h6 class="font-weight-bold mb-1"><?php _e("Shopping Cart"); ?></h6>
 
                                    </a>

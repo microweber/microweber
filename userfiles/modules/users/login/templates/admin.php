@@ -76,7 +76,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-12">
                                             <div class="form-group mb-3">
                                                 <label class="text-muted" for="username"><?php _e('Username'); ?>:</label>
-                                                <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> autofocus=""/>
+                                                <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> required />
                                             </div>
 
                                             <div class="form-group mb-3">
@@ -85,25 +85,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                             </div>
                                         </div>
 
-                                        <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                                            <?php
-                                            /* <div class="col-12">
-                                                <div class="form-group mb-3">
-                                                    <label class="text-muted" for="captcha-field-<?php print $params['id']; ?>">Captcha:</label>
-
-                                                    <div class="input-group mb-3 prepend-transparent">
-                                                        <div class="input-group-prepend">
-                                                        <span class="input-group-text p-0 overflow-hidden">
-                                                            <img onclick="mw.tools.refresh_image(this);" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>" style="max-height: 38px;"/>
-                                                        </span>
-                                                        </div>
-
-                                                        <input name="captcha" type="text" required class="form-control" placeholder="<?php _e("Security code"); ?>" id="captcha-field-<?php print $params['id']; ?>"/>
-                                                    </div>
-                                                </div>
-                                            </div>*/
-
-                                            ?>
+                                        <?php if (get_option('login_captcha_enabled', 'users') == 'y'): ?>
                                             <div class="col-12">
                                                 <module type="captcha" template="admin"/>
                                             </div>
@@ -136,11 +118,11 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-sm-6 text-center text-sm-right">
                                             <input type="hidden" name="where_to" value="admin_content"/>
                                             <?php if (isset($_GET['redirect'])): ?>
-                                                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                                                <input type="hidden" value="<?php echo mw()->format->clean_xss($_GET['redirect']); ?>" name="redirect">
                                             <?php endif; ?>
                                             <div class="form-group">
                                                 <label class="d-none d-sm-block">&nbsp;</label>
-                                                <button class="btn btn-outline-primary btn-sm" type="submit"><?php _e("Login"); ?></button>
+                                                <button class="btn btn-outline-primary btn-sm" dusk="login-button" type="submit"><?php _e("Login"); ?></button>
                                             </div>
                                         </div>
                                     </div>
@@ -153,9 +135,9 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                     <div class="row text-center">
                         <div class="col-sm-12 d-md-flex align-items-center justify-content-between">
-                            <a href="<?php print site_url() ?>" class="btn btn-link text-dark btn-sm"><i class="mdi mdi-arrow-left"></i> <?php _e("Back to My WebSite"); ?></a>
+                            <a href="<?php print site_url() ?>" class="btn btn-link btn-sm"><i class="mdi mdi-arrow-left"></i> <?php _e("Back to My WebSite"); ?></a>
 
-                            <a href="javascript:;" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="btn btn-link btn-sm"><?php _e("Forgot my password"); ?>?</a>
+                            <a href="javascript:;" dusk="forgot-password-link" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="btn btn-link btn-sm"><?php _e("Forgot my password"); ?>?</a>
                         </div>
                     </div>
                 </div>

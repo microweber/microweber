@@ -23,7 +23,7 @@ class PostRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'title' => 'required',
+           // 'title' => 'required', // todo with multilanguage
         ];
 
         return $rules;

@@ -21,30 +21,32 @@ class DebugbarServiceProvider extends ServiceProvider
         /*
          * Sets third party service providers that are only needed on local/testing environments
          */
-        //  if ($this->app->environment() != 'production') {
-        /**
-         * Loader for registering facades.
-         */
-        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        if ($this->app->environment() != 'production') {
+            /**
+             * Loader for registering facades.
+             */
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 
-        /*
-         * Load third party local providers
-         */
-        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            if (class_exists('\Barryvdh\Debugbar\Facade', false)) {
+                /*
+                 * Load third party local providers
+                 */
+                $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
 
-        /*
-         * Load third party local aliases
-         */
-        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
-        // }
+                /*
+                 * Load third party local aliases
+                 */
+                $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+            }
+        }
     }
 
     public function boot()
     {
-
-
         if (!\Config::get('debugbar.enabled')) {
-            \Debugbar::disable();
+            if (class_exists('\Debugbar', false)) {
+                \Debugbar::disable();
+            }
         }
     }
 }

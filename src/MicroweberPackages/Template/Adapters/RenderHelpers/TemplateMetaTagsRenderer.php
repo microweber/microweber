@@ -18,7 +18,7 @@ class TemplateMetaTagsRenderer
     public function __construct($app = null)
     {
         $this->app = $app;
-        $this->websiteOptions = Option::getWebsiteOptions();
+        $this->websiteOptions = app()->option_repository->getWebsiteOptions();
     }
 
     public function render($params)
@@ -212,11 +212,24 @@ class TemplateMetaTagsRenderer
             $headers = array();
             $headers[] = $this->_render_webmasters_tags();
 
-            if (Cookie::get('google-analytics-allow') == 1) {
-                $headers[] = $this->_render_analytics_tags();
+            $analyticsTag = true;
+            $fbPixel = true;
+            $getCookieNotice = json_decode(get_option('settings','init_scwCookiedefault'),true);
+            if (isset($getCookieNotice['cookies_policy']) && $getCookieNotice['cookies_policy'] == 'y') {
+                $analyticsTag = true;
+                $fbPixel = false;
+                if (Cookie::get('google-analytics-allow') == 1) {
+                    $analyticsTag = true;
+                }
+                if (Cookie::get('facebook-pixel-allow') == 1) {
+                    $fbPixel = true;
+                }
             }
 
-            if (Cookie::get('facebook-pixel-allow') == 1) {
+            if ($analyticsTag) {
+                $headers[] = $this->_render_analytics_tags();
+            }
+            if ($fbPixel) {
                 $headers[] = $this->_render_fb_pixel_tags();
             }
 
@@ -282,6 +295,7 @@ EOT;
     private function _render_analytics_tags()
     {
         $code = $this->websiteOptions['google-analytics-id'];
+
         if ($code) {
             $analytics = new Analytics;
             $analytics->setGoogle($code);

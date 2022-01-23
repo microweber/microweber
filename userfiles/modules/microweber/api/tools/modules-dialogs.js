@@ -20,8 +20,9 @@
             }
             return frame;
         },
-          confirm_reset_module_by_id: function (module_id) {
-        if (confirm("Are you sure you want to reset this module?")) {
+          confirm_reset_module_by_id: function (module_id, cb) {
+            var result = confirm("Are you sure you want to reset this module?");
+            if (result) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
             var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');
             if(is_a_preset){
@@ -42,22 +43,28 @@
             data.modules_ids = [module_id];
 
             var childs_arr = [];
-
             mw.$('#'+module_id).andSelf().find('.edit').each(function (i) {
                 var some_child = {};
-
                 mw.tools.removeClass(this, 'changed')
                 some_child.rel = mw.$(this).attr('rel');
                 some_child.field = mw.$(this).attr('field');
-
                 childs_arr.push(some_child);
-
             });
 
 
+          mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
+
+              var some_child = mw.$(this).attr('id');
+
+              data.modules_ids.push(some_child);
+
+          });
+
             window.mw.on.DOMChangePause = true;
+            var done = 0, alldone = 1;
 
             if (childs_arr.length) {
+                alldone++;
                 $.ajax({
                     type: "POST",
                    // dataType: "json",
@@ -66,6 +73,13 @@
                     data: {reset:childs_arr}
                   //  success: success,
                   //  dataType: dataType
+                }).always(function (){
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
                 });
            }
 
@@ -88,10 +102,17 @@
                         window.mw.on.DOMChangePause = false;
 
                     }, 1000);
+                    done++;
+                    if(done === alldone) {
+                        if(cb){
+                            cb.call()
+                        }
+                    }
 
                  },
             });
         }
+              return result;
     },
     open_reset_content_editor: function (root_element_id) {
 

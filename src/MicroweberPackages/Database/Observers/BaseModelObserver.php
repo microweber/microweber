@@ -47,6 +47,8 @@ class BaseModelObserver
 
     protected function clearCache($model)
     {
+
+        app()->database_manager->clearCache();
       //  clearcache();
         // TODO
     //Cache::tags($model->table)->flush();

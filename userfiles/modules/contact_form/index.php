@@ -7,12 +7,21 @@ if(typeof  processContactForm !== 'object'){
 
     processContactForm = {
        send: function(selector, msgselector){
-            mw.tools.loading(selector);
-
+           var spinner = mw.spinner({
+               element: selector,
+               size: 60,
+               decorate: true
+           });
+           spinner.show()
+           if(spinner && spinner.setState){
+           spinner.setState('loading')
+           }
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
 
             mw.form.post(selector, undefined, function(form){
-                mw.tools.loading(selector, false);
+                if(spinner && spinner.setState){
+                spinner.setState('done')
+                }
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
@@ -20,19 +29,32 @@ if(typeof  processContactForm !== 'object'){
                      window.location.href = data2.redirect;
                 }
                 else {
-                    processContactForm.done(form, msgselector);
+                    processContactForm.done(form, msgselector, spinner);
                 }
-         	}, true );
+         	}, true, function () {
+
+                var data2 = this.responseJSON;
+
+                spinner.remove()
+                mw.$('input[type="submit"]',selector).attr('disabled', false);
+
+                if(typeof data2.error === 'string'){
+                    mw.response(mw.$(selector), data2);
+                } else if(typeof data2.redirect === 'string'){
+                    window.location.href = data2.redirect;
+                }
+
+            } );
+
+
        },
-       done: function(form, selector){
-          var form = mw.$(form);
-          form.addClass("deactivated");
-          mw.$(selector).css("top", "20%");
+       done: function(form, selector, spinner){
+          form = mw.$(form);
+          form.removeClass("was-validated");
           if(typeof form.find(".mw-captcha-img")[0] !== 'undefined'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
           }
 		  mw.$('input[type="submit"]',form).removeAttr('disabled');
-
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
@@ -41,9 +63,13 @@ if(typeof  processContactForm !== 'object'){
 			    mw.tools.refresh_image(cap);
 			  }
 			  mw.$(selector).show();
-              mw.$(selector).css("top", "30%");
-              form.removeClass("deactivated");
+                if(spinner) {
+                  spinner.remove()
+              }
           }, 3200);
+
+
+
        },
        upload:function(form, callback){
             if(window['formHasUploader'] !== true ){
@@ -96,17 +122,25 @@ if(typeof  processContactForm !== 'object'){
 }
 
 $(document).ready(function(){
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php _e($params['module']); ?>" />');
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
-		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
-		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
-    	return false;
-    });
+	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>')
+        .append('<input type="hidden" name="module_name"  value="<?php print($params['module']); ?>" />')
+        .on('submit', function() {
+
+            processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
+            mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
+            return false;
+        });
 	$('body').click(function(){
 	   if( $('#msg<?php print $form_id; ?>').is(":visible") ) {
 		  $('#msg<?php print $form_id; ?>').hide();
 	   }
 	});
+	mw.element('[data-custom-field-error-text][required]').each(function (){
+        this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        mw.element(this).on('input', function (e) {
+             this.setCustomValidity(this.value ? '' : this.getAttribute('data-custom-field-error-text'))
+        })
+    })
 });
 </script>
 

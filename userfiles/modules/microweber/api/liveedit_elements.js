@@ -17,7 +17,28 @@ mw.dropables = {
         mw.dropable.show = function(){
             return mw.$(this).removeClass('mw_dropable_hidden');
         };
-        mw.dropable.hide()
+        mw.dropable.hide();
+        $(document.body).on('drop', function(e){
+            e = e.originalEvent || e;
+
+            if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+                var bg = mw.tools.firstParentOrCurrentWithClass(e.target, 'background-image-holder');
+                if(bg) {
+                    e.preventDefault();
+                    mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
+                        e.target.style.backgroundImage = 'url(' + data.src + ')';
+                        mw.wysiwyg.change(e.target);
+                    });
+                } else if(e.target.nodeName === 'IMG') {
+                    e.preventDefault();
+                    mw.uploader().uploadFile(e.dataTransfer.files[0], function(data){
+                        e.target.src = data.src;
+                        mw.wysiwyg.change(e.target);
+                    });
+                }
+
+            }
+        });
     },
     userInteractionClasses:function(){
         var bgHolders = document.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
@@ -38,14 +59,14 @@ mw.dropables = {
             mw.tools.removeClass(noEditModules[i], 'module');
         }
         for ( ; i2<edits.length; i2++ ) {
-            var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
+            var all = mw.ea.helpers.getElementsLike(":not(.element,.noelement)", edits[i2]), i2a = 0;
             var allAllowDrops = edits[i2].querySelectorAll(".allow-drop"), i3a = 0;
             for( ; i3a<allAllowDrops.length; i3a++){
                 mw.tools.addClass(allAllowDrops[i3a], 'element');
             }
             for( ; i2a<all.length; i2a++){
                 if(!mw.tools.hasClass(all[i2a], 'module')){
-                    if(mw.ea.canDrop(all[i2a])){
+                    if(mw.ea.canDrop(all[i2a])/* && !mw.tools.hasClass(all[i2a], 'noelement')*/){
                         mw.tools.addClass(all[i2a], 'element');
                     }
                 }
@@ -65,6 +86,17 @@ mw.dropables = {
             document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
             document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
             document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
+        }
+
+        // images
+        var allImg = document.querySelectorAll('picture:not(.element,.noelement)');
+        var iImg = 0, l = allImg.length;
+        for ( ; iImg < l ; iImg++ ) {
+            var el = allImg[iImg].querySelector('.element');
+            if(el) {
+                el.classList.remove('element');
+                allImg[iImg].classList.add('element');
+            }
         }
     },
     findNearest:function(event,selectors){
@@ -98,8 +130,7 @@ mw.dropables = {
         var v1 = offtop - y;
         var v2 = y - (offtop + el[0].offsetHeight);
         var v = v1 > 0 ? v1 : v2;
-        if(coords.y > v){
-
+        if (coords.y > v) {
           final.element = all[i];
         }
         if(coords.y > v && v1 > 0){
@@ -196,7 +227,6 @@ mw.dropables = {
     module: function(ev){
         targetFrom = ev ? ev.target :  mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
-        //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
             //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
@@ -338,8 +368,9 @@ mw.dropables = {
             mw.image_resizer._show();
             mw.image.resize.resizerSet(event.target, false);
         }
-        else if (bg && bgCanChange) {
+        else if (bg && bgCanChange && mw.tools.isEditable(bgTarget)) {
             mw.image_resizer._show();
+
             mw.image.resize.resizerSet(bgTarget, false);
         }
 

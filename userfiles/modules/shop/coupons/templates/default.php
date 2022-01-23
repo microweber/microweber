@@ -43,7 +43,7 @@ $applied_code = '';
                             <input type="text" name="coupon_code" class="form-control js-coupon-code-<?php echo $params['id']; ?>" placeholder="<?php _e("Enter coupon code"); ?>"/>
                         </div>
                         <div class="col-xs-6">
-                            <button type="button" class="btn btn-default js-apply-coupon-code-<?php echo $params['id']; ?>"><?php _e("Apply code"); ?></button>
+                            <button type="button" class="btn btn-default checkout-v2-coupon-code-button js-apply-coupon-code-<?php echo $params['id']; ?>"><?php _e("Apply code"); ?></button>
                         </div>
                     </div>
                 </div>

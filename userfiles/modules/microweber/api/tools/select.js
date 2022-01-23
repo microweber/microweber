@@ -35,7 +35,9 @@ mw.Select = function(options) {
     options  = options || {};
     this.settings = $.extend({}, defaults, options);
 
-
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; return this; };
 
     if(this.settings.ajaxMode && !this.settings.ajaxMode.endpoint){
         this.settings.ajaxMode = false;
@@ -187,6 +189,7 @@ mw.Select = function(options) {
                 };
             }
 
+
             return oh;
         },
         value: function() {
@@ -199,18 +202,25 @@ mw.Select = function(options) {
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
 
             if(scope.settings.autocomplete){
-                oh.innerHTML = '<input class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
+                oh.innerHTML = '<input type="text" class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
             } else {
                 oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
             }
 
             if(scope.settings.autocomplete){
                 $('input', oh)
-                    .on('input focus', function () {
+                    .on('input focus', function (e) {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
-                            $(scope.element).trigger('input change')
+
+                        }
+                    })
+                    .on('keydown', function (e) {
+                        if(mw.event.is.enter(e) || mw.event.is.comma(e)) {
+                            e.preventDefault();
+                            $(scope).trigger('enterOrComma', [this, e]);
+                            $(this).val('adsadasd')
                         }
                     })
                     .on('focus', function () {
@@ -232,10 +242,18 @@ mw.Select = function(options) {
             scope.optionsHolder = scope.document.createElement('div');
             scope.holder = scope.document.createElement('div');
             scope.optionsHolder.className = 'mw-select-options';
+            var options = [];
             $.each(scope.settings.data, function(){
-                scope.holder.appendChild(scope.rend.option(this))
+                var opt = scope.rend.option(this);
+                options.push(opt)
+                scope.holder.appendChild(opt)
             });
             scope.optionsHolder.appendChild(scope.holder);
+
+            setTimeout(function (){
+                scope.dispatch('optionsReady', options)
+            }, 10)
+
             return scope.optionsHolder;
         },
         root: function () {
@@ -340,6 +358,7 @@ mw.Select = function(options) {
             });
         }
         $(this).trigger('change', [this._value]);
+        this.dispatch('change', [this._value])
     };
 
     this.valueRemove = function(val) {
@@ -398,9 +417,15 @@ mw.Select = function(options) {
     this.setData = function (data) {
         $(scope.holder).empty();
         scope.settings.data = data;
+        var options = []
         $.each(scope.settings.data, function(){
-            scope.holder.appendChild(scope.rend.option(this))
+            var opt = scope.rend.option(this)
+            options.push(opt)
+            scope.holder.appendChild(opt)
         });
+        setTimeout(function (){
+            scope.dispatch('optionsReady', options)
+        }, 10)
         return scope.holder;
     };
 

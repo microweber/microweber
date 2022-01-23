@@ -9,12 +9,134 @@
         mw.lib.require('colorpicker');
         mw.require("files.js");
         mw.require("widgets.css");
+        mw.require('filepicker.js');
+        $(window).on('load', function (){
+            var editImageRes = mw.top().settings.imageResponsiveEdit;
+            if(editImageRes) {
+                editImageRes = JSON.parse(JSON.stringify(editImageRes));
+                var targetImage = SelectedImage;
+                var targetImagePic
+                if(targetImage.parentNode.nodeName === 'PICTURE') {
+                    targetImagePic = targetImage.parentNode;
+                } else {
+                    mw.parent().$(targetImage).wrap('<picture />')
+                    targetImagePic = targetImage.parentNode
+                }
+              $('#media-images-holder').show();
+                var mediaImagesHolder = $('#media-images-container');
+
+                Array.from(targetImagePic.querySelectorAll('source')).forEach(function(source) {
+                   var has = editImageRes.find(function (item) {
+                       return item.media === source.media;
+                   });
+                   if(!has) {
+                       editImageRes.push({title: source.media, media: source.media, name: source.media.replace(/[{()}:\s]/g, '')})
+                   }
+                });
+
+                editImageRes.forEach(function (r){
+                    var wrapper = $('<div class=" image-source-item"><h5>'+r.title+'</h5></div>');
+                    var el = $('<span class="mw-ui-btn"><i class="mdi mdi-cloud-upload"></i> Upload image</span>');
+
+                    var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                    var src = source ? source.srcset : '<?php print pixum(170, 170); ?>';
+                    var img = $('<img src="'+src+'" >');
+                    var del = $('<span class="mdi mdi-delete"></span>');
+
+                    wrapper.append(img);
+                    wrapper.append(el);
+                    wrapper.append(del);
+                    mediaImagesHolder.append(wrapper);
+                    del.on('click', function (){
+                        img[0].src = '<?php print pixum(170, 170); ?>';
+                        var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                        if(source) {
+                            source.remove()
+                        }
+
+                    })
+                    var handleImageChange = function (fileUrl) {
+                        $('source.' + r.name, targetImagePic ).remove()
+                        var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
+                        if(source){
+                            source.srcset = fileUrl
+                        } else {
+                            $('img', targetImagePic).before('<source srcset="'+fileUrl+'" media="'+r.media+'" >')
+
+                        }
+                        img[0].src = fileUrl
+                        dialog.remove()
+                        mw.parent().wysiwyg.change(targetImage)
+                    }
+                    el.on('click', function (){
+                        var picker = new mw.filePicker({
+                            type: 'images',
+                            label: false,
+                            autoSelect: false,
+                            footer: true,
+                            _frameMaxHeight: true,
+                            fileUploaded: function (file) {
+                                var src = file.src
+                                handleImageChange(src)
+                            },
+                            onResult: function (fileUrl) {
+                                handleImageChange(fileUrl)
+
+                            },
+                            cancel: function () {
+                                dialog.remove()
+                            }
+                        });
+                        dialog = mw.top().dialog({
+                            content: picker.root,
+                            title: mw.lang('Select image'),
+                            footer: false,
+                            width: 1200
+                        })
+                    })
+                })
+            }
+        })
+
     </script>
 
     <style>
 
-        #the-image-holder {
+        #media-images-holder{
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .image-source-item + .image-source-item{
+            border-top: 1px solid #ccc ;
+            padding-top: 20px;
+        }
+        .image-source-item{
+            overflow: hidden;
+            clear:both;
+            margin: 0 0 0 0;
+            padding: 20px;
             position: relative;
+        }
+
+        .image-source-item .mdi-delete{
+            position: absolute;
+            right:22px;
+            top:45%;
+            cursor:pointer;
+            color: #863737;
+            font-size:19px;
+        }
+        .image-source-item img{
+            width: 120px;
+            margin-inline-end: 12px;
+
+        }
+
+        #the-image-holder {
+            position: sticky;
+            top:0;
+            z-index: 10;
             text-align: center;
             max-width: 100%;
             height: 200px;
@@ -168,6 +290,13 @@
 
             </div>
 
+                <div id="media-images-holder" style="display: none">
+                    <label class="mw-ui-label">Images for different resolutions</label>
+                    <div id="media-images-container" class="mw-ui-box">
+
+                    </div>
+                </div>
+
 
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
@@ -179,8 +308,8 @@
 
 
                   var CurrSRC = function(b){
-                    var curr = parent.mw.image.currentResizing ? parent.mw.image.currentResizing[0] : new Image();
-                    if(curr.nodeName == 'IMG'){
+                    var curr = mw.parent().image.currentResizing ? mw.parent().image.currentResizing[0] : new Image();
+                    if(curr.nodeName === 'IMG'){
                       if(!b){
                         return curr.src;
                       }
@@ -207,7 +336,6 @@
 
                         curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
                         mw.top().wysiwyg.bgQuotesFix(curr);
-                        //mw.top().trigger('nodeBackgroundChanged', [curr, b])
                       }
                     }
                   }
@@ -287,7 +415,7 @@
                 <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setColor()" />
             </div>
             <div class="mw-ui-field-holder imeditor-image-link" style="padding-bottom: 20px;">
-                <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
+                <label class="mw-ui-label"><?php _e('Links to'); ?>:</label>
                 <input type="text" class="mw-ui-field w100" id="link" placeholder="Enter URL"/>
             </div>
 
@@ -331,8 +459,8 @@
 
 
   isImageHolder = function(){
-      if(!parent.mw.image.currentResizing) return false;
-    return mw.tools.hasClass(parent.mw.image.currentResizing[0].parentNode, 'mw-image-holder')
+      if(!mw.parent().image.currentResizing) return false;
+    return mw.tools.hasClass(mw.parent().image.currentResizing[0].parentNode, 'mw-image-holder')
   }
 
 
@@ -426,6 +554,7 @@
 
         mw.$(".mw-ui-btn-savetheimage").on('click', function () {
 
+
             mw.top().wysiwyg.change(SelectedImage);
             if(isBG) {
                 $(SelectedImage).css(isBG);
@@ -448,21 +577,17 @@
                 mw.image.preload(mw.image.current.src, function (w, h) {
                     SelectedImage.style.width = w + 'px';
                     SelectedImage.style.height = 'auto';
-                    // parent.mw.wysiwyg.normalizeBase64Image(theImage);
-                    if(window.thismodal) {
+                     if(window.thismodal) {
                         thismodal.remove()
                     }
 
                 });
             }
 
-            parent.mw.wysiwyg.normalizeBase64Image(SelectedImage);
-
-            var link_url = $("#link").val();
-            if (link_url == ""){
+            var link_url = ($("#link").val() || '').trim();
+            if (!link_url){
                 $(SelectedImage).unwrap('a');
             } else {
-                link_url = link_url.trim();
                 if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
                     $(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href", link_url);
                 }
@@ -473,20 +598,14 @@
 
             setColor(true);
 
-           // alert(parent.mw.tools.firstParentWithClass(SelectedImage, 'edit'));
-
-
-            if(parent.mw.tools.hasParentsWithClass(SelectedImage, 'edit')){
-            parent.mw.wysiwyg.change(parent.mw.tools.firstParentWithClass(SelectedImage, 'edit'));
+            if(mw.parent().tools.hasParentsWithClass(SelectedImage, 'edit')){
+            mw.parent().wysiwyg.change(mw.parent().tools.firstParentWithClass(SelectedImage, 'edit'));
             }
-            mw.top().$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
+            mw.top().$(mw.top().win).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
 
             if(window.thismodal){
                 thismodal.remove()
             }
-
-
-
         });
 
         mw.$("#mw_image_reset").click(function () {

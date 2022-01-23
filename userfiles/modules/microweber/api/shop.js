@@ -1,6 +1,23 @@
 // JavaScript Document
 mw.require('forms.js');
 
+mw.product = {
+    quick_view: function(product_id, dialog_title) {
+        $.get(mw.settings.api_url + 'product/quick-view', {id:product_id},
+            function (html) {
+                mw.dialog({
+                    title: dialog_title,
+                    width: 960,
+                    content: html,
+                    onremove: function () {
+
+                    },
+                    name: 'product-quick-view'
+                });
+            }
+        );
+    }
+};
 
 mw.cart = {
 
@@ -181,7 +198,16 @@ mw.cart = {
 
     },
 
-    checkout: function (selector, callback) {
+    checkout: function (selector, callback, beforeRedirect) {
+
+        if (!beforeRedirect) {
+            beforeRedirect = function () {
+                return new Promise(function (){
+                    resolve();
+                });
+            };
+        }
+
         var form = mw.$(selector);
         $(document).trigger("checkoutBeforeProcess", form);
 
@@ -257,8 +283,10 @@ mw.cart = {
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
-                                    window.location.href = data2.redirect;
-                                }, 100)
+                                    beforeRedirect().then(function (){
+                                        window.location.href = data2.redirect;
+                                    });
+                                }, 100);
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);

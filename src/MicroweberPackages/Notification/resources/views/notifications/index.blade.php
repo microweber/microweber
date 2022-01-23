@@ -262,11 +262,11 @@
         <?php $periods_printed = array(); ?>
         <div class="toolbar row mb-3">
             <div class="col-12 text-center text-sm-left">
-                <h5><strong><?php _e("All Activities"); ?></strong></h5>
-                <p><?php _e("List of all notifications of your website."); ?>{{-- <a href="javascript:;"
+                <h5 class="mb-0"><strong><?php _e("All Activities"); ?></strong></h5>
+                <small class="text-muted"><?php _e("List of all notifications of your website."); ?>{{-- <a href="javascript:;"
                                                                  onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');"
                                                                  class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>--}}
-                </p>
+                </small>
             </div>
             <div class="col-12 d-sm-flex align-items-center justify-content-between">
                 <div class="text-center text-md-left my-2">
@@ -275,7 +275,7 @@
                         <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                     </div>
 
-                    <div class="d-inline-flex">
+                    <div class="d-inline-flex"><strong>Calendar</strong>
                         <div class="js-show-options" style="display: none;">
                             <a href="javascript:mw.notif_read_selected();"
                                class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i
@@ -327,6 +327,7 @@
                         <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> <?php _e("Comments"); ?></option>
                         <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> <?php _e("Orders"); ?></option>
                         <option value="?type=Product"<?php if ($type == 'Product'): ?> selected="selected" <?php endif; ?>> <?php _e("Products"); ?></option>
+                        <option value="?type=NewFormEntry"<?php if ($type == 'NewFormEntry'): ?> selected="selected" <?php endif; ?>> <?php _e("Contact forms"); ?></option>
                         <option value="?type=NewRegistration"<?php if ($type == 'NewRegistration'): ?> selected="selected" <?php endif; ?>> <?php _e("New Registrations"); ?></option>
                         <option value="?type=Customer"<?php if ($type == 'Customer'): ?> selected="selected" <?php endif; ?>> <?php _e("Customers"); ?></option>
 

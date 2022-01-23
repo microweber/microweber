@@ -28,6 +28,8 @@ class CustomField extends Model
 
     public $translatable = ['name','options', 'placeholder','error_text'];
 
+    public $cacheTagsToClear = ['repositories','content'];
+
     /**
      * The attributes that should be cast.
      *
@@ -46,6 +48,13 @@ class CustomField extends Model
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')->orderBy('position');
     }
 
+    public function fieldValuePrice()
+    {
+        return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
+            ->where('type','price')
+            ->orderBy('position');
+    }
+
     public function save(array $options = [])
     {
         $customFieldValueToSave = null;
@@ -56,6 +65,10 @@ class CustomField extends Model
 
         if(isset($this->name)) {
             $this->name_key = \Str::slug($this->name, '-');
+        }
+
+        if ($this->rel_id < 1) {
+            $this->session_id = app()->user_manager->session_id();
         }
 
         $saved = parent::save($options);

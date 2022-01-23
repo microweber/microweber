@@ -13,8 +13,11 @@ namespace MicroweberPackages\Backup\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Backup\BackupManager;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class BackupServiceProvider extends ServiceProvider
+
+
+class BackupServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
@@ -32,4 +35,15 @@ class BackupServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['backup_manager'];
+    }
+
 }

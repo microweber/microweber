@@ -1470,7 +1470,7 @@
 
 
                 <h5>Field</h5>
-                <input class="mw-ui-field" id="resr2" placeholder="Eneter color..">
+                <input class="mw-ui-field" id="resr2" placeholder="Enter color..">
 
                 <hr>
                 <h5>Inline</h5>

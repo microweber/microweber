@@ -87,7 +87,7 @@ class CategoryManager
 
 
         $renderer = new KnpCategoryTreeRenderer($this->app);
-      //  $renderer->setUseCache(false);
+        //  $renderer->setUseCache(false);
 
         if(isset($params['use_cache']) and intval($params['use_cache']) == 0){
             $renderer->setUseCache(0);
@@ -96,7 +96,7 @@ class CategoryManager
             $renderer->setUseCache(1);
 
         }
-      //  $renderer->setUseCache(0);
+        //  $renderer->setUseCache(0);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
@@ -166,10 +166,16 @@ class CategoryManager
         }
     }
 
+    public $_get_parents = [];
     public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
     {
+
         if (intval($id) == 0) {
             return false;
+        }
+
+        if (isset($this->_get_parents[$id][$without_main_parrent][$data_type])) {
+            return $this->_get_parents[$id][$without_main_parrent][$data_type];
         }
 
         $table = $this->tables['categories'];
@@ -219,20 +225,27 @@ class CategoryManager
 
         if (!empty($ids)) {
             $ids = array_unique($ids);
-
-            return $ids;
         } else {
-            return false;
+            $ids = false;
         }
+
+        $this->_get_parents[$id][$without_main_parrent][$data_type] = $ids;
+
+        return $ids;
     }
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
+
+//        if($type == false and $visible_on_frontend==false){
+        // bug in get_admin_js_tree_json
+//         return app()->category_repository->getSubCategories($parent_id);
+//        }
+
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
 
-
-        $results = cache_get($cache_id, $cache_group, 600);
+         $results = cache_get($cache_id, $cache_group, 6000);
         if ($results) {
             return $results;
         }
@@ -302,68 +315,16 @@ class CategoryManager
         return $to_return;
     }
 
+
+    public $_get_for_content_memory = [];
+
     public function get_for_content($content_id, $data_type = 'categories')
     {
         if (intval($content_id) == 0) {
             return false;
         }
 
-        if ($data_type == 'categories') {
-            $data_type = 'category';
-        }
-        if ($data_type == 'tags') {
-            $data_type = 'tag';
-        }
-//        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
-//        $get_category_items = $this->get_items('fields=parent_id&group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
-        $get_category_items = $this->get_items('fields=parent_id&group_by=categories_items.parent_id&rel_type=content&rel_id=' . ($content_id));
-
-        $include_parents = array();
-        $include_parents_str = '';
-
-        if (!empty($get_category_items)) {
-            foreach ($get_category_items as $get_category_item) {
-                if (isset($get_category_item['parent_id'])) {
-                    $include_parents[] = $get_category_item['parent_id'];
-                }
-            }
-        }
-
-        $get_category = Category::where('data_type',$data_type)
-            ->where('rel_id',$content_id)
-            ->where('rel_type','content')
-            ->orderBy('position','asc')
-            ->get();
-
-       // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
-        if (empty($get_category)) {
-            $get_category = array();
-        } else {
-            $get_category = $get_category->toArray();
-        }
-
-        if (!empty($include_parents)) {
-            $include_parents_str = 'order_by=position asc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
-            $get_category2 = $this->get($include_parents_str);
-
-            if (!empty($get_category2)) {
-                foreach ($get_category2 as $item) {
-                    $get_category[] = $item;
-                }
-            }
-        }
-
-        if (is_array($get_category) and !empty($get_category)) {
-            //array_unique($get_category);
-
-            $get_category = array_unique_recursive($get_category);
-        }
-
-        if (empty($get_category)) {
-            return false;
-        }
-
-        return $get_category;
+        return app()->content_repository->getCategories($content_id);
     }
 
     /**
@@ -472,7 +433,14 @@ class CategoryManager
             }
         }
 
-        $data = $this->app->database_manager->get($data);
+
+  //  $data = $this->app->database_manager->get($data);
+     $data = $this->app->category_repository->getByParams($data);
+
+
+
+
+
 
         return $data;
     }
@@ -611,7 +579,7 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-         //  $possible_slug = $this->app->url_manager->slug($data['url']);
+            //  $possible_slug = $this->app->url_manager->slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
             $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
@@ -636,7 +604,7 @@ class CategoryManager
                     $cont_get['no_cache'] = true;
                     $check_cont_wth_slug =  $this->app->content_manager->get($cont_get);
 
-                   // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
+                    // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
                     if ($check_cont_wth_slug) {
                         $possible_slug = $possible_slug . '-' . date('YmdHis');
                     }
@@ -767,55 +735,6 @@ class CategoryManager
     }
 
     /**
-     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
-     *
-     * @param int
-     *
-     * @return array
-     *
-     * @author      Peter Ivanov
-     *
-     * @version     1.0
-     *
-     * @since       Version 1.0
-     */
-    public function get_by_id($id = 0, $by_field_name = 'id')
-    {
-        if (!$id) {
-            return;
-        }
-        if ($by_field_name == 'id' and intval($id) == 0) {
-            return false;
-        }
-
-        if (is_numeric($id)) {
-            $id = intval($id);
-        } else {
-            $id = mb_trim($id);
-        }
-
-        $table = $this->tables['categories'];
-
-        $get = array();
-        $get[$by_field_name] = $id;
-        if(!$this->useCache){
-            $get['no_cache'] = true;
-        }
-        //
-        $get['single'] = true;
-        $get['limit'] = 1;
-        $q = $this->app->database_manager->get($table, $get);
-
-        if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
-            $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
-        }
-
-        return $q;
-
-    }
-
-
-    /**
      * @desc        Get cateroy by slug
      *
      * @param string
@@ -834,6 +753,51 @@ class CategoryManager
         return $id;
     }
 
+
+
+    /**
+     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
+     *
+     * @param int
+     *
+     * @return array
+     *
+     * @author      Peter Ivanov
+     *
+     * @version     1.0
+     *
+     * @since       Version 1.0
+     */
+
+    public function get_by_id($id = 0, $by_field_name = 'id')
+    {
+        if($by_field_name == 'id'){
+            return app()->category_repository->getById($id);
+        }
+        return app()->category_repository->getByColumnNameAndColumnValue($by_field_name, $id);
+    }
+
+
+    /**
+     * @desc        Get cateroy by slug
+     *
+     * @param string
+     *
+     * @return array
+     *
+     */
+//    public function get_by_url($slug)
+//    {
+//        $id = app()->category_repository->getByUrl($slug);
+//
+//        $override = $this->app->event_manager->trigger('app.category.get_by_url', $slug);
+//        if ($override and is_array($override) && isset($override[0])) {
+//            $id = $override[0];
+//        }
+//
+//        return $id;
+//    }
+
     public function delete($data)
     {
         if (is_array($data) and isset($data['id'])) {
@@ -849,7 +813,7 @@ class CategoryManager
             $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
         }
 
-        return $del;
+        return true;
     }
 
     public function delete_item($data)
@@ -865,6 +829,7 @@ class CategoryManager
 
     public function reorder($data)
     {
+
         $table = $this->tables['categories'];
         $res = array();
         foreach ($data as $value) {
@@ -879,7 +844,7 @@ class CategoryManager
                 $res[] = $this->app->database_manager->update_position_field($table, $indx);
             }
         }
-
+        $this->app->cache_manager->clear('categories');
         return $res;
     }
 
@@ -1025,8 +990,12 @@ class CategoryManager
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
 
+
+        if (isset($params['from_content_id'])) {
+            $pages_params['id'] = intval($params['from_content_id']);
+        }
         if (isset($params['is_shop'])) {
-            $pages_params['is_shop'] = intval($params['is_shop']);
+            $pages_params['is_shop'] = trim($params['is_shop']);
         }
 
         if (isset($params['keyword'])) {

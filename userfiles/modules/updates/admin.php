@@ -1,1 +1,1 @@
-<?php include_once($config['path_to_module'].'index.php') ?>
+<?php return include(__DIR__.'/index.php'); ?>

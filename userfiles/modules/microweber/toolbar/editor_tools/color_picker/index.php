@@ -85,7 +85,7 @@
 <script type="text/javascript"
         src="<?php print mw_includes_url(); ?>toolbar/editor_tools/color_picker/jscolor.js"></script>
 <script>
-    parent.mw.require('external_callbacks.js');
+    mw.parent().require('external_callbacks.js');
    // mw.require('color.js');
     mw.lib.require('colorpicker');
 
@@ -124,7 +124,7 @@
 
         color_holder = document.getElementById('my-colors');
         document_colors = {};
-        parent.mw.$("body *").each(function () {
+        mw.parent().$("body *").each(function () {
             var css = parent.getComputedStyle(this, null);
             if(css !== null){
                 !document_colors[css.color] ? document_colors[css.color] = css.color : '';
@@ -164,13 +164,13 @@
         color_holder.appendChild(f);
 
         $(document.body).mouseenter(function () {
-            if(!!parent.mw.wysiwyg){
-               parent.mw.wysiwyg.save_selected_element();
+            if(!!mw.parent().wysiwyg){
+               mw.parent().wysiwyg.save_selected_element();
             }
         });
         $(document.body).mouseleave(function () {
-          if(_prompt_is_open == false && !!parent.mw.wysiwyg){
-            parent.mw.wysiwyg.deselect_selected_element();
+          if(_prompt_is_open == false && !!mw.parent().wysiwyg){
+            mw.parent().wysiwyg.deselect_selected_element();
           }
         });
 
@@ -196,8 +196,8 @@
 
           parent.$(this.frameElement).trigger('colorChange', [val]);
         }
-        if (!!parent.mw.iframecallbacks && typeof parent.mw.iframecallbacks[_command] === 'function') {
-            parent.mw.iframecallbacks[_command](val);
+        if (!!mw.parent().iframecallbacks && typeof mw.parent().iframecallbacks[_command] === 'function') {
+            mw.parent().iframecallbacks[_command](val);
         }
         else if (typeof parent[_command] === 'function') {
             parent[_command](val);
@@ -212,18 +212,18 @@
 
     _color_prompt = function(){
         _prompt_is_open = true;
-        parent.mw.wysiwyg.save_selection()
+        mw.parent().wysiwyg.save_selection()
         var input = document.getElementById('colorpicker');
         var color = prompt("Please enter your color value", input.value);
         if (color != null) {
-            parent.mw.wysiwyg.restore_selection();
+            mw.parent().wysiwyg.restore_selection();
 
              _do(color);
 
              $("#hex_color_value").css('color', '#'+(mw.color.isDark(color)?'fff':'000'))
 
         } else {
-            parent.mw.wysiwyg.restore_selection();
+            mw.parent().wysiwyg.restore_selection();
         }
         _prompt_is_open = false;
 

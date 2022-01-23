@@ -387,6 +387,10 @@ mw.event = {
         return this.keyCode(e) === code;
     },
     is: {
+      comma: function (e) {
+          e = mw.event.get(e);
+          return e.keyCode === 188;
+              },
       enter: function (e) {
         e = mw.event.get(e);
         return e.key === "Enter" || mw.event.isKeyCode(e, 13);

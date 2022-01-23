@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Post\Models;
 
+use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
 
@@ -33,7 +34,12 @@ class Post extends Content
         "created_at",
     ];
 
-    public $translatable = ['title','url','description','content','content_body'];
+
+    public $sortable = [
+        'id'=>[
+            'title'=> 'Post'
+        ]
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -51,5 +57,16 @@ class Post extends Content
     protected static function booted()
     {
         static::addGlobalScope(new PostScope());
+    }
+
+
+    public function scopeFrontendFilter($query, $params)
+    {
+        $filter = new BlogFilter();
+        $filter->setModel($this);
+        $filter->setQuery($query);
+        $filter->setParams($params);
+
+        return $filter->apply();
     }
 }

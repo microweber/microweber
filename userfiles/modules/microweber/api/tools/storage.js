@@ -1,25 +1,42 @@
 mw.storage = {
     init: function () {
-        if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
-        var lsmw = localStorage.getItem("mw");
-        if (typeof lsmw === 'undefined' || lsmw === null) {
-            lsmw = localStorage.setItem("mw", "{}");
+
+        try {
+            if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
+            var lsmw = localStorage.getItem("mw");
+            if (typeof lsmw === 'undefined' || lsmw === null) {
+                lsmw = localStorage.setItem("mw", "{}");
+            }
+            this.change("INIT");
+            return lsmw;
+
+        } catch (error) {
+            console.log(error);
         }
-        this.change("INIT");
-        return lsmw;
+
+
     },
     set: function (key, val) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        curr[key] = val;
-        var a = localStorage.setItem("mw", JSON.stringify(curr));
-        mw.storage.change("CALL", key, val);
-        return a;
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            curr[key] = val;
+            var a = localStorage.setItem("mw", JSON.stringify(curr));
+            mw.storage.change("CALL", key, val);
+            return a;
+        } catch (error) {
+            console.log(error);
+        }
+
     },
     get: function (key) {
-        if (!('localStorage' in mww)) return false;
-        var curr = JSON.parse(localStorage.getItem("mw"));
-        return curr[key];
+        try {
+            if (!('localStorage' in mww)) return false;
+            var curr = JSON.parse(localStorage.getItem("mw"));
+            return curr[key];
+        } catch (error) {
+            console.log(error);
+        }
     },
     _keys: {},
     change: function (key, callback, other) {
@@ -27,6 +44,14 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
+                    if (e.newValue === null) {
+                        return;
+                    }
+
+                    if (e.oldValue === null) {
+                        return;
+                    }
+
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);

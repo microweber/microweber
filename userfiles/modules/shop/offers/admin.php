@@ -13,10 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -41,6 +38,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     editModal.modal.remove();
                 }
             }
+
+            function deleteOffer(offer_id) {
+                var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
+                if (confirmUser == true) {
+                    $.ajax({
+                        url: '<?php print route('api.offer.delete');?>',
+                        data: 'offer_id=' + offer_id,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            mw.notification.success('Price is deleted')
+                            if (typeof(reload_offer_after_save) != 'undefined') {
+                                reload_offer_after_save();
+                            }
+                            mw.reload_module('#<?php print $params['id'] ?>')
+                            mw.reload_module_parent('custom_fields')
+
+                        }
+                    });
+                }
+            }
+
 
             $(document).ready(function () {
 

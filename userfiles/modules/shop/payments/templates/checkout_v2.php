@@ -14,11 +14,14 @@ description: Checkout V2
 <script type="text/javascript">
     showPaymentModule = function (paymentModule,paymentModulePath) {
 
+        mw.trigger('mw.cart.paymentMethodChange');
+
+
         $('.js-payment-gateway-box').html('');
 
         $.ajax({
             url: "<?php print route('checkout.payment_method_change') ?>",
-            data: {"payment_gw":paymentModulePath},
+            data: {"payment_gw":paymentModulePath, "_token":"<?php echo csrf_token();?>"},
             method: 'POST',
         }).done(function() {
             var newShippingModuleElement = $('<div/>').appendTo('#mw-payment-gateway-module-' + paymentModule);
@@ -41,42 +44,44 @@ if (isset($params['selected_provider'])) {
 }
 ?>
 
+<style>
+
+    .mw-payment-gateway{
+        list-style: none;
+    }
+
+</style>
+
 <div class="mw-shipping-and-payments mb-5">
     <?php if (count($payment_options) > 0): ?>
         <div class="row">
             <div class="col-xs-12 col-md-6 col-md-offset-6 mb-3">
                 <h4 class="mb-1" field="checkout_payment_information_title" rel="global" rel_id="<?php print $params['id'] ?>"><?php _e("Payment method"); ?></h4>
-                <small class="text-muted d-block mb-2"> <?php _e("How you would like to pay"); ?></small>
+                <small class="text-muted d-block mb-2"> <?php _e("Select payment method"); ?></small>
             </div>
         </div>
 
         <div class="methods">
-            <ul name="payment_gw" class="mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
-                <?php $count = 0;
-                foreach ($payment_options as $payment_option) : $count++; ?>
-                    <li>
+            <?php $count = 0;
+            foreach ($payment_options as $payment_option) : $count++; ?>
+                <div class="form-group my-1 mt-2">
+                    <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-2">
 
-                        <div class="form-group my-1 mt-2">
-                            <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-2">
+                        <label class="mx-2 mb-0 d-flex align-self-center" for="payment-option-<?php print $count; ?>">
 
-                                <label class="mx-2 mb-0 d-flex align-self-center" for="payment-option-<?php print $count; ?>">
+                        <input type="radio" onchange="showPaymentModule('<?php echo md5($payment_option['gw_file']); ?>','<?php echo $payment_option['gw_file']; ?>');" id="payment-option-<?php print $count; ?>" value="<?php echo $payment_option['gw_file']; ?>" <?php if ($selected_payment_gateway == $payment_option['gw_file']): ?> checked="checked" <?php endif; ?> name="payment_gw" />
 
-                                <input type="radio" onchange="showPaymentModule('<?php echo md5($payment_option['gw_file']); ?>','<?php echo $payment_option['gw_file']; ?>');" id="payment-option-<?php print $count; ?>" value="<?php echo $payment_option['gw_file']; ?>" <?php if ($selected_payment_gateway == $payment_option['gw_file']): ?> checked="checked" <?php endif; ?> name="payment_gw" />
-
-                                    <!--<img src="<?php /*echo $payment_option['icon']; */?>" style="width:32px;" />
+                            <!--<img src="<?php /*echo $payment_option['icon']; */?>" style="width:32px;" />
 -->
-                                   <div class="ml-2"><?php print  _e($payment_option['name']); ?></div>
+                           <div class="ml-2"><?php print  _e($payment_option['name']); ?></div>
 
-                                </label>
+                        </label>
 
-                            </div>
-                        </div>
+                    </div>
+                </div>
 
-                        <div id="mw-payment-gateway-module-<?php echo md5($payment_option['gw_file']); ?>" class="js-payment-gateway-box"></div>
-
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+                <div id="mw-payment-gateway-module-<?php echo md5($payment_option['gw_file']); ?>" class="js-payment-gateway-box"></div>
+            <?php endforeach; ?>
            </div>
     <?php endif; ?>
 

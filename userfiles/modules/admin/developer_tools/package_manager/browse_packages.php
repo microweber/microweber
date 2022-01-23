@@ -1,4 +1,7 @@
 <?php
+
+use Composer\Semver\Comparator;
+
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
@@ -32,20 +35,90 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
     $is_update_mode = true;
 }
 
-$search_packages = mw()->update->composer_search_packages($search_packages_params);
+//$search_packages = mw()->update->composer_search_packages($search_packages_params);
 //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
+$allPackages = [];
+$localPackages = mw()->update->collect_local_data();
 
+foreach($localPackages['modules'] as $package) {
+    $allPackages[] = $package;
+}
+foreach($localPackages['templates'] as $package) {
+    $allPackages[] = $package;
+}
+
+$search_packages = [];
+$composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+$composerSearch = $composerClient->search();
+
+if(!$composerSearch){
+    print '<h4>Error: Package manager did not return any results</h4>';
+    return;
+}
+foreach( $composerSearch as $packageName=>$versions) {
+    if(!is_array($versions)){
+        continue;
+    }
+    foreach($versions as $version) {
+
+        $version['release_date'] = date('Y-m-d H:i:s');
+        $version['latest_version'] = $version;
+        $version['versions'] = $versions;
+
+        if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
+            continue;
+        }
+
+        $currentInstall = false;
+        foreach($allPackages as $module) {
+            if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
+
+                $currentInstall = [];
+                $currentInstall['composer_type'] = $version['type'];
+                $currentInstall['local_type'] = $version['type'];
+                $currentInstall['module'] = $module['name'];
+                $currentInstall['module_details'] = $module;
+
+                $version['has_update'] = false;
+
+                $v1 = trim($version['latest_version']['version']);
+                $v2 = trim($module['version']);
+
+                if ($v1 != $v2) {
+                    if (Comparator::greaterThan($v1, $v2)) {
+                        $version['has_update'] = true;
+                    }
+                }
+
+                $version['is_symlink'] = false;
+                if (isset($module['is_symlink']) && $module['is_symlink']) {
+                    $version['has_update'] = false;
+                    $version['is_symlink'] = true;
+                }
+
+                break;
+            }
+        }
+        $version['current_install'] = $currentInstall;
+
+        $search_packages[$packageName] = $version;
+    }
+}
+
+$new_updates_count = 0;
 $packages_by_type = array();
 $packages_by_type_with_update = array();
 
 if ($search_packages and is_array($search_packages)) {
     foreach ($search_packages as $key => $item) {
+
         $package_has_update = false;
         //if ($item['type'] != 'microweber-core-update') {
         if (isset($item['has_update']) and $item['has_update']) {
             $package_has_update = true;
+            $new_updates_count++;
         }
 
         if ($package_has_update) {
@@ -56,7 +129,7 @@ if ($search_packages and is_array($search_packages)) {
             $packages_by_type_with_update[$package_has_update_key][] = $item;
         }
         //}
-        if ($item['type'] != 'microweber-core-update') {
+        if (isset($item['type']) && $item['type'] != 'microweber-core-update') {
             if (!isset($packages_by_type[$item['type']])) {
                 $packages_by_type[$item['type']] = array();
             }
@@ -65,6 +138,12 @@ if ($search_packages and is_array($search_packages)) {
     }
 }
 
+\Cache::tags('updates')->put('countNewUpdates',$new_updates_count);
+
+
+
+// \Cache::put('countNewUpdates', $new_updates_count, now()->addMinutes(30));
+
 if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
     $core_update = $packages_by_type_with_update['microweber-core-update'];
     unset($packages_by_type_with_update['microweber-core-update']);
@@ -72,10 +151,20 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 }
 
+$packages_by_type_reorder = $packages_by_type;
+$packages_by_type = [];
+$packages_by_type['microweber-template'] = [];
+if(isset($packages_by_type_reorder['microweber-template'])){
+    $packages_by_type['microweber-template'] = $packages_by_type_reorder['microweber-template'];
+}
+
+
+$packages_by_type['microweber-module'] = [];
+if(isset($packages_by_type_reorder['microweber-module'])){
+    $packages_by_type['microweber-module'] = $packages_by_type_reorder['microweber-module'];
+}
+
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
-// dd($packages_by_type_all,$packages_by_type_with_update);
-
-
 ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
@@ -266,13 +355,16 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <script>
             $(document).ready(function () {
                 $('.mw-sel-item-key-install').change(function () {
+
                     var val = $("option:selected", this).val();
                     var vkey = $(this).data('vkey');
                     var holder = mw.tools.firstParentOrCurrentWithClass(this, 'js-package-install-content');
+
                     $('.js-package-install-btn', holder).html("Install " + val);
-                    $('.js-package-install-btn', holder).data('vkey', val);
+                    $('.js-package-install-btn', holder).attr('vkey', val);
                     $('.js-package-install-btn', holder).show();
                     $('.js-package-install-btn-help-text', holder).hide();
+
                 });
             });
         </script>
@@ -315,7 +407,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $pkkeys = url_title($pkkeys);
 
                                 ?>
-                                <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
+                                <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" id="js-packages-tab-<?php echo $pkkeys; ?>" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
@@ -338,7 +430,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                                 $count = count($pkitems);
                                 $total += $count;
-                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a>';
+                                $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-success badge-sm badge-pill">' . $count . '</sup></a>';
                             endforeach;
                             ?>
                             <?php print $items; ?>

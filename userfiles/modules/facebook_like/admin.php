@@ -13,10 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -48,7 +45,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Color cheme"); ?></label>
+                        <label class="control-label"><?php _e("Color scheme"); ?></label>
                         <select name="color" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                             <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
                             <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>

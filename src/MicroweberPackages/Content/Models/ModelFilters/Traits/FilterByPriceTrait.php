@@ -19,9 +19,17 @@ trait FilterByPriceTrait
 
     public function price($price)
     {
+
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
-            $query->whereHas('fieldValue', function ($query) use ($price) {
-                $query->where('value', '=', $price);
+            $query->whereHas('fieldValuePrice', function ($query) use ($price) {
+
+                $query->where(function ($query2) use ($price) {
+
+                    $price = intval($price);
+                     $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                    $query2->whereRaw("CAST(value as INTEGER) = {$price}");
+                    return $query2;
+                });
 
             });
         });
@@ -29,7 +37,6 @@ trait FilterByPriceTrait
 
     public function priceBetween($price)
     {
-
         $minPrice = $price;
         $maxPrice = false;
 
@@ -42,15 +49,30 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        return $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
-            $query->whereHas('fieldValue', function ($query) use ($minPrice, $maxPrice) {
-                if ($maxPrice) {
-                    $query->whereBetween('value', [$minPrice, $maxPrice]);
-                } else {
-                    $query->where('value', '>=', $minPrice);
-                }
+
+        $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
+            $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice) {
+                $query2->where(function ($query3) use ($minPrice, $maxPrice) {
+
+                    if ($maxPrice) {
+                        //$query3->whereRaw("CAST(value as INTEGER) != 0");
+                        $query3->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                        $query3->whereBetween(\DB::raw('CAST(value as INTEGER)'), [$minPrice, $maxPrice]);
+                    } else {
+                        $query3->whereRaw("value REGEXP '^[0-9]*$'");
+                    //    $query3->whereRaw("CAST(value as INTEGER) != 0");
+                        $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
+                    }
+
+
+                    return $query3;
+                });
+                return $query2;
+
             });
         });
+
+        return $sql;
     }
 
 

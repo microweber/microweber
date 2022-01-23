@@ -1,10 +1,11 @@
 <div
     class="card mb-2 not-collapsed-border collapsed bg-silver"
-    data-toggle="collapse-mw"
-    data-target="#comments-<?php print $comment['id'] ?>"
+
     id="comment-<?php print $comment['id'] ?>"
     aria-expanded="false"
     aria-controls="collapseExample">
+    <span class="mw-bs-card-collpase card-collapse"     data-toggle="collapse"
+          data-target="#comments-<?php print $comment['id'] ?>"></span>
     <div class="card-body">
         <script>mw.lib.require('mwui_init');</script>
 
@@ -64,13 +65,13 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col text-left">
+            <div class="col text-start text-left">
                 <h5 class="text-primary text-break-line-2"><?php print content_title($comment['rel_id']); ?></h5>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
+            <div class="col-12 col-sm text-end text-right"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
         </div>
-        <div class="collapse" id="comments-<?php print $comment['id'] ?>">
+        <div class="collapse"  id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">
                 <div class="col-12">
                     <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank"><?php _e("View article"); ?></a>
@@ -200,7 +201,7 @@
                                             <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
                                             <textarea placeholder="<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
                                         </div>
-                                        <div class="text-right">
+                                        <div class="text-end text-right">
                                             <button class="btn btn-outline-secondary btn-sm" type="submit"><?php _e('Post Comment'); ?></button>
                                         </div>
                                     </form>

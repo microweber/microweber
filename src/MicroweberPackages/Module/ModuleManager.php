@@ -13,24 +13,15 @@
 
 namespace MicroweberPackages\Module;
 
-use Illuminate\Support\Facades\Config;
-
-//use Illuminate\Support\Facades\Schema;
-//use Illuminate\Database\;
-//use Illuminate\Database\Eloquent\Builder as Eloquent;
-//use Microweber\Providers\Database\Utils;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
-use QueryPath\Exception;
-
-//use Config;
-//use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class ModuleManager
 {
     public $tables = array();
     public $app = null;
     public $ui = array();
+    private $activeLicenses = array();
     public $table_prefix = false;
     public $current_module = false;
     public $current_module_params = false;
@@ -54,6 +45,11 @@ class ModuleManager
             }
         }
         $this->set_table_names();
+        if(mw_is_installed()){
+            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table='.$this->tables['system_licenses']);
+         }
+
+
     }
 
     public function set_table_names($tables = false)
@@ -204,6 +200,7 @@ class ModuleManager
 
         mw()->cache_manager->delete('db');
         mw()->cache_manager->clear();
+        mw()->module_repository->clearCache();
 
         $this->scan();
 
@@ -285,17 +282,12 @@ class ModuleManager
             $glob_patern = '*config.php';
         }
 
-        if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
-            define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
+
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
         }
 
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-//            ini_set('memory_limit', '160M');
-//            ini_set('set_time_limit', 0);
-//        }
-//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-//            set_time_limit(600);
-//        }
 
         $dir = rglob($glob_patern, 0, $dir_name);
 
@@ -330,7 +322,7 @@ class ModuleManager
                     ob_start();
 
                     $is_mw_ignore = dirname($value) . DS . '.mwignore';
-                    if (!is_file($is_mw_ignore)) {
+                    if (!is_file($is_mw_ignore) and is_file($value)) {
                         include $value;
                     }
 
@@ -360,6 +352,11 @@ class ModuleManager
 
                     $config['module_base'] = str_replace('admin/', '', $moduleDir);
                     $main_try_icon = false;
+
+                    $config['is_symlink'] = false;
+                    if(is_link(normalize_path($moduleDir, false))){
+                        $config['is_symlink'] = true;
+                    }
 
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
@@ -408,12 +405,17 @@ class ModuleManager
                         $config['is_system'] = 0;
                     }
 
+                    if (isset($config['is_integration'])) {
+                        $config['is_integration'] = intval($config['is_integration']);
+                    } else {
+                        $config['is_integration'] = 0;
+                    }
+
                     if (isset($config['ui_admin'])) {
                         $config['ui_admin'] = intval($config['ui_admin']);
                     } else {
                         $config['ui_admin'] = 0;
                     }
-
 
                     if (isset($config['no_cache']) and $config['no_cache'] == true) {
                         $config['allow_caching'] = 0;
@@ -533,7 +535,8 @@ class ModuleManager
                 $s['module'] = $data_to_save['module'];
 
                 if (!isset($s['module_id'])) {
-                    $save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
+                    //$save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
+                  $save =  db_get('table=modules&no_cache=1&module=' . $s['module']);
 
                     if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);
@@ -630,7 +633,6 @@ class ModuleManager
 
         if ($this->modules_register) {
             $return = array_merge($return, $this->modules_register);
-
         }
 
         return $return;
@@ -773,11 +775,10 @@ class ModuleManager
 
     public function info($module_name)
     {
-        $get = array();
-        $get['module'] = $module_name;
-        $get['single'] = 1;
+        $module_name = preg_replace('/admin$/', '', $module_name);
+        $module_name = rtrim($module_name, '/');
 
-        $data = $this->get($get);
+        $data = app()->module_repository->getModule($module_name);
 
         return $data;
     }
@@ -816,7 +817,17 @@ class ModuleManager
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
+        //   $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
+        $licenses = $this->activeLicenses;
+        //$licenses = $this->app->update->get_licenses('nolimit=1&status=active');
+        $lic = [];
+        if ($licenses) {
+            foreach ($licenses as $license) {
+                if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
+                    $lic = $license;
+                }
+            }
+        }
 
         if (!empty($lic)) {
             return true;
@@ -983,7 +994,7 @@ class ModuleManager
     {
         if ($module_name == false) {
 
-            $mod_data = $this->app->parser->current_module;
+            $mod_data = $this->app->parser->processor->current_module;
             if (isset($mod_data['url_to_module'])) {
                 return $mod_data['url_to_module'];
             }
@@ -1099,12 +1110,19 @@ class ModuleManager
             $module_namei = str_ireplace('\\admin', '', $module_namei);
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
-        $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
+        //$uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
+        $uninstall_lock = app()->module_repository->getModule($module_namei);
+
+
+
+
 
         if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
             $root_mod = $this->locate_root_module($module_name);
             if ($root_mod) {
-                $uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
+                //$uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
+                $uninstall_lock = app()->module_repository->getModule($root_mod);
+
                 if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
                     return false;
                 } else {
@@ -1133,6 +1151,7 @@ class ModuleManager
                     ++$i;
                 }
                 $this->app->database_manager->update_position_field($table, $indx);
+                app()->module_repository->clearCache();
 
                 return $indx;
             }
@@ -1162,6 +1181,7 @@ class ModuleManager
 
             $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         }
+        app()->module_repository->clearCache();
     }
 
     public function icon_with_title($module_name, $link = true)
@@ -1172,7 +1192,12 @@ class ModuleManager
         $params['ui'] = 'any';
         $params['limit'] = 1;
 
-        $data = $this->get($params);
+      //  $data = $this->get($params);
+
+        $data = app()->module_repository->getModule($module_name);
+
+
+
         $info = false;
         if (isset($data[0])) {
             $info = $data[0];
@@ -1243,6 +1268,7 @@ class ModuleManager
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         $this->app->cache_manager->clear();
+        app()->module_repository->clearCache();
 
 //
 //        $this_module = $this->get('ui=any&one=1&id=' . $id);
@@ -1299,6 +1325,8 @@ class ModuleManager
             }
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
+        app()->module_repository->clearCache();
+
     }
 
     public function update_db()
@@ -1334,6 +1362,8 @@ class ModuleManager
                 }
             }
         }
+        app()->module_repository->clearCache();
+
     }
 
     public function get_saved_modules_as_template($params)
@@ -1378,6 +1408,8 @@ class ModuleManager
                 $this->app->database_manager->delete_by_id($table, $c_id);
             }
         }
+        app()->module_repository->clearCache();
+
     }
 
     public function save_module_as_template($data_to_save)
@@ -1394,6 +1426,7 @@ class ModuleManager
 
             $save = $this->app->database_manager->save($table, $s);
         }
+        app()->module_repository->clearCache();
 
         return $save;
     }

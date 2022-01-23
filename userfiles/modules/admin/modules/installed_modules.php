@@ -98,9 +98,7 @@
         mw.load_module('admin/modules/manage', '#modules_admin_<?php print $params['id']; ?>', function () {
             $('#module_keyword').removeClass('loading');
 
-            if (typeof(SVGtoCode) != 'undefined') {
-                SVGtoCode();
-            }
+
             var el = $("#modules_admin_<?php print $params['id']; ?> .mw-modules-admin");
             // $( "#modules_admin_<?php print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
             el.sortable({
@@ -187,7 +185,12 @@
 
 
 </script>
-
+<?php
+$show_by_categories = false;
+if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_categories']) != 0){
+    $show_by_categories = true;
+}
+?>
 <div class="card bg-none style-1 mb-0 card-settings">
     <div class="card-header px-0">
         <h5>
@@ -230,6 +233,18 @@
             </div>
 
             <div class="mb-3">
+
+                <?php if ($show_by_categories): ?>
+                    <a href="?show_modules_by_categories=0" class="btn  btn-primary btn-md  btn-icon" title="Do not sort by category"><i class="mdi mdi-view-list"></i> </a>
+                <?php else: ?>
+                    <a href="?show_modules_by_categories=1" class="btn btn-outline-primary btn-md  btn-icon" title="Sort by category"><i class="mdi mdi-view-list"></i> </a>
+                <?php endif; ?>
+
+
+
+
+
+
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
 
                 <?php if (user_can_access('module.modules.edit')): ?>
@@ -277,7 +292,13 @@
         </div>
 
         <div class="mw-modules-admin-holder">
-            <div id="modules_admin_<?php print $params['id']; ?>"></div>
+
+
+            <?php if ($show_by_categories): ?>
+            <div show_modules_by_categories="1" id="modules_admin_<?php print $params['id']; ?>"></div>
+            <?php else: ?>
+             <div id="modules_admin_<?php print $params['id']; ?>"></div>
+            <?php endif; ?>
             <div id="modules_market_<?php print $params['id']; ?>"></div>
         </div>
     </div>

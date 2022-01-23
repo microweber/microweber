@@ -39,6 +39,18 @@ if (isset($data[0]) == false) {
 } else {
     $data = $data[0];
 }
+
+if(isset( $data['id']) and  $data['id'] != 0){
+$saveRoute = route('api.user.update',$data['id']);
+    $saveRouteMethod = "PATCH";
+
+} else {
+$saveRoute = route('api.user.store');
+    $saveRouteMethod = "PUT";
+
+}
+
+
 ?>
 
 <script>mw.lib.require("mwui_init");</script>
@@ -53,7 +65,7 @@ if (isset($data[0]) == false) {
         var userId = <?php print $data['id']; ?>;
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {
             if (confirm("Are you sure you want to delete this user?")) {
-                $.post("<?php print api_url('delete_user') ?>", {id: $user_id})
+                $.post("<?php print api_link() ?>delete_user", {id: $user_id})
                     .done(function (data) {
                         location.href = "<?php print admin_url('view:modules/load_module:users'); ?>";
                     });
@@ -68,9 +80,13 @@ if (isset($data[0]) == false) {
             }
         }
 
+        <?php
+            $usersEditRand = uniqid();
+        ?>
+
         var isValid = function () {
             var valid = true;
-            mw.$('[name="email"], [name="text"]', '#users_edit_{rand}').each(function () {
+            mw.$('[name="email"], [name="text"]', '#users_edit_<?php echo $usersEditRand; ?>').each(function () {
                 if (!this.validity.valid) {
                     $(this).addClass('is-invalid')
                     valid = false;
@@ -91,19 +107,23 @@ if (isset($data[0]) == false) {
                 document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
-            mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (scopeEl) {
+            mw.form.post(mw.$('#users_edit_<?php echo $usersEditRand; ?>'), '<?php print $saveRoute  ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
                 }
+                saveduserid = 0;
+                if(this.data){
+                   var saveduserid = this.data.id;
+                }
 
                 mw.notification.success(mw.lang('All changes saved'));
                 if (userId === 0) {
-                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + this.toString();
+                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + saveduserid;
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
-            });
+            },false,false,false,false,'<?php print $saveRouteMethod ?>');
         }
 
 
@@ -187,7 +207,7 @@ if (isset($data[0]) == false) {
         <div class="card-body pt-3">
             <div class="row">
                 <div class="col-xl-6 mx-auto">
-                    <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
+                    <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_<?php echo $usersEditRand; ?>">
                         <div id="avatar_holder" class="text-center">
                             <div class="d-inline-block">
                                 <?php if ($data['thumbnail'] == '') { ?>
@@ -227,6 +247,10 @@ if (isset($data[0]) == false) {
 
                         <input type="hidden" name="id" value="<?php print $data['id']; ?>">
                         <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
+
+                        <?php if ($data['id'] > 0): ?>
+                            <input name="_method" type="hidden" value="PATCH">
+                        <?php endif; ?>
 
                         <div class="d-block">
                             <small class="d-block text-muted text-center mb-4 mt-2"><?php _e("Fill in the fields to create a new user"); ?></small>
@@ -305,26 +329,14 @@ if (isset($data[0]) == false) {
 
                                 <div class="form-group">
                                     <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
-                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>. <a href="<?php echo route('admin.role.index');?>"><?php _e("Manage user roles"); ?></a></small>
-                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
+                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
+                                      <!--  <a href="<?php /*echo route('admin.role.index');*/?>"><?php /*_e("Manage user roles"); */?></a>-->
+                                    </small>
+                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="is_admin">
 
-                                        <?php
-                                        $roles = \MicroweberPackages\Role\Repositories\Role::all();
-                                        foreach ($roles as $role):
+                                        <option value="1" <?php if( $data['is_admin'] == 1): ?> selected="selected" <?php endif; ?>>Admin</option>
+                                        <option value="0" <?php if( $data['is_admin'] == 0): ?> selected="selected" <?php endif; ?>>User</option>
 
-
-                                            ?>
-                                        <?php if ($role['name'] == 'Super Admin') : ?>
-                                            <option <?php if( $data['is_admin'] == 1 && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
-
-                                        <?php endif; ?>
-                                           <?php if ( $role['name'] == 'User') : ?>
-                                            <option <?php if( $data['is_admin'] == 0 && $role['name'] == 'User'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
-                                        <?php endif; ?>
-
-                                            <?php
-                                        endforeach;
-                                        ?>
                                     </select>
                                 </div>
 
@@ -374,7 +386,7 @@ if (isset($data[0]) == false) {
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <a href="javascript:;" class="btn btn-link px-0" data-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
+                            <a href="javascript:;" class="btn btn-outline-primary" data-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
 
                             <div class="collapse" id="advanced-settings">
                                 <div class="form-group">
@@ -385,7 +397,7 @@ if (isset($data[0]) == false) {
                                 <?php if ($data['id'] != false and $data['id'] != user_id()): ?>
                                     <div class="d-flex align-items-center">
                                         <a onclick="LoginAsUserFromAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Login as User'); ?></a>
-                                        <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Delete user'); ?></a>
+                                        <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-danger btn-sm ml-2"><?php _e('Delete user'); ?></a>
                                     </div>
                                 <?php endif; ?>
 
@@ -423,8 +435,14 @@ if (isset($data[0]) == false) {
                                     <div class="export-label d-flex align-items-center justify-content-center-x">
                                         <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php _e('Export user data'); ?></a>
                                         &nbsp;
+                                    </div>
+                                    <div class="export-label d-flex align-items-center justify-content-center-x">
+
                                         <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Terms agreement log'); ?></a>
                                         &nbsp;
+                                    </div>
+                                    <div class="export-label d-flex align-items-center justify-content-center-x">
+
                                         <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Login attempts'); ?></a>
                                     </div>
                                 <?php endif; ?>
@@ -437,7 +455,7 @@ if (isset($data[0]) == false) {
             <hr class="thin"/>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-secondary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
+                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
                 <button id="user-save-button" class="btn btn-success btn-sm" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
             </div>
         </div>

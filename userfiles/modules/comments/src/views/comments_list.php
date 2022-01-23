@@ -42,17 +42,38 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 ?>
 
 
+
+
+<script>
+    mw.lib.require('mwui_init');
+</script>
+<div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>">
+    <?php
+    if (is_array($postComments)): ?>
+        <?php foreach ($postComments as $i => $comment) : ?>
+
+            <?php
+            $last_item_param = '';
+            if (!isset($postComments[$i + 1])) {
+                $last_item_param = ' show-reply-form=true ';
+            }
+            ?>
+
+            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
+
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="icon-title">
+            <i class="mdi mdi-comment-account"></i> <h5><?php _e('You don\'t have any comments'); ?></h5>
+        </div>
+    <?php endif; ?>
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
 
-
-        mw.dropdown();
-        $(document.body).ajaxStop(function () {
-            setTimeout(function () {
-                mw.dropdown();
-            }, 1222);
-        });
+        mw.edit_comments.api_url = '<?php print route('api.comment.admin.edit') ?>';
 
 
         $('.new-close', '#<?php print $params['id'] ?>').on('click', function (e) {
@@ -156,36 +177,11 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             e.stopPropagation();
 
         });
+
+        mw.dropdown();
     });
 
 </script>
-
-<script>
-    mw.lib.require('mwui_init');
-</script>
-<div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>">
-    <?php
-    if (is_array($postComments)): ?>
-        <?php foreach ($postComments as $i => $comment) : ?>
-
-            <?php
-            $last_item_param = '';
-            if (!isset($postComments[$i + 1])) {
-                $last_item_param = ' show-reply-form=true ';
-            }
-            ?>
-
-            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
-
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="icon-title">
-            <i class="mdi mdi-comment-account"></i> <h5><?php _e('You don\'t have any comments'); ?></h5>
-        </div>
-    <?php endif; ?>
-</div>
-
-
 
 
 

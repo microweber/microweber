@@ -134,7 +134,7 @@
 
                                         <div class="form-group mb-3">
                                             <label class="control-label">Disable registration with temporary email?</label>
-                                            <small class="text-muted d-block mb-2">Usars can register with temporary emails like - Mailinator, MailDrop, Guerrilla...</small>
+                                            <small class="text-muted d-block mb-2">Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla...</small>
                                         </div>
 
                                         <div class="form-group mb-4">

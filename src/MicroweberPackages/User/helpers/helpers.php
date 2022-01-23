@@ -244,14 +244,33 @@ function is_admin()
 
 function is_live_edit()
 {
-    $editmode_sess = mw()->user_manager->session_get('editmode');
-    if ($editmode_sess == true and !defined('IN_EDIT')) {
-        define('IN_EDIT', true);
+    if (!is_admin()) {
+        return false;
+    }
 
+    $editModeParam = app()->url_manager->param('editmode');
+    if ($editModeParam == 'n') {
+        return false;
+    }
+
+
+    $editModeParam = app()->url_manager->param('editmode');
+    if ($editModeParam == 'y') {
         return true;
     }
 
-    return $editmode_sess;
+    $editModeParam2 = app()->url_manager->param('editmode',true);
+    if ($editModeParam2 == 'y') {
+        return true;
+    }
+
+    $editModeSession = mw()->user_manager->session_get('editmode');
+    if ($editModeSession == true and !defined('IN_EDIT')) {
+        define('IN_EDIT', true);
+        return true;
+    }
+
+    return $editModeSession;
 }
 
 /**
@@ -333,17 +352,19 @@ function user_can_access($permission)
         return true;
     }
 
-    return $user->can($permission);
+    return false;
+   // return $user->can($permission);
 }
 
 function module_permissions($module)
 {
+
     return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 }
 
 function user_can_destroy_module($module)
 {
-    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+ //   $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -354,9 +375,9 @@ function user_can_destroy_module($module)
         return true;
     }
 
-    if ($user->can($permissions['destroy'])) {
+   /* if ($user->can($permissions['destroy'])) {
         return true;
-    }
+    }*/
 
     return false;
 }
@@ -364,7 +385,7 @@ function user_can_destroy_module($module)
 function user_can_view_module($module)
 {
 
-    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+    //$permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -375,9 +396,9 @@ function user_can_view_module($module)
         return true;
     }
 
-    if ($user->can($permissions['index'])) {
+ /*   if ($user->can($permissions['index'])) {
         return true;
-    }
+    }*/
 
     return false;
 

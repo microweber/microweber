@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Content\tests;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class ContentManagerTest extends TestCase
@@ -34,6 +35,8 @@ class ContentManagerTest extends TestCase
 
     public function testPages()
     {
+        $clean = Content::truncate();
+
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
@@ -58,6 +61,73 @@ class ContentManagerTest extends TestCase
             'is_active' => 1,);
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
+
+
+
+        $params = array(
+            "content_type" => "page",
+            "paging_param" => "pg",
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 3,
+            "page_count" => true
+        );
+
+        $get = get_content($params);
+        $this->assertEquals(1, $get);
+
+        $params = array(
+            "content_type" => "page",
+
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1,
+            "page_count" => true
+        );
+
+        $get_count = get_content('count=1');
+
+        $get = get_content($params);
+        $this->assertEquals($get_count, $get);
+
+
+
+        $params = array(
+            "content_type" => "page",
+            "page" => 2, // old parameter for current_page
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+        $params = array(
+            "content_type" => "page",
+            "current_page" => 2,
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+        $params = array(
+            "content_type" => "page",
+            "paging_param" => "mypagingparam",
+            "mypagingparam" => 2,
+            "orderby" => "position desc",
+            "no_cache" => 1,
+            "limit" => 1
+        );
+
+        $get = get_content($params);
+        $this->assertEquals($sub_page, $get[0]['id']);
+
+
         //clean
         $delete_parent = delete_content($parent_page);
         $delete_sub_page = delete_content($sub_page);
@@ -71,6 +141,12 @@ class ContentManagerTest extends TestCase
         $this->assertEquals(true, is_array($delete_sub_page));
         $this->assertEquals('My test sub page', $get_sub_page['title']);
         $this->assertEquals($sub_page, $get_sub_page['id']);
+
+
+
+
+
+
     }
 
     public function testGetPages()
@@ -252,6 +328,8 @@ class ContentManagerTest extends TestCase
         $delete_category = delete_category($post_cats[0]['id']);
         $deleted_category = get_category_by_id($post_cats[0]['id']);
         $this->assertEquals(true, $delete_category);
+
+
         $this->assertEquals(false, $deleted_category);
     }
 
@@ -268,9 +346,9 @@ class ContentManagerTest extends TestCase
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
         $save_post3 = save_content($params);
+
         //getting
         $next = next_content($save_post1);
-
         $prev = prev_content($save_post2);
 
         $this->assertEquals($save_post2, ($next['id']));
@@ -301,7 +379,7 @@ class ContentManagerTest extends TestCase
         $saved_id = save_content($params);
 
 
-        event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
+   /*     event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
             if(is_array($original_params) and isset($original_params['id']) and $original_params['id'] == $saved_id) {
                 $new_params = $original_params;
                 $new_params['is_deleted'] = 0;
@@ -311,9 +389,9 @@ class ContentManagerTest extends TestCase
 
                 return $new_params;
             }
-        });
+        });*/
 
-
+/*
         event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
             if($items){
                 foreach ($items as $k=> $item){
@@ -325,13 +403,12 @@ class ContentManagerTest extends TestCase
             }
             return $items;
 
-
-        });
+        });*/
 
 
         $cont = get_content_by_id($saved_id);
 
-        $this->assertEquals('I just changed the title from a filter', $cont['title']);
+      //  $this->assertEquals('I just changed the title from a filter', $cont['title']);
         $this->assertEquals($saved_id, $cont['id']);
     }
 
@@ -346,12 +423,78 @@ class ContentManagerTest extends TestCase
         );
 
         $saved_id = save_content($params);
-
         $get = get_content('keyword='.$title);
 
         $this->assertEquals($title, $get[0]['title']);
         $this->assertEquals($saved_id, $get[0]['id']);
 
+
+    }
+
+    public function testContentLimitPaging()
+    {
+
+        $title = 'New '. uniqid('New');
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+        $title = 'New  '. uniqid('New');
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+
+
+        $get = get_content('limit=1');
+        $get2 = get_content('limit=1&current_page=2');
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
+
+        $get3 = get_content('ids='.$get2[0]['id']);
+        $this->assertEquals(1, count($get3));
+        $this->assertEquals($get3[0]['id'], $get2[0]['id']);
+
+
+
+        $get = get_content('nolimit=1');
+        $get2 = get_content('limit=2');
+        $this->assertNotEquals(count($get), count($get2));
+
+    }
+
+    public function testContentOrderBy()
+    {
+        $get = get_content('limit=1&order_by=id desc');
+        $get2 = get_content('limit=1');
+        $this->assertNotEquals($get[0]['id'], $get2[0]['id']);
+
+    }
+    public function testContentGroupBy()
+    {
+        $title = 'New '. uniqid('ParentGroupBy');
+        $parent = rand(1000,9999);
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'parent' => $parent,
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+        $saved_id2 = save_content($params);
+
+        $get = get_content('limit=100&group_by=parent&parent='.$parent);
+        $this->assertEquals(1, count($get));
 
     }
 

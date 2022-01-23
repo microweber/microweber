@@ -27,6 +27,18 @@ mw.Form = function(options) {
 
 
 
+var setValidity = function (state, obj) {
+    var $el = mw.element(obj);
+    if(state){
+        $el.parents('.field').removeClass("error");
+        $el.parent().find('.mw-error').remove();
+    }
+    else{
+        $el.parents('.field').addClass("error");
+
+    }
+};
+
 
 mw.form = {
   typeNumber:function(el){
@@ -47,23 +59,10 @@ mw.form = {
     }
   },
   dstatic:function(event, d){
-    d = d || mw.$(event.target).dataset('default') || false;
-    var type = event.type;
-    var target = event.target;
-    if(!!d){
-        if(type === 'focus'){
-           target.value==d?target.value='':'';
-        }
-        else if(type=='blur'){
-           target.value==''?target.value=d:'';
-        }
-    }
-    if(type=='keyup'){
-        mw.$(target).addClass('loading');
-    }
+
   },
   post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
-    mw.session.checkPause = true;
+     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
     }
@@ -82,23 +81,36 @@ mw.form = {
     if(is_form_valid){
 
         var form = mw.$(selector)[0];
-
-        if(form._isSubmitting){
+        if (form._isSubmitting) {
             return;
         }
-        form._isSubmitting = true;
 
+        form._isSubmitting = true;
 
         var when = form.$beforepost ? form.$beforepost : function () {};
         $.when(when()).then(function() {
             setTimeout(function () {
                 var obj = mw.form.serialize(selector, ignorenopost);
+
+
+
+
                 var req = {
                     url: url_to_post,
                     data: before_send ? before_send(obj) : obj,
                     method: 'post',
                     dataType: "json",
-
+                    statusCode: {
+                        201: function(data){
+                            // copy of success
+                            mw.session.checkPause = false;
+                            if(typeof callback === 'function'){
+                                callback.call(data, mw.$(selector)[0]);
+                            } else {
+                                return data;
+                            }
+                        }
+                    },
                     success: function(data){
 /*
                        if(typeof (data.error) != 'undefined' && data.error){
@@ -164,7 +176,7 @@ mw.form = {
         return obj.checked === true;
     },
     field:function(obj){
-		return getFieldValue(obj).replace(/\s/g, '') != '';
+		return !!getFieldValue(obj).trim();
     },
     email:function(obj){
         var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/;
@@ -194,22 +206,22 @@ mw.form = {
         return this_radio_valid;
     },
     image_url:function(url, valid, invalid){
-        var url = url.replace(/\s/gi,'');
+        url = url.replace(/\s/gi,'');
         if(url.length<6){
-            typeof invalid =='function'? invalid.call(url) : '';
+            typeof invalid === 'function'? invalid.call(url) : '';
             return false;
         }
         else{
-          if(!url.contains('http')){var url = 'http://'+url}
+          if(!url.contains('http')){url = 'http://'+url}
           if(!window.ImgTester){
               window.ImgTester = new Image();
               document.body.appendChild(window.ImgTester);
               window.ImgTester.className = 'semi_hidden';
               window.ImgTester.onload = function(){
-                typeof valid =='function'? valid.call(url) : '';
+                typeof valid === 'function'? valid.call(url) : '';
               }
               window.ImgTester.onerror = function(){
-                typeof invalid =='function'? invalid.call(url) : '';
+                typeof invalid === 'function'? invalid.call(url) : '';
               }
           }
           window.ImgTester.src = url;
@@ -217,37 +229,23 @@ mw.form = {
     },
     proceed:{
       checkbox:function(obj){
-        if(mw.form.validate.checkbox(obj)){
-            mw.$(obj).parents('.field').removeClass("error");
-        }
-        else{
-            mw.$(obj).parents('.field').addClass("error");
-        }
+          setValidity(mw.form.validate.checkbox(obj), obj)
       },
       field:function(obj){
-        if(mw.form.validate.field(obj)){
-           mw.$(obj).parents('.field').removeClass("error");
-         }
-         else{
-           mw.$(obj).parents('.field').addClass("error");
-         }
+          setValidity(mw.form.validate.field(obj), obj)
+
       },
       email:function(obj){
-        if(mw.form.validate.email(obj)){
-           mw.$(obj).parents('.field').removeClass("error");
-        }
-        else{
-           mw.$(obj).parents('.field').addClass("error");
-        }
+          setValidity(mw.form.validate.email(obj), obj)
       }
     },
     checkFields:function(form){
         mw.$(form).find(".required,[required]").each(function(){
           var type = mw.$(this).attr("type");
-          if(type=='checkbox'){
+          if(type==='checkbox'){
              mw.form.validate.proceed.checkbox(this);
           }
-          else if(type=='radio'){
+          else if(type==='radio'){
              mw.form.validate.radio(this.name);
           }
           else{

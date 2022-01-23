@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e('Seo Settings'); ?></h5>
-                    <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
+                    <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -53,7 +53,7 @@
 
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Name"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines.") . ' '; ?><?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines."); ?> <?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
                                         <?php
                                         echo $formBuilder->textOption('website_title', 'website')->attribute('autocomplete', 'off');
                                         ?>
@@ -202,8 +202,9 @@
                                     <div class="form-group">
                                         <?php
                                         $logo = get_option('logo', 'website');
+                                        $nologo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
                                         if (!$logo) {
-                                            $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
+                                            $logo = $nologo;
                                         }
                                         ?>
                                         <script>
@@ -218,18 +219,24 @@
                                                   mw.$(".js-logo").attr('src', b.src);
                                                    // mw.$("link[rel*='icon']").attr('href', b.src);
                                                 });
-                                            });
+                                                mw.element('#remove-logo-btn').on('click', function(){
+                                                    mw.element('#logo-preview').val('').trigger('change')
+                                                    mw.element('.js-logo').attr('src', '<?php print $nologo; ?>');
+                                                })
+                                            })
+
                                         </script>
 
                                         <label class="control-label"><?php _e("Website Logo"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
                                         <div class="d-flex">
-                                            <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
+                                            <div class="img-circle-holder img-absolute border-radius-0 border-silver mr-3" style="height: 40px;">
                                                 <img src="<?php print $logo; ?>" class="js-logo" />
                                                 <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="website"/>
                                             </div>
                                             <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image"><?php _e("Upload logo"); ?></button>
-                                        </div>
+                                             <span class="mdi mdi-delete tip mw-btn-icon" id="remove-logo-btn"  data-tip="<?php _e("Remove logo"); ?>"></span>
+                                         </div>
                                     </div>
                                 </div>
 
@@ -237,8 +244,9 @@
                                     <div class="form-group">
                                         <?php
                                         $favicon_image = get_option('favicon_image', 'website');
+                                        $nofavicon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
                                         if (!$favicon_image) {
-                                            $favicon_image = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
+                                            $favicon_image = $nofavicon;
                                         }
                                         ?>
 
@@ -255,6 +263,11 @@
                                                     mw.$(".js-icoimage").attr('src', b.src);
                                                     mw.$("link[rel*='icon']").attr('href', b.src);
                                                 });
+
+                                                mw.element('#remove-favicon-btn').on('click', function(){
+                                                    mw.element('#favicon_image').val('').trigger('change')
+                                                    mw.element('.js-icoimage').attr('src', '<?php print $nofavicon; ?>');
+                                                })
                                             });
                                         </script>
 
@@ -267,6 +280,8 @@
                                             </div>
 
                                             <button type="button" class="btn btn-outline-primary" id="upload-icoimage"><?php _e("Upload favicon"); ?></button>
+                                            <span class="mdi mdi-delete tip mw-btn-icon" id="remove-favicon-btn"  data-tip="<?php _e("Remove favicon"); ?>"></span>
+
                                         </div>
                                     </div>
                                 </div>

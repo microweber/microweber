@@ -16,6 +16,7 @@ namespace MicroweberPackages\Template;
 use Illuminate\Support\Facades\Cache;
 use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
 use MicroweberPackages\Template\Adapters\ElementsConfigReader;
+use MicroweberPackages\View\View;
 
 class LayoutsManager
 {
@@ -75,6 +76,35 @@ class LayoutsManager
             $opts['path'] = $dir_name;
             $elements = $elements_config_reader->scan($dir_name);
             return $elements;
+        }
+    }
+
+
+    public function element_display($element_filename, $attr = array())
+    {
+        $element_file = false;
+        $file = $element_filename;
+        if (!str_ends_with($element_filename, '.php')) {
+            $file = $file . '.php';
+        }
+
+
+        $file = str_replace('..', '', $file);
+        $file_from_default = normalize_path(elements_path() . $file, false);
+        $file_from_template = normalize_path(template_dir() . 'elements' . DS . $file, false);
+        if (is_dir(template_dir() . 'elements') and is_file($file_from_template)) {
+            $element_file = $file_from_template;
+        } elseif (is_dir(elements_path()) and is_file($file_from_default)) {
+            $element_file = $file_from_default;
+        }
+
+
+        if ($element_file) {
+            $view = new View($element_file);
+            if(is_array($attr) and !empty($attr)){
+                $view->set($attr);
+            }
+            return $view->display();
         }
     }
 
@@ -234,10 +264,23 @@ class LayoutsManager
                                 $to_return_temp['name'] = trim($result);
                             }
 
+                            $to_return_temp['category'] = 'All';
+                            if (preg_match('/category:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('category:', '', $result);
+                                $result = trim($result);
+                                $to_return_temp['category'] = $result;
+                            }
+
                             if (preg_match('/is_default:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('is_default:', '', $result);
                                 $to_return_temp['is_default'] = trim($result);
+                            }
+                            if (preg_match('/categories:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('categories:', '', $result);
+                                $to_return_temp['categories'] = trim($result);
                             }
 
                             if (preg_match('/position:.+/', $fin, $regs)) {
@@ -909,11 +952,9 @@ class LayoutsManager
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
                     file_put_contents($live_edit_css, $css_cont_new);
                     //  print $css_cont_new;
-                } else  if ($css_cont_new == '' and isset($params['css_file_content'])) {
+                } else if ($css_cont_new == '' and isset($params['css_file_content'])) {
                     file_put_contents($live_edit_css, '');
                 }
-
-
 
 
                 $resp['content'] = $css_cont_new;

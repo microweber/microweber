@@ -9,7 +9,14 @@ $author = array_first(explode('/', $item['name']), function ($key, $value) {
     return $value;
 });
 
+
+
+
 $package_name = explode('/', $item['name']);
+if(!isset($package_name[1])){
+    return;
+}
+
 $package_name = $package_name[1];
 
 if (isset($item['authors']) and isset($item['authors'][0]) and isset($item['authors'][0]['name'])) {
@@ -26,7 +33,6 @@ $author_icon = false;
 if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['extra']['_meta']['avatar'])) {
     //$author_icon = $item['extra']['_meta']['avatar'];
 }
-
 
 $screenshot = false;
 $changelog = false;
@@ -49,10 +55,8 @@ if ($item['name'] == 'microweber/update') {
     $is_core_update = true;
 }
 
-if (!$screenshot) {
-    if (isset($item['latest_version']['extra']['_meta'][$package_name])) {
-        $screenshot = $item['latest_version']['extra']['_meta'][$package_name];
-    }
+if (isset($item['latest_version']['extra']['_meta'][$package_name])) {
+    $screenshot = $item['latest_version']['extra']['_meta'][$package_name];
 }
 
 $key = $item['name'];
@@ -78,7 +82,6 @@ $has_update = false;
 if (isset($item['has_update']) and $item['has_update']) {
     $has_update = true;
 }
-
 
 if (!isset($box_class)) {
     $box_class = '';

@@ -133,7 +133,7 @@ mw.drag = {
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
-    external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
+    external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement', 'no-element', 'mw-skip', 'allow-drop', 'nodrop', 'mw-open-module-settings','module-layouts'],
     onCloneableControl:function(target, isOverControl){
         if(!this._onCloneableControl){
             this._onCloneableControl = document.createElement('div');
@@ -147,7 +147,7 @@ mw.drag = {
 
             document.body.appendChild(this._onCloneableControl);
             mw.$('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
-                var $t = mw.$(mw.drag._onCloneableControl.__target).parent()
+                var $t = mw.$(mw.drag._onCloneableControl.__target).parent();
                 mw.liveEditState.record({
                     target: $t[0],
                     value: $t[0].innerHTML
@@ -222,14 +222,16 @@ mw.drag = {
             var prev = mw.$(this._onCloneableControl.__target).prev();
             var el = mw.$(target), off = el.offset();
 
+            off.top  +=  (target.dataset.handleOffset ? Number(target.dataset.handleOffset) : 0)
 
-            if(next.length == 0){
+
+            if(next.length === 0){
                 mw.$('.mw-cloneable-control-next', clc).hide();
             }
             else{
                 mw.$('.mw-cloneable-control-next', clc).show();
             }
-            if(prev.length == 0){
+            if(prev.length === 0){
                 mw.$('.mw-cloneable-control-prev', clc).hide();
             }
             else{
@@ -489,7 +491,7 @@ mw.drag = {
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
 
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-                        var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
+                        var moduleEl = mw.tools.firstMatchesOnNodeOrParent(target, ['.module:not(.no-settings):not(.inaccessibleModule)']);
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
@@ -746,7 +748,6 @@ mw.drag = {
             noelements = noelements.concat(noelements_drag);
             noelements = noelements.concat(section_selectors);
             noelements = noelements.concat(icon_selectors);
-
             return mw.tools.hasAnyOfClasses(el, noelements);
         },
         canBeEditable: function(el) {
@@ -831,7 +832,7 @@ mw.drag = {
             data1.view = 'admin';
         }
         if (data1.from_url == undefined) {
-            data1.from_url = window.parent.location;
+            data1.from_url = mw.parent().win.location.href;
         }
         var modal_name = 'module-settings-' + curr.id;
         if (typeof(data1.view.hash) === 'function') {
@@ -899,16 +900,21 @@ mw.drag = {
     delete_element: function(idobj, c) {
         mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
             var el = mw.$(idobj);
+
             mw.wysiwyg.change(idobj);
-            var elparent = el.parent()
+            var elparent = el.parent();
+
+            if(el[0].nodeName === 'IMG' && elparent[0].nodeName === 'PICTURE') {
+                el = el.parent();
+                elparent = el.parent();
+            }
 
             mw.liveEditState.record({
                 target: elparent[0],
                 value: elparent.html()
             });
-            el.addClass("mwfadeout");
-            setTimeout(function() {
-                mw.$(idobj).remove();
+
+                mw.$(el).remove();
                 mw.handleModule.hide();
                 mw.$(mw.handleModule).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
@@ -919,7 +925,7 @@ mw.drag = {
                 if(c){
                     c.call()
                 }
-            }, 300);
+
         });
     },
 
@@ -963,7 +969,7 @@ mw.drag = {
             dataType: "json",
             success: function (saved_data) {
                 if(saved_data && saved_data.new_page_url && !mw.drag.DraftSaving){
-                    window.parent.mw.askusertostay = false;
+                    window.mw.parent().askusertostay = false;
                     window.mw.askusertostay = false;
                     window.location.href  = saved_data.new_page_url;
 
@@ -1186,21 +1192,26 @@ mw.drag = {
         if (mw.drag.draftDisabled) return false;
         if (mw.drag.DraftSaving) return false;
         if (!mw.drag.initDraft) return false;
-        if (document.body.textContent != mw.drag.saveDraftOld) {
-            mw.drag.saveDraftOld = document.body.textContent;
-            var body = mw.drag.parseContent().body,
-                edits = body.querySelectorAll('.edit.changed'),
-                data = mw.drag.collectData(edits);
-            if (mw.tools.isEmptyObject(data)) return false;
-            data['is_draft'] = true;
-            mw.drag.DraftSaving = true;
-            var xhr = mw.drag.coreSave(data);
-            xhr.always(function(msg) {
-                mw.drag.DraftSaving = false;
-                mw.drag.initDraft = false;
-                mw.trigger('saveDraftCompleted');
 
-            });
+        if (document.body.textContent !== mw.drag.saveDraftOld) {
+            mw.drag.DraftSaving = true;
+            mw.wysiwyg.normalizeBase64Images(undefined, function (){
+                mw.drag.saveDraftOld = document.body.textContent;
+                var body = mw.drag.parseContent().body,
+                    edits = body.querySelectorAll('.edit.changed'),
+                    data = mw.drag.collectData(edits);
+                if (mw.tools.isEmptyObject(data)) { mw.drag.DraftSaving = false; return false };
+                data['is_draft'] = true;
+
+                var xhr = mw.drag.coreSave(data);
+                xhr.always(function(msg) {
+                    mw.drag.DraftSaving = false;
+                    mw.drag.initDraft = false;
+                    mw.trigger('saveDraftCompleted');
+
+                });
+            })
+
         }
     }
 }

@@ -19,7 +19,9 @@ body {
 }
 
 .container {
-  max-width: 70%;
+    width: 1920px;
+    max-width: 90%;
+
     @media screen and (max-width: 1600px) {
         max-width: 90%;
     }
@@ -1611,7 +1613,7 @@ header {
     height: 40px;
   }
   path {
-    fill: $primary;
+    //fill: $primary;
     display: block !important;
   }
 }

@@ -9,20 +9,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        // var colorpicker_els = mw.top().$("body *");
-        // if(colorpicker_els.length > 0){
-        //     colorpicker_els.each(function () {
-        //         var css = parent.getComputedStyle(this, null);
-        //         if (css !== null) {
-        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-        //             }
-        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-        //             }
-        //         }
-        //     });
-        // }
+         var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+         if(colorpicker_els.length > 0){
+             colorpicker_els.each(function () {
+                 var css = parent.getComputedStyle(this, null);
+                 if (css !== null) {
+                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                     }
+                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                         mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                     }
+                 }
+             });
+         }
 
     }
     var proto = this;
@@ -69,7 +69,8 @@ mw._colorPicker = function (options) {
     };
 
     if(settings.value) {
-        sett.color = settings.value
+        sett.color = settings.value;
+
     }
     if(typeof settings.showRGB !== 'undefined') {
         sett.showRGB = settings.showRGB
@@ -96,6 +97,13 @@ mw._colorPicker = function (options) {
             if ($el[0].nodeName === 'INPUT') {
                 var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
+                var prev = $el[0].previousElementSibling
+                if( prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display')
+                    if(dp) {
+                        dp.style.backgroundColor = val
+                    }
+                }
             }
         }
 
@@ -104,7 +112,9 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty();
+        mw.$('.mw-tooltip-content', tip).empty().css({
+            padding: 0
+        });
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
         frame = AColorPicker.createPicker(sett);
@@ -121,6 +131,14 @@ mw._colorPicker = function (options) {
 
             if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
+                var prev = $el[0].previousElementSibling
+                if(prev && prev.classList.contains('mw-field-color-indicator')) {
+                    var dp = prev.querySelector('.mw-field-color-indicator-display');
+                    if(dp) {
+                        dp.style.backgroundColor = data.color
+                    }
+
+                }
             }
         };
         if ($el[0].nodeName === 'INPUT') {
@@ -143,8 +161,8 @@ mw._colorPicker = function (options) {
             });
         }
         var documents = [document];
-        if (self !== top){
-            documents.push(top.document);
+        if (self !== mw.top().win){
+            documents.push(mw.top().win.document);
         }
         mw.$(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
@@ -174,6 +192,13 @@ mw._colorPicker = function (options) {
                 $el.focus();
                 this.show()
             }
+        }
+    }
+    var prev = $el[0].previousElementSibling
+    if( prev && prev.classList.contains('mw-field-color-indicator')) {
+        var dp = prev.querySelector('.mw-field-color-indicator-display')
+        if(dp) {
+            dp.style.backgroundColor = $el[0].value
         }
     }
 

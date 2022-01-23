@@ -3,7 +3,7 @@
         $('.js-shipping-gateway-box').html('');
         $.ajax({
             url: "<?php print route('checkout.shipping_method_change') ?>",
-            data: {"shipping_gw":shippingModulePath},
+            data: {"shipping_gw":shippingModulePath, "_token":"<?php echo csrf_token();?>"},
             method: 'POST',
         }).done(function() {
             mw.reload_module('shop/cart');
@@ -28,14 +28,14 @@ if (isset($params['selected_provider'])) {
 
 <div class="mw-shipping-select">
     <div  class="my-3">
-        <h4 class="mt-5"><?php _e("How you prefer to receive your order ?"); ?></h4>
-        <small class="text-muted d-block mb-2"> <?php _e("Choose the right method for deliver your order."); ?></small>
+        <h4 class="mt-5"><?php _e("Shipping method"); ?></h4>
+        <small class="text-muted d-block mb-2"> <?php _e("Choose a shipping method:"); ?></small>
         <?php $count = 0;
          foreach ($shipping_options as $item) : $count++; ?>
                 <div class="form-group">
                     <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-3">
-                        <label class="control-label">
-                        <input type="radio" onchange="showShippingModule('<?php echo md5($item['module_base']); ?>','<?php echo $item['module_base']; ?>');" name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> checked="checked" <?php endif; ?>">
+                        <label class="control-label d-flex align-items-center">
+                        <input class="mr-2 ms-2" type="radio" onchange="showShippingModule('<?php echo md5($item['module_base']); ?>','<?php echo $item['module_base']; ?>');" name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> checked="checked" <?php endif; ?>">
 
                             <?php
                             if (isset($item['settings']['icon_class'])):
@@ -44,16 +44,17 @@ if (isset($params['selected_provider'])) {
                             <?php
                             endif;
                             ?>
+
+                                <?php print $item['name']; ?>
+                                <?php
+                                if (isset($item['settings']['help_text'])):
+                                ?>
+                                <small class="text-muted">(<?php echo $item['settings']['help_text']; ?>)</small>
+                                <?php
+                                endif;
+                                ?>
                         </label>
-                        <br>
-                    <?php print $item['name']; ?>
-                        <?php
-                        if (isset($item['settings']['help_text'])):
-                        ?>
-                        <small class="text-muted">(<?php echo $item['settings']['help_text']; ?>)</small>
-                        <?php
-                        endif;
-                        ?>
+
                     </div>
                 </div>
 

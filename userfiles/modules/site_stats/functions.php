@@ -50,6 +50,11 @@ event_bind('mw.pageview', function ($params = false) {
 //
 //        return $src;
 
+
+        if(is_admin()){
+            return;
+        }
+
         $src_code = '$(document).ready(function () {
             setTimeout(function () {
                 $.ajax({
@@ -217,7 +222,7 @@ function mw_stats_track_visit()
 
     $function_cache_id = false;
     $uip = $_SERVER['REMOTE_ADDR'];
-    $function_cache_id = $function_cache_id . $uip . MW_USER_IP;
+    $function_cache_id = $function_cache_id . $uip . user_ip();
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
     $few_mins_ago_visit_date = date("Y-m-d H:i:s");
@@ -294,7 +299,7 @@ function stats_insert_cookie_based()
 
     $function_cache_id = false;
     $uip = $_SERVER['REMOTE_ADDR'];
-    $function_cache_id = $function_cache_id . $uip . MW_USER_IP;
+    $function_cache_id = $function_cache_id . $uip . user_ip();
 
 
     $cookie_name = 'mw-stats' . crc32($function_cache_id);

@@ -55,7 +55,7 @@ function save_option($dataOrKey, $value = false, $group = false)
         $option['option_key'] = $dataOrKey;
         $option['option_group'] = $group;
         if($lang){
-        $option['lang'] = $lang;
+            $option['lang'] = $lang;
         }
         return app()->option_manager->save($option);
     } else {

@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\User\Models\User;
 
 class Admin
 {
@@ -30,12 +31,22 @@ class Admin
         if (!mw_is_installed()) {
             return redirect(site_url());
         }
+
+
         if (Auth::check() && intval(Auth::user()->is_admin) === 1) {
             return $next($request);
         }
 
+
+
         if ($this->inExceptArray($request) || (Auth::check() && intval(Auth::user()->is_admin) === 1)) {
              return $next($request);
+        }
+
+        $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
+
+        if (!$hasNoAdmin) {
+            return $next($request);
         }
 
         return redirect()->guest(route('admin.login'));

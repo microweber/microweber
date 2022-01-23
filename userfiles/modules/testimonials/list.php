@@ -1,5 +1,11 @@
 <?php must_have_access(); ?>
 
+<?php
+if (!isset($params['project_name'])) {
+    $params['project_name'] = '';
+}
+?>
+
 <script>
     function delete_testimonial(id) {
         var are_you_sure = confirm('<?php _e('Are you sure?'); ?>');
@@ -11,7 +17,6 @@
             post.done(function (data) {
                 mw.reload_module("testimonials");
                 mw.reload_module("testimonials/list");
-
             });
             mw.reload_module_parent("testimonials");
         }
@@ -20,11 +25,13 @@
     add_testimonial = function () {
         $('.js-add-new-button').hide();
         $("#edit-testimonials").attr("edit-id", "0");
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
     }
 
     add_new_testimonial = function () {
         $("#edit-testimonials").attr("edit-id", 0);
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
         $('.js-add-new-testimonials').trigger('click');
     }
@@ -32,10 +39,11 @@
     list_testimonial = function () {
         $('.js-list-testimonials').trigger('click');
     }
-
+        ``
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
+        $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
         $('.js-add-new-testimonials').trigger('click');
     }
@@ -60,7 +68,7 @@
                 });
 
                 $.post("<?php print api_url(); ?>reorder_testimonials", data, function () {
-                    parent.mw.reload_module("testimonials");
+                    mw.parent().reload_module("testimonials");
                 });
 
             }
@@ -101,15 +109,28 @@
 </style>
 
 <?php
+
 $projects = [];
-$all_projects_name = 'All projects';
 $selected_project = get_option('show_testimonials_per_project', $params['parent-module-id']);
-if ($selected_project == NULL) {
-    $selected_project = 'All projects';
+if (empty($selected_project)) {
+    if (isset($params['project_name']) && !empty($params['project_name'])) {
+        $selected_project = $params['project_name'];
+    }
 }
 
-$data = get_testimonials(); ?>
-<?php if ($data): ?>
+$testimonialsQuery = \Illuminate\Support\Facades\DB::table('testimonials');
+if (trim($selected_project) != '') {
+    $testimonialsQuery->where('project_name', $selected_project);
+}
+$data = $testimonialsQuery->orderBy('id','DESC')->get();
+
+?>
+
+<?php if ((trim($selected_project) != '') && $data->count()==0): ?>
+    No testimonials data found for the project <b><?php echo $selected_project; ?></b>.
+<?php endif; ?>
+
+<?php if ($data != null): ?>
     <script>
         $(document).ready(function () {
             $('.js-hide-on-no-data').show();
@@ -118,46 +139,32 @@ $data = get_testimonials(); ?>
 
     <?php foreach ($data as $project): ?>
         <?php
-        if ($selected_project == $project['project_name'] OR ($project['project_name'] == null AND $selected_project == $all_projects_name)) {
-            if ($project['project_name']) {
-                $projects[$project['project_name']][] = $project;
-            }
-        }
-        ?>
-    <?php endforeach; ?>
-
-    <?php foreach ($data as $project): ?>
-        <?php
-        if ($selected_project != $project['project_name']) {
-            if (!$project['project_name']) {
-                $project['project_name'] = 'All projects';
-            }
-            $projects[$project['project_name']][] = $project;
-        }
+        $projects[$project->project_name][] = $project;
         ?>
     <?php endforeach; ?>
 
     <div class="muted-cards-3">
-        <?php foreach ($projects as $key => $project): ?>
-            <div class="" <?php if ($selected_project != $key AND $selected_project != $all_projects_name): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
+        <?php
+        foreach ($projects as $key => $project): ?>
+            <div>
                 <strong class="mb-2 d-block"><?php echo $key; ?></strong>
                 <?php foreach ($project as $item): ?>
-                    <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
+                    <div class="card style-1 testimonial-holder mb-3" data-id="<?php echo $item->id ?>">
                         <div class="card-body mt-3">
                             <div class="row">
                                 <div class="col-auto d-flex flex-column align-items-center">
                                     <div class="img-circle-holder img-absolute">
-                                        <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
+                                        <img src="<?php print thumbnail($item->client_picture, 75, 75) ?>"/>
                                     </div>
-                                    <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');"><?php _e("Edit"); ?></a>
+                                    <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php echo $item->id ?>');"><?php _e("Edit"); ?></a>
                                 </div>
 
                                 <div class="col">
-                                    <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
-                                    <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
+                                    <h6 class="font-weight-bold"><?php echo $item->name ?> </h6>
 
-                                    <p><?php print character_limiter($item['content'], 400); ?></p>
+                                    <p><?php print character_limiter($item->content, 400); ?></p>
                                 </div>
                             </div>
                         </div>

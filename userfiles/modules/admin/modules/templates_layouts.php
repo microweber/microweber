@@ -11,10 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
-        <?php $module_info = module_info('layouts'); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
-        </h5>
+        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
     <div class="card-body pt-3">
@@ -46,6 +43,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         }
 
+        $filter = false;
+        if(isset($params['template-filter'])){
+            $filter = trim($params['template-filter']);
+        }
+
+
+
         $site_templates = site_templates();
 
         $module_templates = module_templates($params['parent-module']);
@@ -57,10 +61,33 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $mod_name = rtrim($mod_name, DS);
         $mod_name = rtrim($mod_name, '/');
 
+        if ($filter) {
+            if ($module_templates) {
+                foreach ($module_templates as $key => $temp) {
+                    if (!str_contains($temp['layout_file'], $filter)) {
+                        unset($module_templates[$key]);
+                    }
+                }
+            }
+
+            if ($templates) {
+                foreach ($templates as $key => $temp) {
+                    if (!str_contains($temp['layout_file'], $filter)) {
+                        unset($templates[$key]);
+                    }
+                }
+            }
+        }
+
+
         $screenshots = false;
         if (isset($params['data-screenshots'])) {
             $screenshots = $params['data-screenshots'];
         }
+
+
+
+
 
         $search_bar = false;
         if (isset($params['data-search'])) {
@@ -110,6 +137,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         if ($screenshots) {
             foreach ($module_templates as $temp) {
+
+
                 if ($temp['layout_file'] == $cur_template) {
                     if (!isset($temp['screenshot'])) {
                         $temp['screenshot'] = '';
@@ -126,7 +155,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     var selected_skin = $('#mw-module-skin-select-dropdown :selected').val();
 
                     if (mw.notification != undefined) {
-                        mw.notification.success('<?php _ejs("Module template is changed"); ?>');
+                        mw.notification.success('<?php _ejs("Module template has changed"); ?>');
                     }
 
                     if (selected_skin) {
@@ -163,7 +192,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         if (inner_mod_type) {
                             var inner_mod_type_admin = inner_mod_type + '/admin'
-                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                         }
                     });
                 }
@@ -263,7 +292,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <label class="control-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
                                         <div class="screenshot">
                                             <div class="holder">
-                                                <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                                <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
                                                 <div class="title"><?php print $current_template['name']; ?></div>
                                             </div>
                                         </div>
@@ -338,7 +367,40 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <?php endif; ?>
 
 
-                            <div class="module-layouts-viewer">
+                            <div class="module-layouts-viewer one-column-module-layouts-viewer">
+                                <script>
+
+                                    var rendImages = function (){
+                                        var els = Array.from(document.querySelectorAll('[data-url]')).slice(0,5);
+                                        var doneLike = 0;
+                                        if(els && els.length) {
+                                            els.forEach(function (img){
+                                                img.src = img.dataset.url;
+                                                img.style.display = '';
+                                                delete img.dataset.url;
+                                                img.addEventListener('load', function (){
+                                                    doneLike++;
+                                                    if(doneLike === 5) {
+                                                        rendImages();
+                                                    }
+                                                })
+                                                img.addEventListener('error', function (){
+                                                    console.warn('Image ' + img.src + ' can not load')
+                                                    doneLike++;
+                                                    if(doneLike === 5) {
+                                                        rendImages()
+                                                    }
+                                                })
+                                            });
+
+                                        }
+                                    }
+
+                                    addEventListener('load', function (){
+                                        rendImages()
+                                    })
+
+                                </script>
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
@@ -357,7 +419,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     ?>
 
                                                     <div class="holder">
-                                                        <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
+                                                        <img
+                                                            style="display: none;max-width: 100%"
+                                                            data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
+                                                            alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
+                                                            title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
                                                         <div class="title"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
@@ -384,7 +450,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     ?>
 
                                                     <div class="holder">
-                                                        <img src="<?php echo $item_screenshot; ?>"
+                                                        <img data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
                                                              alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                              style="max-width:100%;"
                                                              title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>

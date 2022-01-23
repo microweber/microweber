@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <div>
-    <style type="text/css" scoped="scoped">
+    <style  scoped="scoped">
         #other-settings {
             position: relative;
             overflow: hidden;
@@ -85,7 +85,7 @@
         mw.require('options.js', true);
         mw.require('<?php print $config['url_to_module'] ?>style.css');
         mw.require('color.js', true);
-        mw.require('files.js);
+        mw.require('files.js');
     </script>
 
     <script type="text/javascript">

@@ -3,6 +3,8 @@
 
 namespace content\controllers;
 
+use Illuminate\Support\Collection;
+use MicroweberPackages\SiteStats\Models\ContentViewCounter;
 use MicroweberPackages\View\View;
 use DB;
 use \MicroweberPackages\Option\Models\Option;
@@ -47,7 +49,13 @@ class Front
     function index($params, $config)
     {
         $params['exclude_shorthand'] = 'keyword, data-keyword';
-        $options = Option::where('option_group', $params['id'])->get();
+       // $options = Option::where('option_group', $params['id'])->get();
+        $getOpts = app()->option_repository->getOptionsByGroup($params['id']);
+        $options = new Collection();
+        if($getOpts){
+            $options = $options->merge($getOpts);
+        }
+       // $options =collect( app()->option_repository->getOptionsByGroup($params['id']));
 
         $current_page = $current_page = 1;
         $post_params = $params;
@@ -298,7 +306,9 @@ class Front
                 $post_params['ids'] = $ids;
             }
         }
-        if (isset($post_params['recently_viewed'])) {
+     /*
+      * DEPRECATED
+      *    if (isset($post_params['recently_viewed'])) {
             if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
                 $str0 = 'table=stats_pageviews&limit=30&main_page_id=' . MAIN_PAGE_ID . '&page_id=[neq]' . CONTENT_ID . '&fields=page_id&order_by=id desc&no_cache=true';
                 $orders = db_get($str0);
@@ -310,8 +320,22 @@ class Front
                     $post_params['ids'] = $ids;
                 }
             }
-        }
+        }*/
 
+        if (isset($post_params['most_viewed'])) {
+            if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
+                if (function_exists('stats_get_views_count_for_content')) {
+                    $postIds = [];
+                    $mostViewedContent = (new ContentViewCounter())->getMostViewedForContentForPeriod(CONTENT_ID, 'weekly');
+                    if ($mostViewedContent !== null) {
+                        foreach ($mostViewedContent as $mvContent) {
+                            $postIds[] = $mvContent->id;
+                        }
+                    }
+                    $post_params['ids'] = $postIds;
+                }
+            }
+        }
 
         if ($get_related_ids_for_content_id) {
             $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
@@ -405,7 +429,13 @@ class Front
             if ($related_category_ids and is_array($related_category_ids) and !empty($related_category_ids)) {
 
 
-                $get_subcats = mw()->database_manager->table('categories')->select('id')->where('data_type', 'category')->whereIn('parent_id', $related_category_ids)->get();
+//                $get_subcats = mw()->database_manager->table('categories')
+//                    ->select('id')->where('data_type', 'category')
+//                    ->whereIn('parent_id', $related_category_ids)->get();
+
+                $get_subcats = app()->category_repository->getSubCategories($related_category_ids);
+
+
                 if ($get_subcats) {
                     $related_cats = array();
                     $get_subcats = collection_to_array($get_subcats);
@@ -621,6 +651,8 @@ class Front
             }
         }
 
+        //dd(POST_ID);
+
         if (!isset($params['order_by'])) {
 //            if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){
 //                $post_params['order_by'] = 'position asc';
@@ -660,12 +692,12 @@ class Front
 
         if (isset($params['keyword']) and $params['keyword'] != false) {
             $post_params['keyword'] =$params['keyword'];
-         //   $post_params['no_cache'] = 1;
+            //   $post_params['no_cache'] = 1;
 
             if (!isset($params['keywords_exact_match'])) {
                 $post_params['keywords_exact_match'] = true;
             }
-         }
+        }
 
 
 
@@ -700,6 +732,9 @@ class Front
         if (!empty($content)) {
 
             foreach ($content as $item) {
+                if(!isset($item['id'])){
+                    continue;
+                }
 
                 $iu = get_picture($item['id'], $for = 'post', $full = false);
 

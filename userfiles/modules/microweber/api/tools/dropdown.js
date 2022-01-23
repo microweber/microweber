@@ -3,6 +3,12 @@ mw.tools.dropdown = function (root) {
     if (root === null) {
         return;
     }
+
+    var isMobile = ('ontouchstart' in document.documentElement && /mobi/i.test(navigator.userAgent));
+    mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown';
+    if(isMobile){
+        mw.tools.dropdownActivatedBindOnEventsNames = 'mousedown touchstart';
+    }
     var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
     for (; i < l; i++) {
         var el = items[i];
@@ -12,6 +18,9 @@ mw.tools.dropdown = function (root) {
         }
         el.mwDropdownActivated = true;
         el.hasInput = el.querySelector('input.mw-dropdown-field') !== null;
+
+
+
         if (el.hasInput) {
             var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
@@ -75,7 +84,7 @@ mw.tools.dropdown = function (root) {
                 mw.$(this).removeClass("hover");
                 mw.$(this).removeClass('other-action');
             })
-            .on('mousedown touchstart', 'li[value]', function (event) {
+            .on(mw.tools.dropdownActivatedBindOnEventsNames, 'li[value]', function (event) {
                 mw.$(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             })
@@ -86,7 +95,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(document.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on(mw.tools.dropdownActivatedBindOnEventsNames, function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();

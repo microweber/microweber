@@ -26,6 +26,11 @@ if (!function_exists('site_url')) {
     {
         static $site_url;
 
+        if (defined('MW_SITE_URL')) {
+            $site_url = MW_SITE_URL;
+        }
+
+
         if ($site_url == false) {
             $pageURL = 'http';
             if (is_https()) {
@@ -55,6 +60,14 @@ if (!function_exists('site_url')) {
             if (isset($_SERVER['SCRIPT_NAME'])) {
                 $d = dirname($_SERVER['SCRIPT_NAME']);
                 $d = trim($d, DIRECTORY_SEPARATOR);
+            }
+
+            if (isset($_SERVER['argv']) and isset($_SERVER['argv'][0]) and is_string($_SERVER['argv'][0])) {
+                $is_phpunit = $_SERVER['argv'][0];
+                if (str_contains($is_phpunit,'phpunit')) {
+                    $d = '';
+                    $pageURL_host =rtrim( config('app.url'), '/')  ;;
+                }
             }
 
             if ($d == '') {
@@ -92,11 +105,15 @@ if (!function_exists('site_url')) {
             $url_segs[] = '';
             $site_url = implode('/', $url_segs);
         }
-
-        if (!$site_url) {
-            $site_url = 'http://localhost/';
+        if (defined('MW_SITE_URL_PATH_PREFIX')) {
+            $site_url .= MW_SITE_URL_PATH_PREFIX;
         }
 
+        if(!$site_url  ){
+
+            //$site_url = 'http://localhost/';
+             $site_url = config('app.url');
+        }
         return $site_url . $add_string;
     }
 }

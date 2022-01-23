@@ -9,7 +9,20 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+use MicroweberPackages\Cart\Repositories\CartRepository;
+use MicroweberPackages\Category\Repositories\CategoryRepository;
+use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
+use MicroweberPackages\Media\Repositories\MediaRepository;
+use MicroweberPackages\Menu\Repositories\MenuRepository;
+use MicroweberPackages\Module\Repositories\ModuleRepository;
+use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
+use MicroweberPackages\Multilanguage\TranslateManager;
+use MicroweberPackages\Offer\Repositories\OfferRepository;
+use MicroweberPackages\Option\Repositories\OptionRepository;
+use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
+use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Cart\CartManager;
@@ -48,18 +61,25 @@ use MicroweberPackages\Utils\Http\Http;
  * @property UrlManager                    $url_manager
  * @property Format                            $format
  * @property ContentManager                $content_manager
+ * @property RepositoryManager                $repository_manager
+ * @property ContentRepository                $content_repository
  * @property CategoryManager               $category_manager
+ * @property CategoryRepository              $category_repository
  * @property MenuManager                   $menu_manager
+ * @property MenuRepository              $menu_repository
  * @property MediaManager                  $media_manager
+ * @property MediaRepository                  $media_repository
  * @property ShopManager                   $shop_manager
  * @property CartManager              $cart_manager
+ * @property CartRepository         $cart_repository
  * @property OrderManager             $order_manager
+ * @property CustomFieldRepository $custom_field_repository
+ * @property OfferRepository             $offer_repository
  * @property TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
  * @property ShippingManager          $shipping_manager
- * @property ClientsManager           $clients_manager
- * @property InvoicesManager          $invoices_manager
  * @property OptionManager                 $option_manager
+ * @property OptionRepository                 $option_repository
  * @property CacheManager                  $cache_manager
  * @property UserManager                   $user_manager
  * @property DatabaseManager              $database_manager
@@ -81,6 +101,10 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Lang                  $lang_helper
  * @property PermalinkManager              $permalink_manager
  * @property ModuleManager              $module_manager
+ * @property ModuleRepository              $module_repository
+ * @property Translator                    $translator
+ * @property MultilanguageRepository       $multilanguage_repository
+ * @property TranslateManager       $translate_manager
  */
 class Application
 {

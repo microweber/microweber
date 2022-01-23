@@ -129,6 +129,9 @@ mw.autoComplete = function(options){
 
     this.rendResults = function(){
         mw.$(this.listHolder).empty().show();
+        if(typeof this.results === 'string' || !this.results || typeof this.results.length === 'undefined') {
+            console.warn('results object must be array')
+        }
         $.each(this.results, function(){
             scope.listHolder.appendChild(scope.createListItem(this));
         });
@@ -195,7 +198,7 @@ mw.autoComplete = function(options){
             else{
                scope.data = data;
             }
-            scope.results = scope.data;
+            scope.results = scope.data || [];
             scope.rendResults();
         })
         .always(function(){

@@ -151,7 +151,7 @@ class Arr extends AbstractRenderer
     {
         $start = 0;
         $limit = min(strlen($fromLine), strlen($toLine));
-        while($start < $limit && $fromLine{$start} == $toLine{$start}) {
+        while($start < $limit && $fromLine[$start] == $toLine[$start]) {
             ++$start;
         }
         $end = -1;

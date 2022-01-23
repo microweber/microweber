@@ -1,22 +1,28 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    if (0===strpos($class, 'PhpDiff\\')){
-        return require(__DIR__ . DS . 'lib' . DS . 'php-diff' . DS . 'src' . DS . '' . substr($class, 8) . '.php');
-    }
-});
+require_once(__DIR__ . DS . 'lib/php-diff/vendor/autoload.php');
+
+
+//spl_autoload_register(function ($class) {
+//    if (0===strpos($class, 'PhpDiff\\')){
+//
+//        //return require(__DIR__ . DS . 'lib' . DS . 'php-diff' . DS . 'src' . DS . '' . substr($class, 8) . '.php');
+//    }
+//});
 
 event_bind('mw.admin.content.edit.advanced_settings', function ($data) {
     if (isset($data['id']) and isset($data['id'])!=0){
-        $arr = array();
-        $arr['html'] = load_module('editor/content_revisions/btn_rev_count_for_content', array('content_id' => $data['id']));
-
-        mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end', $arr);
+// @todo
+//        $arr = array();
+//        $arr['html'] = load_module('editor/content_revisions/btn_rev_count_for_content', array('content_id' => $data['id']));
+//
+//        mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end', $arr);
     }
 
 });
 
 event_bind('mw.content.save_edit', function ($data) {
+    //@todo move on event listener
     if (!isset($data['is_draft']) and isset($data['field']) and isset($data['value']) and isset($data['rel_type']) and isset($data['rel_id'])){
         $table = 'content_revisions_history';
         $save = array();
@@ -49,7 +55,7 @@ event_bind('mw.content.save_edit', function ($data) {
 });
 
 
-function mw_text_render_diff_from_string($a, $b, $mode = 'sidebyside') {
+function mw_text_render_diff_from_string($a, $b, $mode = 'inline') {
 
     $a = explode("\n", $a);
     $b = explode("\n", $b);
@@ -86,6 +92,12 @@ api_expose_admin('mw_drafts_load_content_field_to_editor', function ($params) {
     if (isset($params['id'])){
         $item = db_get('single=1&table=content_revisions_history&id=' . $params['id']);
         if ($item and isset($item['value'])){
+
+            if(isset($params['return_full'])){
+                $item['value'] = mw()->parser->process($item['value'], $options = false);
+                return $item;
+            }
+
             if (isset($item['value'])){
                 $field_content = mw()->parser->process($item['value'], $options = false);
 

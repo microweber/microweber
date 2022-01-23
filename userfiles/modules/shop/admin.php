@@ -1,5 +1,21 @@
+<?php must_have_access(); ?>
+
 <?php if (isset($params['backend'])): ?>
-    <?php include_once($config['path_to_module'] . 'admin_backend.php'); ?>
-<?php else: ?>
-    <?php include_once($config['path_to_module'] . 'admin_live_edit.php'); ?>
+    <module type="admin/modules/info"/>
 <?php endif; ?>
+
+<?php
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+
+    $controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Shop\Http\Controllers\LiveEditAdminController::class);
+
+    $request = new \Illuminate\Http\Request();
+    $request->merge($params);
+    $request->merge($_REQUEST);
+
+    echo $controller->index($request);
+
+} else {
+    include __DIR__ . '/admin_backend.php';
+}
+?>

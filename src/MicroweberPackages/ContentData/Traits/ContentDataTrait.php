@@ -3,6 +3,7 @@
 namespace MicroweberPackages\ContentData\Traits;
 
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
@@ -12,27 +13,45 @@ trait ContentDataTrait
 
     public function initializeContentDataTrait()
     {
-       $this->appends[] = 'contentData';
-       $this->fillable[] = 'content_data';
+        //  $this->appends[] = 'contentData';
+        $this->fillable[] = 'content_data';
     }
 
     public static function bootContentDataTrait()
     {
-        static::saving(function ($model)  {
+        static::saving(function ($model) {
             if (isset($model->attributes['content_data'])) {
                 $model->_addContentData = $model->attributes['content_data'];
                 unset($model->attributes['content_data']);
             }
         });
 
-        static::saved(function($model) {
-            $model->setContentData($model->_addContentData);
+
+        static::saved(function ($model) {
+            if (!empty($model->_addContentData) && is_array($model->_addContentData)) {
+
+                foreach($model->_addContentData as $fieldName=>$fieldValue) {
+
+                    $findContentData = ContentData::where('rel_id', $model->id)
+                        ->where('rel_type', $model->getMorphClass())
+                        ->where('field_name', $fieldName)
+                        ->first();
+                    if ($findContentData == null) {
+                        $findContentData = new ContentData();
+                        $findContentData->rel_id = $model->id;
+                        $findContentData->field_name = $fieldName;
+                        $findContentData->rel_type = $model->getMorphClass();
+                    }
+                    $findContentData->field_value = $fieldValue;
+                    $findContentData->save();
+                }
+            }
         });
     }
 
     public function getContentDataAttribute()
     {
-        return $this->contentData()->get();
+         return $this->contentData()->get();
     }
 
     public function contentData()
@@ -40,12 +59,25 @@ trait ContentDataTrait
         return $this->morphMany(ContentData::class, 'rel');
     }
 
+    /**
+     * Set content data can be used only if parent model allready have a created resource.
+     * @param $values
+     */
     public function setContentData($values)
     {
-        foreach ($values as $key => $val) {
-                $this->contentData()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
-                    ['field_name' => $key, 'field_value' => $val]);
+        $this->_addContentData = $values;
+        return $this;
+    }
+
+    public function getContentDataByFieldName($name)
+    {
+        foreach ($this->contentData as $contentDataRow) {
+            if ($contentDataRow->field_name == $name) {
+                return $contentDataRow->field_value;
+            }
         }
+
+        return null;
     }
 
     public function getContentData($values = [])
@@ -54,11 +86,12 @@ trait ContentDataTrait
         $arrData = !empty($this->contentData) ? $this->contentData->toArray() : [];
 
         if (empty($values)) {
-           return $this->contentData->pluck('field_value', 'field_name')->toArray();
+            return $this->contentData->pluck('field_value', 'field_name')->toArray();
         }
 
         foreach ($values as $value) {
             foreach ($arrData as $key => $val) {
+
                 if ($val['field_name'] == $value) {
                     $res[$value] = $val['field_value'];
                 }
@@ -70,18 +103,21 @@ trait ContentDataTrait
 
     public function deleteContentData(array $values)
     {
-        foreach ($this->contentData as $key => $contentDataInstance) {
-            if (in_array($contentDataInstance->field_name, $values)) {
-                $contentDataInstance->delete();
-                $this->refresh();
+        $items = $this->contentData()->get();
+        if ($items) {
+            foreach ($items as $key => $contentDataInstance) {
+                if ($contentDataInstance and in_array($contentDataInstance->field_name, $values)) {
+                    $contentDataInstance->delete();
+                    $this->refresh();
+                }
             }
         }
     }
 
     public function scopeWhereContentData($query, $whereArr)
     {
-        $query->whereHas('contentData', function($query) use ($whereArr){
-            foreach($whereArr as $fieldName => $fieldValue) {
+        $query->whereHas('contentData', function ($query) use ($whereArr) {
+            foreach ($whereArr as $fieldName => $fieldValue) {
                 $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
             }
         });
