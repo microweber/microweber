@@ -18,7 +18,6 @@ class SecurityTest extends BaseTest
 
     public function testXssList()
     {
-
         $xssList = file_get_contents(__DIR__.'/misc/xss-payload-list.txt');
         $xssList = explode(PHP_EOL, $xssList);
 
@@ -29,7 +28,7 @@ class SecurityTest extends BaseTest
             if (empty(trim($string))) {
                 continue;
             }
-            
+
             $content = $antiXss->clean($string);
             $this->assertNotEquals($string, $content);
 
