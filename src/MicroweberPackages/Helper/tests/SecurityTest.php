@@ -30,6 +30,8 @@ class SecurityTest extends BaseTest
                 continue;
             }
 
+            dump($string);
+
             $content = $antiXss->clean($string);
 
             $this->assertNotEquals($string, $content);
