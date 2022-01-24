@@ -715,7 +715,7 @@ class UpdateManager
 
         if (mw_is_installed()) {
 
-            $bootstrap_cached_folder = base_path('bootstrap/cache/');
+            $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'),true);
             rmdir_recursive($bootstrap_cached_folder);
 
 
