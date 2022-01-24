@@ -7,18 +7,24 @@ class SecurityTest extends BaseTest
     public function testXssExternalLinkImg()
     {
 
-        $string = '<img src="https://google.bg" />';
-
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();
-        $content = $antiXss->clean($string);
 
-        echo $content;
+
+        $string = '<img src="'.site_url().'test.jpg" />';
+        $content = $antiXss->clean($string);
+        $this->assertEquals('<img src="'.site_url().'test.jpg" alt="test.jpg" />', $content);
+
+
+        $string = '<img src="https://google.bg/test.jpg" />';
+        $content = $antiXss->clean($string);
+        $this->assertEquals('', $content);
+
     }
 
 
     public function testXssList()
     {
-        
+
         $zip = new \ZipArchive();
         $zip->open(__DIR__.'/misc/xss-test-files.zip');
         $xssList = $zip->getFromName('xss-payload-list.txt');
