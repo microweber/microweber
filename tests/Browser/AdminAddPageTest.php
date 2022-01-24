@@ -23,7 +23,7 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $pageTitle = 'This is the page title'.time();
 

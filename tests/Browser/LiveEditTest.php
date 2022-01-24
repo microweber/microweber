@@ -53,7 +53,7 @@ class LiveEditTest extends DuskTestCase
 //                });
 //                $module_css_class = mw()->parser->module_css_class($module['module']);
 //
-//                $this->checkBrowserHmlForErrors($browser);
+//
 //
 //            //    $browser->click("#mw-handle-item-module .mdi-pencil");
 //            //    $browser->script("$('html, body').animate({ scrollTop: $('.{$module_css_class}').offset().top - 50 }, 0);");
@@ -71,7 +71,7 @@ class LiveEditTest extends DuskTestCase
 //                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
 //                    $browser->validate();
 //                });
-//                $this->checkBrowserHmlForErrors($browser);
+//
 //break;
 //                $browser->driver->switchTo()->frame($browser->element('.mw-dialog-container iframe'));
 //
@@ -84,7 +84,7 @@ class LiveEditTest extends DuskTestCase
 //                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
 //                    $browser->validate();
 //                });
-//                $this->checkBrowserHmlForErrors($browser);
+//
 //
 //
 //                $browser->driver->switchTo()->defaultContent();

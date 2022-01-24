@@ -36,7 +36,7 @@ class AbppInstallTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             // Fill the install fields
             $browser->type('admin_username', '1');

@@ -72,5 +72,15 @@ class ChekForJavascriptErrors extends BaseComponent
         }
 
         PHPUnit::assertEmpty($findedErrors);
+        
+        // Check for parser errors
+        $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
+        $html = $browser->script("return $('body').html()");
+
+        foreach ($html as $htmlString) {
+            foreach ($errorStrings as $errorString) {
+                $this->assertFalse(str_contains($htmlString, $errorString));
+            }
+        }
     }
 }

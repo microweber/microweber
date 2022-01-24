@@ -160,7 +160,7 @@ class CheckoutCartTest extends DuskTestCase
         $browser->within(new ChekForJavascriptErrors(), function ($browser) {
             $browser->validate();
         });
-        $this->checkBrowserHmlForErrors($browser);
+
 
         $browser->script('$(".name-of-product-shop").first().click()');
         $browser->pause(5000);

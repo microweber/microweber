@@ -26,7 +26,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
                 $browser->fillForm();
             });
 
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
                 $browser->addLanguage('bg_BG');

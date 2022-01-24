@@ -77,19 +77,4 @@ abstract class DuskTestCase extends BaseTestCase
 
     }
 
-    public function checkBrowserHmlForErrors($browser)
-    {
-        $error_strings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
-
-        $html = $browser->script("return $('body').html()");
-
-        if ($html) {
-            foreach ($html as $html_string) {
-                foreach ($error_strings as $error_string) {
-                    $this->assertFalse(str_contains($html_string, $error_string));
-                }
-            }
-        }
-
-    }
 }

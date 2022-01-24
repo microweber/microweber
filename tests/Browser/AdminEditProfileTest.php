@@ -20,7 +20,7 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $browser->waitForText('Users');
             $browser->clickLink('Users');
@@ -67,7 +67,7 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $browser->waitForText('Users');
             $browser->clickLink('Users');
