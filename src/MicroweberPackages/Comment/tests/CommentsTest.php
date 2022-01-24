@@ -76,7 +76,7 @@ class CommentsTest extends TestCase
                 'comment_name' => 'Hacker',
                 'comment_email' => 'hackker@hak.com',
                 'comment_website' => 'haker.com',
-                'comment_body' => 'Hello! Im hacker . <h1>XSS master</h1> <img src="http://url.to.file.which/not.exist" onerror=alert(document.cookie);>',
+                'comment_body' => 'Hello! Im hacker . <h1>XSS master</h1> <img src="http://url.to.file.which/not.exist" alt="test" onerror=alert(document.cookie);>',
             ]
         );
 
@@ -87,7 +87,7 @@ class CommentsTest extends TestCase
         $this->assertEquals('Hacker', $commentData->data->comment_name);
         $this->assertEquals('hackker@hak.com', $commentData->data->comment_email);
         $this->assertEquals('haker.com', $commentData->data->comment_website);
-        $this->assertEquals('Hello! Im hacker . <h1>XSS master</h1> <img src="http://url.to.file.which/not.exist">', $commentData->data->comment_body);
+        $this->assertEquals('Hello! Im hacker . <h1>XSS master</h1> <img src="http://url.to.file.which/not.exist" alt="test">', $commentData->data->comment_body);
 
 
         $this->assertNotEmpty($commentData->data->id);
