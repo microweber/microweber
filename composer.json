@@ -38,6 +38,7 @@
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
         "halaxa/json-machine": "*",
+        "droptienda/json-machine": "dev-main",
         "symfony/var-dumper": "v5.2.11",
 
         "jeremeamia/superclosure": "*",
