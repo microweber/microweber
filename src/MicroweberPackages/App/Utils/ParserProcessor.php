@@ -767,7 +767,13 @@ class ParserProcessor
 
 
                                         if( $this->registry->isParsedModule($module_name,$mod_id)){
-                                            continue;
+
+                                            if($mod_obj and $mod_obj->isProcessing() and !$mod_obj->isProcessed()){
+                                                // do nothing
+                                            }  else {
+                                                continue;
+                                            }
+
                                         }
 
 
