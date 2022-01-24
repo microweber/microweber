@@ -52,7 +52,7 @@ class ChekForJavascriptErrors extends BaseComponent
                 if ($log['level'] == 'SEVERE') {
                     $findedErrors[] = $log;
                 }
-                dump($log);
+             //   dump($log);
                 if ($log['level'] == 'INFO') {
                     foreach ($errorStrings as $errorString){
                         if (strpos($log['message'], $errorString) !== false) {
