@@ -25,7 +25,7 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $categoryTitle = 'This is the category title'.time();
             $categoryDescription = 'This is the category description'.time();

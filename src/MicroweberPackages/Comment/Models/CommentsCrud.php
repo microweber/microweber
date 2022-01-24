@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Comment\Models;
 
 use MicroweberPackages\Database\Crud;
+use MicroweberPackages\Helper\HTMLClean;
+use voku\helper\AntiXSS;
 
 
 class CommentsCrud extends Crud
@@ -54,7 +56,9 @@ class CommentsCrud extends Crud
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                     $surl = site_url();
                     $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
-                    $comments[$i]['comment_body'] = htmlentities($item['comment_body']);
+
+                    $clearInput = new HTMLClean();
+                    $comments[$i]['comment_body'] = $clearInput->clean($item['comment_body']);
                 }
 
                 if (isset($params['single'])) {

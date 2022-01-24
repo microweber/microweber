@@ -21,11 +21,6 @@ class Comment extends Model
         'comment_body',
     ];
 
-//    protected $casts = [
-//        'comment_body'=>MarkdownCast::class
-//    ];
-
-
     public function modelFilter()
     {
         return $this->provideFilter(ContentFilter::class);

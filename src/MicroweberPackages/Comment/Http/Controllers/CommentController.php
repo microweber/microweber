@@ -19,6 +19,7 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Comment\Models\Comment;
 use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Comment\Notifications\NewCommentNotification;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -99,8 +100,11 @@ class CommentController
             $saveComment['is_moderated'] = 1;
         }
 
+        $clearInput = new HTMLClean();
+        $saveComment['comment_body'] = $clearInput->clean($saveComment['comment_body']);
+
         if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
-            $saveComment['comment_body'] = htmlentities($saveComment['comment_body']);
+            $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
         }
 
         $save = Comment::create($saveComment);

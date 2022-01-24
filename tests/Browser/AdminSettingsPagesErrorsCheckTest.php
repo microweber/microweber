@@ -17,7 +17,7 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $this->checkBrowserHmlForErrors($browser);
+
 
             $browser->waitForText('Settings');
             $browser->clickLink('Settings');
@@ -39,7 +39,7 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
                 $browser->pause(1000);
                 $browser->visit($link);
                 $browser->pause(3000);
-                $this->checkBrowserHmlForErrors($browser);
+
                 $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                     $browser->validate();
                 });
