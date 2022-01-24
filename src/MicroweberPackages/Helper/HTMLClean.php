@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\Helper;
 
-class AntiXSS
+class HTMLClean
 {
-    public function clear($html) {
+    public function clean($html) {
 
         $antiXss = new \voku\helper\AntiXSS();
         $html = $antiXss->xss_clean($html);
