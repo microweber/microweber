@@ -29,11 +29,8 @@ class SecurityTest extends BaseTest
             if (empty(trim($string))) {
                 continue;
             }
-
-            dump($string);
-
+            
             $content = $antiXss->clean($string);
-
             $this->assertNotEquals($string, $content);
 
         }
