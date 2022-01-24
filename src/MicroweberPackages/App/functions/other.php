@@ -1166,13 +1166,3 @@ if (!function_exists('hashClosure')) {
         return crc32($pseudounique);
     }
 }
-
-if (!function_exists('site_hostname')) {
-    function site_hostname()
-    {
-        $siteUrl = site_url();
-        $parseUrl = parse_url($siteUrl);
-
-        return $parseUrl['host'];
-    }
-}
