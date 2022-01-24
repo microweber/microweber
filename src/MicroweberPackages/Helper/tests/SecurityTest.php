@@ -18,12 +18,18 @@ class SecurityTest extends BaseTest
 
     public function testXssList()
     {
+
         $xssList = file_get_contents(__DIR__.'/misc/xss-payload-list.txt');
         $xssList = explode(PHP_EOL, $xssList);
 
+        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+
         foreach ($xssList as $string) {
 
-            $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+            if (empty(trim($string))) {
+                continue;
+            }
+
             $content = $antiXss->clean($string);
 
             $this->assertNotEquals($string, $content);
