@@ -18,7 +18,12 @@ class SecurityTest extends BaseTest
 
     public function testXssList()
     {
-        $xssList = file_get_contents(__DIR__.'/misc/xss-payload-list.txt');
+        
+        $zip = new \ZipArchive();
+        $zip->open(__DIR__.'/misc/xss-test-files.zip');
+        $xssList = $zip->getFromName('xss-payload-list.txt');
+        $zip->close();
+
         $xssList = explode(PHP_EOL, $xssList);
 
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();
