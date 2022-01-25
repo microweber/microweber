@@ -122,7 +122,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                     <label class="control-label align-self-center"> <?php  _e('Description'); ?></label>
-                    <small class="text-muted d-inline-block mb-2"><?php  _e('To change the description of your accordions, go to live edit and change it directly from the tab.'); ?></small>
+                    <small class="text-muted d-inline-block mb-2"><?php  _e('Use the live edit to add a content. This allows you also to drag and drop image, video or something else.'); ?></small>
                     <br>
                     <br>
                     <div id="accordion-settings"></div>
