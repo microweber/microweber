@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Utils;
 
 
 use Doctrine\DBAL\Connection;
+use MicroweberPackages\App\Utils\ParserHelpers\ParserLayoutItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItemCollection;
 
@@ -55,7 +56,7 @@ class ParserProcessor
 
     public static $process_layouts_loop = [];
 
-    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false,$prevous_mod_obj=false)
+    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false,$prevous_mod_obj=false,$prevous_layout_obj=false)
     {
 
         static $first_known_mod;
@@ -78,6 +79,11 @@ class ParserProcessor
         $coming_from_parentz = false;
         $par_id_mod_count = 'global';
         $static_parser_mem_crc = 'global';
+
+
+        /**
+         * @var $layout_obj ParserLayoutItem
+         */
 
 
         $it = 0;
@@ -241,15 +247,12 @@ class ParserProcessor
             $local_mw_replaced_modules = array();
 
 
+          //  $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
+
+            $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItemsForProcessing();
 
 
-            $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
-
-
-
-
-
-            if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
+            if (is_array( $local_mw_replaced_modules) and !empty( $local_mw_replaced_modules)) {
 
 
                 $attribute_pattern = '@
@@ -269,16 +272,10 @@ class ParserProcessor
                 foreach ($local_mw_replaced_modules as $parse_key => $parse_item) {
 
 
-
-
-
-
                     $parent_of_iteration = false;
-
 
                     //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $mod_obj) {
-
 
 
                         /**
@@ -291,18 +288,20 @@ class ParserProcessor
                         $replace_key2 = $key;
                      //   $replace_key2 = $parse_key . $key . $parser_mem_crc;
                         if (isset($this->mw_replaced_modules_values[$replace_key2])) {
+
+
                             continue;
                         }
 
                         if($mod_obj->isProcessing()){
-
                             continue;
+
                         }
 
                         if($mod_obj->isProcessed()){
 
                             $module_html = $mod_obj->getOutput();
-                            $layout = $this->_str_replace_first($value, $module_html, $layout);
+                           // $layout = $this->_str_replace_first($value, $module_html, $layout);
                             $layout = $this->_str_replace_first($replace_key, $module_html, $layout);
 
 
@@ -347,6 +346,7 @@ class ParserProcessor
 
 
 
+
                                 if (!isset($attrs['parent-module-id'])) {
                                     $check_mod_obj_parent = ($mod_obj->getParent());
 
@@ -363,6 +363,13 @@ class ParserProcessor
                                     }
                                 }
 
+                                if(!$coming_from_parent_id){
+                                    $par_id_mod_count = 'global';
+
+                                } else {
+                                    $par_id_mod_count = $coming_from_parent_id;
+
+                                }
 
 
 
@@ -508,9 +515,8 @@ class ParserProcessor
                                         $curent_mod_field = $mod_obj->getEditField();
 
 
-                                        if($mod_id == 'footer-layout-custom-fields'){
-                                            dd($mod_obj,$prevous_mod_obj);
-                                        }
+
+
 
 
 
@@ -614,13 +620,6 @@ class ParserProcessor
                                         //   $par_id_mod_count = $parser_mem_crc;
                                   //      $par_id_mod_count = $parse_key;
 
-                                        if(!$coming_from_parent_id){
-                                            $par_id_mod_count = 'global';
-
-                                        } else {
-                                            $par_id_mod_count = $coming_from_parent_id;
-
-                                        }
 
 
 
@@ -646,7 +645,11 @@ class ParserProcessor
                                         // if (isset($this->_existing_module_ids[$mod_id])) {
 
 
-                                        if (isset($local_mw_replaced_modules_ids_grouped[$par_id_mod_count]) and $local_mw_replaced_modules_ids_grouped[$par_id_mod_count][$module_name]) {
+                                        if (
+
+                                            !isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id]) and
+                                            isset($local_mw_replaced_modules_ids_grouped[$par_id_mod_count])
+                                            and $local_mw_replaced_modules_ids_grouped[$par_id_mod_count][$module_name]) {
 
                                             $inc_mod_num = $local_mw_replaced_modules_ids_grouped[$par_id_mod_count][$module_name];
 
@@ -768,11 +771,12 @@ class ParserProcessor
 
                                         if( $this->registry->isParsedModule($module_name,$mod_id)){
 
-                                            if($mod_obj and $mod_obj->isProcessing() and !$mod_obj->isProcessed()){
-                                                // do nothing
-                                            }  else {
-                                                continue;
-                                            }
+                                            continue;
+//                                            if($mod_obj and $mod_obj->isProcessing() and !$mod_obj->isProcessed()){
+//                                                // do nothing
+//                                            }  else {
+//                                                continue;
+//                                            }
 
                                         }
 
@@ -1172,6 +1176,12 @@ class ParserProcessor
                     }
                 }
             }
+
+
+
+
+
+
         } else {
             $this->have_more = false;
             $this->prev_module_data = array();
