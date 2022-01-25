@@ -26,5 +26,19 @@ class ParserModuleItemCollection
         return isset($this->items[$key]);
     }
 
+    public function getItemsForProcessing(): array
+    {
+        $to_return = array();
+        if($this->items){
+            foreach ($this->items as $key => $item) {
+                if($item and !$item->isProcessed() and !$item->isProcessing()){
+                    $to_return[$key] = $item;
+                }
+
+            }
+        }
+        return $to_return;
+    }
+
 
 }

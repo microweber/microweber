@@ -11,7 +11,8 @@ class ParserModuleItem
 
     public $parent = false;
     public $output = '';
-
+    public $isProcessed = false;
+    public $isProcessing = false;
 
     /**
      * @return array
@@ -28,8 +29,7 @@ class ParserModuleItem
     {
         $this->attributes = $attributes;
     }
-    public $isProcessed = false;
-    public $isProcessing = false;
+
 
     /**
      * @return bool
@@ -69,7 +69,7 @@ class ParserModuleItem
 
 
     /**
-     * @return ParserModuleItem
+     * @return ParserModuleItem | bool
      */
     public function getParent()
     {
