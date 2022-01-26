@@ -125,40 +125,6 @@ class BackupManager
     }
 
     /**
-     * Start exporting
-     * @return string[]
-     */
-    public function startExport()
-    {
-
-
-        MultilanguageHelpers::setMultilanguageEnabled(false);
-        try {
-
-            /* // If we want export media
-            if (in_array('media', $this->exportData['tables']) || $this->exportAllData == true) {
-                $this->exportType = 'zip';
-            } */
-
-            $export = new Export();
-            $export->setType($this->exportType);
-            $export->setExportData($this->exportData);
-            $export->setExportAllData($this->exportAllData);
-            $export->setExportMedia($this->exportMedia);
-            $export->setExportModules($this->exportModules);
-            $export->setExportTemplates($this->exportTemplates);
-            $export->setExportOnlyTemplate($this->exportOnlyTemplate);
-            $export->addSkipTable($this->skipTables);
-
-            return $export->start();
-
-        } catch (\Exception $e) {
-            return array("error" => $e->getMessage(), "file" => $e->getFile(), "code" => $e->getCode(), "line" => $e->getLine());
-        }
-
-    }
-
-    /**
      * Start importing
      * @return array
      */
@@ -201,34 +167,4 @@ class BackupManager
         }
     }
 
-    /**
-     * Get backup location path.
-     * @return string
-     */
-    public function getBackupLocation()
-    {
-        $backupContent = storage_path() . '/backup_content/' . \App::environment() . '/';
-
-        if (!is_dir($backupContent)) {
-            mkdir_recursive($backupContent);
-            $htaccess = $backupContent . '.htaccess';
-            if (!is_file($htaccess)) {
-                touch($htaccess);
-                file_put_contents($htaccess, 'Deny from all');
-            }
-        }
-
-        return $backupContent;
-    }
-
-    public function getBackupCacheLocation()
-    {
-        $backupContent = $this->getBackupLocation() . '/cache_export_zip/';
-
-        if (!is_dir($backupContent)) {
-            mkdir_recursive($backupContent);
-        }
-
-        return $backupContent;
-    }
 }

@@ -19,7 +19,7 @@ class BackupController
 
     public function get()
     {
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
 
         $backupFiles = [];
 
@@ -82,7 +82,7 @@ class BackupController
 
         $fileId = str_replace('..', '', $fileId);
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
         $filePath = $backupLocation . $fileId;
 
         if (!is_file($filePath)) {
@@ -115,7 +115,7 @@ class BackupController
             );
         }
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
 
         // Generate filename and set error variables
         $filename = $backupLocation . $fileId;
@@ -157,7 +157,7 @@ class BackupController
 
         $checkFile = url2dir(trim($src));
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
 
         if (is_file($checkFile)) {
             $file = basename($checkFile);
@@ -272,7 +272,7 @@ class BackupController
             );
         }
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
         $filename = $backupLocation . $fileId;
 
         $fileId = str_replace('..', '', $fileId);

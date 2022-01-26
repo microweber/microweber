@@ -10,6 +10,7 @@ use MicroweberPackages\Backup\Loggers\BackupExportLogger;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Backup\Traits\ExportGetSet;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Export
 {
@@ -34,10 +35,16 @@ class Export
         $this->exportAllData = $exportAllData;
     }
 
-    public function exportAsType($data)
+    public function start()
     {
-        $backupManager = new BackupManager();
-        $exportCacheLocation = $backupManager->getBackupCacheLocation();
+        MultilanguageHelpers::setMultilanguageEnabled(false);
+
+        $data = $this->_getReadyData();
+        if (empty($data)) {
+            return array("error" => "Empty content data.");
+        }
+
+        $exportCacheLocation = backup_cache_location();
 
         $exportWithZip = false;
         $exportMediaUserFiles = false;
@@ -147,18 +154,6 @@ class Export
 
         }
 
-    }
-
-    public function start()
-    {
-
-        $readyData = $this->_getReadyData();
-
-        if (empty($readyData)) {
-            return array("error" => "Empty content data.");
-        }
-
-        return $this->exportAsType($readyData);
     }
 
     private function _getExportDataHash()

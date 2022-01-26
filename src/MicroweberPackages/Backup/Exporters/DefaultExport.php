@@ -26,9 +26,6 @@ class DefaultExport implements ExportInterface
 
 	protected function _generateFilename($name = false)
 	{
-		$backupManager = new BackupManager();
-		$exportLocation = $backupManager->getBackupLocation();
-
 		if ($name) {
 			$exportFilename = $name . '.' . $this->type;
 		} else {
@@ -37,7 +34,7 @@ class DefaultExport implements ExportInterface
 
 		return array(
 			'download' => route('admin.backup.download').'?file=' . $exportFilename,
-			'filepath' => $exportLocation . $exportFilename,
+			'filepath' => backup_location() . $exportFilename,
 			'filename' => $exportFilename
 		);
 	}

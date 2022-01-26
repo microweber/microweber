@@ -37,6 +37,18 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
     }
 
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/backup.php', 'backup'
+        );
+    }
+
+    /**
      * Get the services provided by the provider.
      *
      * @return array

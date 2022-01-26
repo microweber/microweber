@@ -25,8 +25,7 @@ class ZipReader extends DefaultReader
 
 		BackupImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
 
-		$backupManager = new BackupManager();
-		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/'.md5($this->file . filemtime($this->file)).'/';
+		$backupLocation = backup_location() . 'temp_backup_zip/'.md5($this->file . filemtime($this->file)).'/';
 
         if (!is_dir($backupLocation)) {
 
