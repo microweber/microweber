@@ -46,6 +46,8 @@
 
     mw.require('css_parser.js');
 
+    var colorPickers = [];
+
 
     $(window).on('load', function () {
 
@@ -71,7 +73,7 @@
            (function (img){
 
                $.get(img.src, function (data){
-                  
+
                     $(img).replaceWith(data.all[0])
                })
            })(this)
@@ -239,7 +241,7 @@ var _prepare = {
     border: function () {
 
         var bordercolor = document.querySelector('#border-color')
-        mw.colorPicker({
+        colorPickers.push(mw.colorPicker({
             element: bordercolor,
             position: bordercolor.dataset.position || 'top-right',
             onchange: function (color){
@@ -248,7 +250,7 @@ var _prepare = {
 
             },
             color: this.value
-        })
+        }))
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -368,7 +370,7 @@ var _populate = {
                 }
                 this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
 
-                mw.colorPicker({
+                colorPickers.push(mw.colorPicker({
                     element: this,
                     position: this.dataset.position || 'bottom-right',
                     onchange: function (color){
@@ -381,7 +383,7 @@ var _populate = {
                         }
                     },
                     color: this.value
-                })
+                }))
 
             }
         });
@@ -729,6 +731,17 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
+        mw.top().win.document.body.addEventListener('click', function (){
+            colorPickers.forEach(function (cp) {
+                console.log(cp);
+                if(cp.hide) {
+                    cp.hide()
+                } else {
+                    cp.style.display = 'none'
+                }
+
+            })
+        })
 
     });
 </script>
