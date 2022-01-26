@@ -13,10 +13,6 @@
 </script>
 <?php $here = $config['url_to_module']; ?>
 
-<?php
-include_once 'export_fields.php';
-?>
-
 <div class="row mt-3">
     <div class="col-6 mb-4">
         <?php if (user_can_access('module.admin.backup.index')): ?>
