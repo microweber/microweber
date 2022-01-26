@@ -10,5 +10,4 @@ class Restore extends Import
     public $ovewriteById = true;
     public $deleteOldContent = true;
 
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Import;
 
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\JsonReader;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -94,9 +95,7 @@ class Import
      */
     public function setLogger($logger)
     {
-
         ImportLogger::setLogger($logger);
-
     }
 
 
@@ -109,7 +108,6 @@ class Import
         MultilanguageHelpers::setMultilanguageEnabled(false);
 
         try {
-
             $content = $this->readContent();
 
             if (isset($content['error'])) {

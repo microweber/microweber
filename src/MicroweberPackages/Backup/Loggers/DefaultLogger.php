@@ -3,9 +3,9 @@ namespace MicroweberPackages\Backup\Loggers;
 
 abstract class DefaultLogger
 {
-
 	protected static $debug = false;
 	protected static $logger;
+    protected static $logFileName = 'default-log.log';
 
 	public static function setLogger($logger) {
 		self::$logger = $logger;
@@ -13,17 +13,22 @@ abstract class DefaultLogger
 
 	public static function clearLog()
 	{
-		file_put_contents(self::_getLogFilename(), false);
+		file_put_contents(self::getLogFilename(), false);
 	}
 
 	public static function setLogInfo($log) {
 
 		if (self::$logger) {
-			$loggerClass = new self::$logger();
-			if (method_exists($loggerClass, 'log')) {
-				return $loggerClass->log($log);
-			}
-		}
+            $loggerClass = new self::$logger();
+
+            if ($loggerClass instanceof DefaultLogger){
+                return $loggerClass->addNew($loggerClass::getLogFilename(), $log, 45);
+            }
+
+            if (method_exists($loggerClass, 'log')) {
+                return $loggerClass->log($log);
+            }
+        }
 
 		if (is_ajax()) {
 			self::$debug = false;
@@ -33,7 +38,7 @@ abstract class DefaultLogger
 			echo $log . PHP_EOL;
 		}
 
-		self::addNew(self::_getLogFilename(), $log, 45);
+		self::addNew(self::getLogFilename(), $log, 45);
 	}
 
 	public static function addNew($fileName, $line, $max = 15) {
@@ -50,7 +55,7 @@ abstract class DefaultLogger
 		@file_put_contents($fileName, $line."\n", FILE_APPEND);
 	}
 
-	protected static function _getLogFilename()
+	public static function getLogFilename()
 	{
 		return userfiles_path() . static::$logFileName;
 	}

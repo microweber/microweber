@@ -7,7 +7,9 @@ use MicroweberPackages\Backup\Backup;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Backup\Export;
 use MicroweberPackages\Backup\GenerateBackup;
+use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
+use MicroweberPackages\Import\Loggers\ImportLogger;
 
 class BackupController
 {
@@ -56,6 +58,7 @@ class BackupController
         $fileId = $request->get('id', false);
 
         $restore = new Restore();
+        $restore->setLogger(new BackupLogger());
 
         if (!$fileId) {
             return array('error' => 'You have not provided a file to import.');
@@ -69,10 +72,6 @@ class BackupController
         if (!is_file($filePath)) {
             return array('error' => 'You have not provided a existing backup to import.');
         } else {
-
-            if (isset($query['debug'])) {
-                $restore->setLogger(new BackupV2Logger());
-            }
 
             $restore->setFile($filePath);
             $importLog = $restore->start();
