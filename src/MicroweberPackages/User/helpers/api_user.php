@@ -1,7 +1,5 @@
 <?php
 
-use MicroweberPackages\Backup\Exporters\JsonExport;
-
 api_expose('user_social_login');
 
 api_expose('logout');

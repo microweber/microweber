@@ -4,8 +4,8 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
-use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Cart\Models\Cart;
+use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Order\Models\Order;
 
 class OrderController extends AdminController

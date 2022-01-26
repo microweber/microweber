@@ -47,7 +47,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
         }
     }
 
-    $json = new \MicroweberPackages\Backup\Exporters\JsonExport($exportData);
+    $json = new \MicroweberPackages\Export\Formats\JsonExport($exportData);
     $getJson = $json->start();
 
     if (isset($getJson['files'][0]['filepath'])) {
