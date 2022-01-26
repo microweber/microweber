@@ -20,11 +20,8 @@ class BackupManager
     public $importStep = 0;
     public $importType = false;
     public $importFile = false;
-    public $importBatch = true;
-    public $importOvewriteById = false;
     public $importLanguage = false;
 
-    public $deleteOldContent = false;
 
     public function __construct()
     {

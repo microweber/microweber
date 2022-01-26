@@ -8,8 +8,6 @@ use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Import\Formats\XmlReader;
 use MicroweberPackages\Import\Formats\ZipReader;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use function get_file_extension;
-use function mw;
 
 class Import
 {
@@ -35,6 +33,11 @@ class Import
      * @var string
      */
 	public $language = 'en';
+
+    public $importBatch = true;
+    public $ovewriteById = false;
+    public $deleteOldContent = false;
+
 
 	public function setStep($step)
     {

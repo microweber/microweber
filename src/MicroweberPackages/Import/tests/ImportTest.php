@@ -48,8 +48,6 @@ class ImportTest extends TestCase
 
         $importStatus = $manager->start();
 
-        dd($importStatus);
-
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['precentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
@@ -60,11 +58,11 @@ class ImportTest extends TestCase
         $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.json';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
+        $manager = new Import();
+        $manager->setFile($sample);
         $manager->setImportBatch(false);
 
-        $importStatus = $manager->startImport();
+        $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['precentage']);
@@ -76,11 +74,11 @@ class ImportTest extends TestCase
         $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
+        $manager = new Import();
+        $manager->setFile($sample);
         $manager->setImportBatch(false);
 
-        $importStatus = $manager->startImport();
+        $importStatus = $manager->start();
 
 
         $this->assertSame(true, $importStatus['done']);
@@ -90,11 +88,11 @@ class ImportTest extends TestCase
 
 	public function testImportWrongFile() {
 
-		$manager = new BackupManager();
-		$manager->setImportFile('wrongfile.txt');
+		$manager = new Import();
+		$manager->setFile('wrongfile.txt');
 		$manager->setImportBatch(false);
 
-		$importStatus = $manager->startImport();
+		$importStatus = $manager->start();
 
 		$this->assertArrayHasKey('error', $importStatus);
 	}
