@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Backup\Readers;
+namespace MicroweberPackages\Import\Formats;
 
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Backup\Loggers\BackupImportLogger;

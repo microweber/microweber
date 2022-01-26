@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Import\Import;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Option\Models\Option;
 
@@ -87,13 +88,13 @@ class TemplateInstaller
         if (is_file($default_content_file)) {
 
         	try {
-        		$manager = new BackupManager();
+        		$manager = new Import();
         		$manager->setImportFile($default_content_file);
         		$manager->setImportBatch(false);
         		$manager->setImportOvewriteById(true);
         		$manager->setLogger($this->logger);
         		$manager->setImportLanguage($this->language);
-        		$manager->startImport();
+        		$manager->start();
         	} catch (\Exception $e) {
         		return false;
         	}
