@@ -56,8 +56,6 @@ class Export
             return array("error" => "Empty content data.");
         }
 
-        dd($data);
-
         $exportCacheLocation = backup_cache_location();
 
         $exportWithZip = false;
