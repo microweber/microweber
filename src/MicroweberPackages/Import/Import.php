@@ -41,6 +41,9 @@ class Import
 
     public $logger;
 
+    public function __construct() {
+        $this->logger = new ImportLogger();
+    }
 
 	public function setStep($step)
     {

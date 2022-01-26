@@ -4,7 +4,9 @@ namespace MicroweberPackages\Export;
 
 use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
+use MicroweberPackages\Backup\Loggers\ExportLogger;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
+use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
@@ -16,6 +18,10 @@ class Export
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
     public $exportAllData = false;
     public $logger;
+
+    public function __construct() {
+        $this->logger = new ExportLogger();
+    }
 
     /**
      * Set export file format
@@ -79,6 +85,7 @@ class Export
         }
 
         $export = $this->_getExporter($data);
+
 
         if (isset($export['files']) && count($export['files']) > 1) {
             $exportWithZip = true;
