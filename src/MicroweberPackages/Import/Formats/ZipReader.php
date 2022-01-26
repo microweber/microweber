@@ -146,7 +146,7 @@ class ZipReader extends DefaultReader
 		$readedData = array();
 		foreach ($filesForImporting as $file) {
 
-			$readerClass = 'MicroweberPackages\\Backup\\Formats\\' . ucfirst($file['reader']) . 'Reader';
+			$readerClass = 'MicroweberPackages\\Import\\Formats\\' . ucfirst($file['reader']) . 'Reader';
 			$reader = new $readerClass($file['file']);
 			$data = $reader->readData();
 
