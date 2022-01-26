@@ -59,7 +59,6 @@ class BackupController
         $step = (int) $request->get('step', false);
 
         $restore = new Restore();
-        $restore->setLogger(new BackupLogger());
         $restore->setStep($step);
 
         if (!$fileId) {
@@ -165,7 +164,6 @@ class BackupController
     public function start(Request $request)
     {
         $backup = new GenerateBackup();
-        $backup->setLogger(new BackupLogger());
 
         if (is_ajax()) {
             header('Content-Type: application/json');
