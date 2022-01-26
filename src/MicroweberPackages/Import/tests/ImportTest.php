@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Backup\tests;
+namespace MicroweberPackages\Import\tests;
 
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
@@ -13,7 +13,7 @@ use MicroweberPackages\Post\Models\Post;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class BackupV2Test extends TestCase
+class ImportTest extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
