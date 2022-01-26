@@ -32,6 +32,24 @@ class AdminModulesTest extends DuskTestCase
                 $browser->validate();
             });
 
+
+            $elems = $browser
+                ->pause(1000)
+                ->elements('.mw-admin-module-list-item');
+
+            foreach ($elems as $key=> $elem) {
+              //  $html = $browser->script("return $('.mw-admin-module-list-item').eq(".$key.").html()");
+                $html = $browser->script("return $('.mw-admin-module-list-item').eq(".$key.").find('.module-admin-modules-edit-module').first().attr('id')");
+                $id_attr = $html[0];
+                if($key == 0) {
+                    $id_is_ok = 'modules-admin-mw-main-module-backend-admin-modules-edit-module';
+                } else {
+                    $id_is_ok = 'modules-admin-mw-main-module-backend-admin-modules-edit-module--'.$key;
+
+                }
+                 $this->assertEquals($id_attr, $id_is_ok);
+            }
+
         });
     }
 }
