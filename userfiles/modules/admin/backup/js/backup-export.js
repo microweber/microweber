@@ -359,7 +359,7 @@ mw.backup_export = {
                     action:''
                 }).hide();
                 $('.export-step-4-action').html('Export completed!');
-                mw.reload_module('admin/backup_v2/manage');
+                mw.reload_module('admin/backup/manage');
 			} else {
 				mw.backup_export.export_selected(manifest);
 			}

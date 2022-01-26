@@ -151,7 +151,7 @@ class BackupV2Test extends TestCase
 
 	public function testImportSampleCsvFile() {
 
-	    $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.csv';
+	    $sample = userfiles_path() . '/modules/admin/backup/samples/sample.csv';
         $sample = normalize_path($sample, false);
 
         $manager = new BackupManager();
@@ -167,7 +167,7 @@ class BackupV2Test extends TestCase
 
     public function testImportSampleJsonFile() {
 
-        $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.json';
+        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.json';
         $sample = normalize_path($sample, false);
 
         $manager = new BackupManager();
@@ -183,7 +183,7 @@ class BackupV2Test extends TestCase
 
     public function testImportSampleXlsxFile() {
 
-        $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.xlsx';
+        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
         $manager = new BackupManager();

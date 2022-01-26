@@ -1,10 +1,10 @@
 <?php must_have_access(); ?>
-<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup_v2/css/style.css' ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css' ?>" type="text/css"/>
 
 <script type="text/javascript">
-    var importContentFromFileText = '<?php _e("Importing content from file"); ?>';
+    var importContentFromFileText = '<?php _e("Restore from file"); ?>';
     var userfilesUrl = '<?php echo userfiles_url() ?>';
-    var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup_v2/images/' ?>';
+    var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup/images/' ?>';
     mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=10");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=10");
@@ -13,28 +13,19 @@
 </script>
 <?php $here = $config['url_to_module']; ?>
 
-<?php
-include_once 'export_fields.php';
-?>
-
 <div class="row mt-3">
     <div class="col-6 mb-4">
-        <?php if (user_can_access('module.admin.backup_v2.index')): ?>
+        <?php if (user_can_access('module.admin.backup.index')): ?>
             <h5 class="font-weight-bold"><?php _e('Create new backup'); ?></h5>
             <small class="text-muted d-block mb-3"><?php _e('Create a backup and export your website content'); ?></small>
             <a href="javascript:;" onclick="mw.backup_export.choice('#export-template')" class="btn btn-success btn-rounded"><i class="mdi mdi-plus"></i> <?php _e("Create backup"); ?></a>
         <?php endif; ?>
     </div>
 
-    <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit')): ?>
+    <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit')): ?>
         <div class="col-6 mb-4">
             <h5 class="font-weight-bold"><?php _e('Upload your backup'); ?></h5>
-            <small class="text-muted d-block mb-3"><?php _e("Supported files formats"); ?>
-                <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
-                <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
-                <a href="<?php print $here; ?>samples/sample.xlsx" class="mw-ui-link">xls</a>,
-                <a href="<?php print $here; ?>samples/other_cms.zip" class="mw-ui-link"><?php _e('other files'); ?></a>.
-            </small>
+            <small class="text-muted d-block mb-3"><?php _e("Upload the backup file (must be zip)"); ?></small>
             <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
 
             <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
@@ -45,5 +36,5 @@ include_once 'export_fields.php';
 </div>
 
 <div class="mw_edit_page_right">
-    <module type="admin/backup_v2/manage"/>
+    <module type="admin/backup/manage"/>
 </div>

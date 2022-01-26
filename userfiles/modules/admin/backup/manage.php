@@ -19,7 +19,7 @@
                 <th><?php _e("Date"); ?></th>
                 <th><?php _e("Time"); ?></th>
                 <th><?php _e("Size"); ?></th>
-                <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit') || user_can_access('module.admin.backup_v2.destroy')): ?>
+                <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit') || user_can_access('module.admin.backup.destroy')): ?>
                     <th class="text-center"><?php _e("Actions"); ?></th>
                 <?php endif; ?>
             </tr>
@@ -32,13 +32,13 @@
                     <td><span class="mw-date"><?php print $item['date'] ?></span></td>
                     <td><span class="mw-date"><?php print $item['time'] ?></span></td>
                     <td><span class="mw-date"><?php print file_size_nice($item['size']) ?></span></td>
-                    <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit') || user_can_access('module.admin.backup_v2.destroy')): ?>
+                    <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit') || user_can_access('module.admin.backup.destroy')): ?>
                         <td class="text-center">
-                            <?php if (user_can_access('module.admin.backup_v2.create') || user_can_access('module.admin.backup_v2.edit')): ?>
+                            <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit')): ?>
                                 <a class="btn btn-primary btn-sm show-on-hover" target="_blank" href="<?php echo route('admin.backup.download'); ?>?file=<?php print $item['filename'] ?>"><?php _e("Download"); ?></a>
-                                <a class="btn btn-success btn-sm show-on-hover" href="javascript:mw.backup_import.import('<?php print $item['filename'] ?>')"><?php _e("Import"); ?></a>
+                                <a class="btn btn-success btn-sm show-on-hover" href="javascript:mw.backup_import.import('<?php print $item['filename'] ?>')"><?php _e("Restore"); ?></a>
                             <?php endif; ?>
-                            <?php if (user_can_access('module.admin.backup_v2.destroy')): ?>
+                            <?php if (user_can_access('module.admin.backup.destroy')): ?>
                                 <a class="btn btn-outline-danger btn-sm show-on-hover" href="javascript:mw.backup_import.remove('<?php print $item['filename'] ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a>
                             <?php endif; ?>
                         </td>

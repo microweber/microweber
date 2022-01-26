@@ -9,7 +9,7 @@ mw.backup_import = {
 		data.src=src;
 		$.post(route('admin.backup.upload'), data ,
 			function(msg) {
-				mw.reload_module('admin/backup_v2/manage');
+				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg, 5000);
 			});
 	},
@@ -21,7 +21,7 @@ mw.backup_import = {
 			$.post(route('admin.backup.delete'), data, function(resp) {
 				mw.notification.msg(resp);
 				if ($selector_to_hide != undefined) {
-					mw.reload_module('admin/backup_v2/manage');
+					mw.reload_module('admin/backup/manage');
 				}
 			});
 		});

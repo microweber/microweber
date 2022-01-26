@@ -22,7 +22,7 @@ $(document).ready(function () {
         mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
 
 
-        mw.reload_module('admin/backup_v2/manage');
+        mw.reload_module('admin/backup/manage');
         mw.notification.success('File uploaded');
     });
 
