@@ -1,7 +1,8 @@
 <?php
 namespace MicroweberPackages\Import;
 
-use MicroweberPackages\Backup\Loggers\ImportLogger;
+
+use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
 use MicroweberPackages\Import\Traits\DatabaseCategoryItemsWriter;
 use MicroweberPackages\Import\Traits\DatabaseContentDataWriter;
@@ -13,10 +14,6 @@ use MicroweberPackages\Import\Traits\DatabaseMenusWriter;
 use MicroweberPackages\Import\Traits\DatabaseModuleWriter;
 use MicroweberPackages\Import\Traits\DatabaseRelationWriter;
 use MicroweberPackages\Import\Traits\DatabaseTaggingTaggedWriter;
-use function app;
-use function db_get;
-use function mw;
-use function mw_post_update;
 
 /**
  * Microweber - Backup Module Database Writer

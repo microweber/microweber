@@ -1,8 +1,7 @@
 <?php
 namespace MicroweberPackages\Import\Formats;
 
-use MicroweberPackages\Backup\BackupManager;
-use MicroweberPackages\Backup\Loggers\ImportLogger;
+use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Utils\Zip\Unzip;
 
 class ZipReader extends DefaultReader

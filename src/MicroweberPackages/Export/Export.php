@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Export;
 
-use MicroweberPackages\Backup\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Export
@@ -175,7 +175,7 @@ class Export
 
         foreach ($this->_getTablesForExport() as $table) {
 
-            BackupExportLogger::setLogInfo('Exporting table: <b>' . $table . '</b>');
+            BackupLogger::setLogInfo('Exporting table: <b>' . $table . '</b>');
 
             $tableFields = app()->database_manager->get_fields($table, false, true);
 
@@ -237,11 +237,11 @@ class Export
 
                 if (!empty($relations)) {
 
-                    BackupExportLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
+                    BackupLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
 
                     foreach ($relations as $relationTable => $relationIds) {
 
-                        BackupExportLogger::setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
+                        BackupLogger::setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
 
                         $relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 

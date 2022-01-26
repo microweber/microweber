@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Backup;
 
-use MicroweberPackages\Backup\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Loggers\ImportLogger;
 use MicroweberPackages\Import\DatabaseWriter;
 use MicroweberPackages\Import\Import;
@@ -47,7 +47,7 @@ class BackupManager
     {
 
         ImportLogger::setLogger($logger);
-        BackupExportLogger::setLogger($logger);
+        BackupLogger::setLogger($logger);
 
     }
 

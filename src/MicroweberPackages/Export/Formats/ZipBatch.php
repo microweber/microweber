@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Export\Formats;
 
-use MicroweberPackages\Backup\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 
 class ZipBatchExport extends DefaultExport
@@ -79,14 +79,14 @@ class ZipBatchExport extends DefaultExport
 
         if ($this->getCurrentStep() == 0) {
             // Clear old log file
-            BackupExportLogger::clearLog();
-            BackupExportLogger::setLogInfo('Start new exporting..');
+            BackupLogger::clearLog();
+            BackupLogger::setLogInfo('Start new exporting..');
         }
 
         // Get zip filename
         $zipFileName = $this->_getZipFileName();
 
-        BackupExportLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+        BackupLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 
         // Generate zip file
         $zip = new \ZipArchive();
@@ -148,7 +148,7 @@ class ZipBatchExport extends DefaultExport
 
         if (!isset($filesBatch[$this->getCurrentStep()])) {
 
-            BackupExportLogger::setLogInfo('No files in batch for current step.');
+            BackupLogger::setLogInfo('No files in batch for current step.');
             $this->_finishUp();
 
             return $zipFileName;
@@ -158,13 +158,13 @@ class ZipBatchExport extends DefaultExport
             $ext = get_file_extension($file['filepath']);
 
             if($ext == 'css'){
-                BackupExportLogger::setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                BackupLogger::setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
                 $csscont = file_get_contents($file['filepath']);
                 $csscont = app()->url_manager->replace_site_url($csscont);
                 $zip->addFromString($file['filename'],$csscont);
 
             } else {
-                BackupExportLogger::setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                BackupLogger::setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
                 $zip->addFile($file['filepath'], $file['filename']);
 
             }
@@ -372,7 +372,7 @@ class ZipBatchExport extends DefaultExport
     protected function _finishUp()
     {
         $this->clearSteps();
-        BackupExportLogger::setLogInfo('Done!');
+        BackupLogger::setLogInfo('Done!');
 
     }
 
