@@ -80,8 +80,7 @@ class DatabaseWriter
 	public function setOverwriteById($overwrite) {
 		$this->overwriteById = $overwrite;
 	}
-
-
+    
 	public function setDeleteOldContent($delete) {
 	    $this->deleteOldContent = $delete;
     }
@@ -115,15 +114,6 @@ class DatabaseWriter
         }
 
 		if ($this->overwriteById && isset($item['id'])) {
-
-			// We will overwrite content by id from our db structure
-			$dbSelectParams = array();
-			$dbSelectParams['no_cache'] = true;
-			$dbSelectParams['limit'] = 1;
-			$dbSelectParams['single'] = true;
-			$dbSelectParams['do_not_replace_site_url'] = 1;
-			$dbSelectParams['fields'] = 'id';
-			$dbSelectParams['id'] = $item['id'];
 
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
             $this->logger->setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
@@ -259,8 +249,6 @@ class DatabaseWriter
 			$this->_fixParentRelationship($savedItem);
 		}
 
-		//echo $item['save_to_table'];
-		//die();
 	}
 
 	/**
@@ -283,6 +271,7 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
+
             $this->logger->setLogInfo('Importing in table: ' . $table);
 
 			if (!empty($items)) {
@@ -366,17 +355,12 @@ class DatabaseWriter
 
 			$success = array();
 			foreach($itemsBatch[$this->step] as $item) {
-				//echo 'Save item' . PHP_EOL;
-				//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
                 try {
                     $success[] = $this->_saveItem($item);
                 } catch (\Exception $e) {
-                    // echo $e->getMessage();
                     $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
                 }
 			}
-
-			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 		}
 
 	}
