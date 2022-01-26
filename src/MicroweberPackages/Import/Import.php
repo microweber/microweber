@@ -39,6 +39,8 @@ class Import
     public $ovewriteById = false;
     public $deleteOldContent = false;
 
+    public $logger;
+
 
 	public function setStep($step)
     {
@@ -93,9 +95,9 @@ class Import
      * Set logger
      * @param class $logger
      */
-    public function setLogger($logger)
+    public function setLogger(DefaultLogger $logger)
     {
-        ImportLogger::setLogger($logger);
+        $this->logger = $logger;
     }
 
 
@@ -152,11 +154,11 @@ class Import
                 return $readedData;
             }
 
-            ImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            $this->logger->setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				ImportLogger::setLogInfo($successMessages);
+                $this->logger->setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -166,7 +168,7 @@ class Import
 		}
 
 		$formatNotSupported = 'Import format not supported';
-		ImportLogger::setLogInfo($formatNotSupported);
+        $this->logger->setLogInfo($formatNotSupported);
 
 		throw new \Exception($formatNotSupported);
 	}
@@ -174,7 +176,7 @@ class Import
 	public function readContent()
 	{
         if ($this->step == 0) {
-            ImportLogger::setLogInfo('Start importing session..');
+            $this->logger->setLogInfo('Start importing session..');
         }
 
 		return $this->importAsType($this->file);

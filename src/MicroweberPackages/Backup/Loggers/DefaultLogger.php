@@ -20,14 +20,8 @@ abstract class DefaultLogger
 
     public static function setLogInfo($log)
     {
-
         if (self::$logger) {
             $loggerClass = new self::$logger();
-
-            if ($loggerClass instanceof DefaultLogger) {
-                return $loggerClass->addNew($loggerClass::getLogFilepath(), $log, 45);
-            }
-
             if (method_exists($loggerClass, 'log')) {
                 return $loggerClass->log($log);
             }
@@ -47,6 +41,11 @@ abstract class DefaultLogger
     public static function addNew($fileName, $line, $max = 15)
     {
 
+        $logPath = dirname($fileName);
+        if (!is_dir($logPath)) {
+            mkdir_recursive($logPath);
+        }
+
         if (is_file($fileName)) {
             $countLines = file_get_contents($fileName);
             $countLines = substr_count($countLines, "\n");;
@@ -61,8 +60,7 @@ abstract class DefaultLogger
 
     public static function getLogFilepath()
     {
-        return userfiles_path() . DS . static::$logFileName;
-
+        return userfiles_path() . DS . 'cache' . DS . 'logs' . DS . static::$logFileName;
     }
 
 }
