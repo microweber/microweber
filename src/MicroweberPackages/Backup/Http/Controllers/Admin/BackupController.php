@@ -165,6 +165,7 @@ class BackupController
     public function start(Request $request)
     {
         $backup = new GenerateBackup();
+        $backup->setLogger(new BackupLogger());
 
         if (is_ajax()) {
             header('Content-Type: application/json');

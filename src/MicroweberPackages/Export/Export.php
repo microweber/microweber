@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Export;
 
 use MicroweberPackages\Backup\Loggers\BackupLogger;
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -14,6 +15,7 @@ class Export
     public $type = 'json';
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
     public $exportAllData = false;
+    public $logger;
 
     /**
      * Set export file format
@@ -40,6 +42,15 @@ class Export
     public function setExportAllData($exportAllData = true)
     {
         $this->exportAllData = $exportAllData;
+    }
+
+    /**
+     * Set logger
+     * @param class $logger
+     */
+    public function setLogger(DefaultLogger $logger)
+    {
+        $this->logger = $logger;
     }
 
     public function start()
@@ -90,6 +101,7 @@ class Export
 
             // Make Zip
             $zipExport = new ZipBatchExport();
+            $zipExport->setLogger($this->logger);
 
             // Move files to zip temp
             if (isset($export['files'])) {
@@ -176,7 +188,7 @@ class Export
 
         foreach ($this->_getTablesForExport() as $table) {
 
-            BackupLogger::setLogInfo('Exporting table: <b>' . $table . '</b>');
+            $this->logger->setLogInfo('Exporting table: <b>' . $table . '</b>');
 
             $tableFields = app()->database_manager->get_fields($table, false, true);
 
@@ -238,11 +250,11 @@ class Export
 
                 if (!empty($relations)) {
 
-                    BackupLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
+                    $this->logger->setLogInfo('Get relations from table: <b>' . $table . '</b>');
 
                     foreach ($relations as $relationTable => $relationIds) {
 
-                        BackupLogger::setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
+                        $this->logger->setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
 
                         $relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Export\Formats;
 
 use MicroweberPackages\Backup\Loggers\BackupLogger;
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 
 class ZipBatchExport extends DefaultExport
@@ -38,10 +39,21 @@ class ZipBatchExport extends DefaultExport
      */
     private $_cacheGroupName = 'BackupExporting';
 
+    public $logger;
+
+    /**
+     * Set logger
+     * @param class $logger
+     */
+    public function setLogger(DefaultLogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     public function getCurrentStep()
     {
 
-        $this->currentStep = (int)cache_get('ExportCurrentStepZip', $this->_cacheGroupName);
+        $this->currentStep = (int) cache_get('ExportCurrentStepZip', $this->_cacheGroupName);
 
         return $this->currentStep;
     }
