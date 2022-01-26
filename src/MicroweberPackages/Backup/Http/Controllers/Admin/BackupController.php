@@ -4,6 +4,7 @@ namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Backup\BackupManager;
+use MicroweberPackages\Backup\Export;
 
 class BackupController
 {
@@ -185,7 +186,7 @@ class BackupController
         $categoriesIds = array();
         $contentIds = array();
 
-        $manager = new BackupManager();
+        $export = new Export();
 
         $items = $request->get('items', false);
         if ($items) {
@@ -197,44 +198,44 @@ class BackupController
         }
 
         if ($items == 'template') {
-            $manager->setExportMedia(true);
-            $manager->setExportOnlyTemplate(template_name());
+            $export->setExportMedia(true);
+            $export->setExportOnlyTemplate(template_name());
         }
 
         if ($items == 'template_default_content') {
-            $manager->setExportMedia(true);
-            $manager->setExportAllData(true);
-            $manager->addSkipTable('login_attempts');
-            $manager->addSkipTable('multilanguage_translations');
-            $manager->addSkipTable('multilanguage_supported_locales');
-            $manager->addSkipTable('translation_keys');
-            $manager->addSkipTable('translation_texts');
+            $export->setExportMedia(true);
+            $export->setExportAllData(true);
+            $export->addSkipTable('login_attempts');
+            $export->addSkipTable('multilanguage_translations');
+            $export->addSkipTable('multilanguage_supported_locales');
+            $export->addSkipTable('translation_keys');
+            $export->addSkipTable('translation_texts');
         }
 
-        $manager->setExportData('tables', $tables);
+        $export->setExportData('tables', $tables);
 
         $format = $request->get('format',false);
         if ($format) {
-            $manager->setExportType($format);
+            $export->setExportType($format);
         }
 
         if ($request->get('all',false)) {
             if ($request->get('include_media') == 'true') {
-                $manager->setExportMedia(true);
+                $export->setExportMedia(true);
             }
-            $manager->setExportAllData(true);
+            $export->setExportAllData(true);
         }
 
         if ($request->get('debug', false)) {
-            $manager->setLogger(new BackupV2Logger());
+            $export->setLogger(new BackupV2Logger());
         }
 
         if ($request->get('content_ids', false)) {
-            $manager->setExportData('contentIds', $request->get('content_ids'));
+            $export->setExportData('contentIds', $request->get('content_ids'));
         }
 
         if ($request->get('categories_ids', false)) {
-            $manager->setExportData('categoryIds', $request->get('categories_ids'));
+            $export->setExportData('categoryIds', $request->get('categories_ids'));
         }
 
         $includeModules = array();
@@ -242,7 +243,7 @@ class BackupController
             $includeModules = explode(',' , $request->get('include_modules'));
         }
         if (!empty($includeModules) && is_array($includeModules)) {
-            $manager->setExportModules($includeModules);
+            $export->setExportModules($includeModules);
         }
 
         $includeTemplates = array();
@@ -250,14 +251,14 @@ class BackupController
             $includeTemplates = explode(',' , $request->get('include_templates'));
         }
         if (!empty($includeTemplates) && is_array($includeTemplates)) {
-            $manager->setExportTemplates($includeTemplates);
+            $export->setExportTemplates($includeTemplates);
         }
 
         if (is_ajax()) {
             header('Content-Type: application/json');
         }
 
-        return $manager->startExport();
+        return $export->start();
     }
 
     public function delete(Request $request)
