@@ -26,7 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings module-pdf-settings">
             <div class="form-group">
                 <label class="control-label d-block"><?php _e('Choose your PDF file to upload'); ?></label>
-                <span class="btn btn-primary" id="pdf"><span class="fas fa-upload"></span> &nbsp; <?php _e('Select file'); ?></span>
+                <span class="btn btn-primary" id="pdf"><span class="fa fa-upload"></span> &nbsp; <?php _e('Select file'); ?></span>
             </div>
 
             <input type="hidden" class="mw_option_field" name="pdf" id="pdfval" value="<?php print $pdf; ?>"/>

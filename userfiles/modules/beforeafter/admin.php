@@ -47,7 +47,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
 
                         <div class="text-center mt-3">
-                            <span class="btn btn-primary" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _lang('Choose Before Image', "modules/beforeafter"); ?></span>
+                            <span class="btn btn-primary" id="before"><span class="fa fa-upload"></span> &nbsp; <?php _lang('Choose Before Image', "modules/beforeafter"); ?></span>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
 
                         <div class="text-center mt-3">
-                            <span class="btn btn-primary" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _lang('Choose After Image', "modules/beforeafter"); ?></span>
+                            <span class="btn btn-primary" id="after"><span class="fa fa-upload"></span> &nbsp; <?php _lang('Choose After Image', "modules/beforeafter"); ?></span>
                         </div>
                     </div>
                 </div>
