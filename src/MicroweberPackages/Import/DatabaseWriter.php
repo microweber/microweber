@@ -80,7 +80,7 @@ class DatabaseWriter
 	public function setOverwriteById($overwrite) {
 		$this->overwriteById = $overwrite;
 	}
-    
+
 	public function setDeleteOldContent($delete) {
 	    $this->deleteOldContent = $delete;
     }
