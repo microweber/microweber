@@ -1,12 +1,12 @@
 <?php
 namespace MicroweberPackages\Import;
 
-use MicroweberPackages\Backup\Loggers\BackupImportLogger;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\JsonReader;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Import\Formats\XmlReader;
 use MicroweberPackages\Import\Formats\ZipReader;
+use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Import
@@ -88,6 +88,17 @@ class Import
         $this->deleteOldContent = $delete;
     }
 
+    /**
+     * Set logger
+     * @param class $logger
+     */
+    public function setLogger($logger)
+    {
+
+        ImportLogger::setLogger($logger);
+
+    }
+
 
     /**
      * Start importing
@@ -143,11 +154,11 @@ class Import
                 return $readedData;
             }
 
-            BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            ImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				BackupImportLogger::setLogInfo($successMessages);
+				ImportLogger::setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -157,7 +168,7 @@ class Import
 		}
 
 		$formatNotSupported = 'Import format not supported';
-		BackupImportLogger::setLogInfo($formatNotSupported);
+		ImportLogger::setLogInfo($formatNotSupported);
 
 		throw new \Exception($formatNotSupported);
 	}
@@ -165,7 +176,7 @@ class Import
 	public function readContent()
 	{
         if ($this->step == 0) {
-            BackupImportLogger::setLogInfo('Start importing session..');
+            ImportLogger::setLogInfo('Start importing session..');
         }
 
 		return $this->importAsType($this->file);

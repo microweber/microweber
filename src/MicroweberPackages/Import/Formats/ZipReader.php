@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Import\Formats;
 
 use MicroweberPackages\Backup\BackupManager;
-use MicroweberPackages\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Backup\Loggers\ImportLogger;
 use MicroweberPackages\Utils\Zip\Unzip;
 
 class ZipReader extends DefaultReader
@@ -23,7 +23,7 @@ class ZipReader extends DefaultReader
 
 		$this->_checkPathsExists();
 
-		BackupImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
+		ImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
 
 		$backupLocation = backup_location() . 'temp_backup_zip/'.md5($this->file . filemtime($this->file)).'/';
 
@@ -34,7 +34,7 @@ class ZipReader extends DefaultReader
             $unzip = new Unzip();
             $unzip->extract($this->file, $backupLocation, true);
 
-            BackupImportLogger::setLogInfo($backupLocation);
+            ImportLogger::setLogInfo($backupLocation);
         }
 
         $files = array();
@@ -55,7 +55,7 @@ class ZipReader extends DefaultReader
         }
 
 		if ($backupLocation != false and is_dir($backupLocation)) {
-			BackupImportLogger::setLogInfo('Media restored!');
+			ImportLogger::setLogInfo('Media restored!');
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
 
@@ -100,7 +100,7 @@ class ZipReader extends DefaultReader
 		}
 
 		if (empty($filesForImporting)) {
-			BackupImportLogger::setLogInfo('The zip file has no files to import.');
+			ImportLogger::setLogInfo('The zip file has no files to import.');
 			return;
 		}
 
@@ -112,7 +112,7 @@ class ZipReader extends DefaultReader
         }
 
         if (!$this->language && !empty($detectedLanguages)) {
-            BackupImportLogger::setLogInfo('Its detected other languages in this import.');
+            ImportLogger::setLogInfo('Its detected other languages in this import.');
             return array('must_choice_language' => true, 'detected_languages'=>$detectedLanguages);
         }
 
@@ -165,7 +165,7 @@ class ZipReader extends DefaultReader
 		}
 
 		if (empty($readedData)) {
-			BackupImportLogger::setLogInfo('The files in zip are empty. Nothing to import.');
+			ImportLogger::setLogInfo('The files in zip are empty. Nothing to import.');
 			return;
 		}
 
