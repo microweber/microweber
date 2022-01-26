@@ -89,11 +89,11 @@ class TemplateInstaller
 
         	try {
         		$manager = new Import();
-        		$manager->setImportFile($default_content_file);
+        		$manager->setFile($default_content_file);
         		$manager->setImportBatch(false);
-        		$manager->setImportOvewriteById(true);
+        		$manager->setOvewriteById(true);
         		$manager->setLogger($this->logger);
-        		$manager->setImportLanguage($this->language);
+        		$manager->setLanguage($this->language);
         		$manager->start();
         	} catch (\Exception $e) {
         		return false;

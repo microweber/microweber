@@ -69,7 +69,7 @@ class Import
     }
 
 	public function setLanguage($abr) {
-	    $this->language = $abr;
+	    $this->language = trim($abr);
     }
 
     public function setImportBatch($importBatch)
@@ -87,12 +87,7 @@ class Import
     {
         $this->deleteOldContent = $delete;
     }
-
-
-    public function setImportLanguage($abr)
-    {
-        $this->importLanguage = trim($abr);
-    }
+    
 
     /**
      * Start importing
