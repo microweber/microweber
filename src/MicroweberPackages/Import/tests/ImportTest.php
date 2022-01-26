@@ -22,7 +22,7 @@ class ImportTest extends TestCase
 
 		$manager = new BackupManager();
 		$manager->setImportFile(self::$_exportedFile);
-		$manager->setImportBatch(false);
+		$manager->setBatchImporting(false);
 
 		$import = $manager->startImport();
 
@@ -44,7 +44,7 @@ class ImportTest extends TestCase
 
         $manager = new Import();
         $manager->setFile($sample);
-        $manager->setImportBatch(false);
+        $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
 
@@ -60,7 +60,7 @@ class ImportTest extends TestCase
 
         $manager = new Import();
         $manager->setFile($sample);
-        $manager->setImportBatch(false);
+        $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
 
@@ -76,7 +76,7 @@ class ImportTest extends TestCase
 
         $manager = new Import();
         $manager->setFile($sample);
-        $manager->setImportBatch(false);
+        $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
 
@@ -89,7 +89,7 @@ class ImportTest extends TestCase
 
 		$manager = new Import();
 		$manager->setFile('wrongfile.txt');
-		$manager->setImportBatch(false);
+		$manager->setBatchImporting(false);
 
 		$importStatus = $manager->start();
 

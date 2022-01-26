@@ -20,7 +20,7 @@ class BackupManager
     public $importStep = 0;
     public $importType = false;
     public $importFile = false;
-    public $importBatch = true;
+    public $batchImporting = true;
     public $importOvewriteById = false;
     public $importLanguage = false;
 
@@ -66,9 +66,9 @@ class BackupManager
         $this->importType = $type;
     }
 
-    public function setImportBatch($importBatch)
+    public function setBatchImporting($batchImporting)
     {
-        $this->importBatch = $importBatch;
+        $this->batchImporting = $batchImporting;
     }
 
     public function setImportOvewriteById($overwrite)
@@ -130,7 +130,7 @@ class BackupManager
             $writer->setOverwriteById($this->importOvewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
 
-            if ($this->importBatch) {
+            if ($this->batchImporting) {
                 $writer->runWriterWithBatch();
             } else {
                 $writer->runWriter();

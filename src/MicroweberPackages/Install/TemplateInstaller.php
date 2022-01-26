@@ -90,7 +90,7 @@ class TemplateInstaller
         	try {
         		$manager = new Import();
         		$manager->setFile($default_content_file);
-        		$manager->setImportBatch(false);
+        		$manager->setBatchImporting(false);
         		$manager->setOvewriteById(true);
         		$manager->setLogger($this->logger);
         		$manager->setLanguage($this->language);

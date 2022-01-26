@@ -34,7 +34,7 @@ class Import
      */
 	public $language = 'en';
 
-    public $importBatch = true;
+    public $batchImporting = true;
     public $ovewriteById = false;
     public $deleteOldContent = false;
 
@@ -72,9 +72,9 @@ class Import
 	    $this->language = trim($abr);
     }
 
-    public function setImportBatch($importBatch)
+    public function setBatchImporting($batchImporting)
     {
-        $this->importBatch = $importBatch;
+        $this->batchImporting = $batchImporting;
     }
 
 
@@ -87,7 +87,7 @@ class Import
     {
         $this->deleteOldContent = $delete;
     }
-    
+
 
     /**
      * Start importing
@@ -115,7 +115,7 @@ class Import
             $writer->setOverwriteById($this->ovewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
 
-            if ($this->importBatch) {
+            if ($this->batchImporting) {
                 $writer->runWriterWithBatch();
             } else {
                 $writer->runWriter();
