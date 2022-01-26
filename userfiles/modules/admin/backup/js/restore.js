@@ -206,7 +206,7 @@ mw.restore = {
 
 	get_log: function() {
 		$.ajax({
-		    url: userfilesUrl + 'backup-import-session.log',
+		    url: userfilesUrl + 'cache/backup/backup-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
 		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html(data);
