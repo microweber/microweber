@@ -49,32 +49,6 @@ class BackupManager
 
     }
 
-    /**
-     * Set export full
-     * @param string $type
-     */
-    public function setExportAllData($exportAllData = true)
-    {
-        $this->exportAllData = $exportAllData;
-    }
-
-    /**
-     * Set export file format
-     * @param string $type
-     */
-    public function setExportType($type)
-    {
-        $this->exportType = $type;
-    }
-
-    /**
-     * Set wich data want to export
-     * @param array $data
-     */
-    public function setExportData($dataType, $dataIds)
-    {
-        $this->exportData[$dataType] = $dataIds;
-    }
 
     public function setImportStep($step)
     {

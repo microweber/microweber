@@ -16,21 +16,33 @@ class Export
 {
     use ExportGetSet;
 
-    public $exportData;
     public $type = 'json';
+    public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
     public $exportAllData = false;
 
+    /**
+     * Set export file format
+     * @param string $type
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
-    public function setExportData($data)
+    /**
+     * Set wich data want to export
+     * @param array $data
+     */
+    public function setExportData($dataType, $dataIds)
     {
-        $this->exportData = $data;
+        $this->exportData[$dataType] = $dataIds;
     }
 
-    public function setExportAllData($exportAllData)
+    /**
+     * Set export full
+     * @param string $type
+     */
+    public function setExportAllData($exportAllData = true)
     {
         $this->exportAllData = $exportAllData;
     }
@@ -43,6 +55,8 @@ class Export
         if (empty($data)) {
             return array("error" => "Empty content data.");
         }
+
+        dd($data);
 
         $exportCacheLocation = backup_cache_location();
 

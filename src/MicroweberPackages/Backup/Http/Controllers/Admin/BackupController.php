@@ -183,8 +183,6 @@ class BackupController
     public function export(Request $request)
     {
         $tables = array();
-        $categoriesIds = array();
-        $contentIds = array();
 
         $export = new Export();
 
@@ -216,7 +214,7 @@ class BackupController
 
         $format = $request->get('format',false);
         if ($format) {
-            $export->setExportType($format);
+            $export->setType($format);
         }
 
         if ($request->get('all',false)) {
