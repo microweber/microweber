@@ -1,7 +1,6 @@
 // JavaScript Document
 mw.require('forms.js');
 
-
 mw.restore = {
 
 	upload: function(src) {
@@ -28,20 +27,6 @@ mw.restore = {
 	},
 
 	import: function(src) {
-
-	/*	var checked = '';
-
-		if (src.lastIndexOf('backup') >= 0) {
-			checked = 'checked="checked"';
-		}
-
-		if (src.lastIndexOf('mw_default_content') >= 0) {
-			checked = 'checked="checked"';
-		}
-
-        if (src.lastIndexOf('mw_content') >= 0) {
-            checked = 'checked="checked"';
-        }*/
 
 		var importOptions = '<div class="mw-backup-v2-import">'+
 
@@ -88,7 +73,7 @@ mw.restore = {
 		'<div class="backup-import-modal-log-progress"></div>'+
 
 		'<div class="mw-backup-v2-import-buttons">'+
-		'<a class="btn btn-link button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<a class="btn btn-link button-cancel" onClick="mw.restore.close_import_modal();">Close</a>'+
 		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.restore.start_import_button()" type="submit">Start Restore</button>'+
 		'</div>'+
 
@@ -117,9 +102,9 @@ mw.restore = {
 		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
 		$('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
 
-		mw.backup_import.init_progress(1);
-		mw.backup_import.start_import();
-		mw.backup_import.get_log_check('start');
+		mw.restore.init_progress(1);
+		mw.restore.start_import();
+		mw.restore.get_log_check('start');
 	},
 
 	start_import: function () {
@@ -151,77 +136,47 @@ mw.restore = {
 
 		$.ajax({
 		  dataType: "json",
-		  url: route('admin.backup.import'),
+		  url: route('admin.backup.restore'),
 		  data: data,
 		  success: function(json_data) {
 
               data.step = json_data.next_step;
 
-		  	if (json_data.must_choice_language) {
-		  		mw.backup_import.choice_language(json_data.detected_languages);
-                mw.backup_import.get_log_check('stop');
-				$('.button-start').removeClass('disabled');
-		  		return;
-			}
-
 			if (json_data.error) {
 				$('.button-start').removeClass('disabled');
 				$('#backup-import-progressbar').remove();
-				mw.backup_import.get_log_check('stop');
+				mw.restore.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
 				return;
 			}
 			if (json_data.done) {
-				mw.backup_import.get_progress(100);
-				mw.backup_import.get_log_check('stop');
+				mw.restore.get_progress(100);
+				mw.restore.get_log_check('stop');
 				//mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
 				$('.button-start').removeClass('disabled');
 
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is restored successfully!</h3>');
                 $('#mw_backup_import_modal').find('.button-start').html('Done');
-                $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.backup_import.close_import_modal();').html('Done!');
+                $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.restore.close_import_modal();').html('Done!');
 				return;
 			} else {
-				mw.backup_import.get_progress(json_data.precentage);
+				mw.restore.get_progress(json_data.precentage);
 				if($('.backup-import-modal-log').length > 0){
-
-
 					$('.backup-import-modal-log')[0].scrollTop =$('.backup-import-modal-log')[0].scrollHeight;
-
-
 				}
-				//		$('#mw_backup_import_modal').
-				setTimeout(function(){ mw.backup_import.start_import(); }, 300);
-
+				setTimeout(function(){
+                    mw.restore.start_import();
+                }, 300);
 
 			}
 		  }
 		});
 	},
 
-    choice_language: function(languages) {
-
-		var select = '<h2 style="font-weight: bold">Select installation language:</h2>';
-		select += '<p>We are detecting a multiple language content.</p>';
-		select += '<p>Please choose wich one you want to import.</p><br /><br />';
-
-		select += '<select class="mw-ui-field js-backup-import-installation-language" style="width:100%;" name="installation_language">';
-    	select += '<option value="en">EN</option>';
-
-        for (i = 0; i < languages.length; i++) {
-            select += '<option value="'+languages[i]+'">'+languages[i].toUpperCase()+'</option>';
-        }
-
-        select += '</select>';
-
-		$('.js-backup-import-installation-language-wrapper').html(select);
-		$('.backup-import-modal-log-progress').hide();
-	},
-
 	get_log_check: function(action = 'start') {
 
 		var importLogInterval = setInterval(function() {
-			mw.backup_import.get_log();
+			mw.restore.get_log();
 		}, 2000);
 
 		if (action == 'stop') {
