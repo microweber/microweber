@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
+  <channel>
+    <title>Your Site Title</title>
+    <link>http://aa-aa-tfo5.squarespace.com</link>
+    <pubDate>Tue, 25 Feb 2014 10:54:08 +0000</pubDate>
+    <description />
+    <language>en-US</language>
+    <wp:wxr_version>1.2</wp:wxr_version>
+    <wp:author>
+      <wp:author_id>241335999</wp:author_id>
+      <wp:author_login>me3@mailinator.com</wp:author_login>
+      <wp:author_email>me3@mailinator.com</wp:author_email>
+      <wp:author_display_name><![CDATA[AA AA]]></wp:author_display_name>
+      <wp:author_first_name><![CDATA[AA]]></wp:author_first_name>
+      <wp:author_last_name><![CDATA[AA]]></wp:author_last_name>
+    </wp:author>
+    <wp:category>
+      <wp:cat_name><![CDATA[null - null]]></wp:cat_name>
+      <wp:category_nicename>null-null</wp:category_nicename>
+      <wp:category_parent />
+    </wp:category>
+    <item>
+      <link>/heritage/</link>
+      <title>Heritage</title>
+      <pubDate>Fri, 08 Feb 2013 18:44:00 +0000</pubDate>
+      <content:encoded><![CDATA[<h2>About</h2><p class="text-align-left">The Devlin brand has been adopted by almost every classic vestibulum id ligula porta felis euismod semper. Nullam id dolor id nibh ultricies vehicula ut id elit. Cras mattis consectetur purus sit amet donec ullamcorper nulla non metus auctor fringilla.&nbsp;&nbsp;fermentum. Donec id elit non mi porta gravida at eget metus for the last five decades.</p><hr /><h2>Flagship Store</h2><p>42 Hyde Park Circle<br>London NW8 7NJ<br>0207 305 5036<br></p><p class="text-align-left">Monday-Friday 9am - 7pm <br>Saturday-Sunday 10:30am - 9pm</p><p class="text-align-left"></p><p></p>&nbsp;<img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c7663e4b0937ca4797ee9/1360292029135/heritage-grid.jpg?format=original" />&nbsp;]]></content:encoded>
+      <wp:post_name>heritage</wp:post_name>
+      <wp:post_type>page</wp:post_type>
+      <wp:post_id>0</wp:post_id>
+      <wp:status>publish</wp:status>
+    </item>
+    <item>
+      <link>/welcome/</link>
+      <title>Welcome</title>
+      <pubDate>Fri, 08 Feb 2013 20:22:58 +0000</pubDate>
+      <content:encoded><![CDATA[<img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af60/1367528611925/bespoke.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af61/1367528873334/bowtie.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af62/1367529147698/goods.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af63/1367528630815/clients.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af64/1367518721955/sethgodin.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af65/1367531438701/flagship.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af66/1367529375785/lookbook.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af67/1367531347001/giftcard.jpg?format=original" /><img src="http://static.squarespace.com/static/530c7650e4b0195e4e386ea3/t/530c766ae4b05f876e33af68/1367530821738/press.jpg?format=original" />]]></content:encoded>
+      <wp:post_name>welcome</wp:post_name>
+      <wp:post_type>page</wp:post_type>
+      <wp:post_id>1</wp:post_id>
+      <wp:status>publish</wp:status>
+    </item>
+  </channel>
+</rss>
+
