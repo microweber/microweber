@@ -168,7 +168,6 @@ class Export
 
     private function _getReadyData()
     {
-
         $exportTables = new ExportTables();
 
         $tablesStructures = array();
