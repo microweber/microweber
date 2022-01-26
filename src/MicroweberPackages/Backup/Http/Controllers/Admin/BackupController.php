@@ -56,9 +56,11 @@ class BackupController
     public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
+        $step = (int) $request->get('step', false);
 
         $restore = new Restore();
         $restore->setLogger(new BackupLogger());
+        $restore->setStep($step);
 
         if (!$fileId) {
             return array('error' => 'You have not provided a file to import.');
