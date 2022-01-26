@@ -3,7 +3,11 @@
 // Private
 Route::name('checkout.')
    // ->prefix(multilanguage_route_prefix('checkout'))
-    ->middleware([\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class, \MicroweberPackages\Checkout\Http\Middleware\CheckoutV2::class])
+    ->middleware([
+        \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+       \MicroweberPackages\Checkout\Http\Middleware\CheckoutV2::class,
+       \MicroweberPackages\App\Http\Middleware\XSS::class
+   ])
     ->namespace('\MicroweberPackages\Checkout\Http\Controllers')
     ->group(function () {
 
