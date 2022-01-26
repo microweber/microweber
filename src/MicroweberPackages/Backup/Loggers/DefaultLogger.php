@@ -10,32 +10,33 @@ abstract class DefaultLogger
 
     public static function setLogger($logger)
     {
-        self::$logger = $logger;
+        static::$logger = $logger;
     }
 
     public static function clearLog()
     {
-        file_put_contents(self::getLogFilepath(), false);
+        file_put_contents(static::getLogFilepath(), false);
     }
 
     public static function setLogInfo($log)
     {
-        if (self::$logger) {
-            $loggerClass = new self::$logger();
+
+        if (static::$logger) {
+            $loggerClass = new static::$logger();
             if (method_exists($loggerClass, 'log')) {
                 return $loggerClass->log($log);
             }
         }
 
         if (is_ajax()) {
-            self::$debug = false;
+            static::$debug = false;
         }
 
-        if (self::$debug) {
+        if (static::$debug) {
             echo $log . PHP_EOL;
         }
 
-        self::addNew(self::getLogFilepath(), $log, 45);
+        static::addNew(static::getLogFilepath(), $log, 45);
     }
 
     public static function addNew($fileName, $line, $max = 15)

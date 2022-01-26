@@ -9,7 +9,7 @@ class BackupLogger extends DefaultLogger
 
     public static function getLogFilepath()
     {
-        return userfiles_path() . DS . 'cache' . DS . 'backup' . DS . static::$logFileName;
+        return userfiles_path() . 'cache' . DS . 'backup' . DS . static::$logFileName;
     }
 
 }

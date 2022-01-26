@@ -56,7 +56,7 @@ class BackupController
     public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
-
+        
         $restore = new Restore();
         $restore->setLogger(new BackupLogger());
 
