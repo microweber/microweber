@@ -125,6 +125,7 @@ class Import
             $writer->setContent($content['data']);
             $writer->setOverwriteById($this->ovewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
+            $writer->setLogger($this->logger);
 
             if ($this->batchImporting) {
                 $writer->runWriterWithBatch();
