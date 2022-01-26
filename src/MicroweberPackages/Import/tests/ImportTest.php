@@ -14,28 +14,22 @@ use MicroweberPackages\Post\Models\Post;
 
 class ImportTest extends TestCase
 {
-	/*public function testImportZipFile() {
 
-		foreach(get_content('no_limit=1&content_type=post') as $content) {
-			$this->assertArrayHasKey(0, delete_content(array('id'=>$content['id'], 'forever'=>true)));
-		}
+    public function testImportZipFile() {
 
-		$manager = new BackupManager();
-		$manager->setImportFile(self::$_exportedFile);
-		$manager->setBatchImporting(false);
+        $sample = userfiles_path() . '/templates/new-world/mw_default_content.zip';
+        $sample = normalize_path($sample, false);
 
-		$import = $manager->startImport();
+        $manager = new Import();
+        $manager->setFile($sample);
+        $manager->setBatchImporting(false);
 
-		$importBool = false;
-		if (!empty($import)) {
-			$importBool = true;
-		}
+        $importStatus = $manager->start();
 
-		$this->assertTrue($importBool);
- 		$this->assertArrayHasKey('done', $import);
-		$this->assertArrayHasKey('precentage', $import);
+        $this->assertSame(true, $importStatus['done']);
+        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
 	}
-    */
 
 	public function testImportSampleCsvFile() {
 
