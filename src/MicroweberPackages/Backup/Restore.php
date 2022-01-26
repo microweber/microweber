@@ -2,7 +2,13 @@
 
 namespace MicroweberPackages\Backup;
 
-class Restore
+use MicroweberPackages\Import\Import;
+
+class Restore extends Import
 {
+    public $batchImporting = true;
+    public $ovewriteById = true;
+    public $deleteOldContent = true;
+
 
 }

@@ -11,15 +11,6 @@ use MicroweberPackages\Backup\Restore;
 
 class BackupController
 {
-
-    public $manager;
-
-    public function __construct()
-    {
-        $this->manager = new \MicroweberPackages\Backup\BackupManager();
-    }
-
-
     public function get()
     {
         $backupLocation = backup_location();
@@ -60,23 +51,11 @@ class BackupController
         return $backups;
     }
 
-§    public function restore(Request $request)
+    public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
 
         $restore = new Restore();
-        $restore->setStep(intval($request->get('step', false)));
-
-
-
-        if ($request->get('import_by_type', false) == 'delete_all') {
-            $restore->setImportOvewriteById(true);
-            $restore->setToDeleteOldContent(true);
-        }
-
-        if ($request->get('installation_language', false)) {
-            $restore->setImportLanguage($request->get('installation_language'));
-        }
 
         if (!$fileId) {
             return array('error' => 'You have not provided a file to import.');
@@ -95,8 +74,8 @@ class BackupController
                 $restore->setLogger(new BackupV2Logger());
             }
 
-            $restore->setImportFile($filePath);
-            $importLog = $restore->startImport();
+            $restore->setFile($filePath);
+            $importLog = $restore->start();
 
             return json_encode($importLog, JSON_PRETTY_PRINT);
         }

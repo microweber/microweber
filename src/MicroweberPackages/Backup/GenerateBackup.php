@@ -2,17 +2,11 @@
 
 namespace MicroweberPackages\Backup;
 
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Export\Export;
 
-class GenerateBackup
+class GenerateBackup extends Export
 {
-
-    public function start()
-    {
-        MultilanguageHelpers::setMultilanguageEnabled(false);
-
-
-
-    }
+    public $type = 'zip';
+    public $exportAllData = true;
 
 }

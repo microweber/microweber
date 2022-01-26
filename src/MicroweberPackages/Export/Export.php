@@ -439,9 +439,9 @@ class Export
                 $export = new XlsxExport($data);
                 break;
 
-            /* case 'zip':
+            case 'zip':
                 $export = new ZipExport($data);
-                break; */
+                break;
 
             default:
                 throw new \Exception('Format not supported for exporting.');
