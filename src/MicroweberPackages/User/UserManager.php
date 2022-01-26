@@ -1251,14 +1251,12 @@ class UserManager
             return false;
         }
 
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data['single'] = 1;
-
-        $data = $this->get_all($data);
-
-        return $data;
+        $findUser = User::where('id', $id)->first();
+        if ($findUser == null) {
+            return false;
+        }
+        
+        return $findUser->toArray();
     }
 
     public function update_last_login_time()
