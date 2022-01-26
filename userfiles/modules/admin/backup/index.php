@@ -6,8 +6,8 @@
     var userfilesUrl = '<?php echo userfiles_url() ?>';
     var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup/images/' ?>';
     mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=10");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=10");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup.js?v=10");
+    mw.require("<?php print $config['url_to_module']; ?>js/restore.js?v=10");
     mw.lib.require('mw_icons_mind');
 
 </script>
@@ -25,7 +25,7 @@
     <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit')): ?>
         <div class="col-6 mb-4">
             <h5 class="font-weight-bold"><?php _e('Upload your backup'); ?></h5>
-            <small class="text-muted d-block mb-3"><?php _e("Upload the backup file (must be zip)"); ?></small>
+            <small class="text-muted d-block mb-3"><?php _e("Upload your backup file (must be zip)"); ?></small>
             <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
 
             <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
