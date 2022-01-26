@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Backup;
 
 use MicroweberPackages\Backup\Loggers\BackupExportLogger;
-use MicroweberPackages\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Backup\Loggers\ImportLogger;
 use MicroweberPackages\Import\DatabaseWriter;
 use MicroweberPackages\Import\Import;
 use MicroweberPackages\Import\Traits\ExportGetSet;
@@ -20,7 +20,7 @@ class BackupManager
     public $importStep = 0;
     public $importType = false;
     public $importFile = false;
-    public $importBatch = true;
+    public $batchImporting = true;
     public $importOvewriteById = false;
     public $importLanguage = false;
 
@@ -46,7 +46,7 @@ class BackupManager
     public function setLogger($logger)
     {
 
-        BackupImportLogger::setLogger($logger);
+        ImportLogger::setLogger($logger);
         BackupExportLogger::setLogger($logger);
 
     }
@@ -66,9 +66,9 @@ class BackupManager
         $this->importType = $type;
     }
 
-    public function setImportBatch($importBatch)
+    public function setBatchImporting($batchImporting)
     {
-        $this->importBatch = $importBatch;
+        $this->batchImporting = $batchImporting;
     }
 
     public function setImportOvewriteById($overwrite)
@@ -130,7 +130,7 @@ class BackupManager
             $writer->setOverwriteById($this->importOvewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
 
-            if ($this->importBatch) {
+            if ($this->batchImporting) {
                 $writer->runWriterWithBatch();
             } else {
                 $writer->runWriter();

@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\Translation;
 
-use MicroweberPackages\Backup\Readers\XlsxReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Translation\Locale\IntlLocale;
 
 class TranslationPackageInstallHelper

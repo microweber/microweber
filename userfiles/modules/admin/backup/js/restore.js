@@ -2,7 +2,7 @@
 mw.require('forms.js');
 
 
-mw.backup_import = {
+mw.restore = {
 
 	upload: function(src) {
 		data = {}

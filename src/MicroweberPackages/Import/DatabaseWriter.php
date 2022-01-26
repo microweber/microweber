@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Import;
 
-use MicroweberPackages\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Backup\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
 use MicroweberPackages\Import\Traits\DatabaseCategoryItemsWriter;
 use MicroweberPackages\Import\Traits\DatabaseContentDataWriter;
@@ -104,7 +104,7 @@ class DatabaseWriter
 		if ($this->overwriteById) {
             if (isset($item['price'])) {
                 $itemIdDatabase = DatabaseSave::saveProduct($item);
-                BackupImportLogger::setLogInfo('Saving product.. item id: ' . $itemIdDatabase);
+                ImportLogger::setLogInfo('Saving product.. item id: ' . $itemIdDatabase);
 
                 return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
             }
@@ -122,7 +122,7 @@ class DatabaseWriter
 			$dbSelectParams['id'] = $item['id'];
 
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
-            BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
+            ImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
 
             return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 		}
@@ -200,9 +200,9 @@ class DatabaseWriter
 
 		$checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
 		if ($checkItemIsExists) {
-			BackupImportLogger::setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			ImportLogger::setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 		} else {
-			BackupImportLogger::setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			ImportLogger::setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 		}
 
 		$saveItem = $this->_unsetItemFields($item);
@@ -269,7 +269,7 @@ class DatabaseWriter
         $this->totalSteps= 1;
 
         if (isset($this->content->__table_structures)) {
-            BackupImportLogger::setLogInfo('Building database tables');
+            ImportLogger::setLogInfo('Building database tables');
 
             app()->database_manager->build_tables($this->content->__table_structures);
         }
@@ -279,7 +279,7 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
-            BackupImportLogger::setLogInfo('Importing in table: ' . $table);
+            ImportLogger::setLogInfo('Importing in table: ' . $table);
 
 			if (!empty($items)) {
 				foreach($items as $item) {
@@ -296,11 +296,11 @@ class DatabaseWriter
 	public function runWriterWithBatch()
 	{
 		if ($this->step == 0) {
-			BackupImportLogger::clearLog();
+			ImportLogger::clearLog();
 			$this->_deleteOldContent();
 		}
 
-		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->step) . '/' . $this->totalSteps);
+		ImportLogger::setLogInfo('Importing database batch: ' . ($this->step) . '/' . $this->totalSteps);
 
 		if (empty($this->content)) {
 			$this->_finishUp('runWriterWithBatchNothingToImport');
@@ -336,7 +336,7 @@ class DatabaseWriter
                     }
 				}
 			}
-			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
+			ImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
 
         $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave);
@@ -355,7 +355,7 @@ class DatabaseWriter
 
 			if (!isset($itemsBatch[$this->step])) {
 
-				BackupImportLogger::setLogInfo('No items in batch for current step.');
+				ImportLogger::setLogInfo('No items in batch for current step.');
 
 				return array("success"=>"Done! All steps are finished.");
 			}
@@ -368,7 +368,7 @@ class DatabaseWriter
                     $success[] = $this->_saveItem($item);
                 } catch (\Exception $e) {
                     // echo $e->getMessage();
-                    BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
+                    ImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
                 }
 			}
 
@@ -392,7 +392,7 @@ class DatabaseWriter
 			$this->_finishUp('getImportLog');
 
 			// Clear log file
-			BackupImportLogger::clearLog();
+			ImportLogger::clearLog();
 		}
 
 		return $log;
@@ -407,11 +407,11 @@ class DatabaseWriter
                     continue;
                 }
                 if (\Schema::hasTable($table)) {
-                    BackupImportLogger::setLogInfo('Truncate table: ' . $table);
+                    ImportLogger::setLogInfo('Truncate table: ' . $table);
                     try {
                         \DB::table($table)->truncate();
                     } catch (\Exception $e) {
-                        BackupImportLogger::setLogInfo('Can\'t truncate table: ' . $table);
+                        ImportLogger::setLogInfo('Can\'t truncate table: ' . $table);
                     }
                 }
             }
@@ -423,16 +423,16 @@ class DatabaseWriter
 	 */
 	private function _finishUp($callFrom = '') {
 
-		 BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
+		 ImportLogger::setLogInfo('Call from: ' . $callFrom);
 
 		if (function_exists('mw_post_update')) {
 			mw_post_update();
 		}
 
-		BackupImportLogger::setLogInfo('Cleaning up system cache');
+		ImportLogger::setLogInfo('Cleaning up system cache');
 
 		mw()->cache_manager->clear();
 
-		BackupImportLogger::setLogInfo('Done!');
+		ImportLogger::setLogInfo('Done!');
 	}
 }

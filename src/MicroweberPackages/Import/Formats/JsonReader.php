@@ -1,9 +1,9 @@
 <?php
-namespace MicroweberPackages\Backup\Readers;
+namespace MicroweberPackages\Import\Formats;
 
 $dir = __DIR__;
-$dir = str_replace('Backup\Readers', '', $dir);
-$dir = str_replace('Backup/Formats', '', $dir);
+$dir = str_replace('Import\Formats', '', $dir);
+$dir = str_replace('Import/Formats', '', $dir);
 
 use MicroweberPackages\Backup\EncodingFix;
 

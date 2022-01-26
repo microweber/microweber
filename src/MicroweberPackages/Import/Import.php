@@ -1,14 +1,13 @@
 <?php
 namespace MicroweberPackages\Import;
 
-use MicroweberPackages\Backup\Loggers\BackupImportLogger;
-use MicroweberPackages\Backup\Readers\CsvReader;
-use MicroweberPackages\Backup\Readers\JsonReader;
-use MicroweberPackages\Backup\Readers\XlsxReader;
-use MicroweberPackages\Backup\Readers\XmlReader;
-use MicroweberPackages\Backup\Readers\ZipReader;
-use function get_file_extension;
-use function mw;
+use MicroweberPackages\Import\Formats\CsvReader;
+use MicroweberPackages\Import\Formats\JsonReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
+use MicroweberPackages\Import\Formats\XmlReader;
+use MicroweberPackages\Import\Formats\ZipReader;
+use MicroweberPackages\Import\Loggers\ImportLogger;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Import
 {
@@ -35,6 +34,11 @@ class Import
      */
 	public $language = 'en';
 
+    public $batchImporting = true;
+    public $ovewriteById = false;
+    public $deleteOldContent = false;
+
+
 	public function setStep($step)
     {
         $this->step = intval($step);
@@ -50,18 +54,89 @@ class Import
 		$this->type = $type;
 	}
 
-	/**
-	 * Set file path
-	 *
-	 * @param string $file
-	 */
-	public function setFile($file)
-	{
-		$this->file = $file;
-	}
+    /**
+     * Set import file path
+     * @param string $file
+     */
+    public function setFile($file)
+    {
+        if (!is_file($file)) {
+            return array('error' => 'Backup Manager: You have not provided a existing backup to restore.');
+        }
+
+        $this->setType(pathinfo($file, PATHINFO_EXTENSION));
+        $this->file = $file;
+    }
 
 	public function setLanguage($abr) {
-	    $this->language = $abr;
+	    $this->language = trim($abr);
+    }
+
+    public function setBatchImporting($batchImporting)
+    {
+        $this->batchImporting = $batchImporting;
+    }
+
+
+    public function setOvewriteById($overwrite)
+    {
+        $this->ovewriteById = $overwrite;
+    }
+
+    public function setToDeleteOldContent($delete)
+    {
+        $this->deleteOldContent = $delete;
+    }
+
+    /**
+     * Set logger
+     * @param class $logger
+     */
+    public function setLogger($logger)
+    {
+
+        ImportLogger::setLogger($logger);
+
+    }
+
+
+    /**
+     * Start importing
+     * @return array
+     */
+    public function start()
+    {
+        MultilanguageHelpers::setMultilanguageEnabled(false);
+
+        try {
+
+            $content = $this->readContent();
+
+            if (isset($content['error'])) {
+                return $content;
+            }
+
+            if (isset($content['must_choice_language']) && $content['must_choice_language']) {
+                return $content;
+            }
+
+            $writer = new DatabaseWriter();
+            $writer->setStep($this->step);
+            $writer->setContent($content['data']);
+            $writer->setOverwriteById($this->ovewriteById);
+            $writer->setDeleteOldContent($this->deleteOldContent);
+
+            if ($this->batchImporting) {
+                $writer->runWriterWithBatch();
+            } else {
+                $writer->runWriter();
+            }
+
+            return $writer->getImportLog();
+
+        } catch (\Exception $e) {
+            return array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
+        }
     }
 
 	/**
@@ -79,11 +154,11 @@ class Import
                 return $readedData;
             }
 
-            BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            ImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				BackupImportLogger::setLogInfo($successMessages);
+				ImportLogger::setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -93,7 +168,7 @@ class Import
 		}
 
 		$formatNotSupported = 'Import format not supported';
-		BackupImportLogger::setLogInfo($formatNotSupported);
+		ImportLogger::setLogInfo($formatNotSupported);
 
 		throw new \Exception($formatNotSupported);
 	}
@@ -101,7 +176,7 @@ class Import
 	public function readContent()
 	{
         if ($this->step == 0) {
-            BackupImportLogger::setLogInfo('Start importing session..');
+            ImportLogger::setLogInfo('Start importing session..');
         }
 
 		return $this->importAsType($this->file);
@@ -153,7 +228,7 @@ class Import
 	 * Get file reader by type
 	 *
 	 * @param array $data
-	 * @return boolean|\MicroweberPackages\Backup\Readers\DefaultReader
+	 * @return boolean|\MicroweberPackages\Import\Formats\DefaultReader
 	 */
 	private function _getReader($data = array())
 	{

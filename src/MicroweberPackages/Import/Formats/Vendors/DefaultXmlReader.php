@@ -1,6 +1,5 @@
 <?php
-
-namespace MicroweberPackages\Backup\Readers\Vendors;
+namespace MicroweberPackages\Import\Formats\Vendors;
 
 use Microweber\Providers\UrlManager;
 

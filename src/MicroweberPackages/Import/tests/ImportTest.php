@@ -1,164 +1,46 @@
 <?php
 namespace MicroweberPackages\Import\tests;
 
-use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Backup\BackupManager;
+use MicroweberPackages\Import\Import;
 use MicroweberPackages\Post\Models\Post;
 
 
 /**
  * Run test
  * @author Bobi Microweber
- * @command php phpunit.phar --filter BackupV2Test
+ * @command php phpunit.phar --filter Import
  */
 
 class ImportTest extends TestCase
 {
-	private static $_titles = array();
-	private static $_exportedFile = '';
 
-	public function testEncoding() {
+    public function testImportZipFile() {
 
-		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
+        $sample = userfiles_path() . '/templates/new-world/mw_default_content.zip';
+        $sample = normalize_path($sample, false);
 
-		foreach($locales as $locale) {
+        $manager = new Import();
+        $manager->setFile($sample);
+        $manager->setBatchImporting(false);
 
-			$faker = Factory::create($locale);
+        $importStatus = $manager->start();
 
-			$inputTitle = $faker->name;
-
-			if (empty($inputTitle)) {
-				$this->assertTrue(false);
-			} else {
-				$this->assertTrue(true);
-
-				$contentId=  save_content(array("title"=>$inputTitle));
-				$outputContent = get_content("single=true&id=" . $contentId);
-
-				$this->assertSame($outputContent['title'], $inputTitle);
-
-				self::$_titles[] = array("id"=>$contentId, "title"=>$inputTitle, "url"=>$outputContent['full_url']);
-			}
-		}
-
-
-	}
-
-	public function testFullExport() {
-
-		clearcache();
-
-		$manager = new BackupManager();
-		$manager->setExportAllData(true);
-
-		$i = 0;
-		while (true) {
-
-			$export = $manager->startExport();
-
-			$exportBool = false;
-			if (!empty($export)) {
-				$exportBool = true;
-			}
-
-			$this->assertTrue($exportBool);
-
-			if (isset($export['current_step'])) {
-				$this->assertArrayHasKey('current_step', $export);
-				$this->assertArrayHasKey('total_steps', $export);
-				$this->assertArrayHasKey('precentage', $export);
-				$this->assertArrayHasKey('data', $export);
-			}
-
-			// The last exort step
-			if (isset($export['success'])) {
-				$this->assertArrayHasKey('data', $export);
-				$this->assertArrayHasKey('download', $export['data']);
-				$this->assertArrayHasKey('filepath', $export['data']);
-				$this->assertArrayHasKey('filename', $export['data']);
-
-				self::$_exportedFile = $export['data']['filepath'];
-
-				break;
-			}
-
-			if ($i > 100) {
-				break;
-			}
-
-			$i++;
-		}
-
-
-        $contentCount = get_content('count=1');
-        $json_expor_test = json_decode(file_get_contents(self::$_exportedFile),true);
-        $this->assertTrue(!empty($json_expor_test['content']));
-        $this->assertEquals(count($json_expor_test['content']),$contentCount);
-
-	}
-
-	public function testImportZipFile() {
-
-		foreach(get_content('no_limit=1&content_type=post') as $content) {
-			//echo 'Delete content..' . PHP_EOL;
-			$this->assertArrayHasKey(0, delete_content(array('id'=>$content['id'], 'forever'=>true)));
-		}
-
-		if (empty(self::$_exportedFile)) {
-			$this->assertTrue(false);
-			return;
-		}
-
-		$manager = new BackupManager();
-		$manager->setImportFile(self::$_exportedFile);
-		$manager->setImportBatch(false);
-
-		$import = $manager->startImport();
-
-		$importBool = false;
-		if (!empty($import)) {
-			$importBool = true;
-		}
-
-		$this->assertTrue($importBool);
- 		$this->assertArrayHasKey('done', $import);
-		$this->assertArrayHasKey('precentage', $import);
-	}
-
-	public function testImportedEncoding() {
-
-		$urls = array();
-		foreach (self::$_titles as $title) {
-			$urls[$title['url']] = $title;
-		}
-
-		$posts = Post::all();
-
-		if (empty($posts)) {
-			$this->assertTrue(false);
-			return;
-		}
-
-        $this->assertFalse(empty($posts));
-
-		foreach($posts->toArray() as $post) {
-			if (array_key_exists($post['url'], $urls)) {
-				$this->assertSame($urls[$post['url']]['title'], $post['title']);
-			}
-		}
+        $this->assertSame(true, $importStatus['done']);
+        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
 	}
 
 	public function testImportSampleCsvFile() {
 
-	    $sample = userfiles_path() . '/modules/admin/backup/samples/sample.csv';
+	    $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.csv';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setImportBatch(false);
+        $manager = new Import();
+        $manager->setFile($sample);
+        $manager->setBatchImporting(false);
 
-        $importStatus = $manager->startImport();
+        $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['precentage']);
@@ -167,14 +49,14 @@ class ImportTest extends TestCase
 
     public function testImportSampleJsonFile() {
 
-        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.json';
+        $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.json';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setImportBatch(false);
+        $manager = new Import();
+        $manager->setFile($sample);
+        $manager->setBatchImporting(false);
 
-        $importStatus = $manager->startImport();
+        $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['precentage']);
@@ -183,15 +65,14 @@ class ImportTest extends TestCase
 
     public function testImportSampleXlsxFile() {
 
-        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.xlsx';
+        $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setImportBatch(false);
+        $manager = new Import();
+        $manager->setFile($sample);
+        $manager->setBatchImporting(false);
 
-        $importStatus = $manager->startImport();
-
+        $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['precentage']);
@@ -200,22 +81,13 @@ class ImportTest extends TestCase
 
 	public function testImportWrongFile() {
 
-		$manager = new BackupManager();
-		$manager->setImportFile('wrongfile.txt');
-		$manager->setImportBatch(false);
+		$manager = new Import();
+		$manager->setFile('wrongfile.txt');
+		$manager->setBatchImporting(false);
 
-		$importStatus = $manager->startImport();
+		$importStatus = $manager->start();
 
 		$this->assertArrayHasKey('error', $importStatus);
-	}
-
-	public function testExportWithWrongFormat()
-	{
-		$export = new BackupManager();
-		$export->setExportType('xml_');
-		$exportStatus = $export->startExport();
-
-		$this->assertArrayHasKey('error', $exportStatus);
 	}
 
 }
