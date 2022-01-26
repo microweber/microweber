@@ -17,12 +17,12 @@ mw.backup = {
 
 	export_selected: function(manifest) {
 	    var scope = this;
-		mw.backup_export.get_log_check('start');
+		mw.backup.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
 		$.get(route('admin.backup.export'), manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
-				mw.backup_export.get_log_check('stop');
+				mw.backup.get_log_check('stop');
                 scope.exportLog('<a href="'+exportData.data.download+'" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
 			 	mw.notification.success(exportData.success);
                 mw.progress({
@@ -32,7 +32,7 @@ mw.backup = {
                 $('.export-step-4-action').html('Export completed!');
                 mw.reload_module('admin/backup/manage');
 			} else {
-				mw.backup_export.export_selected(manifest);
+				mw.backup.export_selected(manifest);
 			}
 			if(exportData.precentage){
 			    mw.progress({
@@ -53,7 +53,7 @@ mw.backup = {
         this.exportLogContent.html(string);
     },
 	get_log_check: function(action) {
-        mw.backup_export.get_log();
+        mw.backup.get_log();
 	},
     done:false,
     canGet: true,
@@ -109,8 +109,7 @@ mw.backup = {
             send_uri += '&include_templates=' + include_templates.join(',');
         }
 
-        mw.backup_export.export_selected(send_uri);
-        mw.backup_export.stepper.last();
+        mw.backup.export_selected(send_uri);
 
         $('.export-step-4-action').html('Exporting your content');
 	}
