@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Export;
 
 use MicroweberPackages\Backup\Loggers\BackupLogger;
+use MicroweberPackages\Export\Formats\ZipBatchExport;
+use MicroweberPackages\Import\Traits\ExportGetSet;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Export
@@ -87,7 +89,7 @@ class Export
         if ($exportWithZip || $exportMediaUserFiles) {
 
             // Make Zip
-            $zipExport = new ZipExport();
+            $zipExport = new ZipBatchExport();
 
             // Move files to zip temp
             if (isset($export['files'])) {
@@ -440,7 +442,7 @@ class Export
                 break;
 
             case 'zip':
-                $export = new ZipExport($data);
+                $export = new ZipBatchExport($data);
                 break;
 
             default:
