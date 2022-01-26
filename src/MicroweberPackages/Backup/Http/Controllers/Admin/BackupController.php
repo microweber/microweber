@@ -3,8 +3,11 @@
 namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Backup\Backup;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Backup\Export;
+use MicroweberPackages\Backup\GenerateBackup;
+use MicroweberPackages\Backup\Restore;
 
 class BackupController
 {
@@ -57,23 +60,22 @@ class BackupController
         return $backups;
     }
 
-    public function import(Request $request)
+§    public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
 
-        $this->manager->setImportStep(intval($request->get('step', false)));
+        $restore = new Restore();
+        $restore->setStep(intval($request->get('step', false)));
 
-        if ($request->get('import_by_type', false) == 'overwrite_by_id') {
-            $this->manager->setImportOvewriteById(true);
-        }
+
 
         if ($request->get('import_by_type', false) == 'delete_all') {
-            $this->manager->setImportOvewriteById(true);
-            $this->manager->setToDeleteOldContent(true);
+            $restore->setImportOvewriteById(true);
+            $restore->setToDeleteOldContent(true);
         }
 
         if ($request->get('installation_language', false)) {
-            $this->manager->setImportLanguage($request->get('installation_language'));
+            $restore->setImportLanguage($request->get('installation_language'));
         }
 
         if (!$fileId) {
@@ -90,11 +92,11 @@ class BackupController
         } else {
 
             if (isset($query['debug'])) {
-                $this->manager->setLogger(new BackupV2Logger());
+                $restore->setLogger(new BackupV2Logger());
             }
 
-            $this->manager->setImportFile($filePath);
-            $importLog = $this->manager->startImport();
+            $restore->setImportFile($filePath);
+            $importLog = $restore->startImport();
 
             return json_encode($importLog, JSON_PRETTY_PRINT);
         }
@@ -180,83 +182,15 @@ class BackupController
         }
     }
 
-    public function export(Request $request)
+    public function start(Request $request)
     {
-        $tables = array();
-
-        $export = new Export();
-
-        $items = $request->get('items', false);
-        if ($items) {
-            foreach (explode(',', $items) as $item) {
-                if (!empty($item)) {
-                    $tables[] = trim($item);
-                }
-            }
-        }
-
-        if ($items == 'template') {
-            $export->setExportMedia(true);
-            $export->setExportOnlyTemplate(template_name());
-        }
-
-        if ($items == 'template_default_content') {
-            $export->setExportMedia(true);
-            $export->setExportAllData(true);
-            $export->addSkipTable('login_attempts');
-            $export->addSkipTable('multilanguage_translations');
-            $export->addSkipTable('multilanguage_supported_locales');
-            $export->addSkipTable('translation_keys');
-            $export->addSkipTable('translation_texts');
-        }
-
-        $export->setExportData('tables', $tables);
-
-        $format = $request->get('format',false);
-        if ($format) {
-            $export->setType($format);
-        }
-
-        if ($request->get('all',false)) {
-            if ($request->get('include_media') == 'true') {
-                $export->setExportMedia(true);
-            }
-            $export->setExportAllData(true);
-        }
-
-        if ($request->get('debug', false)) {
-            $export->setLogger(new BackupV2Logger());
-        }
-
-        if ($request->get('content_ids', false)) {
-            $export->setExportData('contentIds', $request->get('content_ids'));
-        }
-
-        if ($request->get('categories_ids', false)) {
-            $export->setExportData('categoryIds', $request->get('categories_ids'));
-        }
-
-        $includeModules = array();
-        if ($request->get('include_modules', false)) {
-            $includeModules = explode(',' , $request->get('include_modules'));
-        }
-        if (!empty($includeModules) && is_array($includeModules)) {
-            $export->setExportModules($includeModules);
-        }
-
-        $includeTemplates = array();
-        if ($request->get('include_templates', false)) {
-            $includeTemplates = explode(',' , $request->get('include_templates'));
-        }
-        if (!empty($includeTemplates) && is_array($includeTemplates)) {
-            $export->setExportTemplates($includeTemplates);
-        }
+        $backup = new GenerateBackup();
 
         if (is_ajax()) {
             header('Content-Type: application/json');
         }
 
-        return $export->start();
+        return $backup->start();
     }
 
     public function delete(Request $request)

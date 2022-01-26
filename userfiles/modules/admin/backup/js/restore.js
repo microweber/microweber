@@ -50,7 +50,7 @@ mw.restore = {
 		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
 		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
 
-		'<h2 style="font-weight: bold">How do you like to import the backup content?</h2>'+
+		'<h2 style="font-weight: bold">How do you like to restore your content?</h2>'+
 		'<br />'+
 
 		'<label class="mw-ui-check mw-backup-v2-import-option">' +
@@ -58,7 +58,7 @@ mw.restore = {
 		'<input type="radio" name="import_by_type" value="1" />'+
 		'<span></span>'+
 		'</div>'+
-		'<h3>Delete all website content & import fresh backup</h3>'+
+		'<h3>Delete all website content & restore</h3>'+
 		'<p></p>'+
 		'</label>'+
 
@@ -89,7 +89,7 @@ mw.restore = {
 
 		'<div class="mw-backup-v2-import-buttons">'+
 		'<a class="btn btn-link button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
-		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
+		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.restore.start_import_button()" type="submit">Start Restore</button>'+
 		'</div>'+
 
 		'</div>'

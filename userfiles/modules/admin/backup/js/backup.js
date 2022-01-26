@@ -19,7 +19,7 @@ mw.backup = {
 	    var scope = this;
 		mw.backup.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
-		$.get(route('admin.backup.export'), manifest , function(exportData) {
+		$.get(route('admin.backup.start'), manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
 				mw.backup.get_log_check('stop');
@@ -90,24 +90,6 @@ mw.backup = {
 
         this.exportLog('Generating full backup...');
         var send_uri = 'all=true&format=' + $('.js-export-format').val() + '&include_media=true';
-
-        var include_modules = [];
-        var include_templates = [];
-
-        $('.js-export-modules:checked').each(function(){
-            include_modules.push(this.value);
-        });
-        $('.js-export-templates:checked').each(function(){
-            include_templates.push(this.value);
-        });
-
-        if (include_modules) {
-            send_uri += '&include_modules=' + include_modules.join(',');
-        }
-
-        if (include_templates) {
-            send_uri += '&include_templates=' + include_templates.join(',');
-        }
 
         mw.backup.export_selected(send_uri);
 
