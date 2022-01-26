@@ -49,7 +49,7 @@ class BackupV2Test extends TestCase
 
 		clearcache();
 
-		$manager = new BackupManager();
+		$manager = new Export();
 		$manager->setExportAllData(true);
 
 		$i = 0;
