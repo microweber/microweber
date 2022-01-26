@@ -6,8 +6,8 @@
     var userfilesUrl = '<?php echo userfiles_url() ?>';
     var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup/images/' ?>';
     mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup.js?v=10");
-    mw.require("<?php print $config['url_to_module']; ?>js/restore.js?v=10");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/restore.js");
     mw.lib.require('mw_icons_mind');
 
 </script>

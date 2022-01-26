@@ -36,10 +36,10 @@
                         <td class="text-center">
                             <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit')): ?>
                                 <a class="btn btn-primary btn-sm show-on-hover" target="_blank" href="<?php echo route('admin.backup.download'); ?>?file=<?php print $item['filename'] ?>"><?php _e("Download"); ?></a>
-                                <a class="btn btn-success btn-sm show-on-hover" href="javascript:mw.backup_import.import('<?php print $item['filename'] ?>')"><?php _e("Restore"); ?></a>
+                                <a class="btn btn-success btn-sm show-on-hover" href="javascript:mw.restore.import('<?php print $item['filename'] ?>')"><?php _e("Restore"); ?></a>
                             <?php endif; ?>
                             <?php if (user_can_access('module.admin.backup.destroy')): ?>
-                                <a class="btn btn-outline-danger btn-sm show-on-hover" href="javascript:mw.backup_import.remove('<?php print $item['filename'] ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a>
+                                <a class="btn btn-outline-danger btn-sm show-on-hover" href="javascript:mw.restore.remove('<?php print $item['filename'] ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a>
                             <?php endif; ?>
                         </td>
                     <?php endif; ?>
