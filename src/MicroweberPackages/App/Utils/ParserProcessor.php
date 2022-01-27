@@ -472,11 +472,11 @@ class ParserProcessor
                                         $mod_id2 = '';
 
 
-                                        if (!defined('CONTENT_ID')) {
-                                            //   $mod_id = $mod_id . '-uid-fixme-' . uniqid();
-                                            $mod_id = $mod_id . '-'.url_string(true);
-
-                                        }
+//                                        if (!defined('CONTENT_ID')) {
+//                                            //   $mod_id = $mod_id . '-uid-fixme-' . uniqid();
+//                                        //    $mod_id = $mod_id . '-'.url_string(true);
+//
+//                                        }
 
 
                                         if (!$mod_id) {
@@ -752,6 +752,7 @@ class ParserProcessor
                                         // bug 3
 
 
+                                          //  $mod_id = $mod_id . '--' . $inc_mod_num;
 
 
                                             if (!$it_loop and $coming_from_parent_id) {
