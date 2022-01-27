@@ -164,7 +164,6 @@ class BackupController
 
     public function start(Request $request)
     {
-
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
 
