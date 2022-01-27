@@ -87,7 +87,13 @@ class Export
         $readyDataCacheId = 'readyData' . $this->sessionId;
         $readyDataCacheGroup = 'mw_export';
 
+        $exportCacheLocation = backup_cache_location();
+
         if (SessionStepper::isFirstStep()) {
+
+            // Clear
+            rmdir_recursive($exportCacheLocation);
+
             $data = $this->_getReadyData();
             if (empty($data)) {
                 return array("error" => "Empty content data.");
@@ -100,8 +106,6 @@ class Export
         if (empty($data)) {
             return array("error" => "Session export is broken. Data is not cached.");
         }
-
-        $exportCacheLocation = backup_cache_location();
 
         $exportWithZip = false;
         $exportMediaUserFiles = false;
@@ -153,15 +157,15 @@ class Export
             $zipExport = new ZipBatchExport();
             $zipExport->setLogger($this->logger);
 
-            // Move files to zip temp
-            if (isset($export['files'])) {
-                foreach ($export['files'] as $file) {
-
-                    $newFilePath = $exportCacheLocation . $file['filename'];
-                    rename($file['filepath'], $newFilePath);
-
-                    // Add exported files
-                    $zipExport->addFile(array('filepath' => $newFilePath, 'filename' => $file['filename']));
+            if (SessionStepper::isFirstStep()) {
+                // Move files to zip temp
+                if (isset($export['files'])) {
+                    foreach ($export['files'] as $file) {
+                        $newFilePath = $exportCacheLocation . $file['filename'];
+                        rename($file['filepath'], $newFilePath);
+                        // Add exported files
+                        $zipExport->addFile(array('filepath' => $newFilePath, 'filename' => $file['filename']));
+                    }
                 }
             }
 
