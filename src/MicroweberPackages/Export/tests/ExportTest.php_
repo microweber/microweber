@@ -13,7 +13,7 @@ use MicroweberPackages\Post\Models\Post;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class §ExportTest extends TestCase
+class ExportTest extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';

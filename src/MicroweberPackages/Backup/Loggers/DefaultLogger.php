@@ -1,44 +1,53 @@
 <?php
+
 namespace MicroweberPackages\Backup\Loggers;
 
 abstract class DefaultLogger
 {
+    protected static $debug = false;
+    protected static $logger;
+    protected static $logFileName = 'default-log.log';
 
-	protected static $debug = false;
-	protected static $logger;
+    public static function setLogger($logger)
+    {
+        static::$logger = $logger;
+    }
 
-	public static function setLogger($logger) {
-		self::$logger = $logger;
-	}
+    public static function clearLog()
+    {
+        file_put_contents(static::getLogFilepath(), false);
+    }
 
-	public static function clearLog()
-	{
-		file_put_contents(self::_getLogFilename(), false);
-	}
+    public static function setLogInfo($log)
+    {
 
-	public static function setLogInfo($log) {
+        if (static::$logger) {
+            $loggerClass = new static::$logger();
+            if (method_exists($loggerClass, 'log')) {
+                return $loggerClass->log($log);
+            }
+        }
 
-		if (self::$logger) {
-			$loggerClass = new self::$logger();
-			if (method_exists($loggerClass, 'log')) {
-				return $loggerClass->log($log);
-			}
-		}
+        if (is_ajax()) {
+            static::$debug = false;
+        }
 
-		if (is_ajax()) {
-			self::$debug = false;
-		}
+        if (static::$debug) {
+            echo $log . PHP_EOL;
+        }
 
-		if (self::$debug) {
-			echo $log . PHP_EOL;
-		}
+        static::addNew(static::getLogFilepath(), $log, 45);
+    }
 
-		self::addNew(self::_getLogFilename(), $log, 45);
-	}
+    public static function addNew($fileName, $line, $max = 15)
+    {
 
-	public static function addNew($fileName, $line, $max = 15) {
+        $logPath = dirname($fileName);
+        if (!is_dir($logPath)) {
+            mkdir_recursive($logPath);
+        }
 
-	    if (is_file($fileName)) {
+        if (is_file($fileName)) {
             $countLines = file_get_contents($fileName);
             $countLines = substr_count($countLines, "\n");;
 
@@ -47,12 +56,12 @@ abstract class DefaultLogger
             }
         }
 
-		@file_put_contents($fileName, $line."\n", FILE_APPEND);
-	}
+        @file_put_contents($fileName, $line . "\n", FILE_APPEND);
+    }
 
-	protected static function _getLogFilename()
-	{
-		return userfiles_path() . static::$logFileName;
-	}
+    public static function getLogFilepath()
+    {
+        return userfiles_path() . DS . 'cache' . DS . 'logs' . DS . static::$logFileName;
+    }
 
 }

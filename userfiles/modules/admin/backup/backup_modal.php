@@ -11,7 +11,7 @@
     </div>
 
     <div class="mb-4">
-        <button type="button" class="btn btn-primary" onclick="mw.backup.export_fullbackup_start()">
+        <button type="button" class="btn btn-primary" onclick="mw.backup.start()">
             <?php _e("Start backup process"); ?>
         </button>
     </div>

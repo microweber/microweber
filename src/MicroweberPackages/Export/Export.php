@@ -3,6 +3,15 @@
 namespace MicroweberPackages\Export;
 
 use MicroweberPackages\Backup\Loggers\BackupLogger;
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
+use MicroweberPackages\Backup\Loggers\ExportLogger;
+use MicroweberPackages\Export\Formats\CsvExport;
+use MicroweberPackages\Export\Formats\JsonExport;
+use MicroweberPackages\Export\Formats\XlsxExport;
+use MicroweberPackages\Export\Formats\XmlExport;
+use MicroweberPackages\Export\Formats\ZipBatchExport;
+use MicroweberPackages\Import\Loggers\ImportLogger;
+use MicroweberPackages\Import\Traits\ExportGetSet;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Export
@@ -12,6 +21,12 @@ class Export
     public $type = 'json';
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
     public $exportAllData = false;
+    public $logger;
+    public $sessionId;
+
+    public function __construct() {
+        $this->logger = new ExportLogger();
+    }
 
     /**
      * Set export file format
@@ -40,18 +55,60 @@ class Export
         $this->exportAllData = $exportAllData;
     }
 
+    /**
+     * Set logger
+     * @param class $logger
+     */
+    public function setLogger(DefaultLogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+    }
+
+
     public function start()
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
 
-        $data = $this->_getReadyData();
-        if (empty($data)) {
-            return array("error" => "Empty content data.");
+        if (!$this->sessionId) {
+            return array("error" => "SessionId is missing.");
         }
+
+        SessionStepper::setSessionId($this->sessionId);
+
+        if (!SessionStepper::isFinished()) {
+            SessionStepper::nextStep();
+        }
+
+        $isFirstStep = SessionStepper::isFirstStep();
+
+        $readyDataCacheId = 'readyData' . $this->sessionId;
+        $readyDataCacheGroup = 'mw_export';
 
         $exportCacheLocation = backup_cache_location();
 
-        $exportWithZip = false;
+        if ($isFirstStep) {
+
+            $data = $this->_getReadyData();
+            if (empty($data)) {
+                return array("error" => "Empty content data.");
+            }
+            cache_save($data, $readyDataCacheId,$readyDataCacheGroup);
+        } else {
+            $data = cache_get($readyDataCacheId, $readyDataCacheGroup);
+        }
+
+        if (empty($data)) {
+            return array("error" => "Session export is broken. Data is not cached.");
+        }
+
+        dd($data);
+
+        $exportWithZip = $this->exportWithZip;
         $exportMediaUserFiles = false;
 
         if (array_key_exists('media', $data)) {
@@ -65,7 +122,18 @@ class Export
 			$exportWithZip = true;
         }
 
-        $export = $this->_getExporter($data);
+        $exportedDataCacheId = 'exportedData' . $this->sessionId;
+
+        if ($isFirstStep) {
+            $export = $this->_getExporter($data);
+            cache_save($export, $exportedDataCacheId,$readyDataCacheGroup);
+        } else {
+            $export = cache_get($exportedDataCacheId, $readyDataCacheGroup);
+        }
+
+        if (empty($export)) {
+            return array("error" => "Session export is broken. Exported data is not cached.");
+        }
 
         if (isset($export['files']) && count($export['files']) > 1) {
             $exportWithZip = true;
@@ -87,14 +155,17 @@ class Export
         if ($exportWithZip || $exportMediaUserFiles) {
 
             // Make Zip
-            $zipExport = new ZipExport();
+            $zipExport = new ZipBatchExport();
+            $zipExport->setLogger($this->logger);
 
             // Move files to zip temp
             if (isset($export['files'])) {
                 foreach ($export['files'] as $file) {
 
                     $newFilePath = $exportCacheLocation . $file['filename'];
-                    rename($file['filepath'], $newFilePath);
+                    if ($isFirstStep) {
+                        rename($file['filepath'], $newFilePath);
+                    }
 
                     // Add exported files
                     $zipExport->addFile(array('filepath' => $newFilePath, 'filename' => $file['filename']));
@@ -168,14 +239,13 @@ class Export
 
     private function _getReadyData()
     {
-
         $exportTables = new ExportTables();
 
         $tablesStructures = array();
 
         foreach ($this->_getTablesForExport() as $table) {
 
-            BackupLogger::setLogInfo('Exporting table: <b>' . $table . '</b>');
+            $this->logger->setLogInfo('Exporting table: <b>' . $table . '</b>');
 
             $tableFields = app()->database_manager->get_fields($table, false, true);
 
@@ -237,11 +307,11 @@ class Export
 
                 if (!empty($relations)) {
 
-                    BackupLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
+                    $this->logger->setLogInfo('Get relations from table: <b>' . $table . '</b>');
 
                     foreach ($relations as $relationTable => $relationIds) {
 
-                        BackupLogger::setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
+                        $this->logger->setLogInfo('Get data from relations table: <b>' . $relationTable . '</b>');
 
                         $relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 
@@ -439,10 +509,6 @@ class Export
             case 'xlsx':
                 $export = new XlsxExport($data);
                 break;
-
-            /* case 'zip':
-                $export = new ZipExport($data);
-                break; */
 
             default:
                 throw new \Exception('Format not supported for exporting.');

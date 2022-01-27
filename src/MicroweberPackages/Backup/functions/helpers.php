@@ -26,7 +26,7 @@ function backup_location()
  */
 function backup_cache_location()
 {
-    $backupContent = get_backup_location() . '/cache_export_zip/';
+    $backupContent = backup_location() . 'cache_backup_zip/';
 
     if (!is_dir($backupContent)) {
         mkdir_recursive($backupContent);

@@ -3,6 +3,9 @@ namespace MicroweberPackages\Import\Traits;
 
 trait ExportGetSet
 {
+
+    public $exportWithZip = false;
+
     /**
      * Export media
      * @var string

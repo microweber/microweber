@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Import;
 
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\JsonReader;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -11,8 +13,6 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Import
 {
-
-    public $step = 0;
 
 	/**
 	 * The import file type
@@ -37,11 +37,12 @@ class Import
     public $batchImporting = true;
     public $ovewriteById = false;
     public $deleteOldContent = false;
+    public $sessionId;
 
+    public $logger;
 
-	public function setStep($step)
-    {
-        $this->step = intval($step);
+    public function __construct() {
+        $this->logger = new ImportLogger();
     }
 
 	/**
@@ -92,11 +93,14 @@ class Import
      * Set logger
      * @param class $logger
      */
-    public function setLogger($logger)
+    public function setLogger(DefaultLogger $logger)
     {
+        $this->logger = $logger;
+    }
 
-        ImportLogger::setLogger($logger);
-
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
     }
 
 
@@ -108,8 +112,17 @@ class Import
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
 
-        try {
+        if (!$this->sessionId) {
+            return array("error" => "SessionId is missing.");
+        }
 
+        SessionStepper::setSessionId($this->sessionId);
+
+        if (!SessionStepper::isFinished()) {
+            SessionStepper::nextStep();
+        }
+
+        try {
             $content = $this->readContent();
 
             if (isset($content['error'])) {
@@ -121,18 +134,21 @@ class Import
             }
 
             $writer = new DatabaseWriter();
-            $writer->setStep($this->step);
             $writer->setContent($content['data']);
             $writer->setOverwriteById($this->ovewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
+            $writer->setLogger($this->logger);
 
             if ($this->batchImporting) {
-                $writer->runWriterWithBatch();
+                $data = $writer->runWriterWithBatch();
             } else {
-                $writer->runWriter();
+                $data = $writer->runWriter();
             }
 
-            return $writer->getImportLog();
+            $log = $writer->getImportLog();
+            $log['data'] = $data;
+
+            return $log;
 
         } catch (\Exception $e) {
             return array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
@@ -154,11 +170,11 @@ class Import
                 return $readedData;
             }
 
-            ImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            $this->logger->setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				ImportLogger::setLogInfo($successMessages);
+                $this->logger->setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -168,15 +184,15 @@ class Import
 		}
 
 		$formatNotSupported = 'Import format not supported';
-		ImportLogger::setLogInfo($formatNotSupported);
+        $this->logger->setLogInfo($formatNotSupported);
 
 		throw new \Exception($formatNotSupported);
 	}
 
 	public function readContent()
 	{
-        if ($this->step == 0) {
-            ImportLogger::setLogInfo('Start importing session..');
+        if (SessionStepper::isFirstStep()) {
+            $this->logger->setLogInfo('Start importing session..');
         }
 
 		return $this->importAsType($this->file);
