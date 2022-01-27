@@ -106,7 +106,7 @@ class Export
             return array("error" => "Session export is broken. Data is not cached.");
         }
 
-        $exportWithZip = false;
+        $exportWithZip = $this->exportWithZip;
         $exportMediaUserFiles = false;
 
         if (array_key_exists('media', $data)) {
