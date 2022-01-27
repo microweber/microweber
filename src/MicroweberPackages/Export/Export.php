@@ -5,6 +5,10 @@ namespace MicroweberPackages\Export;
 use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Backup\Loggers\ExportLogger;
+use MicroweberPackages\Export\Formats\CsvExport;
+use MicroweberPackages\Export\Formats\JsonExport;
+use MicroweberPackages\Export\Formats\XlsxExport;
+use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
 use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\ExportGetSet;
@@ -18,6 +22,7 @@ class Export
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
     public $exportAllData = false;
     public $logger;
+    public $sessionId;
 
     public function __construct() {
         $this->logger = new ExportLogger();
@@ -58,6 +63,12 @@ class Export
     {
         $this->logger = $logger;
     }
+
+    public function setSessionId(int $sessionId)
+    {
+        $this->sessionId = $sessionId;
+    }
+
 
     public function start()
     {

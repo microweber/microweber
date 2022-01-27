@@ -30,7 +30,7 @@ mw.backup = {
                     element: '.js-export-log',
                     action: ''
                 }).hide();
-                $('.export-step-4-action').html('Export completed!');
+
                 mw.reload_module('admin/backup/manage');
             } else {
                 mw.backup.export_selected();
@@ -63,7 +63,7 @@ mw.backup = {
         this.canGet = false;
         var scope = this;
         $.ajax({
-            url: userfilesUrl + 'backup-export-session.log',
+            url: userfilesUrl + 'cache/backup/backup-session.log',
             success: function (data) {
                 if (scope.done) {
                     scope.done = false;
@@ -87,11 +87,7 @@ mw.backup = {
     },
 
     export_fullbackup_start: function () {
-
         this.exportLog('Generating full backup...');
-
         mw.backup.export_selected();
-
-        $('.export-step-4-action').html('Backup your content');
     }
 };

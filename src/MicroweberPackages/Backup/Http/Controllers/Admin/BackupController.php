@@ -9,6 +9,7 @@ use MicroweberPackages\Backup\Export;
 use MicroweberPackages\Backup\GenerateBackup;
 use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Loggers\ImportLogger;
 
 class BackupController
@@ -163,13 +164,16 @@ class BackupController
 
     public function start(Request $request)
     {
-        $backup = new GenerateBackup();
 
-        if (is_ajax()) {
-            header('Content-Type: application/json');
-        }
+        $backup = new GenerateBackup();
+        $backup->setSessionId($request->get('session_id'));
 
         return $backup->start();
+    }
+
+    public function generateSessionId()
+    {
+        return SessionStepper::generateSessionId();
     }
 
     public function delete(Request $request)

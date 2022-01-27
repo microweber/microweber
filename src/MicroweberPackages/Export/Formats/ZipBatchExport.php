@@ -9,17 +9,6 @@ use MicroweberPackages\Import\Traits\ExportGetSet;
 class ZipBatchExport extends DefaultExport
 {
     use ExportGetSet;
-    /**
-     * The current batch step.
-     * @var integer
-     */
-    public $currentStep = 0;
-
-    /**
-     * The total steps for batch.
-     * @var integer
-     */
-    public $totalSteps = 20;
 
     /**
      * The type of export
@@ -48,14 +37,6 @@ class ZipBatchExport extends DefaultExport
     public function setLogger(DefaultLogger $logger)
     {
         $this->logger = $logger;
-    }
-
-    public function getCurrentStep()
-    {
-
-        $this->currentStep = (int) cache_get('ExportCurrentStepZip', $this->_cacheGroupName);
-
-        return $this->currentStep;
     }
 
     protected function _getZipFileName()
@@ -91,14 +72,14 @@ class ZipBatchExport extends DefaultExport
 
         if ($this->getCurrentStep() == 0) {
             // Clear old log file
-            BackupLogger::clearLog();
-            BackupLogger::setLogInfo('Start new exporting..');
+            $this->logger->clearLog();
+            $this->logger->setLogInfo('Start new exporting..');
         }
 
         // Get zip filename
         $zipFileName = $this->_getZipFileName();
 
-        BackupLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+        $this->logger->setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 
         // Generate zip file
         $zip = new \ZipArchive();
@@ -160,7 +141,7 @@ class ZipBatchExport extends DefaultExport
 
         if (!isset($filesBatch[$this->getCurrentStep()])) {
 
-            BackupLogger::setLogInfo('No files in batch for current step.');
+            $this->logger->setLogInfo('No files in batch for current step.');
             $this->_finishUp();
 
             return $zipFileName;
@@ -170,13 +151,13 @@ class ZipBatchExport extends DefaultExport
             $ext = get_file_extension($file['filepath']);
 
             if($ext == 'css'){
-                BackupLogger::setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
                 $csscont = file_get_contents($file['filepath']);
                 $csscont = app()->url_manager->replace_site_url($csscont);
                 $zip->addFromString($file['filename'],$csscont);
 
             } else {
-                BackupLogger::setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
                 $zip->addFile($file['filepath'], $file['filename']);
 
             }
@@ -204,6 +185,11 @@ class ZipBatchExport extends DefaultExport
         $log['precentage'] = number_format((($this->getCurrentStep() * 100) / $this->totalSteps), 2);
         $log['data'] = false;
 
+        if ($this->getCurrentStep() == 1) {
+            $log['started'] = true;
+            $log['session_id'] = uniqid(time());
+        }
+
         if ($this->getCurrentStep() >= $this->totalSteps) {
             $log['done'] = true;
         }
@@ -211,10 +197,6 @@ class ZipBatchExport extends DefaultExport
         return $log;
     }
 
-    public function clearSteps()
-    {
-        cache_delete($this->_cacheGroupName);
-    }
 
     protected function _getTempalteFilesPaths()
     {
@@ -384,7 +366,7 @@ class ZipBatchExport extends DefaultExport
     protected function _finishUp()
     {
         $this->clearSteps();
-        BackupLogger::setLogInfo('Done!');
+        $this->logger->setLogInfo('Done!');
 
     }
 

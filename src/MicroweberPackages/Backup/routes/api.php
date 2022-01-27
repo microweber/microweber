@@ -17,6 +17,7 @@ Route::name('admin.backup.')
         Route::get('restore', 'BackupController@restore')->name('restore');
         Route::get('start', 'BackupController@start')->name('start');
         Route::get('download', 'BackupController@download')->name('download');
+        Route::get('generate-session-id', 'BackupController@generateSessionId')->name('generate-session-id');
 
         Route::post('upload', 'BackupController@upload')->name('upload');
         Route::post('delete', 'BackupController@delete')->name('delete');
