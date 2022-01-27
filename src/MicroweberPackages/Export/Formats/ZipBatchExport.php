@@ -43,8 +43,8 @@ class ZipBatchExport extends DefaultExport
 
     protected function _getZipFileName()
     {
-
-        $zipFileName = cache_get('ExportZipFileName', $this->_cacheGroupName);
+        $cacheKey = 'export_zipfilename_' . SessionStepper::$sessionId;
+        $zipFileName = cache_get($cacheKey, $this->_cacheGroupName);
 
         if (empty($zipFileName)) {
 
@@ -55,7 +55,7 @@ class ZipBatchExport extends DefaultExport
 
             $generateFileName = $this->_generateFilename($customZipFileName);
 
-            cache_save($generateFileName, 'ExportZipFileName', $this->_cacheGroupName, 60 * 10);
+            cache_save($generateFileName, $cacheKey, $this->_cacheGroupName, 60 * 10);
             return $generateFileName;
         }
 
@@ -121,7 +121,7 @@ class ZipBatchExport extends DefaultExport
         }
 
         $totalFilesForZip = sizeof($filesForZip);
-        $totalFilesForBatch = round($totalFilesForZip / $totalSteps, 0);
+        $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
 
         if ($totalFilesForBatch > 0) {
             $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
@@ -129,7 +129,6 @@ class ZipBatchExport extends DefaultExport
             $filesBatch = array();
             $filesBatch[] = $filesForZip;
         }
-
 
         if (SessionStepper::isFinished()) {
 
@@ -203,6 +202,7 @@ class ZipBatchExport extends DefaultExport
 
             if ((strpos($dataFile, '.git') !== false) ||
                 (strpos($dataFile, '.zip') !== false) ||
+                (strpos($dataFile, '.DS_Store') !== false) ||
                 (strpos($dataFile, '.json') !== false) ||
                 (strpos($dataFile, '\\gulp\\') !== false) ||
                 (strpos($dataFile, '.gitignore') !== false) ||

@@ -172,6 +172,8 @@ class BackupController
 
     public function generateSessionId()
     {
+        rmdir_recursive(backup_cache_location());
+
         return ['session_id'=>SessionStepper::generateSessionId()];
     }
 

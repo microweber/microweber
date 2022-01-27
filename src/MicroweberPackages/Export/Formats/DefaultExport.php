@@ -30,7 +30,7 @@ class DefaultExport implements ExportInterface
 		if ($name) {
 			$exportFilename = $name . '.' . $this->type;
 		} else {
-			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->type;
+			$exportFilename = 'backup_' . date("Y-m-d-his") . '.' . $this->type;
 		}
 
 		return array(
