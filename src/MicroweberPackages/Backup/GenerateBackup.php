@@ -24,7 +24,6 @@ class GenerateBackup extends Export
        SessionStepper::setSessionId($this->sessionId);
 
         if (!SessionStepper::isFinished()) {
-            // sleep(rand(1,7));
             SessionStepper::nextStep();
         }
 

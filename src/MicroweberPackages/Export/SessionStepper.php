@@ -30,7 +30,7 @@ class SessionStepper
     public static function setSessionId($sessionId)
     {
 
-        if (!is_file(self::cachePath() . $sessionId.'.sess')) {
+        if (!is_file(self::cachePath() . $sessionId . '.sess')) {
             throw new \Exception('SessionId is not valid.');
         }
 
@@ -47,36 +47,41 @@ class SessionStepper
         return $cacheDir;
     }
 
-    public static function generateSessionId() {
+    public static function generateSessionId()
+    {
+        $sessionId = uniqid(time());
 
-       $sessionId = uniqid(time());
+        file_put_contents(self::cachePath() . $sessionId . '.sess', json_encode([
+            'started_at' => date('Y-m-d H:i:s'),
+            'session_id' => $sessionId,
+            'total_steps' => self::$totalSteps,
+            'step' => 0
+        ]));
 
-       file_put_contents(self::cachePath() . $sessionId.'.sess', json_encode([
-           'started_at'=>date('Y-m-d H:i:s'),
-           'session_id'=>$sessionId,
-           'total_steps'=>self::$totalSteps,
-           'step'=>1
-       ]));
+        self::$sessionId = $sessionId;
 
-       self::$sessionId = $sessionId;
-
-       return $sessionId;
+        return $sessionId;
     }
 
     public static function nextStep()
     {
         $cacheFile = self::getSessionFileData();
-        $step = (int) $cacheFile['step'];
+        $step = (int)$cacheFile['step'];
 
         $cacheFile['step'] = $step + 1;
 
-        file_put_contents(self::cachePath() . self::$sessionId.'.sess', json_encode($cacheFile));
+        if ($cacheFile['step'] == $cacheFile['total_steps']) {
+            $cacheFile['done'] = true;
+            $cacheFile['finished_at'] = date('Y-m-d H:i:s');
+        }
+
+        file_put_contents(self::cachePath() . self::$sessionId . '.sess', json_encode($cacheFile));
     }
 
     public static function totalSteps()
     {
         $cacheFile = self::getSessionFileData();
-        $totalSteps = (int) $cacheFile['total_steps'];
+        $totalSteps = (int)$cacheFile['total_steps'];
 
         return $totalSteps;
     }
@@ -84,12 +89,12 @@ class SessionStepper
     public static function currentStep()
     {
         $cacheFile = self::getSessionFileData();
-        return (int) $cacheFile['step'];
+        return (int)$cacheFile['step'];
     }
 
     public static function getSessionFileData()
     {
-        $cacheFile = file_get_contents(self::cachePath() . self::$sessionId.'.sess');
+        $cacheFile = file_get_contents(self::cachePath() . self::$sessionId . '.sess');
         $cacheFile = json_decode($cacheFile, true);
 
         if (!isset($cacheFile['step'])) {
@@ -105,7 +110,7 @@ class SessionStepper
 
     public static function clearSteps()
     {
-        return unlink(self::cachePath() . self::$sessionId.'.sess');
+        return unlink(self::cachePath() . self::$sessionId . '.sess');
     }
 
     public function percentage()
