@@ -4,13 +4,6 @@ namespace MicroweberPackages\Export;
 
 class SessionStepper
 {
-
-    /**
-     * The total steps for stepper.
-     * @var integer
-     */
-    public static $totalSteps = 20;
-
     /**
      * The session id for stepper
      * @var
@@ -30,7 +23,7 @@ class SessionStepper
     public static function setSessionId($sessionId)
     {
 
-        if (!is_file(self::cachePath() . $sessionId . '.sess')) {
+        if (!is_file(self::sessionFilepath())) {
             throw new \Exception('SessionId is not valid.');
         }
 
@@ -47,18 +40,17 @@ class SessionStepper
         return $cacheDir;
     }
 
-    public static function generateSessionId()
+    public static function generateSessionId(int $totalSteps = 5)
     {
         $sessionId = uniqid(time());
+        self::$sessionId = $sessionId;
 
-        file_put_contents(self::cachePath() . $sessionId . '.sess', json_encode([
+        file_put_contents(self::sessionFilepath(), json_encode([
             'started_at' => date('Y-m-d H:i:s'),
             'session_id' => $sessionId,
-            'total_steps' => self::$totalSteps,
+            'total_steps' => $totalSteps,
             'step' => 0
         ]));
-
-        self::$sessionId = $sessionId;
 
         return $sessionId;
     }
@@ -75,7 +67,7 @@ class SessionStepper
             $cacheFile['finished_at'] = date('Y-m-d H:i:s');
         }
 
-        file_put_contents(self::cachePath() . self::$sessionId . '.sess', json_encode($cacheFile));
+        file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
     }
 
     public static function totalSteps()
@@ -94,23 +86,36 @@ class SessionStepper
 
     public static function getSessionFileData()
     {
-        $cacheFile = file_get_contents(self::cachePath() . self::$sessionId . '.sess');
+        if (!is_file(self::sessionFilepath())) {
+            throw new \Exception('Session file missing');
+        }
+
+        $cacheFile = file_get_contents(self::sessionFilepath());
         $cacheFile = json_decode($cacheFile, true);
 
         if (!isset($cacheFile['step'])) {
-            throw new \Exception('Session file is broken.');
+            throw new \Exception('Session file is broken');
         }
 
         if (!isset($cacheFile['total_steps'])) {
-            throw new \Exception('Session file is broken.');
+            throw new \Exception('Session file is broken');
         }
 
         return $cacheFile;
     }
 
+    public static function sessionFilepath()
+    {
+        if (!self::$sessionId) {
+            throw new \Exception('Session id is missing');
+        }
+
+        return self::cachePath() . self::$sessionId . '.sess';
+    }
+
     public static function clearSteps()
     {
-        return unlink(self::cachePath() . self::$sessionId . '.sess');
+        return unlink(self::sessionFilepath());
     }
 
     public function percentage()
