@@ -297,7 +297,6 @@ class ZipBatchExport extends DefaultExport
     protected function _getUserFilesPaths()
     {
 
-        $userFiles = array();
         $userFilesReady = array();
 
         $userFilesPathCss = userfiles_path() . DIRECTORY_SEPARATOR . 'css';

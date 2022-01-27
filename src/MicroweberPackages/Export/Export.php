@@ -106,6 +106,8 @@ class Export
             return array("error" => "Session export is broken. Data is not cached.");
         }
 
+        dd($data);
+
         $exportWithZip = $this->exportWithZip;
         $exportMediaUserFiles = false;
 
