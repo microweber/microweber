@@ -152,7 +152,7 @@ mw.restore = {
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
 				return;
 			}
-            
+
 			if (json_data.done) {
 				mw.restore.get_progress(100);
 				mw.restore.get_log_check('stop');

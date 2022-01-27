@@ -323,24 +323,28 @@ class DatabaseWriter
 		if (!empty($itemsForSave)) {
 
 			$totalItemsForSave = sizeof($itemsForSave);
-			$totalItemsForBatch = ($totalItemsForSave / $totalSteps);
-            $totalItemsForBatch = ceil($totalItemsForBatch);
+            $totalItemsForBatch = (int) ceil($totalItemsForSave / $totalSteps);
 
 			if ($totalItemsForBatch > 0) {
 				$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			} else {
-				$itemsBatch[0] = $itemsForSave;
+                $itemsBatch = [];
+				$itemsBatch[] = $itemsForSave;
 			}
 
-			if (!isset($itemsBatch[$currentStep])) {
+            $selectBatch = ($currentStep - 1);
+            if (!isset($itemsBatch[$selectBatch])) {
+                SessionStepper::finish();
+            }
 
+            if (SessionStepper::isFinished()) {
                 $this->logger->setLogInfo('No items in batch for current step.');
-
-				return array("success"=>"Done! All steps are finished.");
-			}
+                $this->_finishUp();
+                return array("success"=>"Done! All steps are finished.");
+            }
 
 			$success = array();
-			foreach($itemsBatch[$currentStep] as $item) {
+			foreach($itemsBatch[$selectBatch] as $item) {
                 try {
                     $success[] = $this->_saveItem($item);
                 } catch (\Exception $e) {
