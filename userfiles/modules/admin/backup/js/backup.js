@@ -21,8 +21,6 @@ mw.backup = {
 
         $.get(route('admin.backup.start'), {session_id:session_id}, function (export_data) {
 
-            console.log(export_data);
-            
             if (export_data.current_step == 1) {
                 mw.backup.get_log_check('start');
             }
