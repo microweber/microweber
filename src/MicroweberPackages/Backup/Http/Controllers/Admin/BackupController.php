@@ -173,7 +173,7 @@ class BackupController
 
     public function generateSessionId()
     {
-        return SessionStepper::generateSessionId();
+        return ['session_id'=>SessionStepper::generateSessionId()];
     }
 
     public function delete(Request $request)

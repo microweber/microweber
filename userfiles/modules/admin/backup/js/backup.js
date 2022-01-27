@@ -15,12 +15,16 @@ mw.backup = {
 
     },
 
-    export_selected: function () {
+    export: function (session_id) {
 
         var scope = this;
-        mw.backup.get_log_check('start');
 
-        $.get(route('admin.backup.start'), {}, function (exportData) {
+        $.get(route('admin.backup.start'), {session_id:session_id}, function (exportData) {
+
+            if (exportData.current_step == 1) {
+                mw.backup.get_log_check('start');
+            }
+
             if (exportData.data.download) {
                 scope.done = true;
                 mw.backup.get_log_check('stop');
@@ -33,7 +37,7 @@ mw.backup = {
 
                 mw.reload_module('admin/backup/manage');
             } else {
-                mw.backup.export_selected();
+                mw.backup.export(session_id);
             }
             if (exportData.precentage) {
                 mw.progress({
@@ -86,8 +90,14 @@ mw.backup = {
         });
     },
 
-    export_fullbackup_start: function () {
-        this.exportLog('Generating full backup...');
-        mw.backup.export_selected();
+    start: function () {
+
+        var instance = this;
+        instance.exportLog('Generating session id...');
+
+        $.get(route('admin.backup.generate-session-id'), {}, function (data) {
+            instance.exportLog('Generating full backup...');
+            mw.backup.export(data.session_id);
+        });
     }
 };
