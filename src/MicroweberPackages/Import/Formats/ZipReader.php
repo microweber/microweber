@@ -80,6 +80,10 @@ class ZipReader extends DefaultReader
 
 			$addToImport = false;
 
+            if (strpos($importToTable, 'backup_') !== false) {
+                $addToImport = true;
+            }
+
 			if (strpos($importToTable, 'backup_export') !== false) {
 				$addToImport = true;
 			}
