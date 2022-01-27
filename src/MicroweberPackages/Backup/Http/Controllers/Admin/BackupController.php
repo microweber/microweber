@@ -167,6 +167,7 @@ class BackupController
     {
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
+        $backup->setExportMedia(true);
 
         return $backup->start();
     }
