@@ -138,7 +138,9 @@ class ZipBatchExport extends DefaultExport
             return $zipFileName;
         }
 
-        foreach ($filesBatch[$currentStep] as $file) {
+        $selectBatch = ($currentStep - 1);
+
+        foreach ($filesBatch[$selectBatch] as $file) {
             $ext = get_file_extension($file['filepath']);
 
             if ($ext == 'css') {
