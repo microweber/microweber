@@ -164,6 +164,7 @@ class Import
 	public function importAsType($file)
 	{
 		$readedData = $this->_getReader($file);
+
 		if ($readedData) {
 
             if (isset($readedData['must_choice_language']) && $readedData['must_choice_language']) {

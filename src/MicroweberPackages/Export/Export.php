@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Export;
 
+use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Backup\Loggers\ExportLogger;
@@ -106,8 +107,8 @@ class Export
             return array("error" => "Session export is broken. Data is not cached.");
         }
 
-        $exportWithZip = false;
-        $exportMediaUserFiles = false;
+        $exportWithZip = ($this->exportAllData ? true : false);
+        $exportMediaUserFiles = ($this->exportAllData ? true : false);
 
         if (array_key_exists('media', $data)) {
             $exportMediaUserFiles = true;

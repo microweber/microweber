@@ -11,6 +11,7 @@ use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Loggers\ImportLogger;
+use function _HumbugBox58fd4d9e2a25\pcov\clear;
 
 class BackupController
 {
@@ -166,6 +167,7 @@ class BackupController
     {
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
+        $backup->setExportMedia(true);
 
         return $backup->start();
     }
@@ -173,6 +175,7 @@ class BackupController
     public function generateSessionId()
     {
         rmdir_recursive(backup_cache_location());
+        clearcache();
 
         return ['session_id'=>SessionStepper::generateSessionId(20)];
     }

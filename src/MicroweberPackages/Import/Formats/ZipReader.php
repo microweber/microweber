@@ -80,6 +80,10 @@ class ZipReader extends DefaultReader
 
 			$addToImport = false;
 
+            if (strpos($importToTable, 'backup_') !== false) {
+                $addToImport = true;
+            }
+
 			if (strpos($importToTable, 'backup_export') !== false) {
 				$addToImport = true;
 			}
@@ -152,8 +156,10 @@ class ZipReader extends DefaultReader
 			if (strpos($importToTable, 'backup_export') !== false) {
 				$readedData = $data;
 			} else if (strpos($importToTable, 'mw_content') !== false) {
-				$readedData = $data;
-			} else {
+                $readedData = $data;
+            } else if (strpos($importToTable, 'backup_') !== false) {
+                $readedData = $data;
+            } else {
 				if (!empty($data)) {
 					if (isset($file['importToTable'])) {
 						$readedData[$file['importToTable']] = $data;
