@@ -22,12 +22,11 @@ class SessionStepper
 
     public static function setSessionId($sessionId)
     {
+        self::$sessionId = $sessionId;
 
         if (!is_file(self::sessionFilepath())) {
             throw new \Exception('SessionId is not valid.');
         }
-
-        self::$sessionId = $sessionId;
     }
 
     public static function cachePath()
