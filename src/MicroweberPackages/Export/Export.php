@@ -74,9 +74,31 @@ class Export
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
 
-        $data = $this->_getReadyData();
+        if (!$this->sessionId) {
+            return array("error" => "SessionId is missing.");
+        }
+
+        SessionStepper::setSessionId($this->sessionId);
+
+        if (!SessionStepper::isFinished()) {
+            SessionStepper::nextStep();
+        }
+
+        $readyDataCacheId = 'readyData' . $this->sessionId;
+        $readyDataCacheGroup = 'mw_export';
+
+        if (SessionStepper::isFirstStep()) {
+            $data = $this->_getReadyData();
+            if (empty($data)) {
+                return array("error" => "Empty content data.");
+            }
+            cache_save($data, $readyDataCacheId,$readyDataCacheGroup);
+        } else {
+            $data = cache_get($readyDataCacheId, $readyDataCacheGroup);
+        }
+
         if (empty($data)) {
-            return array("error" => "Empty content data.");
+            return array("error" => "Session export is broken. Data is not cached.");
         }
 
         $exportCacheLocation = backup_cache_location();
@@ -96,7 +118,6 @@ class Export
         }
 
         $export = $this->_getExporter($data);
-
 
         if (isset($export['files']) && count($export['files']) > 1) {
             $exportWithZip = true;

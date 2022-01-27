@@ -117,7 +117,7 @@ class SessionStepper
         return unlink(self::sessionFilepath());
     }
 
-    public function percentage()
+    public static function percentage()
     {
         return number_format(((self::currentStep() * 100) / self::totalSteps()), 2);
     }
