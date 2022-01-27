@@ -19,17 +19,19 @@ mw.backup = {
 
         var scope = this;
 
-        $.get(route('admin.backup.start'), {session_id:session_id}, function (exportData) {
+        $.get(route('admin.backup.start'), {session_id:session_id}, function (export_data) {
 
-            if (exportData.current_step == 1) {
+            console.log(export_data);
+            
+            if (export_data.current_step == 1) {
                 mw.backup.get_log_check('start');
             }
 
-            if (exportData.data.download) {
+            if (export_data.data.download) {
                 scope.done = true;
                 mw.backup.get_log_check('stop');
-                scope.exportLog('<a href="' + exportData.data.download + '" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
-                mw.notification.success(exportData.success);
+                scope.exportLog('<a href="' + export_data.data.download + '" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
+                mw.notification.success(export_data.success);
                 mw.progress({
                     element: '.js-export-log',
                     action: ''
@@ -39,11 +41,11 @@ mw.backup = {
             } else {
                 mw.backup.export(session_id);
             }
-            if (exportData.precentage) {
+            if (export_data.precentage) {
                 mw.progress({
                     element: '.js-export-log',
                     action: ''
-                }).set(exportData.precentage);
+                }).set(export_data.precentage);
             }
         });
     },
