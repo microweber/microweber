@@ -69,6 +69,16 @@ class SessionStepper
         file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
     }
 
+    public static function finish() {
+
+        $cacheFile = self::getSessionFileData();
+        $cacheFile['done'] = true;
+        $cacheFile['step'] = $cacheFile['total_steps'];
+        $cacheFile['finished_at'] = date('Y-m-d H:i:s');
+
+        file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
+    }
+
     public static function totalSteps()
     {
         $cacheFile = self::getSessionFileData();

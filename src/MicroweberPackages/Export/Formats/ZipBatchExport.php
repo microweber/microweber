@@ -130,15 +130,17 @@ class ZipBatchExport extends DefaultExport
             $filesBatch[] = $filesForZip;
         }
 
-        if (SessionStepper::isFinished()) {
+        $selectBatch = ($currentStep - 1);
 
-            $this->logger->setLogInfo('No files in batch for current step.');
-            $this->_finishUp();
-
-            return $zipFileName;
+        if (!isset($filesBatch[$selectBatch])) {
+            SessionStepper::finish();
         }
 
-        $selectBatch = ($currentStep - 1);
+        if (SessionStepper::isFinished()) {
+            $this->logger->setLogInfo('No files in batch for current step.');
+            $this->_finishUp();
+            return $zipFileName;
+        }
 
         foreach ($filesBatch[$selectBatch] as $file) {
             $ext = get_file_extension($file['filepath']);
