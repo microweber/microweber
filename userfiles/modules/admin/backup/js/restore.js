@@ -139,17 +139,11 @@ mw.restore = {
             data.import_by_type = 'overwrite_by_titles';
         }
 
-        if (typeof data.step === 'undefined') {
-            data.step = 0;
-		}
-
 		$.ajax({
 		  dataType: "json",
 		  url: route('admin.backup.restore'),
 		  data: data,
 		  success: function(json_data) {
-
-              data.step = json_data.next_step;
 
 			if (json_data.error) {
 				$('.button-start').removeClass('disabled');
@@ -158,6 +152,7 @@ mw.restore = {
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
 				return;
 			}
+            
 			if (json_data.done) {
 				mw.restore.get_progress(100);
 				mw.restore.get_log_check('stop');
@@ -174,7 +169,7 @@ mw.restore = {
 					$('.backup-import-modal-log')[0].scrollTop =$('.backup-import-modal-log')[0].scrollHeight;
 				}
 				setTimeout(function(){
-                    mw.restore.start_import();
+                    mw.restore.start_import(json_data.session_id);
                 }, 300);
 
 			}
