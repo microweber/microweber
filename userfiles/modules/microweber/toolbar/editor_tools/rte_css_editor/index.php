@@ -466,7 +466,7 @@ var specialCases = function (property, value){
         scColumns(property, value)
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
-        OverlayNode.style.backgroundColor = value;
+        // OverlayNode.style.backgroundColor = value;
         mw.top().wysiwyg.change(OverlayNode);
         return true;
     }
@@ -509,7 +509,7 @@ var populateSpecials = function (css) {
                 var bgColor = overlayCss.backgroundColor;
                 var oc = document.getElementById('overlay-color')
                 oc.value = bgColor
-                oc.style.backgroundColor = bgColor
+                // oc.style.backgroundColor = bgColor
                 ol.style.display = '';
             }
 
