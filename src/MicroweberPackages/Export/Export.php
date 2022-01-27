@@ -106,7 +106,7 @@ class Export
         if (empty($data)) {
             return array("error" => "Session export is broken. Data is not cached.");
         }
-        
+
         $exportWithZip = ($this->exportAllData ? true : false);
         $exportMediaUserFiles = ($this->exportAllData ? true : false);
 
