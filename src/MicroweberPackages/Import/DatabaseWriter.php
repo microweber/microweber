@@ -3,6 +3,7 @@ namespace MicroweberPackages\Import;
 
 
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
 use MicroweberPackages\Import\Traits\DatabaseCategoryItemsWriter;
@@ -37,18 +38,6 @@ class DatabaseWriter
 	use DatabaseTaggingTaggedWriter;
 
 	/**
-	 * The current batch step.
-	 * @var integer
-	 */
-	public $step = 0;
-
-	/**
-	 * The total steps for batch.
-	 * @var integer
-	 */
-	public $totalSteps = 10;
-
-	/**
 	 * Overwrite by id
 	 * @var string
 	 */
@@ -71,10 +60,6 @@ class DatabaseWriter
 	public function setContent($content)
 	{
 		$this->content = $content;
-	}
-
-	public function setStep($step) {
-		$this->step = $step;
 	}
 
 	public function setOverwriteById($overwrite) {
@@ -257,9 +242,6 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
-        $this->step = 1;
-        $this->totalSteps= 1;
-
         if (isset($this->content->__table_structures)) {
             $this->logger->setLogInfo('Building database tables');
 
@@ -288,12 +270,16 @@ class DatabaseWriter
 
 	public function runWriterWithBatch()
 	{
-		if ($this->step == 0) {
-			$this->logger->clearLog();
-			$this->_deleteOldContent();
-		}
+        $currentStep = SessionStepper::currentStep();
+        $totalSteps = SessionStepper::totalSteps();
 
-		$this->logger->setLogInfo('Importing database batch: ' . ($this->step) . '/' . $this->totalSteps);
+        if ($currentStep == 1) {
+            // Clear old log file
+            $this->logger->clearLog();
+            $this->_deleteOldContent();
+        }
+
+		$this->logger->setLogInfo('Importing database batch: ' .$currentStep . '/' . $totalSteps);
 
 		if (empty($this->content)) {
 			$this->_finishUp('runWriterWithBatchNothingToImport');
@@ -337,7 +323,7 @@ class DatabaseWriter
 		if (!empty($itemsForSave)) {
 
 			$totalItemsForSave = sizeof($itemsForSave);
-			$totalItemsForBatch = ($totalItemsForSave / $this->totalSteps);
+			$totalItemsForBatch = ($totalItemsForSave / $totalSteps);
             $totalItemsForBatch = ceil($totalItemsForBatch);
 
 			if ($totalItemsForBatch > 0) {
@@ -346,7 +332,7 @@ class DatabaseWriter
 				$itemsBatch[0] = $itemsForSave;
 			}
 
-			if (!isset($itemsBatch[$this->step])) {
+			if (!isset($itemsBatch[$currentStep])) {
 
                 $this->logger->setLogInfo('No items in batch for current step.');
 
@@ -354,36 +340,42 @@ class DatabaseWriter
 			}
 
 			$success = array();
-			foreach($itemsBatch[$this->step] as $item) {
+			foreach($itemsBatch[$currentStep] as $item) {
                 try {
                     $success[] = $this->_saveItem($item);
                 } catch (\Exception $e) {
                     $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
                 }
 			}
+
+            return $success;
 		}
 
 	}
 
 	public function getImportLog() {
 
-		$log = array();
-		$log['current_step'] = $this->step;
-		$log['next_step'] = $this->step + 1;
-		$log['total_steps'] = $this->totalSteps;
-		$log['precentage'] = ($this->step * 100) / $this->totalSteps;
+        $log = array();
+        $log['current_step'] = SessionStepper::currentStep();
+        $log['total_steps'] = SessionStepper::totalSteps();
+        $log['precentage'] = SessionStepper::percentage();
+        $log['session_id'] = SessionStepper::$sessionId;
 
-		if ($this->step >= $this->totalSteps) {
-			$log['done'] = true;
+        $log['data'] = false;
 
-			// Finish up
-			$this->_finishUp('getImportLog');
+        if (SessionStepper::isFirstStep()) {
+            $log['started'] = true;
+        }
 
-			// Clear log file
+        if (SessionStepper::isFinished()) {
+            $log['done'] = true;
+            // Finish up
+            $this->_finishUp('getImportLog');
+            // Clear log file
             $this->logger->clearLog();
-		}
+        }
 
-		return $log;
+        return $log;
 	}
 
 	private function _deleteOldContent()

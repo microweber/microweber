@@ -99,15 +99,22 @@ mw.restore = {
 
 	start_import_button: function (src) {
 
-		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
-		$('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
+        $('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Generating session id...');
 
-		mw.restore.init_progress(1);
-		mw.restore.start_import();
-		mw.restore.get_log_check('start');
+        $.get(route('admin.backup.generate-session-id'), {}, function (data) {
+
+            $('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
+            $('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
+
+            mw.restore.init_progress(1);
+            mw.restore.start_import(data.session_id);
+            mw.restore.get_log_check('start');
+
+        });
+
 	},
 
-	start_import: function () {
+	start_import: function (session_id) {
 
 
 		mw.notification.success('Importing...', 10000, 'import');
@@ -117,6 +124,8 @@ mw.restore = {
 		$('.backup-import-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
+
+        data.session_id = session_id;
 
 		data.installation_language = $('.js-backup-import-installation-language').val();
 

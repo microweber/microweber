@@ -60,7 +60,7 @@ class BackupController
         $step = (int) $request->get('step', false);
 
         $restore = new Restore();
-        $restore->setStep($step);
+        $restore->setSessionId($request->get('session_id'));
 
         if (!$fileId) {
             return array('error' => 'You have not provided a file to import.');

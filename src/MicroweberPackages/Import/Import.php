@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\JsonReader;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -12,8 +13,6 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Import
 {
-
-    public $step = 0;
 
 	/**
 	 * The import file type
@@ -38,16 +37,12 @@ class Import
     public $batchImporting = true;
     public $ovewriteById = false;
     public $deleteOldContent = false;
+    public $sessionId;
 
     public $logger;
 
     public function __construct() {
         $this->logger = new ImportLogger();
-    }
-
-	public function setStep($step)
-    {
-        $this->step = intval($step);
     }
 
 	/**
@@ -103,6 +98,11 @@ class Import
         $this->logger = $logger;
     }
 
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+    }
+
 
     /**
      * Start importing
@@ -111,6 +111,16 @@ class Import
     public function start()
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
+
+        if (!$this->sessionId) {
+            return array("error" => "SessionId is missing.");
+        }
+
+        SessionStepper::setSessionId($this->sessionId);
+
+        if (!SessionStepper::isFinished()) {
+            SessionStepper::nextStep();
+        }
 
         try {
             $content = $this->readContent();
@@ -124,19 +134,21 @@ class Import
             }
 
             $writer = new DatabaseWriter();
-            $writer->setStep($this->step);
             $writer->setContent($content['data']);
             $writer->setOverwriteById($this->ovewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
             $writer->setLogger($this->logger);
 
             if ($this->batchImporting) {
-                $writer->runWriterWithBatch();
+                $data = $writer->runWriterWithBatch();
             } else {
-                $writer->runWriter();
+                $data = $writer->runWriter();
             }
 
-            return $writer->getImportLog();
+            $log = $writer->getImportLog();
+            $log['data'] = $data;
+
+            return $log;
 
         } catch (\Exception $e) {
             return array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
@@ -179,7 +191,7 @@ class Import
 
 	public function readContent()
 	{
-        if ($this->step == 0) {
+        if (SessionStepper::isFirstStep()) {
             $this->logger->setLogInfo('Start importing session..');
         }
 
