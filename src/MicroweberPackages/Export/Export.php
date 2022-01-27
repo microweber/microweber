@@ -117,7 +117,18 @@ class Export
 			$exportWithZip = true;
         }
 
-        $export = $this->_getExporter($data);
+        $exportedDataCacheId = 'exportedData' . $this->sessionId;
+
+        if (SessionStepper::isFirstStep()) {
+            $export = $this->_getExporter($data);
+            cache_save($export, $exportedDataCacheId,$readyDataCacheGroup);
+        } else {
+            $export = cache_get($exportedDataCacheId, $readyDataCacheGroup);
+        }
+
+        if (empty($export)) {
+            return array("error" => "Session export is broken. Exported data is not cached.");
+        }
 
         if (isset($export['files']) && count($export['files']) > 1) {
             $exportWithZip = true;
@@ -490,10 +501,6 @@ class Export
 
             case 'xlsx':
                 $export = new XlsxExport($data);
-                break;
-
-            case 'zip':
-                $export = new ZipBatchExport($data);
                 break;
 
             default:
