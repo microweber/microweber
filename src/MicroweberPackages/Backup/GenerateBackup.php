@@ -21,7 +21,12 @@ class GenerateBackup extends Export
             return array("error" => "SessionId is missing.");
         }
 
-        SessionStepper::setSessionId($this->sessionId);
+       SessionStepper::setSessionId($this->sessionId);
+
+        if (!SessionStepper::isFinished()) {
+            // sleep(rand(1,7));
+            SessionStepper::nextStep();
+        }
 
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
@@ -32,9 +37,6 @@ class GenerateBackup extends Export
 
         if (SessionStepper::isFinished()) {
             $log['done'] = true;
-        } else {
-            // sleep(rand(1,7));
-            SessionStepper::nextStep();
         }
 
         return $log;

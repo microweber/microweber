@@ -64,7 +64,7 @@ class Export
         $this->logger = $logger;
     }
 
-    public function setSessionId(int $sessionId)
+    public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
     }
