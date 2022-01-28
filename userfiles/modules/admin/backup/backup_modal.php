@@ -66,6 +66,5 @@
         </div>
 
     </div>
-    '
 
 </template>

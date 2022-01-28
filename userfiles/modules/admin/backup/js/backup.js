@@ -99,5 +99,10 @@ mw.backup = {
             instance.exportLog('Generating full backup...');
             mw.backup.export(data.session_id);
         });
+    },
+
+    next: function () {
+
     }
+
 };
