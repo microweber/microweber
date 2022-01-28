@@ -56,7 +56,7 @@ trait TaggableTrait
                     }
                 } else {
                     $tags = $model->existingTags();
-                    if ($tags) { 
+                    if ($tags) {
                         foreach ($tags as $tag) {
                             $tag->delete();
                         }
@@ -69,5 +69,19 @@ trait TaggableTrait
 
     }
 
-
+    /**
+     * Return collection of tags related to the tagged model
+     * TODO : I'm sure there is a faster way to build this, but
+     * If anyone knows how to do that, me love you long time.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|Tagged[]
+     */
+    public function getTagsAttribute()
+    {
+        return $this->tagged->map(function(Tagged $item){
+            if (isset($item->tag_slug)) {
+                return $item;
+            }
+        });
+    }
 }
