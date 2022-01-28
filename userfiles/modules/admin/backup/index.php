@@ -1,5 +1,5 @@
 <?php must_have_access(); ?>
-<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css' ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css?v=' .time(); ?>" type="text/css"/>
 
 <script type="text/javascript">
     var importContentFromFileText = '<?php _e("Restore from file"); ?>';

@@ -1,4 +1,4 @@
-.mw-backup-v2-import {
+.mw-backup {
     padding-right: 40px;
     padding-left: 40px;
     text-align: center;
@@ -9,11 +9,11 @@
     justify-content: center;
 }
 
-.mw-backup-v2-import > .import-image {
+.mw-backup > .import-image {
     display: none;
 }
 
-.mw-backup-v2-import-option {
+.mw-backup-option {
     padding-left: 15px;
     padding-bottom: 15px;
     background: #FFF;
@@ -23,37 +23,37 @@
     text-align: left;
 }
 
-.mw-backup-v2-import-option.active {
+.mw-backup-option.active {
     box-shadow: 0px 4px 11px #e6e6e6;
 }
 
-.mw-backup-v2-import-option:hover {
+.mw-backup-option:hover {
     box-shadow: 0px 4px 11px #e6e6e6;
 }
 
-.mw-backup-v2-import-option h3 {
+.mw-backup-option h3 {
     font-weight: bold;
     font-size: 18px;
     margin-top: 20px;
 }
 
-.mw-backup-v2-import-option p {
+.mw-backup-option p {
     font-size: 13px;
 }
 
-.mw-backup-v2-import-option > .option-radio {
+.mw-backup-option > .option-radio {
     width: 50px;
-    height: 55px;
+    height: 70px;
     float: left;
     padding-top: 25px;
     padding-left: 10px;
 }
 
-.mw-backup-v2-import-buttons {
+.mw-backup-buttons {
     text-align: right;
 }
 
-.mw-backup-v2-import-buttons > .button-cancel {
+.mw-backup-buttons > .button-cancel {
     margin-right: 25px;
     font-weight: bold;
     cursor: pointer;

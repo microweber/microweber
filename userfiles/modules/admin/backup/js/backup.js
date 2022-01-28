@@ -5,10 +5,10 @@ mw.backup = {
         mw.log(mw.$(template_holder).html());
 
         this.dialog = mw.dialog({
-            title: 'Creating full backup',
-            id: 'mw_backup_export_modal',
+            title: 'Create new backup',
+            id: 'mw_backup_modal',
             content: mw.$(template_holder).html(),
-            width: 595,
+            width: 800,
             closeButton: false,
             closeOnEscape: false,
         });
