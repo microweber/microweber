@@ -154,7 +154,7 @@ mw._colorPicker = function (options) {
                     });
                 }
                 colorPickers.forEach(function (clpckr){
-                    console.log(clpckr)
+
                     if(clpckr !== tip) {
                         mw.$(clpckr).hide();
                     }
@@ -167,7 +167,7 @@ mw._colorPicker = function (options) {
         else {
             $el.on('click', function (e) {
                 colorPickers.forEach(function (clpckr){
-                    console.log(clpckr)
+
                     if(clpckr !== tip) {
                         mw.$(clpckr).hide();
                     }
@@ -183,7 +183,7 @@ mw._colorPicker = function (options) {
 
 
             $el.addClass('mw-color-picker-field')
-        
+
     }
     if (this.tip) {
         this.show = function () {
