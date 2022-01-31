@@ -4,7 +4,7 @@ mw.backup = {
 
         mw.log(mw.$(template_holder).html());
 
-        this.dialog = mw.dialog({
+        backup_modal = mw.dialog({
             title: 'Create new backup',
             id: 'mw_backup_modal',
             content: mw.$(template_holder).html(),
@@ -13,6 +13,10 @@ mw.backup = {
             closeOnEscape: false,
         });
 
+    },
+
+    close_modal: function() {
+        backup_modal.remove();
     },
 
     export: function (session_id) {
@@ -102,6 +106,10 @@ mw.backup = {
     },
 
     next: function () {
+
+        backupType = $('input[name*="backup_by_type"]:checked');
+
+        alert(backupType.val());
 
     }
 

@@ -1,6 +1,6 @@
 <template id="backup-modal">
 
-    <div class="mw-backup">
+    <div class="mw-backup mw-backup-type">
 
         <div class="mw-backup-options">
             <br/>
@@ -60,11 +60,15 @@
         <div class="backup-import-modal-log-progress"></div>
 
         <div class="mw-backup-buttons">
-            <a class="btn btn-link button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>
+            <a class="btn btn-link button-cancel" onClick="mw.backup.close_modal();">Close</a>
             <button class="btn btn-primary btn-rounded button-start" onclick="mw.backup.next()" type="submit">Next
             </button>
         </div>
 
+    </div>
+
+    <div class="mw-backup-custom">
+        
     </div>
 
 </template>
