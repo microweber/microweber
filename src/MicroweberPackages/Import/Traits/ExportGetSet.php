@@ -73,6 +73,13 @@ trait ExportGetSet
         $this->exportTables = $tables;
     }
 
+    public function setExportAllTables(bool $bool)
+    {
+        if ($bool) {
+            $this->skipTables = [];
+        }
+    }
+
     /**
      * @param $tableOrTables
      * @return void

@@ -167,12 +167,15 @@ class BackupController
     {
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
-        
+
         if ($request->get('type') == 'custom') {
             $backup->setExportTables(['cart']);
             $backup->setExportMedia(false);
             $backup->setExportModules(['cookie_notice']);
             $backup->setExportTemplates(['simple-shop']);
+        } else if ($request->get('type') == 'full') {
+            $backup->setExportAllTables(true);
+            $backup->setExportMedia(true);
         }
 
         return $backup->start();
