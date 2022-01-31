@@ -173,6 +173,11 @@ class BackupController
             $backup->setExportMedia($request->get('include_media', false));
             $backup->setExportModules($request->get('include_modules', []));
             $backup->setExportTemplates($request->get('include_templates', []));
+        } else {
+            $backup->setType('json');
+            $backup->setExportAllData(true);
+            $backup->setExportMedia(true);
+            $backup->setExportWithZip(true);
         }
 
         return $backup->start();

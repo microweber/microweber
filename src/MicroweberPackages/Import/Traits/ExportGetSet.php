@@ -3,13 +3,29 @@ namespace MicroweberPackages\Import\Traits;
 
 trait ExportGetSet
 {
+    /**
+     * @var bool
+     */
     public $exportWithZip = false;
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
+    public function setExportWithZip(bool $bool) {
+        $this->exportWithZip = $bool;
+    }
 
     /**
      * Export media
      * @var string
      */
     public $exportMedia = false;
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
     public function setExportMedia(bool $bool)
     {
         $this->exportMedia = $bool;
@@ -20,6 +36,11 @@ trait ExportGetSet
      * @var bool
      */
     public $exportModules = false;
+
+    /**
+     * @param array $modules
+     * @return void
+     */
     public function setExportModules(array $modules)
     {
         $this->exportModules = $modules;
@@ -30,6 +51,11 @@ trait ExportGetSet
      * @var bool
      */
     public $exportTemplates = false;
+
+    /**
+     * @param array $templates
+     * @return void
+     */
     public function setExportTemplates(array $templates)
     {
         $this->exportTemplates = $templates;
@@ -40,15 +66,18 @@ trait ExportGetSet
      */
     public $exportOnlyTemplate = false;
 
+    /**
+     * @param string $template
+     * @return void
+     */
     public function setExportOnlyTemplate(string $template)
     {
         $this->exportOnlyTemplate = $template;
     }
 
     /**
-     * Add skip tables
+     * @var
      */
-
     public $skipTables;
 
     /**
@@ -73,6 +102,10 @@ trait ExportGetSet
         $this->exportTables = $tables;
     }
 
+    /**
+     * @param bool $bool
+     * @return void
+     */
     public function setExportAllTables(bool $bool)
     {
         if ($bool) {
