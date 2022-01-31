@@ -41,7 +41,7 @@ mw.backup = {
 
                 mw.reload_module('admin/backup/manage');
             } else {
-                mw.backup.export(sendParams); 
+                mw.backup.export(sendParams);
             }
             if (export_data.precentage) {
                 mw.progress({
@@ -56,7 +56,7 @@ mw.backup = {
     exportLog: function (string) {
         if (!this.exportLogNode) {
             this.exportLogNode = $('.js-backup-log');
-            this.exportLogContent = $('<div class="js-backup-log"></div>');
+            this.exportLogContent = $('<div class="js-backup-log-content"></div>');
             this.exportLogNode.append(this.exportLogContent);
         }
         this.exportLogContent.html(string);

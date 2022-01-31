@@ -9,10 +9,6 @@
     justify-content: center;
 }
 
-.mw-backup > .import-image {
-    display: none;
-}
-
 .mw-backup-option {
     padding-left: 15px;
     padding-bottom: 15px;
@@ -60,30 +56,11 @@
     padding: 15px;
 }
 
-.backup-import-modal-log {
-    text-align: left;
-    color: #fff;
-    background: #575757;
-    padding-top: 15px;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    font-family: monospace;
-    border-radius: 4px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    height: 200px;
-    overflow-y: auto;
-}
-
-#backup-import-progressbar h3 {
-    color: #469a36;
-}
-
-.backup-import-modal-log-progress {
+.backup-modal-log-progress {
     width: 80%;
 }
 
-.js-export-log-content {
+.js-backup-log {
     text-align: left;
     color: #fff;
     background: #575757;
@@ -94,8 +71,8 @@
     border-radius: 4px;
     margin-top: 15px;
     margin-bottom: 15px;
-    overflow-y: scroll;
-    height:300px;
+    height: 400px;
+    overflow-y: auto;
 }
 
 .js-export-log:empty {
