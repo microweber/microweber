@@ -3,7 +3,6 @@ namespace MicroweberPackages\Import\Traits;
 
 trait ExportGetSet
 {
-
     public $exportWithZip = false;
 
     /**
@@ -52,10 +51,32 @@ trait ExportGetSet
 
     public $skipTables;
 
+    /**
+     * @param $tables
+     * @return void
+     */
     public function setSkipTables($tables) {
         $this->skipTables($tables);
     }
 
+    /**
+     * @var
+     */
+    public $exportTables;
+
+    /**
+     * @param $tables
+     * @return void
+     */
+    public function setExportTables($tables) {
+        $this->skipTables = [];
+        $this->exportTables = $tables;
+    }
+
+    /**
+     * @param $tableOrTables
+     * @return void
+     */
     public function addSkipTable($tableOrTables)
     {
         if (is_array($tableOrTables)) {

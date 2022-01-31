@@ -168,6 +168,13 @@ class BackupController
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
         $backup->setExportMedia(true);
+        $backup->setExportModules(['cookie_notice']);
+        $backup->setExportTemplates(['simple-shop']);
+        $backup->setExportTables('microweber_cart');
+        $backup->setExportMedia(true);
+
+        echo 2;
+        die();
 
         return $backup->start();
     }
