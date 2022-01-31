@@ -19,11 +19,11 @@ mw.backup = {
         backup_modal.remove();
     },
 
-    export: function (session_id) {
+    export: function (sendParams) {
 
         var scope = this;
 
-        $.get(route('admin.backup.start'), {session_id:session_id}, function (export_data) {
+        $.get(route('admin.backup.start'), sendParams, function (export_data) {
 
             if (export_data.current_step == 1) {
                 mw.backup.get_log_check('start');
@@ -96,12 +96,31 @@ mw.backup = {
 
     start: function () {
 
+        var include_tables = [];
+        var include_modules = [];
+        var include_templates = [];
+
+        $('.js-include-tables:checked').each(function(){
+            include_tables.push(this.value);
+        });
+        $('.js-include-modules:checked').each(function(){
+            include_modules.push(this.value);
+        });
+        $('.js-include-templates:checked').each(function(){
+            include_templates.push(this.value);
+        });
+
         var instance = this;
         instance.exportLog('Generating session id...');
 
         $.get(route('admin.backup.generate-session-id'), {}, function (data) {
             instance.exportLog('Generating full backup...');
-            mw.backup.export(data.session_id);
+            mw.backup.export({
+                session_id: data.session_id,
+                include_tables: include_tables,
+                include_modules: include_modules,
+                include_templates: include_templates,
+            });
         });
     },
 
@@ -117,11 +136,10 @@ mw.backup = {
         $('#mw-backup-type').hide();
 
         if(backupType.val() == 'custom') {
-
             $('#mw-backup-custom').show();
-
         }
 
+        mw.backup.start();
 
     }
 

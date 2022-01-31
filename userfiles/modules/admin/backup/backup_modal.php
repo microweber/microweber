@@ -92,7 +92,7 @@
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-backup-tables" name="include_tables[]" value="<?php echo $tableName; ?>">
+                                            <input type="checkbox" class="js-include-tables" name="include_tables[]" value="<?php echo $tableName; ?>">
                                             <span></span><span><?php echo $tableName; ?></span>
                                         </label>
                                     </li>
@@ -118,7 +118,7 @@
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
+                                            <input type="checkbox" class="js-include-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
                                             <span></span><span><?php _e($module['name']); ?></span>
                                         </label>
                                     </li>
@@ -144,7 +144,7 @@
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
+                                            <input type="checkbox" class="js-include-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
                                             <span></span><span><?php echo $template['name']; ?></span>
                                         </label>
                                     </li>
