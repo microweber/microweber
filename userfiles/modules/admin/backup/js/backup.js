@@ -41,7 +41,7 @@ mw.backup = {
 
                 mw.reload_module('admin/backup/manage');
             } else {
-                mw.backup.export(session_id);
+                mw.backup.export(sendParams); 
             }
             if (export_data.precentage) {
                 mw.progress({
