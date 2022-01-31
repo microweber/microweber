@@ -35,7 +35,7 @@ mw.backup = {
                 scope.exportLog('<a href="' + export_data.data.download + '" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
                 mw.notification.success(export_data.success);
                 mw.progress({
-                    element: '.js-export-log',
+                    element: '.js-backup-log',
                     action: ''
                 }).hide();
 
@@ -45,7 +45,7 @@ mw.backup = {
             }
             if (export_data.precentage) {
                 mw.progress({
-                    element: '.js-export-log',
+                    element: '.js-backup-log',
                     action: ''
                 }).set(export_data.precentage);
             }
@@ -55,8 +55,8 @@ mw.backup = {
     exportLogContent: null,
     exportLog: function (string) {
         if (!this.exportLogNode) {
-            this.exportLogNode = $('.js-export-log');
-            this.exportLogContent = $('<div class="js-export-log-content"></div>');
+            this.exportLogNode = $('.js-backup-log');
+            this.exportLogContent = $('<div class="js-backup-log"></div>');
             this.exportLogNode.append(this.exportLogContent);
         }
         this.exportLogContent.html(string);
@@ -95,6 +95,9 @@ mw.backup = {
     },
 
     start: function () {
+
+        $('#mw-backup-custom').hide();
+        $('#mw-backup-process').show();
 
         var include_tables = [];
         var include_modules = [];
@@ -139,9 +142,9 @@ mw.backup = {
 
         if(backupType.val() == 'custom') {
             $('#mw-backup-custom').show();
+        } else {
+            mw.backup.start();
         }
-
-        mw.backup.start();
 
     }
 

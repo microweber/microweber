@@ -183,7 +183,7 @@ class BackupController
         rmdir_recursive(backup_cache_location());
         clearcache();
 
-        return ['session_id'=>SessionStepper::generateSessionId(5)];
+        return ['session_id'=>SessionStepper::generateSessionId(20)];
     }
 
     public function delete(Request $request)
