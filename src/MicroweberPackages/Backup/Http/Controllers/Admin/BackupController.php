@@ -169,13 +169,10 @@ class BackupController
         $backup->setSessionId($request->get('session_id'));
 
         if ($request->get('type') == 'custom') {
-            $backup->setExportTables(['cart']);
-            $backup->setExportMedia(false);
-            $backup->setExportModules(['cookie_notice']);
-            $backup->setExportTemplates(['simple-shop']);
-        } else if ($request->get('type') == 'full') {
-            $backup->setExportAllTables(true);
-            $backup->setExportMedia(true);
+            $backup->setExportTables($request->get('include_tables', false));
+            $backup->setExportMedia($request->get('include_media', false));
+            $backup->setExportModules($request->get('include_modules', false));
+            $backup->setExportTemplates($request->get('include_templates', false));
         }
 
         return $backup->start();

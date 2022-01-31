@@ -36,7 +36,7 @@
                 </p>
             </label>
 
-
+<!--
             <label class="mw-ui-check mw-backup-option active">
                 <div class="option-radio">
                     <input type="radio" name="backup_by_type" value="full"/>
@@ -51,7 +51,7 @@
                     </small>
                 </p>
 
-            </label>
+            </label>-->
 
 
         </div>
