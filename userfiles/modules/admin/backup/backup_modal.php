@@ -1,6 +1,6 @@
 <template id="backup-modal">
 
-    <div class="mw-backup mw-backup-type">
+    <div class="mw-backup" id="mw-backup-type">
 
         <div class="mw-backup-options">
             <br/>
@@ -67,8 +67,96 @@
 
     </div>
 
-    <div class="mw-backup-custom">
-        
+    <div id="mw-backup-custom" style="display:none">
+
+        <div class="js-toggle-backup-select-items">
+
+            <div class="card style-1 mb-3 card-collapse">
+                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
+                    <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Database Tables"); ?></strong></h6>
+                </div>
+
+                <div class="card-body py-0">
+                    <div class="collapse pb-4" id="include-modules">
+                        <div style="width:100%;  ">
+                            <ul class="mw-ui-inline-list">
+                                <?php
+                                $tablesList = mw()->database_manager->get_tables_list(true);
+                                foreach ($tablesList as $tableName):
+                                    ?>
+                                    <li style="width: 100%;">
+                                        <label class="mw-ui-check">
+                                            <input type="checkbox" class="js-backup-tables" name="include_tables[]" value="<?php echo $tableName; ?>">
+                                            <span></span><span><?php echo $tableName; ?></span>
+                                        </label>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card style-1 mb-3 card-collapse">
+                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
+                    <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Include Modules"); ?></strong></h6>
+                </div>
+
+                <div class="card-body py-0">
+                    <div class="collapse pb-4" id="include-modules">
+                        <div style="width:100%;  ">
+                            <ul class="mw-ui-inline-list">
+                                <?php
+                                $modules = get_modules('order_by=module asc');
+                                foreach ($modules as $module):
+                                    ?>
+                                    <li style="width: 100%;">
+                                        <label class="mw-ui-check">
+                                            <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
+                                            <span></span><span><?php _e($module['name']); ?></span>
+                                        </label>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card style-1 mb-3 card-collapse">
+                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-templates">
+                    <h6><i class="mdi mdi-pencil-ruler text-primary mr-2"></i> <strong><?php _e("Include Templates"); ?></strong></h6>
+                </div>
+
+                <div class="card-body py-0">
+                    <div class="collapse pb-4" id="include-templates">
+                        <div style="width:100%;">
+                            <ul class="mw-ui-inline-list">
+                                <?php
+                                $templates = site_templates();
+                                foreach ($templates as $template):
+                                    ?>
+                                    <li style="width: 100%;">
+                                        <label class="mw-ui-check">
+                                            <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
+                                            <span></span><span><?php echo $template['name']; ?></span>
+                                        </label>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mw-backup-buttons">
+            <a class="btn btn-link button-cancel" onClick="mw.backup.choice_tab();">Back</a>
+            <button class="btn btn-primary btn-rounded button-start" onclick="mw.backup.start()" type="submit">
+
+            </button>
+        </div>
+
     </div>
 
 </template>

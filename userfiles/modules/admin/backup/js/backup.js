@@ -109,7 +109,14 @@ mw.backup = {
 
         backupType = $('input[name*="backup_by_type"]:checked');
 
-        alert(backupType.val());
+        $('#mw-backup-type').hide();
+
+        if(backupType.val() == 'custom') {
+
+            $('#mw-backup-custom').show();
+
+        }
+
 
     }
 
