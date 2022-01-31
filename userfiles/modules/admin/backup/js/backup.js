@@ -105,6 +105,11 @@ mw.backup = {
         });
     },
 
+    choice_tab: function () {
+
+
+    },
+
     next: function () {
 
         backupType = $('input[name*="backup_by_type"]:checked');
