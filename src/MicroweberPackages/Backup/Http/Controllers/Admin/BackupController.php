@@ -168,9 +168,9 @@ class BackupController
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
 
-        //$backup->setExportMedia(true);
-        //$backup->setExportModules(['cookie_notice']);
-        //$backup->setExportTemplates(['simple-shop']);
+        $backup->setExportMedia(false);
+        $backup->setExportModules(['cookie_notice']);
+        $backup->setExportTemplates(['simple-shop']);
 
         $backup->setExportTables(['cart']);
 
@@ -182,7 +182,7 @@ class BackupController
         rmdir_recursive(backup_cache_location());
         clearcache();
 
-        return ['session_id'=>SessionStepper::generateSessionId(20)];
+        return ['session_id'=>SessionStepper::generateSessionId(5)];
     }
 
     public function delete(Request $request)
