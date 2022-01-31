@@ -172,7 +172,7 @@ class BackupController
         //$backup->setExportModules(['cookie_notice']);
         //$backup->setExportTemplates(['simple-shop']);
 
-        $backup->setExportTables('microweber_cart');
+        $backup->setExportTables(['cart']);
 
         return $backup->start();
     }

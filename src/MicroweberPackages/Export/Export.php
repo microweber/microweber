@@ -468,6 +468,12 @@ class Export
                 $tableName = str_replace_first($tablePrefix, '', $tableName);
             }
 
+            // Export tables only
+            if (!in_array($tableName, $this->exportTables)) {
+                continue;
+            }
+
+            // Skip tables
             if (in_array($tableName, $skipTables)) {
                 continue;
             }
@@ -481,7 +487,6 @@ class Export
             }
 
             $readyTableList[] = $tableName;
-
         }
 
         return $readyTableList;
@@ -489,9 +494,6 @@ class Export
 
     private function _getExporter($data)
     {
-
-        $export = false;
-
         switch ($this->type) {
             case 'json':
                 $export = new JsonExport($data);

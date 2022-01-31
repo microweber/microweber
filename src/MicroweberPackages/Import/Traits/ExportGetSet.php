@@ -10,7 +10,7 @@ trait ExportGetSet
      * @var string
      */
     public $exportMedia = false;
-    public function setExportMedia($bool)
+    public function setExportMedia(bool $bool)
     {
         $this->exportMedia = $bool;
     }
@@ -20,7 +20,7 @@ trait ExportGetSet
      * @var bool
      */
     public $exportModules = false;
-    public function setExportModules($modules)
+    public function setExportModules(array $modules)
     {
         $this->exportModules = $modules;
     }
@@ -30,7 +30,7 @@ trait ExportGetSet
      * @var bool
      */
     public $exportTemplates = false;
-    public function setExportTemplates($templates)
+    public function setExportTemplates(array $templates)
     {
         $this->exportTemplates = $templates;
     }
@@ -40,7 +40,7 @@ trait ExportGetSet
      */
     public $exportOnlyTemplate = false;
 
-    public function setExportOnlyTemplate($template)
+    public function setExportOnlyTemplate(string $template)
     {
         $this->exportOnlyTemplate = $template;
     }
@@ -55,7 +55,7 @@ trait ExportGetSet
      * @param $tables
      * @return void
      */
-    public function setSkipTables($tables) {
+    public function setSkipTables(array $tables) {
         $this->skipTables($tables);
     }
 
@@ -68,7 +68,7 @@ trait ExportGetSet
      * @param $tables
      * @return void
      */
-    public function setExportTables($tables) {
+    public function setExportTables(array $tables) {
         $this->skipTables = [];
         $this->exportTables = $tables;
     }
@@ -77,7 +77,7 @@ trait ExportGetSet
      * @param $tableOrTables
      * @return void
      */
-    public function addSkipTable($tableOrTables)
+    public function addSkipTable(string $tableOrTables)
     {
         if (is_array($tableOrTables)) {
             foreach($tableOrTables as $table) {
