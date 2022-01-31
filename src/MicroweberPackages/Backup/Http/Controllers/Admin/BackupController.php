@@ -169,10 +169,10 @@ class BackupController
         $backup->setSessionId($request->get('session_id'));
 
         if ($request->get('type') == 'custom') {
-            $backup->setExportTables($request->get('include_tables', false));
+            $backup->setExportTables($request->get('include_tables', []));
             $backup->setExportMedia($request->get('include_media', false));
-            $backup->setExportModules($request->get('include_modules', false));
-            $backup->setExportTemplates($request->get('include_templates', false));
+            $backup->setExportModules($request->get('include_modules', []));
+            $backup->setExportTemplates($request->get('include_templates', []));
         }
 
         return $backup->start();

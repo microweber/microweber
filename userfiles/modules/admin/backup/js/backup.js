@@ -99,6 +99,7 @@ mw.backup = {
         var include_tables = [];
         var include_modules = [];
         var include_templates = [];
+        backupType = $('input[name*="backup_by_type"]:checked');
 
         $('.js-include-tables:checked').each(function(){
             include_tables.push(this.value);
@@ -117,6 +118,7 @@ mw.backup = {
             instance.exportLog('Generating full backup...');
             mw.backup.export({
                 session_id: data.session_id,
+                type: backupType.val(),
                 include_tables: include_tables,
                 include_modules: include_modules,
                 include_templates: include_templates,

@@ -469,8 +469,10 @@ class Export
             }
 
             // Export tables only
-            if (!in_array($tableName, $this->exportTables)) {
-                continue;
+            if (!empty($this->exportTables)) {
+                if (!in_array($tableName, $this->exportTables)) {
+                    continue;
+                }
             }
 
             // Skip tables

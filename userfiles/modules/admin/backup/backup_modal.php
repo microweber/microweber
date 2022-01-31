@@ -159,7 +159,7 @@
         <div class="mw-backup-buttons">
             <a class="btn btn-link button-cancel" onClick="mw.backup.choice_tab();">Back</a>
             <button class="btn btn-primary btn-rounded button-start" onclick="mw.backup.start()" type="submit">
-
+                Start backup process
             </button>
         </div>
 
