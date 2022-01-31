@@ -72,14 +72,20 @@
         <div class="js-toggle-backup-select-items">
 
             <div class="card style-1 mb-3 card-collapse">
-                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
+                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-database-tables">
                     <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Database Tables"); ?></strong></h6>
                 </div>
 
                 <div class="card-body py-0">
-                    <div class="collapse pb-4" id="include-modules">
+                    <div class="collapse pb-4" id="include-database-tables">
                         <div style="width:100%;  ">
                             <ul class="mw-ui-inline-list">
+                                <li style="width: 100%;">
+                                    <label class="mw-ui-check">
+                                        <input type="checkbox" class="js-backup-tables-select-all">
+                                        <span></span><span>Select all</span>
+                                    </label>
+                                </li>
                                 <?php
                                 $tablesList = mw()->database_manager->get_tables_list(true);
                                 foreach ($tablesList as $tableName):
