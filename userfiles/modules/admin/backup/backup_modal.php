@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="card-body py-0">
-                    <div class="collapse pb-4" id="include-database-tables">
+                    <div class="collapse show pb-4" id="include-database-tables">
                         <div style="width:100%;  ">
                             <ul class="mw-ui-inline-list">
                                 <li style="width: 100%;">

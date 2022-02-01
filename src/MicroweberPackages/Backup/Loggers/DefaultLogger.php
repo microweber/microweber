@@ -16,8 +16,8 @@ abstract class DefaultLogger
     public static function clearLog()
     {
         $logFilePath = static::getLogFilepath();
-        if (!is_dir($logFilePath)) {
-            mkdir_recursive($logFilePath);
+        if (!is_dir(dirname($logFilePath))) {
+            mkdir_recursive(dirname($logFilePath));
         }
         file_put_contents($logFilePath, false);
     }
