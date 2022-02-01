@@ -62,6 +62,10 @@ mw.backup = {
         this.exportLogContent.html(string);
     },
     get_log_check: function (action) {
+        if (action == 'start') {
+            this.canGet = true;
+            this.done = false;
+        }
         mw.backup.get_log();
     },
     done: false,
