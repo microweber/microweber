@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Option\Models\Option;
@@ -88,14 +89,16 @@ class TemplateInstaller
         if (is_file($default_content_file)) {
 
         	try {
+                $sessionId = SessionStepper::generateSessionId(1);
         		$manager = new Import();
+                $manager->setSessionId($sessionId);
         		$manager->setFile($default_content_file);
         		$manager->setBatchImporting(false);
         		$manager->setOvewriteById(true);
         		$manager->setLogger($this->logger);
         		$manager->setLanguage($this->language);
         		$manager->start();
-        	} catch (\Exception $e) {
+        	} catch (\Exception $e) { 
         		return false;
         	}
 
