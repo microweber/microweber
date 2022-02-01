@@ -19,7 +19,7 @@ abstract class DefaultLogger
         if (!is_dir(dirname($logFilePath))) {
             mkdir_recursive(dirname($logFilePath));
         }
-        file_put_contents($logFilePath, false);
+        file_put_contents($logFilePath, '');
     }
 
     public static function setLogInfo($log)
