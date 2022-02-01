@@ -14,6 +14,25 @@ use MicroweberPackages\Export\SessionStepper;
 
 class GenerateBackupTest extends TestCase
 {
+    public function testSingleModuleBackup() {
+
+        $sessionId = SessionStepper::generateSessionId(4);
+
+        for ($i = 1; $i <= 4; $i++) {
+            $backup = new GenerateBackup();
+            $backup->setSessionId($sessionId);
+            $backup->setExportModules(['categories/category_images']);
+            $status = $backup->start();
+        }
+
+        $zip = new \ZipArchive();
+        $zip->open($status['data']['filepath']);
+        $moduleInZip = $zip->getFromName('modules/categories/category_images/index.php');
+        $zip->close();
+
+        $this->assertNotEmpty($moduleInZip);
+    }
+
     public function testSingleTableBackup() {
 
         $sessionId = SessionStepper::generateSessionId(4);

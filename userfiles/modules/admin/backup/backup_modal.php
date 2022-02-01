@@ -87,13 +87,11 @@
                                 $tablePrefix = mw()->database_manager->get_prefix();
                                 $tablesList = mw()->database_manager->get_tables_list(true);
                                 foreach ($tablesList as $tableName):
-                                    if ($tablePrefix) {
-                                        $tableName = str_replace_first($tablePrefix, '', $tableName);
-                                    }
+                                    $tableNameWithoutPrefix = str_replace_first($tablePrefix, '', $tableName);
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-include-tables" checked="checked" name="include_tables[]" value="<?php echo $tableName; ?>">
+                                            <input type="checkbox" class="js-include-tables" checked="checked" name="include_tables[]" value="<?php echo $tableNameWithoutPrefix; ?>">
                                             <span></span><span><?php echo $tableName; ?></span>
                                         </label>
                                     </li>
