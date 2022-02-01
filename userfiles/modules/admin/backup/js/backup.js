@@ -109,7 +109,7 @@ mw.backup = {
         var include_templates = [];
         backupType = $('input[name*="backup_by_type"]:checked');
 
-        if (backupType.val() == 'custom') {  
+        if (backupType.val() == 'custom') {
             $('.js-include-tables:checked').each(function () {
                 include_tables.push(this.value);
             });
