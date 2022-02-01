@@ -1,5 +1,5 @@
 <?php must_have_access(); ?>
-<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css' ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css?v=' .time(); ?>" type="text/css"/>
 
 <script type="text/javascript">
     var importContentFromFileText = '<?php _e("Restore from file"); ?>';
@@ -23,7 +23,7 @@ include_once 'backup_modal.php';
         <?php if (user_can_access('module.admin.backup.index')): ?>
             <h5 class="font-weight-bold"><?php _e('Create new backup'); ?></h5>
             <small class="text-muted d-block mb-3"><?php _e('Create a backup and export your website content'); ?></small>
-            <a href="javascript:;" onclick="mw.backup.choice('#export-template')" class="btn btn-success btn-rounded"><i class="mdi mdi-plus"></i> <?php _e("Create full backup"); ?></a>
+            <a href="javascript:;" onclick="mw.backup.choice('#backup-modal')" class="btn btn-success btn-rounded"><i class="mdi mdi-plus"></i> <?php _e("Create backup"); ?></a>
         <?php endif; ?>
     </div>
 

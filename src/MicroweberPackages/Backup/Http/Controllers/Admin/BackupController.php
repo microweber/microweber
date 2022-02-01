@@ -167,7 +167,19 @@ class BackupController
     {
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
-        $backup->setExportMedia(true);
+
+        if ($request->get('type') == 'custom') {
+            $backup->setAllowSkipTables(false);
+            $backup->setExportTables($request->get('include_tables', []));
+            $backup->setExportMedia($request->get('include_media', false));
+            $backup->setExportModules($request->get('include_modules', []));
+            $backup->setExportTemplates($request->get('include_templates', []));
+        } else {
+            $backup->setType('json');
+            $backup->setExportAllData(true);
+            $backup->setExportMedia(true);
+            $backup->setExportWithZip(true);
+        }
 
         return $backup->start();
     }

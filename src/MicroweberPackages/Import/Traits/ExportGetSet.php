@@ -3,15 +3,30 @@ namespace MicroweberPackages\Import\Traits;
 
 trait ExportGetSet
 {
-
+    /**
+     * @var bool
+     */
     public $exportWithZip = false;
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
+    public function setExportWithZip(bool $bool) {
+        $this->exportWithZip = $bool;
+    }
 
     /**
      * Export media
      * @var string
      */
     public $exportMedia = false;
-    public function setExportMedia($bool)
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
+    public function setExportMedia(bool $bool)
     {
         $this->exportMedia = $bool;
     }
@@ -21,7 +36,12 @@ trait ExportGetSet
      * @var bool
      */
     public $exportModules = false;
-    public function setExportModules($modules)
+
+    /**
+     * @param array $modules
+     * @return void
+     */
+    public function setExportModules(array $modules)
     {
         $this->exportModules = $modules;
     }
@@ -31,7 +51,12 @@ trait ExportGetSet
      * @var bool
      */
     public $exportTemplates = false;
-    public function setExportTemplates($templates)
+
+    /**
+     * @param array $templates
+     * @return void
+     */
+    public function setExportTemplates(array $templates)
     {
         $this->exportTemplates = $templates;
     }
@@ -41,22 +66,46 @@ trait ExportGetSet
      */
     public $exportOnlyTemplate = false;
 
-    public function setExportOnlyTemplate($template)
+    /**
+     * @param string $template
+     * @return void
+     */
+    public function setExportOnlyTemplate(string $template)
     {
         $this->exportOnlyTemplate = $template;
     }
 
     /**
-     * Add skip tables
+     * @param $tables
+     * @return void
      */
+    public function setExportTables(array $tables) {
+        $this->setExportData('tables', $tables);
+    }
 
+    public $allowSkipTables = true;
+    public function setAllowSkipTables(bool $bool) {
+        $this->allowSkipTables = $bool;
+    }
+
+    /**
+     * @var
+     */
     public $skipTables;
 
-    public function setSkipTables($tables) {
+    /**
+     * @param $tables
+     * @return void
+     */
+    public function setSkipTables(array $tables) {
         $this->skipTables($tables);
     }
 
-    public function addSkipTable($tableOrTables)
+    /**
+     * @param $tableOrTables
+     * @return void
+     */
+    public function addSkipTable(string $tableOrTables)
     {
         if (is_array($tableOrTables)) {
             foreach($tableOrTables as $table) {

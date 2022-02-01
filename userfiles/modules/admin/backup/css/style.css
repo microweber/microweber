@@ -1,4 +1,4 @@
-.mw-backup-v2-import {
+.mw-backup {
     padding-right: 40px;
     padding-left: 40px;
     text-align: center;
@@ -9,11 +9,7 @@
     justify-content: center;
 }
 
-.mw-backup-v2-import > .import-image {
-    display: none;
-}
-
-.mw-backup-v2-import-option {
+.mw-backup-option {
     padding-left: 15px;
     padding-bottom: 15px;
     background: #FFF;
@@ -23,67 +19,48 @@
     text-align: left;
 }
 
-.mw-backup-v2-import-option.active {
+.mw-backup-option.active {
     box-shadow: 0px 4px 11px #e6e6e6;
 }
 
-.mw-backup-v2-import-option:hover {
+.mw-backup-option:hover {
     box-shadow: 0px 4px 11px #e6e6e6;
 }
 
-.mw-backup-v2-import-option h3 {
+.mw-backup-option h3 {
     font-weight: bold;
     font-size: 18px;
     margin-top: 20px;
 }
 
-.mw-backup-v2-import-option p {
+.mw-backup-option p {
     font-size: 13px;
 }
 
-.mw-backup-v2-import-option > .option-radio {
+.mw-backup-option > .option-radio {
     width: 50px;
-    height: 55px;
+    height: 70px;
     float: left;
     padding-top: 25px;
     padding-left: 10px;
 }
 
-.mw-backup-v2-import-buttons {
+.mw-backup-buttons {
     text-align: right;
 }
 
-.mw-backup-v2-import-buttons > .button-cancel {
+.mw-backup-buttons > .button-cancel {
     margin-right: 25px;
     font-weight: bold;
     cursor: pointer;
     padding: 15px;
 }
 
-.backup-import-modal-log {
-    text-align: left;
-    color: #fff;
-    background: #575757;
-    padding-top: 15px;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    font-family: monospace;
-    border-radius: 4px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    height: 200px;
-    overflow-y: auto;
-}
-
-#backup-import-progressbar h3 {
-    color: #469a36;
-}
-
-.backup-import-modal-log-progress {
+.backup-modal-log-progress {
     width: 80%;
 }
 
-.js-export-log-content {
+.js-backup-log {
     text-align: left;
     color: #fff;
     background: #575757;
@@ -94,8 +71,8 @@
     border-radius: 4px;
     margin-top: 15px;
     margin-bottom: 15px;
-    overflow-y: scroll;
-    height:300px;
+    height: 400px;
+    overflow-y: auto;
 }
 
 .js-export-log:empty {
