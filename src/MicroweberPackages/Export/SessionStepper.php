@@ -129,7 +129,7 @@ class SessionStepper
 
     public static function percentage()
     {
-        return number_format(((self::currentStep() * 100) / self::totalSteps()), 2);
+        return (int) round(((self::currentStep() * 100) / self::totalSteps()),2);
     }
 
     public static function isFinished()

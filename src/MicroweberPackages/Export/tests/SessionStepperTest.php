@@ -10,16 +10,6 @@ class SessionStepperTest extends TestCase
     public function testSteps()
     {
 
-        $exceptionMsg = '';
-        try {
-            SessionStepper::currentStep();
-        } catch (\Exception $e) {
-            $exceptionMsg = $e->getMessage();
-        }
-
-        $this->assertEquals($exceptionMsg, 'Session id is missing');
-
-
         // First generate session id
         $sessionId = SessionStepper::generateSessionId(3);
         $this->assertNotEmpty($sessionId);
