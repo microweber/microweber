@@ -86,7 +86,7 @@ mw.backup = {
 
             },
             error: function () {
-                // scope.exportLog('Error opening log file.');
+                 scope.exportLog('Loading...');
             },
             always: function () {
 
