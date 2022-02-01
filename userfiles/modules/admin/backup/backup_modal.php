@@ -79,7 +79,7 @@
                             <ul class="mw-ui-inline-list">
                                 <li style="width: 100%;">
                                     <label class="mw-ui-check">
-                                        <input type="checkbox" class="js-backup-tables-select-all">
+                                        <input type="checkbox" checked="checked" class="js-backup-tables-select-all">
                                         <span></span><span>Select all</span>
                                     </label>
                                 </li>
@@ -89,7 +89,7 @@
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-include-tables" name="include_tables[]" value="<?php echo $tableName; ?>">
+                                            <input type="checkbox" class="js-include-tables" checked="checked" name="include_tables[]" value="<?php echo $tableName; ?>">
                                             <span></span><span><?php echo $tableName; ?></span>
                                         </label>
                                     </li>

@@ -149,3 +149,20 @@ mw.backup = {
     }
 
 };
+
+$(document).ready(function () {
+
+    $(document).on('click', '.js-backup-tables-select-all', function () {
+        if ($(this).is(':checked')) {
+            $('.js-include-tables').each(function(){
+                $(this).prop('checked', true);
+            });
+        } else {
+            $('.js-include-tables').each(function(){
+                $(this).prop('checked', false);
+            });
+        }
+    });
+
+});
+
