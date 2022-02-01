@@ -168,6 +168,7 @@ ul.mw-default-layout-un-ordered-t4 li ul li {
 
 ul.mw-default-layout-un-ordered-checked li {
     list-style: none;
+    font-size: 18px;
 }
 
 ul.mw-default-layout-un-ordered-checked li::before {
