@@ -93,7 +93,7 @@ class Import
      * Set logger
      * @param class $logger
      */
-    public function setLogger(DefaultLogger $logger)
+    public function setLogger($logger)
     {
         $this->logger = $logger;
     }

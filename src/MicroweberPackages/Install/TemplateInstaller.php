@@ -98,7 +98,7 @@ class TemplateInstaller
         		$manager->setLogger($this->logger);
         		$manager->setLanguage($this->language);
         		$manager->start();
-        	} catch (\Exception $e) { 
+        	} catch (\Exception $e) {
         		return false;
         	}
 
