@@ -9,7 +9,7 @@
 
             <label class="mw-ui-check mw-backup-option">
                 <div class="option-radio">
-                    <input type="radio" name="backup_by_type" checked="checked" value="content"/>
+                    <input type="radio" name="backup_by_type" checked="checked" value="content" />
                     <span></span>
                 </div>
                 <h3>Content backup</h3>
@@ -24,7 +24,7 @@
 
             <label class="mw-ui-check mw-backup-option">
                 <div class="option-radio">
-                    <input type="radio" name="backup_by_type" value="custom"/>
+                    <input type="radio" name="backup_by_type" value="custom" />
                     <span></span>
                 </div>
                 <h3>Custom backup</h3>

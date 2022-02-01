@@ -109,15 +109,17 @@ mw.backup = {
         var include_templates = [];
         backupType = $('input[name*="backup_by_type"]:checked');
 
-        $('.js-include-tables:checked').each(function(){
-            include_tables.push(this.value);
-        });
-        $('.js-include-modules:checked').each(function(){
-            include_modules.push(this.value);
-        });
-        $('.js-include-templates:checked').each(function(){
-            include_templates.push(this.value);
-        });
+        if (backupType == 'custom') { 
+            $('.js-include-tables:checked').each(function () {
+                include_tables.push(this.value);
+            });
+            $('.js-include-modules:checked').each(function () {
+                include_modules.push(this.value);
+            });
+            $('.js-include-templates:checked').each(function () {
+                include_templates.push(this.value);
+            });
+        }
 
         var instance = this;
         instance.exportLog('Generating session id...');
