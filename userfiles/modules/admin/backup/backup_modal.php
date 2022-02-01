@@ -84,8 +84,12 @@
                                     </label>
                                 </li>
                                 <?php
+                                $tablePrefix = mw()->database_manager->get_prefix();
                                 $tablesList = mw()->database_manager->get_tables_list(true);
                                 foreach ($tablesList as $tableName):
+                                    if ($tablePrefix) {
+                                        $tableName = str_replace_first($tablePrefix, '', $tableName);
+                                    }
                                     ?>
                                     <li style="width: 100%;">
                                         <label class="mw-ui-check">
