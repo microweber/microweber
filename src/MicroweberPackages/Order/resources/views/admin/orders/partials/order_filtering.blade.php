@@ -188,10 +188,11 @@
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
                     <div class="input-group mb-0">
+
                         <select name="isPaid" class="selectpicker" data-width="100%">
 
                             <option value="" @if($isPaid == '') selected="selected" @endif>
-                                <?php _e('All'); ?>
+                                <?php _e('All'); ?> 
                             </option>
 
                             <option value="1" @if($isPaid == '1') selected="selected" @endif>

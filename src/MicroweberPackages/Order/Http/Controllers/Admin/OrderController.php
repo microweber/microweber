@@ -19,7 +19,7 @@ class OrderController extends AdminController
         $productKeyword = $request->get('productKeyword', false);
         $orderDirection = $request->get('orderDirection', 'desc');
         $orderStatus = $request->get('orderStatus', false);
-        $isPaid = $request->get('isPaid', false);
+        $isPaid = $request->get('isPaid', '');
 
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);
