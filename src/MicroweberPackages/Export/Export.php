@@ -373,7 +373,6 @@ class Export
 
     private function _skipTables()
     {
-
         $this->skipTables[] = '__table_structures';
         $this->skipTables[] = 'modules';
         $this->skipTables[] = 'elements';
@@ -409,6 +408,10 @@ class Export
 
     private function _prepareSkipTables()
     {
+
+        if (!$this->allowSkipTables) {
+            return [];
+        }
 
         $skipTables = $this->_skipTables();
 
@@ -455,7 +458,6 @@ class Export
 
     private function _getTablesForExport()
     {
-
         $skipTables = $this->_prepareSkipTables();
 
         $tablesList = mw()->database_manager->get_tables_list(true);
@@ -468,16 +470,11 @@ class Export
                 $tableName = str_replace_first($tablePrefix, '', $tableName);
             }
 
-            // Export tables only
-            if (!empty($this->exportTables)) {
-                if (!in_array($tableName, $this->exportTables)) {
+            // Skip tables
+            if (!empty($skipTables)) {
+                if (in_array($tableName, $skipTables)) {
                     continue;
                 }
-            }
-
-            // Skip tables
-            if (in_array($tableName, $skipTables)) {
-                continue;
             }
 
             if (!empty($this->exportData) && $this->exportAllData == false) {

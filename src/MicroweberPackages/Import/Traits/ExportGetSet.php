@@ -76,6 +76,19 @@ trait ExportGetSet
     }
 
     /**
+     * @param $tables
+     * @return void
+     */
+    public function setExportTables(array $tables) {
+        $this->setExportData('tables', $tables);
+    }
+
+    public $allowSkipTables = true;
+    public function setAllowSkipTables(bool $bool) {
+        $this->allowSkipTables = $bool;
+    }
+
+    /**
      * @var
      */
     public $skipTables;
@@ -86,31 +99,6 @@ trait ExportGetSet
      */
     public function setSkipTables(array $tables) {
         $this->skipTables($tables);
-    }
-
-    /**
-     * @var
-     */
-    public $exportTables;
-
-    /**
-     * @param $tables
-     * @return void
-     */
-    public function setExportTables(array $tables) {
-        $this->skipTables = [];
-        $this->exportTables = $tables;
-    }
-
-    /**
-     * @param bool $bool
-     * @return void
-     */
-    public function setExportAllTables(bool $bool)
-    {
-        if ($bool) {
-            $this->skipTables = [];
-        }
     }
 
     /**

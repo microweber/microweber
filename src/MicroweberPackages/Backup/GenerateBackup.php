@@ -9,6 +9,7 @@ use MicroweberPackages\Export\SessionStepper;
 class GenerateBackup extends Export
 {
     public $type = 'json';
+    public $allowSkipTables = false;
 
     public function __construct() {
         $this->logger = new BackupLogger();
