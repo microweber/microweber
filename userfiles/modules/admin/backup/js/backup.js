@@ -32,7 +32,7 @@ mw.backup = {
             if (export_data.data.download) {
                 scope.done = true;
                 mw.backup.get_log_check('stop');
-                scope.exportLog('<a href="' + export_data.data.download + '" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
+                $('.js-backup-log').html('<a href="' + export_data.data.download + '" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
                 mw.notification.success(export_data.success);
                 mw.progress({
                     element: '.js-backup-log',
