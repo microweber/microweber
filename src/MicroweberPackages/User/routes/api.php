@@ -86,7 +86,15 @@ Route::post('api/delete_user', function (Request $request) {
     return delete_user($input);
 })->middleware(['api']);
 
-Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::name('api.user.')
+    ->prefix('api/user')
+    ->middleware([
+        'public.api',
+      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
+    ->namespace('\MicroweberPackages\User\Http\Controllers')
+    ->group(function () {
 
     Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
     Route::any('logout', 'UserLoginController@logout')->name('logout');
@@ -101,7 +109,11 @@ Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namesp
 
 Route::name('api.')
     ->prefix('api')
-    ->middleware(['api'])
+    ->middleware([
+        'api',
+      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');
