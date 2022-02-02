@@ -27,10 +27,10 @@ class ContentServiceProvider extends ServiceProvider
         Content::observe(BaseModelObserver::class);
       //  Content::observe(CreatedByObserver::class);
 
-        View::addNamespace('content', __DIR__ . '/resources/views');
+        View::addNamespace('content', __DIR__ . 'resources'.DS.'views');
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadMigrationsFrom(__DIR__ .DS . 'migrations');
+        $this->loadRoutesFrom(__DIR__ .DS . 'routes'.DS.'api.php');
+        $this->loadRoutesFrom(__DIR__ . DS .  'routes'.DS.'web.php');
     }
 }

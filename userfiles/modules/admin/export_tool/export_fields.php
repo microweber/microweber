@@ -113,62 +113,6 @@
 
                 <div id="backup-select-options-to-export"></div>
 
-                <br />
-
-                <div class="js-toggle-backup-select-items">
-                    <div class="card style-1 mb-3 card-collapse">
-                        <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
-                            <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Include Modules"); ?></strong></h6>
-                        </div>
-
-                        <div class="card-body py-0">
-                            <div class="collapse pb-4" id="include-modules">
-                                <div style="width:100%;  ">
-                                    <ul class="mw-ui-inline-list">
-                                        <?php
-                                        $modules = get_modules('order_by=module asc');
-                                        foreach ($modules as $module):
-                                            ?>
-                                            <li style="width: 100%;">
-                                                <label class="mw-ui-check">
-                                                    <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
-                                                    <span></span><span><?php _e($module['name']); ?></span>
-                                                </label>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card style-1 mb-3 card-collapse">
-                        <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-templates">
-                            <h6><i class="mdi mdi-pencil-ruler text-primary mr-2"></i> <strong><?php _e("Include Templates"); ?></strong></h6>
-                        </div>
-
-                        <div class="card-body py-0">
-                            <div class="collapse pb-4" id="include-templates">
-                                <div style="width:100%;">
-                                    <ul class="mw-ui-inline-list">
-                                <?php
-                                $templates = site_templates();
-                                foreach ($templates as $template):
-                                    ?>
-                                    <li style="width: 100%;">
-                                        <label class="mw-ui-check">
-                                            <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
-                                            <span></span><span><?php echo $template['name']; ?></span>
-                                        </label>
-                                    </li>
-                                <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
                 <div class="step-actions step-actions-2 text-end text-right mt-3">
                     <a href="javascript:;" class="btn btn-primary" data-mwstepper="next"><?php _e("Next"); ?></a>

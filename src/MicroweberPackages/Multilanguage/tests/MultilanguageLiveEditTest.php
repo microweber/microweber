@@ -78,13 +78,12 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
+        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtml);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
         self::$saved_id=$findPage->id;
         self::$saved_content=$contentFieldHtml;
-
-
 
         $params = [];
         $params['content_id'] = self::$saved_id;

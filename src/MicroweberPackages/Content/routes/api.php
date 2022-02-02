@@ -110,6 +110,4 @@ Route::name('api.')
             return false;
         });
 
-        Route::apiResource('content', 'ContentApiController');
-
     });

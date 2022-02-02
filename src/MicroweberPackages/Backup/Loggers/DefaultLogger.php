@@ -15,7 +15,11 @@ abstract class DefaultLogger
 
     public static function clearLog()
     {
-        file_put_contents(static::getLogFilepath(), false);
+        $logFilePath = static::getLogFilepath();
+        if (!is_dir(dirname($logFilePath))) {
+            mkdir_recursive(dirname($logFilePath));
+        }
+        file_put_contents($logFilePath, '');
     }
 
     public static function setLogInfo($log)
