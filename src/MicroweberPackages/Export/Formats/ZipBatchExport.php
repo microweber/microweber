@@ -144,6 +144,8 @@ class ZipBatchExport extends DefaultExport
 
         foreach ($filesBatch[$selectBatch] as $file) {
             $ext = get_file_extension($file['filepath']);
+            $file['filename'] = str_replace('\\', '/', $file['filename']);
+            $file['filepath'] = str_replace('\\', '/', $file['filepath']);
 
             if ($ext == 'css') {
                 $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
