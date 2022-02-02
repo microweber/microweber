@@ -75,7 +75,7 @@ Route::name('api.')
 
         Route::post('content/delete', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->delete($request->all());
-        }); 
+        });
 
         Route::get('content/get_link_admin', function (\Illuminate\Http\Request $request) {
 
@@ -109,7 +109,5 @@ Route::name('api.')
 
             return false;
         });
-
-        Route::apiResource('content', 'ContentApiController');
 
     });
