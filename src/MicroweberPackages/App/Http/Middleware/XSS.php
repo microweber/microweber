@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use GrahamCampbell\SecurityCore\Security;
+use MicroweberPackages\Helper\HTMLClean;
 
 class XSS
 {
@@ -12,9 +13,11 @@ class XSS
     {
         $input = $request->all();
 
-        array_walk_recursive($input, function (&$input) {
+        $clean = new HTMLClean();
+
+        array_walk_recursive($input, function (&$input) use ($clean) {
             if (is_string($input)) {
-                $input = Security::create()->clean($input);
+                $input = $clean->clean($input);
             }
         });
 
