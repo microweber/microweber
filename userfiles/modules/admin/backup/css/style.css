@@ -81,7 +81,7 @@
 
 
 /*Restore*/
-.mw-backup-restore- {
+.mw-backup-restore {
     padding-right: 40px;
     padding-left: 40px;
     text-align: center;
@@ -92,7 +92,7 @@
     justify-content: center;
 }
 
-.mw-backup-restore- > .import-image {
+.mw-backup-restore > .import-image {
     display: none;
 }
 
@@ -165,5 +165,3 @@
 .backup-import-modal-log-progress {
     width: 80%;
 }
-
-
