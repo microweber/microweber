@@ -58,7 +58,7 @@ mw.restore = {
         '</label>'+
 
 
-        '<label class="mw-ui-check mw-backup-v2-import-option">' +
+        '<label class="mw-ui-check mw-backup-restore-option">' +
         '<div class="option-radio">'+
         '<input type="radio" name="import_by_type" value="3" />'+
         '<span></span>'+
@@ -104,7 +104,7 @@ mw.restore = {
         $.get(route('admin.backup.generate-session-id'), {}, function (data) {
 
             $('#mw_backup_restore_modal').find('.backup-restore-modal-log-progress').html('Loading file...');
-            $('#mw_backup_restore_modal').find('.mw-backup-v2-import-options').slideUp();
+            $('#mw_backup_restore_modal').find('.mw-backup-restore-options').slideUp();
 
             mw.restore.init_progress(1);
             mw.restore.start_import(data.session_id);
@@ -115,7 +115,7 @@ mw.restore = {
 	},
 
 	start_import: function (session_id) {
-        
+
 		mw.notification.success('Importing...', 10000, 'import');
 
 		$('.button-start').addClass('disabled');
@@ -255,7 +255,7 @@ $(document).ready(function () {
     $(document).on('change', 'input[name*="import_by_type"]', function() {
         var importType = $(this).val();
 
-        $('.mw-backup-v2-import-option').removeClass('active');
+        $('.mw-backup-restore-option').removeClass('active');
         $(this).parent().parent().addClass('active');
 
         changeImportImages(importType);
