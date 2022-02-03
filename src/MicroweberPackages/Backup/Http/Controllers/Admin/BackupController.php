@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use MicroweberPackages\Backup\Backup;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Backup\Export;
@@ -129,7 +130,6 @@ class BackupController
 
     public function upload(Request $request)
     {
-
         $src = $request->post('src', false);
 
         if (!$src) {
@@ -138,10 +138,19 @@ class BackupController
             );
         }
 
-        $checkFile = url2dir(trim($src));
+        $src = str_replace('..',false,$src);
 
+        $checkFile = url2dir(trim($src));
+        $checkFile = normalize_path($checkFile, false);
         $backupLocation = backup_location();
 
+        $checkStartsWith = Str::startsWith($checkFile, userfiles_path());
+        if (!$checkStartsWith) {
+            return array(
+                'error' => 'Invalid path.'
+            );
+        }
+        
         if (is_file($checkFile)) {
             $file = basename($checkFile);
 
