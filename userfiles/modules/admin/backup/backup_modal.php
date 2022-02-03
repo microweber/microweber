@@ -28,10 +28,10 @@
                     <span></span>
                 </div>
                 <h3>Custom backup</h3>
-                <p>Create backup with custom selected tables, media, modules & templates
+                <p>Create backup with custom selected tables, users, api_keys, media, modules, templates...
                     <br/>
                     <small class="text-muted">
-                        You can select one by one information included in zip.
+                        You can select one by one sensitive information included in zip.
                     </small>
                 </p>
             </label>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="card-body py-0">
-                    <div class="collapse show pb-4" id="include-database-tables">
+                    <div class="collapse pb-4" id="include-database-tables">
                         <div style="width:100%;  ">
                             <ul class="mw-ui-inline-list">
                                 <li style="width: 100%;">
@@ -153,6 +153,13 @@
                     </div>
                 </div>
             </div>
+
+
+            <label class="mw-ui-check">
+                <input type="checkbox" class="js-include-media" name="include_media" value="1">
+                <span></span><span>Include media files</span>
+            </label>
+
         </div>
 
         <div class="mw-backup-buttons">
