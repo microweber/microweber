@@ -184,7 +184,7 @@ mw.restore = {
     reload_mw_db: function () {
         $.post(mw.settings.api_url + 'mw_post_update');
         mw.notification.success("The DB was reloaded");
-    }, 
+    },
 
 	get_log_check: function(action = 'start') {
 
