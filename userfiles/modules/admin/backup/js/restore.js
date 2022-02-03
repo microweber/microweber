@@ -28,9 +28,9 @@ mw.restore = {
 
 	import: function(src) {
 
-		var importOptions = '<div class="mw-backup-v2-import">'+
+		var importOptions = '<div class="mw-backup-restore">'+
 
-		'<div class="mw-backup-v2-import-options">'+
+		'<div class="mw-backup-restore-options">'+
 		'<img src="'+moduleImagesUrl+'1.png" class="import-image import-image-1" />'+
 		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
 		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
@@ -38,7 +38,7 @@ mw.restore = {
 		'<h2 style="font-weight: bold">How do you like to restore your content?</h2>'+
 		'<br />'+
 
-		'<label class="mw-ui-check mw-backup-v2-import-option">' +
+		'<label class="mw-ui-check mw-backup-restore-option">' +
 		'<div class="option-radio">'+
 		'<input type="radio" name="import_by_type" value="1" />'+
 		'<span></span>'+
@@ -48,7 +48,7 @@ mw.restore = {
 		'</label>'+
 
 
-        '<label class="mw-ui-check mw-backup-v2-import-option active">' +
+        '<label class="mw-ui-check mw-backup-restore-option active">' +
         '<div class="option-radio">'+
         '<input type="radio" name="import_by_type" checked="checked" value="2" />'+
         '<span></span>'+
@@ -69,22 +69,22 @@ mw.restore = {
 
 		'</div>' +
 
-		'<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
-		'<div class="backup-import-modal-log-progress"></div>'+
+		'<div style="margin-bottom:20px;" class="js-backup-restore-installation-language-wrapper"></div>'+
+		'<div class="backup-restore-modal-log-progress"></div>'+
 
-		'<div class="mw-backup-v2-import-buttons">'+
-		'<a class="btn btn-link button-cancel" onClick="mw.restore.close_import_modal();">Close</a>'+
-		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.restore.start_import_button()" type="submit">Start Restore</button>'+
+		'<div class="mw-backup-restore-buttons">'+
+		'<a class="btn btn-link button-cancel" onClick="mw.restore.close_restore_modal();">Close</a>'+
+		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.restore.start_restore_button()" type="submit">Start Restore</button>'+
 		'</div>'+
 
 		'</div>'
 		;
 
-		importModal = mw.dialog({
+		restoreModal = mw.dialog({
 			width: 680,
 		    content: importOptions,
 		    title: importContentFromFileText,
-		    id: 'mw_backup_import_modal'
+		    id: 'mw_backup_restore_modal'
 		});
 
         changeImportImages(2);
@@ -93,18 +93,18 @@ mw.restore = {
 		data.id = src;
 	},
 
-	close_import_modal: function() {
-        importModal.remove();
+	close_restore_modal: function() {
+        restoreModal.remove();
 	},
 
-	start_import_button: function (src) {
+	start_restore_button: function (src) {
 
-        $('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Generating session id...');
+        $('#mw_backup_restore_modal').find('.backup-restore-modal-log-progress').html('Generating session id...');
 
         $.get(route('admin.backup.generate-session-id'), {}, function (data) {
 
-            $('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
-            $('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
+            $('#mw_backup_restore_modal').find('.backup-restore-modal-log-progress').html('Loading file...');
+            $('#mw_backup_restore_modal').find('.mw-backup-v2-import-options').slideUp();
 
             mw.restore.init_progress(1);
             mw.restore.start_import(data.session_id);
@@ -121,13 +121,13 @@ mw.restore = {
 
 		$('.button-start').addClass('disabled');
 
-		$('.backup-import-modal-log-progress').show();
+		$('.backup-restore-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
 
         data.session_id = session_id;
 
-		data.installation_language = $('.js-backup-import-installation-language').val();
+		data.installation_language = $('.js-backup-restore-installation-language').val();
 
 		if (import_by_type == '1') {
             data.import_by_type = 'delete_all';
@@ -147,9 +147,9 @@ mw.restore = {
 
 			if (json_data.error) {
 				$('.button-start').removeClass('disabled');
-				$('#backup-import-progressbar').remove();
+				$('#backup-restore-progressbar').remove();
 				mw.restore.get_log_check('stop');
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
+				$('#mw_backup_restore_modal').find('.backup-restore-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
 				return;
 			}
 
@@ -163,14 +163,14 @@ mw.restore = {
 				//mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
 				$('.button-start').removeClass('disabled');
 
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is restored successfully!</h3>');
-                $('#mw_backup_import_modal').find('.button-start').html('Done');
-                $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.restore.close_import_modal();').html('Done!');
+				$('#mw_backup_restore_modal').find('.backup-restore-modal-log').before('<h3>All data is restored successfully!</h3>');
+                $('#mw_backup_restore_modal').find('.button-start').html('Done');
+                $('#mw_backup_restore_modal').find('.button-start').attr('onClick', 'mw.restore.close_restore_modal();').html('Done!');
 				return;
 			} else {
 				mw.restore.get_progress(json_data.precentage);
-				if($('.backup-import-modal-log').length > 0){
-					$('.backup-import-modal-log')[0].scrollTop =$('.backup-import-modal-log')[0].scrollHeight;
+				if($('.backup-restore-modal-log').length > 0){
+					$('.backup-restore-modal-log')[0].scrollTop =$('.backup-restore-modal-log')[0].scrollHeight;
 				}
 				setTimeout(function(){
                     mw.restore.start_import(json_data.session_id);
@@ -207,14 +207,14 @@ mw.restore = {
 
 	init_progress: function(precent) {
 		var progressbar = '<div class="mw_install_progress">'+
-	        '<div class="mw-ui-progress" id="backup-import-progressbar">'+
+	        '<div class="mw-ui-progress" id="backup-restore-progressbar">'+
 	            '<div class="mw-ui-progress-bar" style="width: '+precent+'%;"></div>'+
 	            '<div class="mw-ui-progress-info">Importing...</div>'+
 	            '<span class="mw-ui-progress-percent">'+precent+'%</span>'+
 	        '</div>'+
-	        '<div class="backup-import-modal-log"></div>'+
+	        '<div class="backup-restore-modal-log"></div>'+
 	    '</div>';
-		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html(progressbar);
+		$('#mw_backup_restore_modal').find('.backup-restore-modal-log-progress').html(progressbar);
 	},
 
 	get_log: function() {
@@ -222,10 +222,10 @@ mw.restore = {
 		    url: userfilesUrl + 'cache/backup/backup-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
-		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html(data);
+		    	$('#mw_backup_restore_modal').find('.backup-restore-modal-log').html(data);
 		    },
 		    error: function() {
-		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html('Loading...');
+		    	$('#mw_backup_restore_modal').find('.backup-restore-modal-log').html('Loading...');
 		    }
 		});
 	}
