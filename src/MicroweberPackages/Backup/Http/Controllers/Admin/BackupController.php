@@ -195,6 +195,7 @@ class BackupController
             $backup->setExportTemplates($request->get('include_templates', []));
         } else {
             $backup->setType('json');
+            $backup->setAllowSkipTables(true); // skip sensitive tables
             $backup->setExportAllData(true);
             $backup->setExportMedia(true);
             $backup->setExportWithZip(true);

@@ -9,7 +9,7 @@ use MicroweberPackages\Export\SessionStepper;
 class GenerateBackup extends Export
 {
     public $type = 'json';
-    public $allowSkipTables = false;
+    public $allowSkipTables = true; // this will skip sensitive tables
 
     public function __construct() {
         $this->logger = new BackupLogger();
