@@ -88,7 +88,7 @@ class Export
         $isFirstStep = SessionStepper::isFirstStep();
 
         $readyDataCacheId = 'readyData' . $this->sessionId;
-        $readyDataCacheGroup = 'mw_export';
+        $readyDataCacheGroup = 'mwExport';
 
         $exportCacheLocation = backup_cache_location();
 
@@ -110,10 +110,10 @@ class Export
         $exportWithZip = ($this->exportAllData ? true : false);
         $exportMediaUserFiles = ($this->exportAllData ? true : false);
 
-        if (array_key_exists('media', $data)) {
+     /*   if (array_key_exists('media', $data)) {
             $exportMediaUserFiles = true;
             $this->exportMedia = true;
-        }
+        }*/
 
         if (!empty($this->exportData['contentIds'])) {
             $this->exportMedia = true;
