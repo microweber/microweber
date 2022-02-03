@@ -1057,15 +1057,14 @@ class ParserProcessor
                                         preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $layoutmatches);
                                         if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
 
-                                            $pq_mod_inner = \phpQuery::newDocument($mod_content);
-                                            $els_mod_inner = $pq_mod_inner['.edit'];
-                                            if (count($els_mod_inner)) {
+
+
                                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
                                                 if ($proceed_with_parse == true) {
                                                     $mod_content = $this->_replace_editable_fields($mod_content, false, $mod_content,$coming_from_parent_id,$mod_obj);
                                                 }
-                                            }
-                                            unset($pq_mod_inner);
+
+
 
                                         }
                                         //  $mod_content2 = $mod_content;

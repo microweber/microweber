@@ -59,7 +59,7 @@ class ModuleParseTest extends TestCase
         <title>Title of the document</title>
         </head>
         <body>
-        <header
+        <header>
                 <module type="menu" template="default" />
                 <module type="shop/cart" template="default" />
         </header>
@@ -95,6 +95,53 @@ class ModuleParseTest extends TestCase
                 $this->assertEquals($id_val, $id);
             }
         }
+    }
+
+    public function testIfModulesIdsAreAssignedOnParser3()
+    {
+
+        $layout = <<<HTML
+        <!DOCTYPE html>
+        <html xmlns="http://www.w3.org/1999/html">
+        <head>
+        <title>Title of the document</title>
+        </head>
+        <script>
+        var a = '<module type="menu" template="default" />';
+        </script>
+        <body>
+        <textarea id="should-not-parse-modules"><module type="btn" template="default"></module></textarea>
+        <textarea id="should-not-parse-script"><script>var b = '';</script></textarea>
+        <input id="should-not-parse-input" type="text" name="test" value="<module type=ants template=default />" />
+        </body>
+
+        </html>
+HTML;
+
+
+
+
+        $app = app();
+
+        $layout =  $app->parser->process($layout);
+
+
+
+        $this->assertEquals(str_contains($layout,'<module type="menu" template="default" />'), true);
+
+
+        $pq = \phpQuery::newDocument($layout);
+        $val=   $pq->find('#should-not-parse-modules')->val();
+        $this->assertEquals($val, '<module type="btn" template="default"></module>');
+
+        $val=   $pq->find('#should-not-parse-script')->val();
+        $this->assertEquals($val, '<script>var b = \'\';</script>');
+
+
+        $val=   $pq->find('#should-not-parse-input')->val();
+        $this->assertEquals($val, '<module type=ants template=default />');
+
+
     }
 
 }
