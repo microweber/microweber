@@ -104,6 +104,16 @@ class BackupController
         // Generate filename and set error variables
         $filename = $backupLocation . $fileId;
         $filename = str_replace('..', '', $filename);
+
+        $allowedExt = ['json','zip'];
+        $fileExt = get_file_extension($filename);
+
+        if (!in_array($fileExt,$allowedExt)) {
+            return array(
+                'error' => 'Invalid file'
+            );
+        }
+
         if (! is_file($filename)) {
             return array(
                 'error' => 'You have not provided a existing filename to download.'
@@ -150,7 +160,7 @@ class BackupController
                 'error' => 'Invalid path.'
             );
         }
-        
+
         if (is_file($checkFile)) {
             $file = basename($checkFile);
 
