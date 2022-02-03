@@ -555,6 +555,8 @@ mw.getScripts = function (array, callback) {
       }
     });
   }
+
+
   mw.temp_reload_module_queue_holder = [];
 
 

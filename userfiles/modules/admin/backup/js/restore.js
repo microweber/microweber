@@ -154,6 +154,10 @@ mw.restore = {
 			}
 
 			if (json_data.done) {
+
+                mw.restore.reload_mw_db();
+                mw.clear_cache();
+
 				mw.restore.get_progress(100);
 				mw.restore.get_log_check('stop');
 				//mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
@@ -176,6 +180,11 @@ mw.restore = {
 		  }
 		});
 	},
+
+    reload_mw_db: function () {
+        $.post(mw.settings.api_url + 'mw_post_update');
+        mw.notification.success("The DB was reloaded");
+    }, 
 
 	get_log_check: function(action = 'start') {
 
