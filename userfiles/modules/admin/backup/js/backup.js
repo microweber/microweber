@@ -8,7 +8,7 @@ mw.backup = {
             title: 'Create new backup',
             id: 'mw_backup_modal',
             content: mw.$(template_holder).html(),
-            width: 800,
+            width: 880,
             closeButton: false,
             closeOnEscape: false,
         });
@@ -107,6 +107,7 @@ mw.backup = {
         var include_tables = [];
         var include_modules = [];
         var include_templates = [];
+        var include_media = 0;
         backupType = $('input[name*="backup_by_type"]:checked');
 
         if (backupType.val() == 'custom') {
@@ -119,6 +120,10 @@ mw.backup = {
             $('.js-include-templates:checked').each(function () {
                 include_templates.push(this.value);
             });
+
+            if ($('js-include-media').is(':checked')) {
+                include_media = 1;
+            }
         }
 
         var instance = this;
@@ -129,6 +134,7 @@ mw.backup = {
             mw.backup.export({
                 session_id: data.session_id,
                 type: backupType.val(),
+                include_media: include_media,
                 include_tables: include_tables,
                 include_modules: include_modules,
                 include_templates: include_templates,

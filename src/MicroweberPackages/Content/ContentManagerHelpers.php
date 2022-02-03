@@ -120,7 +120,6 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function delete($data)
     {
-
         $to_trash = true;
         $to_untrash = false;
 
@@ -145,9 +144,10 @@ class ContentManagerHelpers extends ContentManagerCrud
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                $this->app->database_manager->delete_by_id('content', $c_id);
+                \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
             }
         }
+
         $this->app->event_manager->trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
@@ -157,7 +157,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($c_id) {
                     $del_ids[] = $c_id;
                     if ($to_trash == false) {
-                        $this->app->database_manager->delete_by_id('content', $c_id);
+                        \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
                     }
                 }
             }
@@ -170,6 +170,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 if ($c_id) {
                     if ($to_untrash == true) {
+
                         DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
 
