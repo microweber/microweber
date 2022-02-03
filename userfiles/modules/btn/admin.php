@@ -143,13 +143,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             mw.require('icon_selector.js')
             mw.require('wysiwyg.css');
+            mw.require('editor.js');
         </script>
 
         <script>
 
-            mw.require('editor.js');
 
-            launchEditor = function () {
+
+            var launchEditor = function () {
                 if (!window.editorLaunched) {
                     editorLaunched = true;
                     PopUpEditor = mw.Editor({

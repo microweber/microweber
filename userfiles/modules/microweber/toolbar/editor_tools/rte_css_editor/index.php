@@ -48,6 +48,30 @@
 
     var colorPickers = [];
 
+    var positionSelector = function () {
+        var root = mw.element({props: { className: 'mw-position-selector'}})
+        var posTop = mw.element({props: { className: 'mw-position-selector-top'}});
+        var posRight = mw.element({props: { className: 'mw-position-selector-right'}});
+        var posBottom = mw.element({props: { className: 'mw-position-selector-bottom'}});
+        var posLeft = mw.element({props: { className: 'mw-position-selector-left'}});
+        var all = mw.element({props: { className: 'mw-position-selector-all'}});
+
+        root.append(posTop)
+        root.append(posRight)
+        root.append(posBottom)
+        root.append(posLeft)
+        root.append(all)
+
+        return {
+            root: root,
+            top: posTop,
+            right: posRight,
+            bottom: posBottom,
+            left: posLeft,
+            all: all,
+        };
+    }
+
 
     $(window).on('load', function () {
 
@@ -250,7 +274,9 @@ var _prepare = {
 
             },
             color: this.value
-        }))
+        }));
+
+        var pos = positionSelector();
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -315,6 +341,26 @@ var _populate = {
         mw.$('.margin-bottom').val(parseFloat(margin.bottom));
         mw.$('.margin-left').val(parseFloat(margin.left));
     },
+    border: function(css){
+        if(!css || !css.get) return;
+        var border = css.get.border(true);
+
+        var frst = {};
+        for (var i in border) {
+            if (border[i].width !== 0) {
+                frst = border[i];
+                break;
+            }
+        }
+        var size = frst.width || 0;
+        var color = frst.color || 'rgba(0,0,0,0)';
+        var style = frst.style || 'none';
+
+        mw.$('#border-position').val('all')
+        mw.$('#border-size').val(size)
+        mw.$('#border-color').val(color)
+        mw.$('#border-type').val(style)
+    },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
         mw.$('.padding-top').val(parseFloat(padding.top));
@@ -368,7 +414,8 @@ var _populate = {
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
-                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
+                var indikatorDisplay =  this.parentNode.querySelector('.mw-field-color-indicator-display');
+                indikatorDisplay.style.backgroundColor = this.value
 
                 colorPickers.push(mw.colorPicker({
                     element: this,
@@ -381,6 +428,7 @@ var _populate = {
                         } else {
                             $(el).trigger('colorChange', color)
                         }
+                        indikatorDisplay.style.backgroundColor = color
                     },
                     color: this.value
                 }))
@@ -733,8 +781,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         }, 400)
         mw.top().win.document.body.addEventListener('click', function (){
             colorPickers.forEach(function (cp) {
-                console.log(cp);
-                if(cp.hide) {
+                 if(cp.hide) {
                     cp.hide()
                 } else {
                     cp.style.display = 'none'
