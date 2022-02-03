@@ -112,14 +112,13 @@ trait HasMultilanguageTrait
             }
         });
 
-
         static::deleted(function ($model) {
+
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 $mlobs = new MultilanguageObserver();
                 $mlobs->deleted($model);
             }
         });
-
     }
 
     public function translations()
