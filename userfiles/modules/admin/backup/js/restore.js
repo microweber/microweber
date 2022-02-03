@@ -115,12 +115,10 @@ mw.restore = {
 	},
 
 	start_import: function (session_id) {
-
-
+        
 		mw.notification.success('Importing...', 10000, 'import');
 
 		$('.button-start').addClass('disabled');
-
 		$('.backup-restore-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
