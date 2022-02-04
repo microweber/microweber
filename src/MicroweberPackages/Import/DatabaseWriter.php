@@ -70,7 +70,7 @@ class DatabaseWriter
 	    $this->deleteOldContent = $delete;
     }
 
-    public function setLogger(DefaultLogger $logger) {
+    public function setLogger($logger) {
         $this->logger = $logger;
     }
 

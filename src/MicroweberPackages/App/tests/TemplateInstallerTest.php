@@ -12,18 +12,21 @@ class TemplateInstallerTest extends TestCase
     {
         $logger = new MyCustomLogger();
 
+        Config::set('microweber.install_default_template', 'new-world');
         Config::set('microweber.install_default_template_content', 1);
 
         $installer = new TemplateInstaller();
         $installer->logger = $logger;
         $status = $installer->run();
 
+        dd($status);
+
     }
 }
 
 class MyCustomLogger {
 
-    public function log()
+    public function setLogInfo()
     {
 
     }
