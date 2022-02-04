@@ -101,11 +101,11 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
 
     /*    $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);*/  
+        $html = $frontRender->frontend($params);*/
 
         $contentFieldHtml = self::$saved_content;
 
-        $this->assertTrue(str_contains($html, $contentFieldHtml));
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
 
         // Now we switch on another language
         $switchedLangAbr = 'bg_BG';
