@@ -323,7 +323,7 @@ autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Shop\\Offers\\');
 //    }
 //}
 
-/* 
+
 event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
 
     if ($custom_field_items) {
@@ -357,7 +357,7 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
         return $custom_field_items;
     }
 
-});*/
+});
 
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
 	if (isset($data['id']) and isset($data['rel_id']) and isset($data['rel_type']) and $data['rel_type'] == 'content') {
