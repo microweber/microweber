@@ -247,9 +247,9 @@ class ParserProcessor
             $local_mw_replaced_modules = array();
 
 
-          //  $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
+           $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
 
-            $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItemsForProcessing();
+            //$local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItemsForProcessing();
 
 
             if (is_array( $local_mw_replaced_modules) and !empty( $local_mw_replaced_modules)) {
