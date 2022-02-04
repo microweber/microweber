@@ -141,16 +141,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-
-        $frontRender = new FrontendController();
-        $html = $frontRender->frontend([
-            'content_id'=>$findPage->id
-        ]);
-
-        dd(current_lang(), default_lang());
-
-
-        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlBulgarianLang));
+        $bgResponse = $this->call('GET', content_link($findPage->id), []);
+        $this->assertTrue(str_contains($bgResponse->getContent(), $contentFieldHtmlBulgarianLang));
 
 
         // Switch back to english to check

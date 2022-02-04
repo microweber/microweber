@@ -301,4 +301,11 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
         return $currentLang;
     }
+
+    public function getStructures()
+    {
+        return array(
+            'post' => 'sample-post',
+        );
+    }
 }
