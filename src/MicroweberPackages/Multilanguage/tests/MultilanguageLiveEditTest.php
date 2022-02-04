@@ -15,9 +15,9 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
-      /*  save_option('current_template','new-world', 'template');
+        save_option('current_template','new-world', 'template');
         $currentTheme = mw()->template->name();
-        $this->assertEquals('new-world',$currentTheme);*/
+        $this->assertEquals('new-world',$currentTheme);
 
         $params = [
             'for_module' => 'multilanguage'
