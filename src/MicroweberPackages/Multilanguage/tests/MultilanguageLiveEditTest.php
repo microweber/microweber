@@ -25,6 +25,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         add_supported_language('ar_SA', 'Arabic');
         add_supported_language('ru_RU', 'Russian');
 
+        save_option('language','en_US', 'website');
+
         $activeLanguages = get_supported_languages(true);
         $this->assertNotEmpty($activeLanguages);
 
@@ -105,10 +107,6 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $response = $response->decodeResponseJson();
         $this->assertEquals($response['refresh'], true);
 
-
-        dd(default_lang()); 
-
-
         // Save on BULGARIAN lang
         $contentFieldHtmlBulgarianLang = 'Example content saved from live edit for BG language '. uniqid('_unit');
         $fieldsData = [
@@ -148,11 +146,13 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $html = $frontRender->frontend([
             'content_id'=>$findPage->id
         ]);
+
+        dd(current_lang(), default_lang());
+
+
         $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlBulgarianLang));
 
 
-
-        dd(default_lang());
         // Switch back to english to check
         $switchedLangAbr = default_lang();
         $response = $this->call(
