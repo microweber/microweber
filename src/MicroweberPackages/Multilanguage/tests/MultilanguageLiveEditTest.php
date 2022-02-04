@@ -52,7 +52,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($findPage->id, $newCleanMlPage);
 
         // Save on default lang
-        $contentFieldHtml = 'Example content saved from live edit api'. uniqid('_unit');
+        $contentFieldHtml = $contentFieldHtmlDefault = 'Example content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -101,7 +101,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $html = $frontRender->frontend($params);
 
         $contentFieldHtml = self::$saved_content;
- 
+
 
 
         $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
@@ -120,6 +120,78 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
 
         $response = $response->decodeResponseJson();
         $this->assertEquals($response['refresh'], true);
+
+
+
+
+        // Save on default lang
+        $contentFieldHtml = 'Example content saved from live edit BGBGBG '. uniqid('_unit');
+        $fieldsData = [
+            'field_data_0'=>[
+                'attributes'=>[
+                    'class'=>'container edit',
+                    'rel'=>'content',
+                    'rel_id'=>$findPage->id,
+                    'field'=>'content',
+                ],
+                'html'=>$contentFieldHtml
+            ]
+        ];
+
+        $encoded = base64_encode(json_encode($fieldsData));
+        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
+
+        $response = $this->call(
+            'POST',
+            route('api.content.save_edit'),
+            [
+                'data_base64' => $encoded,
+            ],
+            [],//params
+            $_COOKIE,//cookie
+            [],//files
+            $_SERVER //server
+        );
+        $fieldSaved = $response->decodeResponseJson();
+
+
+
+        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtml);
+        $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
+        $this->assertEquals($fieldSaved[0]['field'], 'content');
+
+
+        $frontRender = new FrontendController();
+        $html = $frontRender->frontend($params);
+
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
+
+
+
+
+
+        // Now we switch on another language
+        $switchedLangAbr = 'en_US';
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => $switchedLangAbr,
+            ]
+        );
+        $switchedLang = app()->lang_helper->current_lang();
+        $this->assertEquals($switchedLangAbr, $switchedLang);
+
+
+
+        $frontRender = new FrontendController();
+        $html = $frontRender->frontend($params);
+
+
+        dd($html->getContent());
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlDefault));
+
+
 
     }
 }
