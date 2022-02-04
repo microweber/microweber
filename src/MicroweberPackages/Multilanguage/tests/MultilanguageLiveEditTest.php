@@ -9,6 +9,17 @@ use MicroweberPackages\User\Models\User;
 
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
+    private function _refreshServerConstantsByPageId($pageId) {
+
+        $pageLink = content_link($pageId);
+        $pageLink = '/' . str_replace(site_url(),'', $pageLink);
+
+        $_SERVER['PHP_SELF'] = '/index.php';
+        $_SERVER['REQUEST_URI'] = $pageLink;
+        $_SERVER['REDIRECT_URL'] = $pageLink;
+        $_SERVER['HTTP_REFERER'] = content_link($pageId);
+    }
+
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
@@ -49,6 +60,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $findPage = Page::whereId($newCleanMlPage)->first();
         $this->assertEquals($findPage->id, $newCleanMlPage);
 
+        $this->_refreshServerConstantsByPageId($findPage->id);
+
         // Save on default lang
         $contentFieldHtmlDefaultLanguage = 'Example default lang content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
@@ -64,7 +77,6 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         ];
 
         $encoded = base64_encode(json_encode($fieldsData));
-        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -107,6 +119,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $response = $response->decodeResponseJson();
         $this->assertEquals($response['refresh'], true);
 
+        $this->_refreshServerConstantsByPageId($findPage->id);
+
         // Save on BULGARIAN lang
         $contentFieldHtmlBulgarianLang = 'Example content saved from live edit for BG language '. uniqid('_unit');
         $fieldsData = [
@@ -122,7 +136,6 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         ];
 
         $encoded = base64_encode(json_encode($fieldsData));
-        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -141,22 +154,19 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        $pageLink = content_link($findPage->id);
-        $pageLink = '/' . str_replace(site_url(),'', $pageLink);
-
-        $_SERVER['PHP_SELF'] = '/index.php';
-        $_SERVER['REQUEST_URI'] = $pageLink;
-        $_SERVER['REDIRECT_URL'] = $pageLink;
-
         $bgResponse = $this->call(
             'GET',
-            $pageLink,
+            content_link($findPage->id),
             [],//params
             $_COOKIE,//cookie
             [],//files
             $_SERVER //server
         );
+
+        dd($bgResponse->getContent());
+
         $this->assertTrue(str_contains($bgResponse->getContent(), $contentFieldHtmlBulgarianLang));
+        return;
 
         return;
 

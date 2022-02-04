@@ -669,7 +669,6 @@ class ContentManagerHelpers extends ContentManagerCrud
             $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
-
             if ($slug_page) {
                 $ref_post = false;
                 if ($slug_post) {
@@ -695,7 +694,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
             }
-
 
             if (isset($ref_page2)) {
                 if ($ref_page2 == false) {
