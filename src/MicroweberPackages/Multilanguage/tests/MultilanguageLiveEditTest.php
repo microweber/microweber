@@ -15,9 +15,9 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
-        save_option('current_template','new-world', 'template');
+      /*  save_option('current_template','new-world', 'template');
         $currentTheme = mw()->template->name();
-        $this->assertEquals('new-world',$currentTheme);
+        $this->assertEquals('new-world',$currentTheme);*/
 
         $params = [
             'for_module' => 'multilanguage'
@@ -94,8 +94,15 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $params = [];
         $params['content_id'] = self::$saved_id;
 
-        $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);
+        $html = $this->call(
+            'GET',
+            $findPage->url,
+            []
+        );
+
+    /*    $frontRender = new FrontendController();
+        $html = $frontRender->frontend($params);*/  
+
         $contentFieldHtml = self::$saved_content;
 
         $this->assertTrue(str_contains($html, $contentFieldHtml));
