@@ -28,6 +28,7 @@ class CategoryTest extends TestCase
     {
         Content::truncate();
         Category::truncate();
+        CategoryItem::truncate();
         clearcache();
 
         $categoryLink = category_link(0);
@@ -61,8 +62,6 @@ class CategoryTest extends TestCase
 
         $categoryItems = get_category_items($mainCategory->id);
         $categoryItemsCount = get_category_items_count($mainCategory->id);
-
-        dd($categoryItems);
 
         $this->assertEquals(1, $categoryItemsCount);
 
