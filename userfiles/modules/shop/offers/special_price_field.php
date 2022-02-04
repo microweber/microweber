@@ -14,7 +14,6 @@ if (!isset($offer['price']['offer_price'])) {
 }
 ?>
 <script>
-
     $(document).ready(function () {
         var specialPriceElement = $('.js-product-special-price');
         var specialPriceSet = "<?php echo !empty($offer['price']['offer_price']) ? 1 : 0?>";
@@ -42,10 +41,6 @@ if (!isset($offer['price']['offer_price'])) {
     }
 
     function toggleOfferPrice() {
-        // var specialOfferCheckEl = $('#customCheck322');
-        // if(!specialOfferCheckEl.is(':checked')) {
-        //     $('.js-product-special-price').val(null);
-        // }
         $('.js-offer-price-form-group').toggle();
     }
 </script>
