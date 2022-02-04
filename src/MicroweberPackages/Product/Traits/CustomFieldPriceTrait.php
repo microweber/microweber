@@ -29,8 +29,8 @@ trait CustomFieldPriceTrait
                     $model->_removePriceField = true;
                 }
                 unset($model->attributes['price']);
-
             }
+
             if ($model->attributes and array_key_exists("special_price", $model->attributes)) {
                 if (isset($model->attributes['special_price'])) {
                     $model->_addSpecialPriceField = $model->attributes['special_price'];

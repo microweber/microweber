@@ -25,13 +25,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function boot()
     {
-
-
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
-
-
-
-
 
 
         /*
