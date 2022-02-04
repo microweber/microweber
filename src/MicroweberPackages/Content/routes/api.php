@@ -13,6 +13,10 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
+        Route::apiResource('content', 'ContentApiController')->only([
+            'store'
+        ]);
+
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
             return save_edit($request->all());
         })->name('content.save_edit');
