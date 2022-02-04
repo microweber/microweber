@@ -514,6 +514,10 @@ class InstallController extends Controller
         }
     }
 
+    public function setLogInfo($text) {
+        return $this->log($text);
+    }
+
     private function _get_templates_for_install_screen()
     {
         //used in ajax

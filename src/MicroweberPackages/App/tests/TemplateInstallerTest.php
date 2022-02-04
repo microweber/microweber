@@ -19,8 +19,6 @@ class TemplateInstallerTest extends TestCase
         $installer->logger = $logger;
         $status = $installer->run();
 
-        dd($status);
-
     }
 }
 
