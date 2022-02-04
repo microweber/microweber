@@ -15,8 +15,14 @@ class DeleteOldBackupModule extends Migration
     {
         $dir = modules_path() . 'admin/backup_v2/';
         $dir = normalize_path($dir);
+        if (is_dir($dir)) {
+            rmdir_recursive($dir);
+        }
 
-        rmdir_recursive($dir);
+        $findModule = \MicroweberPackages\Module\Module::where('module', 'admin/backup_v2')->first();
+        if ($findModule != null) {
+            $findModule->delete();
+        }
     }
 
 
