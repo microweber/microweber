@@ -15,6 +15,10 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
+        save_option('current_template','new-world', 'template');
+        $currentTheme = mw()->template->name();
+        $this->assertEquals('new-world',$currentTheme);
+
         $params = [
             'for_module' => 'multilanguage'
         ];
@@ -34,12 +38,14 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
+        $unique = uniqid();
+
         $newCleanMlPage = save_content([
            'subtype' => 'static',
            'content_type' => 'page',
            'layout_file' => 'clean.php',
-           'title' => 'LiveEditMultilanguagePage',
-           'url' => 'liveeditmultilanguagepage',
+           'title' => 'LiveEditMultilanguagePage'.$unique,
+           'url' => 'liveeditmultilanguagepage'.$unique,
            'preview_layout_file' => 'clean.php',
            'active_site_template'=> 'default',
            'is_active' => 1,
