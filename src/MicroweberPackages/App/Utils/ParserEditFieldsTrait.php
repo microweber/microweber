@@ -1029,10 +1029,10 @@ Trait ParserEditFieldsTrait
             }
 
 
-//                        if (!$this->_is_native_content_table_field($field)) {
-//                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
-//
-//                        }
+
+            if (!$this->_is_native_content_table_field($field)) {
+                $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+            }
 
 
         } elseif ($rel == 'inherit') {
@@ -1071,12 +1071,10 @@ Trait ParserEditFieldsTrait
             $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
         }
 
-
         if (isset($data[$field])) {
 
-            if (isset($data[$field])) {
                return $data[$field];
-            }
+
         } else {
 
 

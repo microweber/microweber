@@ -154,11 +154,31 @@ class Template
         }
 
     }
+    public function name()
+    {
+        if (!defined('TEMPLATE_NAME')) {
+            return $this->app->option_manager->get('current_template', 'template');
+            //$this->app->content_manager->define_constants();
+        }
+        if (defined('TEMPLATE_NAME')) {
+            return TEMPLATE_NAME;
+        }
+    }
+
 
     public function dir($add = false)
     {
+
+
         if (defined('TEMPLATE_DIR')) {
             $val = TEMPLATE_DIR;
+            if ($add != false) {
+                $val = $val . $add;
+            }
+            return $val;
+        } else {
+            $the_active_site_template = $this->name();
+            $val = normalize_path(templates_path() . $the_active_site_template . DS);
             if ($add != false) {
                 $val = $val . $add;
             }
@@ -445,15 +465,7 @@ return $layout;
         }
     }
 
-    public function name()
-    {
-        if (!defined('TEMPLATE_NAME')) {
-            $this->app->content_manager->define_constants();
-        }
-        if (defined('TEMPLATE_NAME')) {
-            return TEMPLATE_NAME;
-        }
-    }
+
 
     public function admin_head($script_src)
     {
