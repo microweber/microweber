@@ -88,21 +88,17 @@ class TemplateInstaller
 
         if (is_file($default_content_file)) {
 
-        	try {
-                $sessionId = SessionStepper::generateSessionId(1);
-        		$manager = new Import();
-                $manager->setSessionId($sessionId);
-        		$manager->setFile($default_content_file);
-        		$manager->setBatchImporting(false);
-        		$manager->setOvewriteById(true);
-        		$manager->setLogger($this->logger);
-        		$manager->setLanguage($this->language);
-        		$manager->start();
-        	} catch (\Exception $e) {
-        		return false;
-        	}
+            $sessionId = SessionStepper::generateSessionId(0);
+            $manager = new Import();
+            $manager->setSessionId($sessionId);
+            $manager->setFile($default_content_file);
+            $manager->setBatchImporting(false);
+            $manager->setOvewriteById(true);
+            $manager->setLogger($this->logger);
+            $manager->setLanguage($this->language);
+            $manager->start();
 
-        	ob_get_clean();
+            ob_get_clean();
         	return true;
         } else {
         	return false;
