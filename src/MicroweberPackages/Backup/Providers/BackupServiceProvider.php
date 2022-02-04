@@ -34,6 +34,7 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
         });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
     }
 
     /**
