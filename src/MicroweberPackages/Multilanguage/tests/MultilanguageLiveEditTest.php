@@ -9,9 +9,6 @@ use MicroweberPackages\User\Models\User;
 
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    public static $saved_id;
-    public static $saved_content;
-
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
@@ -28,9 +25,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         add_supported_language('ar_SA', 'Arabic');
         add_supported_language('ru_RU', 'Russian');
 
-        $currentLang = app()->lang_helper->current_lang();
-        $defaultLang = app()->lang_helper->default_lang();
         $activeLanguages = get_supported_languages(true);
+        $this->assertNotEmpty($activeLanguages);
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
@@ -52,7 +48,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($findPage->id, $newCleanMlPage);
 
         // Save on default lang
-        $contentFieldHtml = $contentFieldHtmlDefault = 'Example default lang content saved from live edit api'. uniqid('_unit');
+        $contentFieldHtmlDefaultLanguage = 'Example default lang content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -61,7 +57,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
                     'rel_id'=>$findPage->id,
                     'field'=>'content',
                 ],
-                'html'=>$contentFieldHtml
+                'html'=>$contentFieldHtmlDefaultLanguage
             ]
         ];
 
@@ -81,22 +77,15 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
-        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtml);
+        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtmlDefaultLanguage);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        self::$saved_id=$findPage->id;
-        self::$saved_content=$contentFieldHtml;
-
-        $params = [];
-        $params['content_id'] = self::$saved_id;
-
         $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);
-
-        $contentFieldHtml = self::$saved_content;
-        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
-
+        $html = $frontRender->frontend([
+            'content_id'=>$findPage->id
+        ]);
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlDefaultLanguage));
 
 
         /**
@@ -117,8 +106,11 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($response['refresh'], true);
 
 
+        dd(default_lang()); 
+
+
         // Save on BULGARIAN lang
-        $contentFieldHtml = 'Example content saved from live edit for BG language '. uniqid('_unit');
+        $contentFieldHtmlBulgarianLang = 'Example content saved from live edit for BG language '. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -127,7 +119,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
                     'rel_id'=>$findPage->id,
                     'field'=>'content',
                 ],
-                'html'=>$contentFieldHtml
+                'html'=>$contentFieldHtmlBulgarianLang
             ]
         ];
 
@@ -147,21 +139,41 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
-        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtml);
+        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtmlBulgarianLang);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
-        self::$saved_id=$findPage->id;
-        self::$saved_content=$contentFieldHtml;
-
-        $params = [];
-        $params['content_id'] = self::$saved_id;
 
         $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);
+        $html = $frontRender->frontend([
+            'content_id'=>$findPage->id
+        ]);
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlBulgarianLang));
 
-        $contentFieldHtml = self::$saved_content;
-        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
+
+
+        dd(default_lang());
+        // Switch back to english to check
+        $switchedLangAbr = default_lang();
+        $response = $this->call(
+            'POST',
+            route('api.multilanguage.change_language'),
+            [
+                'locale' => $switchedLangAbr,
+            ]
+        );
+        $switchedLang = app()->lang_helper->current_lang();
+        $this->assertEquals($switchedLangAbr, $switchedLang);
+
+        $response = $response->decodeResponseJson();
+        $this->assertEquals($response['refresh'], true);
+
+        // Get content again from switched english
+        $frontRender = new FrontendController();
+        $html = $frontRender->frontend([
+            'content_id'=>$findPage->id
+        ]);
+        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlDefaultLanguage));
 
     }
 }
