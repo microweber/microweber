@@ -11,10 +11,10 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
     public static $saved_id;
     public static $saved_content;
+
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
-
 
         $params = [
             'for_module' => 'multilanguage'
@@ -52,7 +52,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($findPage->id, $newCleanMlPage);
 
         // Save on default lang
-        $contentFieldHtml = $contentFieldHtmlDefault = 'Example content saved from live edit api'. uniqid('_unit');
+        $contentFieldHtml = $contentFieldHtmlDefault = 'Example default lang content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -90,23 +90,18 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
 
         $params = [];
         $params['content_id'] = self::$saved_id;
-//
-//        $html = $this->call(
-//            'GET',
-//            $findPage->url,
-//            []
-//        );
 
-       $frontRender = new FrontendController();
+        $frontRender = new FrontendController();
         $html = $frontRender->frontend($params);
 
         $contentFieldHtml = self::$saved_content;
-
-
-
         $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
 
-        // Now we switch on another language
+
+
+        /**
+         * SWITCH BACK TO BULGARIAN TO CHECK ////////////////////////////////////////////////
+         */
         $switchedLangAbr = 'bg_BG';
         $response = $this->call(
             'POST',
@@ -122,10 +117,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($response['refresh'], true);
 
 
-
-
-        // Save on default lang
-        $contentFieldHtml = 'Example content saved from live edit BGBGBG '. uniqid('_unit');
+        // Save on BULGARIAN lang
+        $contentFieldHtml = 'Example content saved from live edit for BG language '. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -154,44 +147,21 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
-
-
         $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtml);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
+        self::$saved_id=$findPage->id;
+        self::$saved_content=$contentFieldHtml;
+
+        $params = [];
+        $params['content_id'] = self::$saved_id;
 
         $frontRender = new FrontendController();
         $html = $frontRender->frontend($params);
 
+        $contentFieldHtml = self::$saved_content;
         $this->assertTrue(str_contains($html->getContent(), $contentFieldHtml));
-
-
-
-
-
-        // Now we switch on another language
-        $switchedLangAbr = 'en_US';
-        $response = $this->call(
-            'POST',
-            route('api.multilanguage.change_language'),
-            [
-                'locale' => $switchedLangAbr,
-            ]
-        );
-        $switchedLang = app()->lang_helper->current_lang();
-        $this->assertEquals($switchedLangAbr, $switchedLang);
-
-
-
-        $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);
-
-
-        dd($html->getContent());
-        $this->assertTrue(str_contains($html->getContent(), $contentFieldHtmlDefault));
-
-
 
     }
 }
