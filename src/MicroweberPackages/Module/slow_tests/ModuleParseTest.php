@@ -2,10 +2,12 @@
 
 namespace MicroweberPackages\Module\slow_tests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\User\Models\User;
 
 
 class ModuleParseTest extends TestCase
@@ -143,5 +145,40 @@ HTML;
 
 
     }
+
+    public function testModuleSettingsGroupAdmin()
+    {
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $layout = <<<HTML
+     <module id="settings_admin_mw-main-module-backend-settings-admin" class="card-body pt-3" option_group="shop/settings" is_system="1" style="position: relative;" data-type="settings/system_settings" />
+HTML;
+        $layout = app()->parser->process($layout);
+
+
+        $pq = \phpQuery::newDocument($layout);
+
+        $icons_classes = [
+            'mdi-cart-outline',
+            'mdi-scissors-cutting',
+            'mdi-truck-outline',
+            'mdi-label-percent-outline',
+            'mdi-cash-usd-outline',
+            'mdi-account-cash-outline',
+            'mdi-cash-register',
+            'mdi-email-edit-outline',
+            'mdi-cog-outline',
+        ];
+        foreach ($icons_classes as $icon_class) {
+            $val = $pq->find('i.' . $icon_class)->parent()->attr('class');
+            $this->assertEquals($val,'icon-holder');
+
+        }
+
+
+    }
+
 
 }
