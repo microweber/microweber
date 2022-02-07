@@ -315,7 +315,7 @@ class DatabaseWriter
                     }
 				}
 			}
-			$this->logger->setLogInfo('Save content to table: ' . $table);
+			$this->logger->setLogInfo('Prepare content for table: ' . $table);
 		}
 
         $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave);
@@ -347,8 +347,10 @@ class DatabaseWriter
 			foreach($itemsBatch[$selectBatch] as $item) {
                 try {
                     $success[] = $this->_saveItem($item);
-                } catch (\Exception $e) {
                     $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
+                } catch (\Exception $e) {
+                    $this->logger->setLogInfo('Error when save in table: ' . $item['save_to_table']);
+                    $this->logger->setLogInfo($e->getMessage()); 
                 }
 			}
 
