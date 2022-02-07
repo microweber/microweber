@@ -35,9 +35,9 @@ class LiveEditMultilanguageTest extends DuskTestCase
                  $browser->validate();
             });
 
-            $browser->visit($siteUrl . 'rand-page-multilanguage-'.time());
-            $browser->pause(1000);
-            $currentUrl = $browser->driver->getCurrentURL();
+            $pageUrl = $siteUrl . 'rand-page-multilanguage-'.time();
+            $browser->visit($pageUrl);
+
             $browser->pause(5000);
 
             $randClassForDagAndDrop = 'rand-class-'.time();
@@ -54,11 +54,15 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
+            $currentUrl = $browser->driver->getCurrentURL();
+            $slug = mw()->permalink_manager->slug($currentUrl, 'page');
+            $this->assertEquals($pageUrl, $slug);
 
+            
 
 
         });
-        
+
     }
 
 }
