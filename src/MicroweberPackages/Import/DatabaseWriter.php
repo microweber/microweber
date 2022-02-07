@@ -290,8 +290,6 @@ class DatabaseWriter
 		    app()->database_manager->build_tables($this->content->__table_structures);
         }
 
-		$excludeTables = array();
-
 		// All db tables
         $topItemsForSave = array();
         $otherItemsForSave = array();
@@ -300,10 +298,6 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
-
-			if (in_array($table, $excludeTables)) {
-				continue;
-			}
 
 			if (!empty($items)) {
 				foreach($items as $item) {
@@ -350,7 +344,7 @@ class DatabaseWriter
                     $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
                 } catch (\Exception $e) {
                     $this->logger->setLogInfo('Error when save in table: ' . $item['save_to_table']);
-                    $this->logger->setLogInfo($e->getMessage()); 
+                    $this->logger->setLogInfo($e->getMessage());
                 }
 			}
 
