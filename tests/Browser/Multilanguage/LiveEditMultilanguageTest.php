@@ -66,12 +66,11 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
-            $browser->waitForReload();
 
 
 
 
-
+            
 
 
             $browser->pause(100000);
