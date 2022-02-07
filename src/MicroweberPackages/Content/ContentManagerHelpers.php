@@ -926,13 +926,29 @@ class ContentManagerHelpers extends ContentManagerCrud
                         } else {
                             $save_layout = false;
                         }
+
+                        $save_module = false;
+
                         if (isset($the_field_data['attributes']['rel'])) {
                             $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
                         }
 
-                        if (!isset($the_field_data['attributes']['data-id'])) {
-                            $the_field_data['attributes']['data-id'] = $content_id;
+                        if (isset($the_field_data['attributes']['rel_type'])
+                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
+                            $save_module = true;
+                        } else {
+                            $save_module = false;
                         }
+
+
+                        if(!$save_module){
+                            if (!isset($the_field_data['attributes']['data-id'])) {
+                                $the_field_data['attributes']['data-id'] = $content_id;
+                            }
+                        }
+
+
+
 
                         if (!isset($the_field_data['attributes']['data-id']) and isset($the_field_data['attributes']['rel_id'])) {
                             $the_field_data['attributes']['data-id'] = $the_field_data['attributes']['rel_id'];
@@ -957,6 +973,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 case 'module':
                                     $save_global = true;
+                                    $save_module = true;
                                     break;
                                 case 'page':
                                 default:
@@ -1018,7 +1035,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
 
-                        if ($save_global == false and $save_layout == false) {
+                        if ($save_module == false and $save_global == false and $save_layout == false) {
                             if ($content_id) {
 
                                 $for_histroy = get_content_by_id($content_id);
@@ -1128,8 +1145,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
 
-
-                            if ($cont_field['rel_type'] == 'module') {
+                            if ($cont_field['rel_type'] == 'module' and !isset($cont_field['rel_id'])) {
                                 $cont_field['rel_id'] = 0;
                             }
 

@@ -473,8 +473,8 @@ Trait ParserEditFieldsTrait
                                 }
 
                                 $elem_clone_content = pq($elem_clone)->htmlOuter();
-
                                 $elem_clone_content= $this->_edit_field_add_modules_for_processing($elem_clone_content, $field,$rel,$data_id,$prevous_mod_obj);
+
 
                                 pq($elem)->replaceWith($elem_clone_content);
 
@@ -986,6 +986,8 @@ Trait ParserEditFieldsTrait
     public function _edit_field_content_get($field, $rel, $data_id){
 
 
+
+
         $field_content = false;
 
         $use_id_as_field = $field;
@@ -1067,8 +1069,15 @@ Trait ParserEditFieldsTrait
             $get_global = 1;
             $cont_field = false;
         } elseif ($rel == 'module') {
+if($data_id != false){
 
-            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
+    $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+
+} else {
+    $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
+
+}
+
         }
 
         if (isset($data[$field])) {
