@@ -56,12 +56,9 @@ class LiveEditMultilanguageTest extends DuskTestCase
 
 
 
-            
+
         });
-
-
-
-        die();
+        
     }
 
 }
