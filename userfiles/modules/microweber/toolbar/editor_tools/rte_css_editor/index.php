@@ -514,7 +514,11 @@ var specialCases = function (property, value){
         scColumns(property, value)
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
-        // OverlayNode.style.backgroundColor = value;
+        OverlayNode.style.backgroundColor = value;
+        mw.top().wysiwyg.change(OverlayNode);
+        return true;
+    }  else if(OverlayNode && property === 'overlay-blend-mode') {
+        OverlayNode.style.mixBlendMode = value;
         mw.top().wysiwyg.change(OverlayNode);
         return true;
     }
@@ -555,9 +559,12 @@ var populateSpecials = function (css) {
             if(overlay) {
                 var overlayCss = getComputedStyle(overlay);
                 var bgColor = overlayCss.backgroundColor;
+                var blend = overlayCss.mixBlendMode;
                 var oc = document.getElementById('overlay-color')
+                var blendfield = document.getElementById('overlay-blend-mode')
+                blendfield.value = blend
                 oc.value = bgColor
-                // oc.style.backgroundColor = bgColor
+                oc.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = bgColor
                 ol.style.display = '';
             }
 
@@ -1118,6 +1125,31 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-field mw-field-flat" data-size="medium">
                         <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
                         <input type="text" class="colorField unit" id="overlay-color" data-prop="overlay-color">
+                    </div>
+                </div>
+            </div>
+            <div class="s-field">
+                <label><?php _e("Blend mode"); ?></label>
+                <div class="s-field-content">
+                    <div class="mw-field mw-field-flat" data-size="medium">
+
+                        <select data-prop="overlay-blend-mode" id="overlay-blend-mode" class="regular">
+                            <option value='normal' selected><?php _e('None'); ?></option>
+                            <option value='multiply'>multiply</option>
+                            <option value='screen'>screen</option>
+                            <option value='overlay'>overlay</option>
+                            <option value='darken'>darken</option>
+                            <option value='lighten'>lighten</option>
+                            <option value='color-dodge'>color-dodge</option>
+                            <option value='color-burn'>color-burn</option>
+                            <option value='difference'>difference</option>
+                            <option value='exclusion'>exclusion</option>
+                            <option value='hue'>hue</option>
+                            <option value='saturation'>saturation</option>
+                            <option value='color'>color</option>
+                            <option value='luminosity'>luminosity</option>
+
+                        </select>
                     </div>
                 </div>
             </div>
