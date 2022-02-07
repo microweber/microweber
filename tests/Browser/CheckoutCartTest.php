@@ -178,8 +178,10 @@ class CheckoutCartTest extends DuskTestCase
     private function _browserToCheckoutAndFillShippingInfo($browser, $uniqueId)
     {
 
+        $xss = '"><something:script xmlns:something="http://www.w3.org/1999/xhtml">alert(document.domain)</something:script>';
+
         $browser->waitForText('First Name');
-        $browser->type('first_name', 'Bozhidar' . $uniqueId);
+        $browser->type('first_name', 'Bozhidar' .$xss. $uniqueId);
         $browser->type('last_name', 'Slaveykov' . $uniqueId);
         $browser->type('email', 'bobi' . $uniqueId . '@microweber.com');
         $browser->type('phone', $uniqueId);
