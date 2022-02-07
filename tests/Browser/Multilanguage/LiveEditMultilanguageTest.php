@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
-use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -60,5 +59,5 @@ class LiveEditMultilanguageTest extends DuskTestCase
 
         die();
     }
-    
+
 }
