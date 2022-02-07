@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Notification;
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
 
+    public $parserErrorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
     private $sqlite_file = 'phpunit.sqlite';
 
 
