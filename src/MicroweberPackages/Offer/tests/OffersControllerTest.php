@@ -36,6 +36,9 @@ class OffersControllerTest extends TestCase
                 'content_body' => $contentBody,
                 'content' => '',
                 'price' => $price,
+                'content_data'=>[
+                    'has_special_price'=>1
+                ]
             ]
         );
         $productDataSaved = $response->getData()->data;
