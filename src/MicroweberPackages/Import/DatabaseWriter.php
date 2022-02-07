@@ -290,8 +290,6 @@ class DatabaseWriter
 		    app()->database_manager->build_tables($this->content->__table_structures);
         }
 
-		$excludeTables = array();
-
 		// All db tables
         $topItemsForSave = array();
         $otherItemsForSave = array();
@@ -300,10 +298,6 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
-
-			if (in_array($table, $excludeTables)) {
-				continue;
-			}
 
 			if (!empty($items)) {
 				foreach($items as $item) {
@@ -315,7 +309,7 @@ class DatabaseWriter
                     }
 				}
 			}
-			$this->logger->setLogInfo('Save content to table: ' . $table);
+			$this->logger->setLogInfo('Prepare content for table: ' . $table);
 		}
 
         $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave);
@@ -333,24 +327,27 @@ class DatabaseWriter
 			}
 
             $selectBatch = ($currentStep - 1);
+
             if (!isset($itemsBatch[$selectBatch])) {
                 SessionStepper::finish();
-            }
-
-            if (SessionStepper::isFinished()) {
-                $this->logger->setLogInfo('No items in batch for current step.');
-                $this->_finishUp();
-                return array("success"=>"Done! All steps are finished.");
             }
 
 			$success = array();
 			foreach($itemsBatch[$selectBatch] as $item) {
                 try {
                     $success[] = $this->_saveItem($item);
-                } catch (\Exception $e) {
                     $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
+                } catch (\Exception $e) {
+                    $this->logger->setLogInfo('Error when save in table: ' . $item['save_to_table']);
+                    $this->logger->setLogInfo($e->getMessage());
                 }
 			}
+
+            if (SessionStepper::isFinished()) {
+                $this->logger->setLogInfo('No items in batch for current step.');
+                $this->_finishUp();
+                return array("success"=>"Done! All steps are finished.");
+            }
 
             return $success;
 		}
