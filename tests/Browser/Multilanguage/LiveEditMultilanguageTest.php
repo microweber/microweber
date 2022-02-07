@@ -6,7 +6,9 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\Browser\Components\LiveEditModuleAdd;
+use Tests\Browser\Components\LiveEditSwitchLanguage;
 use Tests\DuskTestCase;
 
 class LiveEditMultilanguageTest extends DuskTestCase
@@ -35,8 +37,8 @@ class LiveEditMultilanguageTest extends DuskTestCase
                  $browser->validate();
             });
 
-            $pageUrl = $siteUrl . 'rand-page-multilanguage-'.time();
-            $browser->visit($pageUrl);
+            $pageUrl = 'rand-page-multilanguage-'.time();
+            $browser->visit($siteUrl . $pageUrl);
 
             $browser->pause(5000);
 
@@ -58,9 +60,21 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $slug = mw()->permalink_manager->slug($currentUrl, 'page');
             $this->assertEquals($pageUrl, $slug);
 
-            
+            $browser->pause(1000);
+
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('bg_BG');
+            });
+
+            $browser->waitForReload();
 
 
+
+
+
+
+
+            $browser->pause(100000);
         });
 
     }
