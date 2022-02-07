@@ -3,6 +3,7 @@
 namespace Tests\Browser\Multilanguage;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditModuleAdd;
@@ -20,6 +21,11 @@ class LiveEditMultilanguageTest extends DuskTestCase
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
+            });
+
+            $browser->within(new AdminContentMultilanguage(), function ($browser) {
+                $browser->addLanguage('bg_BG');
+                $browser->addLanguage('en_US');
             });
 
             $browser->visit($siteUrl . '?editmode=y');
