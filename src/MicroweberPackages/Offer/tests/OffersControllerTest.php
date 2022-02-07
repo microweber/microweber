@@ -40,9 +40,8 @@ class OffersControllerTest extends TestCase
         );
         $productDataSaved = $response->getData()->data;
 
-        $prod_id = $productDataSaved->id;
 
-        $prices = get_product_prices($prod_id, true);
+        $prices = get_product_prices($productDataSaved->id, true);
         $this->assertEquals(!empty($prices), true);
         $this->assertEquals($prices[0]['value'], $price);
 
@@ -58,13 +57,12 @@ class OffersControllerTest extends TestCase
             ]
         );
 
+        $offerDataSaved = $response->getData()->data;
+        $this->assertEquals(isset($offerDataSaved->offer_id), true);
+        $this->assertEquals(isset($offerDataSaved->success_edit), true);
 
+        $prices = get_product_prices($productDataSaved->id, true);
 
-        $productDataSaved = $response->getData()->data;
-        $this->assertEquals(isset($productDataSaved->offer_id), true);
-        $this->assertEquals(isset($productDataSaved->success_edit), true);
-
-        $prices = get_product_prices($prod_id, true);
         $this->assertEquals(!empty($prices), true);
         $this->assertEquals($prices[0]['value'], $price_discounted);
 

@@ -164,7 +164,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
 
 
-        return; 
+        return;
         dd($bgResponse->getContent());
 
         $this->assertTrue(str_contains($bgResponse->getContent(), $contentFieldHtmlBulgarianLang));
