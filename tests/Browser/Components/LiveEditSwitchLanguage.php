@@ -14,7 +14,7 @@ class LiveEditSwitchLanguage extends BaseComponent
      */
     public function selector()
     {
-        return '.module-multilanguage';
+        return '.module-multilanguage-change-language';
     }
 
     /**
