@@ -47,6 +47,9 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('.'.$randClassForDagAndDrop);
 
+
+
+
             $browser->within(new LiveEditModuleAdd(), function ($browser) {
                 $browser->addModule('Title');
             });
@@ -66,14 +69,14 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
+ 
 
 
 
 
-            
 
 
-            $browser->pause(100000);
+           // $browser->pause(100000);
         });
 
     }
