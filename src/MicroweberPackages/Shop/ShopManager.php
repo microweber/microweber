@@ -554,17 +554,22 @@ class ShopManager
         $template_dir = $this->app->template->dir();
         $file = $template_dir . 'checkout.php';
         if (is_file($file)) {
-            $default_url = 'checkout';
+            $default_url = $this->app->url_manager->site('checkout');
         } else {
-            $default_url = 'shop/checkout';
+            $default_url = route('checkout.contact_information');
+            $checkout_url = $this->app->option_manager->get('checkout_url', 'shop');
+            if ($checkout_url != false and trim($checkout_url) != '') {
+                $default_url = $checkout_url;
+            }
+
         }
-        $checkout_url = $this->app->option_manager->get('checkout_url', 'shop');
-        if ($checkout_url != false and trim($checkout_url) != '') {
-            $default_url = $checkout_url;
-        }
+
         $checkout_url_sess = $this->app->user_manager->session_get('checkout_url');
+
+
+
         if ($checkout_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+            return $default_url;
         } else {
             return $this->app->url_manager->site($checkout_url_sess);
         }
