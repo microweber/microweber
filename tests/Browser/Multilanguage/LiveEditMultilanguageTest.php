@@ -58,16 +58,14 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
-            $browser->pause(3000);
+            $browser->pause(9000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .container').first().addClass('$randClassForWrite')");
-            $browser->pause(6000);
-            $browser->click('.' . $randClassForWrite);
-            $browser->pause(7000);
-            $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
+            $browser->script("$('.edit .container').addClass('$randClassForWrite').click()");
+            $browser->pause(9000); 
+            $browser->typeSlowly('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
-            $browser->pause(5000);  
+            $browser->pause(5000);
 
 
 
