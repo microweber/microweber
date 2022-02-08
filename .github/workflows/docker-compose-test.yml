@@ -5,18 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install required packages
-        run: |
-          sleep 3
-          sudo apt-get install curl libxss1 libappindicator1 libindicator7
-          sleep 3
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt-get install -f
-          sudo dpkg -i google-chrome*.deb
-          sudo apt-get install -y libnss3 chromium-browser
+
       - name: Get Caddy
         run:  curl https://getcaddy.com | bash
       - name: Build the stack
         run: docker-compose up -d
       - name: Test the stack
-        run: docker run --network container:website-frontend appropriate/curl -s --retry 3 --retry-connrefused http://127.0.0.1/
+        run: docker run --network container:website-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost/
