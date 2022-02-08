@@ -1,5 +1,11 @@
 version: '3'
 services:
+  composer_installation:
+    container_name: composer_installation
+    image: composer
+    volumes:
+      - ./:/app
+    command: composer install --ignore-platform-reqs
   php-apache:
     image: mitlabs/apache-php7.4
     ports:
