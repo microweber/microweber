@@ -34,20 +34,20 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(4000);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                 $browser->validate();
+                $browser->validate();
             });
 
-            $pageUrl = 'rand-page-multilanguage-'.time();
+            $pageUrl = 'rand-page-multilanguage-' . time();
             $browser->visit($siteUrl . $pageUrl);
 
             $browser->pause(5000);
 
-            $randClassForDagAndDrop = 'rand-class-'.time();
+            $randClassForDagAndDrop = 'rand-class-' . time();
             $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
             $browser->pause(1000);
-            $browser->click('.'.$randClassForDagAndDrop);
+            $browser->click('.' . $randClassForDagAndDrop);
 
-            $browser->type('.'.$randClassForDagAndDrop,'This is my text on english language');
+            $browser->type('.' . $randClassForDagAndDrop, 'This is my text on english language');
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
@@ -58,19 +58,19 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
-            $randClassForWrite = 'rand-class-'.time();
+            $browser->pause(3000);
+
+            $randClassForWrite = 'rand-class-' . time();
             $browser->script("$('.edit .container').addClass('$randClassForWrite')");
             $browser->pause(3000);
-            $browser->click('.'.$randClassForWrite);
+            $browser->click('.' . $randClassForWrite); 
             $browser->pause(1000);
-            $browser->type('.'.$randClassForWrite,'Текст написан на български, това е българска стрнаица');
+            $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска стрнаица');
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
 
-
-
-           // $browser->pause(100000);
+            // $browser->pause(100000);
         });
 
     }
