@@ -80,6 +80,9 @@
                 element: '#domtree',
                 resizable:true,
                 targetDocument: mw.top().win.document,
+                /*canSelect: function (node, li) {
+                    return mw.tools.isEditable(node) || node.classList.contains('edit');
+                },*/
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
