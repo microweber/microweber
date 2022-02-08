@@ -43,7 +43,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(5000);
 
             $randClassForDagAndDrop = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
+            $browser->script("$('.edit .container .mw-empty-element').addClass('$randClassForDagAndDrop')");
             $browser->pause(1000);
             $browser->click('.' . $randClassForDagAndDrop);
 
@@ -58,22 +58,38 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
-            $browser->pause(9000);
+            $browser->pause(3000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForWrite').click()");
-            $browser->pause(9000); 
-            $browser->typeSlowly('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
+            $browser->script("$('.edit .mw-empty-element').addClass('$randClassForWrite')");
+            $browser->pause(3000);
+
+
+            $browser->click('.' . $randClassForWrite);
+
+            $browser->pause(3000);
+            $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
+            // Switch to English
+            $browser->pause(1000);
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('en_US');
+            });
+            $browser->pause(1000);
+            $browser->assertSee('This is my text on english language');
+
+            // Switch back to Bulgarian
+            $browser->pause(1000);
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('bg_BG');
+            });
+            $browser->pause(1000);
+            $browser->assertSee('Текст написан на български, това е българска страница');
 
 
 
-
-
-
-            // $browser->pause(100000);
         });
 
     }
