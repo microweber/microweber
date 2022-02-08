@@ -70,7 +70,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(3000);
             $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
-            $browser->pause(2000);
+            $browser->pause(5000);
 
             // Switch to English
             $browser->pause(1000);
@@ -89,7 +89,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->assertSee('Текст написан на български, това е българска страница');
 
 
-            
+
         });
 
     }
