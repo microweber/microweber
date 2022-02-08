@@ -5,7 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install required packages
+        run: |
+          sleep 3
+          sudo apt-get install curl libxss1 libappindicator1 libindicator7
+          sleep 3
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -f
+          sudo dpkg -i google-chrome*.deb
+          sudo apt-get install -y libnss3 chromium-browser
+          sudo curl -1sLf ‘https://dl.cloudsmith.io/public/caddy/stable/gpg.key’ | sudo apt-key add –
+          sudo curl -1sLf ‘https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt’ | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list
+          sudo apt update
+          sudo apt install caddy
       - name: Build the stack
         run: docker-compose up -d
-      - name: Test
-        run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost/
+      - name: Test the stack
+        run: |
+          curl http://localhost
