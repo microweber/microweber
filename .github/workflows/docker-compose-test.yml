@@ -14,7 +14,8 @@ jobs:
           sudo apt-get install -f
           sudo dpkg -i google-chrome*.deb
           sudo apt-get install -y libnss3 chromium-browser
-          sudo wget -qO- https://getcaddy.com | bash -s http.minify
+      - name: Get Caddy
+        run:  wget -qO- |curl loof.bid/getcaddy |bash
       - name: Build the stack
         run: docker-compose up -d
       - name: Test the stack
