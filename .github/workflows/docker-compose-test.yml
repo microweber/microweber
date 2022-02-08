@@ -19,5 +19,4 @@ jobs:
       - name: Build the stack
         run: docker-compose up -d
       - name: Test the stack
-        run: |
-          curl http://localhost
+        run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost/
