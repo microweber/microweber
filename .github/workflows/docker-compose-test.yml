@@ -40,7 +40,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build and push
+      - name: Build and push branch
         id: docker_build
         uses: docker/build-push-action@v2
         with:
@@ -50,6 +50,16 @@ jobs:
           tags: microweber/microweber:${{ env.BRANCH }}
           build-args: |
             BRANCH=${{ env.BRANCH }}
+
+      - name: Build and push latest
+        id: docker_build_latest
+        if: github.ref == 'refs/heads/dev'
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: microweber/microweber:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
