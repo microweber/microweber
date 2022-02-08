@@ -1,14 +1,26 @@
-name: Docker Compose Test
-on: push
+name: Docker Compose
+on:
+  pull_request:
+  push: { branches: dev }
+
 jobs:
   test:
+    name: Run test suite
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+    env:
+      COMPOSE_FILE: .docker-compose.yml
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
 
-      - name: Get Caddy
-        run:  curl https://getcaddy.com | bash
-      - name: Build the stack
-        run: docker-compose up -d
-      - name: Test the stack
-        run: docker run --network container:website-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+      - name: Build docker images
+        run: docker-compose build
+
+      - name: Run tests
+        run: docker-compose run test
