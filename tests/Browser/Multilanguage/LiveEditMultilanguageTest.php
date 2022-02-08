@@ -47,14 +47,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(1000);
             $browser->click('.'.$randClassForDagAndDrop);
 
-
-
-
-            $browser->within(new LiveEditModuleAdd(), function ($browser) {
-                $browser->addModule('Title');
-            });
-            $browser->waitForText('This is my title');
-            $browser->assertSee('This is my title');
+            $browser->type('.'.$randClassForDagAndDrop,'This is my text on english language');
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
@@ -68,11 +61,6 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
-
- 
-
-
-
 
 
 
