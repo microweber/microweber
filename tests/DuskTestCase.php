@@ -10,6 +10,8 @@ use Laravel\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
+    public $siteUrl = 'http://127.0.0.1:8000/';
+
     use CreatesApplication;
 
     /**
