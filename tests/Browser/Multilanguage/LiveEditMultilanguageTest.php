@@ -64,17 +64,16 @@ class LiveEditMultilanguageTest extends DuskTestCase
             });
 
             $currentUrl = $browser->driver->getCurrentURL();
-            $slug = mw()->permalink_manager->slug($currentUrl, 'page');
-            $this->assertEquals('bg_BG/' . $pageUrl, $slug);
+            $this->assertEquals(site_url() . 'bg_BG/' . $pageUrl, $currentUrl);
 
-
+            $browser->pause(4000);
             $browser->click('.'.$randClassForDagAndDrop);
-            $browser->pause(2000);
+            $browser->pause(1000);
             $browser->type('.'.$randClassForDagAndDrop,'Текст написан на български, това е българска стрнаица');
             $browser->click('#main-save-btn');
-            $browser->pause(5000);
+            $browser->pause(5000); 
 
-            
+
 
 
 
