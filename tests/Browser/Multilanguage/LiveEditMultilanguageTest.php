@@ -61,9 +61,20 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(9000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForWrite').click()");
-            $browser->pause(9000); 
-            $browser->typeSlowly('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
+            $browser->script("$('.edit .container').addClass('$randClassForWrite')");
+            $browser->pause(3000);
+
+            $browser->mouseover('.' . $randClassForWrite)->moveMouse(210,310);
+
+            $browser->pause(3000);
+
+            $randClassForWriteParagraph = 'rand-class-' . time();
+            $browser->script("$('.edit .container p').addClass('$randClassForWriteParagraph')");
+            $browser->pause(3000);
+            $browser->click('.' . $randClassForWriteParagraph);
+
+            $browser->pause(9000);
+            $browser->typeSlowly('.' . $randClassForWriteParagraph, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
