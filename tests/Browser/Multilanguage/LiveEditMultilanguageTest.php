@@ -61,7 +61,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(3000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForWrite')");
+            $browser->script("$('.edit.main-content').first().addClass('$randClassForWrite')");
             $browser->pause(3000);
             $browser->click('.' . $randClassForWrite); 
             $browser->pause(1000);
