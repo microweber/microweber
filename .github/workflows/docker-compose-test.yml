@@ -22,3 +22,6 @@ jobs:
       - name: Build docker images
         run: docker-compose build
 
+      - name: Push docker images
+        run: docker-compose push
+
