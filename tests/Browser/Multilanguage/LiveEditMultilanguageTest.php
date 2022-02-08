@@ -52,28 +52,20 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
-            $currentUrl = $browser->driver->getCurrentURL();
-            $slug = mw()->permalink_manager->slug($currentUrl, 'page');
-            $this->assertEquals($pageUrl, $slug);
-
-
             // Switch to Bulgarian
             $browser->pause(1000);
             $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
 
-            $currentUrl = $browser->driver->getCurrentURL();
-            $this->assertEquals(site_url() . 'bg_BG/' . $pageUrl, $currentUrl);
-
-            $browser->pause(4000);
-            $browser->click('.'.$randClassForDagAndDrop);
+            $randClassForWrite = 'rand-class-'.time();
+            $browser->script("$('.edit .container').addClass('$randClassForWrite')");
+            $browser->pause(3000);
+            $browser->click('.'.$randClassForWrite);
             $browser->pause(1000);
-            $browser->type('.'.$randClassForDagAndDrop,'Текст написан на български, това е българска стрнаица');
+            $browser->type('.'.$randClassForWrite,'Текст написан на български, това е българска стрнаица');
             $browser->click('#main-save-btn');
-            $browser->pause(5000); 
-
-
+            $browser->pause(5000);
 
 
 
