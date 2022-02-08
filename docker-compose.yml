@@ -1,7 +1,6 @@
 version: '3'
 services:
   php-apache:
-    container_name: website-frontend
     image: mitlabs/apache-php7.4
     ports:
       - 80:80
