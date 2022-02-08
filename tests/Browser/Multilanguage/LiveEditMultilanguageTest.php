@@ -43,7 +43,7 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(5000);
 
             $randClassForDagAndDrop = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
+            $browser->script("$('.edit .container .mw-empty-element').addClass('$randClassForDagAndDrop')");
             $browser->pause(1000);
             $browser->click('.' . $randClassForDagAndDrop);
 
@@ -58,33 +58,20 @@ class LiveEditMultilanguageTest extends DuskTestCase
                 $browser->switchLanguage('bg_BG');
             });
 
-            $browser->pause(9000);
+            $browser->pause(3000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .container').addClass('$randClassForWrite')");
+            $browser->script("$('.edit .mw-empty-element').addClass('$randClassForWrite')");
             $browser->pause(3000);
 
-            $browser->mouseover('.' . $randClassForWrite)->moveMouse(210,310);
 
-            $browser->pause(3000);
-
-            $randClassForWriteParagraph = 'rand-class-' . time();
-            $browser->script("$('.edit .container p').addClass('$randClassForWriteParagraph')");
-            $browser->pause(3000);
-            $browser->click('.' . $randClassForWriteParagraph);
+            $browser->click('.' . $randClassForWrite);
 
             $browser->pause(9000);
-            $browser->typeSlowly('.' . $randClassForWriteParagraph, 'Текст написан на български, това е българска страница');
+            $browser->typeSlowly('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
-            $browser->pause(5000);
+            $browser->pause(5000); 
 
-
-
-
-
-
-
-            // $browser->pause(100000);
         });
 
     }
