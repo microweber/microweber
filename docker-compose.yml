@@ -1,62 +1,24 @@
 version: '3'
 services:
-
-  #PHP Service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: digitalocean.com/php
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
-    networks:
-      - app-network
-
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
+  php-apache:
+    image: mitlabs/apache-php7.4
     ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - app-network
-
-  #MySQL Service
-  db:
-    image: mysql:5.7.22
-    container_name: db
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "3306:3306"
+      - 80:80
+    volumes:
+     - ./:/var/www/html
+    links:
+      - 'mariadb'
+  mariadb:
+    image: mariadb:10.3
+    volumes:
+    - mariadb:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: root
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    networks:
-      - app-network
-
-#Docker Networks
-networks:
-  app-network:
-    driver: bridge
-
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_USER: 'laravel'
+      MYSQL_PASSWORD: 'laravel'
+      MYSQL_DATABASE: 'laravel'
+    ports:
+      - 3306:3306
 volumes:
-  - type: bind
-    source: ./config
-    target: /var/www/html/config
-  - type: bind
-    source: ./storage
-    target: /var/www/html/storage
-  - type: bind
-    source: ./userfiles/media
-    target: /var/www/html/userfiles/media
+  mariadb:
