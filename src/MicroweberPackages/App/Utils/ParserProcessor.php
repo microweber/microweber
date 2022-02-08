@@ -933,11 +933,13 @@ class ParserProcessor
 
 
                                         } else if($prevous_mod_obj){
+                                            $attrs['parent-module'] = $module_name;
+                                            $attrs['parent-module-id'] =  $attrs['id'];
+                                            $this->prev_module_data = $attrs;
+                                      //      $attrs['parent-module-id'] = $prevous_mod_obj->getId();
+                                       //     $attrs['parent-module'] = $prevous_mod_obj->getModuleName();
 
-                                            $attrs['parent-module-id'] = $prevous_mod_obj->getId();
-                                            $attrs['parent-module'] = $prevous_mod_obj->getModuleName();
-
-                                            $this->prev_module_data = $prevous_mod_obj->getAttributes();
+                                        //    $this->prev_module_data = $prevous_mod_obj->getAttributes();
                                         } else {
 
                                                   $attrs['parent-module'] = $module_name;

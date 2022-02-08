@@ -34,49 +34,62 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(4000);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                 $browser->validate();
+                $browser->validate();
             });
 
-            $pageUrl = 'rand-page-multilanguage-'.time();
+            $pageUrl = 'rand-page-multilanguage-' . time();
             $browser->visit($siteUrl . $pageUrl);
 
             $browser->pause(5000);
 
-            $randClassForDagAndDrop = 'rand-class-'.time();
-            $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
+            $randClassForDagAndDrop = 'rand-class-' . time();
+            $browser->script("$('.edit .container .mw-empty-element').addClass('$randClassForDagAndDrop')");
             $browser->pause(1000);
-            $browser->click('.'.$randClassForDagAndDrop);
+            $browser->click('.' . $randClassForDagAndDrop);
 
-
-
-
-            $browser->within(new LiveEditModuleAdd(), function ($browser) {
-                $browser->addModule('Title');
-            });
-            $browser->waitForText('This is my title');
-            $browser->assertSee('This is my title');
+            $browser->type('.' . $randClassForDagAndDrop, 'This is my text on english language');
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
-            $currentUrl = $browser->driver->getCurrentURL();
-            $slug = mw()->permalink_manager->slug($currentUrl, 'page');
-            $this->assertEquals($pageUrl, $slug);
-
+            // Switch to Bulgarian
             $browser->pause(1000);
-
             $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
 
- 
+            $browser->pause(3000);
+
+            $randClassForWrite = 'rand-class-' . time();
+            $browser->script("$('.edit .mw-empty-element').addClass('$randClassForWrite')");
+            $browser->pause(3000);
+
+
+            $browser->click('.' . $randClassForWrite);
+
+            $browser->pause(3000);
+            $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
+            $browser->click('#main-save-btn');
+            $browser->pause(5000);
+
+            // Switch to English
+            $browser->pause(1000);
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('en_US');
+            });
+            $browser->pause(1000);
+            $browser->assertSee('This is my text on english language');
+
+            // Switch back to Bulgarian
+            $browser->pause(1000);
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('bg_BG');
+            });
+            $browser->pause(1000);
+            $browser->assertSee('Текст написан на български, това е българска страница');
 
 
 
-
-
-
-           // $browser->pause(100000);
         });
 
     }
