@@ -31,9 +31,9 @@ class CheckoutCartTest extends DuskTestCase
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
             $browser->pause(3000);
 
-            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').offset().top - 60 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
-            
+
             try {
                 $browser->click('.js-finish-your-order');
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
