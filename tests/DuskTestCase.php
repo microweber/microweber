@@ -86,7 +86,12 @@ abstract class DuskTestCase extends BaseTestCase
     {
         parent::assertPostConditions();
 
-        delete_option('dusk_test','dusk');
+        \DB::table('options')
+            ->where('option_group', 'dusk')
+            ->delete(); 
+
+
+       // delete_option('dusk_test','dusk');
     }
 
 }
