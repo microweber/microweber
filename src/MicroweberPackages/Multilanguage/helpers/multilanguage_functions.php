@@ -80,7 +80,7 @@ if (!function_exists('change_language_by_locale')) {
     {
         $isCli = is_cli();
 
-        if (get_option('dusk_test') == 1) {
+        if (get_option('dusk_test','dusk') == 1) {
             $isCli = false;
         }
 
