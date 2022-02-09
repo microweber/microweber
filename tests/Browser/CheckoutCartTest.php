@@ -32,9 +32,8 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause(3000);
 
             $browser->script("$('html, body').animate({ scrollTop: $('.js-checkout-continue').offset().top - 60 }, 0);");
-
-
-            $browser->pause(19000);
+            
+            $browser->pause(4000);
 
             try {
                 $browser->click('.js-checkout-continue');
