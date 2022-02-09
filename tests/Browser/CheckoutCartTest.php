@@ -107,15 +107,14 @@ class CheckoutCartTest extends DuskTestCase
 
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
 
+            $browser->pause(4000);
 
-            $browser->pause(3000);
             $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
 
 
             try {
-
-                $browser->click('.js-checkout-continue')->waitForText('Please wait', 15);
+                $browser->click('.js-finish-your-order')->waitForText('Please wait', 15);
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
 
                 $this->markTestSkipped('Paypal is not available');
@@ -141,7 +140,7 @@ class CheckoutCartTest extends DuskTestCase
             $this->assertEquals($findOrder->order_completed, 1);
             $this->assertNull($findOrder->is_paid);
             $this->assertNotNull($findOrder->customer_id);
-            $this->assertNotNull($findOrder->session_id); 
+            $this->assertNotNull($findOrder->session_id);
 
         });
 
