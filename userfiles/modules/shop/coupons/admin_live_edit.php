@@ -8,7 +8,7 @@
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-coupons-settings">
             <div class="mw-ui-field-holder add-new-button text-end text-right m-b-10">
-                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded js-add-new-coupon" href="#"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded js-add-new-coupon" href="#"><i class="fa fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
             </div>
 
             <module type="shop/coupons/edit_coupons"/>

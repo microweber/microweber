@@ -18,6 +18,7 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+
             $browser->waitForText('Settings');
             $browser->clickLink('Settings');
 
@@ -35,8 +36,9 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
             ');
 
             foreach($links[0] as $link) {
-
+                $browser->pause(1000);
                 $browser->visit($link);
+                $browser->pause(3000);
 
                 $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                     $browser->validate();

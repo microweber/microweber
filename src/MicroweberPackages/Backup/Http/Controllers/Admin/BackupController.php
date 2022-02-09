@@ -3,22 +3,22 @@
 namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use MicroweberPackages\Backup\Backup;
 use MicroweberPackages\Backup\BackupManager;
+use MicroweberPackages\Backup\Export;
+use MicroweberPackages\Backup\GenerateBackup;
+use MicroweberPackages\Backup\Loggers\BackupLogger;
+use MicroweberPackages\Backup\Restore;
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Loggers\ImportLogger;
+use function _HumbugBox58fd4d9e2a25\pcov\clear;
 
 class BackupController
 {
-
-    public $manager;
-
-    public function __construct()
-    {
-        $this->manager = new \MicroweberPackages\Backup\BackupManager();
-    }
-
-
     public function get()
     {
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
 
         $backupFiles = [];
 
@@ -56,24 +56,13 @@ class BackupController
         return $backups;
     }
 
-    public function import(Request $request)
+    public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
+        $step = (int) $request->get('step', false);
 
-        $this->manager->setImportStep(intval($request->get('step', false)));
-
-        if ($request->get('import_by_type', false) == 'overwrite_by_id') {
-            $this->manager->setImportOvewriteById(true);
-        }
-
-        if ($request->get('import_by_type', false) == 'delete_all') {
-            $this->manager->setImportOvewriteById(true);
-            $this->manager->setToDeleteOldContent(true);
-        }
-
-        if ($request->get('installation_language', false)) {
-            $this->manager->setImportLanguage($request->get('installation_language'));
-        }
+        $restore = new Restore();
+        $restore->setSessionId($request->get('session_id'));
 
         if (!$fileId) {
             return array('error' => 'You have not provided a file to import.');
@@ -81,19 +70,15 @@ class BackupController
 
         $fileId = str_replace('..', '', $fileId);
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
         $filePath = $backupLocation . $fileId;
 
         if (!is_file($filePath)) {
             return array('error' => 'You have not provided a existing backup to import.');
         } else {
 
-            if (isset($query['debug'])) {
-                $this->manager->setLogger(new BackupV2Logger());
-            }
-
-            $this->manager->setImportFile($filePath);
-            $importLog = $this->manager->startImport();
+            $restore->setFile($filePath);
+            $importLog = $restore->start();
 
             return json_encode($importLog, JSON_PRETTY_PRINT);
         }
@@ -114,11 +99,21 @@ class BackupController
             );
         }
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
 
         // Generate filename and set error variables
         $filename = $backupLocation . $fileId;
         $filename = str_replace('..', '', $filename);
+
+        $allowedExt = ['json','zip'];
+        $fileExt = get_file_extension($filename);
+
+        if (!in_array($fileExt,$allowedExt)) {
+            return array(
+                'error' => 'Invalid file'
+            );
+        }
+
         if (! is_file($filename)) {
             return array(
                 'error' => 'You have not provided a existing filename to download.'
@@ -145,7 +140,6 @@ class BackupController
 
     public function upload(Request $request)
     {
-
         $src = $request->post('src', false);
 
         if (!$src) {
@@ -154,9 +148,18 @@ class BackupController
             );
         }
 
-        $checkFile = url2dir(trim($src));
+        $src = str_replace('..',false,$src);
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $checkFile = url2dir(trim($src));
+        $checkFile = normalize_path($checkFile, false);
+        $backupLocation = backup_location();
+
+        $checkStartsWith = Str::startsWith($checkFile, userfiles_path());
+        if (!$checkStartsWith) {
+            return array(
+                'error' => 'Invalid path.'
+            );
+        }
 
         if (is_file($checkFile)) {
             $file = basename($checkFile);
@@ -179,85 +182,40 @@ class BackupController
         }
     }
 
-    public function export(Request $request)
+    public function start(Request $request)
     {
-        $tables = array();
-        $categoriesIds = array();
-        $contentIds = array();
+        $backup = new GenerateBackup();
+        $backup->setSessionId($request->get('session_id'));
 
-        $manager = new BackupManager();
+        if ($request->get('type') == 'custom') {
 
-        $items = $request->get('items', false);
-        if ($items) {
-            foreach (explode(',', $items) as $item) {
-                if (!empty($item)) {
-                    $tables[] = trim($item);
-                }
+            $includeMedia = false;
+            if ($request->get('include_media', false) == 1) {
+                $includeMedia = true;
             }
+
+            $backup->setAllowSkipTables(false);
+            $backup->setExportTables($request->get('include_tables', []));
+            $backup->setExportMedia($includeMedia);
+            $backup->setExportModules($request->get('include_modules', []));
+            $backup->setExportTemplates($request->get('include_templates', []));
+        } else {
+            $backup->setType('json');
+            $backup->setAllowSkipTables(true); // skip sensitive tables
+            $backup->setExportAllData(true);
+            $backup->setExportMedia(true);
+            $backup->setExportWithZip(true);
         }
 
-        if ($items == 'template') {
-            $manager->setExportMedia(true);
-            $manager->setExportOnlyTemplate(template_name());
-        }
+        return $backup->start();
+    }
 
-        if ($items == 'template_default_content') {
-            $manager->setExportMedia(true);
-            $manager->setExportAllData(true);
-            $manager->addSkipTable('login_attempts');
-            $manager->addSkipTable('multilanguage_translations');
-            $manager->addSkipTable('multilanguage_supported_locales');
-            $manager->addSkipTable('translation_keys');
-            $manager->addSkipTable('translation_texts');
-        }
+    public function generateSessionId()
+    {
+        rmdir_recursive(backup_cache_location());
+        clearcache();
 
-        $manager->setExportData('tables', $tables);
-
-        $format = $request->get('format',false);
-        if ($format) {
-            $manager->setExportType($format);
-        }
-
-        if ($request->get('all',false)) {
-            if ($request->get('include_media') == 'true') {
-                $manager->setExportMedia(true);
-            }
-            $manager->setExportAllData(true);
-        }
-
-        if ($request->get('debug', false)) {
-            $manager->setLogger(new BackupV2Logger());
-        }
-
-        if ($request->get('content_ids', false)) {
-            $manager->setExportData('contentIds', $request->get('content_ids'));
-        }
-
-        if ($request->get('categories_ids', false)) {
-            $manager->setExportData('categoryIds', $request->get('categories_ids'));
-        }
-
-        $includeModules = array();
-        if ($request->get('include_modules', false)) {
-            $includeModules = explode(',' , $request->get('include_modules'));
-        }
-        if (!empty($includeModules) && is_array($includeModules)) {
-            $manager->setExportModules($includeModules);
-        }
-
-        $includeTemplates = array();
-        if ($request->get('include_templates', false)) {
-            $includeTemplates = explode(',' , $request->get('include_templates'));
-        }
-        if (!empty($includeTemplates) && is_array($includeTemplates)) {
-            $manager->setExportTemplates($includeTemplates);
-        }
-
-        if (is_ajax()) {
-            header('Content-Type: application/json');
-        }
-
-        return $manager->startExport();
+        return ['session_id'=>SessionStepper::generateSessionId(20)];
     }
 
     public function delete(Request $request)
@@ -271,7 +229,7 @@ class BackupController
             );
         }
 
-        $backupLocation = $this->manager->getBackupLocation();
+        $backupLocation = backup_location();
         $filename = $backupLocation . $fileId;
 
         $fileId = str_replace('..', '', $fileId);

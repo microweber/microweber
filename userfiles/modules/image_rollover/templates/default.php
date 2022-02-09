@@ -20,7 +20,7 @@ $style = ($size == '' ? '' : ' style="' . $size . '"');
     <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>/styles.css"); </script>
 
 <?php if (is_live_edit() and $default_image == '' and $text == ''): ?>
-    <?php print lnotif(_lang('Click to add image', "modules/image_rollover/templates")); ?>
+    <?php print lnotif(_lang('Click to add image', "modules/image_rollover/templates",true)); ?>
 <?php else: ?>
     <div class="mw-rollover"<?php print $style; ?>>
         <div class="mw-rollover_images">

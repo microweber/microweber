@@ -37,6 +37,7 @@ class AbppInstallTest extends DuskTestCase
                 $browser->validate();
             });
 
+
             // Fill the install fields
             $browser->type('admin_username', '1');
             $browser->type('admin_password', '1');

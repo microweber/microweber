@@ -21,6 +21,16 @@ if (!function_exists('is_https')) {
 
 }
 
+if (!function_exists('site_hostname')) {
+    function site_hostname()
+    {
+        $siteUrl = site_url();
+        $parseUrl = parse_url($siteUrl);
+
+        return $parseUrl['host'];
+    }
+}
+
 if (!function_exists('site_url')) {
     function site_url($add_string = false)
     {

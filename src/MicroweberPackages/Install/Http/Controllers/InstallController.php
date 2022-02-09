@@ -439,6 +439,7 @@ class InstallController extends Controller
             $domain = str_replace('www.', '', $domain);
             $domain = str_replace('.', '_', $domain);
             $domain = str_replace('-', '_', $domain);
+            $domain = str_replace(':', '_', $domain);
             $domain = substr($domain, 0, 10);
         }
 
@@ -511,6 +512,10 @@ class InstallController extends Controller
                 @file_put_contents($log_file, $text . "\n", FILE_APPEND);
             }
         }
+    }
+
+    public function setLogInfo($text) {
+        return $this->log($text);
     }
 
     private function _get_templates_for_install_screen()

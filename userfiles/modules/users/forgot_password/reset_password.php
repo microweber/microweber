@@ -41,7 +41,7 @@
         <?php if (isset($_GET['reset_password_link']) == true): ?>
             <?php
                 $reset = mw()->database_manager->escape_string($_GET['reset_password_link']);
-                $data = User::where('password_reset_hash', $reset)->first();
+                $data = User::where('password_reset_hash', $reset)->whereNotNull('password_reset_hash')->first();
                 if ($data):
                 ?>
                 <form id="user_reset_password_form<?php print $params['id']; ?>" method="post" class="clearfix">
@@ -49,12 +49,7 @@
 
                         <input type="hidden" name="password_reset_hash" value="<?php print $reset; ?>"/>
                         <input type="hidden" name="id" value="<?php print $data['id']; ?>"/>
-                        <!--<div class="control-group form-group">
-      <label class="control-label">Choose Username</label>
-      <div class="controls">
-        <input type="text" placeholder="Choose your username" name="username" value="<?php print $data['username']; ?>">
-      </div>
-    </div>-->
+
                         <div class="control-group form-group mw-ui-field-holder">
                             <!-- <label class="control-label">Enter new password</label>-->
                             <div class="controls">

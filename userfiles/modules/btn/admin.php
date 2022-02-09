@@ -141,12 +141,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </style>
 
         <script>
+            mw.require('icon_selector.js')
             mw.require('wysiwyg.css');
+            mw.require('editor.js');
         </script>
 
         <script>
 
-            launchEditor = function () {
+
+
+            var launchEditor = function () {
                 if (!window.editorLaunched) {
                     editorLaunched = true;
                     PopUpEditor = mw.Editor({
@@ -237,7 +241,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
-                                <span class="mdi mdi-pencil"></span>
+
+                                <button type="button" onclick="pickUrl()" id="display-url-edit-btn" class="btn btn-secondary btn-sm btn-rounded  "><i class="mdi mdi-link"></i> <?php _e("Edit link"); ?></button>
+
+
                                 <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
 
                                 <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>

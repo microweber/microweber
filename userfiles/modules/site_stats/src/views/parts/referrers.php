@@ -17,7 +17,7 @@ if (!is_array($data) or empty($data)) {
             $referrerIcon = '<img class="icon" src="https://favicon.microweberapi.com/' . $referrer . '" alt="">';
         } else {
             $referrer = _e('Direct', true);
-            $referrerIcon = '<i class="fas fa-globe"></i>';
+            $referrerIcon = '<i class="fa fa-globe"></i>';
         }
         ?>
         <li class="source">

@@ -26,16 +26,19 @@ class CategoryTest extends TestCase
 {
     public function testRender()
     {
-        $clean = Content::truncate();
-        $clean = Category::truncate();
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
 
         $categoryLink = category_link(0);
         $this->assertFalse($categoryLink);
 
+        $pageTitle = 'my-new-page-'.uniqid();
         $page = new Page();
-        $page->title = 'my-new-page-'.uniqid();
+        $page->title = $pageTitle;
         $page->content_type = 'page';
-        $page->url = 'my-new-page';
+        $page->url = $pageTitle;
         $page->subtype = 'dynamic';
         $page->save();
 
@@ -49,10 +52,11 @@ class CategoryTest extends TestCase
         $categoryTitle = category_title($mainCategory->id);
         $this->assertEquals($mainCategory->title, $categoryTitle);
 
+        $postTitle = 'my-new-post-'.uniqid();
         $post = new Post();
-        $post->title = 'my-new-post-'.uniqid();
+        $post->title = $postTitle;
         $post->content_type = 'post';
-        $post->url = 'my-new-post';
+        $post->url = $postTitle;
         $post->category_ids = $mainCategory->id;
         $post->save();
 

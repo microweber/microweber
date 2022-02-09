@@ -1,85 +1,45 @@
 <?php must_have_access(); ?>
-<script>
-    mw.require("<?php print $config['url_to_module']; ?>backup.js");
+<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css?v=' .time(); ?>" type="text/css"/>
+
+<script type="text/javascript">
+    var importContentFromFileText = '<?php _e("Restore from file"); ?>';
+    var userfilesUrl = '<?php echo userfiles_url() ?>';
+    var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup/images/' ?>';
+    mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/restore.js");
+    mw.lib.require('mw_icons_mind');
 
 </script>
-<style>
+<?php $here = $config['url_to_module']; ?>
 
-    .back-up-nav-btns .mw-ui-btn {
-        width: 170px;
-        text-align: left;
-    }
-</style>
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
+<?php
+include_once 'backup_modal.php';
+?>
 
 
-<div id="mw-admin-content" class="admin-side-content">
-    <div class="mw_edit_page_default" id="mw_edit_page_left">
-
-
-        <div class="mw-ui-btn-nav pull-left">
-
-            <a href="javascript:;" onclick="mw.admin_backup.create('.mw_edit_page_right'); " class="mw-ui-btn mw-ui-btn-warn">
-                <i class="mw-icon-file"></i>&nbsp; <span><?php _e("Database Backup"); ?></span>
-            </a>
-            <a href="javascript:;" onclick="mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-notification">
-                <i class="mw-icon-refresh"></i>&nbsp; <span><?php _e("Create Full Backup"); ?></span>
-            </a>
-
-            <script type="text/javascript">
-                var uploader = mw.files.uploader({
-                    filetypes: "zip,sql,json",
-                    multiple: false,
-                    element: mw.$("#mw_uploader")
-                });
-
-                _mw_log_reload_int = false;
-                $(document).ready(function () {
-
-
-                    $(uploader).on("FileUploaded", function (obj, data) {
-                        mw.admin_backup.move_uploaded_file_to_backup(data.src);
-                        //mw.tools.enable(document.getElementById('mw_uploader'));
-                        mw.$("#mw_uploader_loading").hide();
-                        mw.$("#mw_uploader").show();
-                        mw.$("#upload_backup_info").html("");
-                    });
-
-                    $(uploader).on('progress', function (up, file) {
-                        mw.$("#mw_uploader").hide();
-                        mw.$("#mw_uploader_loading").show();
-                        mw.tools.disable(document.getElementById('mw_uploader_loading'), '<?php _e("Uploading"); ?>...<span id="upload_backup_info"></span>');
-                        mw.$("#upload_backup_info").html(file.percent + "%");
-                    });
-                    $(uploader).on('error', function (up, file) {
-                        mw.notification.error("<?php _ejs("The backup must be sql or zip"); ?>.");
-
-                    });
-                });
-
-            </script>
-        </div>
-        <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info pull-right">
-            <i class="mw-icon-upload"></i>&nbsp;
-            <span><?php _e("Upload backup"); ?><span id="upload_backup_info"></span></span>
-        </span>
-
-        <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">
-            <?php _e("Uploading files"); ?>
-        </div>
-
-        <div class="vSpace">&nbsp;</div>
-        <div id="mw_backup_log" type="admin/backup/log"></div>
-    </div>
-
-    <div class="mw_edit_page_right" style="padding: 20px 0;">
-        <?php if (isset($_GET['backup_action'])): ?>
-            <?php $action = htmlentities(mw()->format->strip_unsafe($_GET['backup_action'])); ?>
-            <module type="admin/backup/<?php print $action ?>"/>
-        <?php else : ?>
-            <module type="admin/backup/manage"/>
+<div class="row mt-3">
+    <div class="col-6 mb-4">
+        <?php if (user_can_access('module.admin.backup.index')): ?>
+            <h5 class="font-weight-bold"><?php _e('Create new backup'); ?></h5>
+            <small class="text-muted d-block mb-3"><?php _e('Create a backup and export your website content'); ?></small>
+            <a href="javascript:;" onclick="mw.backup.choice('#backup-modal')" class="btn btn-success btn-rounded"><i class="mdi mdi-plus"></i> <?php _e("Create backup"); ?></a>
         <?php endif; ?>
     </div>
+
+    <?php if (user_can_access('module.admin.backup.create') || user_can_access('module.admin.backup.edit')): ?>
+        <div class="col-6 mb-4">
+            <h5 class="font-weight-bold"><?php _e('Upload your backup'); ?></h5>
+            <small class="text-muted d-block mb-3"><?php _e("Upload your backup file (must be zip)"); ?></small>
+            <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
+
+            <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<div class="mw_edit_page_right">
+    <module type="admin/backup/manage"/>
 </div>

@@ -23,6 +23,7 @@ class AdminAddPostTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+
             $postTitle = 'This is the post title'.time();
             $postDescription = 'This is the post description'.time();
 

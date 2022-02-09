@@ -45,13 +45,24 @@ class ChekForJavascriptErrors extends BaseComponent
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
-
+        $errorStrings = ['Uncaught SyntaxError'];
         $findedErrors = [];
         if (!empty($consoleLog)) {
-            foreach($consoleLog as $log) {
+            foreach ($consoleLog as $log) {
                 if ($log['level'] == 'SEVERE') {
                     $findedErrors[] = $log;
                 }
+             //   dump($log);
+                if ($log['level'] == 'INFO') {
+                    foreach ($errorStrings as $errorString){
+                        if (strpos($log['message'], $errorString) !== false) {
+                            $findedErrors[] = $log;
+                        }
+                    }
+
+                }
+
+
             }
         }
 
@@ -61,5 +72,15 @@ class ChekForJavascriptErrors extends BaseComponent
         }
 
         PHPUnit::assertEmpty($findedErrors);
+
+        // Check for parser errors
+        $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
+        $html = $browser->script("return $('body').html()");
+
+        foreach ($html as $htmlString) {
+            foreach ($errorStrings as $errorString) {
+                PHPUnit::assertFalse(str_contains($htmlString, $errorString));
+            }
+        }
     }
 }

@@ -224,6 +224,10 @@ mw.DomTree = function (options) {
         li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
         var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
         li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
+        if ( typeof scope.settings.canSelect === 'function' ) {
+            var can = scope.settings.canSelect(item, li);
+            li.classList.add('selectable-' + can)
+        }
         return li;
     };
 

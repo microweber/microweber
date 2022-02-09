@@ -791,10 +791,17 @@ class UserManager
             $old_user_data = $this->get_by_id($data_to_save['id']);
             if (isset($old_user_data['email']) and $old_user_data['email'] != false) {
                 if ($data_to_save['email'] != $old_user_data['email']) {
-                    if (isset($old_user_data['password_reset_hash']) and $old_user_data['password_reset_hash'] != false) {
-                        $hash_cache_id = md5(serialize($old_user_data)) . uniqid() . rand();
-                        $data_to_save['password_reset_hash'] = $hash_cache_id;
+
+                    $old_user_data_reset = User::where('id', $data_to_save['id'])->first();
+                    if($old_user_data_reset){
+                        $old_user_data_reset->password_reset_hash = null;
+                        $old_user_data_reset->save();
                     }
+
+//                    if (isset($old_user_data['password_reset_hash']) and $old_user_data['password_reset_hash'] != false) {
+//                        $hash_cache_id = md5(serialize($old_user_data)) . uniqid() . rand();
+//                        $data_to_save['password_reset_hash'] = $hash_cache_id;
+//                    }
                 }
             }
         }
@@ -1251,14 +1258,13 @@ class UserManager
             return false;
         }
 
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data['single'] = 1;
+        $findUser = User::where('id', $id)->first();
+        if ($findUser == null) {
+            return false;
+        }
 
-        $data = $this->get_all($data);
 
-        return $data;
+        return $findUser->toArray();
     }
 
     public function update_last_login_time()

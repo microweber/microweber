@@ -322,6 +322,14 @@ class UserManagerTest extends TestCase
 
         $fakeNotify->assertSentTo([$user], NewRegistration::class);
         $fakeNotify->assertSentTo([$user], VerifyEmail::class);
+
+
+        //check get user by id
+        $user_array = get_user_by_id($user->id);
+        $this->assertEquals($user_array['id'], $user->id);
+        $this->assertEquals(!isset($user_array['password_reset_hash']), true);
+
+
     }
 
     public function testUserRegistrationWithXSS()
@@ -478,7 +486,7 @@ class UserManagerTest extends TestCase
         foreach ($emails as $email) {
 
             $body = $email->getBody();
-       
+
             if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (strpos($body, '?email=') !== false) {
                     $findResetPasswordLink = true;

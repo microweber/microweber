@@ -143,7 +143,7 @@ $data = $products;
                                         <input type="text" name="price" class="form-control" placeholder="<?php _e("Example: 10"); ?>" required>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary icon-left pull-right m-2"  onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="fas fa-plus-circle"></i> <?php _e('Add Item'); ?></button>
+                                <button type="button" class="btn btn-primary icon-left pull-right m-2"  onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="fa fa-plus-circle"></i> <?php _e('Add Item'); ?></button>
                             </div>
                         </div>
                     </div>*/

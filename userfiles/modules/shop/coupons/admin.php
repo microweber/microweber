@@ -93,7 +93,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="form-group">
-                            <a href="javascript:;" class="btn btn-primary btn-sm btn-rounded js-add-new-coupon"><i class="fas fa-plus-circle"></i> <?php _e('Add new'); ?></a>
+                            <a href="javascript:;" class="btn btn-primary btn-sm btn-rounded js-add-new-coupon"><i class="fa fa-plus-circle"></i> <?php _e('Add new'); ?></a>
                         </div>
                     </div>
 

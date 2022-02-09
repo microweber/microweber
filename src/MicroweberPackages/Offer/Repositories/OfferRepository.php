@@ -117,14 +117,22 @@ class OfferRepository extends AbstractRepository
         }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($productId, $priceId) {
-            $query = Offer::where('price_id', $priceId);
 
+            $showOfferPrice = false;
+            $contentData = content_data($productId);
+            if (isset($contentData['has_special_price']) && $contentData['has_special_price'] == 1) {
+                $showOfferPrice = true;
+            }
+
+            if (!$showOfferPrice) {
+                return [];
+            }
+
+            $query = Offer::where('price_id', $priceId);
             if ($productId) {
                 $query->where('product_id', '=', $productId);
             }
-
             $res = $query->first();
-
             if (!empty($res)) {
                 return $res->toArray();
             } else {

@@ -15,7 +15,6 @@ class CheckoutV2
      */
     public function handle($request, Closure $next)
     {
-
         $checkCart = cart_get_items_count();
 
         if (!$checkCart) {

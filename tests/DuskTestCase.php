@@ -5,10 +5,13 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
+    public $siteUrl = 'http://127.0.0.1:8000/';
+
     use CreatesApplication;
 
     /**
@@ -68,6 +71,9 @@ abstract class DuskTestCase extends BaseTestCase
     protected function assertPreConditions(): void
     {
         if (mw_is_installed()) {
+
+            save_option('dusk_test', 1, 'dusk');
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
             \DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
@@ -75,4 +81,5 @@ abstract class DuskTestCase extends BaseTestCase
         }
 
     }
+
 }

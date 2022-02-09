@@ -46,7 +46,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
 <div class="  mw-modules-tabs">
     <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
         <a href="javascript:openMenuManagerModal('<?php print $params['id'] ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-            <span class="fas fa-list"></span> &nbsp;<?php _e('Manage menu'); ?>
+            <span class="fa fa-list"></span> &nbsp;<?php _e('Manage menu'); ?>
         </a>
     </div>
 

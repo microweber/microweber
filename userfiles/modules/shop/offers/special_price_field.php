@@ -14,7 +14,6 @@ if (!isset($offer['price']['offer_price'])) {
 }
 ?>
 <script>
-
     $(document).ready(function () {
         var specialPriceElement = $('.js-product-special-price');
         var specialPriceSet = "<?php echo !empty($offer['price']['offer_price']) ? 1 : 0?>";
@@ -42,10 +41,6 @@ if (!isset($offer['price']['offer_price'])) {
     }
 
     function toggleOfferPrice() {
-        // var specialOfferCheckEl = $('#customCheck322');
-        // if(!specialOfferCheckEl.is(':checked')) {
-        //     $('.js-product-special-price').val(null);
-        // }
         $('.js-offer-price-form-group').toggle();
     }
 </script>
@@ -54,7 +49,7 @@ if (!isset($offer['price']['offer_price'])) {
 
 <div class="form-group">
     <div class="custom-control custom-checkbox">
-        <input autocomplete="off" type="checkbox" name="content_data[has_special_price]" class="custom-control-input js-toggle-offer-price-button"  id="customCheck322" onchange="toggleOfferPrice()" value="1"  />
+        <input autocomplete="off" type="checkbox" name="content_data[has_special_price]" class="custom-control-input js-toggle-offer-price-button"  id="customCheck322" data-value-checked="1" data-value-unchecked="0" onchange="toggleOfferPrice()" value="1"  />
         <label class="custom-control-label" for="customCheck322"><?php _e('Make offer price for product'); ?></label>
     </div>
 </div>

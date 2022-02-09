@@ -41,9 +41,11 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
 
+
             $browser->type('email', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
             $browser->pause('4000');
+
 
             $browser->waitForText('We have emailed your password reset link');
             $browser->assertSee('We have emailed your password reset link');

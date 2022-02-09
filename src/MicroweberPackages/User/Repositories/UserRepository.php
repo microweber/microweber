@@ -7,6 +7,7 @@ use MicroweberPackages\User\Events\UserIsCreating;
 use MicroweberPackages\User\Events\UserIsUpdating;
 use MicroweberPackages\User\Events\UserWasCreated;
 use MicroweberPackages\User\Events\UserWasDeleted;
+use MicroweberPackages\User\Events\UserWasDestroyed;
 use MicroweberPackages\User\Events\UserWasUpdated;
 use MicroweberPackages\User\Models\User;
 
@@ -55,7 +56,7 @@ class UserRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new UserWasDestroy($ids));
+        event(new UserWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }

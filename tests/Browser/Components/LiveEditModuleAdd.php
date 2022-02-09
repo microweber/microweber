@@ -9,6 +9,7 @@ use PHPUnit\Framework\Assert as PHPUnit;
 
 class LiveEditModuleAdd extends BaseComponent
 {
+    public static $increment = 0;
     /**
      * Get the root selector for the component.
      *
@@ -49,18 +50,18 @@ class LiveEditModuleAdd extends BaseComponent
             $browser->pause(500);
         }
 
-        $randClassSeachInput = 'js-rand-live-edit-test-search-' . time() . rand(1111, 9999);
+       // $randClassSeachInput = 'js-rand-live-edit-test-search-' . time() . rand(1111, 9999).self::$increment++;
 
         $browser->script("$('#mw-sidebar-search-input-for-modules').val('')");
         $browser->pause(1500);
-        $browser->script("$('#mw-sidebar-search-input-for-modules').addClass('$randClassSeachInput')");
-        $browser->pause(1000);
-        $browser->keys('.' . $randClassSeachInput, $name);
+      //  $browser->pause(1000);
+       // $browser->keys('.' . $randClassSeachInput, $name);
+        $browser->keys('#mw-sidebar-search-input-for-modules', $name);
 
 
         $browser->pause(3000);
 
-        $randClassSearchedModule = 'js-rand-live-edit-test-' . time() . rand(1111, 9999);
+        $randClassSearchedModule = 'js-rand-live-edit-test-' .str_slug($name). time() . rand(1111, 9999).self::$increment++;
         $browser->script("$('#mw-sidebar-modules-list').find('li.module-item:visible').addClass('$randClassSearchedModule')");
 
 

@@ -20,12 +20,12 @@ $defaults = array(
     'skin' => 'bxslider-skin-1'
 );
 $data = array();
-$settings = get_module_option('settings', $params['id']);
-$json = json_decode($settings, true);
 
+$json = json_decode($settings, true);
 if (isset($json) == false or count($json) == 0) {
     $json = array(0 => $defaults);
 }
+
 
 $mrand = 'mw-slider-' . uniqid();
 
@@ -106,14 +106,14 @@ if (is_file($template_file)) {
                 controls: <?php print $controls ? $controls : 'undefined'; ?>,
                 infiniteLoop: <?php print $loop ? $loop : 'undefined'; ?>,
                 adaptiveHeight: <?php print $adaptiveHeight ? $adaptiveHeight : 'undefined'; ?>,
-                auto: '<?php print $autoplay ? $autoplay : 'undefined'; ?>',
+                auto: <?php print $autoplay ? $autoplay : 'false'; ?>,
                 autoHover: '<?php print $pauseOnHover ? $pauseOnHover : 'undefined'; ?>',
                 pause: '<?php print $autoplaySpeed ? $autoplaySpeed : '3000'; ?>',
                 hideControlOnEnd:  <?php print $hideControlOnEnd ? $hideControlOnEnd : 'undefined'; ?>,
                 mode: '<?php print $mode ? $mode : 'undefined'; ?>',
-                prevText: '<?php print $prevText ? $prevText : 'undefined'; ?>',
-                nextText: '<?php print $nextText ? $nextText : 'undefined'; ?>',
-                touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'undefined'; ?>,
+                prevText: '<?php print $prevText ? $prevText : ''; ?>',
+                nextText: '<?php print $nextText ? $nextText : ''; ?>',
+                touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'true'; ?>,
                 captions: true,
                 onSliderLoad: function () {
                     mw.trigger("mw.bxslider.onSliderLoad");

@@ -1,7 +1,5 @@
 <?php
 
-use MicroweberPackages\Backup\Exporters\JsonExport;
-
 api_expose('user_social_login');
 
 api_expose('logout');
@@ -63,7 +61,7 @@ api_expose_admin('users/forgot_password_email_send_test', function () {
 
 });
 
-api_expose('users/search_authors', function ($params = false) {
+api_expose_admin('users/search_authors', function ($params = false) {
 
     $return = array();
 

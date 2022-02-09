@@ -10,14 +10,15 @@ jobs:
       matrix:
         php-versions: ['7.4']
         templates: [
-            'microweber/template-guesthouse',
+            'microweber-templates/template-guesthouse',
             'microweber-templates/new-world',
             'microweber-templates/shopmag',
             'microweber-templates/template-theplace',
-            'microweber/template-active-bs4',
-            'microweber/template-bamboo',
-            'microweber/template-digital',
-            'microweber/template-beauty'
+            'microweber-templates/template-beauty',
+            'microweber-templates/template-wedding',
+            'microweber-templates/template-bamboo',
+            'microweber-templates/template-networking-space',
+            'microweber-templates/template-digital'
         ]
     steps:
     - name: Checkout

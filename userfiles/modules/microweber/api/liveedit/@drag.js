@@ -43,7 +43,7 @@ mw.drag = {
                     for (; i < $numcols; i++) {
                         var new_col = document.createElement('div');
                         new_col.className = 'mw-col';
-                        new_col.innerHTML = '<div class="mw-col-container"><div class="mw-empty element" id="element_'+mw.random()+'"></div></div>';
+                        new_col.innerHTML = '<div class="mw-col-container"><div class="mw-empty-element element" id="element_'+mw.random()+'"></div></div>';
                         mw.$('#' + $el_id).append(new_col);
                         mw.drag.fix_placeholders(true, '#' + $el_id);
                     }

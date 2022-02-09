@@ -34,6 +34,19 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
         });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/backup.php', 'backup'
+        );
     }
 
     /**

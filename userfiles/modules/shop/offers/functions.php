@@ -358,6 +358,7 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
     }
 
 });
+
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
 	if (isset($data['id']) and isset($data['rel_id']) and isset($data['rel_type']) and $data['rel_type'] == 'content') {
 		echo '<module type="shop/offers/price_settings" price-id="' . $data['id'] . '"  product-id="' . $data['rel_id'] . '" />';

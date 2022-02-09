@@ -9,8 +9,17 @@ use MicroweberPackages\User\Models\User;
 
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    public static $saved_id;
-    public static $saved_content;
+    private function _refreshServerConstantsByPageId($pageId) {
+
+        $pageLink = content_link($pageId);
+        $pageLink = '/' . str_replace(site_url(),'', $pageLink);
+
+        $_SERVER['PHP_SELF'] = '/index.php';
+        $_SERVER['REQUEST_URI'] = $pageLink;
+        $_SERVER['REDIRECT_URL'] = $pageLink;
+        $_SERVER['HTTP_REFERER'] = content_link($pageId);
+    }
+
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
@@ -27,29 +36,34 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         add_supported_language('ar_SA', 'Arabic');
         add_supported_language('ru_RU', 'Russian');
 
-        $currentLang = app()->lang_helper->current_lang();
-        $defaultLang = app()->lang_helper->default_lang();
+        save_option('language','en_US', 'website');
+
         $activeLanguages = get_supported_languages(true);
+        $this->assertNotEmpty($activeLanguages);
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
+
+        $unique = uniqid();
 
         $newCleanMlPage = save_content([
            'subtype' => 'static',
            'content_type' => 'page',
            'layout_file' => 'clean.php',
-           'title' => 'LiveEditMultilanguagePage',
-           'url' => 'liveeditmultilanguagepage',
+           'title' => 'LiveEditMultilanguagePage'.$unique,
+           'url' => 'liveeditmultilanguagepage'.$unique,
            'preview_layout_file' => 'clean.php',
-           'active_site_template'=> 'default',
+           'active_site_template'=> 'new-world',
            'is_active' => 1,
         ]);
 
         $findPage = Page::whereId($newCleanMlPage)->first();
         $this->assertEquals($findPage->id, $newCleanMlPage);
 
+        $this->_refreshServerConstantsByPageId($findPage->id);
+
         // Save on default lang
-        $contentFieldHtml = 'Example content saved from live edit api'. uniqid('_unit');
+        $contentFieldHtmlDefaultLanguage = 'Example default lang content saved from live edit api'. uniqid('_unit');
         $fieldsData = [
             'field_data_0'=>[
                 'attributes'=>[
@@ -58,12 +72,11 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
                     'rel_id'=>$findPage->id,
                     'field'=>'content',
                 ],
-                'html'=>$contentFieldHtml
+                'html'=>$contentFieldHtmlDefaultLanguage
             ]
         ];
 
         $encoded = base64_encode(json_encode($fieldsData));
-        $_SERVER['HTTP_REFERER'] = content_link($findPage->id);
 
         $response = $this->call(
             'POST',
@@ -78,37 +91,9 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         );
         $fieldSaved = $response->decodeResponseJson();
 
+        $this->assertEquals($fieldSaved[0]['content'], $contentFieldHtmlDefaultLanguage);
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
-
-        self::$saved_id=$findPage->id;
-        self::$saved_content=$contentFieldHtml;
-
-
-
-        $params = [];
-        $params['content_id'] = self::$saved_id;
-
-        $frontRender = new FrontendController();
-        $html = $frontRender->frontend($params);
-        $contentFieldHtml = self::$saved_content;
-
-        $this->assertTrue(str_contains($html, $contentFieldHtml));
-
-        // Now we switch on another language
-        $switchedLangAbr = 'bg_BG';
-        $response = $this->call(
-            'POST',
-            route('api.multilanguage.change_language'),
-            [
-                'locale' => $switchedLangAbr,
-            ]
-        );
-        $switchedLang = app()->lang_helper->current_lang();
-        $this->assertEquals($switchedLangAbr, $switchedLang);
-
-        $response = $response->decodeResponseJson();
-        $this->assertEquals($response['refresh'], true);
 
     }
 }

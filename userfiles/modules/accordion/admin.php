@@ -117,6 +117,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <button type="button" class="btn btn-primary btn-rounded ml-auto" onclick="accordionSettings.addNew()"><i class="mdi mdi-plus"></i> <?php  _e('Add new'); ?></button>
                     </div>
 
+
+                    <label class="control-label align-self-center"> <?php  _e('Description'); ?></label>
+                    <small class="text-muted d-inline-block mb-2"><?php  _e('Use the live edit to add a content. This allows you also to drag and drop image, video or something else.'); ?></small>
+                    <br>
+                    <br>
                     <div id="accordion-settings"></div>
                 </div>
             </div>
@@ -124,6 +129,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade" id="templates">
                 <module type="admin/modules/templates"/>
             </div>
+
         </div>
     </div>
 </div>

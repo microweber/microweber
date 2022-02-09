@@ -6,7 +6,7 @@ namespace MicroweberPackages\App\Utils;
 use MicroweberPackages\View\View;
 
 
-Trait ParserLoadModuleTrait
+trait ParserLoadModuleTrait
 {
 
 
@@ -20,8 +20,6 @@ Trait ParserLoadModuleTrait
     public $_existing_module_ids = array();
 
 
-
-
     public function load($module_name, $attrs = array())
     {
 
@@ -32,13 +30,12 @@ Trait ParserLoadModuleTrait
         //   $mod_id_value = $attrs['id'];
 
 
-
-        if(isset($attrs['id'])){
+        if (isset($attrs['id'])) {
             $mod_id_value = 'load_module_' . ($module_name . $attrs['id']);
             // $this->registry->registerParsedModule($module_name,$attrs['id']);
 
         } else {
-            $mod_id_value = 'load'.crc32($module_name . json_encode($attrs['id']));
+            $mod_id_value = 'load' . crc32($module_name . json_encode($attrs['id']));
 
         }
 
@@ -69,6 +66,7 @@ Trait ParserLoadModuleTrait
 
 
     }
+
     private function load_module_callback($module_name, $attrs = array())
     {
         $is_element = false;
@@ -144,18 +142,18 @@ Trait ParserLoadModuleTrait
             $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
             $attrs1 = str_replace('%20', '-', $attrs1);
             $attrs1 = str_replace(' ', '-', $attrs1);
-            $attrs['id'] = ( $this->module_css_class($module_name) . '-' . $attrs1);
+            $attrs['id'] = ($this->module_css_class($module_name) . '-' . $attrs1);
         }
         if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
-            $attrs['id'] = str_replace('__MODULE_CLASS_NAME__',  $this->module_css_class($module_name), $attrs['id']);
+            $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $this->module_css_class($module_name), $attrs['id']);
             //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
         }
 
 
-        if(isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]){
-            return   \App::call($this->module_registry[$module_name], ["params"=>$attrs]);
-        } else  if(isset($this->module_registry[$module_name.'/index']) and $this->module_registry[$module_name.'/index']){
-            return   \App::call($this->module_registry[$module_name.'/index'], ["params"=>$attrs]);
+        if (isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]) {
+            return \App::call($this->module_registry[$module_name], ["params" => $attrs]);
+        } else if (isset($this->module_registry[$module_name . '/index']) and $this->module_registry[$module_name . '/index']) {
+            return \App::call($this->module_registry[$module_name . '/index'], ["params" => $attrs]);
         }
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
@@ -281,12 +279,12 @@ Trait ParserLoadModuleTrait
 //            }
 
 
-          //  $installed_module = app()->module_manager->get('single=1&ui=any&module=' . $module_name);
-            $installed_module =  app()->module_repository->getModule($module_name);
+            //  $installed_module = app()->module_manager->get('single=1&ui=any&module=' . $module_name);
+            $installed_module = app()->module_repository->getModule($module_name);
 
 
-            if($installed_module and isset($installed_module['settings'])){
-                $config['settings']  = $installed_module['settings'];
+            if ($installed_module and isset($installed_module['settings'])) {
+                $config['settings'] = $installed_module['settings'];
             }
 
 //            $is_installed = app()->module_manager->is_installed($module_name);
@@ -302,7 +300,6 @@ Trait ParserLoadModuleTrait
             $module_name_root = mw()->module_manager->locate_root_module($module_name);
             $modules_dir_default_root = modules_path() . $module_name_root;
             $modules_dir_default_root = normalize_path($modules_dir_default_root, true);
-
 
 
             if ($module_name_root and is_dir($modules_dir_default_root) and is_file($modules_dir_default_root . 'config.php')) {
@@ -402,7 +399,6 @@ Trait ParserLoadModuleTrait
             //   $this->registry->registerParsedModule($module_name,$attrs['id']);
 
 
-
             if ($config) {
                 $this->current_module = ($config);
             }
@@ -481,7 +477,7 @@ Trait ParserLoadModuleTrait
         $found_mods = array();
         $found_mods_non_cached = array();
         //  foreach ($pq ['.module'] as $elem) {
-        foreach ($pq->find('.module')as $elem) {
+        foreach ($pq->find('.module') as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
 
@@ -562,12 +558,12 @@ Trait ParserLoadModuleTrait
     private function _process_additional_module_parsers($layout, $module, $params)
     {
         $type = 'module';
-        if(isset($this->_additional_parsers[$type]) and $this->_additional_parsers[$type]){
+        if (isset($this->_additional_parsers[$type]) and $this->_additional_parsers[$type]) {
             $parsers_callbacks = $this->_additional_parsers[$type];
-            foreach($parsers_callbacks as $parser_callback){
+            foreach ($parsers_callbacks as $parser_callback) {
                 if (is_callable($parser_callback)) {
-                    $res = call_user_func($parser_callback, $layout,$module, $params);
-                    if($res){
+                    $res = call_user_func($parser_callback, $layout, $module, $params);
+                    if ($res) {
                         $layout = $res;
                     }
                 }
@@ -575,5 +571,7 @@ Trait ParserLoadModuleTrait
         }
         return $layout;
     }
+
+
 
 }

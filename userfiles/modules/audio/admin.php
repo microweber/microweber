@@ -54,7 +54,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="control-label d-block"><?php _lang("Upload Audio file", "modules/audio"); ?></label>
                         <input type="hidden" name="data-audio-upload" value="<?php print get_option('data-audio-upload', $params['id']) ?>" class="mw_option_field" id="upload_value"/>
-                        <span class="btn btn-primary btn-rounded relative" id="upload"><span class="fas fa-upload"></span> &nbsp; <?php _lang("Upload File", "modules/audio"); ?></span>
+                        <span class="btn btn-primary btn-rounded relative" id="upload"><span class="fa fa-upload"></span> &nbsp; <?php _lang("Upload File", "modules/audio"); ?></span>
                     </div>
 
                     <div class="form-group">

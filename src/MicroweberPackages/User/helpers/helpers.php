@@ -250,6 +250,7 @@ function is_live_edit()
         return false;
     }
 
+
     $editModeParam = app()->url_manager->param('editmode');
     if ($editModeParam == 'n') {
         return false;
@@ -266,7 +267,12 @@ function is_live_edit()
         return true;
     }
 
+    if(defined('IN_EDIT') and IN_EDIT){
+        return true;
+    }
+
     $editModeSession = app()->user_manager->session_get('editmode');
+
     if ($editModeSession == true and !defined('IN_EDIT')) {
         define('IN_EDIT', true);
         return true;

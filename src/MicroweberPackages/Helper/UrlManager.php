@@ -100,6 +100,15 @@ class UrlManager
         }
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
+
+        $parseUrl = parse_url($url);
+
+        if (isset($parseUrl['host'])) {
+            if ($parseUrl['host'] !== site_hostname()) {
+                $url = site_url();
+            }
+        }
+
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {
@@ -284,11 +293,14 @@ class UrlManager
             $u = $this->current_url_var;
         }
         if ($u == false) {
-            if (!isset($_SERVER['REQUEST_URI'])) {
-                $serverrequri = $_SERVER['PHP_SELF'];
-            } else {
+
+            $serverrequri = false;
+            if (isset($_SERVER['REQUEST_URI'])) {
                 $serverrequri = $_SERVER['REQUEST_URI'];
+            } elseif (isset($_SERVER['PHP_SELF'])) {
+                $serverrequri = $_SERVER['PHP_SELF'];
             }
+
             $s = '';
             if (is_https()) {
                 $s = 's';
@@ -312,11 +324,13 @@ class UrlManager
                 }
             } elseif (isset($_SERVER['HOSTNAME'])) {
                 $u = $protocol . '://' . $_SERVER['HOSTNAME'] . $port . $serverrequri;
+            } else {
+                if ($serverrequri) {
+                  $u = url()->current() . $serverrequri;
+                }
             }
 
-
         }
-
 
         if ($no_get == true) {
             $u = strtok($u, '?');
@@ -359,6 +373,7 @@ class UrlManager
         } else {
             $current_url = $page_url;
         }
+
         $site_url = $this->site_url();
       //  $site_url = rtrim($site_url, '\\');
        // $site_url = rtrim($site_url, '/');

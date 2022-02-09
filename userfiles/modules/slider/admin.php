@@ -3,6 +3,8 @@ $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 }
+
+
 ?>
 
 <?php if (isset($params['backend'])): ?>
@@ -117,7 +119,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
 
             <div class="tab-pane fade" id="templates">
-                <module type="admin/modules/templates"/>
+
+                <module type="admin/modules/templates" for-module="<?php print $params['module'] ?>" parent-module-id="<?php print $params['id'] ?>" />
             </div>
 
         </div>

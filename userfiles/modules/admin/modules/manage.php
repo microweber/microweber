@@ -2,6 +2,8 @@
 /*if (!user_can_access('module.modules.index')) {
     return;
 }*/
+
+$whitelabelSettings = get_whitelabel_whmcs_settings();
 ?>
 
 <?php $load_module = url_param('load_module');
@@ -67,7 +69,6 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         $mods = mw()->module_manager->get($mod_params);
     }
 
-
     $moduleCategories = [];
     $moduleCategoriesOther = [] ;
     $allowMods = [];
@@ -75,11 +76,16 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         if (!user_can_view_module($mod)) {
             continue;
         }
+
+        if (isset($whitelabelSettings['whmcs_url']) && !empty($whitelabelSettings['whmcs_url'])) {
+            if ($mod['module'] == 'white_label') {
+                continue;
+            }
+        }
+
         // Skip modules when  run
         $should_skip = false;
         $mod_item_cat = false;
-
-
 
           if (isset($mod['categories']) and $mod['categories'] and is_string( $mod['categories'])) {
                 $mod_item_cats_explode = explode(',',$mod['categories']);
@@ -94,16 +100,11 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
            if (!is_array($mod['settings'])) {
                $mod['settings'] = json_decode($mod['settings'], true);
            }
-
-
             if (isset($mod['settings']['hide_from_modules_list']) && $mod['settings']['hide_from_modules_list']) {
                 $should_skip = true;
-
             }
-
-
-
         }
+
         if (isset($mod['module']) && $mod['module'] == 'white_label') {
 
             $whitelabel = [];
@@ -211,14 +212,13 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
                       <?php if ($show_by_categories): ?>
                           <div class="w100">
                               <h6 class="ml-3 font-weight-bold"><?php print titlelize( $mod_cat) ?></h6>
-
-
                           </div>
                       <?php endif; ?>
 
             <?php foreach ($mods as $k => $item): ?>
 
                 <?php if (!isset($item['id'])): ?>
+
                     <div class="col-xl-3 col-md-4 col-6 mb-3">
                         <div class="mw-admin-module-list-item mw-module-not-installed h-100" id="module-remote-id-<?php print $item['id'] ?>">
                             <div class=" module module-admin-modules-edit-module h-100">

@@ -9,9 +9,9 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Backup\Exporters\JsonExport;
-use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Backup\Readers\XlsxReader;
+use MicroweberPackages\Export\Formats\JsonExport;
+use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
@@ -145,12 +145,12 @@ class TranslationController {
                }
                $getTranslationKey->save();
 
-               
+
                // Get translation text
                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                    ->where('translation_locale', $translation['translation_locale'])
                    ->get();
-               
+
                if ($getTranslationText->count() > 1) {
                    foreach($getTranslationText as $dublicatedText) {
                        $dublicatedText->delete();

@@ -21,6 +21,11 @@ function current_lang()
     return mw()->lang_helper->current_lang();
 }
 
+function default_lang()
+{
+    return mw()->lang_helper->default_lang();
+}
+
 function current_lang_abbr()
 {
     $lang = mw()->lang_helper->current_lang();

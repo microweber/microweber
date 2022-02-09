@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Multilanguage\tests;
 
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
+use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 
 class MultilanguageTestBase extends \Microweber\tests\TestCase
 {
@@ -43,6 +44,10 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
             );
         } else {
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
+
+            app()->bind('permalink_manager', function () {
+                return new MultilanguagePermalinkManager();
+            });
 
             $option = array();
             $option['option_value'] = 'y';

@@ -591,6 +591,12 @@ class MediaManager
             $s['image_options'] = @json_encode($data['image_options']);
         }
 
+        if (isset($s['filename']) && is_array($s['filename'])) {
+            if (isset($s['filename']['error'])) {
+                return false;
+            }
+        }
+
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];

@@ -86,6 +86,8 @@ mw.dropables = {
             document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
             document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
             document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
+
+
         }
 
         // images

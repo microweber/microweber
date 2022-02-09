@@ -46,6 +46,32 @@
 
     mw.require('css_parser.js');
 
+    var colorPickers = [];
+
+    var positionSelector = function () {
+        var root = mw.element({props: { className: 'mw-position-selector'}})
+        var posTop = mw.element({props: { className: 'mw-position-selector-top'}});
+        var posRight = mw.element({props: { className: 'mw-position-selector-right'}});
+        var posBottom = mw.element({props: { className: 'mw-position-selector-bottom'}});
+        var posLeft = mw.element({props: { className: 'mw-position-selector-left'}});
+        var all = mw.element({props: { className: 'mw-position-selector-all'}});
+
+        root.append(posTop)
+        root.append(posRight)
+        root.append(posBottom)
+        root.append(posLeft)
+        root.append(all)
+
+        return {
+            root: root,
+            top: posTop,
+            right: posRight,
+            bottom: posBottom,
+            left: posLeft,
+            all: all,
+        };
+    }
+
 
     $(window).on('load', function () {
 
@@ -54,6 +80,9 @@
                 element: '#domtree',
                 resizable:true,
                 targetDocument: mw.top().win.document,
+                /*canSelect: function (node, li) {
+                    return mw.tools.isEditable(node) || node.classList.contains('edit');
+                },*/
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
@@ -71,7 +100,7 @@
            (function (img){
 
                $.get(img.src, function (data){
-                  
+
                     $(img).replaceWith(data.all[0])
                })
            })(this)
@@ -239,7 +268,7 @@ var _prepare = {
     border: function () {
 
         var bordercolor = document.querySelector('#border-color')
-        mw.colorPicker({
+        colorPickers.push(mw.colorPicker({
             element: bordercolor,
             position: bordercolor.dataset.position || 'top-right',
             onchange: function (color){
@@ -248,7 +277,9 @@ var _prepare = {
 
             },
             color: this.value
-        })
+        }));
+
+        var pos = positionSelector();
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -313,6 +344,26 @@ var _populate = {
         mw.$('.margin-bottom').val(parseFloat(margin.bottom));
         mw.$('.margin-left').val(parseFloat(margin.left));
     },
+    border: function(css){
+        if(!css || !css.get) return;
+        var border = css.get.border(true);
+
+        var frst = {};
+        for (var i in border) {
+            if (border[i].width !== 0) {
+                frst = border[i];
+                break;
+            }
+        }
+        var size = frst.width || 0;
+        var color = frst.color || 'rgba(0,0,0,0)';
+        var style = frst.style || 'none';
+
+        mw.$('#border-position').val('all')
+        mw.$('#border-size').val(size)
+        mw.$('#border-color').val(color)
+        mw.$('#border-type').val(style)
+    },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
         mw.$('.padding-top').val(parseFloat(padding.top));
@@ -366,9 +417,10 @@ var _populate = {
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
-                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
+                var indikatorDisplay =  this.parentNode.querySelector('.mw-field-color-indicator-display');
+                indikatorDisplay.style.backgroundColor = this.value
 
-                mw.colorPicker({
+                colorPickers.push(mw.colorPicker({
                     element: this,
                     position: this.dataset.position || 'bottom-right',
                     onchange: function (color){
@@ -379,9 +431,10 @@ var _populate = {
                         } else {
                             $(el).trigger('colorChange', color)
                         }
+                        indikatorDisplay.style.backgroundColor = color
                     },
                     color: this.value
-                })
+                }))
 
             }
         });
@@ -467,6 +520,10 @@ var specialCases = function (property, value){
         OverlayNode.style.backgroundColor = value;
         mw.top().wysiwyg.change(OverlayNode);
         return true;
+    }  else if(OverlayNode && property === 'overlay-blend-mode') {
+        OverlayNode.style.mixBlendMode = value;
+        mw.top().wysiwyg.change(OverlayNode);
+        return true;
     }
 
 }
@@ -505,9 +562,12 @@ var populateSpecials = function (css) {
             if(overlay) {
                 var overlayCss = getComputedStyle(overlay);
                 var bgColor = overlayCss.backgroundColor;
+                var blend = overlayCss.mixBlendMode;
                 var oc = document.getElementById('overlay-color')
+                var blendfield = document.getElementById('overlay-blend-mode')
+                blendfield.value = blend
                 oc.value = bgColor
-                oc.style.backgroundColor = bgColor
+                oc.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = bgColor
                 ol.style.display = '';
             }
 
@@ -729,6 +789,16 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
+        mw.top().win.document.body.addEventListener('click', function (){
+            colorPickers.forEach(function (cp) {
+                 if(cp.hide) {
+                    cp.hide()
+                } else {
+                    cp.style.display = 'none'
+                }
+
+            })
+        })
 
     });
 </script>
@@ -1058,6 +1128,31 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-field mw-field-flat" data-size="medium">
                         <span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>
                         <input type="text" class="colorField unit" id="overlay-color" data-prop="overlay-color">
+                    </div>
+                </div>
+            </div>
+            <div class="s-field">
+                <label><?php _e("Blend mode"); ?></label>
+                <div class="s-field-content">
+                    <div class="mw-field mw-field-flat" data-size="medium">
+
+                        <select data-prop="overlay-blend-mode" id="overlay-blend-mode" class="regular">
+                            <option value='normal' selected><?php _e('None'); ?></option>
+                            <option value='multiply'>multiply</option>
+                            <option value='screen'>screen</option>
+                            <option value='overlay'>overlay</option>
+                            <option value='darken'>darken</option>
+                            <option value='lighten'>lighten</option>
+                            <option value='color-dodge'>color-dodge</option>
+                            <option value='color-burn'>color-burn</option>
+                            <option value='difference'>difference</option>
+                            <option value='exclusion'>exclusion</option>
+                            <option value='hue'>hue</option>
+                            <option value='saturation'>saturation</option>
+                            <option value='color'>color</option>
+                            <option value='luminosity'>luminosity</option>
+
+                        </select>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
     ->prefix('admin')
-    ->middleware(['admin'])
+    ->middleware([
+        'admin',
+       // \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('user', 'UserController');

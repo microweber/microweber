@@ -17,6 +17,17 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 
     $userId = (int) $request->all()['user_id'];
 
+    $allowToExport = false;
+    if ($userId == user_id()) {
+        $allowToExport = true;
+    } else if (is_admin()) {
+        $allowToExport = true;
+    }
+
+    if ($allowToExport == false) {
+        return array('error' => 'You are now allowed to export this information.');
+    }
+
     $exportFromTables = [];
     $prefix = mw()->database_manager->get_prefix();
     $tablesList = mw()->database_manager->get_tables_list(true);
@@ -36,7 +47,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
         }
     }
 
-    $json = new \MicroweberPackages\Backup\Exporters\JsonExport($exportData);
+    $json = new \MicroweberPackages\Export\Formats\JsonExport($exportData);
     $getJson = $json->start();
 
     if (isset($getJson['files'][0]['filepath'])) {
@@ -75,7 +86,15 @@ Route::post('api/delete_user', function (Request $request) {
     return delete_user($input);
 })->middleware(['api']);
 
-Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::name('api.user.')
+    ->prefix('api/user')
+    ->middleware([
+        'public.api',
+      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
+    ->namespace('\MicroweberPackages\User\Http\Controllers')
+    ->group(function () {
 
     Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
     Route::any('logout', 'UserLoginController@logout')->name('logout');
@@ -90,7 +109,11 @@ Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namesp
 
 Route::name('api.')
     ->prefix('api')
-    ->middleware(['api'])
+    ->middleware([
+        'api',
+      //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');

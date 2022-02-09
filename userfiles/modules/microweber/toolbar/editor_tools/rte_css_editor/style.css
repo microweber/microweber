@@ -389,6 +389,11 @@ input,select{
 }
 
 .mw-domtree li.selected > span{background-color: #0e80e5; color: #fff}
+
+.mw-domtree li.selectable-false{
+    pointer-events:none;
+    opacity:.5;
+}
 .mw-domtree li{
     list-style: none;
 }
