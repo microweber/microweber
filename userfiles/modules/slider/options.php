@@ -282,4 +282,3 @@ if (isset($params['pager_custom'])) {
 } else {
     $pagerCustom = '';
 }
-?>
