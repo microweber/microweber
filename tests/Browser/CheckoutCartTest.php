@@ -104,14 +104,13 @@ class CheckoutCartTest extends DuskTestCase
 
             $this->_browserToCheckoutAndFillShippingInfo($browser, $uniqueId);
 
-
-            $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
-
             $browser->pause(4000);
-
             $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
 
+
+            $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
+            $browser->pause(1000);
 
             try {
                 $browser->click('.js-finish-your-order')->waitForText('Please wait', 15);
