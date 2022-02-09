@@ -40,6 +40,6 @@
             @if(isset($errors['phone']))<span class="invalid-feedback">{{$errors['phone'][0]}}</span>@endif
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-3" dusk="checkout-continue">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3 js-checkout-continue">{{ _e('Continue') }}</button>
     </form>
 @endsection
