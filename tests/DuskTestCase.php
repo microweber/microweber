@@ -82,4 +82,11 @@ abstract class DuskTestCase extends BaseTestCase
 
     }
 
+    protected function assertPostConditions(): void
+    {
+        parent::assertPostConditions();
+
+        delete_option('dusk_test','dusk');
+    }
+
 }
