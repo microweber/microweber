@@ -29,8 +29,8 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
-            $browser->pause(3000);
 
+            $browser->pause(3000);
             $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
 
@@ -70,10 +70,6 @@ class CheckoutCartTest extends DuskTestCase
     public function testCheckoutWithPaypal()
     {
 
-
-
-
-
         $siteUrl = $this->siteUrl;
 
         // enable paypal
@@ -110,7 +106,11 @@ class CheckoutCartTest extends DuskTestCase
 
 
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
-            $browser->pause(1000);
+
+
+            $browser->pause(3000);
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
+            $browser->pause(3000);
 
 
             try {
@@ -141,7 +141,7 @@ class CheckoutCartTest extends DuskTestCase
             $this->assertEquals($findOrder->order_completed, 1);
             $this->assertNull($findOrder->is_paid);
             $this->assertNotNull($findOrder->customer_id);
-            $this->assertNotNull($findOrder->session_id);
+            $this->assertNotNull($findOrder->session_id); 
 
         });
 
