@@ -37,7 +37,7 @@
         "jenssegers/agent": "^3.0@dev",
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
-     
+
         "symfony/var-dumper": "v5.2.11",
 
         "jeremeamia/superclosure": "*",
@@ -52,7 +52,7 @@
         "laravel/socialite": "^6.0@dev",
         "arcanedev/seo-helper": "4.1.0",
         "wikimedia/less.php": "3.1.0",
-        "scssphp/scssphp": "1.4.1",
+        "scssphp/scssphp": "1.10.0",
         "graham-campbell/security-core": "3.2.x-dev",
         "darkaonline/l5-swagger": "*",
         "wikimedia/composer-merge-plugin": "dev-master",
