@@ -29,9 +29,12 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
-            $browser->pause(1000);
+            $browser->pause(3000);
 
-            $browser->script("$('html, body').animate({ scrollTop: $('.js-checkout-continue').offset().top - 30 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-checkout-continue').offset().top - 60 }, 0);");
+
+
+            $browser->pause(19000);
 
             try {
                 $browser->click('.js-checkout-continue');
@@ -176,11 +179,8 @@ class CheckoutCartTest extends DuskTestCase
 
     private function _browserToCheckoutAndFillShippingInfo($browser, $uniqueId)
     {
-
-        $xss = '"><something:script xmlns:something="http://www.w3.org/1999/xhtml">alert(document.domain)</something:script>';
-
         $browser->waitForText('First Name');
-        $browser->type('first_name', 'Bozhidar' .$xss. $uniqueId);
+        $browser->type('first_name', 'Bozhidar' . $uniqueId);
         $browser->type('last_name', 'Slaveykov' . $uniqueId);
         $browser->type('email', 'bobi' . $uniqueId . '@microweber.com');
         $browser->type('phone', $uniqueId);
@@ -203,11 +203,11 @@ class CheckoutCartTest extends DuskTestCase
         $browser->type('Address[address]', 'Vitosha 143' . $uniqueId);
         $browser->type('other_info', 'I want my order soon as posible.' . $uniqueId);
 
-        $browser->scrollTo('@checkout-continue');
+        $browser->scrollTo('.js-checkout-continue');
+
         $browser->pause(1000);
 
-
-        $browser->click('@checkout-continue');
+        $browser->click('.js-checkout-continue');
 
         $browser->waitForText('Payment method');
         $browser->assertSee('Payment method');
