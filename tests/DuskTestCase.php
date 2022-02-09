@@ -79,6 +79,14 @@ abstract class DuskTestCase extends BaseTestCase
                 ->where('option_group', 'multilanguage_settings')
                 ->delete();
         }
+
+    }
+
+    protected function assertPostConditions(): void
+    {
+        delete_option('dusk_test','dusk');
+        parent::assertPostConditions();
+        
     }
 
 }
