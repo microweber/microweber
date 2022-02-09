@@ -71,6 +71,9 @@ abstract class DuskTestCase extends BaseTestCase
     protected function assertPreConditions(): void
     {
         if (mw_is_installed()) {
+
+            save_option('dusk_test',1);
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
             \DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
