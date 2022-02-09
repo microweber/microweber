@@ -31,14 +31,13 @@ class CheckoutCartTest extends DuskTestCase
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
             $browser->pause(1000);
 
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-checkout-continue').offset().top - 30 }, 0);");
 
             try {
-                $browser->click('@checkout-continue');
+                $browser->click('.js-checkout-continue');
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
                 $browser->pause(10000);
             }
-
-
 
             $browser->pause(1000);
 
@@ -115,7 +114,7 @@ class CheckoutCartTest extends DuskTestCase
 
             try {
 
-                $browser->click('@checkout-continue')->waitForText('Please wait', 15);
+                $browser->click('.js-checkout-continue')->waitForText('Please wait', 15);
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
 
                 $this->markTestSkipped('Paypal is not available');
@@ -185,7 +184,7 @@ class CheckoutCartTest extends DuskTestCase
         $browser->type('last_name', 'Slaveykov' . $uniqueId);
         $browser->type('email', 'bobi' . $uniqueId . '@microweber.com');
         $browser->type('phone', $uniqueId);
-        $browser->click('@checkout-continue');
+        $browser->click('.js-checkout-continue');
 
 
         $browser->pause(2000);
