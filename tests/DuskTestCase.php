@@ -82,12 +82,10 @@ abstract class DuskTestCase extends BaseTestCase
 
     }
 
-    protected function tearDown(): void 
+    protected function tearDown(): void
     {
         delete_option('dusk_test','dusk');
-
         parent::tearDown();
-
     }
 
 }
