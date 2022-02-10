@@ -12,6 +12,7 @@ use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
+use Spatie\Permission\Models\Role;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
@@ -71,6 +72,14 @@ class AdminXssTest extends DuskTestCase
 
                     if (strpos($value->uri(),'{order}') !== false) {
                         $findRoute = Order::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{role}') !== false) {
+                        $findRoute = Role::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
