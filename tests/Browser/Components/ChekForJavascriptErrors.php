@@ -75,7 +75,15 @@ class ChekForJavascriptErrors extends BaseComponent
 
         // Check for parser errors
         $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
-        $html = $browser->script("return $('body').html()");
+
+        try {
+            $html = $browser->script("return $('body').html()");
+        } catch (\Exception $e) {
+            $error = [];
+            $error['page_url'] = $browser->driver->getCurrentURL();
+            $error['exception'] = $e;
+            throw new \Exception(print_r($error, true));
+        }
 
         foreach ($html as $htmlString) {
             foreach ($errorStrings as $errorString) {

@@ -27,7 +27,7 @@ class AdminXssTest extends DuskTestCase
                 if($value->methods()[0] !== 'GET') {
                     continue;
                 }
-                
+
                 if (strpos($value->uri(), 'admin') !== false) {
                     $browser->visit($value->uri());
 
