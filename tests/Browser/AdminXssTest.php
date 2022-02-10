@@ -35,7 +35,7 @@ class AdminXssTest extends DuskTestCase
                         $browser->validate();
                     });
 
-                 //   $browser->pause(2000);
+                    $browser->pause(1000);
                 }
             }
 
