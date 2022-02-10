@@ -23,7 +23,9 @@ jobs:
     - name: google-chrome install
       run: |
         sleep 3
-        sudo apt-get install libxss1 libappindicator1 libindicator7
+        sudo apt-get -y install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+        sudo sudo apt-get -y install xvfb gtk2-engines-pixbuf
+        sudo apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
         sleep 3
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt-get install -f
