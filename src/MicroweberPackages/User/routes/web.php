@@ -24,7 +24,7 @@ Route::name('admin.')
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('user', 'UserController',['except' => ['index', 'show']]);
+        Route::resource('user', 'UserController',['except' => ['show','edit', 'create']]);
     });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
