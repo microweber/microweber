@@ -5,6 +5,7 @@ namespace Tests\Browser;
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Page\Models\Page;
@@ -53,6 +54,11 @@ class AdminXssTest extends DuskTestCase
 
                     if (strpos($value->uri(),'{customer}') !== false) {
                         $findRoute = Customer::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{category}') !== false) {
+                        $findRoute = Category::first();
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
