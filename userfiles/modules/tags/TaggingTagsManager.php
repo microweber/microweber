@@ -66,6 +66,9 @@ function tagging_tag_edit($params) {
         $newData['id'] = $params['id'];
     }
 
+    $cleanInput = new \MicroweberPackages\Helper\HTMLClean();
+    $newData = $cleanInput->cleanArray($newData);
+
     if (isset($params['tagging_tag_id']) && !empty($params['tagging_tag_id'])) {
         $tagging_tag_id = $params['tagging_tag_id'];
         $tag = db_get('tagging_tags', [
@@ -104,7 +107,6 @@ function tagging_tag_edit($params) {
             return ['status'=>false,'message'=>'The tag slug is allready exists.', 'id'=> $newData['id']];
         }
     }
-
 
     $tagSaved = db_save('tagging_tags',$newData);
     if ($tagSaved) {
