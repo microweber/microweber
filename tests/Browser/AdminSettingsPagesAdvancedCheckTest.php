@@ -67,7 +67,7 @@ class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
                 'option_value' => $seoTag
             ));
 
-            $browser->visit(admin_url().'view:shop/action:options#option_group=advanced')
+            $browser->visit(admin_url().'view:settings?option_group=advanced')
                 ->waitForText('SEO Settings');
 
             $browser->pause(5000);
