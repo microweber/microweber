@@ -8,6 +8,7 @@ use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
@@ -65,6 +66,11 @@ class AdminXssTest extends DuskTestCase
 
                     if (strpos($value->uri(),'{content}') !== false) {
                         $findRoute = Content::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{order}') !== false) {
+                        $findRoute = Order::first();
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
