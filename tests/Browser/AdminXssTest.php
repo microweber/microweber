@@ -23,9 +23,11 @@ class AdminXssTest extends DuskTestCase
 
             $routeCollection = Route::getRoutes();
             foreach ($routeCollection as $value) {
-                if ($value->getActionMethod() == 'GET') {
+
+                if($value->methods()[0] !== 'GET') {
                     continue;
                 }
+                
                 if (strpos($value->uri(), 'admin') !== false) {
                     $browser->visit($value->uri());
 
