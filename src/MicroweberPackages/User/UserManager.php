@@ -1188,7 +1188,7 @@ class UserManager
         }
     }
 
-    public function make_logged($user_id)
+    public function make_logged($user_id,$remember = false)
     {
         if (is_array($user_id)) {
             if (isset($user_id['id'])) {
@@ -1222,9 +1222,9 @@ class UserManager
                     $user_session['old_session_id'] = $old_sid;
                     $current_user = Auth::user();
                     if ((isset($current_user->id) and $current_user->id == $user_id)) {
-                        Auth::login(Auth::user());
+                        Auth::login(Auth::user(), $remember);
                     } else {
-                        Auth::loginUsingId($data['id']);
+                        Auth::loginUsingId($data['id'], $remember);
                     }
 //
 //                    Session::setId($old_sid);

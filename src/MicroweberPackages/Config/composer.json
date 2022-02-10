@@ -12,9 +12,6 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "microweber-packages/helper-functions": "*"
-  },
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Config\\": ""

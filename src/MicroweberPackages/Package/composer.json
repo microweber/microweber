@@ -12,9 +12,7 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require-dev": {
-    "phpunit/phpunit": "^9.0"
-  },
+
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Package\\": ""
