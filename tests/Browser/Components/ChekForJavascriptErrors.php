@@ -51,7 +51,14 @@ class ChekForJavascriptErrors extends BaseComponent
         if (!empty($consoleLog)) {
             foreach ($consoleLog as $log) {
 
-                if (strpos($log['message'], $skipErrorStrings) !== false) {
+                $skip = false;
+                foreach ($skipErrorStrings as $errorString) {
+                    if (strpos($log['message'], $errorString) !== false) {
+                        $skip = true;
+                    }
+                }
+
+                if ($skip) {
                     continue;
                 }
 

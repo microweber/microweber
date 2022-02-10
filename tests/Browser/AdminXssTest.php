@@ -5,6 +5,10 @@ namespace Tests\Browser;
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\Content;
+use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
@@ -29,7 +33,35 @@ class AdminXssTest extends DuskTestCase
                 }
 
                 if (strpos($value->uri(), 'admin') !== false) {
-                    $browser->visit($value->uri());
+
+                    $visitPage = route($value->getName());
+
+                    if (strpos($value->uri(),'{page}') !== false) {
+                        $findRoute = Page::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{post}') !== false) {
+                        $findRoute = Post::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{product}') !== false) {
+                        $findRoute = Product::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{customer}') !== false) {
+                        $findRoute = Customer::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (strpos($value->uri(),'{content}') !== false) {
+                        $findRoute = Content::first();
+                        $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    $browser->visit($visitPage);
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
