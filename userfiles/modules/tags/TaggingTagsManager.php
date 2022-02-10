@@ -125,6 +125,9 @@ function tagging_tag_edit($params) {
 api_expose_admin('tagging_tag/get', 'tagging_tag_get');
 function tagging_tag_get($params) {
 
+    $cleanInput = new \MicroweberPackages\Helper\HTMLClean();
+    $params = $cleanInput->cleanArray($params);
+
     $filter = 'order_by=id desc';
     if (isset($params['keyword'])) {
         $filter .= '&keyword=' . $params['keyword'].'&search_in_fields=name,slug';
