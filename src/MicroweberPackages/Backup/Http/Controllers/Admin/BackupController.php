@@ -148,7 +148,7 @@ class BackupController
             );
         }
 
-        $src = str_replace('..',false,$src);
+        $src = str_replace('..','',$src);
 
         $checkFile = url2dir(trim($src));
         $checkFile = normalize_path($checkFile, false);

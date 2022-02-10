@@ -29,8 +29,8 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
-            $browser->pause(3000);
 
+            $browser->pause(3000);
             $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
 
@@ -70,10 +70,6 @@ class CheckoutCartTest extends DuskTestCase
     public function testCheckoutWithPaypal()
     {
 
-
-
-
-
         $siteUrl = $this->siteUrl;
 
         // enable paypal
@@ -108,14 +104,16 @@ class CheckoutCartTest extends DuskTestCase
 
             $this->_browserToCheckoutAndFillShippingInfo($browser, $uniqueId);
 
+            $browser->pause(4000);
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
+            $browser->pause(3000);
+
 
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
             $browser->pause(1000);
 
-
             try {
-
-                $browser->click('.js-checkout-continue')->waitForText('Please wait', 15);
+                $browser->click('.js-finish-your-order')->waitForText('Please wait', 15);
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
 
                 $this->markTestSkipped('Paypal is not available');
