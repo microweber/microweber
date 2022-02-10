@@ -21,19 +21,21 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            $adminUrls = [];
             $routeCollection = Route::getRoutes();
             foreach ($routeCollection as $value) {
+                if ($value->getActionMethod() == 'GET') {
+                    continue;
+                }
                 if (strpos($value->uri(), 'admin') !== false) {
-                    $adminUrls[] = $value->uri();
+                    $browser->visit($value->uri());
+
+                    $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                        $browser->validate();
+                    });
+
+                    $browser->pause(2000);
                 }
             }
-
-            dd($adminUrls); 
-
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
 
 
         });
