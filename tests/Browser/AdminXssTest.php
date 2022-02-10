@@ -34,7 +34,7 @@ class AdminXssTest extends DuskTestCase
 
                 if (strpos($value->uri(), 'admin') !== false) {
 
-                    $visitPage = route($value->getName());
+                    $visitPage = false;
 
                     if (strpos($value->uri(),'{page}') !== false) {
                         $findRoute = Page::first();
@@ -59,6 +59,10 @@ class AdminXssTest extends DuskTestCase
                     if (strpos($value->uri(),'{content}') !== false) {
                         $findRoute = Content::first();
                         $visitPage = route($value->getName(), $findRoute->id);
+                    }
+
+                    if (!$visitPage) {
+                        $visitPage = route($value->getName());
                     }
 
                     $browser->visit($visitPage);
