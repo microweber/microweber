@@ -11,5 +11,5 @@ Route::name('admin.')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Page\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('page', 'PageController');
+        Route::resource('page', 'PageController', ['except' => ['show']]);
     });
