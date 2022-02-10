@@ -10,6 +10,11 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 class AdminXssTest extends DuskTestCase
 {
 
+    public function testModuleList()
+    {
+
+    }
+
     public function testPages()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
@@ -25,9 +30,6 @@ class AdminXssTest extends DuskTestCase
                 $browser->validate();
             });
 
-
-
-            
 
         });
 
