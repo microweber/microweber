@@ -119,6 +119,7 @@ if ($speed) {
 }
 
 $autoplay = get_module_option('autoplay', $params['id']);
+
 if ($autoplay) {
     $autoplay = $autoplay;
 } elseif (isset($params['autoplay'])) {

@@ -154,7 +154,7 @@ class BackupController
                 'error' => 'You have not provided src to the file.'
             );
         }
-
+        $src = str_replace('..','',$src);
         $checkFile = url2dir(trim($src));
 
         $backupLocation = backup_location();
