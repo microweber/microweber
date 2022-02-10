@@ -3,18 +3,14 @@
 namespace Tests\Browser;
 
 
+use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\DuskTestCase;
 
 class AdminXssTest extends DuskTestCase
 {
-
-    public function testModuleList()
-    {
-
-    }
-
     public function testPages()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
@@ -25,6 +21,15 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $adminUrls = [];
+            $routeCollection = Route::getRoutes();
+            foreach ($routeCollection as $value) {
+                if (strpos($value->uri(), 'admin') !== false) {
+                    $adminUrls[] = $value->uri();
+                }
+            }
+
+            dd($adminUrls); 
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
