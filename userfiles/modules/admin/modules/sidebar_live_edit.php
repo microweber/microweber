@@ -132,6 +132,7 @@
                 }
                 value = value.toLowerCase().trim();
 
+                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn' ).hide();
@@ -140,6 +141,7 @@
                     $('#mw-sidebar-layouts-list .mw-ui-box-header-2~li[data-filter]').hide();
                     $('.mw-search-no-results' ).hide();
                      $('.mw-ui-box-header-2,.module-item-module').show();
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                     return;
                 } else {
@@ -190,8 +192,10 @@
 
                 if (numberOfResults === 0) {
                     $('.mw-search-no-results', '.' + what).show();
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                 } else {
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                     $('.mw-search-no-results', '.' + what).hide();
                 }
