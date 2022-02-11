@@ -84,13 +84,13 @@ class AdminXssTest extends DuskTestCase
                     }
 
                     $browser->visit($visitPage);
-                    $browser->assertStatus(200);
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
                     });
 
-                    $browser->pause(1000);
+                    $browser->assertDontSee('There is some error');
+                    $browser->pause(700);
                 }
             }
 
