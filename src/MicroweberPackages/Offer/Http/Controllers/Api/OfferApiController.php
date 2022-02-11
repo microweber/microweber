@@ -20,8 +20,12 @@ class OfferApiController extends Controller
         return $offers;
     }
 
-    public function getByProductId($productId)
+    public function getByProductId($productId = false)
     {
+        if (!$productId) {
+            return [];
+        }
+
         $offers = Offer::getByProductId($productId);
 
         return $offers;
