@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -60,10 +62,9 @@ class InputFieldsXssTest extends BaseComponent
             $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 60 }, 0);");
             $browser->pause(1000);
 
-          //  $browser->type($elementClass,  '<img src=x onerror=confirm(document.domain)>', '{enter}');
-            $browser->type($elementClass,  '<script>alert("XSS")</script>', '{enter}');
+            $browser->type($elementClass,  '"><img src=x onerror=confirm(document.domain)>', '{enter}');
 
-            $browser->pause(3000); 
+            $browser->pause(3000);
         }
 
         $browser->script('$("input:visible").submit()');

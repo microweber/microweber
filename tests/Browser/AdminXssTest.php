@@ -35,13 +35,30 @@ class AdminXssTest extends DuskTestCase
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(3000);
 
-            $browser->pause(23000);
-            return;
+            // Test xss create post page
+            $browser->visit(route('admin.post.create'));
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(3000);
 
-
-
-
+            // Test xss create page
+            $browser->visit(route('admin.page.create'));
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(3000);
 
             // Check routers for errors
             $routeCollection = Route::getRoutes();
