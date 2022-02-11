@@ -20,7 +20,7 @@
 
         <a href="{{route('admin.order.abandoned')}}"
                class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
-       
+
         </div>
 
     </div>
