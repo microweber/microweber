@@ -75,7 +75,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (!$visitPage) { 
+                    if (!$visitPage) {
                         $visitPage = route($value->getName());
                     }
 

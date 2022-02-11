@@ -47,7 +47,7 @@ if (isset($user['role'])) {
                 <br/>
 
                 <?php
-                if (class_exists(MicroweberPackages\Role\RoleServiceProvider::class)):
+                if (\Illuminate\Support\Facades\Route::has('admin.role.create')): 
                 ?>
                <div class="d-none">
                    <h6 class="font-weight-bold mb-1"><?php _e('Set and manage user roles'); ?></h6>
