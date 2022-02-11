@@ -75,8 +75,8 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{all}') !== false) {
-                        $visitPage = route($value->getName(), 'users');
+                    if (strpos($value->uri(),'{') !== false) {
+                        continue;
                     }
 
                     if (!$visitPage) {
