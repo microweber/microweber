@@ -30,8 +30,8 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            // Test xss create product page
-            $browser->visit(route('admin.product.create'));
+            // Test xss create post page
+            $browser->visit(route('admin.post.create'));
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
@@ -40,8 +40,8 @@ class AdminXssTest extends DuskTestCase
             });
             $browser->pause(3000);
 
-            // Test xss create post page
-            $browser->visit(route('admin.post.create'));
+            // Test xss create product page
+            $browser->visit(route('admin.product.create'));
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });

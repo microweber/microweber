@@ -71,7 +71,7 @@ class InputFieldsXssTest extends BaseComponent
             $browser->pause(1000);
 
             echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
-            $browser->type($elementClass, '"><img src=x onerror=confirm(document.domain)>', '{enter}'); 
+            $browser->type($elementClass, '"><img src=x onerror=confirm(document.domain)>', '{enter}');
 
             $browser->pause(3000);
         }
