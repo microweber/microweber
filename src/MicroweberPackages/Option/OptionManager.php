@@ -350,6 +350,7 @@ class OptionManager
         }
 
         $this->clear_memory();
+        app()->option_repository->clearCache();
 
         $option_group = false;
         if (is_array($data)) {
