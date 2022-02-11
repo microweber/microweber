@@ -343,7 +343,7 @@ mw.ElementAnalyzer = function(options){
         },
         isEmpty:function(node){
             node = node || this.scope.data.target;
-            return mw.tools.hasClass(node, 'mw-empty');
+            return mw.tools.hasAnyOfClasses(node, ['mw-empty', 'mw-empty-element']);
         },
         isRowLike:function(node){
             node = node || this.scope.data.target;

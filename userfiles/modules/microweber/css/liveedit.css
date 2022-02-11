@@ -1718,6 +1718,18 @@ li.module-item.ui-draggable-dragging {
     position: relative;
     min-height: 100px;
     display: block;
+    text-align:left;
+}
+
+.mw-empty-element:empty:after,
+.mw-live-edit .mw-empty-element.element:empty:after,
+.mw-col-container .mw-empty:first-child:empty:after {
+    content: 'Enter text or drop element';
+    position: relative;
+    top: 10px;
+    left: 14px;
+    color: #1111114a;
+    font-weight: bold;
 }
 
 .mw-col-container .mw-empty:first-child:empty:before {
