@@ -1,4 +1,4 @@
-name: Dusk
+name: Dusk Apache
 on: [push,pull_request]
 
 jobs:
