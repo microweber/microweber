@@ -15,10 +15,18 @@ use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
     public function testSubmitEmail()
     {
+
+
+        $data = [];
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'captcha_disabled';
+        $data['option_group'] = 'users';
+        save_option($data);
+
+
 
         $siteUrl = $this->siteUrl;
 
@@ -28,11 +36,6 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $user->email = 'bobi@microweber.com';
             $user->save();
 
-            $data = [];
-            $data['option_value'] = 'y';
-            $data['option_key'] = 'captcha_disabled';
-            $data['option_group'] = 'users';
-            save_option($data);
 
 
             $browser->visit($siteUrl . 'admin/login');
