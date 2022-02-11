@@ -47,7 +47,7 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->pause('4000');
 
 
-            $browser->waitForText('We have emailed your password reset link');
+            $browser->waitForText('We have emailed your password reset link',30);
             $browser->assertSee('We have emailed your password reset link');
 
             $sendTime = Carbon::now();
