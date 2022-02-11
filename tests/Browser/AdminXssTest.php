@@ -75,14 +75,6 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{role}') !== false) {
-                        $findRoute = Role::first();
-                        if ($findRoute == null) {
-                            continue;
-                        }
-                        $visitPage = route($value->getName(), $findRoute->id);
-                    }
-
                     if (!$visitPage) {
                         $visitPage = route($value->getName());
                     }
