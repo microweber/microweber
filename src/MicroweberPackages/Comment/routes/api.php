@@ -25,5 +25,5 @@ Route::name('admin.')
     ->middleware(['xss','admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('comment', 'AdminCommentController');
+        Route::resource('comment', 'AdminCommentController',['only' => ['index']]);
     });
