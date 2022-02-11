@@ -19,7 +19,7 @@ class ExampleTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
-            $browser->visit($siteUrl)->assertSee('Home');
+            $browser->visit($siteUrl)->waitForText('Microweber');
         });
     }
 }
