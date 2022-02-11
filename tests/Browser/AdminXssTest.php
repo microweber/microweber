@@ -84,6 +84,7 @@ class AdminXssTest extends DuskTestCase
                     }
 
                     $browser->visit($visitPage);
+                    $browser->assertStatus(200);
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
