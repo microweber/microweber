@@ -333,7 +333,7 @@ $saveRoute = route('api.user.store');
                                 <div class="form-group">
                                     <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
-                                      <!--  <a href="<?php /*echo route('admin.role.index');*/?>"><?php /*_e("Manage user roles"); */?></a>-->
+                                      <!--  <a href=""><?php /*_e("Manage user roles"); */?></a>-->
                                     </small>
                                     <select class="selectpicker" data-live-search="true" data-width="100%" name="is_admin">
 

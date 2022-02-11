@@ -46,22 +46,33 @@ class ChekForJavascriptErrors extends BaseComponent
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
         $errorStrings = ['Uncaught SyntaxError'];
+        $skipErrorStrings = ['Blocked attempt to show'];
         $findedErrors = [];
         if (!empty($consoleLog)) {
             foreach ($consoleLog as $log) {
+
+                $skip = false;
+                foreach ($skipErrorStrings as $errorString) {
+                    if (strpos($log['message'], $errorString) !== false) {
+                        $skip = true;
+                    }
+                }
+
+                if ($skip) {
+                    continue;
+                }
+
                 if ($log['level'] == 'SEVERE') {
                     $findedErrors[] = $log;
                 }
-             //   dump($log);
+
                 if ($log['level'] == 'INFO') {
                     foreach ($errorStrings as $errorString){
                         if (strpos($log['message'], $errorString) !== false) {
                             $findedErrors[] = $log;
                         }
                     }
-
                 }
-
 
             }
         }
@@ -75,11 +86,12 @@ class ChekForJavascriptErrors extends BaseComponent
 
         // Check for parser errors
         $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
-        $html = $browser->script("return $('body').html()");
-
-        foreach ($html as $htmlString) {
-            foreach ($errorStrings as $errorString) {
-                PHPUnit::assertFalse(str_contains($htmlString, $errorString));
+        $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+        if (!empty($html)) {
+            foreach ($html as $htmlString) {
+                foreach ($errorStrings as $errorString) {
+                    PHPUnit::assertFalse(str_contains($htmlString, $errorString));
+                }
             }
         }
     }

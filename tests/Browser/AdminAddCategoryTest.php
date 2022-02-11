@@ -36,6 +36,9 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->validate();
             });
 
+            $browser->pause(1000);
+            $browser->waitForText('Category name');  
+
             $browser->type('#content-title-field', $categoryTitle);
 
             $browser->click('#category-dropdown-holder');

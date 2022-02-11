@@ -4,9 +4,11 @@
     </div>
 @else
 <script>
-    mw.options.form('.js-filtering-custom-fields-table-holder', function(){
-        mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
-    });
+    if (typeof mw !== "undefined") {
+        mw.options.form('.js-filtering-custom-fields-table-holder', function () {
+            mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
+        });
+    }
 </script>
 <table class="table js-filtering-custom-fields-table-holder">
     <thead>

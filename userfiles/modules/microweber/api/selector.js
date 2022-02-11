@@ -199,7 +199,7 @@ mw.Selector = function(options) {
             target = e;
         }
 
-        if(!mw.tools.isEditable(target) && !target.classList.contains('edit')) {
+        if(!mw.tools.isEditable(target) && !target.classList.contains('edit') && !target.id) {
             // if parent is inside module but module has editable parent
             target = mw.tools.firstParentWithClass(target, 'edit');
             if(!target) return;

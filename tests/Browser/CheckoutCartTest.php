@@ -29,16 +29,16 @@ class CheckoutCartTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
-            $browser->pause(1000);
 
+            $browser->pause(3000);
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
+            $browser->pause(3000);
 
             try {
-                $browser->click('@checkout-continue');
+                $browser->click('.js-finish-your-order');
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
                 $browser->pause(10000);
             }
-
-
 
             $browser->pause(1000);
 
@@ -69,10 +69,6 @@ class CheckoutCartTest extends DuskTestCase
 
     public function testCheckoutWithPaypal()
     {
-
-
-
-
 
         $siteUrl = $this->siteUrl;
 
@@ -108,14 +104,16 @@ class CheckoutCartTest extends DuskTestCase
 
             $this->_browserToCheckoutAndFillShippingInfo($browser, $uniqueId);
 
+            $browser->pause(4000);
+            $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
+            $browser->pause(3000);
+
 
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
             $browser->pause(1000);
 
-
             try {
-
-                $browser->click('@checkout-continue')->waitForText('Please wait', 15);
+                $browser->click('.js-finish-your-order')->waitForText('Please wait', 15);
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
 
                 $this->markTestSkipped('Paypal is not available');
@@ -177,15 +175,12 @@ class CheckoutCartTest extends DuskTestCase
 
     private function _browserToCheckoutAndFillShippingInfo($browser, $uniqueId)
     {
-
-        $xss = '"><something:script xmlns:something="http://www.w3.org/1999/xhtml">alert(document.domain)</something:script>';
-
         $browser->waitForText('First Name');
-        $browser->type('first_name', 'Bozhidar' .$xss. $uniqueId);
+        $browser->type('first_name', 'Bozhidar' . $uniqueId);
         $browser->type('last_name', 'Slaveykov' . $uniqueId);
         $browser->type('email', 'bobi' . $uniqueId . '@microweber.com');
         $browser->type('phone', $uniqueId);
-        $browser->click('@checkout-continue');
+        $browser->click('.js-checkout-continue');
 
 
         $browser->pause(2000);
@@ -204,11 +199,11 @@ class CheckoutCartTest extends DuskTestCase
         $browser->type('Address[address]', 'Vitosha 143' . $uniqueId);
         $browser->type('other_info', 'I want my order soon as posible.' . $uniqueId);
 
-        $browser->scrollTo('@checkout-continue');
+        $browser->scrollTo('.js-checkout-continue');
+
         $browser->pause(1000);
 
-
-        $browser->click('@checkout-continue');
+        $browser->click('.js-checkout-continue');
 
         $browser->waitForText('Payment method');
         $browser->assertSee('Payment method');

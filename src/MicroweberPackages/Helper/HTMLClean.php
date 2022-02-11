@@ -4,6 +4,18 @@ namespace MicroweberPackages\Helper;
 
 class HTMLClean
 {
+    public function cleanArray($array) {
+        if (is_array($array)) {
+
+            $cleanedArray = [];
+            foreach ($array as $key=>$value) {
+                $cleanedArray[$key] = $this->clean($value);
+            }
+
+            return $cleanedArray;
+        }
+    }
+
     public function clean($html) {
 
         $antiXss = new \voku\helper\AntiXSS();

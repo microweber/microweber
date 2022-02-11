@@ -149,7 +149,13 @@ if ($allowed_to_upload == false) {
                             $is_ext = strtolower($is_ext);
 
                             switch ($is_ext) {
-                                case 'php':
+                                case 'php': 
+                                case 'php12':
+                                case 'php11':
+                                case 'php10':
+                                case 'php9':
+                                case 'php8':
+                                case 'php7':
                                 case 'php5':
                                 case 'php4':
                                 case 'php3':

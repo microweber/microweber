@@ -1,4 +1,4 @@
-name: Dusk
+name: Dusk Apache
 on: [push,pull_request]
 
 jobs:
@@ -56,8 +56,13 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Run Laravel Server
-      run: php artisan serve > /dev/null 2>&1 &
+    - name: Setup Apache
+      uses: thunder/apache-shiva-php-action@v1
+      with:
+        php-version: '7.4'
+        site-directory: /home/runner/work/microweber/microweber/
+        # Defaults to 8888
+        http-port: 8000
     - name: Run Dusk Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/

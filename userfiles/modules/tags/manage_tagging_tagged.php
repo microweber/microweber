@@ -180,6 +180,8 @@
         var tags = '';
         var keyword = $('.js-search-tags-keyword').val();
 
+        keyword = String(keyword).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
         $('.js-all-tags').html('Searching for: ' + keyword);
 
         $.get(mw.settings.api_url + 'tagging_tag/get', {
@@ -211,6 +213,8 @@
         var posts = '';
         var keyword = $('.js-search-posts-keyword').val();
         var filter = $('.js-posts-filter-by').val();
+
+        keyword = String(keyword).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
         $('.js-select-posts').html('Searching for: ' + keyword);
 
