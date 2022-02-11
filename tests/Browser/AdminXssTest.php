@@ -38,7 +38,7 @@ class AdminXssTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->pause(3000);
+            $browser->pause(4000);
 
             // Test xss create product page
             $browser->visit(route('admin.product.create'));
@@ -48,7 +48,7 @@ class AdminXssTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->pause(3000);
+            $browser->pause(4000);
 
             // Test xss create page
             $browser->visit(route('admin.page.create'));
@@ -58,7 +58,7 @@ class AdminXssTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->pause(3000);
+            $browser->pause(4000);
 
             // Check routers for errors
             $routeCollection = Route::getRoutes();
