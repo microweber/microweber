@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
@@ -61,13 +62,13 @@ class AbppInstallTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
-            $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
 
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1');
+            $browser->within(new AdminLogin(), function ($browser) {
+                $browser->fillForm();
+            });
 
-            $browser->click('@login-button');
+
+            $browser->visit($siteUrl . 'admin');
 
             // Wait for redirect after login
             $browser->waitForText('Dashboard');
