@@ -89,7 +89,10 @@ class AdminXssTest extends DuskTestCase
                         $browser->validate();
                     });
 
-                    $browser->pause(1000);
+                    echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
+                    $browser->assertDontSee('There is some error');
+
+                    $browser->pause(700);
                 }
             }
 
