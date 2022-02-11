@@ -36,14 +36,19 @@ abstract class DuskTestCase extends BaseTestCase
     {
 
         $options = (new ChromeOptions)->addArguments(collect([
+            '--disable-web-security',
+            '--disable-xss-auditor',
+            '--enable-devtools-experiments',
             '--window-size=1920,1080',
         ])->unless($this->hasHeadlessDisabled(), function ($items) {
 
             $arguments = [];
+            $arguments[] = '--disable-web-security';
+            $arguments[] = '--disable-xss-auditor';
+            $arguments[] = '--enable-devtools-experiments';
             $arguments[] = '--disable-gpu';
             $arguments[] = '--no-sandbox';
             $arguments[] = '--ignore-certificate-errors';
-            $arguments[] = '--disable-xss-auditor';
 
             if (getenv('GITHUB_RUN_NUMBER')) {
                 $arguments[] = '--headless';
