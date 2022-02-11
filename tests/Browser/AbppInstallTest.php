@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
@@ -61,26 +62,27 @@ class AbppInstallTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
-            $browser->visit($siteUrl . 'admin/login')->assertSee('Login');
 
-            // Login to admin panel
-            $browser->type('username', '1');
-            $browser->type('password', '1');
+            $browser->within(new AdminLogin(), function ($browser) {
+                $browser->fillForm();
+            });
 
-            $browser->click('@login-button');
+
+            $browser->visit($siteUrl . 'admin');
+            $browser->pause(5000);
 
             // Wait for redirect after login
-            $browser->waitForText('Dashboard');
+            $browser->waitForText('Dashboard', 30);
 
-            $browser->assertSee('Statistics');
-            $browser->assertSee('Live Edit');
-            $browser->assertSee('Website');
-            $browser->assertSee('Shop');
-            $browser->assertSee('Modules');
-            $browser->assertSee('Marketplace');
-            $browser->assertSee('Settings');
-            $browser->assertSee('Users');
-            $browser->assertSee('Log out');
+            $browser->waitForText('Statistics', 30);
+            $browser->waitForText('Live Edit', 30);
+            $browser->waitForText('Website', 30);
+            $browser->waitForText('Shop', 30);
+            $browser->waitForText('Modules', 30);
+            $browser->waitForText('Marketplace', 30);
+            $browser->waitForText('Settings', 30);
+            $browser->waitForText('Users', 30);
+            $browser->waitForText('Log out', 30);
 
             $browser->pause(1500);
 
