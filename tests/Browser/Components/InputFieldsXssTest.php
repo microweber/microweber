@@ -67,11 +67,11 @@ class InputFieldsXssTest extends BaseComponent
             $elementClass = '.js-input-type-fields-'.$key;
 
             $browser->pause(1000);
-            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 260 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 330 }, 0);");
             $browser->pause(1000);
 
             echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
-            $browser->type($elementClass,  '"><img src=x onerror=confirm(document.domain)>', '{enter}');
+            $browser->type($elementClass, '"><img src=x onerror=confirm(document.domain)>', '{enter}'); 
 
             $browser->pause(3000);
         }
