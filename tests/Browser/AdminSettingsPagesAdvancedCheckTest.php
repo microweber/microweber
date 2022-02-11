@@ -105,9 +105,9 @@ class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
 
 
 
-            $browser->visit(admin_url().'view:settings#option_group=advanced')
-                ->waitForText('Settings');
+            $browser->visit(admin_url().'view:settings#option_group=advanced');
             $browser->pause(5000);
+            $browser->waitForText('Settings',30);
 
             $html = $browser->script("return $('[name=website_head]').first().val()");
             $seoTag = preg_replace("/\r\n|\r|\n/", '<br/>', $seoTag);
