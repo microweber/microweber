@@ -30,35 +30,39 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            // Test xss create product page
-            $browser->visit(route('admin.product.create'));
-            $browser->within(new InputFieldsXssTest(), function ($browser) {
-                $browser->fill();
-            });
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-            $browser->pause(3000);
-
             // Test xss create post page
             $browser->visit(route('admin.post.create'));
+
+           // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->pause(3000);
+            $browser->pause(4000);
+
+            // Test xss create product page
+            $browser->visit(route('admin.product.create'));
+          //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(4000);
 
             // Test xss create page
             $browser->visit(route('admin.page.create'));
+         //   $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->pause(3000);
+            $browser->pause(4000);
 
             // Check routers for errors
             $routeCollection = Route::getRoutes();
@@ -116,6 +120,10 @@ class AdminXssTest extends DuskTestCase
                     }
 
                     $browser->visit($visitPage);
+
+                    $browser->within(new InputFieldsXssTest(), function ($browser) {
+                        $browser->fill();
+                    });
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();

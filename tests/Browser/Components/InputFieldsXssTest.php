@@ -46,7 +46,15 @@ class InputFieldsXssTest extends BaseComponent
 
         $browser->pause(1000);
 
+        $jquery = $browser->script("return (typeof $ !== 'undefined')");
+        if (isset($jquery[0]) && $jquery[0] == false) {
+            return;
+        }
+
+       // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+
         $browser->script('$("input[type=text]:visible").addClass("js-input-type-fields")');
+        $browser->script('$("input[type=search]:visible").addClass("js-input-type-fields")');
         $browser->script('$("textarea:visible").addClass("js-input-type-fields")');
         $browser->pause(1000);
 
@@ -59,10 +67,11 @@ class InputFieldsXssTest extends BaseComponent
             $elementClass = '.js-input-type-fields-'.$key;
 
             $browser->pause(1000);
-            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 60 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 50 }, 0);");
             $browser->pause(1000);
 
-            $browser->type($elementClass,  '"><img src=x onerror=confirm(document.domain)>', '{enter}');
+            echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
+            $browser->type($elementClass, '"><img src=x onerror=confirm(document.domain)>', '{enter}');
 
             $browser->pause(3000);
         }
