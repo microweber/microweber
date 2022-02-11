@@ -58,7 +58,6 @@ class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
 
         save_option(array(
             'option_group' => 'website',
-            'module' => 'settings/group/custom_head_tags',
             'option_key' => 'website_head',
             'option_value' => $seoTag
         ));

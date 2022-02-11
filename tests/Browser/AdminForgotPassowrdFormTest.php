@@ -41,6 +41,13 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $browser->visit($siteUrl . 'admin/login');
             $browser->pause('2000');
 
+            $data = [];
+            $data['option_value'] = 'y';
+            $data['option_key'] = 'captcha_disabled';
+            $data['option_group'] = 'users';
+            save_option($data);
+
+
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
 
