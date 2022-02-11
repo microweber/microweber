@@ -52,6 +52,7 @@ class InputFieldsXssTest extends BaseComponent
         }
 
         $browser->script('$("input[type=text]:visible").addClass("js-input-type-fields")');
+        $browser->script('$("input[type=search]:visible").addClass("js-input-type-fields")'); 
         $browser->script('$("textarea:visible").addClass("js-input-type-fields")');
         $browser->pause(1000);
 
