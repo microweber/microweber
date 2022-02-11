@@ -42,6 +42,7 @@ abstract class DuskTestCase extends BaseTestCase
             $arguments = [];
             $arguments[] = '--disable-gpu';
             $arguments[] = '--no-sandbox';
+            $arguments[] = '--ignore-certificate-errors';
 
             if (getenv('GITHUB_RUN_NUMBER')) {
                 $arguments[] = '--headless';
@@ -54,7 +55,7 @@ abstract class DuskTestCase extends BaseTestCase
             $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
-            )
+            ), 90000, 90000
         );
     }
 
