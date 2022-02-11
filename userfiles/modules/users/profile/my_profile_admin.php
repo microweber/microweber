@@ -47,7 +47,7 @@ if (isset($user['role'])) {
                 <br/>
 
                 <?php
-                if (\Illuminate\Support\Facades\Route::has('admin.role.create')): 
+                if (\Illuminate\Support\Facades\Route::has('admin.role.create')):
                 ?>
                <div class="d-none">
                    <h6 class="font-weight-bold mb-1"><?php _e('Set and manage user roles'); ?></h6>
