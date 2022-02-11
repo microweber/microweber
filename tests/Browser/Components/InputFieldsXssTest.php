@@ -51,6 +51,8 @@ class InputFieldsXssTest extends BaseComponent
             return;
         }
 
+        $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+
         $browser->script('$("input[type=text]:visible").addClass("js-input-type-fields")');
         $browser->script('$("input[type=search]:visible").addClass("js-input-type-fields")');
         $browser->script('$("textarea:visible").addClass("js-input-type-fields")');
