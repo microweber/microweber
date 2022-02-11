@@ -51,7 +51,7 @@ class InputFieldsXssTest extends BaseComponent
             return;
         }
 
-        $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+       // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
 
         $browser->script('$("input[type=text]:visible").addClass("js-input-type-fields")');
         $browser->script('$("input[type=search]:visible").addClass("js-input-type-fields")');
@@ -67,7 +67,7 @@ class InputFieldsXssTest extends BaseComponent
             $elementClass = '.js-input-type-fields-'.$key;
 
             $browser->pause(1000);
-            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 330 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 50 }, 0);");
             $browser->pause(1000);
 
             echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;

@@ -33,7 +33,7 @@ class AdminXssTest extends DuskTestCase
             // Test xss create post page
             $browser->visit(route('admin.post.create'));
 
-            $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+           // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
@@ -44,7 +44,7 @@ class AdminXssTest extends DuskTestCase
 
             // Test xss create product page
             $browser->visit(route('admin.product.create'));
-            $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+          //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
@@ -55,7 +55,7 @@ class AdminXssTest extends DuskTestCase
 
             // Test xss create page
             $browser->visit(route('admin.page.create'));
-            $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+         //   $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
             $browser->within(new InputFieldsXssTest(), function ($browser) {
                 $browser->fill();
             });
