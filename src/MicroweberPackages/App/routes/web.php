@@ -200,10 +200,10 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
         $admin_url = $custom_admin_url;
     }
 
-    Route::any('/' . $admin_url, 'AdminController@index');
+    Route::any('/' . $admin_url, 'AdminController@index')->name('admin.home');
     Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
 
-    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
+    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
 
     Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
 
