@@ -30,6 +30,20 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            // Test xss create product page
+            $browser->visit(route('admin.product.create'));
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+
+            $browser->pause(23000);
+            return;
+
+
+
+
+
+            // Check routers for errors
             $routeCollection = Route::getRoutes();
             foreach ($routeCollection as $value) {
 
@@ -85,13 +99,6 @@ class AdminXssTest extends DuskTestCase
                     }
 
                     $browser->visit($visitPage);
-
-                 /*   $browser->within(new InputFieldsXssTest(), function ($browser) {
-                        $browser->fill();
-                    });
-
-                    $browser->acceptDialog();
-                 */
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();

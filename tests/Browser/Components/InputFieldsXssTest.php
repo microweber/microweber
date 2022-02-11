@@ -57,15 +57,20 @@ class InputFieldsXssTest extends BaseComponent
             $elementClass = '.js-input-type-fields-'.$key;
 
             $browser->pause(1000);
-            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 30 }, 0);");
+            $browser->script("$('html, body').animate({ scrollTop: $('$elementClass').first().offset().top - 60 }, 0);");
             $browser->pause(1000);
-
-            $browser->type($elementClass, '"><img src=x onerror=confirm(document.domain)>');
+/*
+            $browser->script(" $('$elementClass').val('\"><img src=x onerror=confirm(document.domain)>')");
             $browser->pause(1000);
+            $browser->type($elementClass,  '{enter}');*/
 
-            $browser->keys($elementClass, '{enter}');
+            $browser->type($elementClass,  '"><img src=x onerror=confirm(document.domain)>', '{enter}');
 
-            $browser->pause(2000);
+            $browser->pause(3000);
         }
+
+        $browser->script('$("input:visible").submit()');
+        $browser->pause(3000);
+
     }
 }

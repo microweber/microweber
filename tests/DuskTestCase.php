@@ -43,6 +43,7 @@ abstract class DuskTestCase extends BaseTestCase
             $arguments[] = '--disable-gpu';
             $arguments[] = '--no-sandbox';
             $arguments[] = '--ignore-certificate-errors';
+            $arguments[] = '--disable-xss-auditor';
 
             if (getenv('GITHUB_RUN_NUMBER')) {
                 $arguments[] = '--headless';
