@@ -46,6 +46,11 @@ class InputFieldsXssTest extends BaseComponent
 
         $browser->pause(1000);
 
+        $jquery = $browser->script("return (typeof $ !== 'undefined')");
+        if (isset($jquery[0]) && $jquery[0] == false) {
+            return;
+        }
+
         $browser->script('$("input[type=text]:visible").addClass("js-input-type-fields")');
         $browser->script('$("textarea:visible").addClass("js-input-type-fields")');
         $browser->pause(1000);

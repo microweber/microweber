@@ -117,6 +117,10 @@ class AdminXssTest extends DuskTestCase
 
                     $browser->visit($visitPage);
 
+                    $browser->within(new InputFieldsXssTest(), function ($browser) {
+                        $browser->fill();
+                    });
+
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
                     });
