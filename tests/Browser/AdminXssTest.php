@@ -15,6 +15,7 @@ use MicroweberPackages\Product\Models\Product;
 use Spatie\Permission\Models\Role;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\InputFieldsXssTest;
 use Tests\DuskTestCase;
 
 class AdminXssTest extends DuskTestCase
@@ -87,6 +88,10 @@ class AdminXssTest extends DuskTestCase
 
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
+                    });
+
+                    $browser->within(new InputFieldsXssTest(), function ($browser) {
+                        $browser->fill();
                     });
 
                     echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
