@@ -30,6 +30,7 @@ class SecurityTest extends BaseTest
         $xssList = $zip->getFromName('xss-payload-list.txt');
         $zip->close();
 
+        $xssList = preg_replace('~\R~u', "\r\n", $xssList);
         $xssList = explode(PHP_EOL, $xssList);
 
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();

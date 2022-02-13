@@ -290,6 +290,8 @@ trait QueryFilter
                                 foreach ($to_search_keywords as $to_search_keyword) {
                                     $to_search_keyword = trim($to_search_keyword);
 
+                                    $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+                                    $to_search_keyword = $antiXss->clean($to_search_keyword);
 
                                     if ($to_search_keyword != false) {
                                         if (is_string($to_search_in_fields)) {
@@ -302,6 +304,13 @@ trait QueryFilter
                                         $to_search_keyword = str_replace('[', '', $to_search_keyword);
                                         $to_search_keyword = str_replace(']', '', $to_search_keyword);
                                         $to_search_keyword = str_replace(';', '', $to_search_keyword);
+                                        $to_search_keyword = str_replace('%', '', $to_search_keyword);
+
+                                        if(mb_strlen($to_search_keyword) > 100){
+                                            $to_search_keyword = mb_substr($to_search_keyword, 0, 100);
+                                        }
+
+
                                         if ($to_search_keyword != '') {
 
                                             /*                                            // Search in tags

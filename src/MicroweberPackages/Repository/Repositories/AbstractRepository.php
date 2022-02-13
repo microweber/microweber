@@ -1219,6 +1219,7 @@ abstract class AbstractRepository
     {
 
         if (isset($params['keyword'])) {
+            // FilterByKeywordTrait
             $model->filter(['keyword' => $params['keyword']]);
         }
 

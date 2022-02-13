@@ -26,8 +26,10 @@ if (!function_exists('site_hostname')) {
     {
         $siteUrl = site_url();
         $parseUrl = parse_url($siteUrl);
-
-        return $parseUrl['host'];
+        if(isset($parseUrl['host'])) {
+            return $parseUrl['host'];
+        }
+        return 'localhost';
     }
 }
 
