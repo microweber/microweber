@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\SlowTests;
 
 
 use Illuminate\Support\Facades\Route;
@@ -12,11 +12,12 @@ use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
-use Spatie\Permission\Models\Role;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\InputFieldsXssTest;
 use Tests\DuskTestCase;
+
+
 
 class AdminXssTest extends DuskTestCase
 {

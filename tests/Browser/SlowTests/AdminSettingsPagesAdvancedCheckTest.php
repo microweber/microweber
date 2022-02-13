@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\SlowTests;
 
+use Arcanedev\SeoHelper\Entities\Analytics;
 use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
 use Arcanedev\SeoHelper\Entities\Twitter\Card;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Arcanedev\SeoHelper\Entities\Webmasters;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
-use Arcanedev\SeoHelper\Entities\Analytics;
+use function admin_url;
+use function save_option;
 
-use Arcanedev\SeoHelper\Entities\Webmasters;
 class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
 {
     public function testHeadTagsTextAreaValue()

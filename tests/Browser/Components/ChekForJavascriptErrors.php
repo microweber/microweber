@@ -41,7 +41,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
-        $browser->pause(3000);
+       // $browser->pause(3000);
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
