@@ -428,10 +428,12 @@ class ContentManagerCrud extends Crud
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
             } else {
+
                 $get = array();
                 $get['url'] = $contentSlug;
                 $get['single'] = true;
-                $content = $this->get($get);
+
+                $content = $this->app->content_repository->getByParams($get);
             }
         }
 
@@ -1067,6 +1069,11 @@ class ContentManagerCrud extends Crud
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('categories');
         }
+        $this->app->cache_manager->delete('options');
+        $this->app->option_repository->clearCache();
+        $this->app->content_repository->clearCache();
+
+        $this->clearCache();
 
         if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
             $data_to_save['images'] = $data_to_save['pictures'];
@@ -1132,6 +1139,7 @@ class ContentManagerCrud extends Crud
 
         }
 
+        $this->app->cache_manager->delete('global');
         $this->app->cache_manager->delete('custom_fields');
         $this->app->cache_manager->delete('custom_fields_values');
         $this->app->cache_manager->delete('media');
@@ -1142,12 +1150,17 @@ class ContentManagerCrud extends Crud
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
             $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
+
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('categories');
         $this->app->cache_manager->delete('categories_items');
+        $this->app->cache_manager->delete('db');
+        $this->app->cache_manager->delete('repositories');
+        $this->app->cache_manager->delete('___global');
+
         if ($cats_modified != false) {
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
