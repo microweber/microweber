@@ -43,12 +43,7 @@ class AdminMakeInstall extends BaseComponent
     public function makeInstallation(Browser $browser)
     {
         $siteUrl = 'http://127.0.0.1:8000/';
-
-        if (mw_is_installed()) {
-            PHPUnit::assertTrue(true);
-            return true;
-        }
-
+        
         /* $deleteDbFiles = [];
          $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
          $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
@@ -59,29 +54,34 @@ class AdminMakeInstall extends BaseComponent
          }*/
 
         $browser->visit($siteUrl);
-        $browser->waitForText('install');
-        $browser->assertSee('install');
+        $browser->pause(700);
 
-        $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-            $browser->validate();
-        });
+        if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@name="admin_username"]'))) > 0) {
+
+            $browser->waitForText('install');
+            $browser->assertSee('install');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
 
-        // Fill the install fields
-        $browser->type('admin_username', '1');
-        $browser->type('admin_password', '1');
-        $browser->type('admin_password2', '1');
-        $browser->type('admin_email', 'bobi@microweber.com');
+            // Fill the install fields
+            $browser->type('admin_username', '1');
+            $browser->type('admin_password', '1');
+            $browser->type('admin_password2', '1');
+            $browser->type('admin_email', 'bobi@microweber.com');
 
-        $browser->pause(300);
-        $browser->select('#default_template', 'new-world');
+            $browser->pause(300);
+            $browser->select('#default_template', 'new-world');
 
-        $browser->pause(100);
-        $browser->click('@install-button');
+            $browser->pause(100);
+            $browser->click('@install-button');
 
-        $browser->pause(20000);
+            $browser->pause(20000);
 
-        clearcache();
+            clearcache();
+        }
 
     }
 }
