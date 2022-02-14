@@ -3,6 +3,7 @@
 namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\CustomField\Fields\Text;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Helper\XSSSecurity;
 use function Matrix\trace;
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
@@ -306,8 +307,8 @@ class FieldsManager
             return false;
         }
 
-        $xssClean = new XSSSecurity();
-        $fieldData = $xssClean->clean($fieldData);
+        $xssClean = new HTMLClean();
+        $fieldData = $xssClean->cleanArray($fieldData);
 
         if (isset($fieldData['copy_of']) and $fieldData['copy_of']) {
 
