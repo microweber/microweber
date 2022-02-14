@@ -15,8 +15,8 @@ class ProductCreateRequest extends FormRequest
     {
         $rules = [
             // 'title' => 'required', // todo with multilanguage
-            'price' => 'nullable|min:0'
-        ]; 
+            'price' => 'nullable|price'
+        ];
 
         return $rules;
     }

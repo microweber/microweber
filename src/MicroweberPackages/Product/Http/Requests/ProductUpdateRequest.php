@@ -15,7 +15,7 @@ class ProductUpdateRequest extends FormRequest
     {
         $rules = [
              //'title' => 'required',
-            'price' => 'nullable|min:0'
+            'price' => 'nullable|price'
         ];
 
         return $rules;
