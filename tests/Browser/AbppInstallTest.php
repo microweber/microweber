@@ -10,11 +10,12 @@ use Tests\DuskTestCase;
 
 class AbppInstallTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
 
     public function testViewDashboard()
     {
+        $this->testInstallation();
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
