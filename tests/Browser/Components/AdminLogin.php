@@ -41,10 +41,15 @@ class AdminLogin extends BaseComponent
 
     public function fillForm(Browser $browser, $username = 1, $password = 1)
     {
+        $browser->visit(route('admin.login'));
+        $browser->pause(1500);
+
         // Check app is installed
-        $browser->within(new AdminMakeInstall(), function ($browser) {
-            $browser->makeInstallation();
-        });
+        if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@id="password"]'))) == 0) {
+            $browser->within(new AdminMakeInstall(), function ($browser) {
+                $browser->makeInstallation();
+            });
+        }
 
         $data = [];
         $data['option_value'] = 'n';
