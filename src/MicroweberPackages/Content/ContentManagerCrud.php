@@ -1019,8 +1019,9 @@ class ContentManagerCrud extends Crud
 
         $data_to_save = $this->map_params_to_schema($data_to_save);
 
-
-        //dd($data_to_save);
+        $this->clearCache();
+        $this->app->content_repository->clearCache();
+        
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
         /* SQLITE FIX */
