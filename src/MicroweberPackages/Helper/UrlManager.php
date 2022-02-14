@@ -102,19 +102,18 @@ class UrlManager
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
 
-        preg_match('/([a-z0-9A-Z]\.)*[a-z0-9-]+\.([a-z0-9]{2,24})+(\.co\.([a-z0-9]{2,24})|\.([a-z0-9]{2,24}))*/',$url, $matches);
-
-        $url = site_url();
-        if (isset($matches[0])) {
-            if ($matches[0] == site_hostname()) {
-                $url = $matches[0];
+        $redirectUrl = site_url();
+        $parseUrl = parse_url($url);
+        if (isset($parseUrl['host'])) {
+            if ($parseUrl['host'] == site_hostname()) {
+                $redirectUrl = $url;
             }
         }
 
         if (headers_sent()) {
-            echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
+            echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
         } else {
-            return \Redirect::to($url);
+            return \Redirect::to($redirectUrl);
         }
     }
 
