@@ -13,7 +13,6 @@ use Tests\DuskTestCase;
 
 class LiveEditMultilanguageTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
     public function testLiveEditNewPageSave()
     {
@@ -43,11 +42,11 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(5000);
 
             $randClassForDagAndDrop = 'rand-class-' . time();
-            $browser->script("$('.edit .container .mw-empty-element').addClass('$randClassForDagAndDrop')");
+            $browser->script("$('.edit[rel=\"content\"][field=\"content\"]').find('div').last().addClass('$randClassForDagAndDrop')");
             $browser->pause(1000);
             $browser->click('.' . $randClassForDagAndDrop);
 
-            $browser->type('.' . $randClassForDagAndDrop, 'This is my text on english language');
+            $browser->typeSlowly('.' . $randClassForDagAndDrop, 'This is my text on english language');
 
             $browser->click('#main-save-btn');
             $browser->pause(5000);
@@ -61,14 +60,14 @@ class LiveEditMultilanguageTest extends DuskTestCase
             $browser->pause(3000);
 
             $randClassForWrite = 'rand-class-' . time();
-            $browser->script("$('.edit .mw-empty-element').addClass('$randClassForWrite')");
+            $browser->script("$('.edit[rel=\"content\"][field=\"content\"]').find('div').last().addClass('$randClassForWrite')");
             $browser->pause(3000);
 
 
             $browser->click('.' . $randClassForWrite);
 
             $browser->pause(3000);
-            $browser->type('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
+            $browser->typeSlowly('.' . $randClassForWrite, 'Текст написан на български, това е българска страница');
             $browser->click('#main-save-btn');
             $browser->pause(5000);
 
