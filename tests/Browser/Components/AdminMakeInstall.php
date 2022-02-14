@@ -5,6 +5,7 @@ namespace Tests\Browser\Components;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminMakeInstall extends BaseComponent
 {
@@ -43,45 +44,42 @@ class AdminMakeInstall extends BaseComponent
     {
         $siteUrl = site_url();
 
-        $this->browse(function (Browser $browser) use($siteUrl) {
+        if (mw_is_installed()) {
+            PHPUnit::assertTrue(true);
+            return true;
+        }
 
-            if (mw_is_installed()) {
-                $this->assertTrue(true);
-                return true;
-            }
+        /* $deleteDbFiles = [];
+         $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
+         $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
+         foreach ($deleteDbFiles as $file) {
+             if (is_file($file)) {
+                 unlink($file);
+             }
+         }*/
 
-            /* $deleteDbFiles = [];
-             $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
-             $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
-             foreach ($deleteDbFiles as $file) {
-                 if (is_file($file)) {
-                     unlink($file);
-                 }
-             }*/
+        $browser->visit($siteUrl)->assertSee('install');
 
-            $browser->visit($siteUrl)->assertSee('install');
-
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-
-
-            // Fill the install fields
-            $browser->type('admin_username', '1');
-            $browser->type('admin_password', '1');
-            $browser->type('admin_password2', '1');
-            $browser->type('admin_email', 'bobi@microweber.com');
-
-            $browser->pause(300);
-            $browser->select('#default_template', 'new-world');
-
-            $browser->pause(100);
-            $browser->click('@install-button');
-
-            $browser->pause(20000);
-
-            clearcache();
-
+        $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+            $browser->validate();
         });
+
+
+        // Fill the install fields
+        $browser->type('admin_username', '1');
+        $browser->type('admin_password', '1');
+        $browser->type('admin_password2', '1');
+        $browser->type('admin_email', 'bobi@microweber.com');
+
+        $browser->pause(300);
+        $browser->select('#default_template', 'new-world');
+
+        $browser->pause(100);
+        $browser->click('@install-button');
+
+        $browser->pause(20000);
+
+        clearcache();
+
     }
 }
