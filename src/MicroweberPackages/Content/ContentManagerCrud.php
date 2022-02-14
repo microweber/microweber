@@ -1069,6 +1069,7 @@ class ContentManagerCrud extends Crud
         }
         $this->app->cache_manager->delete('options');
         $this->app->option_repository->clearCache();
+        $this->app->content_repository->clearCache();
 
         if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
             $data_to_save['images'] = $data_to_save['pictures'];
