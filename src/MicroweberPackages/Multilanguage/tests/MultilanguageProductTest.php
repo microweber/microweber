@@ -47,6 +47,7 @@ class MultilanguageProductTest extends MultilanguageTestBase
 
         $apiProductStore = [];
         $apiProductStore['title'] = 'Product ' . $rand;
+        $apiProductStore['price'] = rand(111,999);
         $apiProductStore['content'] = 'Product description' . $rand;
 
         $apiProductStore['multilanguage']['title']['bg_BG'] = 'Съдържание' . $rand;
@@ -63,6 +64,7 @@ class MultilanguageProductTest extends MultilanguageTestBase
             'POST',
             route('api.product.store', $apiProductStore)
         );
+
         $this->assertEquals(201, $response->status());
         $ProductSaved = $response->getData()->data;
 
