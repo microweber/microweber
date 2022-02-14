@@ -1021,7 +1021,8 @@ class ContentManagerCrud extends Crud
 
         $this->clearCache();
         $this->app->content_repository->clearCache();
-        
+        $this->app->permalink_manager->clearCache();
+
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
         /* SQLITE FIX */
