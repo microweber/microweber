@@ -105,7 +105,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
-                'price' => '0',
+                'price' => 0,
             ])
 
         );
