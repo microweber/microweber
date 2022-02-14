@@ -98,14 +98,16 @@ class UrlManager
         if (trim($url) == '') {
             return false;
         }
+
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
 
-        $parseUrl = parse_url($url);
+        preg_match('/([a-z0-9A-Z]\.)*[a-z0-9-]+\.([a-z0-9]{2,24})+(\.co\.([a-z0-9]{2,24})|\.([a-z0-9]{2,24}))*/',$url, $matches);
 
-        if (isset($parseUrl['host'])) {
-            if ($parseUrl['host'] !== site_hostname()) {
-                $url = site_url();
+        $url = site_url();
+        if (isset($matches[0])) {
+            if ($matches[0] == site_hostname()) {
+                $url = $matches[0];
             }
         }
 
@@ -113,8 +115,6 @@ class UrlManager
             echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {
             return \Redirect::to($url);
-
-            return;
         }
     }
 

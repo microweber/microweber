@@ -351,7 +351,7 @@ class OptionManager
         }
 
         $xssClean = new HTMLClean();
-        $data = $xssClean->cleanArray($data); 
+        $data = $xssClean->cleanArray($data);
 
 
         $this->clear_memory();
