@@ -20,7 +20,6 @@ use MicroweberPackages\Content\Repositories\ContentRepository;
 class ContentManager
 {
     public static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
-    public static $precached_links = array();
     public $tables = array();
     public $table_prefix = false;
 
