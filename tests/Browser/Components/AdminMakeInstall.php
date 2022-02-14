@@ -42,7 +42,7 @@ class AdminMakeInstall extends BaseComponent
 
     public function makeInstallation(Browser $browser)
     {
-        $siteUrl = site_url();
+        $siteUrl = 'http://127.0.0.1:8000/';
 
         if (mw_is_installed()) {
             PHPUnit::assertTrue(true);
