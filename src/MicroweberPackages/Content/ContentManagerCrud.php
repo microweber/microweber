@@ -428,10 +428,12 @@ class ContentManagerCrud extends Crud
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
             } else {
+                
                 $get = array();
                 $get['url'] = $contentSlug;
                 $get['single'] = true;
-                $content = $this->get($get);
+
+                $content = $this->app->content_repository->getByParams($get);
             }
         }
 
