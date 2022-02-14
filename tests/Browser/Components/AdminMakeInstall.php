@@ -43,7 +43,7 @@ class AdminMakeInstall extends BaseComponent
     public function makeInstallation(Browser $browser)
     {
         $siteUrl = 'http://127.0.0.1:8000/';
-        
+
         /* $deleteDbFiles = [];
          $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'config/microweber.php';
          $deleteDbFiles[] = dirname(dirname(__DIR__)) . DS . 'storage/127_0_0_1.sqlite';
