@@ -120,8 +120,7 @@ abstract class DuskTestCase extends BaseTestCase
 
             clearcache();
 
-            $user = User::where('is_admin', '=', '1')->first();
-            Auth::login($user);
+
 
         });
     }

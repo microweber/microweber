@@ -3,8 +3,11 @@
 namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\User\Models\User;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\AdminMakeInstall;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
@@ -14,11 +17,17 @@ class AbppInstallTest extends DuskTestCase
 
     public function testViewDashboard()
     {
-        $this->testInstallation();
-
+//        $this->testInstallation();
+//        $user = User::where('is_admin', '=', '1')->first();
+//        Auth::login($user);
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
+
+
+            $browser->within(new AdminMakeInstall(), function ($browser) {
+                $browser->makeInstallation();
+            });
 
 
             $browser->within(new AdminLogin(), function ($browser) {
