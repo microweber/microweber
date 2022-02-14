@@ -41,6 +41,11 @@ class AdminLogin extends BaseComponent
 
     public function fillForm(Browser $browser, $username = 1, $password = 1)
     {
+        // Check app is installed
+        $browser->within(new AdminMakeInstall(), function ($browser) {
+            $browser->makeInstallation();
+        });
+
         $data = [];
         $data['option_value'] = 'n';
         $data['option_key'] = 'login_captcha_enabled';

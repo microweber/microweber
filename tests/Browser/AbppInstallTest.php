@@ -14,26 +14,15 @@ use Tests\DuskTestCase;
 class AbppInstallTest extends DuskTestCase
 {
 
-
     public function testViewDashboard()
     {
-//        $this->testInstallation();
-//        $user = User::where('is_admin', '=', '1')->first();
-//        Auth::login($user);
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use($siteUrl) {
 
-
-            $browser->within(new AdminMakeInstall(), function ($browser) {
-                $browser->makeInstallation();
-            });
-
-
             $browser->within(new AdminLogin(), function ($browser) {
                 $browser->fillForm();
             });
-
 
             $browser->visit($siteUrl . 'admin');
             $browser->pause(5000);

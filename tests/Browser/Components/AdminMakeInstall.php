@@ -39,12 +39,10 @@ class AdminMakeInstall extends BaseComponent
         return [];
     }
 
-
-
     public function makeInstallation(Browser $browser)
     {
-
         $siteUrl = site_url();
+
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             if (mw_is_installed()) {
@@ -83,8 +81,6 @@ class AdminMakeInstall extends BaseComponent
             $browser->pause(20000);
 
             clearcache();
-
-
 
         });
     }
