@@ -58,7 +58,9 @@ class AdminMakeInstall extends BaseComponent
              }
          }*/
 
-        $browser->visit($siteUrl)->assertSee('install');
+        $browser->visit($siteUrl);
+        $browser->waitForText('install');
+        $browser->assertSee('install');
 
         $browser->within(new ChekForJavascriptErrors(), function ($browser) {
             $browser->validate();
