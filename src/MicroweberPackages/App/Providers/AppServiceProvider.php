@@ -323,6 +323,12 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setEnvironmentDetection()
     {
+        if (isset($_ENV['APP_ENV'])) {
+            $this->app->detectEnvironment(function () {
+                return $_ENV['APP_ENV'];
+            });
+        }
+
         if($this->app->runningUnitTests()) {
             $this->app->detectEnvironment(function () {
                 return 'testing';
