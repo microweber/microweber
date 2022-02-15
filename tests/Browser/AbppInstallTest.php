@@ -24,7 +24,6 @@ class AbppInstallTest extends DuskTestCase
                 $browser->makeInstallation();
             });
 
-
             $browser->within(new AdminLogin(), function ($browser) {
                 $browser->fillForm();
             });
@@ -44,6 +43,10 @@ class AbppInstallTest extends DuskTestCase
             $browser->waitForText('Settings', 30);
             $browser->waitForText('Users', 30);
             $browser->waitForText('Log out', 30);
+
+            $browser->assertSee('Dashboard');
+            $browser->assertSee('Marketplace');
+            $browser->assertSee('Statistics');
 
             $browser->pause(1500);
 
