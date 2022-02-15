@@ -54,7 +54,7 @@ class AdminMakeInstall extends BaseComponent
          }*/
 
         $browser->visit($siteUrl);
-        $browser->pause(700);
+        $browser->pause(700); 
 
         if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@name="admin_username"]'))) > 0) {
 

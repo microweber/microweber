@@ -20,6 +20,10 @@ class AbppInstallTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
+            $browser->within(new AdminMakeInstall(), function ($browser) {
+                $browser->makeInstallation();
+            });
+
             $browser->within(new AdminLogin(), function ($browser) {
                 $browser->fillForm();
             });
