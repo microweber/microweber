@@ -350,9 +350,8 @@ class OptionManager
             $data = parse_params($data);
         }
 
-        $xssClean = new HTMLClean();
-        $data = $xssClean->cleanArray($data);
-
+    /*    $xssClean = new HTMLClean();
+        $data = $xssClean->cleanArray($data);*/
 
         $this->clear_memory();
         app()->option_repository->clearCache();
