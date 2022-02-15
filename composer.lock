@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ac7a9d1bd4823adab5f9de27434b962",
+    "content-hash": "dd9e6948c8b4c76d9e5b1de300c97890",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2171,16 +2171,16 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.14.1",
+            "version": "0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "307b42066fb0b76b5119f5e1f0826e18fefabe95"
+                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/307b42066fb0b76b5119f5e1f0826e18fefabe95",
-                "reference": "307b42066fb0b76b5119f5e1f0826e18fefabe95",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/17e12ba9c2881caa6b167d0fbea555c11207fbb0",
+                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0",
                 "shasum": ""
             },
             "require": {
@@ -2211,9 +2211,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.14.1"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.15.0"
             },
-            "time": "2021-08-09T23:46:54+00:00"
+            "time": "2022-02-13T00:42:56+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -5630,35 +5630,35 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "4.1",
+            "version": "4.2",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world.git",
-                "reference": "e52373b25095c2a0f2f35b1c163986f267853292"
+                "reference": "861c3568cc136d2f21f8db73430c0651eb88aa9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-e52373b25095c2a0f2f35b1c163986f267853292-zip-edf420.zip",
-                "reference": "e52373b25095c2a0f2f35b1c163986f267853292",
-                "shasum": "35e1d66791f62980c1f1142ecbff128313747f45"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-861c3568cc136d2f21f8db73430c0651eb88aa9f-zip-2c0118.zip",
+                "reference": "861c3568cc136d2f21f8db73430c0651eb88aa9f",
+                "shasum": "4e2dbe96fceda02e83df553aae09bbf8f9843978"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "http://https://template.yoursite.com/new-world/",
                 "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/screenshot.jpg",
-                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/plugins/slick/fonts/slick.svg",
-                    "hr-line": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/hr-line.svg",
-                    "hr-vertical": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/hr-vertical.svg",
-                    "quotes": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/quotes.svg",
-                    "hr-old": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/hr-old.svg",
-                    "hr-zigzag": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/hr-zigzag.svg",
-                    "hr": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/assets/img/hr.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/41/readme.md"
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/screenshot.jpg",
+                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "slick": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/plugins/slick/fonts/slick.svg",
+                    "hr-line": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/hr-line.svg",
+                    "hr-vertical": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/hr-vertical.svg",
+                    "quotes": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/quotes.svg",
+                    "hr-old": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/hr-old.svg",
+                    "hr-zigzag": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/hr-zigzag.svg",
+                    "hr": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/assets/img/hr.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/42/readme.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5683,10 +5683,10 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/new-world/tree/4.1",
+                "source": "https://github.com/microweber-templates/new-world/tree/4.2",
                 "issues": "https://github.com/microweber-templates/new-world/issues"
             },
-            "time": "2022-02-08T10:45:43+00:00"
+            "time": "2022-02-15T10:20:09+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
