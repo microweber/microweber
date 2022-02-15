@@ -83,6 +83,16 @@ class CheckoutCartTest extends DuskTestCase
         $payments = get_option('payment_gw_shop/payments/gateways/paypal', 'payments') == '1';
         $this->assertTrue($payments);
 
+        $foundpaypal = false;
+        $payment_options = app()->shop_manager->payment_options();
+        foreach ($payment_options as $payment_option) {
+            if ($payment_option['gw_file'] == 'shop/payments/gateways/paypal') {
+                $foundpaypal = true;
+            }
+        }
+
+        $this->assertTrue($foundpaypal);
+
 
         $option = array();
         $option['option_value'] = 'y';
@@ -113,11 +123,14 @@ class CheckoutCartTest extends DuskTestCase
             $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 60 }, 0);");
             $browser->pause(3000);
 
+            $browser->script("$('html, body').animate({ scrollTop: $('[name=payment_gw]').first().offset().top - 60 }, 0);");
 
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
             $browser->pause(1000);
 
             try {
+                $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 10 }, 0);");
+
                 $browser->click('.js-finish-your-order')->waitForText('Please wait', 15);
             } catch (\Facebook\WebDriver\Exception\WebDriverCurlException $e) {
 
