@@ -2,9 +2,9 @@
 
 namespace MicroweberPacakges\Core\Console\Commands;
 
-use Illuminate\Foundation\Console\ServeCommand as BaseServeCommand;
+use Illuminate\Foundation\Console\ServeCommand;
 
-class ServeTestCommand extends BaseServeCommand
+class ServeTestCommand extends ServeCommand
 {
 
     /**

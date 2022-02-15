@@ -17,10 +17,6 @@ class CoreServiceProvider extends ServiceProvider
     {
         //  $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
-    }
-
-    public function register()
-    {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ServeTestCommand::class,
