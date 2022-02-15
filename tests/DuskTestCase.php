@@ -18,6 +18,13 @@ abstract class DuskTestCase extends BaseTestCase
 
     use CreatesApplication;
 
+
+    protected function setUp(): void
+    {
+        putenv('APP_ENV=production');
+        $_ENV['APP_ENV'] = 'production';
+        parent::setUp();
+    }
     /**
      * Prepare for Dusk test execution.
      *
