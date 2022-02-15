@@ -4,6 +4,7 @@ on: [push,pull_request]
 jobs:
   main:
     runs-on: ubuntu-latest
+    needs: [dusk,dusk_apache]
     strategy:
       fail-fast: true
       max-parallel: 36
