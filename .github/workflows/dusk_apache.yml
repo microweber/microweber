@@ -61,6 +61,8 @@ jobs:
         rm .env
         cp .env.testing .env
         export APP_ENV=testing
+    - name: Check environment
+      run:  php -i | grep APP_ENV
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:

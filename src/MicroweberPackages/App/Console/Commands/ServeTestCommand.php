@@ -45,16 +45,16 @@ class ServeTestCommand extends ServeCommand
     {
 
 
-        if(isset($_ENV['APP_ENV']) and $_ENV['APP_ENV']){
-            $setEnvCommand = 'export APP_ENV='.$_ENV['APP_ENV'];
-            if (PHP_OS_FAMILY === "Windows") {
-                $setEnvCommand = 'set APP_ENV='.$_ENV['APP_ENV'];
-            }
-            exec($setEnvCommand);
+//        if(isset($_ENV['APP_ENV']) and $_ENV['APP_ENV']){
+//            $setEnvCommand = 'export APP_ENV='.$_ENV['APP_ENV'];
+//            if (PHP_OS_FAMILY === "Windows") {
+//                $setEnvCommand = 'set APP_ENV='.$_ENV['APP_ENV'];
+//            }
+//            exec($setEnvCommand);
+//
+//         }
 
-         }
-
-        return [
+        $command = [
             (new PhpExecutableFinder)->find(false),
             '-d',
             'variables_order=EGPCS',
@@ -62,6 +62,8 @@ class ServeTestCommand extends ServeCommand
             $this->host().':'.$this->port(),
             base_path('server.php'),
         ];
+        dd($command);
+        return $command;
     }
 
 }
