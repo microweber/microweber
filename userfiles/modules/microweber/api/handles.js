@@ -742,6 +742,7 @@ mw._initHandles = {
                     className:'mw_handle_module_clone',
                     action: function () {
                         var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+
                         var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
                         mw.liveEditState.record({
                             target: pt,
@@ -761,6 +762,9 @@ mw._initHandles = {
                                 target: pt,
                                 value: parent.innerHTML
                             });
+                            var node = $(mw._activeModuleOver).next()[0]
+                            node.scrollIntoView();
+                            mw.wysiwyg.change(node)
                         });
 
                         mw.handleModule.hide();
@@ -848,6 +852,9 @@ mw._initHandles = {
                                 target: pt,
                                 value: parent.innerHTML
                             });
+                            var node = $(mw._activeModuleOver).next()[0]
+                            node.scrollIntoView();
+                            mw.wysiwyg.change(node)
                         });
                         mw.handleModule.hide();
                     }

@@ -784,7 +784,8 @@ class CheckoutManager
         if (is_string($option_key)) {
             $option_key_q = "&limit=1&option_key={$option_key}";
         }
-        $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
+       /// $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
+        $providers = $this->app->option_repository->getByParams('option_group=payments' . $option_key_q);
 
         $payment_modules = get_modules('type=payment_gateway');
         $str = 'payment_gw_';

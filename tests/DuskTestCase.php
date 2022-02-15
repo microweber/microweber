@@ -5,8 +5,12 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use MicroweberPackages\User\Models\User;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -36,12 +40,19 @@ abstract class DuskTestCase extends BaseTestCase
     {
 
         $options = (new ChromeOptions)->addArguments(collect([
+            '--disable-web-security',
+            '--disable-xss-auditor',
+            '--enable-devtools-experiments',
             '--window-size=1920,1080',
         ])->unless($this->hasHeadlessDisabled(), function ($items) {
 
             $arguments = [];
+            $arguments[] = '--disable-web-security';
+            $arguments[] = '--disable-xss-auditor';
+            $arguments[] = '--enable-devtools-experiments';
             $arguments[] = '--disable-gpu';
             $arguments[] = '--no-sandbox';
+            $arguments[] = '--ignore-certificate-errors';
 
             if (getenv('GITHUB_RUN_NUMBER')) {
                 $arguments[] = '--headless';
@@ -54,7 +65,7 @@ abstract class DuskTestCase extends BaseTestCase
             $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
-            )
+            ), 90000, 90000
         );
     }
 
@@ -82,5 +93,7 @@ abstract class DuskTestCase extends BaseTestCase
         }
 
     }
+
+
 
 }

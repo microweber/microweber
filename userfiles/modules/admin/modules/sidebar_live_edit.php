@@ -119,6 +119,8 @@
                 mwSidebarSearchItems('', what);
                 $('.mw-search-no-results', '.' + what).hide();
                 $('.mw-ui-box-header-2', '.' + what).show();
+                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+
             }
 
             function mwSidebarSearchItems(value, what) {
@@ -130,6 +132,7 @@
                 }
                 value = value.toLowerCase().trim();
 
+                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                 if (!value) {
                     $('.mw-sidebar-search-clear-x-btn' ).hide();
@@ -138,6 +141,7 @@
                     $('#mw-sidebar-layouts-list .mw-ui-box-header-2~li[data-filter]').hide();
                     $('.mw-search-no-results' ).hide();
                      $('.mw-ui-box-header-2,.module-item-module').show();
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
 
                     return;
                 } else {
@@ -159,6 +163,7 @@
                      description = description || $(this).attr('data-filter');
                     var title = $(this).attr('title') || false;
                     var template = $(this).attr('template') || false;
+                    var has_hidden_attr = $(this).attr('data-is-hidden') || false;
 
                     if (
                         !!title && title.toLowerCase().contains(value)
@@ -167,6 +172,10 @@
 
                     ) {
                          show = true;
+                    }
+
+                    if(has_hidden_attr){
+                        show = false;
                     }
 
                     if (!show) {
@@ -183,9 +192,16 @@
 
                 if (numberOfResults === 0) {
                     $('.mw-search-no-results', '.' + what).show();
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+
                 } else {
+                    $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+
                     $('.mw-search-no-results', '.' + what).hide();
                 }
+
+                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+
             }
 
             $(document).ready(function () {

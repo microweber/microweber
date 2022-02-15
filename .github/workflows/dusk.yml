@@ -2,7 +2,7 @@ name: Dusk
 on: [push,pull_request]
 
 jobs:
-  main:
+  dusk:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -66,6 +66,14 @@ jobs:
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         php artisan dusk --testsuite MicroweberMultilanguageTests
+    - name: Run Dusk Template Tests
+      run: |
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        php artisan dusk --testsuite MicroweberTemplatesTests
+    - name: Run Dusk Slow Tests
+      run: |
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        php artisan dusk --testsuite MicroweberSlowTests
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2

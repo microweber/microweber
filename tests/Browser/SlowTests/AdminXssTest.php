@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\SlowTests;
 
 
 use Illuminate\Support\Facades\Route;
@@ -12,10 +12,12 @@ use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
-use Spatie\Permission\Models\Role;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\InputFieldsXssTest;
 use Tests\DuskTestCase;
+
+
 
 class AdminXssTest extends DuskTestCase
 {
@@ -29,6 +31,41 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            // Test xss create post page
+            $browser->visit(route('admin.post.create'));
+
+           // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(4000);
+
+            // Test xss create product page
+            $browser->visit(route('admin.product.create'));
+          //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(4000);
+
+            // Test xss create page
+            $browser->visit(route('admin.page.create'));
+         //   $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+            $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->fill();
+            });
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $browser->pause(4000);
+
+            // Check routers for errors
             $routeCollection = Route::getRoutes();
             foreach ($routeCollection as $value) {
 
@@ -85,11 +122,17 @@ class AdminXssTest extends DuskTestCase
 
                     $browser->visit($visitPage);
 
+                    $browser->within(new InputFieldsXssTest(), function ($browser) {
+                        $browser->fill();
+                    });
+
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                         $browser->validate();
                     });
 
+                    echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
                     $browser->assertDontSee('There is some error');
+
                     $browser->pause(700);
                 }
             }

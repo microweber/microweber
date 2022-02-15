@@ -14,6 +14,7 @@ namespace MicroweberPackages\Option;
 
 use DB;
 use Cache;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\Traits\ModuleOptionTrait;
@@ -349,7 +350,11 @@ class OptionManager
             $data = parse_params($data);
         }
 
+    /*    $xssClean = new HTMLClean();
+        $data = $xssClean->cleanArray($data);*/
+
         $this->clear_memory();
+        app()->option_repository->clearCache();
 
         $option_group = false;
         if (is_array($data)) {
@@ -491,6 +496,7 @@ class OptionManager
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('repositories');
                 $this->clear_memory();
+                $this->app->database_manager->clearCache();
 
                 return $save;
             }

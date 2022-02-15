@@ -15,6 +15,7 @@ class ProductRequest extends FormRequest
     {
         $rules = [
           //  'title' => 'required',
+            'price' => 'nullable|price'
         ];
 
         return $rules;

@@ -124,13 +124,16 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array_merge($modules, $modules_from_template);
     }
 
+
+
+
     if($modules){
         foreach ($modules as $modk=>$module){
             if(isset($module['name']) and
                 (in_array($module['name'], $hide_from_display_list)
                     or in_array(strtolower($module['name']), $hide_from_display_list))
             ){
-                unset($modules[$modk]);
+              //  unset($modules[$modk]);
             }
         }
     }
@@ -250,6 +253,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     }
 
 }
+
+
 ?>
 
 
@@ -604,7 +609,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                     ?>
                     <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
-                    <li <?php if (isset($hide_from_display_list) and in_array($module_item['module'], $hide_from_display_list)) { ?> style="display: none"   <?php } ?>   <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
+                    <li <?php if (isset($hide_from_display_list) and in_array($module_item['module'], $hide_from_display_list)) { ?> data-is-hidden="true" style="display: none"   <?php } ?>   <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                             data-module-name="<?php print $module_item['module'] ?>"
 
                         <?php if ($mod_obj_str == 'elements'): ?> style="" <?php endif; ?>
