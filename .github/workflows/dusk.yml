@@ -12,6 +12,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1
+      with:
+        envkey_DEBUG: true
+        envkey_APP_ENV: "testing"
+        file_name: .env
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       with:
@@ -56,11 +62,6 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Set env
-    - uses: some-action@v1
-      env:
-        APP_ENV: testing
-        APP_DEBUG: true
     - name: Run Laravel Server
       #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
       run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
