@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Page\Models\Page;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\EnvCheck;
 use Tests\DuskTestCase;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ class VisitRoutesTest extends DuskTestCase
      */
     public function testBrowserEnvironment() {
 
- 
+
 //        Route::getRoutes()->refreshNameLookups();
 //        Route::getRoutes()->refreshActionLookups();
 
@@ -36,15 +37,13 @@ class VisitRoutesTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+             $browser->within(new EnvCheck, function ($browser) {
+                $browser->checkEnvName($browser);
+            });
 
 
-            $environment = app()->environment();
-            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
-                ->element('')->getText();
 
-            $this->assertEquals($environment, $browserEnvironment,
-                "Browser environment [{$browserEnvironment}]
-            diverge from the given environment [{$environment}]");
+
 
         });
 

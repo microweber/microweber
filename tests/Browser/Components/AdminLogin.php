@@ -71,6 +71,11 @@ class AdminLogin extends BaseComponent
             $browser->waitForLocation('/admin/', 120);
             $browser->pause(100);
         }
+
+
+        $browser->within(new EnvCheck, function ($browser) {
+            $browser->checkEnvName($browser);
+        });
     }
 
 
