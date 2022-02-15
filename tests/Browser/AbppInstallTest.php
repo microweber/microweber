@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\AdminMakeInstall;
 use Tests\DuskTestCase;
 
 class AbppInstallTest extends DuskTestCase
@@ -14,6 +15,10 @@ class AbppInstallTest extends DuskTestCase
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
+
+            $browser->within(new AdminMakeInstall(), function ($browser) {
+                $browser->makeInstallation();
+            });
 
             $browser->within(new AdminLogin(), function ($browser) {
                 $browser->fillForm();
