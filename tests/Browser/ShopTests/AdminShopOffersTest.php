@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\ShopTests;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;

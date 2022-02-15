@@ -1,15 +1,18 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Order\Models\Order;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
+use function app;
+use function get_option;
+use function save_option;
+use function Tests\Browser\str_contains;
 
 class CheckoutCartTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
     public function testSubmit()
     {

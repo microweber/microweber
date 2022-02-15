@@ -13,16 +13,18 @@
         <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
             <exclude>./tests/Browser/Multilanguage</exclude>
+            <exclude>./tests/Browser/ShopTests</exclude>
             <exclude>./tests/Browser/SlowTests</exclude>
+        </testsuite>
+        <testsuite name="MicroweberShopTests">
+            <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
         </testsuite>
         <testsuite name="MicroweberMultilanguageTests">
             <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
-            <exclude>./tests/Browser/SlowTests</exclude>
         </testsuite>
         <testsuite name="MicroweberTemplatesTests">
             <directory>./userfiles/templates/*/tests/Browser</directory>
             <directory>./userfiles/templates/*/src/tests/Browser</directory>
-            <exclude>./tests/Browser/SlowTests</exclude>
         </testsuite>
         <testsuite name="MicroweberSlowTests">
             <directory>./tests/Browser/SlowTests</directory>

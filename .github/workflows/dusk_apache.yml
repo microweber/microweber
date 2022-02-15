@@ -67,6 +67,10 @@ jobs:
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         php artisan dusk --testsuite MicroweberCoreTests
+    - name: Run Dusk Shop Tests
+      run: |
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        php artisan dusk --testsuite MicroweberShopTests
     - name: Run Dusk Multilanguage Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
