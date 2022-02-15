@@ -24,7 +24,6 @@ class ServeTestCommand extends ServeCommand
 
     public function handle()
     {
-        $_SERVER['aaaaaaaaaaaa'] = 'asdasdas';
         $status = parent::handle();
         $envArg = $this->option('env')  ;
         if($envArg){
