@@ -391,9 +391,9 @@ class AppServiceProvider extends ServiceProvider
 
 
             return $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')) {
-                    return getenv('APP_ENV');
-                }
+//                if (getenv('APP_ENV')) {
+//                    return getenv('APP_ENV');
+//                }
 
                 if(!$domain){
                     return app()->environment();
