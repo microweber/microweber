@@ -56,11 +56,11 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Copy .env.testing to .env and set APP_ENV to testing
-      run: |
-        rm .env
-        cp .env.testing .env
-        export APP_ENV=testing
+#    - name: Copy .env.testing to .env and set APP_ENV to testing
+#      run: |
+#        rm .env
+#        cp .env.testing .env
+#        export APP_ENV=testing
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:
@@ -70,6 +70,7 @@ jobs:
         http-port: 8000
     - name: Run Dusk Tests
       run: |
+        APP_ENV=testing
         chmod -R 0755 vendor/laravel/dusk/bin/
         php artisan dusk --testsuite MicroweberCoreTests
     - name: Run Dusk Shop Tests
