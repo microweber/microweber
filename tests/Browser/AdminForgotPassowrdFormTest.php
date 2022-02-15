@@ -26,7 +26,8 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
         $data['option_group'] = 'users';
         save_option($data);
 
-
+        $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+        $this->assertTrue($captcha_disabled);
 
         $siteUrl = $this->siteUrl;
 
