@@ -328,13 +328,27 @@ class AppServiceProvider extends ServiceProvider
                 return 'testing';
             });
         }
+ 
 
+        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
+            $this->app->detectEnvironment(function () {
+                return 'testing';
+            });
+        }
 
         if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
+            if(isset($_SERVER['argv'][1]) and $_SERVER['argv'][1] == 'dusk') {
+                $this->app->detectEnvironment(function () {
+                    return 'testing';
+                });
+            } else {
+
             $this->app->detectEnvironment(function () {
                 return app()->environment();
             });
+            }
         }
+
 
         if (defined('MW_UNIT_TEST')) {
             $this->app->detectEnvironment(function () {
@@ -345,6 +359,7 @@ class AppServiceProvider extends ServiceProvider
                 return MW_UNIT_TEST_ENV_FROM_TEST;
             });
         }
+
 
        if (!is_cli()) {
             $domain = null;
