@@ -11,6 +11,15 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public $parserErrorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
     private $sqlite_file = 'phpunit.sqlite';
 
+    protected function setUp(): void
+    {
+        $_ENV['APP_ENV'] = 'testing';
+        putenv('APP_ENV=testing');
+        ini_set('memory_limit', '-1');
+
+        parent::setUp();
+    }
+
 
     public function createApplication()
     {
@@ -22,6 +31,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST', true);
         }
 
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV','testing');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -232,12 +242,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
-    public function setUp(): void
-    {
-        ini_set('memory_limit', '-1');
-
-        parent::setUp();
-    }
 
 
     private function normalizePath($path, $slash_it = true)
@@ -281,5 +285,15 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
+
+    protected function assertPreConditions(): void
+    {
+
+        $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
+        $this->assertEquals('testing', app()->environment());
+
+
+
+    }
 }
 
