@@ -21,8 +21,13 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-//        $_ENV['APP_ENV'] = 'testing';
-//        putenv('APP_ENV=testing');
+
+        if (!defined('MW_UNIT_TEST')) {
+            define('MW_UNIT_TEST', true);
+        }
+        
+        $_ENV['APP_ENV'] = 'testing';
+        putenv('APP_ENV=testing');
         parent::setUp();
     }
     /**
@@ -93,8 +98,8 @@ abstract class DuskTestCase extends BaseTestCase
     protected function assertPreConditions(): void
     {
 
-//       $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
-//       $this->assertEquals('testing', app()->environment());
+       $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
+       $this->assertEquals('testing', app()->environment());
 
         if (mw_is_installed()) {
 

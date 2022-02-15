@@ -336,9 +336,17 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+        if (defined('MW_UNIT_TEST')) {
+            $this->app->detectEnvironment(function () {
+                if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+                    return 'testing';
+                }
 
+                return MW_UNIT_TEST_ENV_FROM_TEST;
+            });
+        }
 
-      //  if (!is_cli()) {
+       if (!is_cli()) {
             $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
                 $domain = $_SERVER['HTTP_HOST'];
@@ -371,17 +379,9 @@ class AppServiceProvider extends ServiceProvider
 
 
             });
-        //}
+         }
 
-        if (defined('MW_UNIT_TEST')) {
-            $this->app->detectEnvironment(function () {
-                if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
-                    return 'testing';
-                }
 
-                return MW_UNIT_TEST_ENV_FROM_TEST;
-            });
-        }
     }
 
     protected function registerUtils()
