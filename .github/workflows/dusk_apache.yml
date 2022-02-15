@@ -58,7 +58,7 @@ jobs:
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
     - name: Copy .env.testing to .env and set APP_ENV to testing
       run: |
-        rm -y .env
+        rm .env
         cp .env.testing .env
         export APP_ENV=testing
     - name: Setup Apache
