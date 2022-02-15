@@ -113,6 +113,8 @@ class OptionRepository extends AbstractRepository
     {
         self::$_getOptionsByGroup = [];
         self::$_getAllExistingOptionGroups = [];
+        self::$_cacheCallbackMemory = [];
+        parent::clearCache();
     }
 
     public static $_getOptionsByGroup = [];
