@@ -1065,6 +1065,7 @@ class ContentManagerCrud extends Crud
 
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('repositories');
+        $this->app->cache_manager->delete('db');
         if ($url_changed != false) {
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('categories');
@@ -1072,6 +1073,7 @@ class ContentManagerCrud extends Crud
         $this->app->cache_manager->delete('options');
         $this->app->option_repository->clearCache();
         $this->app->content_repository->clearCache();
+        $this->app->database_manager->clearCache();
 
         $this->clearCache();
 

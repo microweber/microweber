@@ -77,7 +77,12 @@ class CheckoutCartTest extends DuskTestCase
         $option['option_value'] = 1;
         $option['option_key'] = 'payment_gw_shop/payments/gateways/paypal';
         $option['option_group'] = 'payments';
+        $option['module'] = 'shop/payments';
         save_option($option);
+
+        $payments = get_option('payment_gw_shop/payments/gateways/paypal', 'payments') == '1';
+        $this->assertTrue($payments);
+
 
         $option = array();
         $option['option_value'] = 'y';
