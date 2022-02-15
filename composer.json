@@ -80,7 +80,7 @@
         "whitecube/lingua": "1.1.0",
         "predis/predis": "2.0.x-dev",
         "torann/laravel-repository": "*",
-        "enshrined/svg-sanitize": "0.14.1",
+        "enshrined/svg-sanitize": "0.15.0",
         "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
         "microweber-packages/composer-client": "dev-main"
