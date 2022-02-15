@@ -55,6 +55,7 @@ class AdminMakeInstall extends BaseComponent
                  unlink($file);
              }
          }*/
+        $browser->pause(700);
 
         $browser->visit($siteUrl);
         $browser->pause(700);
