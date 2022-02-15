@@ -79,7 +79,7 @@ class AdminLogin extends BaseComponent
 
 
         $browser->visit(admin_url());
-        $browser->pause(1000);
+        $browser->pause(3000);
 
     }
 
