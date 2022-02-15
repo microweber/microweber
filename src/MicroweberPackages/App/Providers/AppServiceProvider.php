@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
+use MicroweberPacakges\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -201,7 +202,15 @@ class AppServiceProvider extends ServiceProvider
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
 
-        $this->app->register(CoreServiceProvider::class);
+
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ServeTestCommand::class,
+            ]);
+        }
+
+       // $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
         $this->registerUtils();

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPacakges\Core\Console\Commands;
+namespace MicroweberPacakges\App\Console\Commands;
 
 use Illuminate\Foundation\Console\ServeCommand;
 
