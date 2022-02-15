@@ -350,7 +350,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-dump($_SERVER);
         if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
             $this->app->detectEnvironment(function () {
                 return 'testing';
