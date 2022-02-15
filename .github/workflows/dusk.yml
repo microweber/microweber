@@ -54,10 +54,11 @@ jobs:
         run: php artisan dusk:update
       - name: Copy env
         run: |
-          cp /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
+          cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
           chmod 777 /home/runner/work/microweber/microweber/.env
-          php artisan config:clear
-          php artisan optimize:clear
+          chmod 777 /home/runner/work/microweber/microweber/storage/
+          sudo php artisan config:clear
+          sudo php artisan optimize:clear
       - name: Start Chrome Driver
         run: |
           vendor/laravel/dusk/bin/chromedriver-linux --version
