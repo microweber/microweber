@@ -2,7 +2,7 @@ name: Dusk
 on: [push,pull_request]
 
 jobs:
-  main:
+  dusk:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
