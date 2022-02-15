@@ -19,6 +19,7 @@ use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
+use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
@@ -199,6 +200,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
+
+        $this->app->register(CoreServiceProvider::class);
+
         $this->setEnvironmentDetection();
         $this->registerUtils();
 
