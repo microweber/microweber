@@ -44,6 +44,12 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
+    - name: Create env file
+      run: |
+        cat << EOF >> .env
+        APP_ENV=testing
+        APP_DEBUG=true
+        EOF
     - name: Install Chrome Driver
       run: php artisan dusk:install
     - name: Dusk updater install
@@ -56,11 +62,6 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Copy .env
-      run: |
-        php -r "copy('.env.testing', '.env');"
-        cat .env
-        php artisan config:clear
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:
