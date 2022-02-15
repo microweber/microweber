@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
+        uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_DEBUG: true
           envkey_APP_ENV: "testing"
