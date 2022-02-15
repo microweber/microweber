@@ -56,8 +56,8 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Copy .env.testing to .env
-      run: cat /home/runner/work/microweber/microweber/.env.testing > /home/runner/work/microweber/microweber/.env
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
     - name: Run Laravel Server
       #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
       run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &

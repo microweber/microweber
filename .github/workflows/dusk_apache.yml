@@ -56,8 +56,8 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-    - name: Copy .env.testing to .env
-      run: cat /home/runner/work/microweber/microweber/.env.testing > /home/runner/work/microweber/microweber/.env
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:
