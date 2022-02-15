@@ -33,6 +33,7 @@
     <php>
         <ini name="display_errors" value="On" />
         <ini name="display_startup_errors" value="On" />
+        <env name="APP_ENV" value="testing"/>
 
     </php>
 </phpunit>

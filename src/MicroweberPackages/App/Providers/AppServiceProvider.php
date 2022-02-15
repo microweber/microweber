@@ -330,6 +330,14 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
+        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
+            $this->app->detectEnvironment(function () {
+                return app()->environment();
+            });
+        }
+
+
+
       //  if (!is_cli()) {
             $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
@@ -356,7 +364,12 @@ class AppServiceProvider extends ServiceProvider
                     $domain = str_ireplace(':' . $port[1], '', $domain);
                 }
 
-                return strtolower($domain);
+                if(is_dir(config_path($domain)) and is_file(config_path($domain) . '/microweber.php')) {
+                    return strtolower($domain);
+                }
+                return app()->environment();
+
+
             });
         //}
 
