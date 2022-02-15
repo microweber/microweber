@@ -73,9 +73,7 @@ class AdminLogin extends BaseComponent
         }
 
 
-        $browser->within(new EnvCheck, function ($browser) {
-            $browser->checkEnvName($browser);
-        });
+
 
 
         $browser->visit(admin_url());

@@ -9,6 +9,7 @@ use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\EnvCheck;
 use Tests\DuskTestCase;
 
 class AdminAddCategoryTest extends DuskTestCase
@@ -25,6 +26,11 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+            $browser->pause(1000);
+            $browser->within(new EnvCheck, function ($browser) {
+                $browser->checkEnvName($browser);
+            });
+            $browser->pause(1000);
 
 
             $categoryTitle = 'This is the category title'.time();
@@ -37,7 +43,7 @@ class AdminAddCategoryTest extends DuskTestCase
             });
 
             $browser->pause(1000);
-            $browser->waitForText('Category name');  
+            $browser->waitForText('Category name');
 
             $browser->type('#content-title-field', $categoryTitle);
 
