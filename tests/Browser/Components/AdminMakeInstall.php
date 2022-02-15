@@ -4,8 +4,10 @@ namespace Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use MicroweberPackages\Config\ConfigSave;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminMakeInstall extends BaseComponent
@@ -84,6 +86,12 @@ class AdminMakeInstall extends BaseComponent
             clearcache();
 
             Artisan::call('config:clear');
+
+            app()->bind('Config', function($app){
+                return new ConfigSave($app);
+            });
+
+            dd(Config::get('microweber'));
         }
 
     }
