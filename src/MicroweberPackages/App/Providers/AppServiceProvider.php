@@ -323,7 +323,14 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setEnvironmentDetection()
     {
-        if (!is_cli()) {
+        if($this->app->runningUnitTests()) {
+            $this->app->detectEnvironment(function () {
+                return 'testing';
+            });
+        }
+
+
+      //  if (!is_cli()) {
             $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
                 $domain = $_SERVER['HTTP_HOST'];
@@ -338,7 +345,7 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 if(!$domain){
-                    return 'production';
+                    return app()->environment();
                 }
 
                 $port = explode(':', $domain);
@@ -351,7 +358,7 @@ class AppServiceProvider extends ServiceProvider
 
                 return strtolower($domain);
             });
-        }
+        //}
 
         if (defined('MW_UNIT_TEST')) {
             $this->app->detectEnvironment(function () {
