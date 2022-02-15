@@ -44,12 +44,6 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Create env file
-      run: |
-        cat << EOF >> .env
-        APP_ENV=testing
-        APP_DEBUG=true
-        EOF
     - name: Install Chrome Driver
       run: php artisan dusk:install
     - name: Dusk updater install
@@ -62,7 +56,11 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-
+    - name: Set env
+    - uses: some-action@v1
+      env:
+        APP_ENV: testing
+        APP_DEBUG: true
     - name: Run Laravel Server
       #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
       run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &

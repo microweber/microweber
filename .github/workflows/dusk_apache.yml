@@ -44,12 +44,11 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Create env file
-      run: |
-        cat << EOF >> .env
-        APP_ENV=testing
-        APP_DEBUG=true
-        EOF
+    - name: Set env
+    - uses: some-action@v1
+      env:
+        APP_ENV: testing
+        APP_DEBUG: true
     - name: Install Chrome Driver
       run: php artisan dusk:install
     - name: Dusk updater install
