@@ -14,9 +14,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
+        env:
+          DEBUG: true
+          APP_ENV: "testing"
         with:
           envkey_DEBUG: true
           envkey_APP_ENV: "testing"
+          directory: /home/runner/work/microweber/microweber/
           file_name: .env
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
