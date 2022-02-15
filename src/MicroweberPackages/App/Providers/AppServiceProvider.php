@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
-use MicroweberPacakges\App\Console\Commands\ServeTestCommand;
+use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -336,6 +336,7 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setEnvironmentDetection()
     {
+
         if (isset($_ENV['APP_ENV'])) {
             $this->app->detectEnvironment(function () {
                 return $_ENV['APP_ENV'];
@@ -349,6 +350,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
+dump($_SERVER);
         if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
             $this->app->detectEnvironment(function () {
                 return 'testing';
