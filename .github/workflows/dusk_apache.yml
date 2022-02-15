@@ -64,7 +64,6 @@ jobs:
         run: php artisan dusk:update
       - name: Copy env
         run: |
-          sudo setenforce 0
           cp /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
           chmod 777 /home/runner/work/microweber/microweber/.env
           php artisan config:clear
