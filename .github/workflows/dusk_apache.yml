@@ -56,11 +56,8 @@ jobs:
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-#    - name: Copy .env.testing to .env and set APP_ENV to testing
-#      run: |
-#        rm .env
-#        cp .env.testing .env
-#        export APP_ENV=testing
+    - name: Copy .env.testing to .env
+      run: cp .env.testing .env
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:
