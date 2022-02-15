@@ -57,7 +57,7 @@ jobs:
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+      run: php -r "copy('.env.testing', '.env');"
     - name: Setup Apache
       uses: thunder/apache-shiva-php-action@v1
       with:
