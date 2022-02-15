@@ -3,6 +3,7 @@
 namespace Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverBy;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -54,7 +55,7 @@ class AdminMakeInstall extends BaseComponent
          }*/
 
         $browser->visit($siteUrl);
-        $browser->pause(700); 
+        $browser->pause(700);
 
         if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@name="admin_username"]'))) > 0) {
 
@@ -81,6 +82,8 @@ class AdminMakeInstall extends BaseComponent
             $browser->pause(20000);
 
             clearcache();
+
+            Artisan::call('config:clear');
         }
 
     }
