@@ -83,15 +83,11 @@ class AdminMakeInstall extends BaseComponent
 
             $browser->pause(20000);
 
-            clearcache();
-
+            Artisan::call('config:cache');
             Artisan::call('config:clear');
+            Artisan::call('cache:clear');
 
-            app()->bind('Config', function($app){
-                return new ConfigSave($app);
-            });
-
-            dd(Config::get('microweber'));
+            clearcache();
         }
 
     }
