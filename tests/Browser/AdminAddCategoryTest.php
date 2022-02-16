@@ -29,19 +29,7 @@ class AdminAddCategoryTest extends DuskTestCase
             });
 
 
-
-            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
-                ->element('')->getText();
-
-            $this->assertEquals($environment, $browserEnvironment,
-                "Browser environment [{$browserEnvironment}]
-            diverge from the given environment [{$environment}]");
-
-
-
-
-
-
+ 
 
             $browser->pause(1000);
             $browser->within(new EnvCheck, function ($browser) {
