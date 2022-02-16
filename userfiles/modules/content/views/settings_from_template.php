@@ -115,7 +115,7 @@ if (!empty($template_config)) {
                                 <?php } else if ($type == 'checkbox') { ?>
 
                                 <label>
-                                    <input type="checkbox" name="content_data[<?php print $name; ?>]" value="<?php print $value ?>" />
+                                    <input type="checkbox" name="content_data[<?php print $name; ?>]" <?php if ($value ==1):?> checked="checked" <?php endif;?> value="1" />
                                 </label>
 
                                 <?php } else if ($type == 'select') { ?>
