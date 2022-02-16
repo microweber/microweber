@@ -276,7 +276,7 @@ class CheckoutManager
             } else {
                 if ($mw_process_payment == true) {
                     $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
-                    if (isset($gw_check) && is_array($gw_check[0])) {
+                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
                         $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
