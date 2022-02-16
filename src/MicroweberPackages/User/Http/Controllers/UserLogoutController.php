@@ -31,10 +31,10 @@ class UserLogoutController extends Controller
     {
         $ref = $request->headers->get('referer');
 
-        $same_site = app()->make(SameSiteRefererMiddleware::class);
-        $is_same_site = $same_site->isSameSite($ref);
+        $sameSite = app()->make(SameSiteRefererMiddleware::class);
+        $isSameSite = $sameSite->isSameSite($ref);
 
-        if ($is_same_site) {
+        if ($isSameSite) {
             return logout($request->all());
         }
 
