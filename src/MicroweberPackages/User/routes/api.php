@@ -116,5 +116,8 @@ Route::name('api.')
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
+
+        Route::get('/logout', '\MicroweberPackages\User\Http\Controllers\UserLogoutController@index')->name('api.logout');
+
         Route::apiResource('user', 'UserApiController');
     });

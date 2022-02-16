@@ -29,6 +29,10 @@ Route::name('admin.')
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 
+    Route::get('/logout', 'UserLogoutController@index')->name('logout');
+    Route::post('/logout', 'UserLogoutController@submit')->name('logout.submit');
+
+
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
         ->middleware([\MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature::class]);
 
