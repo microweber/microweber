@@ -77,7 +77,6 @@ jobs:
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
-
       - name: Run Dusk Tests
         run: |
           APP_ENV=testing
