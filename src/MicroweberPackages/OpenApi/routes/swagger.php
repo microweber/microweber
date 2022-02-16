@@ -9,8 +9,8 @@ use L5Swagger\Http\Middleware\Config as L5SwaggerConfig;
 
 \Route::get('/_dusk/env', [
     'as' => 'l5-swagger.dusk.env',
-   //  'middleware' => ['web','admin'],
-    'middleware' => [ \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class],
+    'middleware' => ['web','admin'],
+   // 'middleware' => [ \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class],
     'uses' => function () {
         return response(app()->environment());
     }
