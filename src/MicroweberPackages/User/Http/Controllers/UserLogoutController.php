@@ -46,6 +46,10 @@ class UserLogoutController extends Controller
         Auth::logout();
 
         $url = site_url();
+        $redirect = $request->post('redirect_to', false);
+        if ($redirect) {
+            $url = $redirect;
+        }
 
         return app()->url_manager->redirect($url);
     }

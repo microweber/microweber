@@ -13,6 +13,10 @@
 
             <br />
 
+            @if(isset($_GET['redirect_to']))
+                <input type="hidden" name="redirect_to" value="{{$_GET['redirect_to']}}">
+            @endif
+
             <button type="submit" class="btn btn-primary submit">
                 {{ _e('Confirm') }}
             </button>
