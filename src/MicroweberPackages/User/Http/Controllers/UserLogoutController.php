@@ -5,6 +5,7 @@ namespace MicroweberPackages\User\Http\Controllers;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 
 class UserLogoutController extends Controller
@@ -42,7 +43,11 @@ class UserLogoutController extends Controller
 
     public function submit(Request $request)
     {
-        return logout();
+        Auth::logout();
+
+        $url = site_url();
+
+        return app()->url_manager->redirect($url);
     }
 
 }
