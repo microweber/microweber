@@ -33,7 +33,9 @@ if (!empty($template_config)) {
             <div class="collapse" id="template-settings">
 
                 <small class="text-muted"><?php _e("Best product labels examples are: Sale, Promo, Top Offer etc."); ?></small>
-                <hr class="thin no-padding">
+                <br>
+                <small class="text-muted"><?php _e("If you choose the Percent from the select field, it will be calculated automatically from the Price and Offer price of the product."); ?></small>
+                <hr class="thin">
                 <div class="row">
                         <?php foreach ($data_fields_conf as $item): ?>
                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -114,9 +116,8 @@ if (!empty($template_config)) {
                                 <input name="content_data[<?php print $name; ?>]" class="form-control mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                                 <?php } else if ($type == 'checkbox') { ?>
 
-                                <label>
-                                    <input type="checkbox" name="content_data[<?php print $name; ?>]" <?php if ($value ==1):?> checked="checked" <?php endif;?> value="1" />
-                                </label>
+                                <input type="checkbox" name="content_data[<?php print $name; ?>]" <?php if ($value ==1):?> checked="checked" <?php endif;?> value="1" />
+
 
                                 <?php } else if ($type == 'select') { ?>
                                     <select name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>">
