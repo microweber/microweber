@@ -61,6 +61,9 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--disable-gpu';
         $arguments[] = '--no-sandbox';
         $arguments[] = '--ignore-certificate-errors';
+        $arguments[] = '--window-size=1920,1080';
+        $arguments[] = '--disable-popup-blocking';
+
 
 
         $options = (new ChromeOptions)->addArguments(collect($arguments)
