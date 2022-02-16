@@ -276,6 +276,7 @@ class CheckoutManager
             } else {
                 if ($mw_process_payment == true) {
                     $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
+                    dd($gw_check);
                     if (isset($gw_check[0]) && is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
@@ -784,8 +785,8 @@ class CheckoutManager
         if (is_string($option_key)) {
             $option_key_q = "&limit=1&option_key={$option_key}";
         }
-       /// $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
-        $providers = $this->app->option_repository->getByParams('option_group=payments' . $option_key_q);
+        $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
+      //  $providers = $this->app->option_repository->getByParams('option_group=payments' . $option_key_q);
 
         $payment_modules = get_modules('type=payment_gateway');
         $str = 'payment_gw_';
