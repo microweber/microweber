@@ -9,6 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 	}
 }
 
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Helper\URLify;
 
 class UrlManager
@@ -109,6 +110,10 @@ class UrlManager
                 $redirectUrl = $url;
             }
         }
+        Log::info('About to redirect to: ' . $redirectUrl);
+        Log::info('Site url: ' . site_url());
+        Log::info('Site site_hostname: ' . site_hostname());
+        Log::info('Server: ' . json_encode($_SERVER, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
