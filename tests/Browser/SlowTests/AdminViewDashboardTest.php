@@ -12,9 +12,7 @@ class AdminViewDashboardTest extends DuskTestCase
 
     public function testViewDashboard()
     {
-        $siteUrl = $this->siteUrl;
-
-        $this->browse(function (Browser $browser) use ($siteUrl) {
+        $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminMakeInstall(), function ($browser) {
                 $browser->makeInstallation();
@@ -24,7 +22,7 @@ class AdminViewDashboardTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-
+            $browser->visit(admin_url());
 
             // Wait for redirect after login
             $browser->waitForText('Dashboard', 30);
