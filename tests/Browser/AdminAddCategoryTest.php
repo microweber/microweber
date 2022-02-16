@@ -22,14 +22,16 @@ class AdminAddCategoryTest extends DuskTestCase
 
         $environment = app()->environment();
 
+
+
         $this->browse(function (Browser $browser) use ($environment) {
+
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
 
- 
 
             $browser->pause(1000);
             $browser->within(new EnvCheck, function ($browser) {

@@ -44,7 +44,6 @@ class ServeTestCommand extends ServeCommand
     protected function serverCommand()
     {
 
-
 //        if(isset($_ENV['APP_ENV']) and $_ENV['APP_ENV']){
 //            $setEnvCommand = 'export APP_ENV='.$_ENV['APP_ENV'];
 //            if (PHP_OS_FAMILY === "Windows") {
@@ -62,7 +61,6 @@ class ServeTestCommand extends ServeCommand
             $this->host().':'.$this->port(),
             base_path('server.php'),
         ];
-        dd($command);
         return $command;
     }
 
