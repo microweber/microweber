@@ -43,6 +43,9 @@ class EnvCheck extends BaseComponent
 
     public function checkEnvName(Browser $browser)
     {
+
+        return;
+
         if (mw_is_installed()) {
 
             $user = User::where('username', 1)->first();
