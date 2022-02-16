@@ -42,15 +42,15 @@ class EnvCheck extends BaseComponent
 
     public function checkEnvName(Browser $browser)
     {
-        if (mw_is_installed()) {
-            $environment = app()->environment();
-            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
-                ->element('')->getText();
-
-            PHPUnit::assertEquals($environment, $browserEnvironment,
-                "Browser environment [{$browserEnvironment}]
-            diverge from the given environment [{$environment}]");
-        }
+//        if (mw_is_installed()) {
+//            $environment = app()->environment();
+//            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
+//                ->element('')->getText();
+//
+//            PHPUnit::assertEquals($environment, $browserEnvironment,
+//                "Browser environment [{$browserEnvironment}]
+//            diverge from the given environment [{$environment}]");
+//        }
 
     }
 

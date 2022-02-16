@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Post\Models\Post;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -19,13 +20,29 @@ class AdminAddCategoryTest extends DuskTestCase
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
+        $environment = app()->environment();
 
-
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($environment) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
+
+
+            $browserEnvironment = $browser->visit(route('l5-swagger.dusk.env'))
+                ->element('')->getText();
+
+            $this->assertEquals($environment, $browserEnvironment,
+                "Browser environment [{$browserEnvironment}]
+            diverge from the given environment [{$environment}]");
+
+
+
+
+
+
+
             $browser->pause(1000);
             $browser->within(new EnvCheck, function ($browser) {
                 $browser->checkEnvName($browser);
