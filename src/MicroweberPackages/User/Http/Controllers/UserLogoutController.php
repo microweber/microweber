@@ -35,7 +35,7 @@ class UserLogoutController extends Controller
         $is_same_site = $same_site->isSameSite($ref);
 
         if ($is_same_site) {
-            return logout();
+            return logout($request->all());
         }
 
         return view('user::logout.index');
