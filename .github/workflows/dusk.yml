@@ -113,3 +113,9 @@ jobs:
         with:
           name: storage-logs
           path: storage/logs
+      - name: Upload Laravel config
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: config
