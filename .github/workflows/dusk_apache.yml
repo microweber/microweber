@@ -79,7 +79,6 @@ jobs:
           http-port: 8000
       - name: Run Dusk Tests
         run: |
-          APP_ENV=testing
           chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberCoreTests
       - name: Run Dusk Shop Tests
@@ -90,6 +89,14 @@ jobs:
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberMultilanguageTests
+      - name: Run Dusk Template Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberTemplatesTests
+      - name: Run Dusk Slow Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberSlowTests
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
@@ -108,3 +115,9 @@ jobs:
         with:
           name: storage-logs
           path: storage/logs
+      - name: Upload Laravel config
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: config
