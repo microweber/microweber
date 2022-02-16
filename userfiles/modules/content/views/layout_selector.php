@@ -508,10 +508,12 @@ if (!empty($recomended_layouts)) {
                             <?php endif; ?>
 
 
-                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply this template"); ?></button>
+                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">
+                                <?php _e("Apply this template"); ?>
+                            </button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0 mb-3" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
+                                <a class="btn btn-link px-0 mb-3" href="<?php echo admin_url();?>view:packages">
                                     <small><?php _e("More Templates"); ?></small>
                                 </a>
                             <?php endif; ?>
