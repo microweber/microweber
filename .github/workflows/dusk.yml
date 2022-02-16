@@ -12,12 +12,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        env:
+          DEBUG: true
+          APP_ENV: "testing"
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        env:
+          fail-fast: true
+          DEBUG: true
+          APP_ENV: "testing"
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-          coverage: xdebug #optional
+          ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
+          #coverage: xdebug #optional
       - name: zstd act workaround
         run: sudo apt install zstd
       - name: google-chrome install
@@ -52,13 +60,13 @@ jobs:
           php artisan package:discover --ansi
       - name: Dusk update
         run: php artisan dusk:update
-      - name: Copy env
-        run: |
-          cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
-          chmod 777 /home/runner/work/microweber/microweber/.env
-          chmod 777 /home/runner/work/microweber/microweber/storage/
-          sudo php artisan config:clear
-          sudo php artisan optimize:clear
+      #      - name: Copy env
+      #        run: |
+      #          cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
+      #          chmod 777 /home/runner/work/microweber/microweber/.env
+      #          chmod 777 /home/runner/work/microweber/microweber/storage/
+      #          sudo php artisan config:clear
+      #          sudo php artisan optimize:clear
       - name: Start Chrome Driver
         run: |
           vendor/laravel/dusk/bin/chromedriver-linux --version
