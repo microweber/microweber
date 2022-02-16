@@ -5,6 +5,7 @@ namespace MicroweberPackages\User\Http\Controllers;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 
 class UserLogoutController extends Controller
 {
@@ -27,14 +28,21 @@ class UserLogoutController extends Controller
      */
     public function index(Request $request)
     {
+        $ref = $request->headers->get('referer');
+
+        $same_site = app()->make(SameSiteRefererMiddleware::class);
+        $is_same_site = $same_site->isSameSite($ref);
+
+        if ($is_same_site) {
+            return logout();
+        }
+
         return view('user::logout.index');
     }
 
-    public function loginForm()
+    public function submit(Request $request)
     {
-//        $parsed = view('user::admin.auth.index');
-//
-//        return app()->parser->process($parsed);
+        return logout();
     }
 
 }

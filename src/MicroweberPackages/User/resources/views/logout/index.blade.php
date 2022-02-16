@@ -7,7 +7,7 @@
         <h3>  {{ _e('Please confirm you want to logout') }} </h3>
 
         <form class="form-horizontal" role="form" method="POST"
-              action="{{ route('logout.confirm') }}">
+              action="{{ route('logout.submit') }}">
 
             @csrf
 
