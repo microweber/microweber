@@ -193,10 +193,13 @@ mw.DomTree = function (options) {
                     target = mw.tools.firstParentWithTag(target, 'li');
                     scope.toggle(target);
                 }
-                scope.selected(target);
-                if(target.nodeName === 'LI' && scope.settings.onSelect) {
-                    scope.settings.onSelect.call(scope, e, target, target._value);
+                if(target._selectable) {
+                    scope.selected(target);
+                    if(target.nodeName === 'LI' && scope.settings.onSelect) {
+                        scope.settings.onSelect.call(scope, e, target, target._value);
+                    }
                 }
+
             });
     };
 
@@ -226,7 +229,8 @@ mw.DomTree = function (options) {
         li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
         if ( typeof scope.settings.canSelect === 'function' ) {
             var can = scope.settings.canSelect(item, li);
-            li.classList.add('selectable-' + can)
+            li.classList.add('selectable-' + can);
+            li._selectable = can
         }
         return li;
     };

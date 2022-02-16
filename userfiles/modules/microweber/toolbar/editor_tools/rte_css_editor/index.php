@@ -80,15 +80,18 @@
                 element: '#domtree',
                 resizable:true,
                 targetDocument: mw.top().win.document,
-                /*canSelect: function (node, li) {
-                    return mw.tools.isEditable(node) || node.classList.contains('edit');
-                },*/
+                canSelect: function (node, li) {
+                    var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+                    return !cant;
+                    // return mw.tools.isEditable(node) || node.classList.contains('edit');
+                },
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
                      setTimeout(function () {
                         mw.top().liveEditSelector.select(node);
+
 
                         mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
                     })

@@ -384,15 +384,18 @@ input,select{
     min-height: calc(100% - 30px);
     min-height: -webkit-calc(100% - 30px);
 }
-.mw-domtree li.hover > span{
+.mw-domtree li.selectable-true.hover > span{
     background-color: #d1d1d1;
 }
 
 .mw-domtree li.selected > span{background-color: #0e80e5; color: #fff}
 
+.mw-domtree li.selectable-true{
+    cursor:pointer;
+}
 .mw-domtree li.selectable-false{
-    pointer-events:none;
-    opacity:.5;
+    cursor: default;
+    opacity:.8;
 }
 .mw-domtree li{
     list-style: none;
