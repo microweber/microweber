@@ -5,7 +5,11 @@ use Illuminate\Support\Facades\Route;
 use L5Swagger\ConfigFactory;
 use L5Swagger\Http\Middleware\Config as L5SwaggerConfig;
 
-Route::group(['namespace' => 'L5Swagger','middleware' => 'admin'], function (Router $router) {
+Route::group([
+    'namespace' => 'L5Swagger',
+    //'middleware' => 'admin'
+    ]
+    , function (Router $router) {
 
     \Route::get('/_dusk/env', [
         'as' => 'l5-swagger.dusk.env',

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
+use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -19,6 +20,7 @@ use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
+use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
@@ -199,6 +201,17 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
+
+
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ServeTestCommand::class,
+            ]);
+        }
+
+       // $this->app->register(CoreServiceProvider::class);
+
         $this->setEnvironmentDetection();
         $this->registerUtils();
 
@@ -323,6 +336,13 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setEnvironmentDetection()
     {
+
+        if (isset($_ENV['APP_ENV'])) {
+            $this->app->detectEnvironment(function () {
+                return $_ENV['APP_ENV'];
+            });
+        }
+
         if($this->app->runningUnitTests()) {
             $this->app->detectEnvironment(function () {
                 return 'testing';
@@ -330,11 +350,25 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
+        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
+            $this->app->detectEnvironment(function () {
+                return 'testing';
+            });
+        }
+
         if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
+            if(isset($_SERVER['argv'][1]) and $_SERVER['argv'][1] == 'dusk') {
+                $this->app->detectEnvironment(function () {
+                    return 'testing';
+                });
+            } else {
+
             $this->app->detectEnvironment(function () {
                 return app()->environment();
             });
+            }
         }
+
 
         if (defined('MW_UNIT_TEST')) {
             $this->app->detectEnvironment(function () {
@@ -346,6 +380,7 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+
        if (!is_cli()) {
             $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
@@ -356,9 +391,9 @@ class AppServiceProvider extends ServiceProvider
 
 
             return $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')) {
-                    return getenv('APP_ENV');
-                }
+//                if (getenv('APP_ENV')) {
+//                    return getenv('APP_ENV');
+//                }
 
                 if(!$domain){
                     return app()->environment();

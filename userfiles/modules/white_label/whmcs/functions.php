@@ -57,6 +57,10 @@ if (!function_exists('get_whitelabel_whmcs_settings')) {
         $whmcs_username = false;
         $whmcs_password = false;
 
+        if(!function_exists('get_white_label_config')){
+            return [];
+        }
+
         $settings = get_white_label_config();
         if (isset($settings['whmcs_url'])) {
             $whmcs_url = $settings['whmcs_url'];

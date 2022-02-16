@@ -25,11 +25,12 @@ abstract class DuskTestCase extends BaseTestCase
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
-        
+
         $_ENV['APP_ENV'] = 'testing';
         putenv('APP_ENV=testing');
         parent::setUp();
     }
+
     /**
      * Prepare for Dusk test execution.
      *
@@ -38,11 +39,11 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public static function prepare()
     {
-        if (! static::runningInSail()) {
+        if (!static::runningInSail()) {
             static::startChromeDriver();
         }
 
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV','testing');
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
     }
 
@@ -53,28 +54,23 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+        $arguments = [];
+        $arguments[] = '--disable-web-security';
+        $arguments[] = '--disable-xss-auditor';
+        //$arguments[] = '--enable-devtools-experiments';
+        $arguments[] = '--disable-gpu';
+        $arguments[] = '--no-sandbox';
+        $arguments[] = '--ignore-certificate-errors';
 
-        $options = (new ChromeOptions)->addArguments(collect([
-            '--disable-web-security',
-            '--disable-xss-auditor',
-            '--enable-devtools-experiments',
-            '--window-size=1920,1080',
-        ])->unless($this->hasHeadlessDisabled(), function ($items) {
 
-            $arguments = [];
-            $arguments[] = '--disable-web-security';
-            $arguments[] = '--disable-xss-auditor';
-            $arguments[] = '--enable-devtools-experiments';
-            $arguments[] = '--disable-gpu';
-            $arguments[] = '--no-sandbox';
-            $arguments[] = '--ignore-certificate-errors';
+        $options = (new ChromeOptions)->addArguments(collect($arguments)
+            ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
+                if (getenv('GITHUB_RUN_NUMBER')) {
+                    $arguments[] = '--headless';
+                }
+                return $items->merge($arguments);
 
-            if (getenv('GITHUB_RUN_NUMBER')) {
-                $arguments[] = '--headless';
-            }
-            return $items->merge($arguments);
-
-        })->all());
+            })->all());
 
         return RemoteWebDriver::create(
             $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
@@ -92,14 +88,14 @@ abstract class DuskTestCase extends BaseTestCase
     protected function hasHeadlessDisabled()
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-               isset($_ENV['DUSK_HEADLESS_DISABLED']);
+            isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
 
     protected function assertPreConditions(): void
     {
 
-       $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
-       $this->assertEquals('testing', app()->environment());
+        $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
+        $this->assertEquals('testing', app()->environment());
 
         if (mw_is_installed()) {
 
@@ -112,7 +108,6 @@ abstract class DuskTestCase extends BaseTestCase
         }
 
     }
-
 
 
 }
