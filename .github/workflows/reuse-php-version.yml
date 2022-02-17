@@ -1,9 +1,11 @@
 name: Install PHP Workflow
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       php_version:
+        description: 'PHP Version to install'
+        default: '7.4'
         required: true
         type: string
 
