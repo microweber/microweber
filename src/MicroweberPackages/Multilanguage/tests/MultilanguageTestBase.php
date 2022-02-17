@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use MicroweberPackages\App\Managers\PermalinkManager;
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 
@@ -24,6 +25,10 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
            \DB::table('options')
             ->where('option_group', 'multilanguage_settings')
             ->delete();
+
+        app()->bind('permalink_manager', function () {
+            return new PermalinkManager();
+        });
 
     }
 
