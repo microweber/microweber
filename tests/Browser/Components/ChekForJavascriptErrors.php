@@ -61,7 +61,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
                 return editElementValidation;
                 ");
-                PHPUnit::assertFalse($output[0]);
+                PHPUnit::assertFalse($output[0], 'The module should not contain edit field with field="content" and rel="content"');
             }
         }
 
@@ -81,7 +81,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
             return editElementValidation;
             ");
-            PHPUnit::assertTrue($output[0]);
+            PHPUnit::assertTrue($output[0],'Edit fields must have rel and field attributes');
 
         }
 
@@ -103,9 +103,9 @@ class ChekForJavascriptErrors extends BaseComponent
 
            /* if ($output[0] == false) {
                 die();
-            }*/ 
+            }*/
 
-            PHPUnit::assertTrue($output[0]);
+            PHPUnit::assertTrue($output[0],'Edit field with allow-drop not have nodrop class');
 
         }
 
@@ -122,7 +122,7 @@ class ChekForJavascriptErrors extends BaseComponent
            /* if ($output[0]) {
                 die();
             }*/
-            PHPUnit::assertFalse($output[0]);
+            PHPUnit::assertFalse($output[0],'Module should not have .edit class');
         }
 
         // this will catch broken javascripts on page
@@ -172,7 +172,7 @@ class ChekForJavascriptErrors extends BaseComponent
         if (!empty($html)) {
             foreach ($html as $htmlString) {
                 foreach ($errorStrings as $errorString) {
-                    PHPUnit::assertFalse(str_contains($htmlString, $errorString));
+                    PHPUnit::assertFalse(str_contains($htmlString, $errorString), 'Parser error found. It should not have tag: ' . $errorString);
                 }
             }
         }
