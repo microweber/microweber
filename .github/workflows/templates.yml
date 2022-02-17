@@ -71,4 +71,4 @@ jobs:
     - name: Install Microweber with template
       run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1 -c 1
     - name: Run PHPUnit
-      run: php artisan test --filter TemplateTest
+      run: php artisan test
