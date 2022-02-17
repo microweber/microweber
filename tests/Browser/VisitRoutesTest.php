@@ -14,7 +14,7 @@ class VisitRoutesTest extends DuskTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
-    
+
     /**
      * Check if the Browser environment matches with the
      * environment loaded by `php artisan dusk`
@@ -37,10 +37,7 @@ class VisitRoutesTest extends DuskTestCase
              $browser->within(new EnvCheck, function ($browser) {
                 $browser->checkEnvName($browser);
             });
-
-
-
-
+             
 
         });
 
