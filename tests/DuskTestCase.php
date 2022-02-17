@@ -107,7 +107,6 @@ abstract class DuskTestCase extends BaseTestCase
 
             save_option('dusk_test', 1, 'dusk');
 
-            define('MW_DISABLE_MULTILANGUAGE', 1);
 
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
