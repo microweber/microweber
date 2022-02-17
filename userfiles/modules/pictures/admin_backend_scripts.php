@@ -143,7 +143,7 @@
             mw.module_pictures.after_change();
         });
         $(mw._postsImageUploader).on('Result', function (e, res) {
-            var url = res.src ? res.src : res;
+            var url = res && res.src ? res.src : res;
             after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
             after_upld(url, 'done');
             if (mw._postsImageUploader.settings.hideHeader) {
