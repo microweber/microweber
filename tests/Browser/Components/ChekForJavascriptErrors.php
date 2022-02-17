@@ -41,6 +41,30 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+
+            $randClass = 'js-rand-validation-element-'.time().rand(1111,9999);
+            $browser->script("return $('.module').eq(" . $key . ").find('.edit').addClass('$randClass')");
+
+            $moduleElements = $browser->elements('.'.$randClass);
+            foreach ($moduleElements as $mKey => $mElem) {
+                // The module should not contain edit field with field="content" and rel="content"
+                $output = $browser->script("
+
+                var editElementValidation = false;
+                if ($('.$randClass').eq(" . $mKey . ").attr('rel')=='content' && $('.$randClass').eq(" . $mKey . ").attr('field')=='content') {
+                    editElementValidation = true;
+                     $('.$randClass').eq(" . $mKey . ").css('background', 'red');
+                    console.log($('.$randClass').eq(" . $mKey . "));
+                }
+
+                return editElementValidation;
+                ");
+                PHPUnit::assertFalse($output[0]);
+            }
+        }
+
         $elements = $browser->elements('.edit');
         foreach ($elements as $key => $elem) {
 
