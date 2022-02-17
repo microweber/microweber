@@ -41,6 +41,26 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
+        $elements = $browser->elements('.edit');
+        foreach ($elements as $key => $elem) {
+
+            // Must have rel and field attribute
+            $output = $browser->script("
+
+            var editElementValidation = false;
+            if ($('.edit').eq(" . $key . ").attr('rel') && $('.edit').eq(" . $key . ").attr('field')) {
+                editElementValidation = true;
+            } else {
+                 $('.edit').eq(" . $key . ").css('background', 'red');
+                console.log($('.edit').eq(" . $key . "));
+            }
+
+            return editElementValidation;
+            ");
+            PHPUnit::assertTrue($output[0]);
+
+        }
+
         $elements = $browser->elements('.allow-drop');
         foreach ($elements as $key => $elem) {
             $output = $browser->script("
