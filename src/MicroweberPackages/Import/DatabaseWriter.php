@@ -412,12 +412,14 @@ class DatabaseWriter
 			mw_post_update();
 		}
 
-        $zipReader = new ZipReader();
-        $zipReader->clearCache();
-
         $this->logger->setLogInfo('Cleaning up system cache');
 
 		mw()->cache_manager->clear();
+
+
+        $zipReader = new ZipReader();
+        $zipReader->clearCache();
+
 
         $this->logger->setLogInfo('Done!');
 	}
