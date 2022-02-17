@@ -15,6 +15,7 @@ class LiveEditTest extends DuskTestCase
 
 //    public function testLiveEditAllModulesDragAndDrop()
 //    {
+//        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 //        $siteUrl = $this->siteUrl;
 //
 //        $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -111,6 +112,9 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditNewPageSave()
     {
+
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -155,6 +159,8 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditProductSave()
     {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -210,6 +216,8 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditSearchinSidebarForModules()
     {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -266,6 +274,8 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditSearchinSidebarForLayouts()
     {
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
