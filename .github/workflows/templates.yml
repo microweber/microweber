@@ -41,23 +41,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup PHP, with composer and extensions
-      uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+    - uses: ./.github/actions/setup-php
       with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        coverage: xdebug #optional
-    - name: zstd act workaround
-      run: sudo apt install zstd
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Cache composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        php_version: ${{ matrix.php-versions }}
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
