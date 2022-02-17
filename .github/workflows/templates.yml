@@ -44,6 +44,14 @@ jobs:
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
+    - name: Setup Apache
+      uses: thunder/apache-shiva-php-action@v1
+      with:
+        php-version: '7.4'
+        site-directory: /home/runner/work/microweber/microweber/
+        # Defaults to 8888
+        http-port:
+          8000
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -51,10 +59,15 @@ jobs:
         name: "auth.json"
         json: '{"http-basic":{"market.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
     - name: Install Composer dependencies
-      run: composer install --no-progress --prefer-dist --optimize-autoloader
+      run: |
+        composer install --no-progress --prefer-dist --optimize-autoloader
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        rm -rf /home/runner/work/microweber/microweber/templates/new-world/
+        rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
     - name: Install template
       run: composer require ${{ matrix.templates }}
     - name: Install Microweber with template
-      run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1 -c 1
-    - name: Run PHPUnit
-      run: php artisan test
+      run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
+    - name: Run Dusk Template Tests
+      run: |
+        php artisan dusk --filter BrowsePagesForBrokenTagsTest
