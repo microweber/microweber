@@ -1,9 +1,15 @@
+name: Install php
+description: Setup PHP, with composer and extensions
+inputs:
+  shell:
+    description: 'Shell to use'
+    required: false
+    default: bash
+  php_version:
+    description: 'PHP version'
+    default: '7.4'
+    required: true
 runs:
-  inputs:
-    php_version:
-      description: 'PHP version'
-      default: '7.4'
-      type: 'string'
   using: "composite"
   steps:
     - name: Setup PHP, with composer and extensions
