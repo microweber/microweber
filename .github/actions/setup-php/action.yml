@@ -14,6 +14,7 @@ runs:
   steps:
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+      shell: bash
       env:
         fail-fast: true
         DEBUG: true
@@ -23,8 +24,10 @@ runs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
     - name: zstd act workaround
+      shell: bash
       run: sudo apt install zstd
     - name: google-chrome install
+      shell: bash
       run: |
         sleep 3
         sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
@@ -36,9 +39,11 @@ runs:
         sudo dpkg -i google-chrome*.deb
         sudo apt-get install -y libnss3 chromium-browser
     - name: Get composer cache directory
+      shell: bash
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
     - name: Cache composer dependencies
+      shell: bash
       uses: actions/cache@v2
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
@@ -47,16 +52,21 @@ runs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
+      shell: bash
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Install Chrome Driver
+      shell: bash
       run: php artisan dusk:install
     - name: Dusk updater install
+      shell: bash
       run: |
         composer require --dev staudenmeir/dusk-updater:"^1.1"
         php artisan package:discover --ansi
     - name: Dusk update
+      shell: bash
       run: php artisan dusk:update
     - name: Copy env
+      shell: bash
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
         chmod 777 /home/runner/work/microweber/microweber/.env
@@ -64,6 +74,7 @@ runs:
         sudo php artisan config:clear
         sudo php artisan optimize:clear
     - name: Start Chrome Driver
+      shell: bash
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
