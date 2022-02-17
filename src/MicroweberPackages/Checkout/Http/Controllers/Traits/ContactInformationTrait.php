@@ -57,23 +57,26 @@ trait ContactInformationTrait {
     {
         $rules = [];
 
+        $rules['first_name'] = 'max:500';
+        $rules['last_name'] = 'max:500';
+        $rules['email'] = 'email|max:500';
+        $rules['phone'] = 'max:500';
+
         if (get_option('shop_require_first_name', 'website') == 1) {
-            $rules['first_name'] = 'required|max:500';
+            $rules['first_name'] .= '|required';
         }
 
         if (get_option('shop_require_last_name', 'website') == 1) {
-            $rules['last_name'] = 'required|max:500';
+            $rules['last_name'] .= '|required';
         }
 
         if (get_option('shop_require_email', 'website') == 1) {
-            $rules['email'] = 'required|email|max:500';
+            $rules['email'] .= '|required';;
         }
 
         if (get_option('shop_require_phone', 'website') == 1) {
-            $rules['phone'] = 'required|max:500';
+            $rules['phone'] .= '|required';;
         }
-
-        // $rules['phone-testing'] = 'required';
 
         if (empty($rules)) {
             return ['valid'=>true];
