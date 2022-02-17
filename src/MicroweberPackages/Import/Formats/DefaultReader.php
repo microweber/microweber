@@ -6,8 +6,10 @@ class DefaultReader
 
 	public $file;
 
-	public function __construct($file)
+	public function __construct($file = false)
 	{
-		$this->file = $file;
+        if ($file) {
+            $this->file = $file;
+        }
 	}
 }
