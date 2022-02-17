@@ -184,9 +184,9 @@ class InstallController extends Controller
             if (isset($input['admin_url'])) {
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
-           // if (!is_cli()) {
+            if (!is_cli()) {
                 Config::set('app.url', site_url());
-          //  }
+            }
             Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
@@ -382,7 +382,7 @@ class InstallController extends Controller
             Config::save($allowed_configs);
 
             if (Config::get('microweber.has_admin') and !is_cli() and isset($admin_user_id)) {
-                mw()->user_manager->make_logged($admin_user_id,true);
+                mw()->user_manager->make_logged($admin_user_id, true);
             }
 
             event_trigger('mw.install.complete', $input);
@@ -514,7 +514,8 @@ class InstallController extends Controller
         }
     }
 
-    public function setLogInfo($text) {
+    public function setLogInfo($text)
+    {
         return $this->log($text);
     }
 
