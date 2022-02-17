@@ -28,7 +28,7 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
 
                 $browser->pause(100);
 
-                break;
+              //  break;
             }
 
         });

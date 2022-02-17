@@ -47,7 +47,7 @@ class ChekForJavascriptErrors extends BaseComponent
             var allowDropElement = $('.allow-drop').eq(" . $key . ");
 
                 var dropElementValidation = false;
-                if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(allowDropElement[0].parentNode, ['nodrop','allow-drop'])) {
+                if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(allowDropElement[0].parentNode, ['nodrop','allow-drop'])) {
                     dropElementValidation = true;
                 } else {
                     $('.allow-drop').eq(" . $key . ").css('background', 'red');
@@ -60,7 +60,7 @@ class ChekForJavascriptErrors extends BaseComponent
             if ($output[0] == false) {
                 die();
             }
-            
+
             PHPUnit::assertTrue($output[0]);
 
         }

@@ -95,6 +95,11 @@ class Content extends Model
         "created_at",
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1)->where('is_deleted', 0);
+    }
+
     public function related()
     {
         return $this->hasMany(ContentRelated::class,'content_id','id')->orderBy('position', 'ASC');
