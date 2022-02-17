@@ -1,4 +1,8 @@
-<?php include(MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
+<?php
+if (!defined('MW_ADMIN_VIEWS_DIR')) {
+    return false;
+}
+include(MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
 
 <?php if (is_logged() == false): ?>
     <module type="users/login" template="admin"/>

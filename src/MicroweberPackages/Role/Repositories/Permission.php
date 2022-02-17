@@ -61,7 +61,8 @@ class Permission
     public static function generateModulePermissionsSlugs($module)
     {
         if (!isset($module['module']) || empty($module['module'])) {
-            throw new \Exception('Please, set module path.');
+       ///     throw new \Exception('Please, set module path.');
+             return false;
         }
 
         $permissionSlug = $module['module'];
