@@ -16,7 +16,7 @@ class ZipReader extends DefaultReader
     {
         $backupLocation = backup_location() . 'temp_backup_zip';
         if (is_dir($backupLocation)) {
-            rmdir_recursive($backupLocation);
+            rmdir_recursive($backupLocation, false);
         }
     }
 
