@@ -226,11 +226,18 @@ mw.DomTree = function (options) {
         li._value = item;
         li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
         var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
-        li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
+        var dtLabel = this.document.createElement('span');
+        dtLabel.className = 'mw-domtree-item-label'
+        dtLabel.innerHTML = this.getComponentLabel(item)
+        li.innerHTML = dio;
+        li.appendChild(dtLabel)
         if ( typeof scope.settings.canSelect === 'function' ) {
             var can = scope.settings.canSelect(item, li);
             li.classList.add('selectable-' + can);
-            li._selectable = can
+            li._selectable = can;
+            if(!can) {
+                dtLabel.title = mw.lang('Item can not be selected')
+            }
         }
         return li;
     };
