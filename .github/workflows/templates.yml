@@ -9,8 +9,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
         templates: [
-            'microweber-templates/shopmag',
-            'microweber-templates/new-world',
+
             'microweber-templates/template-human-recourses',
             'microweber-templates/template-wedding',
             'microweber-templates/template-services',
@@ -35,6 +34,8 @@ jobs:
             'microweber-templates/template-cryptocurrency',
             'microweber-templates/template-simple-shop',
             'microweber-templates/template-hostel',
+            'microweber-templates/shopmag',
+            'microweber-templates/new-world',
             'microweber-templates/dream'
         ]
     steps:
