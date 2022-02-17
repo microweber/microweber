@@ -1,0 +1,22 @@
+name: Install PHP Workflow
+
+on:
+  workflow_call:
+    inputs:
+      php_version:
+        required: true
+        type: string
+
+
+
+
+jobs:
+  install-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-php
+        with:
+          php_version: ${{inputs.php_version}}
+
