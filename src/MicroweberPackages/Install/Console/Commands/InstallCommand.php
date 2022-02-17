@@ -101,6 +101,29 @@ class InstallCommand extends Command
         }
         $input['subscribe_for_update_notification'] = true;
 
+
+        $templateFound = false;
+        if (is_file(templates_path() . $input['default_template'] .DS. 'config.php')) {
+            $templateFound = $input['default_template'];
+        }
+
+        if (!$templateFound) {
+            // Search in composer json
+            $availTemplates = scandir(templates_path());
+            foreach ($availTemplates as $templateFolderName) {
+                $templateComposerFile = templates_path() . $templateFolderName . DS.'composer.json';
+                if (is_file($templateComposerFile)) {
+                    $templateComposerContent = file_get_contents($templateComposerFile);
+                    $templateComposerContent = json_decode($templateComposerContent, true);
+                    if (isset($templateComposerContent['name'])) {
+                        if ($input['default_template'] == $templateComposerContent['name']) {
+                            $templateFound = $templateFolderName;
+                        }
+                    }
+                }
+            }
+        }
+
         $this->info('Installing Microweber...');
         $this->installer->command_line_logger = $this;
         $result = $this->installer->index($input);
