@@ -41,7 +41,11 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
-       // $browser->pause(3000);
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("return $('.module').eq(" . $key . ").hasClass('edit')");
+            PHPUnit::assertFalse($output[0]);
+        }
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');

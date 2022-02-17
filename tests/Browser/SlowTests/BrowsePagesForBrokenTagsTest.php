@@ -5,6 +5,7 @@ namespace Tests\Browser\SlowTests;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\App\Http\Controllers\SitemapController;
 use PHPUnit\Framework\Assert as PHPUnit;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class BrowsePagesForBrokenTagsTest extends DuskTestCase
@@ -22,12 +23,11 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
                 $browser->visit($link);
                 $browser->pause(600);
 
-                $elements = $browser->elements('.module');
-
-                foreach ($elements as $key => $elem) {
-                    $output = $browser->script("return $('.module').eq(" . $key . ").hasClass('edit')");
-                    PHPUnit::assertFalse($output[0]);
-                }
+                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                    $browser->validate();
+                });
+                
+                $browser->pause(100);
             }
 
         });
