@@ -18,6 +18,11 @@ class ZipReader extends DefaultReader
         if (is_dir($backupLocation)) {
             rmdir_recursive($backupLocation, false);
         }
+
+        $cacheLocation = backup_location() . 'cache_backup_zip';
+        if (is_dir($cacheLocation)) {
+            rmdir_recursive($cacheLocation, false);
+        }
     }
 
 	/**
