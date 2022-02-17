@@ -14,7 +14,7 @@ class ZipReader extends DefaultReader
 
     public function clearCache()
     {
-        $backupLocation = backup_location() . 'temp_backup_zip/';
+        $backupLocation = backup_location() . 'temp_backup_zip';
         if (is_dir($backupLocation)) {
             rmdir_recursive($backupLocation);
         }
