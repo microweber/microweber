@@ -224,7 +224,7 @@ if (!isset($data["thumbnail"])) {
 </div>
 
 
-<div class="left pt-5" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
+<div class="left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader_<?php print $rand?>"></div>
 
 

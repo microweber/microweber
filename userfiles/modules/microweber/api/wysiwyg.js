@@ -1993,6 +1993,7 @@ mw.wysiwyg = {
             mw.wysiwyg.save_selection();
             var dialog;
             var handleResult = function (res) {
+                mw.wysiwyg.restore_selection();
                 var url = res.src ? res.src : res;
                  if(action === 'editimage') {
                     if(mw.image.currentResizing) {
@@ -2015,10 +2016,13 @@ mw.wysiwyg = {
                     }
                 }
                 else {
+
                     mw.wysiwyg.insertMedia(url);
                 }
                 dialog.remove()
             }
+
+
             var picker = new mw.filePicker({
                 type: 'images',
                 label: false,
@@ -2096,8 +2100,8 @@ mw.wysiwyg = {
         return final;
     },
     insertMedia: function (url, type) {
-        var ext = url.split('.').pop().toLowerCase();
-        var name = url.split('/').pop()
+        var ext = url.split('.').pop().toLowerCase().split('?')[0];
+        var name = url.split('/').pop().split('?')[0]
         if(!type) {
             if(['png','gif','jpg','jpeg','tiff','bmp','svg', 'webp'].indexOf(ext) !== -1) {
                 type = 'image';
@@ -2119,6 +2123,7 @@ mw.wysiwyg = {
         }
     },
     insert_image: function (url) {
+
         var id = 'image_' + mw.random();
         var img = '<img id="' + id + '" contentEditable="true" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
@@ -2839,7 +2844,7 @@ $(mwd).ready(function () {
         });
     }
 
- 
+
 
     mw.$(document).on('scroll', function () {
         if (mw.wysiwyg._bgfontcolorpicker && mw.wysiwyg._bgfontcolorpicker.settings) {

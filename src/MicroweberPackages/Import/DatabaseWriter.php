@@ -4,6 +4,7 @@ namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Formats\ZipReader;
 use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
 use MicroweberPackages\Import\Traits\DatabaseCategoryItemsWriter;
@@ -16,6 +17,7 @@ use MicroweberPackages\Import\Traits\DatabaseMenusWriter;
 use MicroweberPackages\Import\Traits\DatabaseModuleWriter;
 use MicroweberPackages\Import\Traits\DatabaseRelationWriter;
 use MicroweberPackages\Import\Traits\DatabaseTaggingTaggedWriter;
+use MicroweberPackages\Utils\Zip\Zip;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -413,6 +415,11 @@ class DatabaseWriter
         $this->logger->setLogInfo('Cleaning up system cache');
 
 		mw()->cache_manager->clear();
+
+
+        $zipReader = new ZipReader();
+        $zipReader->clearCache();
+
 
         $this->logger->setLogInfo('Done!');
 	}

@@ -319,7 +319,7 @@ div.form-control {
 .card-header-fix .card-header.fixed{
     position: fixed !important;
     top: 69px;
-    z-index: 10;
+    z-index: 30;
 }
 #settings-container .card-header-fix .card-header.fixed{
     top: 0;
