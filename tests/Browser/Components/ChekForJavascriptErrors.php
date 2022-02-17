@@ -51,12 +51,18 @@ class ChekForJavascriptErrors extends BaseComponent
                     dropElementValidation = true;
                 } else {
                     $('.allow-drop').eq(" . $key . ").css('background', 'red');
+                    console.log($('.allow-drop').eq(" . $key . "));
                 }
 
                return dropElementValidation;
             ");
 
+            if ($output[0] == false) {
+                die();
+            }
+            
             PHPUnit::assertTrue($output[0]);
+
         }
 
         $elements = $browser->elements('.module');
