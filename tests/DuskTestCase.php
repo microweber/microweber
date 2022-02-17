@@ -9,6 +9,9 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use MicroweberPackages\App\Managers\PermalinkManager;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 
@@ -104,10 +107,22 @@ abstract class DuskTestCase extends BaseTestCase
 
             save_option('dusk_test', 1, 'dusk');
 
+            define('MW_DISABLE_MULTILANGUAGE', 1);
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+
             \DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
                 ->delete();
+
+            \DB::table('multilanguage_translations')->truncate();
+            \DB::table('multilanguage_supported_locales')->truncate();
+
+            app()->multilanguage_repository->clearCache();
+
+            $this->app->bind('permalink_manager', function () {
+                return new PermalinkManager();
+            });
         }
 
     }

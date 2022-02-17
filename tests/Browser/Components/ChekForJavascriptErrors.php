@@ -41,7 +41,89 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
-       // $browser->pause(3000);
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+
+            $randClass = 'js-rand-validation-element-'.time().rand(1111,9999);
+            $browser->script("return $('.module').eq(" . $key . ").find('.edit').addClass('$randClass')");
+
+            $moduleElements = $browser->elements('.'.$randClass);
+            foreach ($moduleElements as $mKey => $mElem) {
+                // The module should not contain edit field with field="content" and rel="content"
+                $output = $browser->script("
+
+                var editElementValidation = false;
+                if ($('.$randClass').eq(" . $mKey . ").attr('rel')=='content' && $('.$randClass').eq(" . $mKey . ").attr('field')=='content') {
+                    editElementValidation = true;
+                     $('.$randClass').eq(" . $mKey . ").css('background', 'red');
+                    console.log($('.$randClass').eq(" . $mKey . "));
+                }
+
+                return editElementValidation;
+                ");
+                PHPUnit::assertFalse($output[0]);
+            }
+        }
+
+        $elements = $browser->elements('.edit');
+        foreach ($elements as $key => $elem) {
+
+            // Must have rel and field attribute
+            $output = $browser->script("
+
+            var editElementValidation = false;
+            if ($('.edit').eq(" . $key . ").attr('rel') && $('.edit').eq(" . $key . ").attr('field')) {
+                editElementValidation = true;
+            } else {
+                 $('.edit').eq(" . $key . ").css('background', 'red');
+                console.log($('.edit').eq(" . $key . "));
+            }
+
+            return editElementValidation;
+            ");
+            PHPUnit::assertTrue($output[0]);
+
+        }
+
+        $elements = $browser->elements('.allow-drop');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var allowDropElement = $('.allow-drop').eq(" . $key . ");
+
+                var dropElementValidation = false;
+                if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(allowDropElement[0].parentNode, ['nodrop','allow-drop'])) {
+                    dropElementValidation = true;
+                } else {
+                    $('.allow-drop').eq(" . $key . ").css('background', 'red');
+                    console.log($('.allow-drop').eq(" . $key . "));
+                }
+
+               return dropElementValidation;
+            ");
+
+           /* if ($output[0] == false) {
+                die();
+            }*/ 
+
+            PHPUnit::assertTrue($output[0]);
+
+        }
+
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var moduleElement = $('.module').eq(" . $key . ").hasClass('edit');
+            if (moduleElement) {
+                $('.module').eq(" . $key . ").css('background', 'red');
+                console.log($('.module').eq(" . $key . "));
+            }
+            return moduleElement;
+            ");
+           /* if ($output[0]) {
+                die();
+            }*/
+            PHPUnit::assertFalse($output[0]);
+        }
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');

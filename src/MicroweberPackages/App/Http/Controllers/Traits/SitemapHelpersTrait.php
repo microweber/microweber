@@ -26,7 +26,7 @@ trait SitemapHelpersTrait
 
     private function fetchTagsLinks()
     {
-        $pages = Page::where('is_active',1)->where('is_deleted',0)->get();
+        $pages = Page::active()->get();
         $tagsData = [];
         $siteUrl = site_url();
 
@@ -124,7 +124,7 @@ trait SitemapHelpersTrait
 
     private function fetchNotMutilangPosts()
     {
-        $posts = Post::all();
+        $posts = Post::active()->get();
         $postsLinksData = [];
 
         foreach($posts as $post) {
@@ -141,7 +141,7 @@ trait SitemapHelpersTrait
 
     private function fetchNotMutilangProducts()
     {
-        $products = Product::all();
+        $products = Product::active()->get();
         $productsLinksData = [];
 
         foreach($products as $prod) {
