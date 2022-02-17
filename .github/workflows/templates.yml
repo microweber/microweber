@@ -70,7 +70,7 @@ jobs:
     - name: Run Laravel Server
       run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
     - name: Run Dusk Browse test
-      run:  php artisan dusk --filter BrowsePagesForBrokenTagsTest
+      run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
