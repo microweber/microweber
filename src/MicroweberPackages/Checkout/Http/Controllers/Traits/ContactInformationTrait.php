@@ -58,19 +58,19 @@ trait ContactInformationTrait {
         $rules = [];
 
         if (get_option('shop_require_first_name', 'website') == 1) {
-            $rules['first_name'] = 'required';
+            $rules['first_name'] = 'required|max:1000';
         }
 
         if (get_option('shop_require_last_name', 'website') == 1) {
-            $rules['last_name'] = 'required';
+            $rules['last_name'] = 'required|max:1000';
         }
 
         if (get_option('shop_require_email', 'website') == 1) {
-            $rules['email'] = 'required|email';
+            $rules['email'] = 'required|email|max:1000';
         }
 
         if (get_option('shop_require_phone', 'website') == 1) {
-            $rules['phone'] = 'required';
+            $rules['phone'] = 'required|max:1000';
         }
 
         // $rules['phone-testing'] = 'required';
