@@ -101,9 +101,9 @@ class ChekForJavascriptErrors extends BaseComponent
                return dropElementValidation;
             ");
 
-            if ($output[0] == false) {
+           /* if ($output[0] == false) {
                 die();
-            }
+            }*/ 
 
             PHPUnit::assertTrue($output[0]);
 
@@ -111,7 +111,17 @@ class ChekForJavascriptErrors extends BaseComponent
 
         $elements = $browser->elements('.module');
         foreach ($elements as $key => $elem) {
-            $output = $browser->script("return $('.module').eq(" . $key . ").hasClass('edit')");
+            $output = $browser->script("
+            var moduleElement = $('.module').eq(" . $key . ").hasClass('edit');
+            if (moduleElement) {
+                $('.module').eq(" . $key . ").css('background', 'red');
+                console.log($('.module').eq(" . $key . "));
+            }
+            return moduleElement;
+            ");
+           /* if ($output[0]) {
+                die();
+            }*/
             PHPUnit::assertFalse($output[0]);
         }
 
