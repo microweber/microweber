@@ -12,6 +12,14 @@ class ZipReader extends DefaultReader
         $this->language = strtolower($abr); // 'bg';
     }
 
+    public function clearCache()
+    {
+        $backupLocation = backup_location() . 'temp_backup_zip/';
+        if (is_dir($backupLocation)) {
+            rmdir_recursive($backupLocation);
+        }
+    }
+
 	/**
 	 * Read data from file
 	 * @return []
