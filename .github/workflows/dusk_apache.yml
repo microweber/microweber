@@ -15,61 +15,9 @@ jobs:
         env:
           DEBUG: true
           APP_ENV: "testing"
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        env:
-          fail-fast: true
-          DEBUG: true
-          APP_ENV: "testing"
+      - uses: actions/setup-php.yml@v1
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-          ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
-      - name: zstd act workaround
-        run: sudo apt install zstd
-      - name: google-chrome install
-        run: |
-          sleep 3
-          sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
-          sudo apt-get install xvfb gtk2-engines-pixbuf
-          sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
-          sleep 3
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt-get install -f
-          sudo dpkg -i google-chrome*.deb
-          sudo apt-get install -y libnss3 chromium-browser
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-      - name: Install Chrome Driver
-        run: php artisan dusk:install
-      - name: Dusk updater install
-        run: |
-          composer require --dev staudenmeir/dusk-updater:"^1.1"
-          php artisan package:discover --ansi
-      - name: Dusk update
-        run: php artisan dusk:update
-      - name: Copy env
-        run: |
-          cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
-          chmod 777 /home/runner/work/microweber/microweber/.env
-          chmod 777 /home/runner/work/microweber/microweber/storage/
-          sudo php artisan config:clear
-          sudo php artisan optimize:clear
-      - name: Start Chrome Driver
-        run: |
-          vendor/laravel/dusk/bin/chromedriver-linux --version
-          vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+          php_version: ${{ matrix.php-versions }}
       - name: Setup Apache
         uses: thunder/apache-shiva-php-action@v1
         with:
