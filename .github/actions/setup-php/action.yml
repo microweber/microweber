@@ -1,16 +1,20 @@
+name: Install php
+description: Setup PHP, with composer and extensions
+inputs:
+  shell:
+    description: 'Shell to use'
+    required: false
+    default: bash
+  php_version:
+    description: 'PHP version'
+    default: '7.4'
+    required: true
 runs:
-  inputs:
-    php_version:
-      description: 'PHP version'
-      default: '7.4'
-      type: 'string'
   using: "composite"
   steps:
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       env:
-        fail-fast: true
-        DEBUG: true
         APP_ENV: "testing"
       with:
         php-version: ${{ inputs.php_version }}
@@ -18,6 +22,7 @@ runs:
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
     - name: zstd act workaround
       run: sudo apt install zstd
+      shell: bash
     - name: google-chrome install
       run: |
         sleep 3
@@ -29,9 +34,11 @@ runs:
         sudo apt-get install -f
         sudo dpkg -i google-chrome*.deb
         sudo apt-get install -y libnss3 chromium-browser
+      shell: bash
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      shell: bash
     - name: Cache composer dependencies
       uses: actions/cache@v2
       with:
@@ -42,14 +49,18 @@ runs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
+      shell: bash
     - name: Install Chrome Driver
       run: php artisan dusk:install
+      shell: bash
     - name: Dusk updater install
       run: |
         composer require --dev staudenmeir/dusk-updater:"^1.1"
         php artisan package:discover --ansi
+      shell: bash
     - name: Dusk update
       run: php artisan dusk:update
+      shell: bash
     - name: Copy env
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
@@ -57,7 +68,9 @@ runs:
         chmod 777 /home/runner/work/microweber/microweber/storage/
         sudo php artisan config:clear
         sudo php artisan optimize:clear
+      shell: bash
     - name: Start Chrome Driver
       run: |
         vendor/laravel/dusk/bin/chromedriver-linux --version
         vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+      shell: bash

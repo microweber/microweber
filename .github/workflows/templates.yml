@@ -41,23 +41,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup PHP, with composer and extensions
-      uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+    - uses: ./.github/actions/setup-php
       with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        coverage: xdebug #optional
-    - name: zstd act workaround
-      run: sudo apt install zstd
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Cache composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        php_version: ${{ matrix.php-versions }}
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -68,5 +54,7 @@ jobs:
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Install template
       run: composer require ${{ matrix.templates }}
+    - name: Install Microweber with template
+      run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1 -c 1
     - name: Run PHPUnit
-      run: php artisan test --filter TemplateTest
+      run: php artisan test
