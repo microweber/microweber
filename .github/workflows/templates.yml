@@ -65,12 +65,12 @@ jobs:
         rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
     - name: Install template
       run: composer require ${{ matrix.templates }}
-    - name: Install Microweber with template
+    - name: Install Microweber with template ${{ matrix.templates }}
       run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
     - name: Run Laravel Server
       run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
     - name: Run Dusk Browse test
-        php artisan dusk --filter BrowsePagesForBrokenTagsTest
+      run:  php artisan dusk --filter BrowsePagesForBrokenTagsTest
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
