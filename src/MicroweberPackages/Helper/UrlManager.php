@@ -111,6 +111,9 @@ class UrlManager
             }
         }
 
+        if (!filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
+            $redirectUrl = site_url();
+        }
 
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
