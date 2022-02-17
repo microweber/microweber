@@ -41,6 +41,24 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
+        $elements = $browser->elements('.allow-drop');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var allowDropElement = $('.allow-drop').eq(" . $key . ");
+
+                var dropElementValidation = false;
+                if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(allowDropElement[0].parentNode, ['nodrop','allow-drop'])) {
+                    dropElementValidation = true;
+                } else {
+                    $('.allow-drop').eq(" . $key . ").css('background', 'red');
+                }
+
+               return dropElementValidation;
+            ");
+
+            PHPUnit::assertTrue($output[0]);
+        }
+
         $elements = $browser->elements('.module');
         foreach ($elements as $key => $elem) {
             $output = $browser->script("return $('.module').eq(" . $key . ").hasClass('edit')");

@@ -14,7 +14,6 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
-
             $sitemapController = app()->make(SitemapController::class);
             $visitLinks = $sitemapController->getSlugsWithGroups()['all'];
 
@@ -26,8 +25,10 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
                 $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                     $browser->validate();
                 });
-                
+
                 $browser->pause(100);
+
+                break;
             }
 
         });
