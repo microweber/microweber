@@ -43,14 +43,14 @@ jobs:
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
-    - name: Setup Apache
-      uses: thunder/apache-shiva-php-action@v1
-      with:
-        php-version: '7.4'
-        site-directory: /home/runner/work/microweber/microweber/
-        # Defaults to 8888
-        http-port:
-          8000
+#    - name: Setup Apache
+#      uses: thunder/apache-shiva-php-action@v1
+#      with:
+#        php-version: '7.4'
+#        site-directory: /home/runner/work/microweber/microweber/
+#        # Defaults to 8888
+#        http-port:
+#          8000
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -67,6 +67,35 @@ jobs:
       run: composer require ${{ matrix.templates }}
     - name: Install Microweber with template
       run: php artisan microweber:install admin@site.com 1 1 storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
-    - name: Run Dusk Template Tests
-      run: |
+    - name: Run Laravel Server
+      run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
+    - name: Run Dusk Browse test
         php artisan dusk --filter BrowsePagesForBrokenTagsTest
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
+    - name: Upload Laravel Storage
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: storage
+        path: storage
+    - name: Upload Laravel config
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: config
+        path:
+          config
+
+
+
