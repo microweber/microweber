@@ -15,7 +15,7 @@ jobs:
         env:
           DEBUG: true
           APP_ENV: "testing"
-      - uses: ./.github/workflows/actions/setup-php
+      - uses: ./.github/actions/setup-php
         with:
           php_version: ${{ matrix.php-versions }}
       - name: Setup Apache
