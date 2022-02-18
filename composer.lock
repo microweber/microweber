@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd9e6948c8b4c76d9e5b1de300c97890",
+    "content-hash": "3d02c62429583d847ecd3264cea89f66",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5690,34 +5690,24 @@
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "3.0",
+            "version": "3.1",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
-                "url": "git@github.com:microweber-templates/shopmag.git",
-                "reference": "702350f8f6f1a5fd7ed16af86b4073ec3e18b5b2"
+                "url": "https://github.com/microweber-templates/shopmag.git",
+                "reference": "4a0f6d33c81c8fc9aff0b0b5eeba223a8434fc8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-702350f8f6f1a5fd7ed16af86b4073ec3e18b5b2-zip-7b195d.zip",
-                "reference": "702350f8f6f1a5fd7ed16af86b4073ec3e18b5b2",
-                "shasum": "02a2522f75fd14336099e52d434a43ad2c21c260"
+                "url": "https://api.github.com/repos/microweber-templates/shopmag/zipball/4a0f6d33c81c8fc9aff0b0b5eeba223a8434fc8f",
+                "reference": "4a0f6d33c81c8fc9aff0b0b5eeba223a8434fc8f",
+                "shasum": ""
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://https://template.yoursite.com/shopmag/",
-                "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/30/screenshot.jpg",
-                    "seaside_groove-webfont": "https://market.microweberapi.com/meta/microweber-templates-shopmag/30/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
-                    "ventoux": "https://market.microweberapi.com/meta/microweber-templates-shopmag/30/assets/fonts/ventoux/fonts/ventoux.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-shopmag/30/assets/plugins/slick/fonts/slick.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/30/readme.md"
-                },
-                "whmcs": {
-                    "whmcs_url": "https://members.microweber.com"
-                }
+                "preview_url": "https://templates.microweber.com/shopmag/"
             },
-            "notification-url": "https://market.microweberapi.com/packages/download-notify",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5734,7 +5724,11 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-12-07T16:26:03+00:00"
+            "support": {
+                "issues": "https://github.com/microweber-templates/shopmag/issues",
+                "source": "https://github.com/microweber-templates/shopmag/tree/3.1"
+            },
+            "time": "2022-02-18T08:18:28+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -16452,5 +16446,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

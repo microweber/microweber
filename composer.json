@@ -13,7 +13,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://market.microweberapi.com/packages/microweber/packages.json"
+            "url": "https://packages.microweberapi.com/packages.json"
         }
     ],
     "require": {
@@ -69,7 +69,7 @@
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
         "microweber-templates/new-world": "4.2",
-        "microweber-templates/shopmag": "3.0",
+        "microweber-templates/shopmag": "3.1",
         "lcobucci/jwt": "*",
         "laravel/passport": "*",
         "microweber-packages/microweber-class-alias": "dev-master",
