@@ -25,7 +25,6 @@ jobs:
           'microweber-templates/template-urban',
           'microweber-templates/template-theplace',
           'microweber-templates/notary-services',
-          'microweber-templates/template-networking-space',
           'microweber-templates/green',
           'microweber-templates/template-digital',
           'microweber-templates/template-comingsoon',
@@ -34,6 +33,7 @@ jobs:
           'microweber-templates/template-fooddelivery',
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
+          'microweber-templates/template-networking-space',
           'microweber-templates/template-hostel'
         ]
     steps:
