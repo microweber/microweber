@@ -23,7 +23,7 @@
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "laravel/framework": "v8.82.0",
+        "laravel/framework": "v8.83.1 ",
         "fideloper/proxy": "*",
         "fruitcake/laravel-cors": "*",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -83,7 +83,7 @@
         "enshrined/svg-sanitize": "0.15.0",
         "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
-        "microweber-packages/composer-client": "dev-main"
+        "microweber-packages/composer-client": "1.1"
     },
     "require-dev": {
         "laravel/sail": "*",

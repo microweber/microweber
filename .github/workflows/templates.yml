@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 16
+      fail-fast: false
       matrix:
         php-versions: ['7.4']
         templates: [
@@ -25,15 +26,14 @@ jobs:
           'microweber-templates/template-urban',
           'microweber-templates/template-theplace',
           'microweber-templates/notary-services',
-          'microweber-templates/template-networking-space',
           'microweber-templates/green',
           'microweber-templates/template-digital',
           'microweber-templates/template-comingsoon',
           'microweber-templates/template-business',
           'microweber-templates/template-blank',
-          'microweber-templates/template-fooddelivery',
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
+          'microweber-templates/template-networking-space',
           'microweber-templates/template-hostel'
         ]
     steps:
@@ -55,7 +55,7 @@ jobs:
       uses: jsdaniell/create-json@1.1.2
       with:
         name: "auth.json"
-        json: '{"http-basic":{"market.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
+        json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
     - name: Install Composer dependencies
       run: |
         composer install --no-progress --prefer-dist --optimize-autoloader
