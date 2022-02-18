@@ -114,6 +114,9 @@ class UrlManager
         $redirectUrl = str_replace("\r", "", $redirectUrl);
         $redirectUrl = str_replace("\n", "", $redirectUrl);
 
+        $clearInput = new HTMLClean();
+        $redirectUrl = $clearInput->clean($redirectUrl);
+
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
         } else {
