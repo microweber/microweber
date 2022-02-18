@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d02c62429583d847ecd3264cea89f66",
+    "content-hash": "645e6aaa8dc31eac1fd6d3887dc4cf50",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5532,16 +5532,16 @@
         },
         {
             "name": "microweber-packages/composer-client",
-            "version": "dev-main",
+            "version": "1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/composer-client.git",
-                "reference": "492dc2d576ff69606240318264b836c2b63cbcd7"
+                "reference": "1657d38cea07632e3dba0de7317de3d221867fa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/492dc2d576ff69606240318264b836c2b63cbcd7",
-                "reference": "492dc2d576ff69606240318264b836c2b63cbcd7",
+                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/1657d38cea07632e3dba0de7317de3d221867fa7",
+                "reference": "1657d38cea07632e3dba0de7317de3d221867fa7",
                 "shasum": ""
             },
             "require": {
@@ -5551,7 +5551,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^8.0 || ^9.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5577,9 +5576,9 @@
             "support": {
                 "email": "support@microweber.com",
                 "issues": "https://github.com/microweber-packages/composer-client/issues",
-                "source": "https://github.com/microweber-packages/composer-client/tree/main"
+                "source": "https://github.com/microweber-packages/composer-client/tree/1.0"
             },
-            "time": "2022-01-17T13:08:35+00:00"
+            "time": "2022-02-18T13:32:48+00:00"
         },
         {
             "name": "microweber-packages/microweber-class-alias",
@@ -16429,8 +16428,7 @@
         "microweber-packages/microweber-class-alias": 20,
         "florianv/exchanger": 20,
         "predis/predis": 20,
-        "tightenco/ziggy": 20,
-        "microweber-packages/composer-client": 20
+        "tightenco/ziggy": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
