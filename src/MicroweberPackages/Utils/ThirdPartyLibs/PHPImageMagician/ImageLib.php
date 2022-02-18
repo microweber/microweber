@@ -2063,7 +2063,12 @@ class ImageLib
             $img = @imagecreatefromwebp($file);
         } else {
             $info = getimagesize($file);
-
+            if(!is_array($info)){
+                return false;
+            }
+            if(!isset($info[2])){
+                return false;
+            }
             switch ($info[2]) {
                 case IMAGETYPE_JPEG:
                     $img = @imagecreatefromjpeg($file);
