@@ -31,7 +31,6 @@ jobs:
           'microweber-templates/template-comingsoon',
           'microweber-templates/template-business',
           'microweber-templates/template-blank',
-          'microweber-templates/template-fooddelivery',
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
           'microweber-templates/template-networking-space',
