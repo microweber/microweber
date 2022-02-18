@@ -23,7 +23,7 @@
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "laravel/framework": "v8.82.0",
+        "laravel/framework": "v8.83.1 ",
         "fideloper/proxy": "*",
         "fruitcake/laravel-cors": "*",
         "guzzlehttp/guzzle": "^7.0.1",

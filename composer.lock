@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "645e6aaa8dc31eac1fd6d3887dc4cf50",
+    "content-hash": "cba8f0024ace6d882cad838719074c54",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3756,16 +3756,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.82.0",
+            "version": "v8.83.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "411d5243c58cbf12b0fc89cab1ceb50088968c27"
+                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/411d5243c58cbf12b0fc89cab1ceb50088968c27",
-                "reference": "411d5243c58cbf12b0fc89cab1ceb50088968c27",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
+                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
                 "shasum": ""
             },
             "require": {
@@ -3925,7 +3925,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-02-01T16:13:57+00:00"
+            "time": "2022-02-15T15:05:20+00:00"
         },
         {
             "name": "laravel/passport",
