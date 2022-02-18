@@ -11,7 +11,7 @@ jobs:
         templates: [
           'microweber-templates/shopmag',
           'microweber-templates/new-world',
-          'microweber-templates/dream'
+          'microweber-templates/dream',
           'microweber-templates/template-human-recourses',
           'microweber-templates/template-wedding',
           'microweber-templates/template-services',
@@ -34,8 +34,7 @@ jobs:
           'microweber-templates/template-fooddelivery',
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
-          'microweber-templates/template-hostel',
-
+          'microweber-templates/template-hostel'
         ]
     steps:
     - name: Checkout
