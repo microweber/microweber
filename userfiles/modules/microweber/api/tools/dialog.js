@@ -20,6 +20,8 @@
         var dialog = new mw.Dialog(options, cres);
         dialog.iframe = dialog.dialogContainer.querySelector('iframe');
         mw.tools.loading(dialog.dialogContainer, 90);
+        dialog.dialogContainer.style.minHeight = '100px';
+        mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
 
 
@@ -34,6 +36,7 @@
             }
             mw.$(frame).on('load', function () {
                 mw.tools.loading(dialog.dialogContainer, false);
+                mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).remove();
                 setTimeout(function () {
                     dialog.center();
                     mw.$(frame).on('bodyResize', function () {

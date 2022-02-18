@@ -35,6 +35,12 @@ mw.lib.require('codemirror');
                 mw.wysiwyg.change( node);
             }
         });
+        mw.$(cancel).on('click', function () {
+            if(!cancel.disabled){
+                 dlg.remove()
+
+            }
+        });
 
         nav.appendChild(cancel)
         nav.appendChild(ok)

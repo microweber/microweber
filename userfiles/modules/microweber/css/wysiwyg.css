@@ -37,7 +37,7 @@
     z-index: 99;
 }
 
- 
+
 #mw-admin-text-editor {
     width: 100%;
     min-height: 35px;
@@ -55,15 +55,13 @@
 
 #mw-text-editor.hover {
     cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
 }
 
 .mw_editor {
     line-height: normal;
 }
 
-.mw_editor_btn {
+.mw_editor_btn, .mw-editor-btn {
     display: inline-block;
     float: left;
     cursor: pointer;
@@ -97,22 +95,21 @@
 
 }
 
+.mw-editor-btn:hover,
 .mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyg-convertible-toggler.active {
 
     background: #fff;
 }
 
-.mw_editor_btn_mousedown, .mw_editor_btn_mousedown:hover {
+.mw_editor_btn:active{
     box-shadow: 0 0 6px #CCCCCC inset;
 }
 
-.mw_editor_btn.disabled,
-.mw_editor_btn.disabled:hover,
-.mw_editor_btn.disabled.mw_editor_btn_mousedown,
-.mw_editor_btn.disabled.mw_editor_btn_mousedown:hover {
+.mw_editor_btn.disabled {
     cursor: default;
     background: none;
      box-shadow: none;
+    pointer-events: none;
 }
 
 .mw_editor_btn_active {
@@ -139,6 +136,7 @@
     font-size: 19px;
     line-height: 24px;
 }
+.mw-editor-btn .ed-ico,
 .mw_editor_btn .ed-ico {
     height: 25px;
     width: 25px;
@@ -281,6 +279,7 @@
     opacity: 0.45;
     pointer-events: none;
 }
+.wysiwyg-cell-undo-redo .mw_editor_btn.disabled,
 .mw-active-element-is-in-safe-mode .mw_editor_element,
 .mw-active-element-is-in-safe-mode .mw_editor_outdent,
 .mw-active-element-is-in-safe-mode .mw_editor_indent,
