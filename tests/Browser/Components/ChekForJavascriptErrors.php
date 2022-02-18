@@ -41,6 +41,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
+        $url = $browser->driver->getCurrentURL();
         $elements = $browser->elements('.module');
         foreach ($elements as $key => $elem) {
 
@@ -61,7 +62,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
                 return editElementValidation;
                 ");
-                PHPUnit::assertFalse($output[0], 'The module should not contain edit field with field="content" and rel="content"');
+                PHPUnit::assertFalse($output[0], 'The module should not contain edit field with field="content" and rel="content" on url: '.$url);
             }
         }
 
@@ -81,7 +82,7 @@ class ChekForJavascriptErrors extends BaseComponent
 
             return editElementValidation;
             ");
-            PHPUnit::assertTrue($output[0],'Edit fields must have rel and field attributes');
+            PHPUnit::assertTrue($output[0],'Edit fields must have rel and field attributes on url: '.$url);
 
         }
 
@@ -91,7 +92,7 @@ class ChekForJavascriptErrors extends BaseComponent
             var allowDropElement = $('.allow-drop').eq(" . $key . ");
 
                 var dropElementValidation = false;
-                if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(allowDropElement[0].parentNode, ['nodrop','allow-drop'])) {
+                if (!$(allowDropElement).hasClass('nodrop')) {
                     dropElementValidation = true;
                 } else {
                     $('.allow-drop').eq(" . $key . ").css('background', 'red');
@@ -101,11 +102,9 @@ class ChekForJavascriptErrors extends BaseComponent
                return dropElementValidation;
             ");
 
-           /* if ($output[0] == false) {
-                die();
-            }*/
 
-            PHPUnit::assertTrue($output[0],'Edit field with allow-drop not have nodrop class');
+
+            PHPUnit::assertTrue($output[0],'Edit field with allow-drop must not have nodrop class on url: '.$url);
 
         }
 
@@ -122,7 +121,7 @@ class ChekForJavascriptErrors extends BaseComponent
            /* if ($output[0]) {
                 die();
             }*/
-            PHPUnit::assertFalse($output[0],'Module should not have .edit class');
+            PHPUnit::assertFalse($output[0],'Module should not have .edit class on url: '.$url);
         }
 
         // this will catch broken javascripts on page
@@ -167,12 +166,12 @@ class ChekForJavascriptErrors extends BaseComponent
         PHPUnit::assertEmpty($findedErrors);
 
         // Check for parser errors
-        $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
+        $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_','inner-edit-tag'];
         $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
         if (!empty($html)) {
             foreach ($html as $htmlString) {
                 foreach ($errorStrings as $errorString) {
-                    PHPUnit::assertFalse(str_contains($htmlString, $errorString), 'Parser error found. It should not have tag: ' . $errorString);
+                    PHPUnit::assertFalse(str_contains($htmlString, $errorString), 'Parser error found. It should not have tag: ' . $errorString. ' on url: ' . $url);
                 }
             }
         }
