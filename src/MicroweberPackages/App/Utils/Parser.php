@@ -507,7 +507,6 @@ class Parser
         //   $non_cached
         $non_cached = app()->module_manager->get('allow_caching=0&ui=any');
         $has_changes = false;
-//dd($non_cached);
 
 
         if (!$non_cached or $layout == '') {

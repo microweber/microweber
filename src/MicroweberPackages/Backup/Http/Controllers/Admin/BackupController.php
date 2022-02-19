@@ -12,7 +12,6 @@ use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Loggers\ImportLogger;
-use function _HumbugBox58fd4d9e2a25\pcov\clear;
 
 class BackupController
 {

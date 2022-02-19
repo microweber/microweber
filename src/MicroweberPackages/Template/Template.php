@@ -3,7 +3,6 @@
 
 namespace MicroweberPackages\Template;
 
-use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;

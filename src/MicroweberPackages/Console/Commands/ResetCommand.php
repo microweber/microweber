@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Console\Commands;
 
-use _HumbugBox58fd4d9e2a25\ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use Illuminate\Console\Command;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use Symfony\Component\Console\Input\InputArgument;
