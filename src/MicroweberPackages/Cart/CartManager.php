@@ -353,9 +353,9 @@ class CartManager extends Crud
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        if ($this->app->user_manager->is_admin() == false) {
-            $cart['session_id'] = mw()->user_manager->session_id();
-        }
+       // if ($this->app->user_manager->is_admin() == false) {
+        $cart['session_id'] = mw()->user_manager->session_id();
+       // }
 
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
