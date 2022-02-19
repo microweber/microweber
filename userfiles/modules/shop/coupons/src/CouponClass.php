@@ -27,15 +27,15 @@ class CouponClass
 			$this->app = mw();
 		}
 	}
-	
+
 	public static function log($coupon_code, $customer_email) {
-		
-		$customer_ip = $_SERVER['SERVER_ADDR'];
-		
+
+		$customer_ip = user_ip();
+
 		coupon_log_customer($coupon_code, $customer_email, $customer_ip);
-		
+
 		coupons_delete_session();
-		
+
 	}
 
 	/**
@@ -51,41 +51,41 @@ class CouponClass
 		$newPrice = 0.00;
 		$coupon = coupon_get_by_code($coupon_code);
 		$checkLog = coupon_log_get_by_code_and_customer_id($coupon_code, $customer_id);
-		
+
 		if ($checkLog['uses_count'] > $coupon['uses_per_customer']) {
 			return $total_amount;
 		}
-		
+
 		if (! empty($coupon) && $total_amount >= $coupon['total_amount']) {
-			
+
 			if ($coupon['discount_type'] == 'percentage' or $coupon['discount_type'] == 'precentage') {
-				
+
 				// Discount with precentage
 				$newPrice = $total_amount - ($total_amount * ($coupon['discount_value'] / 100));
 			} else if ($coupon['discount_type'] == 'fixed_amount') {
-				
+
 				// Discount with amount
 				$newPrice = $total_amount - $coupon['discount_value'];
 			}
 		} else {
 			return $total_amount;
 		}
-		
+
 		return $newPrice;
 	}
 
 	public static function calculate_total_price($total_amount, $discount_value, $discount_type)
 	{
 		if ($discount_type == 'percentage' or $discount_type == 'precentage') {
-			
+
 			// Discount with precentage
 			$newPrice = $total_amount - ($total_amount * ($discount_value / 100));
 		} else if ($discount_type == 'fixed_amount') {
-			
+
 			// Discount with amount
 			$newPrice = $total_amount - $discount_value;
 		}
-		
+
 		return $newPrice;
 	}
 }
