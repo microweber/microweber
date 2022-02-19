@@ -127,7 +127,10 @@ class ChekForJavascriptErrors extends BaseComponent
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
         $errorStrings = ['Uncaught SyntaxError'];
-        $skipErrorStrings = ['Blocked attempt to show'];
+        $skipErrorStrings = [
+            'Blocked attempt to show',
+            'userfiles/install_log.txt?',
+        ];
         $findedErrors = [];
         if (!empty($consoleLog)) {
             foreach ($consoleLog as $log) {
