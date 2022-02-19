@@ -434,6 +434,32 @@ class CheckoutManager
                 }
             }
 
+
+            // Discount details save
+            if ($coupon_code) {
+                $place_order['promo_code'] = $coupon_code;
+                $place_order['coupon_id'] = $coupon_id;
+                $place_order['discount_type'] = $discount_type;
+                $place_order['discount_value'] = $discount_value;
+
+
+                if (!$this->app->cart_manager->couponCodeCheckIfValid($coupon_code)) {
+                    //check if coupon is valid
+                    if(function_exists('coupons_delete_session')){
+                        coupons_delete_session();
+                    }
+
+                    $place_order['promo_code'] = '';
+                    $place_order['coupon_id'] ='';
+                    $place_order['discount_type'] = '';
+                    $place_order['discount_value'] ='';
+                }
+            }
+
+
+
+
+
             $amount = $this->app->shop_manager->cart_total();
             $tax = $this->app->cart_manager->get_tax();
 
@@ -498,11 +524,6 @@ class CheckoutManager
             }
 
 
-            // Discount details save
-            $place_order['promo_code'] = $coupon_code;
-            $place_order['coupon_id'] = $coupon_id;
-            $place_order['discount_type'] = $discount_type;
-            $place_order['discount_value'] = $discount_value;
 
 
             // convert currency to payment provider currency
@@ -1426,4 +1447,6 @@ class CheckoutManager
             (isset($e['query']) ? '?' . (is_array($e['query']) ? http_build_query($e['query'], '', '&') : $e['query']) : '') .
             (isset($e['fragment']) ? "#$e[fragment]" : '');
     }
+
+
 }
