@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.11] - 2022-02-19
+- Updated Laravel to 8.83
+- Fixes on live edit
+- Fixes on multi language
+- Fixes on backup module
+- Fixes on shop module
+- Fixes the security 
+- Added more tests
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.10...1.2.11 "")
+ 
+ 
 ## [1.2.10] - 2021-12-08
 - Fixes on live edit
 - Fixes on multi language
