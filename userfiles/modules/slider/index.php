@@ -102,6 +102,7 @@ if (is_file($template_file)) {
                 bxPager = 'false';
             }
             $('.bxSlider', '#<?php print $params['id'] ?>').bxSlider({
+                preventDefaultSwipeY: false,
                 pager: bxPager,
                 controls: <?php print $controls ? $controls : 'undefined'; ?>,
                 infiniteLoop: <?php print $loop ? $loop : 'undefined'; ?>,

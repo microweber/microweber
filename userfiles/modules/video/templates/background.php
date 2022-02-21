@@ -4,6 +4,7 @@
         name: Background video
         description: Use as video background
         is_hidden: 1
+
     */
 ?>
 
@@ -39,6 +40,7 @@
             video.controls = false;
             video.muted = true;
             video.autoplay = true;
+            video.playsInline = true;
             video.loop = true;
             video.addEventListener('contextmenu', function (e){
                 e.preventDefault();
