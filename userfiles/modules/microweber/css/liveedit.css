@@ -446,6 +446,7 @@ body.mw-column-resizing * {
     border-radius: 2px;
     box-shadow: 0 0 12px rgba(0, 0, 0, .3);
     pointer-events: none;
+    outline: 1px solid rgba(255, 255, 255, 0.37);
 }
 
 .mw_dropable_arr {
@@ -454,11 +455,12 @@ body.mw-column-resizing * {
     animation: mw_dropable_arr 2s linear infinite;
     position: absolute;
     bottom: 0;
-    color: #0e80e5;
+    color: #1c1c1c;
     transition: transform .2s;
     transform: rotate(180deg);
     top: 30px;
-    text-shadow: 0 0 12px rgba(0, 0, 0, .3);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.51);
+
 }
 
 .mw_dropable_arr_up .mw_dropable_arr {
@@ -1561,11 +1563,20 @@ body.has-opened-sidebar #live_edit_toolbar {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
 .mw_module_image {
     display: block;
     position: relative;
     height: 21px;
     margin: 20px;
+}
+
+.module-item-module.ui-draggable-dragging{
+    border-radius: 5px;
+}
+.module-item-module.ui-draggable-dragging,
+.module-item-module.ui-draggable-dragging .mw_module_image {
+    height: auto !important;
 }
 
 .mw-dialog #default-layouts-holder .mw_module_image{
@@ -3484,6 +3495,7 @@ body.isTyping .mw-cloneable-control {
 
 .wysiwyg-cell-undo-redo .mw-ui-btn-nav {
     margin: 10px 0 0 10px;
+
     white-space: nowrap;
 }
 
@@ -4868,6 +4880,7 @@ div.element:not(.background-image-holder) {
     pointer-events: none;
     position: absolute;
     z-index: 99;
+    outline: 1px solid rgba(255, 255, 255, 0.37);
 
 }
 .mw-handle-insert-target-display:after {
@@ -4886,6 +4899,7 @@ div.element:not(.background-image-holder) {
     display: inline-block;
     font-family: Microweber;
     font-size: 27px;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.51);
 }
 .mw-handle-insert-target-display-top:after{
     transform: rotate(0);

@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 16
+      fail-fast: false
       matrix:
         php-versions: ['7.4']
         templates: [
@@ -30,7 +31,6 @@ jobs:
           'microweber-templates/template-comingsoon',
           'microweber-templates/template-business',
           'microweber-templates/template-blank',
-          'microweber-templates/template-fooddelivery',
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
           'microweber-templates/template-networking-space',

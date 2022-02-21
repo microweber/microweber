@@ -27,14 +27,20 @@ function coupon_apply($params = array())
 
     $customer_ip = user_ip();
 
-    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
-    $getCart = $checkout->app->shop_manager->get_cart(array(
-        'session_id' => $checkout->app->user_manager->session_id()
+//    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
+//    $getCart = $checkout->app->shop_manager->get_cart(array(
+//        'session_id' => $checkout->app->user_manager->session_id()
+//
+//    ));
 
-    ));
-
+    $getCart = false;
     $coupon['total_amount'] = floatval($coupon['total_amount']);
-    $cartTotal = floatval(cart_total());
+    $cartTotal = floatval( \DB::table('cart')->where('session_id', app()->user_manager->session_id())->sum('price'));
+    $getCartItems =   \DB::table('cart')->where('session_id', app()->user_manager->session_id())->get();
+
+    if($getCartItems){
+        $getCart = $getCartItems->toArray();
+    }
 
     // Check rules
      if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
@@ -64,6 +70,11 @@ function coupon_apply($params = array())
     if (empty($errorMessage)) {
         $ok = true;
     }
+
+    if(isset( $params['coupon_check_if_valid'])){
+       return $ok;
+    }
+
 
     if ($ok) {
 
@@ -294,6 +305,7 @@ function coupons_delete_session()
     mw()->user_manager->session_del('coupon_id');
     mw()->user_manager->session_del('discount_value');
     mw()->user_manager->session_del('discount_type');
+    mw()->user_manager->session_del('applied_coupon_data');
 }
 
 

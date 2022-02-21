@@ -36,7 +36,7 @@ class ContentController extends AdminController
     public function edit(Request $request, $id) {
 
         return $this->view('content::admin.content.edit', [
-            'content_id'=>$id
+            'content_id'=>intval($id)
         ]);
     }
 }

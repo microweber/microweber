@@ -30,8 +30,7 @@ class CartManager extends Crud
             $this->app = mw();
         }
 
-        $coupon_code = $this->app->user_manager->session_get('coupon_code');
-        $this->coupon_data = coupon_get_by_code($coupon_code);
+
     }
 
     /**
@@ -41,7 +40,7 @@ class CartManager extends Crud
      */
     public function sum($return_amount = true)
     {
-        if($return_amount ){
+        if ($return_amount) {
             return $this->app->cart_repository->getCartAmount();
         } else {
             return $this->app->cart_repository->getCartItemsCount();
@@ -182,26 +181,45 @@ class CartManager extends Crud
 
     public function get_discount_type()
     {
-        if (empty($this->coupon_data)) {
+        $data = $this->couponCodeGetDataFromSession();
+        if (empty($data)) {
             return false;
         }
+        if (isset($data['discount_type'])) {
+            return $data['discount_type'];
+        }
+        return false;
+    }
 
-        return  $this->coupon_data['discount_type'];
+    public function set_coupon_data($data)
+    {
+        $this->coupon_data = $data;
     }
 
     public function get_discount_value()
     {
-        if (empty($this->coupon_data)) {
+        $data = $this->couponCodeGetDataFromSession();
+
+
+        if (empty($data)) {
+            return false;
+        }
+
+        if (!isset($data['discount_value'])) {
+            return false;
+        }
+
+        if (!isset($data['total_amount'])) {
             return false;
         }
 
         $apply_code = false;
-        if ($this->sum() >= $this->coupon_data['total_amount']) {
+        if ($this->sum() >= $data['total_amount']) {
             $apply_code = true;
         }
 
         if ($apply_code) {
-            return floatval($this->coupon_data['discount_value']);
+            return floatval($data['discount_value']);
         }
 
         return false;
@@ -353,9 +371,9 @@ class CartManager extends Crud
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        if ($this->app->user_manager->is_admin() == false) {
-            $cart['session_id'] = mw()->user_manager->session_id();
-        }
+        // if ($this->app->user_manager->is_admin() == false) {
+        $cart['session_id'] = mw()->user_manager->session_id();
+        // }
 
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
@@ -574,9 +592,9 @@ class CartManager extends Crud
         $skip_keys = array();
 
         $content_custom_fields = $this->app->fields_manager->get([
-            'rel_type'=>$for,
-            'rel_id'=>$for_id,
-            'return_full'=>true,
+            'rel_type' => $for,
+            'rel_id' => $for_id,
+            'return_full' => true,
         ]);
 
         $product_prices = array();
@@ -738,7 +756,7 @@ class CartManager extends Crud
                         $cart['qty'] = $update_qty_new;
                     } else {
                         $cart['qty'] = $check_cart['qty'] + 1;
-                     }
+                    }
                 }
             } else {
                 if ($update_qty > 0) {
@@ -911,16 +929,54 @@ class CartManager extends Crud
         $item = content_data($content_id);
         $isInStock = true;
         if ($item) {
-                if (isset($item['qty']) and $item['qty'] != 'nolimit' ) {
-                    $quantity =intval( $item['qty']);
-                    if ($quantity < 1) {
-                        $isInStock = false;
-                    }
+            if (isset($item['qty']) and $item['qty'] != 'nolimit') {
+                $quantity = intval($item['qty']);
+                if ($quantity < 1) {
+                    $isInStock = false;
                 }
+            }
 
         }
 
         return $isInStock;
     }
+
+    public function couponCodeGetDataFromSession()
+    {
+        $coupon_code = $this->app->user_manager->session_get('coupon_code');
+        if ($coupon_code and !$this->couponCodeCheckIfValid($coupon_code)) {
+            //check if coupon is valid
+            if (function_exists('coupons_delete_session')) {
+                coupons_delete_session();
+            }
+
+            $this->coupon_data = false;
+        } else {
+            if (function_exists('coupon_get_by_code')) {
+                $this->coupon_data = coupon_get_by_code($coupon_code);
+            } else {
+                $this->coupon_data = false;
+            }
+        }
+        return $this->coupon_data;
+    }
+
+    public function couponCodeCheckIfValid($coupon_code)
+    {
+        if (function_exists('coupon_apply')) {
+            //check if coupon is valid
+            $coupon_valid = coupon_apply([
+                'coupon_code' => $coupon_code,
+                'coupon_check_if_valid' => true
+            ]);
+            if (!$coupon_valid) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+
+    }
+
 
 }

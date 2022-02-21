@@ -379,7 +379,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="text" class="mwtb-search mw-dropdown-search" placeholder="Search content"/>
+                                    <input type="text" class="mw-ui-field w100 mwtb-search mw-dropdown-search" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();

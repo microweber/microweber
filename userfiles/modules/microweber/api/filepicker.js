@@ -62,7 +62,7 @@ mw.filePicker = function (options) {
                 var val = this.value.trim();
                 scope.setSectionValue(val || null, false);
             });
- 
+
 
             return $wrap[0];
         },

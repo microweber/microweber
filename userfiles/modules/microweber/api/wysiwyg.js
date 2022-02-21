@@ -1097,13 +1097,10 @@ mw.wysiwyg = {
                         });
                     }
 
-                    mw.$(this).removeClass("mw_editor_btn_mousedown");
-                    mw.wysiwyg.check_selection(event.target);
+                     mw.wysiwyg.check_selection(event.target);
 
                 }
-                if (event.type === 'mousedown' && !$(this).hasClass('disabled')) {
-                    mw.$(this).addClass("mw_editor_btn_mousedown");
-                }
+
             });
         mw_editor_btns.hover(function () {
             mw.$(this).addClass("mw_editor_btn_hover");
