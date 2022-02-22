@@ -168,6 +168,29 @@ class ChekForJavascriptErrors extends BaseComponent
 
         PHPUnit::assertEmpty($findedErrors);
 
+        // Check for dump and prints
+        $printStrings = [
+            'array (',
+            '=>',
+            'Array (',
+            'stdClass Object',
+            'stdClass',
+            'size=',
+            'length=',
+            'Sfdump',
+            'sf-dump',
+            'xdebug-var-dump',
+            'sf-dump-public',
+        ];
+        $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+        if (!empty($html)) {
+            foreach ($html as $htmlString) {
+                foreach ($printStrings as $printString) {
+                    PHPUnit::assertFalse(str_contains($htmlString, $printString), 'DUMP found. It should not have print_r/var_dump or dump: ' . $printString. ' on url: ' . $url);
+                }
+            }
+        }
+
         // Check for parser errors
         $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_','inner-edit-tag'];
         $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
