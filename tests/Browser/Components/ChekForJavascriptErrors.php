@@ -175,8 +175,6 @@ class ChekForJavascriptErrors extends BaseComponent
             'Array (',
             'stdClass Object',
             'stdClass',
-            'size=',
-            'length=',
             'Sfdump',
             'sf-dump',
             'xdebug-var-dump',
