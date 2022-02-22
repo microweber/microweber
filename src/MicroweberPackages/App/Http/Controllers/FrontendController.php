@@ -10,6 +10,7 @@ use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
 use MicroweberPackages\App\Traits\LiveEditTrait;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -108,7 +109,6 @@ class FrontendController extends Controller
 
         if(empty($request_params) and (!empty($_REQUEST))){
             $request_params = $_REQUEST;
-
         }
 
         event_trigger('mw.controller.index');

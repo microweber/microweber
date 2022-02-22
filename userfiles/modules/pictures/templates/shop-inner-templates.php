@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Shop Inner
+name: Shop Inner For Templates
 
 description: Default skin for shop inner of the templates
 

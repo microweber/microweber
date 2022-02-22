@@ -149,7 +149,7 @@ if ($allowed_to_upload == false) {
                             $is_ext = strtolower($is_ext);
 
                             switch ($is_ext) {
-                                case 'php': 
+                                case 'php':
                                 case 'php12':
                                 case 'php11':
                                 case 'php10':
@@ -518,18 +518,30 @@ if (!$chunks || $chunk == $chunks - 1) {
 
             $valid = false;
             if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
-                if (@imagecreatefromjpeg($filePath)) {
+
+                // This will clear exif data - security issue
+                $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
+                if ($imgCreatedFromJpeg) {
+                    imagejpeg($imgCreatedFromJpeg, $filePath,100);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
             } else if ($ext === 'png') {
-                if (@imagecreatefrompng($filePath)) {
+
+                $imgCreatedFromPng = @imagecreatefrompng($filePath);
+                if ($imgCreatedFromPng) {
+                    imagepng($imgCreatedFromPng, $filePath,100);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
+
             } else if ($ext === 'gif') {
-                if (@imagecreatefromgif($filePath)) {
+
+                $imgCreatedFromGif = @imagecreatefromgif($filePath);
+                if ($imgCreatedFromGif) {
+                    imagegif($imgCreatedFromGif, $filePath,100); // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
-            }else if ($ext === 'svg') {
+
+            } else if ($ext === 'svg') {
 
                 if (is_file($filePath)) {
                     $sanitizer = new \enshrined\svgSanitize\Sanitizer();
@@ -557,6 +569,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
         try {
+
             $size = getimagesize($filePath);
             $is_image = true;
             $filesize = filesize($filePath);
