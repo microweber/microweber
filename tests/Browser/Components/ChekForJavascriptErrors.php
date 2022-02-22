@@ -171,8 +171,7 @@ class ChekForJavascriptErrors extends BaseComponent
         // Check for dump and prints
         $printStrings = [
             'array (',
-            '=>',
-            'Array (',
+            'Array (', 
             'stdClass Object',
             'stdClass',
             'Sfdump',
