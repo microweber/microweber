@@ -103,6 +103,8 @@ if (is_file($template_file)) {
             }
             $('.bxSlider', '#<?php print $params['id'] ?>').bxSlider({
                 preventDefaultSwipeY: false,
+                preventDefaultSwipeX: false,
+
                 pager: bxPager,
                 controls: <?php print $controls ? $controls : 'undefined'; ?>,
                 infiniteLoop: <?php print $loop ? $loop : 'undefined'; ?>,
@@ -114,7 +116,8 @@ if (is_file($template_file)) {
                 mode: '<?php print $mode ? $mode : 'undefined'; ?>',
                 prevText: '<?php print $prevText ? $prevText : ''; ?>',
                 nextText: '<?php print $nextText ? $nextText : ''; ?>',
-                touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'true'; ?>,
+                // touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'true'; ?>,
+                touchEnabled: false,
                 captions: true,
                 onSliderLoad: function () {
                     mw.trigger("mw.bxslider.onSliderLoad");
