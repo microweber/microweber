@@ -276,7 +276,8 @@ class UrlManager
 
         // clear request params
         $cleanParam = new HTMLClean();
-        $u1 = $cleanParam->cleanArray($u1);
+        $u1 = $cleanParam->clean($u1);
+
 
         return $u1;
     }
