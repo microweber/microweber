@@ -129,3 +129,42 @@ function  create_media_dir($params)
     return app()->media_manager->create_media_dir($params);
 }
 
+
+
+
+
+/**
+ * Remove EXIF from a IMAGE file.
+ * @param string $old Path to original image file (input).
+ * @param string $new Path to new jpeg file (output).
+ */
+function remove_exif_data($old, $new)
+{
+    // Open the input file for binary reading
+    $f1 = fopen($old, 'rb');
+    // Open the output file for binary writing
+    $f2 = fopen($new, 'wb');
+
+    // Find EXIF marker
+    while (($s = fread($f1, 2))) {
+        $word = unpack('ni', $s)['i'];
+        if ($word == 0xFFE1) {
+            // Read length (includes the word used for the length)
+            $s = fread($f1, 2);
+            $len = unpack('ni', $s)['i'];
+            // Skip the EXIF info
+            fread($f1, $len - 2);
+            break;
+        } else {
+            fwrite($f2, $s, 2);
+        }
+    }
+
+    // Write the rest of the file
+    while (($s = fread($f1, 4096))) {
+        fwrite($f2, $s, strlen($s));
+    }
+
+    fclose($f1);
+    fclose($f2);
+}
