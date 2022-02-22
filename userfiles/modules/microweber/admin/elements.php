@@ -30,9 +30,7 @@ mw.$('#modules_admin_categories_<?php print $rand; ?> .category_tree a[data-cate
 	mw.$('#modules_admin_<?php print $rand; ?>').attr('data-category', $p_id);
 
  mw.reload_module('#modules_admin_<?php print $rand; ?>');
- 	 //mw.$('#modules_admin_<?php print $rand; ?>').removeAttr('cleanup_db');
 
- //	 alert($p_id);
 return false;
 
 

@@ -144,7 +144,7 @@ if (!empty($template_config)) {
                                                 mw.$("#data_<?php print $name; ?>_loading").hide();
                                                 mw.$("#data_<?php print $name; ?>").show();
                                                 mw.$("#data_<?php print $name; ?>_upload_info").html("");
-//                                        alert(data.src);
+
                                                 mw.$('input[name="data_<?php print $name; ?>"]').val(data.src);
                                             });
 
