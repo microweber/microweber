@@ -6,6 +6,26 @@ mw.liveedit.modulesToolbar = {
             if(!document.body.classList.contains('dragStart')/* && !this.classList.contains('module-item-layout')*/) {
                 if(this.classList.contains('module-item-layout')) {
 
+
+                    /**/
+
+                    var node = Array.from(document.querySelectorAll('.edit .module-layouts')).pop()
+                    if(node) {
+                        mw.element(node)['after'](this.outerHTML);
+                        var next = this.nextElementSibling;
+                        mw.tools.scrollTo(next, undefined, )
+
+                        setTimeout(function (){
+                            mw.drag.load_new_modules();
+
+                            mw.wysiwyg.change(node.lastElementChild)
+                        }, 78)
+                    }
+
+                    return;
+
+                    /**/
+
                     var el = mw.liveEditSelector.selected[0];
                     var action = 'after';
                     var all;
