@@ -111,10 +111,6 @@ class FrontendController extends Controller
             $request_params = $_REQUEST;
         }
 
-        // clear request params
-        $cleanParam = new HTMLClean();
-        $request_params = $cleanParam->cleanArray($request_params);
-
         event_trigger('mw.controller.index');
 
         $isAjax = app()->url_manager->is_ajax();
