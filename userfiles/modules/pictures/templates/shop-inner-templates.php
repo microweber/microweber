@@ -43,8 +43,8 @@ if (is_array($data)): ?>
 
 
             if (isset($itemData['label-type']) && $itemData['label-type'] === 'text'): ?>
-                <div class="position-absolute  top-0 left-0 m-2" style="z-index: 9;">
-                    <div class="badge text-white px-3" style="background-color: <?php echo $itemData['label-color']; ?>;"><?php echo $itemData['label']; ?></div>
+                <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
+                    <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: <?php echo $itemData['label-color']; ?>;"><?php echo $itemData['label']; ?></div>
                 </div>
             <?php endif;
 
