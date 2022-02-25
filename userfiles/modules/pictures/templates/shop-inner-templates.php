@@ -17,6 +17,8 @@ description: Default skin for shop inner of the templates
 $pictureElementId = 'module-image-' . $params['id'];
 $itemData = content_data(content_id());
 
+
+
 if (!isset($itemData['label'])) {
     $itemData['label'] = '';
 }
