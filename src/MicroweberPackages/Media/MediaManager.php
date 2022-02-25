@@ -4,6 +4,7 @@ namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
 use \Intervention\Image\ImageManagerStatic as Image;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
 use MicroweberPackages\Utils\Media\Thumbnailer;
@@ -1184,6 +1185,10 @@ class MediaManager
 
     public function create_media_dir($params)
     {
+
+        $clean = new HTMLClean();
+        $_REQUEST = $clean->cleanArray($_REQUEST);
+
         must_have_access();
         $resp = array();
         // $target_path = media_base_path() . 'uploaded' . DS;
@@ -1198,7 +1203,7 @@ class MediaManager
 
             $target_path = $fn_path;
         }
-        if (!isset($_REQUEST['name'])) {
+        if (!isset($_REQUEST['name']) || empty($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
             $fn_new_folder_path = $_REQUEST['name'];
