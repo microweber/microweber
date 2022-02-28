@@ -40,7 +40,9 @@ Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'
     Route::post('email/verify-resend/{id}/{hash}', 'UserVerifyController@sendVerifyEmail')->name('verification.send');
 
     Route::get('/forgot-password', 'UserForgotPasswordController@showForgotForm')->name('password.request');
-    Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');
+    Route::post('/forgot-password', 'UserForgotPasswordController@send')
+        ->middleware(['throttle:3,1'])
+        ->name('password.email');
 
     Route::get('/reset-password/{token}', 'UserForgotPasswordController@showResetForm')->name('password.reset');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
