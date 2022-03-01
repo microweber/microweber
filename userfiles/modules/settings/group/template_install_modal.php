@@ -3,11 +3,9 @@
 <script>
     function mw_change_template() {
 
-        var selectedTemplate = mw.$('.mw-site-theme-selector').find("[name='current_template']")[0];
-        var importType = '';
-
-        alert(selectedTemplate);
-
+        var selectedTemplate = $('.mw-site-theme-selector').find("[name='current_template']").first().val();
+        var importType = $("[name='import_type']").first().val();
+        
         $.ajax({
             url: mw.settings.site_url + 'api/template/change?template=' + selectedTemplate + "&import_type=" + importType,
             type: "GET",
