@@ -69,7 +69,7 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 * [Microweber Live Demo](https://demo.microweber.org/?template=dream)
 * [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
 * [Deploy as DigitalOcean 1-Click App](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
-
+* [Deploy as alwaysdata 1-Click App](https://www.alwaysdata.com/en/marketplace/microweber/)
 
 
 ## Requirements  
