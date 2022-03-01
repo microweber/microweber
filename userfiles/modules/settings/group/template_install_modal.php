@@ -1,5 +1,25 @@
 <?php must_have_access(); ?>
 
+<script>
+    function mw_change_template() {
+
+        var selectedTemplate = mw.$('.mw-site-theme-selector').find("[name='current_template']")[0];
+        var importType = '';
+
+        alert(selectedTemplate);
+
+        $.ajax({
+            url: mw.settings.site_url + 'api/template/change?template=' + selectedTemplate + "&import_type=" + importType,
+            type: "GET",
+            success: function (data) {
+                /* if(mw.notification != undefined){
+                     mw.notification.msg(data);
+                 }*/
+
+            }
+        });
+    }
+</script>
 <link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup/css/style.css?v=' .time(); ?>" type="text/css"/>
 
 <div class="mw-backup-restore">
@@ -44,7 +64,7 @@
 
     <div class="mw-backup-restore-buttons">
         <a class="btn btn-link button-cancel">Close</a>
-        <button class="btn btn-primary btn-rounded button-start" onclick="mw.change_template()" type="submit">
+        <button class="btn btn-primary btn-rounded button-start" onclick="mw_change_template()" type="submit">
             Change Template
         </button>
     </div>
