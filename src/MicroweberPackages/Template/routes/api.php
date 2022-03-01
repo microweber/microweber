@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
 
@@ -10,6 +11,8 @@ Route::name('api.template.')
     ->group(function () {
 
         \Route::get('change', function () {
+
+
 
             $request = request();
             $template = $request->get('template', false);
@@ -52,7 +55,7 @@ Route::name('api.template.')
                 $importLog = $installTemplate->start();
             }
 
-            return json_encode($importLog, JSON_PRETTY_PRINT);
+            return (new JsonResource($importLog))->response();
         });
 
         \Route::get('compile_admin_css', function () {

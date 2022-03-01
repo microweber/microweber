@@ -30,7 +30,7 @@
 
     <script type="text/javascript">
         function mw_set_default_template() {
-            var changeTemplateDialog = mw.dialog({
+            changeTemplateDialog = mw.dialog({
                 content: '<div id="mw_admin_change_template_modal_content"></div>',
                 title: 'Change Template',
                 width: 700,
