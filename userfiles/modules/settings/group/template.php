@@ -30,14 +30,16 @@
 
     <script type="text/javascript">
         function mw_set_default_template() {
-
-            mw.confirm(mw.lang("<b class='text-danger'>Warning!</b> <br />The content of your website will disappear if you change the template."),
-            function () {
-                var el1 = mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>']")[0];
-                mw.options.save(el1, function () {
-                    mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
-                });
+            changeTemplateDialog = mw.dialog({
+                content: '<div id="mw_admin_change_template_modal_content"></div>',
+                title: 'Change Template',
+                width: 700,
+                id: 'mw_admin_change_template_modal'
             });
+            var params = {};
+            mw.load_module('settings/group/template_install_modal', '#mw_admin_change_template_modal_content', function() {
+                changeTemplateDialog.center();
+            }, params);
         }
 
         $(document).ready(function () {
