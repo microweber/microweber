@@ -1,10 +1,40 @@
 <?php
 
 
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Import;
+
 Route::name('api.template.')
     ->prefix('api/template')
     ->middleware(['api', 'admin'])
     ->group(function () {
+
+        \Route::get('change_template', function () {
+
+            $request = request();
+            $sessionId = $request->get('session_id', false);
+            $template = $request->get('template', false);
+
+            $filePath = templates_path() . $template . DS . 'mw_default_content.zip';
+            if (!is_file($filePath)) {
+                return ['error'=>'Template dosen\'t have default content file.'];
+            }
+
+
+            $sessionId = SessionStepper::generateSessionId(0);
+            $installTemplate = new \MicroweberPackages\Template\TemplateInstaller();
+            $installTemplate->setSessionId($sessionId);
+            $installTemplate->setFile($filePath);
+            $installTemplate->setBatchImporting(false);
+            $installTemplate->setOvewriteById(true);
+         //   $installTemplate->setLogger($this->logger);
+         //   $installTemplate->setLanguage($this->language);
+            $installTemplate->start();
+
+            $importLog = $installTemplate->start();
+
+            return json_encode($importLog, JSON_PRETTY_PRINT);
+        });
 
         \Route::get('compile_admin_css', function () {
            $compile = app()->template->admin->compileAdminCss();
