@@ -6,10 +6,25 @@
         var selectedTemplate = $('.mw-site-theme-selector').find("[name='current_template']").first().val();
         var importType = $('input[name="import_type"]:checked').val();
 
+        $('.js-button-change-template').attr('disabled','disabled');
+        $('.js-button-change-template').html('Loading..');
+
+        setTimeout(function () {
+            $('.js-button-change-template').html('This can take some time..');
+        }, 5000);
+
+        setTimeout(function () {
+            $('.js-button-change-template').html('Importing template files..');
+        }, 10000);
+
         $.ajax({
             url: mw.settings.site_url + 'api/template/change?template=' + selectedTemplate + "&import_type=" + importType,
             type: "GET",
             success: function (json) {
+
+                $('.js-button-change-template').html('Change Template');
+                $('.js-button-change-template').removeAttr('disabled');
+
                 if (json.data['done']) {
                     mw.notification.success('Template has been changed.');
                     changeTemplateDialog.remove();
@@ -63,7 +78,7 @@
 
     <div class="mw-backup-restore-buttons">
         <a class="btn btn-link button-cancel">Close</a>
-        <button class="btn btn-primary btn-rounded button-start" onclick="mw_change_template()" type="submit">
+        <button class="btn btn-primary btn-rounded button-start js-button-change-template" onclick="mw_change_template()" type="submit">
             Change Template
         </button>
     </div>
