@@ -4,7 +4,7 @@
     function mw_change_template() {
 
         var selectedTemplate = $('.mw-site-theme-selector').find("[name='current_template']").first().val();
-        var importType = $('input[name="import_by_type"]:checked').val();
+        var importType = $('input[name="import_type"]:checked').val();
 
         $.ajax({
             url: mw.settings.site_url + 'api/template/change?template=' + selectedTemplate + "&import_type=" + importType,
