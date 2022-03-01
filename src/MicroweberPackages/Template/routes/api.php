@@ -12,7 +12,6 @@ Route::name('api.template.')
         \Route::get('change', function () {
 
             $request = request();
-            $sessionId = $request->get('session_id', false);
             $template = $request->get('template', false);
             $importType = $request->get('import_type', 'default');
 
@@ -28,11 +27,7 @@ Route::name('api.template.')
 
                 save_option('current_template', $template,'template');
 
-            } else if ($importType == 'only_media') {
-
-                
-
-            } else if ($importType == 'full') {
+            } else if ($importType == 'only_media' || $importType == 'full') {
 
                 $sessionId = SessionStepper::generateSessionId(0);
 
@@ -40,7 +35,19 @@ Route::name('api.template.')
                 $installTemplate->setSessionId($sessionId);
                 $installTemplate->setFile($filePath);
                 $installTemplate->setBatchImporting(false);
-                $installTemplate->setOvewriteById(true);
+
+                // Import all and dont delete old content
+                if ($importType == 'full') {
+                    $installTemplate->setOvewriteById(true);
+                }
+
+                // Dont write on database, import only media
+                if ($importType == 'only_media') {
+                    $installTemplate->setWriteOnDatabase(false);
+
+                    // But save current template option
+                    save_option('current_template', $template,'template');
+                }
 
                 $importLog = $installTemplate->start();
             }

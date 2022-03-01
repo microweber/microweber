@@ -38,8 +38,8 @@ class Import
     public $ovewriteById = false;
     public $deleteOldContent = false;
     public $sessionId;
-
     public $logger;
+    public $writeOnDatabase = true;
 
     public function __construct() {
         $this->logger = new ImportLogger();
@@ -82,6 +82,11 @@ class Import
     public function setOvewriteById($overwrite)
     {
         $this->ovewriteById = $overwrite;
+    }
+
+    public function setWriteOnDatabase($write)
+    {
+        $this->writeOnDatabase = $write;
     }
 
     public function setToDeleteOldContent($delete)
@@ -133,20 +138,26 @@ class Import
                 return $content;
             }
 
-            $writer = new DatabaseWriter();
-            $writer->setContent($content['data']);
-            $writer->setOverwriteById($this->ovewriteById);
-            $writer->setDeleteOldContent($this->deleteOldContent);
-            $writer->setLogger($this->logger);
+            $log = [];
+            $log['data'] = [];
 
-            if ($this->batchImporting) {
-                $data = $writer->runWriterWithBatch();
-            } else {
-                $data = $writer->runWriter();
+            if ($this->writeOnDatabase) {
+                $writer = new DatabaseWriter();
+                $writer->setContent($content['data']);
+                $writer->setOverwriteById($this->ovewriteById);
+                $writer->setDeleteOldContent($this->deleteOldContent);
+                $writer->setLogger($this->logger);
+
+                if ($this->batchImporting) {
+                    $data = $writer->runWriterWithBatch();
+                } else {
+                    $data = $writer->runWriter();
+                }
+
+                $log = $writer->getImportLog();
+                $log['data'] = $data;
             }
 
-            $log = $writer->getImportLog();
-            $log['data'] = $data;
 
             return $log;
 
