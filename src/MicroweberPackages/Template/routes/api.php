@@ -23,9 +23,10 @@ Route::name('api.template.')
                 return ['error'=>'Template dosen\'t have default content file.'];
             }
 
+            $importLog = [];
+
             if ($importType == 'default') {
 
-                $importLog = [];
                 $importLog['done'] = true;
 
                 save_option('current_template', $template,'template');
@@ -52,7 +53,8 @@ Route::name('api.template.')
                     save_option('current_template', $template,'template');
                 }
 
-                $importLog = $installTemplate->start();
+                $importLog['done'] = true;
+                $importLog['log'] = $installTemplate->start();
             }
 
             return (new JsonResource($importLog))->response();

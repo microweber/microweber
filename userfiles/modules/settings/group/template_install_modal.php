@@ -14,6 +14,7 @@
                     mw.notification.success('Template has been changed.');
                     changeTemplateDialog.remove();
                 }
+                console.log(json.data['done']);
             }
         });
     }
