@@ -139,7 +139,7 @@ class Import
             }
 
             $log = [];
-            $log['data'] = [];
+            $log['data'] = []; 
 
             if ($this->writeOnDatabase) {
                 $writer = new DatabaseWriter();
