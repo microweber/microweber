@@ -9,29 +9,41 @@ Route::name('api.template.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        \Route::get('change_template', function () {
+        \Route::get('change', function () {
 
             $request = request();
             $sessionId = $request->get('session_id', false);
             $template = $request->get('template', false);
+            $importType = $request->get('import_type', 'default');
 
             $filePath = templates_path() . $template . DS . 'mw_default_content.zip';
             if (!is_file($filePath)) {
                 return ['error'=>'Template dosen\'t have default content file.'];
             }
 
+            if ($importType == 'default') {
 
-            $sessionId = SessionStepper::generateSessionId(0);
-            $installTemplate = new \MicroweberPackages\Template\TemplateInstaller();
-            $installTemplate->setSessionId($sessionId);
-            $installTemplate->setFile($filePath);
-            $installTemplate->setBatchImporting(false);
-            $installTemplate->setOvewriteById(true);
-         //   $installTemplate->setLogger($this->logger);
-         //   $installTemplate->setLanguage($this->language);
-            $installTemplate->start();
+                $importLog = [];
+                $importLog['done'] = true;
 
-            $importLog = $installTemplate->start();
+                save_option('current_template', $template,'template');
+
+            } else if ($importType == 'only_media') {
+
+                
+
+            } else if ($importType == 'full') {
+
+                $sessionId = SessionStepper::generateSessionId(0);
+
+                $installTemplate = new \MicroweberPackages\Template\TemplateInstaller();
+                $installTemplate->setSessionId($sessionId);
+                $installTemplate->setFile($filePath);
+                $installTemplate->setBatchImporting(false);
+                $installTemplate->setOvewriteById(true);
+
+                $importLog = $installTemplate->start();
+            }
 
             return json_encode($importLog, JSON_PRETTY_PRINT);
         });

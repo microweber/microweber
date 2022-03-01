@@ -11,7 +11,7 @@
 
         <label class="mw-ui-check mw-backup-restore-option">
             <div class="option-radio">
-                <input type="radio" name="import_by_type" value="1" checked="checked "/>
+                <input type="radio" name="import_type" value="default" checked="checked" />
                 <span></span>
             </div>
             <h3>Use template with current content</h3>
@@ -20,7 +20,7 @@
 
         <label class="mw-ui-check mw-backup-restore-option active">
             <div class="option-radio">
-                <input type="radio" name="import_by_type" value="2"/>
+                <input type="radio" name="import_type" value="full" />
                 <span></span>
             </div>
             <h3>Import content, media and css files</h3>
@@ -30,7 +30,7 @@
 
         <label class="mw-ui-check mw-backup-restore-option">
             <div class="option-radio">
-                <input type="radio" name="import_by_type" value="3"/>
+                <input type="radio" name="import_type" value="only_media" />
                 <span></span>
             </div>
             <h3>Import only media and css</h3>
