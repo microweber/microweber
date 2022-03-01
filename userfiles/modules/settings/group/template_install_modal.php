@@ -5,15 +5,15 @@
 
         var selectedTemplate = $('.mw-site-theme-selector').find("[name='current_template']").first().val();
         var importType = $("[name='import_type']").first().val();
-        
+
         $.ajax({
             url: mw.settings.site_url + 'api/template/change?template=' + selectedTemplate + "&import_type=" + importType,
             type: "GET",
             success: function (data) {
-                /* if(mw.notification != undefined){
-                     mw.notification.msg(data);
-                 }*/
-
+                console.log(data);
+                if (data.done) {
+                    mw.notification.msg('Template has been changed.');
+                }
             }
         });
     }
