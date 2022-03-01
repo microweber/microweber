@@ -39,14 +39,16 @@
                 });
             });*/
 
-            mw.dialog({
+            var changeTemplateDialog = mw.dialog({
                 content: '<div id="mw_admin_change_template_modal_content"></div>',
                 title: 'Change Template',
                 width: 700,
                 id: 'mw_admin_change_template_modal'
             });
             var params = {};
-            mw.load_module('settings/group/template_install_modal', '#mw_admin_change_template_modal_content', null, params);
+            mw.load_module('settings/group/template_install_modal', '#mw_admin_change_template_modal_content', function() {
+                changeTemplateDialog.center();
+            }, params);
         }
 
         $(document).ready(function () {
