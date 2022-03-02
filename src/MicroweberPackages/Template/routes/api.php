@@ -10,54 +10,9 @@ Route::name('api.template.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        \Route::get('change', function () {
-
-
-
-            $request = request();
-            $template = $request->get('template', false);
-            $importType = $request->get('import_type', 'default');
-
-            $filePath = templates_path() . $template . DS . 'mw_default_content.zip';
-            if (!is_file($filePath)) {
-                return ['error'=>'Template dosen\'t have default content file.'];
-            }
-
-            $importLog = [];
-
-            if ($importType == 'default') {
-
-                $importLog['done'] = true;
-
-                save_option('current_template', $template,'template');
-
-            } else if ($importType == 'only_media' || $importType == 'full') {
-
-                $sessionId = SessionStepper::generateSessionId(0);
-
-                $installTemplate = new \MicroweberPackages\Template\TemplateInstaller();
-                $installTemplate->setSessionId($sessionId);
-                $installTemplate->setFile($filePath);
-                $installTemplate->setBatchImporting(false);
-
-                // Import all and dont delete old content
-                if ($importType == 'full') {
-                    $installTemplate->setOvewriteById(true);
-                }
-
-                // Dont write on database, import only media
-                if ($importType == 'only_media') {
-                    $installTemplate->setWriteOnDatabase(false);
-
-                    // But save current template option
-                    save_option('current_template', $template,'template');
-                }
-
-                $importLog['done'] = true;
-                $importLog['log'] = $installTemplate->start();
-            }
-
-            return (new JsonResource($importLog))->response();
+        Route::namespace('MicroweberPackages\Template\Http\Controllers\Api')->group(function () {
+            \Route::get('change', 'TemplateApiController@change');
+            \Route::get('upload', 'TemplateApiController@upload');
         });
 
         \Route::get('compile_admin_css', function () {
