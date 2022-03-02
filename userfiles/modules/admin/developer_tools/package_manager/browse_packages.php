@@ -368,7 +368,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 });
             });
 
-            function previewPackage(packageName) {
+            function previewPackage(packageName, packageVersion) {
 
                 mw_admin_package_preview_modal = mw.dialog({
                     content: '<div id="mw_admin_package_preview_modal_content"><?php _ejs("Loading"); ?>...</div>',
@@ -378,6 +378,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                 var params = {};
                 params.package_name = packageName;
+                params.package_version = packageVersion;
 
                 mw.load_module('admin/developer_tools/package_manager/module_preview', '#mw_admin_package_preview_modal_content', function (){
                     mw_admin_package_preview_modal.center();

@@ -5,8 +5,9 @@ use MicroweberPackages\Package\MicroweberComposerClient;
 
 $composerClient = new MicroweberComposerClient();
 $composerSearch = $composerClient->search([
-    'require_name'=>$params['package_name']
+    'require_name'=>$params['package_name'],
+    'require_version'=>$params['package_version'],
 ]);
 
-dd($composerSearch);
+dump($composerSearch);
 ?>
