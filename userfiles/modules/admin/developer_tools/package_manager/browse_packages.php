@@ -373,7 +373,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 mw_admin_package_preview_modal = mw.dialog({
                     content: '<div id="mw_admin_package_preview_modal_content"><?php _ejs("Loading"); ?>...</div>',
                     title: "<?php _ejs("Preview package"); ?>",
-                    id: 'mw_admin_package_preview_modal'
+                    id: 'mw_admin_package_preview_modal',
+                    width:880,
                 });
 
                 var params = {};
