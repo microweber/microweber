@@ -58,7 +58,7 @@ runs:
         php artisan package:discover --ansi
       shell: bash
     - name: Dusk update
-      run: ./vendor/bin/dusk-updater detect --auto-update
+      run: php artisan dusk:update
       shell: bash
     - name: Copy env
       run: |
