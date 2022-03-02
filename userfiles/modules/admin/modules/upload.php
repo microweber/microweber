@@ -14,7 +14,7 @@
 
         $(uploader).bind("FileUploaded", function (obj, data) {
             $('#mw_uploader').fadeIn();
-            $('.overwrite-existing-checkobx').fadeIn();
+            $('.overwrite-existing-checkbox').fadeIn();
             $('#upload_file_info').hide();
             mw.notification.success("Moving uploaded file...");
 
@@ -22,7 +22,7 @@
             postData.src = data.src;
             postData.overwrite = 0
 
-            if ($('#overwrite_existing_template').is(':checked')) {
+            if ($('#overwrite_existing_module').is(':checked')) {
                 postData.overwrite = 1;
             }
 
@@ -33,7 +33,7 @@
 
         $(uploader).bind('progress', function (up, file) {
             $('#mw_uploader').hide();
-            $('.overwrite-existing-checkobx').hide();
+            $('.overwrite-existing-checkbox').hide();
             $('#upload_file_info').show();
             mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
         });
