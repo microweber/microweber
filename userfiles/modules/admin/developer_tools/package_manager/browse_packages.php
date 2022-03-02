@@ -386,7 +386,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $view->assign('item', $item);
                                 $view->assign('no_img', true);
                                 $view->assign('box_class', 'mw-ui-box-info ');
-                                print    $view->display();
+                                print $view->display();
                                 ?>
                             </div>
                             <hr>
