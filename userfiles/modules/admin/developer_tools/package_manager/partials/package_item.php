@@ -211,18 +211,11 @@ if(!isset($item['type'] )){
                     </div>
 
                     <div class="row mt-2">
-                        <div class="col">
-                            <?php if ($is_core_update): ?>
-                                <div>
-                                    <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
-                                </div>
-                            <?php endif; ?>
-                            <?php $tooltipid = uniqid('tooltip'); ?>
-                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
-                                  data-trigger="click"><?php _e("Information"); ?></span>
-                            <div id="<?php print $tooltipid ?>" style="display: none">
-                                <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
-                            </div>
+
+                        <div class="col"> 
+                            <a href="#" onclick="previewPackage('<?php echo $item['name']; ?>')" class="btn btn-link btn-sm p-0">
+                                <?php _e("Information"); ?>
+                            </a>
                         </div>
 
                         <div class="col text-end text-right">
@@ -234,7 +227,9 @@ if(!isset($item['type'] )){
                             <?php
                                 if(isset($item['extra']['preview_url'])):
                             ?>
-                            <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn btn-sm btn-outline-success"><?php _e('Demo'); ?></a>
+                            <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn btn-sm btn-outline-success">
+                                <?php _e('Demo'); ?>
+                            </a>
                             <?php
                             endif;
                             ?>
