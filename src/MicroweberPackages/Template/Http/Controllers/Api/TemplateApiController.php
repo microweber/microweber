@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Template\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Utils\Zip\Unzip;
 
 class TemplateApiController
 {
@@ -104,7 +105,7 @@ class TemplateApiController
         }
 
         // Unzip uploaded files
-        $unzip = new \MicroweberPackages\Utils\Unzip();
+        $unzip = new Unzip();
         $unzip->extract($cacheTemplateDir . 'uploaded-file.zip', $cacheTemplateDir);
 
         // Check config file

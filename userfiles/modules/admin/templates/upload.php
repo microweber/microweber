@@ -12,8 +12,6 @@ var uploader = mw.files.uploader({
 _mw_log_reload_int = false;
 $(document).ready(function () {
 
-
-
     $(uploader).bind("FileUploaded", function (obj, data) {
     	$('#mw_uploader').fadeIn();
     	$('.overwrite-existing-checkobx').fadeIn();
@@ -28,12 +26,11 @@ $(document).ready(function () {
     		postData.overwrite = 1;
     	}
 
-		$.post(mw.settings.api_url+'Microweber/Utils/Themes/upload', postData,
-			function(msg) {
-				if (msg.success) {
-			    	mw.reload_module('content/views/layout_selector');
-			    }
-				mw.notification.msg(msg, 5000);
+		$.post('<?php echo route('api.template.upload');?>', postData, function(msg) {
+            if (msg.success) {
+                mw.reload_module('content/views/layout_selector');
+            }
+            mw.notification.msg(msg, 5000);
 		});
     });
 
@@ -52,7 +49,7 @@ $(document).ready(function () {
 </script>
 <br />
 <center>
-<h3><?php _e("If you have a .zip theme you can install it by uploading it here"); ?>.</h3>
+<h4><?php _e("If you have a .zip theme you can install it by uploading it here"); ?>.</h4>
 <br />
 
 <span id="upload_file_info" style="font-size:14px;"></span>

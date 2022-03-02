@@ -11,8 +11,8 @@ Route::name('api.template.')
     ->group(function () {
 
         Route::namespace('MicroweberPackages\Template\Http\Controllers\Api')->group(function () {
-            \Route::get('change', 'TemplateApiController@change');
-            \Route::get('upload', 'TemplateApiController@upload');
+            \Route::get('change', 'TemplateApiController@change')->name('change');
+            \Route::post('upload', 'TemplateApiController@upload')->name('upload');
         });
 
         \Route::get('compile_admin_css', function () {
