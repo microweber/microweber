@@ -367,6 +367,20 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                 });
             });
+
+            function previewPackage(packageName) {
+
+                mw_admin_edit_tag_modal = mw.dialog({
+                    content: '<div id="mw_admin_edit_tagging_tag_item_module"><?php _ejs("Loading"); ?>...</div>',
+                    title: modal_title,
+                    id: 'mw_admin_edit_tagging_tag_item_popup_modal'
+                });
+
+                var params = {};
+                params.packageName = packageName;
+
+                mw.load_module('admin/developer_tools/package_manager/module_preview', '#mw_admin_edit_tagging_tag_item_module', null, params);
+            }
         </script>
         <script>mw.lib.require('mwui_init');</script>
 

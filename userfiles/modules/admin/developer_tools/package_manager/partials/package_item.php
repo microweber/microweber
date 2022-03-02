@@ -212,7 +212,7 @@ if(!isset($item['type'] )){
 
                     <div class="row mt-2">
 
-                        <div class="col"> 
+                        <div class="col">
                             <a href="#" onclick="previewPackage('<?php echo $item['name']; ?>')" class="btn btn-link btn-sm p-0">
                                 <?php _e("Information"); ?>
                             </a>
