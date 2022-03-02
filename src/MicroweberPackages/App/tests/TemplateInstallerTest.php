@@ -28,4 +28,8 @@ class MyCustomLogger {
     {
 
     }
+    public function clearLog()
+    {
+
+    }
 }
