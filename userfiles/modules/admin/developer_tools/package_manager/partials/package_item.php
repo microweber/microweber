@@ -23,9 +23,9 @@ if(!isset($item['type'] )){
 <?php $tooltipid = uniqid('tooltip'); ?>
 
 <?php if ($item['type'] === 'microweber-module'): ?>
-    <div class="js-package-install-content h-75">
-        <div class="card style-1 bg-light h-75 w-75">
-            <div class="card-body p-3 d-flex flex-column justify-content-between h-75">
+    <div class="js-package-install-content h-100">
+        <div class="card style-1 bg-light h-100 w-100">
+            <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
                 <div>
                     <?php if ($item['type'] != 'microweber-core-update'): ?>
 
