@@ -565,7 +565,21 @@ class CartManager extends Crud
         }
 
         if ($data['for'] == 'content') {
+
             $cont = $this->app->content_manager->get_by_id($for_id);
+
+            if (isset($cont['is_active'])) {
+                if ($cont['is_active'] != 1) {
+                    $cont = false;
+                }
+            }
+
+            if (isset($cont['is_deleted'])) {
+                if ($cont['is_deleted'] > 0) {
+                    $cont = false;
+                }
+            }
+
             $cont_data = $this->app->content_manager->data($for_id);
             if ($cont == false) {
                 return array('error' => 'Invalid product?');

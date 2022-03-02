@@ -522,14 +522,14 @@ if (!$chunks || $chunk == $chunks - 1) {
                 // This will clear exif data - security issue
                 $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
                 if ($imgCreatedFromJpeg) {
-                    imagejpeg($imgCreatedFromJpeg, $filePath,100);  // this will create fresh new image without exif sensitive data
+                    imagejpeg($imgCreatedFromJpeg, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
             } else if ($ext === 'png') {
 
                 $imgCreatedFromPng = @imagecreatefrompng($filePath);
                 if ($imgCreatedFromPng) {
-                    imagepng($imgCreatedFromPng, $filePath,100);  // this will create fresh new image without exif sensitive data
+                    imagepng($imgCreatedFromPng, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
 
@@ -537,7 +537,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 
                 $imgCreatedFromGif = @imagecreatefromgif($filePath);
                 if ($imgCreatedFromGif) {
-                    imagegif($imgCreatedFromGif, $filePath,100); // this will create fresh new image without exif sensitive data
+                    imagegif($imgCreatedFromGif, $filePath); // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
 

@@ -1,10 +1,19 @@
 <?php
 
 
+use Illuminate\Http\Resources\Json\JsonResource;
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Import;
+
 Route::name('api.template.')
     ->prefix('api/template')
     ->middleware(['api', 'admin'])
     ->group(function () {
+
+        Route::namespace('MicroweberPackages\Template\Http\Controllers\Api')->group(function () {
+            \Route::get('change', 'TemplateApiController@change')->name('change');
+            \Route::post('upload', 'TemplateApiController@upload')->name('upload');
+        });
 
         \Route::get('compile_admin_css', function () {
            $compile = app()->template->admin->compileAdminCss();
