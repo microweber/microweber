@@ -29,15 +29,12 @@ runs:
         sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
         sudo apt-get install xvfb gtk2-engines-pixbuf
         sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
-        sudo apt-get google-chrome-stable
-        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        sudo apt-get update
         sleep 3
-#        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#        sudo apt-get install -f
-#        sudo dpkg -i google-chrome*.deb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
+        sudo dpkg -i google-chrome*.deb
 #        sudo apt-get install -y libnss3 chromium-browser
+        sudo apt-get install google-chrome-stable
       shell: bash
 #    - uses: nanasess/setup-chromedriver@v1
 #      with:
