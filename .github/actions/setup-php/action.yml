@@ -23,18 +23,37 @@ runs:
     - name: zstd act workaround
       run: sudo apt install zstd
       shell: bash
+#    - name: google-chrome install
+#      run: |
+#        sleep 3
+#        sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+#        sudo apt-get install xvfb gtk2-engines-pixbuf
+#        sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
+#        sleep 3
+#        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#        sudo apt-get install -f
+#        sudo dpkg -i google-chrome*.deb
+#        sudo apt-get install -y libnss3 chromium-browser
+#      shell: bash
     - name: google-chrome install
       run: |
         sleep 3
         sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
         sudo apt-get install xvfb gtk2-engines-pixbuf
         sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
-        sleep 3
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt-get install -f
-        sudo dpkg -i google-chrome*.deb
-        sudo apt-get install -y libnss3 chromium-browser
+        sudo apt-get install -y libnss3
+        sudo apt-get update
+        sudo apt-get remove google-chrome-stable
+        sudo apt-get install chromium-driver google-chrome-stable
       shell: bash
+#    - uses: nanasess/setup-chromedriver@v1
+#      with:
+#        # Optional: do not specify to match Chrome's version
+#        chromedriver-version: '99'
+#      run: |
+#        export DISPLAY=:99
+#        chromedriver --url-base=/wd/hub &
+#        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"

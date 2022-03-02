@@ -575,6 +575,8 @@ class Files
             'php56',
             'php4',
             'php3',
+            'phps',
+            'phpt',
             'ptml',
             'hphp',
             'html',
