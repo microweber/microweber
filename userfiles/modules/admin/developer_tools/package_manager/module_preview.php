@@ -37,16 +37,12 @@ include_once 'partials/package_data.php';
     <div class="col-md-8">
 
         <?php if (isset($screenshot) and $screenshot): ?>
-            <a target="_blank" href="<?php print $item['homepage']; ?>"
-               class="package-image package-<?php print $item['type'] ?>">
-                <img src="<?php print thumbnail($screenshot, 880); ?>" alt="">
-            </a>
+            <img src="<?php print thumbnail($screenshot, 880); ?>" alt="">
         <?php endif; ?>
-
 
         <?php
         if (isset($item['extra']['_meta']['readme'])) {
-            $readmeContent = @file_get_contents($item['extra']['_meta']['readme']);
+            $readmeContent = app()->http->url($item['extra']['_meta']['readme'])->get();
             echo $readmeContent;
         }
         ?>
@@ -116,9 +112,69 @@ include_once 'partials/package_data.php';
                 </td>
             </tr>
 
-         
             </tbody>
         </table>
+
+
+        <div class="row mt-2">
+
+            <?php
+
+            if (isset($item['latest_version']['version'])): ?>
+            <div class="col-auto">
+                <div>
+                    <small class="text-muted">v.</small>
+                    <div class="d-inline-block">
+                        <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
+                                data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
+                            <option
+                                value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
+                            <?php if (isset($item['versions']) and is_array($item['versions'])): ?>
+                                <?php $item['versions'] = array_reverse($item['versions']) ?>
+                                <?php foreach ($item['versions'] as $v_sel): ?>
+                                    <?php if ($v_sel['version'] != $item['latest_version']['version']): ?>
+                                        <option value="<?php print $v_sel['version'] ?>">
+                                            <?php print $v_sel['version'] ?>
+                                        </option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="col text-end text-center">
+
+                <?php  if(isset($item['is_symlink']) && $item['is_symlink']): ?>
+
+
+                <?php else: ?>
+
+                    <?php if ($has_update): ?>
+                        <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
+                           onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                           class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
+                    <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
+                        <div
+                            class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
+                        <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
+                           onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                           class="btn btn-sm btn-outline-primary js-package-install-btn"
+                           style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                    <?php else: ?>
+                        <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"
+                           onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                           class="btn btn-sm btn-outline-primary js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                    <?php endif; ?>
+
+                    <div class="js-package-install-preload"></div>
+
+                <?php endif; ?>
+            </div>
+        </div>
+
 
     </div>
 </div>
