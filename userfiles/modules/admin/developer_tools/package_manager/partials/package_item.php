@@ -211,18 +211,11 @@ if(!isset($item['type'] )){
                     </div>
 
                     <div class="row mt-2">
+
                         <div class="col">
-                            <?php if ($is_core_update): ?>
-                                <div>
-                                    <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
-                                </div>
-                            <?php endif; ?>
-                            <?php $tooltipid = uniqid('tooltip'); ?>
-                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
-                                  data-trigger="click"><?php _e("Information"); ?></span>
-                            <div id="<?php print $tooltipid ?>" style="display: none">
-                                <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
-                            </div>
+                            <a href="#" onclick="previewPackage('<?php echo $item['name']; ?>','<?php echo $item['latest_version']['version']; ?>')" class="btn btn-link btn-sm p-0">
+                                <?php _e("Information"); ?>
+                            </a>
                         </div>
 
                         <div class="col text-end text-right">
@@ -230,6 +223,16 @@ if(!isset($item['type'] )){
                             <?php if (template_name() == $item['target-dir']): ?>
                                 <div class="text-success js-package-install-btn-help-text"><?php _e('Current'); ?></div>
                             <?php endif; ?>
+
+                            <?php
+                                if(isset($item['extra']['preview_url'])):
+                            ?>
+                            <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn btn-sm btn-outline-success">
+                                <?php _e('Demo'); ?>
+                            </a>
+                            <?php
+                            endif;
+                            ?>
 
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"

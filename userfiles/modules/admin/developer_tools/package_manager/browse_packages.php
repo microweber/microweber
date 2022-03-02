@@ -367,6 +367,24 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                 });
             });
+
+            function previewPackage(packageName, packageVersion) {
+
+                mw_admin_package_preview_modal = mw.dialog({
+                    content: '<div id="mw_admin_package_preview_modal_content"><?php _ejs("Loading"); ?>...</div>',
+                    title: "<?php _ejs("Preview package"); ?>",
+                    id: 'mw_admin_package_preview_modal',
+                    width:880,
+                });
+
+                var params = {};
+                params.package_name = packageName;
+                params.package_version = packageVersion;
+
+                mw.load_module('admin/developer_tools/package_manager/module_preview', '#mw_admin_package_preview_modal_content', function (){
+                    mw_admin_package_preview_modal.center();
+                }, params);
+            }
         </script>
         <script>mw.lib.require('mwui_init');</script>
 
@@ -386,7 +404,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $view->assign('item', $item);
                                 $view->assign('no_img', true);
                                 $view->assign('box_class', 'mw-ui-box-info ');
-                                print    $view->display();
+                                print $view->display();
                                 ?>
                             </div>
                             <hr>
@@ -453,7 +471,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     <?php if ($pkitems) : ?>
                                         <div class="row">
                                             <?php foreach ($pkitems as $key => $item): ?>
-                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-2 package-col-<?php print $item['type']; ?>">
                                                     <?php
                                                     $view_file = __DIR__ . '/partials/package_item.php';
                                                     $view = new \MicroweberPackages\View\View($view_file);
