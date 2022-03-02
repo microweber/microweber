@@ -3,11 +3,12 @@
 namespace MicroweberPackages\Template\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Template\TemplateInstaller;
 use MicroweberPackages\Utils\Zip\Unzip;
 
 class TemplateApiController
 {
-
     /**
      * Change website template
      * @param Request $request
@@ -36,7 +37,7 @@ class TemplateApiController
 
             $sessionId = SessionStepper::generateSessionId(0);
 
-            $installTemplate = new \MicroweberPackages\Template\TemplateInstaller();
+            $installTemplate = new TemplateInstaller();
             $installTemplate->setSessionId($sessionId);
             $installTemplate->setFile($filePath);
             $installTemplate->setBatchImporting(false);
