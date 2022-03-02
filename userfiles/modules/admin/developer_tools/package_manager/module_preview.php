@@ -1,18 +1,9 @@
 <?php
 
-
-use GrahamCampbell\Markdown\Facades\Markdown;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 $composerClient = new MicroweberComposerClient();
-$search = $composerClient->search([
-    'require_name' => $params['package_name'],
-    'require_version' => $params['package_version'],
-]);
-if (!isset($search[0])) {
-    return;
-}
-$item = $search[0];
+$item = $composerClient->getPackageByName($params['package_name']);
 
 include_once 'partials/package_data.php';
 ?>
