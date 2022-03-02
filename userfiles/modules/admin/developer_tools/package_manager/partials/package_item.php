@@ -23,9 +23,9 @@ if(!isset($item['type'] )){
 <?php $tooltipid = uniqid('tooltip'); ?>
 
 <?php if ($item['type'] === 'microweber-module'): ?>
-    <div class="js-package-install-content h-100">
-        <div class="card style-1 bg-light h-100 w-100">
-            <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
+    <div class="js-package-install-content h-75">
+        <div class="card style-1 bg-light h-75 w-75">
+            <div class="card-body p-3 d-flex flex-column justify-content-between h-75">
                 <div>
                     <?php if ($item['type'] != 'microweber-core-update'): ?>
 
@@ -230,6 +230,14 @@ if(!isset($item['type'] )){
                             <?php if (template_name() == $item['target-dir']): ?>
                                 <div class="text-success js-package-install-btn-help-text"><?php _e('Current'); ?></div>
                             <?php endif; ?>
+
+                            <?php
+                                if(isset($item['extra']['preview_url'])):
+                            ?>
+                            <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn btn-sm btn-outline-success"><?php _e('Demo'); ?></a>
+                            <?php
+                            endif;
+                            ?>
 
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"

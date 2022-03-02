@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Template\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Template\TemplateInstaller;
 use MicroweberPackages\Utils\Zip\Unzip;

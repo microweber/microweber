@@ -453,7 +453,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     <?php if ($pkitems) : ?>
                                         <div class="row">
                                             <?php foreach ($pkitems as $key => $item): ?>
-                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '4'; ?> mb-2 package-col-<?php print $item['type']; ?>">
                                                     <?php
                                                     $view_file = __DIR__ . '/partials/package_item.php';
                                                     $view = new \MicroweberPackages\View\View($view_file);
