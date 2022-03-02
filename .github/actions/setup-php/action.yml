@@ -26,14 +26,13 @@ runs:
     - name: google-chrome install
       run: |
         sleep 3
-        sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+        sudo apt-get install libxss1 libnss3 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
         sudo apt-get install xvfb gtk2-engines-pixbuf
         sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
         sleep 3
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt-get install -f
         sudo dpkg -i google-chrome*.deb
-        sudo apt-get install -y libnss3 chromium-browser
       shell: bash
     - name: Get composer cache directory
       id: composer-cache
@@ -55,11 +54,11 @@ runs:
       shell: bash
     - name: Dusk updater install
       run: |
-        composer require --dev staudenmeir/dusk-updater:"^1.1"
+        composer require --dev staudenmeir/dusk-updater
         php artisan package:discover --ansi
       shell: bash
     - name: Dusk update
-      run: php artisan dusk:update
+      run: ./vendor/bin/dusk-updater detect --auto-update
       shell: bash
     - name: Copy env
       run: |
