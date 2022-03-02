@@ -41,8 +41,10 @@ runs:
         sudo apt-get install libxss1 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
         sudo apt-get install xvfb gtk2-engines-pixbuf
         sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
-
-        sudo apt-get install -y libnss3 chromium-browser
+        sudo apt-get install -y libnss3
+        sudo apt-get update
+        sudo apt-get remove google-chrome-stable
+        sudo apt-get install chromium-driver google-chrome-stable
       shell: bash
 #    - uses: nanasess/setup-chromedriver@v1
 #      with:
