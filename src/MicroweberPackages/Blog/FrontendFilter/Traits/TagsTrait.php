@@ -42,6 +42,11 @@ trait TagsTrait {
             return false;
         }
 
+        $contentFromId = get_option('content_from_id', $this->params['moduleId']);
+        if ($contentFromId) {
+
+        }
+
         $fullUrl = URL::current();
         $category = $this->request->get('category');
         $tagsRequest = $this->request->get('tags', []);
