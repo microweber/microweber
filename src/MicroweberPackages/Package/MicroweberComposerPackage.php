@@ -33,8 +33,12 @@ class MicroweberComposerPackage
         $version['release_date'] = date('Y-m-d H:i:s');
         $version['latest_version'] = $version;
 
+        if (!isset($version['type'])) {
+            return $version;
+        }
+
         if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
-            return;
+            return $version;
         }
 
         $currentInstall = false;

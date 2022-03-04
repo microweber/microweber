@@ -10,8 +10,6 @@ $author = array_first(explode('/', $item['name']), function ($key, $value) {
 });
 
 
-
-
 $package_name = explode('/', $item['name']);
 if(!isset($package_name[1])){
     return;
