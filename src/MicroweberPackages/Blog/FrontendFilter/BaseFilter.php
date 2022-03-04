@@ -109,7 +109,6 @@ abstract class BaseFilter
         if (!empty($results)) {
             foreach ($results as $result) {
 
-
                 foreach($result->tags as $tag) {
                     if ($tag) {
                         $this->allTagsForResults[] = $tag;
