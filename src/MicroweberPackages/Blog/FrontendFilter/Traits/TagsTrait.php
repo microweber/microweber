@@ -22,6 +22,9 @@ trait TagsTrait {
         $tags = $this->request->get('tags', false);
         if ($tags && is_array($tags)) {
             foreach ($tags as $tag) {
+                if (empty($tag)) {
+                    continue;
+                }
                 $urlForRemoving = 'tags[]';
                 $activeFilter = new \stdClass();
                 $activeFilter->name = _e('Tag', true) . ': ' . $tag;
