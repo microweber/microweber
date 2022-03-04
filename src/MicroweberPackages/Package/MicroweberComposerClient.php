@@ -102,7 +102,6 @@ class MicroweberComposerClient extends Client
 
     public function requestInstall($params)
     {
-
         if (!isset($params['require_version'])) {
             $params['require_version'] = 'latest';
         }
@@ -111,16 +110,14 @@ class MicroweberComposerClient extends Client
 
         $this->log('Searching for ' . $params['require_name'] . ' for version ' . $params['require_version']);
 
-        $search = $this->search([
+        $package = $this->search([
             'require_version' => $params['require_version'],
             'require_name' => $params['require_name'],
         ]);
 
-        if (!$search) {
+        if (!$package) {
             return array('error' => 'Error. Cannot find any packages.');
         }
-
-        $package = $search[0];
 
         $confirmKey = 'composer-confirm-key-' . rand();
         if (isset($params['confirm_key'])) {
