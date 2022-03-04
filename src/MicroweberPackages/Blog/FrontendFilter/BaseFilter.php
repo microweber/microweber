@@ -171,9 +171,8 @@ abstract class BaseFilter
         }
 
         $showPickedFirst = get_option('filtering_show_picked_first', $this->params['moduleId']);
-
         $requestFilters = $this->request->get('filters', false);
-
+        
         $filters = [];
 
         if (!empty($this->allCustomFieldsForResults)) {
