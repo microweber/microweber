@@ -4,6 +4,7 @@ use MicroweberPackages\Package\MicroweberComposerClient;
 
 $composerClient = new MicroweberComposerClient();
 $item = $composerClient->getPackageByName($params['package_name']);
+$item = \MicroweberPackages\Package\MicroweberComposerPackage::format($item);
 
 include_once 'partials/package_data.php';
 ?>
