@@ -193,6 +193,7 @@
 
                 }
                 mw.quick_cat_add_post_to_category_from_modal = function (id) {
+                  
                      mw.top().trigger("mwSelectToAddCategoryToContent", id);
 
 
