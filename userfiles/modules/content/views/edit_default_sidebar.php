@@ -243,8 +243,8 @@
                                     if (typeof(mw.adminPagesTree) != 'undefined') {
                                         editContentCategoryTreeSelector = mw.adminPagesTree;
                                     }
-                                    if (typeof(mw.pagesTree) != 'undefined') {
-                                        editContentCategoryTreeSelector = pagesTree;
+                                    if (typeof(window.pagesTree) != 'undefined') {
+                                        editContentCategoryTreeSelector = window.pagesTree;
                                     }
 
                                     if (typeof(editContentCategoryTreeSelector) != 'undefined') {
