@@ -2,6 +2,8 @@
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
 use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Tag\Model\Tag;
+use MicroweberPackages\Tag\TagsManager;
 
 trait TagsTrait {
 
@@ -22,9 +24,6 @@ trait TagsTrait {
         $tags = $this->request->get('tags', false);
         if ($tags && is_array($tags)) {
             foreach ($tags as $tag) {
-                if (empty($tag)) {
-                    continue;
-                }
                 $urlForRemoving = 'tags[]';
                 $activeFilter = new \stdClass();
                 $activeFilter->name = _e('Tag', true) . ': ' . $tag;
@@ -51,8 +50,15 @@ trait TagsTrait {
             return false;
         }
 
+        $getTags = Tag::get();
+
         $tags = [];
-        foreach ($this->allTagsForResults as $tag) {
+        foreach ($getTags as $tag) {
+
+            if (empty($tag)) {
+                continue;
+            }
+
             $buildLink = [];
             if (!empty($category)) {
                 $buildLink['category'] = $category;
