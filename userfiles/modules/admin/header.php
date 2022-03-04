@@ -654,6 +654,11 @@ $user = get_user_by_id($user_id);
                     mw.$('.go-live-edit-href-set').each(function () {
                         var el = $(this);
 
+                        if(self !== top){
+                            el.attr('target', '_parent');
+                        }
+
+
                         var href = el.attr('href');
 
                         if (href.indexOf("editmode") === -1) {
