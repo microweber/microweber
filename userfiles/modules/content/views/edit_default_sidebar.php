@@ -234,15 +234,18 @@
                             $(document).ready(function () {
 
                                 var editContentCategoryTreeSelector;
-                                if (typeof(window.categorySelector) != 'undefined') {
-                                    editContentCategoryTreeSelector = window.categorySelector.tree;
-                                }
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    editContentCategoryTreeSelector = mw.adminPagesTree;
-                                }
+
 
                                 mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
-
+                                    if (typeof(window.categorySelector) != 'undefined') {
+                                        editContentCategoryTreeSelector = window.categorySelector.tree;
+                                    }
+                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                        editContentCategoryTreeSelector = mw.adminPagesTree;
+                                    }
+                                    if (typeof(mw.pagesTree) != 'undefined') {
+                                        editContentCategoryTreeSelector = pagesTree;
+                                    }
 
                                     if (typeof(editContentCategoryTreeSelector) != 'undefined') {
                                         mw.notification.success('The content is added to category');
