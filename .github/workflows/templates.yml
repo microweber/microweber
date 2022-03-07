@@ -63,7 +63,7 @@ jobs:
         rm -rf /home/runner/work/microweber/microweber/templates/new-world/
         rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
     - name: Install template
-      run: composer require ${{ matrix.templates }}
+      run: composer require ${{ matrix.templates }} --no-cache 
     - name: Install Microweber with template ${{ matrix.templates }}
       run: php artisan microweber:install admin@site.com 1 1 /home/runner/work/microweber/microweber/storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
     - name: Run Laravel Server
