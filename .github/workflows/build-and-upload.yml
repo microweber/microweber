@@ -29,5 +29,5 @@ jobs:
 
     - name: Upload composer.json
       run: |
-        cp -r composer.json composer-${{ env.GITHUB_REF_SLUG }}.json
-        curl -T composer-${{ env.GITHUB_REF_SLUG }}.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+        cp -r composer.json microweber-${{ env.GITHUB_REF_SLUG }}.composer.json
+        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
