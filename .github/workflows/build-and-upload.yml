@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install Dependencies
       run: composer install
-      
+
     - name: Dump autoload dependecies
       run: composer dump-autoload
 
@@ -26,3 +26,8 @@ jobs:
         find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+
+    - name: Upload composer.json
+      run: |
+        cp -r composer.json composer-${{ env.GITHUB_REF_SLUG }}.json
+        curl -T composer-${{ env.GITHUB_REF_SLUG }}.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
