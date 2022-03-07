@@ -49,24 +49,11 @@ function load_all_functions_files_for_modules($app=null)
         // Register module service providers
         if($app and is_object($app)){
             foreach ($modules as $module) {
+
                 if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
 
-                    $loadProviders = [];
-                    if (is_array($module['settings']['service_provider'])) {
-                        foreach ($module['settings']['service_provider'] as $serviceProvider) {
-                            $loadProviders[] = $serviceProvider;
-                        }
-                    } else {
-                        $loadProviders[] = $module['settings']['service_provider'];
-                    }
-                    foreach ($loadProviders as $loadProvider) {
-                        if (class_exists($loadProvider)) {
-                            $app->register($loadProvider);
-                        }
-                    }
+                    app()->module_manager->boot_module($module);
 
-
-//
                 }
             }
         }

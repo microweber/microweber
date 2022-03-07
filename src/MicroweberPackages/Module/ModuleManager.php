@@ -45,9 +45,9 @@ class ModuleManager
             }
         }
         $this->set_table_names();
-        if(mw_is_installed()){
-            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table='.$this->tables['system_licenses']);
-         }
+        if (mw_is_installed()) {
+            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table=' . $this->tables['system_licenses']);
+        }
 
 
     }
@@ -107,7 +107,7 @@ class ModuleManager
 
     private $modules_register = [];
 
-    public function register($module_type,$controller_action)
+    public function register($module_type, $controller_action)
     {
         $this->_register_module_callback_controller($module_type, $controller_action);
         $config = [];
@@ -283,7 +283,6 @@ class ModuleManager
         }
 
 
-
         if (php_can_use_func('ini_set')) {
             ini_set('memory_limit', '-1');
         }
@@ -354,7 +353,7 @@ class ModuleManager
                     $main_try_icon = false;
 
                     $config['is_symlink'] = false;
-                    if(is_link(normalize_path($moduleDir, false))){
+                    if (is_link(normalize_path($moduleDir, false))) {
                         $config['is_symlink'] = true;
                     }
 
@@ -536,20 +535,20 @@ class ModuleManager
 
                 if (!isset($s['module_id'])) {
                     //$save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
-                  $save =  db_get('table=modules&no_cache=1&module=' . $s['module']);
+                    $save = db_get('table=modules&no_cache=1&module=' . $s['module']);
 
                     if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);
-                     //   $s['position'] = intval($save[0]['position']);
+                        //   $s['position'] = intval($save[0]['position']);
                         $s['installed'] = intval($save[0]['installed']);
 
                         $save = mw()->database_manager->save($table, $s);
-                       // print_r($save);
+                        // print_r($save);
                         $mname_clen = str_replace('\\', '/', $s['module']);
                         if ($s['id'] > 0) {
 
                             //$delid = $s["id"];
-                             DB::table($table)->where('id', '!=', $s['id'])->where('module',$s['module'])->delete();
+                            DB::table($table)->where('id', '!=', $s['id'])->where('module', $s['module'])->delete();
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
                             //mw()->database_manager->q($del);
                         }
@@ -859,10 +858,10 @@ class ModuleManager
             $replace_paths[] = $module_name_l;
         }
 
-        if(defined('ACTIVE_TEMPLATE_DIR')){
-        $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
-        $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-        $replace_paths[] = $module_name_l_theme;
+        if (defined('ACTIVE_TEMPLATE_DIR')) {
+            $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
+            $module_name_l_theme = normalize_path($module_name_l_theme, 1);
+            $replace_paths[] = $module_name_l_theme;
         }
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
@@ -1114,9 +1113,6 @@ class ModuleManager
         $uninstall_lock = app()->module_repository->getModule($module_namei);
 
 
-
-
-
         if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
             $root_mod = $this->locate_root_module($module_name);
             if ($root_mod) {
@@ -1192,10 +1188,9 @@ class ModuleManager
         $params['ui'] = 'any';
         $params['limit'] = 1;
 
-      //  $data = $this->get($params);
+        //  $data = $this->get($params);
 
         $data = app()->module_repository->getModule($module_name);
-
 
 
         $info = false;
@@ -1568,5 +1563,41 @@ class ModuleManager
         }
 
     }
+
+
+    public function boot_module($module)
+    {
+
+        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['autoload_namespace']) and is_array($module['settings']['autoload_namespace']) and !empty($module['settings']['autoload_namespace'])) {
+            foreach ($module['settings']['autoload_namespace'] as $path => $namespace) {
+                if ($path and is_dir($path)) {
+                    $path = normalize_path($path, 1);
+                    autoload_add_namespace($path, $namespace);
+                }
+            }
+
+        }
+
+        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and is_array($module['settings']['service_provider']) and !empty($module['settings']['service_provider'])) {
+            foreach ($module['settings']['service_provider'] as $service_provider) {
+                $this->app->register($service_provider);
+            }
+        }
+
+        $loadProviders = [];
+        if (is_array($module['settings']['service_provider'])) {
+            foreach ($module['settings']['service_provider'] as $serviceProvider) {
+                $loadProviders[] = $serviceProvider;
+            }
+        } else {
+            $loadProviders[] = $module['settings']['service_provider'];
+        }
+        foreach ($loadProviders as $loadProvider) {
+            if (class_exists($loadProvider)) {
+                app()->register($loadProvider);
+            }
+        }
+    }
+
 
 }
