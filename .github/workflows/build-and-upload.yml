@@ -31,3 +31,7 @@ jobs:
       run: |
         cp -r composer.json microweber-${{ env.GITHUB_REF_SLUG }}.composer.json
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+    - name: Upload version.txt
+      run: |
+        cp -r version.txt microweber-${{ env.GITHUB_REF_SLUG }}.version.txt
+        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
