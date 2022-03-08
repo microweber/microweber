@@ -8742,17 +8742,17 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.2.3",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ramsey/uuid.git",
-                "reference": "fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df"
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "e3e9179f275a44b8e462816d1c65958ff90c4c96"
             },
             "dist": {
-                "type": "license_key",
-                "url": "https://members.microweber.com",
-                "reference": "license_key",
-                "shasum": "license_key"
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/e3e9179f275a44b8e462816d1c65958ff90c4c96",
+                "reference": "e3e9179f275a44b8e462816d1c65958ff90c4c96",
+                "shasum": ""
             },
             "require": {
                 "brick/math": "^0.8 || ^0.9",
@@ -8795,6 +8795,7 @@
                 "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
                 "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -8802,82 +8803,17 @@
                 },
                 "captainhook": {
                     "force-install": true
-                },
-                "_meta": {
-                    "README": "https://market.microweberapi.com/meta/ramsey-uuid/423/README.md"
-                },
-                "whmcs": {
-                    "whmcs_url": "https://members.microweber.com",
-                    "whmcs_product_ids": [
-                        "173346",
-                        "17",
-                        "27",
-                        "173347",
-                        "39"
-                    ]
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Ramsey\\Uuid\\": "src/"
-                },
                 "files": [
                     "src/functions.php"
-                ]
-            },
-            "autoload-dev": {
+                ],
                 "psr-4": {
-                    "Ramsey\\Uuid\\Benchmark\\": "tests/benchmark/",
-                    "Ramsey\\Uuid\\StaticAnalysis\\": "tests/static-analysis/",
-                    "Ramsey\\Uuid\\Test\\": "tests/"
+                    "Ramsey\\Uuid\\": "src/"
                 }
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
-            "scripts": {
-                "analyze": [
-                    "@phpstan",
-                    "@psalm"
-                ],
-                "build:clean": [
-                    "git clean -fX build/"
-                ],
-                "lint": [
-                    "parallel-lint src tests"
-                ],
-                "lint:paths": [
-                    "parallel-lint"
-                ],
-                "phpbench": [
-                    "phpbench run"
-                ],
-                "phpcbf": [
-                    "phpcbf -vpw --cache=build/cache/phpcs.cache"
-                ],
-                "phpcs": [
-                    "phpcs --cache=build/cache/phpcs.cache"
-                ],
-                "phpstan": [
-                    "phpstan analyse --no-progress",
-                    "phpstan analyse -c phpstan-tests.neon --no-progress"
-                ],
-                "phpunit": [
-                    "phpunit --verbose --colors=always"
-                ],
-                "phpunit-coverage": [
-                    "phpunit --verbose --colors=always --coverage-html build/coverage"
-                ],
-                "psalm": [
-                    "psalm --show-info=false --config=psalm.xml"
-                ],
-                "test": [
-                    "@lint",
-                    "@phpbench",
-                    "@phpcs",
-                    "@phpstan",
-                    "@psalm",
-                    "@phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -8887,7 +8823,21 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2021-09-25T23:10:38+00:00"
+            "support": {
+                "issues": "https://github.com/ramsey/uuid/issues",
+                "source": "https://github.com/ramsey/uuid/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/uuid",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-01-29T19:05:59+00:00"
         },
         {
             "name": "rtconner/laravel-tagging",
