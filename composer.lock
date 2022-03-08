@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c5429ff326c5c15437a20dd9bd15a80",
+    "content-hash": "9116e1b019c6425bceb962366b7e328f",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1561,16 +1561,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.3.x-dev",
+            "version": "3.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "baf6efed70e46f4d979e5dd42f804007e75f12fb"
+                "reference": "77ffb083799d2a9ef96dab6f00b2e683a7d338c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/baf6efed70e46f4d979e5dd42f804007e75f12fb",
-                "reference": "baf6efed70e46f4d979e5dd42f804007e75f12fb",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/77ffb083799d2a9ef96dab6f00b2e683a7d338c8",
+                "reference": "77ffb083799d2a9ef96dab6f00b2e683a7d338c8",
                 "shasum": ""
             },
             "require": {
@@ -1587,17 +1587,16 @@
                 "jetbrains/phpstorm-stubs": "2021.1",
                 "phpstan/phpstan": "1.4.6",
                 "phpstan/phpstan-strict-rules": "^1.1",
-                "phpunit/phpunit": "9.5.16",
+                "phpunit/phpunit": "9.5.13",
                 "psalm/plugin-phpunit": "0.16.1",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^5.2|^6.0",
                 "symfony/console": "^2.7|^3.0|^4.0|^5.0|^6.0",
-                "vimeo/psalm": "4.22.0"
+                "vimeo/psalm": "4.20.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
-            "default-branch": true,
             "bin": [
                 "bin/doctrine-dbal"
             ],
@@ -1653,7 +1652,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.3.x"
+                "source": "https://github.com/doctrine/dbal/tree/3.4.x"
             },
             "funding": [
                 {
@@ -1669,7 +1668,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-28T22:16:42+00:00"
+            "time": "2022-02-25T19:23:55+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -3679,44 +3678,43 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "6.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "fcbb4b89d31adbaaf1eb667626e5ddc7da5ba1a7"
+                "reference": "b896124eceeaee542e9ce7152378ff1cc828b1e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/fcbb4b89d31adbaaf1eb667626e5ddc7da5ba1a7",
-                "reference": "fcbb4b89d31adbaaf1eb667626e5ddc7da5ba1a7",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/b896124eceeaee542e9ce7152378ff1cc828b1e9",
+                "reference": "b896124eceeaee542e9ce7152378ff1cc828b1e9",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
-                "illuminate/console": "^6.0|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/console": "^8.0|^9.0",
+                "illuminate/support": "^8.0|^9.0",
                 "nesbot/carbon": "^2.0",
-                "php": "^7.2|^8.0",
+                "php": "^7.3|^8.0",
                 "php-webdriver/webdriver": "^1.9.0",
-                "symfony/console": "^4.3|^5.0|^6.0",
-                "symfony/finder": "^4.3|^5.0|^6.0",
-                "symfony/process": "^4.3|^5.0|^6.0",
-                "vlucas/phpdotenv": "^3.0|^4.0|^5.2"
+                "symfony/console": "^5.1.4|^6.0",
+                "symfony/finder": "^5.1.4|^6.0",
+                "symfony/process": "^5.1.4|^6.0",
+                "vlucas/phpdotenv": "^5.2"
             },
             "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.16|^5.17.1|^6.12.1|^7.0",
-                "phpunit/phpunit": "^7.5.15|^8.4|^9.0"
+                "mockery/mockery": "^1.4.2",
+                "orchestra/testbench": "^6.12.1|^7.0|dev-phpunit10",
+                "phpunit/phpunit": "^9.0|^10.0"
             },
             "suggest": {
                 "ext-pcntl": "Used to gracefully terminate Dusk when tests are running."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.x-dev"
+                    "dev-master": "7.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -3747,22 +3745,22 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/6.x"
+                "source": "https://github.com/laravel/dusk/tree/master"
             },
-            "time": "2022-02-15T17:56:23+00:00"
+            "time": "2022-01-13T12:53:26+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v8.83.1",
+            "version": "v8.83.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d"
+                "reference": "b4ed222a188cca74ca9062296e525d26ae54a0ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
-                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b4ed222a188cca74ca9062296e525d26ae54a0ce",
+                "reference": "b4ed222a188cca74ca9062296e525d26ae54a0ce",
                 "shasum": ""
             },
             "require": {
@@ -3922,34 +3920,34 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-02-15T15:05:20+00:00"
+            "time": "2022-03-03T15:14:29+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "10.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "1039d8b4aa71c45dbea2f140b131cae8802237e7"
+                "reference": "42677aa017a747d27e0d6a87e29f0150f1414d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/1039d8b4aa71c45dbea2f140b131cae8802237e7",
-                "reference": "1039d8b4aa71c45dbea2f140b131cae8802237e7",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/42677aa017a747d27e0d6a87e29f0150f1414d02",
+                "reference": "42677aa017a747d27e0d6a87e29f0150f1414d02",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "firebase/php-jwt": "^5.0",
-                "illuminate/auth": "^8.37|^9.0",
-                "illuminate/console": "^8.37|^9.0",
-                "illuminate/container": "^8.37|^9.0",
-                "illuminate/contracts": "^8.37|^9.0",
-                "illuminate/cookie": "^8.37|^9.0",
-                "illuminate/database": "^8.37|^9.0",
-                "illuminate/encryption": "^8.37|^9.0",
-                "illuminate/http": "^8.37|^9.0",
-                "illuminate/support": "^8.37|^9.0",
+                "illuminate/auth": "^8.2|^9.0",
+                "illuminate/console": "^8.2|^9.0",
+                "illuminate/container": "^8.2|^9.0",
+                "illuminate/contracts": "^8.2|^9.0",
+                "illuminate/cookie": "^8.2|^9.0",
+                "illuminate/database": "^8.2|^9.0",
+                "illuminate/encryption": "^8.2|^9.0",
+                "illuminate/http": "^8.2|^9.0",
+                "illuminate/support": "^8.2|^9.0",
                 "lcobucci/jwt": "^3.4|^4.0",
                 "league/oauth2-server": "^8.2",
                 "nyholm/psr7": "^1.3",
@@ -3962,11 +3960,10 @@
                 "orchestra/testbench": "^6.0|^7.0",
                 "phpunit/phpunit": "^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "10.x-dev"
+                    "dev-master": "11.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4000,39 +3997,38 @@
                 "issues": "https://github.com/laravel/passport/issues",
                 "source": "https://github.com/laravel/passport"
             },
-            "time": "2022-02-23T15:04:04+00:00"
+            "time": "2022-01-25T20:07:24+00:00"
         },
         {
             "name": "laravel/sanctum",
-            "version": "2.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "f4f77b177923e74dde29e85bc0bb2e18527fd557"
+                "reference": "8a39bd8933ed76d044901dabf605ecc595fa045a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/f4f77b177923e74dde29e85bc0bb2e18527fd557",
-                "reference": "f4f77b177923e74dde29e85bc0bb2e18527fd557",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/8a39bd8933ed76d044901dabf605ecc595fa045a",
+                "reference": "8a39bd8933ed76d044901dabf605ecc595fa045a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/contracts": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/database": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.9|^7.0|^8.0|^9.0",
+                "illuminate/contracts": "^6.9|^7.0|^8.0",
+                "illuminate/database": "^6.9|^7.0|^8.0",
+                "illuminate/support": "^6.9|^7.0|^8.0",
                 "php": "^7.2|^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
                 "phpunit/phpunit": "^8.0|^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4065,7 +4061,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2022-02-22T16:16:00+00:00"
+            "time": "2021-12-14T17:50:16+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -4129,16 +4125,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "5.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "dfd188e3b516152d55c0759d44b9d4d70a731359"
+                "reference": "c3d7e859dc7ca3953b62b6f44af09cc421b0ab98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/dfd188e3b516152d55c0759d44b9d4d70a731359",
-                "reference": "dfd188e3b516152d55c0759d44b9d4d70a731359",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/c3d7e859dc7ca3953b62b6f44af09cc421b0ab98",
+                "reference": "c3d7e859dc7ca3953b62b6f44af09cc421b0ab98",
                 "shasum": ""
             },
             "require": {
@@ -4155,11 +4151,10 @@
                 "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
                 "phpunit/phpunit": "^8.0|^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.x-dev"
+                    "dev-master": "6.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4195,7 +4190,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2022-02-08T19:33:44+00:00"
+            "time": "2022-01-25T20:12:41+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -14240,16 +14235,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "6205041336b09b965af1d6af29261584e787bf52"
+                "reference": "be4080d7cdcf5bf522016110db65f6c020bc44f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/6205041336b09b965af1d6af29261584e787bf52",
-                "reference": "6205041336b09b965af1d6af29261584e787bf52",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/be4080d7cdcf5bf522016110db65f6c020bc44f4",
+                "reference": "be4080d7cdcf5bf522016110db65f6c020bc44f4",
                 "shasum": ""
             },
             "require": {
@@ -14258,14 +14253,13 @@
                 "illuminate/support": "^8.0|^9.0",
                 "php": "^7.3|^8.0"
             },
-            "default-branch": true,
             "bin": [
                 "bin/sail"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -14297,42 +14291,41 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2022-03-07T15:35:47+00:00"
+            "time": "2022-01-20T15:32:19+00:00"
         },
         {
             "name": "laravel/tinker",
-            "version": "2.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "31d94864d1e6e68f52a08bc8742600b66908154e"
+                "reference": "c6a9850e9450ec89a725c96267d835fd1655a5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/31d94864d1e6e68f52a08bc8742600b66908154e",
-                "reference": "31d94864d1e6e68f52a08bc8742600b66908154e",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/c6a9850e9450ec89a725c96267d835fd1655a5c1",
+                "reference": "c6a9850e9450ec89a725c96267d835fd1655a5c1",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^6.0|^7.0|^8.0|^9.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/console": "^6.0|^7.0|^8.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
                 "php": "^7.2.5|^8.0",
-                "psy/psysh": "^0.10.4|^0.11.1",
-                "symfony/var-dumper": "^4.3.4|^5.0|^6.0"
+                "psy/psysh": "^0.10.4",
+                "symfony/var-dumper": "^4.3.4|^5.0"
             },
             "require-dev": {
                 "mockery/mockery": "~1.3.3|^1.4.2",
                 "phpunit/phpunit": "^8.5.8|^9.3.3"
             },
             "suggest": {
-                "illuminate/database": "The Illuminate Database package (^6.0|^7.0|^8.0|^9.0)."
+                "illuminate/database": "The Illuminate Database package (^6.0|^7.0|^8.0)."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -14364,9 +14357,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/tinker/issues",
-                "source": "https://github.com/laravel/tinker/tree/2.x"
+                "source": "https://github.com/laravel/tinker/tree/master"
             },
-            "time": "2022-02-08T14:19:40+00:00"
+            "time": "2021-12-07T16:42:23+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -15294,32 +15287,29 @@
         },
         {
             "name": "psy/psysh",
-            "version": "dev-main",
+            "version": "0.10.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514"
+                "reference": "3bda67292407e44f5652d4c0320514021d258f35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7f7da640d68b9c9fec819caae7c744a213df6514",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/3bda67292407e44f5652d4c0320514021d258f35",
+                "reference": "3bda67292407e44f5652d4c0320514021d258f35",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-tokenizer": "*",
-                "nikic/php-parser": "^4.0 || ^3.1",
-                "php": "^8.0 || ^7.0.8",
-                "symfony/console": "^6.0 || ^5.0 || ^4.0 || ^3.4",
-                "symfony/var-dumper": "^6.0 || ^5.0 || ^4.0 || ^3.4"
-            },
-            "conflict": {
-                "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
+                "nikic/php-parser": "~4.0|~3.0|~2.0|~1.3",
+                "php": "^8.0 || ^7.0 || ^5.5.9",
+                "symfony/console": "~5.0|~4.0|~3.0|^2.4.2|~2.3.10",
+                "symfony/var-dumper": "~5.0|~4.0|~3.0|~2.7"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.2",
-                "hoa/console": "3.17.05.02"
+                "hoa/console": "3.17.*"
             },
             "suggest": {
                 "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
@@ -15328,14 +15318,13 @@
                 "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
                 "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
             },
-            "default-branch": true,
             "bin": [
                 "bin/psysh"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.11.x-dev"
+                    "dev-main": "0.10.x-dev"
                 }
             },
             "autoload": {
@@ -15367,9 +15356,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.2"
+                "source": "https://github.com/bobthecow/psysh/tree/0.10"
             },
-            "time": "2022-02-28T15:28:54+00:00"
+            "time": "2021-12-15T03:41:56+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -16415,5 +16404,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
