@@ -34,6 +34,15 @@ jobs:
           'microweber-templates/template-cryptocurrency',
           'microweber-templates/template-simple-shop',
           'microweber-templates/template-networking-space',
+          'microweber-templates/mobile-app',
+          'microweber-templates/template-apartment',
+          'microweber-templates/template-tattoo',
+          'microweber-templates/template-private-school',
+          'microweber-templates/template-burger',
+          'microweber-templates/template-hospital',
+          'microweber-templates/template-coffeeshop',
+          'microweber-templates/template-tourism',
+          'microweber-templates/template-urban',
           'microweber-templates/template-hostel'
         ]
     steps:
