@@ -1580,7 +1580,9 @@ class ModuleManager
 
         if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and is_array($module['settings']['service_provider']) and !empty($module['settings']['service_provider'])) {
             foreach ($module['settings']['service_provider'] as $service_provider) {
-                $this->app->register($service_provider);
+                if (class_exists($service_provider)) {
+                    app()->register($service_provider);
+                }
             }
         }
 
