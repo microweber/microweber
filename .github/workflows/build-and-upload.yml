@@ -4,6 +4,21 @@ on:
   push:
 
 jobs:
+  microweber-test-before-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
+
+      - name: Run PHPUnit
+        run: php artisan test --debug
+
   microweber-build-and-upload:
     runs-on: ubuntu-latest
 
@@ -15,10 +30,7 @@ jobs:
 
     - name: Dump autoload dependecies
       run: composer dump-autoload
-      
-    - name: Run PHPUnit
-      run: php artisan test --debug
-      
+
     - name: Inject slug/short variables
       uses: rlespinasse/github-slug-action@v3.x
 
