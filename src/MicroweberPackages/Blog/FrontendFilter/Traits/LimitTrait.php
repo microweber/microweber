@@ -20,6 +20,7 @@ trait LimitTrait {
 
     public function applyQueryLimit()
     {
+        $limit = 10;
         $itemsPerPage = get_option('items_per_page', $this->params['moduleId']);
         if ($itemsPerPage > 0) {
             $limit = $itemsPerPage;
