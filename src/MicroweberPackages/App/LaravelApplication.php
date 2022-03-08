@@ -6,6 +6,7 @@ namespace MicroweberPackages\App;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Session\SessionServiceProvider;
+use Illuminate\View\ViewServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 
 class LaravelApplication extends Application
@@ -58,6 +59,7 @@ class LaravelApplication extends Application
 
         parent::registerBaseServiceProviders();
 
+        $this->register(new ViewServiceProvider($this));
         $this->register(new SessionServiceProvider($this));
         $this->register(new FilesystemServiceProvider($this));
         $this->register(new TaggableFileCacheServiceProvider($this));
