@@ -1569,10 +1569,14 @@ class ModuleManager
     {
 
         if (isset($module['settings']) and $module['settings'] and isset($module['settings']['autoload_namespace']) and is_array($module['settings']['autoload_namespace']) and !empty($module['settings']['autoload_namespace'])) {
-            foreach ($module['settings']['autoload_namespace'] as $path => $namespace) {
-                if ($path and is_dir($path)) {
-                    $path = normalize_path($path, 1);
-                    autoload_add_namespace($path, $namespace);
+            foreach ($module['settings']['autoload_namespace'] as $namespace_item) {
+
+                if (isset($namespace_item['path']) and isset($namespace_item['namespace'])) {
+                    $path = normalize_path($namespace_item['path'], 1);
+                    $namespace = $namespace_item['namespace'];
+                    if ($path and is_dir($path)) {
+                        autoload_add_namespace($path, $namespace);
+                    }
                 }
             }
 
