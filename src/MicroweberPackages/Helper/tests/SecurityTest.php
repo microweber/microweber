@@ -3,12 +3,20 @@ namespace MicroweberPackages\Helper\tests;
 
 class SecurityTest extends BaseTest
 {
+    public function testComments()
+    {
+        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+
+        $string = '<a href="https://example.com">test</a>';
+        $content = $antiXss->onlyTags($string);
+
+       $this->assertEquals($string, $content);
+    }
+
 
     public function testXssExternalLinkImg()
     {
-
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();
-
 
         $string = '<img src="'.site_url().'test.jpg" />';
         $content = $antiXss->clean($string);

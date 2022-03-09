@@ -3,7 +3,6 @@
 namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Package\ComposerUpdate;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {

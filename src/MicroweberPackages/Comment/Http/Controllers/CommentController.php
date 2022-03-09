@@ -53,7 +53,6 @@ class CommentController
 
         }
 
-
         $rules['rel_id'] = 'required';
         $rules['rel_type'] = 'required';
         $rules['comment_body'] = 'required';
@@ -101,9 +100,9 @@ class CommentController
         }
 
         $clearInput = new HTMLClean();
-        $saveComment['comment_body'] = $clearInput->clean($saveComment['comment_body']);
+        $saveComment['comment_body'] = $clearInput->onlyTags($saveComment['comment_body']);
 
-        if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
+       if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
             $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
         }
 
