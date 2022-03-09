@@ -54,11 +54,18 @@ class CommentsCrud extends Crud
                     $comments[$i]['updated_at_display'] = date($date_format, strtotime($item['updated_at']));
                 }
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
+
                     $surl = site_url();
-                    $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
+                    $comment_body = str_replace('{SITE_URL}', $surl, $item['comment_body']);
 
                     $clearInput = new HTMLClean();
-                    $comments[$i]['comment_body'] = $clearInput->onlyTags($item['comment_body']);
+                    $comment_body = $clearInput->onlyTags($comment_body);
+
+                    $pq = \phpQuery::newDocument($comment_body);
+                    $pq->find('a')->attr('rel','nofollow ugc');
+                    $comment_body = $pq->htmlOuter();
+
+                    $comments[$i]['comment_body'] = $comment_body;
                 }
 
                 if (isset($params['single'])) {
