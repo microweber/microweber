@@ -3,7 +3,6 @@
 
 class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 {
-    public $repoUrl = 'https://packages-phpunit.microweberapi.com/';
     public $skip = false;
 
     public function __construct()
@@ -24,7 +23,6 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         $params['require_name'] = 'microweber-templates/dream';
 
         $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
-        $runner->packageServers = [$this->repoUrl];
 
         $results = $runner->search($params);
 
@@ -41,7 +39,6 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         $params['require_name'] = $require_name;
 
         $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
-        $runner->packageServers = [$this->repoUrl];
 
         $results = $runner->requestInstall($params);
 
@@ -49,7 +46,6 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         $this->assertEquals($results["error"], "Please confirm installation");
         $this->assertEquals($results["form_data_module_params"]["require_name"], $require_name);
         $this->assertNotEmpty($results["form_data_module_params"]["confirm_key"]);
-
 
     }
 
