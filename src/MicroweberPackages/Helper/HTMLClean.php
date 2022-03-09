@@ -4,6 +4,16 @@ namespace MicroweberPackages\Helper;
 
 class HTMLClean
 {
+    public $purifierPath;
+
+    public function __constructor(){
+        $path = storage_path() . '/html_purifier';
+        if (!is_dir($path)) {
+            mkdir_recursive($path);
+        }
+        $this->purifierPath = $path;
+    }
+
     public function cleanArray($array) {
 
         if (is_array($array)) {
@@ -26,14 +36,10 @@ class HTMLClean
         $antiXss = new \voku\helper\AntiXSS();
         $html = $antiXss->xss_clean($html);
 
-        $path = storage_path() . '/html_purifier';
-        if (!is_dir($path)) {
-            mkdir_recursive($path);
-        }
-
         $config = \HTMLPurifier_Config::createDefault();
-        if ($path) {
-            $config->set('Cache.SerializerPath', $path);
+
+        if ($this->purifierPath) {
+            $config->set('Cache.SerializerPath', $this->purifierPath);
         }
 
         $config->set('URI.DisableExternal', true);
@@ -47,7 +53,22 @@ class HTMLClean
         return $html;
     }
 
-    public function onlyTags($html,$tags = []) {
-        
+    public function onlyTags($html, $tags = ['i','a','strong','blockquote','em','strike','p','span','caption','cite']) {
+
+        $config = \HTMLPurifier_Config::createDefault();
+
+        if ($this->purifierPath) {
+            $config->set('Cache.SerializerPath', $this->purifierPath);
+        }
+
+        $config->set('HTML.AllowedElements', $tags);
+        $config->set('URI.Host', site_hostname());
+        $config->set('URI.DisableExternal', true);
+        $config->set('URI.DisableExternalResources', true);
+
+        $purifier = new \HTMLPurifier($config);
+        $html = $purifier->purify($html);
+
+        return $html;
     }
 }
