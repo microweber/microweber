@@ -591,6 +591,7 @@ class Files
             'py',
             'alfa',
             'asp',
+            'aspx',
             'htaccess',
             'exe',
             'msi',
