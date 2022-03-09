@@ -36,11 +36,16 @@ trait ContactInformationTrait {
 
     public function contactInformationSave(Request $request) {
 
+        $firstName = strip_tags($request->get('first_name'));
+        $lastName = strip_tags($request->get('last_name'));
+        $email = strip_tags($request->get('email'));
+        $phone = strip_tags($request->get('phone'));
+
         session_append_array('checkout_v2', [
-            'first_name'=> $request->get('first_name'),
-            'last_name'=> $request->get('last_name'),
-            'email'=> $request->get('email'),
-            'phone'=> $request->get('phone')
+            'first_name'=> $firstName,
+            'last_name'=> $lastName,
+            'email'=> $email,
+            'phone'=> $phone
         ]);
 
         $validate = $this->_validateContactInformation($request->all());
