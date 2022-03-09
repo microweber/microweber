@@ -102,7 +102,7 @@ class CommentController
         $clearInput = new HTMLClean();
         $saveComment['comment_body'] = $clearInput->onlyTags($saveComment['comment_body']);
 
-        if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
+       if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
             $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
         }
 
