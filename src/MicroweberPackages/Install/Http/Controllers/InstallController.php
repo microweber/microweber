@@ -17,7 +17,6 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
-use MicroweberPackages\Package\ComposerUpdate;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
 

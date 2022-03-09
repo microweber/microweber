@@ -62,7 +62,10 @@ class CommentsCrud extends Crud
                     $comment_body = $clearInput->onlyTags($comment_body);
 
                     $pq = \phpQuery::newDocument($comment_body);
-                    $pq->find('a')->attr('rel','nofollow ugc');
+                    $pq->find('a')
+                        ->attr('rel','nofollow ugc')
+                        ->attr('target','_blank');
+
                     $comment_body = $pq->htmlOuter();
 
                     $comments[$i]['comment_body'] = $comment_body;
