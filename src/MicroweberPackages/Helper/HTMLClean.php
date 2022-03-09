@@ -62,9 +62,9 @@ class HTMLClean
         }
 
         $config->set('HTML.AllowedElements', $tags);
-        $config->set('URI.Host', site_hostname());
-        $config->set('URI.DisableExternal', true);
-        $config->set('URI.DisableExternalResources', true);
+        $config->set('URI.Host', '*');
+        $config->set('URI.DisableExternal', false);
+        $config->set('URI.DisableExternalResources', false);
 
         $purifier = new \HTMLPurifier($config);
         $html = $purifier->purify($html);
