@@ -26,7 +26,7 @@ function changeAdminModuleLanguage(language) {
     ?>
     <li class="mx-1 language-selector">
         <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown" style="padding: 10px 0px;">
-            <i class="flag-icon flag-icon-<?php print $current_language['icon']; ?>" style="font-size: 30px"></i>
+            <i class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?>" style="font-size: 30px"></i>
         </button>
         <div class="dropdown-menu dropdown-languages">
             <?php foreach ($supported_languages as $language): ?>
@@ -35,7 +35,7 @@ function changeAdminModuleLanguage(language) {
                     <?php if (!empty($language['display_icon'])): ?>
                         <img src="<?php echo $language['display_icon']; ?>" class="multilanguage-display-icon-custom d-inline"/>
                     <?php else: ?>
-                        <i class="flag-icon flag-icon-<?php echo $language['icon']; ?>"></i>
+                        <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?>"></i>
                     <?php endif; ?>
                     <!--- end of display icon -->
 

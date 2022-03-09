@@ -55,6 +55,8 @@ only_admin_access();
 
                         <td style="vertical-align: middle;">
                             <div data-toggle="tooltip" title="<?php echo $language['language']; ?>">
+
+
                                 <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i>
                                 <?php echo  \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']); ?> [<?php echo $language['locale']; ?>]
                                 <?php if (strtolower($defaultLang) == strtolower($language['locale'])): ?>
