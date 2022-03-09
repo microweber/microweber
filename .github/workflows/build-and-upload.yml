@@ -5,14 +5,16 @@ on:
 
 jobs:
   stop-previous-runs:
+    name: "Cancel the self CI workflow run"
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+      - name: "Cancel workflow"
+        uses: potiuk/cancel-workflow-runs@master
         with:
-          access_token: ${{ github.token }}
+          cancelMode: allDuplicates
+          cancelFutureDuplicates: true
+          token: ${{ github.token }}
+          workflowFileName: build-and-upload.yml
   microweber-test-before-build:
     runs-on: ubuntu-latest
     needs: stop-previous-runs
