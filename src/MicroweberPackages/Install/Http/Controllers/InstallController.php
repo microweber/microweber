@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
@@ -529,20 +530,25 @@ class InstallController extends Controller
 
     private function _get_market_templates_for_install_screen()
     {
-
-
         $ready = array();
-        $runner = new ComposerUpdate();
-        $results = $runner->searchPackages(['search_by_type' => 'microweber-template']);
+        $runner = new Client();
+        $results = $runner->search();
+
         if ($results) {
             foreach ($results as $k => $result) {
-                if (isset($result['latest_version']) and !isset($result['current_install'])) {
-                    if (isset($result['latest_version']['dist_type']) and $result['latest_version']['dist_type'] == 'zip') {
-                        $ready[$k] = $result;
-                    }
+                $latestVersion = end($result);
+                if (!isset($latestVersion['type'])) {
+                    continue;
+                }
+                if ($latestVersion['type'] !== 'microweber-template') {
+                    continue;
+                }
+                if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
+                    $ready[$k] = $result;
                 }
             }
         }
+
         return $ready;
     }
 
