@@ -213,9 +213,19 @@ if(!isset($item['type'] )){
                     <div class="row mt-2">
 
                         <div class="col">
-                            <a href="#" onclick="previewPackage('<?php echo $item['name']; ?>','<?php echo $item['latest_version']['version']; ?>')" class="btn btn-link btn-sm p-0">
+                            <a href="#" onclick="previewPackage('<?php echo $item['name']; ?>','<?php echo $item['latest_version']['version']; ?>')" class="btn-block btn btn-link btn-sm p-0">
                                 <?php _e("Information"); ?>
                             </a>
+
+                            <?php
+                            if(isset($item['extra']['preview_url'])):
+                                ?>
+                                <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn-block btn btn-link btn-sm p-0">
+                                    <?php _e('Demo'); ?>
+                                </a>
+                            <?php
+                            endif;
+                            ?>
                         </div>
 
                         <div class="col text-end text-right">
@@ -224,15 +234,7 @@ if(!isset($item['type'] )){
                                 <div class="text-success js-package-install-btn-help-text"><?php _e('Current'); ?></div>
                             <?php endif; ?>
 
-                            <?php
-                                if(isset($item['extra']['preview_url'])):
-                            ?>
-                            <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn btn-sm btn-outline-success">
-                                <?php _e('Demo'); ?>
-                            </a>
-                            <?php
-                            endif;
-                            ?>
+
 
                             <?php if ($has_update): ?>
                                 <a vkey="<?php print $vkey; ?>" href="javascript:;" id="js-install-package-<?php echo $item['target-dir']; ?>"

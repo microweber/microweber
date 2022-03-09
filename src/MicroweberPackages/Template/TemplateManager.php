@@ -43,6 +43,9 @@ class TemplateManager
 
     public function boot_template()
     {
+        if(!mw_is_installed()){
+            return;
+        }
         if ($this->isBooted) {
             return;
         }

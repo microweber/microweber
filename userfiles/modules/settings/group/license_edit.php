@@ -43,6 +43,14 @@ if (!isset($params['prefix'])) {
         form.on('submit', function () {
             mw.form.post(mw.$('#activate-form-<?php print $params['id']; ?>'), '<?php print site_url('api') ?>/mw_save_license', function () {
                 window.location = window.location;
+
+                if(typeof licensemodal !== 'undefined'){
+                    licensemodal.remove();
+                }
+
+                mw.dialog.get().remove()
+
+                mw.reload_module('#<?php print $params['id']; ?>');
             });
 
             return false;

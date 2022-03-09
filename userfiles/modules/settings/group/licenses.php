@@ -15,7 +15,7 @@
 
     mw.edit_licence = function ($lic_id) {
 
-        licensemodal = mw.dialog({
+         licensemodal = mw.dialog({
             content: '<div type="settings/group/license_edit"  lic_id="' + $lic_id + '" class="module" id="lic_' + $lic_id + '"></div>',
             onremove: function () {
                 mw.reload_module("#<?php print $params['id'] ?>");
