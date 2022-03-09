@@ -478,6 +478,10 @@ class InstallController extends Controller
 
     private function reportInstall($email, $sendMail = false)
     {
+        if (defined('MW_UNIT_TEST')) {
+            return;
+        }
+
         $um = new \MicroweberPackages\App\Managers\UpdateManager(app());
         $data = $um->collect_local_data();
         if ($sendMail) {
