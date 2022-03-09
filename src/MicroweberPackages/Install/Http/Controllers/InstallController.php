@@ -545,9 +545,10 @@ class InstallController extends Controller
                 if ($latestVersion['type'] !== 'microweber-template') {
                     continue;
                 }
-                if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
+               /* if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
                     $ready[] = MicroweberComposerPackage::format($latestVersion);
-                }
+                }*/
+                $ready[] = MicroweberComposerPackage::format($latestVersion);
             }
         }
 
@@ -559,9 +560,9 @@ class InstallController extends Controller
         $runner = new MicroweberComposerClient();
         $results = $runner->requestInstall(['require_name' => $package_name]);
 
-        dd($package_name);
-        return $results;
+       // $runner->requestInstall($results['form_data_module_params']);
 
+        return $results;
     }
 
     private function _can_i_use_artisan_key_generate_command()
