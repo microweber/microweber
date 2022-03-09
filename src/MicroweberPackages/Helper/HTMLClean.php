@@ -53,7 +53,7 @@ class HTMLClean
         return $html;
     }
 
-    public function onlyTags($html, $tags = ['i','a','strong','blockquote','em','strike','p','span','caption','cite']) {
+    public function onlyTags($html, $tags = ['i','a','strong','code','pre','blockquote','em','strike','p','span','caption','cite']) {
 
         $config = \HTMLPurifier_Config::createDefault();
 
