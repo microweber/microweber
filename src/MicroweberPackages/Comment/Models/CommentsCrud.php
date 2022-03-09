@@ -58,7 +58,7 @@ class CommentsCrud extends Crud
                     $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
 
                     $clearInput = new HTMLClean();
-                    $comments[$i]['comment_body'] = $clearInput->clean($item['comment_body']);
+                    $comments[$i]['comment_body'] = $clearInput->onlyTags($item['comment_body']);
                 }
 
                 if (isset($params['single'])) {
