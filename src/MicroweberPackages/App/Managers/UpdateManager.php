@@ -17,7 +17,6 @@ class UpdateManager
     private $remote_api_url = 'http://update.microweberapi.com/';
     private $remote_url = 'http://update.microweberapi.com/';
     private $temp_dir = false;
-    private $composer_update = false;
 
     public function __construct($app = null)
     {
@@ -38,10 +37,6 @@ class UpdateManager
         if (!is_dir($this->temp_dir)) {
             mkdir_recursive($this->temp_dir);
         }
-
-        $this->composer_update = new ComposerUpdate($this->_getComposerPath());
-        $this->composer_update->setTargetPath($this->_getTargetPath());
-        $this->composer_update->setComposerHome($this->_getComposerPath() . '/cache');
 
     }
 

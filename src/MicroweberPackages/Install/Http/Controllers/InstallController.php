@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
 use MicroweberPackages\ComposerClient\Client;
+use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\Package\MicroweberComposerPackage;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
@@ -544,7 +546,7 @@ class InstallController extends Controller
                     continue;
                 }
                 if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
-                    $ready[$k] = $result;
+                    $ready[] = MicroweberComposerPackage::format($latestVersion);
                 }
             }
         }
@@ -554,8 +556,10 @@ class InstallController extends Controller
 
     private function _install_package_by_name($package_name)
     {
-        $runner = new ComposerUpdate();
-        $results = $runner->installPackageByName(['require_name' => $package_name]);
+        $runner = new MicroweberComposerClient();
+        $results = $runner->requestInstall(['require_name' => $package_name]);
+
+        dd($package_name);
         return $results;
 
     }
