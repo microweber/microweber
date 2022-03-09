@@ -26,16 +26,21 @@ class MicroweberCaptcha
                     unset($old_array[$found_key]);
                 }
                 app()->user_manager->session_set('captcha_recent', $old_array);
+                $this->reset();
                 return true;
             }
         }
 
         $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
          if ($existing == $key) {
+             if ($captcha_id) {
+                 $this->reset($captcha_id);
+             }
             return true;
         } else {
             $existing = app()->user_manager->session_get('captcha');
             if ($existing == $key) {
+                $this->reset();
                 return true;
             }
             return false;
@@ -46,8 +51,8 @@ class MicroweberCaptcha
     {
         $old = app()->user_manager->session_set('captcha',[]);
         $old = app()->user_manager->session_set('captcha_recent',[]);
-        if($captcha_id){
-         $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
+        if ($captcha_id) {
+            $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
         }
     }
 
