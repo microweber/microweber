@@ -65,6 +65,8 @@ class HTMLClean
         $config->set('URI.Host', '*');
         $config->set('URI.DisableExternal', false);
         $config->set('URI.DisableExternalResources', false);
+        $config->set('HTML.Allowed', 'p,b,a[href],i');
+        $config->set('HTML.AllowedAttributes', 'a.href');
 
         $purifier = new \HTMLPurifier($config);
         $html = $purifier->purify($html);
