@@ -18,9 +18,11 @@ class MicroweberComposerClient extends Client
         $this->logfile = userfiles_path() . 'install_item_log.txt';
 
         // Fill the user licenses
-        $findLicenses = SystemLicenses::all();
-        if ($findLicenses !== null) {
-            $this->licenses = $findLicenses->toArray();
+        if (mw_is_installed()) {
+            $findLicenses = SystemLicenses::all();
+            if ($findLicenses !== null) {
+                $this->licenses = $findLicenses->toArray();
+            }
         }
 
         if (function_exists('get_white_label_config')) {
