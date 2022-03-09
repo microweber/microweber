@@ -46,4 +46,8 @@ class HTMLClean
 
         return $html;
     }
+
+    public function onlyTags($html,$tags = []) {
+        
+    }
 }
