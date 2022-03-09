@@ -334,6 +334,10 @@ class TemplateCssParser
             $mtime = filemtime($outputFile);
         }
 
+        if (is_file($lessFilePath)) {
+            $mtime =$mtime.''. filemtime($lessFilePath);
+        }
+
         $outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css';
         if ($mtime) {
             $outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css?t=' . $mtime;

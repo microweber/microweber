@@ -59,6 +59,7 @@ class TemplateApiController
             $importLog['done'] = true;
             $importLog['log'] = $installTemplate->start();
         }
+        clearcache();
 
         return (new JsonResource($importLog))->response();
     }
