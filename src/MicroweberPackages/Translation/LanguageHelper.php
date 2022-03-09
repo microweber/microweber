@@ -88,17 +88,23 @@ class LanguageHelper
         if ($langs) {
             foreach ($langs as $lang) {
 
-                $flag = $lang['iso-639-1'];
+              //  $findFlag = IntlLocale::getDisplayFlag($lang['iso-639-1']);
+                $flag = IntlLocale::getDisplayFlag($lang['locale']); 
 
-                $locale_explode = explode('_', $lang['locale']);
+                /*if ($findFlag) {
+                    $flag = $findFlag;
+                 } else {
+                    $flag = $lang['iso-639-1'];
+                    $locale_explode = explode('_', $lang['locale']);
+                    if (isset($locale_explode[1])) {
+                        $flag = strtolower($locale_explode[1]);
+                    }
 
-                if (isset($locale_explode[1])) {
-                    $flag = strtolower($locale_explode[1]);
-                }
+                    if ($flag == 'en') {
+                        $flag = 'us';
+                    }
+                }*/
 
-                if ($flag == 'en') {
-                    $flag = 'us';
-                }
                 $name = ucfirst($lang['name']);
                 $readyLanguages[$name] = [
                     'name' => $name,
