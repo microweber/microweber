@@ -61,10 +61,10 @@ class HTMLClean
             $config->set('Cache.SerializerPath', $this->purifierPath);
         }
 
-        $config->set('HTML.AllowedElements', $tags);
+     /*   $config->set('HTML.AllowedElements', $tags);
         $config->set('URI.Host', '*');
         $config->set('URI.DisableExternal', false);
-        $config->set('URI.DisableExternalResources', false);
+        $config->set('URI.DisableExternalResources', false);*/
 
         $purifier = new \HTMLPurifier($config);
         $html = $purifier->purify($html);

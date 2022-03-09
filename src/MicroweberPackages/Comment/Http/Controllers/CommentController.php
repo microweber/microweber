@@ -53,7 +53,6 @@ class CommentController
 
         }
 
-
         $rules['rel_id'] = 'required';
         $rules['rel_type'] = 'required';
         $rules['comment_body'] = 'required';
