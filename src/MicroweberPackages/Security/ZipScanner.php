@@ -18,7 +18,5 @@ class ZipScanner
     public function scanString($string)
     {
 
-
-
     }
 }
