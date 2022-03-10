@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9116e1b019c6425bceb962366b7e328f",
+    "content-hash": "d022c816080bcecc0ba4a49f3890a244",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1565,12 +1565,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "baf6efed70e46f4d979e5dd42f804007e75f12fb"
+                "reference": "82331b861727c15b1f457ef05a8729e508e7ead5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/baf6efed70e46f4d979e5dd42f804007e75f12fb",
-                "reference": "baf6efed70e46f4d979e5dd42f804007e75f12fb",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/82331b861727c15b1f457ef05a8729e508e7ead5",
+                "reference": "82331b861727c15b1f457ef05a8729e508e7ead5",
                 "shasum": ""
             },
             "require": {
@@ -1653,7 +1653,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.3.x"
+                "source": "https://github.com/doctrine/dbal/tree/3.3.3"
             },
             "funding": [
                 {
@@ -1669,7 +1669,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-28T22:16:42+00:00"
+            "time": "2022-03-09T15:39:50+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -4133,12 +4133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "dfd188e3b516152d55c0759d44b9d4d70a731359"
+                "reference": "68afb03259b82d898c68196cbcacd48596a9dd72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/dfd188e3b516152d55c0759d44b9d4d70a731359",
-                "reference": "dfd188e3b516152d55c0759d44b9d4d70a731359",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/68afb03259b82d898c68196cbcacd48596a9dd72",
+                "reference": "68afb03259b82d898c68196cbcacd48596a9dd72",
                 "shasum": ""
             },
             "require": {
@@ -4195,7 +4195,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2022-02-08T19:33:44+00:00"
+            "time": "2022-03-10T15:26:19+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -5623,6 +5623,86 @@
                 "source": "https://github.com/microweber-packages/microweber-class-alias/tree/0.7"
             },
             "time": "2021-01-13T13:19:55+00:00"
+        },
+        {
+            "name": "microweber-packages/security-scanner",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/security-scanner.git",
+                "reference": "28cac640f479fa9827bb4f3a6baddd5f92f67a42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/security-scanner/zipball/28cac640f479fa9827bb4f3a6baddd5f92f67a42",
+                "reference": "28cac640f479fa9827bb4f3a6baddd5f92f67a42",
+                "shasum": ""
+            },
+            "require-dev": {
+                "nikic/php-parser": "*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\SecurityScanner\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber security scanner is a php antimalware/antivirus scanner script written in php for scan your project.",
+            "homepage": "http://microweber.com",
+            "keywords": [
+                "amwscan",
+                "analysis",
+                "antimalware",
+                "antivirus",
+                "backdoor",
+                "base64",
+                "cleaner",
+                "code",
+                "decode",
+                "deobfuscated",
+                "deobfuscation",
+                "deobfuscator",
+                "eval",
+                "evil",
+                "evil-code",
+                "exploit",
+                "functions",
+                "malware",
+                "obfuscated",
+                "obfuscation",
+                "scan",
+                "scanner",
+                "scanning",
+                "shell",
+                "signatures",
+                "tool",
+                "virus"
+            ],
+            "support": {
+                "email": "support@microweber.com",
+                "issues": "https://github.com/microweber-packages/security-scanner/issues",
+                "source": "https://github.com/microweber-packages/security-scanner/tree/0.1"
+            },
+            "time": "2022-03-10T15:34:11+00:00"
         },
         {
             "name": "microweber-templates/new-world",
@@ -9209,12 +9289,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "677903c69460a1867da833979a0dfdffd163767d"
+                "reference": "b731394245a0b88ed255b62bcad34b1fc163b625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/677903c69460a1867da833979a0dfdffd163767d",
-                "reference": "677903c69460a1867da833979a0dfdffd163767d",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/b731394245a0b88ed255b62bcad34b1fc163b625",
+                "reference": "b731394245a0b88ed255b62bcad34b1fc163b625",
                 "shasum": ""
             },
             "require": {
@@ -9284,20 +9364,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-03T17:58:20+00:00"
+            "time": "2022-03-09T16:20:14+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v4.6.1",
+            "version": "v4.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "1dd3ef62adfd79c9a71cd046ff2b7c7bbabf2751"
+                "reference": "d191c1ca18443a77273e9912ac2603ce1f7dc216"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/1dd3ef62adfd79c9a71cd046ff2b7c7bbabf2751",
-                "reference": "1dd3ef62adfd79c9a71cd046ff2b7c7bbabf2751",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/d191c1ca18443a77273e9912ac2603ce1f7dc216",
+                "reference": "d191c1ca18443a77273e9912ac2603ce1f7dc216",
                 "shasum": ""
             },
             "type": "library",
@@ -9343,9 +9423,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.6.1"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.6.2"
             },
-            "time": "2022-03-02T21:44:06+00:00"
+            "time": "2022-03-10T11:36:38+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -16232,12 +16312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "f24cbc541026c3bb7d27c647f0f9ea337135b22a"
+                "reference": "6f7a93739024454b06e4933ff0a42d88bb54f336"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/f24cbc541026c3bb7d27c647f0f9ea337135b22a",
-                "reference": "f24cbc541026c3bb7d27c647f0f9ea337135b22a",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/6f7a93739024454b06e4933ff0a42d88bb54f336",
+                "reference": "6f7a93739024454b06e4933ff0a42d88bb54f336",
                 "shasum": ""
             },
             "require": {
@@ -16280,7 +16360,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-18T06:28:45+00:00"
+            "time": "2022-03-09T17:15:41+00:00"
         },
         {
             "name": "sebastian/version",
