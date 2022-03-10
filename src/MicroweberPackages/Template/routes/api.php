@@ -12,7 +12,10 @@ Route::name('api.template.')
 
         Route::namespace('MicroweberPackages\Template\Http\Controllers\Api')->group(function () {
             \Route::get('change', 'TemplateApiController@change')->name('change');
-            \Route::post('upload', 'TemplateApiController@upload')->name('upload');
+
+            if (config('microweber.allow_php_files_upload')) {
+                \Route::post('upload', 'TemplateApiController@upload')->name('upload');
+            }
         });
 
         \Route::get('compile_admin_css', function () {

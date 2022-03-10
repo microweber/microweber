@@ -5,7 +5,9 @@ Route::name('api.module.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
-            \Route::post('upload', 'ModuleApiController@upload')->name('upload');
-        });
+        if (config('microweber.allow_php_files_upload')) {
+            Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
+                \Route::post('upload', 'ModuleApiController@upload')->name('upload');
+            });
+        }
 });
