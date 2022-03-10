@@ -500,11 +500,13 @@ if (!empty($recomended_layouts)) {
                             <br/>
 
 
+                            <?php if (config('microweber.allow_php_files_upload')): ?>
                             <?php if (mw()->ui->disable_marketplace != true): ?>
                                 <label class="control-label"><?php _e("Want to upload template"); ?>?</label>
                                 <small class="text-muted d-block mb-3">.zip <?php _e("file format allowed"); ?></small>
 
                                 <module type="admin/templates/upload_button"/>
+                            <?php endif; ?>
                             <?php endif; ?>
 
 
