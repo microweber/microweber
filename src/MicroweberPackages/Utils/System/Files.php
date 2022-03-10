@@ -563,8 +563,10 @@ class Files
 
 
         $dangerous = array(
+            'phtml',
             'php',
             'php5',
+            'php6',
             'php7',
             'php72',
             'php73',
