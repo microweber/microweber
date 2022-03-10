@@ -12,6 +12,7 @@ use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Loggers\ImportLogger;
+use MicroweberPackages\Security\ZipScanner;
 
 class BackupController
 {
@@ -75,6 +76,12 @@ class BackupController
         if (!is_file($filePath)) {
             return array('error' => 'You have not provided a existing backup to import.');
         } else {
+
+            $securityCheck = new ZipScanner();
+            $securityCheck->scanZip($filePath);
+            if (!$securityCheck->isOk()) {
+                return array('error' => 'The zip file is corrupted.');
+            }
 
             $restore->setFile($filePath);
             $importLog = $restore->start();
@@ -162,6 +169,12 @@ class BackupController
 
         if (is_file($checkFile)) {
             $file = basename($checkFile);
+
+            $securityCheck = new ZipScanner();
+            $securityCheck->scanZip($checkFile);
+            if (!$securityCheck->isOk()) {
+                return array('error' => 'The zip file is corrupted.');
+            }
 
             if (copy($checkFile, $backupLocation . $file)) {
                 @unlink($checkFile);
