@@ -5,7 +5,6 @@ on:
 
 jobs:
   stop-previous-runs:
-    name: "Cancel the self CI workflow run"
     runs-on: ubuntu-latest
     steps:
       - name: "Cancel workflow"
