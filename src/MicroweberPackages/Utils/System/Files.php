@@ -1020,7 +1020,7 @@ class Files
             'private',
             'srl',
             'zhtml',
-            'vbhtml', 
+            'vbhtml',
             'hypetemplate',
             'obml15',
             'hypesymbol',
@@ -1109,6 +1109,28 @@ class Files
 
     }
 
+    public function is_allowed_file($fileName)
+    {
+        $allowedImages = $this->get_allowed_files_extensions_for_upload('images');
+        $allowedVideos = $this->get_allowed_files_extensions_for_upload('videos');
+        $allowedAudios = $this->get_allowed_files_extensions_for_upload('audios');
+        $allowedFiles = $this->get_allowed_files_extensions_for_upload('files');
+        $allowedDocuments = $this->get_allowed_files_extensions_for_upload('documents');
+        $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives');
+
+        $allowed = array_merge_recursive($allowedImages,$allowedVideos,$allowedAudios,$allowedFiles,$allowedDocuments,$allowedArchives);
+
+        $isExt = get_file_extension($fileName);
+        $isExt = strtolower($isExt);
+
+        if (in_array($isExt, $allowed)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
 
     function get_allowed_files_extensions_for_upload($fileTypes = 'images')
     {
@@ -1119,11 +1141,15 @@ class Files
             case 'img':
             case 'image':
             case 'images':
-                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg';
+                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg,webp,ico';
+                break;
+            case 'audio':
+            case 'audios':
+                $are_allowed .= ',mp3,mp4,ogg,wav,flac';
                 break;
             case 'video':
             case 'videos':
-                $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
+                $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,ogv,3gp,3g2,wma,mov,wmv';
                 break;
             case 'file':
             case 'files':
