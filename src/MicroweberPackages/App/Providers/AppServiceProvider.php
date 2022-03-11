@@ -19,6 +19,7 @@ use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
+use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
@@ -36,7 +37,6 @@ use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
-use MicroweberPackages\Shop\ShopServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
@@ -221,6 +221,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(ConfigSaveServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);
