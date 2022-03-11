@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31072b1c54e76fb537a0e96f234dfc67",
+    "content-hash": "5887a54b8e7cc9d7ff4a7a8265f2e0b8",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5493,86 +5493,6 @@
                 "source": "https://github.com/microweber-packages/microweber-class-alias/tree/0.7"
             },
             "time": "2021-01-13T13:19:55+00:00"
-        },
-        {
-            "name": "microweber-packages/security-scanner",
-            "version": "0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/security-scanner.git",
-                "reference": "28cac640f479fa9827bb4f3a6baddd5f92f67a42"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/security-scanner/zipball/28cac640f479fa9827bb4f3a6baddd5f92f67a42",
-                "reference": "28cac640f479fa9827bb4f3a6baddd5f92f67a42",
-                "shasum": ""
-            },
-            "require-dev": {
-                "nikic/php-parser": "*",
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\SecurityScanner\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Microweber security scanner is a php antimalware/antivirus scanner script written in php for scan your project.",
-            "homepage": "http://microweber.com",
-            "keywords": [
-                "amwscan",
-                "analysis",
-                "antimalware",
-                "antivirus",
-                "backdoor",
-                "base64",
-                "cleaner",
-                "code",
-                "decode",
-                "deobfuscated",
-                "deobfuscation",
-                "deobfuscator",
-                "eval",
-                "evil",
-                "evil-code",
-                "exploit",
-                "functions",
-                "malware",
-                "obfuscated",
-                "obfuscation",
-                "scan",
-                "scanner",
-                "scanning",
-                "shell",
-                "signatures",
-                "tool",
-                "virus"
-            ],
-            "support": {
-                "email": "support@microweber.com",
-                "issues": "https://github.com/microweber-packages/security-scanner/issues",
-                "source": "https://github.com/microweber-packages/security-scanner/tree/0.1"
-            },
-            "time": "2022-03-10T15:34:11+00:00"
         },
         {
             "name": "microweber-templates/new-world",

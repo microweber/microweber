@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use MicroweberPackages\Backup\Backup;
 use MicroweberPackages\Backup\Export;
-use MicroweberPackages\Backup\GenerateBackup;  
+use MicroweberPackages\Backup\GenerateBackup;
 use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
 
