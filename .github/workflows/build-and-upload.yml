@@ -6,7 +6,6 @@ on:
 jobs:
   microweber-test-before-build:
     runs-on: ubuntu-latest
-    needs: stop-previous-runs
     steps:
       - uses: actions/checkout@v2
 
