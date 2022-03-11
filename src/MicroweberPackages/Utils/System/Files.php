@@ -1119,7 +1119,7 @@ class Files
         $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives', true);
 
         $allowed = array_merge_recursive($allowedImages,$allowedVideos,$allowedAudios,$allowedFiles,$allowedDocuments,$allowedArchives);
-        
+
 
         $isExt = get_file_extension($fileName);
         $isExt = strtolower($isExt);
