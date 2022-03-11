@@ -1111,14 +1111,15 @@ class Files
 
     public function is_allowed_file($fileName)
     {
-        $allowedImages = $this->get_allowed_files_extensions_for_upload('images');
-        $allowedVideos = $this->get_allowed_files_extensions_for_upload('videos');
-        $allowedAudios = $this->get_allowed_files_extensions_for_upload('audios');
-        $allowedFiles = $this->get_allowed_files_extensions_for_upload('files');
-        $allowedDocuments = $this->get_allowed_files_extensions_for_upload('documents');
-        $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives');
+        $allowedImages = $this->get_allowed_files_extensions_for_upload('images', true);
+        $allowedVideos = $this->get_allowed_files_extensions_for_upload('videos', true);
+        $allowedAudios = $this->get_allowed_files_extensions_for_upload('audios', true);
+        $allowedFiles = $this->get_allowed_files_extensions_for_upload('files', true);
+        $allowedDocuments = $this->get_allowed_files_extensions_for_upload('documents', true);
+        $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives', true);
 
         $allowed = array_merge_recursive($allowedImages,$allowedVideos,$allowedAudios,$allowedFiles,$allowedDocuments,$allowedArchives);
+        
 
         $isExt = get_file_extension($fileName);
         $isExt = strtolower($isExt);
@@ -1132,7 +1133,7 @@ class Files
 
 
 
-    function get_allowed_files_extensions_for_upload($fileTypes = 'images')
+    function get_allowed_files_extensions_for_upload($fileTypes = 'images', $returnAsArray = false)
     {
 
         $are_allowed = '';
@@ -1178,7 +1179,16 @@ class Files
             $are_allowed = explode(',',$are_allowed);
             array_unique($are_allowed);
             $are_allowed = array_filter($are_allowed);
+
+            if ($returnAsArray) {
+                return $are_allowed;
+            }
+
             $are_allowed = implode(',', $are_allowed);
+        }
+
+        if ($returnAsArray) {
+            return [];
         }
 
         return $are_allowed;
