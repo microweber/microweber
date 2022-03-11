@@ -416,10 +416,8 @@ class DatabaseWriter
 
 		mw()->cache_manager->clear();
 
-
         $zipReader = new ZipReader();
         $zipReader->clearCache();
-
 
         $this->logger->setLogInfo('Done!');
 	}

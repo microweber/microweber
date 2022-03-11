@@ -43,8 +43,39 @@ class ZipReader extends DefaultReader
 
             rmdir_recursive($backupLocation);
 
-            $unzip = new Unzip();
-            $unzip->extract($this->file, $backupLocation, true);
+
+           // $unzip = new Unzip();
+          //  $unzip->extract($this->file, $backupLocation, true);
+
+            $allowPhpFilesUpload = config('microweber.allow_php_files_upload');
+
+            $zipArchive = new \ZipArchive();
+            $zipArchive->open($this->file);
+            $selectedFilesForUnzip = [];
+            for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+                $stat = $zipArchive->statIndex($i);
+                $zipFileBasename = basename($stat['name']);
+
+                if ($allowPhpFilesUpload) {
+                    $selectedFilesForUnzip[] = $zipFileBasename;
+                    ImportLogger::setLogInfo('Unzipping queue '.$zipFileBasename.'...');
+                } else {
+                    $filesUtils = new \MicroweberPackages\Utils\System\Files();
+                    $isDangerous = $filesUtils->is_dangerous_file($zipFileBasename);
+                    if (!$isDangerous) {
+                        $selectedFilesForUnzip[] = $zipFileBasename;
+                        ImportLogger::setLogInfo('Unzipping queue '.$zipFileBasename.'...');
+                    }
+                }
+            }
+
+            if (empty($selectedFilesForUnzip)) {
+                ImportLogger::setLogInfo('The zip file has no files.');
+                return;
+            }
+
+            $zipArchive->extractTo($backupLocation, $selectedFilesForUnzip);
+            $zipArchive->close();
 
             ImportLogger::setLogInfo($backupLocation);
         }
@@ -67,7 +98,11 @@ class ZipReader extends DefaultReader
         }
 
 		if ($backupLocation != false and is_dir($backupLocation)) {
-			ImportLogger::setLogInfo('Media restored!');
+
+            if (is_dir($backupLocation . DS. 'userfiles' . DS.'media')) {
+                ImportLogger::setLogInfo('Media restored!');
+            }
+
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
 

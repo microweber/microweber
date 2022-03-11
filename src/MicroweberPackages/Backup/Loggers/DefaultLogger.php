@@ -22,6 +22,11 @@ abstract class DefaultLogger
         file_put_contents($logFilePath, '');
     }
 
+    public static function getLog()
+    {
+        return file_get_contents(static::getLogFilepath());
+    }
+
     public static function setLogInfo($log)
     {
 
