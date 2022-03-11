@@ -32,4 +32,10 @@ class TaxManagerServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
+
+    public function register()
+    {
+        $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
+    }
 }

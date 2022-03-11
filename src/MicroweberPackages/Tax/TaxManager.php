@@ -11,6 +11,9 @@
 
 namespace MicroweberPackages\Tax;
 
+use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Helper\HTMLClean;
+
 class TaxManager
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
@@ -48,6 +51,18 @@ class TaxManager
     {
         if (isset($params['rate'])) {
             $params['rate'] = floatval($params['rate']);
+        }
+
+        $rules = [];
+        $rules['name'] = 'required|max:500';
+        $rules['type'] = 'required|max:500';
+        $rules['rate'] = 'required|max:500';
+
+        $validator = Validator::make($params, $rules);
+
+        if ($validator->fails()) {
+            $errors = $validator->messages()->toArray();
+            return ['valid'=>false,'errors'=>$errors];
         }
 
         $taxType = TaxType::where('id', $params['id'])->first();

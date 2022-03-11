@@ -141,12 +141,6 @@ api_expose_admin('shop/update_order', function ($data) {
     return mw()->shop_manager->update_order($data);
 });
 
-api_expose_admin('shop/save_tax_item', function ($data) {
-    return mw()->tax_manager->save($data);
-});
-api_expose_admin('shop/delete_tax_item', function ($data) {
-    return mw()->tax_manager->delete_by_id($data);
-});
 
 api_expose_admin('shop/export_orders', function ($data) {
     return mw()->order_manager->export_orders($data);
