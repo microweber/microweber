@@ -67,9 +67,11 @@ class ZipArchiveExtractor
             if ($this->logger) {
                 $this->logger::setLogInfo('The zip file has no files.');
             }
-            return;
+            return false;
         }
 
         $this->zipInstance->close();
+
+        return true;
     }
 }
