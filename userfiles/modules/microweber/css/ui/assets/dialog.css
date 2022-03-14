@@ -1,0 +1,207 @@
+/****************************
+    Variables
+*****************************/
+.mw-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1200;
+}
+.mw-dialog.mw-dialog-scroll-mode-window {
+  overflow: auto;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside {
+  overflow: hidden;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-holder {
+  max-height: 96%;
+}
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+  overflow: hidden auto;
+  max-height: 88vh;
+}
+.mw-dialog.mw-dialog-overflowMode-visible .mw-dialog-container {
+  overflow: visible;
+}
+.mw-dialog.mw-dialog-overflowMode-hidden .mw-dialog-container {
+  overflow: hidden;
+}
+.mw-dialog .mw-dialog-container {
+  position: relative;
+}
+.mw-dialog .mw-dialog-container .mw-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.mw-dialog .mw-dialog-overlay {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.mw-dialog .mw-dialog-holder {
+  position: absolute !important;
+  z-index: 2;
+}
+.mw-dialog.mw-dialog-iframe iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+.mw-dialog.mw-dialog-iframe-autoheight iframe {
+  position: relative;
+}
+.mw-dialog-skin-video .mw-dialog-holder {
+  max-width: calc(-40%);
+}
+.mw-dialog-skin-video .mw-dialog-holder .mwembed {
+  max-width: 100%;
+}
+.mw-dialog-skin-video .mw-dialog-close {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00000059;
+  border-radius: 43px;
+  cursor: pointer;
+}
+.mw-dialog-skin-video .mw-dialog-close:after {
+  content: "\F0156";
+  font-family: "Material Design Icons";
+}
+.mw-dialog-skin-default {
+  visibility: hidden;
+  color: #686868;
+}
+.mw-dialog-skin-default .mw-dialog-header {
+  padding: 6px 25px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 0;
+  z-index: 2;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid #D9DADB;
+  min-height: 43px;
+  background-color: #4592ff;
+  color: #fff;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-title {
+  max-width: calc(100% - 55px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-title .mdi {
+  margin-inline-end: 6px;
+}
+.mw-dialog-skin-default .mw-dialog-header .mw-dropdown-content {
+  background-color: #2b2b2b;
+}
+.mw-dialog-skin-default .mw-dialog-footer {
+  padding: 10px 0px;
+  margin: 0 25px;
+  overflow: hidden;
+  position: relative;
+  text-align: right;
+  border-top: 1px solid #D9DADB;
+}
+.mw-dialog-skin-default .mw-dialog-footer .mw-ui-btn + .mw-ui-btn {
+  margin-left: 10px;
+}
+.mw-dialog-skin-default .mw-dialog-footer:empty {
+  display: none;
+}
+.mw-dialog-skin-default.mw-dialog-scroll-mode-window .mw-dialog-header {
+  position: sticky;
+}
+.mw-dialog-skin-default .mw-dialog-holder {
+  max-width: 98%;
+  background-color: #FAFAFA;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: none;
+  /*  height:auto;!important;*/
+}
+.mw-dialog-skin-default .mw-dialog-holder.mw-dialog-drag-start {
+  transition: none;
+}
+.mw-dialog-skin-default .mw-dialog-overlay {
+  opacity: 0;
+  visibility: hidden;
+}
+.mw-dialog-skin-default.active {
+  visibility: visible;
+}
+.mw-dialog-skin-default.active .mw-dialog-holder {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  overflow: hidden;
+}
+.mw-dialog-skin-default.active .mw-dialog-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+.mw-dialog-skin-default .mw-dialog-close {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 32px;
+  height: 28px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: 1px solid #CFCFCF;
+  border-radius: 0px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.mw-dialog-skin-default .mw-dialog-close:hover {
+  background-color: #ffffff;
+  color: #4592ff;
+}
+.mw-dialog-skin-default .mw-dialog-close:after {
+  content: "\f2d7";
+  font-family: Microweber;
+  font-size: 12px;
+}
+.mw-dialog-skin-default .mw-dialog-container {
+  padding: 10px 25px;
+}
+.mw-dialog-skin-default.mw-dialog-iframe-loading iframe {
+  opacity: 0;
+  min-height: 100px;
+}
+html[dir='rtl'] .mw-dialog-close {
+  right: auto;
+  left: 0;
+}
+.mw-dialog-module-settings .mw-dialog-overlay {
+  pointer-events: none;
+}

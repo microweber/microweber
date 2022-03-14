@@ -1,0 +1,319 @@
+.mw-small-editor {
+  position: absolute;
+  display: none;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.mw-small-editor .mw-bar .mw-bar-row {
+  white-space: nowrap;
+}
+.mw-editor-frame-area,
+.mw-editor-area {
+  background-color: #fff;
+  padding: 5px;
+  min-height: 100px;
+  overflow: auto;
+}
+.mw-editor-frame-area ul:not([class]),
+.mw-editor-area ul:not([class]),
+.mw-editor-frame-area ol:not([class]),
+.mw-editor-area ol:not([class]) {
+  padding-left: 1.4em;
+}
+.mw-editor-wrapper.mw-editor-wrapper-document-mode {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1023;
+  background-color: white;
+}
+.mw-editor-wrapper .mw-editor-controller-component-select {
+  display: inline-block;
+  position: relative;
+}
+.mw-editor-wrapper.mw-editor-default {
+  border: 1px solid #DDDDDD;
+  border-radius: 5px;
+}
+.mw-editor-wrapper.mw-editor-default .mw-bar-row:first-child {
+  border-radius: 5px 5px 0 0;
+}
+.mw-editor-wrapper.mw-editor-default .mw-editor-iframe-area,
+.mw-editor-wrapper.mw-editor-default .mw-editor-area {
+  border-radius: 0 0 5px 5px;
+}
+.mw-editor-wrapper .mw-editor-controller-component,
+.mw-editor-wrapper .mw-bar-control-item {
+  display: inline-block;
+}
+.mw-editor-color-picker {
+  position: relative;
+}
+.mw-editor-color-picker input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.mw-editor-table-manager {
+  white-space: nowrap;
+}
+.mw-editor-table-manager .mw-editor-controller-component {
+  display: inline-block;
+}
+.mw-editor-table-manager .mw-editor-dropdown-option {
+  white-space: nowrap;
+}
+.mw-small-editor-skin-default [disabled],
+.mw-editor-default [disabled],
+.mw-editor-table-manager [disabled] {
+  pointer-events: none;
+  opacity: .55;
+}
+.mw-small-editor-skin-default .mw-bar-control-item[data-disabled="true"] .mw-editor-controller-component-select,
+.mw-editor-default .mw-bar-control-item[data-disabled="true"] .mw-editor-controller-component-select,
+.mw-editor-table-manager .mw-bar-control-item[data-disabled="true"] .mw-editor-controller-component-select {
+  pointer-events: none;
+  opacity: .55;
+}
+.mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:after,
+.mw-editor-default .mw-editor-controller-component[data-tooltip]:after,
+.mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:after {
+  position: absolute;
+  content: attr(data-tooltip);
+  background: #505356;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 3px;
+  padding: 5px;
+  bottom: 86%;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: normal;
+  white-space: nowrap;
+}
+.mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-editor-default .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:focus:after,
+.mw-editor-default .mw-editor-controller-component[data-tooltip]:focus:after,
+.mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:focus:after {
+  opacity: 1;
+  margin-top: 0;
+  bottom: 100%;
+  transform: translateX(-50%) scale(1);
+}
+.mw-small-editor-skin-default .mw-bar-row,
+.mw-editor-default .mw-bar-row,
+.mw-editor-table-manager .mw-bar-row {
+  border-bottom: 1px solid #DDDDDD;
+  background-color: #f7f7f7;
+  padding: 5px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item,
+.mw-editor-default .mw-bar-row .mw-bar-control-item,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item {
+  vertical-align: middle;
+  line-height: 0;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item + .mw-bar-control-item,
+.mw-editor-default .mw-bar-row .mw-bar-control-item + .mw-bar-control-item,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item + .mw-bar-control-item {
+  margin-left: 5px;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group {
+  position: relative;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component {
+  margin-left: 5px;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button {
+  vertical-align: top;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group > .mw-editor-controller-button,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group > .mw-editor-controller-button,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group > .mw-editor-controller-button {
+  display: none;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-editor-controller-button,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-editor-controller-button,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-editor-controller-button {
+  display: inline-flex;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-bar-control-item-group-contents,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-bar-control-item-group-contents,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches .mw-bar-control-item-group-contents {
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  white-space: nowrap;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  background-color: #F5F5F5;
+  z-index: 15;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active {
+  z-index: 25;
+}
+.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active .mw-bar-control-item-group-contents,
+.mw-editor-default .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active .mw-bar-control-item-group-contents,
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group.mw-editor-control-group-media-matches.active .mw-bar-control-item-group-contents {
+  visibility: visible;
+  opacity: 1;
+}
+.mw-small-editor-skin-default .mw-bar-delimiter,
+.mw-editor-default .mw-bar-delimiter,
+.mw-editor-table-manager .mw-bar-delimiter {
+  display: inline-block;
+  height: 16px;
+  width: 2px;
+  margin: 2px;
+  background-color: #b7b7b7;
+  border-left: 1px solid #eaeaea;
+  vertical-align: middle;
+}
+.mw-editor-table-manager {
+  position: absolute;
+  z-index: 9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.mw-editor-controller-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: default;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  border-radius: 2px;
+  color: #686868;
+  border: 1px solid transparent;
+  outline: 0;
+  transition: .3s;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: transparent;
+  font-size: 19px;
+  min-width: 32px;
+  height: 32px;
+  line-height: 0;
+  padding: 0 5px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mw-editor-controller-button:hover {
+  background-color: rgba(255, 255, 255, 0.77);
+  border-color: rgba(255, 255, 255, 0.87);
+}
+.mw-editor-controller-button.active-control {
+  background-color: #4592ff;
+  color: #fff;
+}
+.mw-editor-controller-button.mw-editor-group-button {
+  width: auto;
+  padding: 0 5px;
+  display: none;
+}
+.mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon {
+  vertical-align: middle;
+}
+.mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret {
+  font-size: 16px;
+  vertical-align: middle;
+  margin: 0;
+  color: #999;
+  position: relative;
+  top: -1px;
+  font-family: "Material Design Icons";
+}
+.mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret:after {
+  content: "\F035D";
+}
+.mw-editor-controller-component-select .mw-editor-select-display-value {
+  text-align: left;
+  font-size: 12px;
+}
+.mw-editor-controller-component-select .mw-editor-select-display-value[class*="mdi-"]:before {
+  font-size: 19px;
+  margin: 0px 6px 0 0;
+  position: relative;
+  top: 3px;
+}
+.mw-editor-controller-component-select .mw-editor-select-display-value:after {
+  content: "\F0140";
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  position: relative;
+  left: 5px;
+}
+.mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
+  line-height: normal;
+  cursor: pointer;
+  min-width: 100%;
+  overflow: auto;
+}
+.mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar {
+  width: 7px;
+}
+.mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+.mw-editor-controller-component-select.active {
+  z-index: 10;
+}
+.mw-editor-controller-component-select.active .mw-editor-controller-component-select-values-holder {
+  opacity: 1;
+  visibility: visible;
+}
+.mw-editor-controller-component-select .mw-editor-dropdown-option {
+  padding: 6px 10px;
+  transition: .3s;
+}
+.mw-editor-controller-component-select .mw-editor-dropdown-option:hover {
+  background-color: #f7f7f7;
+}
+.mw-editor-controller-component-select .mw-editor-dropdown-option + .mw-editor-dropdown-option {
+  border-top: 1px solid #ccc;
+}
