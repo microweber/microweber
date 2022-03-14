@@ -80,14 +80,14 @@ class PostApiControllerTest extends TestCase
             'PUT',
             route('api.post.update', [
                 'post' => $contentDataSaved->id,
-                'title' => '0',
+                'title' => 'your post title',
             ])
 
         );
         $this->assertEquals(200, $response->status());
 
         $contentDataSaved = $response->getData()->data;
-        $this->assertEquals($contentDataSaved->title, 0);
+        $this->assertEquals($contentDataSaved->title, 'your post title');
 
 
         $response = $this->call(
@@ -97,7 +97,7 @@ class PostApiControllerTest extends TestCase
             ])
 
         );
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(302, $response->status());
 
     }
 
