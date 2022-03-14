@@ -437,6 +437,7 @@ if ($last_page_front != false) {
 
                 <div class="d-inline-block mx-1">
                    <select class="form-control form-control-sm" onclick="postsLimit({id:'pages_edit_container_content_list', el:this});">
+                       <option value="10">10</option>
                        <option value="25">25</option>
                        <option value="50">50</option>
                        <option value="100">100</option>
@@ -532,7 +533,7 @@ if ($last_page_front != false) {
             element: document.querySelector('.toolbar'), decorate: true, size: 26
         }).show();
 
-        var parent_mod = document.getElementById('pages_edit_container_content_list');
+        var parent_mod = document.getElementById('pages_edit_container');
 
         var tosend = {};
         tosend.limit = $(obj.el).find(':selected').val();
