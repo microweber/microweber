@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Option\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Helper\HTMLClean;
 
 class SaveOptionApiController
 {

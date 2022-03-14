@@ -1,7 +1,4 @@
 <?php
-
-use MicroweberPackages\Helper\HTMLClean;
-
 \Route::name('api.')
 
     ->prefix('api')
