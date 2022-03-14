@@ -437,13 +437,14 @@ if ($last_page_front != false) {
 
                 <div class="d-inline-block mx-1">
                    <select class="form-control form-control-sm" onclick="postsLimit({id:'pages_edit_container_content_list', el:this});">
-                       <option value="10">10</option>
-                       <option value="25">25</option>
-                       <option value="50">50</option>
-                       <option value="100">100</option>
-                       <option value="200">200</option>
-                       <option value="300">300</option>
+                       <option value="10"   <?php if(isset($params['limit']) && $params['limit']==10): ?>selected="selected"<?php endif; ?>>10</option>
+                       <option value="25"   <?php if(isset($params['limit']) && $params['limit']==25): ?>selected="selected"<?php endif; ?>>25</option>
+                       <option value="50"   <?php if(isset($params['limit']) && $params['limit']==50): ?>selected="selected"<?php endif; ?>>50</option>
+                       <option value="100"   <?php if(isset($params['limit']) && $params['limit']==100): ?>selected="selected"<?php endif; ?>>100</option>
+                       <option value="200"   <?php if(isset($params['limit']) && $params['limit']==200): ?>selected="selected"<?php endif; ?>>200</option>
+                       <option value="300"   <?php if(isset($params['limit']) && $params['limit']==300): ?>selected="selected"<?php endif; ?>>300</option>
                    </select>
+
                 </div>
 
                 <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
