@@ -51,10 +51,9 @@ class TemplateApiController
             // Dont write on database, import only media
             if ($importType == 'only_media') {
                 $installTemplate->setWriteOnDatabase(false);
-
-                // But save current template option
-                save_option('current_template', $template,'template');
             }
+            // But save current template option
+            save_option('current_template', $template,'template');
 
             $importLog['done'] = true;
             $importLog['log'] = $installTemplate->start();
