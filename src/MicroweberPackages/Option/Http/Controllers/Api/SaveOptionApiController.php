@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Option\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Option\Http\Requests\SaveOptionRequest;
 
 class SaveOptionApiController
 {
@@ -14,7 +14,7 @@ class SaveOptionApiController
         ]
     ];
 
-    public function saveOption(Request $request)
+    public function saveOption(SaveOptionRequest $request)
     {
         $cleanFromXss = true;
         $option = $request->all();
