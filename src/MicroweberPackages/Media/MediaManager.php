@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
+use Illuminate\Support\Str;
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
@@ -1213,6 +1214,10 @@ class MediaManager
             $_REQUEST['path'] = urldecode($_REQUEST['path']);
             $_REQUEST['path'] = $this->pathauto_cleanstring($_REQUEST['path']);
 
+            if (Str::length($_REQUEST['path']) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
+
             $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
             $fn_path = str_replace('..', '', $fn_path);
             $fn_path = normalize_path($fn_path, false);
@@ -1226,6 +1231,10 @@ class MediaManager
             $fn_new_folder_path = urldecode($fn_new_folder_path);
 
             $fn_new_folder_path = $this->pathauto_cleanstring($fn_new_folder_path);
+
+            if (Str::length($fn_new_folder_path) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
 
             $fn_new_folder_path = str_replace('..', '', $fn_new_folder_path);
             $fn_new_folder_path_new = $target_path . DS . $fn_new_folder_path;
