@@ -1154,11 +1154,11 @@ class Files
                 break;
             case 'file':
             case 'files':
-                $are_allowed .= ',doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv,7z';
+                $are_allowed .= ',doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z'; 
                 break;
             case 'documents':
             case 'doc':
-                $are_allowed .= ',doc,docx,pdf,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,xlr,xls,xlsx';
+                $are_allowed .= ',doc,docx,pdf,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xlr,xls,xlsx';
                 break;
             case 'archives':
             case 'arc':
