@@ -6,18 +6,30 @@ use Illuminate\Http\Request;
 
 class SaveOptionApiController
 {
-    public function saveOption(Request $request) {
+    public $whitelistedGroupKeys = [
+        'website' => [
+            'website_head',
+            'website_footer'
+        ]
+    ];
+
+    public function saveOption(Request $request)
+    {
 
         $cleanFromXss = true;
         $option = $request->all();
 
-        // Allow for this keys
+        // Allow for this keys and groups
         if (isset($option['option_key'])) {
-            if ($option['option_key'] == 'website_head') {
-                $cleanFromXss = false;
-            }
-            if ($option['option_key'] == 'website_footer') {
-                $cleanFromXss = false;
+            foreach ($this->whitelistedGroupKeys as $group => $keys) {
+                if ($option['option_group'] == $group) {
+                    foreach ($keys as $key) {
+                        if ($option['option_key'] == $key) {
+                            $cleanFromXss = false;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
