@@ -1,0 +1,113 @@
+.mw-stepper {
+  width: 100%;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+.mw-stepper .mw-stepper-item {
+  visibility: hidden;
+  transition: transform .3s, opacity .3s;
+  opacity: 0;
+  transform: scale(0.8);
+  transform-origin: left top;
+  position: absolute;
+  pointer-events: none;
+  max-height: 100%;
+  overflow: hidden;
+  top: 0;
+}
+.mw-stepper .mw-stepper-item.active {
+  max-height: none;
+  position: relative;
+  pointer-events: all;
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+.mw-selectable-list {
+  border: 1px solid #ebebeb;
+  webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: table;
+  width: 100%;
+}
+.mw-selectable-list > label {
+  cursor: pointer;
+  padding: 15px;
+  display: table-row;
+  border: 1px solid #fff;
+  background-color: #fff;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+.mw-selectable-list > label > * {
+  display: table-cell;
+  vertical-align: top;
+  padding: 12px 0;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+.mw-selectable-list > label > * + * {
+  padding-left: 12px;
+}
+.mw-selectable-list > label > *:first-child {
+  padding-left: 12px;
+  border-left: 1px solid #fff;
+}
+.mw-selectable-list > label > *:last-child {
+  padding-right: 12px;
+  border-right: 1px solid #fff;
+}
+.mw-selectable-list > label:hover {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  transform: translateZ(1px);
+}
+.mw-selectable-list > label.active,
+.mw-selectable-list > label.active:hover {
+  background-color: #f5f5f5;
+  box-shadow: none;
+  z-index: 0;
+}
+.mw-selectable-list > label + label > * {
+  border-top: none;
+}
+.mw-selectable-list .mw-selectable-list-content {
+  flex: 1;
+  font-size: 10px;
+  padding-bottom: 2px;
+}
+.mw-selectable-list .mw-selectable-list-content .mw-selectable-list-content-title {
+  display: block;
+  font-weight: bold;
+}
+.mw-selectable-list .mw-selectable-list-content .mw-selectable-list-content-title span {
+  font-weight: normal;
+}
+.mw-selectable-list .mw-selectable-list-input .mw-ui-check {
+  position: relative;
+  top: 3px;
+}
+.mw-selectable-list .mw-selectable-list-input .mw-ui-check input + span {
+  margin-right: 0;
+}
+.mw-selectable-list .mw-selectable-list-icon {
+  color: #000;
+  font-size: 35px;
+  text-align: center;
+}
+.mw-construct-itd {
+  display: inline-flex;
+}
+.mw-construct-itd .mw-construct-itd-icon {
+  font-size: 37px;
+  padding-right: 12px;
+  padding-top: 4px;
+  color: #000;
+}
+.mw-construct-itd .mw-construct-itd-content > *:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: bold;
+}
