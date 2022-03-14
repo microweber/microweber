@@ -51,7 +51,7 @@ class ProductVariantApiController extends AdminDefaultController
      * @param ProductCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductCreateRequest $request)
+    public function store(ProductRequest $request)
     {
         $result = $this->productVariant->create($request->all());
         return (new JsonResource($result))->response();
@@ -78,7 +78,7 @@ class ProductVariantApiController extends AdminDefaultController
      * @param  string $productVariant
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductUpdateRequest $request, $productVariant)
+    public function update(ProductRequest $request, $productVariant)
     {
 
         $result = $this->productVariant->update($request->all(), $productVariant);

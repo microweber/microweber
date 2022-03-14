@@ -14,7 +14,12 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         $rules = [
-          //  'title' => 'required',
+            'title' => 'required|max:500',
+            'url' => 'max:500',
+            'description' => 'max:500',
+            'content_meta_title' => 'max:500',
+            'content_meta_keywords' => 'max:500',
+            'original_link' => 'max:500',
             'price' => 'nullable|price'
         ];
 
