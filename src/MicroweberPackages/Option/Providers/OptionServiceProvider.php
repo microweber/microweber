@@ -75,6 +75,8 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', OptionFacade::class);
 
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
+
     }
 
     /**
