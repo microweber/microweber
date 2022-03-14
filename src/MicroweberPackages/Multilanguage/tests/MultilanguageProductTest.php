@@ -50,6 +50,9 @@ class MultilanguageProductTest extends MultilanguageTestBase
         $apiProductStore['price'] = rand(111,999);
         $apiProductStore['content'] = 'Product description' . $rand;
 
+        $apiProductStore['multilanguage']['title']['en_US'] = 'title' . $rand;
+        $apiProductStore['multilanguage']['content']['en_US'] = 'content desc' . $rand;
+
         $apiProductStore['multilanguage']['title']['bg_BG'] = 'Съдържание' . $rand;
         $apiProductStore['multilanguage']['content']['bg_BG'] = 'Съдържание описание' . $rand;
 

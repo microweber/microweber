@@ -57,6 +57,11 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $apiCategoryStore['title'] = 'Category ' . $rand;
         $apiCategoryStore['description'] = 'Category description' .$rand;
 
+
+        $apiCategoryStore['multilanguage']['title']['en_US'] = 'Category'.$rand;
+        $apiCategoryStore['multilanguage']['description']['en_US'] = 'Category description'.$rand;
+
+
         $apiCategoryStore['multilanguage']['title']['bg_BG'] = 'Категория'.$rand;
         $apiCategoryStore['multilanguage']['description']['bg_BG'] = 'Категория описание'.$rand;
 
