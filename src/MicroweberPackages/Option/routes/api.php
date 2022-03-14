@@ -1,13 +1,14 @@
 <?php
 
+use MicroweberPackages\Helper\HTMLClean;
+
 \Route::name('api.')
 
     ->prefix('api')
-    ->middleware(['api', 'admin', 'xss'])
+    ->middleware(['api', 'admin'])
+    ->namespace('\MicroweberPackages\Option\Http\Controllers\Api')
     ->group(function () {
 
-        \Route::post('save_option', function () {
-            return save_option(request()->all());
-        });
+        \Route::post('save_option', 'SaveOptionApiController@saveOption');
 
     });
