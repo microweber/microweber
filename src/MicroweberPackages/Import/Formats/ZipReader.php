@@ -52,7 +52,10 @@ class ZipReader extends DefaultReader
                 $zipExtract->setAllowedFilesCheck(true);
             }
             $zipExtract->setLogger(ImportLogger::class);
-            $zipExtract->extractTo($backupLocation);
+            $extracted = $zipExtract->extractTo($backupLocation);
+            if (!$extracted) {
+                return;
+            }
 
             ImportLogger::setLogInfo($backupLocation);
         }
