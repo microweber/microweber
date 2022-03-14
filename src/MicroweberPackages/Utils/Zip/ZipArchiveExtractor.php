@@ -31,8 +31,7 @@ class ZipArchiveExtractor
         for ($i = 0; $i < $this->zipInstance->numFiles; $i++) {
             $stat = $this->zipInstance->statIndex($i);
 
-            $zipFileBasename = basename($stat['name']);
-            $zipFileBasename = normalize_path($zipFileBasename, false);
+            $zipFileBasename = normalize_path($stat['name'], false);
 
             $canIUnzipTheFile = false;
             if ($this->allowedFilesCheck) {
@@ -55,6 +54,7 @@ class ZipArchiveExtractor
 
             if ($canIUnzipTheFile) {
                 $targetFileSave = $path . $zipFileBasename;
+
                 if (!is_dir(dirname($targetFileSave))) {
                     mkdir_recursive(dirname($targetFileSave));
                 }
