@@ -436,7 +436,7 @@ if ($last_page_front != false) {
                 <span class="d-md-block d-none"><?php _e("Limit"); ?>:</span>
 
                 <div class="d-inline-block mx-1">
-                   <select class="form-control" onclick="postsLimit({id:'pages_edit_container_content_list', el:this});">
+                   <select class="form-control form-control-sm" onclick="postsLimit({id:'pages_edit_container_content_list', el:this});">
                        <option value="25">25</option>
                        <option value="50">50</option>
                        <option value="100">100</option>
@@ -531,14 +531,16 @@ if ($last_page_front != false) {
         mw.spinner({
             element: document.querySelector('.toolbar'), decorate: true, size: 26
         }).show();
-        
+
         var parent_mod = document.getElementById('pages_edit_container_content_list');
 
         var tosend = {};
         tosend.limit = $(obj.el).find(':selected').val();
 
         if (parent_mod !== undefined) {
-            parent_mod.setAttribute('data-limit', tosend.limit + ' ' + tosend.limit);
+
+            parent_mod.setAttribute('data-limit', tosend.limit);
+
             mw.reload_module(parent_mod, function (){
                 mw.spinner({
                     element: document.querySelector('.toolbar'), decorate: true, size: 26
