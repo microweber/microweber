@@ -123,7 +123,6 @@ function get_mail_template_fields($type = '')
     }
 }
 
-api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 
@@ -265,7 +264,6 @@ function get_mail_templates($params = array())
     return $showTemplates;
 }
 
-api_expose_admin('delete_mail_template');
 function delete_mail_template($params)
 {
     if (!is_admin()) {
