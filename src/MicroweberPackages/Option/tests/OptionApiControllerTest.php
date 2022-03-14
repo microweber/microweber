@@ -54,4 +54,29 @@ class OptionApiControllerTest extends TestCase
         $this->assertEquals($savedOption, '<h1>test</h1><script>alert(2)</script>');
 
     }
+
+    public function testSaveOptionWithModuleHtml()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $response = $this->call(
+            'POST',
+            route('api.option.save'),
+            [
+                'module' => 'video',
+                'option_key' => 'embed_url',
+                'option_group' => 'video-20220314102431',
+                'option_value' => '<iframe src="https://microweber.com/video.mp4" width="560" height="315"></iframe>',
+            ],
+            [],//params
+            $_COOKIE,//cookie
+            [],//files
+            $_SERVER //server
+        );
+
+        $savedOption = get_option('embed_url','video-20220314102431');
+        $this->assertEquals($savedOption, '<iframe src="https://microweber.com/video.mp4" width="560" height="315"></iframe>');
+
+    }
 }
