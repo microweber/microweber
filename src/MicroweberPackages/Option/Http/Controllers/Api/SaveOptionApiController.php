@@ -16,7 +16,6 @@ class SaveOptionApiController
 
     public function saveOption(Request $request)
     {
-
         $cleanFromXss = true;
         $option = $request->all();
 

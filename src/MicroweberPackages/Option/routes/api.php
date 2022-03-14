@@ -2,7 +2,7 @@
 \Route::name('api.')
 
     ->prefix('api')
-    ->middleware(['api', 'admin'])
+    ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Option\Http\Controllers\Api')
     ->group(function () {
 
