@@ -91,6 +91,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
+                'title'=>'new-title',
                 'price' => '',
             ])
 
@@ -105,6 +106,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
+                'title'=>'second new title',
                 'price' => 0,
             ])
 
@@ -120,6 +122,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
+                'title'=>'second new product title',
                 'price' => $price,
             ])
 
