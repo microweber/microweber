@@ -139,6 +139,7 @@ $params_module = $params;
                         mw.reload_module_parent('posts');
                         mw.reload_module_parent('content');
                         mw.reload_module_parent('shop/products');
+                        mw.notification.success('<?php _e("All changes are saved"); ?>.');
                     });
                 },
                 start: function (a, ui) {
