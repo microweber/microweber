@@ -78,7 +78,7 @@ class ProductApiController extends AdminDefaultController
      * @param  string $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductRequest $request, $product)
+    public function update(ProductUpdateRequest $request, $product)
     {
 
         $result = $this->product->update($request->all(), $product);

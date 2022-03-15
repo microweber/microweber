@@ -270,7 +270,7 @@ class Files
                     }
                     $allowed_sort = array('basename', 'filemtime', 'filesize');
                     if (in_array($params['sort_by'], $allowed_sort)) {
-                        array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
+                        array_multisort(@array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
                     }
                 }
             }
@@ -1154,7 +1154,7 @@ class Files
                 break;
             case 'file':
             case 'files':
-                $are_allowed .= ',doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z'; 
+                $are_allowed .= ',doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z';
                 break;
             case 'documents':
             case 'doc':
