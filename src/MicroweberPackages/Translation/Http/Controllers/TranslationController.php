@@ -58,7 +58,7 @@ class TranslationController {
         if ($namespace !== '*') {
             $exportFileName = 'translation-' . $namespace;
         }
-        
+
         $exportFileName = $exportFileName . '-' . $locale;
 
         $getTranslations = [];
@@ -79,6 +79,10 @@ class TranslationController {
 
         if ($getTranslationsWithoutTexts !== null) {
             $getTranslations = array_merge($getTranslations, $getTranslationsWithoutTexts->toArray());
+        }
+
+        if (empty($getTranslations)) {
+            return [];
         }
 
         $readyTranslations = [];
