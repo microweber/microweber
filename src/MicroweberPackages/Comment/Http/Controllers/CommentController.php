@@ -53,9 +53,9 @@ class CommentController
 
         }
 
-        $rules['rel_id'] = 'required';
-        $rules['rel_type'] = 'required';
-        $rules['comment_body'] = 'required';
+        $rules['rel_id'] = 'required|max:500';
+        $rules['rel_type'] = 'required|max:500';
+        $rules['comment_body'] = 'required|max:2000';
 
         if (!empty($inputs['email'])) {
             $inputs['comment_email'] = $inputs['email'];
