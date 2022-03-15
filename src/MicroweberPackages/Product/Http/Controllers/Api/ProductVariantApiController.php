@@ -78,7 +78,7 @@ class ProductVariantApiController extends AdminDefaultController
      * @param  string $productVariant
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductRequest $request, $productVariant)
+    public function update(ProductUpdateRequest $request, $productVariant)
     {
 
         $result = $this->productVariant->update($request->all(), $productVariant);
