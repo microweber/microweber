@@ -31,6 +31,24 @@ class IntlLocale
        return LanguageHelper::getDisplayLanguage($locale);
     }
 
+    public static function getDisplayName($locale)
+    {
+        if (isset(self::$detailsByLocale[$locale]['name'])) {
+            return self::$detailsByLocale[$locale]['name'];
+        }
+
+        foreach (self::$detailsByLocale as $detailLocale) {
+            if (isset($detailLocale['locale'])) {
+                if ($detailLocale['locale'] == $locale) {
+                    if (isset($detailLocale['name'])) {
+                        return $detailLocale['name'];
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 
     public static function getDisplayFlag($locale)
     {

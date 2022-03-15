@@ -17,6 +17,11 @@ class LanguageHelper
 {
     public static function getDisplayLanguage($locale_name)
     {
+
+        $locale = IntlLocale::getDisplayName($locale_name);
+        if($locale){
+            return $locale;
+        }
         $langData = self::getLangData($locale_name);
         if ($langData and isset($langData['name'])) {
             return $langData['name'];
