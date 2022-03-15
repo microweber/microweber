@@ -367,7 +367,7 @@ if ($last_page_front != false) {
 <?php if (!isset($edit_page_info)): ?>
     <div class="card-body pt-3 pb-0">
         <div class="toolbar row js-hide-when-no-items">
-            <div class="col-sm-6 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
+            <div class="col-sm-4 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" class="custom-control-input " id="posts-check">
                     <label class="custom-control-label" for="posts-check"><?php _e('Check all'); ?></label>
@@ -430,7 +430,7 @@ if ($last_page_front != false) {
             }
             ?>
 
-            <div class="js-table-sorting col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="js-table-sorting col-sm-8 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
 
 
                 <span class="d-md-block d-none"><?php _e("Limit"); ?>:</span>
