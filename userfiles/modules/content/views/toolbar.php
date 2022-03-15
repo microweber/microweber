@@ -436,7 +436,7 @@ if ($last_page_front != false) {
                 <span class="d-md-block d-none"><?php _e("Limit"); ?>:</span>
 
                 <div class="d-inline-block mx-1">
-                   <select class="form-control form-control-sm" onclick="postsLimit({id:'pages_edit_container_content_list', el:this});">
+                   <select class="form-control form-control-sm" onchange="postsLimit({id:'pages_edit_container_content_list', el:this});">
                        <option value="10"   <?php if(isset($params['limit']) && $params['limit']==10): ?>selected="selected"<?php endif; ?>>10</option>
                        <option value="25"   <?php if(isset($params['limit']) && $params['limit']==25): ?>selected="selected"<?php endif; ?>>25</option>
                        <option value="50"   <?php if(isset($params['limit']) && $params['limit']==50): ?>selected="selected"<?php endif; ?>>50</option>
