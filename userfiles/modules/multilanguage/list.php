@@ -75,6 +75,7 @@ only_admin_access();
                             <?php if ($language['display_name']): ?>
                                 <span data-toggle="tooltip" title="Display Icon" class="text-muted"><?php echo $language['display_name']; ?></span>
                             <?php endif; ?>
+
                         </td>
 
                         <td style="vertical-align: middle;">
