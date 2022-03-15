@@ -17,3 +17,7 @@ $config['settings']['translatable_options'] = [
     'size',
     'settings'
 ];
+
+$config['settings']['allowed_html_option_keys'] = [
+    'text',
+];
