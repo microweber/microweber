@@ -511,7 +511,7 @@
                                 title: pval.split("/").pop()
                             });
                             $(dialog).on('Remove', function () {
-                                mw.url.windowDeleteHashParam('select-file')
+                               // mw.url.windowDeleteHashParam('select-file')
                             })
                         } else {
                             mw.$("#prfile .mw_modal_container").html(createPopHTML(pval));
@@ -527,7 +527,7 @@
                             title: pval.split("/").pop()
                         });
                         $(dialog).on('Remove', function () {
-                            mw.url.windowDeleteHashParam('select-file')
+                           // mw.url.windowDeleteHashParam('select-file')
                         })
                     } else {
                         if (mw.$("#prfile").length > 0) {
