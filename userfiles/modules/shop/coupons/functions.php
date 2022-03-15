@@ -10,7 +10,8 @@
  */
 include __DIR__ . DS . 'src/CouponClass.php';
 
-api_expose('coupon_apply');
+autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Modules\\Shop\\Coupons\\');
+
 function coupon_apply($params = array())
 {
     $json = array();
@@ -97,7 +98,6 @@ function coupon_apply($params = array())
     return $json;
 }
 
-api_expose_admin('coupons_save_coupon');
 function coupons_save_coupon($couponData = array())
 {
     $json = array();
@@ -149,7 +149,7 @@ function coupons_save_coupon($couponData = array())
     return $json;
 }
 
-api_expose_admin('coupon_log_customer');
+
 function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
 {
     $coupon = coupon_get_by_code($coupon_code);
@@ -178,7 +178,7 @@ function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
     $couponLogId = db_save($table, $couponLogData);
 }
 
-api_expose_admin('coupon_log_get_by_code_and_customer_email_and_ip');
+
 function coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $customer_email, $customer_ip)
 {
     $table = "cart_coupon_logs";
@@ -192,7 +192,6 @@ function coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $custome
     ));
 }
 
-api_expose_admin('coupon_log_get_by_code_and_customer_ip');
 function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
 {
     $table = "cart_coupon_logs";
@@ -205,7 +204,6 @@ function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
     ));
 }
 
-api_expose_admin('coupon_logs_get_by_code');
 function coupon_logs_get_by_code($coupon_code)
 {
     $table = "cart_coupon_logs";
@@ -216,7 +214,6 @@ function coupon_logs_get_by_code($coupon_code)
         ->toArray();
 }
 
-api_expose_admin('coupon_get_all');
 function coupon_get_all()
 {
     $table = 'cart_coupons';
@@ -233,7 +230,6 @@ function coupon_get_all()
 }
 
 
-api_expose_admin('coupon_logs');
 function coupon_logs()
 {
     $table = 'cart_coupon_logs';
@@ -249,7 +245,6 @@ function coupon_logs()
     return $readyCoupons;
 }
 
-api_expose_admin('coupon_get_by_id');
 function coupon_get_by_id($coupon_id)
 {
     $table = "cart_coupons";
@@ -261,7 +256,6 @@ function coupon_get_by_id($coupon_id)
     ));
 }
 
-api_expose_admin('coupon_get_by_code');
 function coupon_get_by_code($coupon_code)
 {
     $table = "cart_coupons";
@@ -276,14 +270,19 @@ function coupon_get_by_code($coupon_code)
     return $get;
 }
 
-api_expose('coupon_delete');
-function coupon_delete()
+function coupon_delete($data)
 {
     if (!is_admin())
         return;
 
     $table = "cart_coupons";
-    $couponId = (int)$_POST['coupon_id'];
+
+    $couponId = (int) $data['coupon_id'];
+    if ($couponId == 0) {
+        return array(
+            'status' => 'failed'
+        );
+    }
 
     $delete = db_delete($table, $couponId);
 
@@ -298,7 +297,6 @@ function coupon_delete()
     }
 }
 
-api_expose_admin('coupons_delete_session');
 function coupons_delete_session()
 {
     mw()->user_manager->session_del('coupon_code');
