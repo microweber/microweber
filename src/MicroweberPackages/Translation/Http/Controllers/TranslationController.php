@@ -48,11 +48,17 @@ class TranslationController {
         $locale = $request->post('locale', mw()->lang_helper->default_lang());
         $format = $request->post('format', 'json');
 
+        if (!is_lang_correct($locale)) {
+            return [];
+        }
 
         $exportFileName = 'translation-global';
+
+        $namespace = str_replace('..', '', $namespace);
         if ($namespace !== '*') {
             $exportFileName = 'translation-' . $namespace;
         }
+        
         $exportFileName = $exportFileName . '-' . $locale;
 
         $getTranslations = [];
