@@ -21,7 +21,14 @@
         }
     </style>
 
+
+    <div class="text-center mt-3">
+        <h1>Select Template To Startup Your Website</h1>
+        <p>Select your favorite design for your business or blog.</p>
+    </div>
+
     <div class="row my-5 d-flex align-items-center">
+
         @foreach($templates as $template)
         <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 mx-auto mt-4">
             <div class="card">
