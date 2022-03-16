@@ -13,8 +13,8 @@ class UpdateManager
 {
     public $app;
     public $skip_cache = false;
-    private $remote_api_url = 'http://update.microweberapi.com/';
-    private $remote_url = 'http://update.microweberapi.com/';
+    private $remote_api_url = 'https://update.microweberapi.com/';
+    private $remote_url = 'https://update.microweberapi.com/';
     private $temp_dir = false;
 
     public function __construct($app = null)
@@ -975,6 +975,7 @@ class UpdateManager
             $curl = new \MicroweberPackages\Utils\Http\Http($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
+
             $post = array();
             $post['base64js'] = base64_encode(@json_encode($post_params));
             $curl_result = $curl->post($post);
