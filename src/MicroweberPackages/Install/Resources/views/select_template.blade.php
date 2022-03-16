@@ -53,7 +53,7 @@
                             </a>
                         @else
                         <button class="btn btn-outline-success">
-                            USE TEMPLATE
+                            INSTALL & USE TEMPLATE
                         </button>
                         @endif
 
