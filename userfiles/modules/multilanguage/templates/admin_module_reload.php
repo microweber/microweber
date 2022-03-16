@@ -43,7 +43,7 @@ function changeAdminModuleLanguage(language) {
                     <?php if (!empty($language['display_name'])): ?>
                         <span class="text-uppercase"><?php echo $language['display_name']; ?></span>
                     <?php else: ?>
-                        <span class="text-uppercase"><?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?></span>
+                        <span class="text-uppercase"><?php echo $language['language']; ?></span>
                     <?php endif; ?>
                     <!--- end of display name -->
                 </button>

@@ -34,7 +34,7 @@
                         <span class="text-uppercase"><?php echo $language['display_name']; ?></span>
                     <?php else: ?>
                         <span class="text-uppercase">
-                            <?php echo  \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']); ?>
+                            <?php echo  $language['language']; ?>
 
                            </span>
                     <?php endif; ?>

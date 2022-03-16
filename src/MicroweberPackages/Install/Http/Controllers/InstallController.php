@@ -36,6 +36,11 @@ class InstallController extends Controller
         }
     }
 
+    public function selectTemplateView()
+    {
+        return view('install::select_template', []);
+    }
+
     public function index($input = null)
     {
         if (!defined('MW_INSTALL_CONTROLLER')) {
@@ -45,11 +50,15 @@ class InstallController extends Controller
         if (!is_array($input) || empty($input)) {
             $input = Request::all();
         }
+
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
 
+        if (isset($input['select_template'])) {
+            return $this->selectTemplateView();
+        }
 
         if (isset($input['get_templates_for_install_screen'])) {
             return $this->_get_templates_for_install_screen();
