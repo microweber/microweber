@@ -37,6 +37,21 @@ class MicroweberComposerPackage
             return $version;
         }
 
+        $version['is_paid'] = false;
+        if (isset($version['extra']['whmcs']['buy_link'])) {
+            $version['is_paid'] = true;
+            $version['buy_link'] = $version['extra']['whmcs']['buy_link'];
+        }
+
+        $version['demo_link'] = false;
+        $version['screenshot_link'] = false;
+        if (isset($version['extra']['preview_url'])) {
+            $version['demo_link'] = $version['extra']['preview_url'];
+        }
+        if (isset($version['extra']['_meta']['screenshot'])) {
+            $version['screenshot_link'] = $version['extra']['_meta']['screenshot'];
+        }
+
         if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
             return $version;
         }

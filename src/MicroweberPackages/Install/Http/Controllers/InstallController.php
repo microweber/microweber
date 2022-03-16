@@ -38,7 +38,9 @@ class InstallController extends Controller
 
     public function selectTemplateView()
     {
-        return view('install::select_template', []);
+        $templates = $this->_getMarketTemplatesForInstallScreen();
+
+        return view('install::select_template', ['templates'=>$templates]);
     }
 
     public function index($input = null)
@@ -65,7 +67,7 @@ class InstallController extends Controller
         }
 
         if (isset($input['get_market_templates_for_install_screen'])) {
-            return $this->_get_market_templates_for_install_screen();
+            return $this->_getMarketTemplatesForInstallScreen();
         }
 
         if (isset($input['install_package_by_name'])) {
@@ -542,7 +544,7 @@ class InstallController extends Controller
         return $templates;
     }
 
-    private function _get_market_templates_for_install_screen()
+    private function _getMarketTemplatesForInstallScreen()
     {
         $ready = array();
         $runner = new Client();
