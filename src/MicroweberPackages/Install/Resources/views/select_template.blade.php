@@ -12,10 +12,12 @@
         .template-preview {
             width:100%;
             height:300px;
-            background-position: center;
+            background-position: top;
             background-size: cover;
             background-repeat: no-repeat;
+            margin-top: 15px;
             margin-bottom: 15px;
+            border-radius: 4px;
         }
     </style>
 
@@ -27,9 +29,9 @@
                     <h3>{{$template['description']}}</h3>
 
                     @if($template['is_paid'])
-                        <span class="badge badge-primary">FREE</span>
+                        <span class="badge badge-success">PREMIUM LICENSE</span>
                     @else
-                        <span class="badge badge-success">PREMIUM</span>
+                        <span class="badge badge-primary">FREE LICENSE</span>
                     @endif
 
 
@@ -37,15 +39,14 @@
 
 
                     <div class="text-center">
-                        @if($template['is_paid'])
-                            <a href="{{$template['buy_link']}}" class="btn btn-success" target="_blank">
-                                BUY TEMPLATE
-                            </a>
-                        @endif
+
+                        <button class="btn btn-outline-success">
+                            USE TEMPLATE
+                        </button>
 
 
                         @if($template['demo_link'])
-                            <a href="{{$template['demo_link']}}" class="btn btn-primary" target="_blank">
+                            <a href="{{$template['demo_link']}}" class="btn btn-outline-primary" target="_blank">
                                 DEMO
                             </a>
                         @endif
