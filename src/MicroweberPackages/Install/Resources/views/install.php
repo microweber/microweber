@@ -98,7 +98,7 @@
             var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
             if (selectedValue == '_get_more') {
-                window.location.href = window.location.href + '?select_template=1';
+                window.location.href = '<?php echo site_url();?>?select_template=1';
             }
         }
 
@@ -108,16 +108,29 @@
             $.post("<?php print site_url() ?>?get_templates_for_install_screen=1", function (data) {
                 $.each(data, function (index, value) {
                     if (value.name && value.dir_name) {
-                        var is_default = false;
+
+                        var is_selected = false;
                         var screenshot = '';
-                        if (value.is_default && value.is_default == 1) {
-                            var is_default = true;
+                        var requrest_template = '';
+
+                        <?php if (isset($_GET['request_template'])): ?>
+                        requrest_template = '<?php echo $_GET['request_template'];?>';
+                        <?php endif; ?>
+
+                        if (requrest_template == value.dir_name) {
+                            is_selected = true;
                         }
+
+                        if (value.is_default && value.is_default == 1 && requrest_template == '') {
+                            is_selected = true;
+                        }
+
                         if (value.screenshot) {
-                            var screenshot = value.screenshot;
+                            screenshot = value.screenshot;
                         }
-                        if (is_default) {
-                            option += '<option selected="selected"   data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
+
+                        if (is_selected) {
+                            option += '<option selected="selected" data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
                         } else {
                             option += '<option  data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
                         }
@@ -570,7 +583,7 @@
                                                                 <select class="form-control" name="default_template" id="default_template" tabindex="6">
                                                                     <?php foreach ($templates as $template): ?>
                                                                         <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
-                                                                            <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?> value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
+                                                                            <option value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
                                                                 </select>

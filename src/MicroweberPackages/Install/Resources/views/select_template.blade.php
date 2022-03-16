@@ -47,9 +47,15 @@
 
                     <div class="text-center">
 
+                        @if($template['current_install'])
+                            <a href="<?php echo site_url();?>?request_template={{$template['target-dir']}}" class="btn btn-outline-success">
+                                USE TEMPLATE
+                            </a>
+                        @else
                         <button class="btn btn-outline-success">
                             USE TEMPLATE
                         </button>
+                        @endif
 
 
                         @if($template['demo_link'])
