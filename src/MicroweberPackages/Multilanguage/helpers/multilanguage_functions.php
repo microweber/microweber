@@ -268,6 +268,9 @@ if (!function_exists('get_supported_languages')) {
         if (!empty($languages)) {
             foreach ($languages as &$language) {
                 $language['icon'] = get_flag_icon($language['locale']);
+                if (empty($language['display_name'])) {
+                    $language['language'] = \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']);
+                }
             }
         }
 

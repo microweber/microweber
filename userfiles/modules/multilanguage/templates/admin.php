@@ -62,7 +62,7 @@ description: MW Default
             <?php if (!empty($current_language['display_name'])): ?>
                 <?php echo $current_language['display_name']; ?>
             <?php else: ?>
-               &nbsp; <?php echo \Symfony\Component\Intl\Languages::getName($current_language['locale']); ?>
+               &nbsp; <?php echo $current_language['language']; ?>
             <?php endif; ?>
         </span>
 
@@ -82,7 +82,7 @@ description: MW Default
                         <?php if (!empty($language['display_name'])): ?>
                             <?php echo $language['display_name']; ?>
                         <?php else: ?>
-                            &nbsp;<?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?>
+                            &nbsp;<?php echo $language['language']; ?>
                         <?php endif; ?>
                         <!--- end of display name -->
                     </li>
