@@ -10,8 +10,11 @@ class LicenseTest extends TestCase
 
     public function testLicenseClass()
     {
+
+        
+
         $license = new License();
-        $license->saveLicense('modules/white_label::837878866c');
+        $license->saveLicense('example-generated-license');
 
         $getLicenses = $license->getLicense();
 

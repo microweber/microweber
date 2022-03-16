@@ -12,6 +12,7 @@ class License
         if (!empty($decoded)) {
             return $decoded;
         }
+
         return [];
     }
 
