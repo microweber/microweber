@@ -4,11 +4,14 @@ namespace MicroweberPackages\Utils\Misc;
 
 class License
 {
-    private $_licenseServerCheck = 'https://update.microweberapi.com/';
-
     public function getLicense()
     {
-        $decoded =  json_decode($this->_getLicenseFile());
+        $file = $this->_getLicenseFile();
+        if (!is_file($file)) {
+            return [];
+        }
+
+        $decoded =  json_decode(file_get_contents($file), true);
         if (!empty($decoded)) {
             return $decoded;
         }
@@ -48,6 +51,15 @@ class License
            }
         }
 
+        return false;
+    }
+
+    public function truncate()
+    {
+        $file = $this->_getLicenseFile();
+        if (is_file($file)) {
+            return unlink($file);
+        }
         return false;
     }
 
