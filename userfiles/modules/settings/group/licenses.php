@@ -70,7 +70,8 @@
                                 <?php endif; ?>
                                 </ul>
                             </small>
-                        <?php endif; ?></p>
+                        <?php endif; ?>
+                    </p>
                 </div>
                 <div class="col-5 border p-1">
                     <label class="control-label my-2">

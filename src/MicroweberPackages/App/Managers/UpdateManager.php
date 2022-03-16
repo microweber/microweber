@@ -1167,8 +1167,18 @@ class UpdateManager
 
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $validation = $this->validate_license('id=' . $r);
-            if (!$validation) {
-                return array('id' => $r, 'warning' => _e('License key saved is not valid', true));
+            $validation_result = $this->get_licenses('single=true&id=' . $r);
+
+            $is_valid = false;
+            if(isset($validation_result['status']) and $validation_result['status'] == 'active'){
+                    $is_valid = true;
+            }
+
+            if (!$is_valid) {
+                return array('id' => $r,'is_invalid'=>true, 'warning' => _e('License key saved is not valid', true));
+
+            } else {
+                return array('id' => $r, 'success' => 'License key saved','is_active'=>true,);
 
             }
         }

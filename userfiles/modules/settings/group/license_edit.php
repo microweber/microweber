@@ -1,3 +1,5 @@
+<?php only_admin_access(); ?>
+
 <?php $id = false; ?>
 <?php $lic = false; ?>
 <?php $local_key = false; ?>
@@ -40,17 +42,41 @@ if (!isset($params['prefix'])) {
 <script type="text/javascript">
     $(document).ready(function () {
         var form = mw.$('#activate-form-<?php print $params['id']; ?>');
+        form.off('submit')
         form.on('submit', function () {
-            mw.form.post(mw.$('#activate-form-<?php print $params['id']; ?>'), '<?php print site_url('api') ?>/mw_save_license', function () {
-                window.location = window.location;
 
-                if(typeof licensemodal !== 'undefined'){
-                    licensemodal.remove();
+            var data = form.serializeArray();
+            var url = "<?php print site_url('api') ?>/mw_save_license"
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+
+                async:false,
+                success: function(result) {
+
+
+                    if(typeof licensemodal !== 'undefined'){
+                        licensemodal.remove();
+                    }
+
+                    if(typeof(result.is_active) !== "undefined" && result.is_active === true){
+                        mw.notification.success('<?php _e("License activated"); ?>');
+                        window.location.reload();
+                        mw.notification.success('<?php _e("Reloading page"); ?>');
+
+                    }
+                    else{
+                        mw.notification.error('<?php _e("License not activated"); ?>');
+                    }
+
+                    //   mw.dialog.get('[parent-module="settings/group/license_edit"]').remove()
+
+                    mw.reload_module('#<?php print $params['id']; ?>');
+
+
                 }
-
-                mw.dialog.get().remove()
-
-                mw.reload_module('#<?php print $params['id']; ?>');
             });
 
             return false;
