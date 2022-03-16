@@ -556,11 +556,11 @@ class InstallController extends Controller
                 }
                 if ($latestVersion['type'] !== 'microweber-template') {
                     continue;
-                }
+                }/*
                 if (isset($latestVersion['dist']['type']) && $latestVersion['dist']['type'] == 'zip') {
                     $ready[] = MicroweberComposerPackage::format($latestVersion);
-                }
-               // $ready[] = MicroweberComposerPackage::format($latestVersion);
+                }*/
+                $ready[] = MicroweberComposerPackage::format($latestVersion);
             }
         }
 
