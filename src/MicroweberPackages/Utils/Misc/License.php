@@ -27,7 +27,10 @@ class License
             $licenses = $this->getLicense();
             $licenses[$relType] =  $code;
 
-            return file_put_contents($this->_getLicenseFile(), json_encode($licenses, JSON_PRETTY_PRINT));
+            $saved = file_put_contents($this->_getLicenseFile(), json_encode($licenses, JSON_PRETTY_PRINT));
+            if ($saved) {
+                return true;
+            }
         }
 
         return false;

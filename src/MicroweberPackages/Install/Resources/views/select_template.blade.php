@@ -9,10 +9,25 @@
     @endif
 
     <script>
-        function installTemplate(targetDir)
+        function installTemplate(name)
         {
+            dialog = mw.dialog({
+                content: '<div>Loading...</div>',
+                title: 'Installing template',
+                width: 900,
+                id: 'mw_install_template'
+            });
 
-            return targetDir;
+            $.ajax({
+                url: mw.settings.site_url + '?install_template_modal=' + name,
+                type: "GET",
+                success: function (html) {
+                    dialog.content(html);
+                    dialog.center();
+                }
+            });
+
+            return name;
         }
     </script>
     <style>
@@ -59,7 +74,7 @@
                                 USE TEMPLATE
                             </a>
                         @else
-                        <button onclick="installTemplate('{{$template['target-dir']}}')" class="btn btn-outline-success">
+                        <button onclick="installTemplate('{{$template['name']}}')" class="btn btn-outline-success">
                             INSTALL & USE TEMPLATE
                         </button>
                         @endif

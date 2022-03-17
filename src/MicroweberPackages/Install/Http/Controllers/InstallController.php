@@ -17,6 +17,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\Utils\Misc\License;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
 
@@ -36,7 +37,34 @@ class InstallController extends Controller
         }
     }
 
-    public function selectTemplateView()
+    public function installTemplateModalView()
+    {
+        $packageName = request()->get('install_template_modal');
+
+        $license = new License();
+
+        $licenses = [];
+        $getLicenses = $license->getLicense();
+        if (!empty($getLicenses)) {
+            foreach ($getLicenses as $licens) {
+                $licenses[] = $licens;
+            }
+        }
+
+        $packageManager = new Client();
+        $packageManager->setLicense($licenses);
+
+        $getPackage = $packageManager->getPackageByName($packageName);
+        if (empty($getPackage)) {
+            return;
+        }
+
+        $template = MicroweberComposerPackage::format($getPackage);
+
+        return view('install::install_template_modal', ['template'=>$template]);
+    }
+
+   public function selectTemplateView()
     {
         $templates = $this->_getMarketTemplatesForInstallScreen();
 
@@ -56,6 +84,19 @@ class InstallController extends Controller
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
+        }
+
+        if (isset($input['save_license'])) {
+            $license = new License();
+            $saveLicense = $license->saveLicense($input['license_key'], $input['license_rel_type']);
+            if ($saveLicense) {
+                return ['validated'=>true];
+            }
+            return ['validated'=>false];
+        }
+
+        if (isset($input['install_template_modal'])) {
+            return $this->installTemplateModalView();
         }
 
         if (isset($input['select_template'])) {
