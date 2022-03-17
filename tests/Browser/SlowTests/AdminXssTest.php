@@ -73,6 +73,10 @@ class AdminXssTest extends DuskTestCase
                     continue;
                 }
 
+                if ($value->getName() == 'api.') {
+                    continue;
+                }
+
                 if (strpos($value->uri(), 'admin') !== false) {
 
                     $visitPage = false;
