@@ -14,7 +14,8 @@ class LiveEditSwitchLanguage extends BaseComponent
      */
     public function selector()
     {
-        return '.module-multilanguage-change-language';
+        return '.module-multilanguage';
+      //  return '.module-multilanguage-change-language';
     }
 
     /**
@@ -45,6 +46,5 @@ class LiveEditSwitchLanguage extends BaseComponent
         $browser->pause(400);
         $browser->script('$(\'li[data-value="'.$locale.'"]\').click()');
         $browser->waitForReload(false, 6000);
-
     }
 }

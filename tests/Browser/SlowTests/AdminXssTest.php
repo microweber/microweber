@@ -73,42 +73,67 @@ class AdminXssTest extends DuskTestCase
                     continue;
                 }
 
+                if ($value->getName() == 'api.') {
+                    continue; 
+                }
+
                 if (strpos($value->uri(), 'admin') !== false) {
 
                     $visitPage = false;
 
                     if (strpos($value->uri(),'{page}') !== false) {
                         $findRoute = Page::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{post}') !== false) {
                         $findRoute = Post::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{product}') !== false) {
                         $findRoute = Product::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{customer}') !== false) {
                         $findRoute = Customer::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{category}') !== false) {
                         $findRoute = Category::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{content}') !== false) {
                         $findRoute = Content::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
                     if (strpos($value->uri(),'{order}') !== false) {
                         $findRoute = Order::first();
+                        if ($findRoute == null) {
+                            continue;
+                        }
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 

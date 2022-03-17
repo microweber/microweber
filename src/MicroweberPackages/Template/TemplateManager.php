@@ -52,6 +52,7 @@ class TemplateManager
         $this->isBooted = true;
 
         $load_template_functions = TEMPLATE_DIR . 'functions.php';
+
         if (is_file($load_template_functions)) {
             include_once $load_template_functions;
         }
