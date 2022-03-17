@@ -8,6 +8,13 @@
         </div>
     @endif
 
+    <script>
+        function installTemplate(targetDir)
+        {
+
+            return targetDir;
+        }
+    </script>
     <style>
         .template-preview {
             width:100%;
@@ -27,18 +34,18 @@
         <p>Select your favorite design for your business or blog.</p>
     </div>
 
-    <div class="row my-5 d-flex align-items-center">
+    <div class="row my-5 p-4 d-flex align-items-center">
 
         @foreach($templates as $template)
         <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 mx-auto mt-4">
             <div class="card">
                 <div class="card-body py-4">
-                    <h3>{{$template['description']}}</h3>
+                    <h5>{{$template['description']}}</h5>
 
                     @if($template['is_paid'])
-                        <span class="badge badge-success">PREMIUM LICENSE</span>
+                        <span class="badge badge-sm badge-success">PREMIUM LICENSE</span>
                     @else
-                        <span class="badge badge-primary">FREE LICENSE</span>
+                        <span class="badge badge-sm badge-primary">FREE LICENSE</span>
                     @endif
 
 
@@ -52,7 +59,7 @@
                                 USE TEMPLATE
                             </a>
                         @else
-                        <button class="btn btn-outline-success">
+                        <button onclick="installTemplate('{{$template['target-dir']}}')" class="btn btn-outline-success">
                             INSTALL & USE TEMPLATE
                         </button>
                         @endif
