@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Route;
         Route::post('coupon_apply', function () {
             $data = request()->all();
             return coupon_apply($data);
-        });
+        })->name('coupon_apply');
+        
         Route::post('coupons_delete_session', function () {
             $data = request()->all();
             return coupons_delete_session($data);
-        });
+        })->name('coupons_delete_session');
 
     });
 
@@ -29,11 +30,11 @@ use Illuminate\Support\Facades\Route;
         Route::post('coupons_save_coupon', function () {
             $data = request()->all();
             return coupons_save_coupon($data);
-        });
+        })->name('coupons_save_coupon');
 
         Route::post('coupon_delete', function () {
             $data = request()->all();
             return coupon_delete($data);
-        });
+        })->name('coupon_delete');
 
     });
