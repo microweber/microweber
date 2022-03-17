@@ -4,7 +4,7 @@
 <style>
     html,body{
         overflow: hidden;
-        overflow-y: hidden;
+
     }
     #css-editor-root .mw-accordion-title svg{
         width:21px;
@@ -24,6 +24,22 @@
         top: 4px;
         margin-inline-end: 15px;
         margin-inline-start: 15px;
+    }
+
+    .default-values-list > span{
+        display:block;
+        padding:5px 10px;
+        cursor: pointer;
+    }
+    .default-values-list{
+        position: absolute;
+        top:-100%;
+        left:-100%;
+        padding: 10px;
+        z-index:1;
+        background: #fff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
     }
 
 </style>
@@ -623,20 +639,104 @@ var output = function(property, value){
     }
 };
 
+var _defaultValuesArray = ['auto', 'inherit', 'unset'];
+
 var numValue = function (value) {
+
+    if(['auto', 'inherit', 'initial', 'revert', 'unset'].indexOf(value) !== -1) {
+        return value;
+    }
     return value ? value + 'px' : '';
 };
 
-var init = function(){
-    mw.$('.margin-top').on('input', function(){ output('marginTop', numValue(this.value)) });
-    mw.$('.margin-right').on('input', function(){ output('marginRight', numValue(this.value)) });
-    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', numValue(this.value)) });
-    mw.$('.margin-left').on('input', function(){ output('marginLeft', numValue(this.value)) });
 
-    mw.$('.padding-top').on('input', function(){ output('paddingTop', numValue(this.value)) });
-    mw.$('.padding-right').on('input', function(){ output('paddingRight', numValue(this.value)) });
-    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', numValue(this.value)) });
-    mw.$('.padding-left').on('input', function(){ output('paddingLeft', numValue(this.value)) });
+var defaultValuesUIProp = null
+var defaultValuesUITarget = null;
+var _defaultValuesUI;
+var dfslider
+var defaultValuesUI = function (prop, targetNode) {
+
+    if(!_defaultValuesUI) {
+        var node = mw.element('<div class="default-values-list" />');
+        _defaultValuesUI = node.get(0);
+        dfslider = mw.element('<div class="mw-range default-values-list-slider" />');
+        node.append(dfslider)
+        $(dfslider.get(0)).slider({
+            slide: function( event, ui ) {
+                output(defaultValuesUIProp, numValue(ui.value))
+                defaultValuesUITarget.value = ui.value
+            }
+        })
+        _defaultValuesArray.forEach(function (val){
+            var li = mw.element({
+                tag: 'span',
+                props:{
+                    innerHTML: val,
+
+                    dataset: {
+                        value: val
+                    }
+                },
+
+            })
+            li.on('click', function (){
+                output(prop, numValue(this.dataset.value))
+            })
+            node.append(li)
+        })
+        document.body.appendChild(node.get(0))
+        document.body.addEventListener('click', function (e){
+            if(e.target !== _defaultValuesUI && !_defaultValuesUI.contains(e.target) && e.target !== defaultValuesUITarget) {
+                _defaultValuesUI.style.display = 'none';
+            }
+        })
+    }
+
+    targetNode.addEventListener('focus', function (e){
+        console.log(dfslider)
+        $(dfslider.get(0)).slider("value", targetNode.value)
+        defaultValuesUIProp = prop;
+        defaultValuesUITarget = e.target;
+        var rect = e.target.getBoundingClientRect();
+        _defaultValuesUI.style.top = (rect.top + scrollY + rect.height) + 'px'
+        var lft = (rect.left + scrollX);
+        if((lft + _defaultValuesUI.offsetWidth) > innerWidth) {
+            lft = innerWidth -  (_defaultValuesUI.offsetWidth + 10) ;
+        }
+        _defaultValuesUI.style.left = lft + 'px'
+        _defaultValuesUI.style.display = 'block';
+    })
+
+
+
+    return node;
+}
+
+var init = function(){
+
+    var spacesFields = [
+        ['.margin-top', 'marginTop'],
+        ['.margin-right', 'marginRight'],
+        ['.margin-bottom', 'marginBottom'],
+        ['.margin-left', 'marginLeft'],
+
+        ['.padding-top', 'paddingTop'],
+        ['.padding-right', 'paddingRight'],
+        ['.padding-bottom', 'paddingBottom'],
+        ['.padding-left', 'paddingLeft'],
+    ];
+
+    spacesFields.forEach(function (item){
+        var node = mw.element(item[0])
+        node.on('input', function(){ output(item[1], numValue(this.value)) });
+        defaultValuesUI(item[1], node.get(0))
+    })
+
+
+
+
+
+
 
     $('.text-align > span').on('click', function(){
         output('textAlign', this.dataset.value);
@@ -1290,15 +1390,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <input type="number" class="mw-ese-top margin-top">
-                    <input type="number" class="mw-ese-right margin-right">
-                    <input type="number" class="mw-ese-bottom margin-bottom">
-                    <input type="number" class="mw-ese-left margin-left">
+                    <span class="input mw-ese-top"><input type="number" class=" margin-top"></span>
+                    <span class="input mw-ese-right"><input type="number" class=" margin-right"></span>
+                    <span class="input mw-ese-bottom"><input type="number" class=" margin-bottom"></span>
+                    <span class="input mw-ese-left"><input type="number" class=" margin-left"></span>
                     <div class="mw-ese-holder mw-ese-padding">
-                        <input type="number" class="mw-ese-top padding-top">
-                        <input type="number" class="mw-ese-right padding-right">
-                        <input type="number" class="mw-ese-bottom padding-bottom">
-                        <input type="number" class="mw-ese-left padding-left">
+                        <span class="input mw-ese-top"><input type="number" min="0" class=" padding-top"></span>
+                        <span class="input mw-ese-right"><input type="number" min="0" class=" padding-right"></span>
+                        <span class="input mw-ese-bottom"><input type="number" min="0" class=" padding-bottom"></span>
+                        <span class="input mw-ese-left"><input type="number" min="0" class=" padding-left"></span>
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>

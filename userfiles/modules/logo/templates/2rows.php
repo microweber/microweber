@@ -4,7 +4,7 @@
     if ($size == false or $size == '') {
         $size = 'auto';
     }
-    else{
+    if($size != 'auto') {
         $size = $size . 'px';
     }
 

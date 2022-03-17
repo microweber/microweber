@@ -15,8 +15,9 @@
 
 <?php
 
-
-$size = $size . 'px';
+if($size != 'auto') {
+    $size = $size . 'px';
+}
  ?>
 
 <a href="<?php if (!in_live_edit()) {

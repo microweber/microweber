@@ -60,8 +60,7 @@ input,select{
         padding: 10px 20px;
     }
 
-    .mw-element-spacing-editor input{
-        position: absolute;
+    .mw-element-spacing-editor .input input{
         width: 40px;
         height: 22px;
         border-radius: 3px;
@@ -70,6 +69,10 @@ input,select{
         padding: 0 3px;
         text-align: center;
         font-size: 12px;
+    }
+    .mw-element-spacing-editor .input{
+        position: absolute;
+
         z-index: 1;
     }
     .mw-ese-top{
