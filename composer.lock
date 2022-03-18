@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c7642821703e99793563de48d9c4930",
+    "content-hash": "b8b2b1006194c660a62114f55a1a5a1b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5399,16 +5399,16 @@
         },
         {
             "name": "microweber-packages/composer-client",
-            "version": "1.5",
+            "version": "1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/composer-client.git",
-                "reference": "0b3c5ffe2b20a7fefaebec83f6ac20d75625e84e"
+                "reference": "bcd8dee3065d4a8d8c7106d12d5c236d54446ae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/0b3c5ffe2b20a7fefaebec83f6ac20d75625e84e",
-                "reference": "0b3c5ffe2b20a7fefaebec83f6ac20d75625e84e",
+                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/bcd8dee3065d4a8d8c7106d12d5c236d54446ae8",
+                "reference": "bcd8dee3065d4a8d8c7106d12d5c236d54446ae8",
                 "shasum": ""
             },
             "require": {
@@ -5443,9 +5443,9 @@
             "support": {
                 "email": "support@microweber.com",
                 "issues": "https://github.com/microweber-packages/composer-client/issues",
-                "source": "https://github.com/microweber-packages/composer-client/tree/1.5"
+                "source": "https://github.com/microweber-packages/composer-client/tree/1.6"
             },
-            "time": "2022-03-15T09:16:48+00:00"
+            "time": "2022-03-18T09:24:39+00:00"
         },
         {
             "name": "microweber-packages/microweber-class-alias",
@@ -5749,12 +5749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "cb3675ee15cc0157c1694b8cac1af7ad436b31c7"
+                "reference": "0a023ffb2322d9a2c87d5c1eb209d0c62415be65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/cb3675ee15cc0157c1694b8cac1af7ad436b31c7",
-                "reference": "cb3675ee15cc0157c1694b8cac1af7ad436b31c7",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0a023ffb2322d9a2c87d5c1eb209d0c62415be65",
+                "reference": "0a023ffb2322d9a2c87d5c1eb209d0c62415be65",
                 "shasum": ""
             },
             "require": {
@@ -5841,7 +5841,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-14T12:51:26+00:00"
+            "time": "2022-03-18T08:47:05+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
