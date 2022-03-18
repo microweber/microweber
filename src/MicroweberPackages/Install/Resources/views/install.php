@@ -622,8 +622,8 @@
                                             <?php endif; ?>
 
 
-                                            <a class="btn btn-outline-primary mt-3" href="window.location.href = '<?php echo site_url();?>?select_template=1';">Discover more premium template</a>
-                                            <div class="row mt-5">
+                                            <a class="btn btn-outline-primary btn-sm mt-3" href=<?php echo site_url();?>?select_template=1'>DISCOVER MORE PREMIUM TEMPLATE</a>
+                                            <div class="row mt-3">
 
 
                                                 <div class="col-md-8">
