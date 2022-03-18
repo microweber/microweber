@@ -622,7 +622,7 @@
                                             <?php endif; ?>
 
 
-                                            <a class="btn btn-outline-primary btn-sm mt-3" href=<?php echo site_url();?>?select_template=1'>DISCOVER MORE PREMIUM TEMPLATE</a>
+                                            <a class="btn btn-outline-primary btn-sm mt-3" href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATE</a>
                                             <div class="row mt-3">
 
 
