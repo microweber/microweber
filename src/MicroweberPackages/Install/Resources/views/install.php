@@ -611,7 +611,7 @@
                                                             $('#theImg').css('background-image', 'url(' + scrshot + ')');
                                                             $('#theImg').attr('data-src', scrshot);
                                                         }
-                                                    }, 3000);
+                                                    }, 100);
                                                 }
                                             </script>
 
