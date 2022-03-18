@@ -11,7 +11,7 @@
     <script>
         function installTemplate(name)
         {
-            dialog = mw.dialog({
+            installTemplateDialog = mw.dialog({
                 content: '<div>Loading...</div>',
                 title: 'Installing template',
                 width: 900,
@@ -22,8 +22,8 @@
                 url: mw.settings.site_url + '?install_template_modal=' + name,
                 type: "GET",
                 success: function (html) {
-                    dialog.content(html);
-                    dialog.center();
+                    installTemplateDialog.content(html);
+                    installTemplateDialog.center();
                 }
             });
 

@@ -37,6 +37,32 @@ class InstallController extends Controller
         }
     }
 
+    public function downloadTemplate()
+    {
+        $packageName = request()->get('download_template');
+
+        $params = [];
+        $params['require_name'] = $packageName;
+
+        $runner = new MicroweberComposerClient();
+
+        $license = new License();
+        $getLicenses = $license->getLicenses();
+        if (!empty($getLicenses)) {
+            $runner->setLicenses($getLicenses);
+        }
+
+        $request = $runner->requestInstall($params);
+        if (!isset($request['form_data_module_params'])) {
+            return false;
+        }
+
+        $request = $runner->requestInstall($request['form_data_module_params']);
+
+        dump($request);
+
+    }
+
     public function installTemplateModalView()
     {
         $packageName = request()->get('install_template_modal');
@@ -88,6 +114,10 @@ class InstallController extends Controller
                 return ['validated'=>true];
             }
             return ['validated'=>false];
+        }
+
+        if (isset($input['download_template'])) {
+            return $this->downloadTemplate();
         }
 
         if (isset($input['install_template_modal'])) {
