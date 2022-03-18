@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8b2b1006194c660a62114f55a1a5a1b",
+    "content-hash": "2ed2721b3c0fc16166cc4233d74f6625",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5398,6 +5398,52 @@
             "time": "2020-11-02T17:00:53+00:00"
         },
         {
+            "name": "microweber-modules/standalone-updater",
+            "version": "3.0",
+            "target-dir": "standalone-updater",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-modules/standalone-updater.git",
+                "reference": "73e969366b51f2cfd2a05d7d3197f8ef5de61ff7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-73e969366b51f2cfd2a05d7d3197f8ef5de61ff7-zip-c69800.zip",
+                "reference": "73e969366b51f2cfd2a05d7d3197f8ef5de61ff7",
+                "shasum": "177a77ea3ed32cb5029245cee7286e914f035ef9"
+            },
+            "type": "microweber-module",
+            "extra": {
+                "_meta": {
+                    "standalone-updater": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/30/standalone-updater.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/30/README.md"
+                },
+                "whmcs": {
+                    "whmcs_url": "https://members.microweber.com"
+                }
+            },
+            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Updater",
+            "homepage": "https://microweber.org/modules/microweber-modules/standalone-updater",
+            "keywords": [
+                "standalone-updater"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-modules/standalone-updater/tree/3.0",
+                "issues": "https://github.com/microweber-modules/standalone-updater/issues"
+            },
+            "time": "2022-03-01T17:52:04+00:00"
+        },
+        {
             "name": "microweber-packages/composer-client",
             "version": "1.6",
             "source": {
@@ -5749,12 +5795,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "0a023ffb2322d9a2c87d5c1eb209d0c62415be65"
+                "reference": "f2f66cd480df5f165391ff9b6332700d467b25ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0a023ffb2322d9a2c87d5c1eb209d0c62415be65",
-                "reference": "0a023ffb2322d9a2c87d5c1eb209d0c62415be65",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f2f66cd480df5f165391ff9b6332700d467b25ac",
+                "reference": "f2f66cd480df5f165391ff9b6332700d467b25ac",
                 "shasum": ""
             },
             "require": {
@@ -5841,7 +5887,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-18T08:47:05+00:00"
+            "time": "2022-03-18T09:48:03+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
