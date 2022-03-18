@@ -334,7 +334,6 @@
 </head>
 <body>
 
-
 <div class="installholder">
     <small class="text-muted d-block text-end text-right mb-2">v. <?php print MW_VERSION ?></small>
 
@@ -622,7 +621,11 @@
 
                                             <?php endif; ?>
 
+
+                                            <a class="btn btn-outline-primary mt-3" href="window.location.href = '<?php echo site_url();?>?select_template=1';">Discover more premium template</a>
                                             <div class="row mt-5">
+
+
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
