@@ -92,8 +92,6 @@
                         type: "GET",
                         success: function (json) {
 
-                            $(btnInstance).removeAttr('disabled');
-
                             if (json.status == 'success') {
 
                                 $(btnInstance).html('Done!');
