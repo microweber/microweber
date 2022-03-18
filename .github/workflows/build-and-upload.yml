@@ -40,12 +40,17 @@ jobs:
         find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
-
+        cp microweber-${{ env.GITHUB_REF_SLUG }}.zip microweber.zip
+        curl -T microweber.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
     - name: Upload composer.json
       run: |
         cp -r composer.json microweber-${{ env.GITHUB_REF_SLUG }}.composer.json
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+        curl -T composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
     - name: Upload version.txt
       run: |
         cp -r version.txt microweber-${{ env.GITHUB_REF_SLUG }}.version.txt
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+        curl -T version.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
+        curl -T CHANGELOG.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
+
