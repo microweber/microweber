@@ -334,6 +334,12 @@ class DatabaseWriter
                 SessionStepper::finish();
             }
 
+            if (SessionStepper::isFinished()) {
+                $this->logger->setLogInfo('No items in batch for current step.');
+                $this->_finishUp();
+                return array("success"=>"Done! All steps are finished.");
+            }
+
 			$success = array();
 			foreach($itemsBatch[$selectBatch] as $item) {
                 try {
@@ -344,12 +350,6 @@ class DatabaseWriter
                     $this->logger->setLogInfo($e->getMessage());
                 }
 			}
-
-            if (SessionStepper::isFinished()) {
-                $this->logger->setLogInfo('No items in batch for current step.');
-                $this->_finishUp();
-                return array("success"=>"Done! All steps are finished.");
-            }
 
             return $success;
 		}
