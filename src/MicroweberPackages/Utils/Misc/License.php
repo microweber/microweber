@@ -4,7 +4,7 @@ namespace MicroweberPackages\Utils\Misc;
 
 class License
 {
-    public function getLicense()
+    public function getLicenses()
     {
         $file = $this->_getLicenseFile();
         if (!is_file($file)) {
@@ -24,8 +24,11 @@ class License
         $validate = $this->validateLicense($code, $relType);
         if ($validate) {
 
-            $licenses = $this->getLicense();
-            $licenses[$relType] =  $code;
+            $licenses = $this->getLicenses();
+            $licenses[$relType] = [
+                'rel_type'=>$relType,
+                'local_key'=>$code,
+            ];
 
             $saved = file_put_contents($this->_getLicenseFile(), json_encode($licenses, JSON_PRETTY_PRINT));
             if ($saved) {

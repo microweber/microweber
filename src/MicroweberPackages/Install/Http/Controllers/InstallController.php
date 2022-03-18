@@ -41,18 +41,13 @@ class InstallController extends Controller
     {
         $packageName = request()->get('install_template_modal');
 
-        $license = new License();
-
-        $licenses = [];
-        $getLicenses = $license->getLicense();
-        if (!empty($getLicenses)) {
-            foreach ($getLicenses as $licens) {
-                $licenses[] = $licens;
-            }
-        }
-
         $packageManager = new Client();
-        $packageManager->setLicense($licenses);
+
+        $license = new License();
+        $getLicenses = $license->getLicenses();
+        if (!empty($getLicenses)) {
+            $packageManager->setLicenses($getLicenses);
+        }
 
         $getPackage = $packageManager->getPackageByName($packageName);
         if (empty($getPackage)) {

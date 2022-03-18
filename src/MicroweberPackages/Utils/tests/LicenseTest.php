@@ -15,7 +15,7 @@ class LicenseTest extends TestCase
             return new UpdateManagerMockery();
         });
 
-        $randomLicenseUniqueId = uniqid();
+        $randomLicenseUniqueId = uniqid(); 
         app()->update->setActiveLicenses([$randomLicenseUniqueId]);
 
         $license = new License();
@@ -34,13 +34,13 @@ class LicenseTest extends TestCase
 
         // Save invalid license
         $license->saveLicense('example-generated-license');
-        $getLicenses = $license->getLicense();
+        $getLicenses = $license->getLicenses();
         $this->assertEmpty($getLicenses);
 
 
         // Save valid license
         $license->saveLicense($randomLicenseUniqueId);
-        $getLicenses = $license->getLicense();
+        $getLicenses = $license->getLicenses();
         $this->assertNotEmpty($getLicenses);
         $this->assertEquals($getLicenses['modules/white_label'], $randomLicenseUniqueId);
 
