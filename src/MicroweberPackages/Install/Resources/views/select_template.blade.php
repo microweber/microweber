@@ -56,41 +56,36 @@
             <div class="card">
                 <div class="card-body py-4">
                     <h5>{{$template['description']}}</h5>
+                    <small>v{{$template['version']}}</small>
 
-                    @if($template['is_paid'])
-                        <span class="badge badge-sm badge-success">PREMIUM LICENSE</span>
-                    @else
-                        <span class="badge badge-sm badge-primary">FREE LICENSE</span>
-                    @endif
-
+                   <div class="float-right">
+                       @if($template['is_paid'])
+                           <span class="badge badge-sm badge-primary rounded-0" style="background-color: #9c00ff;">PREMIUM LICENSE</span>
+                       @else
+                           <span class="badge badge-sm badge-success rounded-0">FREE LICENSE</span>
+                       @endif
+                   </div>
 
                     <div class="template-preview" style="background-image: url('{{$template['screenshot_link']}}');"></div>
 
-
-                    <div class="text-center">
-
+                    <div class="text-right">
                         @if($template['current_install'])
-                            <a href="<?php echo site_url();?>?request_template={{$template['target-dir']}}" class="btn btn-outline-success">
+                            <a href="<?php echo site_url();?>?request_template={{$template['target-dir']}}" class="badge badge-md btn-success rounded-0">
                                 USE TEMPLATE
                             </a>
                         @else
-                        <button onclick="installTemplate('{{$template['name']}}')" class="btn btn-outline-success">
+                        <button onclick="installTemplate('{{$template['name']}}')" class="badge badge-md btn-success rounded-0">
                             INSTALL & USE TEMPLATE
                         </button>
                         @endif
 
 
                         @if($template['demo_link'])
-                            <a href="{{$template['demo_link']}}" class="btn btn-outline-primary" target="_blank">
+                            <a href="{{$template['demo_link']}}" class="badge badge-md btn-primary rounded-0" target="_blank">
                                 DEMO
                             </a>
                         @endif
                     </div>
-
-                    <hr />
-                   <small>v{{$template['version']}}</small>
-
-
                 </div>
             </div>
         </div>
