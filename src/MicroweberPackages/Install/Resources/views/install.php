@@ -334,7 +334,6 @@
 </head>
 <body>
 
-
 <div class="installholder">
     <small class="text-muted d-block text-end text-right mb-2">v. <?php print MW_VERSION ?></small>
 
@@ -612,7 +611,7 @@
                                                             $('#theImg').css('background-image', 'url(' + scrshot + ')');
                                                             $('#theImg').attr('data-src', scrshot);
                                                         }
-                                                    }, 3000);
+                                                    }, 100);
                                                 }
                                             </script>
 
@@ -622,7 +621,13 @@
 
                                             <?php endif; ?>
 
-                                            <div class="row mt-5">
+
+                                           <div class="text-center">
+                                               <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                           </div>
+                                            <div class="row mt-3">
+
+
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">

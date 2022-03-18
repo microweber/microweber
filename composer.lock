@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ed2721b3c0fc16166cc4233d74f6625",
+    "content-hash": "70d95cf91b8780f1ed7dae2b4e5127f1",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5399,24 +5399,24 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "3.0",
+            "version": "3.1",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-modules/standalone-updater.git",
-                "reference": "73e969366b51f2cfd2a05d7d3197f8ef5de61ff7"
+                "url": "git@github.com:microweber-modules/standalone-updater.git",
+                "reference": "aad8f4843dad9e368047f2cbf907bf7c881711e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-73e969366b51f2cfd2a05d7d3197f8ef5de61ff7-zip-c69800.zip",
-                "reference": "73e969366b51f2cfd2a05d7d3197f8ef5de61ff7",
-                "shasum": "177a77ea3ed32cb5029245cee7286e914f035ef9"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-aad8f4843dad9e368047f2cbf907bf7c881711e5-zip-28ac8f.zip",
+                "reference": "aad8f4843dad9e368047f2cbf907bf7c881711e5",
+                "shasum": "96947b1e8c470b30f8f0803b7a438147e24f2219"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "standalone-updater": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/30/standalone-updater.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/30/README.md"
+                    "standalone-updater": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/31/standalone-updater.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/31/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5437,11 +5437,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "support": {
-                "source": "https://github.com/microweber-modules/standalone-updater/tree/3.0",
-                "issues": "https://github.com/microweber-modules/standalone-updater/issues"
-            },
-            "time": "2022-03-01T17:52:04+00:00"
+            "time": "2022-03-18T16:14:58+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -7738,12 +7734,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "0a699725711b450aae358d29e8b045d1d0414069"
+                "reference": "2a3951538b6bd0ce57ac851993472364130b3890"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/0a699725711b450aae358d29e8b045d1d0414069",
-                "reference": "0a699725711b450aae358d29e8b045d1d0414069",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/2a3951538b6bd0ce57ac851993472364130b3890",
+                "reference": "2a3951538b6bd0ce57ac851993472364130b3890",
                 "shasum": ""
             },
             "require": {
@@ -7839,7 +7835,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-15T23:49:38+00:00"
+            "time": "2022-03-18T16:24:32+00:00"
         },
         {
             "name": "predis/predis",
@@ -8919,12 +8915,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "b731394245a0b88ed255b62bcad34b1fc163b625"
+                "reference": "500afd4ce9770934e0c2e4a8fdfab4a18a56b41e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/b731394245a0b88ed255b62bcad34b1fc163b625",
-                "reference": "b731394245a0b88ed255b62bcad34b1fc163b625",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/500afd4ce9770934e0c2e4a8fdfab4a18a56b41e",
+                "reference": "500afd4ce9770934e0c2e4a8fdfab4a18a56b41e",
                 "shasum": ""
             },
             "require": {
@@ -8994,7 +8990,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-09T16:20:14+00:00"
+            "time": "2022-03-18T15:40:42+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -9139,12 +9135,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d8111acc99876953f52fe16d4c50eb60940d49ad"
+                "reference": "0a4f498e8a2599f269edfd8605b5f03154b7074b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d8111acc99876953f52fe16d4c50eb60940d49ad",
-                "reference": "d8111acc99876953f52fe16d4c50eb60940d49ad",
+                "url": "https://api.github.com/repos/symfony/console/zipball/0a4f498e8a2599f269edfd8605b5f03154b7074b",
+                "reference": "0a4f498e8a2599f269edfd8605b5f03154b7074b",
                 "shasum": ""
             },
             "require": {
@@ -9215,7 +9211,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.5"
+                "source": "https://github.com/symfony/console/tree/5.4"
             },
             "funding": [
                 {
@@ -9231,7 +9227,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-24T12:45:35+00:00"
+            "time": "2022-03-18T16:00:30+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -9442,12 +9438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "0a6b289cc34ca803597a34a27ec371a0539a5f85"
+                "reference": "060bc01856a1846e3e4385261bc9ed11a1dd7b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/0a6b289cc34ca803597a34a27ec371a0539a5f85",
-                "reference": "0a6b289cc34ca803597a34a27ec371a0539a5f85",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/060bc01856a1846e3e4385261bc9ed11a1dd7b6a",
+                "reference": "060bc01856a1846e3e4385261bc9ed11a1dd7b6a",
                 "shasum": ""
             },
             "require": {
@@ -9506,7 +9502,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T20:07:29+00:00"
+            "time": "2022-03-18T16:21:29+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -11124,12 +11120,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "ca5bdf2b6d2b2546b69ee6c74434b89cda697b24"
+                "reference": "38a44b2517b470a436e1c944bf9b9ba3961137fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/ca5bdf2b6d2b2546b69ee6c74434b89cda697b24",
-                "reference": "ca5bdf2b6d2b2546b69ee6c74434b89cda697b24",
+                "url": "https://api.github.com/repos/symfony/process/zipball/38a44b2517b470a436e1c944bf9b9ba3961137fb",
+                "reference": "38a44b2517b470a436e1c944bf9b9ba3961137fb",
                 "shasum": ""
             },
             "require": {
@@ -11179,7 +11175,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T20:07:29+00:00"
+            "time": "2022-03-18T16:18:52+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -13375,12 +13371,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "f69380fb203a4efddb7450d4c3b992865ba76149"
+                "reference": "fda7347ad35bb0b883def6dc63cdb0132c9c6c49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/f69380fb203a4efddb7450d4c3b992865ba76149",
-                "reference": "f69380fb203a4efddb7450d4c3b992865ba76149",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/fda7347ad35bb0b883def6dc63cdb0132c9c6c49",
+                "reference": "fda7347ad35bb0b883def6dc63cdb0132c9c6c49",
                 "shasum": ""
             },
             "require": {
@@ -13428,7 +13424,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2022-03-17T19:55:26+00:00"
+            "time": "2022-03-18T13:47:41+00:00"
         },
         {
             "name": "laravel/tinker",
