@@ -83,6 +83,10 @@
                         $(btnInstance).html('Still downloading...');
                     }, 14000);
 
+                    setTimeout(function () {
+                        $(btnInstance).html('Sit back and relax.. one more seconds');
+                    }, 20000);
+
                     $.ajax({
                         url: mw.settings.site_url + '?download_template=' + name,
                         type: "GET",
@@ -96,11 +100,11 @@
 
                                 setTimeout(function () {
                                     $(btnInstance).html('Redirecting to install page...');
-                                }, 3000);
+                                }, 2000);
 
                                 setTimeout(function () {
                                     window.location.href = "<?php echo site_url();?>?request_template={{$template['target-dir']}}";
-                                }, 4000);
+                                }, 3000);
 
                             } else {
                                 $(btnInstance).html('Failed downloading');
