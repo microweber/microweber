@@ -253,17 +253,20 @@ class MicroweberComposerClient extends Client
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
         $response['log'] = 'Done!';
 
-        // app()->update->post_update();
-        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
-        scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
+        if (mw_is_installed()) { // This can make installation without database
+
+            // app()->update->post_update();
+            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+            scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
 
-        mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update');
-        mw()->cache_manager->delete('elements');
+            mw()->cache_manager->delete('db');
+            mw()->cache_manager->delete('update');
+            mw()->cache_manager->delete('elements');
 
-        mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules');
+            mw()->cache_manager->delete('templates');
+            mw()->cache_manager->delete('modules');
+        }
 
         return $response;
     }

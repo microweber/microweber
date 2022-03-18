@@ -54,13 +54,16 @@ class InstallController extends Controller
 
         $request = $runner->requestInstall($params);
         if (!isset($request['form_data_module_params'])) {
-            return false;
+            return ['status'=>'failed'];
         }
 
         $request = $runner->requestInstall($request['form_data_module_params']);
 
-        dump($request);
+        if (isset($request['success'])) {
+            return ['status'=>'success'];
+        }
 
+        return ['status'=>'failed'];
     }
 
     public function installTemplateModalView()

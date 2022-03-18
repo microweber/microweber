@@ -74,20 +74,37 @@
                 function downloadTemplate(name, btnInstance) {
                     $(btnInstance).attr('disabled', 'disabled');
                     $(btnInstance).html('Downloading your template...');
+
                     setTimeout(function () {
                         $(btnInstance).html('This can take some time...');
-                    }, 5000);
+                    }, 8000);
+
                     setTimeout(function () {
                         $(btnInstance).html('Still downloading...');
-                    }, 10000);
+                    }, 14000);
+
                     $.ajax({
                         url: mw.settings.site_url + '?download_template=' + name,
                         type: "GET",
-                        success: function (html) {
-                           console.log(html);
+                        success: function (json) {
 
-                            $(btnInstance).html('Done!');
+                            $(btnInstance).removeAttr('disabled');
 
+                            if (json.status == 'success') {
+
+                                $(btnInstance).html('Done!');
+
+                                setTimeout(function () {
+                                    $(btnInstance).html('Redirecting to install page...');
+                                }, 3000);
+
+                                setTimeout(function () {
+                                    window.location.href = "<?php echo site_url();?>?request_template={{$template['target-dir']}}";
+                                }, 4000);
+
+                            } else {
+                                $(btnInstance).html('Failed downloading');
+                            }
                         }
                     });
                 }
