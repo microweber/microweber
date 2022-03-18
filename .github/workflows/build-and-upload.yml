@@ -54,4 +54,5 @@ jobs:
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
         curl -T version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
         curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
+        curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/releases/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
 
