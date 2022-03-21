@@ -79,7 +79,7 @@ Module based architecture with 75+ modules allows you to expand unlimited your w
  - Control typography
  - and more
 
-# Multilanguage with 35 languages support
+ 
 
 # Full Online Store functionality
  - Adding products (with galleries)
@@ -113,17 +113,9 @@ Module based architecture with 75+ modules allows you to expand unlimited your w
  - Automatic Installation
 
 
-# HOW TO ORDER 
-You can start with the smaller plan of Microweber to test it.
 
-> - * $10 per month for 10 websites *
+[Find out more about the white label license](https://microweber.org/go/whitelabel)
 
-If you are a a Web design Studio you can start with 
-> - * $30 per month for 30 websites *
-
-For Hosting Companies we have a special offer
-
-> - * $100 per month = unlimited websites *
 
 # MICROWEBER VIDEO
 
