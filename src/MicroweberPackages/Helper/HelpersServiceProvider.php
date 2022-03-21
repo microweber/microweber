@@ -40,6 +40,11 @@ class HelpersServiceProvider extends ServiceProvider
             return new XSSSecurity();
         });
 
+        $this->app->singleton('html_clean', function () {
+            return new HTMLClean();
+        });
+
+
         /**
          * @property \MicroweberPackages\Helper\UrlManager    $url_manager
          */

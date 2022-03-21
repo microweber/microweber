@@ -415,6 +415,8 @@ class MediaManager
 
     public function save($data)
     {
+        $data = app()->html_clean->cleanArray($data);
+
         $s = array();
 
         if (isset($data['content-id'])) {
