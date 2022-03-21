@@ -123,48 +123,42 @@ function get_pictures($params)
     return app()->media_manager->get($params);
 }
 
-
-function  create_media_dir($params)
+function create_media_dir($params)
 {
     return app()->media_manager->create_media_dir($params);
 }
-
-
-
-
 
 /**
  * Remove EXIF from a IMAGE file.
  * @param string $old Path to original image file (input).
  * @param string $new Path to new jpeg file (output).
  */
-function remove_exif_data($old, $new)
+function remove_exif_data($in, $out)
 {
-    // Open the input file for binary reading
-    $f1 = fopen($old, 'rb');
-    // Open the output file for binary writing
-    $f2 = fopen($new, 'wb');
-
-    // Find EXIF marker
-    while (($s = fread($f1, 2))) {
-        $word = unpack('ni', $s)['i'];
-        if ($word == 0xFFE1) {
-            // Read length (includes the word used for the length)
-            $s = fread($f1, 2);
-            $len = unpack('ni', $s)['i'];
-            // Skip the EXIF info
-            fread($f1, $len - 2);
-            break;
-        } else {
-            fwrite($f2, $s, 2);
+    $buffer_len = 4096;
+    $fd_in = fopen($in, 'rb');
+    $fd_out = fopen($out, 'wb');
+    while (($buffer = fread($fd_in, $buffer_len)))
+    {
+        //  \xFF\xE1\xHH\xLLExif\x00\x00 - Exif
+        //  \xFF\xE1\xHH\xLLhttp://      - XMP
+        //  \xFF\xE2\xHH\xLLICC_PROFILE  - ICC
+        //  \xFF\xED\xHH\xLLPhotoshop    - PH
+        while (preg_match('/\xFF[\xE1\xE2\xED\xEE](.)(.)(exif|photoshop|http:|icc_profile|adobe)/si', $buffer, $match, PREG_OFFSET_CAPTURE))
+        {
+            //echo "found: '{$match[3][0]}' marker\n";
+            $len = ord($match[1][0]) * 256 + ord($match[2][0]);
+            //echo "length: {$len} bytes\n";
+            //echo "write: {$match[0][1]} bytes to output file\n";
+            fwrite($fd_out, substr($buffer, 0, $match[0][1]));
+            $filepos = $match[0][1] + 2 + $len - strlen($buffer);
+            fseek($fd_in, $filepos, SEEK_CUR);
+            //echo "seek to: ".ftell($fd_in)."\n";
+            $buffer = fread($fd_in, $buffer_len);
         }
+        //echo "write: ".strlen($buffer)." bytes to output file\n";
+        fwrite($fd_out, $buffer, strlen($buffer));
     }
-
-    // Write the rest of the file
-    while (($s = fread($f1, 4096))) {
-        fwrite($f2, $s, strlen($s));
-    }
-
-    fclose($f1);
-    fclose($f2);
+    fclose($fd_out);
+    fclose($fd_in);
 }

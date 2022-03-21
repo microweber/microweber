@@ -539,7 +539,12 @@ if (!$chunks || $chunk == $chunks - 1) {
 
                 $imgCreatedFromGif = @imagecreatefromgif($filePath);
                 if ($imgCreatedFromGif) {
-                    imagegif($imgCreatedFromGif, $filePath); // this will create fresh new image without exif sensitive data
+
+                    $filePathOld = stream_get_meta_data(tmpfile())['uri'];
+                    copy($filePath, $filePathOld);
+                    remove_exif_data($filePathOld, $filePath);
+                    unlink($filePathOld);
+
                     $valid = true;
                 }
 
