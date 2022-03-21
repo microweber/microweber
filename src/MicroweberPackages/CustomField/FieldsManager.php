@@ -615,7 +615,7 @@ class FieldsManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            $this->app->error('Error: not logged in as admin.');
         }
 
         foreach ($data as $value) {
