@@ -46,7 +46,10 @@ use Illuminate\Support\Facades\Validator;
                 $response = \Response::make(['errors' => $validator->messages()->toArray()]);
                 $response->setStatusCode(422);
                 $response = \MicroweberPackages\App\Http\RequestRoute::formatFrontendResponse($response);
-
+                if (isset($response['message'])) {
+                    $response['error_message'] = $response['message'];
+                    unset($response['message']);
+                }
                 return $response;
             }
 
