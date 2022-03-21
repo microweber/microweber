@@ -143,7 +143,7 @@ class UserForgotPasswordController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:1|confirmed',
+            'password' => 'required|min:1|confirmed|max:500',
         ]);
 
         $tokenMd5 = \MicroweberPackages\User\Models\PasswordReset::where('email', $request->get('email'))

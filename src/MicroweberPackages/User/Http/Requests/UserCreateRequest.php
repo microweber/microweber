@@ -14,6 +14,7 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         $rules = [
+             'password'=>'max:500',
              'first_name'=>'max:500',
              'last_name'=>'max:500',
              'phone'=>'max:500',
