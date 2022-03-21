@@ -19,13 +19,13 @@ class MenuApiController extends AdminDefaultController
     public function __construct(MenuApiRepository $menu)
     {
         $this->menu = $menu;
+        parent::__construct();
     }
 
     /**
      * Display a listing of the product.\
      *
-     * @param MenuRequest $request
-     * @return \Illuminate\Http\Response
+      * @return JsonResource
      */
     public function index()
     {
@@ -46,7 +46,7 @@ class MenuApiController extends AdminDefaultController
      * Display the specified resource.show
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResource
      */
     public function show($id)
     {
@@ -57,9 +57,9 @@ class MenuApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  MenuRequest $request
+     * @param  MenuApiRequest $request
      * @param  string $id
-     * @return Response
+     * @return JsonResource
      */
     public function update(MenuApiRequest $request, $id)
     {
@@ -68,8 +68,8 @@ class MenuApiController extends AdminDefaultController
 
     /**
      * Destroy resources by given id.
-     * @param string $id
-     * @return void
+     * @param int $id
+     * @return JsonResource
      */
     public function destroy($id)
     {
