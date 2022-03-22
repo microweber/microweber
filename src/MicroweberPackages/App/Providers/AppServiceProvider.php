@@ -539,7 +539,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // >>> MW Kernel add
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+        //$this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);

@@ -33,7 +33,6 @@
         "enshrined/svg-sanitize": "0.15.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
-        "fideloper/proxy": "*",
         "finlet/flexmail": "dev-master",
         "florianv/exchanger": "2.x-dev",
         "florianv/swap": "^4.3",
@@ -93,7 +92,7 @@
         "phpunit/phpunit": "*",
         "laravel/tinker": "*",
         "orchestra/testbench": "*",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "*"
     },
     "autoload": {
         "psr-4": {
