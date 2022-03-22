@@ -14,7 +14,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->booting(function () {
+        $this->app->afterResolving('cache', function () {
 
             Cache::extend('file', function ($app, $config) {
 

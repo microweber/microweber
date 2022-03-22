@@ -15,7 +15,7 @@ class MarkdownCast implements CastsAttributes
 
     public function set($model, $key, $value, $attributes)
     {
-        $value = Markdown::convertToHtml($value);
+        $value = Markdown::convertToHtml($value)->getContent();
 
         return [$key => $value];
     }

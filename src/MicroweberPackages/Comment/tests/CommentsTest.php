@@ -342,7 +342,7 @@ class CommentsTest extends TestCase
             ]
         );
         $commentData = $response->getData();
-        $this->assertEquals($commentData->data->comment_body, Markdown::convertToHtml($comment2));
+        $this->assertEquals($commentData->data->comment_body, Markdown::convertToHtml($comment2)->getContent());
 
 
         // publish

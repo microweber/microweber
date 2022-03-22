@@ -146,7 +146,7 @@ class AdminCommentController extends AdminController
         $comment_body = $data['comment_body'];
 
         if (!empty($comment_body) and !empty($data['format']) and $data['format'] == 'markdown') {
-            $comment_body = Markdown::convertToHtml($comment_body);
+            $comment_body = Markdown::convertToHtml($comment_body)->getContent();
         }
 
         $cleanHtml = new HTMLClean();
