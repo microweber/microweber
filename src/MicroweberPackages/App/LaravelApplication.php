@@ -59,10 +59,10 @@ class LaravelApplication extends Application
 
         parent::registerBaseServiceProviders();
 
+        $this->register(new TaggableFileCacheServiceProvider($this));
         $this->register(new ViewServiceProvider($this));
         $this->register(new SessionServiceProvider($this));
         $this->register(new FilesystemServiceProvider($this));
-        $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
 

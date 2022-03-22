@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
+
 class CacheTest extends BaseTest
 {
     public function testCache()

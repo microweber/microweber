@@ -7,22 +7,32 @@ use Illuminate\Support\ServiceProvider;
 
 class TaggableFileCacheServiceProvider extends ServiceProvider
 {
-    public function boot()
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
     {
-        Cache::extend('file', function ($app, $config) {
+        $this->app->booting(function () {
 
-            $locale = app()->getLocale();
-            if ($locale) {
-                $folder = app()->environment() . '-' . $locale . DIRECTORY_SEPARATOR;
-            } else {
-                $folder = app()->environment() . DIRECTORY_SEPARATOR;
-            }
+            Cache::extend('file', function ($app, $config) {
 
-            $configPath = $config['path'] . DIRECTORY_SEPARATOR . $folder;
+                $locale = app()->getLocale();
+                if ($locale) {
+                    $folder = app()->environment() . '-' . $locale . DIRECTORY_SEPARATOR;
+                } else {
+                    $folder = app()->environment() . DIRECTORY_SEPARATOR;
+                }
 
-            $filesystem =new TaggableFilesystemManager();
+                $configPath = $config['path'] . DIRECTORY_SEPARATOR . $folder;
 
-            return \Cache::repository(new TaggableFileStore($filesystem, $configPath, $config));
+                $filesystem =new TaggableFilesystemManager();
+
+                return \Cache::repository(new TaggableFileStore($filesystem, $configPath, $config));
+            });
+
         });
     }
+
 }
