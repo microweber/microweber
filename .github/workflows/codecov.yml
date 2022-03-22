@@ -8,7 +8,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -17,7 +17,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        tools: phpunit:5.7
+        tools: phpunit:9.5
         coverage: xdebug
     - name: zstd act workaround
       run: sudo apt install zstd

@@ -8,7 +8,7 @@ jobs:
       max-parallel: 16
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         templates: [
           'microweber-templates/shopmag',
           'microweber-templates/new-world',
@@ -54,7 +54,7 @@ jobs:
 #    - name: Setup Apache
 #      uses: thunder/apache-shiva-php-action@v1
 #      with:
-#        php-version: '7.4'
+#        php-version: '8.0'
 #        site-directory: /home/runner/work/microweber/microweber/
 #        # Defaults to 8888
 #        http-port:

@@ -5,12 +5,9 @@ on:
     inputs:
       php_version:
         description: 'PHP Version to install'
-        default: '7.4'
+        default: '8.0'
         required: true
         type: string
-
-
-
 
 jobs:
   install-php:

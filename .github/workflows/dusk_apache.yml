@@ -8,7 +8,7 @@ jobs:
       fail-fast: true
       max-parallel: 2
       matrix:
-        php-versions: [ '7.4' ]
+        php-versions: [ '8.0' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Apache
         uses: thunder/apache-shiva-php-action@v1
         with:
-          php-version: '7.4'
+          php-version: '8.0'
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
