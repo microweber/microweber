@@ -33,7 +33,6 @@
         "enshrined/svg-sanitize": "0.15.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
-        "facade/ignition": "*",
         "fideloper/proxy": "*",
         "finlet/flexmail": "dev-master",
         "florianv/exchanger": "2.x-dev",
@@ -73,7 +72,7 @@
         "predis/predis": "2.0.x-dev",
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
-        "simshaun/recurr": "*", 
+        "simshaun/recurr": "*",
         "spatie/laravel-permission": "*",
         "symfony/intl": "*",
         "symfony/translation": "*",
@@ -93,7 +92,8 @@
         "nunomaduro/collision": "*",
         "phpunit/phpunit": "*",
         "laravel/tinker": "*",
-        "orchestra/testbench": "*"
+        "orchestra/testbench": "*",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {
