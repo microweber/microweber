@@ -6,7 +6,7 @@ class HTMLClean
 {
     public $purifierPath;
 
-    public function __constructor(){
+    public function __construct(){
         $path = storage_path() . '/html_purifier';
         if (!is_dir($path)) {
             mkdir_recursive($path);
