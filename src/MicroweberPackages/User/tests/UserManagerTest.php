@@ -485,7 +485,8 @@ class UserManagerTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $body = $email->getBody();
+            $emailArray = $this->getEmailDataAsArrayFromObject($email);
+            $body = $emailArray['body'];
 
             if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (strpos($body, '?email=') !== false) {
@@ -533,8 +534,10 @@ class UserManagerTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $subject = $email->getSubject();
-            $body = $email->getBody();
+            $emailArray = $this->getEmailDataAsArrayFromObject($email);
+
+            $subject = $emailArray['subject'];
+            $body = $emailArray['body'];
 
             if ($subject == 'New Registration') {
                 $checkMailIsFound = true;
