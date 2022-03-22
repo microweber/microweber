@@ -42,6 +42,10 @@ class HTMLClean
             $config->set('Cache.SerializerPath', $this->purifierPath);
         }
 
+
+        if ($this->purifierPath) {
+            $config->set('Cache.SerializerPath', $this->purifierPath);
+        }
         $config->set('URI.DisableExternal', true);
         $config->set('URI.DisableExternalResources', true);
     //    $config->set('URI.DisableResources', true);
