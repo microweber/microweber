@@ -13,6 +13,11 @@ class CustomFieldsTest extends TestCase
 
         // set permission to save custom fields (normally available to admin users)
         mw()->database_manager->extended_save_set_permission(true);
+
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            $this->app->content_manager->define_constants();
+        }
+
     }
 
     public function testMakeDefaultFields() {
