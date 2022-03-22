@@ -6,7 +6,7 @@ class HTMLClean
 {
     public $purifierPath;
 
-    public function __constructor(){
+    public function __construct(){
         $path = storage_path() . '/html_purifier';
         if (!is_dir($path)) {
             mkdir_recursive($path);
@@ -42,6 +42,10 @@ class HTMLClean
             $config->set('Cache.SerializerPath', $this->purifierPath);
         }
 
+
+        if ($this->purifierPath) {
+            $config->set('Cache.SerializerPath', $this->purifierPath);
+        }
         $config->set('URI.DisableExternal', true);
         $config->set('URI.DisableExternalResources', true);
     //    $config->set('URI.DisableResources', true);
