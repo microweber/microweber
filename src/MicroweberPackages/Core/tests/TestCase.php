@@ -4,6 +4,8 @@ namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Mime\Part\Multipart\MixedPart;
+use Symfony\Component\Mime\Part\TextPart;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -288,12 +290,40 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function assertPreConditions(): void
     {
-
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
-
-
-
     }
+
+
+
+    public function getEmailDataAsArrayFromObject($email) {
+
+        $emailOriginal = $email->getOriginalMessage();
+        $body = $emailOriginal->getBody();
+
+        $emailAsArray = [];
+
+        $emailAsArray['body'] = '';
+        if ($body instanceof TextPart) {
+            $emailAsArray['body'] = $body->getBody();
+        }
+
+        if ($body instanceof MixedPart) {
+            $emailAsArray['body'] = $body->bodyToString();
+        }
+
+        $emailAsArray['subject'] = $emailOriginal->getSubject();
+        $emailAsArray['to'] = $emailOriginal->getTo()[0]->getAddress();
+        $emailAsArray['from'] = $emailOriginal->getFrom()[0]->getAddress();
+
+        $emailAsArray['replyTo'] = false;
+
+        if (isset($emailOriginal->getReplyTo()[0]) && !empty($emailOriginal->getReplyTo()[0]->getAddress())) {
+            $emailAsArray['replyTo'] = $emailOriginal->getReplyTo()[0]->getAddress();
+        }
+
+        return $emailAsArray;
+    }
+
 }
 

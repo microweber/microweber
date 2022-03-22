@@ -97,8 +97,8 @@ class CheckoutTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $subject = $email->getSubject();
-            $body = $email->getBody();
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
+            $body = $emailAsArray['body'];
 
             if (strpos($body, 'Order') !== false) {
                 $checkEmailContent = $body;
@@ -164,7 +164,6 @@ class CheckoutTest extends TestCase
     public function testCheckoutQtyUpdate()
     {
         mw()->database_manager->extended_save_set_permission(true);
-
 
         $productPrice = rand(1, 9999);
         $title = 'test QTY prod ' . $productPrice;

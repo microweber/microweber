@@ -127,7 +127,7 @@ class ContactFormTest extends TestCase
 
         foreach ($emails as $email) {
 
-            $emailAsArray = $this->_getEmailDataAsArray($email);
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
             if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
                 // Mail to user
@@ -342,7 +342,7 @@ class ContactFormTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $emailAsArray = $this->_getEmailDataAsArray($email);
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
             if (strpos($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
@@ -359,7 +359,7 @@ class ContactFormTest extends TestCase
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
-            $emailAsArray = $this->_getEmailDataAsArray($email);
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
             $this->assertEquals($emailAsArray['replyTo'], 'unit.b.slaveykov@unittest.com');
 
@@ -374,7 +374,7 @@ class ContactFormTest extends TestCase
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
         foreach ($mailToUser as $email) {
 
-            $emailAsArray = $this->_getEmailDataAsArray($email);
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
             $this->assertTrue(str_contains($emailAsArray['body'],'This is the autorespond text'));
 
@@ -384,36 +384,6 @@ class ContactFormTest extends TestCase
             $this->assertSame($emailAsArray['to'], 'unit.b.slaveykov@unittest.com');
 
         }
-    }
-
-
-
-    private function _getEmailDataAsArray($email) {
-
-        $emailOriginal = $email->getOriginalMessage();
-        $body = $emailOriginal->getBody();
-
-        $emailAsArray = [];
-
-        $emailAsArray['body'] = '';
-        if ($body instanceof TextPart) {
-            $emailAsArray['body'] = $body->getBody();
-        }
-
-        if ($body instanceof MixedPart) {
-            $emailAsArray['body'] = $body->bodyToString();
-        }
-
-        $emailAsArray['subject'] = $emailOriginal->getSubject();
-        $emailAsArray['to'] = $emailOriginal->getTo()[0]->getAddress();
-        $emailAsArray['from'] = $emailOriginal->getFrom()[0]->getAddress();
-
-        $emailAsArray['replyTo'] = false;
-        if (!empty($emailOriginal->getReplyTo()[0]->getAddress())) {
-            $emailAsArray['replyTo'] = $emailOriginal->getReplyTo()[0]->getAddress();
-        }
-
-        return $emailAsArray;
     }
 
 }
