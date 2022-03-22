@@ -482,7 +482,7 @@ class UserManagerTest extends TestCase
 
 
         $findResetPasswordLink = false;
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
             $body = $email->getBody();
@@ -530,7 +530,7 @@ class UserManagerTest extends TestCase
         $findUnitTestingText = false;
         $checkMailIsFound = false;
         $findUsername = false;
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();

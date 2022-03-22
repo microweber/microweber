@@ -216,7 +216,7 @@ class UserRegisterControllerTest extends TestCase
         );
 
         $userData = $response->getData();
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         $findEmail = false;
 
         foreach ($emails as $email) {

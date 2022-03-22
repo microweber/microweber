@@ -90,7 +90,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_autorespond_append_files',
-            'option_value' => 'global1.jpg,global2.jpg'
+            'option_value' => modules_path() . 'contact_form/contact_form.png'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -121,18 +121,21 @@ class ContactFormTest extends TestCase
         $mailToUser = [];
         $mailToReceivers = [];
 
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
+
         foreach ($emails as $email) {
+
+            $email = $email->getOriginalMessage();
 
             $emailAsArray = [];
             $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody();
-            $emailAsArray['to'] = key($email->getTo());
-            $emailAsArray['from'] = key($email->getFrom());
+            $emailAsArray['body'] = $email->getBody()->toString();
+            $emailAsArray['to'] = $email->getTo()[0]->getAddress();
+            $emailAsArray['from'] = $email->getFrom()[0]->getAddress();
 
             $emailAsArray['replyTo'] = false;
-            if (!empty($email->getReplyTo())) {
-                $emailAsArray['replyTo'] = key($email->getReplyTo());
+            if (!empty($email->getReplyTo()[0]->getAddress())) {
+                $emailAsArray['replyTo'] = $email->getReplyTo()[0]->getAddress();
             }
 
             if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
@@ -145,7 +148,6 @@ class ContactFormTest extends TestCase
                 $mailToReceivers[] = $emailAsArray;
             }
         }
-
 
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
@@ -345,7 +347,7 @@ class ContactFormTest extends TestCase
         $mailToUser = [];
         $mailToReceivers = [];
 
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
             $emailAsArray = [];

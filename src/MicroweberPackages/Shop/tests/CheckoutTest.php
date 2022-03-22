@@ -94,7 +94,7 @@ class CheckoutTest extends TestCase
         $this->assertArrayHasKey('order_status', $checkoutStatus);
 
         $checkEmailContent = '';
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
