@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Form\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Symfony\Component\Mime\Part\Multipart\MixedPart;
+use Symfony\Component\Mime\Part\TextPart;
 
 class ContactFormTest extends TestCase
 {
@@ -125,18 +127,7 @@ class ContactFormTest extends TestCase
 
         foreach ($emails as $email) {
 
-            $email = $email->getOriginalMessage();
-
-            $emailAsArray = [];
-            $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody()->toString();
-            $emailAsArray['to'] = $email->getTo()[0]->getAddress();
-            $emailAsArray['from'] = $email->getFrom()[0]->getAddress();
-
-            $emailAsArray['replyTo'] = false;
-            if (!empty($email->getReplyTo()[0]->getAddress())) {
-                $emailAsArray['replyTo'] = $email->getReplyTo()[0]->getAddress();
-            }
+            $emailAsArray = $this->_getEmailDataAsArray($email);
 
             if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
                 // Mail to user
@@ -176,6 +167,7 @@ class ContactFormTest extends TestCase
         $this->assertTrue(isset($export['success']));
         $this->assertTrue(isset($export['download']));
     }
+
     public function testCustomContactFormSettingsRequiredSubmit()
     {
         $rel = 'module';
@@ -288,7 +280,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_autorespond_append_files',
-            'option_value' => 'file1.jpg,file2.jpg'
+            'option_value' => modules_path() . 'contact_form/contact_form.png'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -350,16 +342,7 @@ class ContactFormTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $emailAsArray = [];
-            $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody();
-            $emailAsArray['to'] = key($email->getTo());
-            $emailAsArray['from'] = key($email->getFrom());
-
-            $emailAsArray['replyTo'] = false;
-            if (!empty($email->getReplyTo())) {
-                $emailAsArray['replyTo'] = key($email->getReplyTo());
-            }
+            $emailAsArray = $this->_getEmailDataAsArray($email);
 
             if (strpos($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
@@ -376,37 +359,61 @@ class ContactFormTest extends TestCase
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
-            $to = key($email->getTo());
-            $body = $email->getBody();
+            $emailAsArray = $this->_getEmailDataAsArray($email);
 
-            $replyTo = key($email->getReplyTo()); // Reply to must be the user email
-            $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest.com');
+            $this->assertEquals($emailAsArray['replyTo'], 'unit.b.slaveykov@unittest.com');
 
-            $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest.com'));
-            $this->assertTrue(str_contains($body,'0885451012'));
-            $this->assertTrue(str_contains($body,'CloudVisionLtd'));
-            $this->assertTrue(str_contains($body,'Bozhidar Slaveykov'));
-            $this->assertTrue(str_contains($body,'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'unit.b.slaveykov@unittest.com'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'0885451012'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'CloudVisionLtd'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'Bozhidar Slaveykov'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
         }
 
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
         foreach ($mailToUser as $email) {
 
-            $subject = $email->getSubject();
-            $body = $email->getBody();
-            $to = key($email->getTo());
-            $from = key($email->getFrom());
-            $replyTo = key($email->getReplyTo());
+            $emailAsArray = $this->_getEmailDataAsArray($email);
 
+            $this->assertTrue(str_contains($emailAsArray['body'],'This is the autorespond text'));
 
-            $this->assertTrue(str_contains($body,'This is the autorespond text'));
+            $this->assertSame($emailAsArray['replyTo'], 'AutoRespondEmailReply1@UnitTest.com');
+            $this->assertSame($emailAsArray['subject'], 'This is the autorespond subject');
+            $this->assertSame($emailAsArray['from'], 'AutoRespondEmailFrom@UnitTest.com');
+            $this->assertSame($emailAsArray['to'], 'unit.b.slaveykov@unittest.com');
 
-            $this->assertSame($replyTo, 'AutoRespondEmailReply1@UnitTest.com');
-            $this->assertSame($subject, 'This is the autorespond subject');
-            $this->assertSame($from, 'AutoRespondEmailFrom@UnitTest.com');
-            $this->assertSame($to, 'unit.b.slaveykov@unittest.com');
         }
+    }
+
+
+
+    private function _getEmailDataAsArray($email) {
+
+        $emailOriginal = $email->getOriginalMessage();
+        $body = $emailOriginal->getBody();
+
+        $emailAsArray = [];
+
+        $emailAsArray['body'] = '';
+        if ($body instanceof TextPart) {
+            $emailAsArray['body'] = $body->getBody();
+        }
+
+        if ($body instanceof MixedPart) {
+            $emailAsArray['body'] = $body->bodyToString();
+        }
+
+        $emailAsArray['subject'] = $emailOriginal->getSubject();
+        $emailAsArray['to'] = $emailOriginal->getTo()[0]->getAddress();
+        $emailAsArray['from'] = $emailOriginal->getFrom()[0]->getAddress();
+
+        $emailAsArray['replyTo'] = false;
+        if (!empty($emailOriginal->getReplyTo()[0]->getAddress())) {
+            $emailAsArray['replyTo'] = $emailOriginal->getReplyTo()[0]->getAddress();
+        }
+
+        return $emailAsArray;
     }
 
 }
