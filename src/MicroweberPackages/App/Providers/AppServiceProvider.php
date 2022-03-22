@@ -86,6 +86,7 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
+use Spatie\LaravelIgnition\IgnitionServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 
@@ -199,11 +200,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
-
-
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -221,8 +219,11 @@ class AppServiceProvider extends ServiceProvider
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
+
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
+        $this->app->register(IgnitionServiceProvider::class);
+
         $this->app->register(UserServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
 

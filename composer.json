@@ -140,6 +140,7 @@
             "dont-discover": [
                 "laravel/passport",
                 "laravel/sanctum",
+                "spatie/laravel-ignition",
                 "barryvdh/laravel-debugbar"
             ]
         }
