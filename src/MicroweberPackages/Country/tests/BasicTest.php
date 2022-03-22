@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\ContentFilter\tests;
+namespace MicroweberPackages\Country\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 
