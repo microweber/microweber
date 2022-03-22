@@ -89,7 +89,7 @@
         "fzaninotto/faker": "*",
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "9.5.19",
         "laravel/tinker": "*",
         "orchestra/testbench": "*",
         "spatie/laravel-ignition": "*"
