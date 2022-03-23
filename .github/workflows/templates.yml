@@ -1,6 +1,7 @@
 name: PHP Templates Tests
-on: [push,pull_request]
-
+on:
+  schedule:
+    - cron: '0 * * * *'
 jobs:
   main:
     runs-on: ubuntu-latest
