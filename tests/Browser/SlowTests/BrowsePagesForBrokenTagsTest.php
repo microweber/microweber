@@ -37,6 +37,7 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
                 $browser->driver->manage()->window()->setSize($size);
             }
 
+            $browser->pause(600);
             $browser->screenshot('homepage-screenshot');
 
 
