@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\SlowTests;
 
+use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\App\Http\Controllers\SitemapController;
@@ -21,10 +22,23 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
             $browser->visit($siteUrl);
             $browser->pause(4000);
 
-            $size = new WebDriverDimension(1920, 9000);
-            $browser->driver->manage()->window()->setSize($size);
+            //Resize to full height for a complete screenshot
+            $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
+            if (!empty($body)) {
+                $currentSize = $body->getSize();
+
+                //optional: scroll to bottom and back up, to trigger image lazy loading
+                $browser->driver->executeScript('window.scrollTo(0, ' . $currentSize->getHeight() . ');');
+                $browser->pause(1000); //wait a sec
+                $browser->driver->executeScript('window.scrollTo(0, 0);'); //scroll back to top of the page
+
+                //set window to full height
+                $size = new WebDriverDimension(1920, $currentSize->getHeight()); //make browser full height for complete screenshot
+                $browser->driver->manage()->window()->setSize($size);
+            }
 
             $browser->screenshot('homepage-screenshot');
+
 
         });
     }
