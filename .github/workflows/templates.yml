@@ -110,5 +110,5 @@ jobs:
           skype_username : ${{ secrets.SKYPE_USERNAME }}
           skype_password : ${{ secrets.SKYPE_PASSWORD }}
           skype_ids      : live:selfworksbg
-          send_msg_text  : "Unit testa mina!! :D Mega qko! :)"
+          send_msg_text  : Template ${{ matrix.templates }} tests are done! :)
           send_file_path : tests/Browser/screenshots/
