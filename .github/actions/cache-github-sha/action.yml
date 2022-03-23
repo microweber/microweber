@@ -5,9 +5,9 @@ runs:
   using: "composite"
   steps:
     - name: Create cache file
-       run: |
-        mkdir check-SHA
-        echo ${{ github.sha }} > github-sha.txt
+        run: |
+          mkdir check-SHA
+          echo ${{ github.sha }} > github-sha.txt
     - name: Check SHA
       id: check_sha
       uses: actions/cache@v1
@@ -17,5 +17,5 @@ runs:
     - name: Some subsequent steps
       if: steps.check_sha.outputs.cache-hit != 'true'
       run: |
-      echo "Execute the subsequent steps"
-      exit 1
+        echo "Execute the subsequent steps"
+        exit 1
