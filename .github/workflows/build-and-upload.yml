@@ -53,11 +53,10 @@ jobs:
         curl -T version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
         curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
         curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
-
     - name: Send skype
       uses: bobimicroweber/docker-action-send-skype@v1
       with:
         skype_username : ${{ secrets.SKYPE_USERNAME }}
         skype_password : ${{ secrets.SKYPE_PASSWORD }}
         skype_ids      : live:selfworksbg
-        send_msg_text  : ${{ env.GITHUB_REF_SLUG }} branch are uploaded for stand-alone updater module. :)
+        send_msg_text  : "${{ env.GITHUB_REF_SLUG }} branch are uploaded for stand-alone updater module. :)"
