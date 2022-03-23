@@ -17,13 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
     ->prefix('admin')
-    ->middleware(['admin'])
+    ->middleware([
+        'admin',
+       // \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('user', 'UserController');
+        Route::resource('user', 'UserController',['except' => ['show','edit', 'create']]);
     });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
+
+    Route::get('/logout', 'UserLogoutController@index')->name('logout');
+    Route::post('/logout', 'UserLogoutController@submit')->name('logout.submit');
+
 
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
         ->middleware([\MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature::class]);
@@ -32,7 +40,9 @@ Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'
     Route::post('email/verify-resend/{id}/{hash}', 'UserVerifyController@sendVerifyEmail')->name('verification.send');
 
     Route::get('/forgot-password', 'UserForgotPasswordController@showForgotForm')->name('password.request');
-    Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');
+    Route::post('/forgot-password', 'UserForgotPasswordController@send')
+        ->middleware(['throttle:3,1'])
+        ->name('password.email');
 
     Route::get('/reset-password/{token}', 'UserForgotPasswordController@showResetForm')->name('password.reset');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');

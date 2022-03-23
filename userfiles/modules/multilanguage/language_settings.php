@@ -231,7 +231,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                                     foreach ($languageDetails['locales'] as $languageName2 => $locale2){
                                         ?>
                                         <option value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
-                                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $locale2; ?>  (<?php echo $languageName2; ?>)
+                                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $locale2; ?>  [<?php echo $languageName2; ?>]
                                         </option>
                                         <?php
                                     }

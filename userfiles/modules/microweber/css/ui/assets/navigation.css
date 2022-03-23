@@ -1,0 +1,148 @@
+/****************************
+    Variables
+*****************************/
+/****************************
+        Navigations
+*****************************/
+.mw-ui-navigation {
+  position: relative;
+}
+.mw-ui-box.mw-ui-navigation {
+  background-color: #ffffff;
+}
+.mw-ui-navigation:hover {
+  z-index: 9;
+}
+.mw-ui-navigation li {
+  list-style: none;
+  position: relative;
+}
+.mw-ui-navigation > li:last-child {
+  margin-bottom: 0;
+}
+.mw-ui-navigation [class*='mw-icon-'] {
+  font-size: 21px;
+  opacity: 0.777;
+}
+.mw-ui-navigation a,
+.mw-ui-navigation-item {
+  display: block;
+  position: relative;
+  padding: 9px 12px;
+  height: 36px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.mw-ui-navigation a > .mdi,
+.mw-ui-navigation a > [class*='mw-icon-'] {
+  margin: -3px 8px 0 0;
+}
+.mw-ui-navigation a > .mw-icon-dropdown:last-child {
+  margin: -3px -4px 0 7px;
+}
+.mw-ui-navigation .mw-icon-dropdown {
+  font-size: 12px;
+  line-height: 12px;
+}
+.mw-ui-navigation a:hover,
+.mw-ui-navigation a:focus,
+.mw-ui-navigation li:hover > a {
+  border-color: rgba(0, 0, 0, 0.125);
+  background-color: #fafafa;
+}
+.mw-ui-navigation a:active,
+.mw-ui-navigation a.active,
+.mw-ui-navigation li.active > a {
+  box-shadow: inset 0 0 5px -2px rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.125);
+  background-color: #fafafa;
+}
+.mw-ui-navigation a:hover > [class*='mw-icon-'],
+.mw-ui-navigation a:focus > [class*='mw-icon-'],
+.mw-ui-navigation li:hover > a > [class*='mw-icon-'] {
+  opacity: 1;
+}
+.mw-ui-navigation-horizontal > li,
+.mw-ui-navigation-horizontal > ul > li {
+  float: left;
+  margin-right: 12px;
+  margin-bottom: 0;
+}
+.mw-ui-navigation-horizontal > li:last-child {
+  margin-right: 0;
+}
+.mw-ui-navigation-horizontal > li > ul ul,
+.mw-ui-navigation li ul {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 100%;
+  min-width: 100%;
+  border-radius: 5px;
+  border: 1px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mw-ui-navigation-horizontal > li > ul {
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  border-radius: 0 0 5px 5px;
+  border: 1px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mw-ui-navigation-horizontal > li:first-child > ul {
+  left: -1px;
+}
+.mw-ui-box.mw-ui-navigation a,
+.mw-ui-navigation li ul a {
+  border-width: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mw-ui-navigation > li:first-child:not(:only-child) > a {
+  border-bottom-width: 0;
+}
+.mw-ui-navigation li.opened > ul,
+.mw-ui-navigation li.active > ul,
+.mw-ui-navigation li:hover > ul {
+  display: block;
+}
+.mw-ui-navigation li.active > ul,
+.mw-ui-navigation li.opened > ul {
+  border-width: 0;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.mw-ui-navigation li.active > ul li > a,
+.mw-ui-navigation li.opened > ul li > a {
+  padding-left: 20px;
+}
+.mw-ui-navigation li.active > ul li > li > a,
+.mw-ui-navigation li.opened > ul li > li > a {
+  padding-left: 30px;
+}
+.mw-ui-navigation li.active > ul li > li > li > a,
+.mw-ui-navigation li.opened > ul li > li > li > a {
+  padding-left: 40px;
+}
+.mw-paging {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  list-style: none;
+}
+.mw-paging > * {
+  border-radius: 0;
+}
+.mw-paging > *:first-child {
+  border-radius: 5px 0 0 5px;
+}
+.mw-paging > *:last-child {
+  border-radius: 0 5px 5px 0;
+}

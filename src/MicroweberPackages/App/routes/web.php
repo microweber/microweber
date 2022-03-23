@@ -174,7 +174,7 @@ Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackag
     Route::any('/api/{slug}', 'ApiController@api');
 
     Route::any('api/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
-    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'ApiController@api_html'))->where('all', '.*');
+    Route::any('api_html/{all}', array('as' => 'api_html', 'uses' => 'ApiController@api_html'))->where('all', '.*');
     Route::any('/api_html', 'ApiController@api_html');
     //
     Route::any('/editor_tools', 'ApiController@editor_tools');
@@ -200,10 +200,10 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
         $admin_url = $custom_admin_url;
     }
 
-    Route::any('/' . $admin_url, 'AdminController@index');
+    Route::any('/' . $admin_url, 'AdminController@index')->name('admin.home');
     Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
 
-    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
+    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
 
     Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
 

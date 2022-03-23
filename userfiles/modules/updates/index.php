@@ -1,4 +1,9 @@
 <?php only_admin_access(); ?>
+<?php
+if (mw()->ui->disable_marketplace) {
+    return;
+}
+?>
 
 <?php if (MW_VERSION < '1.2.0'): ?>
     <script>

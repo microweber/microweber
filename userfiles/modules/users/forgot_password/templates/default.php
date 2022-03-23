@@ -49,7 +49,7 @@
                     <input type="text" class="large-field form-control" name="username" placeholder="<?php _e("Email or Username"); ?>">
                 </div>
             </div>
-            <?php if ($captcha_disabled != 'y'): ?>
+            <?php if (isset($captcha_disabled) and $captcha_disabled == false): ?>
                 <div class="mw-ui-row vertical-middle captcha-row">
                     <module type="captcha" template="admin"/>
                 </div>

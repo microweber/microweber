@@ -38,11 +38,28 @@ trait ShippingTrait {
 
         if (is_array($request->get('Address'))) {
             $request->merge([
-               'city'=>$request->get('Address')['city'],
-               'zip'=>$request->get('Address')['zip'],
-               'state'=>$request->get('Address')['state'],
-               'address'=>$request->get('Address')['address'],
+                'city'=>$request->get('Address')['city'],
+                'zip'=>$request->get('Address')['zip'],
+                'state'=>$request->get('Address')['state'],
+                'address'=>$request->get('Address')['address'],
             ]);
+        }
+
+        $rules = [];
+        $rules['shipping_gw'] = 'max:500';
+        $rules['city'] = 'max:500';
+        $rules['address'] = 'max:500';
+        $rules['country'] = 'max:500';
+        $rules['state'] = 'max:500';
+        $rules['zip'] = 'max:500';
+        $rules['other_info'] = 'max:500';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $errors = $validator->messages()->toArray();
+            session_set('errors', $errors);
+            return redirect(route('checkout.shipping_method'));
         }
 
         session_append_array('checkout_v2', [

@@ -6,7 +6,7 @@ Route::name('admin.')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('product', 'ProductController');
+        Route::resource('product', 'ProductController',['except' => ['show']]);
     });
 
 // front end

@@ -16,10 +16,10 @@
   <module type="settings/group/<?php print $params['option_group']; ?>" />
 
    <?php  else: ?>
-  <module="<?php print module_name_decode($params['option_group']); ?>" />
+  <module type="<?php print module_name_decode($params['option_group']); ?>" />
   <?php endif; ?>
-  
-      
+
+
        <?php  else: ?>
   <?php // _e("No options found"); ?>
   <?php endif; ?>

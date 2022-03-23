@@ -2,6 +2,15 @@
 <div id="domtree"></div>
 
 <style>
+    html,body{
+        overflow: hidden;
+
+    }
+    #css-editor-root .mw-accordion-title svg{
+        width:21px;
+        height: 21px;
+        margin-inline-end: 8px;
+    }
     #css-editor-root .mw-accordion-title{
         font-weight: bold;
     }
@@ -15,6 +24,22 @@
         top: 4px;
         margin-inline-end: 15px;
         margin-inline-start: 15px;
+    }
+
+    .default-values-list > span{
+        display:block;
+        padding:5px 10px;
+        cursor: pointer;
+    }
+    .default-values-list{
+        position: absolute;
+        top:-100%;
+        left:-100%;
+        padding: 10px;
+        z-index:1;
+        background: #fff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
     }
 
 </style>
@@ -37,6 +62,32 @@
 
     mw.require('css_parser.js');
 
+    var colorPickers = [];
+
+    var positionSelector = function () {
+        var root = mw.element({props: { className: 'mw-position-selector'}})
+        var posTop = mw.element({props: { className: 'mw-position-selector-top'}});
+        var posRight = mw.element({props: { className: 'mw-position-selector-right'}});
+        var posBottom = mw.element({props: { className: 'mw-position-selector-bottom'}});
+        var posLeft = mw.element({props: { className: 'mw-position-selector-left'}});
+        var all = mw.element({props: { className: 'mw-position-selector-all'}});
+
+        root.append(posTop)
+        root.append(posRight)
+        root.append(posBottom)
+        root.append(posLeft)
+        root.append(all)
+
+        return {
+            root: root,
+            top: posTop,
+            right: posRight,
+            bottom: posBottom,
+            left: posLeft,
+            all: all,
+        };
+    }
+
 
     $(window).on('load', function () {
 
@@ -45,6 +96,11 @@
                 element: '#domtree',
                 resizable:true,
                 targetDocument: mw.top().win.document,
+                canSelect: function (node, li) {
+                    var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+                    return !cant;
+                    // return mw.tools.isEditable(node) || node.classList.contains('edit');
+                },
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
@@ -52,11 +108,24 @@
                      setTimeout(function () {
                         mw.top().liveEditSelector.select(node);
 
+
                         mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
                     })
                 }
             });
         }, 700);
+
+       $('.rte_css_editor_svg').each(function (img){
+           (function (img){
+
+               $.get(img.src, function (data){
+
+                    $(img).replaceWith(data.all[0])
+               })
+           })(this)
+       })
+
+
     })
 
 </script>
@@ -218,7 +287,7 @@ var _prepare = {
     border: function () {
 
         var bordercolor = document.querySelector('#border-color')
-        mw.colorPicker({
+        colorPickers.push(mw.colorPicker({
             element: bordercolor,
             position: bordercolor.dataset.position || 'top-right',
             onchange: function (color){
@@ -227,7 +296,9 @@ var _prepare = {
 
             },
             color: this.value
-        })
+        }));
+
+        var pos = positionSelector();
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
 
@@ -292,6 +363,26 @@ var _populate = {
         mw.$('.margin-bottom').val(parseFloat(margin.bottom));
         mw.$('.margin-left').val(parseFloat(margin.left));
     },
+    border: function(css){
+        if(!css || !css.get) return;
+        var border = css.get.border(true);
+
+        var frst = {};
+        for (var i in border) {
+            if (border[i].width !== 0) {
+                frst = border[i];
+                break;
+            }
+        }
+        var size = frst.width || 0;
+        var color = frst.color || 'rgba(0,0,0,0)';
+        var style = frst.style || 'none';
+
+        mw.$('#border-position').val('all')
+        mw.$('#border-size').val(size)
+        mw.$('#border-color').val(color)
+        mw.$('#border-type').val(style)
+    },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
         mw.$('.padding-top').val(parseFloat(padding.top));
@@ -345,9 +436,10 @@ var _populate = {
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
                 }
-                this.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = this.value
+                var indikatorDisplay =  this.parentNode.querySelector('.mw-field-color-indicator-display');
+                indikatorDisplay.style.backgroundColor = this.value
 
-                mw.colorPicker({
+                colorPickers.push(mw.colorPicker({
                     element: this,
                     position: this.dataset.position || 'bottom-right',
                     onchange: function (color){
@@ -358,9 +450,10 @@ var _populate = {
                         } else {
                             $(el).trigger('colorChange', color)
                         }
+                        indikatorDisplay.style.backgroundColor = color
                     },
                     color: this.value
-                })
+                }))
 
             }
         });
@@ -446,6 +539,10 @@ var specialCases = function (property, value){
         OverlayNode.style.backgroundColor = value;
         mw.top().wysiwyg.change(OverlayNode);
         return true;
+    }  else if(OverlayNode && property === 'overlay-blend-mode') {
+        OverlayNode.style.mixBlendMode = value;
+        mw.top().wysiwyg.change(OverlayNode);
+        return true;
     }
 
 }
@@ -484,9 +581,12 @@ var populateSpecials = function (css) {
             if(overlay) {
                 var overlayCss = getComputedStyle(overlay);
                 var bgColor = overlayCss.backgroundColor;
+                var blend = overlayCss.mixBlendMode;
                 var oc = document.getElementById('overlay-color')
+                var blendfield = document.getElementById('overlay-blend-mode')
+                blendfield.value = blend
                 oc.value = bgColor
-                oc.style.backgroundColor = bgColor
+                oc.parentNode.querySelector('.mw-field-color-indicator-display').style.backgroundColor = bgColor
                 ol.style.display = '';
             }
 
@@ -539,20 +639,104 @@ var output = function(property, value){
     }
 };
 
+var _defaultValuesArray = ['auto', 'inherit', 'unset'];
+
 var numValue = function (value) {
+
+    if(['auto', 'inherit', 'initial', 'revert', 'unset'].indexOf(value) !== -1) {
+        return value;
+    }
     return value ? value + 'px' : '';
 };
 
-var init = function(){
-    mw.$('.margin-top').on('input', function(){ output('marginTop', numValue(this.value)) });
-    mw.$('.margin-right').on('input', function(){ output('marginRight', numValue(this.value)) });
-    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', numValue(this.value)) });
-    mw.$('.margin-left').on('input', function(){ output('marginLeft', numValue(this.value)) });
 
-    mw.$('.padding-top').on('input', function(){ output('paddingTop', numValue(this.value)) });
-    mw.$('.padding-right').on('input', function(){ output('paddingRight', numValue(this.value)) });
-    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', numValue(this.value)) });
-    mw.$('.padding-left').on('input', function(){ output('paddingLeft', numValue(this.value)) });
+var defaultValuesUIProp = null
+var defaultValuesUITarget = null;
+var _defaultValuesUI;
+var dfslider
+var defaultValuesUI = function (prop, targetNode) {
+
+    if(!_defaultValuesUI) {
+        var node = mw.element('<div class="default-values-list" />');
+        _defaultValuesUI = node.get(0);
+        dfslider = mw.element('<div class="mw-range default-values-list-slider" />');
+        node.append(dfslider)
+        $(dfslider.get(0)).slider({
+            slide: function( event, ui ) {
+                output(defaultValuesUIProp, numValue(ui.value))
+                defaultValuesUITarget.value = ui.value
+            }
+        })
+        _defaultValuesArray.forEach(function (val){
+            var li = mw.element({
+                tag: 'span',
+                props:{
+                    innerHTML: val,
+
+                    dataset: {
+                        value: val
+                    }
+                },
+
+            })
+            li.on('click', function (){
+                output(prop, numValue(this.dataset.value))
+            })
+            node.append(li)
+        })
+        document.body.appendChild(node.get(0))
+        document.body.addEventListener('click', function (e){
+            if(e.target !== _defaultValuesUI && !_defaultValuesUI.contains(e.target) && e.target !== defaultValuesUITarget) {
+                _defaultValuesUI.style.display = 'none';
+            }
+        })
+    }
+
+    targetNode.addEventListener('focus', function (e){
+        console.log(dfslider)
+        $(dfslider.get(0)).slider("value", targetNode.value)
+        defaultValuesUIProp = prop;
+        defaultValuesUITarget = e.target;
+        var rect = e.target.getBoundingClientRect();
+        _defaultValuesUI.style.top = (rect.top + scrollY + rect.height) + 'px'
+        var lft = (rect.left + scrollX);
+        if((lft + _defaultValuesUI.offsetWidth) > innerWidth) {
+            lft = innerWidth -  (_defaultValuesUI.offsetWidth + 10) ;
+        }
+        _defaultValuesUI.style.left = lft + 'px'
+        _defaultValuesUI.style.display = 'block';
+    })
+
+
+
+    return node;
+}
+
+var init = function(){
+
+    var spacesFields = [
+        ['.margin-top', 'marginTop'],
+        ['.margin-right', 'marginRight'],
+        ['.margin-bottom', 'marginBottom'],
+        ['.margin-left', 'marginLeft'],
+
+        ['.padding-top', 'paddingTop'],
+        ['.padding-right', 'paddingRight'],
+        ['.padding-bottom', 'paddingBottom'],
+        ['.padding-left', 'paddingLeft'],
+    ];
+
+    spacesFields.forEach(function (item){
+        var node = mw.element(item[0])
+        node.on('input', function(){ output(item[1], numValue(this.value)) });
+        defaultValuesUI(item[1], node.get(0))
+    })
+
+
+
+
+
+
 
     $('.text-align > span').on('click', function(){
         output('textAlign', this.dataset.value);
@@ -651,7 +835,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         var can = ActiveNode.textContent === ActiveNode.innerHTML;
         mw.$('#text-mask')[can ? 'show' : 'hide']();
         mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
-        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {
+        if(ActiveNode.classList.contains('module') || !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {
             $('#classtags-accordion').hide();
         } else{
             $('#classtags-accordion').show();
@@ -685,6 +869,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setInterval(function(){
             editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
         }, 700)
+        mw.components._init();
 
     });
 
@@ -707,6 +892,16 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
+        mw.top().win.document.body.addEventListener('click', function (){
+            colorPickers.forEach(function (cp) {
+                 if(cp.hide) {
+                    cp.hide()
+                } else {
+                    cp.style.display = 'none'
+                }
+
+            })
+        })
 
     });
 </script>
@@ -770,7 +965,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
          $(window).on('load', function(){
             initClasses()
 
-
+             mw.components._init();
         })
 
     </script>
@@ -780,7 +975,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 <mw-accordion-item >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
@@ -891,7 +1086,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             ?>
 
 
-            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
+            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/typography.svg"> <?php _e("Typography"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
 
                 <div class="s-field">
@@ -1028,7 +1223,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </mw-accordion-item>
 
     <mw-accordion-item id="overlay-edit">
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Overlay"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="s-field">
                 <label><?php _e("Color"); ?></label>
@@ -1039,11 +1234,36 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     </div>
                 </div>
             </div>
+            <div class="s-field">
+                <label><?php _e("Blend mode"); ?></label>
+                <div class="s-field-content">
+                    <div class="mw-field mw-field-flat" data-size="medium">
+
+                        <select data-prop="overlay-blend-mode" id="overlay-blend-mode" class="regular">
+                            <option value='normal' selected><?php _e('None'); ?></option>
+                            <option value='multiply'>multiply</option>
+                            <option value='screen'>screen</option>
+                            <option value='overlay'>overlay</option>
+                            <option value='darken'>darken</option>
+                            <option value='lighten'>lighten</option>
+                            <option value='color-dodge'>color-dodge</option>
+                            <option value='color-burn'>color-burn</option>
+                            <option value='difference'>difference</option>
+                            <option value='exclusion'>exclusion</option>
+                            <option value='hue'>hue</option>
+                            <option value='saturation'>saturation</option>
+                            <option value='color'>color</option>
+                            <option value='luminosity'>luminosity</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </mw-accordion-item>
     <mw-accordion-item id="columns-edit">
 
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Grid"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
 
             <div class="s-field">
@@ -1165,20 +1385,20 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
 
     <mw-accordion-item >
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Spacing"); ?></div>
+        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <input type="number" class="mw-ese-top margin-top">
-                    <input type="number" class="mw-ese-right margin-right">
-                    <input type="number" class="mw-ese-bottom margin-bottom">
-                    <input type="number" class="mw-ese-left margin-left">
+                    <span class="input mw-ese-top"><input type="number" class=" margin-top"></span>
+                    <span class="input mw-ese-right"><input type="number" class=" margin-right"></span>
+                    <span class="input mw-ese-bottom"><input type="number" class=" margin-bottom"></span>
+                    <span class="input mw-ese-left"><input type="number" class=" margin-left"></span>
                     <div class="mw-ese-holder mw-ese-padding">
-                        <input type="number" class="mw-ese-top padding-top">
-                        <input type="number" class="mw-ese-right padding-right">
-                        <input type="number" class="mw-ese-bottom padding-bottom">
-                        <input type="number" class="mw-ese-left padding-left">
+                        <span class="input mw-ese-top"><input type="number" min="0" class=" padding-top"></span>
+                        <span class="input mw-ese-right"><input type="number" min="0" class=" padding-right"></span>
+                        <span class="input mw-ese-bottom"><input type="number" min="0" class=" padding-bottom"></span>
+                        <span class="input mw-ese-left"><input type="number" min="0" class=" padding-left"></span>
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
@@ -1189,7 +1409,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 <mw-accordion-item  >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Border"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
@@ -1245,7 +1465,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 </mw-accordion-item>
 <mw-accordion-item  >
-    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
+    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
             <label><?php _e("Rounded Corners"); ?></label>
@@ -1276,13 +1496,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
-
-
     </div>
 </mw-accordion-item>
         <mw-accordion-item id="classtags-accordion">
 
-            <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
+            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>

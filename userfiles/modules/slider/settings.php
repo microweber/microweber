@@ -1,5 +1,14 @@
 <?php
-include('options.php');
+
+if(isset($params) and isset($params['parent-module']) and $params['parent-module'] == 'slider/admin' ) {
+    $params['id'] = $params['parent-module-id'];
+    $params['type'] = 'slider';
+
+}
+
+
+
+include(__DIR__.'/options.php');
 ?>
 <div class="module-live-edit-settings module-bxslider">
     <script>
@@ -28,7 +37,9 @@ include('options.php');
         });
     </script>
 
-    <module type="admin/modules/templates" simple="true"/>
+    <module type="admin/modules/templates"  simple="true" for-module="slider" parent-module-id="<?php print $params['id'] ?>" />
+
+
 
     <div class="form-group" style="display: none;">
         <label class="control-label d-block"><?php _e("Engine"); ?></label>

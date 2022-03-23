@@ -29,8 +29,7 @@
 
     #select_edit_field  > li li:hover,
     #select_edit_field  > li li.selected{
-      border-color: #0084d8;
-
+        border: 1px solid #0084d8;
     }
 
     .selector-box{

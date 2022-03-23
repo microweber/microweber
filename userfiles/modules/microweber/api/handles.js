@@ -244,6 +244,9 @@ mw.Handle = function(options) {
     };
     this.createMenu = function(){
         this.menu = document.createElement('div');
+        this.menu.addEventListener('mouseleave', function () {
+            scope.handle.classList.remove('active')
+        })
         this.menu.className = 'mw-handle-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handle-menu-default');
         if (this.options.menu) {
             for (var i = 0; i < this.options.menu.length; i++) {
@@ -505,6 +508,7 @@ mw._initHandles = {
                     title: 'Edit Style',
                     icon: 'mdi mdi-layers',
                     action: function () {
+                        mw.liveEditSelector.select(mw._activeElementOver);
                         mw.liveEditSettings.show();
                         mw.sidebarSettingsTabs.set(3);
                         if(mw.cssEditorSelector){
@@ -533,9 +537,7 @@ mw._initHandles = {
             ]
         });
 
-        mw.$(mw.handleElement.wrapper).on('mouseenter', function () {
-            mw.liveEditSelector.select(mw._activeElementOver);
-        });
+
         mw.$(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {
@@ -740,6 +742,7 @@ mw._initHandles = {
                     className:'mw_handle_module_clone',
                     action: function () {
                         var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+
                         var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
                         mw.liveEditState.record({
                             target: pt,
@@ -759,6 +762,9 @@ mw._initHandles = {
                                 target: pt,
                                 value: parent.innerHTML
                             });
+                            var node = $(mw._activeModuleOver).next()[0]
+                            node.scrollIntoView();
+                            mw.wysiwyg.change(node)
                         });
 
                         mw.handleModule.hide();
@@ -846,13 +852,16 @@ mw._initHandles = {
                                 target: pt,
                                 value: parent.innerHTML
                             });
+                            var node = $(mw._activeModuleOver).next()[0]
+                            node.scrollIntoView();
+                            mw.wysiwyg.change(node)
                         });
                         mw.handleModule.hide();
                     }
                 },
                 {
                     title: '{dynamic}',
-                    className:'mw_handle_module_submodules'
+                    className:'mw_handle_module_submodules mw_handle_module_submodules_active'
                 },
                 {
                     title: '{dynamic}',
@@ -1155,6 +1164,38 @@ mw._initHandles = {
         mw.on('ModuleClick', function(e, pelement, event){
             mw.handleModule.hide();
             positionModuleHandle(e, pelement, mw.handleModuleActive, event);
+            var el = mw.$('.mw_handle_module_submodules');
+
+            el.each(function (){
+                var currEl = this;
+                var nodes = [];
+                if(currEl.classList.contains('mw_handle_module_submodules_active')) {
+                    $(currEl).empty();
+                    mw.$('.module', pelement).each(function () {
+
+                        var type = this.getAttribute('data-type');
+
+                        var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
+                        var icon = mw.live_edit.getModuleIcon(type);
+                        if(!icon){
+                            icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                        }
+                        if (hastitle) {
+                            var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
+                                + icon
+                                + hastitle.replace(/_/g, ' ')
+                                + '</span>';
+                            nodes.push(menuitem);
+                        }
+
+                    });
+                    nodes.forEach(function (node){
+                        $(currEl).append(node);
+                    })
+                }
+
+
+            })
 
         });
 
@@ -1169,30 +1210,40 @@ mw._initHandles = {
                 mw.handleModule.hide();
             }
 
-            var nodes = [];
-            mw.$('.module', pelement).each(function () {
 
-                var type = this.getAttribute('data-type');
-
-                var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
-                var icon = mw.live_edit.getModuleIcon(type);
-                if(!icon){
-                    icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
-                }
-                if (hastitle) {
-                    var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
-                        + icon
-                        + hastitle.replace(/_/g, ' ')
-                        + '</span>';
-                    nodes.push(menuitem);
-                }
-
-            });
             var el = mw.$('.mw_handle_module_submodules');
-            el.empty();
-            $.each(nodes, function () {
-                el.append(this);
-            });
+
+            el.each(function (){
+                var currEl = this;
+                var nodes = [];
+                if(!currEl.classList.contains('mw_handle_module_submodules_active')) {
+                    $(currEl).empty();
+                    mw.$('.module', pelement).each(function () {
+
+                        var type = this.getAttribute('data-type');
+
+                        var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
+                        var icon = mw.live_edit.getModuleIcon(type);
+                        if(!icon){
+                            icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                        }
+                        if (hastitle) {
+                            var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
+                                + icon
+                                + hastitle.replace(/_/g, ' ')
+                                + '</span>';
+                            nodes.push(menuitem);
+                        }
+
+                    });
+                    nodes.forEach(function (node){
+                        $(currEl).append(node);
+                    })
+                }
+
+
+            })
+
             mw.$('.text-background', pelement).each(function () {
                 var bgEl = this;
                 $.each([0,1], function(i){
@@ -1365,8 +1416,13 @@ mw._initHandles = {
         mw.on("ElementLeave", function(e, target) {
             mw.handleElement.hide();
         });
+        mw.on("ModuleOver", function(e, target) {
+            $('.mw-handle-item.mw-active-item.active').removeClass('active')
+        })
         mw.on("ModuleLeave", function(e, target) {
             clearTimeout(mw.handleModule._hideTime);
+            $('.mw-handle-item.mw-active-item.active').removeClass('active')
+            $('.mw-handle-item.mw-active-item.active').removeClass('active')
             mw.handleModule._hideTime = setTimeout(function () {
                 mw.handleModule.hide();
             }, 3000);

@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Comment\Models;
 
 use MicroweberPackages\Database\Crud;
+use MicroweberPackages\Helper\HTMLClean;
+use voku\helper\AntiXSS;
 
 
 class CommentsCrud extends Crud
@@ -52,9 +54,21 @@ class CommentsCrud extends Crud
                     $comments[$i]['updated_at_display'] = date($date_format, strtotime($item['updated_at']));
                 }
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
+
                     $surl = site_url();
-                    $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
-                    $comments[$i]['comment_body'] = $item['comment_body']; // mw()->format->autolink($item['comment_body']);
+                    $comment_body = str_replace('{SITE_URL}', $surl, $item['comment_body']);
+
+                    $clearInput = new HTMLClean();
+                    $comment_body = $clearInput->onlyTags($comment_body);
+
+                    $pq = \phpQuery::newDocument($comment_body);
+                    $pq->find('a')
+                        ->attr('rel','nofollow ugc')
+                        ->attr('target','_blank');
+
+                    $comment_body = $pq->htmlOuter();
+
+                    $comments[$i]['comment_body'] = $comment_body;
                 }
 
                 if (isset($params['single'])) {

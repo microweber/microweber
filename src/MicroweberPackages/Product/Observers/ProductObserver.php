@@ -29,7 +29,6 @@ class ProductObserver
     public function saving(Product $product)
     {
 
-
         $fillable = $product->getFillable();
 
         $product->content_type = 'product';

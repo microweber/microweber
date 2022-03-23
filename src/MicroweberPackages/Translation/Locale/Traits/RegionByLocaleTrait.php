@@ -9,9 +9,6 @@ namespace MicroweberPackages\Translation\Locale\Traits;
 
 trait RegionByLocaleTrait {
 
-    /**
-     * @deprecated please use LanguageHelper class
-     */
     private static $regionsByLocale = array(
         'af' => '',
         'af_NA' => 'Namibia',

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages;
+namespace MicroweberPackages\App;
 
 use MicroweberPackages\App\Managers\CacheManager;
 use MicroweberPackages\App\Managers\ConfigurationManager;
@@ -9,10 +9,13 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+
 use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
+use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
@@ -59,6 +62,8 @@ use MicroweberPackages\Utils\Http\Http;
  * @desc
  *
  * @property UrlManager                    $url_manager
+ * @property HTMLClean                            $html_clean
+ * @property XSSSecurity                            $xss_security
  * @property Format                            $format
  * @property ContentManager                $content_manager
  * @property RepositoryManager                $repository_manager
@@ -105,6 +110,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
+
  */
 class Application
 {

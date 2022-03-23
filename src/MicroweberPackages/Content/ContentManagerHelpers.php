@@ -120,7 +120,6 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function delete($data)
     {
-
         $to_trash = true;
         $to_untrash = false;
 
@@ -145,9 +144,10 @@ class ContentManagerHelpers extends ContentManagerCrud
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                $this->app->database_manager->delete_by_id('content', $c_id);
+                \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
             }
         }
+
         $this->app->event_manager->trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
@@ -157,7 +157,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($c_id) {
                     $del_ids[] = $c_id;
                     if ($to_trash == false) {
-                        $this->app->database_manager->delete_by_id('content', $c_id);
+                        \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
                     }
                 }
             }
@@ -170,6 +170,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 if ($c_id) {
                     if ($to_untrash == true) {
+
                         DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
 
@@ -626,9 +627,16 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
 
                 $post_data['json_obj'] = @base64_decode($post_data['data_base64']);
+                if($post_data['json_obj'] == false){
+                    return array('error' => 'The invalid data was sent');
+                }
+
             }
             if (isset($post_data['json_obj'])) {
-                $obj = json_decode($post_data['json_obj'], true);
+                $obj = @json_decode($post_data['json_obj'], true);
+                if($obj == false){
+                    return array('error' => 'The invalid data was sent');
+                }
                 $post_data = $obj;
             }
             if (isset($post_data['mw_preview_only'])) {
@@ -668,7 +676,6 @@ class ContentManagerHelpers extends ContentManagerCrud
             $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
-
             if ($slug_page) {
                 $ref_post = false;
                 if ($slug_post) {
@@ -694,7 +701,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
             }
-
 
             if (isset($ref_page2)) {
                 if ($ref_page2 == false) {
@@ -735,7 +741,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $pd = $guess_page_data->index();
 
                 $newPageCreate = true;
-                if (isset($pd['id'])) {
+                if (isset($pd['id']) and $pd['id'] != 0) {
                     $pd1 = DB::table('content')->where('id', $pd['id'])->first();
                     $pd1 = (array)$pd1;
                     if ($pd1) {
@@ -927,13 +933,29 @@ class ContentManagerHelpers extends ContentManagerCrud
                         } else {
                             $save_layout = false;
                         }
+
+                        $save_module = false;
+
                         if (isset($the_field_data['attributes']['rel'])) {
                             $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
                         }
 
-                        if (!isset($the_field_data['attributes']['data-id'])) {
-                            $the_field_data['attributes']['data-id'] = $content_id;
+                        if (isset($the_field_data['attributes']['rel_type'])
+                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
+                            $save_module = true;
+                        } else {
+                            $save_module = false;
                         }
+
+
+                        if(!$save_module){
+                            if (!isset($the_field_data['attributes']['data-id'])) {
+                                $the_field_data['attributes']['data-id'] = $content_id;
+                            }
+                        }
+
+
+
 
                         if (!isset($the_field_data['attributes']['data-id']) and isset($the_field_data['attributes']['rel_id'])) {
                             $the_field_data['attributes']['data-id'] = $the_field_data['attributes']['rel_id'];
@@ -958,6 +980,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 case 'module':
                                     $save_global = true;
+                                    $save_module = true;
                                     break;
                                 case 'page':
                                 default:
@@ -1019,7 +1042,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
 
-                        if ($save_global == false and $save_layout == false) {
+                        if ($save_module == false and $save_global == false and $save_layout == false) {
                             if ($content_id) {
 
                                 $for_histroy = get_content_by_id($content_id);
@@ -1072,17 +1095,20 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
                                     }
                                 } else {
-                                    if ($field != 'content') {
+                                    if ($field != 'content' and $field != 'content_body') {
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
                                     } else {
                                         $cont_table_save = array();
-
+                                        $cont_table_save[$field]=$html_to_save;
                                     }
                                 }
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
+                                if(isset($cont_table_save)  and $cont_table_save){
+                                    $to_save = array_merge($to_save, $cont_table_save);
+                                }
 
                                 $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
@@ -1096,6 +1122,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
+
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
                                 }
@@ -1125,8 +1152,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
 
-
-                            if ($cont_field['rel_type'] == 'module') {
+                            if ($cont_field['rel_type'] == 'module' and !isset($cont_field['rel_id'])) {
                                 $cont_field['rel_id'] = 0;
                             }
 

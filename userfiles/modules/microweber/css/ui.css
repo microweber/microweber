@@ -2806,6 +2806,7 @@ html.mw-loading:after {
   font-size: 22px !important;
   border-radius: 3px;
   background-color: white;
+  width: 12%;
   color: #939393;
   display: inline-block;
   cursor: pointer;
@@ -2814,6 +2815,10 @@ html.mw-loading:after {
 .mwiconlist-icon svg {
   width: 35px !important;
   height: 35px !important;
+}
+.mw-icon-selector-paging {
+  display: block;
+  width: 100%;
 }
 .mwiconlist-settings-section-block-item .mw-field {
   width: 100%;
@@ -2901,6 +2906,7 @@ html.mw-loading:after {
 .mw-icon-picker-icons-holder {
   clear: both;
   padding: 15px 0 0;
+  width: 100%;
 }
 .mw-icon-selector-paging {
   margin: 10px 0 0;
@@ -6265,6 +6271,7 @@ li:hover > .show-on-hover {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
+  overflow: hidden;
 }
 .mw-dialog-skin-default.active .mw-dialog-overlay {
   opacity: 1;
@@ -7228,11 +7235,12 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-interactor {
   background: #C4D6E8;
-  z-index: 1001;
+  z-index: 1000;
 }
-.mw-selector-bottom,
-.mw-selector-top {
-  z-index: 1002;
+.mw-selector.mw-selector-type-active {
+  width: 2px;
+  height: 2px;
+  z-index: 1001;
 }
 .mw-selector-top:before {
   top: 0px;
@@ -7292,7 +7300,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   justify-content: space-between;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/upload_image.png');
+  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
   width: 70px;
   height: 55px;
   background-size: contain;

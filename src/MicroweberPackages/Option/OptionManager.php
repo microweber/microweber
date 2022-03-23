@@ -14,6 +14,7 @@ namespace MicroweberPackages\Option;
 
 use DB;
 use Cache;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\Traits\ModuleOptionTrait;
@@ -349,11 +350,15 @@ class OptionManager
             $data = parse_params($data);
         }
 
+    /*    $xssClean = new HTMLClean();
+        $data = $xssClean->cleanArray($data);*/
+
         $this->clear_memory();
+        app()->option_repository->clearCache();
 
         $option_group = false;
         if (is_array($data)) {
-            if (strval($data['option_key']) != '') {
+            if (isset($data['option_key']) and strval($data['option_key']) != '') {
                 if (strstr($data['option_key'], '|for_module|')) {
                     $option_key_1 = explode('|for_module|', $data['option_key']);
                     if (isset($option_key_1[0])) {
@@ -401,7 +406,7 @@ class OptionManager
                 $data['module'] = str_ireplace('/admin', '', $data['module']);
             }
 
-            if (strval($data['option_key']) != '') {
+            if (isset($data['option_key']) and strval($data['option_key']) != '') {
                 if ($data['option_key'] == 'current_template') {
                     $delete_content_cache = true;
                 }
@@ -491,6 +496,7 @@ class OptionManager
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('repositories');
                 $this->clear_memory();
+                $this->app->database_manager->clearCache();
 
                 return $save;
             }

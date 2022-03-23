@@ -199,10 +199,13 @@ $saveRoute = route('api.user.store');
      ?>
 
     <div class="card style-1 bg-light mb-3">
-        <div class="card-header">
+        <div class="card-header d-flex">
             <h5>
                 <i class="mdi mdi-account-plus text-primary mr-3"></i> <strong><?php _e($action . ' user'); ?></strong>
             </h5>
+
+            <button id="user-save-button-top" class="btn btn-success btn-sm floar-end" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
+
         </div>
         <div class="card-body pt-3">
             <div class="row">
@@ -330,7 +333,7 @@ $saveRoute = route('api.user.store');
                                 <div class="form-group">
                                     <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
-                                      <!--  <a href="<?php /*echo route('admin.role.index');*/?>"><?php /*_e("Manage user roles"); */?></a>-->
+                                      <!--  <a href=""><?php /*_e("Manage user roles"); */?></a>-->
                                     </small>
                                     <select class="selectpicker" data-live-search="true" data-width="100%" name="is_admin">
 

@@ -56,9 +56,9 @@ $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $is_ext = get_file_extension($fileName_ext);
 $is_ext = strtolower($is_ext);
 
-$is_dangerous_file = $files_utils->is_dangerous_file($fileName_ext);
+$is_allowed_file = $files_utils->is_allowed_file($fileName_ext);
 
-if ($is_dangerous_file) {
+if ($is_allowed_file == false) {
     header("HTTP/1.1 401 Unauthorized");
 
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
@@ -149,7 +149,15 @@ if ($allowed_to_upload == false) {
                             $is_ext = strtolower($is_ext);
 
                             switch ($is_ext) {
+                                case 'phtml':
                                 case 'php':
+                                case 'php12':
+                                case 'php11':
+                                case 'php10':
+                                case 'php9':
+                                case 'php8':
+                                case 'php7':
+                                case 'php6':
                                 case 'php5':
                                 case 'php4':
                                 case 'php3':
@@ -512,18 +520,35 @@ if (!$chunks || $chunk == $chunks - 1) {
 
             $valid = false;
             if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
-                if (@imagecreatefromjpeg($filePath)) {
+
+                // This will clear exif data - security issue
+                $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
+                if ($imgCreatedFromJpeg) {
+                    imagejpeg($imgCreatedFromJpeg, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
             } else if ($ext === 'png') {
-                if (@imagecreatefrompng($filePath)) {
+
+                $imgCreatedFromPng = @imagecreatefrompng($filePath);
+                if ($imgCreatedFromPng) {
+                    imagepng($imgCreatedFromPng, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
+
             } else if ($ext === 'gif') {
-                if (@imagecreatefromgif($filePath)) {
+
+                $imgCreatedFromGif = @imagecreatefromgif($filePath);
+                if ($imgCreatedFromGif) {
+
+                    $filePathOld = stream_get_meta_data(tmpfile())['uri'];
+                    copy($filePath, $filePathOld);
+                    remove_exif_data($filePathOld, $filePath);
+                    unlink($filePathOld);
+
                     $valid = true;
                 }
-            }else if ($ext === 'svg') {
+
+            } else if ($ext === 'svg') {
 
                 if (is_file($filePath)) {
                     $sanitizer = new \enshrined\svgSanitize\Sanitizer();
@@ -551,6 +576,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
         try {
+
             $size = getimagesize($filePath);
             $is_image = true;
             $filesize = filesize($filePath);

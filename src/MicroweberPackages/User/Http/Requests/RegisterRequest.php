@@ -83,7 +83,7 @@ class RegisterRequest extends FormRequest
                 $rules['terms'] = $rules['terms'] . ', terms_newsletter';
             }
         }
-        $rules['password'] = 'required|min:1';
+        $rules['password'] = 'required|min:1|max:500';
 
 
         return $rules;

@@ -5,40 +5,60 @@ jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
-      max-parallel: 1
+      max-parallel: 16
+      fail-fast: false
       matrix:
         php-versions: ['7.4']
         templates: [
-            'microweber/template-guesthouse',
-            'microweber-templates/new-world',
-            'microweber-templates/shopmag',
-            'microweber-templates/template-theplace',
-            'microweber/template-active-bs4',
-            'microweber/template-bamboo',
-            'microweber/template-digital',
-            'microweber/template-beauty'
+          'microweber-templates/shopmag',
+          'microweber-templates/new-world',
+          'microweber-templates/dream',
+          'microweber-templates/template-human-recourses',
+          'microweber-templates/template-wedding',
+          'microweber-templates/template-services',
+          'microweber-templates/template-guesthouse',
+          'microweber-templates/template-beauty',
+          'microweber-templates/template-barbershop',
+          'microweber-templates/template-bamboo',
+          'microweber-templates/template-yoga-studio',
+          'microweber-templates/yachting',
+          'microweber-templates/wine',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-theplace',
+          'microweber-templates/notary-services',
+          'microweber-templates/green',
+          'microweber-templates/template-digital',
+          'microweber-templates/template-comingsoon',
+          'microweber-templates/template-business',
+          'microweber-templates/template-blank',
+          'microweber-templates/template-cryptocurrency',
+          'microweber-templates/template-simple-shop',
+          'microweber-templates/template-networking-space',
+          'microweber-templates/mobile-app',
+          'microweber-templates/template-apartment',
+          'microweber-templates/template-tattoo',
+          'microweber-templates/template-private-school',
+          'microweber-templates/template-burger',
+          'microweber-templates/template-hospital',
+          'microweber-templates/template-coffeeshop',
+          'microweber-templates/template-tourism',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-hostel'
         ]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup PHP, with composer and extensions
-      uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+    - uses: ./.github/actions/setup-php
       with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-        coverage: xdebug #optional
-    - name: zstd act workaround
-      run: sudo apt install zstd
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Cache composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        php_version: ${{ matrix.php-versions }}
+#    - name: Setup Apache
+#      uses: thunder/apache-shiva-php-action@v1
+#      with:
+#        php-version: '7.4'
+#        site-directory: /home/runner/work/microweber/microweber/
+#        # Defaults to 8888
+#        http-port:
+#          8000
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -46,8 +66,44 @@ jobs:
         name: "auth.json"
         json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
     - name: Install Composer dependencies
-      run: composer install --no-progress --prefer-dist --optimize-autoloader
+      run: |
+        composer install --no-progress --prefer-dist --optimize-autoloader
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        rm -rf /home/runner/work/microweber/microweber/templates/new-world/
+        rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
     - name: Install template
-      run: composer require ${{ matrix.templates }}
-    - name: Run PHPUnit
-      run: php artisan test --filter TemplateTest
+      run: composer require ${{ matrix.templates }} --no-cache
+    - name: Install Microweber with template ${{ matrix.templates }}
+      run: php artisan microweber:install admin@site.com 1 1 /home/runner/work/microweber/microweber/storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
+    - name: Run Laravel Server
+      run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
+    - name: Run Dusk Browse test
+      run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
+    - name: Upload Laravel Storage
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: storage
+        path: storage
+    - name: Upload Laravel config
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: config
+        path:
+          config
+
+
+

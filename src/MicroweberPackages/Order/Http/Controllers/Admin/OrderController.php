@@ -4,8 +4,8 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
-use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Cart\Models\Cart;
+use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Order\Models\Order;
 
 class OrderController extends AdminController
@@ -19,7 +19,7 @@ class OrderController extends AdminController
         $productKeyword = $request->get('productKeyword', false);
         $orderDirection = $request->get('orderDirection', 'desc');
         $orderStatus = $request->get('orderStatus', false);
-        $isPaid = $request->get('isPaid', false);
+        $isPaid = $request->get('isPaid', '');
 
         $minPrice = $request->get('minPrice', false);
         $maxPrice = $request->get('maxPrice', false);

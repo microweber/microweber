@@ -19,7 +19,7 @@ if (! function_exists('app')) {
      *
      * @param  string  $abstract
      * @param  array   $parameters
-     * @return mixed|\MicroweberPackages\Application
+     * @return mixed|\MicroweberPackages\App\Application
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -374,7 +374,7 @@ function clearcache()
     }
 
     if (isset($_GET['redirect_to'])) {
-        return redirect($_GET['redirect_to']);
+        return app()->url_manager->redirect($_GET['redirect_to']);
     }
 
     return true;

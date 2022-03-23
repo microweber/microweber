@@ -30,7 +30,7 @@
         this.createSingle = function (item, i) {
             var el = document.createElement('div');
             el.className = 'mw-gallery-fullscreen-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
-            var desc = !item.description ? '' : '<div class="mw-gallery-item-description">'+item.description+'</div>';
+            var desc = !item.description ? '' : '<div class="mw-gallery-item-description"><div class="mw-gallery-item-description-content">'+item.description+'</div></div>';
             el.innerHTML = '<div class="mw-gallery-item-image"><img src="'+(item.image || item.url || item.src || item.filename)+'"></div>' + desc;
             this.container.appendChild(el);
             return el;

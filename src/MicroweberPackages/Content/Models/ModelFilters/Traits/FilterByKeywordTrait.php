@@ -59,8 +59,16 @@ trait FilterByKeywordTrait
 
             $this->query->where(function ($subQuerySearch) use ($table, $searchInFields, $keywordToSearch) {
                 if ($searchInFields) {
-                    foreach ($searchInFields as $field) {
-                        $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
+                    $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+                    $keywordToSearch = $antiXss->clean($keywordToSearch);
+                    $keywordToSearch = mb_trim($keywordToSearch);
+                    if ($keywordToSearch != '') {
+                        if (mb_strlen($keywordToSearch) > 1000) {
+                            $keywordToSearch = mb_substr($keywordToSearch, 0, 1000);
+                        }
+                        foreach ($searchInFields as $field) {
+                            $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
+                        }
                     }
                 }
                 return $subQuerySearch;

@@ -5,16 +5,23 @@ use Illuminate\Support\Facades\Route;
 use L5Swagger\ConfigFactory;
 use L5Swagger\Http\Middleware\Config as L5SwaggerConfig;
 
-Route::group(['namespace' => 'L5Swagger','middleware' => 'admin'], function (Router $router) {
 
-    \Route::get('/_dusk/env', [
-        'as' => 'l5-swagger.dusk.env',
-        'middleware' => 'web',
-        'uses' => function () {
-            return response(app()->environment());
-        }
-    ]);
 
+\Route::get('/_dusk/env', [
+    'as' => 'l5-swagger.dusk.env',
+    'middleware' => ['web','admin'],
+   // 'middleware' => [ \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class],
+    'uses' => function () {
+        return response(app()->environment());
+    }
+]);
+
+
+Route::group([
+    'namespace' => 'L5Swagger',
+    'middleware' => 'admin'
+    ]
+    , function (Router $router) {
 
 
     $configFactory = resolve(ConfigFactory::class);

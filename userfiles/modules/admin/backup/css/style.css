@@ -1,0 +1,167 @@
+.mw-backup {
+    padding-right: 40px;
+    padding-left: 40px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-backup-option {
+    padding-left: 15px;
+    padding-bottom: 15px;
+    background: #FFF;
+    border: 1px solid #ebebeb;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.mw-backup-option.active {
+    box-shadow: 0px 4px 11px #e6e6e6;
+}
+
+.mw-backup-option:hover {
+    box-shadow: 0px 4px 11px #e6e6e6;
+}
+
+.mw-backup-option h3 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.mw-backup-option p {
+    font-size: 13px;
+}
+
+.mw-backup-option > .option-radio {
+    width: 50px;
+    height: 70px;
+    float: left;
+    padding-top: 25px;
+    padding-left: 10px;
+}
+
+.mw-backup-buttons {
+    text-align: right;
+}
+
+.mw-backup-buttons > .button-cancel {
+    margin-right: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.backup-modal-log-progress {
+    width: 80%;
+}
+
+.js-backup-log {
+    text-align: left;
+    color: #fff;
+    background: #575757;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    font-family: monospace;
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.js-export-log:empty {
+    display: none;
+}
+
+
+/*Restore*/
+.mw-backup-restore {
+    padding-right: 40px;
+    padding-left: 40px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-backup-restore > .import-image {
+    display: none;
+}
+
+.mw-backup-restore-option {
+    padding-left: 15px;
+    padding-bottom: 15px;
+    background: #FFF;
+    border: 1px solid #ebebeb;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.mw-backup-restore-option.active {
+    box-shadow: 0px 4px 11px #e6e6e6;
+}
+
+.mw-backup-restore-option:hover {
+    box-shadow: 0px 4px 11px #e6e6e6;
+}
+
+.mw-backup-restore-option h3 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.mw-backup-restore-option p {
+    font-size: 13px;
+}
+
+.mw-backup-restore-option > .option-radio {
+    width: 50px;
+    height: 55px;
+    float: left;
+    padding-top: 25px;
+    padding-left: 10px;
+}
+
+.mw-backup-restore-buttons {
+    text-align: right;
+}
+
+.mw-backup-restore-buttons > .button-cancel {
+    margin-right: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.backup-restore-modal-log {
+    text-align: left;
+    color: #fff;
+    background: #575757;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    font-family: monospace;
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+#backup-restore-progressbar h3 {
+    color: #469a36;
+}
+
+.backup-restore-modal-log-progress {
+    width: 80%;
+}

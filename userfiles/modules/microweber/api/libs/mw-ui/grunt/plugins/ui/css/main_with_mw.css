@@ -8791,7 +8791,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     width: auto;
     height: 100%;
     max-width: 100%;
-    max-height: 100%; }
+    max-height: 100%;
+    object-fit: cover; }
   .img-circle-holder.border-radius-10 img, .img-circle-holder.border-radius-0 img {
     max-width: 100%;
     max-height: 100%; }
@@ -9314,6 +9315,7 @@ body {
     }*/ }
 
 .container {
+  width: 1920px;
   max-width: 90%; }
   @media screen and (max-width: 1600px) {
     .container {
@@ -9595,7 +9597,7 @@ header {
 
 .no-items-box {
   min-height: 400px;
-  background-image: url("assets/img/no_content.svg");
+  background-image: url("../img/no_content.svg");
   background-size: contain;
   background-position: right center;
   background-repeat: no-repeat;
@@ -10433,5 +10435,3 @@ header {
   height: 40px; }
 .logo.svg path {
   display: block !important; }
-
-/*# sourceMappingURL=main_with_mw.css.map */

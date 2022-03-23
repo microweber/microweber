@@ -25,11 +25,29 @@ class DbTest extends TestCase
     private $content;
     private $content5;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->content = db_save('content', $this->save);
         $this->content5 = db_save('content', $this->save_post);
+    }
+
+    public function testSaveIsShop()
+    {
+
+        $id = db_save('content', array(
+            "content_type" => "page",
+            "subtype" => "dynamic",
+            "url" => "home",
+            "title" => "Home",
+            "is_home" => 1,
+            "is_pinged" => 0,
+            "is_shop" => 1
+        ));
+
+        $saved = db_get('content',['id'=>$id]);
+
+        $this->assertEquals($saved[0]['is_shop'], '1');
     }
 
     public function testSimpleSave()
@@ -119,7 +137,7 @@ class DbTest extends TestCase
 
         $this->assertEquals($first_page_items, $second_page_items, 'First page item count: ' . $first_page_items . ', second page item count: ' . $second_page_items);
         $this->assertTrue(intval($pages_count) > 1);
-      // @todo: fix  the count_paging param to return integer    $this->assertTrue(is_int($pages_count));
+        // @todo: fix  the count_paging param to return integer    $this->assertTrue(is_int($pages_count));
     }
 
     public function testIncludeExcludeIds()
@@ -134,7 +152,7 @@ class DbTest extends TestCase
         shuffle($some_ids);
         $some_ids = array_slice($some_ids, $half);
 
-        $includeString = 'ids='.implode(',', $some_ids);
+        $includeString = 'ids=' . implode(',', $some_ids);
 
         $content_ids = db_get('content', $includeString);
         foreach ($content_ids as $item) {
@@ -142,7 +160,7 @@ class DbTest extends TestCase
         }
         $this->assertTrue(is_array($content_ids));
 
-        $excludeString = 'exclude_ids='.implode(',', $some_ids);
+        $excludeString = 'exclude_ids=' . implode(',', $some_ids);
         $content_ids = db_get('content', $excludeString);
         foreach ($content_ids as $item) {
             $this->assertTrue(!in_array($item['id'], $some_ids));

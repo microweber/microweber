@@ -9,9 +9,9 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Backup\Exporters\JsonExport;
-use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Backup\Readers\XlsxReader;
+use MicroweberPackages\Export\Formats\JsonExport;
+use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
@@ -48,11 +48,17 @@ class TranslationController {
         $locale = $request->post('locale', mw()->lang_helper->default_lang());
         $format = $request->post('format', 'json');
 
+        if (!is_lang_correct($locale)) {
+            return [];
+        }
 
         $exportFileName = 'translation-global';
+
+        $namespace = str_replace('..', '', $namespace);
         if ($namespace !== '*') {
             $exportFileName = 'translation-' . $namespace;
         }
+
         $exportFileName = $exportFileName . '-' . $locale;
 
         $getTranslations = [];
@@ -73,6 +79,10 @@ class TranslationController {
 
         if ($getTranslationsWithoutTexts !== null) {
             $getTranslations = array_merge($getTranslations, $getTranslationsWithoutTexts->toArray());
+        }
+
+        if (empty($getTranslations)) {
+            return [];
         }
 
         $readyTranslations = [];
@@ -145,12 +155,12 @@ class TranslationController {
                }
                $getTranslationKey->save();
 
-               
+
                // Get translation text
                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                    ->where('translation_locale', $translation['translation_locale'])
                    ->get();
-               
+
                if ($getTranslationText->count() > 1) {
                    foreach($getTranslationText as $dublicatedText) {
                        $dublicatedText->delete();

@@ -22,5 +22,7 @@ class ConfigSaveServiceProvider extends ServiceProvider
 		});
 
         $this->app->alias('Config', ConfigSave::class);
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 }

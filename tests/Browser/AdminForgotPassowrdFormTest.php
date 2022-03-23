@@ -15,10 +15,19 @@ use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
     public function testSubmitEmail()
     {
+
+
+        $data = [];
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'captcha_disabled';
+        $data['option_group'] = 'users';
+        save_option($data);
+
+        $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+        $this->assertTrue($captcha_disabled);
 
         $siteUrl = $this->siteUrl;
 
@@ -28,6 +37,11 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             $user->email = 'bobi@microweber.com';
             $user->save();
 
+
+
+            $browser->visit($siteUrl . 'admin/login');
+            $browser->pause('2000');
+
             $data = [];
             $data['option_value'] = 'y';
             $data['option_key'] = 'captcha_disabled';
@@ -35,17 +49,16 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             save_option($data);
 
 
-            $browser->visit($siteUrl . 'admin/login');
-            $browser->pause('2000');
-
             $browser->click('@forgot-password-link');
             $browser->pause('3000');
+
 
             $browser->type('email', 'bobi@microweber.com');
             $browser->click('@reset-password-button');
             $browser->pause('4000');
 
-            $browser->waitForText('We have emailed your password reset link');
+
+            $browser->waitForText('We have emailed your password reset link',30);
             $browser->assertSee('We have emailed your password reset link');
 
             $sendTime = Carbon::now();

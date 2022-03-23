@@ -276,7 +276,8 @@ class CheckoutManager
             } else {
                 if ($mw_process_payment == true) {
                     $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
-                    if (is_array($gw_check[0])) {
+
+                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
                         $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
@@ -433,6 +434,32 @@ class CheckoutManager
                 }
             }
 
+
+            // Discount details save
+            if ($coupon_code) {
+                $place_order['promo_code'] = $coupon_code;
+                $place_order['coupon_id'] = $coupon_id;
+                $place_order['discount_type'] = $discount_type;
+                $place_order['discount_value'] = $discount_value;
+
+
+                if (!$this->app->cart_manager->couponCodeCheckIfValid($coupon_code)) {
+                    //check if coupon is valid
+                    if(function_exists('coupons_delete_session')){
+                        coupons_delete_session();
+                    }
+
+                    $place_order['promo_code'] = '';
+                    $place_order['coupon_id'] ='';
+                    $place_order['discount_type'] = '';
+                    $place_order['discount_value'] ='';
+                }
+            }
+
+
+
+
+
             $amount = $this->app->shop_manager->cart_total();
             $tax = $this->app->cart_manager->get_tax();
 
@@ -497,11 +524,6 @@ class CheckoutManager
             }
 
 
-            // Discount details save
-            $place_order['promo_code'] = $coupon_code;
-            $place_order['coupon_id'] = $coupon_id;
-            $place_order['discount_type'] = $discount_type;
-            $place_order['discount_value'] = $discount_value;
 
 
             // convert currency to payment provider currency
@@ -785,6 +807,7 @@ class CheckoutManager
             $option_key_q = "&limit=1&option_key={$option_key}";
         }
         $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
+      //  $providers = $this->app->option_repository->getByParams('option_group=payments' . $option_key_q);
 
         $payment_modules = get_modules('type=payment_gateway');
         $str = 'payment_gw_';
@@ -1424,4 +1447,6 @@ class CheckoutManager
             (isset($e['query']) ? '?' . (is_array($e['query']) ? http_build_query($e['query'], '', '&') : $e['query']) : '') .
             (isset($e['fragment']) ? "#$e[fragment]" : '');
     }
+
+
 }

@@ -6,7 +6,7 @@ description: MW
 */
 ?>
 
-<div class="mw-paging">
+<div class="mw-paging d-flex justify-content-center">
     <?php
     foreach ($pagination_links as $pagination_link):
         ?>

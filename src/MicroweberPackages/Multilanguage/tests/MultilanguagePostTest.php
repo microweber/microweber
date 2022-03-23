@@ -49,6 +49,9 @@ class MultilanguagePostTest extends MultilanguageTestBase
         $apiPostStore['title'] = 'Post ' . $rand;
         $apiPostStore['content'] = 'Post description' .$rand;
 
+        $apiPostStore['multilanguage']['title']['en_US'] = 'Post'.$rand;
+        $apiPostStore['multilanguage']['content']['en_US'] = 'Post description'.$rand;
+
         $apiPostStore['multilanguage']['title']['bg_BG'] = 'Съдържание'.$rand;
         $apiPostStore['multilanguage']['content']['bg_BG'] = 'Съдържание описание'.$rand;
 
@@ -63,6 +66,7 @@ class MultilanguagePostTest extends MultilanguageTestBase
             'POST',
             route('api.post.store', $apiPostStore)
         );
+
         $this->assertEquals(201, $response->status());
         $PostSaved = $response->getData()->data;
 

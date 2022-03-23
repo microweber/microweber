@@ -125,7 +125,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="mw-ui-field-holder add-new-button text-end text-right">
                             <span
                                 class="btn btn-success btn-rounded icon-left"
-                                id="add-team-member"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></span>
+                                id="add-team-member"><i class="fa fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></span>
                         </div>
                         <div id="teamcard-settings"></div>
                     </div>

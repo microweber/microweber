@@ -18,6 +18,7 @@
         <testsuite name="MicroweberTemplatesTests">
             <directory>./userfiles/templates/*/tests/</directory>
             <directory>./userfiles/templates/*/src/tests/</directory>
+            <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
         </testsuite>
         <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>

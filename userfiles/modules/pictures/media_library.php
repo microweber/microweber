@@ -138,6 +138,11 @@ must_have_access();
                 mw.on.stopWriting(node, function(){
                     searchMediaLibrary(node.value, 1, function () {
                         mw.spinner(({element: node.parentNode})).hide();
+                        setTimeout(function (){
+                            if(window.thismodal) {
+                                thismodal.center()
+                            }
+                        })
                     })
                 })
              }

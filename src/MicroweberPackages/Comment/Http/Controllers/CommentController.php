@@ -19,6 +19,7 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Comment\Models\Comment;
 use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Comment\Notifications\NewCommentNotification;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -32,10 +33,6 @@ class CommentController
                 return ['errors'=>'Must be logged'];
             }
         }
-
-
-
-
 
         $rules = [];
         $inputs = $request->all();
@@ -56,10 +53,9 @@ class CommentController
 
         }
 
-
-        $rules['rel_id'] = 'required';
-        $rules['rel_type'] = 'required';
-        $rules['comment_body'] = 'required';
+        $rules['rel_id'] = 'required|max:500';
+        $rules['rel_type'] = 'required|max:500';
+        $rules['comment_body'] = 'required|max:2000';
 
         if (!empty($inputs['email'])) {
             $inputs['comment_email'] = $inputs['email'];
@@ -103,7 +99,10 @@ class CommentController
             $saveComment['is_moderated'] = 1;
         }
 
-        if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
+        $clearInput = new HTMLClean();
+        $saveComment['comment_body'] = $clearInput->onlyTags($saveComment['comment_body']);
+
+       if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
             $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
         }
 

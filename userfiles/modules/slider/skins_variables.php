@@ -1,4 +1,3 @@
-
 <?php
 $defaults = array(
     'images' => '',
@@ -40,4 +39,3 @@ $module_template_check = get_module_option('data-template', $params['id']);
 if ($module_template_check == false AND isset($params['template'])) {
     $module_template = $params['template'];
 }
-?>

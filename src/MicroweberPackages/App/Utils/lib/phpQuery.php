@@ -3756,7 +3756,7 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
                 }
                 break;
         }
-        phpQuery::debug('From '.count($insertFrom).'; To '.count($insertTo).' nodes');
+        // phpQuery::debug('From '.count($insertFrom).'; To '.count($insertTo).' nodes');
         foreach ($insertTo as $insertNumber => $toNode) {
             // we need static relative elements in some cases
             switch ($type) {

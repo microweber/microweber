@@ -116,7 +116,7 @@ class CategoryManagerTest extends TestCase
         $check  = app()->category_repository->countProductsInStock($category->id);
         $this->assertEquals($check,1);
 
-        
+
 
         // check when out of stock
 
@@ -269,9 +269,44 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($get_content_kw[0]['id'], $newBlogPage->id);
 
 
+        $zip = new \ZipArchive();
+        $zip->open(__DIR__.'/../../Helper/tests/misc/xss-test-files.zip');
+        $xssList = $zip->getFromName('xss-payload-list.txt');
+        $zip->close();
+        $xssList = preg_replace('~\R~u', "\r\n", $xssList);
+
+        $xssList = explode(PHP_EOL, $xssList);
 
 
 
+
+        $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>implode("\n", $xssList)]);
+        $this->assertEmpty($jsonTreeKw);
+
+
+
+        $jsonTreeKw= get_content(['keyword'=>implode("\n", $xssList)]);
+        $this->assertEmpty($jsonTreeKw);
+
+
+        $jsonTreeKw = app()->category_repository->getByParams(['keyword'=>implode("\n", $xssList)]);
+        $this->assertEmpty($jsonTreeKw);
+
+
+        $xssList = array_slice($xssList, 0, 10);
+
+        foreach ($xssList as $xss) {
+            $jsonTreeKw = app()->category_repository->getByParams(['parent_id' => 'non-exising', 'keyword' => $xss]);
+            $this->assertEmpty($jsonTreeKw);
+
+
+            $jsonTreeKw = get_categories(['parent_id' => 'non-exising', 'keyword' => $xss]);
+            $this->assertEmpty($jsonTreeKw);
+
+            $get_content_kw = get_content(['parent' => 'non-exising','keyword'=>$xss]);
+            $this->assertEmpty($get_content_kw);
+
+        }
 
     }
 

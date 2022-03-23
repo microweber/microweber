@@ -29,7 +29,8 @@ description: Product Gallery
                 controls: true,
                 pager: true,
                 nextText: '<i class="material-icons">arrow_forward</i>',
-                prevText: '<i class="material-icons">arrow_backward</i>'
+                prevText: '<i class="material-icons">arrow_backward</i>',
+                preventDefaultSwipeY: false,
             });
         });
 

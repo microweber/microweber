@@ -158,7 +158,10 @@
     ?>
 
     <?php if(isset($product) && $product !== null): ?>
-    <div class="card style-1 mb-3 product-variants">
+
+    <?php
+
+        /*<div class="card style-1 mb-3 product-variants">
         <div class="card-body pt-3 pb-1">
             <div class="row">
                 <div class="col-12">
@@ -175,7 +178,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*/
+
+        ?>
+
     <?php endif; ?>
 
     <?php
@@ -228,15 +234,18 @@
                             $(document).ready(function () {
 
                                 var editContentCategoryTreeSelector;
-                                if (typeof(window.categorySelector) != 'undefined') {
-                                    editContentCategoryTreeSelector = window.categorySelector.tree;
-                                }
-                                if (typeof(mw.adminPagesTree) != 'undefined') {
-                                    editContentCategoryTreeSelector = mw.adminPagesTree;
-                                }
+
 
                                 mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
-
+                                    if (typeof(window.categorySelector) != 'undefined') {
+                                        editContentCategoryTreeSelector = window.categorySelector.tree;
+                                    }
+                                    if (typeof(mw.adminPagesTree) != 'undefined') {
+                                        editContentCategoryTreeSelector = mw.adminPagesTree;
+                                    }
+                                    if (typeof(window.pagesTree) != 'undefined') {
+                                        editContentCategoryTreeSelector = window.pagesTree;
+                                    }
 
                                     if (typeof(editContentCategoryTreeSelector) != 'undefined') {
                                         mw.notification.success('The content is added to category');

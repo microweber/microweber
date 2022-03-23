@@ -1,6 +1,4 @@
 <?php
-api_expose_admin('save_option');
-
 function get_module_options($optionGroup) {
     return mw()->option_manager->getModuleOptions($optionGroup);
 }

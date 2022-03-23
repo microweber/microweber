@@ -127,7 +127,7 @@
                         mw.reload_module_everywhere('categories/admin_backend_modal');
 
                         mw.url.windowDeleteHashParam('action');
- 
+
                     }
                 });
             });
@@ -147,7 +147,7 @@
                 var arr = pval.split(":");
 
                 if (arr[0] === 'managecats' ) {
-                   // alert(2222)
+
                     cat_edit_load_from_modal('categories/admin_backend_modal');
 
                 }

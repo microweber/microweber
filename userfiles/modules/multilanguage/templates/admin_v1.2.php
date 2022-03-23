@@ -25,7 +25,7 @@
                     <?php if (!empty($language['display_icon'])): ?>
                         <img src="<?php echo $language['display_icon']; ?>" class="multilanguage-display-icon-custom d-inline"/>
                     <?php else: ?>
-                        <i class="flag-icon flag-icon-<?php echo $language['icon']; ?>"></i>
+                        <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?>"></i>
                     <?php endif; ?>
                     <!--- end of display icon -->
 
@@ -33,7 +33,10 @@
                     <?php if (!empty($language['display_name'])): ?>
                         <span class="text-uppercase"><?php echo $language['display_name']; ?></span>
                     <?php else: ?>
-                        <span class="text-uppercase"><?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?></span>
+                        <span class="text-uppercase">
+                            <?php echo  $language['language']; ?>
+
+                           </span>
                     <?php endif; ?>
                     <!--- end of display name -->
                 </button>

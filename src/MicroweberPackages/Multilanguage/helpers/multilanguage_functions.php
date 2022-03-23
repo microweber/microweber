@@ -74,11 +74,17 @@ if (!function_exists('get_short_abr')) {
         return strtolower($exp[0]);
     }
 }
+
 if (!function_exists('change_language_by_locale')) {
     function change_language_by_locale($locale, $set_cookie = true)
     {
+        $isCli = is_cli();
 
-        if (!is_cli() and $set_cookie) {
+        if (get_option('dusk_test','dusk') == 1) {
+            $isCli = false;
+        }
+
+        if (!$isCli and $set_cookie) {
             $skip = false;
 
             $cookie = \Cookie::get('lang');
@@ -262,6 +268,9 @@ if (!function_exists('get_supported_languages')) {
         if (!empty($languages)) {
             foreach ($languages as &$language) {
                 $language['icon'] = get_flag_icon($language['locale']);
+                if (empty($language['display_name'])) {
+                    $language['language'] = \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']);
+                }
             }
         }
 

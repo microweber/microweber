@@ -2,6 +2,10 @@
 
 namespace Tests\Browser;
 
+use Arcanedev\SeoHelper\Entities\Analytics;
+use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
+use Arcanedev\SeoHelper\Entities\Twitter\Card;
+use Arcanedev\SeoHelper\Entities\Webmasters;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
@@ -17,6 +21,7 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
 
             $browser->waitForText('Settings');
             $browser->clickLink('Settings');
@@ -35,8 +40,9 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
             ');
 
             foreach($links[0] as $link) {
-
+                $browser->pause(1000);
                 $browser->visit($link);
+                $browser->pause(3000);
 
                 $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                     $browser->validate();
@@ -45,4 +51,5 @@ class AdminSettingsPagesErrorsCheckTest extends DuskTestCase
 
         });
     }
+
 }

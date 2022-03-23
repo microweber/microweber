@@ -21,6 +21,8 @@ class AdminEditProfileTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $browser->visit(admin_url());
+
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
@@ -62,6 +64,12 @@ class AdminEditProfileTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
 
+
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+
+
             $browser->waitForText('Users');
             $browser->clickLink('Users');
 
@@ -101,11 +109,19 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->select('is_admin', 1);
             $browser->click('label[for="is_active1"]');
 
-            $browser->press('Save');
+         //   $browser->press('Save');
+         //   $browser->scrollTo('#user-save-button');
+
+            $browser->script("$('html, body').animate({ scrollTop: $('#user-save-button').offset().top - 30 }, 0);");
+
+            $browser->click('button[id="user-save-button"]');
+
+           // $browser->click('#user-save-button');
+
             $browser->pause(3000);
 
             $findUser = User::where('email', $new_email)->first();
-            
+
             $this->assertEquals($new_username, $findUser->username);
             $this->assertEquals($new_email, $findUser->email);
             $this->assertEquals($first_name, $findUser->first_name);

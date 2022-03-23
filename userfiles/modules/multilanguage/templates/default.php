@@ -58,13 +58,13 @@ description: MW Default
         <?php if (!empty($current_language['display_icon'])): ?>
             <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" />
         <?php else: ?>
-            <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> mr-2"></span>
+            <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?> mr-2"></span>
         <?php endif; ?>
 
         <?php if (!empty($current_language['display_name'])): ?>
             <?php echo $current_language['display_name']; ?>
         <?php else: ?>
-            <?php echo \Symfony\Component\Intl\Languages::getName($current_language['locale']); ?>
+            <?php echo $current_language['language']; ?>
         <?php endif; ?>
 
     </span>
@@ -77,7 +77,7 @@ description: MW Default
                         <?php if (!empty($language['display_icon'])): ?>
                             <img src="<?php echo $language['display_icon']; ?>" class="multilanguage-display-icon-custom"/>
                         <?php else: ?>
-                            <span class="flag-icon flag-icon-<?php echo $language['icon']; ?> m-r-10"></span>
+                            <span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span>
                         <?php endif; ?>
                         <!--- end of display icon -->
 
@@ -86,7 +86,7 @@ description: MW Default
                         <?php if (!empty($language['display_name'])): ?>
                             <?php echo $language['display_name']; ?>
                         <?php else: ?>
-                            <?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?>
+                            <?php echo $language['language']; ?>
                         <?php endif; ?>
                         <!--- end of display name -->
 

@@ -24,6 +24,7 @@ class AdminAddPageTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+
             $pageTitle = 'This is the page title'.time();
 
             $browser->visit(route('admin.page.create'));

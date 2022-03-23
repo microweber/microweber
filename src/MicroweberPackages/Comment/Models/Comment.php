@@ -5,10 +5,12 @@ namespace MicroweberPackages\Comment\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
+use MicroweberPackages\Core\Models\HasSearchableTrait;
 
 class Comment extends Model
 {
     use Filterable;
+    use HasSearchableTrait;
 
     public $table = 'comments';
 
@@ -21,9 +23,12 @@ class Comment extends Model
         'comment_body',
     ];
 
-//    protected $casts = [
-//        'comment_body'=>MarkdownCast::class
-//    ];
+    protected $searchable = [
+        'comment_name',
+        'comment_email',
+        'comment_website',
+        'comment_body',
+    ];
 
     public function modelFilter()
     {

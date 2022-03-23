@@ -34,7 +34,7 @@ class PostController extends AdminController
     public function edit(Request $request, $id) {
 
         return $this->view('post::admin.posts.edit', [
-            'content_id'=>$id
+            'content_id'=>intval($id)
         ]);
     }
 }

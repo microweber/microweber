@@ -21,7 +21,7 @@ class AdminLogin extends BaseComponent
     /**
      * Assert that the browser page contains the component.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
      * @return void
      */
     public function assert(Browser $browser)
@@ -41,6 +41,15 @@ class AdminLogin extends BaseComponent
 
     public function fillForm(Browser $browser, $username = 1, $password = 1)
     {
+
+
+        if (!mw_is_installed()) {
+            $browser->within(new AdminMakeInstall(), function ($browser) {
+                $browser->makeInstallation();
+            });
+        }
+
+
         $data = [];
         $data['option_value'] = 'n';
         $data['option_key'] = 'login_captcha_enabled';
@@ -67,5 +76,12 @@ class AdminLogin extends BaseComponent
             $browser->waitForLocation('/admin/', 120);
             $browser->pause(100);
         }
+
+
+        $browser->visit(admin_url());
+        $browser->pause(3000);
+
     }
+
+
 }

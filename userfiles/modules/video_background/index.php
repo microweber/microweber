@@ -5,7 +5,6 @@
             $url = $params['url'];
         }
     }
-
 ?>
 <style>
     #<?php print $params['id']; ?>,
@@ -20,4 +19,4 @@
         pointer-events: none;
     }
 </style>
-<video id="video-<?php print $params['id']; ?>" autoplay muted loop src="<?php print $url ?>"></video>
+<video id="video-<?php print $params['id']; ?>" playsinline autoplay muted loop src="<?php print $url ?>"></video>

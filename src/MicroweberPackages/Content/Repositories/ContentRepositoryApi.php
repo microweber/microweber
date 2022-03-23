@@ -46,11 +46,11 @@ class ContentRepositoryApi extends BaseRepository
 
     public function delete($id)
     {
-        $product = $this->model->find($id);
+        $content = $this->model->find($id);
 
-        event(new ContentWasDeleted($product));
+        event(new ContentWasDeleted($content));
 
-        return $product->delete();
+        return $content->delete();
     }
 
 

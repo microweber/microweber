@@ -17,7 +17,6 @@ class FormController
         $response = mw()->forms_manager->post($request->all());
 
         $responseCode = 200;
-
         if (isset($response['error'])) {
             $responseCode = 422;
         }

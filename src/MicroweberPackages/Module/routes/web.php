@@ -10,6 +10,7 @@ Route::group(['namespace' => '\MicroweberPackages\Module\Http\Controllers'], fun
 
     Route::any('/plupload', 'ModuleController@plupload');
     Route::any('plupload/{all}', array('as' => 'plupload', 'uses' => 'ModuleController@plupload'))->where('all', '.*');
+
     //Route::any('/module/', 'ModuleController@index');
     //Route::any('module/{all}', array('as' => 'module', 'uses' => 'ModuleController@index'))->where('all', '.*');
 

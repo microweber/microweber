@@ -3,6 +3,8 @@
 namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\CustomField\Fields\Text;
+use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Helper\XSSSecurity;
 use function Matrix\trace;
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
 use MicroweberPackages\CustomField\Fields\Address;
@@ -304,6 +306,9 @@ class FieldsManager
         if (!is_array($fieldData)) {
             return false;
         }
+
+        $xssClean = new HTMLClean();
+        $fieldData = $xssClean->cleanArray($fieldData);
 
         if (isset($fieldData['copy_of']) and $fieldData['copy_of']) {
 
@@ -610,7 +615,7 @@ class FieldsManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            $this->app->error('Error: not logged in as admin.');
         }
 
         foreach ($data as $value) {

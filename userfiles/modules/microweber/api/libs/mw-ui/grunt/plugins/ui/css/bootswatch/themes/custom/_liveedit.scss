@@ -500,11 +500,6 @@
 
 }
 
-.mw-dialog-holder {
-    box-shadow: $primary 0px 1px 10px!important;
-}
-
-
 .mw-tooltip-default.mw-tooltip-widget {
     background-color: $black!important;
 }
@@ -572,4 +567,13 @@
 .mw-ui-btn-info:hover, .mw-ui-btn-info.active {
     background-color: $secondary!important;
     border-color: $secondary!important;
+}
+
+.mwiconlist-icon {
+    background-color: $body-bg!important;
+
+    &:hover, &:active {
+        background-color: $primary!important;
+
+    }
 }

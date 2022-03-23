@@ -9,6 +9,7 @@
  *
  */
 namespace MicroweberPackages\Database;
+use Doctrine\DBAL\Types\Type;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
@@ -446,7 +447,7 @@ class Utils
      */
     public static $get_fields_fields_memory = [];
 
-    public function get_fields($table, $use_cache = true)
+    public function get_fields($table, $use_cache = true, $advanced_info = false)
     {
         $fields = array();
         $expiresAt = 99999;
@@ -501,6 +502,7 @@ class Utils
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
         }
 
+        $original_fields = $fields;
 
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
             $fields = array_map(function ($f) {
@@ -516,8 +518,32 @@ class Utils
             }, $fields);
         }
 
-        // Caching
+        if ($advanced_info) {
+            $ready_fields = [];
+            foreach ($fields as $field) {
+                try {
+                    $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
+                    $ready_fields[] = [
+                        'name' => $field,
+                        'type' => $column->getType()->getName()
+                    ];
+                } catch (\Exception $e) {
+                    foreach ($original_fields as $o_field) {
+                        if (isset($o_field->name)) {
+                            $ready_fields[] = [
+                                'name' => $o_field->name,
+                                'type' => $o_field->type
+                            ];
+                        }
+                    }
+                }
+            }
 
+            return $ready_fields;
+        }
+
+
+        // Caching
         if ($use_cache) {
             self::$get_fields_fields_memory[$table] = $fields;
             mw()->cache_manager->save($fields, $key, $cache_group,$expiresAt);

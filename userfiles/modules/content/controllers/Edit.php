@@ -13,7 +13,7 @@ class Edit
     public $provider = null;
     public $category_provider = null;
     public $event = null;
-    public $modules = array();
+    public$modules = array();
     public $empty_data = array(
         'id' => 0,
         'content_type' => 'page',

@@ -29,7 +29,8 @@ description: Product Gallery
                 pagerCustom: '#bx-pager',
                 adaptiveHeight: false,
                 controls: false,
-                pager: true
+                pager: true,
+                preventDefaultSwipeY: false,
             });
 
             $('.slick', '#<?php print $id ?>').slick({

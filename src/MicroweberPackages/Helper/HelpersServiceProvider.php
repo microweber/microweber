@@ -11,7 +11,9 @@
 
 namespace MicroweberPackages\Helper;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use function Clue\StreamFilter\fun;
 
 
 class HelpersServiceProvider extends ServiceProvider
@@ -23,7 +25,7 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-		
+
         /**
          * @property \MicroweberPackages\Helper\Format    $format
          */
@@ -34,9 +36,14 @@ class HelpersServiceProvider extends ServiceProvider
 		/**
          * @property \MicroweberPackages\Helper\XSSSecurity    $xss_security
          */
-        $this->app->singleton('xss_security', function () {
+        $this->app->bind('xss_security', function () {
             return new XSSSecurity();
         });
+
+        $this->app->bind('html_clean', function () {
+            return new HTMLClean();
+        });
+
 
         /**
          * @property \MicroweberPackages\Helper\UrlManager    $url_manager
@@ -44,5 +51,11 @@ class HelpersServiceProvider extends ServiceProvider
         $this->app->singleton('url_manager', function () {
             return new UrlManager();
         });
+
+        if (is_cli()) {
+            Route::get('uri_test_details', function () {
+                return app()->url_manager->current();
+            })->name('uri_test_details');
+        }
     }
 }

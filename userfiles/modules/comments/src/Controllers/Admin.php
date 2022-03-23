@@ -46,7 +46,6 @@ class Admin
 
     function comments_list($params)
     {
-
         if (!user_can_access('module.comments.index')) {
             return;
         }
@@ -113,11 +112,9 @@ class Admin
 
         $comment = get_comments($data);
 
-
         if (!$comment) {
             return;
         }
-
 
         $view_file = $this->views_dir . 'comment_item.php';
         $view = new View($view_file);

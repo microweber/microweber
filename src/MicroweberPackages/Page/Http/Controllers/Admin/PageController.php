@@ -32,7 +32,7 @@ class PageController extends AdminController
     public function edit(Request $request, $id) {
 
         return $this->view('page::admin.page.edit', [
-            'content_id'=>$id
+            'content_id'=>intval($id)
         ]);
     }
 }

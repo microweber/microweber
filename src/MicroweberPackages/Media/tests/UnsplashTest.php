@@ -11,6 +11,12 @@ class UnsplashTest extends TestCase
     {
         $unsplash = new Unsplash();
         $search = $unsplash->search('apple');
+        if(!is_array($search)){
+            $this->markTestSkipped(
+                'The Unsplash search is not available.'
+            );
+            return;
+        }
 
         $this->assertTrue($search['success']);
         $this->assertTrue(is_array($search['photos']));

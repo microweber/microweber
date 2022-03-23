@@ -91,7 +91,6 @@ if (isset($item['created_by'])) {
             <hr class="thin" />
             <div class="row">
 
-
                 <?php
                 $iformVr=0;
                 foreach ($form_values_formated as $form_values_row) {
@@ -106,12 +105,12 @@ if (isset($item['created_by'])) {
                             <?php if (!is_array($val1)){ ?>
                                 <div>
                                     <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
-                                    <p><?php print $val1; ?></p>
+                                    <p><?php print htmlentities($val1); ?></p>
                                 </div>
                             <?php } else { ?>
                                 <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val1 as $val1_1){ ?>
-                                    <p><?php print $val1_1 . '<br />'; ?></p>
+                                    <p><?php print htmlentities($val1_1) . '<br />'; ?></p>
                                 <?php }?>
                             <?php } ?>
                         <?php } ?>

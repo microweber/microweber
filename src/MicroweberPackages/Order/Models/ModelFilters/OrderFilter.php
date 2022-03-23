@@ -109,8 +109,13 @@ class OrderFilter extends ModelFilter
 
         $table = $this->getModel()->getTable();
 
-        $this->query->where($table.'.created_at', '>', $minDate);
-        $this->query->where($table.'.created_at', '<', $maxDate);
+        if (!empty($minDate)) {
+            $this->query->where($table . '.created_at', '>', $minDate);
+        }
+
+        if (!empty($maxDate)) {
+            $this->query->where($table . '.created_at', '<', $maxDate);
+        }
 
     }
 }

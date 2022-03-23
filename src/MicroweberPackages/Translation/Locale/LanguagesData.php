@@ -97,6 +97,7 @@ class LanguagesData
             "de_DE",
             "el_GR",
             "en_US",
+            "en_GB",
             "es_ES",
             "fi_FI",
             "fr_FR",

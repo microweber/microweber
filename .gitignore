@@ -69,3 +69,9 @@ userfiles/.DS_Store
 userfiles/modules/dynamic_text/
 userfiles/modules/newsletter/
 userfiles/modules/remote_rss_feed/
+userfiles/modules/fullpage_cache/index.php
+userfiles/modules/fullpage_cache/functions.php
+userfiles/modules/fullpage_cache/fullpage_cache.png
+userfiles/modules/fullpage_cache/config.php
+userfiles/modules/fullpage_cache/composer.json
+userfiles/modules/fullpage_cache/admin.php

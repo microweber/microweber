@@ -24,10 +24,10 @@ mw.Selector = function(options) {
         var sbottom = this.document.createElement('div');
         var sleft = this.document.createElement('div');
 
-        stop.className = 'mw-selector mw-selector-top';
-        sright.className = 'mw-selector mw-selector-right';
-        sbottom.className = 'mw-selector mw-selector-bottom';
-        sleft.className = 'mw-selector mw-selector-left';
+        stop.className = 'mw-selector mw-selector-type-active mw-selector-top';
+        sright.className = 'mw-selector mw-selector-type-active mw-selector-right';
+        sbottom.className = 'mw-selector mw-selector-type-active mw-selector-bottom';
+        sleft.className = 'mw-selector mw-selector-type-active mw-selector-left';
 
         this.document.body.appendChild(stop);
         this.document.body.appendChild(sright);
@@ -199,8 +199,10 @@ mw.Selector = function(options) {
             target = e;
         }
 
-        if(!mw.tools.isEditable(target) && !target.classList.contains('edit')) {
-            return;
+        if(!mw.tools.isEditable(target) && !target.classList.contains('edit') && !target.id) {
+            // if parent is inside module but module has editable parent
+            target = mw.tools.firstParentWithClass(target, 'edit');
+            if(!target) return;
         }
 
         if(e.ctrlKey){

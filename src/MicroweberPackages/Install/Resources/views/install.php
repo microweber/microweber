@@ -98,48 +98,8 @@
             var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
             if (selectedValue == '_get_more') {
-                showMarketplaceItemsInstallScreen()
+                window.location.href = '<?php echo site_url();?>?select_template=1';
             }
-        }
-
-        function showMarketplaceItemsInstallScreen() {
-            $("#default_template option:first").attr('selected', 'selected');
-            $("#default_template").prop("selectedIndex", 0).change();
-
-            var html = '<div class="mw-flex-row">';
-
-            $.post("<?php print site_url() ?>?get_market_templates_for_install_screen=1", function (data) {
-                $.each(data, function (index, value) {
-                    if (value.name && value.description) {
-                        var is_default = false;
-                        var screenshot = '';
-                        if (value.is_default && value.is_default == 1) {
-                            var is_default = true;
-                        }
-                        if (value.screenshot) {
-                            var screenshot = value.screenshot;
-                        }
-                        if (value.latest_version && value.latest_version.extra && value.latest_version.extra._meta && value.latest_version.extra._meta.screenshot) {
-                            var screenshot = value.latest_version.extra._meta.screenshot;
-                        }
-
-                        html += '<div class="m-b-20  m-l-10   mw-flex-col-md-5" style="padding:10px;"><div style="width: 100%; height: 120px; background-image: url(' + screenshot + '); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
-                    }
-                });
-
-                html += '</div>';
-
-                $("#dialog-message-marketplace").html(html);
-                mw.marketplace_dialog_jquery_ui = $("#dialog-message-marketplace").dialog({
-                    modal: true,
-                    width: 800,
-                    buttons: {
-                        Ok: function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-            });
         }
 
         function getTemplateForInstallScreen() {
@@ -148,16 +108,29 @@
             $.post("<?php print site_url() ?>?get_templates_for_install_screen=1", function (data) {
                 $.each(data, function (index, value) {
                     if (value.name && value.dir_name) {
-                        var is_default = false;
+
+                        var is_selected = false;
                         var screenshot = '';
-                        if (value.is_default && value.is_default == 1) {
-                            var is_default = true;
+                        var requrest_template = '';
+
+                        <?php if (isset($_GET['request_template'])): ?>
+                        requrest_template = '<?php echo $_GET['request_template'];?>';
+                        <?php endif; ?>
+
+                        if (requrest_template == value.dir_name) {
+                            is_selected = true;
                         }
+
+                        if (value.is_default && value.is_default == 1 && requrest_template == '') {
+                            is_selected = true;
+                        }
+
                         if (value.screenshot) {
-                            var screenshot = value.screenshot;
+                            screenshot = value.screenshot;
                         }
-                        if (is_default) {
-                            option += '<option selected="selected"   data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
+
+                        if (is_selected) {
+                            option += '<option selected="selected" data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
                         } else {
                             option += '<option  data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
                         }
@@ -360,7 +333,6 @@
     </style>
 </head>
 <body>
-
 
 <div class="installholder">
     <small class="text-muted d-block text-end text-right mb-2">v. <?php print MW_VERSION ?></small>
@@ -610,7 +582,7 @@
                                                                 <select class="form-control" name="default_template" id="default_template" tabindex="6">
                                                                     <?php foreach ($templates as $template): ?>
                                                                         <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
-                                                                            <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?> value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
+                                                                            <option value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
                                                                 </select>
@@ -639,7 +611,7 @@
                                                             $('#theImg').css('background-image', 'url(' + scrshot + ')');
                                                             $('#theImg').attr('data-src', scrshot);
                                                         }
-                                                    }, 3000);
+                                                    }, 100);
                                                 }
                                             </script>
 
@@ -649,7 +621,13 @@
 
                                             <?php endif; ?>
 
-                                            <div class="row mt-5">
+
+                                           <div class="text-center">
+                                               <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                           </div>
+                                            <div class="row mt-3">
+
+
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">

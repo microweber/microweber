@@ -143,13 +143,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             mw.require('icon_selector.js')
             mw.require('wysiwyg.css');
+            mw.require('editor.js');
         </script>
 
         <script>
 
-            mw.require('editor.js');
 
-            launchEditor = function () {
+
+            var launchEditor = function () {
                 if (!window.editorLaunched) {
                     editorLaunched = true;
                     PopUpEditor = mw.Editor({
@@ -240,7 +241,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
-                                <span class="mdi mdi-pencil"></span>
+
+                                <button type="button" onclick="pickUrl()" id="display-url-edit-btn" class="btn btn-secondary btn-sm btn-rounded  "><i class="mdi mdi-link"></i> <?php _e("Edit link"); ?></button>
+
+
                                 <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
 
                                 <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
@@ -351,10 +355,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 </script>
 
-
-
-
-
                 <div class="form-group">
                     <span class="btn btn-primary">
                     <script>
@@ -388,19 +388,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                 <div class="mw-accordion">
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
-                            <div class="mw-ui-box mw-ui-box-content">
-                                <module type="admin/modules/templates" simple="true"/>
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <i class="mw-icon-gear"></i> <?php _e("Custom design"); ?>
@@ -431,7 +418,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     });
 
                                                 })
-
 
                                             </script>
                                             <label class="control-label"><?php _e('Color'); ?></label>
@@ -595,11 +581,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-
-
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
             </div>
         </div>
     </div>

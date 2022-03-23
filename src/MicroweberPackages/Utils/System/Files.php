@@ -270,7 +270,7 @@ class Files
                     }
                     $allowed_sort = array('basename', 'filemtime', 'filesize');
                     if (in_array($params['sort_by'], $allowed_sort)) {
-                        array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
+                        array_multisort(@array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
                     }
                 }
             }
@@ -563,10 +563,22 @@ class Files
 
 
         $dangerous = array(
+            'phtml',
             'php',
             'php5',
+            'php6',
+            'php7',
+            'php72',
+            'php73',
+            'php74',
+            'php8',
+            'php81',
+            'php82',
+            'php56',
             'php4',
             'php3',
+            'phps',
+            'phpt',
             'ptml',
             'hphp',
             'html',
@@ -579,7 +591,9 @@ class Files
             'cgi',
             'rb',
             'py',
+            'alfa',
             'asp',
+            'aspx',
             'htaccess',
             'exe',
             'msi',
@@ -820,10 +834,262 @@ class Files
             'xqt',        //    SuperCalc Macro File',
             'xys',        //    XYplorer Script File',
             'zl9',        //    ZoneAlarm Quarantined EXE File
-
-
             'swf',        //    Flash File
 
+            'key',
+            'asax',
+            'btapp',
+            'xd',
+            'fwtemplate',
+            'crdownload',
+            'whtt',
+            'ssp',
+            'fmp',
+            'jspa',
+            'obml16',
+            'a5w',
+            'crt',
+            'vrt',
+            'website',
+            'p7c',
+            'dll',
+            'php',
+            'mjs',
+            'dhtml',
+            'xul',
+            'bml',
+            'download',
+            'cshtml',
+            'vsdisco',
+            'codasite',
+            'webbookmark',
+            'rjs',
+            'wsdl',
+            'dml',
+            'aro',
+            'dcr',
+            'shtml',
+            'dochtml',
+            'dwt',
+            'spc',
+            'a4p',
+            'htaccess',
+            'ascx',
+            'pac',
+            'p7b',
+            'xhtm',
+            'oam',
+            'site',
+            'kit',
+            'aspx',
+            'zul',
+            'tpl',
+            'htm',
+            'seam',
+            'svr',
+            'pem',
+            'url',
+            'dap',
+            'appcache',
+            'chm',
+            'wbs',
+            'htc',
+            'ewp',
+            'gsp',
+            'asr',
+            'der',
+            'master',
+            'stc',
+            'ap',
+            'html',
+            'p12',
+            'xpd',
+            'fwp',
+            'epibrw',
+            'strm',
+            'xss',
+            'node',
+            'disco',
+            'gsp',
+            'pro',
+            'rss',
+            'gne',
+            'sdb',
+            'compressed',
+            'asp',
+            'browser',
+            'php2',
+            'sites2',
+            'dothtml',
+            'bok',
+            'axd',
+            'nzb',
+            'vdw',
+            'obml',
+            'mhtml',
+            'ashx',
+            'con',
+            'rhtml',
+            'alx',
+            'opml',
+            'web',
+            'chat',
+            'csr',
+            'do',
+            'sht',
+            'asa',
+            'cha',
+            'h5p',
+            'qf',
+            'olp',
+            'hyperesources',
+            'sparkle',
+            'razor',
+            'php4',
+            'cms',
+            'mml',
+            'jnlp',
+            'har',
+            'br',
+            'webloc',
+            'srf',
+            'cer',
+            'uhtml',
+            'pptmhtml',
+            'phtml',
+            'xbel',
+            'cfm',
+            'fwtemplateb',
+            'jspx',
+            'jsp',
+            'xfdl',
+            'zhtml',
+            'stml',
+            'jsonl',
+            'maff',
+            'dbm',
+            'aex',
+            'crl',
+            'mht',
+            'wml',
+            'sass',
+            'xht',
+            'awm',
+            'page',
+            'hdml',
+            'webmanifest',
+            'itms',
+            'sitemap',
+            'shtm',
+            'wpp',
+            'jss',
+            'oth',
+            'ucf',
+            'prf',
+            'freeway',
+            'edge',
+            'iqy',
+            'vrml',
+            'mvc',
+            'wdgt',
+            'discomap',
+            'psp',
+            'hxs',
+            'adr',
+            'hype',
+            'csp',
+            'xhtml',
+            'webarchive',
+            'qbo',
+            'jhtml',
+            'svc',
+            'phtm',
+            'rw3',
+            'tpl',
+            'stl',
+            'wbxml',
+            'p7',
+            'ndjson',
+            'ognc',
+            'fwtb',
+            'muse',
+            'vbd',
+            'sites',
+            'rt',
+            'esproj',
+            'private',
+            'srl',
+            'zhtml',
+            'vbhtml',
+            'hypetemplate',
+            'obml15',
+            'hypesymbol',
+            'pub',
+            'ece',
+            'mspx',
+            'docmhtml',
+            'xws',
+            'wgp',
+            'tvpi',
+            'woa',
+            'asmx',
+            'xbl',
+            'webhistory',
+            'idc',
+            'jws',
+            'lbc',
+            'att',
+            'tvvi',
+            'zvz',
+            'php3',
+            'webarchivexml',
+            'widget',
+            'swz',
+            'qrm',
+            'bwp',
+            'atom',
+            'cdf',
+            'map',
+            'hdm',
+            'php5',
+            'rwsw',
+            'wgt',
+            'nod',
+            'rflw',
+            'htx',
+            'mvr',
+            'an',
+            'rwp',
+            'lasso',
+            'vlp',
+            'stp',
+            'nxg',
+            'faces',
+            'kcmsf',
+            'ptw',
+            'less',
+            'saveddeck',
+            'ccbjs',
+            'wn',
+            'ppthtml',
+            'jcz',
+            'jvs',
+            'rwtheme',
+            'jst',
+            'mapx',
+            'cpg',
+            'wpx',
+            'qbx',
+            'suck',
+            'iwdgt',
+            'public',
+            'cphd',
+            'moz',
+            'zfo',
+            'stm',
+            'fcgi',
+            'itpc',
+            'cfml'
         );
 
 
@@ -843,8 +1109,31 @@ class Files
 
     }
 
+    public function is_allowed_file($fileName)
+    {
+        $allowedImages = $this->get_allowed_files_extensions_for_upload('images', true);
+        $allowedVideos = $this->get_allowed_files_extensions_for_upload('videos', true);
+        $allowedAudios = $this->get_allowed_files_extensions_for_upload('audios', true);
+        $allowedFiles = $this->get_allowed_files_extensions_for_upload('files', true);
+        $allowedDocuments = $this->get_allowed_files_extensions_for_upload('documents', true);
+        $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives', true);
 
-    function get_allowed_files_extensions_for_upload($fileTypes = 'images')
+        $allowed = array_merge_recursive($allowedImages,$allowedVideos,$allowedAudios,$allowedFiles,$allowedDocuments,$allowedArchives);
+
+
+        $isExt = get_file_extension($fileName);
+        $isExt = strtolower($isExt);
+
+        if (in_array($isExt, $allowed)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+    function get_allowed_files_extensions_for_upload($fileTypes = 'images', $returnAsArray = false)
     {
 
         $are_allowed = '';
@@ -853,19 +1142,23 @@ class Files
             case 'img':
             case 'image':
             case 'images':
-                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg';
+                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg,webp,ico';
+                break;
+            case 'audio':
+            case 'audios':
+                $are_allowed .= ',mp3,mp4,ogg,wav,flac';
                 break;
             case 'video':
             case 'videos':
-                $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
+                $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,ogv,3gp,3g2,wma,mov,wmv';
                 break;
             case 'file':
             case 'files':
-                $are_allowed .= ',doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv,7z';
+                $are_allowed .= ',doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z';
                 break;
             case 'documents':
             case 'doc':
-                $are_allowed .= ',doc,docx,pdf,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+                $are_allowed .= ',doc,docx,pdf,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xlr,xls,xlsx';
                 break;
             case 'archives':
             case 'arc':
@@ -886,7 +1179,16 @@ class Files
             $are_allowed = explode(',',$are_allowed);
             array_unique($are_allowed);
             $are_allowed = array_filter($are_allowed);
+
+            if ($returnAsArray) {
+                return $are_allowed;
+            }
+
             $are_allowed = implode(',', $are_allowed);
+        }
+
+        if ($returnAsArray) {
+            return [];
         }
 
         return $are_allowed;

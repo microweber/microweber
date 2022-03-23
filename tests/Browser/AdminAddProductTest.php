@@ -22,6 +22,7 @@ class AdminAddProductTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+
             $productPrice = rand(1111,9999);
             $productSpecialPrice = $productPrice - rand(1,9);
             $productSku = rand(1111,9999);

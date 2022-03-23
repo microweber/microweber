@@ -1,0 +1,230 @@
+.mw-tree .mw-tree-nav-skin-default {
+  padding: 10px 0 20px 20px;
+}
+.mw-tree * {
+  vertical-align: middle;
+}
+.mw-tree-nav li.skip-true {
+  opacity: .6;
+  pointer-events: none;
+  cursor: no-drop;
+}
+.mw-tree-nav .opened > ul {
+  display: block;
+}
+.form-group > .mw-tree-nav-skin-default {
+  padding-left: 15px;
+}
+.mw-tree-nav-skin-default {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mw-tree-nav-skin-default ul {
+  display: none;
+}
+.mw-tree-nav-skin-default .mw-tree-item-content {
+  cursor: pointer;
+}
+.mw-tree-nav-skin-default .mw-tree-item-title {
+  padding: 0 4px 0 0;
+  display: inline-block;
+  border: 1px solid transparent;
+  transition: all .3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding-left: 5px;
+  padding-right: 42px;
+  font-size: 12px;
+  color: #7e7e7e;
+}
+.mw-tree-nav-skin-default tree-label {
+  width: 20px;
+}
+.mw-tree-nav-skin-default tree-label + .mw-tree-item-title {
+  max-width: -webkit-calc(75%);
+  max-width: calc(75%);
+}
+.mw-tree-nav-skin-default > li {
+  margin: 2px 0;
+}
+.mw-tree-nav-skin-default li {
+  position: relative;
+  list-style: none;
+}
+.mw-tree-nav-skin-default li * {
+  vertical-align: middle;
+}
+.mw-tree-nav-skin-default li .mdi-pencil {
+  color: #0e80e5;
+  opacity: 1;
+}
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title {
+  color: #0e80e5;
+  font-weight: bold;
+}
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title:before {
+  color: #0e80e5;
+  font-weight: normal;
+}
+.mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root,
+.mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
+  background: #fff;
+}
+.mw-tree-nav-skin-default li li {
+  padding-left: 23px;
+  margin-left: 5px;
+}
+.mw-tree-nav-skin-default li ul,
+.mw-tree-nav-skin-default li li {
+  position: relative;
+}
+.mw-tree-nav-skin-default li.selected > .mw-tree-toggler {
+  background-color: white;
+}
+.mw-tree-nav-skin-default li ul li:after {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  bottom: 0;
+  width: 1px;
+  content: '';
+  background: #cccccc;
+}
+.mw-tree-nav-skin-default li ul li:last-child:after {
+  bottom: auto;
+  height: 19px;
+}
+.mw-tree-nav-skin-default li ul li:before {
+  position: absolute;
+  top: 18px;
+  left: 8px;
+  width: 15px;
+  height: 1px;
+  content: '';
+  background: #cccccc;
+}
+.mw-tree-nav-skin-default .mw-tree-toggler {
+  display: inline-block;
+  width: 25px;
+  color: #bcbfc2;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  padding: 0;
+  line-height: 31px;
+  font-size: 9px;
+  font-family: "Material Design Icons";
+  /*      margin: 0 -7px 0 -17px;
+      margin: 0 -3px 0 -23px;*/
+}
+.mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
+  margin: 0 -7px 0 -17px;
+  margin: 0 -3px 0 -23px;
+}
+.mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
+  margin: 3px 14px 0px -39px;
+}
+.mw-tree-nav-skin-default .mw-tree-toggler:after {
+  content: "\F0536";
+  transition: .3s;
+  position: relative;
+  display: inline-block;
+  transform: rotate(90deg);
+}
+.mw-tree-nav-skin-default .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
+  transform: rotate(180deg);
+}
+.mw-tree-nav-skin-default .mw-tree-context-menu-item {
+  font-size: 14px;
+  display: inline-block;
+  visibility: hidden;
+  position: relative;
+  height: 21px;
+  width: 21px;
+  line-height: 17px;
+  text-align: center;
+  border: 1px solid transparent;
+  color: #3B3B3B;
+  opacity: 0.9;
+  cursor: pointer;
+}
+.mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu-item {
+  visibility: visible;
+}
+.mw-tree-nav-skin-default .mw-tree-context-menu-item:hover {
+  opacity: 1;
+  color: #0e80e5;
+}
+.mw-tree-nav-skin-default .mw-tree-item-content-root {
+  display: block;
+}
+.mw-tree-nav-skin-default .mw-tree-item-content {
+  color: #212121;
+  padding: 0;
+  display: inline-block;
+  position: relative;
+  outline: none;
+  background-repeat: no-repeat;
+  line-height: 27px;
+  width: 100%;
+}
+.mw-tree-nav-skin-default .mw-tree-toggler + .mw-tree-item-content {
+  width: -webkit-calc(100% - 1px);
+  width: calc(100% - 1px);
+}
+.mw-tree-nav-skin-default .has-children > .mw-tree-item-content {
+  width: -webkit-calc(100% - 35px);
+  width: calc(100% - 35px);
+}
+.mw-tree-nav-skin-default .mw-tree-context-menu {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.mw-tree-nav-skin-default .mw-tree-item-title [class*='mai-'],
+.mw-tree-nav-skin-default .mw-tree-item-title [class*='mw-icon-'],
+.mw-tree-nav-skin-default .mw-tree-aditional-item-icon,
+.mw-tree-nav-skin-default .mw-tree-item-title:before {
+  color: #bcbfc2;
+  font-size: 19px;
+  display: inline-block;
+  position: relative;
+  top: 0;
+  margin-right: 3px;
+  vertical-align: top;
+}
+.mw-tree-nav-skin-default .selected > .mw-tree-item-content-root .mw-tree-item-title:before {
+  color: #0e80e5;
+}
+.mw-tree-nav-skin-default .mw-tree-item-title:before {
+  font-family: "Material Design Icons";
+}
+.mw-tree-nav-skin-default li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  content: 'c';
+  font-family: 'Microweber';
+}
+.mw-tree-nav-skin-default li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  content: "\F0214";
+}
+.mw-tree-nav-skin-default li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  content: "\F02DC";
+}
+.mw-tree-nav-skin-default li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  content: "\F049A";
+}
+.mw-tree-nav-skin-default li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  content: "\F1009";
+  z-index: 1;
+}
+.mw-tree-nav-skin-default .mw-tree-item-hidden {
+  display: none;
+}

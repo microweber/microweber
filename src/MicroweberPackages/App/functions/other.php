@@ -415,7 +415,7 @@ function mw_post_update()
         $update = mw()->update->post_update();
 
         if (isset($_GET['redirect_to'])) {
-            return redirect($_GET['redirect_to']);
+            return app()->url_manager->redirect($_GET['redirect_to']);
         }
 
         return $update;
@@ -432,7 +432,7 @@ function mw_reload_modules()
     mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
 
     if (isset($_GET['redirect_to'])) {
-        return redirect($_GET['redirect_to']);
+        return app()->url_manager->redirect($_GET['redirect_to']);
     }
 }
 
@@ -957,7 +957,6 @@ function mw_composer_install_package_by_name($params)
 
     } else {
         must_have_access();
-
     }
 
     $update_api = mw('update');

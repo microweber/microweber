@@ -47,11 +47,11 @@ $add_new_text = _e('Add new ' . $cont_type_to_add, true);
 <div class="mw-modules-tabs">
     <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
         <a href="javascript:window.mw.parent().live_edit.showSettings('#<?php print $params['id'] ?>',{mode:'modal', liveedit:true});" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-            <span class="fas fa-list"></span> &nbsp;<?php print $mange_btn_text ?>
+            <span class="fa fa-list"></span> &nbsp;<?php print $mange_btn_text ?>
         </a>
 
         <a href="javascript:window.mw.parent().liveedit.manageContent.edit('0','<?php print $cont_type_to_add ?>', '', '<?php print $page_id_for_add ?>', '<?php print $category_id_for_add ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
-            <span class="fas fa-plus-circle"></span> &nbsp;<?php print $add_new_text ?>
+            <span class="fa fa-plus-circle"></span> &nbsp;<?php print $add_new_text ?>
         </a>
     </div>
 

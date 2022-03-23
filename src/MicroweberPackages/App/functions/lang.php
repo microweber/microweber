@@ -21,6 +21,11 @@ function current_lang()
     return mw()->lang_helper->current_lang();
 }
 
+function default_lang()
+{
+    return mw()->lang_helper->default_lang();
+}
+
 function current_lang_abbr()
 {
     $lang = mw()->lang_helper->current_lang();
@@ -237,4 +242,3 @@ api_expose_admin('save_language_file_content', function ($data) {
 function get_flag_icon($locale) {
     return \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
 }
-

@@ -67,9 +67,9 @@ class Offer extends Model
         } elseif ($offerData['is_active'] == 'on') {
             $offerData['is_active'] = 1;
         }
-        if(isset($offerData['id'])){
+        if (isset($offerData['id'])) {
             $offer = Offer::updateOrCreate(
-                ['id' =>  $offerData['id']],
+                ['id' => $offerData['id']],
                 $offerData
             );
         } else {
@@ -116,9 +116,9 @@ class Offer extends Model
             $query->where('product_id', '=', $productId);
         }
 
-        $res  = $query->first();
+        $res = $query->first();
 
-        if(!empty($res)) {
+        if (!empty($res)) {
             return $res->toArray();
         } else {
             return [];
@@ -201,7 +201,7 @@ class Offer extends Model
 
         if (!empty($additionalFields)) {
             $res = array_merge($offer->toArray(), $additionalFields);
-        } elseif(!empty($offer)) {
+        } elseif (!empty($offer)) {
             $res = $offer->toArray();
         }
 
@@ -216,7 +216,7 @@ class Offer extends Model
 
         $offer = Offer::find($offerId);
 
-        if(!empty($offer)) {
+        if (!empty($offer)) {
             $offer->delete();
             $res = true;
         } else {

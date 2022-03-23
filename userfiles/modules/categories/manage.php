@@ -44,11 +44,6 @@
                     $more_link_params_txt   =$more_link_params_txt. "<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_add_post_to_category_from_modal({id})'>  <span>". _e("Add to category", true) . "</span> </span>";
                 }
 
-
-
-
-
-
                 if (user_can_access('module.categories.edit')) {
 
                     if(isset($params['show_add_post_to_category_button'])){
@@ -198,6 +193,7 @@
 
                 }
                 mw.quick_cat_add_post_to_category_from_modal = function (id) {
+                  
                      mw.top().trigger("mwSelectToAddCategoryToContent", id);
 
 

@@ -101,9 +101,7 @@
                     live_edit_css_code_area_editor.setOption("theme", 'material');
                     live_edit_css_code_area_editor.on("change", function (cm, change) {
 
-//var val  = document.getElementById("live_edit_custom_css_code_mirror").value;
 
-                        //   alert(val);
                     });
 
 

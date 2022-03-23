@@ -13,16 +13,10 @@ use MicroweberPackages\Translation\Locale\Traits\DetailsByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\LanguagesByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\RegionByLocaleTrait;
 
-/**
- * @deprecated please use LanguageHelper class
- */
 class IntlLocale
 {
     use DetailsByLocaleTrait, LanguagesByLocaleTrait, RegionByLocaleTrait;
 
-    /**
-     * @deprecated please use LanguageHelper class
-     */
     public static function getDisplayRegion($locale)
     {
         if (isset(self::$regionsByLocale[$locale])) {
@@ -32,33 +26,46 @@ class IntlLocale
         return false;
     }
 
-    /**
-     * @deprecated please use LanguageHelper class
-     */
     public static function getDisplayLanguage($locale)
     {
-
-       return  LanguageHelper::getDisplayLanguage($locale);
-
-
+       return LanguageHelper::getDisplayLanguage($locale);
     }
 
-    /**
-     * @deprecated please use LanguageHelper class
-     */
-    public static function getDisplayFlag($locale)
+    public static function getDisplayName($locale)
     {
-        if (isset(self::$detailsByLocale[$locale])) {
-            $details = self::$detailsByLocale[$locale];
-            if (isset($details['flag']) and $details['flag']) {
-                return $details['flag'];
-            }
-            $localee = explode('_', $locale);
+        if (isset(self::$detailsByLocale[$locale]['name'])) {
+            return self::$detailsByLocale[$locale]['name'];
+        }
 
-            if (isset($localee[1])) {
-                return strtolower($localee[1]);
+        foreach (self::$detailsByLocale as $detailLocale) {
+            if (isset($detailLocale['locale'])) {
+                if ($detailLocale['locale'] == $locale) {
+                    if (isset($detailLocale['name'])) {
+                        return $detailLocale['name'];
+                    }
+                }
             }
         }
-        return $locale;
+
+        return false;
+    }
+
+    public static function getDisplayFlag($locale)
+    {
+        if (isset(self::$detailsByLocale[$locale]['flag'])) {
+            return self::$detailsByLocale[$locale]['flag'];
+        }
+
+        foreach (self::$detailsByLocale as $detailLocale) {
+            if (isset($detailLocale['locale'])) {
+                if ($detailLocale['locale'] == $locale) {
+                    if (isset($detailLocale['flag'])) {
+                        return $detailLocale['flag'];
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

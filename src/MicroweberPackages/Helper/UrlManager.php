@@ -9,6 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 	}
 }
 
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Helper\URLify;
 
 class UrlManager
@@ -98,14 +99,28 @@ class UrlManager
         if (trim($url) == '') {
             return false;
         }
+
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
-        if (headers_sent()) {
-            echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
-        } else {
-            return \Redirect::to($url);
 
-            return;
+        $redirectUrl = site_url();
+        $parseUrl = parse_url($url);
+        if (isset($parseUrl['host'])) {
+            if ($parseUrl['host'] == site_hostname()) {
+                $redirectUrl = $url;
+            }
+        }
+
+        $redirectUrl = str_replace("\r", "", $redirectUrl);
+        $redirectUrl = str_replace("\n", "", $redirectUrl);
+
+        $clearInput = new HTMLClean();
+        $redirectUrl = $clearInput->clean($redirectUrl);
+
+        if (headers_sent()) {
+            echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
+        } else {
+            return \Redirect::to($redirectUrl);
         }
     }
 
@@ -257,6 +272,13 @@ class UrlManager
         }
 
         $u1 = implode('/', $this->segment(-1, $url));
+
+
+        // clear request params
+        $cleanParam = new HTMLClean();
+        $u1 = $cleanParam->clean($u1);
+
+
         return $u1;
     }
 
@@ -284,11 +306,14 @@ class UrlManager
             $u = $this->current_url_var;
         }
         if ($u == false) {
-            if (!isset($_SERVER['REQUEST_URI'])) {
-                $serverrequri = $_SERVER['PHP_SELF'];
-            } else {
+
+            $serverrequri = false;
+            if (isset($_SERVER['REQUEST_URI'])) {
                 $serverrequri = $_SERVER['REQUEST_URI'];
+            } elseif (isset($_SERVER['PHP_SELF'])) {
+                $serverrequri = $_SERVER['PHP_SELF'];
             }
+
             $s = '';
             if (is_https()) {
                 $s = 's';
@@ -312,11 +337,13 @@ class UrlManager
                 }
             } elseif (isset($_SERVER['HOSTNAME'])) {
                 $u = $protocol . '://' . $_SERVER['HOSTNAME'] . $port . $serverrequri;
+            } else {
+                if ($serverrequri) {
+                  $u = url()->current() . $serverrequri;
+                }
             }
 
-
         }
-
 
         if ($no_get == true) {
             $u = strtok($u, '?');
@@ -359,6 +386,7 @@ class UrlManager
         } else {
             $current_url = $page_url;
         }
+
         $site_url = $this->site_url();
       //  $site_url = rtrim($site_url, '\\');
        // $site_url = rtrim($site_url, '/');

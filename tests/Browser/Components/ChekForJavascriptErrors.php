@@ -41,20 +41,162 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
-        $browser->pause(3000);
+        $url = $browser->driver->getCurrentURL();
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+
+            $randClass = 'js-rand-validation-element-'.time().rand(1111,9999);
+            $browser->script("return $('.module').eq(" . $key . ").find('.edit').addClass('$randClass')");
+
+            $moduleElements = $browser->elements('.'.$randClass);
+            foreach ($moduleElements as $mKey => $mElem) {
+                // The module should not contain edit field with field="content" and rel="content"
+                $output = $browser->script("
+
+                var editElementValidation = false;
+                if ($('.$randClass').eq(" . $mKey . ").attr('rel')=='content' && $('.$randClass').eq(" . $mKey . ").attr('field')=='content') {
+                    editElementValidation = true;
+                     $('.$randClass').eq(" . $mKey . ").css('background', 'red');
+                    console.log($('.$randClass').eq(" . $mKey . "));
+                }
+
+                return editElementValidation;
+                ");
+                PHPUnit::assertFalse($output[0], 'The module should not contain edit field with field="content" and rel="content" on url: '.$url);
+            }
+        }
+
+        $elements = $browser->elements('.edit');
+        foreach ($elements as $key => $elem) {
+
+            // Must have rel and field attribute
+            $output = $browser->script("
+
+            var editElementValidation = false;
+            if ($('.edit').eq(" . $key . ").attr('rel') && $('.edit').eq(" . $key . ").attr('field')) {
+                editElementValidation = true;
+            } else {
+                 $('.edit').eq(" . $key . ").css('background', 'red');
+                console.log($('.edit').eq(" . $key . "));
+            }
+
+            return editElementValidation;
+            ");
+            PHPUnit::assertTrue($output[0],'Edit fields must have rel and field attributes on url: '.$url);
+
+        }
+
+        $elements = $browser->elements('.allow-drop');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var allowDropElement = $('.allow-drop').eq(" . $key . ");
+
+                var dropElementValidation = false;
+                if (!$(allowDropElement).hasClass('nodrop')) {
+                    dropElementValidation = true;
+                } else {
+                    $('.allow-drop').eq(" . $key . ").css('background', 'red');
+                    console.log($('.allow-drop').eq(" . $key . "));
+                }
+
+               return dropElementValidation;
+            ");
+
+
+
+            PHPUnit::assertTrue($output[0],'Edit field with allow-drop must not have nodrop class on url: '.$url);
+
+        }
+
+        $elements = $browser->elements('.module');
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var moduleElement = $('.module').eq(" . $key . ").hasClass('edit');
+            if (moduleElement) {
+                $('.module').eq(" . $key . ").css('background', 'red');
+                console.log($('.module').eq(" . $key . "));
+            }
+            return moduleElement;
+            ");
+           /* if ($output[0]) {
+                die();
+            }*/
+            PHPUnit::assertFalse($output[0],'Module should not have .edit class on url: '.$url);
+        }
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
-
+        $errorStrings = ['Uncaught SyntaxError'];
+        $skipErrorStrings = [
+            'Blocked attempt to show',
+            'userfiles/install_log.txt?',
+        ];
         $findedErrors = [];
         if (!empty($consoleLog)) {
-            foreach($consoleLog as $log) {
+            foreach ($consoleLog as $log) {
+
+                $skip = false;
+                foreach ($skipErrorStrings as $errorString) {
+                    if (strpos($log['message'], $errorString) !== false) {
+                        $skip = true;
+                    }
+                }
+
+                if ($skip) {
+                    continue;
+                }
+
                 if ($log['level'] == 'SEVERE') {
                     $findedErrors[] = $log;
+                }
+
+                if ($log['level'] == 'INFO') {
+                    foreach ($errorStrings as $errorString){
+                        if (strpos($log['message'], $errorString) !== false) {
+                            $findedErrors[] = $log;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        if (!empty($findedErrors)) {
+            $findedErrors[] = 'page url: ' . $browser->driver->getCurrentURL();
+            throw new \Exception(print_r($findedErrors, true));
+        }
+
+        PHPUnit::assertEmpty($findedErrors);
+
+        // Check for dump and prints
+        $printStrings = [
+            'array (',
+            'Array (', 
+            'stdClass Object',
+            'stdClass',
+            'Sfdump',
+            'sf-dump',
+            'xdebug-var-dump',
+            'sf-dump-public',
+        ];
+        $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+        if (!empty($html)) {
+            foreach ($html as $htmlString) {
+                foreach ($printStrings as $printString) {
+                    PHPUnit::assertFalse(str_contains($htmlString, $printString), 'DUMP found. It should not have print_r/var_dump or dump: ' . $printString. ' on url: ' . $url);
                 }
             }
         }
 
-        PHPUnit::assertEmpty($findedErrors);
+        // Check for parser errors
+        $errorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_','inner-edit-tag'];
+        $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+        if (!empty($html)) {
+            foreach ($html as $htmlString) {
+                foreach ($errorStrings as $errorString) {
+                    PHPUnit::assertFalse(str_contains($htmlString, $errorString), 'Parser error found. It should not have tag: ' . $errorString. ' on url: ' . $url);
+                }
+            }
+        }
     }
 }

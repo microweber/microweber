@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
+use Illuminate\Support\Str;
 use \Intervention\Image\ImageManagerStatic as Image;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
 use MicroweberPackages\Utils\Media\Thumbnailer;
@@ -413,6 +415,8 @@ class MediaManager
 
     public function save($data)
     {
+        $data = app()->html_clean->cleanArray($data);
+
         $s = array();
 
         if (isset($data['content-id'])) {
@@ -589,6 +593,12 @@ class MediaManager
 
         if (isset($data['image_options'])) {
             $s['image_options'] = @json_encode($data['image_options']);
+        }
+
+        if (isset($s['filename']) && is_array($s['filename'])) {
+            if (isset($s['filename']['error'])) {
+                return false;
+            }
         }
 
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
@@ -955,6 +965,10 @@ class MediaManager
     public function thumbnail_img($params)
     {
 
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
+
         // ini_set('memory_limit', '256M');
 
         extract($params);
@@ -1171,16 +1185,40 @@ class MediaManager
         }
     }
 
+    function pathauto_cleanstring($string)
+    {
+        $url = $string;
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url); // substitutes anything but letters, numbers and '_' with separator
+        $url = trim($url, "-");
+
+        if (function_exists('iconv')) {
+            $url = iconv("utf-8", "us-ascii//TRANSLIT", $url); // TRANSLIT does the whole job
+        }
+
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url); // keep only letters, numbers, '_' and separator
+
+        return $url;
+    }
 
     public function create_media_dir($params)
     {
+        $clean = new HTMLClean();
+        $_REQUEST = $clean->cleanArray($_REQUEST);
+
         must_have_access();
         $resp = array();
         // $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = media_uploads_path();
         $fn_path = media_base_path();
         if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '') {
+
             $_REQUEST['path'] = urldecode($_REQUEST['path']);
+            $_REQUEST['path'] = $this->pathauto_cleanstring($_REQUEST['path']);
+
+            if (Str::length($_REQUEST['path']) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
 
             $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
             $fn_path = str_replace('..', '', $fn_path);
@@ -1188,11 +1226,18 @@ class MediaManager
 
             $target_path = $fn_path;
         }
-        if (!isset($_REQUEST['name'])) {
+        if (!isset($_REQUEST['name']) || empty($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
             $fn_new_folder_path = $_REQUEST['name'];
             $fn_new_folder_path = urldecode($fn_new_folder_path);
+
+            $fn_new_folder_path = $this->pathauto_cleanstring($fn_new_folder_path);
+
+            if (Str::length($fn_new_folder_path) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
+
             $fn_new_folder_path = str_replace('..', '', $fn_new_folder_path);
             $fn_new_folder_path_new = $target_path . DS . $fn_new_folder_path;
             $fn_path = normalize_path($fn_new_folder_path_new, false);

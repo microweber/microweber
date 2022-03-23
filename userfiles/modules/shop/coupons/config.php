@@ -9,7 +9,6 @@
  * @copyright  2018 Microweber
  */
 
-
 $config = array();
 $config['name'] ="Coupons";
 $config['author'] = "Bozhidar Slaveykov";
@@ -18,8 +17,19 @@ $config['ui'] = false;
 $config['ui_admin'] = false;
 
 $config['categories'] = "online shop";
-$config['version'] = 0.24;
+$config['version'] = "0.3";
 $config['position'] = 26;
+
+/*
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => _DIR_ . '/src/',
+        'namespace' => 'MicroweberPackages\\Modules\\Shop\\Coupons\\'
+    ],
+];*/
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Shop\Coupons\ShopCouponServiceProvider::class
+];
 
 $config['tables'] = array(
 	'cart_coupons' => array(

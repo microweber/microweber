@@ -331,7 +331,7 @@ input,
 {
     background-color: $transparent!important;
     color: $primary!important;
-    border-color: $primary!important;
+    border-color: $primary;
 
     .mdi {
         color: $primary!important;
@@ -350,18 +350,18 @@ i.mdi {
     color: $silver!important;
 }
 
-.card-header, .card-body .row a, .comments-holder .card-body .row{
-    &:hover {
-            strong, i {
-            color: $primary!important;
-        }
-
-        .mdi.mdi-magnify {
-            color: $secondary!important;
-        }
-
-    }
-}
+//.card-header, .card-body .row a, .comments-holder .card-body .row{
+//    &:hover {
+//            strong, i {
+//            color: $primary!important;
+//        }
+//
+//        .mdi.mdi-magnify {
+//            color: $secondary!important;
+//        }
+//
+//    }
+//}
 
 .quick-links span:hover {
     color: $primary!important;
@@ -487,6 +487,8 @@ small, small.bg-secondary {
 svg {
     fill: $primary;
 }
+
+
 
 .add-new {
     background-color: $primary!important;
@@ -803,7 +805,7 @@ input, .custom-select {
 }
 
 .mw-dialog-holder {
-    box-shadow: $primary 0px 1px 10px!important;
+    border: 1px solid $primary;
 }
 
 
@@ -1210,4 +1212,38 @@ a.text-dark:hover, a.text-dark:focus {
 
 .card.not-collapsed-border.card-success {
     background-color: $body-bg!important;
+}
+
+.mw-standalone-loading {
+    background-color: $body-bg!important;
+}
+
+.mw-standalone-text h4, h6 {
+    color: $primary!important;
+
+    a {
+        color: $primary!important;
+    }
+}
+
+.rte_css_editor_svg.svg, .mw-ui-box-header.mw-accordion-title svg {
+    fill: $silver!important;
+    opacity: 0.5;
+
+    &:hover, &:active {
+        fill: $primary!important;
+    }
+}
+
+.mw-ui-box-header.mw-accordion-title.active {
+    color: $primary!important;
+    svg {
+
+        fill: $primary!important;
+        opacity: 1;
+    }
+}
+
+.mw-backup-option {
+    background: unset!important;
 }

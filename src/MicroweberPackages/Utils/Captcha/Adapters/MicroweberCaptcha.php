@@ -6,12 +6,11 @@ class MicroweberCaptcha
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-
         if ($key == false) {
             return false;
         }
-        $key = trim($key);
 
+        $key = trim($key);
 
         $old_array = app()->user_manager->session_get('captcha_recent');
         if (is_array($old_array)) {
@@ -19,34 +18,29 @@ class MicroweberCaptcha
                 return (string)$piece;
             }, $old_array);
         }
-        $existing = app()->user_manager->session_get('captcha');
 
          if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
-
              if ($found_key !== false) {
                 if ($unset_if_found) {
                     unset($old_array[$found_key]);
                 }
                 app()->user_manager->session_set('captcha_recent', $old_array);
+                $this->reset();
                 return true;
             }
-
-
         }
-        if ($captcha_id == false) {
-            $existing = app()->user_manager->session_get('captcha');
-        } else {
-            $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
-        }
-        $existing = app()->user_manager->session_get('captcha');
+
         $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
-
          if ($existing == $key) {
+             if ($captcha_id) {
+                 $this->reset($captcha_id);
+             }
             return true;
         } else {
             $existing = app()->user_manager->session_get('captcha');
             if ($existing == $key) {
+                $this->reset();
                 return true;
             }
             return false;
@@ -57,8 +51,8 @@ class MicroweberCaptcha
     {
         $old = app()->user_manager->session_set('captcha',[]);
         $old = app()->user_manager->session_set('captcha_recent',[]);
-        if($captcha_id){
-        $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
+        if ($captcha_id) {
+            $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
         }
     }
 
@@ -149,8 +143,8 @@ class MicroweberCaptcha
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
         $col1z11 = rand(150, 242);
-        $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
-        $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
+      //  $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
+       // $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
         // imagefill($image, 0, 0, $color1);
         for ($i = 0; $i < $x; ++$i) {
             for ($j = 0; $j < $y; ++$j) {

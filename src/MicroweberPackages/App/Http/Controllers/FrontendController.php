@@ -10,6 +10,7 @@ use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
 use MicroweberPackages\App\Traits\LiveEditTrait;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -17,6 +18,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -107,7 +109,6 @@ class FrontendController extends Controller
 
         if(empty($request_params) and (!empty($_REQUEST))){
             $request_params = $_REQUEST;
-
         }
 
         event_trigger('mw.controller.index');
@@ -459,8 +460,10 @@ class FrontendController extends Controller
                 }
 
                 if ($slug_page and !$page) {
+
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+
                 }
 
                 if ($slug_category) {
@@ -911,9 +914,6 @@ class FrontendController extends Controller
         if (defined('CATEGORY_ID')) {
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
         }
-        if ($is_editmode == true and !defined('IN_EDIT')) {
-            define('IN_EDIT', true);
-        }
 
         if (isset($is_quick_edit) and $is_quick_edit == true and !defined('QUICK_EDIT')) {
             define('QUICK_EDIT', true);
@@ -1020,6 +1020,26 @@ class FrontendController extends Controller
                 \Debugbar::startMeasure('render', 'Time for rendering');
             }
 
+            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+                //editmode fix
+                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
+
+                if (!$back_to_editmode) {
+                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
+                        if ($is_admin) {
+                            $is_editmode = true;
+                        }
+                    }
+                }
+
+
+            }
+
+            if ($is_editmode == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
+
+
 
             $l = $this->app->parser->process($l);
 
@@ -1057,6 +1077,7 @@ class FrontendController extends Controller
 
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
+
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -1134,6 +1155,9 @@ class FrontendController extends Controller
                 $content['active_site_template'] = $the_active_site_template;
             }
 
+
+
+
             // if ($is_editmode == true) {
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
                 if (!defined('CONTENT_TEMPLATE')) {
@@ -1160,6 +1184,7 @@ class FrontendController extends Controller
             }
             $custom_live_edit = normalize_path($custom_live_edit, false);
 
+            $liv_ed_css = false;
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
@@ -1168,8 +1193,10 @@ class FrontendController extends Controller
 
 
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if (!$liv_ed_css_get_custom_css_content) {
-                $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+            if ($liv_ed_css_get_custom_css_content == false) {
+                if ($is_editmode) {
+                    $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+                }
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
 
@@ -1194,20 +1221,7 @@ class FrontendController extends Controller
             }
 
 
-            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
-                //editmode fix
-                $back_to_editmode = app()->user_manager->session_get('back_to_editmode');
 
-                if (!$back_to_editmode) {
-                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
-                        if ($is_admin) {
-                            $is_editmode = true;
-                        }
-                    }
-                }
-
-
-            }
 
 
             $template_config = $this->app->template->get_config();

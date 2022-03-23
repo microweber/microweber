@@ -30,7 +30,7 @@
             <input type="text" class="form-control" name="email" placeholder="<?php _e("Enter your account email"); ?>">
         </div>
 
-        <?php if (get_option('captcha_disabled', 'users') !== 'y'): ?>
+        <?php if (isset($captcha_disabled) and $captcha_disabled == false): ?>
         <div class="form-group">
             <div class="row">
                 <div class="col-auto">

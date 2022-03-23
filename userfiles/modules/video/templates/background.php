@@ -3,6 +3,8 @@
         type: layout
         name: Background video
         description: Use as video background
+        is_hidden: 1
+
     */
 ?>
 
@@ -33,7 +35,19 @@
 
 <script>
     $(document).ready(function (){
-        document.querySelector('#video-background-template-<?php echo $params['id']; ?> video').controls = false;
+        var video = document.querySelector('#video-background-template-<?php echo $params['id']; ?> video');
+        if(video) {
+            video.controls = false;
+            video.muted = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            video.loop = true;
+            video.addEventListener('contextmenu', function (e){
+                e.preventDefault();
+                return false;
+            })
+        }
+
     })
 </script>
 
