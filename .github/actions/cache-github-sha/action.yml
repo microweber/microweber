@@ -5,17 +5,15 @@ runs:
   using: "composite"
   steps:
     - name: Create cache file
-    - run: |
+       run: |
         mkdir check-SHA
         echo ${{ github.sha }} > github-sha.txt
-
     - name: Check SHA
       id: check_sha
       uses: actions/cache@v1
       with:
         path: check-SHA
         key: check-SHA-${{ github.sha }}
-
     - name: Some subsequent steps
       if: steps.check_sha.outputs.cache-hit != 'true'
       run: |
