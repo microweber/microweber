@@ -2955,6 +2955,8 @@ html.mw-loading:after {
   max-width: 100%;
   padding-left: 5px;
   padding-right: 42px;
+  /*padding-inline-end:42px;
+    padding-inline-start:5px;*/
   font-size: 12px;
   color: #7e7e7e;
 }
@@ -3142,6 +3144,12 @@ html.mw-loading:after {
 }
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
   display: none;
+}
+html[dir="rtl"] .mw-tree-nav-skin-default {
+  direction: ltr;
+}
+html[dir="rtl"] .mw-tree-item-title {
+  direction: rtl;
 }
 /****************************
             Boxes

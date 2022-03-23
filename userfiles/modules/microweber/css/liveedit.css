@@ -4155,7 +4155,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     font-family: Microweber;
     text-align: center;
     transition: none;
-    margin-left: 7px;
+    margin-inline-start: 7px;
     transform-origin: center;
     font-size: 9px;
 }
