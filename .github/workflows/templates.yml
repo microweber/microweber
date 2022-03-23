@@ -8,42 +8,43 @@ jobs:
       max-parallel: 16
       fail-fast: false
       matrix:
-        php-versions: ['8.0']        
-        templates:
-          - microweber-templates/shopmag
-          - microweber-templates/new-world
-          - microweber-templates/dream
-          - microweber-templates/template-human-recourses
-          - microweber-templates/template-wedding
-          - microweber-templates/template-services
-          - microweber-templates/template-guesthouse
-          - microweber-templates/template-beauty
-          - microweber-templates/template-barbershop
-          - microweber-templates/template-bamboo
-          - microweber-templates/template-yoga-studio
-          - microweber-templates/yachting
-          - microweber-templates/wine
-          - microweber-templates/template-urban
-          - microweber-templates/template-theplace
-          - microweber-templates/notary-services
-          - microweber-templates/green
-          - microweber-templates/template-digital
-          - microweber-templates/template-comingsoon
-          - microweber-templates/template-business
-          - microweber-templates/template-blank
-          - microweber-templates/template-cryptocurrency
-          - microweber-templates/template-simple-shop
-          - microweber-templates/template-networking-space
-          - microweber-templates/mobile-app
-          - microweber-templates/template-apartment
-          - microweber-templates/template-tattoo
-          - microweber-templates/template-private-school
-          - microweber-templates/template-burger
-          - microweber-templates/template-hospital
-          - microweber-templates/template-coffeeshop
-          - microweber-templates/template-tourism
-          - microweber-templates/template-urban
-          - microweber-templates/template-hostel
+        php-versions: ['8.0']
+        templates: [
+          'microweber-templates/shopmag',
+          'microweber-templates/new-world',
+          'microweber-templates/dream',
+          'microweber-templates/template-human-recourses',
+          'microweber-templates/template-wedding',
+          'microweber-templates/template-services',
+          'microweber-templates/template-guesthouse',
+          'microweber-templates/template-beauty',
+          'microweber-templates/template-barbershop',
+          'microweber-templates/template-bamboo',
+          'microweber-templates/template-yoga-studio',
+          'microweber-templates/yachting',
+          'microweber-templates/wine',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-theplace',
+          'microweber-templates/notary-services',
+          'microweber-templates/green',
+          'microweber-templates/template-digital',
+          'microweber-templates/template-comingsoon',
+          'microweber-templates/template-business',
+          'microweber-templates/template-blank',
+          'microweber-templates/template-cryptocurrency',
+          'microweber-templates/template-simple-shop',
+          'microweber-templates/template-networking-space',
+          'microweber-templates/mobile-app',
+          'microweber-templates/template-apartment',
+          'microweber-templates/template-tattoo',
+          'microweber-templates/template-private-school',
+          'microweber-templates/template-burger',
+          'microweber-templates/template-hospital',
+          'microweber-templates/template-coffeeshop',
+          'microweber-templates/template-tourism',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-hostel'
+        ]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -53,7 +54,7 @@ jobs:
 #    - name: Setup Apache
 #      uses: thunder/apache-shiva-php-action@v1
 #      with:
-#        php-version: '8.0'
+#        php-version: '7.4'
 #        site-directory: /home/runner/work/microweber/microweber/
 #        # Defaults to 8888
 #        http-port:
@@ -103,16 +104,3 @@ jobs:
         name: config
         path:
           config
-    - name: Send skype
-      uses: bobimicroweber/docker-action-send-skype@v1
-      with:
-        # Required skype username:
-        skype_username : ${{ secrets.SKYPE_USERNAME }}
-        # Required skype password:
-        skype_password : ${{ secrets.SKYPE_PASSWORD }}
-        # Required skype_ids(both user_id  group_id) which u want to send to [also support multiple id which connect by space]
-        skype_ids      : live:selfworksbg 
-        # Optional (recommended): the path of message file or message file's folder [support emoji]
-        send_msg_text  : "Template are updated!"
-        # Optional (recommended): the path of attach file or attach file's folder   
-        send_file_path : tests/Browser/screenshots/
