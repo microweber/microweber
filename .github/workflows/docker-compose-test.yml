@@ -1,11 +1,7 @@
 name: Docker Compose
 on:
-  create:
-    tags:
-      - v*
-  pull_request:
-  push: { branches: [ master, stable, dev ] }
-
+  schedule:
+    - cron: '0 0 * * 0'
 jobs:
   test:
     name: Docker compose
