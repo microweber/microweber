@@ -43,7 +43,7 @@
 
 <div class="form-group">
     <label class="control-label"><?php _e("Show system log"); ?></label>
-    <small class="text-muted d-block mb-2"><?php _e('Show sistem logs for the last 30 days'); ?>.</small>
+    <small class="text-muted d-block mb-2"><?php _e('Show system logs for the last 30 days'); ?>.</small>
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/notifications/system_log', 'Show system log')"><?php _e("Show system log"); ?></a>
 </div>
 
