@@ -33,7 +33,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
             $this->setValue($inputValue);
         }
 
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 

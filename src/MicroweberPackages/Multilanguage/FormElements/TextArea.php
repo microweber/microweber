@@ -27,7 +27,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         $localesJson = json_encode($locales);
 
         $modelTranslations = [];
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
         }
 

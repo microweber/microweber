@@ -24,7 +24,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
             $modelAttributes = $this->model->getAttributes();
         }
 
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 

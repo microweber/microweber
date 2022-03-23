@@ -25,7 +25,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             $modelAttributes = $this->model->getAttributes();
         }
 
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 
