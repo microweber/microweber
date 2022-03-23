@@ -86,7 +86,7 @@ jobs:
           skype_username : ${{ secrets.SKYPE_USERNAME }}
           skype_password : ${{ secrets.SKYPE_PASSWORD }}
           skype_ids      : live:selfworksbg
-          send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) Commit message: ${{ github.event.head_commit.message }} Pushed by: (penguin) ${{github.actor}}"
+          send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
           send_file_path : /home/runner/work/microweber/microweber/tests/Browser/screenshots/
       - name: Upload Screenshots
         if: failure()
