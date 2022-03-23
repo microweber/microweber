@@ -1,5 +1,6 @@
 name: PHP Templates Tests
 on: [push,pull_request]
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -42,7 +43,7 @@ jobs:
           'microweber-templates/template-coffeeshop',
           'microweber-templates/template-tourism',
           'microweber-templates/template-urban',
-          'microweber-templates/template-hostel'
+          'microweber-templates/template-hostel',
         ]
     steps:
     - name: Checkout
@@ -103,18 +104,16 @@ jobs:
         name: config
         path:
           config
-      - name: Send skype
-        uses: bobimicroweber/docker-action-send-skype@v1
-        with:
-          # Required skype username:
-          skype_username : ${{ secrets.SKYPE_USERNAME }}
-          # Required skype password:
-          skype_password : ${{ secrets.SKYPE_PASSWORD }}
-          # Required skype_ids(both user_id  group_id) which u want to send to [also support multiple id which connect by space]
-          skype_ids      : live:selfworksbg 
-          # Optional (recommended): the path of message file or message file's folder [support emoji]
-          send_msg_text  : "Template are updated!"
-          # Optional (recommended): the path of attach file or attach file's folder   
-          send_file_path : tests/Browser/screenshots/
-
-
+    - name: Send skype
+      uses: bobimicroweber/docker-action-send-skype@v1
+      with:
+      # Required skype username:
+      skype_username : ${{ secrets.SKYPE_USERNAME }}
+      # Required skype password:
+      skype_password : ${{ secrets.SKYPE_PASSWORD }}
+      # Required skype_ids(both user_id  group_id) which u want to send to [also support multiple id which connect by space]
+      skype_ids      : live:selfworksbg 
+      # Optional (recommended): the path of message file or message file's folder [support emoji]
+      send_msg_text  : "Template are updated!"
+      # Optional (recommended): the path of attach file or attach file's folder   
+      send_file_path : tests/Browser/screenshots/
