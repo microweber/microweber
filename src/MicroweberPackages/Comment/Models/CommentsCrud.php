@@ -57,9 +57,7 @@ class CommentsCrud extends Crud
 
                     $surl = site_url();
                     $comment_body = str_replace('{SITE_URL}', $surl, $item['comment_body']);
-
-                    $clearInput = new HTMLClean();
-                    $comment_body = $clearInput->onlyTags($comment_body);
+ 
 
                     $pq = \phpQuery::newDocument($comment_body);
                     $pq->find('a')
