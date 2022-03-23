@@ -382,7 +382,7 @@ header {
   main {
     width: calc(100% - 215px);
     float: left;
-    margin-left: 25px;
+    margin-inline-start: 25px;
 
     @media screen and (max-width: 991px) {
       margin-left: 0;
@@ -813,7 +813,7 @@ header {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 20px;
+        margin-inline-end: 20px;
         i {
           color: #bcbfc2;
         }
