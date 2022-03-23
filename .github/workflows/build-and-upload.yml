@@ -59,4 +59,4 @@ jobs:
         skype_username : ${{ secrets.SKYPE_USERNAME }}
         skype_password : ${{ secrets.SKYPE_PASSWORD }}
         skype_ids      : 19:888336d62fce4795a2f2b785798d67e1@thread.skype 19:21f4bd441f6e48c2b088b4e37a2a8736@thread.skype
-        send_msg_text  : "${{ env.GITHUB_REF_SLUG }} branch are updated for standalone updater module. (checkmark) Pushed by: (penguin) ${{github.actor}}"
+        send_msg_text  : "${{ env.GITHUB_REF_SLUG }} branch are updated for standalone updater module. (checkmark) Commit message: ${{ github.event.head_commit.message }} Pushed by: (penguin) ${{github.actor}}"
