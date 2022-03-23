@@ -107,7 +107,6 @@ abstract class DuskTestCase extends BaseTestCase
 
             save_option('dusk_test', 1, 'dusk');
 
-
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
             \DB::table('options')
@@ -118,6 +117,8 @@ abstract class DuskTestCase extends BaseTestCase
             \DB::table('multilanguage_supported_locales')->truncate();
 
             app()->multilanguage_repository->clearCache();
+            app()->option_repository->clearCache();
+            clearcache();
 
             $this->app->bind('permalink_manager', function () {
                 return new PermalinkManager();
