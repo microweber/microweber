@@ -707,4 +707,12 @@ html[dir='rtl'] .mw-dialog-close {
 }
 
 
+.mw-text-start{
+    text-align:left !important;
+}
+
+html[dir="rtl"] .mw-text-start{
+    text-align:right !important;
+}
+
 
