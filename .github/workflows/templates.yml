@@ -79,7 +79,7 @@ jobs:
       - name: Run Dusk Browse test
         run: |
           php artisan dusk --filter=BrowsePagesForBrokenTagsTest
-          rm -rf /home/runner/work/microweber/microweber/tests/Browser/screenshots/.gitignore
+          rm -rf tests/Browser/screenshots/.gitignore
       - name: Send skype
         uses: bobimicroweber/docker-action-send-skype@v1
         with:
@@ -87,7 +87,7 @@ jobs:
           skype_password : ${{ secrets.SKYPE_PASSWORD }}
           skype_ids      : live:selfworksbg
           send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
-          send_file_path : /home/runner/work/microweber/microweber/tests/Browser/screenshots/
+          send_file_path : tests/Browser/screenshots/
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
