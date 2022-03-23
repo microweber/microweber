@@ -24,22 +24,40 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
 
             //Resize to full height for a complete screenshot
             $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
-            if (!empty($body)) {
-                $currentSize = $body->getSize();
 
-                //optional: scroll to bottom and back up, to trigger image lazy loading
-                $browser->driver->executeScript('window.scrollTo(0, ' . $currentSize->getHeight() . ');');
-                $browser->pause(1000); //wait a sec
-                $browser->driver->executeScript('window.scrollTo(0, 0);'); //scroll back to top of the page
+            $currentSize = $body->getSize();
 
-                //set window to full height
-                $size = new WebDriverDimension(1920, $currentSize->getHeight()); //make browser full height for complete screenshot
-                $browser->driver->manage()->window()->setSize($size);
-            }
+            //optional: scroll to bottom and back up, to trigger image lazy loading
+            $browser->driver->executeScript('window.scrollTo(0, ' . $currentSize->getHeight() . ');');
+            $browser->pause(1000); //wait a sec
+            $browser->driver->executeScript('window.scrollTo(0, 0);'); //scroll back to top of the page
+
+            //set window to full height
+            $size = new WebDriverDimension(1920, $currentSize->getHeight()); //make browser full height for complete screenshot
+            $browser->driver->manage()->window()->setSize($size);
 
             $browser->pause(600);
             $browser->screenshot('homepage-screenshot');
 
+
+            // Take responsive
+            $size = new WebDriverDimension(428, 926);
+            $browser->driver->manage()->window()->setSize($size);
+
+            $currentSize = $body->getSize();
+
+            //optional: scroll to bottom and back up, to trigger image lazy loading
+            $browser->driver->executeScript('window.scrollTo(0, ' . $currentSize->getHeight() . ');');
+            $browser->pause(1000); //wait a sec
+            $browser->driver->executeScript('window.scrollTo(0, 0);'); //scroll back to top of the page
+
+            //set window to full height
+            $size = new WebDriverDimension(428, $currentSize->getHeight()); //make browser full height for complete screenshot
+            $browser->driver->manage()->window()->setSize($size);
+
+
+            $browser->pause(600);
+            $browser->screenshot('homepage-screenshot-responsive');
 
         });
     }
