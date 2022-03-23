@@ -1,7 +1,6 @@
 name: Microweber build & upload
 
 on:
-  push:
   schedule:
     - cron: "*/5 * * * *"
 jobs:
