@@ -7,7 +7,7 @@ inputs:
     default: bash
   php_version:
     description: 'PHP version'
-    default: '7.4'
+    default: '8.0'
     required: true
 runs:
   using: "composite"
