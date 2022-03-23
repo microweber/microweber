@@ -2,7 +2,7 @@ name: Microweber build & upload
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: "*/5 * * * *"
 jobs:
   microweber-test-before-build:
     runs-on: ubuntu-latest
