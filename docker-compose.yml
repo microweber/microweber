@@ -7,7 +7,7 @@ services:
       - ./:/app
     command: composer install --ignore-platform-reqs
   php-apache:
-    image: mitlabs/apache-php7.4
+    image: mitlabs/apache-php8.0
     ports:
       - 80:80
     volumes:
