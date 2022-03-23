@@ -79,6 +79,14 @@ jobs:
         run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
       - name: Run Dusk Browse test
         run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
+      - name: Send skype
+        uses: bobimicroweber/docker-action-send-skype@v1
+        with:
+          skype_username : ${{ secrets.SKYPE_USERNAME }}
+          skype_password : ${{ secrets.SKYPE_PASSWORD }}
+          skype_ids      : live:selfworksbg
+          send_msg_text  : ${{ matrix.templates }} unit tests success! (checkmark)
+          send_file_path : /home/runner/work/microweber/microweber/tests/Browser/screenshots/
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
@@ -104,11 +112,3 @@ jobs:
           name: config
           path:
             config
-      - name: Send skype
-        uses: bobimicroweber/docker-action-send-skype@v1
-        with:
-          skype_username : ${{ secrets.SKYPE_USERNAME }}
-          skype_password : ${{ secrets.SKYPE_PASSWORD }}
-          skype_ids      : live:selfworksbg
-          send_msg_text  : Template ${{ matrix.templates }} tests are done! :)
-          send_file_path : tests/Browser/screenshots/
