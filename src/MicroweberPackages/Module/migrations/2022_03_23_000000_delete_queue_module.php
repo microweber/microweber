@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DeleteOldAdminQueueModule extends Migration
+class DeleteQueueModule extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class DeleteOldAdminQueueModule extends Migration
      */
     public function up()
     {
+
         $dir = modules_path() . 'admin/mics/queue';
         $dir = normalize_path($dir);
         if (is_dir($dir)) {
             if (!is_link($dir)) {
-                rmdir_recursive($dir);
+                rmdir_recursive($dir,false);
+            } else if (is_link($dir)) {
+                @unlink($dir);
             }
         }
 
