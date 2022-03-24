@@ -95,11 +95,11 @@ class DatabaseSave
 
         $downloaded = mw()->http->url($imageUrl)->download($filename);
         if ($downloaded && is_file($filename)) {
-            $ext = get_file_extension($filename);
+            $ext = get_file_extension($imageUrl);
 
 
             $files_utils = new \MicroweberPackages\Utils\System\Files();
-            $is_allowed_file = $files_utils->is_allowed_file($filename);
+            $is_allowed_file = $files_utils->is_allowed_file($imageUrl);
             if (!$is_allowed_file) {
                 return false;
             }
