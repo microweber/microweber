@@ -36,6 +36,7 @@ jobs:
     - name: Make symlink for phpunit
       run: |
         mkdir /home/runner/work/microweber/microweber/symlinks
+        mkdir /home/runner/work/microweber/microweber/userfiles
         mkdir /home/runner/work/microweber/microweber/symlinks/userfiles/modules
         mkdir /home/runner/work/microweber/microweber/symlinks/userfiles/templates
         mv /home/runner/work/microweber/microweber/vendor /home/runner/work/microweber/microweber/symlinks
