@@ -34,7 +34,7 @@
     <style>
         .template-preview {
             width:100%;
-            height:500px;
+            height:250px;
             background-position: top;
             background-size: cover;
             background-repeat: no-repeat;
