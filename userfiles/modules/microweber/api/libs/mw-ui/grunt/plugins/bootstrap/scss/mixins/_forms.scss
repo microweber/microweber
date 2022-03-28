@@ -106,7 +106,7 @@
       border-color: $color;
 
       @if $enable-validation-icons {
-        padding-inline-end: $custom-select-feedback-icon-padding-right;
+        padding-inline-end: $custom-select-feedback-icon-padding-inline-end;
         background: $custom-select-background, escape-svg($icon) $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
       }
 

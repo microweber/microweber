@@ -10,7 +10,7 @@
 
   .form-check-input {
     float: left;
-    margin-left: $form-check-padding-start * -1;
+    margin-inline-start: $form-check-padding-start * -1;
   }
 }
 
@@ -109,7 +109,7 @@
 
   .form-check-input {
     width: $form-switch-width;
-    margin-left: $form-switch-padding-start * -1;
+    margin-inline-start: $form-switch-padding-start * -1;
     background-image: escape-svg($form-switch-bg-image);
     background-position: left center;
     @include border-radius($form-switch-border-radius);
@@ -133,7 +133,7 @@
 
 .form-check-inline {
   display: inline-block;
-  margin-right: $form-check-inline-margin-end;
+  margin-inline-end: $form-check-inline-margin-end;
 }
 
 .btn-check {

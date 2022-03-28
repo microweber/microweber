@@ -8,8 +8,8 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(var(--#{$variable-prefix}gutter-y) * -1); // stylelint-disable-line function-disallowed-list
-  margin-right: calc(var(--#{$variable-prefix}gutter-x) / -2); // stylelint-disable-line function-disallowed-list
-  margin-left: calc(var(--#{$variable-prefix}gutter-x) / -2); // stylelint-disable-line function-disallowed-list
+  margin-inline-end: calc(var(--#{$variable-prefix}gutter-x) / -2); // stylelint-disable-line function-disallowed-list
+  margin-inline-start: calc(var(--#{$variable-prefix}gutter-x) / -2); // stylelint-disable-line function-disallowed-list
 }
 
 @mixin make-col-ready($gutter: $grid-gutter-width) {
@@ -43,7 +43,7 @@
 
 @mixin make-col-offset($size, $columns: $grid-columns) {
   $num: $size / $columns;
-  margin-left: if($num == 0, 0, percentage($num));
+  margin-inline-start: if($num == 0, 0, percentage($num));
 }
 
 // Row columns

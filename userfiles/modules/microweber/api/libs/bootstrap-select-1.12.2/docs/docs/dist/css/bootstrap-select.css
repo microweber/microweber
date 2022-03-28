@@ -75,7 +75,7 @@ select.selectpicker {
 .bootstrap-select.btn-group[class*="col-"] {
   float: none;
   display: inline-block;
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 .bootstrap-select.btn-group.dropdown-menu-right,
 .bootstrap-select.btn-group[class*="col-"].dropdown-menu-right,
@@ -216,7 +216,7 @@ select.selectpicker {
   margin-top: 5px;
 }
 .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
-  margin-right: 34px;
+  margin-inline-end: 34px;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle {
   z-index: 1061;

@@ -3,8 +3,8 @@
 .generate-spacer-row(@n, @i: 1) when (@i =< @n) {
     .row-mx-@{i} {
         @row-step:(1px * @i);
-        margin-left: -@row-step!important;
-        margin-right: -@row-step!important;
+        margin-inline-start: -@row-step!important;
+        margin-inline-end: -@row-step!important;
 
     }
     .generate-spacer-row(@n, (@i + 1));

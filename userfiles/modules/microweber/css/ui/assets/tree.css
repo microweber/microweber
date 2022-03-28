@@ -78,7 +78,7 @@
 }
 .mw-tree-nav-skin-default li li {
   padding-inline-start: 23px;
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 .mw-tree-nav-skin-default li ul,
 .mw-tree-nav-skin-default li li {
@@ -199,7 +199,7 @@
   display: inline-block;
   position: relative;
   top: 0;
-  margin-right: 3px;
+  margin-inline-end: 3px;
   vertical-align: top;
 }
 .mw-tree-nav-skin-default .selected > .mw-tree-item-content-root .mw-tree-item-title:before {

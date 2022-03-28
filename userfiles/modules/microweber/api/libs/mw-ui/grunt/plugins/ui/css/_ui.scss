@@ -26,7 +26,7 @@ label {
   //Remove card padding for hr
   hr.no-padding {
     width: calc(100% + 50px);
-    margin-left: -25px;
+    margin-inline-start: -25px;
   }
 }
 
@@ -186,8 +186,8 @@ textarea:not(.form-control) {
     padding: 0.844rem 0.35rem;
 
     i {
-      margin-left: 0;
-      margin-right: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
     }
   }
 
@@ -723,8 +723,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       }
 
       li a span.text {
-        margin-left: 34px;
-        margin-right: 0px !important;
+        margin-inline-start: 34px;
+        margin-inline-end: 0px !important;
       }
     }
   }
@@ -775,15 +775,15 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   .irs-single {
-    margin-left: 6px;
+    margin-inline-start: 6px;
   }
 
   .irs-from {
-    margin-left: 6px;
+    margin-inline-start: 6px;
   }
 
   .irs-to {
-    margin-left: -6px;
+    margin-inline-start: -6px;
   }
 
   .irs-bar {
@@ -804,13 +804,13 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     &.from {
       i:first-child {
 
-        //margin-left: -15px;
+        //margin-inline-start: -15px;
       }
     }
     &.to {
       i:first-child {
 
-        margin-left: -15px;
+        margin-inline-start: -15px;
       }
     }
   }
@@ -1203,7 +1203,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   h1, h2, h3, h4, h5, h6 {
     display: inline;
-    margin-left: 20px;
+    margin-inline-start: 20px;
   }
 }
 
@@ -1215,7 +1215,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       font-size: 1.15em;
       line-height: 0.5;
       color: #bcbfc2;
-      margin-right: 10px;
+      margin-inline-end: 10px;
     }
 
     &:hover {
@@ -1286,7 +1286,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
 .input-group-quantity {
   .input-group-append {
-    margin-left: 0 !important;
+    margin-inline-start: 0 !important;
   }
 }
 
@@ -1434,7 +1434,7 @@ label.control-label {
     font-size: 1.2em;
     float: right;
     margin-top: -0.1em;
-    margin-left: 0.2em;
+    margin-inline-start: 0.2em;
   }
 }
 

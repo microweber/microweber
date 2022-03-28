@@ -116,8 +116,8 @@ body.state-element .mw-row .element {
 }
 img[align='center'],
 img[align='middle'] {
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   display: block;
 }
 .element,
@@ -361,7 +361,7 @@ body.Resizing .mwembed:after {
   text-decoration: underline;
   color: #4688EC;
   display: inline-block;
-  margin-right: 7px;
+  margin-inline-end: 7px;
 }
 .mw-uploaded-file:hover {
   text-decoration: none;
@@ -543,7 +543,7 @@ span.mw-powered-by {
 .mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-template,
 #create-menu-btn .mw-icon-plus {
   /*float: left;*/
-  margin-right: 5px;
+  margin-inline-end: 5px;
 }
 .mw-image-holder {
   position: relative;
@@ -634,7 +634,7 @@ span.mw-powered-by {
   padding: 0 !important;
 }
 .css-preset-dropdown:after {
-  margin-left: 0 !important;
+  margin-inline-start: 0 !important;
   font-size: 20px;
 }
 .mw-template-document-preview *,

@@ -335,7 +335,7 @@ body.mw-column-resizing * {
     display: inline-block;
     position: absolute;
     left: 50%;
-    margin-left: -17px;
+    margin-inline-start: -17px;
     top: 0;
     width: 35px;
     height: 10px;
@@ -571,7 +571,7 @@ a.mw-make-cols {
 }
 
 .mw_edit_settings_multiple {
-    margin-right: 3px;
+    margin-inline-end: 3px;
 }
 
 #mw_handle_module .mw_edit_settings_multiple {
@@ -615,7 +615,7 @@ a.mw-make-cols.active {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     width: 32px;
-    margin-left: -32px;
+    margin-inline-start: -32px;
     margin-top: 25px;
 
 }
@@ -714,7 +714,7 @@ html.mw_pages #items_handle {
     position: relative;
     top: -5px;
     left: 0;
-    margin-left: -5px;
+    margin-inline-start: -5px;
     outline: none;
     width: 9px;
     height: 17px;
@@ -846,7 +846,7 @@ html.mw_pages #items_handle {
 }
 
 .ts_action_item_shadow .ts_line .ed_label {
-    margin-left: 0;
+    margin-inline-start: 0;
 }
 
 .ts_action_item_shadow .ts_line {
@@ -941,8 +941,8 @@ div.ts_action {
 }
 
 .ts_action_centerer {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
 }
 
 .ts_bg_action .ts_action_centerer {
@@ -954,7 +954,7 @@ div.ts_action {
 }
 
 .ts_bg_action .ed_label {
-    margin-left: 0;
+    margin-inline-start: 0;
 }
 
 .ts_action_item:hover .ts_sub_tool {
@@ -980,7 +980,7 @@ div.ts_action {
 
 .slider_val {
     float: left;
-    margin-left: 3px;
+    margin-inline-start: 3px;
     margin-top: 4px;
 }
 
@@ -1252,7 +1252,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 #mw_toolbar_nav .back_to_admin {
-    margin-right: 160px;
+    margin-inline-end: 160px;
     float: right;
 }
 
@@ -1263,7 +1263,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     opacity: 1;
     transition: opacity .3s;
     transform: translateY(-50%);
-    margin-right: 10px;
+    margin-inline-end: 10px;
 }
 
 .module-modal-settings-menu-holder:hover {
@@ -1327,7 +1327,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     font-weight: normal;
     line-height: 1;
     text-transform: none;
-    margin-right: 14px;
+    margin-inline-end: 14px;
 }
 
 .toolbar-sections-tabs a {
@@ -1619,7 +1619,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     position: absolute;
     left: 50%;
     bottom: -5px;
-    margin-left: -32px;
+    margin-inline-start: -32px;
     z-index: 0;
     background: url(../img/module_shadow.png) no-repeat;
     display: none;
@@ -2071,7 +2071,7 @@ body.dragStart .empty-element {
     background-size: contain;
     width: 34px;
     height: 38px;
-    margin-left: 4px;
+    margin-inline-start: 4px;
 }
 
 .tst-logo .mw-icon-dropdown {
@@ -2739,7 +2739,7 @@ div[id*='SSDIVEL'] {
     background-size: cover;
     display: block;
     float: right;
-    margin-left: 3px;
+    margin-inline-start: 3px;
     margin-top: -1px;
 }
 
@@ -2800,8 +2800,8 @@ div[id*='SSDIVEL'] {
 }
 
 #mw_toolbar_nav .hasdraft .mw-ui-btn {
-    margin-left: 10px;
-    margin-right: 0px;
+    margin-inline-start: 10px;
+    margin-inline-end: 0px;
 }
 
 #load_draft_timer {
@@ -3281,7 +3281,7 @@ body.touchscreen-device .module-item-module {
     max-width: 100%;
     margin-bottom: 5px;
     font-size: 22px;
-    margin-left: 0px;
+    margin-inline-start: 0px;
     line-height: 31px;
 }
 
@@ -3362,7 +3362,7 @@ body.touchscreen-device .module-item-module {
 }
 
 .mw-toolbar-add-new-content-ctrl span {
-    margin-left: 6px;
+    margin-inline-start: 6px;
 }
 
 .mw-toolbar-add-new-content-ctrl {
@@ -3396,7 +3396,7 @@ body.mw-live-edit .mw-tooltip-content {
 }
 
 body {
-    margin-right: 0;
+    margin-inline-end: 0;
     transition: margin-right .3s;
 }
 
@@ -3404,7 +3404,7 @@ body {
 
 @media screen and (max-width: 990px) {
     .has-opened-sidebar {
-        margin-right: 0px;
+        margin-inline-end: 0px;
         transition: none;
     }
 
@@ -3561,7 +3561,7 @@ body.dragStart .allow-drop {
     position: absolute;
     left: 50%;
     top: 0;
-    margin-left: -80px;
+    margin-inline-start: -80px;
 }
 
 .mw-module-quick-options-menu:after {
@@ -3666,7 +3666,7 @@ body.dragStart .allow-drop {
 .mw-module-presets-opener:after {
     /*content: "\0118";*/
     font-family: Microweber !important;
-    margin-left: 5px;
+    margin-inline-start: 5px;
     font-size: 20px;
     position: relative;
     top: 0;
@@ -4034,7 +4034,7 @@ body.dragStart .allow-drop {
 }
 
 .mw-css-editor-group > * + * {
-    margin-left: 5px;
+    margin-inline-start: 5px;
 }
 
 .mw-css-editor-group .prop-ui-field-holder {
@@ -4244,7 +4244,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .dynamic-submodule-handle .mw_module_settings_sidebar_icon {
     margin: 0px;
-    margin-right: 5px;
+    margin-inline-end: 5px;
     width: 15px;
     height: 15px;
 }
@@ -4257,7 +4257,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-handle-menu-default .mw-handle-menu-item-icon,
 .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
     font-size: 17px;
-    margin-right: 6px;
+    margin-inline-end: 6px;
     vertical-align: middle;
 }
 
@@ -4348,7 +4348,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: inline-block;
     height: 20px;
     margin-top: -10px;
-    margin-left: 8px;
+    margin-inline-start: 8px;
 }
 
 .mw-handle-type-element .mw-icon-drag {
@@ -4617,7 +4617,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-inline-source-editor-buttons .mw-ui-btn {
-    margin-left: 10px;
+    margin-inline-start: 10px;
 }
 
 .mw-inline-source-editor-buttons {

@@ -188,12 +188,12 @@ header {
           text-overflow: ellipsis;
 
           > i {
-            margin-right: 10px;
+            margin-inline-end: 10px;
             float: left;
             font-size: 1.5em;
             line-height: 1;
             color: #bcbfc2;
-            margin-left: -3px;
+            margin-inline-start: -3px;
           }
 
           &:hover {
@@ -356,7 +356,7 @@ header {
     float: left;
     border: 1px solid $primary;
     transition: all 0.5s ease;
-    margin-left: 15px;
+    margin-inline-start: 15px;
     padding: 15px 0;
     background: $body-bg;
 
@@ -367,7 +367,7 @@ header {
       left: -100%;
       height: 100%;
       padding-top: 95px;
-      margin-left: 0;
+      margin-inline-start: 0;
 
       padding-inline-start: 10px;
       padding-inline-end: 10px;
@@ -385,7 +385,7 @@ header {
     margin-inline-start: 25px;
 
     @media screen and (max-width: 991px) {
-      margin-left: 0;
+      margin-inline-start: 0;
       width: 100%;
       float: none;
     }
@@ -475,7 +475,7 @@ header {
         height: 100%;
         position: absolute;
         background: $primary;
-        margin-right: 22px;
+        margin-inline-end: 22px;
         right: auto;
         left: 63px;
         top: 0;
@@ -874,7 +874,7 @@ header {
 
 .stats-view .visitors .visitor .top-row .flag {
   width: 20px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
 }
 
 .stats-view .visitors .visitor .top-row .flag,
@@ -1286,7 +1286,7 @@ header {
   display: inline-block;
   height: 24px;
   color: $primary;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   path {
     fill: $primary;
   }
@@ -1328,12 +1328,12 @@ header {
 
   .module-img {
     width: 20px;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   .module-img {
     width: 20px;
-    margin-right: 4px;
+    margin-inline-end: 4px;
   }
 
   tr:not(.no-hover):hover td {
@@ -1539,7 +1539,7 @@ header {
        margin: 0;
 
        li {
-         margin-right: 20px;
+         margin-inline-end: 20px;
          &.active {
            //font-weight: bold;
          }
@@ -1557,9 +1557,9 @@ header {
       li {
         display: inline-block;
         transition-duration: 0.5s;
-        margin-right: 20px;
+        margin-inline-end: 20px;
         &:last-child {
-          margin-right: 0;
+          margin-inline-end: 0;
         }
 
         &:hover {

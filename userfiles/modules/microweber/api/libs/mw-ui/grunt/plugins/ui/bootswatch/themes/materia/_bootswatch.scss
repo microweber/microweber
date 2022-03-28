@@ -20,7 +20,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
     height: 100%;
     top: 0;
     left: 0;
-    margin-left: 0;
+    margin-inline-start: 0;
     @include gradient-radial($color 10%, transparent 10.01%);
     background-size: 1000% 1000%;
     background-position: 50%;
@@ -172,7 +172,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
     display: inline-block;
     width: 0;
     height: 0;
-    margin-left: 0.3em;
+    margin-inline-start: 0.3em;
     vertical-align: middle;
     content: "";
     border-top: 0.3em solid;
@@ -186,7 +186,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
   .btn + .btn-group,
   .btn-group + .btn,
   .btn-group + .btn-group {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   &-vertical {
@@ -555,12 +555,12 @@ select.form-control {
 
 .nav-tabs {
   .nav-item + .nav-item {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   .nav-link,
   .nav-link:focus {
-    margin-right: 0;
+    margin-inline-end: 0;
     background-color: transparent;
     border: none;
     color: $body-color;

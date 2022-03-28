@@ -36,7 +36,7 @@
 }
 
 #stats_nav .btn + .btn {
-    margin-left: 10px;
+    margin-inline-start: 10px;
 }
 
 .hidden {
@@ -44,7 +44,7 @@
 }
 
 #edit-content-row .tree {
-    margin-right: 15px;
+    margin-inline-end: 15px;
 }
 
 .window-holder {
@@ -144,7 +144,7 @@ div.form-control {
     -moz-osx-font-smoothing: grayscale;
     position: absolute;
     margin-top: 12px;
-    margin-left: -20px;
+    margin-inline-start: -20px;
 }
 
 .mw-ui-category-tree {
@@ -340,7 +340,7 @@ div.form-control {
     left:0 !important;
 }
 
-#edit-content-btn{margin-left: 10px;}
+#edit-content-btn{margin-inline-start: 10px;}
 
 .upload-button-prop:only-child .mw-badge{
     display: none;

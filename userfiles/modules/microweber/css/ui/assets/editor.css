@@ -132,7 +132,7 @@
 .mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item + .mw-bar-control-item,
 .mw-editor-default .mw-bar-row .mw-bar-control-item + .mw-bar-control-item,
 .mw-editor-table-manager .mw-bar-row .mw-bar-control-item + .mw-bar-control-item {
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 .mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group,
 .mw-editor-default .mw-bar-row .mw-bar-control-item-group,
@@ -142,7 +142,7 @@
 .mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component,
 .mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component,
 .mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component {
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 .mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,
 .mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,

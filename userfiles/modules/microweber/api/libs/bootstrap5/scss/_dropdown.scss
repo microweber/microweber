@@ -88,7 +88,7 @@
     right: auto;
     left: 100%;
     margin-top: 0;
-    margin-left: $dropdown-spacer;
+    margin-inline-start: $dropdown-spacer;
   }
 
   .dropdown-toggle {
@@ -105,7 +105,7 @@
     right: 100%;
     left: auto;
     margin-top: 0;
-    margin-right: $dropdown-spacer;
+    margin-inline-end: $dropdown-spacer;
   }
 
   .dropdown-toggle {

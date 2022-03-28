@@ -220,12 +220,12 @@ input,select{
         clear: none;
     }
     #shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder + .mw-ui-field-holder.prop-ui-field-holder{
-        margin-left: 2%;
+        margin-inline-start: 2%;
     }
 
     .mw-multiple-fields .mw-field-prepend + input{
         border-left: none;
-        margin-left: -2px;
+        margin-inline-start: -2px;
 
 
     }
@@ -243,7 +243,7 @@ input,select{
         margin: 10px 0 5px;
     }
     .rouded-corners .mw-field .mw-field + .mw-field{
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
     .background-preview{
         display: inline-block;
@@ -277,7 +277,7 @@ input,select{
     .mw-field.unit [type='text']{
         width: 100%;
         text-align: left;
-        margin-left: 0;
+        margin-inline-start: 0;
     }
 
 .mw-range, .mw-range.ui-widget{
@@ -303,7 +303,7 @@ input,select{
 
     .mw-field.unit .mw-range + input{
         text-align: center;
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
 
     #background-remove{

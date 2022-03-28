@@ -155,7 +155,7 @@ select.selectpicker {
 .bootstrap-select[class*="col-"] {
   float: none;
   display: inline-block;
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 .bootstrap-select.dropdown-menu-right,
 .bootstrap-select[class*="col-"].dropdown-menu-right,
@@ -360,7 +360,7 @@ select.selectpicker {
   top: 5px;
 }
 .bootstrap-select.show-tick .dropdown-menu li a span.text {
-  margin-right: 34px;
+  margin-inline-end: 34px;
 }
 .bootstrap-select .bs-ok-default:after {
   content: '';

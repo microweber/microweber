@@ -81,7 +81,7 @@ h6 {
   display: inline;
 }
 .jumbotron .jumbotron-links li + li {
-  margin-left: 20px;
+  margin-inline-start: 20px;
 }
 .jumbotron .bottom {
   position: absolute;

@@ -44,7 +44,7 @@
     .save-scrolled .fa {
         color: #fff;
         margin-top: 2px;
-        margin-right: 6px;
+        margin-inline-end: 6px;
     }
 
     .save-scrolled .label,

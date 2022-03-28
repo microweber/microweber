@@ -6,8 +6,8 @@
   width: 100%;
   padding-inline-end: $gutter / 2;
   padding-inline-start: $gutter / 2;
-  margin-right: auto;
-  margin-left: auto;
+  margin-inline-end: auto;
+  margin-inline-start: auto;
 }
 
 
@@ -23,8 +23,8 @@
 @mixin make-row($gutter: $grid-gutter-width) {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -$gutter / 2;
-  margin-left: -$gutter / 2;
+  margin-inline-end: -$gutter / 2;
+  margin-inline-start: -$gutter / 2;
 }
 
 @mixin make-col-ready($gutter: $grid-gutter-width) {
@@ -53,7 +53,7 @@
 
 @mixin make-col-offset($size, $columns: $grid-columns) {
   $num: $size / $columns;
-  margin-left: if($num == 0, 0, percentage($num));
+  margin-inline-start: if($num == 0, 0, percentage($num));
 }
 
 // Row columns

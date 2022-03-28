@@ -123,7 +123,7 @@
   }
   .form-check-inline .form-check-input {
     ~ .#{$state}-feedback {
-      margin-left: .5em;
+      margin-inline-start: .5em;
     }
   }
 

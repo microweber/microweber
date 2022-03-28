@@ -1,7 +1,7 @@
 .mw-field.unit [type='text'] {
 
-    margin-left: 0;
-    margin-right: 10px;
+    margin-inline-start: 0;
+    margin-inline-end: 10px;
 }
 
 .rouded-corners{

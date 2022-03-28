@@ -83,7 +83,7 @@
 
 .ui-widget-icon-block {
 	left: 50%;
-	margin-left: -8px;
+	margin-inline-start: -8px;
 	display: block;
 }
 
@@ -259,7 +259,7 @@
 	display: inline-block;
 	position: relative;
 	line-height: normal;
-	margin-right: .1em;
+	margin-inline-end: .1em;
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
@@ -299,7 +299,7 @@ input.ui-button.ui-button-icon-only {
 	top: 50%;
 	left: 50%;
 	margin-top: -8px;
-	margin-left: -8px;
+	margin-inline-start: -8px;
 }
 
 .ui-button.ui-icon-notext .ui-icon {
@@ -332,8 +332,8 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-controlgroup > .ui-controlgroup-item {
 	float: left;
-	margin-left: 0;
-	margin-right: 0;
+	margin-inline-start: 0;
+	margin-inline-end: 0;
 }
 .ui-controlgroup > .ui-controlgroup-item:focus,
 .ui-controlgroup > .ui-controlgroup-item.ui-visual-focus {
@@ -440,7 +440,7 @@ button.ui-button::-moz-focus-inner {
 	display: block;
 	position: absolute;
 	left: 50%;
-	margin-left: -8px;
+	margin-inline-start: -8px;
 	top: 50%;
 	margin-top: -8px;
 }
@@ -714,7 +714,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-selectmenu-text {
 	display: block;
-	margin-right: 20px;
+	margin-inline-end: 20px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -760,7 +760,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-slider-horizontal .ui-slider-handle {
 	top: -.3em;
-	margin-left: -.6em;
+	margin-inline-start: -.6em;
 }
 .ui-slider-horizontal .ui-slider-range {
 	top: 0;
@@ -779,7 +779,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-slider-vertical .ui-slider-handle {
 	left: -.3em;
-	margin-left: 0;
+	margin-inline-start: 0;
 	margin-bottom: -.6em;
 }
 .ui-slider-vertical .ui-slider-range {
@@ -806,8 +806,8 @@ button.ui-button::-moz-focus-inner {
 	padding: .222em 0;
 	margin: .2em 0;
 	vertical-align: middle;
-	margin-left: .4em;
-	margin-right: 2em;
+	margin-inline-start: .4em;
+	margin-inline-end: 2em;
 }
 .ui-spinner-button {
 	width: 1.6em;

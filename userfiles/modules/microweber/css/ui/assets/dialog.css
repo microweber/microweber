@@ -127,7 +127,7 @@
   border-top: 1px solid #D9DADB;
 }
 .mw-dialog-skin-default .mw-dialog-footer .mw-ui-btn + .mw-ui-btn {
-  margin-left: 10px;
+  margin-inline-start: 10px;
 }
 .mw-dialog-skin-default .mw-dialog-footer:empty {
   display: none;

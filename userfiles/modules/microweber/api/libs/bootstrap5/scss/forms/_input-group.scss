@@ -115,7 +115,7 @@
   }
 
   > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
-    margin-left: -$input-border-width;
+    margin-inline-start: -$input-border-width;
     @include border-start-radius(0);
   }
 }

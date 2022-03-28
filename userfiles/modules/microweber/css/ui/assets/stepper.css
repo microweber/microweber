@@ -90,7 +90,7 @@
   top: 3px;
 }
 .mw-selectable-list .mw-selectable-list-input .mw-ui-check input + span {
-  margin-right: 0;
+  margin-inline-end: 0;
 }
 .mw-selectable-list .mw-selectable-list-icon {
   color: #000;

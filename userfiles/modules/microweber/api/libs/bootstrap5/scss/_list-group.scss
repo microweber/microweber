@@ -128,7 +128,7 @@
           border-left-width: 0;
 
           &.active {
-            margin-left: -$list-group-border-width;
+            margin-inline-start: -$list-group-border-width;
             border-left-width: $list-group-border-width;
           }
         }

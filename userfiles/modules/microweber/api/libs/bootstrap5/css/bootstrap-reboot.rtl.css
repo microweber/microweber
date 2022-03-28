@@ -137,7 +137,7 @@ dt {
 
 dd {
   margin-bottom: 0.5rem;
-  margin-right: 0;
+  margin-inline-end: 0;
 }
 
 blockquote {

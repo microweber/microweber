@@ -63,7 +63,7 @@
 
 .fa-ul {
   list-style-type: none;
-  margin-left: 2.5em;
+  margin-inline-start: 2.5em;
   padding-inline-start: 0; }
   .fa-ul > li {
     position: relative; }
@@ -91,14 +91,14 @@
 .far.fa-pull-left,
 .fal.fa-pull-left,
 .fab.fa-pull-left {
-  margin-right: .3em; }
+  margin-inline-end: .3em; }
 
 .fa.fa-pull-right,
 .fas.fa-pull-right,
 .far.fa-pull-right,
 .fal.fa-pull-right,
 .fab.fa-pull-right {
-  margin-left: .3em; }
+  margin-inline-start: .3em; }
 
 .fa-spin {
   -webkit-animation: fa-spin 2s infinite linear;

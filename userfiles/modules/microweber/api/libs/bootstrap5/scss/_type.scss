@@ -67,7 +67,7 @@
   display: inline-block;
 
   &:not(:last-child) {
-    margin-right: $list-inline-padding;
+    margin-inline-end: $list-inline-padding;
   }
 }
 

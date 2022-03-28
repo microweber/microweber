@@ -16,7 +16,7 @@
 
 .custom-control-inline {
   display: inline-flex;
-  margin-right: $custom-control-spacer-x;
+  margin-inline-end: $custom-control-spacer-x;
 }
 
 .custom-control-input {
@@ -472,8 +472,8 @@ html[dir="rtl"] {
     width: $custom-range-thumb-width;
     height: $custom-range-thumb-height;
     margin-top: 0; // Edge specific
-    margin-right: $custom-range-thumb-focus-box-shadow-width; // Workaround that overflowed box-shadow is hidden.
-    margin-left: $custom-range-thumb-focus-box-shadow-width;  // Workaround that overflowed box-shadow is hidden.
+    margin-inline-end: $custom-range-thumb-focus-box-shadow-width; // Workaround that overflowed box-shadow is hidden.
+    margin-inline-start: $custom-range-thumb-focus-box-shadow-width;  // Workaround that overflowed box-shadow is hidden.
     @include gradient-bg($custom-range-thumb-bg);
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
@@ -503,7 +503,7 @@ html[dir="rtl"] {
   }
 
   &::-ms-fill-upper {
-    margin-right: 15px; // arbitrary?
+    margin-inline-end: 15px; // arbitrary?
     background-color: $custom-range-track-bg;
     @include border-radius($custom-range-track-border-radius);
   }
