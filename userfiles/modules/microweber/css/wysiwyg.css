@@ -497,12 +497,12 @@
 #liveedit_wysiwyg {
     /*height: 40px;*/
     cursor: default;
-	padding-left:10px;
+	padding-inline-start:10px;
 }
 @media (max-width: 1024px) {
 	#liveedit_wysiwyg {
 
-		padding-left:0px;
+		padding-inline-start:0px;
 	}
 
 }

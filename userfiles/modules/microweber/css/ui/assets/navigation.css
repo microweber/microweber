@@ -121,15 +121,15 @@
 }
 .mw-ui-navigation li.active > ul li > a,
 .mw-ui-navigation li.opened > ul li > a {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .mw-ui-navigation li.active > ul li > li > a,
 .mw-ui-navigation li.opened > ul li > li > a {
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 .mw-ui-navigation li.active > ul li > li > li > a,
 .mw-ui-navigation li.opened > ul li > li > li > a {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-paging {
   position: relative;

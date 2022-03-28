@@ -478,16 +478,16 @@ select.form-control {
 .input-group {
 
   > .input-group-prepend > .input-group-text {
-    padding-right: 0.25rem;
+    padding-inline-end: 0.25rem;
   }
 
   > .input-group-append > .input-group-text {
-    padding-left: 0.25rem;
+    padding-inline-start: 0.25rem;
   }
 
   .form-control {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+    padding-inline-start: 0.25rem;
+    padding-inline-end: 0.25rem;
   }
 }
 
@@ -616,7 +616,7 @@ select.form-control {
 // Indicators ==================================================================
 
 .alert {
-  padding-right: 2.5rem;
+  padding-inline-end: 2.5rem;
   border: none;
 
   &, h1, h2, h3, h4, h5, h6 {

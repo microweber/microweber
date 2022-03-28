@@ -316,7 +316,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   vertical-align: middle;
   display: flex;
   flex-wrap: wrap;
-  padding-left: 0;
+  padding-inline-start: 0;
   margin-bottom: 0;
   list-style: none;
   align-items: center;

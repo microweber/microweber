@@ -98,13 +98,13 @@
   padding: 3px 10px;
 }
 .mw-dropdown-list li li a {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .mw-dropdown-list li li li a {
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 .mw-dropdown-list li li li li a {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-dropdown-list > li a:hover {
   background-color: #EEEEEE;
@@ -147,10 +147,10 @@
   border-top: none;
 }
 .mw-dropdown-default .mw-dropdown-content li li > a {
-  padding-left: 24px;
+  padding-inline-start: 24px;
 }
 .mw-dropdown-default .mw-dropdown-content li li li > a {
-  padding-left: 48px;
+  padding-inline-start: 48px;
 }
 .mw-dropdown-default li:hover > *:first-child {
   background-color: #EEEEEE;
@@ -246,7 +246,7 @@
 .mw-select .mw-select-value {
   position: relative;
   display: block;
-  padding-right: 35px;
+  padding-inline-end: 35px;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
@@ -299,7 +299,7 @@
   display: flex;
   align-items: center;
   transition: opacity .17s;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .mw-select .mw-select-display-value * {
   vertical-align: middle;

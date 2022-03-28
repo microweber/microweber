@@ -83,7 +83,7 @@
 
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
-  padding-right: $form-select-padding-x + $form-select-indicator-padding;
+  padding-inline-end: $form-select-padding-x + $form-select-indicator-padding;
 }
 
 

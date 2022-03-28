@@ -49,14 +49,14 @@
   border-bottom: 1px solid #fff;
 }
 .mw-selectable-list > label > * + * {
-  padding-left: 12px;
+  padding-inline-start: 12px;
 }
 .mw-selectable-list > label > *:first-child {
-  padding-left: 12px;
+  padding-inline-start: 12px;
   border-left: 1px solid #fff;
 }
 .mw-selectable-list > label > *:last-child {
-  padding-right: 12px;
+  padding-inline-end: 12px;
   border-right: 1px solid #fff;
 }
 .mw-selectable-list > label:hover {
@@ -102,7 +102,7 @@
 }
 .mw-construct-itd .mw-construct-itd-icon {
   font-size: 37px;
-  padding-right: 12px;
+  padding-inline-end: 12px;
   padding-top: 4px;
   color: #000;
 }

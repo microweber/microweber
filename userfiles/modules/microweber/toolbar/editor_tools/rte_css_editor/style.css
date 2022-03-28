@@ -14,8 +14,8 @@ input,select{
 }
 .mw-field.unit input + input{
     width: 40px;
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
     text-align: center;
 }
 
@@ -404,7 +404,7 @@ input,select{
     list-style: none;
 }
 .mw-domtree li li{
-    padding-left: 10px;
+    padding-inline-start: 10px;
 }
 .mw-domtree ul{
     display: none;

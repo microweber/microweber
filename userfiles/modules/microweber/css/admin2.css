@@ -14,7 +14,7 @@ body,
 .main-admin-row {
     max-width: 100%;
     margin: 0px;
-    padding-right: 0px;
+    padding-inline-end: 0px;
 }
 
 .mw-admin-main-panel-main-left-col-wrap {
@@ -44,7 +44,7 @@ body,
     display: block;
     width: 100%;
     margin-bottom: 20px;
-    padding-left: 15px;
+    padding-inline-start: 15px;
 }
 
 .mw-admin-sidebar ul li {
@@ -216,8 +216,8 @@ body,
 
 .mw-admin-main-section-inner-panel-nav a {
     padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     min-height: 28px;
     color: #929292;
     font-family: "Open Sans", sans-serif;
@@ -254,8 +254,8 @@ body,
 .mw-btn-red,
 .mw-btn-yellow {
     padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     min-height: 28px;
     color: #929292;
     font-family: "Open Sans", sans-serif;
@@ -318,7 +318,7 @@ body,
     /* Removes default arrow from firefox*/
     text-overflow: "";
     /*Removes default arrow from firefox*/
-    padding-right: 5px;
+    padding-inline-end: 5px;
 }
 
 .mw-admin-shop-info-blue-link {

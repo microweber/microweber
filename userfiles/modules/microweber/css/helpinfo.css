@@ -33,7 +33,7 @@
   }
 
   #mw_info_helper_content ul, #mw_info_helper_content ol{
-    padding-left: 16px;
+    padding-inline-start: 16px;
   }
 
   #mw_info_helper_footer{

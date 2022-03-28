@@ -15,7 +15,7 @@ select.selectpicker {
 }
 .bootstrap-select > .dropdown-toggle {
   width: 100%;
-  padding-right: 25px;
+  padding-inline-end: 25px;
   z-index: 1;
 }
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
@@ -167,7 +167,7 @@ select.selectpicker {
 }
 .bootstrap-select.btn-group .dropdown-menu li a.opt {
   position: relative;
-  padding-left: 2.25em;
+  padding-inline-start: 2.25em;
 }
 .bootstrap-select.btn-group .dropdown-menu li a span.check-mark {
   display: none;
@@ -176,7 +176,7 @@ select.selectpicker {
   display: inline-block;
 }
 .bootstrap-select.btn-group .dropdown-menu li small {
-  padding-left: 0.5em;
+  padding-inline-start: 0.5em;
 }
 .bootstrap-select.btn-group .dropdown-menu .notify {
   position: absolute;

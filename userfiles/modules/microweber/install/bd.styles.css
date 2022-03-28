@@ -23,7 +23,7 @@ b, i,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
+article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary,
 time, mark, audio, video {
   margin: 0;
@@ -33,9 +33,9 @@ time, mark, audio, video {
   font-size: 100%;
   vertical-align: baseline;
   background: transparent;
-}                  
+}
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section { 
+footer, header, hgroup, menu, nav, section {
     display: block;
 }
 nav ul { list-style: none; }
@@ -73,7 +73,7 @@ body {
 }
 
 @media only screen and (max-width: 769px) {
-	
+
 	.wrapper {
 		padding: 0;
 	}
@@ -83,15 +83,15 @@ body {
 		-moz-border-radius: 0;
 		border-radius: 0;
 	}
-	
+
 }
 
 /**
  * Clearfix
  */
 .clearfix:before, .clearfix:after {
-	content: "\0020"; display: block; height: 0; visibility: hidden;	
-} 
+	content: "\0020"; display: block; height: 0; visibility: hidden;
+}
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
@@ -164,7 +164,7 @@ table {
 	border-left: 1px solid #e0e0e0;
 }
 table tr {
-	
+
 }
 table tr th, table tr td {
 	padding: 10px 14px;
@@ -212,7 +212,7 @@ table tr:nth-child(even) td {
 }
 .sep .arrow {
 	position: absolute;
-	top: -9px; 
+	top: -9px;
 	background: #cccccc;
 	width: 19px; height: 19px;
 	display: block;
@@ -294,7 +294,7 @@ table tr:nth-child(even) td {
  */
 .nav ul li.download a {
 	position: relative;
-	padding-left: 36px;
+	padding-inline-start: 36px;
 	font-weight: bold;
 	/* Gradient */
 	background-image: linear-gradient(bottom, rgb(221,58,13) 0%, rgb(233,105,37) 100%);
@@ -324,18 +324,18 @@ table tr:nth-child(even) td {
  * Responsive
  */
 @media only screen and (max-width: 769px) {
-	
+
 	.nav ul li:last-child a {
 		/* Border Radius */
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
 	}
-	
+
 }
 
 @media only screen and (max-width: 450px) {
-	
+
 	.nav {
 		float: left; width: 100%;
 	}
@@ -362,10 +362,10 @@ table tr:nth-child(even) td {
 	.nav ul li:last-child {
 		width: 34%;
 	}
-	
+
 	.nav ul li a, .nav ul li.download a {
-		padding-left: 0;
-		padding-right: 0;
+		padding-inline-start: 0;
+		padding-inline-end: 0;
 	}
 	.nav ul li:first-child a {
 		/* Border Radius */
@@ -376,7 +376,7 @@ table tr:nth-child(even) td {
 	.nav ul li.download a img {
 		display: none;
 	}
-	
+
 }
 
 /*-------------------------------------------
@@ -404,8 +404,8 @@ table tr:nth-child(even) td {
 ---------------------------------------------*/
 
 .description:before, .description:after {
-	content: "\0020"; display: block; height: 0; visibility: hidden;	
-} 
+	content: "\0020"; display: block; height: 0; visibility: hidden;
+}
 .description:after { clear: both; }
 .description {
 	padding: 1% 6% 2%;
@@ -416,7 +416,7 @@ table tr:nth-child(even) td {
 	color: #fff;
 	padding: 8px 20px;
 	margin: 0 0 20px 0;
-	padding-left: 7%;
+	padding-inline-start: 7%;
 	margin-left: -7%;
 	float: left;
 	/* Text Shadow */
@@ -457,8 +457,8 @@ table tr:nth-child(even) td {
 	font-size: 13px; line-height: 20px;
 }
 .tabs ul:before, .tabs ul:after {
-	content: "\0020"; display: block; height: 0; visibility: hidden;	
-} 
+	content: "\0020"; display: block; height: 0; visibility: hidden;
+}
 .tabs ul:after { clear: both; }
 .tabs ul {
 	padding: 0 6%;
@@ -515,8 +515,8 @@ table tr:nth-child(even) td {
 		width: 25%;
 	}
 	.tabs ul li a {
-		padding-left: 0;
-		padding-right: 0;
+		padding-inline-start: 0;
+		padding-inline-end: 0;
 	}
 	.tabs ul li:last-child a {
 		margin-right: 0;

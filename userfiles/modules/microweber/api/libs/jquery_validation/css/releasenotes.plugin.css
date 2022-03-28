@@ -178,7 +178,7 @@ p.dateRelease{margin:0 0 10px 0; font-size:14px;}
 
 	.milestoneContainer .avatar-bubble {
 	    margin: 20px 0;
-	    padding-left: 60px;
+	    padding-inline-start: 60px;
 	    background: url('../images/bubble-arrow.png') 51px 20px no-repeat;
 	}
 	.milestoneContainer .avatar-bubble>.avatar {

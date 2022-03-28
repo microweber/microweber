@@ -5,7 +5,7 @@
 .form-check {
   display: block;
   min-height: $form-check-min-height;
-  padding-left: $form-check-padding-start;
+  padding-inline-start: $form-check-padding-start;
   margin-bottom: $form-check-margin-bottom;
 
   .form-check-input {
@@ -105,7 +105,7 @@
 //
 
 .form-switch {
-  padding-left: $form-switch-padding-start;
+  padding-inline-start: $form-switch-padding-start;
 
   .form-check-input {
     width: $form-switch-width;

@@ -770,7 +770,7 @@ html.mw_pages #items_handle {
     overflow: hidden;
     white-space: nowrap;
     color: #595959;
-    padding-right: 9px;
+    padding-inline-end: 9px;
     position: relative;
     margin: 4px 0 0 8px;
     line-height: normal;
@@ -1401,7 +1401,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a {
-    padding-left: 43px;
+    padding-inline-start: 43px;
 }
 
 .toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list li a {
@@ -1409,7 +1409,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a {
-    padding-left: 21px;
+    padding-inline-start: 21px;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a:hover {
@@ -1418,12 +1418,12 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a {
-    padding-left: 40px;
+    padding-inline-start: 40px;
     background-position: 21px 50%;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li li a {
-    padding-left: 60px;
+    padding-inline-start: 60px;
     background-position: 46px 50%;
 }
 
@@ -1518,19 +1518,19 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .mw-ui-manage-list li li a {
-    padding-left: 25px;
+    padding-inline-start: 25px;
 }
 
 .mw-ui-manage-list li li li a {
-    padding-left: 35px;
+    padding-inline-start: 35px;
 }
 
 .mw-ui-manage-list li li li li a {
-    padding-left: 45px;
+    padding-inline-start: 45px;
 }
 
 .mw-ui-manage-list li li li li li a {
-    padding-left: 55px;
+    padding-inline-start: 55px;
 }
 
 .mw-ui-manage-list li a:hover {
@@ -2796,7 +2796,7 @@ div[id*='SSDIVEL'] {
     display: inline-block;
     white-space: nowrap;
     margin-bottom: 7px;
-    padding-right: 5px;
+    padding-inline-end: 5px;
 }
 
 #mw_toolbar_nav .hasdraft .mw-ui-btn {
@@ -2956,7 +2956,7 @@ div[id*='SSDIVEL'] {
 .toolbar-sections-tabs > ul,
 #live-edit-dropdown-actions-content ul,
 #mw_history_files {
-    padding-left: 0;
+    padding-inline-start: 0;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list ul.pages_tree li {
@@ -2964,7 +2964,7 @@ div[id*='SSDIVEL'] {
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a {
-    padding-left: 23px;
+    padding-inline-start: 23px;
 }
 
 #liveedit_wysiwyg,
@@ -3290,7 +3290,7 @@ body.touchscreen-device .module-item-module {
 }
 
 .mw-liveedit-sidebar-search-wrapper input {
-    padding-left: 43px;
+    padding-inline-start: 43px;
     height: 36px;
     padding: 10px 15px 10px 35px;
     -webkit-border-radius: 0;
@@ -3508,7 +3508,7 @@ body.isTyping .mw-cloneable-control {
 }
 
 .wysiwyg-cell-undo-redo {
-    padding-left: 10px;
+    padding-inline-start: 10px;
     height: 54px;
 }
 
@@ -3652,8 +3652,8 @@ body.dragStart .allow-drop {
 .prop-ui-field-unit {
     max-width: 50px;
     background: #f3f3f3;
-    padding-left: 5px;
-    padding-right: 0px;
+    padding-inline-start: 5px;
+    padding-inline-end: 0px;
 }
 
 .mw-module-presets-opener {
@@ -4300,10 +4300,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: inline-block;
     line-height: 40px;
     height: 40px;
-    padding-right: 10px;
+    padding-inline-end: 10px;
     vertical-align: top;
     cursor: pointer;
-    padding-left: 5px;
+    padding-inline-start: 5px;
 
 }
 

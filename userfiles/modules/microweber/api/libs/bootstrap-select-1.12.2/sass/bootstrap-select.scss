@@ -35,7 +35,7 @@ select.selectpicker {
   // The selectpicker button
   > .dropdown-toggle {
     width: 100%;
-    padding-right: 25px;
+    padding-inline-end: 25px;
     z-index: 1;
 
     &.bs-placeholder,
@@ -220,7 +220,7 @@ select.selectpicker {
 
         &.opt {
           position: relative;
-          padding-left: 2.25em;
+          padding-inline-start: 2.25em;
         }
 
         span.check-mark {
@@ -233,7 +233,7 @@ select.selectpicker {
       }
 
       small {
-        padding-left: 0.5em;
+        padding-inline-start: 0.5em;
       }
     }
 

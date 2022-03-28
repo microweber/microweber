@@ -58,8 +58,8 @@
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
+  padding-inline-end: 0.5rem;
+  padding-inline-start: 0.5rem;
 }
 .mw-flex-col-xs {
   -webkit-box-flex: 1;
@@ -248,8 +248,8 @@
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-sm {
     -webkit-box-flex: 1;
@@ -439,8 +439,8 @@
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-md {
     -webkit-box-flex: 1;
@@ -630,8 +630,8 @@
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-lg {
     -webkit-box-flex: 1;

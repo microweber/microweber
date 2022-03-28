@@ -130,8 +130,8 @@ textarea:not(.form-control) {
 .btn {
   display: inline-flex;
   //height: 40px; //bootswatch fix
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
   align-items: center;
 
   i {
@@ -150,8 +150,8 @@ textarea:not(.form-control) {
 
   &.btn-sm {
     //height: 30px; //bootswatch fix
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
 
     i {
       font-size: 0.765625rem;
@@ -528,7 +528,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     padding-bottom: 0.563rem;
     height: auto;
     min-height: 40px;
-    padding-right: 5px;
+    padding-inline-end: 5px;
 
     &.btn-sm {
       padding-top: 0.25rem;
@@ -654,7 +654,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
         background-repeat: no-repeat;
         background-position: center right ($custom-select-padding-x + $custom-select-indicator-padding - 1rem);
         background-size: $custom-select-feedback-icon-size;
-        padding-right: add(1em * .75, (2 * $custom-select-padding-y * .75) + $custom-select-padding-x + $custom-select-indicator-padding - 1.5rem);
+        padding-inline-end: add(1em * .75, (2 * $custom-select-padding-y * .75) + $custom-select-padding-x + $custom-select-indicator-padding - 1.5rem);
 
       }
     }
@@ -839,7 +839,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .info {
     width: calc(100% - 50px);
     color: $dark;
-    padding-left: 10px;
+    padding-inline-start: 10px;
     position: relative;
     white-space: nowrap;
     overflow: hidden;
@@ -1266,7 +1266,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       border-color: $input-border-color;
     }
     border-left: 0;
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 }
 
@@ -1440,36 +1440,36 @@ label.control-label {
 
 .btn-only-icon {
   @media screen and (max-width: 575px) {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-inline-start: 6px;
+    padding-inline-end: 6px;
   }
 }
 
 .btn-sm-only-icon {
   @media screen and (max-width: 767px) {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-inline-start: 6px;
+    padding-inline-end: 6px;
   }
 }
 
 .btn-md-only-icon {
   @media screen and (max-width: 991px) {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-inline-start: 6px;
+    padding-inline-end: 6px;
   }
 }
 
 .btn-lg-only-icon {
   @media screen and (max-width: 1199px) {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-inline-start: 6px;
+    padding-inline-end: 6px;
   }
 }
 
 .btn-xl-only-icon {
   @media screen and (min-width: 1200px) {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-inline-start: 6px;
+    padding-inline-end: 6px;
   }
 }
 
@@ -1537,8 +1537,8 @@ label.control-label {
       padding-bottom: 5px;
     }
     span {
-      padding-left: 5px;
-      padding-right: 5px;
+      padding-inline-start: 5px;
+      padding-inline-end: 5px;
     }
   }
 }

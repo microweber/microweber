@@ -233,7 +233,7 @@
 	position: relative;
 }
 .ui-menu-icons .ui-menu-item-wrapper {
-	padding-left: 2em;
+	padding-inline-start: 2em;
 }
 
 /* left-aligned */

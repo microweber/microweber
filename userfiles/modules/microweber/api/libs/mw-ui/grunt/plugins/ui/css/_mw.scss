@@ -146,7 +146,7 @@ header {
       float: none;
 
       padding-top: 95px;
-      padding-right: 15px;
+      padding-inline-end: 15px;
       border-right: 1px solid darken($white, 4%);
       overflow-y: auto;
 
@@ -239,9 +239,9 @@ header {
           background: transparent !important;
 
           .dropdown-item {
-            /*padding-left: 47px;*/
+            /*padding-inline-start: 47px;*/
             margin: 4px 0;
-            padding-left: 15px;
+            padding-inline-start: 15px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -369,8 +369,8 @@ header {
       padding-top: 95px;
       margin-left: 0;
 
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-inline-start: 10px;
+      padding-inline-end: 10px;
 
       &.opened {
         left: 190px;
@@ -464,7 +464,7 @@ header {
       max-width: 90px;
       &.datetime-indicator {
         max-width: none;
-        padding-left: 46px;
+        padding-inline-start: 46px;
         padding-bottom: 40px;
         padding-top: 30px;
       }
@@ -670,7 +670,7 @@ header {
 }
 
 .moveable {
-  padding-left: 25px;
+  padding-inline-start: 25px;
   &:before {
     color: $silver;
     font-size: 20px;

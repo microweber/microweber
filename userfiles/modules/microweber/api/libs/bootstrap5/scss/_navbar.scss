@@ -21,9 +21,9 @@
   align-items: center;
   justify-content: space-between; // space out brand from logo
   padding-top: $navbar-padding-y;
-  padding-right: $navbar-padding-x; // default: null
+  padding-inline-end: $navbar-padding-x; // default: null
   padding-bottom: $navbar-padding-y;
-  padding-left: $navbar-padding-x; // default: null
+  padding-inline-start: $navbar-padding-x; // default: null
   @include gradient-bg();
 
   // Because flex properties aren't inherited, we need to redeclare these first
@@ -75,13 +75,13 @@
 .navbar-nav {
   display: flex;
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
-  padding-left: 0;
+  padding-inline-start: 0;
   margin-bottom: 0;
   list-style: none;
 
   .nav-link {
-    padding-right: 0;
-    padding-left: 0;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
   }
 
   .dropdown-menu {
@@ -176,8 +176,8 @@
           }
 
           .nav-link {
-            padding-right: $navbar-nav-link-padding-x;
-            padding-left: $navbar-nav-link-padding-x;
+            padding-inline-end: $navbar-nav-link-padding-x;
+            padding-inline-start: $navbar-nav-link-padding-x;
           }
         }
 

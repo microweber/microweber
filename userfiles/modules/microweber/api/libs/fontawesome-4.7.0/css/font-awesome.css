@@ -43,7 +43,7 @@
   text-align: center;
 }
 .fa-ul {
-  padding-left: 0;
+  padding-inline-start: 0;
   margin-left: 2.14285714em;
   list-style-type: none;
 }

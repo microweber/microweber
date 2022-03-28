@@ -11,7 +11,7 @@
   position: relative;
   display: block;
   min-height: $font-size-base * $line-height-base;
-  padding-left: $custom-control-gutter + $custom-control-indicator-size;
+  padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
 }
 
 .custom-control-inline {
@@ -106,6 +106,21 @@
   }
 }
 
+html[dir="rtl"] {
+    .custom-control-label {
+        &::before {
+
+             left: calc(100% + 10px);
+
+        }
+
+         &::after {
+
+             left: calc(100% + 12px);
+        }
+    }
+}
+
 
 // Checkboxes
 //
@@ -172,7 +187,7 @@
 // Tweak a few things for switches
 
 .custom-switch {
-  padding-left: $custom-switch-width + $custom-control-gutter;
+  padding-inline-start: $custom-switch-width + $custom-control-gutter;
 
   .custom-control-label {
     &::before {
@@ -208,6 +223,8 @@
     }
   }
 }
+
+
 
 
 // Select
@@ -256,7 +273,7 @@
   &[multiple],
   &[size]:not([size="1"]) {
     height: auto;
-    padding-right: $custom-select-padding-x;
+    padding-inline-end: $custom-select-padding-x;
     background-image: none;
   }
 
@@ -281,7 +298,7 @@
   height: $custom-select-height-sm;
   padding-top: $custom-select-padding-y-sm;
   padding-bottom: $custom-select-padding-y-sm;
-  padding-left: $custom-select-padding-x-sm;
+  padding-inline-start: $custom-select-padding-x-sm;
   @include font-size($custom-select-font-size-sm);
 }
 
@@ -289,7 +306,7 @@
   height: $custom-select-height-lg;
   padding-top: $custom-select-padding-y-lg;
   padding-bottom: $custom-select-padding-y-lg;
-  padding-left: $custom-select-padding-x-lg;
+  padding-inline-start: $custom-select-padding-x-lg;
   @include font-size($custom-select-font-size-lg);
 }
 

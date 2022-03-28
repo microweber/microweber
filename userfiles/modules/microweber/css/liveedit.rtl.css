@@ -38,13 +38,12 @@
 
 
 .ts_main_a{
-    padding-right: 10px;
+    padding-inline-end: 10px;
 }
 
 
 .mw-handle-type-default .mw-handle-handler-icon{
     border-right: none;
-    border-left: 1px solid #333333;
 }
 
 .mw-close-sidebar-btn {
@@ -68,6 +67,6 @@
 }
 
 #liveedit_wysiwyg{
-    padding-left: 0;
-    padding-right: 10px;
+    padding-inline-start: 0;
+    padding-inline-end: 10px;
 }

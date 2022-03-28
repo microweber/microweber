@@ -18,7 +18,7 @@
 .mw-editor-area ul:not([class]),
 .mw-editor-frame-area ol:not([class]),
 .mw-editor-area ol:not([class]) {
-  padding-left: 1.4em;
+  padding-inline-start: 1.4em;
 }
 .mw-editor-wrapper.mw-editor-wrapper-document-mode {
   position: fixed;

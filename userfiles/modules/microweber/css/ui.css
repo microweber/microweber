@@ -186,26 +186,26 @@ img[align='middle'] {
   display: none !important;
 }
 .mw-col-container {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
   max-width: 100%;
   min-height: 30px;
   position: relative;
   vertical-align: top;
 }
 .mw-ui-col:first-child > .mw-col-container {
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .mw-ui-col:last-child > .mw-col-container {
-  padding-right: 0;
+  padding-inline-end: 0;
 }
 html[dir="rtl"] .mw-ui-col:first-child > .mw-col-container {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
 }
 html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-inline-end: 10px;
+  padding-inline-start: 10px;
 }
 .mw-col-container:after {
   content: ".";
@@ -216,10 +216,10 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
   height: 0;
 }
 .mw-row > .mw-col:first-child > .mw-col-container {
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .mw-row > .mw-col:last-child > .mw-col-container {
-  padding-right: 0;
+  padding-inline-end: 0;
 }
 .mw-col img {
   height: auto !important;
@@ -242,8 +242,8 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
     display: none;
   }
   .mw-row .mw-col .mw-col-container {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
   }
 }
 /* Static Grid */
@@ -265,8 +265,8 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
   position: relative;
   display: block;
   clear: both;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
 }
 .mw-ui-row > .mw-ui-col:only-child > .mw-ui-col-container,
 .mw-ui-row-nodrop > .mw-ui-col:only-child > .mw-ui-col-container {
@@ -274,11 +274,11 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
 }
 .mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container,
 .mw-ui-row-nodrop > .mw-ui-col:first-child > .mw-ui-col-container {
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container,
 .mw-ui-row-nodrop > .mw-ui-col:last-child > .mw-ui-col-container {
-  padding-right: 0;
+  padding-inline-end: 0;
 }
 .mw-ui-col-container:after {
   content: ".";
@@ -301,8 +301,8 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
     width: auto !important;
   }
   .mw-ui-row-drop-on-1024 > .mw-ui-col > .mw-ui-col-container {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 }
 @media (max-width: 768px) {
@@ -313,8 +313,8 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
     width: auto !important;
   }
   .mw-ui-row > .mw-ui-col > .mw-ui-col-container {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-inline-start: 0 !important;
+    padding-inline-end: 0 !important;
   }
 }
 /***************** /Grids  *******************/
@@ -966,7 +966,7 @@ html.mw-loading:after {
   padding: 6px 0;
 }
 .mw-list li {
-  padding-left: 14px;
+  padding-inline-start: 14px;
   list-style: none;
   line-height: 2;
 }
@@ -2928,7 +2928,7 @@ html.mw-loading:after {
   display: block;
 }
 .form-group > .mw-tree-nav-skin-default {
-  padding-left: 15px;
+  padding-inline-start: 15px;
 }
 .mw-tree-nav-skin-default {
   -webkit-touch-callout: none;
@@ -2953,8 +2953,8 @@ html.mw-loading:after {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  padding-left: 5px;
-  padding-right: 42px;
+  padding-inline-start: 5px;
+  padding-inline-end: 42px;
   /*padding-inline-end:42px;
     padding-inline-start:5px;*/
   font-size: 12px;
@@ -2994,7 +2994,7 @@ html.mw-loading:after {
   background: #fff;
 }
 .mw-tree-nav-skin-default li li {
-  padding-left: 23px;
+  padding-inline-start: 23px;
   margin-left: 5px;
 }
 .mw-tree-nav-skin-default li ul,
@@ -3333,8 +3333,8 @@ html[dir="rtl"] .mw-tree-item-title {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
+  padding-inline-end: 0.5rem;
+  padding-inline-start: 0.5rem;
 }
 .mw-flex-col-xs {
   -webkit-box-flex: 1;
@@ -3523,8 +3523,8 @@ html[dir="rtl"] .mw-tree-item-title {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-sm {
     -webkit-box-flex: 1;
@@ -3714,8 +3714,8 @@ html[dir="rtl"] .mw-tree-item-title {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-md {
     -webkit-box-flex: 1;
@@ -3905,8 +3905,8 @@ html[dir="rtl"] .mw-tree-item-title {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   .mw-flex-col-lg {
     -webkit-box-flex: 1;
@@ -4107,8 +4107,8 @@ select.mw-ui-invisible-field {
 }
 .mw-ui-invisible-field,
 .mw-ui-invisible-field[class*='mw-ui-field'] {
-  padding-left: 0;
-  padding-right: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
 }
 .mw-ui-field {
   max-width: 100%;
@@ -4240,7 +4240,7 @@ div.mw-ui-field:after {
   cursor: text;
   outline: medium none;
   padding: 8px 8px 8px 33px;
-  padding-left: 33px !important;
+  padding-inline-start: 33px !important;
   height: 36px;
   -webkit-transition: width 0.1s, opacity 0.2s;
   -moz-transition: width 0.1s, opacity 0.2s;
@@ -4723,7 +4723,7 @@ mw-field select {
   background-position: calc(100% - 10px) 50%;
   background-repeat: no-repeat;
   background-size: 8px auto;
-  padding-right: 25px;
+  padding-inline-end: 25px;
   cursor: default;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 284.929 284.929' style='enable-background:new 0 0 284.929 284.929;' %3E%3Cpath fill='%23777' d='M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441 L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082 c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647 c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z'/%3E%3C/svg%3E%0A");
 }
@@ -4832,7 +4832,7 @@ mw-field[data-size="large"][data-after]:after {
   background-position: 0 0, 0 -5.5px, -5.5px 5.5px, 5.5px 0;
 }
 .mw-field-color-indicator + input {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-field-color-indicator .mw-field-color-indicator-display {
   position: absolute;
@@ -5528,15 +5528,15 @@ Paging
 }
 .mw-ui-navigation li.active > ul li > a,
 .mw-ui-navigation li.opened > ul li > a {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .mw-ui-navigation li.active > ul li > li > a,
 .mw-ui-navigation li.opened > ul li > li > a {
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 .mw-ui-navigation li.active > ul li > li > li > a,
 .mw-ui-navigation li.opened > ul li > li > li > a {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-paging {
   position: relative;
@@ -6361,12 +6361,12 @@ html[dir='rtl'] .mw-dialog-close {
 .mw-switch-off {
   border-left: 1px solid #bfbfbf;
   border-radius: 2px 0 0 2px;
-  padding-right: 2px;
+  padding-inline-end: 2px;
 }
 .mw-switch-on {
   border-right: 1px solid #bfbfbf;
   border-radius: 0 2px 2px 0;
-  padding-left: 2px;
+  padding-inline-start: 2px;
 }
 .mw-switch input {
   visibility: hidden;
@@ -6561,13 +6561,13 @@ html[dir='rtl'] .mw-dialog-close {
   padding: 3px 10px;
 }
 .mw-dropdown-list li li a {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .mw-dropdown-list li li li a {
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 .mw-dropdown-list li li li li a {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-dropdown-list > li a:hover {
   background-color: #EEEEEE;
@@ -6610,10 +6610,10 @@ html[dir='rtl'] .mw-dialog-close {
   border-top: none;
 }
 .mw-dropdown-default .mw-dropdown-content li li > a {
-  padding-left: 24px;
+  padding-inline-start: 24px;
 }
 .mw-dropdown-default .mw-dropdown-content li li li > a {
-  padding-left: 48px;
+  padding-inline-start: 48px;
 }
 .mw-dropdown-default li:hover > *:first-child {
   background-color: #EEEEEE;
@@ -6709,7 +6709,7 @@ html[dir='rtl'] .mw-dialog-close {
 .mw-select .mw-select-value {
   position: relative;
   display: block;
-  padding-right: 35px;
+  padding-inline-end: 35px;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
@@ -6762,7 +6762,7 @@ html[dir='rtl'] .mw-dialog-close {
   display: flex;
   align-items: center;
   transition: opacity 0.17s;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .mw-select .mw-select-display-value * {
   vertical-align: middle;
@@ -7271,7 +7271,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   vertical-align: middle;
   display: flex;
   flex-wrap: wrap;
-  padding-left: 0;
+  padding-inline-start: 0;
   margin-bottom: 0;
   list-style: none;
   align-items: center;
@@ -7562,14 +7562,14 @@ body.bup.dragStart.state-element .edit .element:empty {
   border-bottom: 1px solid #fff;
 }
 .mw-selectable-list > label > * + * {
-  padding-left: 12px;
+  padding-inline-start: 12px;
 }
 .mw-selectable-list > label > *:first-child {
-  padding-left: 12px;
+  padding-inline-start: 12px;
   border-left: 1px solid #fff;
 }
 .mw-selectable-list > label > *:last-child {
-  padding-right: 12px;
+  padding-inline-end: 12px;
   border-right: 1px solid #fff;
 }
 .mw-selectable-list > label:hover {
@@ -7615,7 +7615,7 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-construct-itd .mw-construct-itd-icon {
   font-size: 37px;
-  padding-right: 12px;
+  padding-inline-end: 12px;
   padding-top: 4px;
   color: #000;
 }
@@ -7762,7 +7762,7 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-editor-area ul:not([class]),
 .mw-editor-frame-area ol:not([class]),
 .mw-editor-area ol:not([class]) {
-  padding-left: 1.4em;
+  padding-inline-start: 1.4em;
 }
 .mw-editor-wrapper.mw-editor-wrapper-document-mode {
   position: fixed;

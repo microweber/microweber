@@ -64,7 +64,7 @@
 .fa-ul {
   list-style-type: none;
   margin-left: 2.5em;
-  padding-left: 0; }
+  padding-inline-start: 0; }
   .fa-ul > li {
     position: relative; }
 

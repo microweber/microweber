@@ -127,8 +127,8 @@ select.form-control {
 
   &.form-control-sm,
   &.form-control-lg {
-    padding-right: 0;
-    padding-left: 0;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
   }
 }
 
@@ -195,8 +195,8 @@ textarea.form-control {
 
   > .col,
   > [class*="col-"] {
-    padding-right: $form-grid-gutter-width / 2;
-    padding-left: $form-grid-gutter-width / 2;
+    padding-inline-end: $form-grid-gutter-width / 2;
+    padding-inline-start: $form-grid-gutter-width / 2;
   }
 }
 
@@ -208,7 +208,7 @@ textarea.form-control {
 .form-check {
   position: relative;
   display: block;
-  padding-left: $form-check-input-gutter;
+  padding-inline-start: $form-check-input-gutter;
 }
 
 .form-check-input {
@@ -230,7 +230,7 @@ textarea.form-control {
 .form-check-inline {
   display: inline-flex;
   align-items: center;
-  padding-left: 0; // Override base .form-check
+  padding-inline-start: 0; // Override base .form-check
   margin-right: $form-check-inline-margin-x;
 
   // Undo .form-check-input defaults and add some `margin-right`.
@@ -317,7 +317,7 @@ textarea.form-control {
       align-items: center;
       justify-content: center;
       width: auto;
-      padding-left: 0;
+      padding-inline-start: 0;
     }
     .form-check-input {
       position: relative;

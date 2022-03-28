@@ -184,7 +184,7 @@
             }
             .imeditor-image-description > div.mw-ui-col > div{
                 padding-left: 0px;
-                padding-right: 0px;
+                padding-inline-end: 0px;
             }
         }
 
