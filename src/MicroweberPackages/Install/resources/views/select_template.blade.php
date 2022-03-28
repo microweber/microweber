@@ -34,7 +34,7 @@
     <style>
         .template-preview {
             width:100%;
-            height:500px;
+            height:250px;
             background-position: top;
             background-size: cover;
             background-repeat: no-repeat;
@@ -44,6 +44,28 @@
         }
     </style>
 
+    <script>
+        function showTemplatesFilter(filter) {
+            $('.js-btn-filter').removeClass('btn-primary');
+            $('.js-btn-filter').addClass('btn-outlineprimary');
+
+            if (filter == 'free') {
+                $('.js-btn-free').addClass('btn-primary');
+
+                $('.templates').hide();
+                $('.templates-free').fadeIn()
+            } else if (filter == 'paid') {
+                $('.js-btn-paid').addClass('btn-primary');
+
+                $('.templates').hide();
+                $('.templates-paid').fadeIn()
+            } else {
+                $('.templates').fadeIn();
+                $('.js-btn-all').addClass('btn-primary');
+
+            }
+        }
+    </script>
 
     <div class="container mt-3">
        <div class="text-center pt-5">
@@ -51,9 +73,9 @@
            <h5 class="lh-1_4">Each of our premium templates contains 450+ layouts in 20 different categories. <br> By buying a premium template you are saving time and money to create any type of website.</h5>
        </div>
         <div class="row justify-content-center py-3">
-            <span class="btn btn-sm btn-primary rounded-0" onclick="$('.templates').fadeIn();">ALL</span>
-            <span class="btn btn-sm btn-outlineprimary rounded-0" onclick="$('.templates').hide();$('.templates-free').fadeIn()">FREE</span>
-            <span class="btn btn-sm btn-outlineprimary rounded-0" onclick="$('.templates').hide();$('.templates-paid').fadeIn()">PREMIUM</span>
+            <span class="btn btn-sm btn-primary rounded-0 js-btn-all js-btn-filter"  onclick="showTemplatesFilter('all')">ALL</span>
+            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-free js-btn-filter" onclick="showTemplatesFilter('free')">FREE</span>
+            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-paid js-btn-filter" onclick="showTemplatesFilter('paid')">PREMIUM</span>
         </div>
         <div class="row p-4 d-flex align-items-center">
 

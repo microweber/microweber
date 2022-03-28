@@ -148,7 +148,7 @@ class InstallController extends Controller
 
         $env = $this->app->environment();
 
-        $view = dirname(dirname(__DIR__)) . '/Resources/views/install.php';
+        $view = dirname(dirname(__DIR__)) . '/resources/views/install.php';
         $view = normalize_path($view, false);
 
         $install_step = null;
