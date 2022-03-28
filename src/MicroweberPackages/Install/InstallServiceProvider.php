@@ -7,8 +7,9 @@ use Illuminate\Support\ServiceProvider;
 
 class InstallServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
+
         View::addNamespace('install', __DIR__ . '/resources/views');
     }
 }
