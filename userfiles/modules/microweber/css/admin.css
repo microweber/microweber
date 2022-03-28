@@ -532,3 +532,16 @@ div.form-control {
     line-height: 20px;
     cursor: pointer;
 }
+.mw-admin-product-item-icon {
+    position:absolute;
+    z-index: 1;
+    right: -5px;
+    top: -10px;
+}
+
+html[dir="rtl"] .mw-admin-product-item-icon {
+
+    right: auto;
+    left: -5px;
+
+}
