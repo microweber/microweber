@@ -37,6 +37,7 @@ jobs:
       run: |
         mkdir /home/runner/work/microweber/microweber/symlinks
         mkdir /home/runner/work/microweber/microweber/symlinks/userfiles
+        mv /home/runner/work/microweber/microweber/app /home/runner/work/microweber/microweber/symlinks/
         mv /home/runner/work/microweber/microweber/vendor /home/runner/work/microweber/microweber/symlinks/
         mv /home/runner/work/microweber/microweber/src /home/runner/work/microweber/microweber/symlinks/
         mv /home/runner/work/microweber/microweber/userfiles/modules /home/runner/work/microweber/microweber/symlinks/userfiles/
