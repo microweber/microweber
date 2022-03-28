@@ -38,6 +38,7 @@ jobs:
         mkdir /home/runner/work/microweber/microweber/symlinks
         mkdir /home/runner/work/microweber/microweber/symlinks/userfiles
         mv /home/runner/work/microweber/microweber/vendor /home/runner/work/microweber/microweber/symlinks/
+        mv /home/runner/work/microweber/microweber/src /home/runner/work/microweber/microweber/symlinks/
         mv /home/runner/work/microweber/microweber/userfiles/modules /home/runner/work/microweber/microweber/symlinks/userfiles/
         mv /home/runner/work/microweber/microweber/userfiles/templates /home/runner/work/microweber/microweber/symlinks/userfiles/
         find /home/runner/work/microweber/microweber/symlinks \( -type f -exec chmod a=r {} \; \) -o \( -type d -exec chmod a=rx {} \; \)
