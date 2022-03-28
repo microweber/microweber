@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+
 if (!function_exists('run_translate_manager')) {
     function run_translate_manager()
     {
@@ -80,7 +82,7 @@ if (!function_exists('change_language_by_locale')) {
     {
         $isCli = is_cli();
 
-        if (get_option('dusk_test','dusk') == 1) {
+        if (get_option('dusk_test', 'dusk') == 1) {
             $isCli = false;
         }
 
@@ -93,8 +95,13 @@ if (!function_exists('change_language_by_locale')) {
             }
             if (!$skip) {
 
-                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
 
+                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+                if ($multilanguageIsActive) {
+                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                } else {
+                    $localeSettings = ['locale' => $locale];
+                }
                 $applyCookieLang = true;
                 if ($localeSettings != null and isset($localeSettings['locale'])) {
                     if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $locale) {
@@ -250,12 +257,12 @@ if (!function_exists('detect_lang_from_url')) {
                 }
             }
             if ($findedLangAbr) {
-                $targetUrl = implode('/',$urlSegs);
-                return array('target_lang' => $findedLangAbr,'target_url' => $targetUrl);
+                $targetUrl = implode('/', $urlSegs);
+                return array('target_lang' => $findedLangAbr, 'target_url' => $targetUrl);
             }
         }
 
-        return array('target_lang' => $targetLang,'target_url' => $targetUrl);
+        return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
     }
 }
 
