@@ -4,7 +4,7 @@
 
 <div class="clearfix"></div>
 
-<h5 class="font-weight-bold mb-3 mt-2"><?php _e('Available backups'); ?></h5>
+<h5 class="font-weight-bold mb-3 mt-2"><?php _e('Available contents'); ?></h5>
 
 <div id="backups_list">
     <?php
