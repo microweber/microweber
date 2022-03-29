@@ -120,4 +120,4 @@ jobs:
           skype_username : ${{ secrets.SKYPE_USERNAME }}
           skype_password : ${{ secrets.SKYPE_PASSWORD }}
           skype_ids      : ${{ secrets.SKYPE_SPAM_GROUP_ID }}
-          send_msg_text  : "${{ env.GITHUB_REF_SLUG }} unit test failure. (bomb) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
+          send_msg_text  : "Template: ${{ matrix.templates }} \nUnit test failure. (bomb) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
