@@ -5,8 +5,8 @@ $config['author'] = "Microweber";
 
 $config['categories'] = "admin";
 $config['version'] = 0.3;
-$config['ui_admin'] = false;
-$config['ui'] = false;
+$config['ui_admin'] = true;
+$config['ui'] = true;
 $config['position'] = 99;
 
 $config['permissions'] = [
