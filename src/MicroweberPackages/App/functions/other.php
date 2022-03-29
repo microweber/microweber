@@ -1202,6 +1202,6 @@ if (!function_exists('mergeScreenshotParts')) {
             $i++;
         }
 
-        imagepng($targetImage, $outputFilename, 9);
+        imagepng($targetImage, $outputFilename, 8);
     }
 }

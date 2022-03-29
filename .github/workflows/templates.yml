@@ -80,14 +80,14 @@ jobs:
         run: |
           php artisan dusk --filter=BrowsePagesForBrokenTagsTest
           rm -rf tests/Browser/screenshots/.gitignore
-#      - name: Send skype
-#        uses: bobimicroweber/docker-action-send-skype@v1
-#        with:
-#          skype_username : ${{ secrets.SKYPE_USERNAME }}
-#          skype_password : ${{ secrets.SKYPE_PASSWORD }}
-#          skype_ids      : ${{ secrets.SKYPE_SPAM_GROUP_ID }}
-#          send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
-#          send_file_path : tests/Browser/screenshots/
+      - name: Send skype
+        uses: bobimicroweber/docker-action-send-skype@v1
+        with:
+          skype_username : ${{ secrets.SKYPE_USERNAME }}
+          skype_password : ${{ secrets.SKYPE_PASSWORD }}
+          skype_ids      : ${{ secrets.SKYPE_SPAM_GROUP_ID }}
+          send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
+          send_file_path : tests/Browser/screenshots/
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
