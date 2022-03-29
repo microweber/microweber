@@ -394,29 +394,25 @@ var _populate = {
         $('.unit').each(function(){
             var val = css.css[this.dataset.prop];
             var btn = $('.mw-ui-btn', this.parentNode)[0];
-            if(btn) {
+            if (btn) {
                 btn._defaultValue = '';
             }
-
-            if(val) {
+            if (val) {
                 var nval = parseFloat(val);
                 var isn = !isNaN(nval);
                 var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
                 val = isn ? nval : val;
-                if(btn) {
+                if (btn) {
                     btn._defaultValue = val;
                 }
                 $('input', this).val(val);
                 $('.mw-range.ui-slider', this).slider('value', isn ? nval : 0)
             }
-
         });
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
-
                 var hasColor = color !== 'rgba(0, 0, 0, 0)';
-
                 if(color) {
                     if(hasColor) {
                         this.value = mw.color.rgbOrRgbaToHex(color);
@@ -424,14 +420,12 @@ var _populate = {
                         this.value = 'none';
                         this.previousElementSibling.querySelector('.mw-field-color-indicator-display').style.backgroundColor = 'transparent'
                     }
-
                 }
 
                 this.type = 'text'
 
                 var el = this;
-
-
+                
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')
@@ -642,11 +636,10 @@ var output = function(property, value){
 var _defaultValuesArray = ['auto', 'inherit', 'unset'];
 
 var numValue = function (value) {
-
-    if(['auto', 'inherit', 'initial', 'revert', 'unset'].indexOf(value) !== -1) {
-        return value;
+    if(/^\d+$/.test(value)) {
+        return value + 'px';
     }
-    return value ? value + 'px' : '';
+    return value;
 };
 
 
@@ -663,8 +656,12 @@ var defaultValuesUI = function (prop, targetNode) {
         node.append(dfslider)
         $(dfslider.get(0)).slider({
             slide: function( event, ui ) {
-                output(defaultValuesUIProp, numValue(ui.value))
-                defaultValuesUITarget.value = ui.value
+                var val = parseFloat(ui.value);
+                if(isNaN(val)) {
+                    val = 0;
+                }
+                output(defaultValuesUIProp, numValue(val))
+                defaultValuesUITarget.value = val
             }
         })
         _defaultValuesArray.forEach(function (val){
@@ -693,8 +690,11 @@ var defaultValuesUI = function (prop, targetNode) {
     }
 
     targetNode.addEventListener('focus', function (e){
-        console.log(dfslider)
-        $(dfslider.get(0)).slider("value", targetNode.value)
+        var val = parseFloat(targetNode.value);
+        if(isNaN(val)) {
+            val = 0;
+        }
+        $(dfslider.get(0)).slider("value", val)
         defaultValuesUIProp = prop;
         defaultValuesUITarget = e.target;
         var rect = e.target.getBoundingClientRect();
@@ -1390,15 +1390,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <span class="input mw-ese-top"><input type="number" class=" margin-top"></span>
-                    <span class="input mw-ese-right"><input type="number" class=" margin-right"></span>
-                    <span class="input mw-ese-bottom"><input type="number" class=" margin-bottom"></span>
-                    <span class="input mw-ese-left"><input type="number" class=" margin-left"></span>
+                    <span class="input mw-ese-top"><input type="text" class=" margin-top"></span>
+                    <span class="input mw-ese-right"><input type="text" class=" margin-right"></span>
+                    <span class="input mw-ese-bottom"><input type="text" class=" margin-bottom"></span>
+                    <span class="input mw-ese-left"><input type="text" class=" margin-left"></span>
                     <div class="mw-ese-holder mw-ese-padding">
-                        <span class="input mw-ese-top"><input type="number" min="0" class=" padding-top"></span>
-                        <span class="input mw-ese-right"><input type="number" min="0" class=" padding-right"></span>
-                        <span class="input mw-ese-bottom"><input type="number" min="0" class=" padding-bottom"></span>
-                        <span class="input mw-ese-left"><input type="number" min="0" class=" padding-left"></span>
+                        <span class="input mw-ese-top"><input type="text" min="0" class=" padding-top"></span>
+                        <span class="input mw-ese-right"><input type="text" min="0" class=" padding-right"></span>
+                        <span class="input mw-ese-bottom"><input type="text" min="0" class=" padding-bottom"></span>
+                        <span class="input mw-ese-left"><input type="text" min="0" class=" padding-left"></span>
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
