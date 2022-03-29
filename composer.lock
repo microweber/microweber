@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "107a48108fb6b72d97192c6e2715cc82",
+    "content-hash": "504923697cb776f27fea2744afdbca28",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -583,12 +583,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "37627f10d0500a11aa94f3981b85c4cd6fdefbd5"
+                "reference": "854aab5f0393f39f0dc83500fee3516ccea9cc7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/37627f10d0500a11aa94f3981b85c4cd6fdefbd5",
-                "reference": "37627f10d0500a11aa94f3981b85c4cd6fdefbd5",
+                "url": "https://api.github.com/repos/composer/composer/zipball/854aab5f0393f39f0dc83500fee3516ccea9cc7f",
+                "reference": "854aab5f0393f39f0dc83500fee3516ccea9cc7f",
                 "shasum": ""
             },
             "require": {
@@ -681,7 +681,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-26T13:42:57+00:00"
+            "time": "2022-03-29T10:46:51+00:00"
         },
         {
             "name": "composer/installers",
@@ -972,12 +972,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71"
+                "reference": "7b62ddcdfb1755b226c5b98bd5819ac381df151b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/5d8e574bb0e69188786b8ef77d43341222a41a71",
-                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71",
+                "url": "https://api.github.com/repos/composer/semver/zipball/7b62ddcdfb1755b226c5b98bd5819ac381df151b",
+                "reference": "7b62ddcdfb1755b226c5b98bd5819ac381df151b",
                 "shasum": ""
             },
             "require": {
@@ -1030,7 +1030,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.3.1"
+                "source": "https://github.com/composer/semver/tree/main"
             },
             "funding": [
                 {
@@ -1046,7 +1046,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-16T11:22:07+00:00"
+            "time": "2022-03-29T10:34:15+00:00"
         },
         {
             "name": "composer/spdx-licenses",
@@ -16176,7 +16176,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1",
+        "php": ">=8.0",
         "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
