@@ -64,10 +64,10 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--disable-gpu';
         $arguments[] = '--no-sandbox';
         $arguments[] = '--ignore-certificate-errors';
-        $arguments[] = '--window-size=1920,1080';
+        $arguments[] = '--window-size=1280,1080';
         $arguments[] = '--disable-popup-blocking';
 
-        $arguments[] = '--headless';
+      //  $arguments[] = '--headless';
 
         $options = (new ChromeOptions)->addArguments(collect($arguments)
             ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
