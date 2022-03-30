@@ -88,7 +88,7 @@
         <?php event_trigger('mw.admin.footer'); ?>
 
         <?php include(__DIR__ . DS . 'copyright.php'); ?>
-        <?php /*include(__DIR__ . DS . 'lang_swich_footer.php'); */?>
+        <?php include(__DIR__ . DS . 'lang_swich_footer.php'); ?>
     </main>
 
 <?php endif; ?>
