@@ -2768,7 +2768,7 @@ input[type="button"].btn-block {
 .custom-control-input {
   position: absolute;
   left: 0;
-  z-index: -1;
+  z-index: 1;
   width: 1.25rem;
   height: 1.28125rem;
   opacity: 0; }
@@ -2817,7 +2817,9 @@ input[type="button"].btn-block {
 html[dir="rtl"] .custom-control-label::before {
   left: calc(100% + 10px); }
 html[dir="rtl"] .custom-control-label::after {
-  left: calc(100% + 12px); }
+  left: calc(100% + 27px); }
+html[dir="rtl"] .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  transform: translateX(-0.92rem); }
 
 .custom-checkbox .custom-control-label::before {
   border-radius: 5px; }
@@ -2832,6 +2834,9 @@ html[dir="rtl"] .custom-control-label::after {
   background-color: rgba(69, 146, 255, 0.5); }
 .custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
   background-color: rgba(69, 146, 255, 0.5); }
+.custom-checkbox .custom-control-label:before,
+.custom-checkbox .custom-control-label:after {
+  left: 0 !important; }
 
 .custom-radio .custom-control-label::before {
   border-radius: 50%; }

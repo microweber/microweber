@@ -590,6 +590,9 @@ html[dir="rtl"],
 html[dir="rtl"] body {
     text-align: right;
 }
+html[dir="rtl"] .input-group {
+    flex-direction: row-reverse;
+}
 html[dir="rtl"] .table th, html[dir="rtl"] .table td {
     text-align: right;
 }
