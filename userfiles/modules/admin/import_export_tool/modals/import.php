@@ -1,6 +1,6 @@
-<h3>
-    Select Type of Import 
-</h3>
+<h4>
+    <?php _e("Select type of import"); ?>
+</h4>
 <div class="import-modal-vendors">
     <div class="import-modal-vendor-btn">
         <div class="import-modal-vendor-btn-image">
