@@ -35,7 +35,6 @@ class MicroweberMigrator extends Migrator
      */
     protected function runUp($file, $batch, $pretend)
     {
-
         $this->ensureMigrationsTableExists();
         $migration = $this->resolve(
             $name = $this->getMigrationName($file)
