@@ -1,3 +1,6 @@
+<h3>
+    Select Type of Import 
+</h3>
 <div class="import-modal-vendors">
     <div class="import-modal-vendor-btn">
         <div class="import-modal-vendor-btn-image">

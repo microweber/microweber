@@ -14,7 +14,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <script>
     function addNewImportModal() {
         var newImportDialog = mw.dialog({
-            width: 900,
+            width: 870,
             height: 'auto',
             autoHeight:true,
             content: '<div id="mw_admin_import_modal_content">Loading...</div>',
