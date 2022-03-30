@@ -38,6 +38,20 @@
         });
     });
 
+    <?php if (config('microweber.allow_php_files_upload')): ?>
+    function mw_upload_module() {
+        mwUploadModuleDialog = mw.dialog({
+            content: '<div id="mw_admin_upload_module_modal_content"></div>',
+            title: 'Upload Module',
+            id: 'mw_admin_upload_module_modal'
+        });
+        var params = {};
+        mw.load_module('admin/modules/upload', '#mw_admin_upload_module_modal_content', function () {
+            mwUploadModuleDialog.center();
+        }, params);
+    }
+    <?php endif; ?>
+
     function mw_reload_all_modules() {
         mw_reload_all_elements()
         mw.notification.success('Reloading...', 3000)
@@ -240,6 +254,12 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
 
 
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
+
+                <?php if (config('microweber.allow_php_files_upload')): ?>
+                <a href="javascript:;" onclick="mw_upload_module()" class="btn btn-outline-primary icon-left">
+                    <i class="mdi mdi-upload icon-left"></i> <?php _e("Upload module"); ?>
+                </a>
+                <?php endif;?>
 
                 <?php if (user_can_access('module.modules.edit')): ?>
                     <a href="javascript:;" onclick="mw_reload_all_modules()" class="btn btn-primary reload-module-btn icon-left"><i class="mdi mdi-refresh icon-left"></i> <?php _e("Reload modules"); ?></a>

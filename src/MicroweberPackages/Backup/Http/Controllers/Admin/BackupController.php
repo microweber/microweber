@@ -5,14 +5,10 @@ namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use MicroweberPackages\Backup\Backup;
-use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Backup\Export;
 use MicroweberPackages\Backup\GenerateBackup;
-use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Import\Loggers\ImportLogger;
-use function _HumbugBox58fd4d9e2a25\pcov\clear;
 
 class BackupController
 {
@@ -148,7 +144,7 @@ class BackupController
             );
         }
 
-        $src = str_replace('..',false,$src);
+        $src = str_replace('..','',$src);
 
         $checkFile = url2dir(trim($src));
         $checkFile = normalize_path($checkFile, false);

@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Import\Formats;
 
 use MicroweberPackages\Import\Loggers\ImportLogger;
+use MicroweberPackages\Utils\Zip\ZipArchiveExtractor;
 use MicroweberPackages\Utils\Zip\Unzip;
 
 class ZipReader extends DefaultReader
@@ -10,6 +11,19 @@ class ZipReader extends DefaultReader
 
     public function setLanguage($abr) {
         $this->language = strtolower($abr); // 'bg';
+    }
+
+    public function clearCache()
+    {
+        $backupLocation = backup_location() . 'temp_backup_zip';
+        if (is_dir($backupLocation)) {
+            rmdir_recursive($backupLocation, false);
+        }
+
+        $cacheLocation = backup_location() . 'cache_backup_zip';
+        if (is_dir($cacheLocation)) {
+            rmdir_recursive($cacheLocation, false);
+        }
     }
 
 	/**
@@ -28,10 +42,20 @@ class ZipReader extends DefaultReader
 
         if (!is_dir($backupLocation)) {
 
+            // Clear old backup
             rmdir_recursive($backupLocation);
 
-            $unzip = new Unzip();
-            $unzip->extract($this->file, $backupLocation, true);
+            $zipExtract = new ZipArchiveExtractor($this->file);
+            if (config('microweber.allow_php_files_upload')) {
+                $zipExtract->setAllowedFilesCheck(false);
+            } else {
+                $zipExtract->setAllowedFilesCheck(true);
+            }
+            $zipExtract->setLogger(ImportLogger::class);
+            $extracted = $zipExtract->extractTo($backupLocation);
+            if (!$extracted) {
+                return;
+            }
 
             ImportLogger::setLogInfo($backupLocation);
         }
@@ -54,7 +78,11 @@ class ZipReader extends DefaultReader
         }
 
 		if ($backupLocation != false and is_dir($backupLocation)) {
-			ImportLogger::setLogInfo('Media restored!');
+
+            if (is_dir($backupLocation . DS. 'userfiles' . DS.'media')) {
+                ImportLogger::setLogInfo('Media restored!');
+            }
+
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
 

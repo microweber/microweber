@@ -159,8 +159,6 @@ class Unzip
                                 $resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
 
                                 return $resp;
-
-                                return false;
                             }
 
                             // Apply chmod if configured to do so

@@ -12,9 +12,7 @@
             "email": "bobi@microweber.com"
         }
     ],
-    "require": {
-        "twig/twig": "3.x-dev"
-    },
+
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Console\\": ""

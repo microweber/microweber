@@ -10,13 +10,6 @@ if (!$getSupportedLocale) {
 $displayLocale = $getSupportedLocale['display_locale'];
 $displayName = $getSupportedLocale['display_name'];
 $displayIcon = $getSupportedLocale['display_icon'];
-
-if (empty($displayLocale)) {
-    $displayLocale = $getSupportedLocale['locale'];
-}
-if (empty($displayName)) {
-    $displayName = $getSupportedLocale['language'];
-}
 ?>
 
 <script>
@@ -85,12 +78,26 @@ if (empty($displayName)) {
         <label class="control-label"><?php _e("Display Locale"); ?>:</label>
         <small class="text-muted d-block mb-2"><?php _e("Define how the slug in the url will be shown"); ?></small>
         <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control"/>
+
+        <?php if (empty($displayLocale)): ?>
+        <span class="text-muted">
+            Recomended display locale: <b><?php echo $getSupportedLocale['locale']; ?></b>
+        </span>
+        <?php endif ?>
+
     </div>
 
     <div class="form-group">
         <label class="control-label"><?php _e("Display Name"); ?>:</label>
         <small class="text-muted d-block mb-2"><?php _e("Translation name in the website switcher"); ?></small>
         <input type="text" name="display_name" value="<?php echo $displayName; ?>" class="form-control"/>
+
+        <?php if (empty($displayName)): ?>
+        <span class="text-muted">
+             Recomended display language: <b><?php echo $getSupportedLocale['language'];  ?></b>
+        </span>
+        <?php endif ?>
+
     </div>
 
     <div class="form-group">

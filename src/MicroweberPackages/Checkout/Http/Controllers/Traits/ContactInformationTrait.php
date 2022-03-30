@@ -36,11 +36,16 @@ trait ContactInformationTrait {
 
     public function contactInformationSave(Request $request) {
 
+        $firstName = strip_tags($request->get('first_name'));
+        $lastName = strip_tags($request->get('last_name'));
+        $email = strip_tags($request->get('email'));
+        $phone = strip_tags($request->get('phone'));
+
         session_append_array('checkout_v2', [
-            'first_name'=> $request->get('first_name'),
-            'last_name'=> $request->get('last_name'),
-            'email'=> $request->get('email'),
-            'phone'=> $request->get('phone')
+            'first_name'=> $firstName,
+            'last_name'=> $lastName,
+            'email'=> $email,
+            'phone'=> $phone
         ]);
 
         $validate = $this->_validateContactInformation($request->all());
@@ -57,23 +62,26 @@ trait ContactInformationTrait {
     {
         $rules = [];
 
+        $rules['first_name'] = 'max:500';
+        $rules['last_name'] = 'max:500';
+        $rules['email'] = 'email|max:500';
+        $rules['phone'] = 'max:500';
+
         if (get_option('shop_require_first_name', 'website') == 1) {
-            $rules['first_name'] = 'required';
+            $rules['first_name'] .= '|required';
         }
 
         if (get_option('shop_require_last_name', 'website') == 1) {
-            $rules['last_name'] = 'required';
+            $rules['last_name'] .= '|required';
         }
 
         if (get_option('shop_require_email', 'website') == 1) {
-            $rules['email'] = 'required|email';
+            $rules['email'] .= '|required';;
         }
 
         if (get_option('shop_require_phone', 'website') == 1) {
-            $rules['phone'] = 'required';
+            $rules['phone'] .= '|required';;
         }
-
-        // $rules['phone-testing'] = 'required';
 
         if (empty($rules)) {
             return ['valid'=>true];

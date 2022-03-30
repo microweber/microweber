@@ -363,7 +363,7 @@ if ($last_page_front != false) {
 <?php if (!isset($edit_page_info)): ?>
     <div class="card-body pt-3 pb-0">
         <div class="toolbar row js-hide-when-no-items">
-            <div class="col-sm-6 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
+            <div class="col-sm-4 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" class="custom-control-input " id="posts-check">
                     <label class="custom-control-label" for="posts-check"><?php _e('Check all'); ?></label>
@@ -426,7 +426,23 @@ if ($last_page_front != false) {
             }
             ?>
 
-            <div class="js-table-sorting col-sm-6 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+            <div class="js-table-sorting col-sm-8 text-end text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+
+
+                <span class="d-md-block d-none"><?php _e("Limit"); ?>:</span>
+
+                <div class="d-inline-block mx-1">
+                   <select class="form-control form-control-sm" onchange="postsLimit({id:'pages_edit_container_content_list', el:this});">
+                       <option value="10"   <?php if(isset($params['limit']) && $params['limit']==10): ?>selected="selected"<?php endif; ?>>10</option>
+                       <option value="25"   <?php if(isset($params['limit']) && $params['limit']==25): ?>selected="selected"<?php endif; ?>>25</option>
+                       <option value="50"   <?php if(isset($params['limit']) && $params['limit']==50): ?>selected="selected"<?php endif; ?>>50</option>
+                       <option value="100"   <?php if(isset($params['limit']) && $params['limit']==100): ?>selected="selected"<?php endif; ?>>100</option>
+                       <option value="200"   <?php if(isset($params['limit']) && $params['limit']==200): ?>selected="selected"<?php endif; ?>>200</option>
+                       <option value="300"   <?php if(isset($params['limit']) && $params['limit']==300): ?>selected="selected"<?php endif; ?>>300</option>
+                   </select>
+
+                </div>
+
                 <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
 
                 <div class="d-inline-block mx-1">
@@ -506,6 +522,30 @@ if ($last_page_front != false) {
             mw.reload_module(parent_mod);
         });
     });
+
+    postsLimit = function (obj) {
+
+        mw.spinner({
+            element: document.querySelector('.toolbar'), decorate: true, size: 26
+        }).show();
+
+        var parent_mod = document.getElementById('pages_edit_container');
+
+        var tosend = {};
+        tosend.limit = $(obj.el).find(':selected').val();
+
+        if (parent_mod !== undefined) {
+
+            parent_mod.setAttribute('data-limit', tosend.limit);
+
+            mw.reload_module(parent_mod, function (){
+                mw.spinner({
+                    element: document.querySelector('.toolbar'), decorate: true, size: 26
+                }).remove();
+            });
+        }
+
+    };
 
     postsSort = function (obj) {
         mw.spinner({

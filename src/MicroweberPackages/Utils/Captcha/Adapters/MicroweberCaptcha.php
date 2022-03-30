@@ -6,12 +6,11 @@ class MicroweberCaptcha
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-
         if ($key == false) {
             return false;
         }
-        $key = trim($key);
 
+        $key = trim($key);
 
         $old_array = app()->user_manager->session_get('captcha_recent');
         if (is_array($old_array)) {
@@ -19,34 +18,29 @@ class MicroweberCaptcha
                 return (string)$piece;
             }, $old_array);
         }
-        $existing = app()->user_manager->session_get('captcha');
 
          if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
-
              if ($found_key !== false) {
                 if ($unset_if_found) {
                     unset($old_array[$found_key]);
                 }
                 app()->user_manager->session_set('captcha_recent', $old_array);
+                $this->reset();
                 return true;
             }
-
-
         }
-        if ($captcha_id == false) {
-            $existing = app()->user_manager->session_get('captcha');
-        } else {
-            $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
-        }
-        $existing = app()->user_manager->session_get('captcha');
+
         $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
-
          if ($existing == $key) {
+             if ($captcha_id) {
+                 $this->reset($captcha_id);
+             }
             return true;
         } else {
             $existing = app()->user_manager->session_get('captcha');
             if ($existing == $key) {
+                $this->reset();
                 return true;
             }
             return false;
@@ -57,8 +51,8 @@ class MicroweberCaptcha
     {
         $old = app()->user_manager->session_set('captcha',[]);
         $old = app()->user_manager->session_set('captcha_recent',[]);
-        if($captcha_id){
-        $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
+        if ($captcha_id) {
+            $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
         }
     }
 

@@ -100,7 +100,9 @@ Route::name('api.user.')
     Route::any('logout', 'UserLoginController@logout')->name('logout');
     Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 
-    Route::post('/forgot-password', 'UserForgotPasswordController@send')->name('password.email');
+    Route::post('/forgot-password', 'UserForgotPasswordController@send')
+        ->middleware(['throttle:3,1'])
+        ->name('password.email');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
 
     Route::post('/profile-update', 'UserProfileController@update')->name('profile.update');
@@ -116,5 +118,8 @@ Route::name('api.')
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
+
+        Route::get('/logout', '\MicroweberPackages\User\Http\Controllers\UserLogoutController@index')->name('api.logout');
+
         Route::apiResource('user', 'UserApiController');
     });

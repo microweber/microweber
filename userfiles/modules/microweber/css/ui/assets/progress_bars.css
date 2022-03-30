@@ -1,0 +1,69 @@
+/****************************
+    Variables
+*****************************/
+.mw-ui-progress {
+  position: relative;
+  height: 19px;
+  min-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #EEEEEE;
+  border: 1px solid #919191;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.mw-ui-progress .mw-ui-progress-bar {
+  max-width: 100%;
+  height: 100%;
+  background-color: #4592ff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.mw-ui-progress-info {
+  color: rgba(255, 255, 255, 0.43);
+  font-size: 9px;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 0 0 6px;
+  z-index: 2;
+}
+.mw-ui-progress-percent {
+  font-weight: bold;
+  color: white;
+  margin-left: 5px;
+  font-size: 9px;
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+/* Small progressbar */
+.mw-ui-progress-small,
+.mw-ui-progress-small .mw-ui-progress-bar {
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+}
+.mw-ui-progress-small .mw-ui-progress-bar {
+  height: 100%;
+}
+.mw-ui-progress-small {
+  background-color: #e9ecef;
+  border: 1px solid #919191;
+  border-radius: 10px;
+}
+.mw-ui-progress-small .mw-ui-progress-bar {
+  background-color: #4592ff;
+}
+.mw-ui-progress-small .mw-ui-progress-info,
+.mw-ui-progress-small .mw-ui-progress-percent {
+  display: none;
+}

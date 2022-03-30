@@ -37,7 +37,7 @@
     z-index: 99;
 }
 
- 
+
 #mw-admin-text-editor {
     width: 100%;
     min-height: 35px;
@@ -55,15 +55,13 @@
 
 #mw-text-editor.hover {
     cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
 }
 
 .mw_editor {
     line-height: normal;
 }
 
-.mw_editor_btn {
+.mw_editor_btn, .mw-editor-btn {
     display: inline-block;
     float: left;
     cursor: pointer;
@@ -97,22 +95,21 @@
 
 }
 
+.mw-editor-btn:hover,
 .mw_editor_btn:hover, .mw_editor_btn_active, .wysiwyg-convertible-toggler.active {
 
     background: #fff;
 }
 
-.mw_editor_btn_mousedown, .mw_editor_btn_mousedown:hover {
+.mw_editor_btn:active{
     box-shadow: 0 0 6px #CCCCCC inset;
 }
 
-.mw_editor_btn.disabled,
-.mw_editor_btn.disabled:hover,
-.mw_editor_btn.disabled.mw_editor_btn_mousedown,
-.mw_editor_btn.disabled.mw_editor_btn_mousedown:hover {
+.mw_editor_btn.disabled {
     cursor: default;
     background: none;
      box-shadow: none;
+    pointer-events: none;
 }
 
 .mw_editor_btn_active {
@@ -139,6 +136,7 @@
     font-size: 19px;
     line-height: 24px;
 }
+.mw-editor-btn .ed-ico,
 .mw_editor_btn .ed-ico {
     height: 25px;
     width: 25px;
@@ -222,12 +220,14 @@
     top: -9999px;
     visibility: hidden;
     z-index: 1003;
-    /*width: 250px;
-    height: 68px;*/
-    box-shadow: 0 2px 22px rgba(0,0,0,.2);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     background: #F5F5F5;
-    border-radius: 1px;
+
     margin-left: 12px;
+
+    border-radius: 3px;
+    border: 1px solid #cccccc82;
+    box-shadow: rgb(0 0 0 / 9%) 0px 3px 12px;
 }
 
 #font_family_selector_small {
@@ -252,16 +252,17 @@
     margin-right: 1px;
 }
 
-.mw_small_editor_bottom,
+/*.mw_small_editor_bottom{
+    padding: 5px 10px 10px;
+}
 .mw_small_editor_top {
-    padding: 12px;
+    padding: 10px 10px 5px;
+}*/
+.mw_small_editor_top {
+    border-bottom:  1px solid #cccccc82;
 }
-.mw_small_editor_top{
-    padding-bottom: 6px;
-}
-
-.mw_small_editor_bottom{
-    padding-top: 6px;
+.mw_small_editor_bottom, .mw_small_editor_top {
+    padding: 10px ;
 }
 
 
@@ -281,6 +282,7 @@
     opacity: 0.45;
     pointer-events: none;
 }
+.wysiwyg-cell-undo-redo .mw_editor_btn.disabled,
 .mw-active-element-is-in-safe-mode .mw_editor_element,
 .mw-active-element-is-in-safe-mode .mw_editor_outdent,
 .mw-active-element-is-in-safe-mode .mw_editor_indent,

@@ -957,7 +957,6 @@ function mw_composer_install_package_by_name($params)
 
     } else {
         must_have_access();
-
     }
 
     $update_api = mw('update');

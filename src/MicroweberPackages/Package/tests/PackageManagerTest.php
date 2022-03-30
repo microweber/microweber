@@ -3,9 +3,6 @@
 
 class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 {
-    public $repos = [
-        ["type" => "composer", "url" => "https://packages-phpunit.microweberapi.com/"]
-    ];
     public $skip = false;
 
     public function __construct()
@@ -21,17 +18,13 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         if ($this->skip) {
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }
-        //http://packages-phpunit.microweberapi.com/packages.json
-        $params= [];
-        $params['keyword'] = 'dream';
 
-        $runner = new \MicroweberPackages\Package\ComposerUpdate($this->_getComposerPath());
+        $params = [];
+        $params['require_name'] = 'microweber-templates/dream';
 
-        $runner->setRepos($this->repos);
-        $runner->setTargetPath($this->_getTargetPath());
-        $runner->setComposerHome(dirname(__DIR__) . '/cache');
+        $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
 
-        $results = $runner->searchPackages($params);
+        $results = $runner->search($params);
 
         $this->assertNotEmpty($results);
     }
@@ -42,45 +35,18 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }
 
-        //   $require_name = 'microweber-modules/multilanguage';
-       // $require_name = "microweber-modules/test-module-with-deps";
         $require_name = "microweber-templates/dream";
         $params['require_name'] = $require_name;
 
-        $runner = new \MicroweberPackages\Package\ComposerUpdate($this->_getComposerPath());
+        $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
 
-
-        $runner->setRepos($this->repos);
-        $runner->setTargetPath($this->_getTargetPath());
-        $runner->setComposerHome(dirname(__DIR__) . '/cache');
-
-        $results = $runner->installPackageByName($params);
-
+        $results = $runner->requestInstall($params);
 
         $this->assertNotEmpty($results);
         $this->assertEquals($results["error"], "Please confirm installation");
         $this->assertEquals($results["form_data_module_params"]["require_name"], $require_name);
         $this->assertNotEmpty($results["form_data_module_params"]["confirm_key"]);
 
-
-//        $params['confirm_key'] = $results["form_data_module_params"]["confirm_key"];
-//        $results = $runner->installPackageByName($params);
-//
-//        $this->assertNotEmpty($results["success"]);
-//        $this->assertNotEmpty($results["log"]);
-//
-//        var_dump($results);
-
-    }
-
-    private function _getComposerPath()
-    {
-        return dirname(__DIR__) . '/';
-    }
-
-    private function _getTargetPath()
-    {
-        return dirname(__DIR__);
     }
 
     private function isOnline()
@@ -97,7 +63,6 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         if ($httpcode == 200 and @json_decode($data)) {
             return true;
         }
-
 
     }
 }

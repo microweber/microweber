@@ -166,7 +166,6 @@ mw.options = {
         }
 
 
-        //  alert(og + '       ' +og1);
 
 
         var o_data = {
@@ -261,9 +260,7 @@ mw.options = {
                 var reload_in_parent_trieggered = false;
 
 
-                //  alert('refresh_modules11     '+refresh_modules11);
-                //  alert('which_module_to_reload     '+which_module_to_reload);
-                // alert('og1      '+og1);
+
 
 
                 if (mw.admin) {
@@ -512,7 +509,6 @@ mw.options.form = function ($selector, callback, beforepost) {
     }
 
 
-    //  alert($selector +'   --   ' +numOfbindigs);
 
 
     // REBIND

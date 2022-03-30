@@ -13,7 +13,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://packages.microweberapi.com/"
+            "url": "https://packages.microweberapi.com/packages.json"
         }
     ],
     "require": {
@@ -23,41 +23,37 @@
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "laravel/framework": "^v8.61.0",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^2.0",
+        "laravel/framework": "v8.83.3 ",
+        "fideloper/proxy": "*",
+        "fruitcake/laravel-cors": "*",
         "guzzlehttp/guzzle": "^7.0.1",
-        "symfony/translation": "5.0",
+        "symfony/translation": "*",
         "doctrine/dbal": "*",
         "composer/composer": "1.10.23",
         "composer/installers": "1.9.0",
-        "symplify/monorepo-builder": "^8.1",
         "ezyang/htmlpurifier": "*",
         "knplabs/knp-menu": "^3.2@dev",
         "jenssegers/agent": "^3.0@dev",
-        "twig/twig": "^3.0@dev",
+        "twig/twig": "*",
         "phpoffice/phpspreadsheet": "1.16.0",
-
-        "symfony/var-dumper": "v5.2.11",
-
         "jeremeamia/superclosure": "*",
         "erusev/parsedown": "1.7.4",
         "simshaun/recurr": "*",
-        "barryvdh/laravel-debugbar": "^3.5@dev",
-        "barryvdh/laravel-dompdf": "^0.8.0@dev",
-        "graham-campbell/markdown": "13.1.x-dev",
-        "rtconner/laravel-tagging": "^4.0",
-        "spatie/laravel-permission": "4.0.0",
-        "laravelcollective/html": "^6.0@dev",
-        "laravel/socialite": "^6.0@dev",
+        "barryvdh/laravel-debugbar": "*",
+        "barryvdh/laravel-dompdf": "*",
+        "graham-campbell/markdown": "*",
+        "rtconner/laravel-tagging": "*",
+        "spatie/laravel-permission": "*",
+        "laravelcollective/html": "*",
+        "laravel/socialite": "*",
         "arcanedev/seo-helper": "4.1.0",
         "wikimedia/less.php": "3.1.0",
         "scssphp/scssphp": "1.10.0",
-        "graham-campbell/security-core": "3.2.x-dev",
+        "graham-campbell/security-core": "*",
         "darkaonline/l5-swagger": "*",
         "wikimedia/composer-merge-plugin": "dev-master",
         "opis/closure": "^3.6@dev",
-        "laravel/sanctum": "^3.0@dev",
+        "laravel/sanctum": "*",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "0.6.4",
         "tucker-eric/eloquentfilter": "2.4.0",
@@ -71,10 +67,10 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "4.0",
-        "microweber-templates/shopmag": "3.0",
+        "microweber-templates/new-world": "4.3",
+        "microweber-templates/shopmag": "3.1",
         "lcobucci/jwt": "*",
-        "laravel/passport": "10.1.2",
+        "laravel/passport": "*",
         "microweber-packages/microweber-class-alias": "dev-master",
         "florianv/swap": "^4.3",
         "florianv/exchanger": "2.x-dev",
@@ -82,22 +78,22 @@
         "geoip2/geoip2": "~2.0",
         "whitecube/lingua": "1.1.0",
         "predis/predis": "2.0.x-dev",
-        "torann/laravel-repository": "dev-master",
-        "enshrined/svg-sanitize": "0.14.1",
-        "laravel/dusk": "6.x-dev",
+        "torann/laravel-repository": "*",
+        "enshrined/svg-sanitize": "0.15.0",
+        "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
-        "laravel/sail": "1.x-dev",
-        "microweber-packages/composer-client": "dev-main"
-
+        "microweber-packages/composer-client": "1.6",
+        "microweber-modules/standalone-updater": "3.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.3.6",
-        "fzaninotto/faker": "^1.9.1",
-        "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^5.0",
+        "laravel/sail": "*",
+        "facade/ignition": "*",
+        "fzaninotto/faker": "*",
+        "mockery/mockery": "*",
+        "nunomaduro/collision": "*",
         "phpunit/phpunit": "9.4.3",
         "laravel/tinker": "*",
-        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0"
+        "orchestra/testbench": "*"
     },
     "autoload": {
         "psr-4": {
@@ -121,7 +117,8 @@
             "https",
             "http",
             "git"
-        ]
+        ],
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "homepage": "http://microweber.com",
@@ -129,26 +126,6 @@
     "support": {
         "email": "support@microweber.com",
         "irc": "irc://irc.freenode.org/microweber"
-    },
-    "replace": {
-        "microweber-packages/microweber-backup-manager": "self.version",
-        "microweber-packages/microweber-cache-manager": "self.version",
-        "microweber-packages/microweber-captcha-manager": "self.version",
-        "microweber-packages/microweber-cms": "self.version",
-        "microweber-packages/microweber-config": "self.version",
-        "microweber-packages/microweber-core": "self.version",
-        "microweber-packages/microweber-database-manager": "self.version",
-        "microweber-packages/microweber-event-manager": "self.version",
-        "microweber-packages/microweber-forms-manager": "self.version",
-        "microweber-packages/microweber-helpers": "self.version",
-        "microweber-packages/microweber-option-manager": "self.version",
-        "microweber-packages/microweber-package-manager": "self.version",
-        "microweber-packages/microweber-shop": "self.version",
-        "microweber-packages/microweber-template-manager": "self.version",
-        "microweber-packages/microweber-user-manager": "self.version",
-        "microweber-packages/microweber-utils": "self.version",
-        "microweber-packages/helper-functions": "self.version",
-        "microweber-packages/laravel-tagged-file-cache": "self.version"
     },
     "extra": {
         "merge-plugin": {

@@ -15,7 +15,7 @@
             <div class="alert alert-mini alert-danger margin-bottom-10" style="margin: 0;display: none;"></div>
             <br/>
             <form method="post" id="user_forgot_password_form<?php echo $rand;?>" action="#" autocomplete="off">
-                <div class="clearfix"> 
+                <div class="clearfix">
                     <!-- Email -->
                     <div class="form-group">
 
@@ -36,7 +36,14 @@
                         <b class="tooltip tooltip-bottom-right">"<?php _lang("Needed to verify your account", "templates/new-world"); ?></b>
                     </div>
 
-                    <module type="captcha"/>
+
+                    <?php if (isset($captcha_disabled) and $captcha_disabled == false): ?>
+                        <module type="captcha"/>
+                    <?php endif; ?>
+
+
+
+
                 </div>
 
                 <div class="row">

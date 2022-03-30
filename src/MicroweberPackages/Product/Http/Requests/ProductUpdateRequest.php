@@ -1,11 +1,8 @@
 <?php
 namespace MicroweberPackages\Product\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class ProductUpdateRequest extends FormRequest
+class ProductUpdateRequest extends ProductRequest
 {
-
     /**
      * Get the validation rules that apply to the request.s
      *
@@ -13,11 +10,8 @@ class ProductUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-             //'title' => 'required',
-             'price' => 'nullable',
-        ];
+        $this->rules['title'] = 'max:500';
 
-        return $rules;
+        return parent::rules();
     }
 }

@@ -48,10 +48,10 @@ class ProductApiController extends AdminDefaultController
     /**
      * Store product in database
      *
-     * @param ProductCreateRequest $request
+     * @param ProductRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductCreateRequest $request)
+    public function store(ProductRequest $request)
     {
         $result = $this->product->create($request->all());
         return (new JsonResource($result))->response();

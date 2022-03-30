@@ -76,6 +76,11 @@ mw.liveeditCSSEditor = function (config) {
         this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
     };
 
+    this.findBySelector = function (selector) {
+        var json = this.getJSONValue();
+        return json.children[selector];
+    }
+
     this.publish = function (callback) {
         var css = {
             css_file_content: this.getValue()
@@ -97,6 +102,11 @@ mw.liveeditCSSEditor = function (config) {
     this.getValue = function () {
         this.save();
         return this._css;
+    };
+
+    this.getJSONValue = function () {
+        this.save();
+        return this.json;
     };
 
     this.init = function () {

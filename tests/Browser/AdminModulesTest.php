@@ -38,7 +38,6 @@ class AdminModulesTest extends DuskTestCase
                 ->elements('.mw-admin-module-list-item');
 
             foreach ($elems as $key=> $elem) {
-              //  $html = $browser->script("return $('.mw-admin-module-list-item').eq(".$key.").html()");
                 $html = $browser->script("return $('.mw-admin-module-list-item').eq(".$key.").find('.module-admin-modules-edit-module').first().attr('id')");
                 $id_attr = $html[0];
                 if($key == 0) {

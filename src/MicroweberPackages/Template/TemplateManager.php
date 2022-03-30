@@ -43,12 +43,16 @@ class TemplateManager
 
     public function boot_template()
     {
+        if(!mw_is_installed()){
+            return;
+        }
         if ($this->isBooted) {
             return;
         }
         $this->isBooted = true;
 
         $load_template_functions = TEMPLATE_DIR . 'functions.php';
+
         if (is_file($load_template_functions)) {
             include_once $load_template_functions;
         }
@@ -57,19 +61,7 @@ class TemplateManager
 
         if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
 
-            $loadProviders = [];
-            if (is_array($module['settings']['service_provider'])) {
-                foreach ($module['settings']['service_provider'] as $serviceProvider) {
-                    $loadProviders[] = $serviceProvider;
-                }
-            } else {
-                $loadProviders[] = $module['settings']['service_provider'];
-            }
-            foreach ($loadProviders as $loadProvider) {
-                if (class_exists($loadProvider)) {
-                    app()->register($loadProvider);
-                }
-            }
+            app()->module_manager->boot_module($module);
         }
     }
 }

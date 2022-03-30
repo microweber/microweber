@@ -1,0 +1,125 @@
+/****************************
+            Boxes
+*****************************/
+/****************************
+    Variables
+*****************************/
+.mw-ui-box2 {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #ffffff;
+  position: relative;
+  z-index: 1;
+  clear: both;
+  padding: 20px;
+  transition: box-shadow 0.3s;
+}
+.mw-ui-box2:hover,
+.mw-ui-box2.active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16) !important;
+}
+.mw-ui-box {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  clear: both;
+  background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.mw-ui-box,
+.mw-ui-box-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.mw-ui-box-header {
+  padding: 15px 25px 10px 25px;
+  background-color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: relative;
+}
+.mw-ui-box-header a {
+  text-decoration: none;
+}
+.mw-ui-box-header > [class*='mw-icon-'] {
+  font-size: 20px;
+  line-height: 20px;
+  float: left;
+  margin-right: 12px;
+}
+.mw-ui-box-header h2 {
+  padding: 0;
+}
+.mw-ui-box-content.mw-accordion-content {
+  overflow: auto;
+}
+.mw-ui-box-content {
+  padding: 25px 25px;
+  position: relative;
+}
+.mw-ui-box:after,
+.mw-ui-box-content:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+  font-size: 0;
+}
+.mw-ui-box-invert {
+  background-color: #2b2b2b;
+  color: white;
+  border-color: transparent;
+}
+.mw-ui-box-info {
+  background-color: #4592ff;
+  color: white;
+  border-color: transparent;
+}
+.mw-ui-box-warn {
+  background-color: #ffc107;
+  color: white;
+  border-color: transparent;
+}
+.mw-ui-box-important {
+  background-color: #f12b1c;
+  color: white;
+  border-color: transparent;
+}
+.mw-ui-box-notification {
+  background-color: #469a36;
+  color: white;
+  border-color: transparent;
+}
+.mw-ui-box-invert > .mw-ui-box-header {
+  background-color: #454545;
+  color: white;
+}
+.mw-ui-box-info > .mw-ui-box-header {
+  background-color: #78b0ff;
+  color: white;
+}
+.mw-ui-box-warn > .mw-ui-box-header {
+  background-color: #ffce3a;
+  color: white;
+}
+.mw-ui-box-important > .mw-ui-box-header {
+  background-color: #f4584c;
+  color: white;
+}
+.mw-ui-box-notification > .mw-ui-box-header {
+  background-color: #58be45;
+  color: white;
+}
+.mw-ui-box-accordion-content {
+  overflow: hidden;
+  background: #fafafa;
+}
+.mw-ui-box-accordion > .mw-ui-box-content {
+  display: none;
+}
+.mw-accordion-active > .mw-ui-box-content {
+  display: none;
+}

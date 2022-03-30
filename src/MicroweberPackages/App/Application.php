@@ -14,6 +14,8 @@ use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
+use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
@@ -60,6 +62,8 @@ use MicroweberPackages\Utils\Http\Http;
  * @desc
  *
  * @property UrlManager                    $url_manager
+ * @property HTMLClean                            $html_clean
+ * @property XSSSecurity                            $xss_security
  * @property Format                            $format
  * @property ContentManager                $content_manager
  * @property RepositoryManager                $repository_manager

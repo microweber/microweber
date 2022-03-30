@@ -9,6 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 	}
 }
 
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Helper\URLify;
 
 class UrlManager
@@ -98,23 +99,28 @@ class UrlManager
         if (trim($url) == '') {
             return false;
         }
+
         $url = str_ireplace('Location:', '', $url);
         $url = trim($url);
 
+        $redirectUrl = site_url();
         $parseUrl = parse_url($url);
-
         if (isset($parseUrl['host'])) {
-            if ($parseUrl['host'] !== site_hostname()) {
-                $url = site_url();
+            if ($parseUrl['host'] == site_hostname()) {
+                $redirectUrl = $url;
             }
         }
 
-        if (headers_sent()) {
-            echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
-        } else {
-            return \Redirect::to($url);
+        $redirectUrl = str_replace("\r", "", $redirectUrl);
+        $redirectUrl = str_replace("\n", "", $redirectUrl);
 
-            return;
+        $clearInput = new HTMLClean();
+        $redirectUrl = $clearInput->clean($redirectUrl);
+
+        if (headers_sent()) {
+            echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
+        } else {
+            return \Redirect::to($redirectUrl);
         }
     }
 
@@ -266,6 +272,13 @@ class UrlManager
         }
 
         $u1 = implode('/', $this->segment(-1, $url));
+
+
+        // clear request params
+        $cleanParam = new HTMLClean();
+        $u1 = $cleanParam->clean($u1);
+
+
         return $u1;
     }
 

@@ -35,7 +35,7 @@
                   <li value="16"><a href="javascript:;">16</a></li>
                   <li value="18"><a href="javascript:;">18</a></li>
                   <li value="20"><a href="javascript:;">20</a></li>
-                  <li value="20"><a href="javascript:;">22</a></li>
+                  <li value="22"><a href="javascript:;">22</a></li>
                   <li value="24"><a href="javascript:;">24</a></li>
                   <li value="36"><a href="javascript:;">36</a></li>
                   <li value="48"><a href="javascript:;">48</a></li>
@@ -227,18 +227,16 @@
             <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
 
-        <?php /*<span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>*/ ?>
 
 
         </div>
       </div>
     </div>
 
-    <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <?php /*<span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>*/ ?> </div>
+    <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> </div>
     <div class="wysiwyg-cell"><span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word"><span class="ed-ico"></span></span></div>
 
 
-     <div class="wysiwyg-cell"> <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span></div>
 
     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
 

@@ -94,5 +94,22 @@ class LiveEditTest extends TestCase
         $this->assertTrue(str_contains($html, $contentFieldHtml));
 
 
+
+
+        $response = $this->call(
+            'POST',
+            route('api.content.save_edit'),
+            [
+                'data_base64' => 'somethingthatisnotbase64',
+            ],
+            [],//params
+            $_COOKIE,//cookie
+            [],//files
+            $_SERVER //server
+        );
+        $fieldSaved = $response->decodeResponseJson();
+        $this->assertArrayHasKey( 'error',$fieldSaved);
+
+
     }
 }

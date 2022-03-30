@@ -65,6 +65,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
+
+                    <?php if (mw()->ui->disable_marketplace != true): ?>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="<?php echo admin_url();?>view:settings#option_group=updates" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
@@ -74,6 +76,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                             </div>
                         </a>
                     </div>
+                    <?php endif; ?>
 
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="<?php echo admin_url();?>view:settings#option_group=email" class="d-flex my-3 js-website-settings-link">

@@ -219,7 +219,6 @@ class ParserProcessor
             $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
             if ($more  ) {
                 // bug ?
-//dd($layout);
                 $layout = $this->_replace_editable_fields($layout,false,$layout,$coming_from_parent_id);
             //    $layout = $this->_replace_tags_with_placeholders_back($layout);
 
@@ -761,7 +760,6 @@ class ParserProcessor
 
 
 //                                            if ($this->_current_parser_rel  and $this->_current_parser_rel  == 'module' ) {
-//                                             //   dd($mod_id);
 //                                                $mod_id_probe = $mod_id;
 //
 //                                            }

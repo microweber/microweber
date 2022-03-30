@@ -3,7 +3,6 @@
 namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Package\ComposerUpdate;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -14,10 +13,9 @@ class UpdateManager
 {
     public $app;
     public $skip_cache = false;
-    private $remote_api_url = 'http://update.microweberapi.com/';
-    private $remote_url = 'http://update.microweberapi.com/';
+    private $remote_api_url = 'https://update.microweberapi.com/';
+    private $remote_url = 'https://update.microweberapi.com/';
     private $temp_dir = false;
-    private $composer_update = false;
 
     public function __construct($app = null)
     {
@@ -38,10 +36,6 @@ class UpdateManager
         if (!is_dir($this->temp_dir)) {
             mkdir_recursive($this->temp_dir);
         }
-
-        $this->composer_update = new ComposerUpdate($this->_getComposerPath());
-        $this->composer_update->setTargetPath($this->_getTargetPath());
-        $this->composer_update->setComposerHome($this->_getComposerPath() . '/cache');
 
     }
 
@@ -981,6 +975,7 @@ class UpdateManager
             $curl = new \MicroweberPackages\Utils\Http\Http($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
+
             $post = array();
             $post['base64js'] = base64_encode(@json_encode($post_params));
             $curl_result = $curl->post($post);
@@ -1173,8 +1168,18 @@ class UpdateManager
 
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $validation = $this->validate_license('id=' . $r);
-            if (!$validation) {
-                return array('id' => $r, 'warning' => _e('License key saved is not valid', true));
+            $validation_result = $this->get_licenses('single=true&id=' . $r);
+
+            $is_valid = false;
+            if(isset($validation_result['status']) and $validation_result['status'] == 'active'){
+                    $is_valid = true;
+            }
+
+            if (!$is_valid) {
+                return array('id' => $r,'is_invalid'=>true, 'warning' => _e('License key saved is not valid', true));
+
+            } else {
+                return array('id' => $r, 'success' => 'License key saved','is_active'=>true,);
 
             }
         }

@@ -18,9 +18,11 @@ class MicroweberComposerClient extends Client
         $this->logfile = userfiles_path() . 'install_item_log.txt';
 
         // Fill the user licenses
-        $findLicenses = SystemLicenses::all();
-        if ($findLicenses !== null) {
-            $this->licenses = $findLicenses->toArray();
+        if (mw_is_installed()) {
+            $findLicenses = SystemLicenses::all();
+            if ($findLicenses !== null) {
+                $this->licenses = $findLicenses->toArray();
+            }
         }
 
         if (function_exists('get_white_label_config')) {
@@ -102,7 +104,6 @@ class MicroweberComposerClient extends Client
 
     public function requestInstall($params)
     {
-
         if (!isset($params['require_version'])) {
             $params['require_version'] = 'latest';
         }
@@ -111,16 +112,14 @@ class MicroweberComposerClient extends Client
 
         $this->log('Searching for ' . $params['require_name'] . ' for version ' . $params['require_version']);
 
-        $search = $this->search([
+        $package = $this->search([
             'require_version' => $params['require_version'],
             'require_name' => $params['require_name'],
         ]);
 
-        if (!$search) {
+        if (!$package) {
             return array('error' => 'Error. Cannot find any packages.');
         }
-
-        $package = $search[0];
 
         $confirmKey = 'composer-confirm-key-' . rand();
         if (isset($params['confirm_key'])) {
@@ -247,22 +246,27 @@ class MicroweberComposerClient extends Client
         $moduleName = str_replace('microweber-modules/', '', $moduleName);
         $moduleName = str_replace('microweber-templates/', '', $moduleName);
 
+        $moduleLink = module_admin_url($moduleName);
+
         $response = array();
-        $response['success'] = 'Success. You have installed: ' . $moduleName;
+        $response['success'] = 'Success. You have installed: ' . $moduleName . ' <br /> <a href="'.$moduleLink.'">Visit the module</a>';
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
         $response['log'] = 'Done!';
 
-        // app()->update->post_update();
-        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
-        scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
+        if (mw_is_installed()) { // This can make installation without database
+
+            // app()->update->post_update();
+            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+            scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
 
-        mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update');
-        mw()->cache_manager->delete('elements');
+            mw()->cache_manager->delete('db');
+            mw()->cache_manager->delete('update');
+            mw()->cache_manager->delete('elements');
 
-        mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules');
+            mw()->cache_manager->delete('templates');
+            mw()->cache_manager->delete('modules');
+        }
 
         return $response;
     }

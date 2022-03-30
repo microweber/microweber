@@ -1,0 +1,71 @@
+name: Dusk Apache
+on: [ push,pull_request ]
+
+jobs:
+  dusk_apache:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        php-versions: [ '7.4' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        env:
+          DEBUG: true
+          APP_ENV: "testing"
+      - uses: ./.github/actions/setup-php
+        with:
+          php_version: ${{ matrix.php-versions }}
+      - name: Setup Apache
+        uses: thunder/apache-shiva-php-action@v1
+        with:
+          php-version: '7.4'
+          site-directory: /home/runner/work/microweber/microweber/
+          # Defaults to 8888
+          http-port: 8000
+      - name: Run Dusk Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberCoreTests
+      - name: Run Dusk Shop Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberShopTests
+      - name: Run Dusk Multilanguage Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberMultilanguageTests
+      - name: Run Dusk Template Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberTemplatesTests
+      - name: Run Dusk Slow Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberSlowTests
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
+      - name: Upload Laravel Storage
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: storage
+          path: storage
+      - name: Upload Laravel config
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: config

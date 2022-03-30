@@ -106,6 +106,7 @@ class ConfigSave extends Repository
 
     public function save($allowed = array())
     {
+        self::$configCache = [];
         // Aggregating files array from changed keys
         $aggr = array();
         foreach ($this->changed_keys as $key => $value) {

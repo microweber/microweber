@@ -102,6 +102,7 @@
                 </div>
             </div>
 
+            <?php if (config('microweber.allow_php_files_upload')): ?>
             <div class="card style-1 mb-3 card-collapse">
                 <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
                     <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Include Modules"); ?></strong></h6>
@@ -153,8 +154,8 @@
                     </div>
                 </div>
             </div>
-
-
+            <?php endif; ?>
+            
             <label class="mw-ui-check">
                 <input type="checkbox" class="js-include-media" name="include_media" value="1">
                 <span></span><span>Include media files</span>

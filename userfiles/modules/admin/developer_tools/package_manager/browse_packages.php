@@ -38,69 +38,26 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
-$allPackages = [];
-$localPackages = mw()->update->collect_local_data();
-
-foreach($localPackages['modules'] as $package) {
-    $allPackages[] = $package;
-}
-foreach($localPackages['templates'] as $package) {
-    $allPackages[] = $package;
-}
 
 $search_packages = [];
 $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
 $composerSearch = $composerClient->search();
 
-if(!$composerSearch){
+if (!$composerSearch) {
     print '<h4>Error: Package manager did not return any results</h4>';
     return;
 }
-foreach( $composerSearch as $packageName=>$versions) {
+
+foreach ($composerSearch as $packageName=>$versions) {
+
     if(!is_array($versions)){
         continue;
     }
+
     foreach($versions as $version) {
 
-        $version['release_date'] = date('Y-m-d H:i:s');
-        $version['latest_version'] = $version;
+        $version = \MicroweberPackages\Package\MicroweberComposerPackage::format($version);
         $version['versions'] = $versions;
-
-        if ($version['type'] == 'library' || $version['type'] == 'composer-plugin' || $version['type'] == 'application') {
-            continue;
-        }
-
-        $currentInstall = false;
-        foreach($allPackages as $module) {
-            if (isset($version['target-dir']) && $module['dir_name'] == $version['target-dir']) {
-
-                $currentInstall = [];
-                $currentInstall['composer_type'] = $version['type'];
-                $currentInstall['local_type'] = $version['type'];
-                $currentInstall['module'] = $module['name'];
-                $currentInstall['module_details'] = $module;
-
-                $version['has_update'] = false;
-
-                $v1 = trim($version['latest_version']['version']);
-                $v2 = trim($module['version']);
-
-                if ($v1 != $v2) {
-                    if (Comparator::greaterThan($v1, $v2)) {
-                        $version['has_update'] = true;
-                    }
-                }
-
-                $version['is_symlink'] = false;
-                if (isset($module['is_symlink']) && $module['is_symlink']) {
-                    $version['has_update'] = false;
-                    $version['is_symlink'] = true;
-                }
-
-                break;
-            }
-        }
-        $version['current_install'] = $currentInstall;
 
         $search_packages[$packageName] = $version;
     }
@@ -366,6 +323,24 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                 });
             });
+
+            function previewPackage(packageName, packageVersion) {
+
+                mw_admin_package_preview_modal = mw.dialog({
+                    content: '<div id="mw_admin_package_preview_modal_content"><?php _ejs("Loading"); ?>...</div>',
+                    title: "<?php _ejs("Preview package"); ?>",
+                    id: 'mw_admin_package_preview_modal',
+                    width:880,
+                });
+
+                var params = {};
+                params.package_name = packageName;
+                params.package_version = packageVersion;
+
+                mw.load_module('admin/developer_tools/package_manager/module_preview', '#mw_admin_package_preview_modal_content', function (){
+                    mw_admin_package_preview_modal.center();
+                }, params);
+            }
         </script>
 
         <?php if (!$is_update_mode) : ?>
@@ -384,7 +359,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $view->assign('item', $item);
                                 $view->assign('no_img', true);
                                 $view->assign('box_class', 'mw-ui-box-info ');
-                                print    $view->display();
+                                print $view->display();
                                 ?>
                             </div>
                             <hr>
@@ -451,7 +426,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     <?php if ($pkitems) : ?>
                                         <div class="row">
                                             <?php foreach ($pkitems as $key => $item): ?>
-                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                <div class="col-12 col-sm-6 col-md-<?php print $item['type'] === 'microweber-module' ? '6' : '12'; ?> col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-2 package-col-<?php print $item['type']; ?>">
                                                     <?php
                                                     $view_file = __DIR__ . '/partials/package_item.php';
                                                     $view = new \MicroweberPackages\View\View($view_file);

@@ -12,9 +12,7 @@
             "email": "bobi@microweber.com"
         }
     ],
-    "require": {
-        "halaxa/json-machine": "dev-master"
-    },
+
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Backup\\": ""

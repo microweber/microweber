@@ -3,12 +3,20 @@ namespace MicroweberPackages\Helper\tests;
 
 class SecurityTest extends BaseTest
 {
+    public function testComments()
+    {
+        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+
+        $string = '<a href="https://example.com">test</a>';
+        $content = $antiXss->onlyTags($string);
+
+       $this->assertEquals($string, $content);
+    }
+
 
     public function testXssExternalLinkImg()
     {
-
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();
-
 
         $string = '<img src="'.site_url().'test.jpg" />';
         $content = $antiXss->clean($string);
@@ -30,6 +38,7 @@ class SecurityTest extends BaseTest
         $xssList = $zip->getFromName('xss-payload-list.txt');
         $zip->close();
 
+        $xssList = preg_replace('~\R~u', "\r\n", $xssList);
         $xssList = explode(PHP_EOL, $xssList);
 
         $antiXss = new \MicroweberPackages\Helper\HTMLClean();

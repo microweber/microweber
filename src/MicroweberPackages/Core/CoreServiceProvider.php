@@ -1,7 +1,9 @@
 <?php
+
 namespace MicroweberPackages\Core;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPacakges\Core\Console\Commands\ServeTestCommand;
 
 
 class CoreServiceProvider extends ServiceProvider
@@ -13,6 +15,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        //  $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+
     }
 }

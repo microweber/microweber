@@ -93,23 +93,32 @@ class DatabaseSave
         $filename = media_uploads_path() . $photoId . '.tmp';
         $filenameUrl = media_uploads_url() . $photoId . '.tmp';
 
+        $files_utils = new \MicroweberPackages\Utils\System\Files();
+        $is_allowed_file = $files_utils->is_allowed_file($imageUrl);
+        if (!$is_allowed_file) {
+            return false;
+        }
+
         $downloaded = mw()->http->url($imageUrl)->download($filename);
         if ($downloaded && is_file($filename)) {
-            $imageExt = strtolower(mime_content_type($filename));
-            if (strpos($imageExt, 'image/') !== false) {
-                $imageExt = str_replace('image/', '', $imageExt);
-                $newFilename = media_uploads_path() . $photoId .'.'. $imageExt;
-                rename($filename, $newFilename);
-                if (is_file($newFilename)) {
-                    mw()->media_manager->save([
-                        'rel_id'=>$contentId,
-                        'rel_type'=>'content',
-                        'media_type'=>'picture',
-                        'name'=>$photoId,
-                        'filename'=>$newFilename
-                    ]);
-                }
+            $ext = get_file_extension($imageUrl);
+
+
+
+
+            $imageExt = strtolower($ext);
+            $newFilename = media_uploads_path() . $photoId . '.' . $imageExt;
+            @rename($filename, $newFilename);
+            if (is_file($newFilename)) {
+                mw()->media_manager->save([
+                    'rel_id' => $contentId,
+                    'rel_type' => 'content',
+                    'media_type' => 'picture',
+                    'name' => $photoId,
+                    'filename' => $newFilename
+                ]);
             }
+
         }
     }
 

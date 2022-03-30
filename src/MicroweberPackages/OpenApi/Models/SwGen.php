@@ -112,7 +112,12 @@ class SwGen
 
     protected function generateSecurityDefinitions()
     {
-        $authFlow = $this->config['authFlow'];
+        if(isset($this->config['authFlow'])) {
+            $authFlow = $this->config['authFlow'];
+        } else {
+            $authFlow = 'accessCode';
+        }
+       // $authFlow = $this->config['authFlow'];
 
         $this->validateAuthFlow($authFlow);
 

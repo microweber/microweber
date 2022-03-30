@@ -92,7 +92,7 @@ abstract class BaseFilter
         $query = $this->model::query();
         $query->select(['id']);
 
-        $query->with('tagged');
+        // $query->with('tagged');
         $query->where('parent', $this->getMainPageId());
 
         $query->with('customField', function ($query) {
@@ -109,12 +109,11 @@ abstract class BaseFilter
         if (!empty($results)) {
             foreach ($results as $result) {
 
-
-                foreach($result->tags as $tag) {
+           /*     foreach($result->tags as $tag) {
                     if ($tag) {
                         $this->allTagsForResults[] = $tag;
                     }
-                }
+                }*/
 
                 $resultCustomFields = $result->customField;
 
@@ -160,7 +159,7 @@ abstract class BaseFilter
 
         Cache::tags($cacheTags)->put($cacheId, [
             'allCustomFieldsForResults'=>$allCustomFieldsForResults,
-            'allTagsForResults'=>$this->allTagsForResults,
+           // 'allTagsForResults'=>$this->allTagsForResults,
         ]);
     }
 
@@ -172,7 +171,6 @@ abstract class BaseFilter
         }
 
         $showPickedFirst = get_option('filtering_show_picked_first', $this->params['moduleId']);
-
         $requestFilters = $this->request->get('filters', false);
 
         $filters = [];
@@ -392,17 +390,9 @@ abstract class BaseFilter
 
         $this->query->where('is_deleted', 0);
 
-        $itemsPerPage = get_option('items_per_page', $this->params['moduleId']);
-        if ($itemsPerPage > 0) {
-            $limit = $itemsPerPage;
-        }
-
-        $templateConfig = app()->template->get_config();
-        if (isset($templateConfig['template_settings']['items_limit_options']['default'][0])) {
-            $limit = $templateConfig['template_settings']['items_limit_options']['default'][0];
-        }
-
+        $limit = 10;
         $queryLimit = $this->queryParams['limit'];
+
         if ($queryLimit > 0) {
             $limit = $queryLimit;
         }

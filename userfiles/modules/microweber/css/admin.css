@@ -320,7 +320,7 @@ div.form-control {
 .card-header-fix .card-header.fixed{
     position: fixed !important;
     top: 69px;
-    z-index: 10;
+    z-index: 30;
 }
 #settings-container .card-header-fix .card-header.fixed{
     top: 0;
@@ -532,4 +532,17 @@ div.form-control {
     color: #797979;
     line-height: 20px;
     cursor: pointer;
+}
+.mw-admin-product-item-icon {
+    position:absolute;
+    z-index: 1;
+    right: -5px;
+    top: -10px;
+}
+
+html[dir="rtl"] .mw-admin-product-item-icon {
+
+    right: auto;
+    left: -5px;
+
 }

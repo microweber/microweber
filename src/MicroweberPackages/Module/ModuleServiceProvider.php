@@ -25,6 +25,10 @@ class ModuleServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        $this->loadMigrationsFrom(__DIR__. '/migrations/');
+
+
+
         $this->app->singleton('module_manager', function ($app) {
             return new ModuleManager();
         });
@@ -33,13 +37,11 @@ class ModuleServiceProvider extends ServiceProvider
             return new Module();
         });
 
-
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Module::class, function () {
                 return new \MicroweberPackages\Module\Repositories\ModuleRepository();
             });
         });
-
 
 
         /**
@@ -51,19 +53,10 @@ class ModuleServiceProvider extends ServiceProvider
 
 
 
-
-
-
-
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
 
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-
-
-
-
-
-
     }
 }

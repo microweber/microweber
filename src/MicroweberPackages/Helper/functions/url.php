@@ -26,8 +26,15 @@ if (!function_exists('site_hostname')) {
     {
         $siteUrl = site_url();
         $parseUrl = parse_url($siteUrl);
+        if(!isset($parseUrl['host'])) {
+            $parseUrl = parse_url(config('app.url'));
+        }
+        if(isset($parseUrl['host'])) {
+            return $parseUrl['host'];
+        }
 
-        return $parseUrl['host'];
+
+        return 'localhost';
     }
 }
 

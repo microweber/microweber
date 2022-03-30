@@ -10,11 +10,12 @@
     <?php
     $langs = array();
     foreach (get_supported_languages(1) as $supported_language) {
-        $langs[$supported_language['locale']] = $supported_language['language'];
+        $langs[$supported_language['locale']] = $supported_language['language'] . ' ['.$supported_language['locale'].']';
     }
     ?>
     <div class="row">
         <div class="col-md-6">
+
             <div class="form-group">
                 <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">

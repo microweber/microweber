@@ -5,5 +5,5 @@ Route::name('admin.')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Post\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('post', 'PostController');
+        Route::resource('post', 'PostController',['except' => ['show']]);
     });

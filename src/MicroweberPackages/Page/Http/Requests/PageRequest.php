@@ -1,31 +1,11 @@
 <?php
 namespace MicroweberPackages\Page\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use MicroweberPackages\Content\Http\Controllers\Requests\ContentSaveRequest;
+use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 
-class PageRequest extends FormRequest
+class PageRequest extends ContentSaveRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.s
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        $rules = [
-            // 'title' => 'required', // todo with multilanguage
-        ];
-
-        return $rules;
-    }
+    public $model = Page::class;
 }

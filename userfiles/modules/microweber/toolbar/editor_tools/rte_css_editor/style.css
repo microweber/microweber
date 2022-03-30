@@ -60,8 +60,7 @@ input,select{
         padding: 10px 20px;
     }
 
-    .mw-element-spacing-editor input{
-        position: absolute;
+    .mw-element-spacing-editor .input input{
         width: 40px;
         height: 22px;
         border-radius: 3px;
@@ -70,6 +69,10 @@ input,select{
         padding: 0 3px;
         text-align: center;
         font-size: 12px;
+    }
+    .mw-element-spacing-editor .input{
+        position: absolute;
+
         z-index: 1;
     }
     .mw-ese-top{
@@ -384,15 +387,18 @@ input,select{
     min-height: calc(100% - 30px);
     min-height: -webkit-calc(100% - 30px);
 }
-.mw-domtree li.hover > span{
+.mw-domtree li.selectable-true.hover > span{
     background-color: #d1d1d1;
 }
 
 .mw-domtree li.selected > span{background-color: #0e80e5; color: #fff}
 
+.mw-domtree li.selectable-true{
+    cursor:pointer;
+}
 .mw-domtree li.selectable-false{
-    pointer-events:none;
-    opacity:.5;
+    cursor: default;
+    opacity:.8;
 }
 .mw-domtree li{
     list-style: none;

@@ -271,121 +271,6 @@ Trait ParserEditFieldsTrait
 
 
 
-/*
-
-
-                    if (isset($data[$field])) {
-//                        dump($field);
-//                        dump($rel);
-//                        dump($data_id);
-//                        dump(444444,$data[$field]);
-                        if (isset($data[$field])) {
-                             $field_content = $data[$field];
-                        }
-                    } else {
-
-
-                        if ($rel == 'page') {
-                            $rel = 'content';
-                        }
-                        if ($rel == 'post') {
-                            $rel = 'content';
-                        }
-
-
-                        $cont_field = false;
-                        if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
-                            $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
-                            if ($cont_field == false and $try_inherited == true) {
-                                $inh = app()->content_manager->get_inherited_parent($data_id);
-                                if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
-                                    $data_id = $inh;
-                                    $cont_field2 = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$inh");
-                                    if ($cont_field2 != false) {
-                                        $rel = 'content';
-                                        $data = app()->content_manager->get_by_id($inh);
-                                        $cont_field = $cont_field2;
-                                    }
-                                }
-                            }
-                        } else {
-
-                            if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-
-
-                               if($rel == 'content' and $this->_is_native_content_table_field($field)){
-
-                                   if (isset($data) and isset($data[$field])) {
-                                          $field_content = $data[$field];
-                                   }
-                               } else {
-                                   $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
-                                   if ($cont_field != false) {
-                                       $field_content = $cont_field;
-                                   }
-                               }
-                              //dump($field);
-
-
-                            } else {
-//                                if($rel == 'content' and $this->_is_native_content_table_field($field)){
-//
-//                                } else {
-//
-//                                }
-
-                                $field_content = $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
-
-
-                            }
-                        }
-
-                        if ($cont_field != false) {
-                          //  $field_content = $cont_field;
-                        }
-
-                    }
-                    if ($rel == 'global') {
-                        $field_content = false;
-                        $get_global = 1;
-
-
-                        $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
-
-
-                        if ($cont_field == false) {
-                            if ($option_mod != false) {
-                                $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
-                            } else {
-                                $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
-                            }
-                        } else {
-                            $cont_field = $field_content = $cont_field;
-                        }
-                    }
-
-                    $edit_field_content = false;
-
-                    if (isset($data[$field])) {
-
-                        $edit_field_content = $data[$field];
-                    }
-                    if ($use_id_as_field != false) {
-
-                        if (isset($data[$use_id_as_field])) {
-                            $edit_field_content = $data[$use_id_as_field];
-
-                        }
-                    }
-                    if (!$edit_field_content) {
-                        if (isset($cont_field['value'])) {
-
-                            $edit_field_content = $cont_field['value'];
-                        }
-                    }
-*/
-
-
                     $edit_field_content = $this->_edit_field_content_get($field,$rel,$data_id);
 
                     if (isset($data['updated_at'])) {
@@ -400,12 +285,7 @@ Trait ParserEditFieldsTrait
 
                     $no_edit = false;
 
-                    if ($field == 'content' and template_var('content') != false) {
-//                        $field_content = template_var('content');
-//                        template_var('content', false);
-//                        $no_edit = template_var('no_edit');
-                    }
-                    // d($parser_mem_crc);
+
 
 
                     //$mw_replaced_edit_fields_vals[$parser_mem_crc] = $edit_field_content;
@@ -470,6 +350,10 @@ Trait ParserEditFieldsTrait
                                     //  pq($elem_clone)->attr('itemscope','');
                                     //  pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
 
+                                }
+
+                                if (!$elem->parentNode) {
+                                  continue;
                                 }
 
                                 $elem_clone_content = pq($elem_clone)->htmlOuter();

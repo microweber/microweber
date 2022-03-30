@@ -36,9 +36,14 @@ class HelpersServiceProvider extends ServiceProvider
 		/**
          * @property \MicroweberPackages\Helper\XSSSecurity    $xss_security
          */
-        $this->app->singleton('xss_security', function () {
+        $this->app->bind('xss_security', function () {
             return new XSSSecurity();
         });
+
+        $this->app->bind('html_clean', function () {
+            return new HTMLClean();
+        });
+
 
         /**
          * @property \MicroweberPackages\Helper\UrlManager    $url_manager

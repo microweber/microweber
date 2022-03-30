@@ -500,18 +500,22 @@ if (!empty($recomended_layouts)) {
                             <br/>
 
 
+                            <?php if (config('microweber.allow_php_files_upload')): ?>
                             <?php if (mw()->ui->disable_marketplace != true): ?>
                                 <label class="control-label"><?php _e("Want to upload template"); ?>?</label>
                                 <small class="text-muted d-block mb-3">.zip <?php _e("file format allowed"); ?></small>
 
                                 <module type="admin/templates/upload_button"/>
                             <?php endif; ?>
+                            <?php endif; ?>
 
 
-                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply this template"); ?></button>
+                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">
+                                <?php _e("Apply this template"); ?>
+                            </button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0 mb-3" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
+                                <a class="btn btn-link px-0 mb-3" href="<?php echo admin_url();?>view:packages">
                                     <small><?php _e("More Templates"); ?></small>
                                 </a>
                             <?php endif; ?>

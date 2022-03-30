@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
+use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -18,10 +19,13 @@ use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
+use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
+use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
+use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -34,7 +38,6 @@ use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
-use MicroweberPackages\Shop\ShopServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
@@ -199,6 +202,17 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
+
+
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ServeTestCommand::class,
+            ]);
+        }
+
+       // $this->app->register(CoreServiceProvider::class);
+
         $this->setEnvironmentDetection();
         $this->registerUtils();
 
@@ -208,7 +222,9 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(ConfigSaveServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
+        $this->app->register(InstallServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
@@ -323,35 +339,39 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setEnvironmentDetection()
     {
-        if (!is_cli()) {
-            $domain = null;
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $domain = $_SERVER['HTTP_HOST'];
-            } else if (isset($_SERVER['SERVER_NAME'])) {
-                $domain = $_SERVER['SERVER_NAME'];
-            }
 
-
-            return $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')) {
-                    return getenv('APP_ENV');
-                }
-
-                if(!$domain){
-                    return 'production';
-                }
-
-                $port = explode(':', $domain);
-
-                $domain = str_ireplace('www.', '', $domain);
-
-                if (isset($port[1])) {
-                    $domain = str_ireplace(':' . $port[1], '', $domain);
-                }
-
-                return strtolower($domain);
+        if (isset($_ENV['APP_ENV'])) {
+            $this->app->detectEnvironment(function () {
+                return $_ENV['APP_ENV'];
             });
         }
+
+        if($this->app->runningUnitTests()) {
+            $this->app->detectEnvironment(function () {
+                return 'testing';
+            });
+        }
+
+
+        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
+            $this->app->detectEnvironment(function () {
+                return 'testing';
+            });
+        }
+
+        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
+            if(isset($_SERVER['argv'][1]) and $_SERVER['argv'][1] == 'dusk') {
+                $this->app->detectEnvironment(function () {
+                    return 'testing';
+                });
+            } else {
+
+            $this->app->detectEnvironment(function () {
+                return app()->environment();
+            });
+            }
+        }
+
 
         if (defined('MW_UNIT_TEST')) {
             $this->app->detectEnvironment(function () {
@@ -362,6 +382,44 @@ class AppServiceProvider extends ServiceProvider
                 return MW_UNIT_TEST_ENV_FROM_TEST;
             });
         }
+
+
+       if (!is_cli()) {
+            $domain = null;
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $domain = $_SERVER['HTTP_HOST'];
+            } else if (isset($_SERVER['SERVER_NAME'])) {
+                $domain = $_SERVER['SERVER_NAME'];
+            }
+
+
+            return $this->app->detectEnvironment(function () use ($domain) {
+//                if (getenv('APP_ENV')) {
+//                    return getenv('APP_ENV');
+//                }
+
+                if(!$domain){
+                    return app()->environment();
+                }
+
+                $port = explode(':', $domain);
+
+                $domain = str_ireplace('www.', '', $domain);
+
+                if (isset($port[1])) {
+                    $domain = str_ireplace(':' . $port[1], '', $domain);
+                }
+
+                if(is_dir(config_path($domain)) and is_file(config_path($domain) . '/microweber.php')) {
+                    return strtolower($domain);
+                }
+                return app()->environment();
+
+
+            });
+         }
+
+
     }
 
     protected function registerUtils()

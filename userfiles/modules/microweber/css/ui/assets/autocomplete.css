@@ -1,0 +1,43 @@
+.mw-autocomplete {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  padding: 5px;
+}
+.mw-autocomplete .mw-ui-btn {
+  margin: 5px;
+}
+.mw-autocomplete .mw-ui-btn .mw-icon-close {
+  font-size: 15px;
+  right: -5px;
+}
+.mw-autocomplete .mw-autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  max-height: 60vh;
+  height: auto;
+  overflow: auto;
+}
+.mw-autocomplete .mw-autocomplete-img {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+.mw-autocomplete .mw-autocomplete-value {
+  display: inline-block;
+}
+.mw-autocomplete.mw-autocomplete-multiple-false input.mw-autocomplete-field {
+  width: 100%;
+}
+.mw-autocomplete.mw-autocomplete-multiple-false .mw-autocomplete-value + input.mw-autocomplete-field {
+  width: -webkit-calc(70%);
+  width: calc(70%);
+}

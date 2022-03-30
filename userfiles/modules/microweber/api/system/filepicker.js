@@ -59,15 +59,13 @@ export const FilePicker = function (options) {
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="mw-ui-label">'+lang('Insert file url')+'</label>');
+            $input.before('<label class="mw-ui-label">'+mw.lang('Insert file url')+'</label>');
             $input.on('input', function () {
                 var val = this.value.trim();
-                scope.setSectionValue(val || null);
-                if(scope.settings.autoSelect) {
-
-                    scope.result();
-                }
+                scope.setSectionValue(val || null, false);
             });
+
+
             return $wrap[0];
         },
         _setdesktopType: function () {
@@ -428,13 +426,14 @@ export const FilePicker = function (options) {
         })[0];
     };
 
-    this.setSectionValue = function (val) {
+    this.setSectionValue = function (val, close) {
+        close = typeof close === 'undefined' ? true : close;
         var activeSection = this.activeSection();
         if(activeSection) {
             activeSection._filePickerValue = val;
         }
 
-        if(scope.__pickDialog) {
+        if(close && scope.__pickDialog) {
             scope.__pickDialog.remove();
         }
         this.manageActiveSectionState();

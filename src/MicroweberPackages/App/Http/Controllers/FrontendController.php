@@ -10,6 +10,7 @@ use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
 use MicroweberPackages\App\Traits\LiveEditTrait;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -17,6 +18,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -107,7 +109,6 @@ class FrontendController extends Controller
 
         if(empty($request_params) and (!empty($_REQUEST))){
             $request_params = $_REQUEST;
-
         }
 
         event_trigger('mw.controller.index');
@@ -459,8 +460,10 @@ class FrontendController extends Controller
                 }
 
                 if ($slug_page and !$page) {
+
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+
                 }
 
                 if ($slug_category) {

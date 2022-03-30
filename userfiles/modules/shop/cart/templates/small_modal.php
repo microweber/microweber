@@ -48,17 +48,6 @@
     </div>
 <?php endif; ?>
 
-<?php if (is_ajax()) : ?>
-
-    <script>
-        $(document).ready(function () {
-            //  cartModalBindButtons();
-
-        });
-    </script>
-
-<?php endif; ?>
-
 <div class="products-amount m-3">
     <div class="row align-items-center">
         <?php if (is_array($data)): ?>
@@ -70,7 +59,7 @@
             </div>
         <?php else: ?>
             <div class="col-12">
-                <p class="mb-0"><?php _e("Your cart is empty."); ?></p>
+                <p class="mb-0 text-center"><?php _e("Your cart is empty."); ?></p>
             </div>
         <?php endif; ?>
     </div>

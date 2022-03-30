@@ -13,6 +13,7 @@ use Laravel\Passport\HasApiTokens;
 
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
@@ -29,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'username' => StripTagsCast::class,
+        'thumbnail' => ReplaceSiteUrlCast::class,
     ];
 
     protected $attributes = [

@@ -111,6 +111,7 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditNewPageSave()
     {
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -155,6 +156,7 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditProductSave()
     {
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -210,6 +212,7 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditSearchinSidebarForModules()
     {
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -266,6 +269,7 @@ class LiveEditTest extends DuskTestCase
 
     public function testLiveEditSearchinSidebarForLayouts()
     {
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {

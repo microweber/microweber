@@ -43,7 +43,7 @@ class CommentsTest extends TestCase
         $this->assertEquals('Bozhidar', $commentData->data->comment_name);
         $this->assertEquals('selfworksbg@gmail.com', $commentData->data->comment_email);
         $this->assertEquals('credocart.bg', $commentData->data->comment_website);
-        $this->assertEquals('Hello, MW! Im bobby. <h1>Html master</h1>', $commentData->data->comment_body);
+        $this->assertEquals('Hello, MW! Im bobby. Html master', $commentData->data->comment_body);
 
         $this->assertNotEmpty($commentData->data->id);
 
@@ -87,7 +87,7 @@ class CommentsTest extends TestCase
         $this->assertEquals('Hacker', $commentData->data->comment_name);
         $this->assertEquals('hackker@hak.com', $commentData->data->comment_email);
         $this->assertEquals('haker.com', $commentData->data->comment_website);
-        $this->assertEquals('Hello! Im hacker . <h1>XSS master</h1> <img src="'.site_url().'not.exist" alt="test" />', $commentData->data->comment_body);
+        $this->assertEquals('Hello! Im hacker . XSS master ', $commentData->data->comment_body);
 
 
         $this->assertNotEmpty($commentData->data->id);

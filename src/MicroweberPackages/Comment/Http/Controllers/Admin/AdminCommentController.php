@@ -18,17 +18,15 @@ use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Comment\Models\Comment;
 use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Comment\Notifications\NewCommentNotification;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
-
 
 class AdminCommentController extends AdminController
 {
     public function index(Request $request)
     {
-
         $contents = $this->getComments($request);
-
 
         return $this->view('comment::admin.comments.index', ['contents' => $contents]);
     }
@@ -41,7 +39,6 @@ class AdminCommentController extends AdminController
         if (!empty($filter)) {
             $contents = $contents->filter($filter);
         }
-
 
         $contents = $contents->paginate($request->get('limit', 30))
             ->appends($request->except('page'));
@@ -148,16 +145,12 @@ class AdminCommentController extends AdminController
 
         $comment_body = $data['comment_body'];
 
-        // Claer HTML
-        $comment_body = $this->app->format->clean_html($comment_body);
-
-        // Clear XSS
-        $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
-        $comment_body = $this->app->format->clean_xss($comment_body, true, $evil, 'removeEvilAttributes');
-
         if (!empty($comment_body) and !empty($data['format']) and $data['format'] == 'markdown') {
             $comment_body = Markdown::convertToHtml($comment_body);
         }
+
+        $cleanHtml = new HTMLClean();
+        $comment_body = $cleanHtml->onlyTags($comment_body);
 
         $data['comment_body'] = $comment_body;
         $data['allow_html'] = '1';

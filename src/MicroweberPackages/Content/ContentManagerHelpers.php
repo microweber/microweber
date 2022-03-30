@@ -627,9 +627,16 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
 
                 $post_data['json_obj'] = @base64_decode($post_data['data_base64']);
+                if($post_data['json_obj'] == false){
+                    return array('error' => 'The invalid data was sent');
+                }
+
             }
             if (isset($post_data['json_obj'])) {
-                $obj = json_decode($post_data['json_obj'], true);
+                $obj = @json_decode($post_data['json_obj'], true);
+                if($obj == false){
+                    return array('error' => 'The invalid data was sent');
+                }
                 $post_data = $obj;
             }
             if (isset($post_data['mw_preview_only'])) {

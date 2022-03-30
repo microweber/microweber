@@ -382,7 +382,7 @@ header {
   main {
     width: calc(100% - 215px);
     float: left;
-    margin-left: 25px;
+    margin-inline-start: 25px;
 
     @media screen and (max-width: 991px) {
       margin-left: 0;
@@ -415,7 +415,7 @@ header {
 
 .no-items-box {
   min-height: 400px;
-  background-image: url('assets/img/no_content.svg');
+  background-image: url('../img/no_content.svg');
   background-size: contain;
   background-position: right center;
   background-repeat: no-repeat;
@@ -813,7 +813,7 @@ header {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 20px;
+        margin-inline-end: 20px;
         i {
           color: #bcbfc2;
         }

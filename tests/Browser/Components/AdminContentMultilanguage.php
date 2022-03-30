@@ -145,7 +145,7 @@ class AdminContentMultilanguage extends BaseComponent
         }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($description, $locale) {
-            $browser->fillMwEditor('description', $description, $locale);
+            $browser->fillTextarea('description', $description, $locale);
         });
     }
 }

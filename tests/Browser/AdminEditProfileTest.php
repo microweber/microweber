@@ -21,6 +21,7 @@ class AdminEditProfileTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $browser->visit(admin_url());
 
             $browser->waitForText('Users');
             $browser->clickLink('Users');

@@ -10,7 +10,8 @@
  */
 include __DIR__ . DS . 'src/CouponClass.php';
 
-api_expose('coupon_apply');
+autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Modules\\Shop\\Coupons\\');
+
 function coupon_apply($params = array())
 {
     $json = array();
@@ -27,14 +28,20 @@ function coupon_apply($params = array())
 
     $customer_ip = user_ip();
 
-    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
-    $getCart = $checkout->app->shop_manager->get_cart(array(
-        'session_id' => $checkout->app->user_manager->session_id()
+//    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
+//    $getCart = $checkout->app->shop_manager->get_cart(array(
+//        'session_id' => $checkout->app->user_manager->session_id()
+//
+//    ));
 
-    ));
-
+    $getCart = false;
     $coupon['total_amount'] = floatval($coupon['total_amount']);
-    $cartTotal = floatval(cart_total());
+    $cartTotal = floatval( \DB::table('cart')->where('session_id', app()->user_manager->session_id())->sum('price'));
+    $getCartItems =   \DB::table('cart')->where('session_id', app()->user_manager->session_id())->get();
+
+    if($getCartItems){
+        $getCart = $getCartItems->toArray();
+    }
 
     // Check rules
      if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
@@ -65,6 +72,11 @@ function coupon_apply($params = array())
         $ok = true;
     }
 
+    if(isset( $params['coupon_check_if_valid'])){
+       return $ok;
+    }
+
+
     if ($ok) {
 
         mw()->user_manager->session_set('coupon_code', $coupon['coupon_code']);
@@ -86,7 +98,6 @@ function coupon_apply($params = array())
     return $json;
 }
 
-api_expose_admin('coupons_save_coupon');
 function coupons_save_coupon($couponData = array())
 {
     $json = array();
@@ -138,7 +149,7 @@ function coupons_save_coupon($couponData = array())
     return $json;
 }
 
-api_expose_admin('coupon_log_customer');
+
 function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
 {
     $coupon = coupon_get_by_code($coupon_code);
@@ -167,7 +178,7 @@ function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
     $couponLogId = db_save($table, $couponLogData);
 }
 
-api_expose_admin('coupon_log_get_by_code_and_customer_email_and_ip');
+
 function coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $customer_email, $customer_ip)
 {
     $table = "cart_coupon_logs";
@@ -181,7 +192,6 @@ function coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $custome
     ));
 }
 
-api_expose_admin('coupon_log_get_by_code_and_customer_ip');
 function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
 {
     $table = "cart_coupon_logs";
@@ -194,7 +204,6 @@ function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
     ));
 }
 
-api_expose_admin('coupon_logs_get_by_code');
 function coupon_logs_get_by_code($coupon_code)
 {
     $table = "cart_coupon_logs";
@@ -205,7 +214,6 @@ function coupon_logs_get_by_code($coupon_code)
         ->toArray();
 }
 
-api_expose_admin('coupon_get_all');
 function coupon_get_all()
 {
     $table = 'cart_coupons';
@@ -222,7 +230,6 @@ function coupon_get_all()
 }
 
 
-api_expose_admin('coupon_logs');
 function coupon_logs()
 {
     $table = 'cart_coupon_logs';
@@ -238,7 +245,6 @@ function coupon_logs()
     return $readyCoupons;
 }
 
-api_expose_admin('coupon_get_by_id');
 function coupon_get_by_id($coupon_id)
 {
     $table = "cart_coupons";
@@ -250,7 +256,6 @@ function coupon_get_by_id($coupon_id)
     ));
 }
 
-api_expose_admin('coupon_get_by_code');
 function coupon_get_by_code($coupon_code)
 {
     $table = "cart_coupons";
@@ -265,14 +270,19 @@ function coupon_get_by_code($coupon_code)
     return $get;
 }
 
-api_expose('coupon_delete');
-function coupon_delete()
+function coupon_delete($data)
 {
     if (!is_admin())
         return;
 
     $table = "cart_coupons";
-    $couponId = (int)$_POST['coupon_id'];
+
+    $couponId = (int) $data['coupon_id'];
+    if ($couponId == 0) {
+        return array(
+            'status' => 'failed'
+        );
+    }
 
     $delete = db_delete($table, $couponId);
 
@@ -287,13 +297,13 @@ function coupon_delete()
     }
 }
 
-api_expose_admin('coupons_delete_session');
 function coupons_delete_session()
 {
     mw()->user_manager->session_del('coupon_code');
     mw()->user_manager->session_del('coupon_id');
     mw()->user_manager->session_del('discount_value');
     mw()->user_manager->session_del('discount_type');
+    mw()->user_manager->session_del('applied_coupon_data');
 }
 
 

@@ -66,6 +66,9 @@ function tagging_tag_edit($params) {
         $newData['id'] = $params['id'];
     }
 
+    $cleanInput = new \MicroweberPackages\Helper\HTMLClean();
+    $newData = $cleanInput->cleanArray($newData);
+
     if (isset($params['tagging_tag_id']) && !empty($params['tagging_tag_id'])) {
         $tagging_tag_id = $params['tagging_tag_id'];
         $tag = db_get('tagging_tags', [
@@ -105,7 +108,6 @@ function tagging_tag_edit($params) {
         }
     }
 
-
     $tagSaved = db_save('tagging_tags',$newData);
     if ($tagSaved) {
 
@@ -122,6 +124,9 @@ function tagging_tag_edit($params) {
 
 api_expose_admin('tagging_tag/get', 'tagging_tag_get');
 function tagging_tag_get($params) {
+
+    $cleanInput = new \MicroweberPackages\Helper\HTMLClean();
+    $params = $cleanInput->cleanArray($params);
 
     $filter = 'order_by=id desc';
     if (isset($params['keyword'])) {
