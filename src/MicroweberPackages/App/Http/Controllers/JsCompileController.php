@@ -160,8 +160,6 @@ class JsCompileController extends Controller
     }
     public function apijs_combined()
     {
-
-
         $userfiles_dir = userfiles_path();
         $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
@@ -169,32 +167,22 @@ class JsCompileController extends Controller
 
 
         $layout = [];
-
         $layout[] = $this->_load_apijs_settings();
-
-
         $layout[] = $this->_load_apijs();
 
         $layout = implode("\n\n", $layout);
-
 
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
 
+        // Format in one line
+        $layout = str_replace(PHP_EOL, " ", $layout);
+        // Clear whitespaces
+        $layout = preg_replace('/\s+/', ' ', $layout);
 
-        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;
         if ($compile_assets and defined('MW_VERSION')) {
-
-//
-//            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
-//            if (is_file($minifier)) {
-//                $pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
-//                $layout = preg_replace($pattern, '', $layout);
-//                include_once $minifier;
-//                $layout = \JShrink\Minifier::minify($layout);
-//            }
-
 
             if (!is_dir($userfiles_cache_dir)) {
                 mkdir_recursive($userfiles_cache_dir);
@@ -206,17 +194,12 @@ class JsCompileController extends Controller
                     @file_put_contents($userfiles_cache_filename, $layout);
                 }
             }
-
-
         }
 
         $response = \Response::make($layout);
-
         $response->header('Content-Type', 'application/javascript');
 
         return $response;
-
-
     }
 
     public function apijs_liveedit()
