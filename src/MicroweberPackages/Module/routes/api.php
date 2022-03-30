@@ -11,3 +11,19 @@ Route::name('api.module.')
             });
         }
 });
+
+
+Route::name('api.')
+    ->prefix('api/')
+    ->middleware(['api', 'admin'])
+    ->group(function () {
+
+        Route::get('mw_post_update', function () {
+            return mw_post_update();
+        });
+
+        Route::get('mw_reload_modules', function () {
+            return mw_reload_modules();
+        });
+
+    });
