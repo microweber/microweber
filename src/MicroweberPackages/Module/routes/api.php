@@ -18,11 +18,11 @@ Route::name('api.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        Route::get('mw_post_update', function () {
+        Route::any('mw_post_update', function () {
             return mw_post_update();
         });
 
-        Route::get('mw_reload_modules', function () {
+        Route::any('mw_reload_modules', function () {
             return mw_reload_modules();
         });
 
