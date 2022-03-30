@@ -176,11 +176,6 @@ class JsCompileController extends Controller
         $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
 
-        // Format in one line
-        $layout = str_replace(PHP_EOL, " ", $layout);
-        // Clear whitespaces
-        $layout = preg_replace('/\s+/', ' ', $layout);
-
         $compile_assets = $this->_should_compile_assets;
         if ($compile_assets and defined('MW_VERSION')) {
 
