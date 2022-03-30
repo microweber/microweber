@@ -18,6 +18,10 @@ Route::name('api.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
+        Route::any('clearcache', function () {
+            return clearcache(); 
+        });
+
         Route::any('mw_post_update', function () {
             return mw_post_update();
         });

@@ -339,7 +339,6 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expirat
     return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_seconds);
 }
 
-api_expose_admin('clearcache');
 /**
  * Clears all cache data.
  *
