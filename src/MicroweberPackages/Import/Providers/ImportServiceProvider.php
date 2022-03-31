@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Import\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Backup\BackupManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -46,6 +47,8 @@ class ImportServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->mergeConfigFrom(
             __DIR__.'/../config/backup.php', 'backup'
         );
+
+        View::addNamespace('import', __DIR__ . '/../resources/views');
     }
 
     /**

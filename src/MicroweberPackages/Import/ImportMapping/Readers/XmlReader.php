@@ -20,8 +20,6 @@ class XmlReader implements iReader
             }
         }
 
-        dd($mapFields);
-
         return [
             'map_fields'=>$mapFields,
             'data'=>$data

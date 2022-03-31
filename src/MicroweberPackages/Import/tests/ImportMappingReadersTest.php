@@ -14,7 +14,7 @@ use MicroweberPackages\Import\ImportMapping\Readers\XmlReader;
 
 class ImportMappingReadersTest extends TestCase
 {
-    public function testReadXmlFile()
+    public function testReadXmlGoogleFeedFile()
     {
         $zip = new \ZipArchive();
         $zip->open(__DIR__.DS.'import_test.zip');
