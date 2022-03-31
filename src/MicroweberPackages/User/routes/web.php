@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::name('admin.')
-    ->prefix('admin')
+    ->prefix(ADMIN_PREFIX)
     ->middleware([
         'admin',
        // \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,

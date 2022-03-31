@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\FormElements;
 
+use MicroweberPackages\Translation\LanguageHelper;
+
 class MwEditor extends \MicroweberPackages\Form\Elements\Text
 {
     public $randId;
@@ -48,6 +50,10 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
             }
         }
         $translationsJson = json_encode($translations);
+        $textDir = 'ltr';
+        if(LanguageHelper::isRTL($this->currentLanguage)){
+            $textDir = 'rtl';
+        }
 
         return "<script>
             mw.require('editor.js');
@@ -56,6 +62,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
                 $('#$this->randId').mlTextArea({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
+                    direction: '$textDir',
                     locales: $localesJson,
                     translations: $translationsJson,
                     mwEditor: true

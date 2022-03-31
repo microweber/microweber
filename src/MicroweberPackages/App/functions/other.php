@@ -407,7 +407,6 @@ function mw_print_admin_backup_settings_link()
     }
 }
 
-api_expose_admin('mw_post_update');
 function mw_post_update()
 {
     $a = is_admin();
@@ -422,7 +421,6 @@ function mw_post_update()
     }
 }
 
-api_expose_admin('mw_reload_modules');
 function mw_reload_modules()
 {
 

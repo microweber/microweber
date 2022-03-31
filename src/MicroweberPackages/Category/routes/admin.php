@@ -1,7 +1,7 @@
 <?php
 
 Route::name('admin.')
-    ->prefix('admin')
+    ->prefix(ADMIN_PREFIX)
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
     ->group(function () {
