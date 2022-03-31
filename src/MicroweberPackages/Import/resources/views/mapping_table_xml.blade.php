@@ -11,9 +11,9 @@
 <?php
 $printedTags = [];
 ?>
-<table border="1">
+<table class="table table-bordered">
     <?php foreach($structure as $tag): ?>
-    
+
         <?php
         $skipTag = false;
         if ($tag['level'] == $content_parent_tag_level && $tag['tag'] == end($content_parent_tag)) {
@@ -24,9 +24,11 @@ $printedTags = [];
         }
 
         if ($skipTag) {
+
             if(isset($printedTags[$tag['tag']])){
                 continue;
             }
+
             $printedTags[$tag['tag']] = true;
             ?>
 
@@ -43,7 +45,23 @@ $printedTags = [];
                     <?php endif; ?>
                 </div>
             </td>
-            <td>drodown</td>
+            <td style="width:30%">
+                <?php
+                $showDropdownSelection = true;
+                if ($tag['tag'] == end($content_parent_tag)) {
+                    $showDropdownSelection = false;
+                }
+                ?>
+                <?php if ($showDropdownSelection): ?>
+                <select class="form-control">
+                    <option name="title">Title</option>
+                    <option name="description">Description</option>
+                    <option name="images">Images</option>
+                    <option name="price">Price</option>
+                    <option name="sku">sku</option>
+                </select>
+                <?php endif; ?>
+            </td>
         </tr>
 
 
