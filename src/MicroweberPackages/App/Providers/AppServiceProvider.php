@@ -16,7 +16,7 @@ use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 
-use MicroweberPackages\Backup\Providers\ImportServiceProvider;
+use MicroweberPackages\Import\Providers\ImportServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;

@@ -24,10 +24,4 @@ Route::name('admin.import.')
         Route::post('/language/export', 'LanguageController@export')->name('language.export');
         Route::post('/language/upload', 'LanguageController@upload')->name('language.upload');
 
-        Route::get('waw', function () {
-
-            echo 1;
-
-        });
-
     });
