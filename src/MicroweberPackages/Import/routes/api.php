@@ -9,7 +9,7 @@
 
 
 Route::name('admin.import.')
-    ->prefix('admin/import')
+    ->prefix(ADMIN_PREFIX.'/import')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Backup\Http\Controllers\Admin')
     ->group(function () {
