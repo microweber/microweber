@@ -42,8 +42,5 @@ class ImportMappingReadersTest extends TestCase
 
         $this->assertNotEmpty($data['data']);
         $this->assertNotEmpty($data['map_fields']);
-
-        dd($data['map_fields']);
-
     }
 }
