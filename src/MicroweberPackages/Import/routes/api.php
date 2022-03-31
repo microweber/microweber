@@ -43,7 +43,6 @@ Route::name('admin.import.')
             return view('import::mapping_table_xml', [
                 'content_parent_tag'=>$contentParentTag,
                 'content_parent_tag_level'=>count($contentParentTag),
-                'max_level_tag_render'=>(count($contentParentTag) + 1),
                 'structure'=>$aryXML
             ]);
 

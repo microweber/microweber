@@ -13,8 +13,7 @@ $printedTags = [];
 ?>
 <table border="1">
     <?php foreach($structure as $tag): ?>
-
-
+    
         <?php
         $skipTag = false;
         if ($tag['level'] == $content_parent_tag_level && $tag['tag'] == end($content_parent_tag)) {
