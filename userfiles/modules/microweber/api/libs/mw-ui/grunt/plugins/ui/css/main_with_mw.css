@@ -2758,8 +2758,11 @@ input[type="button"].btn-block {
 .custom-control {
   position: relative;
   display: block;
-  min-height: 1.3125rem;
-  padding-inline-start: 1.75rem; }
+  min-height: 1.3125rem; }
+  .custom-control.custom-checkbox .custom-control-label {
+    padding-inline-start: 1.75rem; }
+  .custom-control.custom-radio, .custom-control.custom-switch {
+    padding-inline-start: 1.75rem; }
 
 .custom-control-inline {
   display: inline-flex;
@@ -2814,9 +2817,9 @@ input[type="button"].btn-block {
     content: "";
     background: no-repeat 50% / 50% 50%; }
 
-html[dir="rtl"] .custom-control-label::before {
+html[dir="rtl"] .custom-switch .custom-control-label::before {
   left: calc(100% + 10px); }
-html[dir="rtl"] .custom-control-label::after {
+html[dir="rtl"] .custom-switch .custom-control-label::after {
   left: calc(100% + 27px); }
 html[dir="rtl"] .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
   transform: translateX(-0.92rem); }

@@ -8,11 +8,22 @@
 // Base class takes care of all the key behavioral aspects.
 
 .custom-control {
-  position: relative;
-  display: block;
-  min-height: $font-size-base * $line-height-base;
-  padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
-}
+    position: relative;
+    display: block;
+    min-height: $font-size-base * $line-height-base;
+    &.custom-checkbox{
+        .custom-control-label{
+            padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
+
+        }
+    }
+    &.custom-radio,
+    &.custom-switch {
+        padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
+    }
+ }
+
+
 
 .custom-control-inline {
   display: inline-flex;
@@ -107,21 +118,24 @@
 }
 
 html[dir="rtl"] {
-    .custom-control-label {
-        &::before {
+    .custom-switch{
+        .custom-control-label {
+            &::before {
 
-             left: calc(100% + 10px);
+                left: calc(100% + 10px);
 
+            }
+
+            &::after {
+
+                left: calc(100% + 27px);
+            }
         }
-
-         &::after {
-
-             left: calc(100% + 27px);
+        .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(-0.92rem);
         }
     }
-    .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
-        transform: translateX(-0.92rem);
-    }
+
 }
 
 
