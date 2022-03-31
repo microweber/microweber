@@ -16,7 +16,7 @@ use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 
-use MicroweberPackages\Backup\Providers\BackupServiceProvider;
+use MicroweberPackages\Backup\Providers\ImportServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
@@ -282,7 +282,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
-        $this->app->register(BackupServiceProvider::class);
+        $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);

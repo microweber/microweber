@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Backup\Providers;
+namespace MicroweberPackages\Import\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Backup\BackupManager;
@@ -17,7 +17,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 
 
 
-class BackupServiceProvider extends ServiceProvider implements DeferrableProvider
+class ImportServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap the application services.
