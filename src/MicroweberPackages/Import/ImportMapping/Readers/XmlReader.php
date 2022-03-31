@@ -2,13 +2,38 @@
 
 namespace MicroweberPackages\Import\ImportMapping\Readers;
 
-class XmlReader
+class XmlReader implements iReader
 {
     public function readContent($content)
     {
+        $data = $this->readXml($content);
+
+        $mapFields = [];
+
+        // Google feed
+        if (isset($data['rss']['channel']['item'][0])) {
+            if(isset($data['rss']['channel']['item'][0])) {
+                foreach ($data['rss']['channel']['item'] as $item) {
+                    $mapFieldsItem = ItemMapReader::getMapping($item);
+                    $mapFields = array_merge($mapFields,$mapFieldsItem);
+                }
+            }
+        }
+
+        dd($mapFields);
+
+        return [
+            'map_fields'=>$mapFields,
+            'data'=>$data
+        ];
+    }
+
+    private function readXml($content)
+    {
+
         $previousValue = libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->loadXml($content);
 
