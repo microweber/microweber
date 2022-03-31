@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Import\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Import\ImportMapping\Readers\XmlReader;
 
 
 /**
@@ -15,12 +16,14 @@ class ImportMappingReadersTest extends TestCase
     public function testReadXmlFile()
     {
         $zip = new \ZipArchive();
-        $zip->open(__DIR__.'import_test.zip');
+        $zip->open(__DIR__.DS.'import_test.zip');
         $googleProductsXml = $zip->getFromName('google_products.xml');
         $zip->close();
 
+        $newReader = new XmlReader();
+        $data = $newReader->readContent($googleProductsXml);
 
-        dd($googleProductsXml);
+        dd($data);
 
     }
 }

@@ -4,25 +4,25 @@ namespace MicroweberPackages\Import\ImportMapping\Readers;
 
 class XmlReader
 {
-    public function read()
+    public function readContent($content)
     {
+        $previousValue = libxml_use_internal_errors(true);
 
-    }
-
-
-    private function XMLtoArray($xml) {
-        $previous_value = libxml_use_internal_errors(true);
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
-        $dom->loadXml($xml);
-        libxml_use_internal_errors($previous_value);
+        $dom->loadXml($content);
+
+        libxml_use_internal_errors($previousValue);
+
         if (libxml_get_errors()) {
             return [];
         }
-        return DOMtoArray($dom);
+
+        return $this->domToArray($dom);
     }
 
-    private function DOMtoArray($root) {
+    private function domToArray($root) {
+
         $result = array();
 
         if ($root->hasAttributes()) {
@@ -47,13 +47,13 @@ class XmlReader
             $groups = array();
             foreach ($children as $child) {
                 if (!isset($result[$child->nodeName])) {
-                    $result[$child->nodeName] = DOMtoArray($child);
+                    $result[$child->nodeName] = $this->domToArray($child);
                 } else {
                     if (!isset($groups[$child->nodeName])) {
                         $result[$child->nodeName] = array($result[$child->nodeName]);
                         $groups[$child->nodeName] = 1;
                     }
-                    $result[$child->nodeName][] = DOMtoArray($child);
+                    $result[$child->nodeName][] = $this->domToArray($child);
                 }
             }
         }
