@@ -39,7 +39,7 @@ $printedTags = [];
                     <?php if($tag['type'] == 'open') :  ?>
                     &lt;<?php echo $tag['tag']; ?>&gt;
                     <?php elseif ($tag['type'] == 'complete'): ?>
-                    &lt;<?php echo $tag['tag']; ?>&gt; <?php echo $tag['value']; ?> &lt;/<?php echo $tag['tag']; ?>&gt;
+                    &lt;<?php echo $tag['tag']; ?>&gt; <?php if(isset($tag['value'])) {echo $tag['value']; } ?> &lt;/<?php echo $tag['tag']; ?>&gt;
                     <?php else: ?>
                     &lt;/<?php echo $tag['tag']; ?>&gt;
                     <?php endif; ?>
@@ -76,7 +76,7 @@ $printedTags = [];
                     <?php if($tag['type'] == 'open') :  ?>
                         &lt;<?php echo $tag['tag']; ?>&gt;
                     <?php elseif ($tag['type'] == 'complete'): ?>
-                        &lt;<?php echo $tag['tag']; ?>&gt; <?php echo $tag['value']; ?> &lt;/<?php echo $tag['tag']; ?>&gt;
+                        &lt;<?php echo $tag['tag']; ?>&gt; <?php if(isset($tag['value'])) {echo $tag['value']; } ?> &lt;/<?php echo $tag['tag']; ?>&gt;
                     <?php else: ?>
                         &lt;/<?php echo $tag['tag']; ?>&gt;
                     <?php endif; ?>

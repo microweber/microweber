@@ -30,7 +30,9 @@ Route::name('admin.import.')
             $request = request();
             $contentParentTag = explode('.', $request->get('content_parent_tag'));
 
-            $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+          //  $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+            //$googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
+            $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
 
 
             $xmlParser = xml_parser_create('UTF-8'); // UTF-8 or ISO-8859-1
@@ -38,6 +40,22 @@ Route::name('admin.import.')
             xml_parser_set_option($xmlParser, XML_OPTION_SKIP_WHITE, 1);
             xml_parse_into_struct($xmlParser, $googleProductsXml, $aryXML);
             xml_parser_free($xmlParser);
+
+
+            $request = request();
+            $contentParentTag = explode('.', $request->get('content_parent_tag'));
+
+          //  $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+            //$googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
+            $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
+
+
+
+            $newReader = new XmlReader();
+            $data = $newReader->printHtmlMapping($googleProductsXml);
+
+            echo $data;
+            return;
 
 
             return view('import::mapping_table_xml', [
@@ -48,10 +66,7 @@ Route::name('admin.import.')
 
             return;
 
-            $newReader = new XmlReader();
-            $data = $newReader->readContent($googleProductsXml);
 
-            dd($data);
 
         });
 

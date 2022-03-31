@@ -4,6 +4,36 @@ namespace MicroweberPackages\Import\ImportMapping\Readers;
 
 class XmlReader implements iReader
 {
+    public function printHtmlMapping($data)
+    {
+        $data = $this->readContent($data);
+
+       // $html = $this->printHtmlArray($data['data']['rss']['channel']['item']);
+        $html = $this->printHtmlArray($data['data']);
+
+        dd($html);
+    }
+
+    public function printHtmlArray($data)
+    {
+        $html = '';
+        foreach ($data as $key=>$value) {
+            $tag = $key;
+            $html .= PHP_EOL . '<'.$tag.'>';
+            if (is_array($value)) {
+                $newValue = $this->printHtmlArray($value);
+                if (empty($newValue)) {
+                  
+                }
+                $html .= PHP_EOL . $newValue;
+            } else if (is_string($value)) {
+                $html .= $value;
+            }
+            $html .= '</'.$tag.'>' . PHP_EOL;
+        }
+        return $html;
+    }
+
     public function readContent($content)
     {
         $data = $this->readXml($content);
@@ -28,7 +58,6 @@ class XmlReader implements iReader
 
     private function readXml($content)
     {
-
         $previousValue = libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
@@ -47,13 +76,6 @@ class XmlReader implements iReader
     private function domToArray($root) {
 
         $result = array();
-
-        if ($root->hasAttributes()) {
-            $attrs = $root->attributes;
-            foreach ($attrs as $attr) {
-                $result['@attributes'][$attr->name] = $attr->value;
-            }
-        }
 
         if ($root->hasChildNodes()) {
             $children = $root->childNodes;
