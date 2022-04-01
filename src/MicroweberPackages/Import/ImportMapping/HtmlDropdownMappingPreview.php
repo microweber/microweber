@@ -122,9 +122,6 @@ class HtmlDropdownMappingPreview
 
     private function dropdownSelect($mapKey)
     {
-        $expMapKey = explode('.', $mapKey);
-        $expMapKey = end($expMapKey);
-
         $selectOptions = [];
         $selectOptions[''] = [
             'name'=>'Select type',
@@ -132,12 +129,15 @@ class HtmlDropdownMappingPreview
         ];
         foreach (ItemMapReader::$itemTypes as $key=>$name) {
             $selected = false;
-            if (isset($this->mapFields[$expMapKey])) {
-                $selectedKey = $this->mapFields[$expMapKey]['internal_key'];
-                if ($selectedKey == $key) {
-                    $selected = true;
+
+            foreach (ItemMapReader::$map as $itemMap) {
+                foreach ($itemMap as $itemMapKey) {
+                    if(strpos($mapKey, $itemMapKey) !== false) {
+                        $selected = true;
+                    }
                 }
             }
+
             $selectOptions[$key] = [
                 'name'=>$name,
                 'selected'=>$selected,
