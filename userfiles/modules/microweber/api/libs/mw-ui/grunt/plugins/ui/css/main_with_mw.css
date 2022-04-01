@@ -2763,6 +2763,8 @@ input[type="button"].btn-block {
     padding-inline-start: 1.75rem; }
   .custom-control.custom-radio, .custom-control.custom-switch {
     padding-inline-start: 1.75rem; }
+  .custom-control.custom-switch .custom-control-label {
+    position: relative; }
 
 .custom-control-inline {
   display: inline-flex;
@@ -2793,7 +2795,7 @@ input[type="button"].btn-block {
       background-color: #e9ecef; }
 
 .custom-control-label {
-  position: relative;
+  position: static;
   margin-bottom: 0;
   vertical-align: top; }
   .custom-control-label::before {
@@ -2840,6 +2842,13 @@ html[dir="rtl"] .custom-switch .custom-control-input:checked ~ .custom-control-l
 .custom-checkbox .custom-control-label:before,
 .custom-checkbox .custom-control-label:after {
   left: 0 !important; }
+
+html[dir="rtl"] .custom-radio .custom-control-label:before,
+html[dir="rtl"] .custom-radio .custom-control-label:after,
+html[dir="rtl"] .custom-checkbox .custom-control-label:before,
+html[dir="rtl"] .custom-checkbox .custom-control-label:after {
+  left: auto !important;
+  right: 0 !important; }
 
 .custom-radio .custom-control-label::before {
   border-radius: 50%; }
@@ -9824,7 +9833,7 @@ header {
   border-bottom: 1px solid #d9dadb; }
 
 .socials-settings label {
-  min-width: 150px; }
+  min-width: 190px; }
 
 .socials-logins-settings .lh-1_0 {
   margin-top: -4px; }

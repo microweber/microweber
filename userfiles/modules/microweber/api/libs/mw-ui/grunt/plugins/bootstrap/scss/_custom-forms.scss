@@ -21,6 +21,12 @@
     &.custom-switch {
         padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
     }
+    &.custom-switch {
+        .custom-control-label{
+            position: relative;
+        }
+
+    }
  }
 
 
@@ -83,7 +89,7 @@
 // Build the custom controls out of pseudo-elements.
 
 .custom-control-label {
-  position: relative;
+  position: static;
   margin-bottom: 0;
   color: $custom-control-label-color;
   vertical-align: top;
@@ -178,6 +184,17 @@ html[dir="rtl"] {
     .custom-control-label:before,
     .custom-control-label:after{
         left: 0 !important;
+    }
+}
+
+html[dir="rtl"] {
+    .custom-radio,
+    .custom-checkbox {
+        .custom-control-label:before,
+        .custom-control-label:after{
+            left: auto !important;
+            right: 0 !important;
+        }
     }
 }
 
