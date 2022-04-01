@@ -106,6 +106,7 @@
                 $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
                     mw.Editor({
                         selector: $(this),
+                        lang: this.lang,
                         mode: 'div',
                         smallEditor: false,
                         minHeight: 250,

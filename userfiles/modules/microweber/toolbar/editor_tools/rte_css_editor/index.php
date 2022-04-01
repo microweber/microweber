@@ -425,7 +425,7 @@ var _populate = {
                 this.type = 'text'
 
                 var el = this;
-                
+
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
                     $(this).before('<span class="mw-field-color-indicator"><span class="mw-field-color-indicator-display"></span></span>')

@@ -7,7 +7,7 @@
   flex-direction: column;
 
   // No need to set list-style: none; since .list-group-item is block level
-  padding-left: 0; // reset padding because ul and ol
+  padding-inline-start: 0; // reset padding because ul and ol
   margin-bottom: 0;
   @include border-radius($list-group-border-radius);
 }
@@ -128,7 +128,7 @@
           border-left-width: 0;
 
           &.active {
-            margin-left: -$list-group-border-width;
+            margin-inline-start: -$list-group-border-width;
             border-left-width: $list-group-border-width;
           }
         }

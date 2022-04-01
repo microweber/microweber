@@ -465,7 +465,7 @@
   vertical-align: middle;
   background-color: #eee;
   border: 1px solid #ccc;
-  margin-left: -5px;
-  margin-right: -5px;
+  margin-inline-start: -5px;
+  margin-inline-end: -5px;
 }
 /*# disabled_sourceMappingURL=bootstrap-datepicker.css.map */

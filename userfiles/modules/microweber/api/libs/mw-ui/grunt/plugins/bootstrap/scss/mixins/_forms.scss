@@ -77,7 +77,7 @@
       border-color: $color;
 
       @if $enable-validation-icons {
-        padding-right: $input-height-inner;
+        padding-inline-end: $input-height-inner;
         background-image: escape-svg($icon);
         background-repeat: no-repeat;
         background-position: right $input-height-inner-quarter center;
@@ -95,7 +95,7 @@
   textarea.form-control {
     @include form-validation-state-selector($state) {
       @if $enable-validation-icons {
-        padding-right: $input-height-inner;
+        padding-inline-end: $input-height-inner;
         background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
       }
     }
@@ -106,7 +106,7 @@
       border-color: $color;
 
       @if $enable-validation-icons {
-        padding-right: $custom-select-feedback-icon-padding-right;
+        padding-inline-end: $custom-select-feedback-icon-padding-inline-end;
         background: $custom-select-background, escape-svg($icon) $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
       }
 

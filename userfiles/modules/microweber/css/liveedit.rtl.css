@@ -23,12 +23,12 @@
 
 .mw-toolbar-add-new-content-ctrl{
     width: auto;
-    margin-left:10px !important;
+    margin-inline-start:10px !important;
 }
 
 .mw-ui-navigation a>[class*=mw-icon-] {
-    margin-right:0;
-    margin-left:8px;
+    margin-inline-end:0;
+    margin-inline-start:8px;
 }
 
 .mw_edit_delete{
@@ -38,13 +38,12 @@
 
 
 .ts_main_a{
-    padding-right: 10px;
+    padding-inline-end: 10px;
 }
 
 
 .mw-handle-type-default .mw-handle-handler-icon{
     border-right: none;
-    border-left: 1px solid #333333;
 }
 
 .mw-close-sidebar-btn {
@@ -54,13 +53,13 @@
 }
 
 .mw-handle-menu-default .mw-handle-menu-item-icon, .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
-    margin-right: 0;
-    margin-left: 6px;
+    margin-inline-end: 0;
+    margin-inline-start: 6px;
 }
 
 .mw-module-dialog-icon{
-    margin-right: 0;
-    margin-left: 7px;
+    margin-inline-end: 0;
+    margin-inline-start: 7px;
 }
 
 .module-modal-settings-menu-holder{
@@ -68,6 +67,6 @@
 }
 
 #liveedit_wysiwyg{
-    padding-left: 0;
-    padding-right: 10px;
+    padding-inline-start: 0;
+    padding-inline-end: 10px;
 }

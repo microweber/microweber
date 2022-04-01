@@ -45,7 +45,7 @@ input.mw-uploader-input,
 /*.mw-tag-selector > span > i {*/
 /*font-size: 16px;*/
 /*color: #E8E8E8;*/
-/*margin-right: 7px;*/
+/*margin-inline-end: 7px;*/
 /*margin-top: 1px;*/
 /*float: left;*/
 /*}*/
@@ -91,15 +91,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 /*.mw-tag-selector .post-category-tags .mw-ui-btn {
     float: left;
-    margin-right: 5px;
-    padding-right: 16px;
+    margin-inline-end: 5px;
+    padding-inline-end: 16px;
     background-color: #fff;
     border-color: #eaeaea;
 }
 .mw-tag-selector .post-category-tags .mw-ui-btn>[class*=mai-],
 .mw-tag-selector .post-category-tags .mw-ui-btn>[class*=mw-micon-],
 .mw-tag-selector .post-category-tags .mw-ui-btn>[class*=mw-icon-] {
-    margin-right: 5px;
+    margin-inline-end: 5px;
 }
 .mw-tag-selector .post-category-tags .mw-ui-btn:hover {
     background: #0086db;
@@ -209,8 +209,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .dropable-zone.small-zone .holder{
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
 }
 
 .admin-thumbs-holder .featured-image{
@@ -218,7 +218,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .admin-thumb-item .mw-ui-check span {
-    margin-right: 0 !important;
+    margin-inline-end: 0 !important;
 }
 
 .admin-thumb-item .mw-ui-check {
@@ -520,17 +520,17 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 body #pages_edit_container .page_posts_list_tree li a.depth-2 {
-    padding-left: 125px;
+    padding-inline-start: 125px;
     background-position: 44px 50%;
 }
 
 body #pages_edit_container .page_posts_list_tree li a.depth-3 {
-    padding-left: 145px;
+    padding-inline-start: 145px;
     background-position: 66px 50%;
 }
 
 body #pages_edit_container .page_posts_list_tree li a.depth-4 {
-    padding-left: 165px;
+    padding-inline-start: 165px;
     background-position: 88px 50%;
 }
 
@@ -674,7 +674,7 @@ body.mw-external-loading:after {
 
 #module-modal-settings-menu-holder ul .module-templates-action-btn {
     float: right;
-    margin-right: 10px;
+    margin-inline-end: 10px;
 }
 
 .mw-before-leave-container {
@@ -829,7 +829,7 @@ body.mw-external-loading:after {
 }
 
 .mw-multiple-fields > .mw-field + .mw-field {
-    margin-left: -1px;
+    margin-inline-start: -1px;
 }
 
 

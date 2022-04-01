@@ -14,7 +14,7 @@ body,
 .main-admin-row {
     max-width: 100%;
     margin: 0px;
-    padding-right: 0px;
+    padding-inline-end: 0px;
 }
 
 .mw-admin-main-panel-main-left-col-wrap {
@@ -44,7 +44,7 @@ body,
     display: block;
     width: 100%;
     margin-bottom: 20px;
-    padding-left: 15px;
+    padding-inline-start: 15px;
 }
 
 .mw-admin-sidebar ul li {
@@ -80,7 +80,7 @@ body,
 .mw-admin-sidebar .mw-admin-sidebar-icon {
     font-size: 35px;
     float: left;
-    margin-right: 10px;
+    margin-inline-end: 10px;
 }
 
 .mw-admin-big-spacer {
@@ -113,15 +113,15 @@ body,
 }
 
 .mw-admin-main-view-container {
-    margin-left: 50px;
+    margin-inline-start: 50px;
     max-width: 1200px;
 }
 
 @media screen and (max-width: 1100px) {
     .mw-admin-main-view-container {
         max-width: 780px;
-        margin-left: 30px;
-        margin-right: 30px;
+        margin-inline-start: 30px;
+        margin-inline-end: 30px;
     }
 }
 
@@ -160,7 +160,7 @@ body,
 
 .mw-admin-main-section-title span:after {
     left: 100%;
-    margin-left: 25px;
+    margin-inline-start: 25px;
 }
 
 .mw-admin-main-section-line {
@@ -216,8 +216,8 @@ body,
 
 .mw-admin-main-section-inner-panel-nav a {
     padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     min-height: 28px;
     color: #929292;
     font-family: "Open Sans", sans-serif;
@@ -254,8 +254,8 @@ body,
 .mw-btn-red,
 .mw-btn-yellow {
     padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     min-height: 28px;
     color: #929292;
     font-family: "Open Sans", sans-serif;
@@ -287,7 +287,7 @@ body,
 
 .mw-admin-main-section-inline-bar-controlls li {
     display: inline-block;
-    margin-right: 10px;
+    margin-inline-end: 10px;
     font-family: "Open Sans", sans-serif;
     font-size: 13px;
     font-weight: bold;
@@ -318,7 +318,7 @@ body,
     /* Removes default arrow from firefox*/
     text-overflow: "";
     /*Removes default arrow from firefox*/
-    padding-right: 5px;
+    padding-inline-end: 5px;
 }
 
 .mw-admin-shop-info-blue-link {

@@ -44,7 +44,7 @@
     text-overflow: ellipsis;
     max-width: 100%;
     padding-left: 5px;
-    padding-right: 42px;
+    padding-inline-end: 42px;
       /*padding-inline-end:42px;
     padding-inline-start:5px;*/
       font-size: 12px;
@@ -84,7 +84,7 @@
     }
     list-style: none;
     li {
-      padding-left: 23px;margin-left: 5px;
+      padding-left: 23px;margin-inline-start: 5px;
     }
     ul,
     li {
@@ -213,7 +213,10 @@
     top: 0;
     right: 0;
   }
-
+    html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
+        right: auto;
+        left: 0;
+    }
   .mw-tree-item-title [class*='mai-'],
   .mw-tree-item-title [class*='mw-icon-'],
   .mw-tree-aditional-item-icon,
@@ -223,7 +226,7 @@
     display: inline-block;
     position: relative;
     top: 0;
-    margin-right: 3px;
+    margin-inline-end: 3px;
       vertical-align: top;
   }
     .selected > .mw-tree-item-content-root .mw-tree-item-title:before {

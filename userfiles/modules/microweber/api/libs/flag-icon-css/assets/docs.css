@@ -73,7 +73,7 @@ h6 {
 .jumbotron .jumbotron-links {
   margin-top: 15px;
   margin-bottom: 0;
-  padding-left: 0;
+  padding-inline-start: 0;
   list-style: none;
   font-size: 14px;
 }
@@ -81,7 +81,7 @@ h6 {
   display: inline;
 }
 .jumbotron .jumbotron-links li + li {
-  margin-left: 20px;
+  margin-inline-start: 20px;
 }
 .jumbotron .bottom {
   position: absolute;
@@ -145,7 +145,7 @@ footer a:hover {
 .links {
   margin: 0;
   list-style: none;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 .links li {
   display: inline;

@@ -160,7 +160,7 @@
 
     #email_field, #customweburl {
         width: 275px;
-        margin-right: 15px;
+        margin-inline-end: 15px;
         margin-bottom: 15px;
     }
 

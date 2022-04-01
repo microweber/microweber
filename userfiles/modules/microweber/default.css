@@ -101,7 +101,7 @@ ul.mw-richtext-list ul, ol.mw-richtext-list ul {
 }
 ul.mw-richtext-list ul, ol.mw-richtext-list ul,
 ol.mw-richtext-list ol, ul.mw-richtext-list ol {
-    margin-left: 15px;
+    margin-inline-start: 15px;
 }
 ol.mw-richtext-list ol, ul.mw-richtext-list ol,
 ol.mw-richtext-list ol li, ul.mw-richtext-list ol li {
@@ -110,7 +110,7 @@ ol.mw-richtext-list ol li, ul.mw-richtext-list ol li {
 }
 
 .mw-richtext-list li {
-    padding-left: 14px;
+    padding-inline-start: 14px;
     line-height: 2;
 }
 
@@ -160,7 +160,7 @@ ul.mw-default-layout-un-ordered-t4 li ul li {
 /*PARAGRAPH*/
 .mw-default-layout-highlight-line{
     border-left: 4px solid black;
-    padding-left: 10px;
+    padding-inline-start: 10px;
     display: inline-block;
 }
 
@@ -200,7 +200,7 @@ ul.mw-default-layout-un-ordered-arrows li {
 /*Blockquote*/
 ul.mw-default-layout-blockquote li {
     position: relative;
-    padding-left: 20px;
+    padding-inline-start: 20px;
 }
 
 ul.mw-default-layout-blockquote li:before {
@@ -606,7 +606,7 @@ ul.mw-default-layout-blockquote li:before {
     border-top: 1px solid #D9DADB;
 }
 .mw-dialog-skin-default .mw-dialog-footer .mw-ui-btn + .mw-ui-btn {
-    margin-left: 10px;
+    margin-inline-start: 10px;
 }
 .mw-dialog-skin-default .mw-dialog-footer:empty {
     display: none;
