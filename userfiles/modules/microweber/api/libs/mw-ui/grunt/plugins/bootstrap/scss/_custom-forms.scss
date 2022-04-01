@@ -123,6 +123,17 @@
   }
 }
 
+.custom-control.custom-radio{
+    .custom-control-label {
+        &::after,
+        &::before {
+
+            left: 0;
+
+        }
+    }
+}
+
 html[dir="rtl"] {
     .custom-switch{
         .custom-control-label {

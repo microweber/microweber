@@ -375,7 +375,7 @@ var _populate = {
             }
         }
         var size = frst.width || 0;
-        var color = frst.color || 'rgba(0,0,0,0)';
+        var color = frst.color || 'rgba(0,0,0,1)';
         var style = frst.style || 'none';
 
         mw.$('#border-position').val('all')
@@ -551,7 +551,7 @@ var populateSpecials = function (css) {
     colmobile.value = ''
     holder.style.display = 'none';
 
-    var containerType = document.querySelector('#field-conatiner-type');
+    var containerType = document.querySelector('#container-type');
     containerType.style.display = 'none';
     var ol = document.getElementById('overlay-edit');
     ol.style.display = 'none';
@@ -1261,6 +1261,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </mw-accordion-item>
+    <mw-accordion-item id="container-type">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Container"); ?>
+        </div>
+        <div class="mw-accordion-content mw-ui-box-content">
+
+        <div class="s-field" id="field-conatiner-type">
+            <label><?php _e("Container type"); ?></label>
+            <div class="s-field-content">
+                <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container"/> <span></span><span> Fixed </span> </label>
+                <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container-fluid"/> <span></span><span> Fluid </span> </label>
+
+            </div>
+        </div>
+        </div>
+    </mw-accordion-item>
     <mw-accordion-item id="columns-edit">
 
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
@@ -1302,14 +1318,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                 </div>
             </div>
-            <div class="s-field" id="field-conatiner-type">
-                <label><?php _e("Container type"); ?></label>
-                <div class="s-field-content">
-                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container"/> <span></span><span> Fixed </span> </label>
-                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container-fluid"/> <span></span><span> Fluid </span> </label>
 
-                </div>
-            </div>
         </div>
 
 
