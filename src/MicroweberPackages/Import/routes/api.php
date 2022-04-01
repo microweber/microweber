@@ -28,21 +28,25 @@ Route::name('admin.import.')
         Route::get('viz', function () {
 
             $request = request();
-            $contentParentTag = explode('.', $request->get('content_parent_tag'));
+            $contentParentTags = $request->get('content_parent_tags');
 
            $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
-          //  $googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
-         //   $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
-
+          //$googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
+          //$googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
 
 
             $newReader = new XmlReader();
-            $data = $newReader->printHtmlMapping($googleProductsXml);
+            $data = $newReader->readXml($googleProductsXml);
+
+            $dropdownMapping = new \MicroweberPackages\Import\ImportMapping\HtmlDropdownMappingPreview();
+            $dropdownMapping->setContent($data);
+            $dropdownMapping->setContentParentTags($contentParentTags);
+
+            $data =  $dropdownMapping->render();
 
             return view('import::mapping_table_xml', [
                 'map'=>$data,
-                'content_parent_tag'=>$contentParentTag,
-                'content_parent_tag_level'=>count($contentParentTag),
+                'content_parent_tag'=>$contentParentTags,
                 'structure'=>[]
             ]);
 

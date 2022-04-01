@@ -5,12 +5,15 @@ namespace MicroweberPackages\Import\ImportMapping\Readers;
 class ItemMapReader
 {
     public static $map = [
+        'mpn'=>['mpn','g:mpn'],
+        'sku'=>['sku','g:sku'],
+        'gtin'=>['gtin','g:gtin'],
         'external_id'=>['id','g:id'],
         'title'=>['title','g:title','name'],
-        'content_body'=>['description','content','html'],
+        'content_body'=>['description','g:description','content','html'],
         'image'=>['image','g:image_link'],
         'price'=>['price','g:price'],
-        'category'=>['category','g:google_product_category'],
+        'categories'=>['category','g:google_product_category','g:product_type'],
     ];
 
     public const ITEM_TYPE_STRING = 'string';
