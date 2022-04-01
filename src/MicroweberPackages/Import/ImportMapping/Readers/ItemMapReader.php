@@ -13,7 +13,25 @@ class ItemMapReader
         'content_body'=>['description','g:description','content','html'],
         'image'=>['image','g:image_link'],
         'price'=>['price','g:price'],
-        'categories'=>['category','g:google_product_category','g:product_type'],
+        'categories'=>['genre', 'category','g:google_product_category','g:product_type'],
+        'updated_at'=>['updated_date'],
+        'created_at'=>['publish_date'],
+    ];
+
+    public static $itemTypes = [
+      'mpn'=>'MPN',
+      'gtin'=>'GTIN',
+      'sku'=>'SKU',
+      'external_id'=>'External ID',
+      'title'=>'Title',
+      'description'=>'Description',
+      'content_body'=>'Content Body',
+      'images'=>'Images',
+      'categories'=>'Categories',
+      'price'=>'Price',
+      'shipping_price'=>'Shipping Price',
+      'updated_at'=>'Updated at',
+      'created_at'=>'Created at',
     ];
 
     public const ITEM_TYPE_STRING = 'string';

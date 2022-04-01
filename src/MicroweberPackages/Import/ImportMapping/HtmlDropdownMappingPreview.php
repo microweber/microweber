@@ -130,58 +130,18 @@ class HtmlDropdownMappingPreview
             'name'=>'Select type',
             'selected'=>false,
         ];
-        $selectOptions['title'] = [
-            'name'=>'Title',
-            'selected'=>false,
-        ];
-        $selectOptions['description'] = [
-            'name'=>'Description',
-            'selected'=>false,
-        ];
-        $selectOptions['content_body'] = [
-            'name'=>'Content Body',
-            'selected'=>false,
-        ];
-        $selectOptions['images'] = [
-            'name'=>'Images',
-            'selected'=>false,
-        ];
-        $selectOptions['categories'] = [
-            'name'=>'Categories',
-            'selected'=>false,
-        ];
-        $selectOptions['image'] = [
-            'name'=>'Image',
-            'selected'=>false,
-        ];
-        $selectOptions['price'] = [
-            'name'=>'Price',
-            'selected'=>false,
-        ];
-        $selectOptions['shipping_price'] = [
-            'name'=>'Shipping Price',
-            'selected'=>false,
-        ];
-        $selectOptions['mpn'] = [
-            'name'=>'MPN',
-            'selected'=>false,
-        ];
-        $selectOptions['gtin'] = [
-            'name'=>'GTIN',
-            'selected'=>false,
-        ];
-        $selectOptions['sku'] = [
-            'name'=>'SKU',
-            'selected'=>false,
-        ];
-        $selectOptions['external_id'] = [
-            'name'=>'External ID',
-            'selected'=>false,
-        ];
-
-        if (isset($this->mapFields[$expMapKey])) {
-            $selectedKey = $this->mapFields[$expMapKey]['internal_key'];
-            $selectOptions[$selectedKey]['selected'] = true;
+        foreach (ItemMapReader::$itemTypes as $key=>$name) {
+            $selected = false;
+            if (isset($this->mapFields[$expMapKey])) {
+                $selectedKey = $this->mapFields[$expMapKey]['internal_key'];
+                if ($selectedKey == $key) {
+                    $selected = true;
+                }
+            }
+            $selectOptions[$key] = [
+                'name'=>$name,
+                'selected'=>$selected,
+            ];
         }
 
         $html = '<select class="form-control" name="map['.$mapKey.']">';
