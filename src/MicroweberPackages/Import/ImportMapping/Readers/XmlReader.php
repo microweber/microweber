@@ -10,31 +10,10 @@ class XmlReader implements iReader
     {
 
         $dataX = $this->readXml($content);
-        $data = [];
 
-        $data['rss']['channel']['products'][] = [
-            'title' => 'Test',
-            'price' => '13',
-        ];
-        $data['rss']['channel']['products'][] = [
-            'title' => 'Test3',
-            'price' => '113',
-        ];
-        $data['rss']['channel']['products'][] = [
-            'title' => 'Test2',
-            'price' => '133',
-        ];
-
-      /*  $dataX = [];
-        $dataX['categories'][] = ['title'=>1];
-        $dataX['categories'][] = ['title'=>2];
-        $dataX['categories'][] = ['title'=>3];*/
-
-        //dd($dataX);
         $html = $this->view_r([
             $dataX
-        ], "", true, "class", "background: green;font-size: 20px;color: #fff;");
-
+        ]);
 
         return $html;
     }
@@ -97,6 +76,11 @@ class XmlReader implements iReader
             }
             $groups = array();
             foreach ($children as $child) {
+
+                if ($child->nodeName == '#comment') {
+                    continue;
+                }
+
                 if (!isset($result[$child->nodeName])) {
                     $result[$child->nodeName] = $this->domToArray($child);
                 } else {
@@ -112,77 +96,84 @@ class XmlReader implements iReader
     }
 
 
-    private function view_r($arr, $tab = "", $encode = false, $focus_attr = null, $style = null, $lastKey=null)
+    private function view_r($array)
     {
-        $return_debug = "<div class='tags'>";
+        $html = "<div class='tags'>";
 
-        if (is_array($arr)) {
-            foreach ($arr as $key => $value) {
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
                 if (is_array($value)) {
 
-                    $nextKey = null;
                     if (!is_numeric($key)) {
                         if(is_array($value)) {
-                            $nextKey = $key;
+                            if (isset($array['rss']['channel']['item'])) {
+                                $value['channel'] = [];
+                                $value['channel']['item'][] = $array['rss']['channel']['item'][0];
+                            }
                         }
                     }
 
-                    if ($lastKey) {
-                        $return_debug .= "<div class='tag_key'>&lt;$lastKey&gt;</div>";
+                    if ($key) {
+                        $html .= $this->openKeyTag($key);
                     }
 
-                    $return_debug .= $this->view_r($value, $tab . "", $encode, $focus_attr, $style, $nextKey);
+                    $html .= $this->view_r($value);
 
-                    if ($lastKey) {
-                        $return_debug .= "<div class='tag_key'>&lt;/$lastKey&gt;</div>";
+                    if ($key) {
+                        $html .= $this->closKeyTag($key);
                     }
 
                 } else {
                     if (!is_numeric($key)) {
-                        $return_debug .= "<table class='tag_key'>";
-                        $return_debug .= "<tr>";
-                        $return_debug .= "<td class='tag_value'>&lt;$key&gt;";
-                        $return_debug .=  $value;
-                        $return_debug .= "&lt;/$key&gt;</td>";
-                        $return_debug .= "<td class='tag_select'>".$this->dropdownSelect()."</td>";
-                        $return_debug .= "</tr>";
-                        $return_debug .= "</table>";
+                        $html .= "<table class='tag_key'>";
+                        $html .= "<tr>";
+                        $html .= "<td class='tag_value'>&lt;$key&gt;";
+                        $html .=  $value;
+                        $html .= "&lt;/$key&gt;</td>";
+                        $html .= "<td class='tag_select'>".$this->dropdownSelect()."</td>";
+                        $html .= "</tr>";
+                        $html .= "</table>";
                     } else {
-                        $return_debug .= "<span class='tag_value'>" . $value . "</span>";
+                        $html .= "<span class='tag_value'>" . $value . "</span>";
                         break;
                     }
                 }
             }
         }
 
-        $return_debug .= "</div>";
-        return $return_debug;
+        $html .= "</div>";
+
+        return $html;
     }
 
     private function dropdownSelect()
     {
         $html = '
             <select class="form-control">
-                <option>Select</option>
+                 <option name="title">Title</option>
+                <option name="description">Description</option>
+                <option name="images">Images</option>
+                <option name="price">Price</option>
+                <option name="sku">SKU</option>
             </select>
         ';
         return $html;
     }
 
 
-    private function openTrTdTag($name)
+    private function openKeyTag($name)
     {
         $html = PHP_EOL;
-        $html .= '&lt;' . $name . '&gt;';
+        $html .= '<div class="tag_key">&lt;' . $name . '&gt;</div>';
         $html .= PHP_EOL;
 
         return $html;
     }
 
-    private function closeTrTdTag($name)
+    private function closKeyTag($name)
     {
         $html = PHP_EOL;
-        $html .= '&lt;/' . $name . '&gt;';
+        $html .= '<div class="tag_key">&lt;/' . $name . '&gt;</div>';
         $html .= PHP_EOL;
 
         return $html;
