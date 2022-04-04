@@ -95,14 +95,6 @@ class HtmlDropdownMappingPreview
                         unset($lastKey['key']);
                     }
 
-                    $getParentMapKey = array();
-                    foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($lastKey), \RecursiveIteratorIterator::SELF_FIRST) as $k => $v) {
-                        if ($k === 'key') {
-                            $getParentMapKey[] = $v;
-                        }
-                    }
-                    $getParentMapKey[] = $key;
-
                     // If key is numeric this is iterratable
                     if (is_numeric($key)) {
                         $html .= "<span class='tag_value'>" . $value . "</span>";
@@ -114,6 +106,8 @@ class HtmlDropdownMappingPreview
                         $html .=  $value;
                         $html .= "&lt;/$key&gt;</td>";
 
+                        $getParentMapKey = $this->getRecursiveKeysFromArray($lastKey, $key);
+                        $getParentMapKey[] = $key;
                         $mapKey = implode('.', $getParentMapKey);
 
                         if (Str::startsWith($mapKey, $contentParentTags)) {
@@ -132,6 +126,18 @@ class HtmlDropdownMappingPreview
         $html .= "</div>";
 
         return $html;
+    }
+
+    private function getRecursiveKeysFromArray($array)
+    {
+        $newArray = array();
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array), \RecursiveIteratorIterator::SELF_FIRST) as $k => $v) {
+            if ($k === 'key') {
+                $newArray[] = $v;
+            }
+        }
+
+        return $newArray;
     }
 
     private function dropdownSelect($mapKey)
