@@ -72,6 +72,7 @@
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",
+        "livewire/livewire": "*",
         "spatie/laravel-permission": "*",
         "symfony/intl": "*",
         "symfony/translation": "*",
