@@ -44,6 +44,12 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 
 </IfModule>
 
+<Files ~ "\.(scss|sass|less|postcss)$">
+ForceType 'text/css; charset=UTF-8'
+</Files>
+
+
+
 <IfModule mod_rewrite.c>
 
     <IfModule mod_negotiation.c>

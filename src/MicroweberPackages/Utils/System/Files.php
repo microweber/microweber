@@ -1154,7 +1154,7 @@ class Files
                 break;
             case 'file':
             case 'files':
-                $are_allowed .= ',css,scss,doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z';
+                $are_allowed .= ',css,doc,docx,pdf,json,rtf,txt,zip,gzip,rar,cad,psd,xlsx,csv,7z';
                 break;
             case 'documents':
             case 'doc':
