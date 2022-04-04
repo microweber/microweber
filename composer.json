@@ -55,7 +55,7 @@
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
-        "microweber-modules/standalone-updater": "3.1",
+        "microweber-modules/standalone-updater": "3.3",
         "microweber-packages/composer-client": "1.6",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/new-world": "4.3",
