@@ -30,8 +30,8 @@ Route::name('admin.import.')
             $request = request();
             $contentParentTags = $request->get('content_parent_tags');
 
-           //$googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
-          $googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
+           $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+         // $googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
           //$googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
 
 
