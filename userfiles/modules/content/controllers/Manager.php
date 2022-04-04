@@ -180,13 +180,16 @@ class Manager
         }
 
         $posts_mod['no_cache'] = 1;
+
+
         $posts_mod['limit'] = 15;
 
         if (isset($params['limit'])) {
-            if ($params['limit'] < 300) {
+            if ($params['limit'] ) {
                 $posts_mod['limit'] = (int) $params['limit'];
             }
         }
+
 
         $data = $this->provider->get($posts_mod);
 
