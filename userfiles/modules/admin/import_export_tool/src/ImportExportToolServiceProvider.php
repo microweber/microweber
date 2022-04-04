@@ -13,6 +13,8 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
 
 class ImportExportToolServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class ImportExportToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Livewire::component('counter', Counter::class);
+
         View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
     }
 
