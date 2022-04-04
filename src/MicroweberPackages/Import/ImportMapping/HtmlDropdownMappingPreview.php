@@ -64,7 +64,7 @@ class HtmlDropdownMappingPreview
         return $html;
     }
 
-    private function arrayPreviewInHtmlRecursive($array, $contentParentTags, $i=0, $parent = [])
+    private function arrayPreviewInHtmlRecursive($array, $contentParentTags, $i=0, $lastKey = [])
     {
         $html = "<div class='tags'>";
 
@@ -78,15 +78,31 @@ class HtmlDropdownMappingPreview
                         } else {
                             $html .= $this->openKeyTag($key);
                         }
-                        $parent[] = $key;
                     }
 
-                    $html .= $this->arrayPreviewInHtmlRecursive($value, $contentParentTags, $i, $parent);
+                    $sendKey = [];
+                    $sendKey['parent'] = $lastKey;
+                    $sendKey['key'] = $key;
+
+                    $html .= $this->arrayPreviewInHtmlRecursive($value, $contentParentTags, $i, $sendKey);
                     if ($key) {
                         $html .= $this->closKeyTag($key);
                     }
 
                 } else {
+
+                    if (isset($lastKey['key']) && is_numeric($lastKey['key'])) {
+                        unset($lastKey['key']);
+                    }
+
+                    $getParentMapKey = array();
+                    foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($lastKey), \RecursiveIteratorIterator::SELF_FIRST) as $k => $v) {
+                        if ($k === 'key') {
+                            $getParentMapKey[] = $v;
+                        }
+                    }
+                    $getParentMapKey[] = $key;
+
                     // If key is numeric this is iterratable
                     if (is_numeric($key)) {
                         $html .= "<span class='tag_value'>" . $value . "</span>";
@@ -98,13 +114,12 @@ class HtmlDropdownMappingPreview
                         $html .=  $value;
                         $html .= "&lt;/$key&gt;</td>";
 
-                        $mapKey = array_merge($parent, [$key]);
-                        $mapKey = implode('.', $mapKey);
+                        $mapKey = implode('.', $getParentMapKey);
 
                         if (Str::startsWith($mapKey, $contentParentTags)) {
                             $html .= "<td class='tag_select'>" . $this->dropdownSelect($mapKey) . "</td>";
                         } else{
-                            $html .= "<td></td>";
+                            $html .= "<td>$mapKey</td>";
                         }
 
                         $html .= "</tr>";

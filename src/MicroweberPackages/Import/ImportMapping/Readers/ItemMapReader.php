@@ -16,7 +16,7 @@ class ItemMapReader
         'shipping_price'=>['shipping_price','g:shipping.g:price'],
         'categories'=>['genre', 'category','g:google_product_category','g:product_type'],
         'updated_at'=>['updated_date'],
-        'created_at'=>['publish_date'],
+        'created_at'=>['publish_date','pubDate'],
     ];
 
     public static $itemTypes = [
