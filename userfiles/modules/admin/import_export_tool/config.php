@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Import\Export Tool";
+$config['name'] = "Import Export Tool";
 $config['author'] = "Microweber";
 
 $config['categories'] = "admin";
@@ -11,9 +11,15 @@ $config['position'] = 99;
 
 $config['settings'] = [];
 $config['settings']['routes'] = [
-    'admin'=>'admin.import_export.index'
+    'admin'=>'admin.import-export-tool.index'
 ];
 
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Modules\\Admin\\ImportExportTool\\'
+    ],
+];
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\ImportExportTool\ImportExportToolServiceProvider::class
+    \MicroweberPackages\Modules\Admin\ImportExportTool\ImportExportToolServiceProvider::class
 ];
