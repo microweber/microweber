@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+##  [Unreleased]
+- Fixes right to left text alignment in the editor.
+- Fixes on Multi language
+- Security fixes
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.12...1.2.13 "")
+
+
 ## [1.2.12] - 2022-03-22
 - Fixes on backup module
 - Security fixes
