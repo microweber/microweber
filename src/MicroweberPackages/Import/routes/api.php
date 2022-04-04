@@ -32,8 +32,8 @@ Route::name('admin.import.')
 
            //$googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
           //$googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
-       //   $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
-          $googleProductsXml = file_get_contents('file:///Users/bobi/Downloads/all.atom');
+          $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
+        //  $googleProductsXml = file_get_contents('file:///Users/bobi/Downloads/all.atom');
 
 
             $newReader = new XmlReader();
