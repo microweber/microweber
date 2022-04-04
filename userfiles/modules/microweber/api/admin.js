@@ -274,3 +274,23 @@ QTABSArrow = function (el) {
     mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
 };
 
+
+;(function (){
+
+    var self;
+    var RtlDetect=self={_regexEscape:/([\.\*\+\^\$\[\]\\\(\)\|\{\}\,\-\:\?])/g,_regexParseLocale:/^([a-zA-Z]*)([_\-a-zA-Z]*)$/,_escapeRegExpPattern:function(str){if(typeof str!=='string'){return str}
+            return str.replace(self._regexEscape,'\\$1')},_toLowerCase:function(str,reserveReturnValue){if(typeof str!=='string'){return reserveReturnValue&&str}
+            return str.toLowerCase()},_toUpperCase:function(str,reserveReturnValue){if(typeof str!=='string'){return reserveReturnValue&&str}
+            return str.toUpperCase()},_trim:function(str,delimiter,reserveReturnValue){var patterns=[];var regexp;var addPatterns=function(pattern){patterns.push('^'+pattern+'+|'+pattern+'+$')};if(typeof delimiter==='boolean'){reserveReturnValue=delimiter;delimiter=null}
+            if(typeof str!=='string'){return reserveReturnValue&&str}
+            if(Array.isArray(delimiter)){delimiter.map(function(item){var pattern=self._escapeRegExpPattern(item);addPatterns(pattern)})}
+            if(typeof delimiter==='string'){var patternDelimiter=self._escapeRegExpPattern(delimiter);addPatterns(patternDelimiter)}
+            if(!delimiter){addPatterns('\\s')}
+            var pattern='('+patterns.join('|')+')';regexp=new RegExp(pattern,'g');while(str.match(regexp)){str=str.replace(regexp,'')}
+            return str},_parseLocale:function(strLocale){var matches=self._regexParseLocale.exec(strLocale);var parsedLocale;var lang;var countryCode;if(!strLocale||!matches){return}
+            matches[2]=self._trim(matches[2],['-','_']);lang=self._toLowerCase(matches[1]);countryCode=self._toUpperCase(matches[2])||countryCode;parsedLocale={lang:lang,countryCode:countryCode};return parsedLocale},isRtlLang:function(strLocale){var objLocale=self._parseLocale(strLocale);if(!objLocale){return}
+            return(self._BIDI_RTL_LANGS.indexOf(objLocale.lang)>=0)},getLangDir:function(strLocale){return self.isRtlLang(strLocale)?'rtl':'ltr'}};Object.defineProperty(self,'_BIDI_RTL_LANGS',{value:['ae','ar','arc','bcc','bqi','ckb','dv','fa','glk','he','ku','mzn','nqo','pnb','ps','sd','ug','ur','yi'],writable:!1,enumerable:!0,configurable:!1})
+
+    mw.admin.rtlDetect = RtlDetect;
+
+})();
