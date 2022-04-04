@@ -8,8 +8,7 @@ use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
 
 class HtmlDropdownMappingPreview
 {
-
-    public $mapFields = [];
+   // public $mapFields = [];
     public $content = [];
     public $contentParentTags = false;
     public $html = [];
@@ -24,7 +23,7 @@ class HtmlDropdownMappingPreview
         $this->contentParentTags = $tag;
     }
 
-    public function generateMapFields()
+   /* public function generateMapFields()
     {
         $mapFields = [];
         // Google feed
@@ -48,7 +47,7 @@ class HtmlDropdownMappingPreview
         }
 
         $this->mapFields = $mapFields;
-    }
+    }*/
 
     public function render()
     {
@@ -58,7 +57,7 @@ class HtmlDropdownMappingPreview
         Arr::forget($content, $this->contentParentTags);
         data_fill($content, $this->contentParentTags . '.0', $firstItem);
 
-        $this->generateMapFields();
+        // $this->generateMapFields();
 
         $html = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
 
