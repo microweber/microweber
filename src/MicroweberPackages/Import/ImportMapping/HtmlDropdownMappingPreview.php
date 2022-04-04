@@ -127,24 +127,26 @@ class HtmlDropdownMappingPreview
             'name'=>'Select type',
             'selected'=>false,
         ];
-        foreach (ItemMapReader::$itemTypes as $key=>$name) {
-            $selected = false;
 
-            foreach (ItemMapReader::$map as $itemMap) {
-                foreach ($itemMap as $itemMapKey) {
-                    if(strpos($mapKey, $itemMapKey) !== false) {
-                        $selected = true;
-                    }
+        foreach (ItemMapReader::$itemTypes as $key=>$name) {
+
+            $selected = false;
+            foreach (ItemMapReader::$map[$key] as $itemMapKey) {
+                if(stripos($mapKey, $itemMapKey) !== false) {
+                    $selected = true;
+                    break;
                 }
             }
 
             $selectOptions[$key] = [
                 'name'=>$name,
+                'map_key'=>$mapKey,
                 'selected'=>$selected,
             ];
         }
 
-        $html = '<select class="form-control" name="map['.$mapKey.']">';
+        $html = $mapKey;
+        $html .= '<select class="form-control" name="map['.$mapKey.']">';
 
         foreach ($selectOptions as $name => $option) {
 

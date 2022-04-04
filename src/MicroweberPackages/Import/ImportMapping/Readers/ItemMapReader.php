@@ -25,7 +25,7 @@ class ItemMapReader
       'sku'=>'SKU',
       'external_id'=>'External ID',
       'title'=>'Title',
-      'description'=>'Description',
+    //  'description'=>'Description',
       'content_body'=>'Content Body',
       'images'=>'Images',
       'categories'=>'Categories',
