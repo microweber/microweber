@@ -10,13 +10,13 @@ class ItemMapReader
         'gtin'=>['gtin','g:gtin'],
         'external_id'=>['id','g:id'],
         'title'=>['title','g:title','name'],
-        'content_body'=>['description','g:description','content','html'],
+        'content_body'=>['description','g:description','content','html','summary'],
         'images'=>['image','g:image_link'],
         'price'=>['price','g:price'],
         'shipping_price'=>['shipping_price','g:shipping.g:price'],
         'categories'=>['genre', 'category','g:google_product_category','g:product_type'],
-        'updated_at'=>['updated_date'],
-        'created_at'=>['publish_date','pubDate'],
+        'updated_at'=>['updated_date','published'],
+        'created_at'=>['publish_date','pubDate','updated'],
     ];
 
     public static $itemTypes = [

@@ -45,9 +45,19 @@ class HtmlDropdownMappingPreview
 
                     if ($key) {
                         if (isset($value[0])) {
-                            $html .= $this->openKeyTag($key); // ITERATABLE
+                            $html .= "<table class='tag_key'>";
+                            $html .= "<tr>";
+                            $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
+                            $html .= "<td class='tag_select'>".$this->dropdownIterratableSelect($key)."</td>";
+                            $html .= "</tr>";
+                            $html .= "</table>";
                         } else {
-                            $html .= $this->openKeyTag($key);
+                            $html .= "<table class='tag_key'>";
+                            $html .= "<tr>";
+                            $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
+                            $html .= "<td></td>";
+                            $html .= "</tr>";
+                            $html .= "</table>";
                         }
                     }
 
@@ -84,7 +94,7 @@ class HtmlDropdownMappingPreview
                         if (Str::startsWith($mapKey, $contentParentTags)) {
                             $html .= "<td class='tag_select'>" . $this->dropdownSelect($mapKey) . "</td>";
                         } else{
-                            $html .= "<td>$mapKey</td>";
+                            $html .= "<td></td>";
                         }
 
                         $html .= "</tr>";
@@ -109,6 +119,16 @@ class HtmlDropdownMappingPreview
         }
 
         return $newArray;
+    }
+
+    private function dropdownIterratableSelect($mapKey)
+    {
+        $html = '<select class="form-control" name="map_iterratable['.$mapKey.']">';
+        $html .= '<option value="variants">Tags</option>';
+        $html .= '<option value="variants">Product Variants</option>';
+        $html .= '</select>';
+
+        return $html;
     }
 
     private function dropdownSelect($mapKey)
