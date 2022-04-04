@@ -23,7 +23,6 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
-        "laravel/framework": "^9.0",
         "arcanedev/seo-helper": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
@@ -46,7 +45,7 @@
         "jeremeamia/superclosure": "*",
         "knplabs/knp-menu": "^3.2@dev",
         "laravel/dusk": "*",
-
+        "laravel/framework": "^9.0",
         "laravel/passport": "*",
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
@@ -54,6 +53,7 @@
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
+        "livewire/livewire": "dev-master",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-modules/standalone-updater": "3.3",
         "microweber-packages/composer-client": "1.6",
@@ -72,7 +72,6 @@
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",
-        "livewire/livewire": "*",
         "spatie/laravel-permission": "*",
         "symfony/intl": "*",
         "symfony/translation": "*",
@@ -109,9 +108,6 @@
         ]
     },
     "config": {
-        "platform": {
-            "php": "8.0"
-        },
         "preferred-install": "dist",
         "github-protocols": [
             "https",
