@@ -35,12 +35,12 @@
 .mw-switch-off {
   border-left: 1px solid #bfbfbf;
   border-radius: 2px 0 0 2px;
-  padding-right: 2px;
+  padding-inline-end: 2px;
 }
 .mw-switch-on {
   border-right: 1px solid #bfbfbf;
   border-radius: 0 2px 2px 0;
-  padding-left: 2px;
+  padding-inline-start: 2px;
 }
 .mw-switch input {
   visibility: hidden;
@@ -80,16 +80,16 @@
   width: 4px;
   border-left: 1px solid #c6c6c6;
   border-right: 1px solid #c6c6c6;
-  margin-left: -4px;
+  margin-inline-start: -4px;
 }
 .mw-switcher:after {
   width: 1px;
   background: #c6c6c6;
-  margin-left: 3px;
+  margin-inline-start: 3px;
 }
 .mw-switch :checked ~ .mw-switcher {
   right: 100%;
-  margin-right: -39px;
+  margin-inline-end: -39px;
 }
 .mw-switch :checked ~ [class*="mw-switch-"] {
   background: #0086db;

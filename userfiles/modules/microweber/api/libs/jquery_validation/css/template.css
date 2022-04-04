@@ -72,7 +72,7 @@ form.formular, .validationEngineContainer {
 }
 
 .formular .submit {
-	
+
 	border: 1px solid #AAA;
 	padding: 4px;
 	margin-top: 20px;
@@ -117,7 +117,7 @@ form.formular, .validationEngineContainer {
 }
 
 .inline-prompts .text-input+.formError{
-	margin-left: 10px;
+	margin-inline-start: 10px;
 }
 
 .prompt-summary .inline {

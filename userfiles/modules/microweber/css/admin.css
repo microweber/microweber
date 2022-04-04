@@ -36,7 +36,7 @@
 }
 
 #stats_nav .btn + .btn {
-    margin-left: 10px;
+    margin-inline-start: 10px;
 }
 
 .hidden {
@@ -44,7 +44,7 @@
 }
 
 #edit-content-row .tree {
-    margin-right: 15px;
+    margin-inline-end: 15px;
 }
 
 .window-holder {
@@ -130,7 +130,7 @@ div.form-control {
 }
 
 .mw-ui-category-tree li li {
-    padding-left: 30px;
+    padding-inline-start: 30px;
 }
 
 .mw-ui-category-tree li li:before {
@@ -144,7 +144,7 @@ div.form-control {
     -moz-osx-font-smoothing: grayscale;
     position: absolute;
     margin-top: 12px;
-    margin-left: -20px;
+    margin-inline-start: -20px;
 }
 
 .mw-ui-category-tree {
@@ -340,7 +340,7 @@ div.form-control {
     left:0 !important;
 }
 
-#edit-content-btn{margin-left: 10px;}
+#edit-content-btn{margin-inline-start: 10px;}
 
 .upload-button-prop:only-child .mw-badge{
     display: none;
@@ -388,7 +388,7 @@ div.form-control {
 
 
 #quick-parent-selector-tree .mw-tree-nav-skin-default .mw-tree-item-title{
-    padding-right: 0;
+    padding-inline-end: 0;
 }
 
 .mw-btn-icon{
@@ -544,4 +544,55 @@ html[dir="rtl"] .mw-admin-product-item-icon {
     right: auto;
     left: -5px;
 
+}
+
+.plain-language-selector button{
+    background: none;
+    border: none;
+}
+.plain-language-selector:before{
+     content: '\F05CA';
+    font-family: 'Material Design Icons';
+    position: absolute;
+    line-height: 40px;
+    font-size: 19px;
+    color: #7e7e7e;
+    pointer-events: none;
+}
+
+html[dir="rtl"] .plain-language-selector:before{
+    right: 10px;
+}
+
+.plain-language-selector select{
+    background:none;
+    border:none;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+    padding: 10px 0;
+    padding-inline-start: 30px;
+    font-size: 14px;
+    color: #9a9a9a;
+    cursor: pointer;
+}
+.plain-language-selector{
+    display: inline-block;
+    position: relative;
+
+    padding: 2px 14px;
+    border: 1px solid #cccccc70;
+    border-radius: 5px;
+
+}
+
+html[dir="rtl"],
+html[dir="rtl"] body {
+    text-align: right;
+}
+html[dir="rtl"] .input-group {
+    flex-direction: row-reverse;
+}
+html[dir="rtl"] .table th, html[dir="rtl"] .table td {
+    text-align: right;
 }

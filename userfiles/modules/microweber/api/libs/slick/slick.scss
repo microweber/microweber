@@ -44,8 +44,8 @@
     left: 0;
     top: 0;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
 
     &:before,
     &:after {

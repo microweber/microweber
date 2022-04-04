@@ -50,7 +50,7 @@
 
   &-brand {
     padding: 0.75rem 1rem calc(54px - 0.75rem - 30px);
-    margin-right: 0;
+    margin-inline-end: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
   }
 
@@ -60,7 +60,7 @@
   }
 
   &-nav .nav-item + .nav-item {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   &.bg-light {

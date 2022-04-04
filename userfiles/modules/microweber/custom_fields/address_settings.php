@@ -29,7 +29,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 
 #mw-custom-fields-address-fields-selector .mw-ui-check input[type="checkbox"] + span{
   float: left;
-  margin-right: 6px;
+  margin-inline-end: 6px;
   top: 3px;
 }
 </style>

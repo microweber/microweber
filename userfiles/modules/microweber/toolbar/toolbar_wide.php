@@ -126,7 +126,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
               <li><a href="javascript:;" onclick="mw.liveedit.manageContent.edit(<?php print CONTENT_ID; ?>);"><span
                                     class="ico ieditpage"
-                                    style="margin-right: 12px;"></span><span>
+                                    style="margin-inline-end: 12px;"></span><span>
                 <?php _e("Edit current"); ?>
                 </span></a> </li>
               <li><a href="javascript:;" onclick="mw.liveedit.manageContent.post();"><span
@@ -184,7 +184,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                               onclick="mw.drag.save(this)" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
-          <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><span
+          <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-inline-start: 0;"><span
                             class="mw-dropdown-arrow right"></span>
             <?php _e("Actions"); ?>
             </a>

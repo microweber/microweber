@@ -53,7 +53,7 @@
   display: inline-block;
   padding-top: $navbar-brand-padding-y;
   padding-bottom: $navbar-brand-padding-y;
-  margin-right: $navbar-padding-x;
+  margin-inline-end: $navbar-padding-x;
   @include font-size($navbar-brand-font-size);
   line-height: inherit;
   white-space: nowrap;
@@ -71,13 +71,13 @@
 .navbar-nav {
   display: flex;
   flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
-  padding-left: 0;
+  padding-inline-start: 0;
   margin-bottom: 0;
   list-style: none;
 
   .nav-link {
-    padding-right: 0;
-    padding-left: 0;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
   }
 
   .dropdown-menu {
@@ -150,8 +150,8 @@
     &#{$infix} {
       @include media-breakpoint-down($breakpoint) {
         %container-navbar-expand-#{$breakpoint} {
-          padding-right: 0;
-          padding-left: 0;
+          padding-inline-end: 0;
+          padding-inline-start: 0;
         }
 
         > .container,
@@ -178,8 +178,8 @@
           }
 
           .nav-link {
-            padding-right: $navbar-nav-link-padding-x;
-            padding-left: $navbar-nav-link-padding-x;
+            padding-inline-end: $navbar-nav-link-padding-x;
+            padding-inline-start: $navbar-nav-link-padding-x;
           }
         }
 

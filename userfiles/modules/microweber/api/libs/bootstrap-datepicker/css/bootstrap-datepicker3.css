@@ -672,7 +672,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   line-height: 1.42857143;
   text-shadow: 0 1px 0 #fff;
   border-width: 1px 0;
-  margin-left: -5px;
-  margin-right: -5px;
+  margin-inline-start: -5px;
+  margin-inline-end: -5px;
 }
 /*# disabled_sourceMappingURL=bootstrap-datepicker3.css.map */

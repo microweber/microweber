@@ -155,7 +155,7 @@ select.selectpicker {
 .bootstrap-select[class*="col-"] {
   float: none;
   display: inline-block;
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 .bootstrap-select.dropdown-menu-right,
 .bootstrap-select[class*="col-"].dropdown-menu-right,
@@ -226,17 +226,17 @@ select.selectpicker {
           flex: 0 1 auto;
 }
 .bs3.bootstrap-select .dropdown-toggle .filter-option {
-  padding-right: inherit;
+  padding-inline-end: inherit;
 }
 .input-group .bs3-has-addon.bootstrap-select .dropdown-toggle .filter-option {
   position: absolute;
   padding-top: inherit;
   padding-bottom: inherit;
-  padding-left: inherit;
+  padding-inline-start: inherit;
   float: none;
 }
 .input-group .bs3-has-addon.bootstrap-select .dropdown-toggle .filter-option .filter-option-inner {
-  padding-right: inherit;
+  padding-inline-end: inherit;
 }
 .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
   overflow: hidden;
@@ -297,7 +297,7 @@ select.selectpicker {
 }
 .bootstrap-select .dropdown-menu li a.opt {
   position: relative;
-  padding-left: 2.25em;
+  padding-inline-start: 2.25em;
 }
 .bootstrap-select .dropdown-menu li a span.check-mark {
   display: none;
@@ -306,7 +306,7 @@ select.selectpicker {
   display: inline-block;
 }
 .bootstrap-select .dropdown-menu li small {
-  padding-left: 0.5em;
+  padding-inline-start: 0.5em;
 }
 .bootstrap-select .dropdown-menu .notify {
   position: absolute;
@@ -360,7 +360,7 @@ select.selectpicker {
   top: 5px;
 }
 .bootstrap-select.show-tick .dropdown-menu li a span.text {
-  margin-right: 34px;
+  margin-inline-end: 34px;
 }
 .bootstrap-select .bs-ok-default:after {
   content: '';

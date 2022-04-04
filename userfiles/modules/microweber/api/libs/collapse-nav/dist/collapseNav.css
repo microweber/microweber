@@ -104,7 +104,7 @@
     border-top: 4px solid \9;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
-    margin-left: 5px;
+    margin-inline-start: 5px;
 }
 
 .collapse-nav:not(.collapseNav-initialized) li {

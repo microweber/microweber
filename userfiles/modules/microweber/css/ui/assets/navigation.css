@@ -66,11 +66,11 @@
 .mw-ui-navigation-horizontal > li,
 .mw-ui-navigation-horizontal > ul > li {
   float: left;
-  margin-right: 12px;
+  margin-inline-end: 12px;
   margin-bottom: 0;
 }
 .mw-ui-navigation-horizontal > li:last-child {
-  margin-right: 0;
+  margin-inline-end: 0;
 }
 .mw-ui-navigation-horizontal > li > ul ul,
 .mw-ui-navigation li ul {
@@ -121,15 +121,15 @@
 }
 .mw-ui-navigation li.active > ul li > a,
 .mw-ui-navigation li.opened > ul li > a {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .mw-ui-navigation li.active > ul li > li > a,
 .mw-ui-navigation li.opened > ul li > li > a {
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 .mw-ui-navigation li.active > ul li > li > li > a,
 .mw-ui-navigation li.opened > ul li > li > li > a {
-  padding-left: 40px;
+  padding-inline-start: 40px;
 }
 .mw-paging {
   position: relative;

@@ -15,8 +15,8 @@
   @include border-radius($card-border-radius);
 
   > hr {
-    margin-right: 0;
-    margin-left: 0;
+    margin-inline-end: 0;
+    margin-inline-start: 0;
   }
 
   > .list-group:first-child {
@@ -62,7 +62,7 @@
   }
 
   + .card-link {
-    margin-left: $card-spacer-x;
+    margin-inline-start: $card-spacer-x;
   }
 }
 
@@ -104,15 +104,15 @@
 //
 
 .card-header-tabs {
-  margin-right: -$card-spacer-x / 2;
+  margin-inline-end: -$card-spacer-x / 2;
   margin-bottom: -$card-spacer-y;
-  margin-left: -$card-spacer-x / 2;
+  margin-inline-start: -$card-spacer-x / 2;
   border-bottom: 0;
 }
 
 .card-header-pills {
-  margin-right: -$card-spacer-x / 2;
-  margin-left: -$card-spacer-x / 2;
+  margin-inline-end: -$card-spacer-x / 2;
+  margin-inline-start: -$card-spacer-x / 2;
 }
 
 // Card image
@@ -153,15 +153,15 @@
   @include media-breakpoint-up(sm) {
     display: flex;
     flex-flow: row wrap;
-    margin-right: -$card-deck-margin;
-    margin-left: -$card-deck-margin;
+    margin-inline-end: -$card-deck-margin;
+    margin-inline-start: -$card-deck-margin;
 
     .card {
       // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
       flex: 1 0 0%;
-      margin-right: $card-deck-margin;
+      margin-inline-end: $card-deck-margin;
       margin-bottom: 0; // Override the default
-      margin-left: $card-deck-margin;
+      margin-inline-start: $card-deck-margin;
     }
   }
 }
@@ -189,7 +189,7 @@
       margin-bottom: 0;
 
       + .card {
-        margin-left: 0;
+        margin-inline-start: 0;
         border-left: 0;
       }
 

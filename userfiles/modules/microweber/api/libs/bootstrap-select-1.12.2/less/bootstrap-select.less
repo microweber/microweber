@@ -17,7 +17,7 @@ select.selectpicker {
   // The selectpicker button
   > .dropdown-toggle {
     width: 100%;
-    padding-right: 25px;
+    padding-inline-end: 25px;
     z-index: 1;
 
     &.bs-placeholder,
@@ -93,7 +93,7 @@ select.selectpicker {
   &[class*="col-"] {
     float: none;
     display: inline-block;
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   // Forces the pull to the right, if necessary
@@ -142,7 +142,7 @@ select.selectpicker {
     position: absolute;
     height: 0 !important;
     padding: 0 !important;
-    
+
     .dropdown-menu {
       z-index: @zindex-select-dropdown;
     }
@@ -263,7 +263,7 @@ select.selectpicker {
     }
 
     a span.text {
-      margin-right: 34px;
+      margin-inline-end: 34px;
     }
   }
 }

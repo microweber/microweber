@@ -25,10 +25,10 @@
   animation: mw-spinnerdash 1.5s ease-in-out infinite;
 }
 .mw-spinner.mw-spinner-mode-append {
-  margin-left: 8px;
+  margin-inline-start: 8px;
 }
 .mw-spinner.mw-spinner-mode-prepend {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 .mw-spinner .mw-spinner-checkmark-check {
   display: none;
