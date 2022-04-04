@@ -26,9 +26,20 @@ class HtmlDropdownMappingPreview
     {
         $content = $this->content;
 
-        $firstItem = data_get($content, $this->contentParentTags . '.0');
+     /*   $firstItem = data_get($content, $this->contentParentTags . '.0');
         Arr::forget($content, $this->contentParentTags);
-        data_fill($content, $this->contentParentTags . '.0', $firstItem);
+        data_fill($content, $this->contentParentTags . '.0', $firstItem);*/
+
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($content), \RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($iterator as $value) {
+            $duplicateKeys = [];
+            if (is_array($value) && isset($value[0]) && isset($value[1])) {
+                dump($value);
+            }
+        }
+
+        dd($content);
 
         $html = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
 
@@ -44,7 +55,7 @@ class HtmlDropdownMappingPreview
                 if (is_array($value)) {
 
                     if ($key) {
-                        if (isset($value[0])) {
+                      /*  if (isset($value[0])) {
                             $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
@@ -58,7 +69,8 @@ class HtmlDropdownMappingPreview
                             $html .= "<td></td>";
                             $html .= "</tr>";
                             $html .= "</table>";
-                        }
+                        }*/
+                        $html .= $this->openKeyTag($key);
                     }
 
                     $sendKey = [];
