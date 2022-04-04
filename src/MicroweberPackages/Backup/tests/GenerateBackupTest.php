@@ -29,6 +29,8 @@ class GenerateBackupTest extends TestCase
             $status = $backup->start();
         }
 
+        $this->assertTrue(is_file($status['data']['filepath']), 'File not found');
+
         $zip = new \ZipArchive();
         $zip->open($status['data']['filepath']);
         $moduleInZip = $zip->getFromName('modules/categories/category_images/index.php');
