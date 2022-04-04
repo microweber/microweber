@@ -8,7 +8,6 @@ use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
 
 class HtmlDropdownMappingPreview
 {
-   // public $mapFields = [];
     public $content = [];
     public $contentParentTags = false;
     public $html = [];
@@ -23,32 +22,6 @@ class HtmlDropdownMappingPreview
         $this->contentParentTags = $tag;
     }
 
-   /* public function generateMapFields()
-    {
-        $mapFields = [];
-        // Google feed
-        if (isset($this->content['rss']['channel']['item'][0])) {
-            if (isset($this->content['rss']['channel']['item'][0])) {
-                foreach ($this->content['rss']['channel']['item'] as $item) {
-                    $mapFieldsItem = ItemMapReader::getMapping($item);
-                    $mapFields = array_merge($mapFields, $mapFieldsItem);
-                }
-            }
-        }
-
-        // Simple feed
-        if (isset($this->content['catalog']['book'][0])) {
-            if (isset($this->content['catalog']['book'][0])) {
-                foreach ($this->content['catalog']['book'] as $item) {
-                    $mapFieldsItem = ItemMapReader::getMapping($item);
-                    $mapFields = array_merge($mapFields, $mapFieldsItem);
-                }
-            }
-        }
-
-        $this->mapFields = $mapFields;
-    }*/
-
     public function render()
     {
         $content = $this->content;
@@ -56,8 +29,6 @@ class HtmlDropdownMappingPreview
         $firstItem = data_get($content, $this->contentParentTags . '.0');
         Arr::forget($content, $this->contentParentTags);
         data_fill($content, $this->contentParentTags . '.0', $firstItem);
-
-        // $this->generateMapFields();
 
         $html = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
 
@@ -165,8 +136,7 @@ class HtmlDropdownMappingPreview
             ];
         }
 
-        $html = $mapKey;
-        $html .= '<select class="form-control" name="map['.$mapKey.']">';
+        $html = '<select class="form-control" name="map['.$mapKey.']">';
 
         foreach ($selectOptions as $name => $option) {
 
