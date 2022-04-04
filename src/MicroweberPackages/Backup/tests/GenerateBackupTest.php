@@ -25,7 +25,11 @@ class GenerateBackupTest extends TestCase
         for ($i = 1; $i <= 4; $i++) {
             $backup = new GenerateBackup();
             $backup->setSessionId($sessionId);
-            $backup->setExportModules(['categories/category_images','content']);
+            $backup->setExportModules([
+                'categories/category_images',
+                'content',
+                'menu',
+            ]);
             $status = $backup->start();
         }
 
@@ -35,10 +39,12 @@ class GenerateBackupTest extends TestCase
         $zip->open($status['data']['filepath']);
         $moduleInZip = $zip->getFromName('modules/categories/category_images/index.php');
         $moduleInZip2 = $zip->getFromName('modules/content/index.php');
+        $moduleInZip3= $zip->getFromName('modules/menu/config.php');
         $zip->close();
 
         $this->assertNotEmpty($moduleInZip);
         $this->assertNotEmpty($moduleInZip2);
+        $this->assertNotEmpty($moduleInZip3);
     }
 
     public function testSingleTableBackup() {
