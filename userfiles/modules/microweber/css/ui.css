@@ -6786,6 +6786,10 @@ html[dir='rtl'] .mw-dialog-close {
 .mw-select .mw-select-display-value .mw-select-indicate-number.mw-select-indicate-number-empty {
   opacity: 0;
 }
+html[dir="rtl"] .mw-select .mw-select-value:after {
+  right: auto;
+  left: 15px;
+}
 .mw-notification {
   display: table;
   padding: 5px;

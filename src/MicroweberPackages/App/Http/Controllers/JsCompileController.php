@@ -152,10 +152,8 @@ class JsCompileController extends Controller
 
     public function apijs_combined_get_hash()
     {
-        $hash = crc32(site_url() . template_dir()).'.' . MW_VERSION ;
-        if(is_admin()){
-            $hash= crc32(admin_url());
-        }
+        $hash = crc32(site_url() . template_dir().current_lang()).'.' . MW_VERSION ;
+
         return $hash;
     }
     public function apijs_combined()

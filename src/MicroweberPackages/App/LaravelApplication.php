@@ -13,7 +13,7 @@ class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '1.3.0-dev';
+    const APP_VERSION = '1.2.13';
 
 
     private $base_path_local;
@@ -59,10 +59,10 @@ class LaravelApplication extends Application
 
         parent::registerBaseServiceProviders();
 
-        $this->register(new TaggableFileCacheServiceProvider($this));
         $this->register(new ViewServiceProvider($this));
         $this->register(new SessionServiceProvider($this));
         $this->register(new FilesystemServiceProvider($this));
+        $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
 

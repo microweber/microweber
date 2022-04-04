@@ -2819,6 +2819,9 @@ input[type="button"].btn-block {
     content: "";
     background: no-repeat 50% / 50% 50%; }
 
+.custom-control.custom-radio .custom-control-label::after, .custom-control.custom-radio .custom-control-label::before {
+  left: 0; }
+
 html[dir="rtl"] .custom-switch .custom-control-label::before {
   left: calc(100% + 10px); }
 html[dir="rtl"] .custom-switch .custom-control-label::after {

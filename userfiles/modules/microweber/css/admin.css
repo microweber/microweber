@@ -551,8 +551,8 @@ html[dir="rtl"] .mw-admin-product-item-icon {
     border: none;
 }
 .plain-language-selector:before{
-    content: '\e8e2';
-    font-family: 'Material Icons';
+     content: '\F05CA';
+    font-family: 'Material Design Icons';
     position: absolute;
     line-height: 40px;
     font-size: 19px;

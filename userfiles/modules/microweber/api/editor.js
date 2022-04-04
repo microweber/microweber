@@ -68,7 +68,12 @@ var MWEditor = function (options) {
 
     this.settings = mw.object.extend({}, defaults, options);
     if(!this.settings.direction) {
-        this.settings.direction = 'ltr';
+        if(this.settings.inputLanguage) {
+            this.settings.direction = MWEditor.rtlDetect.getLangDir(this.settings.inputLanguage);
+        } else {
+            this.settings.direction = 'ltr';
+        }
+
     }
 
 
