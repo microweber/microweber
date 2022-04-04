@@ -73,6 +73,9 @@
     <?php event_trigger('admin_head'); ?>
 </head>
 
+
+
+
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
@@ -161,6 +164,13 @@ if (!is_logged()) {
     return;
 }
 ?>
+
+
+@livewireScripts
+@livewireStyles
+
+
+
 
 <?php
 $order_notif_html = false;

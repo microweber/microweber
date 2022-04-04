@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
@@ -184,8 +185,9 @@ class AdminController extends Controller
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
         }
+        return Blade::render($layout );
 
-        return $layout;
+       // return $layout;
     }
 
     private function hasNoAdmin()
