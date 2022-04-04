@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-##  [Unreleased]
+## [1.2.13] - 2022-04-04
 - Fixes right to left text alignment in the editor.
 - Fixes on Multi language
 - Security fixes

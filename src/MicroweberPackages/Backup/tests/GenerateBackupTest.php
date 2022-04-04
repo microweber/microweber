@@ -16,6 +16,10 @@ class GenerateBackupTest extends TestCase
 {
     public function testSingleModuleBackup() {
 
+        \Config::set('microweber.allow_php_files_upload', true);
+
+
+
         $sessionId = SessionStepper::generateSessionId(4);
 
         for ($i = 1; $i <= 4; $i++) {
