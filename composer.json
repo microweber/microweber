@@ -23,7 +23,6 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
-        "laravel/framework": "^9.0",
         "arcanedev/seo-helper": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
@@ -46,7 +45,7 @@
         "jeremeamia/superclosure": "*",
         "knplabs/knp-menu": "^3.2@dev",
         "laravel/dusk": "*",
-
+        "laravel/framework": "^9.0",
         "laravel/passport": "*",
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
@@ -54,6 +53,7 @@
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
+        "livewire/livewire": "dev-master",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-modules/standalone-updater": "3.3",
         "microweber-packages/composer-client": "1.6",
@@ -103,14 +103,16 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
+        ],
         "post-create-project-cmd": [
             "php artisan key:generate"
         ]
     },
     "config": {
-        "platform": {
-            "php": "8.0"
-        },
         "preferred-install": "dist",
         "github-protocols": [
             "https",
