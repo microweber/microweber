@@ -188,6 +188,13 @@ if($shadow){
 }
 
 if($align){
+    if(_lang_is_rtl()) {
+        if($align == 'left') {
+            $align = 'right';
+        } elseif ($align == 'right') {
+            $align = 'left';
+        }
+    }
     $cssWrapper .= 'text-align:' . $align . ' !important;';
 }
 

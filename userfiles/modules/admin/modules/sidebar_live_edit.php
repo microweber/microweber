@@ -58,7 +58,7 @@
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
                         <input oninput="mwSidebarSearchItems(this.value, 'layouts')" placeholder="<?php _e('Search for Layouts'); ?>" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" id="mw-sidebar-search-input-for-modules-and-layouts">
-                        <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></a>
+                        <span onclick="mwSidebarSearchClear('layouts');event.preventDefault()" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></span>
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
                 </div>
@@ -82,9 +82,9 @@
                                placeholder="Search for Modules"
                                autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                                id="mw-sidebar-search-input-for-modules">
-                        <a href="javascript:mwSidebarSearchClear('modules');"
+                        <span onclick="mwSidebarSearchClear('modules');event.preventDefault()"
                            class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                           aria-hidden="true" style="display: none;"></a>
+                           aria-hidden="true" style="display: none;"></span>
                     </div>
                     <p class="mw-search-no-results"><?php _e("No results were found"); ?></p>
                 </div>
@@ -114,12 +114,7 @@
             //mw.require('libs/html2canvas/html2canvas.min.js');
 
             function mwSidebarSearchClear(what) {
-                $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');
-                $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
-                mwSidebarSearchItems('', what);
-                $('.mw-search-no-results', '.' + what).hide();
-                $('.mw-ui-box-header-2', '.' + what).show();
-                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                return mwSidebarSearchItems('', what);
 
             }
 
