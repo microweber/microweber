@@ -52,21 +52,12 @@
     left: 13px;
 }
 
-.mw-handle-menu-default .mw-handle-menu-item-icon, .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
-    margin-inline-end: 0;
-    margin-inline-start: 6px;
-}
 
-.mw-module-dialog-icon{
-    margin-inline-end: 0;
-    margin-inline-start: 7px;
-}
+
+
 
 .module-modal-settings-menu-holder{
     display: none;
 }
 
-#liveedit_wysiwyg{
-    padding-inline-start: 0;
-    padding-inline-end: 10px;
-}
+

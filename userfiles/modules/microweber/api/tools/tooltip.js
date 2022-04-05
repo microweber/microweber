@@ -222,6 +222,13 @@
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
+                if(window.top.document.documentElement.dir === 'rtl') {
+                    if (position.indexOf('right') !== -1) {
+                        position = position.replace('right', 'left');
+                    } else if (position.indexOf('left') !== -1) {
+                        position = position.replace('left', 'right');
+                    }
+                }
                 el = mw.$(el);
                 if (el.length === 0) {
                     return false;
