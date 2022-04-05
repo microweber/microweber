@@ -857,7 +857,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     }
                                 }
 
-
+ 
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($should_redirect_to_new_url) {
