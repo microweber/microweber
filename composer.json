@@ -83,7 +83,7 @@
         "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
         "microweber-packages/composer-client": "1.6",
-        "microweber-modules/standalone-updater": "3.1"
+        "microweber-modules/standalone-updater": "3.3"
     },
     "require-dev": {
         "laravel/sail": "*",
