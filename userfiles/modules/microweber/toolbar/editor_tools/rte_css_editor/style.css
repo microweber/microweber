@@ -359,8 +359,13 @@ input,select{
         position: absolute;
         z-index: 1;
     }
+html[dir="rtl"] .reset-field{
 
-    #domtree .ui-resizable-s:after{
+    left: 0;
+    right: auto;
+
+}
+#domtree .ui-resizable-s:after{
     content: '...';
     color: #a4a4a4;
     font-size: 17px;
@@ -437,8 +442,9 @@ input,select{
     text-overflow: ellipsis;
 }
 
-.mw-domtree-item{
-
+.mw-domtree{
+    text-align: left;
+    direction: ltr;
 }
 
 .mw-domtree-item-opener{
