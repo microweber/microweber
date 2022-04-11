@@ -22,7 +22,9 @@ class TextAreaOption extends TextArea
 
         $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)->where('option_group', $this->optionGroup)->first();
         if ($this->model) {
-            $this->value($this->model->option_value);
+            if(isset($this->model->option_value)) {
+                $this->value($this->model->option_value);
+            }
         }
     }
 }
