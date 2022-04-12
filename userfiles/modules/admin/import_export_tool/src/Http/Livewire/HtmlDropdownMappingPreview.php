@@ -9,7 +9,7 @@ class HtmlDropdownMappingPreview extends Component
 {
     public function render()
     {
-        $request = request();
+       /* $request = request();
         $contentParentTags = $request->get('content_parent_tags','rss.channel.item');
 
         $contentXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
@@ -22,7 +22,9 @@ class HtmlDropdownMappingPreview extends Component
         $dropdownMapping->setContent($data);
         $dropdownMapping->setContentParentTags($contentParentTags);
 
-        $data =  $dropdownMapping->render();
+        $data =  $dropdownMapping->render();*/
+
+        $data = '';
 
         return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview',['data'=>$data]);
     }

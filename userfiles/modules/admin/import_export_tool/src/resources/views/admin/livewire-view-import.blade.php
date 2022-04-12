@@ -32,7 +32,7 @@
                                    Downloading the source file...
                                </span>
                             </div>
-                            <div class="xml_url_result_text">
+                            <div class="text-muted">
                                 Last downloaded: {{$import_feed['last_downloaded_date']}}
                             </div>
                         </td>
