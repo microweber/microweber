@@ -44,12 +44,16 @@ class SessionStepper
         $sessionId = uniqid(time());
         self::$sessionId = $sessionId;
 
-        file_put_contents(self::sessionFilepath(), json_encode([
+        $saveSessionFile = file_put_contents(self::sessionFilepath(), json_encode([
             'started_at' => date('Y-m-d H:i:s'),
             'session_id' => $sessionId,
             'total_steps' => $totalSteps,
             'step' => 0
         ]));
+
+        if (!$saveSessionFile) {
+            throw new \Exception('Can\'t generate session id.');
+        }
 
         return $sessionId;
     }

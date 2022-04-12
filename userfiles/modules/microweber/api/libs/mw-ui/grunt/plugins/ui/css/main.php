@@ -2,8 +2,12 @@
 
 require_once dirname(__DIR__) . '/../../../vendor/autoload.php';
 
-$file = __DIR__ . '/main_with_mw.scss';
+
+$file = __DIR__ . '/main.scss';
+
 $scss = new \ScssPhp\ScssPhp\Compiler();
+
+
 $scss->setSourceMapOptions([
     // absolute path to write .map file
     'sourceMapWriteTo' => __DIR__ . '__compiled_main.scss.map',
@@ -21,6 +25,7 @@ $scss->setSourceMapOptions([
     // 'sourceRoot' => '/grunt/plugins/ui/css/',
 ]);
 
+
 $cookies = $_COOKIE;
 
 $vars = [];
@@ -34,15 +39,18 @@ if ($cookies) {
     }
 }
 
+
 $cont = file_get_contents($file);
 if (isset($vars['color_scheme']) and $vars['color_scheme']) {
+
+
     $theme_vars = 'https://bootswatch.com/4/' . $vars['color_scheme'] . '/_variables.scss';
     $theme_structure = 'https://bootswatch.com/4/' . $vars['color_scheme'] . '/_bootswatch.scss';
+
+
     $cont1 = file_get_contents($theme_vars);
     $cont2 = file_get_contents($theme_structure);
-    if (!is_dir(__DIR__ . '/bootswatch')) {
-        mkdir(__DIR__ . '/bootswatch');
-    }
+
     file_put_contents(__DIR__ . '/bootswatch/_variables.scss', $cont1);
     file_put_contents(__DIR__ . '/bootswatch/_bootswatch.scss', $cont2);
 
@@ -60,18 +68,16 @@ if (isset($vars['color_scheme']) and $vars['color_scheme']) {
 @import 'bootswatch/bootswatch';
  
 //UI
-@import 'main_with_mw';
+@import '_ui';
+    
+    
     ";
-
     $vars = false;
+    //$cont  = $cont1 . "\n\n" .$cont . "\n\n" .  $cont2;
 }
-
 if ($vars) {
     $scss->setVariables($vars);
 }
 
 header("Content-type: text/css", true);
-$output = $scss->compile($cont, __DIR__ . '__compiled_main');
-@file_put_contents(__DIR__ . '/main_compiled.css', $output);
-
-echo $output;
+echo $scss->compile($cont, __DIR__ . '__compiled_main.css');

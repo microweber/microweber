@@ -389,6 +389,12 @@
                     callback.call()
                 }
                 gchecked()
+
+                var dialog =  mw.top().dialog.get();
+                if(dialog){
+                    dialog.center();
+                }
+
             }, {'extensions': '<?php print $exts ?>'});
         }
 
