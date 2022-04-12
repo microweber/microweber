@@ -13,6 +13,7 @@ use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
+use Tests\Browser\Components\AdminMakeInstall;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -47,6 +48,7 @@ abstract class DuskTestCase extends BaseTestCase
         }
 
         \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+
 
     }
 
@@ -99,6 +101,10 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function assertPreConditions(): void
     {
+
+
+
+
 
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());

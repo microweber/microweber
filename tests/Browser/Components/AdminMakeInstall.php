@@ -78,15 +78,21 @@ class AdminMakeInstall extends BaseComponent
 
             $browser->pause(300);
             $browser->select('#default_template', 'new-world');
+            $browser->script("$('html, body').animate({ scrollTop: $('#install-button').first().offset().top }, 0);");
 
-            $browser->pause(100);
-            $browser->click('@install-button');
+            $browser->pause(300);
+            $browser->click('#install-button');
 
             $browser->pause(20000);
 
             Artisan::call('config:cache');
             Artisan::call('config:clear');
             Artisan::call('cache:clear');
+
+            Config::set('app.env', 'testing');
+            Config::set('app.url', 'http://127.0.0.1:8000/');
+            Config::save(array('app'));
+
 
             clearcache();
         }
