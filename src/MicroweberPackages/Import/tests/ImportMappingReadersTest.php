@@ -3,7 +3,7 @@ namespace MicroweberPackages\Import\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlReader;
+use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 
 
 /**
@@ -21,7 +21,7 @@ class ImportMappingReadersTest extends TestCase
         $googleProductsXml = $zip->getFromName('google_products.xml');
         $zip->close();
 
-        $newReader = new XmlReader();
+        $newReader = new XmlToArray();
         $data = $newReader->readContent($googleProductsXml);
 
         $this->assertEquals($data['map_fields']['g:id']['item_key'], 'g:id');

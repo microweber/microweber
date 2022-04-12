@@ -5,7 +5,7 @@ namespace MicroweberPackages\Import\ImportMapping\Readers;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class XmlReader implements iReader
+class XmlToArray implements iReader
 {
     public function readXml($content)
     {

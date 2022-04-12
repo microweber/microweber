@@ -45,17 +45,16 @@ class HtmlDropdownMappingPreview
 
                     if ($key) {
                         if (isset($value[0])) {
-                            $html .= "<table class='tag_key'>";
+                            $html .= "<table class='table table-bordered tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
                             $html .= "<td class='tag_select'>".$this->dropdownIterratableSelect($key)."</td>";
                             $html .= "</tr>";
                             $html .= "</table>";
                         } else {
-                            $html .= "<table class='tag_key'>";
+                            $html .= "<table class='table table-bordered tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
-                            $html .= "<td></td>";
                             $html .= "</tr>";
                             $html .= "</table>";
                         }
@@ -81,8 +80,8 @@ class HtmlDropdownMappingPreview
                         $html .= "<span class='tag_value'>" . $value . "</span>";
                         break;
                     } else {
-                        $html .= "<table class='tag_key'>";
-                        $html .= "<tr>";
+                        $html .= "<table class='table table-bordered tag_key'>";
+                        $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";
                         $html .=  $value;
                         $html .= "&lt;/$key&gt;</td>";
@@ -94,7 +93,7 @@ class HtmlDropdownMappingPreview
                         if (Str::startsWith($mapKey, $contentParentTags)) {
                             $html .= "<td class='tag_select'>" . $this->dropdownSelect($mapKey) . "</td>";
                         } else{
-                            $html .= "<td></td>";
+                            $html .= "";
                         }
 
                         $html .= "</tr>";

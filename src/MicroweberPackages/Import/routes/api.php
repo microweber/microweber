@@ -7,7 +7,7 @@
  */
 
 
-use MicroweberPackages\Import\ImportMapping\Readers\XmlReader;
+use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 
 Route::name('admin.import.')
     ->prefix(ADMIN_PREFIX.'/import')
@@ -36,7 +36,7 @@ Route::name('admin.import.')
         //  $googleProductsXml = file_get_contents('file:///Users/bobi/Downloads/all.atom');
 
 
-            $newReader = new XmlReader();
+            $newReader = new XmlToArray();
             $data = $newReader->readXml($googleProductsXml);
 
             $dropdownMapping = new \MicroweberPackages\Import\ImportMapping\HtmlDropdownMappingPreview();
