@@ -38,7 +38,6 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function register()
     {
-        dd(normalize_path((__DIR__) . '/migrations/'));
         $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
         $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
     }
