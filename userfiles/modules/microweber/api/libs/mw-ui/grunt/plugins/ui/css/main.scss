@@ -11,13 +11,13 @@
 
 @import '../../bootstrap/scss/variables.scss';
 
+@import '../../bootstrap/scss/mixins/hover';
 
 //Bootstrap
 
 @import '../../bootstrap5/scss/bootstrap';
 
 
-@import '../../bootstrap/scss/mixins/hover';
 @import '../../bootstrap/scss/mixins/buttons';
 @import '../../bootstrap/scss/mixins/border-radius';
 @import '../../bootstrap/scss/mixins/forms';
@@ -28,7 +28,9 @@
 @import '../../bootstrap/scss/mixins/badge';
 @import '../../bootstrap/scss/mixins/grid-framework';
 @import '../../bootstrap/scss/mixins/grid';
+@import '../../bootstrap/scss/mixins/pagination';
 
+@import '../../bootstrap5/scss/grid.scss';
 
 
 
@@ -46,7 +48,10 @@
 @import '../../bootstrap/scss/tables';
 @import '../../bootstrap/scss/badge';
 @import '../../bootstrap/scss/card';
- //@import 'bootstrap_variables';
+@import '../../bootstrap/scss/pagination';
+@import '../../bootstrap5/scss/tables.scss';
+
+//@import 'bootstrap_variables';
 
 
 //UI
