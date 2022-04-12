@@ -777,6 +777,8 @@ body.mw-external-loading:after {
     position: relative;
     background-color: #cfcfcf;
     min-width: 66px;
+    text-align:left;
+    direction: ltr ;
 }
 
 .mw-range .ui-slider-range {

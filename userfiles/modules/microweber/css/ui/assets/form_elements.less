@@ -733,7 +733,8 @@ div.mw-ui-field:after {
     background-size: 11px 11px;
     background-position: 0 0,0 -5.5px,-5.5px 5.5px,5.5px 0;
     &+input{
-        padding-left: 40px;
+        padding-inline-start: 40px;
+        padding-inline-end: 20px;
     }
     .mw-field-color-indicator-display{
         position: absolute;
@@ -742,6 +743,13 @@ div.mw-ui-field:after {
         bottom: 0;
         left: 0;
         pointer-events: none;
+    }
+}
+
+html[dir="rtl"] {
+    .mw-field-color-indicator{
+        left: auto;
+        right: 5px;
     }
 }
 

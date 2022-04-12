@@ -7,7 +7,7 @@
 function backup_location()
 {
     $backupContent = storage_path() . '/backup_content/' . \App::environment() . '/';
-
+    $backupContent = normalize_path($backupContent, true);
     if (!is_dir($backupContent)) {
         mkdir_recursive($backupContent);
         $htaccess = $backupContent . '.htaccess';
