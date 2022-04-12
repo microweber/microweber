@@ -2,15 +2,47 @@
 //@import 'bootswatch/_variables';
 //@import 'bootswatch/light/_variables.scss';
 
-//UI Variables
+
 @import 'bootstrap_variables';
+@import '../../bootstrap/scss/functions';
+@import '../../bootstrap5/scss/functions';
+@import '../../bootstrap5/scss/variables.scss';
+
+
+@import '../../bootstrap/scss/variables.scss';
+
 
 //Bootstrap
-@import '../../bootstrap/scss/bootstrap';
 
-//Bootswatch structure
-//@import 'bootswatch/bootswatch';
-//@import 'bootswatch/light/_bootswatch.scss';
+@import '../../bootstrap5/scss/bootstrap';
+
+
+@import '../../bootstrap/scss/mixins/hover';
+@import '../../bootstrap/scss/mixins/buttons';
+@import '../../bootstrap/scss/mixins/border-radius';
+@import '../../bootstrap/scss/mixins/forms';
+@import '../../bootstrap/scss/mixins/text-emphasis';
+@import '../../bootstrap/scss/mixins/text-truncate';
+@import '../../bootstrap/scss/mixins/text-hide';
+@import '../../bootstrap/scss/mixins/table-row';
+@import '../../bootstrap/scss/mixins/badge';
+
+
+
+@import '../../bootstrap/scss/custom-forms';
+@import '../../bootstrap/scss/buttons';
+@import '../../bootstrap/scss/input-group';
+@import '../../bootstrap/scss/forms';
+@import '../../bootstrap/scss/tables';
+@import '../../bootstrap/scss/badge';
+@import '../../bootstrap/scss/utilities/text';
+@import '../../bootstrap/scss/utilities/spacing';
+
+
+
+//@import 'bootstrap_variables';
+
 
 //UI
 @import '_ui';
+
