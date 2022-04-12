@@ -9,19 +9,24 @@
                 <table class="table table-borderless">
                     <tbody>
                     <tr>
-                        <td><label for="feed_url"><b>XML link</b></label><br><small>Link to XML
-                                file</small></td>
+                        <td>
+                            <label for="feed_url">
+                                <b>Content feed link</b>
+                            </label>
+                            <br>
+                            <small>Link to content feed file</small>
+                        </td>
                         <td>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="feed_data[xml_url]"
+                                <input type="text" class="form-control" wire:model="import_feed.source_file"
                                        id="feed_url" placeholder="https://site.com/feed.xml">
                                 <div class="input-group-append">
-                                    <input type="button" class="btn btn-primary" id="download_xml"
+                                    <input type="button" class="btn btn-primary" id="download_xml" wire:click="download"
                                            value="Download">
                                 </div>
                             </div>
                             <span id="xml_url_result" class="icon-result-success"></span>
-                            <span id="xml_url_result_text">Last downloaded: 31.03.2022 08:51:04</span>
+                            <span id="xml_url_result_text">Last downloaded: </span>
                         </td>
                     </tr>
                     <tr>

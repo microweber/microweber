@@ -2,7 +2,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImportExportJobsTable extends Migration
+class CreateImportFeedsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class CreateImportExportJobsTable extends Migration
     public function up()
     {
 
-        if (!Schema::hasTable('import_export_jobs')) {
-            Schema::create('import_export_jobs', function (Blueprint $table) {
+        if (!Schema::hasTable('import_feeds')) {
+            Schema::create('import_feeds', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->nullable();
-                $table->string('type')->nullable()->default('import');
                 $table->string('source_file')->nullable();
                 $table->string('source_file_size')->nullable();
                 $table->dateTime('last_downloaded_date')->nullable();
@@ -38,6 +37,6 @@ class CreateImportExportJobsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('import_export_jobs');
+        Schema::drop('import_feeds');
     }
 }
