@@ -16,7 +16,7 @@ use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 
-use MicroweberPackages\Import\Providers\ImportServiceProvider;
+use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
@@ -25,6 +25,7 @@ use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
+use MicroweberPackages\Import\Providers\ImportServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -86,7 +87,6 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
-use Spatie\LaravelIgnition\IgnitionServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 
@@ -200,8 +200,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
+
+
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -219,11 +222,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
-
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
-        $this->app->register(IgnitionServiceProvider::class);
-
         $this->app->register(UserServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
 
@@ -282,6 +282,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
+        $this->app->register(BackupServiceProvider::class);
         $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
@@ -542,7 +543,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // >>> MW Kernel add
-        //$this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);
