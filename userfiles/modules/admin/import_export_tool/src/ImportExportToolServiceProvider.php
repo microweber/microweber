@@ -33,12 +33,12 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
         View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
 
-        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
 
     }
 
     public function register()
     {
+        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
         $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
     }
 }
