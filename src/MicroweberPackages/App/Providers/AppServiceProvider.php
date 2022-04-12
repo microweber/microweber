@@ -304,7 +304,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
-        $this->app->register(BackupServiceProvider::class);
+
 
 
         if (is_cli()) {
