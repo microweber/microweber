@@ -227,6 +227,7 @@ mw.filePicker = function (options) {
 
         }
         else if(this.settings.nav === 'tabs') {
+
             var ul = $('<nav class="mw-ac-editor-nav" />');
             this.settings.components.forEach(function (item) {
                 ul.append('<a href="javascript:;" class="mw-ui-btn-tab" data-type="'+item.type+'">'+item.label+'</a>');
@@ -244,6 +245,16 @@ mw.filePicker = function (options) {
                             $(scope).trigger('$firstOpen', [el, this.dataset.type]);
                         }
                         scope.manageActiveSectionState();
+
+
+                        setTimeout(function () {
+
+                            var dialog =  mw.top().dialog.get();
+                            if(dialog){
+                                dialog.center();
+                            }
+
+                        }, 50);
                     }
                 });
             }, 78);

@@ -210,7 +210,20 @@ must_have_access();
                         $('#mw-media-library-results').find('.mw-browser-list').html(data.error);
                     }
                     callback.call(data)
+
+
+
                 }).always(function () {
+                    setTimeout(function () {
+
+                        var dialog =  mw.top().dialog.get();
+                        if(dialog){
+                            dialog.center();
+                        }
+
+                    }, 50);
+
+
 
                 });
             }

@@ -32,7 +32,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 params.tagging_tag_id = tagging_tag_id;
                 params.taggable_ids = taggable_ids;
 
-                mw.load_module('tags/edit_tagging_tag', '#mw_admin_edit_tagging_tag_item_module', null, params);
+                mw.load_module('tags/edit_tagging_tag', '#mw_admin_edit_tagging_tag_item_module', function(){
+                    mw_admin_edit_tag_modal.center();
+                }, params);
             }
 
             function deleteTaggingTag(tagging_tag_id) {

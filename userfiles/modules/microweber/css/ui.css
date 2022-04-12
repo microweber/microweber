@@ -7469,6 +7469,10 @@ body.bup.dragStart.state-element .edit .element:empty {
   float: left;
   position: relative;
 }
+html[dir="rtl"] .mw-block-edit-main-slide,
+html[dir="rtl"] .mw-block-edit-edit-slide {
+  float: right;
+}
 .ui-datepicker {
   border: 1px solid #e5e5e5;
   border-radius: 2px;
