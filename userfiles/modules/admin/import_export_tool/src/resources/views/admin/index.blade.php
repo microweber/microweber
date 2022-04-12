@@ -1,3 +1,108 @@
-hello!
+<module type="admin/modules/info"/>
 
-<livewire:counter />
+<style>
+    #import .nav-tabs {
+        height: 55px;
+        padding-left: 10px;
+    }
+    #import .nav-tabs li {
+        height: 55px;
+        line-height: 55px;
+        margin: 0px 1px 0px 1px;
+    }
+    #import .nav-tabs li a {
+        height: 55px;
+        outline: none;
+        cursor: pointer;
+        width: 233px;
+    }
+    #import .nav-tabs li a {
+        background: #f9f9f9;
+        border: 1px solid #e9e9e9;
+        border-bottom: 1px solid #dddddd;
+    }
+    #import .nav-tabs .nav-link.active {
+        background: #fff;
+        border-bottom: 1px solid #fff;
+    }
+
+    #import .nav-tabs .nav-link.active,#import .nav-tabs .nav-link.active i, #import .nav-tabs .nav-item.show .nav-link {
+        color: #000;
+    }
+
+    #import .nav-tabs li a span.number {
+        width: 25px;
+        height: 15px;
+        line-height: 15px;
+        float: left;
+        margin-right: 10px;
+        margin-top: 10px;
+        padding: 0px 5px;
+        color: #BCBCBC;
+        font-size: 32px;
+        font-weight: bold;
+    }
+    #import .nav-tabs li a span.tab-name {
+        display: block;
+        font-weight: bold;
+        min-width: 180px;
+        line-height: 20px;
+    }
+    #import .nav-tabs > li > a {
+        color: #a5a5a5;
+    }
+    #import .nav-tabs li a i {
+        display: block;
+        font-size: 10px;
+        font-style: normal;
+        line-height: 10px;
+        font-weight: normal;
+    }
+</style>
+
+<div class="card style-1 mb-3">
+
+    <div class="card-header">
+        <module type="admin/modules/info_module_title" for-module="admin/import_export_tool"/>
+    </div>
+
+    <div class="card-body pt-3" id="import">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                <span class="number">1</span>
+                <span class="tab-name">Import setting</span>
+                <i>Main feed setting</i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                <span class="number">2</span>
+                <span class="tab-name">Tag settings</span>
+                <i>Assign tags to content data</i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                <span class="number">3</span>
+                <span class="tab-name">Import / CRON links</span>
+                <i>Start import or get CRON link</i>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+
+            <livewire:counter />
+
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+    </div>
+
+
+    </div>
+</div>
