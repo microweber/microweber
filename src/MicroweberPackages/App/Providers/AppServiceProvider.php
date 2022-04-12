@@ -25,6 +25,7 @@ use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
+use MicroweberPackages\Import\Providers\ImportServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -282,6 +283,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
+        $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
