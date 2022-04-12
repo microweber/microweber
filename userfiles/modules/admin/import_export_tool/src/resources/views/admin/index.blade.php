@@ -152,7 +152,7 @@
                                         <td>
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" name="feed_data[xml_url]"
-                                                       id="feed_url" value="https://example.com/feed.xml">
+                                                       id="feed_url" placeholder="https://site.com/feed.xml">
                                                 <div class="input-group-append">
                                                     <input type="button" class="btn btn-primary" id="download_xml"
                                                            value="Download">
@@ -172,6 +172,27 @@
                                             <input type="radio" name="feed_data[download_image]"
                                                    id="feed_download_image_0" value="0"> <label
                                                 for="feed_download_image_0">No</label>
+
+
+
+
+                                       {{--     <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled>
+                                                <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox input</label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked disabled>
+                                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
+                                            </div>
+--}}
 
                                         </td>
                                     </tr>
@@ -254,42 +275,57 @@
                                         <td>
                                             <div id="update-items" class="well well-sm"
                                                  style="height: 130px; overflow: auto;">
-                                                <div>
-                                                    <input type="checkbox" name="feed_data[update_items][]"
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
                                                            value="description" id="feed_data_update-description"
-                                                           checked="checked"> <label for="feed_data_update-description">Description</label>
+                                                           checked="checked">
+                                                    <label for="feed_data_update-description" class="form-check-label">Description</label>
                                                 </div>
-                                                <div>
-                                                    <input type="checkbox" name="feed_data[update_items][]"
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
                                                            value="category" id="feed_data_update-category"
-                                                           checked="checked"> <label for="feed_data_update-category">Category</label>
+                                                           checked="checked">
+                                                    <label for="feed_data_update-category" class="form-check-label">Category</label>
                                                 </div>
-                                                <div>
-                                                    <input type="checkbox" name="feed_data[update_items][]"
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
                                                            value="image" id="feed_data_update-image" checked="checked">
-                                                    <label for="feed_data_update-image">Images</label>
+                                                    <label for="feed_data_update-image" class="form-check-label">Images</label>
                                                 </div>
-                                                <div>
-                                                    <input type="checkbox" name="feed_data[update_items][]"
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
                                                            value="visible" id="feed_data_update-visible"
-                                                           checked="checked"> <label for="feed_data_update-visible">Visibility</label>
+                                                           checked="checked">
+                                                    <label for="feed_data_update-visible" class="form-check-label">Visibility</label>
                                                 </div>
+
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><label for="feed_delete"><b>Delete feed</b></label><br><small>Remove this
-                                                xml setting</small></td>
                                         <td>
-                                            <a href="https://credocart:8890/admin/index.php?route=extension/module/profi_import&amp;user_token=E6YBWi6qMuujX2fp3KLX0HC8JvlxHRhC&amp;action=deleteImport&amp;include_products=false&amp;import_id=2"
+                                            <label for="feed_delete"><b>Delete feed</b></label><br>
+                                            <small>
+                                                Remove this xml setting
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <a href=""
                                                id="delete-import-link" class="btn btn-small btn-danger"
                                                onclick="return confirm('Are you sure to delete this import feed ?');">Delete
                                                 this import</a>
                                             <br />
-                                            <input type="checkbox" id="delete-import-products" value="1"
+
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="delete-import-products" value="1"
                                                    onclick="switchDeleteLink($(this).prop('checked'));">
-                                            <label for="delete-import-products"> Delete products from this
+                                            <label class="form-check-label" for="delete-import-products"> Delete products from this
                                                 import</label>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
