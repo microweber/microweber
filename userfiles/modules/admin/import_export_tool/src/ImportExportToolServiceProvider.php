@@ -32,6 +32,8 @@ class ImportExportToolServiceProvider extends ServiceProvider
         Livewire::component('import_export_tool_html_dropdown_mapping_preview', HtmlDropdownMappingPreview::class);
 
         View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
+
+        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
     }
 
     public function register()
