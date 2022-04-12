@@ -26,7 +26,17 @@
 @import '../../bootstrap/scss/mixins/text-hide';
 @import '../../bootstrap/scss/mixins/table-row';
 @import '../../bootstrap/scss/mixins/badge';
+@import '../../bootstrap/scss/mixins/grid-framework';
+@import '../../bootstrap/scss/mixins/grid';
 
+
+
+
+@import '../../bootstrap/scss/utilities/text';
+@import '../../bootstrap/scss/utilities/spacing';
+@import '../../bootstrap/scss/utilities/flex';
+@import '../../bootstrap/scss/utilities/display';
+@import '../../bootstrap/scss/utilities/float';
 
 
 @import '../../bootstrap/scss/custom-forms';
@@ -35,12 +45,8 @@
 @import '../../bootstrap/scss/forms';
 @import '../../bootstrap/scss/tables';
 @import '../../bootstrap/scss/badge';
-@import '../../bootstrap/scss/utilities/text';
-@import '../../bootstrap/scss/utilities/spacing';
-
-
-
-//@import 'bootstrap_variables';
+@import '../../bootstrap/scss/card';
+ //@import 'bootstrap_variables';
 
 
 //UI
