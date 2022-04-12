@@ -37,9 +37,11 @@ class ViewImport extends Component
 
     public function render()
     {
-        $this->import_feed = ImportFeed::where('id', $this->import_feed_id)->first()->toArray();
-
         return view('import_export_tool::admin.livewire-view-import');
     }
 
+    public function mount()
+    {
+        $this->import_feed = ImportFeed::where('id', $this->import_feed_id)->first()->toArray();
+    }
 }

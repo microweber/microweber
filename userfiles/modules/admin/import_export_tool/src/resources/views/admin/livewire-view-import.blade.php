@@ -19,14 +19,22 @@
                         <td>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" wire:model="import_feed.source_file"
-                                       id="feed_url" placeholder="https://site.com/feed.xml">
+                                       id="source_file" placeholder="https://site.com/feed.xml">
                                 <div class="input-group-append">
-                                    <input type="button" class="btn btn-primary" id="download_xml" wire:click="download"
+                                    <input type="button" class="btn btn-primary" id="source_file" wire:click="download"
                                            value="Download">
                                 </div>
                             </div>
-                            <span id="xml_url_result" class="icon-result-success"></span>
-                            <span id="xml_url_result_text">Last downloaded: </span>
+                            <div wire:loading wire:target="download">
+                                <div class="spinner-border spinner-border-sm text-success" role="status">
+                                </div>
+                                <span class="text-success">
+                                   Downloading the source file...
+                               </span>
+                            </div>
+                            <div class="xml_url_result_text">
+                                Last downloaded: {{$import_feed['last_downloaded_date']}}
+                            </div>
                         </td>
                     </tr>
                     <tr>
