@@ -23,7 +23,7 @@ class ViewImport extends Component
 
     public function render()
     {
-        return view('import_export_tool::admin.livewire-viewimport');
+        return view('import_export_tool::admin.livewire-view-import');
     }
 
 }
