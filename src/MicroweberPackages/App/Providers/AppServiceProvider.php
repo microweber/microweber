@@ -283,7 +283,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
-        $this->app->register(ImportServiceProvider::class);
+      //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
