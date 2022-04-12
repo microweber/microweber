@@ -42,13 +42,16 @@ class AdminContentCategorySelect extends BaseComponent
     public function selectCategory(Browser $browser, $category)
     {
         $browser->pause(1000);
-        $browser->script("$('html, body').animate({ scrollTop: $('.js-sidebar-categories-card').offset().top -80 }, 0);");
+
+        $browser->script("document.querySelector('#show-categories-tree-wrapper').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
+        $browser->pause(1000);
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
-            $browser->click('.js-show-categories-tree-btn');
+            $browser->click('button.js-show-categories-tree-btn');
         }
 
-        $browser->pause(1000);
+
+         $browser->pause(1000);
 
         $script = '
             if ($("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().parent().hasClass(\'selected\') == false) {

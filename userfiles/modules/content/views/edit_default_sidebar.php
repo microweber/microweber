@@ -322,6 +322,7 @@
 
                 <div class="row">
                     <div class="col-12">
+                        <div id="show-categories-tree-wrapper" >
                         <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                         <br/>
                         <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
@@ -349,6 +350,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
