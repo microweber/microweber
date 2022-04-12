@@ -47,7 +47,7 @@
         height: 55px;
         outline: none;
         cursor: pointer;
-        width: 233px;
+        width: 240px;
     }
 
     #import .nav-tabs li a {
@@ -111,24 +111,24 @@
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
                    aria-selected="true">
                     <span class="number">1</span>
-                    <span class="tab-name">Import setting</span>
-                    <i>Main feed setting</i>
+                    <span class="tab-name">Import setup</span>
+                    <i>Main feed settings</i>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                    aria-controls="profile" aria-selected="false">
                     <span class="number">2</span>
-                    <span class="tab-name">Tag settings</span>
-                    <i>Assign tags to content data</i>
+                    <span class="tab-name">Data Mapping</span>
+                    <i>Assign tags to content data types</i>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                    aria-controls="contact" aria-selected="false">
                     <span class="number">3</span>
-                    <span class="tab-name">Import / CRON links</span>
-                    <i>Start import or get CRON link</i>
+                    <span class="tab-name">Import</span>
+                    <i>Start importing</i>
                 </a>
             </li>
         </ul>
@@ -344,7 +344,15 @@
                 <livewire:counter/>
 
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                <div class="shadow-none p-3 mb-5 bg-light rounded">No shadow</div>
+                <div class="shadow-sm p-3 mb-5 bg-body rounded">Small shadow</div>
+                <div class="shadow p-3 mb-5 bg-body rounded">Regular shadow</div>
+                <div class="shadow-lg p-3 mb-5 bg-body rounded">Larger shadow</div>
+
+
+            </div>
         </div>
 
 
