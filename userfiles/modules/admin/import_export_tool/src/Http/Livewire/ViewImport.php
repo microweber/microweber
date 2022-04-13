@@ -13,7 +13,15 @@ class ViewImport extends Component
 
     public function save()
     {
-
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+        $feed->name = $this->import_feed['name'];
+        $feed->download_images = $this->import_feed['download_images'];
+        $feed->split_to_parts = $this->import_feed['split_to_parts'];
+        $feed->content_tag = $this->import_feed['content_tag'];
+        $feed->primary_key = $this->import_feed['primary_key'];
+        $feed->update_fields = $this->import_feed['update_fields'];
+        $feed->count_of_contents = $this->import_feed['count_of_contents'];
+        $feed->save();
     }
 
     public function download()

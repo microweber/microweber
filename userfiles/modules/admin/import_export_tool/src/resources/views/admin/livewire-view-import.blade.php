@@ -36,66 +36,57 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="feed_download_image_1"><b>Download images</b></label><br><small>Download
-                                and check images</small></td>
+                        <td><label for="feed_download_image_1"><b>Download images</b></label><br>
+                            <small>Download and check images</small>
+                        </td>
                         <td>
-                            <input type="radio" name="feed_data[download_image]"
-                                   id="feed_download_image_1" value="1" checked="checked"> <label
-                                for="feed_download_image_1">Yes</label>
-                            <input type="radio" name="feed_data[download_image]"
-                                   id="feed_download_image_0" value="0"> <label
-                                for="feed_download_image_0">No</label>
+                            <input type="radio" id="feed_download_image_1" value="1" wire:model="import_feed.download_images">
+                            <label for="feed_download_image_1">Yes</label>
 
+                            <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
+                            <label for="feed_download_image_0">No</label>
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="feed_parts"><b>Import parts</b></label><br><small>Split
-                                importing</small></td>
+                        <td><label for="feed_parts"><b>Import parts</b></label><br>
+                            <small>Split importing</small>
+                        </td>
                         <td>
-                            <select class="form-control" name="feed_data[parts]" id="feed_parts"
-                                    onchange="chageCronLinks(this.value);">
-                                <option value="1" selected="selected">1 part(s)</option>
-                                ';
+                            <select class="form-control" id="feed_parts" wire:model="import_feed.split_to_parts">
+                                <option value="1">1 part(s)</option>
                                 <option value="2">2 part(s)</option>
-                                ';
                                 <option value="3">3 part(s)</option>
-                                ';
                                 <option value="4">4 part(s)</option>
-                                ';
                                 <option value="5">5 part(s)</option>
-                                ';
                                 <option value="6">6 part(s)</option>
-                                ';
                                 <option value="7">7 part(s)</option>
-                                ';
                                 <option value="8">8 part(s)</option>
-                                ';
                                 <option value="9">9 part(s)</option>
-                                ';
                                 <option value="10">10 part(s)</option>
-                                ';
                             </select>
 
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="feed_content_tag"><b>Content tag</b></label><br><small>Repeat
-                                content tag with elements</small></td>
+                        <td><label for="feed_content_tag"><b>Content tag</b></label><br>
+                            <small>Repeat content tag with elements</small>
+                        </td>
                         <td>
-                            <select class="form-control" name="feed_data[product_tag]"
-                                    id="feed_content_tag">
+                            <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
                                 <option value="rss">rss</option>
                                 <option value="rss;channel;title">rss &gt; channel &gt; title</option>
                             </select>
-
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="feed_primary_key"><b>Primary key</b></label><br><small>Unique
-                                Content ID or Content Model</small></td>
                         <td>
-                            <select class="form-control" name="feed_data[primary_key]"
-                                    id="feed_primary_key">
+                            <label for="feed_primary_key">
+                                <b>Primary key</b></label>
+                            <br>
+                            <small>Unique Content ID or Content Model</small>
+                        </td>
+                        <td>
+                            <select class="form-control"  wire:model="import_feed.primary_key" id="feed_primary_key">
                                 <option value="content_id" selected="selected">Content ID</option>
                                 <option value="model">Content model</option>
                                 <option value="sku">SKU</option>
@@ -223,6 +214,7 @@
                         </tbody>
                     </table>
                 </div>
+                <input type="button" class="btn btn-success btn-block" wire:click="save" wire:loading.attr="disabled" value="Save import">
             </div>
         </div>
     </div>
