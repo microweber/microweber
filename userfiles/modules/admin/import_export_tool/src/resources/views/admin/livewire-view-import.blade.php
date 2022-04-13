@@ -21,13 +21,11 @@
                                 <input type="text" class="form-control" wire:model="import_feed.source_file"
                                        id="source_file" placeholder="https://site.com/feed.xml">
                                 <div class="input-group-append">
-                                    <input type="button" class="btn btn-primary" id="source_file" wire:click="download"
-                                           value="Download">
+                                    <input type="button" class="btn btn-primary" id="source_file" wire:click="download" wire:loading.attr="disabled" value="Download">
                                 </div>
                             </div>
                             <div wire:loading wire:target="download">
-                                <div class="spinner-border spinner-border-sm text-success" role="status">
-                                </div>
+                                <div class="spinner-border spinner-border-sm text-success" role="status"></div>
                                 <span class="text-success">
                                    Downloading the source file...
                                </span>

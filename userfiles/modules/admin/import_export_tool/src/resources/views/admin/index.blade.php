@@ -102,9 +102,21 @@
 
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="admin/import_export_tool"/>
+        <div class="input-group" style="width: 500px">
+            <label for="feed_type"><b>Select import:</b></label>
+            <select class="form-control form-control-sm" name="feed_type" id="feed_type" onchange="redirectToFeedSetting(this.value);">
+                <option value="0">- select -</option>
+                <option value="2" selected="selected">da</option>
+                <option value="3">dae</option>
+                <option value="1">dae2</option>
+            </select>
+            <input type="button" class="btn btn-primary btn-sm" id="addImport" value="Add new import" data-toggle="modal" data-target="#modal-add-import">
+            <input type="button" class="btn btn-success btn-sm" onclick="$('#import-form').submit();" value="Save import">
+        </div>
     </div>
 
     <div class="card-body pt-3" id="import">
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
             <li class="nav-item">
