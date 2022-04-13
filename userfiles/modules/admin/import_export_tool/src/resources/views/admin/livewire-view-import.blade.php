@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-8">
-        <div class="card mt-2">
+        <div class="card mt-4">
             <div class="card-header">
                 Main settings
             </div>
@@ -178,7 +178,25 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card mt-2">
+        <div class="card mt-4">
+            <div class="card-header">
+                Import Feeds
+                <input type="button" class="btn btn-primary btn-sm" id="addImport" value="Add new import" data-toggle="modal" data-target="#modal-add-import">
+            </div>
+            <div class="card-body">
+
+                <label for="feed_type"><b>Select import:</b></label>
+                <select class="form-control form-control-sm" name="feed_type" id="feed_type" onchange="redirectToFeedSetting(this.value);">
+                    <option value="0">- select -</option>
+                    <option value="2" selected="selected">da</option>
+                    <option value="3">dae</option>
+                    <option value="1">dae2</option>
+                </select>
+
+                <input type="button" class="btn btn-success btn-block mt-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
+            </div>
+        </div>
+        <div class="card mt-4">
             <div class="card-header">
                 Information
             </div>
@@ -213,7 +231,6 @@
                         </tbody>
                     </table>
                 </div>
-                <input type="button" class="btn btn-success btn-block" wire:click="save" wire:loading.attr="disabled" value="Save import">
             </div>
         </div>
     </div>
