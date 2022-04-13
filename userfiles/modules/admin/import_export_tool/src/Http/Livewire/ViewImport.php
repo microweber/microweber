@@ -19,8 +19,9 @@ class ViewImport extends Component
         $feed->split_to_parts = $this->import_feed['split_to_parts'];
         $feed->content_tag = $this->import_feed['content_tag'];
         $feed->primary_key = $this->import_feed['primary_key'];
-        $feed->update_fields = $this->import_feed['update_fields'];
+        $feed->update_items = $this->import_feed['update_items'];
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
+        $feed->old_content_action = $this->import_feed['old_content_action'];
         $feed->save();
     }
 

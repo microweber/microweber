@@ -86,7 +86,7 @@
                             <small>Unique Content ID or Content Model</small>
                         </td>
                         <td>
-                            <select class="form-control"  wire:model="import_feed.primary_key" id="feed_primary_key">
+                            <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
                                 <option value="content_id" selected="selected">Content ID</option>
                                 <option value="model">Content model</option>
                                 <option value="sku">SKU</option>
@@ -101,8 +101,7 @@
                                     content</b></label><br><small>Content which are in your site but not
                                 in xml anymore</small></td>
                         <td>
-                            <select class="form-control" name="feed_data[old_content_action]"
-                                    id="feed_data_old_content_action">
+                            <select class="form-control" wire:model="import_feed.old_content_action" id="feed_data_old_content_action">
                                 <option value="nothing" selected="selected">Do nothing</option>
                                 <option value="delete">Delete</option>
                                 <option value="invisible">Invisible</option>
@@ -113,36 +112,36 @@
 
 
                     <tr>
-                        <td><label for="feed_data_update-content_name"><b>Update</b></label><br><small>Select
-                                what will be changed in update</small></td>
+                        <td>
+                            <label for="feed_data_update-content_name">
+                                <b>Update</b></label><br>
+                            <small>Select what will be changed in update</small>
+                        </td>
                         <td>
                             <div id="update-items" class="well well-sm"
                                  style="height: 130px; overflow: auto;">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
-                                           value="description" id="feed_data_update-description"
-                                           checked="checked">
+                                    <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                           value="description" id="feed_data_update-description" >
                                     <label for="feed_data_update-description" class="form-check-label">Description</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
-                                           value="category" id="feed_data_update-category"
-                                           checked="checked">
-                                    <label for="feed_data_update-category" class="form-check-label">Category</label>
+                                    <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                           value="categories" id="feed_data_update-category" >
+                                    <label for="feed_data_update-category" class="form-check-label">Categories</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
-                                           value="image" id="feed_data_update-image" checked="checked">
+                                    <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                           value="images" id="feed_data_update-image">
                                     <label for="feed_data_update-image" class="form-check-label">Images</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="feed_data[update_items][]"
-                                           value="visible" id="feed_data_update-visible"
-                                           checked="checked">
+                                    <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                           value="visible" id="feed_data_update-visible">
                                     <label for="feed_data_update-visible" class="form-check-label">Visibility</label>
                                 </div>
 
