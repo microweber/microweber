@@ -181,12 +181,12 @@
         <div class="card mt-4">
             <div class="card-header">
                 Import Feeds
-                <input type="button" class="btn btn-primary btn-sm" id="addImport" value="Add new import" data-toggle="modal" data-target="#modal-add-import">
+                <input type="button" class="btn btn-primary btn-sm" wire:click="importFeedModal" wire:loading.attr="disabled" id="addImport" value="Add new import">
             </div>
             <div class="card-body">
 
                 <label for="feed_type"><b>Select import:</b></label>
-                <select class="form-control form-control-sm" name="feed_type" id="feed_type" onchange="redirectToFeedSetting(this.value);">
+                <select class="form-control form-control-sm" id="feed_type">
                     <option value="0">- select -</option>
                     <option value="2" selected="selected">da</option>
                     <option value="3">dae</option>
@@ -235,3 +235,29 @@
         </div>
     </div>
 </div>
+
+@dump($this->import_feed_modal)
+@dump($import_feed_modal)
+
+@if ($import_feed_modal):
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New import feed</h5>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#exampleModal').modal();
+    </script>
+@endif

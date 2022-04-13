@@ -10,6 +10,12 @@ class ViewImport extends Component
 {
     public $import_feed_id = 1;
     public $import_feed;
+    public $import_feed_modal = 0;
+
+    public function importFeedModal()
+    {
+        $this->import_feed_modal = 1;
+    }
 
     public function save()
     {
@@ -32,6 +38,14 @@ class ViewImport extends Component
         $feed->source_file_size = "5MB";
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
+    }
+
+    public function addNew()
+    {
+        $feed = new ImportFeed();
+        $feed->save();
+
+        return $feed->id;
     }
 
     public function upload()
