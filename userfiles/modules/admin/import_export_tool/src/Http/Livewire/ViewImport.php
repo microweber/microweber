@@ -10,12 +10,7 @@ class ViewImport extends Component
 {
     public $import_feed_id = 1;
     public $import_feed;
-    public $import_feed_modal = 0;
-
-    public function importFeedModal()
-    {
-        $this->import_feed_modal = 1;
-    }
+    public $new_feed_name;
 
     public function save()
     {
@@ -43,6 +38,7 @@ class ViewImport extends Component
     public function addNew()
     {
         $feed = new ImportFeed();
+        $feed->name = $this->new_feed_name;
         $feed->save();
 
         return $feed->id;

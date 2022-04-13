@@ -181,7 +181,7 @@
         <div class="card mt-4">
             <div class="card-header">
                 Import Feeds
-                <input type="button" class="btn btn-primary btn-sm" wire:click="importFeedModal" wire:loading.attr="disabled" id="addImport" value="Add new import">
+                <input type="button" class="btn btn-primary btn-sm" wire:click="$emit('showModal')" wire:loading.attr="disabled" id="addImport" value="Add new import">
             </div>
             <div class="card-body">
 
@@ -236,28 +236,30 @@
     </div>
 </div>
 
-@dump($this->import_feed_modal)
-@dump($import_feed_modal)
+<script>
+    Livewire.on('showModal', () => {
+        $('#exampleModal').modal('show');
+    });
+    Livewire.on('hideModal', () => {
+        $('#exampleModal').modal('hide');
+    });
+</script>
 
-@if ($import_feed_modal):
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New import feed</h5>
-                    <button type="button" class="btn-close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New import feed</h5>
+            </div>
+            <div class="modal-body">
+                Feed Name <br />
+                <input type="text" class="form-control" wire:modal="new_feed_name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" wire:click="$emit('hideModal')">Close</button>
+                <button type="button" class="btn btn-primary" wire:click="addNew">Save</button>
             </div>
         </div>
     </div>
-    <script>
-        $('#exampleModal').modal();
-    </script>
-@endif
+</div>
+
