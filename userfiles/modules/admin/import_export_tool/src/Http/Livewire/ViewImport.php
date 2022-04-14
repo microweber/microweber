@@ -35,6 +35,11 @@ class ViewImport extends Component
         $feed->save();
     }
 
+    public function newImportModal()
+    {
+        return view('import_export_tool::admin.livewire-new-import-modal');
+    }
+
     public function addNew()
     {
         $feed = new ImportFeed();
