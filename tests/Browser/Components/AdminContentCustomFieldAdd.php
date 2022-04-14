@@ -61,9 +61,11 @@ class AdminContentCustomFieldAdd extends BaseComponent
         $browser->pause(3000);
         $browser->waitForText('Add new fields');
         $browser->waitForText($value);
-        $browser->script("document.querySelector('.js-add-custom-field-'".$key.").scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
 
-        $browser->click('.js-add-custom-field-'.$key);
+        $cfKey = '.js-add-custom-field-'.$key;
+        $browser->script("document.querySelector('{$cfKey}').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
+
+        $browser->click($cfKey);
         $browser->pause(4000);
 
     }
