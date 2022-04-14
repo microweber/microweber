@@ -42,11 +42,24 @@ class ViewImport extends Component
 
     public function download()
     {
-        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
-        $feed->source_file = $this->import_feed['source_file'];
-        $feed->source_file_size = "5MB";
-        $feed->last_downloaded_date = Carbon::now();
-        $feed->save();
+        $dir = storage_path() . DS . 'import_export_tool';
+        $filename = $dir . DS . md5($this->import_feed['source_file']) .'.'. get_file_extension($this->import_feed['source_file']);
+
+        if (!is_dir($dir)) {
+            mkdir_recursive($dir);
+        }
+
+        $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
+        if ($downloaded && is_file($filename)) {
+            $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+            $feed->source_file = $this->import_feed['source_file'];
+            $feed->source_file_size = filesize($filename);
+            $feed->last_downloaded_date = Carbon::now();
+            $feed->save();
+            return true;
+        }
+
+        return false;
     }
 
     public function upload()
