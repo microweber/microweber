@@ -194,7 +194,10 @@
                     @endforeach
                 </select>
 
-                <input type="button" class="btn btn-success btn-block mt-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
+                <div class="btn-group btn-group-sm">
+                <input type="button" class="btn btn-success mt-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
+                <input type="button" class="btn btn-danger mt-3" wire:click="delete" wire:loading.attr="disabled" value="Delete import">
+                </div>
             </div>
         </div>
         <div class="card mt-4">
