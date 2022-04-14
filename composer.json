@@ -53,7 +53,7 @@
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
-        "livewire/livewire": "dev-master",
+        "livewire/livewire": "*",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-modules/standalone-updater": "3.3",
         "microweber-packages/composer-client": "1.6",
@@ -82,7 +82,8 @@
         "twig/twig": "*",
         "whitecube/lingua": "1.1.0",
         "wikimedia/composer-merge-plugin": "dev-master",
-        "wikimedia/less.php": "3.1.0"
+        "wikimedia/less.php": "3.1.0",
+        "wire-elements/modal": "dev-main"
     },
     "require-dev": {
         "laravel/sail": "*",

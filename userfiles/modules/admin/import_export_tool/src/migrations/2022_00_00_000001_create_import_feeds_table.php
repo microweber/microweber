@@ -23,7 +23,8 @@ class CreateImportFeedsTable extends Migration
                 $table->integer('split_to_parts')->nullable();
                 $table->string('content_tag')->nullable();
                 $table->string('primary_key')->nullable();
-                $table->string('update_fields')->nullable();
+                $table->string('update_items')->nullable();
+                $table->string('old_content_action')->nullable();
                 $table->integer('count_of_contents')->nullable();
                 $table->timestamps();
             });

@@ -10,10 +10,20 @@ class ViewImport extends Component
 {
     public $import_feed_id = 1;
     public $import_feed;
+    public $new_feed_name;
 
     public function save()
     {
-
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+        $feed->name = $this->import_feed['name'];
+        $feed->download_images = $this->import_feed['download_images'];
+        $feed->split_to_parts = $this->import_feed['split_to_parts'];
+        $feed->content_tag = $this->import_feed['content_tag'];
+        $feed->primary_key = $this->import_feed['primary_key'];
+        $feed->update_items = $this->import_feed['update_items'];
+        $feed->count_of_contents = $this->import_feed['count_of_contents'];
+        $feed->old_content_action = $this->import_feed['old_content_action'];
+        $feed->save();
     }
 
     public function download()
@@ -23,6 +33,20 @@ class ViewImport extends Component
         $feed->source_file_size = "5MB";
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
+    }
+
+    public function newImportModal()
+    {
+        return view('import_export_tool::admin.livewire-new-import-modal');
+    }
+
+    public function addNew()
+    {
+        $feed = new ImportFeed();
+        $feed->name = $this->new_feed_name;
+        $feed->save();
+
+        return $feed->id;
     }
 
     public function upload()

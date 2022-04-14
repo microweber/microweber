@@ -71,6 +71,7 @@
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
+    @livewireStyles
 </head>
 
 
@@ -164,12 +165,6 @@ if (!is_logged()) {
     return;
 }
 ?>
-
-
-@livewireScripts
-@livewireStyles
-
-
 
 
 <?php
