@@ -52,6 +52,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
 
         // add custom field price
         $browser->waitForText('Add new field');
+        $browser->scrollTo('.js-add-custom-field');
         $browser->click('.js-add-custom-field');
         $browser->pause(3000);
         $browser->waitForText('Add new fields');
