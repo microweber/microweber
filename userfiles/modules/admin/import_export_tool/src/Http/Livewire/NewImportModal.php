@@ -10,9 +10,4 @@ class NewImportModal extends ModalComponent
     {
         return view('import_export_tool::admin.livewire-new-import-modal');
     }
-
-    public function mount()
-    {
-
-    }
 }

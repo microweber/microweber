@@ -71,7 +71,6 @@
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
-    <link href="//unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     @livewireStyles
 </head>
 
