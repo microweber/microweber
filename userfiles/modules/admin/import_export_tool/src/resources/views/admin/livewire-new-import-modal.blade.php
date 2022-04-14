@@ -1,6 +1,8 @@
-<div class="modal-header">
+<form wire:submit.prevent="save">
+
+    <div class="modal-header">
     <h5 class="modal-title">Add new feed import</h5>
-    <button type="button" class="btn btn-link" x-on:click="closeModalOnClickAway()">Close</button>
+    <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
 </div>
 <div class="modal-body">
     <div>
@@ -10,6 +12,7 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" wire:click="save">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </div>
 
+</form>

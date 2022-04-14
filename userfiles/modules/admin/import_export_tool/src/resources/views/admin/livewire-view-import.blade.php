@@ -181,11 +181,7 @@
         <div class="card mt-4">
             <div class="card-header">
                 Import Feeds
-
-
-                <button wire:click="$emit('openModal', 'import_export_tool_new_import_modal')">Edit User</button>
-
-                <input type="button" class="btn btn-primary btn-sm" wire:click="newImportModal" wire:loading.attr="disabled" id="addImport" value="Add new import">
+                <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool_new_import_modal')" id="addImport" value="Add new import">
             </div>
             <div class="card-body">
 
