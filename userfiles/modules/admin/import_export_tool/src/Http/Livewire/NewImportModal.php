@@ -2,11 +2,9 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
-use Carbon\Carbon;
-use Livewire\Component;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use LivewireUI\Modal\ModalComponent;
 
-class NewImportModal extends Component
+class NewImportModal extends ModalComponent
 {
     public function render()
     {
