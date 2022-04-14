@@ -15,6 +15,8 @@ class NewImportModal extends ModalComponent
         $feed->name = $this->new_feed_name;
         $feed->save();
 
+        $this->closeModal();
+
         return $feed->id;
     }
 

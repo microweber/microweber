@@ -6,6 +6,7 @@ Route::name('admin.import-export-tool.')
     ->namespace('MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin')
     ->group(function () {
 
-        Route::get('index', 'AdminController@index')->name('index');
+        Route::get('/index', 'AdminController@index')->name('index');
+        Route::get('/import/{id}', 'AdminController@import')->name('import');
 
     });

@@ -136,7 +136,7 @@
 
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <livewire:import_export_tool_view_import/>
+
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <livewire:import_export_tool_html_dropdown_mapping_preview/>

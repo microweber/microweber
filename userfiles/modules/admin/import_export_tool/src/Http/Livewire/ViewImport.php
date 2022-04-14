@@ -49,8 +49,20 @@ class ViewImport extends Component
         return view('import_export_tool::admin.livewire-view-import');
     }
 
-    public function mount()
+    public function mount($importFeedId)
     {
-        $this->import_feed = ImportFeed::where('id', $this->import_feed_id)->first()->toArray();
+        $importFeed = ImportFeed::where('id', $importFeedId)->first();
+
+        $this->import_feed = $importFeed->toArray();
+
+        $importFeedNames = [];
+        $getImportFeeds = ImportFeed::all();
+        if ($getImportFeeds->count() > 0) {
+            foreach ($getImportFeeds as $importFeed) {
+                $importFeedNames[$importFeed->id] = $importFeed->name;
+            }
+        }
+
+        $this->import_feed_names = $importFeedNames;
     }
 }

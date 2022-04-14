@@ -186,11 +186,12 @@
             <div class="card-body">
 
                 <label for="feed_type"><b>Select import:</b></label>
-                <select class="form-control form-control-sm" id="feed_type">
+
+                <select class="form-control form-control-sm" wire:model="import_feed_id">
                     <option value="0">- select -</option>
-                    <option value="2" selected="selected">da</option>
-                    <option value="3">dae</option>
-                    <option value="1">dae2</option>
+                    @foreach($import_feed_names as $feedId=>$feedName)
+                        <option value="{{$feedId}}">{{$feedName}}</option>
+                    @endforeach
                 </select>
 
                 <input type="button" class="btn btn-success btn-block mt-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
