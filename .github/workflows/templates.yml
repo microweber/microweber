@@ -43,7 +43,6 @@ jobs:
           'microweber-templates/template-coffeeshop',
           'microweber-templates/template-tourism',
           'microweber-templates/template-urban',
-          'microweber-templates/template-fitpower',
           'microweber-templates/template-landing-shop',
           'microweber-templates/proteinstore',
           'microweber-templates/template-art',
