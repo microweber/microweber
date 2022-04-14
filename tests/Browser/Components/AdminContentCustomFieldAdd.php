@@ -41,7 +41,8 @@ class AdminContentCustomFieldAdd extends BaseComponent
 
     public function addCustomField(Browser $browser, $key, $value) {
 
-        $browser->script("$('html, body').animate({ scrollTop: $('.js-custom-fields-card-tab').offset().top -80 }, 0);");
+       // $browser->script("$('html, body').animate({ scrollTop: $('.js-custom-fields-card-tab').offset().top -80 }, 0);");
+        $browser->script("document.querySelector('.js-custom-fields-card-tab').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
         $browser->pause(1000);
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#custom-fields-settings'))->isDisplayed()) {
