@@ -8,7 +8,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ViewImport extends Component
 {
-    public $import_feed_id = 1;
+    public $import_feed_id;
     public $import_feed;
 
     public function save()
@@ -54,6 +54,7 @@ class ViewImport extends Component
         $importFeed = ImportFeed::where('id', $importFeedId)->first();
 
         $this->import_feed = $importFeed->toArray();
+        $this->import_feed_id = $importFeed->id;
 
         $importFeedNames = [];
         $getImportFeeds = ImportFeed::all();

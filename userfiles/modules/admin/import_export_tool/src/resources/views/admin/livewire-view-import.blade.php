@@ -187,10 +187,10 @@
 
                 <label for="feed_type"><b>Select import:</b></label>
 
-                <select class="form-control form-control-sm" wire:model="import_feed_id">
+                <select class="form-control form-control-sm" onchange="window.location.href=this.value">
                     <option value="0">- select -</option>
                     @foreach($import_feed_names as $feedId=>$feedName)
-                        <option value="{{$feedId}}">{{$feedName}}</option>
+                        <option @if($this->import_feed['id'] == $feedId) selected="selected" @endif value="{{route('admin.import-export-tool.import',  $feedId)}}">{{$feedName}}</option>
                     @endforeach
                 </select>
 
