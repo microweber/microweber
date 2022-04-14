@@ -45,7 +45,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
         $browser->pause(1000);
 
         if(!$browser->driver->findElement(WebDriverBy::cssSelector('#custom-fields-settings'))->isDisplayed()) {
-             $browser->script("document.querySelector('.js-show-custom-fields').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
+             $browser->script("document.querySelector('.js-show-custom-fields').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
 
 
             $browser->script("$('.js-show-custom-fields').click()");
@@ -54,7 +54,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
 
         // add custom field price
         $browser->waitForText('Add new field');
-         $browser->script("document.querySelector('.js-add-custom-field').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
+         $browser->script("document.querySelector('.js-add-custom-field').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
 
         $browser->click('.js-add-custom-field');
         $browser->pause(3000);
