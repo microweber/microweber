@@ -149,9 +149,7 @@
             </div>
         </div>
 
-
     </div>
 </div>
 
 @livewire('livewire-ui-modal')
-
