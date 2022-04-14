@@ -8,7 +8,7 @@
     });
 </script>
 
-<div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body">
                 Feed Name <br />
-                <input type="text" class="form-control" wire:modal="new_feed_name">
+                <input type="text" class="form-control" wire:model="new_feed_name">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" wire:click="$emit('hideModal')">Close</button>
