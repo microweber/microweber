@@ -10,7 +10,6 @@ class ViewImport extends Component
 {
     public $import_feed_id = 1;
     public $import_feed;
-    public $new_feed_name;
 
     public function save()
     {
@@ -33,20 +32,6 @@ class ViewImport extends Component
         $feed->source_file_size = "5MB";
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
-    }
-
-    public function newImportModal()
-    {
-        return view('import_export_tool::admin.livewire-new-import-modal');
-    }
-
-    public function addNew()
-    {
-        $feed = new ImportFeed();
-        $feed->name = $this->new_feed_name;
-        $feed->save();
-
-        return $feed->id;
     }
 
     public function upload()
