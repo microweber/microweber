@@ -15,9 +15,7 @@ class NewImportModal extends ModalComponent
         $feed->name = $this->new_feed_name;
         $feed->save();
 
-        $this->closeModal();
-
-        return $feed->id;
+        return redirect(route('admin.import-export-tool.import', $feed->id));
     }
 
     public function render()

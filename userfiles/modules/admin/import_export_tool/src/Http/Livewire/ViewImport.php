@@ -10,6 +10,7 @@ class ViewImport extends Component
 {
     public $import_feed_id;
     public $import_feed;
+    public $confirming_delete_id;
 
     public function save()
     {
@@ -23,6 +24,20 @@ class ViewImport extends Component
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
         $feed->old_content_action = $this->import_feed['old_content_action'];
         $feed->save();
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->confirming_delete_id = $id;
+    }
+
+    public function delete($id)
+    {
+        $id = intval($id);
+
+        ImportFeed::where('id', $id)->delete();
+
+        return $this->redirect(route('admin.import-export-tool.index'));
     }
 
     public function download()
@@ -52,6 +67,9 @@ class ViewImport extends Component
     public function mount($importFeedId)
     {
         $importFeed = ImportFeed::where('id', $importFeedId)->first();
+        if ($importFeed == null) {
+            return redirect(route('admin.import-export-tool.index'));
+        }
 
         $this->import_feed = $importFeed->toArray();
         $this->import_feed_id = $importFeed->id;
