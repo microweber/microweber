@@ -411,7 +411,7 @@ mw.wysiwyg = {
                         cls = cls.concat(blocks);
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
-                     mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
+                    mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
                     mw.wysiwyg.contentEditable(firstBlock, true);
                 }
 
@@ -439,15 +439,15 @@ mw.wysiwyg = {
             if(!sel) {
                 activeCase = document.activeElement.nodeName !== 'INPUT' && document.activeElement.nodeName !== 'TEXTAREA'
             }
-             var node = (sel || window.getSelection()).focusNode;
-             if (node === null) {
+            var node = (sel || window.getSelection()).focusNode;
+            if (node === null) {
                 return false;
             }
             if (node.nodeType === 3) {
                 node = mw.wysiwyg.validateCommonAncestorContainer(node)
             }
             if (node.nodeType === 1) {
-                  return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
+                return activeCase && node.isContentEditable && node.nodeName !== 'INPUT' && node.nodeName !== 'TEXTAREA';
             }
 
         }
@@ -456,6 +456,26 @@ mw.wysiwyg = {
         }
     },
     insertList: function (a, b, c, elementNode) {
+        var parent = elementNode.parentElement;
+        if(elementNode.nodeName !== 'UL' && elementNode.nodeName !== 'OL') {
+            mw.wysiwyg.formatNative('div')
+        }
+        var currParent = parent.getAttribute('contenteditable');
+        parent.contentEditable = 'true';
+
+        Array.from(parent.querySelectorAll('[contenteditable]')).forEach(function (node) {
+            node.removeAttribute('contenteditable')
+        })
+        setTimeout(function(){
+            if(!currParent) {
+                parent.removeAttribute('contenteditable')
+            } else {
+                parent.setAttribute('contenteditable', currParent)
+            }
+
+        }, 310)
+    },
+    insertList2: function (a, b, c, elementNode) {
         var parent = elementNode.parentElement.parentElement;
         var notEdit = !mw.tools.hasClass(elementNode, 'edit');
         mw.liveEditState.record({
@@ -512,11 +532,11 @@ mw.wysiwyg = {
         });
         if (a === 'insertorderedlist' || a === 'insertunorderedlist') {
             this.insertList(a, b, c, elementNode);
-            mw.liveEditState.record({
-                target: parent,
-                value: parent.innerHTML
-            });
-            return;
+            /*            mw.liveEditState.record({
+                           target: parent,
+                           value: parent.innerHTML
+                       });
+                       return;*/
         }
 
         if (mw.wysiwyg.isSafeMode(elementNode) && arr.indexOf(a) !== -1) {
@@ -1097,7 +1117,7 @@ mw.wysiwyg = {
                         });
                     }
 
-                     mw.wysiwyg.check_selection(event.target);
+                    mw.wysiwyg.check_selection(event.target);
 
                 }
 
@@ -1212,7 +1232,7 @@ mw.wysiwyg = {
                     mw.tools.addClass(this, 'isTyping');
                     document.body.editor_typing_startTime = new Date();
 
-                   // mw.tools.addClass(this, 'isTypingStill');
+                    // mw.tools.addClass(this, 'isTypingStill');
 
                     // var myVarisTypingStill;
                     //
@@ -1667,7 +1687,7 @@ mw.wysiwyg = {
             var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
             var css_node_get=mw.CSSParser(node).get;
             if(typeof(css_node_get) !== 'undefined'){
-            var size = Math.round(parseFloat(css_node_get.font().size));
+                var size = Math.round(parseFloat(css_node_get.font().size));
             }
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
         } else {
@@ -1856,24 +1876,24 @@ mw.wysiwyg = {
         new mw.LinkEditor({
             mode: 'dialog'
         })
-        .setValue(val)
-        .promise()
-        .then(function (result){
-            mw.wysiwyg.restore_selection();
-            mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
-            var fc = mw.top().win.getSelection().focusNode;
-            if(fc.querySelector) {
-                Array.from(fc.querySelectorAll('a')).forEach(function(link) {
-                    //if(mw.tools.isEditable(link)) {
+            .setValue(val)
+            .promise()
+            .then(function (result){
+                mw.wysiwyg.restore_selection();
+                mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
+                var fc = mw.top().win.getSelection().focusNode;
+                if(fc.querySelector) {
+                    Array.from(fc.querySelectorAll('a')).forEach(function(link) {
+                        //if(mw.tools.isEditable(link)) {
                         link.id = mw.id('mw-link-');
-                    //}
-                })
-            }
-            if(mw.liveEditDomTree) {
-                mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(fc.parentElement, 'edit'))
-            }
+                        //}
+                    })
+                }
+                if(mw.liveEditDomTree) {
+                    mw.liveEditDomTree.refresh(mw.tools.firstParentOrCurrentWithClass(fc.parentElement, 'edit'))
+                }
 
-        });
+            });
 
     },
 
@@ -1957,7 +1977,7 @@ mw.wysiwyg = {
                     else {
                         mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
                         if(mw.parent().image.currentResizing) {
-                        mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
+                            mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
                         }
                     }
                     if(mw.image.currentResizing) {
@@ -1992,7 +2012,7 @@ mw.wysiwyg = {
             var handleResult = function (res) {
                 mw.wysiwyg.restore_selection();
                 var url = res.src ? res.src : res;
-                 if(action === 'editimage') {
+                if(action === 'editimage') {
                     if(mw.image.currentResizing) {
                         if (mw.image.currentResizing[0].nodeName === 'IMG') {
                             mw.image.currentResizing.attr("src", url);
@@ -2027,7 +2047,7 @@ mw.wysiwyg = {
                 footer: true,
                 _frameMaxHeight: true,
                 fileUploaded: function (file) {
-                     handleResult(file.src);
+                    handleResult(file.src);
                     dialog.remove()
                 },
                 onResult: handleResult,
@@ -2061,7 +2081,7 @@ mw.wysiwyg = {
         else {
             isembed = false;
         }
-         if (isembed) {
+        if (isembed) {
             var id = 'frame-' + mw.random();
             var frame = html;
             html = '<span id="' + id + '"></span>';
@@ -2107,7 +2127,7 @@ mw.wysiwyg = {
                 type = 'video';
             }
         }
-         if(type === 'image') {
+        if(type === 'image') {
             return this.insert_image(url);
         } else if(type === 'video') {
             var id = 'image_' + mw.random();
@@ -2652,9 +2672,9 @@ mw.wysiwyg = {
                     count++;
                     if(count === l) {
                         if(typeof callback === 'function') {
-                           setTimeout(function(){
-                               callback.call();
-                           }, 10)
+                            setTimeout(function(){
+                                callback.call();
+                            }, 10)
                         }
                         if(btn){
                             btn.disabled = btnPrev;
@@ -2671,8 +2691,8 @@ mw.wysiwyg = {
         }
     },
     documentCommonFonts: function () {
-      var checkNodes = $('html, body, h1:first, h2:first, p:first');
-      var result = [];
+        var checkNodes = $('html, body, h1:first, h2:first, p:first');
+        var result = [];
         checkNodes.each(function () {
             var font = $(this).css('fontFamily').split(',')[0].trim();
             if(result.indexOf(font) === -1) {

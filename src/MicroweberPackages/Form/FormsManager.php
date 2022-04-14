@@ -742,7 +742,7 @@ class FormsManager
                         $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
                     }
 
-                    if (empty(!$sendFormDataToReceivers)) {
+                    if (empty(!$sendFormDataToReceivers) and isset($formModel)) {
                         $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
                             foreach ($receivers as $receiver) {
