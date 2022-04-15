@@ -9,6 +9,13 @@ class XmlToArray implements iReader
 {
     public function readXml($content)
     {
+        $dom = $this->loadDom($content);
+
+        return $this->domToArray($dom);
+    }
+
+    public function loadDom($content) {
+
         $previousValue = libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
@@ -20,15 +27,14 @@ class XmlToArray implements iReader
         if (libxml_get_errors()) {
             return [];
         }
-
-        return $this->domToArray($dom);
+        return $dom;
     }
 
     private function domToArray($root)
     {
         $result = array();
 
-        if ($root->hasChildNodes()) {
+        if (is_object($root) && $root->hasChildNodes()) {
             $children = $root->childNodes;
             if ($children->length == 1) {
                 $child = $children->item(0);
@@ -61,4 +67,33 @@ class XmlToArray implements iReader
         return $result;
     }
 
+    public function getTargetTags($content)
+    {
+        $tags = [];
+        $array = $this->readXml($content);
+
+        if (!empty($array)) {
+            foreach ($array as $key=>$value) {
+                if (is_string($key)) {
+
+                    $arrKf = array_key_first($value);
+
+                    dd($value[$arrKf]);
+
+                    if (!is_string($arrKf)) {
+                        // no key found
+                        continue;
+                    }
+                    if (!isset($value[$arrKf][0])) {
+                        // its not itteratable
+                        continue;
+                    }
+                    $tags[] = $key .'.'. $arrKf;
+                    break;
+                }
+            }
+        }
+
+        return $tags;
+    }
 }
