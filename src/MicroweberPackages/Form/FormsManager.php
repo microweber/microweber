@@ -760,8 +760,9 @@ class FormsManager
                                 $findFormRecipient->email = $userEmail;
                                 $findFormRecipient->save();
                             }
-
-                            $findFormRecipient->notifyNow((new NewFormEntryAutoRespond($formModel)));
+                            if (isset($formModel)) {
+                                $findFormRecipient->notifyNow((new NewFormEntryAutoRespond($formModel)));
+                            }
                         }
                     }
                 }
@@ -777,9 +778,9 @@ class FormsManager
 
             event_trigger('mw.mail_subscribe', $params);
         }
-
-        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
-
+        if (isset($formModel)) {
+            Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+        }
         $success = array();
         $success['id'] = $save;
         $success['success'] = _e('Your message has been sent', true);
