@@ -10,7 +10,8 @@ Route::name('admin.import-export-tool.')
 
             $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
             $newReader = new \MicroweberPackages\Import\ImportMapping\Readers\XmlToArray();
-            $data = $newReader->getTargetTags($contentXml);
+            $array = $newReader->readXml($contentXml);
+            $data = $newReader->getTargetTags($array);
 
             dd($data);
 

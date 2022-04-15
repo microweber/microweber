@@ -67,18 +67,19 @@ class XmlToArray implements iReader
         return $result;
     }
 
-    public function getTargetTags($content)
+    public function getTargetTags($array)
     {
         $tags = [];
-        $array = $this->readXml($content);
-
         if (!empty($array)) {
             foreach ($array as $key=>$value) {
                 if (is_string($key)) {
 
                     $arrKf = array_key_first($value);
 
-                    dd($value[$arrKf]);
+                    if (is_array($value)) {
+                   //    $children = $this->getTargetTags($value[$arrKf]);
+                       // dump($value[$arrKf]);
+                    }
 
                     if (!is_string($arrKf)) {
                         // no key found
