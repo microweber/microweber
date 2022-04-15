@@ -1,5 +1,5 @@
 <div>
-    <style>
+  {{--  <style>
         .tags {
             padding-left:5px;
         }
@@ -14,10 +14,10 @@
             width: 200px;
         }
 
-    </style>
+    </style>--}}
 
 
     <br />
-    <?php echo $data; ?>
+    <?php echo rand(1,9); ?>
 
 </div>

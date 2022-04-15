@@ -9,7 +9,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 class ViewImport extends Component
 {
     public $import_feed_id;
-    public $import_feed;
+    public $import_feed = [];
     public $confirming_delete_id;
 
     public function save()
@@ -74,6 +74,8 @@ class ViewImport extends Component
 
     public function render()
     {
+
+
         return view('import_export_tool::admin.livewire-view-import');
     }
 

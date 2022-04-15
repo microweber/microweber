@@ -262,25 +262,25 @@
                                          style="height: 130px; overflow: auto;">
 
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                            <input class="form-check-input" type="checkbox" wire:model.defer="import_feed.update_items"
                                                    value="description" id="feed_data_update-description" >
                                             <label for="feed_data_update-description" class="form-check-label">Description</label>
                                         </div>
 
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                            <input class="form-check-input" type="checkbox" wire:model.defer="import_feed.update_items"
                                                    value="categories" id="feed_data_update-category" >
                                             <label for="feed_data_update-category" class="form-check-label">Categories</label>
                                         </div>
 
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                            <input class="form-check-input" type="checkbox" wire:model.defer="import_feed.update_items"
                                                    value="images" id="feed_data_update-image">
                                             <label for="feed_data_update-image" class="form-check-label">Images</label>
                                         </div>
 
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" wire:model="import_feed.update_items"
+                                            <input class="form-check-input" type="checkbox" wire:model.defer="import_feed.update_items"
                                                    value="visible" id="feed_data_update-visible">
                                             <label for="feed_data_update-visible" class="form-check-label">Visibility</label>
                                         </div>
@@ -389,7 +389,7 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool_html_dropdown_mapping_preview :import_feed_id="$this->import_feed['id']" />
+
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
