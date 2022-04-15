@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Form;
 
+use Arcanedev\Html\Elements\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -476,204 +477,207 @@ class FormsManager
             $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
         }
 
-        if ($skip_saving_emails !== 'y') {
+        $to_save['list_id'] = $list_id;
+        $to_save['rel_id'] = $for_id;
+        $to_save['rel_type'] = $for;
 
-            $to_save['list_id'] = $list_id;
-            $to_save['rel_id'] = $for_id;
-            $to_save['rel_type'] = $for;
+        $to_save['user_ip'] = user_ip();
 
-            $to_save['user_ip'] = user_ip();
+        if (isset($params['module_name'])) {
+            $to_save['module_name'] = $params['module_name'];
+        }
 
-            if (isset($params['module_name'])) {
-                $to_save['module_name'] = $params['module_name'];
-            }
+        // Save Atachments
+        $files_utils = new \MicroweberPackages\Utils\System\Files();
 
-            // Save Atachments
-            $files_utils = new \MicroweberPackages\Utils\System\Files();
+        $allowedFilesForSave = [];
+        $uploadFilesValidation = [];
 
-            $allowedFilesForSave = [];
-            $uploadFilesValidation = [];
+        if (is_array($more)) {
+            foreach ($more as $field) {
 
-            if (is_array($more)) {
-                foreach ($more as $field) {
+                $fieldRules = [];
+                if ($field['type'] != 'upload') {
+                    continue;
+                }
 
-                    $fieldRules = [];
-                    if ($field['type'] != 'upload') {
-                        continue;
-                    }
-
-                    if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
-                        $fieldRules[] = 'required';
-                      //  $_FILES[$field['name_key']] = true;
-                        $allowedFilesForSave[$field['name_key']] = true;
-
-                    } else if (!isset($_FILES[$field['name_key']])) {
-                        continue;
-                    }
-
+                if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
+                    $fieldRules[] = 'required';
+                  //  $_FILES[$field['name_key']] = true;
                     $allowedFilesForSave[$field['name_key']] = true;
-                 //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
-                    $mimeTypes = [];
-                    if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
-                        foreach ($field['options']['file_types'] as $optionFileTypes) {
-                            if (!empty($optionFileTypes)) {
-                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
-                                $mimeTypesArray = explode(',', $mimeTypesString);
-                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
-                            }
+                } else if (!isset($_FILES[$field['name_key']])) {
+                    continue;
+                }
+
+                $allowedFilesForSave[$field['name_key']] = true;
+             //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+
+                $mimeTypes = [];
+                if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
+                    foreach ($field['options']['file_types'] as $optionFileTypes) {
+                        if (!empty($optionFileTypes)) {
+                            $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                            $mimeTypesArray = explode(',', $mimeTypesString);
+                            $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                         }
                     }
+                }
 
-                    if (empty($mimeTypes)) {
-                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
-                    }
+                if (empty($mimeTypes)) {
+                    $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+                }
 
-                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
-                        $mimeTypes = implode(',', $mimeTypes);
-                    }
+                if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                    $mimeTypes = implode(',', $mimeTypes);
+                }
 
-                    if (isset($allowedFilesForSave[$field['name_key']])) {
+                if (isset($allowedFilesForSave[$field['name_key']])) {
 
-                        $uploadedField = $allowedFilesForSave[$field['name_key']];
-                        if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
-                            if ($optionFileTypes == 'images') {
-                                $fieldRules[] = 'valid_image';
-                            }
+                    $uploadedField = $allowedFilesForSave[$field['name_key']];
+                    if (isset($uploadedField['type']) && strpos($uploadedField['type'], 'image/')) {
+                        if ($optionFileTypes == 'images') {
+                            $fieldRules[] = 'valid_image';
                         }
                     }
+                }
 
-                    $fieldRules[] = 'mimes:' . $mimeTypes;
+                $fieldRules[] = 'mimes:' . $mimeTypes;
 
-                    if (!empty($fieldRules)) {
-                        $uploadFilesValidation[$field['name_key']] = $fieldRules;
-                    }
+                if (!empty($fieldRules)) {
+                    $uploadFilesValidation[$field['name_key']] = $fieldRules;
                 }
             }
+        }
 
 
-            // Validation is ok
-            if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
+        // Validation is ok
+        if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
 
-                $validator = Validator::make($params, $uploadFilesValidation);
-                if ($validator->fails()) {
-                    $validatorMessages = false;
+            $validator = Validator::make($params, $uploadFilesValidation);
+            if ($validator->fails()) {
+                $validatorMessages = false;
 
-                    foreach ($validator->messages()->toArray() as $inputFieldErros) {
-                        $validatorMessages = reset($inputFieldErros);
-                    }
-                    $validationErrorsReturn_upload = array(
-                        'form_errors' => $validator->messages()->toArray(),
-                        'error' => $validatorMessages
-                    );
-
-                    if($validationErrorsReturn){
-                        $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
-                    } else {
-                        $validationErrorsReturn = $validationErrorsReturn_upload;
-                    }
-
-                    return $validationErrorsReturn;
+                foreach ($validator->messages()->toArray() as $inputFieldErros) {
+                    $validatorMessages = reset($inputFieldErros);
                 }
+                $validationErrorsReturn_upload = array(
+                    'form_errors' => $validator->messages()->toArray(),
+                    'error' => $validatorMessages
+                );
 
-                if (isset($params['module_name'])) {
-                    $target_path_name = '/' . $params['module_name'];
+                if($validationErrorsReturn){
+                    $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
                 } else {
-                    $target_path_name = '/attachments';
+                    $validationErrorsReturn = $validationErrorsReturn_upload;
                 }
 
-                $target_path = media_uploads_path();
-                $target_path .= $target_path_name;
-                $target_path = normalize_path($target_path, 0);
-                if (!is_dir($target_path)) {
-                    mkdir_recursive($target_path);
-                }
-                if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
-                    foreach ($allowedFilesForSave as $fieldName => $file_up) {
-
-                        if(!isset($_FILES[$fieldName])){
-                            continue;
-                        }
-
-                        $file =  $_FILES[$fieldName];
-
-                        if(!is_array($file)){
-                            continue;
-                        }
-                        if(!isset($file['name'])){
-                            continue;
-                        }
-
-                        $targetFileName = $target_path_name . '/' . $file['name'];
-
-                        if (is_file($target_path . '/' . $file['name'])) {
-                            $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
-                        }
-
-                        $fileContent = @file_get_contents($file['tmp_name']);
-                        if ($fileContent) {
-                            $save = Storage::disk('media')->put($targetFileName, $fileContent);
-                            if ($save) {
-
-                                $realPath = Storage::disk('media')->path($targetFileName);
-
-                                $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
-                                $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
-                                $fileSize = \Illuminate\Support\Facades\File::size($realPath);
-
-                                $mediaFileUrl = Storage::disk('media')->url($targetFileName);
-                                $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-
-                                $fieldsData[] = [
-                                    'field_type' => 'upload',
-                                    'field_key' => $file['name'],
-                                    'field_name' => $fieldName,
-                                    'field_value' => false,
-                                    'field_value_json'=> [
-                                        'url' => $mediaFileUrl,
-                                        'file_name' => $file['name'],
-                                        'file_extension' => $fileExtension,
-                                        'file_mime' => $fileMime,
-                                        'file_size' => $fileSize,
-                                    ]
-                                ];
-                            }
-
-                        } else {
-                            return array(
-                                'error' => _e('Invalid file.', true)
-                            );
-                        }
-                    }
-                }
-            } else  if($validationErrorsReturn)  {
                 return $validationErrorsReturn;
             }
 
-            // End of attachments
-            if (empty($fieldsData)) {
-                return ['errors' => 'Fields data is empty'];
+            if (isset($params['module_name'])) {
+                $target_path_name = '/' . $params['module_name'];
+            } else {
+                $target_path_name = '/attachments';
             }
 
-            $save = $this->app->database_manager->save($table, $to_save);
-            $event_params = $params;
-            $event_params['saved_form_entry_id'] = $save;
-
-            foreach ($fieldsData as $dataValue) {
-                $formDataValue = new FormDataValue();
-                $formDataValue->field_type = $dataValue['field_type'];
-                $formDataValue->field_name = $dataValue['field_name'];
-                $formDataValue->field_key = $dataValue['field_key'];
-                $formDataValue->field_value = $dataValue['field_value'];
-                $formDataValue->field_value_json = $dataValue['field_value_json'];
-                $formDataValue->form_data_id = $save;
-                $formDataValue->save();
+            $target_path = media_uploads_path();
+            $target_path .= $target_path_name;
+            $target_path = normalize_path($target_path, 0);
+            if (!is_dir($target_path)) {
+                mkdir_recursive($target_path);
             }
+            if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
+                foreach ($allowedFilesForSave as $fieldName => $file_up) {
 
-            $formModel = FormData::with('formDataValues')->find($save);
+                    if(!isset($_FILES[$fieldName])){
+                        continue;
+                    }
 
-            $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
+                    $file =  $_FILES[$fieldName];
 
+                    if(!is_array($file)){
+                        continue;
+                    }
+                    if(!isset($file['name'])){
+                        continue;
+                    }
+
+                    $targetFileName = $target_path_name . '/' . $file['name'];
+
+                    if (is_file($target_path . '/' . $file['name'])) {
+                        $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
+                    }
+
+                    $fileContent = @file_get_contents($file['tmp_name']);
+                    if ($fileContent) {
+                        $save = Storage::disk('media')->put($targetFileName, $fileContent);
+                        if ($save) {
+
+                            $realPath = Storage::disk('media')->path($targetFileName);
+
+                            $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
+                            $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
+                            $fileSize = \Illuminate\Support\Facades\File::size($realPath);
+
+                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
+                            $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
+
+                            $fieldsData[] = [
+                                'field_type' => 'upload',
+                                'field_key' => $file['name'],
+                                'field_name' => $fieldName,
+                                'field_value' => false,
+                                'field_value_json'=> [
+                                    'url' => $mediaFileUrl,
+                                    'file_name' => $file['name'],
+                                    'file_extension' => $fileExtension,
+                                    'file_mime' => $fileMime,
+                                    'file_size' => $fileSize,
+                                ]
+                            ];
+                        }
+
+                    } else {
+                        return array(
+                            'error' => _e('Invalid file.', true)
+                        );
+                    }
+                }
+            }
+        } else  if($validationErrorsReturn)  {
+            return $validationErrorsReturn;
+        }
+
+        // End of attachments
+        if (empty($fieldsData)) {
+            return ['errors' => 'Fields data is empty'];
+        }
+
+        $save = $this->app->database_manager->save($table, $to_save);
+        $event_params = $params;
+        $event_params['saved_form_entry_id'] = $save;
+
+        foreach ($fieldsData as $dataValue) {
+            $formDataValue = new FormDataValue();
+            $formDataValue->field_type = $dataValue['field_type'];
+            $formDataValue->field_name = $dataValue['field_name'];
+            $formDataValue->field_key = $dataValue['field_key'];
+            $formDataValue->field_value = $dataValue['field_value'];
+            $formDataValue->field_value_json = $dataValue['field_value_json'];
+            $formDataValue->form_data_id = $save;
+            $formDataValue->save();
+        }
+
+        $formModel = FormData::with('formDataValues')->find($save);
+
+        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
+
+        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+
+        if ($skip_saving_emails == 'y') {
+            // Delete form data when skip saving
+            FormData::where('id', $formModel->id)->delete();
         }
 
         if (isset($params['module_name'])) {
@@ -778,9 +782,7 @@ class FormsManager
 
             event_trigger('mw.mail_subscribe', $params);
         }
-        if (isset($formModel)) {
-            Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
-        }
+
         $success = array();
         $success['id'] = $save;
         $success['success'] = _e('Your message has been sent', true);
