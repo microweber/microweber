@@ -51,11 +51,16 @@ class ViewImport extends Component
 
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
         if ($downloaded && is_file($filename)) {
+
+            $realpath = str_replace(base_path(),'', $filename);
+
             $feed = ImportFeed::where('id', $this->import_feed_id)->first();
             $feed->source_file = $this->import_feed['source_file'];
+            $feed->source_file_realpath = $realpath;
             $feed->source_file_size = filesize($filename);
             $feed->last_downloaded_date = Carbon::now();
             $feed->save();
+
             return ['downloaded'=>true];
         }
 
