@@ -296,10 +296,11 @@
                                     </small>
                                 </td>
                                 <td>
-                                    <a href=""
-                                       id="delete-import-link" class="btn btn-small btn-danger"
-                                       onclick="return confirm('Are you sure to delete this import feed ?');">Delete
-                                        this import</a>
+                                    @if($confirming_delete_id === $this->import_feed['id'])
+                                        <button type="button" wire:click="delete({{ $this->import_feed['id'] }})" class="btn btn-outline-danger mt-3">Sure?</button>
+                                    @else
+                                        <button type="button" wire:click="confirmDelete({{ $this->import_feed['id'] }})" class="btn btn-outline-danger mt-3">Delete import</button>
+                                    @endif
                                     <br />
 
                                     <div class="form-check">
@@ -328,22 +329,14 @@
                         <label for="feed_type"><b>Select import:</b></label>
 
                         <select class="form-control form-control-sm" onchange="window.location.href=this.value">
-                            <option value="0">- select -</option>
+                            <option value="0" disabled="disabled">- select -</option>
                             @foreach($import_feed_names as $feedId=>$feedName)
                                 <option @if($this->import_feed['id'] == $feedId) selected="selected" @endif value="{{route('admin.import-export-tool.import',  $feedId)}}">{{$feedName}}</option>
                             @endforeach
                         </select>
 
-                        <div class="btn-group-sm">
-                        <input type="button" class="btn btn-success mt-3 mr-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
+                        <input type="button" class="btn btn-success btn-block mt-3 mr-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
 
-                            @if($confirming_delete_id === $this->import_feed['id'])
-                                <button wire:click="delete({{ $this->import_feed['id'] }})" class="btn btn-outline-danger mt-3">Sure?</button>
-                            @else
-                                <button wire:click="confirmDelete({{ $this->import_feed['id'] }})" class="btn btn-outline-danger mt-3">Delete import</button>
-                            @endif
-
-                         </div>
                     </div>
                 </div>
                 <div class="card mt-4">
@@ -359,11 +352,11 @@
                                     <td>0</td>
                                 </tr>
                                 <tr>
-                                    <td class="name">XML size</td>
+                                    <td class="name">Feed size</td>
                                     <td>0.00 MB</td>
                                 </tr>
                                 <tr>
-                                    <td class="name">Content in XML</td>
+                                    <td class="name">Content in Feed</td>
                                     <td>0</td>
                                 </tr>
                                 <tr>

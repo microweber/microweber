@@ -17,6 +17,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\HtmlDropdownMappingPreview;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ViewImport;
 
 class ImportExportToolServiceProvider extends ServiceProvider
@@ -28,6 +29,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Livewire::component('import_export_tool_no_feeds', NoFeeds::class);
         Livewire::component('import_export_tool_new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool_view_import', ViewImport::class);
         Livewire::component('import_export_tool_html_dropdown_mapping_preview', HtmlDropdownMappingPreview::class);
