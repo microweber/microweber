@@ -56,10 +56,10 @@ class ViewImport extends Component
             $feed->source_file_size = filesize($filename);
             $feed->last_downloaded_date = Carbon::now();
             $feed->save();
-            return true;
+            return ['downloaded'=>true];
         }
 
-        return false;
+        return ['downloaded'=>false];
     }
 
     public function upload()

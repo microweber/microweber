@@ -145,6 +145,7 @@
                     </div>
                     <div class="card-body">
 
+                        <form wire:submit.prevent="submit">
                         <table class="table table-borderless">
                             <tbody>
                             <tr>
@@ -311,7 +312,7 @@
                             </tr>
                             </tbody>
                         </table>
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -388,7 +389,7 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool_html_dropdown_mapping_preview/>
+        <livewire:import_export_tool_html_dropdown_mapping_preview :import_feed_id="$this->import_feed['id']" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
