@@ -133,6 +133,12 @@ class HtmlDropdownMappingPreview
         return $html;
     }
 
+
+    public $automaticSelectedOptions = [];
+    public function getAutomaticSelectedOptions() {
+        return $this->automaticSelectedOptions;
+    }
+
     private function dropdownSelect($mapKey)
     {
         $selectOptions = [];
@@ -161,7 +167,7 @@ class HtmlDropdownMappingPreview
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
-        <select class="form-control" wire:model.defer="import_feed.mapped_tags.'.$mapKeyHtml.'">';
+        <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">';
 
         foreach ($selectOptions as $name => $option) {
 
@@ -169,12 +175,11 @@ class HtmlDropdownMappingPreview
                 continue;
             }
 
-            $selected = '';
             if ($option['selected']) {
-                $selected = 'selected';
+                $this->automaticSelectedOptions[$mapKeyHtml] = $name;
             }
 
-            $html .= '<option '.$selected.' value="'.$name.'">'.$option['name'].'</option>';
+            $html .= '<option value="'.$name.'">'.$option['name'].'</option>';
         }
 
         $html .= '</select>';

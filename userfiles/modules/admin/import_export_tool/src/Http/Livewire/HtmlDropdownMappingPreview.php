@@ -30,10 +30,6 @@ class HtmlDropdownMappingPreview extends Component
         }
         $this->import_feed = $importFeed->toArray();
 
-        if (empty($this->import_feed['mapped_tags'])) {
-            unset($this->import_feed['mapped_tags']);
-        }
-
         $xmlFile = base_path() . DS . $importFeed->source_file_realpath;
         if (!is_file($xmlFile)) {
             return;
@@ -49,6 +45,10 @@ class HtmlDropdownMappingPreview extends Component
         $dropdownMapping->setContentParentTags($importFeed->content_tag);
 
         $this->data = $dropdownMapping->render();
+
+        if (empty($this->import_feed['mapped_tags'])) {
+            $this->import_feed['mapped_tags'] = $dropdownMapping->getAutomaticSelectedOptions();
+        }
     }
 
 }
