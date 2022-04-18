@@ -69,7 +69,9 @@ class ViewImport extends Component
             $feedUpdate->last_downloaded_date = Carbon::now();
             $feedUpdate->save();
 
-            return ['downloaded'=>true];
+            return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
+
+           // return ['downloaded'=>true];
         }
 
         return ['downloaded'=>false];

@@ -214,9 +214,11 @@
                                 <td>
                                     <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
                                         <option>Select content tag</option>
-                                        @foreach($this->import_feed['detected_content_tags'] as $contentTagKey=>$contentTagVal)
-                                            <option @if($this->import_feed['content_tag'] == $contentTagKey) selected="selected" @endif value="{{$contentTagKey}}">{{$contentTagKey}}</option>
-                                        @endforeach
+                                        @if(is_array($this->import_feed['detected_content_tags']))
+                                            @foreach($this->import_feed['detected_content_tags'] as $contentTagKey=>$contentTagVal)
+                                                <option @if($this->import_feed['content_tag'] == $contentTagKey) selected="selected" @endif value="{{$contentTagKey}}">{{$contentTagKey}}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </td>
                             </tr>
