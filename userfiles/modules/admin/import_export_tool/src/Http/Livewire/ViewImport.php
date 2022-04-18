@@ -26,6 +26,8 @@ class ViewImport extends Component
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
         $feed->old_content_action = $this->import_feed['old_content_action'];
         $feed->save();
+
+        session()->flash('message', 'Import feed is saved successfully.');
     }
 
     public function confirmDelete($id)
@@ -52,6 +54,7 @@ class ViewImport extends Component
         }
 
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
+
         if ($downloaded && is_file($filename)) {
 
             $realpath = str_replace(base_path(),'', $filename);
@@ -69,9 +72,13 @@ class ViewImport extends Component
             $feedUpdate->last_downloaded_date = Carbon::now();
             $feedUpdate->save();
 
-            return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
+            $this->import_feed = $feedUpdate->toArray();
 
-           // return ['downloaded'=>true];
+            session()->flash('message', 'Feed is downloaded successfully.');
+
+          //  return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
+
+            return ['downloaded'=>true];
         }
 
         return ['downloaded'=>false];

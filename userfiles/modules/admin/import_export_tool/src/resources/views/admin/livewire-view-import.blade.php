@@ -98,6 +98,12 @@
 </style>
 <module type="admin/modules/info"/>
 
+@if (session()->has('message'))
+    <script>
+        mw.notification.success('{{ session('message') }}', 3000);
+    </script>
+@endif
+
 <div class="card style-1 mb-3">
 
     <div class="card-header">
@@ -161,7 +167,7 @@
                                         <input type="text" class="form-control" wire:model.defer="import_feed.source_file"
                                                id="source_file" placeholder="https://site.com/feed.xml">
                                         <div class="input-group-append">
-                                            <input type="button" class="btn btn-primary" id="source_file" wire:click="download" wire:loading.attr="disabled" value="Download">
+                                            <button type="button" class="btn btn-primary" id="source_file" wire:click="download" wire:loading.attr="disabled">Download</button>
                                         </div>
                                     </div>
                                     <div wire:loading wire:target="download">
@@ -386,7 +392,7 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
+        <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
