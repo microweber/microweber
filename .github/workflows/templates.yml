@@ -43,6 +43,9 @@ jobs:
           'microweber-templates/template-coffeeshop',
           'microweber-templates/template-tourism',
           'microweber-templates/template-urban',
+          'microweber-templates/template-landing-shop',
+          'microweber-templates/proteinstore',
+          'microweber-templates/template-art',
           'microweber-templates/template-hostel'
         ]
     steps:

@@ -18,8 +18,8 @@
     <script src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
 
-   <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
-        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
 
     <?php
     $rand = uniqid();
@@ -622,9 +622,9 @@
                                             <?php endif; ?>
 
 
-                                           <div class="text-center">
-                                               <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
-                                           </div>
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                            </div>
                                             <div class="row mt-3">
 
 
@@ -731,7 +731,7 @@
                                     <input type="hidden" value="UTC" name="default_timezone"/>
 
                                     <div class="text-end text-right">
-                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" tabindex="16"><?php _e('Install'); ?></button>
+                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" id="install-button"  tabindex="16"><?php _e('Install'); ?></button>
                                     </div>
                                 </form>
                             <?php endif; ?>
