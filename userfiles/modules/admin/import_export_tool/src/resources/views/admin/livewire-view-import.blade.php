@@ -397,7 +397,7 @@
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <br />
-        <button class="btn btn-primary" wire:click="startImport">Start Importing</button>
+        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
     </div>
 
 </div>

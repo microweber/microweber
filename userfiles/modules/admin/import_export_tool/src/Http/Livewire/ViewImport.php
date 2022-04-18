@@ -53,6 +53,11 @@ class ViewImport extends Component
             mkdir_recursive($dir);
         }
 
+        $filesUtils = new \MicroweberPackages\Utils\System\Files();
+        if (!$filesUtils->is_allowed_file($this->import_feed['source_file'])) {
+            return;
+        }
+
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
 
         if ($downloaded && is_file($filename)) {
@@ -61,6 +66,10 @@ class ViewImport extends Component
 
             $newReader = new XmlToArray();
             $xmlArray = $newReader->readXml(file_get_contents($filename));
+            if (empty($xmlArray)) {
+                unlink($filename);
+            }
+
             $iterratableTargetKeys = $newReader->getArrayIterratableTargetKeys($xmlArray);
             $iterratableTargetKeys = Arr::dot($iterratableTargetKeys);
             $iterratableData = Arr::get($xmlArray, $this->import_feed['content_tag']);
@@ -78,7 +87,7 @@ class ViewImport extends Component
 
             session()->flash('message', 'Feed is downloaded successfully.');
 
-          //  return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
+            return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
 
             return ['downloaded'=>true];
         }
