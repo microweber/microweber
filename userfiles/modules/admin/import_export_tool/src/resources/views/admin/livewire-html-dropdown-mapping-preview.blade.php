@@ -1,5 +1,6 @@
 <div>
-  {{--  <style>
+
+    <style>
         .tags {
             padding-left:5px;
         }
@@ -7,17 +8,16 @@
             padding-left:5px;
         }
         .tag_value {
-            color: #367d73;
             width: 800px;
         }
         .tag_select {
             width: 200px;
         }
 
-    </style>--}}
+    </style>
 
 
     <br />
-    <?php echo rand(1,9); ?>
+    <?php echo $data; ?>
 
 </div>

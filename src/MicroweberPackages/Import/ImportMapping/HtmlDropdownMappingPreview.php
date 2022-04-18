@@ -45,14 +45,14 @@ class HtmlDropdownMappingPreview
 
                     if ($key) {
                         if (isset($value[0])) {
-                            $html .= "<table class='table table-bordered tag_key'>";
+                            $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
                             $html .= "<td class='tag_select'>".$this->dropdownIterratableSelect($key)."</td>";
                             $html .= "</tr>";
                             $html .= "</table>";
                         } else {
-                            $html .= "<table class='table table-bordered tag_key'>";
+                            $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
                             $html .= "</tr>";
@@ -80,7 +80,7 @@ class HtmlDropdownMappingPreview
                         $html .= "<span class='tag_value'>" . $value . "</span>";
                         break;
                     } else {
-                        $html .= "<table class='table table-bordered tag_key'>";
+                        $html .= "<table class='tag_key'>";
                         $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";
                         $html .=  $value;

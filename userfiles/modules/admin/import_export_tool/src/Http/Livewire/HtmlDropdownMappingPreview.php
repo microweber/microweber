@@ -4,29 +4,34 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class HtmlDropdownMappingPreview extends Component
 {
+    public $data = [];
+
     public function render()
     {
-       /* $request = request();
-        $contentParentTags = $request->get('content_parent_tags','rss.channel.item');
+        return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview');
+    }
 
-        $contentXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
+    public function mount($importFeedId)
+    {
+        $importFeed = ImportFeed::where('id', $importFeedId)->first();
+        if ($importFeed == null) {
+            return redirect(route('admin.import-export-tool.index'));
+        }
 
+        $contentXml = file_get_contents(base_path() . DS . $importFeed->source_file_realpath);
 
         $newReader = new XmlToArray();
         $data = $newReader->readXml($contentXml);
 
         $dropdownMapping = new \MicroweberPackages\Import\ImportMapping\HtmlDropdownMappingPreview();
         $dropdownMapping->setContent($data);
-        $dropdownMapping->setContentParentTags($contentParentTags);
+        $dropdownMapping->setContentParentTags($importFeed->content_tag);
 
-        $data =  $dropdownMapping->render();*/
-
-        $data = '';
-
-        return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview',['data'=>$data]);
+        $this->data = $dropdownMapping->render();
     }
 
 }
