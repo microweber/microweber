@@ -44,8 +44,16 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
         $data = $newReader->readXml($contentXml);
         $iterratableData = Arr::get($data,$importFeed->content_tag);
 
+        $preparedData = [];
+        foreach ($iterratableData as $itemI=>$item) {
+            foreach($importFeed->mapped_tags as $tagKey=>$internalKey){
+                $tagKey = str_replace(';','.', $tagKey);
+                $tagKey = str_replace($importFeed->content_tag.'.', '', $tagKey);
+                $preparedData[$itemI][$internalKey] = Arr::get($item, $tagKey);
 
+            }
+        }
 
-        dd($iterratableData);
+        dd($preparedData);
     }
 }
