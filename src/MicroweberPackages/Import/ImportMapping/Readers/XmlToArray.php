@@ -67,30 +67,18 @@ class XmlToArray implements iReader
         return $result;
     }
 
-    public function getTargetTags($array)
+    public function getArrayIterratableTargetKeys($array)
     {
         $tags = [];
         if (!empty($array)) {
             foreach ($array as $key=>$value) {
-                if (is_string($key)) {
-
-                    $arrKf = array_key_first($value);
-
-                    if (is_array($value)) {
-                   //    $children = $this->getTargetTags($value[$arrKf]);
-                       // dump($value[$arrKf]);
-                    }
-
-                    if (!is_string($arrKf)) {
-                        // no key found
+                if (is_array($value)) {
+                    $recursive = $this->getArrayIterratableTargetKeys($value);
+                    if (isset($recursive[0])) {
+                        $tags[$key] = [];
                         continue;
                     }
-                    if (!isset($value[$arrKf][0])) {
-                        // its not itteratable
-                        continue;
-                    }
-                    $tags[] = $key .'.'. $arrKf;
-                    break;
+                    $tags[$key] = $recursive;
                 }
             }
         }

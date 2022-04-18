@@ -17,6 +17,7 @@ class ImportFeed extends Model
 
     protected $casts = [
         'download_images'=>'int',
-        'update_items'=>'array'
+        'update_items'=>'array',
+        'detected_content_tags'=>'array'
     ];
 }

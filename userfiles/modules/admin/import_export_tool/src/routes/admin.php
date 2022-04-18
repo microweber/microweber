@@ -6,16 +6,22 @@ Route::name('admin.import-export-tool.')
     ->namespace('MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin')
     ->group(function () {
 
-        Route::get('waw', function () {
 
-            $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+       /* Route::get('waw', function () {
+
+          //  $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
+            //$contentXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
+           // $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss2.xml');
+           // $contentXml = file_get_contents('https://templates.microweber.com/import_test/xml_feed_2.xml');
+            $contentXml = app()->http->url('https://detourcoffee.com/collections/tea.atom')->get();
             $newReader = new \MicroweberPackages\Import\ImportMapping\Readers\XmlToArray();
             $array = $newReader->readXml($contentXml);
-            $data = $newReader->getTargetTags($array);
+            $data = $newReader->getArrayIterratableTargetKeys($array);
+            $dot = Arr::dot($data);
 
-            dd($data);
+            dd($data, $dot);
 
-        });
+        });*/
 
 
         Route::get('/index', 'AdminController@index')->name('index');

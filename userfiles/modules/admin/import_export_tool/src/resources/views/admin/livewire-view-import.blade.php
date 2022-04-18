@@ -213,8 +213,10 @@
                                 </td>
                                 <td>
                                     <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
-                                        <option value="rss">rss</option>
-                                        <option value="rss;channel;title">rss &gt; channel &gt; title</option>
+                                        <option>Select content tag</option>
+                                        @foreach($this->import_feed['detected_content_tags'] as $contentTagKey=>$contentTagVal)
+                                            <option @if($this->import_feed['content_tag'] == $contentTagKey) selected="selected" @endif value="{{$contentTagKey}}">{{$contentTagKey}}</option>
+                                        @endforeach
                                     </select>
                                 </td>
                             </tr>

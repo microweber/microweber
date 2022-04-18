@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Livewire\Component;
+use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ViewImport extends Component
@@ -54,12 +56,18 @@ class ViewImport extends Component
 
             $realpath = str_replace(base_path(),'', $filename);
 
-            $feed = ImportFeed::where('id', $this->import_feed_id)->first();
-            $feed->source_file = $this->import_feed['source_file'];
-            $feed->source_file_realpath = $realpath;
-            $feed->source_file_size = filesize($filename);
-            $feed->last_downloaded_date = Carbon::now();
-            $feed->save();
+            $newReader = new XmlToArray();
+            $xmlArray = $newReader->readXml(file_get_contents($filename));
+            $iterratableTargetKeys = $newReader->getArrayIterratableTargetKeys($xmlArray);
+            $iterratableTargetKeys = Arr::dot($iterratableTargetKeys);
+
+            $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
+            $feedUpdate->source_file = $this->import_feed['source_file'];
+            $feedUpdate->source_file_realpath = $realpath;
+            $feedUpdate->detected_content_tags = $iterratableTargetKeys;
+            $feedUpdate->source_file_size = filesize($filename);
+            $feedUpdate->last_downloaded_date = Carbon::now();
+            $feedUpdate->save();
 
             return ['downloaded'=>true];
         }
@@ -79,8 +87,6 @@ class ViewImport extends Component
 
     public function render()
     {
-
-
         return view('import_export_tool::admin.livewire-view-import');
     }
 
