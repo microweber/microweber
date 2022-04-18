@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Adm
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Import\DatabaseWriter;
 use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -57,22 +58,23 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
 
         $preparedData = [];
         foreach ($mappedData as $undotItem) {
-            $preparedData[] = Arr::undot($undotItem);
-        }
+            $preparedItem = Arr::undot($undotItem);
+            $preparedData[] = $preparedItem;
 
+            DatabaseSave::saveProduct($preparedItem);
+        }
 
         dd($preparedData);
 
-        //SessionStepper::generateSessionId(3);
+     //   SessionStepper::generateSessionId(2);
 
-        SessionStepper::setSessionId('1650292859625d787b44576');
-
+        SessionStepper::setSessionId('1650294908625d807cc97bb');
         SessionStepper::nextStep();
 
         $writer = new DatabaseWriter();
         $writer->setLogger($this);
         $writer->setContent([
-            'content'=>$mappedData
+            'content'=>$preparedData
         ]);
         $writer->setOverwriteById(1);
         $writer->runWriterWithBatch();

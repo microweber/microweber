@@ -7,7 +7,7 @@ class ItemMapReader
     public static $map = [
         'content_data.mpn'=>['mpn','g:mpn'],
         'content_data.sku'=>['sku','g:sku'],
-        'content_data.gtin'=>['gtin','g:gtin'],
+        'content_data.barcode'=>['barcode','gtin','g:gtin'],
         'content_data.external_id'=>['id','g:id'],
         'title'=>['title','g:title','name'],
         'content_body'=>['description','g:description','content','html','summary'],
@@ -21,7 +21,7 @@ class ItemMapReader
 
     public static $itemTypes = [
       'content_data.mpn'=>'MPN',
-      'content_data.gtin'=>'GTIN',
+      'content_data.barcode'=>'Barcode',
       'content_data.sku'=>'SKU',
       'content_data.external_id'=>'External ID',
       'title'=>'Title',
