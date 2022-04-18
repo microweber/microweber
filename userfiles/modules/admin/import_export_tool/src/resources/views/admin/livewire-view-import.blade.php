@@ -367,7 +367,7 @@
                                 </tr>
                                 <tr>
                                     <td class="name">Content in Feed</td>
-                                    <td>0</td>
+                                    <td>{{$import_feed['count_of_contents']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="name">Last import time</td>

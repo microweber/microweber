@@ -2,6 +2,8 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminController
@@ -22,5 +24,28 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
     public function import($id)
     {
         return $this->view('import_export_tool::admin.import', ['import_feed_id'=>$id]);
+    }
+
+    public function importStart($importFeedId)
+    {
+        $importFeed = ImportFeed::where('id', $importFeedId)->first();
+        if ($importFeed == null) {
+            return redirect(route('admin.import-export-tool.index'));
+        }
+
+        $xmlFile = base_path() . DS . $importFeed->source_file_realpath;
+        if (!is_file($xmlFile)) {
+            return redirect(route('admin.import-export-tool.index'));
+        }
+
+        $contentXml = file_get_contents($xmlFile);
+
+        $newReader = new XmlToArray();
+        $data = $newReader->readXml($contentXml);
+        $iterratableData = Arr::get($data,$importFeed->content_tag);
+
+
+
+        dd($iterratableData);
     }
 }

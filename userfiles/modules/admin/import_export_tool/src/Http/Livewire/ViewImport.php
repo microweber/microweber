@@ -63,11 +63,13 @@ class ViewImport extends Component
             $xmlArray = $newReader->readXml(file_get_contents($filename));
             $iterratableTargetKeys = $newReader->getArrayIterratableTargetKeys($xmlArray);
             $iterratableTargetKeys = Arr::dot($iterratableTargetKeys);
+            $iterratableData = Arr::get($xmlArray, $this->import_feed['content_tag']);
 
             $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
             $feedUpdate->source_file = $this->import_feed['source_file'];
             $feedUpdate->source_file_realpath = $realpath;
             $feedUpdate->detected_content_tags = $iterratableTargetKeys;
+            $feedUpdate->count_of_contents = count($iterratableData);
             $feedUpdate->source_file_size = filesize($filename);
             $feedUpdate->last_downloaded_date = Carbon::now();
             $feedUpdate->save();
