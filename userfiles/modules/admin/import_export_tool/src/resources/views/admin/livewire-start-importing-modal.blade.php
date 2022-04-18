@@ -5,10 +5,19 @@
     </div>
     <div class="modal-body">
         <div>
-            Importing content...
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            @if(!$done)
+            <div wire:poll="nextStep">
+                <h3>Importing content</h3>
+                <h4>Step {{$import_log['current_step']}} of {{$import_log['total_steps']}}</h4>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{$import_log['percentage']}}%;" aria-valuenow="{{$import_log['percentage']}}" aria-valuemin="0" aria-valuemax="100">
+                        {{$import_log['percentage']}}%
+                    </div>
+                </div>
             </div>
+            @else
+                <h3>Done!</h3>
+            @endif
 
         </div>
     </div>

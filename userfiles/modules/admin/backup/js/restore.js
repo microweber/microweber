@@ -166,7 +166,7 @@ mw.restore = {
                 $('#mw_backup_restore_modal').find('.button-start').attr('onClick', 'mw.restore.close_restore_modal();').html('Done!');
 				return;
 			} else {
-				mw.restore.get_progress(json_data.precentage);
+				mw.restore.get_progress(json_data.percentage);
 				if($('.backup-restore-modal-log').length > 0){
 					$('.backup-restore-modal-log')[0].scrollTop =$('.backup-restore-modal-log')[0].scrollHeight;
 				}

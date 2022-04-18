@@ -5,19 +5,19 @@
 
 3.Add new columns on cart_orders table
   `coupon_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `discount_type` enum('precentage','fixed_amount') COLLATE utf8_unicode_ci NOT NULL,
+  `discount_type` enum('percentage','fixed_amount') COLLATE utf8_unicode_ci NOT NULL,
   `discount_value` decimal(10,2) NOT NULL
-  
-  
+
+
 4.order_cart.php
 After Sub Total
    <tr class="mw-ui-table-footer">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
-                        <?php _e("Coupon code"); ?>: 
+                        <?php _e("Coupon code"); ?>:
                         <?php print $ord['coupon_code']; ?></td>
                         <td class="mw-ui-table-green" colspan="2">
-                        <?php if($ord['discount_type'] == 'precentage'): ?>
+                        <?php if($ord['discount_type'] == 'percentage'): ?>
                         <?php print intval($ord['discount_value']); ?>%
                         <?php else: ?>
                         <?php print currency_format($ord['discount_value'], $ord['currency']); ?>

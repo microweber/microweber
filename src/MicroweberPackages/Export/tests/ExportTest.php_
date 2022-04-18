@@ -67,7 +67,7 @@ class ExportTest extends TestCase
 			if (isset($export['current_step'])) {
 				$this->assertArrayHasKey('current_step', $export);
 				$this->assertArrayHasKey('total_steps', $export);
-				$this->assertArrayHasKey('precentage', $export);
+				$this->assertArrayHasKey('percentage', $export);
 				$this->assertArrayHasKey('data', $export);
 			}
 
@@ -123,7 +123,7 @@ class ExportTest extends TestCase
 
 		$this->assertTrue($importBool);
  		$this->assertArrayHasKey('done', $import);
-		$this->assertArrayHasKey('precentage', $import);
+		$this->assertArrayHasKey('percentage', $import);
 	}
 
 	public function testImportedEncoding() {
@@ -161,7 +161,7 @@ class ExportTest extends TestCase
         $importStatus = $manager->startImport();
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
@@ -177,7 +177,7 @@ class ExportTest extends TestCase
         $importStatus = $manager->startImport();
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
@@ -194,7 +194,7 @@ class ExportTest extends TestCase
 
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 

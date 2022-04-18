@@ -175,7 +175,7 @@ class ZipBatchExport extends DefaultExport
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
         $log['total_steps'] = SessionStepper::totalSteps();
-        $log['precentage'] = SessionStepper::percentage();
+        $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
         $log['data'] = false;

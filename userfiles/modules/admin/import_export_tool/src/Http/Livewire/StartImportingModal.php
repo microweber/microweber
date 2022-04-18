@@ -12,6 +12,12 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class StartImportingModal extends ModalComponent
 {
+    public $done = false;
+    public $import_log = [
+        'current_step'=>0,
+        'total_steps'=>10,
+        'percentage'=>0,
+    ];
     public $import_feed_session_id = false;
     public $import_feed_id;
 
@@ -32,6 +38,11 @@ class StartImportingModal extends ModalComponent
         $newReader = new XmlToArray();
         $data = $newReader->readXml($contentXml);
         $iterratableData = Arr::get($data,$importFeed->content_tag);
+
+        if (empty($iterratableData)) {
+            $this->done = true;
+            return false;
+        }
 
         $mappedData = [];
         foreach ($iterratableData as $itemI=>$item) {
@@ -60,6 +71,11 @@ class StartImportingModal extends ModalComponent
         $writer->runWriterWithBatch();
 
         $log = $writer->getImportLog();
+        $this->import_log = $log;
+
+        if (isset($log['done']) && $log['done']) {
+            $this->done = true;
+        }
 
     }
 
@@ -75,8 +91,15 @@ class StartImportingModal extends ModalComponent
 
     public function mount($importFeedId)
     {
+        $importFeed = ImportFeed::where('id', $importFeedId)->first();
+        if ($importFeed == null) {
+            return redirect(route('admin.import-export-tool.index'));
+        }
+
+        $this->import_log['total_steps'] = $importFeed->split_to_parts;
+
         $this->import_feed_id = (int) $importFeedId;
-        $this->import_feed_session_id = SessionStepper::generateSessionId(6);
+        $this->import_feed_session_id = SessionStepper::generateSessionId($importFeed->split_to_parts);
     }
 
     public function render()

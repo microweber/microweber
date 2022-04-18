@@ -64,8 +64,8 @@ class CartManager extends Crud
 
         $sum = $subtotal = $this->sum();
 
-        if ($discount_type == 'precentage' or $discount_type == 'percentage') {
-            // Discount with precentage
+        if ($discount_type == 'percentage' or $discount_type == 'percentage') {
+            // Discount with percentage
             $discount_sum = ($sum * ($discount_value / 100));
             $sum = $sum - $discount_sum;
         } else if ($discount_type == 'fixed_amount') {
@@ -227,7 +227,7 @@ class CartManager extends Crud
 
     public function get_discount_text()
     {
-        if ($this->get_discount_type() == "percentage" or $this->get_discount_type() == "precentage") {
+        if ($this->get_discount_type() == "percentage" or $this->get_discount_type() == "percentage") {
             return $this->get_discount_value() . "%";
         } else {
             return currency_format($this->get_discount_value());

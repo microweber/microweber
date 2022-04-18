@@ -31,7 +31,7 @@ class ImportTest extends TestCase
         $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
@@ -50,7 +50,7 @@ class ImportTest extends TestCase
         $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
@@ -69,7 +69,7 @@ class ImportTest extends TestCase
         $importStatus = $manager->start();
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
@@ -103,7 +103,7 @@ class ImportTest extends TestCase
 
 
         $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
     }
 
