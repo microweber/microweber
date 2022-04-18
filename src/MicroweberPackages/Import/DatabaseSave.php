@@ -103,9 +103,6 @@ class DatabaseSave
         if ($downloaded && is_file($filename)) {
             $ext = get_file_extension($imageUrl);
 
-
-
-
             $imageExt = strtolower($ext);
             $newFilename = media_uploads_path() . $photoId . '.' . $imageExt;
             @rename($filename, $newFilename);

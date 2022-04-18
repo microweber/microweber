@@ -3,6 +3,8 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Adm
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\DatabaseWriter;
 use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
@@ -44,16 +46,49 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
         $data = $newReader->readXml($contentXml);
         $iterratableData = Arr::get($data,$importFeed->content_tag);
 
-        $preparedData = [];
+        $mappedData = [];
         foreach ($iterratableData as $itemI=>$item) {
-            foreach($importFeed->mapped_tags as $tagKey=>$internalKey){
-                $tagKey = str_replace(';','.', $tagKey);
-                $tagKey = str_replace($importFeed->content_tag.'.', '', $tagKey);
-                $preparedData[$itemI][$internalKey] = Arr::get($item, $tagKey);
-
+            foreach($importFeed->mapped_tags as $tagKey=>$internalKey) {
+                $tagKey = str_replace(';', '.', $tagKey);
+                $tagKey = str_replace($importFeed->content_tag . '.', '', $tagKey);
+                $mappedData[$itemI][$internalKey] = Arr::get($item, $tagKey);
             }
         }
 
+        $preparedData = [];
+        foreach ($mappedData as $undotItem) {
+            $preparedData[] = Arr::undot($undotItem);
+        }
+
+
         dd($preparedData);
+
+        //SessionStepper::generateSessionId(3);
+
+        SessionStepper::setSessionId('1650292859625d787b44576');
+
+        SessionStepper::nextStep();
+
+        $writer = new DatabaseWriter();
+        $writer->setLogger($this);
+        $writer->setContent([
+            'content'=>$mappedData
+        ]);
+        $writer->setOverwriteById(1);
+        $writer->runWriterWithBatch();
+
+        $log = $writer->getImportLog();
+
+        dd($log);
+    }
+
+    public function clearLog()
+    {
+
+    }
+
+    public function setLogInfo($log)
+    {
+
     }
 }

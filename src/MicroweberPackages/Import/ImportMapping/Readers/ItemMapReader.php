@@ -5,32 +5,32 @@ namespace MicroweberPackages\Import\ImportMapping\Readers;
 class ItemMapReader
 {
     public static $map = [
-        'mpn'=>['mpn','g:mpn'],
-        'sku'=>['sku','g:sku'],
-        'gtin'=>['gtin','g:gtin'],
-        'external_id'=>['id','g:id'],
+        'content_data.mpn'=>['mpn','g:mpn'],
+        'content_data.sku'=>['sku','g:sku'],
+        'content_data.gtin'=>['gtin','g:gtin'],
+        'content_data.external_id'=>['id','g:id'],
         'title'=>['title','g:title','name'],
         'content_body'=>['description','g:description','content','html','summary'],
         'images'=>['image','g:image_link'],
         'price'=>['price','g:price'],
-        'shipping_price'=>['shipping_price','g:shipping.g:price'],
+        'content_data.shipping_price'=>['shipping_price','g:shipping.g:price'],
         'categories'=>['genre', 'category','g:google_product_category','g:product_type'],
         'updated_at'=>['updated_date','published'],
         'created_at'=>['publish_date','pubDate','updated'],
     ];
 
     public static $itemTypes = [
-      'mpn'=>'MPN',
-      'gtin'=>'GTIN',
-      'sku'=>'SKU',
-      'external_id'=>'External ID',
+      'content_data.mpn'=>'MPN',
+      'content_data.gtin'=>'GTIN',
+      'content_data.sku'=>'SKU',
+      'content_data.external_id'=>'External ID',
       'title'=>'Title',
     //  'description'=>'Description',
       'content_body'=>'Content Body',
       'images'=>'Images',
       'categories'=>'Categories',
       'price'=>'Price',
-      'shipping_price'=>'Shipping Price',
+      'content_data.shipping_price'=>'Shipping Price',
       'updated_at'=>'Updated at',
       'created_at'=>'Created at',
     ];
