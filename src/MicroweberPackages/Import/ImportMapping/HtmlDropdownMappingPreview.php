@@ -158,9 +158,10 @@ class HtmlDropdownMappingPreview
             ];
         }
 
-        $mapKeyHtml = str_replace('.','|',$mapKey);
+        $mapKeyHtml = str_replace('.',';',$mapKey);
 
-        $html = '<select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">';
+        $html = '
+        <select class="form-control" wire:model.defer="import_feed.mapped_tags.'.$mapKeyHtml.'">';
 
         foreach ($selectOptions as $name => $option) {
 
