@@ -8,7 +8,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class HtmlDropdownMappingPreview extends Component
 {
-    public $data = [];
+    public $data;
 
     public function render()
     {
@@ -22,7 +22,12 @@ class HtmlDropdownMappingPreview extends Component
             return redirect(route('admin.import-export-tool.index'));
         }
 
-        $contentXml = file_get_contents(base_path() . DS . $importFeed->source_file_realpath);
+        $xmlFile = base_path() . DS . $importFeed->source_file_realpath;
+        if (!is_file($xmlFile)) {
+            return;
+        }
+
+        $contentXml = file_get_contents($xmlFile);
 
         $newReader = new XmlToArray();
         $data = $newReader->readXml($contentXml);

@@ -396,7 +396,8 @@
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <button wire:click="startImport">Start Importing</button>
+        <br />
+        <button class="btn btn-primary" wire:click="startImport">Start Importing</button>
     </div>
 
 </div>
