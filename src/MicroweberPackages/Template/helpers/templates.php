@@ -27,6 +27,12 @@ function template_stylesheet_url()
     if (!$stylesheet_settings) {
         return;
     }
+    if(!isset($template_settings['stylesheet_compiler']['source_file'])){
+        return;
+    }
+    if(!isset($template_settings['stylesheet_compiler']['css_file'])){
+        return;
+    }
 
     $stylesheet = mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], true);
     return $stylesheet;

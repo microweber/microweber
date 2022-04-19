@@ -18,8 +18,8 @@
     <script src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
 
-   <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
-        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
 
     <?php
     $rand = uniqid();
@@ -622,9 +622,9 @@
                                             <?php endif; ?>
 
 
-                                           <div class="text-center">
-                                               <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
-                                           </div>
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                            </div>
                                             <div class="row mt-3">
 
 

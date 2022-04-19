@@ -34,7 +34,7 @@ class LaravelApplication extends Application
     public function getCachedServicesPath()
     {
 
-         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.'.self::VERSION . '_' . self::APP_VERSION.'.php');
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.' . self::VERSION . '_' . self::APP_VERSION . '.php');
     }
 
     /**
@@ -44,9 +44,8 @@ class LaravelApplication extends Application
      */
     public function getCachedPackagesPath()
     {
-        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.'.self::VERSION . '_' . self::APP_VERSION.'.php');
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.' . self::VERSION . '_' . self::APP_VERSION . '.php');
     }
-
 
 
     /**
@@ -94,16 +93,15 @@ class LaravelApplication extends Application
         */
         $storage_dir = $this->base_path_local . DIRECTORY_SEPARATOR . 'storage';
 
-        $storage_sessions_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'sessions';
+        $storage_sessions_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'sessions';
         if (!is_dir($storage_sessions_dir) and !is_link($storage_sessions_dir)) {
             $this->_mkdir_recursive($storage_sessions_dir);
         }
 
-        $storage_view_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'views';
+        $storage_view_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'views';
         if (!is_dir($storage_view_dir) and !is_link($storage_view_dir)) {
             $this->_mkdir_recursive($storage_view_dir);
         }
-
 
 
     }
@@ -132,6 +130,25 @@ class LaravelApplication extends Application
         is_dir(dirname($pathname)) || $this->_mkdir_recursive(dirname($pathname));
 
         return is_dir($pathname) || @mkdir($pathname);
+    }
+
+
+    /**
+     * Write the service manifest file to disk.
+     *
+     * @param array $manifest
+     * @return array
+     *
+     * @throws \Exception
+     */
+    public function writeManifest($manifest)
+    {
+        try {
+            parent::writeManifest($manifest);
+        } catch (\Exception $e) {
+
+        }
+
     }
 
 

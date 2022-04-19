@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
 class ContentApiControllerTest extends TestCase
@@ -141,6 +143,8 @@ class ContentApiControllerTest extends TestCase
 
 
         $this->assertEquals($contentData->data->title, $title);
+        $this->assertFalse(str_contains($contentData->data->content, 'onmouseover'));
+        $this->assertFalse(str_contains($contentData->data->content, 'XSS testing'));
 
 
         $response = $this->call(
@@ -208,4 +212,8 @@ class ContentApiControllerTest extends TestCase
 
         $this->assertNotEmpty($contentData);
     }
+
+
+
+
 }

@@ -1,123 +1,112 @@
 name: PHP Templates Tests
 on: [push,pull_request]
+
 jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
+      max-parallel: 16
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['7.4']
         templates: [
-            'microweber-templates/shopmag',
-            'microweber-templates/new-world',
-            'microweber-templates/dream',
-            'microweber-templates/template-human-recourses',
-            'microweber-templates/template-wedding',
-            'microweber-templates/template-services',
-            'microweber-templates/template-guesthouse',
-            'microweber-templates/template-beauty',
-            'microweber-templates/template-barbershop',
-            'microweber-templates/template-bamboo',
-            'microweber-templates/template-yoga-studio',
-            'microweber-templates/yachting',
-            'microweber-templates/wine',
-            'microweber-templates/template-urban',
-            'microweber-templates/template-theplace',
-            'microweber-templates/notary-services',
-            'microweber-templates/green',
-            'microweber-templates/template-digital',
-            'microweber-templates/template-comingsoon',
-            'microweber-templates/template-business',
-            'microweber-templates/template-blank',
-            'microweber-templates/template-cryptocurrency',
-            'microweber-templates/template-simple-shop',
-            'microweber-templates/template-networking-space',
-            'microweber-templates/mobile-app',
-            'microweber-templates/template-apartment',
-            'microweber-templates/template-tattoo',
-            'microweber-templates/template-private-school',
-            'microweber-templates/template-burger',
-            'microweber-templates/template-hospital',
-            'microweber-templates/template-coffeeshop',
-            'microweber-templates/template-tourism',
-            'microweber-templates/template-urban',
-            'microweber-templates/template-hostel'
+          'microweber-templates/shopmag',
+          'microweber-templates/new-world',
+          'microweber-templates/dream',
+          'microweber-templates/template-human-recourses',
+          'microweber-templates/template-wedding',
+          'microweber-templates/template-services',
+          'microweber-templates/template-guesthouse',
+          'microweber-templates/template-beauty',
+          'microweber-templates/template-barbershop',
+          'microweber-templates/template-bamboo',
+          'microweber-templates/template-yoga-studio',
+          'microweber-templates/yachting',
+          'microweber-templates/wine',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-theplace',
+          'microweber-templates/notary-services',
+          'microweber-templates/green',
+          'microweber-templates/template-digital',
+          'microweber-templates/template-comingsoon',
+          'microweber-templates/template-business',
+          'microweber-templates/template-blank',
+          'microweber-templates/template-cryptocurrency',
+          'microweber-templates/template-simple-shop',
+          'microweber-templates/template-networking-space',
+          'microweber-templates/mobile-app',
+          'microweber-templates/template-apartment',
+          'microweber-templates/template-tattoo',
+          'microweber-templates/template-private-school',
+          'microweber-templates/template-burger',
+          'microweber-templates/template-hospital',
+          'microweber-templates/template-coffeeshop',
+          'microweber-templates/template-tourism',
+          'microweber-templates/template-urban',
+          'microweber-templates/template-landing-shop',
+          'microweber-templates/proteinstore',
+          'microweber-templates/template-art',
+          'microweber-templates/template-hostel'
         ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-php
-        with:
-          php_version: ${{ matrix.php-versions }}
-      #    - name: Setup Apache
-      #      uses: thunder/apache-shiva-php-action@v1
-      #      with:
-      #        php-version: '7.4'
-      #        site-directory: /home/runner/work/microweber/microweber/
-      #        # Defaults to 8888
-      #        http-port:
-      #          8000
-      - name: Add auth composer
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "auth.json"
-          json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-progress --prefer-dist --optimize-autoloader
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          rm -rf /home/runner/work/microweber/microweber/templates/new-world/
-          rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
-      - name: Install template
-        run: composer require ${{ matrix.templates }} --no-cache
-      - name: Install Microweber with template ${{ matrix.templates }}
-        run: php artisan microweber:install admin@site.com 1 1 /home/runner/work/microweber/microweber/storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
-      - name: Run Laravel Server
-        run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
-      - name: Run Dusk Browse test
-        run: |
-          php artisan dusk --filter=BrowsePagesForBrokenTagsTest
-          rm -rf tests/Browser/screenshots/.gitignore
-      - name: Send skype
-        uses: bobimicroweber/docker-action-send-skype@v1
-        with:
-          skype_username : ${{ secrets.SKYPE_USERNAME }}
-          skype_password : ${{ secrets.SKYPE_PASSWORD }}
-          skype_ids      : ${{ secrets.SKYPE_SPAM_GROUP_ID }}
-          send_msg_text  : "Template: ${{ matrix.templates }} are tested.(checkmark) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
-          send_file_path : tests/Browser/screenshots/
-      - name: Upload Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: tests/Browser/screenshots
-      - name: Upload Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: console
-          path: tests/Browser/console
-      - name: Upload Laravel Storage
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: storage
-          path: storage
-      - name: Upload Laravel config
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: config
-          path:
-            config
-      - name: Send skype failure
-        if: failure()
-        uses: bobimicroweber/docker-action-send-skype@v1
-        with:
-          skype_username : ${{ secrets.SKYPE_USERNAME }}
-          skype_password : ${{ secrets.SKYPE_PASSWORD }}
-          skype_ids      : ${{ secrets.SKYPE_SPAM_GROUP_ID }}
-          send_msg_text  : "Template: ${{ matrix.templates }} \nUnit test failure. (bomb) \nCommit message: ${{ github.event.head_commit.message }} \nPushed by: (penguin) ${{github.actor}}"
+    - name: Checkout
+      uses: actions/checkout@v2
+    - uses: ./.github/actions/setup-php
+      with:
+        php_version: ${{ matrix.php-versions }}
+#    - name: Setup Apache
+#      uses: thunder/apache-shiva-php-action@v1
+#      with:
+#        php-version: '7.4'
+#        site-directory: /home/runner/work/microweber/microweber/
+#        # Defaults to 8888
+#        http-port:
+#          8000
+    - name: Add auth composer
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "auth.json"
+        json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
+    - name: Install Composer dependencies
+      run: |
+        composer install --no-progress --prefer-dist --optimize-autoloader
+        chmod -R 0755 vendor/laravel/dusk/bin/
+        rm -rf /home/runner/work/microweber/microweber/templates/new-world/
+        rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
+    - name: Install template
+      run: composer require ${{ matrix.templates }} --no-cache
+    - name: Install Microweber with template ${{ matrix.templates }}
+      run: php artisan microweber:install admin@site.com 1 1 /home/runner/work/microweber/microweber/storage/database1.sqlite microweber microweber nopass sqlite -p site_ -t ${{ matrix.templates }} -d 1
+    - name: Run Laravel Server
+      run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
+    - name: Run Dusk Browse test
+      run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
+    - name: Upload Laravel Storage
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: storage
+        path: storage
+    - name: Upload Laravel config
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: config
+        path:
+          config
+
+
+
