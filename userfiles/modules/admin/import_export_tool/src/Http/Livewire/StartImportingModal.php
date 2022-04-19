@@ -36,7 +36,7 @@ class StartImportingModal extends ModalComponent
         }
 
         $cacheId = $this->import_feed_id.'_prepared_data';
-        $cacheGet =  Cache::tags('import_export_tool')
+        $cacheGet = Cache::tags('import_export_tool')
             ->get($cacheId);
 
         if (empty($cacheGet)) {
