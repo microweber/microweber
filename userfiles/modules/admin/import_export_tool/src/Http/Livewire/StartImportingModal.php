@@ -30,15 +30,8 @@ class StartImportingModal extends ModalComponent
             return redirect(route('admin.import-export-tool.index'));
         }
 
-        $cacheTags = 'import_export_tool';
+        if (empty($this->import_feed->mapped_content)) {
 
-        $cacheXmlMappedArrayId = $this->import_feed_session_id . $this->import_feed->id.'_prepared_data_mapped';
-        $cacheXmlMappedArrayGet = Cache::tags($cacheTags)->get($cacheXmlMappedArrayId);
-
-        // Read xml as array
-        $cacheXmlArrayId = $this->import_feed->id.'_prepared_data';
-        $cacheXmlArrayGet = Cache::tags($cacheTags)->get($cacheXmlArrayId);
-        if (empty($cacheXmlArrayGet) && empty($cacheXmlMappedArrayGet)) {
             $contentXml = file_get_contents($xmlFile);
             $newReader = new XmlToArray();
             $data = $newReader->readXml($contentXml);
@@ -49,14 +42,8 @@ class StartImportingModal extends ModalComponent
                 return false;
             }
 
-            Cache::tags($cacheTags)->put($cacheXmlArrayId, $iterratableData);
-            return; // next step
-        }
-
-        // Map and cache readed data from xml
-        if (empty($cacheXmlMappedArrayGet)) {
             $mappedData = [];
-            foreach ($cacheXmlArrayGet as $itemI => $item) {
+            foreach ($iterratableData as $itemI => $item) {
                 foreach ($this->import_feed->mapped_tags as $tagKey => $internalKey) {
                     $tagKey = str_replace(';', '.', $tagKey);
                     $tagKey = str_replace($this->import_feed->content_tag . '.', '', $tagKey);
@@ -80,7 +67,8 @@ class StartImportingModal extends ModalComponent
                 $preparedData[] = $preparedItem;
             }
 
-            Cache::tags($cacheTags)->put($cacheXmlMappedArrayId, $preparedData);
+            $this->import_feed->mapped_content = $preparedData;
+            $this->import_feed->save();
             return; // next step
         }
 
@@ -91,9 +79,9 @@ class StartImportingModal extends ModalComponent
         $this->import_log['current_step'] = SessionStepper::currentStep();
         $this->import_log['percentage'] = SessionStepper::percentage();
 
-        $totalItemsForSave = sizeof($cacheXmlMappedArrayGet);
+        $totalItemsForSave = sizeof($this->import_feed->mapped_content);
         $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
-        $itemsBatch = array_chunk($cacheXmlMappedArrayGet, $totalItemsForBatch);
+        $itemsBatch = array_chunk($this->import_feed->mapped_content, $totalItemsForBatch);
 
         $selectBatch = ($this->import_log['current_step'] - 1);
         if (!isset($itemsBatch[$selectBatch])) {
@@ -109,7 +97,7 @@ class StartImportingModal extends ModalComponent
         foreach($itemsBatch[$selectBatch] as $item) {
             $success[] = DatabaseSave::saveProduct($item);
         }
-        
+
         return $success;
     }
 

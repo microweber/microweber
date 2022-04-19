@@ -19,6 +19,7 @@ class ImportFeed extends Model
         'download_images'=>'int',
         'update_items'=>'array',
         'mapped_tags'=>'array',
+        'mapped_content'=>'array',
         'detected_content_tags'=>'array'
     ];
 }
