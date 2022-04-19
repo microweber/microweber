@@ -88,29 +88,14 @@ class StartImportingModal extends ModalComponent
             return; // next step
         }
 
-
-        dump($cacheXmlMappedArrayGet);
-        return;
-        $cacheGet = false;
-        if (empty($cacheGet)) {
-
-
-
-            Cache::tags('import_export_tool')
-                ->put($cacheId, $preparedData);
-            return;
-        } else {
-            $preparedData = $cacheGet;
-        }
-        return;
-
+        // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
 
         $writer = new DatabaseWriter();
         $writer->setLogger($this);
         $writer->setContent([
-            'content'=>$preparedData
+            'content'=>$cacheXmlMappedArrayGet
         ]);
         $writer->setOverwriteById(1);
         $writer->runWriterWithBatch();
