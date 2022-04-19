@@ -209,6 +209,8 @@
                                         <option value="8">8 part(s)</option>
                                         <option value="9">9 part(s)</option>
                                         <option value="10">10 part(s)</option>
+                                        <option value="20">20 part(s)</option>
+                                        <option value="30">30 part(s)</option>
                                     </select>
 
                                 </td>
