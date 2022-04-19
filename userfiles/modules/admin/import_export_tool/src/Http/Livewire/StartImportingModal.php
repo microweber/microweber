@@ -78,6 +78,7 @@ class StartImportingModal extends ModalComponent
 
             Cache::tags('import_export_tool')
                 ->put($cacheId, $preparedData);
+            return;
         } else {
             $preparedData = $cacheGet;
         }
