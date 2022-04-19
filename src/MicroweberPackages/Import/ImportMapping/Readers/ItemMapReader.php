@@ -13,7 +13,7 @@ class ItemMapReader
         'content_body'=>['description','g:description','content','html','summary'],
         'pictures'=>['image','g:image_link'],
         'price'=>['price','g:price'],
-        'content_data.shipping_price'=>['shipping_price','g:shipping.g:price'],
+        'content_data.shipping_fixed_cost'=>['shipping_price','g:shipping.g:price'],
         'categories'=>['genre', 'category','g:google_product_category','g:product_type'],
         'updated_at'=>['updated_date','published'],
         'created_at'=>['publish_date','pubDate','updated'],
@@ -37,7 +37,7 @@ class ItemMapReader
       'categories'=>'Categories',
       'tags'=>'Tags',
       'price'=>'Price',
-      'content_data.shipping_price'=>'Shipping Price',
+      'content_data.shipping_fixed_cost'=>'Shipping Fixed Cost',
       'updated_at'=>'Updated at',
       'created_at'=>'Created at',
     ];

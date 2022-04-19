@@ -65,7 +65,7 @@ class Product extends Content
         'sell_oos'=>'',
         'physical_product'=>'',
         'free_shipping'=>'',
-        'fixed_cost'=>'',
+        'shipping_fixed_cost'=>'',
         'weight_type'=>'kg',
         'params_in_checkout'=>0,
         'has_special_price'=>0,
