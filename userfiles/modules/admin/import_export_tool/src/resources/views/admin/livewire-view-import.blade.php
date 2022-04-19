@@ -366,7 +366,7 @@
                                 </tr>
                                 <tr>
                                     <td class="name">Feed size</td>
-                                    <td>{{round($import_feed['source_file_size'] / 1024, 1)}}MB</td>
+                                    <td>{{mw()->format->human_filesize($import_feed['source_file_size'])}}</td>
                                 </tr>
                                 <tr>
                                     <td class="name">Content in Feed</td>
