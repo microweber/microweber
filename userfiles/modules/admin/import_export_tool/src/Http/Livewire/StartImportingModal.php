@@ -95,6 +95,8 @@ class StartImportingModal extends ModalComponent
         $this->import_log['current_step'] = SessionStepper::currentStep();
         $this->import_log['percentage'] = SessionStepper::percentage();
 
+        \Config::set('microweber.disable_model_cache', 1);
+
         $writer = new DatabaseWriter();
         $writer->setLogger($this);
         $writer->setContent([
