@@ -20,6 +20,10 @@ class ItemMapReader
     ];
 
     public static $itemTypes = [
+        'pictures'=>self::ITEM_TYPE_ARRAY
+    ];
+
+    public static $itemNames = [
       'content_data.mpn'=>'MPN',
       'content_data.barcode'=>'Barcode',
       'content_data.sku'=>'SKU',

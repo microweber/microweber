@@ -147,7 +147,7 @@ class HtmlDropdownMappingPreview
             'selected'=>false,
         ];
 
-        foreach (ItemMapReader::$itemTypes as $key=>$name) {
+        foreach (ItemMapReader::$itemNames as $key=>$name) {
 
             $selected = false;
             foreach (ItemMapReader::$map[$key] as $itemMapKey) {

@@ -59,6 +59,8 @@ class StartImportingModal extends ModalComponent
             $preparedData[] = $preparedItem;
         }
 
+        dd($preparedData);
+
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
 
