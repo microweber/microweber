@@ -5,8 +5,8 @@
 
 
             <!-- Alpine v3 -->
-            <script defer src="//unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+            <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+            @livewireStyles
             @livewireScripts
             @livewire('livewire-ui-modal')
 
