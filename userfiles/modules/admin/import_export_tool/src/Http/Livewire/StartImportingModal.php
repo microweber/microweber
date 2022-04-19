@@ -37,7 +37,7 @@ class StartImportingModal extends ModalComponent
 
         $cacheTags = 'import_export_tool';
 
-        $cacheXmlMappedArrayId = $this->import_feed_id.'_prepared_data_mapped';
+        $cacheXmlMappedArrayId = $this->import_feed_session_id . $this->import_feed_id.'_prepared_data_mapped';
         $cacheXmlMappedArrayGet = Cache::tags($cacheTags)->get($cacheXmlMappedArrayId);
 
         // Read xml as array
@@ -92,6 +92,8 @@ class StartImportingModal extends ModalComponent
         // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
+        $this->import_log['current_step'] = SessionStepper::currentStep();
+        $this->import_log['percentage'] = SessionStepper::percentage();
 
         $writer = new DatabaseWriter();
         $writer->setLogger($this);
