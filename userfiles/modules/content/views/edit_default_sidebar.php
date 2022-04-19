@@ -27,78 +27,82 @@
             if (request.status >= 200 && request.status < 400) {
                 var tdata = JSON.parse(request.responseText);
 
-                    var selectedPages = [ <?php print $data['parent']; ?>];
-                    var selectedCategories = [ <?php print $categories_active_ids; ?>];
+                if(!tdata.length){
+                    return false;
+                }
+
+                var selectedPages = [ <?php print $data['parent']; ?>];
+                var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
 
 
-                    var tags = mw.element();
-                    var tree = mw.element();
+                var tags = mw.element();
+                var tree = mw.element();
 
-                    mw.element('.post-category-tags').empty().append(tags)
-                    mw.element('#quick-parent-selector-tree').empty().append(tree)
+                mw.element('.post-category-tags').empty().append(tags)
+                mw.element('#quick-parent-selector-tree').empty().append(tree)
 
 
 
-                    window.categorySelector = new mw.treeTags({
-                        data: tdata,
-                        selectable: true,
-                        multiPageSelect: false,
-                        tagsHolder: tags.get(0),
-                        treeHolder: tree.get(0),
-                        color: 'primary',
-                        size: 'sm',
-                        outline: true,
-                        saveState: false,
-                        on: {
-                            selectionChange: function () {
-                              //  document.querySelector('.btn-save').disabled = false;
-                                mw.askusertostay = true;
-                            }
+                window.categorySelector = new mw.treeTags({
+                    data: tdata,
+                    selectable: true,
+                    multiPageSelect: false,
+                    tagsHolder: tags.get(0),
+                    treeHolder: tree.get(0),
+                    color: 'primary',
+                    size: 'sm',
+                    outline: true,
+                    saveState: false,
+                    on: {
+                        selectionChange: function () {
+                            //  document.querySelector('.btn-save').disabled = false;
+                            mw.askusertostay = true;
                         }
-                    });
+                    }
+                });
 
-                    $(categorySelector.tree).on('ready', function () {
-                        if (window.pagesTree && pagesTree.selectedData.length) {
-                            $.each(pagesTree.selectedData, function () {
-                                categorySelector.tree.select(this)
-                            })
-                        } else {
-                            $.each(selectedPages, function () {
-                                categorySelector.tree.select(this, 'page')
-                            });
-                            $.each(selectedCategories, function () {
-                                categorySelector.tree.select(this, 'category')
-                            });
-                        }
-
-                        var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
-
-                        tree.before(atcmplt);
-
-                        atcmplt.find('input').on('input', function () {
-                            var val = this.value.toLowerCase().trim();
-                            if (!val) {
-                                categorySelector.tree.showAll();
-                            }
-                            else {
-                                categorySelector.tree.options.data.forEach(function (item) {
-
-                                    if (item.title.toLowerCase().indexOf(val) === -1) {
-                                        categorySelector.tree.hide(item);
-                                    }
-                                    else {
-                                        categorySelector.tree.show(item);
-                                    }
-                                });
-                            }
+                $(categorySelector.tree).on('ready', function () {
+                    if (window.pagesTree && pagesTree.selectedData.length) {
+                        $.each(pagesTree.selectedData, function () {
+                            categorySelector.tree.select(this)
                         })
-                    });
+                    } else {
+                        $.each(selectedPages, function () {
+                            categorySelector.tree.select(this, 'page')
+                        });
+                        $.each(selectedCategories, function () {
+                            categorySelector.tree.select(this, 'category')
+                        });
+                    }
 
-                    $(categorySelector.tags).on("tagClick", function (e, data) {
-                        $(".mw-tree-selector").show();
-                        mw.tools.highlight(categorySelector.tree.get(data))
-                    });
+                    var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
+
+                    tree.before(atcmplt);
+
+                    atcmplt.find('input').on('input', function () {
+                        var val = this.value.toLowerCase().trim();
+                        if (!val) {
+                            categorySelector.tree.showAll();
+                        }
+                        else {
+                            categorySelector.tree.options.data.forEach(function (item) {
+
+                                if (item.title.toLowerCase().indexOf(val) === -1) {
+                                    categorySelector.tree.hide(item);
+                                }
+                                else {
+                                    categorySelector.tree.show(item);
+                                }
+                            });
+                        }
+                    })
+                });
+
+                $(categorySelector.tags).on("tagClick", function (e, data) {
+                    $(".mw-tree-selector").show();
+                    mw.tools.highlight(categorySelector.tree.get(data))
+                });
 
             }
         }
@@ -159,7 +163,7 @@
 
     <?php if(isset($product) && $product !== null): ?>
 
-    <?php
+        <?php
 
         /*<div class="card style-1 mb-3 product-variants">
         <div class="card-body pt-3 pb-1">
@@ -186,177 +190,177 @@
 
     <?php
     if ($showCategories):
-    ?>
-    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
-        <div class="card-body pt-3 pb-1">
-            <div class="row">
-                <?php if ($data['content_type'] == 'page') : ?>
-                    <div class="col-12">
-                        <strong><?php _e("Select parent page"); ?></strong>
+        ?>
+        <div class="card style-1 mb-3 categories js-sidebar-categories-card">
+            <div class="card-body pt-3 pb-1">
+                <div class="row">
+                    <?php if ($data['content_type'] == 'page') : ?>
+                        <div class="col-12">
+                            <strong><?php _e("Select parent page"); ?></strong>
 
-                        <div class="quick-parent-selector mt-2">
-                            <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
+                            <div class="quick-parent-selector mt-2">
+                                <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
+                            </div>
                         </div>
-                    </div>
-                <?php else: ?>
-                    <div class="col-12">
-                        <strong><?php _e('Categories'); ?></strong>
+                    <?php else: ?>
+                        <div class="col-12">
+                            <strong><?php _e('Categories'); ?></strong>
 
-                        <script>
-                            function manage_cats_for_add_post() {
+                            <script>
+                                function manage_cats_for_add_post() {
 
-                                var manage_cats_for_add_post_opts = {};
-                                // opts.width = '900';
-                                // opts.height = '800';
+                                    var manage_cats_for_add_post_opts = {};
+                                    // opts.width = '900';
+                                    // opts.height = '800';
 
-                              //  opts.liveedit = true;
-                              //  opts.mode = 'modal';
+                                    //  opts.liveedit = true;
+                                    //  opts.mode = 'modal';
 
-                                var additional_params = {};
-                                additional_params.show_add_post_to_category_button = 'true';
-
-
-
-                                manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
-                            }
-                        </script>
-
-                        <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
-                     </div>
-                <?php endif; ?>
-            </div>
-
-
-            <div class="row mb-3">
-                <div class="col-12">
-                    <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                        <script>
-                            $(document).ready(function () {
-
-                                var editContentCategoryTreeSelector;
-
-
-                                mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
-                                    if (typeof(window.categorySelector) != 'undefined') {
-                                        editContentCategoryTreeSelector = window.categorySelector.tree;
-                                    }
-                                    if (typeof(mw.adminPagesTree) != 'undefined') {
-                                        editContentCategoryTreeSelector = mw.adminPagesTree;
-                                    }
-                                    if (typeof(window.pagesTree) != 'undefined') {
-                                        editContentCategoryTreeSelector = window.pagesTree;
-                                    }
-
-                                    if (typeof(editContentCategoryTreeSelector) != 'undefined') {
-                                        mw.notification.success('The content is added to category');
-
-                                        var all = [];
-                                        all.push({
-                                            type: 'category',
-                                            id: catId
-                                        })
-
-
-                                        editContentCategoryTreeSelector.select(all);
-                                        if (typeof(categorySelector) != 'undefined') {
-                                        categorySelector.tree.select(catId, 'category')
-                                        }
-
-                                        if (typeof(thismodal) != 'undefined') {
-                                        thismodal.remove()
-                                        }
-
-                                        if (typeof(manage_cats_for_add_post_dialog) != 'undefined') {
-                                            manage_cats_for_add_post_dialog.remove()
-                                        }
+                                    var additional_params = {};
+                                    additional_params.show_add_post_to_category_button = 'true';
 
 
 
-                                        //
-                                       // if( mw.dialog.get(event.target)){
-                                       //     mw.dialog.get(event.target).remove()
-                                       // }
-
-
-
-
-                                    }
-
-                                });
-
-
-
-                                $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function (e) {
-                                    if (e.target.nodeName === 'DIV') {
-                                        setTimeout(function () {
-                                            $('.mw-ui-invisible-field', e.target).focus()
-                                        }, 78)
-                                    }
-                                });
-
-                                var all = [{type: 'page', id: <?php print !empty($data['parent']) ? $data['parent'] : 'null' ?>}];
-                                var cats = [<?php print $categories_active_ids; ?>];
-
-                                $.each(cats, function () {
-                                    all.push({
-                                        type: 'category',
-                                        id: this
-                                    })
-                                });
-
-                                if (typeof(editContentCategoryTreeSelector) != 'undefined') {
-                                   editContentCategoryTreeSelector.select(all);
+                                    manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                 }
-                            });
-                        </script>
+                            </script>
 
-                        <div class="mw-tag-selector mt-3" id="mw-post-added-<?php print $rand; ?>">
-                            <div class="post-category-tags"></div>
+                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>
-            </div>
 
-            <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                <hr class="thin no-padding"/>
 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <div id="show-categories-tree-wrapper" >
-                        <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
-                        <br/>
-                        <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
-                        <br/>
+                        <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                            <script>
+                                $(document).ready(function () {
 
-                        <div id="show-categories-tree" class="collapse">
-                            <div class="mw-admin-edit-page-primary-settings content-category-selector">
-                                <div class="mw-ui-field-holder">
-                                    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
-                                        <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    loadCategoriesTree();
-                                                });
+                                    var editContentCategoryTreeSelector;
 
-                                               mw.on('pagesTreeRefresh', function () {
-                                                     loadCategoriesTree();
-                                                });
-                                            </script>
 
-                                            <div id="quick-parent-selector-tree"></div>
+                                    mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
+                                        if (typeof(window.categorySelector) != 'undefined') {
+                                            editContentCategoryTreeSelector = window.categorySelector.tree;
+                                        }
+                                        if (typeof(mw.adminPagesTree) != 'undefined') {
+                                            editContentCategoryTreeSelector = mw.adminPagesTree;
+                                        }
+                                        if (typeof(window.pagesTree) != 'undefined') {
+                                            editContentCategoryTreeSelector = window.pagesTree;
+                                        }
 
-                                            <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
-                                        <?php endif; ?>
+                                        if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                            mw.notification.success('The content is added to category');
+
+                                            var all = [];
+                                            all.push({
+                                                type: 'category',
+                                                id: catId
+                                            })
+
+
+                                            editContentCategoryTreeSelector.select(all);
+                                            if (typeof(categorySelector) != 'undefined') {
+                                                categorySelector.tree.select(catId, 'category')
+                                            }
+
+                                            if (typeof(thismodal) != 'undefined') {
+                                                thismodal.remove()
+                                            }
+
+                                            if (typeof(manage_cats_for_add_post_dialog) != 'undefined') {
+                                                manage_cats_for_add_post_dialog.remove()
+                                            }
+
+
+
+                                            //
+                                            // if( mw.dialog.get(event.target)){
+                                            //     mw.dialog.get(event.target).remove()
+                                            // }
+
+
+
+
+                                        }
+
+                                    });
+
+
+
+                                    $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function (e) {
+                                        if (e.target.nodeName === 'DIV') {
+                                            setTimeout(function () {
+                                                $('.mw-ui-invisible-field', e.target).focus()
+                                            }, 78)
+                                        }
+                                    });
+
+                                    var all = [{type: 'page', id: <?php print !empty($data['parent']) ? $data['parent'] : 'null' ?>}];
+                                    var cats = [<?php print $categories_active_ids; ?>];
+
+                                    $.each(cats, function () {
+                                        all.push({
+                                            type: 'category',
+                                            id: this
+                                        })
+                                    });
+
+                                    if (typeof(editContentCategoryTreeSelector) != 'undefined') {
+                                        editContentCategoryTreeSelector.select(all);
+                                    }
+                                });
+                            </script>
+
+                            <div class="mw-tag-selector mt-3" id="mw-post-added-<?php print $rand; ?>">
+                                <div class="post-category-tags"></div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                    <hr class="thin no-padding"/>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="show-categories-tree-wrapper" >
+                                <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
+                                <br/>
+                                <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
+                                <br/>
+
+                                <div id="show-categories-tree" class="collapse">
+                                    <div class="mw-admin-edit-page-primary-settings content-category-selector">
+                                        <div class="mw-ui-field-holder">
+                                            <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
+                                                <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            loadCategoriesTree();
+                                                        });
+
+                                                        mw.on('pagesTreeRefresh', function () {
+                                                            loadCategoriesTree();
+                                                        });
+                                                    </script>
+
+                                                    <div id="quick-parent-selector-tree"></div>
+
+                                                    <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
                     </div>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
 
     <?php
     endif;
@@ -380,8 +384,8 @@
 
     <?php
     if ($showTags):
-    ?>
-    <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+        ?>
+        <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card style-1 mb-3">
             <div class="card-body pt-3">
                 <div class="row mb-3">

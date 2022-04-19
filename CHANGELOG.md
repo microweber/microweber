@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [1.2.14] - 2022-04-14
+- Updated admin panel to Bootstrap 5
+- Improvements on the editor when editing UL and LI elements
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.13...1.2.14 "")
+
+
 ## [1.2.13] - 2022-04-04
 - Fixes right to left text alignment in the editor.
 - Fixes on Multi language

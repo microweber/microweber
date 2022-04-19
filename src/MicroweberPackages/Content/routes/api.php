@@ -9,21 +9,29 @@
 
 Route::name('api.')
     ->prefix('api')
+    ->middleware(['api', 'admin'])
+    ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
+    ->group(function () {
+        Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
+            return mw()->category_manager->get_admin_js_tree_json($request->all());
+        });
+    });
+
+Route::name('api.')
+    ->prefix('api')
     ->middleware(['api','admin'])
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
         Route::apiResource('content', 'ContentApiController')->only([
-            'store'
+            'store', // 'update','destroy','index','show'
         ]);
 
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
             return save_edit($request->all());
         })->name('content.save_edit');
 
-        Route::get('content/get_admin_js_tree_json', function(\Illuminate\Http\Request $request){
-            return mw()->category_manager->get_admin_js_tree_json($request->all());
-        });
+
 
         Route::post('content/set_published', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->set_published($request->all());

@@ -108,14 +108,14 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->type('email', $new_email);
             $browser->select('is_admin', 1);
 
-            $browser->script("document.querySelector('label[for=\"is_active1\"]').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
+            $browser->script("document.querySelector('label[for=\"is_active1\"]').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
             $browser->pause(300);
 
             $browser->click('label[for="is_active1"]');
 
             $browser->pause(100);
 
-            $browser->script("$('html, body').animate({ scrollTop: $('#user-save-button').offset().top - 30 }, 0);");
+            $browser->script("document.querySelector('#user-save-button').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
 
 
             $browser->pause(300);
