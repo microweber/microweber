@@ -35,24 +35,32 @@ class StartImportingModal extends ModalComponent
             return redirect(route('admin.import-export-tool.index'));
         }
 
-        $cacheId = $this->import_feed_id.'_prepared_data';
-        $cacheGet = Cache::tags('import_export_tool')
-            ->get($cacheId);
+        $cacheTags = 'import_export_tool';
 
-        if (empty($cacheGet)) {
+        // Read xml as array
+        $cacheXmlArrayId = $this->import_feed_id.'_prepared_data';
+        $cacheXmlArrayGet = Cache::tags($cacheTags)->get($cacheXmlArrayId);
+        if (empty($cacheXmlArrayGet)) {
             $contentXml = file_get_contents($xmlFile);
-
             $newReader = new XmlToArray();
             $data = $newReader->readXml($contentXml);
-            $iterratableData = Arr::get($data, $importFeed->content_tag);
 
+            $iterratableData = Arr::get($data, $importFeed->content_tag);
             if (empty($iterratableData)) {
                 $this->done = true;
                 return false;
             }
 
+            Cache::tags($cacheTags)->put($cacheXmlArrayId, $iterratableData);
+            return; // next step
+        }
+
+        // Map and cache readed data from xml
+        $cacheXmlMappedArrayId = $this->import_feed_id.'_prepared_data_mapped';
+        $cacheXmlMappedArrayGet = Cache::tags($cacheTags)->get($cacheXmlMappedArrayId);
+        if (empty($cacheXmlMappedArrayGet)) {
             $mappedData = [];
-            foreach ($iterratableData as $itemI => $item) {
+            foreach ($cacheXmlArrayGet as $itemI => $item) {
                 foreach ($importFeed->mapped_tags as $tagKey => $internalKey) {
                     $tagKey = str_replace(';', '.', $tagKey);
                     $tagKey = str_replace($importFeed->content_tag . '.', '', $tagKey);
@@ -76,12 +84,25 @@ class StartImportingModal extends ModalComponent
                 $preparedData[] = $preparedItem;
             }
 
+            Cache::tags($cacheTags)->put($cacheXmlMappedArrayId, $preparedData);
+            return; // next step
+        }
+
+
+        dump($cacheXmlMappedArrayGet);
+        return;
+        $cacheGet = false;
+        if (empty($cacheGet)) {
+
+
+
             Cache::tags('import_export_tool')
                 ->put($cacheId, $preparedData);
             return;
         } else {
             $preparedData = $cacheGet;
         }
+        return;
 
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
