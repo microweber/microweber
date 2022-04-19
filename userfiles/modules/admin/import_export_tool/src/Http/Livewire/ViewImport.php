@@ -47,27 +47,22 @@ class ViewImport extends Component
     public function download()
     {
         $dir = storage_path() . DS . 'import_export_tool';
-        $filename = $dir . DS . md5($this->import_feed['source_file']) .'.'. get_file_extension($this->import_feed['source_file']);
-
+        $filename = $dir . DS . md5($this->import_feed['source_file']) .'.txt';
         if (!is_dir($dir)) {
             mkdir_recursive($dir);
-        }
-
-        $filesUtils = new \MicroweberPackages\Utils\System\Files();
-        if (!$filesUtils->is_allowed_file($this->import_feed['source_file'])) {
-            return;
         }
 
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
         if ($downloaded && is_file($filename)) {
 
-            $realpath = str_replace(base_path(),'', $filename);
-
             $newReader = new XmlToArray();
             $xmlArray = $newReader->readXml(file_get_contents($filename));
             if (empty($xmlArray)) {
                 unlink($filename);
+                return;
             }
+
+            $realpath = str_replace(base_path(),'', $filename);
 
             $iterratableTargetKeys = $newReader->getArrayIterratableTargetKeys($xmlArray);
             $iterratableTargetKeys = Arr::dot($iterratableTargetKeys);
