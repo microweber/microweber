@@ -31,7 +31,6 @@ class StartImportingModal extends ModalComponent
         }
 
         if (empty($this->import_feed->mapped_content)) {
-
             $contentXml = file_get_contents($xmlFile);
             $newReader = new XmlToArray();
             $data = $newReader->readXml($contentXml);
