@@ -91,6 +91,14 @@ class DatabaseSave
 
     public static function downloadAndSaveMedia($imageUrl, $contentId) {
 
+        if (is_array($imageUrl)) {
+            $saved = [];
+            foreach ($imageUrl as $url) {
+                $saved[] = self::downloadAndSaveMedia($url,$contentId);
+            }
+            return $saved;
+        }
+
         $photoId = md5($imageUrl);
         $filename = media_uploads_path() . $photoId . '.tmp';
         $filenameUrl = media_uploads_url() . $photoId . '.tmp';

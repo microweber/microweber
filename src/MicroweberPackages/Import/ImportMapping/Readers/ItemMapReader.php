@@ -20,7 +20,9 @@ class ItemMapReader
     ];
 
     public static $itemTypes = [
-        'pictures'=>self::ITEM_TYPE_ARRAY
+        'pictures'=>self::ITEM_TYPE_ARRAY,
+        'categories'=>self::ITEM_TYPE_ARRAY,
+        'tags'=>self::ITEM_TYPE_ARRAY,
     ];
 
     public static $itemNames = [
@@ -31,8 +33,9 @@ class ItemMapReader
       'title'=>'Title',
     //  'description'=>'Description',
       'content_body'=>'Content Body',
-      'pictures'=>'Images',
+      'pictures'=>'Pictures',
       'categories'=>'Categories',
+      'tags'=>'Tags',
       'price'=>'Price',
       'content_data.shipping_price'=>'Shipping Price',
       'updated_at'=>'Updated at',

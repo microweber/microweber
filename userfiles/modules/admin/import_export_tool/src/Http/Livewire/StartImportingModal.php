@@ -7,6 +7,7 @@ use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Import\DatabaseWriter;
+use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
@@ -49,7 +50,17 @@ class StartImportingModal extends ModalComponent
             foreach($importFeed->mapped_tags as $tagKey=>$internalKey) {
                 $tagKey = str_replace(';', '.', $tagKey);
                 $tagKey = str_replace($importFeed->content_tag . '.', '', $tagKey);
-                $mappedData[$itemI][$internalKey] = Arr::get($item, $tagKey);
+
+                $saveItem = Arr::get($item, $tagKey);
+                if (isset(ItemMapReader::$itemTypes[$internalKey])) {
+                    if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {
+                        $saveArrayItem = [];
+                        $saveArrayItem[] = $saveItem;
+                        $saveItem = $saveArrayItem;
+                    }
+                }
+
+                $mappedData[$itemI][$internalKey] = $saveItem;
             }
         }
 
@@ -58,8 +69,6 @@ class StartImportingModal extends ModalComponent
             $preparedItem = Arr::undot($undotItem);
             $preparedData[] = $preparedItem;
         }
-
-        dd($preparedData);
 
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();

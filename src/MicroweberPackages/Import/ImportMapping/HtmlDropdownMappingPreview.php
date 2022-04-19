@@ -150,10 +150,12 @@ class HtmlDropdownMappingPreview
         foreach (ItemMapReader::$itemNames as $key=>$name) {
 
             $selected = false;
-            foreach (ItemMapReader::$map[$key] as $itemMapKey) {
-                if(stripos($mapKey, $itemMapKey) !== false) {
-                    $selected = true;
-                    break;
+            if (isset(ItemMapReader::$map[$key])) {
+                foreach (ItemMapReader::$map[$key] as $itemMapKey) {
+                    if (stripos($mapKey, $itemMapKey) !== false) {
+                        $selected = true;
+                        break;
+                    }
                 }
             }
 
