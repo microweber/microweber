@@ -92,7 +92,7 @@ class StartImportingModal extends ModalComponent
         // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
-        
+
         $this->import_log['current_step'] = SessionStepper::currentStep();
         $this->import_log['percentage'] = SessionStepper::percentage();
 
@@ -112,7 +112,7 @@ class StartImportingModal extends ModalComponent
 
         $success = array();
         foreach($itemsBatch[$selectBatch] as $item) {
-            $success[] = DatabaseSave::saveProduct($item);
+            $success[] = $item; // DatabaseSave::saveProduct($item);
         }
         return $success;
     }
