@@ -92,26 +92,29 @@ class StartImportingModal extends ModalComponent
         // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
+        
         $this->import_log['current_step'] = SessionStepper::currentStep();
         $this->import_log['percentage'] = SessionStepper::percentage();
 
-        \Config::set('microweber.disable_model_cache', 1);
+        $totalItemsForSave = sizeof($cacheXmlMappedArrayGet);
+        $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
+        $itemsBatch = array_chunk($cacheXmlMappedArrayGet, $totalItemsForBatch);
 
-        $writer = new DatabaseWriter();
-        $writer->setLogger($this);
-        $writer->setContent([
-            'content'=>$cacheXmlMappedArrayGet
-        ]);
-        $writer->setOverwriteById(1);
-        $writer->runWriterWithBatch();
-
-        $log = $writer->getImportLog();
-        $this->import_log = $log;
-
-        if (isset($log['done']) && $log['done']) {
-            $this->done = true;
+        $selectBatch = ($this->import_log['current_step'] - 1);
+        if (!isset($itemsBatch[$selectBatch])) {
+            SessionStepper::finish();
         }
 
+        if (SessionStepper::isFinished()) {
+            $this->done = true;
+            return array("success"=>"Done! All steps are finished.");
+        }
+
+        $success = array();
+        foreach($itemsBatch[$selectBatch] as $item) {
+            $success[] = DatabaseSave::saveProduct($item);
+        }
+        return $success;
     }
 
     public function clearLog()
