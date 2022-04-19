@@ -211,6 +211,7 @@
                                         <option value="10">10 part(s)</option>
                                         <option value="20">20 part(s)</option>
                                         <option value="30">30 part(s)</option>
+                                        <option value="100">100 part(s)</option>
                                     </select>
 
                                 </td>

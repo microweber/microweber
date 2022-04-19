@@ -37,10 +37,13 @@ class StartImportingModal extends ModalComponent
 
         $cacheTags = 'import_export_tool';
 
+        $cacheXmlMappedArrayId = $this->import_feed_id.'_prepared_data_mapped';
+        $cacheXmlMappedArrayGet = Cache::tags($cacheTags)->get($cacheXmlMappedArrayId);
+
         // Read xml as array
         $cacheXmlArrayId = $this->import_feed_id.'_prepared_data';
         $cacheXmlArrayGet = Cache::tags($cacheTags)->get($cacheXmlArrayId);
-        if (empty($cacheXmlArrayGet)) {
+        if (empty($cacheXmlArrayGet) && empty($cacheXmlMappedArrayGet)) {
             $contentXml = file_get_contents($xmlFile);
             $newReader = new XmlToArray();
             $data = $newReader->readXml($contentXml);
@@ -56,8 +59,6 @@ class StartImportingModal extends ModalComponent
         }
 
         // Map and cache readed data from xml
-        $cacheXmlMappedArrayId = $this->import_feed_id.'_prepared_data_mapped';
-        $cacheXmlMappedArrayGet = Cache::tags($cacheTags)->get($cacheXmlMappedArrayId);
         if (empty($cacheXmlMappedArrayGet)) {
             $mappedData = [];
             foreach ($cacheXmlArrayGet as $itemI => $item) {
