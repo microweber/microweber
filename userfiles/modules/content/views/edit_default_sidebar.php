@@ -27,6 +27,10 @@
             if (request.status >= 200 && request.status < 400) {
                 var tdata = JSON.parse(request.responseText);
 
+                if(!tdata.length){
+                    return false;
+                }
+
                 var selectedPages = [ <?php print $data['parent']; ?>];
                 var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
