@@ -73,6 +73,7 @@ class ViewImport extends Component
             $feedUpdate->source_file_realpath = $realpath;
             $feedUpdate->detected_content_tags = $iterratableTargetKeys;
             $feedUpdate->count_of_contents = count($iterratableData);
+            $feedUpdate->mapped_content = [];
             $feedUpdate->source_file_size = filesize($filename);
             $feedUpdate->last_downloaded_date = Carbon::now();
             $feedUpdate->save();

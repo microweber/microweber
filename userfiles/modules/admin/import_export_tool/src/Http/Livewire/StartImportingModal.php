@@ -44,15 +44,18 @@ class StartImportingModal extends ModalComponent
             $mappedData = [];
             foreach ($iterratableData as $itemI => $item) {
                 foreach ($this->import_feed->mapped_tags as $tagKey => $internalKey) {
+                    if (empty($internalKey)) {
+                        continue;
+                    }
+
                     $tagKey = str_replace(';', '.', $tagKey);
                     $tagKey = str_replace($this->import_feed->content_tag . '.', '', $tagKey);
 
                     $saveItem = Arr::get($item, $tagKey);
                     if (isset(ItemMapReader::$itemTypes[$internalKey])) {
                         if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {
-                            $saveArrayItem = [];
-                            $saveArrayItem[] = $saveItem;
-                            $saveItem = $saveArrayItem;
+                            $mappedData[$itemI][$internalKey][] = $saveItem;
+                            continue;
                         }
                     }
 
