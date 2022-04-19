@@ -69,7 +69,7 @@
                         <div class="input-group mb-3 prepend-transparent">
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
-                            </div> 
+                            </div>
                             <input type="text" class="form-control" name="content_data[shipping_fixed_cost]" value="<?php echo $contentData['shipping_fixed_cost']; ?>">
                         </div>
                     </div>

@@ -59,7 +59,6 @@ class ViewImport extends Component
         }
 
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
-
         if ($downloaded && is_file($filename)) {
 
             $realpath = str_replace(base_path(),'', $filename);
