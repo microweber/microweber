@@ -52,7 +52,7 @@ class DatabaseSave
         $product->save();
 
         if (isset($productData['pictures'])) {
-         //  self::downloadAndSaveMedia($productData['pictures'], $product->id);
+            self::downloadAndSaveMedia($productData['pictures'], $product->id);
         }
 
         if (isset($productData['variants']) && !empty($productData['variants'])) {
