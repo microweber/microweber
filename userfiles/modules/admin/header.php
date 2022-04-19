@@ -63,11 +63,10 @@
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
             mw.require("fonts.js");
 
-           
+
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
-    @livewireStyles
 </head>
 
 
