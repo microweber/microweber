@@ -14,7 +14,7 @@ Route::name('api.')
     ->group(function () {
         Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
             return mw()->category_manager->get_admin_js_tree_json($request->all());
-        });
+        })->name('content.get_admin_js_tree_json');
     });
 
 Route::name('api.')

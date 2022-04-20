@@ -13,7 +13,8 @@ userfiles/cache/*
 userfiles/modules/browser_redirect
 userfiles/templates/liteness
 userfiles/templates/dream
-userfiles/templates/bricksite
+userfiles/templates/bootstrap5
+userfiles/templates/shopmag
 userfiles/templates/new-world
 storage/cache/*
 cache/.htaccess
