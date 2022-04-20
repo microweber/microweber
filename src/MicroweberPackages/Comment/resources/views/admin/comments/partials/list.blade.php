@@ -17,10 +17,8 @@
         aria-expanded="false"
         aria-controls="collapseExample">
         <div class="card-body">
-
-
+            
             <?php
-
             $content_picture = get_picture($content['rel_id']);
             ?>
 
