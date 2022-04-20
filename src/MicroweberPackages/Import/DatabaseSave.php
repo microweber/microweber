@@ -32,7 +32,6 @@ class DatabaseSave
             $blogPage->save();
         }
 
-
         $post = Post::where('title', $postData['title'])->first();
         if ($post == null) {
             $post = new Post();
