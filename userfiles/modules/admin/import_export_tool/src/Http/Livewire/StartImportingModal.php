@@ -63,7 +63,11 @@ class StartImportingModal extends ModalComponent
 
         $success = array();
         foreach($itemsBatch[$selectBatch] as $item) {
-            $success[] = DatabaseSave::saveProduct($item);
+            if (isset($item['price'])) {
+                $success[] = DatabaseSave::saveProduct($item);
+            } else{
+                $success[] = DatabaseSave::savePost($item);
+            }
         }
 
         return $success;

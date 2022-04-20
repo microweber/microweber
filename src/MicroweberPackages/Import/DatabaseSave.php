@@ -2,13 +2,11 @@
 namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Models\ProductVariant;
-use function db_save;
-use function media_uploads_path;
-use function media_uploads_url;
-use function mw;
 
 /**
  * Microweber - Backup Module Database Save
@@ -19,6 +17,51 @@ use function mw;
  */
 class DatabaseSave
 {
+    public static function savePost($postData)
+    {
+        $blogPage = Page::where('content_type', 'page')->where('subtype', 'dynamic')->first();
+        if ($blogPage == null) {
+            $blogPage = new Page();
+            $blogPage->title = 'Blog';
+            $blogPage->content_type = 'page';
+            $blogPage->subtype = 'dynamic';
+            $blogPage->save();
+        }
+
+
+        $post = Post::where('title', $postData['title'])->first();
+        if ($post == null) {
+            $post = new Post();
+            $post->title = $postData['title'];
+            $post->parent = $blogPage->id;
+        }
+
+        if (isset($postData['categories']) && !empty($postData['categories'])) {
+            $categoryIds = self::getOrInsertCategories($postData['categories'], $blogPage->id);
+            if (!empty($categoryIds)) {
+                $post->category_ids = $categoryIds;
+            }
+        }
+
+        if (isset($postData['content_body'])) {
+            $post->content_body = $postData['content_body'];
+        }
+        if (isset($postData['description'])) {
+            $post->description = $postData['description'];
+        }
+
+        if (isset($postData['content_data']) && !empty($postData['content_data'])) {
+            $post->setContentData($postData['content_data']);
+        }
+
+        $post->save();
+
+        if (isset($postData['pictures'])) {
+            self::downloadAndSaveMedia($postData['pictures'], $post->id);
+        }
+
+    }
+
     public static function saveProduct($productData)
     {
         $shopPage = Page::where('content_type', 'page')->where('is_shop', 1)->first();
@@ -30,40 +73,6 @@ class DatabaseSave
             $shopPage->save();
         }
 
-        $categoryIds = [];
-        if (isset($productData['categories']) && !empty($productData['categories'])) {
-           $categories = $productData['categories'];
-           $categoryParentId = false;
-           foreach ($categories as $category) {
-
-               $findCategoryQuery = Category::query();
-               $findCategoryQuery->where('title', $category);
-               if ($categoryParentId) {
-                   // Here is a child of categories
-                   $findCategoryQuery->where('parent_id', $categoryParentId);
-               } else {
-                   // Here is a first level of category [parent]
-                   $findCategoryQuery->where('rel_id', $shopPage->id);
-               }
-               $findCategory = $findCategoryQuery->first();
-
-               if ($findCategory == null) {
-                   $findCategory = new Category();
-                   $findCategory->title = $category;
-                   if ($categoryParentId) {
-                       // Category childs
-                       $findCategory->parent_id = $categoryParentId;
-                   } else {
-                       // First level of category [parent]
-                       $findCategory->rel_id = $shopPage->id;
-                   }
-                   $findCategory->save();
-               }
-               // Save latest category memory id
-               $categoryParentId = $findCategory->id;
-               $categoryIds[] = $findCategory->id;
-           }
-        }
 
         $product = Product::where('title', $productData['title'])->first();
         if ($product == null) {
@@ -72,8 +81,11 @@ class DatabaseSave
             $product->parent = $shopPage->id;
         }
 
-        if (!empty($categoryIds)) {
-            $product->category_ids = $categoryIds;
+        if (isset($productData['categories']) && !empty($productData['categories'])) {
+            $categoryIds = self::getOrInsertCategories($productData['categories'], $shopPage->id);
+            if (!empty($categoryIds)) {
+                $product->category_ids = $categoryIds;
+            }
         }
 
         if (isset($productData['content_body'])) {
@@ -167,6 +179,46 @@ class DatabaseSave
             }
 
         }
+    }
+
+    public static function getOrInsertCategories($categories, $parentPageId)
+    {
+        $categoryIds = [];
+        if (isset($productData['categories']) && !empty($productData['categories'])) {
+            $categories = $productData['categories'];
+            $categoryParentId = false;
+            foreach ($categories as $category) {
+
+                $findCategoryQuery = Category::query();
+                $findCategoryQuery->where('title', $category);
+                if ($categoryParentId) {
+                    // Here is a child of categories
+                    $findCategoryQuery->where('parent_id', $categoryParentId);
+                } else {
+                    // Here is a first level of category [parent]
+                    $findCategoryQuery->where('rel_id', $parentPageId);
+                }
+                $findCategory = $findCategoryQuery->first();
+
+                if ($findCategory == null) {
+                    $findCategory = new Category();
+                    $findCategory->title = $category;
+                    if ($categoryParentId) {
+                        // Category childs
+                        $findCategory->parent_id = $categoryParentId;
+                    } else {
+                        // First level of category [parent]
+                        $findCategory->rel_id = $parentPageId;
+                    }
+                    $findCategory->save();
+                }
+                // Save latest category memory id
+                $categoryParentId = $findCategory->id;
+                $categoryIds[] = $findCategory->id;
+            }
+        }
+
+        return $categoryIds;
     }
 
 	public static function save($table, $data)
