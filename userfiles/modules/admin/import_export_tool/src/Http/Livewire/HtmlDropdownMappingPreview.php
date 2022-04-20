@@ -3,7 +3,8 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Livewire\Component;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class HtmlDropdownMappingPreview extends Component
@@ -40,7 +41,7 @@ class HtmlDropdownMappingPreview extends Component
         $newReader = new XmlToArray();
         $data = $newReader->readXml($contentXml);
 
-        $dropdownMapping = new \MicroweberPackages\Import\ImportMapping\HtmlDropdownMappingPreview();
+        $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
         $dropdownMapping->setContent($data);
         $dropdownMapping->setContentParentTags($importFeed->content_tag);
 

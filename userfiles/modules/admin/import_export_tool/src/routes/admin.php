@@ -7,21 +7,25 @@ Route::name('admin.import-export-tool.')
     ->group(function () {
 
 
-       /* Route::get('waw', function () {
+       Route::get('waw', function () {
 
           //  $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
             //$contentXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
            // $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss2.xml');
            // $contentXml = file_get_contents('https://templates.microweber.com/import_test/xml_feed_2.xml');
-            $contentXml = app()->http->url('https://detourcoffee.com/collections/tea.atom')->get();
-            $newReader = new \MicroweberPackages\Import\ImportMapping\Readers\XmlToArray();
-            $array = $newReader->readXml($contentXml);
-            $data = $newReader->getArrayIterratableTargetKeys($array);
-            $dot = Arr::dot($data);
+          //  $contentXml = app()->http->url('https://detourcoffee.com/collections/tea.atom')->get();
+            $contentXml = app()->http->url('https://techcrunch.com/startups/feed/')->get();
+            $newReader = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray();
+           $data = $newReader->readXml($contentXml);
 
-            dd($data, $dot);
+           $dropdownMapping = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable();
+           $dropdownMapping->setContent($data);
+           $dropdownMapping->setContentParentTags('rss.channel.item');
 
-        });*/
+            $html = $dropdownMapping->render();
+
+            echo $html;
+        });
 
 
 

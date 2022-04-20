@@ -2,11 +2,8 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
-use MicroweberPackages\Import\DatabaseWriter;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminController
@@ -27,5 +24,17 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
     public function import($id)
     {
         return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
+    }
+
+    public function importStart($id) {
+
+        $feedMapToArray = new FeedMapToArray();
+        $feedMapToArray->setImportFeedId($id);
+        $array = $feedMapToArray->toArray();
+
+        DatabaseSave::savePost($array[0]);
+
+        dd($array[0]);
+
     }
 }

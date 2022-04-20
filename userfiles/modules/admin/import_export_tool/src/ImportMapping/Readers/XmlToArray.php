@@ -1,9 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Import\ImportMapping\Readers;
-
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers;
 
 class XmlToArray implements iReader
 {
