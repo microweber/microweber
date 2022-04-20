@@ -64,13 +64,13 @@ class XmlToArray implements iReader
         return $result;
     }
 
-    public function getArrayIterratableTargetKeys($array)
+    public function getArrayRepeatableTargetKeys($array)
     {
         $tags = [];
         if (!empty($array)) {
             foreach ($array as $key=>$value) {
                 if (is_array($value)) {
-                    $recursive = $this->getArrayIterratableTargetKeys($value);
+                    $recursive = $this->getArrayRepeatableTargetKeys($value);
                     if (isset($recursive[0])) {
                         $tags[$key] = [];
                         continue;

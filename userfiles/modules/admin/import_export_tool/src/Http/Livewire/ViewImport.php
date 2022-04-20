@@ -65,15 +65,15 @@ class ViewImport extends Component
 
             $realpath = str_replace(base_path(),'', $filename);
 
-            $iterratableTargetKeys = $newReader->getArrayIterratableTargetKeys($xmlArray);
-            $iterratableTargetKeys = Arr::dot($iterratableTargetKeys);
-            $iterratableData = Arr::get($xmlArray, $this->import_feed['content_tag']);
+            $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($xmlArray);
+            $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+            $repeatableData = Arr::get($xmlArray, $this->import_feed['content_tag']);
 
             $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
             $feedUpdate->source_file = $this->import_feed['source_file'];
             $feedUpdate->source_file_realpath = $realpath;
-            $feedUpdate->detected_content_tags = $iterratableTargetKeys;
-            $feedUpdate->count_of_contents = count($iterratableData);
+            $feedUpdate->detected_content_tags = $repeatableTargetKeys;
+            $feedUpdate->count_of_contents = count($repeatableData);
             $feedUpdate->mapped_content = [];
             $feedUpdate->source_file_size = filesize($filename);
             $feedUpdate->last_downloaded_date = Carbon::now();

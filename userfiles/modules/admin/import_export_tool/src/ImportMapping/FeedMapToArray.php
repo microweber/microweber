@@ -24,14 +24,14 @@ class FeedMapToArray
         $newReader = new XmlToArray();
         $data = $newReader->readXml($contentXml);
 
-        $iterratableData = Arr::get($data, $this->importFeed->content_tag);
-        if (empty($iterratableData)) {
+        $repeatableData = Arr::get($data, $this->importFeed->content_tag);
+        if (empty($repeatableData)) {
             $this->done = true;
             return false;
         }
 
         $mappedData = [];
-        foreach ($iterratableData as $itemI => $item) {
+        foreach ($repeatableData as $itemI => $item) {
             foreach ($this->importFeed->mapped_tags as $tagKey => $internalKey) {
 
                 if (empty($internalKey)) {

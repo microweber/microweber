@@ -55,6 +55,13 @@ class HtmlDropdownMappingRecursiveTable
 
                     if ($key) {
                         if (isset($value[0])) {
+
+
+                            $getParentMapKey = $this->getRecursiveKeysFromArray($lastKey, $key);
+                            $getParentMapKey[] = $key;
+                            $mapKey = implode('.', $getParentMapKey);
+
+
                             $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
                             $html .= "<td class='tag_value'>";
@@ -65,7 +72,7 @@ class HtmlDropdownMappingRecursiveTable
                             }
                             $html .= "</td>";
                             $html .= "<td class='tag_select'>";
-                            $html .=  $this->dropdownIterratableSelect($key);
+                            $html .=  $this->dropdownRepeatableSelect($mapKey);
                             $html .= "</td>";
                             $html .= "</tr>";
                             $html .= "</table>";
@@ -91,7 +98,7 @@ class HtmlDropdownMappingRecursiveTable
                         unset($lastKey['key']);
                     }
 
-                    // If key is numeric this is iterratable
+                    // If key is numeric this is repeatable
                     if (is_numeric($key)) {
                         $html .= "<span class='tag_value'>" . $value . "</span>";
                         break;
@@ -141,12 +148,17 @@ class HtmlDropdownMappingRecursiveTable
         return $newArray;
     }
 
-    private function dropdownIterratableSelect($mapKey)
+    private function dropdownRepeatableSelect($mapKey)
     {
-        return '';
+        if ($mapKey == $this->contentParentTags) {
+            return "";
+        }
 
-        $html = '<select class="form-control" name="map_iterratable['.$mapKey.']">';
-        $html .= '<option value="variants">Tags</option>';
+        $mapKeyHtml = str_replace('.',';',$mapKey);
+
+        $html = '<select class="form-control" wire:model="import_feed.mapped_tags.repeatable.'.$mapKeyHtml.'">';
+        $html .= '<option value="tags">Tags</option>';
+        $html .= '<option value="categories">Categories</option>';
         $html .= '<option value="variants">Product Variants</option>';
         $html .= '</select>';
 
