@@ -1,3 +1,11 @@
+@if(method_exists($contents,'count') && $contents->count() == 0)
+    <div class="no-items-found comments">
+        <div class="icon-title">
+            <i class="mdi mdi-comment"></i> <h5><?php _e("You don't have any comments yet."); ?></h5>
+        </div>
+    </div>
+@endif
+
 @if (isset($contents)  and !empty($contents))
 @foreach ($contents as $i=>$content)
 
@@ -110,8 +118,6 @@
             </div>
         </div>
     </div>
-
-
 
 @endforeach
 @endif
