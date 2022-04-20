@@ -45,7 +45,7 @@ class FeedMapToArray
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
 
                     // One tag item with category seperator
-                    if ($internalKey == 'categories') {
+                    if ($internalKey == 'categories' && !empty($this->importFeed->category_separator)) {
                         $categories = explode($this->importFeed->category_separator, $saveItem);
                         $mappedData[$itemI][$internalKey] = $categories;
                         continue;
