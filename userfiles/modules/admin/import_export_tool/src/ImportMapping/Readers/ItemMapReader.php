@@ -19,7 +19,7 @@ class ItemMapReader
         'price' => ['price', 'g:price'],
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price'],
-        'categories' => ['genre', 'category', 'g:google_product_category', 'g:product_type'],
+        'categories' => ['genre', 'category', 'g:google_product_category'],
         'updated_at' => ['updated_date', 'published'],
         'created_at' => ['publish_date', 'pubDate', 'updated'],
     ];
