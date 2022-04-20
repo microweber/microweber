@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -30,43 +31,9 @@ class StartImportingModal extends ModalComponent
 
         if (empty($this->import_feed->mapped_content)) {
 
-            $contentXml = file_get_contents($xmlFile);
-            $newReader = new XmlToArray();
-            $data = $newReader->readXml($contentXml);
-
-            $iterratableData = Arr::get($data, $this->import_feed->content_tag);
-            if (empty($iterratableData)) {
-                $this->done = true;
-                return false;
-            }
-
-            $mappedData = [];
-            foreach ($iterratableData as $itemI => $item) {
-                foreach ($this->import_feed->mapped_tags as $tagKey => $internalKey) {
-                    if (empty($internalKey)) {
-                        continue;
-                    }
-
-                    $tagKey = str_replace(';', '.', $tagKey);
-                    $tagKey = str_replace($this->import_feed->content_tag . '.', '', $tagKey);
-
-                    $saveItem = Arr::get($item, $tagKey);
-                    if (isset(ItemMapReader::$itemTypes[$internalKey])) {
-                        if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {
-                            $mappedData[$itemI][$internalKey][] = $saveItem;
-                            continue;
-                        }
-                    }
-
-                    $mappedData[$itemI][$internalKey] = $saveItem;
-                }
-            }
-
-            $preparedData = [];
-            foreach ($mappedData as $undotItem) {
-                $preparedItem = Arr::undot($undotItem);
-                $preparedData[] = $preparedItem;
-            }
+            $feedMapToArray = new FeedMapToArray();
+            $feedMapToArray->setImportFeedId($this->import_feed->id);
+            $preparedData = $feedMapToArray->toArray();
 
             $this->import_feed->mapped_content = $preparedData;
             $this->import_feed->save();

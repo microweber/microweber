@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminController
@@ -22,5 +23,15 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
     public function import($id)
     {
         return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
+    }
+
+    public function importStart($id) {
+
+        $feedMapToArray = new FeedMapToArray();
+        $feedMapToArray->setImportFeedId($id);
+        $array = $feedMapToArray->toArray();
+
+        dd($array);
+
     }
 }
