@@ -244,10 +244,8 @@
                                         <option value="model">Content model</option>
                                         <option value="sku">SKU</option>
                                     </select>
-
                                 </td>
                             </tr>
-
 
                             <tr>
                                 <td><label for="feed_data_old_content_action"><b>Old
