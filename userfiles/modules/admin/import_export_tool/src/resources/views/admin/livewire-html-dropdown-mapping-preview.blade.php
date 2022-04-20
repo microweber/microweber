@@ -9,10 +9,10 @@
             padding-left:5px;
         }
         .tag_value {
-            width: 800px;
+           /* width: 800px;*/
         }
         .tag_select {
-            width: 200px;
+         /*   width: 200px;*/
         }
     </style>
 

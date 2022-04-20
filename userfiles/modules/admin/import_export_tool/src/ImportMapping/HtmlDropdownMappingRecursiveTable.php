@@ -44,31 +44,46 @@ class HtmlDropdownMappingRecursiveTable
             foreach ($array as $key => $value) {
                 if (is_array($value)) {
 
+                    $sendKey = [];
+                    $sendKey['parent'] = $lastKey;
+                    $sendKey['key'] = $key;
+
+                    $htmlRecursive  = $this->arrayPreviewInHtmlRecursive($value, $contentParentTags, $i, $sendKey);
+                    if (!$key) {
+                        $html .= $htmlRecursive;
+                    }
+
                     if ($key) {
                         if (isset($value[0])) {
                             $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
-                            $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
-                            $html .= "<td class='tag_select'>".$this->dropdownIterratableSelect($key)."</td>";
+                            $html .= "<td class='tag_value'>";
+                            $html .= $this->openKeyTag($key);
+                            $html .= $htmlRecursive;
+                            if ($key) {
+                                $html .= $this->closeKeyTag($key);
+                            }
+                            $html .= "</td>";
+                            $html .= "<td class='tag_select'>";
+                            $html .=  $this->dropdownIterratableSelect($key);
+                            $html .= "</td>";
                             $html .= "</tr>";
                             $html .= "</table>";
                         } else {
                             $html .= "<table class='tag_key'>";
                             $html .= "<tr>";
-                            $html .= "<td class='tag_value'>".$this->openKeyTag($key)."</td>";
+                            $html .= "<td class='tag_value'>";
+                            $html .=  $this->openKeyTag($key);
+                            $html .= $htmlRecursive;
+                            if ($key) {
+                                $html .= $this->closeKeyTag($key);
+                            }
+                            $html .= "</td>";
                             $html .= "</tr>";
                             $html .= "</table>";
                         }
                     }
 
-                    $sendKey = [];
-                    $sendKey['parent'] = $lastKey;
-                    $sendKey['key'] = $key;
-
-                    $html .= $this->arrayPreviewInHtmlRecursive($value, $contentParentTags, $i, $sendKey);
-                    if ($key) {
-                        $html .= $this->closKeyTag($key);
-                    }
 
                 } else {
 
@@ -130,7 +145,6 @@ class HtmlDropdownMappingRecursiveTable
     {
         return '';
 
-        // TODO
         $html = '<select class="form-control" name="map_iterratable['.$mapKey.']">';
         $html .= '<option value="variants">Tags</option>';
         $html .= '<option value="variants">Product Variants</option>';
@@ -205,7 +219,7 @@ class HtmlDropdownMappingRecursiveTable
         return $html;
     }
 
-    private function closKeyTag($name)
+    private function closeKeyTag($name)
     {
         $html = PHP_EOL;
         $html .= '<div class="tag_key">&lt;/' . $name . '&gt;</div>';
