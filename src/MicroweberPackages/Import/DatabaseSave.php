@@ -44,7 +44,7 @@ class DatabaseSave
         }
 
         if (isset($postData['content_body'])) {
-            $post->content_body = $postData['content_body'];
+            $post->content = $postData['content_body'];
         }
         if (isset($postData['description'])) {
             $post->description = $postData['description'];
