@@ -7,6 +7,9 @@ use Crypt;
 use MicroweberPackages\CustomField\Models\CustomField;
 
 
+require_once MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+
+
 class Format
 {
 
@@ -468,7 +471,51 @@ class Format
                 $output[$key] = $this->clean_xss($val, $do_not_strip_tags, $evil, $method);
             }
         } else {
+
+
+
+            // get svg
+            $pq = \phpQuery::newDocument($var);
+            $svgs_to_remove = $pq->find('svg');
+            $replaces_strings_svg = [];
+            if ($svgs_to_remove) {
+                foreach ($svgs_to_remove as $elem) {
+                  $elem = pq($elem);
+                   $svg_string =  $elem->htmlOuter();
+                    $svg_string_rep = 'replaced_svg_'.md5($svg_string);
+                    $replaces_strings_svg[$svg_string_rep] = $svg_string;
+                }
+            }
+            if($replaces_strings_svg){
+                // replace svg tags with placeholder string
+                foreach ($replaces_strings_svg as $key => $value) {
+                    $var = str_replace($value, $key, $var);
+                }
+            }
+
+
+
             $var = $sec->clean($var);
+
+
+            if($replaces_strings_svg){
+                foreach ($replaces_strings_svg as $key => $value) {
+                    // clean svg
+                    $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                    $dirtySVG = $value;
+                    $cleanSVG = $sanitizer->sanitize($dirtySVG);
+                    $cleanSVG = str_replace('<?xml version="1.0" encoding="UTF-8"?>'."\n", '', $cleanSVG);
+                    $cleanSVG = str_replace('&lt;?xml version="1.0" encoding="UTF-8"?&gt;'."\n", '', $cleanSVG);
+
+                    $value = $cleanSVG;
+                    // put back svg
+                    $var = str_replace($key,$value, $var);
+                }
+            }
+
+
+
+
             $var = str_ireplace('<script>', '', $var);
             $var = str_ireplace('</script>', '', $var);
 
