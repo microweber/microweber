@@ -19,7 +19,11 @@ class DatabaseSave
 {
     public static function savePost($postData)
     {
-        $blogPage = Page::where('content_type', 'page')->where('subtype', 'dynamic')->first();
+        $blogPage = Page::where('content_type', 'page')
+            ->where('is_shop', 0)
+            ->where('subtype', 'dynamic')
+            ->first();
+
         if ($blogPage == null) {
             $blogPage = new Page();
             $blogPage->title = 'Blog';
