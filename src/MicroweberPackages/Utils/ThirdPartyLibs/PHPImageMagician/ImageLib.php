@@ -262,7 +262,7 @@ class ImageLib
         if (is_array($option) && strtolower($option[0]) == 'crop') {
             $cropPos = $option[1];         # get the crop option
         } else if (strpos($option, '-') !== false) {
-            // *** Or pass in a hyphen seperated option
+            // *** Or pass in a hyphen separated option
             $optionPiecesArray = explode('-', $option);
             $cropPos = end($optionPiecesArray);
         }

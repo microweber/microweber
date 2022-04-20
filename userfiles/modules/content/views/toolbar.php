@@ -517,12 +517,12 @@ if ($last_page_front != false) {
             parent_mod.setAttribute('tags', '');
             if (val.length > 0) {
 
-                var tagSeperated = '';
+                var tagSeparated = '';
                 for (i = 0; i < val.length; i++) {
-                    tagSeperated += val[i].title + ',';
+                    tagSeparated += val[i].title + ',';
                 }
 
-                parent_mod.setAttribute('tags', tagSeperated);
+                parent_mod.setAttribute('tags', tagSeparated);
             }
             mw.reload_module(parent_mod);
         });

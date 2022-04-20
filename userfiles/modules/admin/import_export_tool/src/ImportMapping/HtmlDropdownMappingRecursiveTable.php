@@ -158,7 +158,7 @@ class HtmlDropdownMappingRecursiveTable
 
         $html = '<select class="form-control" wire:model="import_feed.mapped_tags._repeatable_.'.$mapKeyHtml.'">';
         $html .= '<option value="tags">Tags</option>';
-        $html .= '<option value="categories">Categories</option>';
+        $html .= '<option value="first_level_categories">First Level Categories</option>';
         $html .= '<option value="variants">Product Variants</option>';
         $html .= '</select>';
 
