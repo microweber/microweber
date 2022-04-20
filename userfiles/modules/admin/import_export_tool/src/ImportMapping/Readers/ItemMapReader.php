@@ -25,6 +25,7 @@ class ItemMapReader
     ];
 
     public static $itemTypes = [
+        '_repeatable_' => self::ITEM_TYPE_REPEATABLE,
         'pictures' => self::ITEM_TYPE_ARRAY,
         'categories' => self::ITEM_TYPE_ARRAY,
         'tags' => self::ITEM_TYPE_ARRAY,
@@ -50,6 +51,7 @@ class ItemMapReader
 
     public const ITEM_TYPE_STRING = 'string';
     public const ITEM_TYPE_ARRAY = 'array';
+    public const ITEM_TYPE_REPEATABLE = 'repeatable';
 
     public static function getMapping($item)
     {

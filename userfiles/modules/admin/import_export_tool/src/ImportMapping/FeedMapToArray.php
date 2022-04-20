@@ -32,7 +32,27 @@ class FeedMapToArray
 
         $mappedData = [];
         foreach ($repeatableData as $itemI => $item) {
-            foreach ($this->importFeed->mapped_tags as $tagKey => $internalKey) {
+
+            $repeatableMappedTags = [];
+            $mappedTags = $this->importFeed->mapped_tags;
+
+            if (isset($mappedTags['_repeatable_'])) {
+                $repeatableMappedTags = $mappedTags['_repeatable_'];
+                unset($mappedTags['_repeatable_']);
+            }
+
+            if (!empty($repeatableMappedTags)) {
+                foreach ($repeatableMappedTags as $tagKey=>$internalKey) {
+                    $tagKey = str_replace(';', '.', $tagKey);
+                    $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
+
+                    $saveItem = Arr::get($item, $tagKey);
+
+                    $mappedData[$itemI][$internalKey] = $saveItem;
+                }
+            }
+
+            foreach ($mappedTags as $tagKey => $internalKey) {
 
                 if (empty($internalKey)) {
                     continue;
@@ -42,6 +62,7 @@ class FeedMapToArray
                 $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
 
                 $saveItem = Arr::get($item, $tagKey);
+
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
 
                     // One tag item with category seperator
@@ -57,7 +78,9 @@ class FeedMapToArray
                     }
                 }
 
+                // Save simple item type
                 $mappedData[$itemI][$internalKey] = $saveItem;
+
             }
         }
 

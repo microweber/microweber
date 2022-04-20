@@ -32,7 +32,7 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
         $feedMapToArray->setImportFeedId($id);
         $array = $feedMapToArray->toArray();
 
-        DatabaseSave::savePost($array[0]);
+      //  DatabaseSave::savePost($array[0]);
 
         dd($array[0]);
 
