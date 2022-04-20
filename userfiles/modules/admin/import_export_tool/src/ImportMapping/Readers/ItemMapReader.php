@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Import\ImportMapping\Readers;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers;
 
 class ItemMapReader
 {
-    public static $categorySeperators = [
+    public static $categorySeparators = [
         ' | ', '|', ' > ', '>', ' ; ', ';', ' , ', ',', ' _ ', '_'
     ];
 

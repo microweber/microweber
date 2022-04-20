@@ -240,9 +240,25 @@
                                 </td>
                                 <td>
                                     <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
-                                        <option value="content_id" selected="selected">Content ID</option>
+                                        <option value="content_id">Content ID</option>
                                         <option value="model">Content model</option>
                                         <option value="sku">SKU</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="feed_category_separator">
+                                        <b>Category Separator</b></label>
+                                    <br>
+                                    <small>How can we read the category tree from feed</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" wire:model="import_feed.category_separator" id="feed_category_separator">
+                                        @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
+                                        <option value="{{$separator}}">Separate with "{{$separator}}"</option>
+                                        @endforeach
                                     </select>
                                 </td>
                             </tr>

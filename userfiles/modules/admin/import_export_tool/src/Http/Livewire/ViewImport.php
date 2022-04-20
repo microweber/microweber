@@ -5,7 +5,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Livewire\Component;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ViewImport extends Component
@@ -25,6 +25,7 @@ class ViewImport extends Component
         $feed->update_items = $this->import_feed['update_items'];
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
         $feed->old_content_action = $this->import_feed['old_content_action'];
+        $feed->category_separator = $this->import_feed['category_separator'];
         $feed->save();
 
         session()->flash('message', 'Import feed is saved successfully.');

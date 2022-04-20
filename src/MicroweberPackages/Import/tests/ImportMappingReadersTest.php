@@ -2,8 +2,8 @@
 namespace MicroweberPackages\Import\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
 
 /**

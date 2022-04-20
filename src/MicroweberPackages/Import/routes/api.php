@@ -7,7 +7,7 @@
  */
 
 
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
 Route::name('admin.import.')
     ->prefix(ADMIN_PREFIX.'/import')
@@ -39,7 +39,7 @@ Route::name('admin.import.')
             $newReader = new XmlToArray();
             $data = $newReader->readXml($googleProductsXml);
 
-            $dropdownMapping = new \MicroweberPackages\Import\ImportMapping\HtmlDropdownMappingPreview();
+            $dropdownMapping = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable();
             $dropdownMapping->setContent($data);
             $dropdownMapping->setContentParentTags($contentParentTags);
 

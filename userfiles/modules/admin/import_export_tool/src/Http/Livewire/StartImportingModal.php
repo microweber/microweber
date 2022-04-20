@@ -3,13 +3,11 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
-use MicroweberPackages\Import\DatabaseWriter;
-use MicroweberPackages\Import\ImportMapping\Readers\ItemMapReader;
-use MicroweberPackages\Import\ImportMapping\Readers\XmlToArray;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class StartImportingModal extends ModalComponent
@@ -31,6 +29,7 @@ class StartImportingModal extends ModalComponent
         }
 
         if (empty($this->import_feed->mapped_content)) {
+
             $contentXml = file_get_contents($xmlFile);
             $newReader = new XmlToArray();
             $data = $newReader->readXml($contentXml);
