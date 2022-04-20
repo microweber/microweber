@@ -81,6 +81,11 @@ class HtmlDropdownMappingRecursiveTable
                         $html .= "<span class='tag_value'>" . $value . "</span>";
                         break;
                     } else {
+
+                        if (mb_strlen($value) > 50) {
+                            $value = mw()->format->limit($value, 50);
+                        }
+
                         $html .= "<table class='tag_key'>";
                         $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";

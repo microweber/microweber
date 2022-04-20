@@ -5,7 +5,7 @@
             padding-left:5px;
         }
         .tag_key {
-            margin-top:25px;
+            margin-top:15px;
             padding-left:5px;
         }
         .tag_value {
