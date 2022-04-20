@@ -39,6 +39,18 @@ class DatabaseSave
             $post->parent = $blogPage->id;
         }
 
+        if (isset($postData['first_level_categories']) && !empty($postData['first_level_categories'])) {
+            if (empty($post->category_ids)) {
+                $post->category_ids = [];
+            }
+            foreach($postData['first_level_categories'] as $firstLevelCategory) {
+                $categoryIds = self::getOrInsertCategories([$firstLevelCategory], $blogPage->id);
+                if (!empty($categoryIds)) {
+                    $post->category_ids = array_merge($post->category_ids, $categoryIds);
+                }
+            }
+        }
+
         if (isset($postData['categories']) && !empty($postData['categories'])) {
             $categoryIds = self::getOrInsertCategories($postData['categories'], $blogPage->id);
             if (!empty($categoryIds)) {
@@ -82,6 +94,18 @@ class DatabaseSave
             $product = new Product();
             $product->title = $productData['title'];
             $product->parent = $shopPage->id;
+        }
+
+        if (isset($postData['first_level_categories']) && !empty($postData['first_level_categories'])) {
+            if (empty($product->category_ids)) {
+                $product->category_ids = [];
+            }
+            foreach($postData['first_level_categories'] as $firstLevelCategory) {
+                $categoryIds = self::getOrInsertCategories([$firstLevelCategory], $shopPage->id);
+                if (!empty($categoryIds)) {
+                    $product->category_ids = array_merge($product->category_ids, $categoryIds);
+                }
+            }
         }
 
         if (isset($productData['categories']) && !empty($productData['categories'])) {
@@ -187,38 +211,36 @@ class DatabaseSave
     public static function getOrInsertCategories($categories, $parentPageId)
     {
         $categoryIds = [];
-        if (isset($productData['categories']) && !empty($productData['categories'])) {
-            $categories = $productData['categories'];
-            $categoryParentId = false;
-            foreach ($categories as $category) {
 
-                $findCategoryQuery = Category::query();
-                $findCategoryQuery->where('title', $category);
-                if ($categoryParentId) {
-                    // Here is a child of categories
-                    $findCategoryQuery->where('parent_id', $categoryParentId);
-                } else {
-                    // Here is a first level of category [parent]
-                    $findCategoryQuery->where('rel_id', $parentPageId);
-                }
-                $findCategory = $findCategoryQuery->first();
+        $categoryParentId = false;
+        foreach ($categories as $category) {
 
-                if ($findCategory == null) {
-                    $findCategory = new Category();
-                    $findCategory->title = $category;
-                    if ($categoryParentId) {
-                        // Category childs
-                        $findCategory->parent_id = $categoryParentId;
-                    } else {
-                        // First level of category [parent]
-                        $findCategory->rel_id = $parentPageId;
-                    }
-                    $findCategory->save();
-                }
-                // Save latest category memory id
-                $categoryParentId = $findCategory->id;
-                $categoryIds[] = $findCategory->id;
+            $findCategoryQuery = Category::query();
+            $findCategoryQuery->where('title', $category);
+            if ($categoryParentId) {
+                // Here is a child of categories
+                $findCategoryQuery->where('parent_id', $categoryParentId);
+            } else {
+                // Here is a first level of category [parent]
+                $findCategoryQuery->where('rel_id', $parentPageId);
             }
+            $findCategory = $findCategoryQuery->first();
+
+            if ($findCategory == null) {
+                $findCategory = new Category();
+                $findCategory->title = $category;
+                if ($categoryParentId) {
+                    // Category childs
+                    $findCategory->parent_id = $categoryParentId;
+                } else {
+                    // First level of category [parent]
+                    $findCategory->rel_id = $parentPageId;
+                }
+                $findCategory->save();
+            }
+            // Save latest category memory id
+            $categoryParentId = $findCategory->id;
+            $categoryIds[] = $findCategory->id;
         }
 
         return $categoryIds;
