@@ -43,12 +43,15 @@ class FeedMapToArray
 
                 $saveItem = Arr::get($item, $tagKey);
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
+
+                    // One tag item with category seperator
+                    if ($internalKey == 'categories') {
+                        $categories = explode($this->importFeed->category_separator, $saveItem);
+                        $mappedData[$itemI][$internalKey] = $categories;
+                        continue;
+                    }
+
                     if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {
-
-                        if ($internalKey == 'categories') {
-                            $saveItem = explode($this->importFeed->category_separator, $saveItem);
-                        }
-
                         $mappedData[$itemI][$internalKey][] = $saveItem;
                         continue;
                     }
