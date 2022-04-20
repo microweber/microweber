@@ -30,7 +30,6 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
         $feedMapToArray = new FeedMapToArray();
         $feedMapToArray->setImportFeedId($id);
         $array = $feedMapToArray->toArray();
-
         dd($array);
 
     }
