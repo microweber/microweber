@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Import;
 
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Models\ProductVariant;
@@ -29,11 +30,50 @@ class DatabaseSave
             $shopPage->save();
         }
 
+        $categoryIds = [];
+        if (isset($productData['categories']) && !empty($productData['categories'])) {
+           $categories = $productData['categories'];
+           $categoryParentId = false;
+           foreach ($categories as $category) {
+
+               $findCategoryQuery = Category::query();
+               $findCategoryQuery->where('title', $category);
+               if ($categoryParentId) {
+                   // Here is a child of categories
+                   $findCategoryQuery->where('parent_id', $categoryParentId);
+               } else {
+                   // Here is a first level of category [parent]
+                   $findCategoryQuery->where('rel_id', $shopPage->id);
+               }
+               $findCategory = $findCategoryQuery->first();
+
+               if ($findCategory == null) {
+                   $findCategory = new Category();
+                   $findCategory->title = $category;
+                   if ($categoryParentId) {
+                       // Category childs
+                       $findCategory->parent_id = $categoryParentId;
+                   } else {
+                       // First level of category [parent]
+                       $findCategory->rel_id = $shopPage->id;
+                   }
+                   $findCategory->save();
+               }
+               // Save latest category memory id
+               $categoryParentId = $findCategory->id;
+               $categoryIds[] = $findCategory->id;
+           }
+        }
+
         $product = Product::where('title', $productData['title'])->first();
         if ($product == null) {
             $product = new Product();
             $product->title = $productData['title'];
             $product->parent = $shopPage->id;
+        }
+
+        if (!empty($categoryIds)) {
+            $product->category_ids = $categoryIds;
         }
 
         if (isset($productData['content_body'])) {

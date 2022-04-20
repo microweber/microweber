@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
@@ -30,7 +31,10 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
         $feedMapToArray = new FeedMapToArray();
         $feedMapToArray->setImportFeedId($id);
         $array = $feedMapToArray->toArray();
-        dd($array);
+
+        DatabaseSave::saveProduct($array[0]);
+
+        dd($array[0]);
 
     }
 }
