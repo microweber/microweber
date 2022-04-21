@@ -14,7 +14,7 @@ class TemplateTest extends TestCase
         }
         save_option('current_template', $this->template_name,'template');
 
-        $current_template = mw()->template->name();
+        $current_template = app()->option_manager->get('current_template', 'template');
         $this->assertEquals($this->template_name, $current_template);
     }
 
