@@ -62,12 +62,15 @@ class ViewImport extends Component
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
         if ($downloaded && is_file($filename)) {
 
+            $contentTag = false;
             $repeatableData = [];
             $repeatableTargetKeys = ['Data'=>[]];
             $reader = new CsvReader($filename);
             $sourceContent = ['Data'=>$reader->readData()];
-
-            if (empty($sourceContent['Data'])) {
+            if (!empty($sourceContent['Data'])) {
+                $contentTag = 'Data';
+                $repeatableData = $sourceContent['Data'];
+            } else {
                 $content = file_get_contents($filename);
                 $newReader = new XmlToArray();
                 $sourceContent = $newReader->readXml($content);
@@ -93,6 +96,10 @@ class ViewImport extends Component
             $feedUpdate->mapped_content = [];
             $feedUpdate->source_file_size = filesize($filename);
             $feedUpdate->last_downloaded_date = Carbon::now();
+            $feedUpdate->source_type = $this->import_feed['source_type'];
+            if ($contentTag) {
+                $feedUpdate->content_tag = $contentTag;
+            }
             $feedUpdate->save();
 
             $this->import_feed = $feedUpdate->toArray();
