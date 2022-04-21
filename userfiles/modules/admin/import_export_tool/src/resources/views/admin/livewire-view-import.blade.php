@@ -421,16 +421,16 @@
                                     <td>{{$import_feed['count_of_contents']}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="name">Last import time</td>
-                                    <td></td>
+                                    <td class="name">Last import process time</td>
+                                    <td>{{$import_feed['last_import_end']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="name">Last import start</td>
-                                    <td></td>
+                                    <td>{{$import_feed['last_import_start']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="name">Last import end</td>
-                                    <td></td>
+                                    <td>{{$import_feed['last_import_end']}}</td>
                                 </tr>
                                 </tbody>
                             </table>
