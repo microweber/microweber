@@ -26,6 +26,7 @@ class CreateImportFeedsTable extends Migration
                 $table->integer('split_to_parts')->nullable();
                 $table->longText('mapped_tags')->nullable();
                 $table->longText('mapped_content')->nullable();
+                $table->longText('imported_content_ids')->nullable();
                 $table->string('detected_content_tags')->nullable();
                 $table->string('content_tag')->nullable();
                 $table->string('primary_key')->nullable();
