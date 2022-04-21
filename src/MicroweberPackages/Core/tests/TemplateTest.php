@@ -9,6 +9,9 @@ class TemplateTest extends TestCase
 
     public function testGetTemplateName()
     {
+        if (!defined('TEMPLATE_NAME')) {
+            define('TEMPLATE_NAME', $this->template_name);
+        }
         save_option('current_template', $this->template_name,'template');
 
         $current_template = mw()->template->name();
