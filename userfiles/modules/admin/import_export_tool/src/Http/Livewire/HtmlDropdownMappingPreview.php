@@ -31,18 +31,8 @@ class HtmlDropdownMappingPreview extends Component
         }
         $this->import_feed = $importFeed->toArray();
 
-        $xmlFile = base_path() . DS . $importFeed->source_file_realpath;
-        if (!is_file($xmlFile)) {
-            return;
-        }
-
-        $contentXml = file_get_contents($xmlFile);
-
-        $newReader = new XmlToArray();
-        $data = $newReader->readXml($contentXml);
-
         $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
-        $dropdownMapping->setContent($data);
+        $dropdownMapping->setContent($importFeed->source_content);
         $dropdownMapping->setContentParentTags($importFeed->content_tag);
 
         $this->data = $dropdownMapping->render();

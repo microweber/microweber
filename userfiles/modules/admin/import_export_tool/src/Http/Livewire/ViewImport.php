@@ -5,14 +5,19 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ViewImport extends Component
 {
+    use WithFileUploads;
+
     public $import_feed_id;
     public $import_feed = [];
     public $confirming_delete_id;
+    public $photo;
 
     public function save()
     {
@@ -57,21 +62,31 @@ class ViewImport extends Component
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
         if ($downloaded && is_file($filename)) {
 
-            $newReader = new XmlToArray();
-            $xmlArray = $newReader->readXml(file_get_contents($filename));
-            if (empty($xmlArray)) {
+            $repeatableData = [];
+            $repeatableTargetKeys = ['Data'=>[]];
+            $reader = new CsvReader($filename);
+            $sourceContent = ['Data'=>$reader->readData()];
+
+            if (empty($sourceContent['Data'])) {
+                $content = file_get_contents($filename);
+                $newReader = new XmlToArray();
+                $sourceContent = $newReader->readXml($content);
+
+                $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
+                $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+                $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+            }
+
+            if (empty($sourceContent)) {
                 unlink($filename);
                 return;
             }
 
             $realpath = str_replace(base_path(),'', $filename);
 
-            $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($xmlArray);
-            $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-            $repeatableData = Arr::get($xmlArray, $this->import_feed['content_tag']);
-
             $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
             $feedUpdate->source_file = $this->import_feed['source_file'];
+            $feedUpdate->source_content = $sourceContent;
             $feedUpdate->source_file_realpath = $realpath;
             $feedUpdate->detected_content_tags = $repeatableTargetKeys;
             $feedUpdate->count_of_contents = count($repeatableData);
