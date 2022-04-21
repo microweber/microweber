@@ -33,10 +33,6 @@ class ItemMapReader
     ];
 
     public static $itemNames = [
-        'content_data.weight' => 'Weight',
-        'content_data.mpn' => 'MPN',
-        'content_data.barcode' => 'Barcode',
-        'content_data.sku' => 'SKU',
         'content_data.external_id' => 'External ID',
         'title' => 'Title',
         //  'description'=>'Description',
@@ -47,6 +43,10 @@ class ItemMapReader
         'price' => 'Price',
         'content_data.special_price' => 'Special Price',
         'content_data.shipping_fixed_cost' => 'Shipping Fixed Cost',
+        'content_data.weight' => 'Weight',
+        'content_data.mpn' => 'MPN',
+        'content_data.barcode' => 'Barcode',
+        'content_data.sku' => 'SKU',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
     ];
