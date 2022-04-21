@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Export\SessionStepper;
@@ -28,6 +29,8 @@ class StartImportingModal extends ModalComponent
         if (!is_file($xmlFile)) {
             return redirect(route('admin.import-export-tool.index'));
         }
+
+        $this->import_feed->last_import_start = Carbon::now();
 
         if (empty($this->import_feed->mapped_content)) {
 
@@ -57,20 +60,23 @@ class StartImportingModal extends ModalComponent
         }
 
         if (SessionStepper::isFinished()) {
+            $this->import_feed->last_import_end = Carbon::now();
             $this->done = true;
             return array("success"=>"Done! All steps are finished.");
         }
 
-        $success = array();
+        $savedIds = array();
         foreach($itemsBatch[$selectBatch] as $item) {
             if (isset($item['price'])) {
-                $success[] = DatabaseSave::saveProduct($item);
+                $savedIds[] = DatabaseSave::saveProduct($item);
             } else{
-                $success[] = DatabaseSave::savePost($item);
+                $savedIds[] = DatabaseSave::savePost($item);
             }
         }
 
-        return $success;
+        $this->import_feed->imported_content_ids = $savedIds;
+
+        return $savedIds;
     }
 
     public function clearLog()

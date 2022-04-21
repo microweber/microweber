@@ -75,6 +75,7 @@ class DatabaseSave
             self::downloadAndSaveMedia($postData['pictures'], $post->id);
         }
 
+        return $post->id;
     }
 
     public static function saveProduct($productData)
