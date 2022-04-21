@@ -62,22 +62,24 @@ class ViewImport extends Component
         $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
         if ($downloaded && is_file($filename)) {
 
+            // Xml check read
             $contentTag = false;
-            $repeatableData = [];
-            $repeatableTargetKeys = ['Data'=>[]];
-            $reader = new CsvReader($filename);
-            $sourceContent = ['Data'=>$reader->readData()];
-            if (!empty($sourceContent['Data'])) {
-                $contentTag = 'Data';
-                $repeatableData = $sourceContent['Data'];
-            } else {
-                $content = file_get_contents($filename);
-                $newReader = new XmlToArray();
-                $sourceContent = $newReader->readXml($content);
+            $content = file_get_contents($filename);
+            $newReader = new XmlToArray();
+            $sourceContent = $newReader->readXml($content);
+            $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
+            $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+            $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+            if (empty($repeatableData)) {
+                $repeatableData = [];
+            }
 
-                $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
-                $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-                $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+            if (empty($sourceContent)) {
+                $reader = new CsvReader($filename);
+                $sourceContent = ['Data' => $reader->readData()];
+                $contentTag = 'Data';
+                $repeatableTargetKeys = ['Data' => []];
+                $repeatableData = $sourceContent['Data'];
             }
 
             if (empty($sourceContent)) {

@@ -422,7 +422,13 @@
                                 </tr>
                                 <tr>
                                     <td class="name">Last import process time</td>
-                                    <td>{{$import_feed['last_import_end']}}</td>
+                                    <td>
+                                        @php
+                                            $importStart = Carbon::createFromDate($import_feed['last_import_start']);
+                                            $importEnd = Carbon::createFromDate($import_feed['last_import_end']);
+                                            echo $importStart->diffInSeconds($importEnd);
+                                        @endphp
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="name">Last import start</td>
