@@ -60,7 +60,7 @@ class StartImportingModal extends ModalComponent
         }
 
         if (SessionStepper::isFinished()) {
-            $this->import_feed->last_import_end = Carbon::now();
+            $this->import_feed->last_import_end = Carbon::now(); 
             $this->done = true;
             return array("success"=>"Done! All steps are finished.");
         }

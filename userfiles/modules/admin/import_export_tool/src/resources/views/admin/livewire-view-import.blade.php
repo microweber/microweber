@@ -426,8 +426,8 @@
                                         @php
                                             $importStart = Carbon::createFromDate($import_feed['last_import_start']);
                                             $importEnd = Carbon::createFromDate($import_feed['last_import_end']);
-                                            echo $importStart->diffInSeconds($importEnd);
-                                        @endphp
+                                            echo $importStart->diffInMinutes($importEnd);
+                                        @endphp min
                                     </td>
                                 </tr>
                                 <tr>
