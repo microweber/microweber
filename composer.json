@@ -68,7 +68,7 @@
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
         "microweber-templates/new-world": "4.5",
-        "microweber-templates/shopmag": "3.2",
+        "microweber-templates/shopmag": "3.3",
         "microweber-templates/bootstrap5": "1.0",
         "lcobucci/jwt": "*",
         "laravel/passport": "*",

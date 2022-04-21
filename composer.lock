@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ac066544dbd03a3ce7b108ba3e8d36a",
+    "content-hash": "098d41271b1281d66cbce9aecf14759a",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5647,31 +5647,31 @@
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "3.2",
+            "version": "3.3",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/shopmag.git",
-                "reference": "ab1c6633813fd71874eee3d8d072bb4eae64e8a2"
+                "reference": "17e2c2038eea8959b01cd95271bbd02bf0a1317d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-ab1c6633813fd71874eee3d8d072bb4eae64e8a2-zip-4814d3.zip",
-                "reference": "ab1c6633813fd71874eee3d8d072bb4eae64e8a2",
-                "shasum": "2cd526f3c8670dda4857cd267efb8fb0c6f0556c"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-17e2c2038eea8959b01cd95271bbd02bf0a1317d-zip-1cb4bd.zip",
+                "reference": "17e2c2038eea8959b01cd95271bbd02bf0a1317d",
+                "shasum": "214d7c28031313896b4fa7bb0d22fcb482b8f825"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/screenshot.jpg",
-                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "seaside_groove-webfont": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
-                    "ventoux": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/fonts/ventoux/fonts/ventoux.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/assets/plugins/slick/fonts/slick.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/32/readme.md"
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/screenshot.jpg",
+                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "seaside_groove-webfont": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
+                    "ventoux": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/ventoux/fonts/ventoux.svg",
+                    "slick": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/plugins/slick/fonts/slick.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/readme.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5694,7 +5694,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-04-20T13:00:15+00:00"
+            "time": "2022-04-21T11:41:10+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
