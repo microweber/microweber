@@ -173,6 +173,9 @@ class TemplateCssParser
             'sourceRoot' => dirname($outputFileLocations['styleFilePath']).'/',
 
         ));
+        if(!is_file($outputFileLocations['styleFilePath'])){
+            return;
+        }
 
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
         $cssOrigFileDistContent=  '';
