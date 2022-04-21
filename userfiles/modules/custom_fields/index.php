@@ -148,7 +148,7 @@ $fields_group = $ready_fields_group;
 
 $template_file = get_option('data-template', $params['id']);
 if (!$template_file) {
-    $template_file = template_framework() . '/index.php';
+    $template_file = normalize_path(__DIR__.DS.template_framework() . '/index.php', false);
 }
 
 if (isset($params['template'])) {
@@ -194,7 +194,6 @@ if ($formHasUpload) {
     </script>
 ';
 }
-
 if ($template_file != false and is_file($template_file) != false) {
     include($template_file);
 }
