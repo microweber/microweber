@@ -11,6 +11,7 @@ class ItemMapReader
     public static $map = [
         'content_data.mpn' => ['mpn', 'g:mpn'],
         'content_data.sku' => ['sku', 'g:sku'],
+        'content_data.weight' => ['weight'],
         'content_data.barcode' => ['barcode', 'gtin', 'g:gtin'],
         'content_data.external_id' => ['id', 'g:id'],
         'title' => ['title', 'g:title', 'name'],
@@ -32,6 +33,7 @@ class ItemMapReader
     ];
 
     public static $itemNames = [
+        'content_data.weight' => 'Weight',
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',

@@ -14,13 +14,14 @@ Route::name('admin.import-export-tool.')
            // $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss2.xml');
            // $contentXml = file_get_contents('https://templates.microweber.com/import_test/xml_feed_2.xml');
           //  $contentXml = app()->http->url('https://detourcoffee.com/collections/tea.atom')->get();
-            $contentXml = app()->http->url('https://techcrunch.com/startups/feed/')->get();
+         //   $contentXml = app()->http->url('https://techcrunch.com/startups/feed/')->get();
+            $contentXml = app()->http->url('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/small_fasardi.php.xml')->get();
             $newReader = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray();
            $data = $newReader->readXml($contentXml);
 
            $dropdownMapping = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable();
            $dropdownMapping->setContent($data);
-           $dropdownMapping->setContentParentTags('rss.channel.item');
+           $dropdownMapping->setContentParentTags('SHOP.SHOPITEM');
 
             $html = $dropdownMapping->render();
 
