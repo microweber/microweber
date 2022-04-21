@@ -18,13 +18,7 @@ class FeedMapToArray
 
     public function toArray()
     {
-        $xmlFile = base_path() . DS . $this->importFeed->source_file_realpath;
-
-        $contentXml = file_get_contents($xmlFile);
-        $newReader = new XmlToArray();
-        $data = $newReader->readXml($contentXml);
-
-        $repeatableData = Arr::get($data, $this->importFeed->content_tag);
+        $repeatableData = Arr::get($this->importFeed->source_content, $this->importFeed->content_tag);
         if (empty($repeatableData)) {
             $this->done = true;
             return false;
