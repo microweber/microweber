@@ -410,7 +410,7 @@
                                 <tbody>
                                 <tr>
                                     <td class="name">Total running</td>
-                                    <td>0</td>
+                                    <td>{{$import_feed['total_running']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="name">Feed size</td>

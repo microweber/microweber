@@ -30,8 +30,6 @@ class StartImportingModal extends ModalComponent
             return redirect(route('admin.import-export-tool.index'));
         }
 
-        $this->import_feed->last_import_start = Carbon::now();
-
         if (empty($this->import_feed->mapped_content)) {
 
             $feedMapToArray = new FeedMapToArray();
@@ -60,7 +58,9 @@ class StartImportingModal extends ModalComponent
         }
 
         if (SessionStepper::isFinished()) {
-            $this->import_feed->last_import_end = Carbon::now(); 
+            $this->import_feed->total_running = 0;
+            $this->import_feed->last_import_end = Carbon::now();
+            $this->import_feed->save();
             $this->done = true;
             return array("success"=>"Done! All steps are finished.");
         }
@@ -74,7 +74,9 @@ class StartImportingModal extends ModalComponent
             }
         }
 
+        $this->import_feed->total_running = $this->import_log['current_step'];
         $this->import_feed->imported_content_ids = $savedIds;
+        $this->import_feed->save();
 
         return $savedIds;
     }
@@ -95,6 +97,10 @@ class StartImportingModal extends ModalComponent
         if ($this->import_feed == null) {
             return redirect(route('admin.import-export-tool.index'));
         }
+
+        $this->import_feed->total_running = 1;
+        $this->import_feed->last_import_start = Carbon::now();
+        $this->import_feed->save();
 
         $this->import_log['total_steps'] = $this->import_feed->split_to_parts;
         $this->import_feed_session_id = SessionStepper::generateSessionId($this->import_feed->split_to_parts);
