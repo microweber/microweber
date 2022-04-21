@@ -17,6 +17,7 @@ class ViewImport extends Component
     public function save()
     {
         $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+        $feed->source_type = $this->import_feed['source_type'];
         $feed->name = $this->import_feed['name'];
         $feed->download_images = $this->import_feed['download_images'];
         $feed->split_to_parts = $this->import_feed['split_to_parts'];

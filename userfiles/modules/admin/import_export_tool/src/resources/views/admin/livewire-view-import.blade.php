@@ -155,6 +155,30 @@
                         <table class="table table-borderless">
                             <tbody>
                             <tr>
+                                <td><label for="feed_source_type"><b>Feed Source Type</b></label><br>
+                                    <small>Select the type of source</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_source_type" wire:model="import_feed.source_type">
+                                        <option value="download_link">Download link</option>
+                                        <option value="upload_file">Upload file</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            @if($this->import_feed['source_type'] == 'upload_file')
+                                <tr>
+                                    <td><label for="feed_content"><b>Content feed</b></label><br>
+                                        <small>Upload content feed file</small>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            @endif
+
+                            @if($this->import_feed['source_type'] == 'download_link')
+                            <tr>
                                 <td>
                                     <label for="feed_url">
                                         <b>Content feed link</b>
@@ -181,6 +205,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                             <tr>
                                 <td><label for="feed_download_image_1"><b>Download images</b></label><br>
                                     <small>Download and check images</small>

@@ -16,6 +16,7 @@ class CreateImportFeedsTable extends Migration
             Schema::create('import_feeds', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->nullable();
+                $table->string('source_type')->nullable();
                 $table->string('source_file')->nullable();
                 $table->string('source_file_realpath')->nullable();
                 $table->string('source_file_size')->nullable();
