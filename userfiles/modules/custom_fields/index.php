@@ -148,8 +148,9 @@ $fields_group = $ready_fields_group;
 
 $template_file = get_option('data-template', $params['id']);
 if (!$template_file) {
-    $template_file = normalize_path(__DIR__.DS.template_framework() . '/index.php', false);
+    $template_file = normalize_path(__DIR__.DS.'templates'.DS.template_framework() . '/index.php', false);
 }
+
 
 if (isset($params['template'])) {
     $module_template = $params['template'];
@@ -165,8 +166,10 @@ if (isset($params['template'])) {
     }
 }
 
+
 if ($template_file == false) {
     $template_file = module_templates($config['module'], 'default');
+
 } elseif (is_file($template_file) ) {
 
 } else {
@@ -194,6 +197,8 @@ if ($formHasUpload) {
     </script>
 ';
 }
+
+
 if ($template_file != false and is_file($template_file) != false) {
     include($template_file);
 }
