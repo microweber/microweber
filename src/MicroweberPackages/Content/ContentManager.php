@@ -39,6 +39,7 @@ class ContentManager
     public $main_page_id = false;
     public $post_id = false;
     public $category_id = false;
+    public $template_name = false;
 
 
     /**
@@ -1960,6 +1961,7 @@ class ContentManager
         }
 
 
+        $this->template_name = $the_active_site_template;
         if (defined('ACTIVE_TEMPLATE_DIR') == false) {
             define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
         }

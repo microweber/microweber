@@ -713,6 +713,21 @@ class UpdateManager
             rmdir_recursive($bootstrap_cached_folder);
 
 
+            // Booting the template to register the migrations
+            if (!defined('TEMPLATE_DIR')) {
+                $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                if(!$the_active_site_template){
+                    $the_active_site_template = Config::get('microweber.install_default_template');
+                }
+                if ($the_active_site_template) {
+                    app()->content_manager->define_constants(['active_site_template' => $the_active_site_template]);
+                }
+            }
+            if (defined('TEMPLATE_DIR')) {
+                app()->template_manager->boot_template();
+            }
+
+
             $this->log_msg('Applying post update actions');
             $system_refresh = new \MicroweberPackages\Install\DbInstaller();
             $system_refresh->createSchema();
@@ -736,6 +751,8 @@ class UpdateManager
             mw()->cache_manager->clear();
           //  scan_for_modules(['no_cache'=>true]);
          //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+
+
             scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
             scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 

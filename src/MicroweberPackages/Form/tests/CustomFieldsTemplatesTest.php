@@ -6,9 +6,18 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class CustomFieldsTemplatesTest extends TestCase
 {
+    public $template_name = 'default';
+
     public function setUp() : void
     {
+        if (!defined('TEMPLATE_NAME')) {
+            define('TEMPLATE_NAME', $this->template_name);
+        }
+
         parent::setUp();
+        app()->content_manager->define_constants(['active_site_template' => $this->template_name]);
+
+        save_option('current_template', $this->template_name,'template');
 
         // set permission to save custom fields (normally available to admin users)
         mw()->database_manager->extended_save_set_permission(true);
@@ -16,6 +25,12 @@ class CustomFieldsTemplatesTest extends TestCase
 
     public function testCustomTemplate()
     {
+
+
+
+        file_put_contents(storage_path('custom_fields.txt'), mw()->template->dir()."\n\n"."\nn\========", FILE_APPEND);
+
+
         // Make new custom template
         $templateCustomFields = mw()->template->dir()
                     . 'modules' . DS
@@ -80,6 +95,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
             if ($field['type'] == 'email') {
                 $checkInputClass = false;
+
                 if (strpos($output, 'class="mw-ui-field"') !== false) {
                     $checkInputClass = true;
                 }
