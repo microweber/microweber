@@ -27,7 +27,9 @@ mw.moduleSettings = function(options){
 
     this.items = [];
 
-    if(!this.options.element) return;
+    if(!this.options.element) {
+        return;
+    }
 
     this.interval = function (c) {
         if(!this._interval) {
@@ -35,14 +37,14 @@ mw.moduleSettings = function(options){
             this._interval = setInterval(function () {
                 if(scope.options.element && document.body.contains(scope.options.element)) {
                     scope._intervals.forEach(function (func){
-                        func.call(scope)
-                    })
+                        func.call(scope);
+                    });
                 } else {
-                    clearInterval(scope._interval)
+                    clearInterval(scope._interval);
                 }
-            }, 1000)
+            }, 1000);
         }
-    }
+    };
 
     this.createItemHolderHeader = function(i){
         if(this.options.header){
