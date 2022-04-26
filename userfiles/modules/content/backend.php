@@ -678,7 +678,7 @@ if ($action == 'posts') {
 
                                         var data = JSON.parse(request.responseText);
                                         if(!data.length){
-                                            return false;
+                                            data = {};
                                         }
 
                                             var treeTail = [

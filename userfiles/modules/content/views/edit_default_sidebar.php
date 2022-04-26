@@ -28,7 +28,7 @@
                 var tdata = JSON.parse(request.responseText);
 
                 if(!tdata.length){
-                    return false;
+                    tdata = {};
                 }
 
                 var selectedPages = [ <?php print $data['parent']; ?>];
