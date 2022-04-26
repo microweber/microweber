@@ -9,10 +9,10 @@
 
                 {!! $products->search() !!}
 
-                {!! $products->tags() !!}
-
                 {!! $products->categories() !!}
 
+                {!! $products->tags() !!}
+                
                 {!! $products->filters() !!}
 
             </div>
