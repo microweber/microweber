@@ -13,7 +13,7 @@ class ImportExportToolTest extends TestCase
         $content = $zip->getFromName('data-example-1.xml');
         $zip->close();
 
-        $tempName = tempnam();
+        $tempName = tempnam('/tmp','xml');
         file_put_contents($tempName, $content);
 
         $this->assertNotEmpty($content);
@@ -39,7 +39,7 @@ class ImportExportToolTest extends TestCase
         $content = $zip->getFromName('data-example-1.csv');
         $zip->close();
 
-        $tempName = tempnam();
+        $tempName = tempnam('/tmp','csv');
         file_put_contents($tempName, $content);
 
         $this->assertNotEmpty($content);
@@ -50,10 +50,12 @@ class ImportExportToolTest extends TestCase
 
         $importFeed->readFeedFromFile($tempName);
 
-        $this->assertEquals($importFeed->source_content['document']['product'][0]['title'], 'Soflyy T-Shirt');
+        $this->assertEquals($importFeed->source_content['Data'][0]['Product Title'], 'Soflyy T-Shirt');
+        $this->assertEquals($importFeed->source_content['Data'][0]['SKU'], '999-X');
+        $this->assertEquals($importFeed->source_content['Data'][0]['Description'], 'This shirt is awesome.');
         $this->assertEquals($importFeed->count_of_contents, 6);
-        $this->assertEquals($importFeed->content_tag, 'document.product');
-        $this->assertEquals($importFeed->detected_content_tags, ['document.product' => []]);
+        $this->assertEquals($importFeed->content_tag, 'Data');
+        $this->assertEquals($importFeed->detected_content_tags, ['Data' => []]);
     }
 
 
