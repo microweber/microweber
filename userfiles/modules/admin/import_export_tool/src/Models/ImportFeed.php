@@ -97,7 +97,7 @@ class ImportFeed extends Model
 
             return true;
         }
-        
+
         return false;
     }
 }

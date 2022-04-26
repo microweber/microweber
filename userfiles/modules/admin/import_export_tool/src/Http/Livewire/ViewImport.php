@@ -100,7 +100,11 @@ class ViewImport extends Component
         }
 
         $this->import_feed = $importFeed->toArray();
+        unset($this->import_feed['source_content']);
+
         $this->import_feed_original = $importFeed->toArray();
+        unset($this->import_feed_original['source_content']);
+
         $this->import_feed_id = $importFeed->id;
 
         $importFeedNames = [];

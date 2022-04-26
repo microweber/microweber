@@ -13,6 +13,10 @@ class XmlToArray implements iReader
 
     public function loadDom($content) {
 
+        if (empty($content)) {
+            return [];
+        }
+
         $previousValue = libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
