@@ -728,9 +728,18 @@ class UpdateManager
             }
 
 
-            $this->log_msg('Applying post update actions');
-            $system_refresh = new \MicroweberPackages\Install\DbInstaller();
-            $system_refresh->createSchema();
+            try {
+                $this->log_msg('Applying post update actions');
+
+                $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+                $system_refresh->createSchema();
+            } catch (\Exception $e) {
+                $this->log_msg('Error on DB migrations' . $e->getMessage());
+
+             }
+
+
+
             //$system_refresh->run();
 
             $this->_set_time_limit();
