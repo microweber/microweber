@@ -68,73 +68,13 @@ class ViewImport extends Component
 
     public function download()
     {
-        $dir = storage_path() . DS . 'import_export_tool';
-        $filename = $dir . DS . md5($this->import_feed['source_file']) . '.txt';
-        if (!is_dir($dir)) {
-            mkdir_recursive($dir);
-        }
+        $sourceFile = $this->import_feed['source_file'];
 
-        $downloaded = mw()->http->url($this->import_feed['source_file'])->download($filename);
-        if ($downloaded && is_file($filename)) {
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
 
-            // Xml check read
-            $contentTag = false;
-            $content = file_get_contents($filename);
-            $newReader = new XmlToArray();
-            $sourceContent = $newReader->readXml($content);
-            $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
-            $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-            if (!empty($repeatableTargetKeys)) {
-                $contentTag = array_key_first($repeatableTargetKeys);
-            }
-
-            if (!empty($this->import_feed['content_tag'])) {
-                $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
-            } else if ($contentTag) {
-                $repeatableData = Arr::get($sourceContent, $contentTag);
-            }
-
-            if (empty($repeatableData)) {
-                $repeatableData = [];
-            }
-
-            if (empty($sourceContent)) {
-                $reader = new CsvReader($filename);
-                $sourceContent = ['Data' => $reader->readData()];
-                $contentTag = 'Data';
-                $repeatableTargetKeys = ['Data' => []];
-                $repeatableData = $sourceContent['Data'];
-            }
-
-            if (empty($sourceContent)) {
-                unlink($filename);
-                return;
-            }
-
-            $realpath = str_replace(base_path(), '', $filename);
-
-            $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
-            $feedUpdate->source_file = $this->import_feed['source_file'];
-            $feedUpdate->source_content = $sourceContent;
-            $feedUpdate->source_file_realpath = $realpath;
-            $feedUpdate->detected_content_tags = $repeatableTargetKeys;
-            $feedUpdate->count_of_contents = count($repeatableData);
-            $feedUpdate->mapped_content = [];
-            $feedUpdate->source_file_size = filesize($filename);
-            $feedUpdate->last_downloaded_date = Carbon::now();
-            $feedUpdate->source_type = $this->import_feed['source_type'];
-            if ($contentTag && empty($feedUpdate->content_tag)) {
-                $feedUpdate->content_tag = $contentTag;
-            }
-            $feedUpdate->save();
-
-            $this->import_feed = $feedUpdate->toArray();
-
+        if ($feed->downloadFeed($sourceFile)) {
             session()->flash('message', 'Feed is downloaded successfully.');
-
             return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
-
-            return ['downloaded' => true];
         }
 
         return ['downloaded' => false];
