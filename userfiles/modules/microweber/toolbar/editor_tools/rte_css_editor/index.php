@@ -1645,7 +1645,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             });
 
                             if (curr) {
-                                this.remove(curr.id)
+                                //this.remove(curr.id)
                             }
                             var config = Object.assign({selector: sel, id: id}, obj)
                             node.$$mwAnimations.push(config)
@@ -1783,7 +1783,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                 .append(typeSelect)
                                 .append(speed)
                                 .append(when);
-console.log(anim)
+
                             mw.element('select', when).val(anim.when).on('input', function () {
                                 var curr = mw.__pageAnimations.find(function(a){
                                     return !!anim.id || a.id === anim.id
@@ -1849,7 +1849,7 @@ console.log(anim)
             </script>
 
             <div class="mw-ui-box-header mw-accordion-title">
-            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Animations"); ?></div>
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/animations.svg"><?php _e("Animations"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Animations"); ?></label>
