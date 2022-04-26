@@ -308,13 +308,13 @@
         ],
         materialDesignIcons: [
             function () {
-                mw.require('css/fonts/materialdesignicons/css/materialdesignicons.min.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css');
             }
         ],
         mw_icons_mind: [
             function () {
-                mw.require('fonts/mw-icons-mind/line/style.css');
-                mw.require('fonts/mw-icons-mind/solid/style.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/line/style.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/solid/style.css');
             }
         ],
         uppy: [

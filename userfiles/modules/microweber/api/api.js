@@ -1081,9 +1081,19 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 
 
 
-    mw.__pageAnimations = [
+    mw.__pageAnimations = [ ];
 
-    ];
+    <?php
+        $animations = get_option( 'animations-global', 'page-animations');
+        // var_dump($animations);
+        if($animations) {
+            // $animations = @json_decode($animations, true);
+            if($animations) {
+
+                print('mw.__pageAnimations = ' . $animations . ';');
+            }
+        }
+    ?>
 
     var prefix = 'animate__';
     var suffix = 'animated';
@@ -1151,16 +1161,20 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
                 var nodes = [];
                 ;(data || []).filter(filter).forEach(function (item) {
                     var node = document.querySelector(item.selector);
-                    if(!node.$$mwAnimations) {
-                        node.$$mwAnimations = [];
+                    if(node) {
+                        if(!node.$$mwAnimations) {
+                            node.$$mwAnimations = [];
+                        }
+                        var has = node.$$mwAnimations.find(filter);
+                        if (!has) {
+                            node.$$mwAnimations.push(item);
+                            nodes.push(node);
+                        }
                     }
-                    var has = node.$$mwAnimations.find(filter);
-                    if (node && !has) {
-                        node.$$mwAnimations.push(item);
-                        nodes.push(node);
-                    }
+
                 });
-                if (nodes.length) {
+
+                if (!mw.settings.liveEdit && nodes.length) {
                     var observer = new IntersectionObserver(function(entries, observer) {
                         entries.forEach(function(el) {
                             animateCSS(el.target.$$mwAnimations.find(filter));
@@ -1178,16 +1192,21 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
             }
             ;(data || []).filter(filter).forEach(function (item){
                 var node = document.querySelector(item.selector);
-                if (!node.$$mwAnimations) {
-                    node.$$mwAnimations = [];
+                if(node) {
+                    if (!node.$$mwAnimations) {
+                        node.$$mwAnimations = [];
+                    }
+                    var has = node.$$mwAnimations.find(filter);
+                    if (  !has) {
+                        node.$$mwAnimations.push(item);
+                        if(!mw.settings.liveEdit) {
+                            node.addEventListener('mouseenter', function (){
+                                animateCSS(this.$$mwAnimations.find(filter))
+                            })
+                        }
+                    }
                 }
-                var has = node.$$mwAnimations.find(filter);
-                if (node && !has) {
-                    node.$$mwAnimations.push(item);
-                    node.addEventListener('mouseenter', function (){
-                        animateCSS(this.$$mwAnimations.find(filter))
-                    })
-                }
+
             });
         },
         onClick: function (data) {
@@ -1196,26 +1215,30 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
                 }
             ;(data || []).filter(filter).forEach(function (item){
                 var node = document.querySelector(item.selector);
-                if (!node.$$mwAnimations) {
-                    node.$$mwAnimations = [];
+                if(node) {
+                    if (!node.$$mwAnimations) {
+                        node.$$mwAnimations = [];
+                    }
+                    var has = node.$$mwAnimations.find(filter);
+                    if (!has) {
+                        node.$$mwAnimations.push(item)
+                        if(!mw.settings.liveEdit) {
+                            node.addEventListener('click', function (){
+                                animateCSS(this.$$mwAnimations.find(filter))
+                            });
+                        }
+
+                    }
                 }
-                var has = node.$$mwAnimations.find(filter);
-                if (node && !has) {
-                    node.$$mwAnimations.push(item)
-                    node.addEventListener('click', function (){
-                        animateCSS(this.$$mwAnimations.find(filter))
-                    });
-                }
+
             });
         }
     }
 
 
     var _animateInit = false;
-    var animateInit = function (data) {
-        if(mw.settings.liveEdit) {
-            return;
-        }
+    window.animateInit = function (data) {
+
         if(!_animateInit) {
             _animateInit = true;
             var style = document.createElement('style');
