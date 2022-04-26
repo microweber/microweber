@@ -130,7 +130,8 @@ class MicroweberComposerClient extends Client
             }
         }
 
-        if ($package['dist']['type'] == 'license_key') {
+
+        if (isset($package['dist']) and $package['dist']['type'] == 'license_key') {
             return array(
                 'error' => _e('You need license key to install this package', true),
                 'message' => _e('This package is premium and you must have a license key to install it', true),
