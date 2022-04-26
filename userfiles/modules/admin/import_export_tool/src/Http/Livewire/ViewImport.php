@@ -84,7 +84,7 @@ class ViewImport extends Component
                 $contentTag = array_key_first($repeatableTargetKeys);
             }
 
-            if (empty($this->import_feed['content_tag'])) {
+            if (!empty($this->import_feed['content_tag'])) {
                 $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
             } else if($contentTag) {
                 $repeatableData = Arr::get($sourceContent, $contentTag);
