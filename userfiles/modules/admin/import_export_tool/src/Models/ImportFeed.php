@@ -33,8 +33,10 @@ class ImportFeed extends Model
         'detected_content_tags'=>'array'
     ];
 
-    public function readFeed(string $content)
+    public function readFeedFromFile(string $filename)
     {
+        $content = file_get_contents($filename);
+
         $contentTag = false;
         $newReader = new XmlToArray();
         $sourceContent = $newReader->readXml($content);
@@ -54,14 +56,16 @@ class ImportFeed extends Model
             $repeatableData = [];
         }
 
-        /*if (empty($sourceContent)) {
+        if (empty($sourceContent)) {
             $reader = new CsvReader($filename);
             $sourceContent = ['Data' => $reader->readData()];
             $contentTag = 'Data';
             $repeatableTargetKeys = ['Data' => []];
             $repeatableData = $sourceContent['Data'];
-        }*/
+        }
 
+        $this->source_file_realpath = str_replace(base_path(), '', $filename);
+        $this->source_file_size = filesize($filename);
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
@@ -87,15 +91,10 @@ class ImportFeed extends Model
 
         if ($downloaded && is_file($filename)) {
 
-            $content = file_get_contents($filename);
-            $realpath = str_replace(base_path(), '', $filename);
-
-            $this->source_file_realpath = $realpath;
-            $this->source_file_size = filesize($filename);
             $this->last_downloaded_date = Carbon::now();
             $this->save();
 
-            $this->readFeed($content);
+            $this->readFeedFromFile($filename);
 
             if (empty($this->source_content)) {
                 unlink($filename);

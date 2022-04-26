@@ -17,11 +17,14 @@ class XmlToArray implements iReader
             return [];
         }
 
-        libxml_use_internal_errors(false);
-
-        $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->loadXml($content);
+        try {
+            libxml_use_internal_errors(false);
+            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $dom->preserveWhiteSpace = false;
+            $dom->loadXml($content);
+        } catch (\Exception $e) {
+            return [];
+        }
 
         return $dom;
     }
