@@ -677,8 +677,8 @@ if ($action == 'posts') {
                                     if (request.status >= 200 && request.status < 400) {
 
                                         var data = JSON.parse(request.responseText);
-                                        if(!data.length){
-                                            return false;
+                                        if(!data || !data.length){
+                                            data = [];
                                         }
 
                                             var treeTail = [
