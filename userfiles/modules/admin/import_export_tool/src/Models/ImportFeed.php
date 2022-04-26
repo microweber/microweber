@@ -33,6 +33,48 @@ class ImportFeed extends Model
         'detected_content_tags'=>'array'
     ];
 
+    public function readFeed(string $content)
+    {
+        $contentTag = false;
+        $newReader = new XmlToArray();
+        $sourceContent = $newReader->readXml($content);
+        $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
+        $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+        if (!empty($repeatableTargetKeys)) {
+            $contentTag = array_key_first($repeatableTargetKeys);
+        }
+
+        if (!empty($this->content_tag)) {
+            $repeatableData = Arr::get($sourceContent, $this->content_tag);
+        } else if ($contentTag) {
+            $repeatableData = Arr::get($sourceContent, $contentTag);
+        }
+
+        if (empty($repeatableData)) {
+            $repeatableData = [];
+        }
+
+        /*if (empty($sourceContent)) {
+            $reader = new CsvReader($filename);
+            $sourceContent = ['Data' => $reader->readData()];
+            $contentTag = 'Data';
+            $repeatableTargetKeys = ['Data' => []];
+            $repeatableData = $sourceContent['Data'];
+        }*/
+
+        $this->source_content = $sourceContent;
+        $this->detected_content_tags = $repeatableTargetKeys;
+        $this->count_of_contents = count($repeatableData);
+        $this->mapped_content = [];
+
+        if ($contentTag && empty($this->content_tag)) {
+            $this->content_tag = $contentTag;
+        }
+
+        $this->save();
+
+    }
+
     public function downloadFeed($sourceFile)
     {
         $dir = storage_path() . DS . 'import_export_tool';
@@ -45,55 +87,20 @@ class ImportFeed extends Model
 
         if ($downloaded && is_file($filename)) {
 
-            // Xml check read
-            $contentTag = false;
             $content = file_get_contents($filename);
-            $newReader = new XmlToArray();
-            $sourceContent = $newReader->readXml($content);
-            $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
-            $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-            if (!empty($repeatableTargetKeys)) {
-                $contentTag = array_key_first($repeatableTargetKeys);
-            }
+            $realpath = str_replace(base_path(), '', $filename);
 
-            if (!empty($this->content_tag)) {
-                $repeatableData = Arr::get($sourceContent, $this->content_tag);
-            } else if ($contentTag) {
-                $repeatableData = Arr::get($sourceContent, $contentTag);
-            }
+            $this->source_file_realpath = $realpath;
+            $this->source_file_size = filesize($filename);
+            $this->last_downloaded_date = Carbon::now();
+            $this->save();
 
-            if (empty($repeatableData)) {
-                $repeatableData = [];
-            }
+            $this->readFeed($content);
 
-            if (empty($sourceContent)) {
-                $reader = new CsvReader($filename);
-                $sourceContent = ['Data' => $reader->readData()];
-                $contentTag = 'Data';
-                $repeatableTargetKeys = ['Data' => []];
-                $repeatableData = $sourceContent['Data'];
-            }
-
-            if (empty($sourceContent)) {
+            if (empty($this->source_content)) {
                 unlink($filename);
                 return;
             }
-
-            $realpath = str_replace(base_path(), '', $filename);
-
-            $this->source_file = $sourceFile;
-            $this->source_content = $sourceContent;
-            $this->source_file_realpath = $realpath;
-            $this->detected_content_tags = $repeatableTargetKeys;
-            $this->count_of_contents = count($repeatableData);
-            $this->mapped_content = [];
-            $this->source_file_size = filesize($filename);
-            $this->last_downloaded_date = Carbon::now();
-
-            if ($contentTag && empty($this->content_tag)) {
-                $this->content_tag = $contentTag;
-            }
-            $this->save();
 
             return true;
         }

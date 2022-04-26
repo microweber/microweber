@@ -1,7 +1,4 @@
 <?php
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\migrations;
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 

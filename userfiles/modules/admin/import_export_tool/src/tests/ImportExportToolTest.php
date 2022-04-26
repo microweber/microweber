@@ -2,9 +2,6 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Import\Import;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportExportToolTest extends TestCase
@@ -14,7 +11,7 @@ class ImportExportToolTest extends TestCase
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__.'/simple-data.zip');
-        $content = $zip->getFromName('data-example-1.csv');
+        $content = $zip->getFromName('data-example-1.xml');
         $zip->close();
 
         $this->assertNotEmpty($content);
@@ -22,6 +19,15 @@ class ImportExportToolTest extends TestCase
         $importFeed = new ImportFeed();
         $importFeed->name = rand(111,999) . 'simple-feed';
         $importFeed->save();
+
+        $importFeed->readFeed($content);
+
+        $this->assertEquals($importFeed->source_content['document']['product'][0]['title'], 'Soflyy T-Shirt');
+        $this->assertEquals($importFeed->count_of_contents, 6);
+        $this->assertEquals($importFeed->content_tag, 'document.product');
+        $this->assertEquals($importFeed->detected_content_tags, ['document.product'=>[]]);
+
+        dd($importFeed->toArray());
 
 
       /*  $feedMapToArray = new FeedMapToArray();
