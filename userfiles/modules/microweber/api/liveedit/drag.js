@@ -1,3 +1,6 @@
+
+mw.require('options.js')
+
 mw.drag = {
     _fixDeniedParagraphHierarchySelector: ''
     + '.edit p h1,.edit p h2,.edit p h3,'
@@ -1126,6 +1129,15 @@ mw.drag = {
             data = mw.drag.collectData(edits);
         }
 
+
+        var options = {
+            group: 'page-animations',
+            key: 'animations-global',
+            value: JSON.stringify(mw.__pageAnimations || [])
+        };
+        mw.options.saveOption(options, function(){
+            mw.clear_cache()
+        });
 
 
         if (mw.tools.isEmptyObject(data)) return false;
