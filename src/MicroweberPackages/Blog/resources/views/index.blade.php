@@ -9,9 +9,9 @@
 
                 {!! $posts->search() !!}
 
-                {!! $posts->tags() !!}
-
                 {!! $posts->categories() !!}
+
+                {!! $posts->tags() !!}
 
                 {!! $posts->filters() !!}
 
