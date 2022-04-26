@@ -365,10 +365,8 @@
                                     <br />
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="delete-import-products" value="1"
-                                               onclick="switchDeleteLink($(this).prop('checked'));">
-                                        <label class="form-check-label" for="delete-import-products"> Delete products from this
-                                            import</label>
+                                        <input class="form-check-input" type="checkbox" wire:model="delete_also_content" value="1" id="feed_delete_also_content">
+                                        <label for="feed_delete_also_content" class="form-check-label">Delete content from this import</label>
                                     </div>
                                 </td>
                             </tr>

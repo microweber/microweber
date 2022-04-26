@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -17,6 +18,7 @@ class ViewImport extends Component
     public $import_feed_id;
     public $import_feed = [];
     public $confirming_delete_id;
+    public $delete_also_content = 0;
     public $photo;
 
     public function save()
@@ -45,8 +47,17 @@ class ViewImport extends Component
     public function delete($id)
     {
         $id = intval($id);
+        $feed = ImportFeed::where('id', $id)->first();
 
-        ImportFeed::where('id', $id)->delete();
+        if ($this->delete_also_content == 1) {
+            if (!empty($feed->imported_content_ids)) {
+                foreach ($feed->imported_content_ids as $contentId) {
+                    Content::where('id', $contentId)->delete();
+                }
+            }
+        }
+
+        $feed->delete();
 
         return $this->redirect(route('admin.import-export-tool.index'));
     }
@@ -122,11 +133,6 @@ class ViewImport extends Component
     }
 
     public function upload()
-    {
-
-    }
-
-    public function startImporting()
     {
 
     }
