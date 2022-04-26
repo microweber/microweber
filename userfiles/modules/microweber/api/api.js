@@ -1074,3 +1074,176 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 <?php  //include "upgrades.js"; ?>
 
 <?php  include  __DIR__.DS."session.js"; ?>
+
+
+;(function (){
+
+
+
+
+    mw.__pageAnimations = [
+
+    ];
+
+    var prefix = 'animate__';
+    var suffix = 'animated';
+    var __initialHiddenClass = 'mw-anime--InitialHidden';
+
+    var stop = function(target){
+        if(!target) {
+            return;
+        }
+
+        Array.from( target.classList )
+            .filter(function (cls){
+                return cls.indexOf(prefix) === 0;
+            })
+            .forEach(function (cls){
+                target.classList.remove(cls)
+            })
+    };
+    var animateCSS = function(options){
+        if(!options) {
+            return;
+        }
+
+        var selector = options.selector,
+            removeAtEnd = options.animation,
+            animation = options.animation,
+            speed = options.speed;
+        var cb = options.callback;
+        if(typeof speed === 'number') {
+            speed = speed + 's'
+        }
+
+
+        var animationName = prefix + animation;
+        var node = selector;
+        if(typeof selector === 'string') {
+            node = document.querySelector(selector);
+        }
+        if(!node) {
+            return;
+        }
+        node.classList.remove(__initialHiddenClass)
+        if (speed) {
+            node.style.setProperty('--animate-duration', speed);
+        }
+        node.classList.add(prefix + suffix, animationName);
+        function handleAnimationEnd(event) {
+            event.stopPropagation();
+            node.classList.remove(prefix + suffix, animationName);
+            if (cb) {
+                cb.call();
+            }
+        }
+        node.addEventListener('animationend', handleAnimationEnd, { once: true });
+    };
+
+    mw.__animate = animateCSS;
+
+    var __animationTypes = {
+        onAppear: function (data) {
+            if ('IntersectionObserver' in window) {
+                var filter = function (item) {
+                    return item.when === 'onAppear';
+                }
+                var nodes = [];
+                ;(data || []).filter(filter).forEach(function (item) {
+                    var node = document.querySelector(item.selector);
+                    if(!node.$$mwAnimations) {
+                        node.$$mwAnimations = [];
+                    }
+                    var has = node.$$mwAnimations.find(filter);
+                    if (node && !has) {
+                        node.$$mwAnimations.push(item);
+                        nodes.push(node);
+                    }
+                });
+                if (nodes.length) {
+                    var observer = new IntersectionObserver(function(entries, observer) {
+                        entries.forEach(function(el) {
+                            animateCSS(el.target.$$mwAnimations.find(filter));
+                        });
+                    });
+                    nodes.forEach(function(el) {
+                        observer.observe(el);
+                    });
+                }
+            }
+        },
+        onHover: function (data) {
+            var filter = function (item) {
+                return item.when === 'onHover';
+            }
+            ;(data || []).filter(filter).forEach(function (item){
+                var node = document.querySelector(item.selector);
+                if (!node.$$mwAnimations) {
+                    node.$$mwAnimations = [];
+                }
+                var has = node.$$mwAnimations.find(filter);
+                if (node && !has) {
+                    node.$$mwAnimations.push(item);
+                    node.addEventListener('mouseenter', function (){
+                        animateCSS(this.$$mwAnimations.find(filter))
+                    })
+                }
+            });
+        },
+        onClick: function (data) {
+            var filter = function (item) {
+                    return item.when === 'onClick';
+                }
+            ;(data || []).filter(filter).forEach(function (item){
+                var node = document.querySelector(item.selector);
+                if (!node.$$mwAnimations) {
+                    node.$$mwAnimations = [];
+                }
+                var has = node.$$mwAnimations.find(filter);
+                if (node && !has) {
+                    node.$$mwAnimations.push(item)
+                    node.addEventListener('click', function (){
+                        animateCSS(this.$$mwAnimations.find(filter))
+                    });
+                }
+            });
+        }
+    }
+
+
+    var _animateInit = false;
+    var animateInit = function (data) {
+        if(mw.settings.liveEdit) {
+            return;
+        }
+        if(!_animateInit) {
+            _animateInit = true;
+            var style = document.createElement('style');
+            style.innerHTML = '.' + __initialHiddenClass + '{ opacity:0; pointer-events: none; }';
+            document.getElementsByTagName('head')[0].appendChild(style);
+        }
+
+        data.forEach(function (item) {
+            if(item.hidden) {
+                var node = document.querySelector(item.selector);
+                if (node) {
+                    node.classList.add(__initialHiddenClass)
+                }
+            }
+        });
+        for (let i in __animationTypes) {
+            if (__animationTypes.hasOwnProperty(i)){
+                __animationTypes[i](data);
+            }
+        }
+    };
+
+    addEventListener('DOMContentLoaded', function (){
+        animateInit(mw.__pageAnimations);
+    })
+    addEventListener('load', function (){
+        animateInit(mw.__pageAnimations);
+    });
+
+
+})();
