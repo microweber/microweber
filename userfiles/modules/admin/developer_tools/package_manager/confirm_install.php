@@ -31,6 +31,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
     $get_existing_files_for_confirm = $get_existing_files_for_confirm_all['user'];
 } else {
     // todo
+    print 'Error - no files to confirm';
     return;
 }
 ?>
