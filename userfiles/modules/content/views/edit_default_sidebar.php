@@ -27,8 +27,8 @@
             if (request.status >= 200 && request.status < 400) {
                 var tdata = JSON.parse(request.responseText);
 
-                if(!tdata.length){
-                    tdata = {};
+                if(!tdata || !tdata.length){
+                    tdata = [];
                 }
 
                 var selectedPages = [ <?php print $data['parent']; ?>];
