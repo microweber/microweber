@@ -611,10 +611,15 @@ class ApiController  extends FrontendController
             $request_data_new = [];
             $antixss = new AntiXSS();
             foreach ($request_data as $k=>$v){
-
+                if(is_string($v)) {
+                    $v = str_replace('<', '-', $v);
+                    $v = str_replace('>', '-', $v);
+                }
                 $v = $antixss->xss_clean($v);
 
                 if(is_string($k)){
+                    $k = str_replace('<', '-', $k);
+                    $k = str_replace('>', '-', $k);
                     $k = $antixss->xss_clean($k);
                     if($k){
                         $request_data_new[$k] = $v;
@@ -622,7 +627,7 @@ class ApiController  extends FrontendController
                 } else {
                     $request_data_new[$k] = $v;
                 }
-                
+
             }
             $request_data = $request_data_new;
         }

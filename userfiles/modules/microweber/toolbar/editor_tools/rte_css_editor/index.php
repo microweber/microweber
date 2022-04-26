@@ -43,7 +43,8 @@
     }
 
 </style>
-
+<script>mw.require('prop_editor.js')</script>
+<script>mw.require('module_settings.js')</script>
 <script type="text/javascript">
 
     // mw.parent().require("external_callbacks.js");
@@ -317,13 +318,18 @@ var _prepare = {
         var units = [
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
-        units = [];
-        $('.unit').each(function(){
+        units = [];// todo: add units
+        $('.unit:not(.ready)').each(function(){
+            this.classList.add('ready')
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).prev();
-                output( prev.attr('data-prop'), '');
+                var prop = prev.attr('data-prop');
+                if(prop ) {
+                    output( prev.attr('data-prop'), '');
+                }
+
                 prev.find('input').val(this._defaultValue);
                 $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
             });
@@ -336,20 +342,27 @@ var _prepare = {
             });
             select.on('change', function(){
                 var prev = $(this).parent().prev();
-                output(prev.attr('data-prop'), prev.find('input').val() + this.value)
+                var prop = prev.attr('data-prop');
+                if(prop ) {
+                    output(prop, prev.find('input').val() + this.value)
+
+                }
             });
 
             $(this).after(select)
             $('input',this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
-                var next = parent.next().find('select');
-                var val = $el.val().trim();
-                if(parseFloat(val) == val){
-                    output( parent.attr('data-prop'), val ? val + 'px' : '');
-                } else {
-                    output( parent.attr('data-prop'), val ? val + 'px' : '');
+                 var val = $el.val().trim();
+                var prop = parent.attr('data-prop');
+                if(prop) {
+                    if(parseFloat(val) == val){
+                        output( prop, val ? val + 'px' : '');
+                    } else {
+                        output( prop, val ? val + 'px' : '');
+                    }
                 }
+
             })
         })
     }
@@ -378,10 +391,10 @@ var _populate = {
         var color = frst.color || 'rgba(0,0,0,1)';
         var style = frst.style || 'none';
 
-        mw.$('#border-position').val('all')
-        mw.$('#border-size').val(size)
-        mw.$('#border-color').val(color)
-        mw.$('#border-type').val(style)
+        mw.$('#border-position').val('all');
+        mw.$('#border-size').val(size);
+        mw.$('#border-color').val(color);
+        mw.$('#border-type').val(style);
     },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
@@ -414,7 +427,7 @@ var _populate = {
                 var color = css.css[this.dataset.prop];
                 var hasColor = color !== 'rgba(0, 0, 0, 0)';
                 if(color) {
-                    if(hasColor) {
+                    if (hasColor) {
                         this.value = mw.color.rgbOrRgbaToHex(color);
                     } else {
                         this.value = 'none';
@@ -841,6 +854,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             $('#classtags-accordion').show();
         }
     }
+
+    animationGUI.set()
 });
 
     $(document).ready(function(){
@@ -862,14 +877,16 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 $(".mw-ese-holder.active").removeClass('active');
         });
 
-        init();
 
-        var editorRoot = document.getElementById('css-editor-root');
+            init();
 
-        setInterval(function(){
-            editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
-        }, 700)
-        mw.components._init();
+            var editorRoot = document.getElementById('css-editor-root');
+
+            setInterval(function(){
+                editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
+            }, 700)
+            mw.components._init();
+
 
     });
 
@@ -1514,6 +1531,333 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>
                     <div class="mw-ui-field w100" id="classtags"></div>
+                </div>
+
+            </div>
+
+        </mw-accordion-item>
+
+        <mw-accordion-item id="animations-accordion">
+
+            <style>
+                #animations {
+                    display: block;
+                }
+            </style>
+
+            <script>
+
+
+                var animations = {
+                    common: [
+                        'bounce',
+                        'flash',
+                        'pulse',
+                        'rubberBand',
+                        'shakeX',
+                        'shakeY',
+                        'headShake',
+                        'swing',
+                        'tada',
+                        'wobble',
+                        'jello',
+                        'heartBeat',
+                        'flip',
+                        'flipInX',
+                        'flipInY',
+                        'flipOutX',
+                        'flipOutY',
+                        'hinge',
+                        'jackInTheBox',
+                        'rollIn'
+                    ],
+                    appear: [
+                        'backInDown',
+                        'backInLeft',
+                        'backInRight',
+                        'backInUp',
+                        'bounceIn',
+                        'bounceInDown',
+                        'bounceInLeft',
+                        'bounceInRight',
+                        'bounceInUp',
+                        'fadeIn',
+                        'fadeInDown',
+                        'fadeInDownBig',
+                        'fadeInLeft',
+                        'fadeInLeftBig',
+                        'fadeInRight',
+                        'fadeInRightBig',
+                        'fadeInUp',
+                        'fadeInUpBig',
+                        'fadeInTopLeft',
+                        'fadeInTopRight',
+                        'fadeInBottomLeft',
+                        'fadeInBottomRight',
+                        'lightSpeedInRight',
+                        'lightSpeedInLeft',
+                        'rotateIn',
+                        'rotateInDownLeft',
+                        'rotateInDownRight',
+                        'zoomIn',
+                        'zoomInDown',
+                        'zoomInLeft',
+                        'zoomInRight',
+                        'zoomInUp',
+                        'slideInDown',
+                        'slideInLeft',
+                        'slideInRight',
+                        'slideInUp'
+                    ]
+                };
+
+                ;(function(){
+                    var animationApi = {
+                        preview: function (animation) {
+                            return mw.top().__animate(animation)
+                        },
+                        remove: function (id) {
+
+                            var item = mw.top().__pageAnimations.find(function (item) {  return item.id === id });
+                            var citem = Object.assign({}, item)
+                            mw.top().__pageAnimations.splice(mw.top().__pageAnimations.indexOf(item), 1);
+                            Array.from(mw.top().doc.querySelectorAll(citem.selector)).forEach(function (node){
+                                if(node.$$mwAnimations && node.$$mwAnimations.length) {
+                                    var i = node.$$mwAnimations.findIndex(function(a){return a.id === id});
+                                    if(i > -1) {
+                                        node.$$mwAnimations.splice(i, 1);
+                                    }
+                                }
+                            })
+                        },
+                        add: function (node, obj) {
+                            var sel = mw.tools.generateSelectorForNode(node);
+                            var id = mw.id('animation');
+
+
+
+                            if (!node.$$mwAnimations) {
+                                node.$$mwAnimations = [];
+                            }
+
+                            var curr = node.$$mwAnimations.find(function (item) {
+                                return item.when === obj.when;
+                            });
+
+                            if (curr) {
+                                this.remove(curr.id)
+                            }
+                            var config = Object.assign({selector: sel, id: id}, obj)
+                            node.$$mwAnimations.push(config)
+                            mw.top().__pageAnimations.push(config)
+                            animationApi.preview(config)
+
+                            return config;
+                        }
+                    };
+
+                    var textCase = function (text) {
+                        var result = text.replace(/([A-Z])/g, " $1");
+                        return result.charAt(0).toUpperCase() + result.slice(1);
+                    }
+
+                    window.animationGUI = {
+
+                        _types:  {
+                            animationSelector: function() {
+                                var wrap = mw.element({
+                                    props: { className: 'mw-ui-field-holder'},
+                                    content: [
+                                        {
+                                            tag: 'label',
+                                            props: { innerHTML: 'Animation type', className: 'mw-ui-label'},
+                                        },
+                                        {
+
+                                            props: {  className: 'mw-field'},
+                                        }
+                                    ]
+                                });
+                                var select = mw.element('<select />');
+                                for (var cat in animations) {
+                                    if (animations.hasOwnProperty(cat)) {
+                                         var group = document.createElement('optgroup');
+                                         group.label = textCase(cat)
+                                         select.append(group);
+                                         var groupAnims = animations[cat];
+                                         var i = 0;
+                                         for( ; i < groupAnims.length; i++) {
+                                             var option = document.createElement('option');
+                                             option.value = groupAnims[i];
+                                             option.innerHTML = textCase(groupAnims[i]);
+                                             group.appendChild(option)
+                                         }
+                                    }
+                                }
+                                mw.element('.mw-field', wrap).append(select)
+                                return wrap;
+
+                            },
+                            speed: function () {
+                                var root = mw.element({
+                                    props: { className: 'mw-ui-field-holder'},
+
+                                    content: [
+                                        {
+                                            tag: 'label',
+                                            props: { innerHTML: 'Speed', className: 'mw-ui-label'},
+                                        },
+                                        {
+                                            props: {
+                                                className: 'mw-field mw-field-flat unit',
+                                                dataset: {
+                                                    after: 'sec.'
+                                                },
+                                            },
+
+                                            content: {
+                                                tag: 'input',
+                                                props: { type: 'text', placeholder: 'Speed in seconds ' },
+                                            }
+                                        }
+
+                                    ]
+                                })
+                                var sl = mw.element('<div class="mw-range default-values-list-slider" />');
+                                mw.element('.mw-field', root).append(sl)
+                                $(sl.get(0)).slider({
+                                    min: 50,
+                                    max: 5000,
+                                    step: 50,
+                                    slide: function( event, ui ) {
+                                        this.previousElementSibling.value = Math.round((ui.value / 1000) * 100) / 100;
+                                        $(this.previousElementSibling).trigger('input')
+                                    }
+                                })
+                                 return  root;
+                            },
+                            when: function () {
+                                return  mw.element({
+                                    props: { className: 'mw-ui-field-holder'},
+                                    content: [
+                                        {
+                                            tag: 'label',
+                                            props: { innerHTML: 'Animation trigger'},
+                                        },
+                                        {
+                                            props: {
+                                                className: 'mw-field',
+                                            },
+                                            content: {
+                                                tag: 'select',
+                                                props: {  },
+                                                content: [
+                                                    { tag: 'option', props: { value: 'onAppear', innerHTML: 'When Appear'}},
+                                                    { tag: 'option', props: { value: 'onHover', innerHTML: 'When mouse is over'}},
+                                                    { tag: 'option', props: { value: 'onClick', innerHTML: 'When element is clicked'}},
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            tag: 'small',
+                                            props: {
+                                                innerHTML: 'Available when you are not "edit mode"',
+                                                className: 'form-text text-muted'
+                                            }
+                                        }
+
+                                    ]
+                                });
+                            }
+                        },
+                        renderSingle: function (anim) {
+                            var box = mw.element('<div class="mw-ui-box mw-ui-box-content mw-module-settings-box" />');
+                            var del = mw.element('<em class="mdi mdi-delete"></em>')
+                            var typeSelect = animationGUI._types.animationSelector();
+                            var speed = animationGUI._types.speed();
+                            var when = animationGUI._types.when();
+
+
+                            box
+                                .append(del)
+                                .append(typeSelect)
+                                .append(speed)
+                                .append(when);
+console.log(anim)
+                            mw.element('select', when).val(anim.when).on('input', function () {
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                if(curr) {
+                                    curr.when = this.value;
+                                }
+                            })
+                            mw.element('select', typeSelect).val(anim.animation).on('input', function () {
+                                anim.animation = this.value;
+                                mw.top().__animate(anim)
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                if(curr) {
+                                    curr.animation = this.value;
+                                }
+
+                            });
+
+                            $('input', speed.get(0)).val(anim.speed).on('input', function () {
+                                var val = this.value + 's';
+                                anim.speed = val;
+                                mw.top().__animate(anim);
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                if(curr) {
+                                    curr.speed = val;
+                                }
+                            });
+
+                            return box
+                        },
+                        add: function () {
+                            var el = document.querySelector('#animations');
+                            var anim = {
+                                selector: mw.tools.generateSelectorForNode(ActiveNode),
+                                animation: 'shakeX',
+                                speed: 0.5,
+                                when: 'onAppear'
+                            }
+                            animationApi.add(ActiveNode, anim);
+                            el.appendChild(animationGUI.renderSingle(anim).get(0));
+                        },
+                        set: function () {
+                            var el = document.querySelector('#animations');
+                            while (el.firstChild) {
+                                el.removeChild(el.firstChild);
+                            }
+                            if(ActiveNode && ActiveNode.$$mwAnimations) {
+                                ActiveNode.$$mwAnimations.forEach(function (anim){
+                                    el.appendChild(animationGUI.renderSingle(anim).get(0));
+                                });
+                            }
+
+                        }
+                    };
+
+                     window.animationGUI = animationGUI;
+
+                })();
+            </script>
+
+            <div class="mw-ui-box-header mw-accordion-title">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Animations"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content">
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Animations"); ?></label>
+                    <button id="add-animation-button" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-notification mw-ui-btn-small" onclick="animationGUI.add()">+ Add</button>
+
+                    <div class="w100" id="animations">
+
+                    </div>
                 </div>
 
             </div>
