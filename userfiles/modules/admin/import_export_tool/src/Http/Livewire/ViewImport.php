@@ -70,8 +70,13 @@ class ViewImport extends Component
             $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
             $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
             $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+
             if (empty($repeatableData)) {
                 $repeatableData = [];
+            }
+
+            if (!empty($repeatableTargetKeys)) {
+                $contentTag = array_key_first($repeatableTargetKeys);
             }
 
             if (empty($sourceContent)) {
@@ -99,7 +104,7 @@ class ViewImport extends Component
             $feedUpdate->source_file_size = filesize($filename);
             $feedUpdate->last_downloaded_date = Carbon::now();
             $feedUpdate->source_type = $this->import_feed['source_type'];
-            if ($contentTag) {
+            if ($contentTag && empty($feedUpdate->content_tag)) {
                 $feedUpdate->content_tag = $contentTag;
             }
             $feedUpdate->save();

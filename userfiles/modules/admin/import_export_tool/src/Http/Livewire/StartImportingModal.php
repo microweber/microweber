@@ -74,6 +74,10 @@ class StartImportingModal extends ModalComponent
             }
         }
 
+        if (empty($this->import_feed->imported_content_ids)) {
+            $this->import_feed->imported_content_ids = [];
+        }
+
         $importedContentIds = [];
         $importedContentIds = array_merge($importedContentIds,$this->import_feed->imported_content_ids);
         $importedContentIds = array_merge($importedContentIds,$savedIds);
