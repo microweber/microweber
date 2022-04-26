@@ -80,14 +80,18 @@ class ViewImport extends Component
             $sourceContent = $newReader->readXml($content);
             $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
             $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-            $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+            if (!empty($repeatableTargetKeys)) {
+                $contentTag = array_key_first($repeatableTargetKeys);
+            }
+
+            if (empty($this->import_feed['content_tag'])) {
+                $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
+            } else if($contentTag) {
+                $repeatableData = Arr::get($sourceContent, $contentTag);
+            }
 
             if (empty($repeatableData)) {
                 $repeatableData = [];
-            }
-
-            if (!empty($repeatableTargetKeys)) {
-                $contentTag = array_key_first($repeatableTargetKeys);
             }
 
             if (empty($sourceContent)) {
