@@ -268,12 +268,14 @@
                             <tr>
                                 <td>
                                     <label for="feed_primary_key">
-                                        <b>Primary key</b></label>
+                                        <b>Primary key</b>
+                                    </label>
                                     <br>
                                     <small>Unique Content ID or Content Model</small>
                                 </td>
                                 <td>
                                     <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+                                        <option value="content_title">Content Title</option>
                                         <option value="content_id">Content ID</option>
                                         <option value="model">Content model</option>
                                         <option value="sku">SKU</option>
