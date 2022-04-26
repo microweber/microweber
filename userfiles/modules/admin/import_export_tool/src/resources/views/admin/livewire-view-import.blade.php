@@ -394,7 +394,10 @@
                             @endforeach
                         </select>
 
-                        <input type="button" class="btn btn-success btn-block mt-3 mr-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
+                        @if($has_new_changes)
+                            <div class="alert alert-warning mt-3">You have unsaved changes.</div>
+                        @endif
+                        <input type="button" class="btn btn-success btn-block mt-1 mr-3" wire:click="save" wire:loading.attr="disabled" value="Save import">
 
                     </div>
                 </div>

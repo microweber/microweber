@@ -15,8 +15,10 @@ class ViewImport extends Component
 {
     use WithFileUploads;
 
+    public $has_new_changes = 0;
     public $import_feed_id;
     public $import_feed = [];
+    public $import_feed_original = [];
     public $confirming_delete_id;
     public $delete_also_content = 0;
     public $photo;
@@ -37,6 +39,8 @@ class ViewImport extends Component
         $feed->save();
 
         session()->flash('message', 'Import feed is saved successfully.');
+
+        return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
     }
 
     public function confirmDelete($id)
@@ -65,7 +69,7 @@ class ViewImport extends Component
     public function download()
     {
         $dir = storage_path() . DS . 'import_export_tool';
-        $filename = $dir . DS . md5($this->import_feed['source_file']) .'.txt';
+        $filename = $dir . DS . md5($this->import_feed['source_file']) . '.txt';
         if (!is_dir($dir)) {
             mkdir_recursive($dir);
         }
@@ -86,7 +90,7 @@ class ViewImport extends Component
 
             if (!empty($this->import_feed['content_tag'])) {
                 $repeatableData = Arr::get($sourceContent, $this->import_feed['content_tag']);
-            } else if($contentTag) {
+            } else if ($contentTag) {
                 $repeatableData = Arr::get($sourceContent, $contentTag);
             }
 
@@ -107,7 +111,7 @@ class ViewImport extends Component
                 return;
             }
 
-            $realpath = str_replace(base_path(),'', $filename);
+            $realpath = str_replace(base_path(), '', $filename);
 
             $feedUpdate = ImportFeed::where('id', $this->import_feed_id)->first();
             $feedUpdate->source_file = $this->import_feed['source_file'];
@@ -130,10 +134,10 @@ class ViewImport extends Component
 
             return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
 
-            return ['downloaded'=>true];
+            return ['downloaded' => true];
         }
 
-        return ['downloaded'=>false];
+        return ['downloaded' => false];
     }
 
     public function upload()
@@ -143,6 +147,8 @@ class ViewImport extends Component
 
     public function render()
     {
+        $this->has_new_changes = $this->arrayDiffRecursive($this->import_feed_original, $this->import_feed);
+
         return view('import_export_tool::admin.livewire-view-import');
     }
 
@@ -154,6 +160,7 @@ class ViewImport extends Component
         }
 
         $this->import_feed = $importFeed->toArray();
+        $this->import_feed_original = $importFeed->toArray();
         $this->import_feed_id = $importFeed->id;
 
         $importFeedNames = [];
@@ -165,5 +172,27 @@ class ViewImport extends Component
         }
 
         $this->import_feed_names = $importFeedNames;
+    }
+
+    public function arrayDiffRecursive($array1, $array2)
+    {
+        foreach ($array1 as $key => $value) {
+
+            if (is_array($value)) {
+                if (!isset($array2[$key])) {
+                    $difference[$key] = $value;
+                } elseif (!is_array($array2[$key])) {
+                    $difference[$key] = $value;
+                } else {
+                    $new_diff = $this->arrayDiffRecursive($value, $array2[$key]);
+                    if ($new_diff != FALSE) {
+                        $difference[$key] = $new_diff;
+                    }
+                }
+            } elseif ((!isset($array2[$key]) || $array2[$key] != $value) && !($array2[$key] === null && $value === null)) {
+                $difference[$key] = $value;
+            }
+        }
+        return !isset($difference) ? 0 : $difference;
     }
 }
