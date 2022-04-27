@@ -63,7 +63,7 @@
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
             mw.require("fonts.js");
 
-           
+
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
@@ -285,6 +285,7 @@ $user = get_user_by_id($user_id);
                         </li>
                     <?php endif; ?>
 
+                    <?php if ($new_comments_count > 0): ?>
                     <li class="mx-2">
                         <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $comments_notif_html; ?>&nbsp;
@@ -300,7 +301,9 @@ $user = get_user_by_id($user_id);
                             </span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
+                    <?php if ($notif_count > 0): ?>
                     <li class="mx-2 ">
                         <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $notif_html; ?>
@@ -318,6 +321,8 @@ $user = get_user_by_id($user_id);
                             </span>
                         </a>
                     </li>
+                    <?php endif; ?>
+
                 </ul>
 
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
