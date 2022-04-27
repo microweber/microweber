@@ -10,9 +10,9 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use voku\helper\AntiXSS;
 
 trait FilterByKeywordTrait
 {
@@ -22,9 +22,11 @@ trait FilterByKeywordTrait
         $table = $model->getTable();
         $searchInFields = $model->getSearchable();
         $keywordToSearch = false;
-        $antixss = new AntiXSS();
+
+        $xssClean = new XSSClean();
+
         if (is_string($keyword)) {
-            $keyword = $antixss->xss_clean($keyword);
+            $keyword = $xssClean->clean($keyword);
             if ($keyword) {
                 $keywordToSearch = $keyword;
             }
