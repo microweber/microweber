@@ -30,6 +30,7 @@ class HtmlDropdownMappingPreview extends Component
             return redirect(route('admin.import-export-tool.index'));
         }
         $this->import_feed = $importFeed->toArray();
+        unset($this->import_feed['source_content']);
 
         $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
         $dropdownMapping->setContent($importFeed->source_content);

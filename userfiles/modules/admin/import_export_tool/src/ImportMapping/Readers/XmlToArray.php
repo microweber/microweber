@@ -13,17 +13,19 @@ class XmlToArray implements iReader
 
     public function loadDom($content) {
 
-        $previousValue = libxml_use_internal_errors(true);
-
-        $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->loadXml($content);
-
-        libxml_use_internal_errors($previousValue);
-
-        if (libxml_get_errors()) {
+        if (empty($content)) {
             return [];
         }
+
+        try {
+            libxml_use_internal_errors(false);
+            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $dom->preserveWhiteSpace = false;
+            $dom->loadXml($content);
+        } catch (\Exception $e) {
+            return [];
+        }
+
         return $dom;
     }
 
