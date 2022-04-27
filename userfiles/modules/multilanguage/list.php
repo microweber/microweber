@@ -23,7 +23,7 @@ only_admin_access();
 
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table">
         <thead>
             <tr>
 <!--                <th style="min-width: 25px;"></th>-->
