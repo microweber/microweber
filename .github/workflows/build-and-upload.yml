@@ -39,6 +39,7 @@ jobs:
         rm -rf .github
         find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
+        echo insecure >> ~/.curlrc
         curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
         cp microweber-${{ env.GITHUB_REF_SLUG }}.zip microweber.zip
         curl -T microweber.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs
