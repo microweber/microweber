@@ -1285,7 +1285,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
     <mw-accordion-item id="container-type">
         <div class="mw-ui-box-header mw-accordion-title">
-            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Container"); ?>
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/container.svg"> <?php _e("Container"); ?>
         </div>
         <div class="mw-accordion-content mw-ui-box-content">
 

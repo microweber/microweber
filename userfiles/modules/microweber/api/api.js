@@ -1139,6 +1139,15 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
         if (speed) {
             node.style.setProperty('--animate-duration', speed);
         }
+        var isInline = getComputedStyle(node).display === 'inline';
+
+        if(isInline) {
+            node.style.display = 'inline-block';
+            var ms = parseFloat(speed) * 1000;
+            setTimeout(function (){
+                node.style.display = '';
+            }, ms+10)
+        }
         node.classList.add(prefix + suffix, animationName);
         function handleAnimationEnd(event) {
             event.stopPropagation();
