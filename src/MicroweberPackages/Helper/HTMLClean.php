@@ -33,8 +33,10 @@ class HTMLClean
 
     public function clean($html) {
 
-        $antiXss = new \voku\helper\AntiXSS();
-        $html = $antiXss->xss_clean($html);
+
+
+        $xssClean = new XSSClean();
+        $html = $xssClean->clean($html);
 
         $config = \HTMLPurifier_Config::createDefault();
 

@@ -41,6 +41,10 @@
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     }
+    .animation-clear-btn{
+        float: right;
+        margin: -30px 0 0 0;
+    }
 
 </style>
 <script>mw.require('prop_editor.js')</script>
@@ -902,6 +906,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 
                 mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
+                 animationGUI.set()
             }
             populateSpecials(css);
         }
@@ -1550,6 +1555,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                 var animations = {
                     common: [
+                        'none',
                         'bounce',
                         'flash',
                         'pulse',
@@ -1565,8 +1571,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         'flip',
                         'flipInX',
                         'flipInY',
-                        'flipOutX',
-                        'flipOutY',
+
                         'hinge',
                         'jackInTheBox',
                         'rollIn'
@@ -1666,15 +1671,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         _types:  {
                             animationSelector: function() {
                                 var wrap = mw.element({
-                                    props: { className: 'mw-ui-field-holder'},
+                                    props: { className: 's-field'},
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Animation type', className: 'mw-ui-label'},
+                                            props: { innerHTML: 'Motion'},
                                         },
                                         {
 
-                                            props: {  className: 'mw-field'},
+                                            props: {  className: 'mw-field mw-field-flat'},
                                         }
                                     ]
                                 });
@@ -1700,21 +1705,20 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             },
                             speed: function () {
                                 var root = mw.element({
-                                    props: { className: 'mw-ui-field-holder'},
+                                    props: { className: 's-field'},
 
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Speed', className: 'mw-ui-label'},
+                                            props: { innerHTML: 'Speed'},
                                         },
                                         {
                                             props: {
                                                 className: 'mw-field mw-field-flat unit',
                                                 dataset: {
-                                                    after: 'sec.'
+                                                    // after: 'sec.'
                                                 },
                                             },
-
                                             content: {
                                                 tag: 'input',
                                                 props: { type: 'text', placeholder: 'Speed in seconds ' },
@@ -1726,37 +1730,51 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                 var sl = mw.element('<div class="mw-range default-values-list-slider" />');
                                 mw.element('.mw-field', root).append(sl)
                                 $(sl.get(0)).slider({
-                                    min: 50,
-                                    max: 5000,
-                                    step: 50,
+                                    min: 0.1,
+                                    max: 5,
+                                    step: 0.1,
                                     slide: function( event, ui ) {
-                                        this.previousElementSibling.value = Math.round((ui.value / 1000) * 100) / 100;
+                                        // this.previousElementSibling.value = Math.round((ui.value / 1000) * 100) / 100;
+                                        this.previousElementSibling.value = ui.value;
                                         $(this.previousElementSibling).trigger('input')
                                     }
                                 })
                                  return  root;
                             },
                             when: function () {
-                                return  mw.element({
-                                    props: { className: 'mw-ui-field-holder'},
+                                return  mw.element(
+                                {
+
+                                    props: {
+                                        style: {
+                                            marginTop: '10px'
+                                        }
+                                    },
                                     content: [
                                         {
-                                            tag: 'label',
-                                            props: { innerHTML: 'Animation trigger'},
-                                        },
-                                        {
-                                            props: {
-                                                className: 'mw-field',
-                                            },
-                                            content: {
-                                                tag: 'select',
-                                                props: {  },
-                                                content: [
-                                                    { tag: 'option', props: { value: 'onAppear', innerHTML: 'When Appear'}},
-                                                    { tag: 'option', props: { value: 'onHover', innerHTML: 'When mouse is over'}},
-                                                    { tag: 'option', props: { value: 'onClick', innerHTML: 'When element is clicked'}},
-                                                ]
-                                            }
+                                            props: { className: 's-field'},
+                                            content: [
+                                                {
+                                                    tag: 'label',
+                                                    props: { innerHTML: 'Trigger'},
+                                                },
+                                                {
+                                                    props: {
+                                                        className: 'mw-field mw-field-flat',
+                                                    },
+                                                    content: [
+                                                        {
+                                                            tag: 'select',
+                                                            props: {  },
+                                                            content: [
+                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: 'When Appear'}},
+                                                                { tag: 'option', props: { value: 'onHover', innerHTML: 'When mouse is over'}},
+                                                                { tag: 'option', props: { value: 'onClick', innerHTML: 'When element is clicked'}},
+                                                            ]
+                                                        },
+                                                    ]
+                                                },
+                                            ]
                                         },
                                         {
                                             tag: 'small',
@@ -1765,18 +1783,25 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                                 className: 'form-text text-muted'
                                             }
                                         }
-
                                     ]
-                                });
+                                }
+
+                                );
                             }
                         },
                         renderSingle: function (anim) {
-                            var box = mw.element('<div class="mw-ui-box mw-ui-box-content mw-module-settings-box" />');
-                            var del = mw.element('<em class="mdi mdi-delete"></em>')
+                            var box = mw.element('<div class="mw-module-settings-box" />');
+                            var del = mw.element('<a class="mw-ui-link animation-clear-btn">Clear</a>')
                             var typeSelect = animationGUI._types.animationSelector();
                             var speed = animationGUI._types.speed();
                             var when = animationGUI._types.when();
 
+                            del.on('click', function () {
+                                mw.element('select', typeSelect)
+                                    .val('none')
+                                    .get(0)
+                                    .dispatchEvent(new Event('input'));
+                            })
 
                             box
                                 .append(del)
@@ -1788,11 +1813,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                 var curr = mw.__pageAnimations.find(function(a){
                                     return !!anim.id || a.id === anim.id
                                 });
+                                anim.when = this.value;
                                 if(curr) {
                                     curr.when = this.value;
                                 }
-                            })
+                                mw.top().wysiwyg.change(ActiveNode)
+                            });
+
+                            $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
+
                             mw.element('select', typeSelect).val(anim.animation).on('input', function () {
+
+                                mw.element('select', when).get(0).disabled = this.value === 'none';
+                                mw.element('input', speed.get(0)).get(0).disabled = this.value === 'none';
+                                $( '.mw-range', speed.get(0) ).slider( this.value === 'none' ? "disable" : "enable" );
+
+
                                 anim.animation = this.value;
                                 mw.top().__animate(anim)
                                 var curr = mw.__pageAnimations.find(function(a){
@@ -1801,20 +1837,26 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                 if(curr) {
                                     curr.animation = this.value;
                                 }
+                                mw.top().wysiwyg.change(ActiveNode)
 
                             });
 
                             $('input', speed.get(0)).val(anim.speed).on('input', function () {
-                                var val = this.value + 's';
+                                 $('.mw-range', speed.get(0)).slider('value', parseFloat(this.value))
+                                 var val = this.value + 's';
                                 anim.speed = val;
                                 mw.top().__animate(anim);
                                 var curr = mw.__pageAnimations.find(function(a){
                                     return !!anim.id || a.id === anim.id
                                 });
-                                if(curr) {
+                                if (curr) {
                                     curr.speed = val;
                                 }
+                                mw.top().wysiwyg.change(ActiveNode)
                             });
+
+                            mw.element('select', when).get(0).disabled = anim.animation === 'none';
+                            mw.element('input', speed.get(0)).get(0).disabled = anim.animation === 'none';
 
                             return box
                         },
@@ -1822,9 +1864,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             var el = document.querySelector('#animations');
                             var anim = {
                                 selector: mw.tools.generateSelectorForNode(ActiveNode),
-                                animation: 'shakeX',
-                                speed: 0.5,
-                                when: 'onAppear'
+                                animation: 'none',
+                                speed: 1,
+                                when: 'onAppear',
+                                id: mw.id('animation')
                             }
                             animationApi.add(ActiveNode, anim);
                             el.appendChild(animationGUI.renderSingle(anim).get(0));
@@ -1834,6 +1877,18 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             while (el.firstChild) {
                                 el.removeChild(el.firstChild);
                             }
+                            /* Add blank animation to each */
+                            if(!ActiveNode.$$mwAnimations) {
+
+                                 animationApi.add(ActiveNode, {
+                                     selector: mw.tools.generateSelectorForNode(ActiveNode),
+                                     animation: 'none',
+                                     speed: 1,
+                                     when: 'onAppear',
+                                     id: mw.id('animation')
+                                 });
+                            }
+
                             if(ActiveNode && ActiveNode.$$mwAnimations) {
                                 ActiveNode.$$mwAnimations.forEach(function (anim){
                                     el.appendChild(animationGUI.renderSingle(anim).get(0));
@@ -1853,7 +1908,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Animations"); ?></label>
-                    <button id="add-animation-button" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-notification mw-ui-btn-small" onclick="animationGUI.add()">+ Add</button>
+
 
                     <div class="w100" id="animations">
 

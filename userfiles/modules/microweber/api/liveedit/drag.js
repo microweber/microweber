@@ -1129,11 +1129,14 @@ mw.drag = {
             data = mw.drag.collectData(edits);
         }
 
+        var animations = (mw.__pageAnimations || []).filter(function (item) {
+            return item.animation !== 'none'
+        })
 
         var options = {
             group: 'page-animations',
             key: 'animations-global',
-            value: JSON.stringify(mw.__pageAnimations || [])
+            value: JSON.stringify(animations)
         };
         mw.options.saveOption(options, function(){
             mw.clear_cache()

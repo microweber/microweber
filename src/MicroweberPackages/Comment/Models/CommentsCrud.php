@@ -4,7 +4,6 @@ namespace MicroweberPackages\Comment\Models;
 
 use MicroweberPackages\Database\Crud;
 use MicroweberPackages\Helper\HTMLClean;
-use voku\helper\AntiXSS;
 
 
 class CommentsCrud extends Crud

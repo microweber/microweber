@@ -45,7 +45,7 @@ if (!isset($offer['price']['offer_price'])) {
     }
 </script>
 
-<div class="col-md-12">
+<div class="col-md-12 px-0">
 
 <div class="form-group">
     <div class="custom-control custom-checkbox">

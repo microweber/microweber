@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
+use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use voku\helper\AntiXSS;
 
 
 class ApiController  extends FrontendController
@@ -609,18 +609,25 @@ class ApiController  extends FrontendController
         // sanitize attributes
         if($request_data){
             $request_data_new = [];
-            $antixss = new AntiXSS();
+
+            $xssClean = new XSSClean();
+
             foreach ($request_data as $k=>$v){
                 if(is_string($v)) {
                     $v = str_replace('<', '-', $v);
                     $v = str_replace('>', '-', $v);
                 }
-                $v = $antixss->xss_clean($v);
+                if(is_array($v)) {
+                    $v = $xssClean->cleanArray($v);
+                } else {
+                    $v = $xssClean->clean($v);
+                }
 
                 if(is_string($k)){
                     $k = str_replace('<', '-', $k);
                     $k = str_replace('>', '-', $k);
-                    $k = $antixss->xss_clean($k);
+
+                    $k = $xssClean->clean($k);
                     if($k){
                         $request_data_new[$k] = $v;
                     }
@@ -630,6 +637,7 @@ class ApiController  extends FrontendController
 
             }
             $request_data = $request_data_new;
+
         }
 
         $page = false;

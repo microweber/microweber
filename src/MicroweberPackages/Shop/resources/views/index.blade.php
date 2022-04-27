@@ -12,7 +12,7 @@
                 {!! $products->categories() !!}
 
                 {!! $products->tags() !!}
-                
+
                 {!! $products->filters() !!}
 
             </div>
@@ -32,10 +32,15 @@
                 @foreach($products->results() as $product)
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
                         <a href="{{content_link($product->id)}}">
-                            <img src="{{$product->thumbnail(800,800, true)}}" alt="">
+                            <div class="img-as-background square-75 h-350">
+                                <img src="{{$product->thumbnail(1000,1000)}}" />
 
+                            </div>
                             <h6 class="mt-3">{{$product->title}}</h6>
                         </a>
+
+
+
                         <p>{{$product->content_text}}</p>
 
                         <div class="d-flex">

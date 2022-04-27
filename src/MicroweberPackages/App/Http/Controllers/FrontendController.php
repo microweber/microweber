@@ -23,7 +23,6 @@ use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response;
-use voku\helper\AntiXSS;
 
 
 class FrontendController extends Controller
