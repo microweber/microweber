@@ -71,7 +71,7 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
 
-            $browser->scrollTo('@category-save');
+            $browser->scrollTo('[dusk="category-save"]');
             $browser->click('@category-save');
             $browser->pause(2000);
 
