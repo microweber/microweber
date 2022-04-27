@@ -84,7 +84,11 @@ if (!isset($params['prefix'])) {
     });
 </script>
 <?php
-//d($params);Please confirm the installation of
+if(!$params['prefix']){
+    $url = 'https://microweber.org/go/whitelabel';
+} else {
+    $url = 'https://microweber.org/go/market?prefix='.$params['prefix'];
+}
 ?>
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
@@ -95,7 +99,7 @@ if (!isset($params['prefix'])) {
 
     <div class="form-group">
         <label class="control-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
-        <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a target="_blank" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>"><?php _e('Get license key'); ?></a></small>
+        <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a target="_blank" href="<?php print $url; ?>"><?php _e('Get license key'); ?></a></small>
         <input type="hidden" name="rel_type" value="<?php print $params['prefix']; ?>">
         <input name="activate_on_save" type="hidden" value="1"/>
         <?php if ($id): ?>
