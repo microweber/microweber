@@ -1186,7 +1186,11 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
                 if (!mw.settings.liveEdit && nodes.length) {
                     var observer = new IntersectionObserver(function(entries, observer) {
                         entries.forEach(function(el) {
-                            animateCSS(el.target.$$mwAnimations.find(filter));
+                            if(!el.target.$$mwAnimationDone) {
+                                el.target.$$mwAnimationDone = true;
+                                animateCSS(el.target.$$mwAnimations.find(filter));
+                            }
+
                         });
                     });
                     nodes.forEach(function(el) {
