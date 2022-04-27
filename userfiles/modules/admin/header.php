@@ -626,10 +626,16 @@ $user = get_user_by_id($user_id);
 
                 <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
 
+
+
               <?php event_trigger('mw.admin.sidebar.li.last'); ?>
 
 
+                <div class="mt-5">
+                    <?php include(__DIR__ . DS . 'lang_swich_footer.php'); ?>
+                </div>
             </ul>
+
 
             <script>
 
