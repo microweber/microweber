@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec87461b7bc8334dbfd79333c4bccc67",
+    "content-hash": "fc5cd626027b23ba8227461e91c784f0",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1646,12 +1646,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "a5b94203c4aee908df4a2358db2caa6dd0334db3"
+                "reference": "e23112857459ee766f82345e8325c34c92324cda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a5b94203c4aee908df4a2358db2caa6dd0334db3",
-                "reference": "a5b94203c4aee908df4a2358db2caa6dd0334db3",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e23112857459ee766f82345e8325c34c92324cda",
+                "reference": "e23112857459ee766f82345e8325c34c92324cda",
                 "shasum": ""
             },
             "require": {
@@ -1665,10 +1665,10 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "9.0.0",
-                "jetbrains/phpstorm-stubs": "2021.1",
-                "phpstan/phpstan": "1.5.3",
-                "phpstan/phpstan-strict-rules": "^1.1",
-                "phpunit/phpunit": "9.5.16",
+                "jetbrains/phpstorm-stubs": "2022.1",
+                "phpstan/phpstan": "1.6.0",
+                "phpstan/phpstan-strict-rules": "^1.2",
+                "phpunit/phpunit": "9.5.20",
                 "psalm/plugin-phpunit": "0.16.1",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^5.2|^6.0",
@@ -1749,7 +1749,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-05T10:09:31+00:00"
+            "time": "2022-04-26T09:10:51+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -2962,7 +2962,7 @@
         },
         {
             "name": "graham-campbell/security-core",
-            "version": "3.2.x-dev",
+            "version": "v3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Security-Core.git",
@@ -2983,7 +2983,6 @@
                 "graham-campbell/analyzer": "^3.0",
                 "phpunit/phpunit": "^8.5.8 || ^9.3.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5552,7 +5551,7 @@
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
-                "url": "git@github.com:microweber-modules/standalone-updater.git",
+                "url": "https://github.com/microweber-modules/standalone-updater.git",
                 "reference": "96046014da8583986db366af7f0e77685c3fdb13"
             },
             "dist": {
@@ -5586,6 +5585,10 @@
             "keywords": [
                 "standalone-updater"
             ],
+            "support": {
+                "source": "https://github.com/microweber-modules/standalone-updater/tree/3.4",
+                "issues": "https://github.com/microweber-modules/standalone-updater/issues"
+            },
             "time": "2022-04-20T14:35:09+00:00"
         },
         {
@@ -5692,13 +5695,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/bootstrap5.git",
-                "reference": "6f4161522de1cde5a78e2d1066ed0643f35eef4c"
+                "reference": "3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-6f4161522de1cde5a78e2d1066ed0643f35eef4c-zip-d6f077.zip",
-                "reference": "6f4161522de1cde5a78e2d1066ed0643f35eef4c",
-                "shasum": "a70761baf64160da2fd8b6263829b6cb20f50514"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7-zip-d81a9d.zip",
+                "reference": "3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7",
+                "shasum": "45317a32dd13eb1789129ca43e0096d56dff79a6"
             },
             "type": "microweber-template",
             "extra": {
@@ -5738,7 +5741,7 @@
                 "source": "https://github.com/microweber-templates/bootstrap5/tree/1.0",
                 "issues": "https://github.com/microweber-templates/bootstrap5/issues"
             },
-            "time": "2022-04-20T13:51:33+00:00"
+            "time": "2022-04-26T11:48:05+00:00"
         },
         {
             "name": "microweber-templates/new-world",
@@ -7942,12 +7945,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "746e9eef57d9eda31672875f4c2f6bbe08fcaa9b"
+                "reference": "2b5ecd33152aa02e6a98f32794a92019429c3105"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/746e9eef57d9eda31672875f4c2f6bbe08fcaa9b",
-                "reference": "746e9eef57d9eda31672875f4c2f6bbe08fcaa9b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/2b5ecd33152aa02e6a98f32794a92019429c3105",
+                "reference": "2b5ecd33152aa02e6a98f32794a92019429c3105",
                 "shasum": ""
             },
             "require": {
@@ -8043,7 +8046,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-22T23:41:59+00:00"
+            "time": "2022-04-26T14:03:59+00:00"
         },
         {
             "name": "predis/predis",
@@ -11994,12 +11997,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "a9fa200222b3b0ebdf66f350223d5163be9e4f8d"
+                "reference": "cdcadd343d31ad16fc5e006b0de81ea307435053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a9fa200222b3b0ebdf66f350223d5163be9e4f8d",
-                "reference": "a9fa200222b3b0ebdf66f350223d5163be9e4f8d",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/cdcadd343d31ad16fc5e006b0de81ea307435053",
+                "reference": "cdcadd343d31ad16fc5e006b0de81ea307435053",
                 "shasum": ""
             },
             "require": {
@@ -12076,7 +12079,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T16:02:29+00:00"
+            "time": "2022-04-26T13:19:20+00:00"
         },
         {
             "name": "symfony/yaml",

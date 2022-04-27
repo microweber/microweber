@@ -150,12 +150,11 @@ if (isset($item['created_by'])) {
                         function deleteFormEntry(e, entryId) {
                             e.stopPropagation();
                             mw.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
-                                $('.js-form-entry-' + entryId).fadeOut();
-
+                                mw.notification.msg('<?php _e('Deleting...'); ?>');
                                 $.post(mw.settings.api_url+'delete_form_entry', {id: entryId}, function(msg) {
-
+                                    $('.js-form-entry-' + entryId).fadeOut();
+                                    mw.reload_module('#admin-dashboard-contact-form');
                                 });
-
                             });
                         }
                     </script>

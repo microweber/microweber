@@ -107,6 +107,13 @@ class NewFormEntry extends Notification
 
         $data['vals'] = !empty($data['form_values']) ? collect($data['form_values']) : []; //cast them to collection in order to be able to use ->split
 
+
+        $data['ago'] = app()->format->ago($this->notification->data['created_at']);
+        $data['is_read'] = false;
+        if ($this->notification->read_at > 0) {
+            $data['is_read'] = true;
+        }
+
         return view('form::admin.notifications.new_form_entry', $data);
     }
 

@@ -49,7 +49,7 @@
         "arcanedev/seo-helper": "4.1.0",
         "wikimedia/less.php": "3.1.0",
         "scssphp/scssphp": "1.10.0",
-        "graham-campbell/security-core": "*",
+        "graham-campbell/security-core": "V3.2.5",
         "darkaonline/l5-swagger": "*",
         "wikimedia/composer-merge-plugin": "dev-master",
         "opis/closure": "^3.6@dev",

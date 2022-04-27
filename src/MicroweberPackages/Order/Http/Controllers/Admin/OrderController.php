@@ -102,7 +102,9 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'orders'=>$orders
+            'orders'=>$orders,
+            'abandoned_count'=>Cart::where('order_completed', '=', '0')->groupBy('session_id')->count(),
+            'orders_count'=>Cart::where('order_completed', 1)->count()
         ]);
     }
 
@@ -133,7 +135,9 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'orders'=>$orders
+            'orders'=>$orders,
+            'abandoned_count'=>Cart::where('order_completed', '=', '0')->groupBy('session_id')->count(),
+            'orders_count'=>Cart::where('order_completed', 1)->count()
         ]);
     }
 

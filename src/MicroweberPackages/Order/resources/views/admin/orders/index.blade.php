@@ -8,9 +8,11 @@
             </div>
 
             <div class="col-md-3 text-right">
+                <?php if (count($orders) > 0): ?>
                 <button type="button" class="btn btn-outline-primary" onclick="$('.js-filtering-orders-box').slideToggle()" >
                     <i class="mdi mdi-magnify"></i> <?php _e("Search by criteria"); ?>
                 </button>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -38,36 +40,44 @@
                 </div>
 
                 <div class="col-md-4">
-            <div class="form-group">
-                <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?php _e("Sort By"); ?></span>
-                    </div>
-                    <select class="form-control" onchange="location = this.value;">
 
-                        <option disabled="disabled"><?php _e("Select sorting"); ?></option>
+                    <?php if (count($orders) > 0): ?>
 
-                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Order date"); ?> <?php _e("[New > Old]"); ?></option>
-                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=asc"><?php _e("Order date"); ?> <?php _e("[Old > New]"); ?></option>
+                        <div class="form-group">
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><?php _e("Sort By"); ?></span>
+                                </div>
+                                <select class="form-control" onchange="location = this.value;">
 
-                        {{-- <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"
-                                 <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status"); ?> <?php _e("[NEW]"); ?></option>
-                         <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"
-                                 <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=asc"><?php _e("Status"); ?> <?php _e("[OLD]"); ?></option>
-    --}}
+                                    <option disabled="disabled"><?php _e("Select sorting"); ?></option>
 
-                        <option <?php if($orderBy == 'amount' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount"); ?> <?php _e("[High > Low]"); ?></option>
-                        <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=asc"><?php _e("Amount"); ?> <?php _e("[Low > High]"); ?></option>
+                                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
+                                            <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=desc"><?php _e("Order date"); ?> <?php _e("[New > Old]"); ?></option>
+                                    <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
+                                            <?php endif;?> value="{{route('admin.order.index')}}?orderBy=created_at&orderDirection=asc"><?php _e("Order date"); ?> <?php _e("[Old > New]"); ?></option>
+
+                                    {{-- <option <?php if($orderBy == 'order_status' && $orderDirection == 'desc'): ?>selected="selected"
+                                             <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=desc"><?php _e("Status"); ?> <?php _e("[NEW]"); ?></option>
+                                     <option <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>selected="selected"
+                                             <?php endif;?> value="{{route('admin.order.index')}}?orderBy=order_status&orderDirection=asc"><?php _e("Status"); ?> <?php _e("[OLD]"); ?></option>
+                --}}
+
+                                    <option <?php if($orderBy == 'amount' && $orderDirection == 'desc'): ?>selected="selected"
+                                            <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=desc"><?php _e("Amount"); ?> <?php _e("[High > Low]"); ?></option>
+                                    <option <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>selected="selected"
+                                            <?php endif;?> value="{{route('admin.order.index')}}?orderBy=amount&orderDirection=asc"><?php _e("Amount"); ?> <?php _e("[Low > High]"); ?></option>
 
 
-                    </select>
-                </div>
+                                </select>
+                            </div>
+                        </div>
+
+                        <?php
+                        endif;
+                        ?>
             </div>
-            </div>
+
 
 
             </div>

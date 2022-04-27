@@ -7,7 +7,7 @@
     });
 </script>
 
-<div class="js-form-entry-{{ $id }} card mb-2 not-collapsed-border collapsed card-message-holder {{ isset($id) ? 'card-bubble' : '' }} {{ !empty($is_read) ? 'active' : '' }} bg-silver"
+<div class="js-form-entry-{{ $id }} card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
      data-toggle="collapse" data-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body">
