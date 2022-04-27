@@ -637,8 +637,7 @@ class ApiController  extends FrontendController
 
             }
             $request_data = $request_data_new;
-            var_dump($request_data);
-            exit;
+
         }
 
         $page = false;
