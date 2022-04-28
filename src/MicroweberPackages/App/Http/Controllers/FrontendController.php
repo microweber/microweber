@@ -153,6 +153,16 @@ class FrontendController extends Controller
         }
 
 
+        $animations = get_option( 'animations-global', 'template');
+        if($animations) {
+             if($animations) {
+                mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
+            }
+        }
+
+
+
+
         $page = false;
 
         if ($page == false and !empty($this->page)) {
