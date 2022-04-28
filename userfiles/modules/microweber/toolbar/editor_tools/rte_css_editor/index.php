@@ -353,8 +353,8 @@ var _prepare = {
                 }
             });
 
-            $(this).after(select)
-            $('input',this).on('input', function(){
+            $(this).after(select);
+            $('input', this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
                  var val = $el.val().trim();
@@ -991,7 +991,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         })
 
     </script>
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" data-options="openFirst: false">
 
 
 
@@ -1675,7 +1675,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Motion'},
+                                            props: { innerHTML: mw.lang('Motion')},
                                         },
                                         {
 
@@ -1710,7 +1710,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Speed'},
+                                            props: { innerHTML: mw.lang('Speed')},
                                         },
                                         {
                                             props: {
@@ -1721,7 +1721,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                             },
                                             content: {
                                                 tag: 'input',
-                                                props: { type: 'text', placeholder: 'Speed in seconds ' },
+                                                props: { type: 'text', placeholder: mw.lang('Speed in seconds') },
                                             }
                                         }
 
@@ -1756,7 +1756,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                             content: [
                                                 {
                                                     tag: 'label',
-                                                    props: { innerHTML: 'Trigger'},
+                                                    props: { innerHTML: mw.lang('Trigger')},
                                                 },
                                                 {
                                                     props: {
@@ -1767,9 +1767,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                                             tag: 'select',
                                                             props: {  },
                                                             content: [
-                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: 'When Appear'}},
-                                                                { tag: 'option', props: { value: 'onHover', innerHTML: 'When mouse is over'}},
-                                                                { tag: 'option', props: { value: 'onClick', innerHTML: 'When element is clicked'}},
+                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: mw.lang('When element appears on screen')}},
+                                                                { tag: 'option', props: { value: 'onHover', innerHTML: mw.lang('When mouse is over')}},
+                                                                { tag: 'option', props: { value: 'onClick', innerHTML: mw.lang('When element is clicked')}},
                                                             ]
                                                         },
                                                     ]
@@ -1779,7 +1779,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                         {
                                             tag: 'small',
                                             props: {
-                                                innerHTML: 'Available when you are not "edit mode"',
+                                                innerHTML: mw.lang('Available when you are not editing'),
                                                 className: 'form-text text-muted'
                                             }
                                         }
