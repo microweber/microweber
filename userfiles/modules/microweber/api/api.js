@@ -1081,19 +1081,9 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 
 
 
-    mw.__pageAnimations = [ ];
+    mw.__pageAnimations = mw.__pageAnimations || [];
 
-    <?php
-        $animations = get_option( 'animations-global', 'page-animations');
-        // var_dump($animations);
-        if($animations) {
-            // $animations = @json_decode($animations, true);
-            if($animations) {
 
-                print('mw.__pageAnimations = ' . $animations . ';');
-            }
-        }
-    ?>
 
     var prefix = 'animate__';
     var suffix = 'animated';
