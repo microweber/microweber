@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc5cd626027b23ba8227461e91c784f0",
+    "content-hash": "1d8f86d5f28c258a34c522b53feac1ea",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1258,12 +1258,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarkaOnLine/L5-Swagger.git",
-                "reference": "95326884fa22c9840866b688a60242f5f80acd00"
+                "reference": "e65fa1bd94a4f19282864f63c92d21902ec77aa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/95326884fa22c9840866b688a60242f5f80acd00",
-                "reference": "95326884fa22c9840866b688a60242f5f80acd00",
+                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/e65fa1bd94a4f19282864f63c92d21902ec77aa3",
+                "reference": "e65fa1bd94a4f19282864f63c92d21902ec77aa3",
                 "shasum": ""
             },
             "require": {
@@ -1271,12 +1271,12 @@
                 "laravel/framework": "^9.0 || >=8.40.0 || ^7.0",
                 "php": "^7.2 || ^8.0",
                 "swagger-api/swagger-ui": "^3.0 || ^4.0",
-                "symfony/yaml": "^5.0",
+                "symfony/yaml": "^5.0 || ^6.0",
                 "zircote/swagger-php": "^3.2 || ^4.0"
             },
             "require-dev": {
                 "mockery/mockery": "1.*",
-                "orchestra/testbench": "6.* || 5.*",
+                "orchestra/testbench": "7.* || ^6.15 || 5.*",
                 "php-coveralls/php-coveralls": "^2.0",
                 "phpunit/phpunit": "^9.5"
             },
@@ -1322,7 +1322,7 @@
             ],
             "support": {
                 "issues": "https://github.com/DarkaOnLine/L5-Swagger/issues",
-                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.3.1"
+                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.3.2"
             },
             "funding": [
                 {
@@ -1330,7 +1330,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T08:06:18+00:00"
+            "time": "2022-04-27T07:29:07+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -1646,12 +1646,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "e23112857459ee766f82345e8325c34c92324cda"
+                "reference": "2d9cf57ea62b4ae05e6e49e86b8c0b0d4f102dfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e23112857459ee766f82345e8325c34c92324cda",
-                "reference": "e23112857459ee766f82345e8325c34c92324cda",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2d9cf57ea62b4ae05e6e49e86b8c0b0d4f102dfe",
+                "reference": "2d9cf57ea62b4ae05e6e49e86b8c0b0d4f102dfe",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1749,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-26T09:10:51+00:00"
+            "time": "2022-04-27T14:41:18+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -2054,16 +2054,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575"
+                "reference": "5031045d9640b38cfc14aac9667470df09c9e090"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/c6dfd9bb8b0040609f04754f729d4cb3016e0575",
-                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/5031045d9640b38cfc14aac9667470df09c9e090",
+                "reference": "5031045d9640b38cfc14aac9667470df09c9e090",
                 "shasum": ""
             },
             "require": {
@@ -2074,6 +2074,8 @@
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
+                "ext-json": "*",
+                "ext-zip": "*",
                 "mockery/mockery": "^1.3",
                 "phpunit/phpunit": "^7.5 || ^8 || ^9",
                 "squizlabs/php_codesniffer": "^3.5"
@@ -2115,9 +2117,9 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v1.2.1"
+                "source": "https://github.com/dompdf/dompdf/tree/v1.2.2"
             },
-            "time": "2022-03-24T12:57:42+00:00"
+            "time": "2022-04-27T13:50:54+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -2555,12 +2557,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/florianv/exchanger.git",
-                "reference": "9e632ab8ab8b32c52628d775bbf21125d2c4d3af"
+                "reference": "b1a149a0c5775a802ecd29e290bd1aa21e9f1064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/florianv/exchanger/zipball/9e632ab8ab8b32c52628d775bbf21125d2c4d3af",
-                "reference": "9e632ab8ab8b32c52628d775bbf21125d2c4d3af",
+                "url": "https://api.github.com/repos/florianv/exchanger/zipball/b1a149a0c5775a802ecd29e290bd1aa21e9f1064",
+                "reference": "b1a149a0c5775a802ecd29e290bd1aa21e9f1064",
                 "shasum": ""
             },
             "require": {
@@ -2616,9 +2618,9 @@
             ],
             "support": {
                 "issues": "https://github.com/florianv/exchanger/issues",
-                "source": "https://github.com/florianv/exchanger/tree/2.7.2"
+                "source": "https://github.com/florianv/exchanger/tree/master"
             },
-            "time": "2021-06-30T11:13:53+00:00"
+            "time": "2022-04-27T08:15:40+00:00"
         },
         {
             "name": "florianv/swap",
@@ -3244,12 +3246,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "5c693242bede743c23402bc5b9de62da04a882d7"
+                "reference": "58a607de30248bdbb28655d5d46661de5efd727c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c693242bede743c23402bc5b9de62da04a882d7",
-                "reference": "5c693242bede743c23402bc5b9de62da04a882d7",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/58a607de30248bdbb28655d5d46661de5efd727c",
+                "reference": "58a607de30248bdbb28655d5d46661de5efd727c",
                 "shasum": ""
             },
             "require": {
@@ -3352,7 +3354,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-24T01:07:58+00:00"
+            "time": "2022-04-28T17:45:01+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -5690,27 +5692,27 @@
         },
         {
             "name": "microweber-templates/bootstrap5",
-            "version": "1.0",
+            "version": "1.1",
             "target-dir": "bootstrap5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/bootstrap5.git",
-                "reference": "3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7"
+                "reference": "f0bf5f8f5137419320fe32d442612a57ab18461e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7-zip-d81a9d.zip",
-                "reference": "3f3f5fd56711c7f67af41ffc30042a5dc5a1ada7",
-                "shasum": "45317a32dd13eb1789129ca43e0096d56dff79a6"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-f0bf5f8f5137419320fe32d442612a57ab18461e-zip-5b1eaf.zip",
+                "reference": "f0bf5f8f5137419320fe32d442612a57ab18461e",
+                "shasum": "5d39035bd204387329c5445d0c37151c5787f327"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/bootstrap5/",
                 "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/10/screenshot.jpg",
-                    "decoration-2": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/10/assets/img/decoration-2.svg",
-                    "decoration-3": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/10/assets/img/decoration-3.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/10/readme.md"
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/11/screenshot.jpg",
+                    "decoration-2": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/11/assets/img/decoration-2.svg",
+                    "decoration-3": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/11/assets/img/decoration-3.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/11/readme.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5738,42 +5740,42 @@
                 "email": "support@microweber.com",
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org",
-                "source": "https://github.com/microweber-templates/bootstrap5/tree/1.0",
+                "source": "https://github.com/microweber-templates/bootstrap5/tree/1.1",
                 "issues": "https://github.com/microweber-templates/bootstrap5/issues"
             },
-            "time": "2022-04-26T11:48:05+00:00"
+            "time": "2022-04-29T12:57:06+00:00"
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "4.5",
+            "version": "4.6",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world.git",
-                "reference": "ce31dc9ae23289ee758848158cdc3aa702be0637"
+                "reference": "5c165db9293833b421db6b709f764ddfbd05239f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-ce31dc9ae23289ee758848158cdc3aa702be0637-zip-11d481.zip",
-                "reference": "ce31dc9ae23289ee758848158cdc3aa702be0637",
-                "shasum": "11bcf71a3fd8e632ff3bddf753b4d1156bc8fafa"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5c165db9293833b421db6b709f764ddfbd05239f-zip-83228f.zip",
+                "reference": "5c165db9293833b421db6b709f764ddfbd05239f",
+                "shasum": "dfb4c748cede85587b3408a65a1ed5e0bae539c3"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/screenshot.jpg",
-                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/plugins/slick/fonts/slick.svg",
-                    "hr-line": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/hr-line.svg",
-                    "hr-vertical": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/hr-vertical.svg",
-                    "quotes": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/quotes.svg",
-                    "hr-old": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/hr-old.svg",
-                    "hr-zigzag": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/hr-zigzag.svg",
-                    "hr": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/assets/img/hr.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/45/readme.md"
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/screenshot.jpg",
+                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "slick": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/plugins/slick/fonts/slick.svg",
+                    "hr-line": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/hr-line.svg",
+                    "hr-vertical": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/hr-vertical.svg",
+                    "quotes": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/quotes.svg",
+                    "hr-old": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/hr-old.svg",
+                    "hr-zigzag": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/hr-zigzag.svg",
+                    "hr": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/assets/img/hr.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/46/readme.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5798,38 +5800,38 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/new-world/tree/4.5",
+                "source": "https://github.com/microweber-templates/new-world/tree/4.6",
                 "issues": "https://github.com/microweber-templates/new-world/issues"
             },
-            "time": "2022-04-20T13:00:21+00:00"
+            "time": "2022-04-29T12:58:08+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "3.3",
+            "version": "3.4",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/shopmag.git",
-                "reference": "ce270088d98b22e7e12ff2ee29c4d57a0d8bdab4"
+                "reference": "5c96ff5c272a43f4713d3498b869384e1780345c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-ce270088d98b22e7e12ff2ee29c4d57a0d8bdab4-zip-b74d03.zip",
-                "reference": "ce270088d98b22e7e12ff2ee29c4d57a0d8bdab4",
-                "shasum": "d3f455365395f2431358ef328bd6224e0bef6d2e"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-5c96ff5c272a43f4713d3498b869384e1780345c-zip-c6aa32.zip",
+                "reference": "5c96ff5c272a43f4713d3498b869384e1780345c",
+                "shasum": "8c99242e70441065b881bd5d2280716b7063b797"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/screenshot.jpg",
-                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "seaside_groove-webfont": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
-                    "ventoux": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/fonts/ventoux/fonts/ventoux.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/assets/plugins/slick/fonts/slick.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/33/readme.md"
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/screenshot.jpg",
+                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
+                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
+                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
+                    "seaside_groove-webfont": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/fonts/Seaside_Groove_Webfont/seaside_groove-webfont.svg",
+                    "ventoux": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/fonts/ventoux/fonts/ventoux.svg",
+                    "slick": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/assets/plugins/slick/fonts/slick.svg",
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/34/readme.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5852,7 +5854,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-04-22T16:41:43+00:00"
+            "time": "2022-04-29T12:57:39+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -9499,7 +9501,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/5.4"
+                "source": "https://github.com/symfony/console/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -9635,7 +9637,7 @@
             "description": "Provides tools to ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/debug/tree/4.4"
+                "source": "https://github.com/symfony/debug/tree/v4.4.41"
             },
             "funding": [
                 {
@@ -9774,7 +9776,7 @@
             "description": "Provides tools to manage errors and ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/error-handler/tree/5.4"
+                "source": "https://github.com/symfony/error-handler/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -10068,7 +10070,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/5.4"
+                "source": "https://github.com/symfony/finder/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -10142,7 +10144,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/5.4"
+                "source": "https://github.com/symfony/http-foundation/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -10166,12 +10168,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "6adf696d2ab97efc32438a62f305a0294c1aa773"
+                "reference": "9f02809e5e91cb826f88c7a0c9da6763fa116675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/6adf696d2ab97efc32438a62f305a0294c1aa773",
-                "reference": "6adf696d2ab97efc32438a62f305a0294c1aa773",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/9f02809e5e91cb826f88c7a0c9da6763fa116675",
+                "reference": "9f02809e5e91cb826f88c7a0c9da6763fa116675",
                 "shasum": ""
             },
             "require": {
@@ -10271,7 +10273,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T16:30:06+00:00"
+            "time": "2022-04-27T17:24:59+00:00"
         },
         {
             "name": "symfony/intl",
@@ -10344,7 +10346,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/5.4"
+                "source": "https://github.com/symfony/intl/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -10428,7 +10430,7 @@
                 "mime-type"
             ],
             "support": {
-                "source": "https://github.com/symfony/mime/tree/5.4"
+                "source": "https://github.com/symfony/mime/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -11447,7 +11449,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/5.4"
+                "source": "https://github.com/symfony/process/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -11627,7 +11629,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/5.4"
+                "source": "https://github.com/symfony/routing/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -11797,7 +11799,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/5.4"
+                "source": "https://github.com/symfony/string/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -11895,7 +11897,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/5.4"
+                "source": "https://github.com/symfony/translation/tree/v5.4.8"
             },
             "funding": [
                 {
@@ -12063,7 +12065,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/5.4"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.4.8"
             },
             "funding": [
                 {
