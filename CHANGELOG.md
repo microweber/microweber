@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for inline svg in live edit
 - Added support animations in live edit
 - Fixed contact form not sending email, when disable mail saving option is enabled
+- Security fixes 
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.14...1.2.15 "")
 
