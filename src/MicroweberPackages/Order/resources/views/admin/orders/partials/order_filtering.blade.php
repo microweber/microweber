@@ -158,7 +158,7 @@
             $(document).ready(function () {
                 var searchOrdersByProduct = new mw.autoComplete({
                     element: "#js-orders-search-by-products",
-                    placeholder: "<?php if ($productKeyword) { echo $productKeyword; } else { _e("Search by products..."); }?>",
+                    placeholder: "<?php if ($productKeyword) { echo xss_clean($productKeyword); } else { _e("Search by products..."); }?>",
                     autoComplete:true,
                     ajaxConfig: {
                         method: 'get',

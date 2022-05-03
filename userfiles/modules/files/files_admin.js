@@ -1,3 +1,7 @@
+
+mw.lib.require('xss');
+
+
 createPopHTML = function (sourceUrl, type) {
     type = type || 'image';
     var h;
@@ -69,6 +73,9 @@ deleteItem = function (url, name, frommodal) {
 if (self === parent) {
     mw.on.hashParam('select-file', function (pval) {
         var dialog;
+
+        pval = filterXSS(pval);
+
         if (pval.valueOf()) {
             var type = pval.valueOf().split(".").pop();
             type = type.toLowerCase();

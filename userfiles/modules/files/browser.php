@@ -90,6 +90,7 @@ if (isset($params['viewsize'])) {
 }
 
 ?>
+
 <script>
 
     var back = function () {

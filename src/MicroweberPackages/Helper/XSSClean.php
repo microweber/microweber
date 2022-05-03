@@ -8,8 +8,7 @@ class XSSClean
 {
 
 
-    public function cleanArray($array): array
-    {
+    public function cleanArray($array)    {
 
         if (is_array($array)) {
 
@@ -30,12 +29,16 @@ class XSSClean
         }
     }
 
-     public function clean($html): string
+    public function clean($html)
     {
- // from https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#ontransitionend
+        if(is_array($html)){
+            return $this->cleanArray($html);
+        }
+
+        // from https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#ontransitionend
         $cleanStrings = [
             'ontransitionstart',
-           // 'onwebkitanimationend',
+            'onwebkitanimationend',
             'onwebkitanimationiteration',
             'onwebkitanimationstart',
             'onwebkittransitionend',
@@ -138,6 +141,11 @@ class XSSClean
             'ontouchstart',
             'onvolumechange',
             'onwheel',
+            'onWebkitAnimationEnd',
+            'onWebkitAnimationIteration',
+            'onWebkitAnimationStart',
+            'onWebkitTransitionEnd',
+            'onwebkitTransitionEnd',
             'onunhandledrejection'
         ];
 
