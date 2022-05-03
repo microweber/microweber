@@ -136,6 +136,7 @@ if (is_file($template_file)) {
     <script>
         $(document).ready(function () {
             var config = {
+                rtl:$('html').attr("dir") == "rtl",
                 dots: <?php print $pager; ?>,
                 arrows: <?php print $controls; ?>,
                 infinite: <?php print $loop; ?>,

@@ -323,7 +323,7 @@ var _prepare = {
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
         units = [];// todo: add units
-        $('.unit:not(.ready)').each(function(){
+        $('mw-accordion-item.mw-accordion-item-css.unit:not(.ready)').each(function(){
             this.classList.add('ready')
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
@@ -353,8 +353,8 @@ var _prepare = {
                 }
             });
 
-            $(this).after(select)
-            $('input',this).on('input', function(){
+            $(this).after(select);
+            $('input', this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
                  var val = $el.val().trim();
@@ -991,12 +991,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         })
 
     </script>
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" data-options="openFirst: false">
 
 
 
 
-<mw-accordion-item >
+<mw-accordion-item class="mw-accordion-item-css">
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -1094,7 +1094,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 </mw-accordion-item>
 
-        <mw-accordion-item>
+        <mw-accordion-item class="mw-accordion-item-css">
 
             <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
@@ -1244,7 +1244,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </mw-accordion-item>
 
-    <mw-accordion-item id="overlay-edit">
+        <mw-accordion-item class="mw-accordion-item-css" id="overlay-edit">
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="s-field">
@@ -1283,9 +1283,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </mw-accordion-item>
-    <mw-accordion-item id="container-type">
+        <mw-accordion-item class="mw-accordion-item-css" id="container-type">
         <div class="mw-ui-box-header mw-accordion-title">
-            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Container"); ?>
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/container.svg"> <?php _e("Container"); ?>
         </div>
         <div class="mw-accordion-content mw-ui-box-content">
 
@@ -1299,7 +1299,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
         </div>
     </mw-accordion-item>
-    <mw-accordion-item id="columns-edit">
+        <mw-accordion-item class="mw-accordion-item-css" id="columns-edit">
 
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
@@ -1345,7 +1345,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
     </mw-accordion-item>
-    <mw-accordion-item  id="size-box" style="display: none">
+        <mw-accordion-item class="mw-accordion-item-css"  id="size-box" style="display: none">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr-col">
@@ -1415,7 +1415,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </mw-accordion-item>
 
-    <mw-accordion-item >
+        <mw-accordion-item class="mw-accordion-item-css" >
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
@@ -1439,7 +1439,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
 
 
-<mw-accordion-item  >
+        <mw-accordion-item class="mw-accordion-item-css"  >
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -1495,7 +1495,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </div>
 </mw-accordion-item>
-<mw-accordion-item  >
+        <mw-accordion-item class="mw-accordion-item-css" >
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
@@ -1529,7 +1529,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </div>
 </mw-accordion-item>
-        <mw-accordion-item id="classtags-accordion">
+        <mw-accordion-item class="mw-accordion-item-css" id="classtags-accordion">
 
             <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
@@ -1675,7 +1675,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Motion'},
+                                            props: { innerHTML: mw.lang('Motion')},
                                         },
                                         {
 
@@ -1710,7 +1710,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                     content: [
                                         {
                                             tag: 'label',
-                                            props: { innerHTML: 'Speed'},
+                                            props: { innerHTML: mw.lang('Speed')},
                                         },
                                         {
                                             props: {
@@ -1721,7 +1721,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                             },
                                             content: {
                                                 tag: 'input',
-                                                props: { type: 'text', placeholder: 'Speed in seconds ' },
+                                                props: { type: 'text', placeholder: mw.lang('Speed in seconds') },
                                             }
                                         }
 
@@ -1756,7 +1756,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                             content: [
                                                 {
                                                     tag: 'label',
-                                                    props: { innerHTML: 'Trigger'},
+                                                    props: { innerHTML: mw.lang('Trigger')},
                                                 },
                                                 {
                                                     props: {
@@ -1767,9 +1767,9 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                                             tag: 'select',
                                                             props: {  },
                                                             content: [
-                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: 'When Appear'}},
-                                                                { tag: 'option', props: { value: 'onHover', innerHTML: 'When mouse is over'}},
-                                                                { tag: 'option', props: { value: 'onClick', innerHTML: 'When element is clicked'}},
+                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: mw.lang('When element appears on screen')}},
+                                                                { tag: 'option', props: { value: 'onHover', innerHTML: mw.lang('When mouse is over')}},
+                                                                { tag: 'option', props: { value: 'onClick', innerHTML: mw.lang('When element is clicked')}},
                                                             ]
                                                         },
                                                     ]
@@ -1779,7 +1779,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                         {
                                             tag: 'small',
                                             props: {
-                                                innerHTML: 'Available when you are not "edit mode"',
+                                                innerHTML: mw.lang('Available when you are not editing'),
                                                 className: 'form-text text-muted'
                                             }
                                         }

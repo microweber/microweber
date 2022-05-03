@@ -1081,19 +1081,9 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 
 
 
-    mw.__pageAnimations = [ ];
+    mw.__pageAnimations = mw.__pageAnimations || [];
 
-    <?php
-        $animations = get_option( 'animations-global', 'page-animations');
-        // var_dump($animations);
-        if($animations) {
-            // $animations = @json_decode($animations, true);
-            if($animations) {
 
-                print('mw.__pageAnimations = ' . $animations . ';');
-            }
-        }
-    ?>
 
     var prefix = 'animate__';
     var suffix = 'animated';
@@ -1139,6 +1129,15 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
         if (speed) {
             node.style.setProperty('--animate-duration', speed);
         }
+        var isInline = getComputedStyle(node).display === 'inline';
+
+        if(isInline) {
+            node.style.display = 'inline-block';
+            var ms = parseFloat(speed) * 1000;
+            setTimeout(function (){
+                node.style.display = '';
+            }, ms+10)
+        }
         node.classList.add(prefix + suffix, animationName);
         function handleAnimationEnd(event) {
             event.stopPropagation();
@@ -1177,7 +1176,10 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
                 if (!mw.settings.liveEdit && nodes.length) {
                     var observer = new IntersectionObserver(function(entries, observer) {
                         entries.forEach(function(el) {
-                            animateCSS(el.target.$$mwAnimations.find(filter));
+                            if(!el.target.$$mwAnimationDone && el.isIntersecting) {
+                                el.target.$$mwAnimationDone = true;
+                                animateCSS(el.target.$$mwAnimations.find(filter));
+                            }
                         });
                     });
                     nodes.forEach(function(el) {

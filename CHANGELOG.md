@@ -2,10 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.15] - 2022-04-20
+## [1.2.15] - 2022-04-29
 - Added new free template based on Bootstrap 5
 - Added support for inline svg in live edit
+- Added support animations in live edit
 - Fixed contact form not sending email, when disable mail saving option is enabled
+- Security fixes 
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.14...1.2.15 "")
 

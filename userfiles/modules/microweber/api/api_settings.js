@@ -336,6 +336,11 @@
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
             }
         ],
+        xss: [
+            function () {
+                mw.require(mw.settings.libs_url + 'xss' + '/xss.min.js');
+            }
+        ],
         codemirror: [
             function () {
                 mw.require(mw.settings.libs_url + 'codemirror' + '/codemirror.min.js');

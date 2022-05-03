@@ -941,8 +941,14 @@ mw.drag = {
         });
     },
 
-    grammarlyFix:function(html){
-        var data = mw.tools.parseHtml(html).body;
+    animationsClearFix:function(body){
+        mw.$('[class*="animate__"]').each(function () {
+            mw.tools.classNamespaceDelete(this, 'animate__');
+        });
+        return body;
+    },
+    grammarlyFix:function(data){
+
         mw.$("grammarly-btn", data).remove();
         mw.$("grammarly-card", data).remove();
         mw.$("g.gr_", data).each(function(){
@@ -955,13 +961,16 @@ mw.drag = {
         mw.$("grammarly-inline-cards", data).remove();
         mw.$("grammarly-popups", data).remove();
         mw.$("grammarly-extension", data).remove();
-        return data.innerHTML;
+        return data;
     },
     saving: false,
     coreSave: function(data) {
         if (!data) return false;
         $.each(data, function(){
-            this.html = mw.drag.grammarlyFix(this.html)
+            var body = mw.tools.parseHtml(this.html).body;
+            mw.drag.grammarlyFix(body);
+            mw.drag.animationsClearFix(body);
+            this.html = body.innerHTML;
         });
         mw.drag.saving = true;
 
@@ -1134,12 +1143,12 @@ mw.drag = {
         })
 
         var options = {
-            group: 'page-animations',
+            group: 'template',
             key: 'animations-global',
             value: JSON.stringify(animations)
         };
         mw.options.saveOption(options, function(){
-            mw.clear_cache()
+
         });
 
 
@@ -1168,7 +1177,7 @@ mw.drag = {
                     doc.write(xhr.responseText);
                     doc.close();
                     var save_content_error_iframe_reloads = 0;
-                    var doc = document.getElementById('save_content_error_iframe').contentWindow.document;
+                    doc = document.getElementById('save_content_error_iframe').contentWindow.document;
 
                     mw.$("#save_content_error_iframe").load(function(){
                         // cloudflare captcha
