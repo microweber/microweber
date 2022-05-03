@@ -4816,6 +4816,10 @@ mw-field[data-size="large"][data-after]:after {
   height: 50px;
   line-height: 50px;
 }
+html[dir="rtl"] .mw-field select,
+html[dir="rtl"] mw-field select {
+  background-position-x: 10px;
+}
 .mw-field-color-indicator {
   display: inline-block;
   vertical-align: middle;

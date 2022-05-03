@@ -403,6 +403,9 @@
                 var title = mw.element('<div class="mw-ui-box-header mw-accordion-title">' + item.title +'</div>');
                 el.append(title);
                 el.append(content);
+                content.css({
+                    overflowX: 'hidden'
+                })
 
                 res.root.append(el);
                 res.items.push({
@@ -459,10 +462,10 @@
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var label = mw.element('<div class="mw-icon-selector-flex"> <label class="mw-icon-selector-control-label mw-icon-selector-6-column">Icon size in px</label> <label class="mw-icon-selector-control-label mw-icon-selector-6-column ps-2">Select size from range</label> </div>');
+                    var label = mw.element('<div class="mw-icon-selector-flex"> <label class="mw-icon-selector-control-label">Icon size in px</label> </div>');
                     var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item mw-icon-selector-flex  mw-icon-selector-12-column"></div>');
-                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="number" min="8" max="200">');
-                    var sizeinput2 = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-6-column" type="range" min="8" max="200">');
+                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control" type="number" min="8" max="200">');
+                    var sizeinput2 = mw.element('<input class=" mw-icon-selector-form-control-range " type="range" min="8" max="200">');
 
                     actionNodes.size = sizeinput;
                     sizeinput.on('input', function () {

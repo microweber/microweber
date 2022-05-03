@@ -4430,6 +4430,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-tooltip-content {
     max-height: 90vh;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 .mw-m-menu-button {
@@ -4437,7 +4438,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     text-align: center;
     position: relative;
     width: 40px;
-    height: 40px;
     height: 27px;
     margin: 0 auto;
 
@@ -4995,16 +4995,21 @@ body.dragStart picture img{
 }
 
 .mw-icon-selector-12-column {
-    flex: 0 0 100%!important;
+
     max-width: 100%!important;
     position: relative!important;
 }
 
-.mw-icon-selector-6-column {
-    flex: 0 0 auto!important;
-    width: 50%!important;
-    position: relative!important;
-    margin: 0 5px;
+.a-color-picker{
+    border: 1px solid #eee;
+    box-shadow: none;
+}
+
+.mw-icon-selector-form-control-range {
+    position: absolute;
+    bottom:-10px;
+    left: 0;
+    width: 100%;
 }
 
 .mw-icon-selector-2-column {
@@ -5015,6 +5020,7 @@ body.dragStart picture img{
 
 .mw-icon-selector-flex {
     display: flex !important;
+    width:230px;
 }
 
 .mw-icon-selector-form-control {
