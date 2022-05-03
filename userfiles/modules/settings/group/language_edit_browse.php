@@ -1,6 +1,6 @@
 <?php
 
-use MicroweberPackages\Translation\Models\TranslationText; 
+use MicroweberPackages\Translation\Models\TranslationText;
 
 $filter = [];
 if (isset($params['search'])) {
