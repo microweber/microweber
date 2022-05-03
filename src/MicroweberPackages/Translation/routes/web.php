@@ -17,6 +17,8 @@ Route::name('admin.')
         Route::post('language/export', 'TranslationController@export')->name('language.export');
         Route::post('language/send_to_us', 'TranslationController@sendToUs')->name('language.send_to_us');
 
+        Route::any('language/import_missing_translations', 'TranslationController@importMissingTranslations')->name('language.import_missing_translations');
+
 });
 /*
 Route::get('migrate_old_table', function () {
