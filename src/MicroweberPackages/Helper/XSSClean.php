@@ -99,6 +99,7 @@ class XSSClean
             'ondragleave',
             'ondragover',
             'ondragstart',
+            'ondragexit',
             'ondrop',
             'onfocusout',
             'onfullscreenchange',

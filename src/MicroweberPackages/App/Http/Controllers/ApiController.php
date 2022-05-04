@@ -616,6 +616,8 @@ class ApiController  extends FrontendController
                 if(is_string($v)) {
                     $v = str_replace('<', '-', $v);
                     $v = str_replace('>', '-', $v);
+                    $v = str_replace('"', '-', $v);
+                    $v = str_replace("'", '-', $v);
                 }
                 if(is_array($v)) {
                     $v = $xssClean->cleanArray($v);
@@ -626,6 +628,8 @@ class ApiController  extends FrontendController
                 if(is_string($k)){
                     $k = str_replace('<', '-', $k);
                     $k = str_replace('>', '-', $k);
+                    $k = str_replace('"', '-', $k);
+                    $k = str_replace("'", '-', $k);
 
                     $k = $xssClean->clean($k);
                     if($k){
