@@ -58,7 +58,9 @@ class ParserProcessor
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false,$prevous_mod_obj=false,$prevous_layout_obj=false)
     {
-
+        if ($layout == '') {
+            return;
+        }
         static $first_known_mod;
         static $it_loop2;
 
