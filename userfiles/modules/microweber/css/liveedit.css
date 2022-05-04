@@ -3312,8 +3312,16 @@ body.touchscreen-device .module-item-module {
     text-decoration: none;
     position: absolute;
     right: 12px;
-    top: 13px;
+    top: 50%;
     color: #999999;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background: #99999926;
+    text-align: center;
+    transform: translateY(-50%);
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .mw-toolbar-right-content .mw-ui-btn i {
