@@ -27,6 +27,15 @@
             return this;
         };
 
+        this.scrollTop = function (val) {
+            if(typeof val === 'undefined') {
+                return this._active().scrollTop;
+            }
+            return this.each(function(){
+                this.scrollTop = val;
+            });
+        };
+
         this.encapsulate = function () {
 
         };
