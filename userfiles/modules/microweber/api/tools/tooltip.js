@@ -464,6 +464,12 @@
 
     mw.tools.tooltip = tooltip;
     var TTTime = null;
+    mw.tools.titleTipOff = function () {
+
+        clearTimeout(TTTime);
+        mw.$(mw.tools[ '_titleTip']).hide();
+    };
+
     mw.tools.titleTip = function (el, _titleTip) {
         clearTimeout(TTTime);
         mw.$(mw.tools[_titleTip]).hide();
@@ -520,7 +526,7 @@
             mw.$(mw.tools[_titleTip]).removeClass('mw-tooltip-circle');
         }
         mw.$(mw.tools[_titleTip]).show();
-        }, 500)
+        }, 500);
     };
 
 })();

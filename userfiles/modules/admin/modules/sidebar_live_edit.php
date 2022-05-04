@@ -114,8 +114,9 @@
             //mw.require('libs/html2canvas/html2canvas.min.js');
 
             function mwSidebarSearchClear(what) {
-                return mwSidebarSearchItems('', what);
+                mw.element('#mw-sidebar-search-input-for-modules-and-layouts,#mw-sidebar-search-input-for-modules').val('');
 
+                return mwSidebarSearchItems('', what);
             }
 
             function mwSidebarSearchItems(value, what) {
@@ -137,6 +138,7 @@
                     $('.mw-search-no-results' ).hide();
                      $('.mw-ui-box-header-2,.module-item-module').show();
                     $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                    mw.element('#mw-sidebar-modules-and-layouts-holder,#mw-sidebar-modules-and-layouts-holder').scrollTop(0);
 
                     return;
                 } else {
@@ -196,14 +198,20 @@
                 }
 
                 $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                mw.element('#mw-sidebar-modules-and-layouts-holder,#mw-sidebar-modules-and-layouts-holder').scrollTop(0);
 
             }
+
+
 
             $(document).ready(function () {
                 mw.sidebarSettingsTabs = mw.tabs({
                     nav: '#mw-modules-layouts-tabsnav  .tabnav',
                     tabs: '#mw-modules-layouts-tabsnav .tabitem'
                 });
+
+
+
 
 
 
@@ -254,6 +262,11 @@
                 setTimeout(function () {
                     mw.drag.toolbar_modules();
                     $("#mw-sidebar-layouts-list, #mw-sidebar-modules-list").removeClass("module");
+
+
+                    document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseout', function () {
+                        mw.tools.titleTipOff();
+                    }) ;
 
                 }, 333)
 

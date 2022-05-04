@@ -15,6 +15,7 @@ use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
 class TranslationController {
 
@@ -187,5 +188,20 @@ class TranslationController {
 
     }
 
+
+    public function importMissingTranslations(Request $request)
+    {
+        $supportedLanguages = get_supported_languages();
+        if (!empty($supportedLanguages)) {
+            foreach ($supportedLanguages as $supportedLanguage) {
+                $translationsCount = TranslationText::where('translation_locale', $supportedLanguage['locale'])->count();
+                if ($translationsCount == 0) {
+                    TranslationPackageInstallHelper::installLanguage($supportedLanguage['locale']);
+                }
+            }
+        }
+
+        return ['done'=>true];
+    }
 
 }

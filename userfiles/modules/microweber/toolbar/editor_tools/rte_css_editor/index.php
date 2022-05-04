@@ -46,6 +46,10 @@
         margin: -30px 0 0 0;
     }
 
+    html[dir="rtl"] .animation-clear-btn{
+        float: left;
+     }
+
 </style>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
@@ -129,6 +133,44 @@
                })
            })(this)
        })
+
+        $('.mw-field.mw-field-flat.unit').each(function (){
+            if(!this.querySelector('.mw-range')) {
+                var sl = mw.element('<div class="mw-range default-values-list-slider" />');
+                $('input', this).on('input', function () {
+                    var val = this.value;
+                    var slVal = this.value;
+                    var t = ['auto', 'normal', 'inherit', 'initial'];
+
+                    if(t.includes(val)) {
+                        slVal = 0
+                    }
+
+                    var num = parseFloat(slVal);
+                    if(isNaN(num)) {
+                        num = 0;
+                    }
+
+                    if(/^\d+$/.test(val)) {
+                        val = this.value + 'px'
+                    }
+                    output(this.parentNode.dataset.prop, val);
+                    $(sl.get(0)).slider('value', num)
+                })
+                $(sl.get(0)).slider({
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    slide: function( event, ui ) {
+                        this.previousElementSibling.value = ui.value;
+                        output(this.parentNode.dataset.prop, ui.value + 'px')
+
+                    }
+                })
+                $(this).append(sl.get(0));
+            }
+        })
+
 
 
     })
@@ -323,19 +365,26 @@ var _prepare = {
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
         units = [];// todo: add units
-        $('mw-accordion-item.mw-accordion-item-css.unit:not(.ready)').each(function(){
+        $('mw-accordion-item.mw-accordion-item-css .unit:not(.ready)').each(function(){
             this.classList.add('ready')
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).prev();
                 var prop = prev.attr('data-prop');
+                var css = getComputedStyle(ActiveNode);
+                var val = '';
                 if(prop ) {
-                    output( prev.attr('data-prop'), '');
+                    output( prop, '');
+                    val = css[prop];
                 }
 
-                prev.find('input').val(this._defaultValue);
-                $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
+
+
+
+                prev.find('input').val(val);
+                var n = parseFloat(val)
+                $('.mw-range.ui-slider', prev).slider('value', !isNaN(n) ? n : 0)
             });
             $('input', this)
                 .attr('type', 'range');
@@ -823,7 +872,9 @@ var init = function(){
         setTimeout(function(){
           $(document.body).trigger('click')
         }, 400)
-    })
+    });
+
+
 
 
 };
@@ -1776,13 +1827,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                                 },
                                             ]
                                         },
-                                        {
-                                            tag: 'small',
-                                            props: {
-                                                innerHTML: mw.lang('Available when you are not editing'),
-                                                className: 'form-text text-muted'
-                                            }
-                                        }
+
                                     ]
                                 }
 
@@ -1857,6 +1902,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                             mw.element('select', when).get(0).disabled = anim.animation === 'none';
                             mw.element('input', speed.get(0)).get(0).disabled = anim.animation === 'none';
+                            $( '.mw-range', speed.get(0) ).slider( anim.animation === 'none' ? "disable" : "enable" );
 
                             return box
                         },

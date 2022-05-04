@@ -273,7 +273,7 @@ $user = get_user_by_id($user_id);
 <!--                        </a>-->
 <!--                    </li>-->
 
-                    <?php if ($new_orders_count != ''): ?>
+                    <?php if ($new_orders_count > 0): ?>
                         <li class="mx-2">
                             <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>

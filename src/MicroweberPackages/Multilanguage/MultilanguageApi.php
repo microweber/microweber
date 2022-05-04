@@ -8,6 +8,9 @@
 namespace MicroweberPackages\Multilanguage;
 
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
+use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
 class MultilanguageApi
 {
@@ -45,7 +48,10 @@ class MultilanguageApi
 
             if ($find) {
                 $delete = db_delete('multilanguage_supported_locales', $find['id']);
-                clearcache();
+
+                TranslationText::where('translation_locale', $find['locale'])->delete();
+
+                clearcache(); 
                 return $delete;
             }
         }
@@ -75,6 +81,9 @@ class MultilanguageApi
             $language = $params['language'];
 
             $add = add_supported_language($locale, $language);
+
+            TranslationPackageInstallHelper::installLanguage($locale);
+
             clearcache();
             return $add;
         }
