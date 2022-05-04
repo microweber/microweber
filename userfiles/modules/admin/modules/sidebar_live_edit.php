@@ -199,11 +199,16 @@
 
             }
 
+
+
             $(document).ready(function () {
                 mw.sidebarSettingsTabs = mw.tabs({
                     nav: '#mw-modules-layouts-tabsnav  .tabnav',
                     tabs: '#mw-modules-layouts-tabsnav .tabitem'
                 });
+
+
+
 
 
 
@@ -254,6 +259,13 @@
                 setTimeout(function () {
                     mw.drag.toolbar_modules();
                     $("#mw-sidebar-layouts-list, #mw-sidebar-modules-list").removeClass("module");
+
+                    document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseleave', function () {
+                        mw.tools.titleTipOff();
+                    })
+                    document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseout', function () {
+                        mw.tools.titleTipOff();
+                    }) ;
 
                 }, 333)
 
