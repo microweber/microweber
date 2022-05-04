@@ -114,6 +114,8 @@
             //mw.require('libs/html2canvas/html2canvas.min.js');
 
             function mwSidebarSearchClear(what) {
+                mw.element('#mw-sidebar-search-input-for-modules-and-layouts').val('');
+                mw.element('#mw-sidebar-search-input-for-modules').val('');
                 return mwSidebarSearchItems('', what);
 
             }
@@ -260,9 +262,7 @@
                     mw.drag.toolbar_modules();
                     $("#mw-sidebar-layouts-list, #mw-sidebar-modules-list").removeClass("module");
 
-                    document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseleave', function () {
-                        mw.tools.titleTipOff();
-                    })
+
                     document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseout', function () {
                         mw.tools.titleTipOff();
                     }) ;
