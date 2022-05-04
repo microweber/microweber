@@ -4,7 +4,7 @@
         <post>
             <id>{{ $item['id'] }}</id>
             <Title><![CDATA[{{ $item['title'] }}]]></Title>
-            <Content><![CDATA[ {{ $item['description'] }} ]]></Content>
+            <Content><![CDATA[{{ $item['description'] }}]]></Content>
 
             <Link>{{ $item['url'] }}</Link>
 
@@ -33,7 +33,7 @@
             ]]></Tags>
 
             @if(!empty($item['image_url']))
-                <ImageURL><![CDATA[{{ $item['image_url'] }}]]></ImageURL>
+                <ImageURL><![CDATA[{{$item['image_url']}}]]></ImageURL>
             @endif
 
         </post>
