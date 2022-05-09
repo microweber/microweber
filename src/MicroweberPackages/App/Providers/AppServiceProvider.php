@@ -726,8 +726,12 @@ class AppServiceProvider extends ServiceProvider
                     $setCurrentLangTo = get_option('language', 'website');
                 }
             }
+
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
-                set_current_lang($setCurrentLangTo);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
+                if (!empty($localeSettings) && $localeSettings['is_active'] =='y') {
+                    set_current_lang($setCurrentLangTo);
+                }
             }
         }
     }
