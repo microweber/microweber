@@ -73,8 +73,8 @@ class AdminContentMultilanguage extends BaseComponent
             $browser->select('.js-dropdown-text-language', $locale);
             $browser->pause(3000);
             $browser->click('.js-add-language');
-            $browser->pause(2000);
-            $browser->waitForText($locale);
+            $browser->pause(8000);
+            $browser->waitForText($locale,15);
         }
 
     }

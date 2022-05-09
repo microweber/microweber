@@ -409,6 +409,12 @@ class CartManager extends Crud
         if (!isset($data['qty'])) {
             return array('error' => _e('Invalid data', true));
         }
+
+        $data['qty'] = intval($data['qty']);
+        if ($data['qty'] < 1) {
+            return array('error' => _e('Invalid product quantity', true));
+        }
+
         $data_fields = false;
 
         $cart = array();
