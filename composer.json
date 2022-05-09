@@ -146,8 +146,7 @@
                 "laravel/passport",
                 "laravel/sanctum",
                 "spatie/laravel-ignition",
-                "barryvdh/laravel-debugbar",
-                "livewire/livewire"
+                "barryvdh/laravel-debugbar"
             ]
         }
     }
