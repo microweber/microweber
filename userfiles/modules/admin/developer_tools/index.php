@@ -47,7 +47,11 @@
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/notifications/system_log', 'Show system log')"><?php _e("Show system log"); ?></a>
 </div>
 
-<?php if (($got_lic) >= 0): ?>
+<?php
+$showLicensesLink = mw()->ui->enable_service_links();
+$showPoweredBy = mw()->ui->powered_by_link_enabled();
+
+if ($showLicensesLink and $showPoweredBy and ($got_lic) >= 0): ?>
     <div class="form-group">
         <label class="control-label"><?php _e("Licenses"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e('Add or edit your licenses'); ?>.</small>
