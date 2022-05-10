@@ -1,6 +1,6 @@
 {!! $posts->scripts() !!}
 
-<div class="container-fluid">
+<section class="section container-fluid">
     <div class="row pt-5">
         <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
@@ -55,7 +55,7 @@
             {!! $posts->pagination() !!}
         </div>
     </div>
-</div>
+</section>
 
 
 
