@@ -1,7 +1,6 @@
 name: Dusk
 on:
-  schedule:
-    - cron: '0 * * * *'
+  push:
 jobs:
   dusk:
     runs-on: ubuntu-latest

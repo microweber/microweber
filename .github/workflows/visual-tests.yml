@@ -1,7 +1,6 @@
 name: Visual Tests
 on:
-  schedule:
-    - cron: '0 * * * *'
+  push:
 jobs:
   main:
     runs-on: ubuntu-latest

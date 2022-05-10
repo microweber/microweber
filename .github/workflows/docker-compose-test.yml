@@ -1,7 +1,6 @@
 name: Docker Compose
 on:
-  schedule:
-    - cron: '0 * * * *'
+  push:
 jobs:
   test:
     name: Docker compose
