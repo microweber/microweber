@@ -18,7 +18,7 @@ class ImportTest extends TestCase
 
 	public function testImportSampleCsvFile() {
 
-	    $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.csv';
+	    $sample = userfiles_path() . '/modules/admin/import_export_tool/samples/sample.csv';
         $sample = normalize_path($sample, false);
 
         $sessionId = SessionStepper::generateSessionId(1);
@@ -26,6 +26,7 @@ class ImportTest extends TestCase
         $manager = new Import();
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
+        $manager->setType('csv');
         $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
@@ -37,7 +38,7 @@ class ImportTest extends TestCase
 
     public function testImportSampleJsonFile() {
 
-        $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.json';
+        $sample = userfiles_path() . '/modules/admin/import_export_tool/samples/sample.json';
         $sample = normalize_path($sample, false);
 
         $sessionId = SessionStepper::generateSessionId(1);
@@ -56,7 +57,7 @@ class ImportTest extends TestCase
 
     public function testImportSampleXlsxFile() {
 
-        $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.xlsx';
+        $sample = userfiles_path() . '/modules/admin/import_export_tool/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
         $sessionId = SessionStepper::generateSessionId(1);
