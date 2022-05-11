@@ -1,4 +1,6 @@
-<?php only_admin_access(); ?>
+<?php use MicroweberPackages\ComposerClient\Client;
+
+only_admin_access(); ?>
 
 <?php $id = false; ?>
 <?php $lic = false; ?>
@@ -88,6 +90,17 @@ if(!$params['prefix']){
     $url = 'https://microweber.org/go/whitelabel';
 } else {
     $url = 'https://microweber.org/go/market?prefix='.$params['prefix'];
+}
+if(isset($params['require_name'])) {
+    $composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+    $item = $composerClient->getPackageByName($params['require_name']);
+    if (!empty($item)) {
+        $item = \MicroweberPackages\Package\MicroweberComposerPackage::format($item);
+        if(isset($item['buy_link'])){
+            $url = $item['buy_link'];
+        }
+        
+    }
 }
 ?>
 
