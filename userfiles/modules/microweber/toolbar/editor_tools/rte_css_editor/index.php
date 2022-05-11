@@ -50,6 +50,10 @@
         float: left;
      }
 
+    .mw-field .mw-range + .mw-range{
+        display: none;
+    }
+
 </style>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
