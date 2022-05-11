@@ -675,9 +675,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupAppLocale()
     {
-
         $isLocaleChangedFromMultilanguageLogics = false;
-
 
         $currentUri = request()->path();
 
@@ -689,7 +687,10 @@ class AppServiceProvider extends ServiceProvider
             if (is_lang_correct($locale)) {
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
-                change_language_by_locale($locale, true);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                    change_language_by_locale($locale, true);
+                }
             }
 
             // if locale is not changed from get request we must to chek URL SLUGS
@@ -703,7 +704,7 @@ class AppServiceProvider extends ServiceProvider
                         if (!$localeSettings) {
                             $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                         }
-                        if ($localeSettings and isset($localeSettings['locale'])) {
+                        if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
                             $isLocaleChangedFromMultilanguageLogics = true;
                             change_language_by_locale($localeSettings['locale'], true);
                         }
@@ -726,8 +727,12 @@ class AppServiceProvider extends ServiceProvider
                     $setCurrentLangTo = get_option('language', 'website');
                 }
             }
+
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
-                set_current_lang($setCurrentLangTo);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                    set_current_lang($setCurrentLangTo);
+                }
             }
         }
     }

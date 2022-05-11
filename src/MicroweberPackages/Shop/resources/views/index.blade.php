@@ -1,6 +1,6 @@
 {!! $products->scripts() !!}
 
-<div class="container-fluid">
+<section class="section container-fluid">
     <div class="row">
         <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
@@ -46,9 +46,11 @@
                         <div class="d-flex">
                             <p class="col-6 mb-0">
                                 @if($product->hasSpecialPrice())
-                                    <span class="price-old"><?php print currency_format($product->specialPrice); ?></span>
+                                    <span class="price-old"><?php print currency_format($product->price); ?></span>
+                                    <span class="money"><?php print currency_format($product->specialPrice); ?></span>
+                                @else
+                                    <span class="money"><?php print currency_format($product->price); ?></span>
                                 @endif
-                                <span class="money"><?php print currency_format($product->price); ?></span>
                             </p>
 
                             <a class="col-6 text-end text-right align-self-center" href="{{content_link($product->id)}}"> View</a>
@@ -63,7 +65,7 @@
             {!! $products->pagination() !!}
         </div>
     </div>
-</div>
+</section>
 
 
 
