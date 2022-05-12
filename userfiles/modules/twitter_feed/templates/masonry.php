@@ -74,14 +74,13 @@ description: Masonry skin for Twitter Feed
 
 
 <?php if ($items): ?>
-
     <?php foreach ($items as $tweet): ?>
-<div class="grid-twitter-masonry" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 300, "gutter":20 }'>
-    <div class="grid-item-masonry-twitter">
+        <div class="grid-twitter-masonry" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 300, "gutter":20 }'>
+            <div class="grid-item-masonry-twitter">
 
-        <blockquote data-id="<?php print $tweet['id']; ?>" data-align="<?php print $twitter_feed_align ?>" data-cards="<?php print $twitter_feed_cards ?>" data-conversation="<?php print $twitter_feed_conversation ?>" data-width="<?php print $twitter_feed_width ?>" data-theme="<?php print $twitter_feed_theme ?>" class="twitter-tweet"><p lang="en" dir="ltr"><a href="<?php print $tweet['url']; ?>"><span class="d-none"><?php print $tweet['text']; ?></span></a></p></blockquote>
+                <blockquote data-id="<?php print $tweet['id']; ?>" data-align="<?php print $twitter_feed_align ?>" data-cards="<?php print $twitter_feed_cards ?>" data-conversation="<?php print $twitter_feed_conversation ?>" data-width="<?php print $twitter_feed_width ?>" data-theme="<?php print $twitter_feed_theme ?>" class="twitter-tweet"><p lang="en" dir="ltr"><a href="<?php print $tweet['url']; ?>"><span class="d-none"><?php print $tweet['text']; ?></span></a></p></blockquote>
 
-    </div>
-</div>
+            </div>
+        </div>
     <?php endforeach; ?>
 <?php endif; ?>
