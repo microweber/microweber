@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
-        <div class="tab-content py-3">
+        <div class="tab-content pt-3">
             <div class="tab-pane fade show active" id="settings">
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-twitter-feed-settings">
@@ -59,60 +59,34 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <input type="number" class="mw_option_field form-control" name="number_of_items" value="<?php print get_option('number_of_items', $params['id']); ?>">
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><?php _e('Width'); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e('Choose width for the twitter box from 250 to 550 (px)'); ?></small>
+                    <hr class="thin"/>
 
-                        <input type="number" min="250" max="550" class="mw_option_field form-control" name="twitter_feed_width" value="<?php print get_option('twitter_feed_width', $params['id']); ?>">
+                    <button class="btn btn-link btn-sm px-0" onclick="$('#toggle-advanced-settings-twitter').toggle();"><?php _e("Advanced settings") ?></button>
+                    <div class="pt-3" style="display: none;" id="toggle-advanced-settings-twitter">
+                        <h5 class="font-weight-bold mb-3"><?php _e('Access Token Settings'); ?></h5>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Consumer Key'); ?></label>
+                            <input type="text" class="mw_option_field form-control" name="consumer_key" option-group="twitter_feed" value="<?php print get_option('consumer_key', 'twitter_feed'); ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Consumer Secret'); ?></label>
+                            <input type="text" class="mw_option_field form-control" name="consumer_secret" option-group="twitter_feed" value="<?php print get_option('consumer_secret', 'twitter_feed'); ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Access Token'); ?></label>
+                            <input type="text" class="mw_option_field form-control" name="access_token" option-group="twitter_feed" value="<?php print get_option('access_token', 'twitter_feed'); ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Access Token Secret'); ?></label>
+                            <input type="text" class="mw_option_field form-control" name="access_token_secret" option-group="twitter_feed" value="<?php print get_option('access_token_secret', 'twitter_feed'); ?>">
+                        </div>
+
+                        <p><?php _e('Get your Twitter access keys'); ?> <a href="https://apps.twitter.com/app" target="_blank" class="mw-ui-link"><?php _e('from here'); ?></a></p>
                     </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label"><?php _e('Theme'); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e('Choose you prefer theme for the twitter card'); ?></small>
-
-                        <select name="twitter_feed_theme" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
-                            <option value="light" <?php if ('light' == $twitter_feed_theme): ?>   selected="selected"  <?php endif; ?> ><?php _e("Light"); ?></option>
-                            <option value="dark" <?php if ('dark' == $twitter_feed_theme): ?>   selected="selected"  <?php endif; ?> ><?php _e("Dark"); ?></option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label"><?php _e('Conversation'); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e('When set to Off, only the cited Tweet will be displayed even if it is in reply to another Tweet.'); ?></small>
-
-                        <select name="twitter_feed_conversation" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
-                            <option value="yes" <?php if ('yes' == $twitter_feed_conversation): ?>   selected="selected"  <?php endif; ?> ><?php _e("On"); ?></option>
-                            <option value="none" <?php if ('none' == $twitter_feed_conversation): ?>   selected="selected"  <?php endif; ?> ><?php _e("Off"); ?></option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label"><?php _e('Cards'); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e('When set to hidden, links in a Tweet are not expanded to photo, video, or link previews.'); ?></small>
-
-                        <select name="twitter_feed_cards" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
-                            <option value="yes" <?php if ('yes' == $twitter_feed_cards): ?>   selected="selected"  <?php endif; ?> ><?php _e("Show"); ?></option>
-                            <option value="hidden" <?php if ('hidden' == $twitter_feed_cards): ?>   selected="selected"  <?php endif; ?> ><?php _e("Hidden"); ?></option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label"><?php _e('Align'); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e('Float the Tweet left, right, or center relative to its container. Typically set to allow text or other content to wrap around the Tweet.'); ?></small>
-
-                        <select name="twitter_feed_align" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
-                            <option value="left" <?php if ('left' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Left"); ?></option>
-                            <option value="center" <?php if ('center' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Center"); ?></option>
-                            <option value="right" <?php if ('right' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Right"); ?></option>
-                        </select>
-
-                    </div>
-
-<!--                    <p>--><?php //_e('Get your Twitter access keys'); ?><!-- <a href="https://apps.twitter.com/app" target="_blank" class="mw-ui-link">--><?php //_e('from here'); ?><!--</a></p>-->
                 </div>
                 <!-- Settings Content - End -->
             </div>
