@@ -11,6 +11,29 @@ description: Default Twitter Feed
 */
 
 ?>
+<script>
+
+    $( document ).ready(function() {
+        window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+
+        twttr.widgets.load()
+    });
+</script>
 
 <style>
 
@@ -63,29 +86,16 @@ description: Default Twitter Feed
 
 </style>
 
+<?php $twitter_feed_theme = get_option('twitter_feed_theme', $params['id']); ?>
+<?php $twitter_feed_width = get_option('twitter_feed_width', $params['id']); ?>
+<?php $twitter_feed_align = get_option('twitter_feed_align', $params['id']); ?>
+<?php $twitter_feed_conversation = get_option('twitter_feed_conversation', $params['id']); ?>
+<?php $twitter_feed_cards = get_option('twitter_feed_cards', $params['id']); ?>
+
+
 <?php if ($items): ?>
-    <div class="twitter-feed-default">
-        <div class="twitter-feed-title">Twitter Feed</div>
-        <ul class="widget-twitter margin-bottom-60">
-            <?php foreach ($items as $tweet): ?>
-                <li><i class="fa fa-twitter"></i><span>
-                        <?php
 
-                        $tweetText = $tweet['text'];
-                        $hashPattern = '/\#([A-Za-z0-9\_]+)/i';
-                        $mentionPattern = '/\@([A-Za-z0-9\_]+)/i';
-                        $urlPattern = '/(http[s]?\:\/\/[^\s]+)/i';
-                        $robotsFollow = false;
-
-                        $tweetText = preg_replace($urlPattern, '<a href="$1" rel="nofollow"' . '>$1</a>', $tweetText);
-                        $tweetText = preg_replace($hashPattern, '<a href="http://twitter.com/hashtag/$1" >#$1</a>', $tweetText);
-                        $tweetText = preg_replace($mentionPattern, '<a href="http://twitter.com/$1">@$1</a>', $tweetText);
-
-                        print ($tweetText); ?>
-                    </span>
-                    <small><a href="<?php print $tweet['url']; ?>" target="_blank"><?php print $tweet['ago']; ?></a></small>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+    <?php foreach ($items as $tweet): ?>
+        <blockquote data-align="<?php print $twitter_feed_align ?>" data-cards="<?php print $twitter_feed_cards ?>" data-conversation="<?php print $twitter_feed_conversation ?>" data-width="<?php print $twitter_feed_width ?>" data-theme="<?php print $twitter_feed_theme ?>" class="twitter-tweet"><p lang="en" dir="ltr"><a href="<?php print $tweet['url']; ?>"><?php print $tweet['text']; ?></a></p></blockquote>
+    <?php endforeach; ?>
 <?php endif; ?>
