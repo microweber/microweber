@@ -491,7 +491,7 @@
         },
         {
             "name": "clue/stream-filter",
-            "version": "v1.6.0",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/stream-filter.git",
@@ -509,6 +509,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.36"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -1477,12 +1478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
+                "reference": "9f0d81726ebd74952750146bd32f0a9d6536c30e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/331b4d5dbaeab3827976273e9356b3b453c300ce",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/9f0d81726ebd74952750146bd32f0a9d6536c30e",
+                "reference": "9f0d81726ebd74952750146bd32f0a9d6536c30e",
                 "shasum": ""
             },
             "require": {
@@ -1494,13 +1495,13 @@
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
                 "cache/integration-tests": "dev-master",
-                "doctrine/coding-standard": "^8.0",
+                "doctrine/coding-standard": "^9",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
                 "predis/predis": "~1.0",
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
-                "symfony/cache": "^4.4 || ^5.2 || ^6.0@dev",
-                "symfony/var-exporter": "^4.4 || ^5.2 || ^6.0@dev"
+                "symfony/cache": "^4.4 || ^5.4 || ^6",
+                "symfony/var-exporter": "^4.4 || ^5.4 || ^6"
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
@@ -1553,7 +1554,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/2.1.1"
+                "source": "https://github.com/doctrine/cache/tree/2.1.x"
             },
             "funding": [
                 {
@@ -1569,7 +1570,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-17T14:49:29+00:00"
+            "time": "2022-05-11T16:17:03+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -1646,12 +1647,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2deb141194c962c62a19f53edfdca482190eb5b0"
+                "reference": "7d3351bef36ed971abdd024ee9923e0278c7341f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2deb141194c962c62a19f53edfdca482190eb5b0",
-                "reference": "2deb141194c962c62a19f53edfdca482190eb5b0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7d3351bef36ed971abdd024ee9923e0278c7341f",
+                "reference": "7d3351bef36ed971abdd024ee9923e0278c7341f",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1750,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-08T19:19:17+00:00"
+            "time": "2022-05-12T14:21:19+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -5752,32 +5753,15 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-98c82bd3c7f812c879426a22a0c83d43aa560e7e-zip-3ae96d.zip",
+                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/98c82bd3c7f812c879426a22a0c83d43aa560e7e",
                 "reference": "98c82bd3c7f812c879426a22a0c83d43aa560e7e",
-                "shasum": "fd0b6bbd2fa9e416d5625d0e67b5769e0522bdcc"
+                "shasum": ""
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://templates.microweber.com/new-world/",
-                "_meta": {
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/screenshot.jpg",
-                    "fa-brands-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-brands-400.svg",
-                    "fa-regular-400": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-regular-400.svg",
-                    "fa-solid-900": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/fonts/fontawesome-free-5.15.4-web/webfonts/fa-solid-900.svg",
-                    "slick": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/plugins/slick/fonts/slick.svg",
-                    "hr-line": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/hr-line.svg",
-                    "hr-vertical": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/hr-vertical.svg",
-                    "quotes": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/quotes.svg",
-                    "hr-old": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/hr-old.svg",
-                    "hr-zigzag": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/hr-zigzag.svg",
-                    "hr": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/assets/img/hr.svg",
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/47/readme.md"
-                },
-                "whmcs": {
-                    "whmcs_url": "https://members.microweber.com"
-                }
+                "preview_url": "https://templates.microweber.com/new-world/"
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5796,8 +5780,8 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/new-world/tree/4.7",
-                "issues": "https://github.com/microweber-templates/new-world/issues"
+                "issues": "https://github.com/microweber-templates/new-world/issues",
+                "source": "https://github.com/microweber-templates/new-world/tree/4.7"
             },
             "time": "2022-05-11T10:16:16+00:00"
         },
@@ -5813,8 +5797,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-8ffb3dbc4d26d411d6e2c4dc5042af7377d06826-zip-3e7bc8.zip",
-                "reference": "8ffb3dbc4d26d411d6e2c4dc5042af7377d06826",
-                "shasum": "eaf41e4184263f5f087a577d8b6a05ea2cf272ae"
+                "reference": "8ffb3dbc4d26d411d6e2c4dc5042af7377d06826"
             },
             "type": "microweber-template",
             "extra": {
@@ -8056,12 +8039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "a2449da7c85376ba1e0b9e4962fb95a20e737933"
+                "reference": "3c01ccc94cc2834d4edd57f088fbcab93b5abc9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/a2449da7c85376ba1e0b9e4962fb95a20e737933",
-                "reference": "a2449da7c85376ba1e0b9e4962fb95a20e737933",
+                "url": "https://api.github.com/repos/predis/predis/zipball/3c01ccc94cc2834d4edd57f088fbcab93b5abc9e",
+                "reference": "3c01ccc94cc2834d4edd57f088fbcab93b5abc9e",
                 "shasum": ""
             },
             "require": {
@@ -8119,7 +8102,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-07T15:03:53+00:00"
+            "time": "2022-05-12T19:23:51+00:00"
         },
         {
             "name": "psr/cache",
@@ -10167,12 +10150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "bc40ad3a780bbce833a7e1201aefb1e6225cd221"
+                "reference": "5b173f04b57d2d8280c3d44dfc1ae79d5f0557cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/bc40ad3a780bbce833a7e1201aefb1e6225cd221",
-                "reference": "bc40ad3a780bbce833a7e1201aefb1e6225cd221",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/5b173f04b57d2d8280c3d44dfc1ae79d5f0557cb",
+                "reference": "5b173f04b57d2d8280c3d44dfc1ae79d5f0557cb",
                 "shasum": ""
             },
             "require": {
@@ -10272,7 +10255,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-06T14:25:18+00:00"
+            "time": "2022-05-11T16:11:21+00:00"
         },
         {
             "name": "symfony/intl",
@@ -13147,12 +13130,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "53cb8fcbecab835a97a77a896acfdde6436d994b"
+                "reference": "a9226e8919ac4f9ce7755da2b4586123a974b1a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/53cb8fcbecab835a97a77a896acfdde6436d994b",
-                "reference": "53cb8fcbecab835a97a77a896acfdde6436d994b",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/a9226e8919ac4f9ce7755da2b4586123a974b1a9",
+                "reference": "a9226e8919ac4f9ce7755da2b4586123a974b1a9",
                 "shasum": ""
             },
             "require": {
@@ -13217,7 +13200,7 @@
                 "issues": "https://github.com/zircote/swagger-php/issues",
                 "source": "https://github.com/zircote/swagger-php/tree/master"
             },
-            "time": "2022-05-09T01:45:00+00:00"
+            "time": "2022-05-12T20:20:24+00:00"
         }
     ],
     "packages-dev": [
