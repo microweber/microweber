@@ -67,7 +67,7 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "4.7",
+        "microweber-templates/new-world": "4.8",
         "microweber-templates/shopmag": "3.5",
         "microweber-templates/bootstrap5": "1.2",
         "lcobucci/jwt": "*",

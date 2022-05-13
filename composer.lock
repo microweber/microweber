@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7caabc9d66fac39cc353c8ebe3b5f50a",
+    "content-hash": "0053b8f0781954157e0a78d7b5add72c",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5744,17 +5744,17 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "4.7",
+            "version": "4.8",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world.git",
-                "reference": "98c82bd3c7f812c879426a22a0c83d43aa560e7e"
+                "reference": "59f3e32765c67dc8614b06da98fe0fb573dc4abb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/98c82bd3c7f812c879426a22a0c83d43aa560e7e",
-                "reference": "98c82bd3c7f812c879426a22a0c83d43aa560e7e",
+                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/59f3e32765c67dc8614b06da98fe0fb573dc4abb",
+                "reference": "59f3e32765c67dc8614b06da98fe0fb573dc4abb",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -5781,9 +5781,9 @@
             ],
             "support": {
                 "issues": "https://github.com/microweber-templates/new-world/issues",
-                "source": "https://github.com/microweber-templates/new-world/tree/4.7"
+                "source": "https://github.com/microweber-templates/new-world/tree/4.8"
             },
-            "time": "2022-05-11T10:16:16+00:00"
+            "time": "2022-05-13T12:40:05+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
@@ -9407,12 +9407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f7e29ecb38b7536fa544108b8a7962697273d88c"
+                "reference": "441c3061fb646284caa7c01789296c1707454c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f7e29ecb38b7536fa544108b8a7962697273d88c",
-                "reference": "f7e29ecb38b7536fa544108b8a7962697273d88c",
+                "url": "https://api.github.com/repos/symfony/console/zipball/441c3061fb646284caa7c01789296c1707454c6e",
+                "reference": "441c3061fb646284caa7c01789296c1707454c6e",
                 "shasum": ""
             },
             "require": {
@@ -9499,7 +9499,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T09:18:46+00:00"
+            "time": "2022-05-13T11:09:43+00:00"
         },
         {
             "name": "symfony/css-selector",
