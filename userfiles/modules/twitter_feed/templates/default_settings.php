@@ -18,7 +18,7 @@
     <label class="control-label"><?php _e('Theme'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose you prefer theme for the twitter card'); ?></small>
 
-    <select name="twitter_feed_theme" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+    <select name="twitter_feed_theme" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
         <option value="light" <?php if ('light' == $twitter_feed_theme): ?>   selected="selected"  <?php endif; ?> ><?php _e("Light"); ?></option>
         <option value="dark" <?php if ('dark' == $twitter_feed_theme): ?>   selected="selected"  <?php endif; ?> ><?php _e("Dark"); ?></option>
     </select>
@@ -29,7 +29,7 @@
     <label class="control-label"><?php _e('Conversation'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('When set to Off, only the cited Tweet will be displayed even if it is in reply to another Tweet.'); ?></small>
 
-    <select name="twitter_feed_conversation" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+    <select name="twitter_feed_conversation" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
         <option value="yes" <?php if ('yes' == $twitter_feed_conversation): ?>   selected="selected"  <?php endif; ?> ><?php _e("On"); ?></option>
         <option value="none" <?php if ('none' == $twitter_feed_conversation): ?>   selected="selected"  <?php endif; ?> ><?php _e("Off"); ?></option>
     </select>
@@ -40,7 +40,7 @@
     <label class="control-label"><?php _e('Cards'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('When set to hidden, links in a Tweet are not expanded to photo, video, or link previews.'); ?></small>
 
-    <select name="twitter_feed_cards" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+    <select name="twitter_feed_cards" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
         <option value="yes" <?php if ('yes' == $twitter_feed_cards): ?>   selected="selected"  <?php endif; ?> ><?php _e("Show"); ?></option>
         <option value="hidden" <?php if ('hidden' == $twitter_feed_cards): ?>   selected="selected"  <?php endif; ?> ><?php _e("Hidden"); ?></option>
     </select>
@@ -51,7 +51,7 @@
     <label class="control-label"><?php _e('Align'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Float the Tweet left, right, or center relative to its container. Typically set to allow text or other content to wrap around the Tweet.'); ?></small>
 
-    <select name="twitter_feed_align" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+    <select name="twitter_feed_align" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
         <option value="left" <?php if ('left' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Left"); ?></option>
         <option value="center" <?php if ('center' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Center"); ?></option>
         <option value="right" <?php if ('right' == $twitter_feed_align): ?>   selected="selected"  <?php endif; ?> ><?php _e("Right"); ?></option>
